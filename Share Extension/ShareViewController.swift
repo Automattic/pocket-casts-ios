@@ -7,7 +7,6 @@ class ShareViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // Get the attachment
         let content = extensionContext?.inputItems.first as? NSExtensionItem
         guard let attachment = content?.attachments?.first as? NSItemProvider else {
             close()
@@ -22,26 +21,29 @@ class ShareViewController: UIViewController {
             // Request the OPML file URL
             attachment.loadItem(forTypeIdentifier: UTType.data.identifier, options: nil) { [weak self] data, error in
                 guard let url = data as? URL else {
-                    self?.close()
                     return
                 }
 
-                // Convert the file to Data
-                guard let opmlData = try? Data(contentsOf: url) else {
-                    self?.close()
+                // Save the file to the shared group directory
+                let fileManager = FileManager.default
+                guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.au.com.shiftyjelly.pocketcasts") else {
                     return
                 }
+
+                let destURL = container.appendingPathComponent("opml.opml")
+
+                do { try FileManager.default.copyItem(at: url, to: destURL) } catch { }
 
                 self?.close()
 
-                // Redirect to Pocket Casts sharing the OPML data encoded in Base64
-                self?.redirectToHostApp(opmlData.base64EncodedString())
+                // Redirect to Pocket Casts sharing the OPML file URL
+                self?.redirectToHostApp(destURL.absoluteString)
             }
         }
     }
 
-    func redirectToHostApp(_ encodedOPML: String) {
-        guard let url = URL(string: "pktc://import-opml/\(encodedOPML)") else {
+    func redirectToHostApp(_ url: String) {
+        guard let url = URL(string: "pktc://import-opml/\(url)") else {
             return
         }
 
