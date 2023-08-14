@@ -26,7 +26,7 @@ class ShareViewController: UIViewController {
 
                 // Save the file to the shared group directory
                 let fileManager = FileManager.default
-                guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.au.com.shiftyjelly.pocketcasts") else {
+                guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: SharedConstants.GroupUserDefaults.groupContainerId) else {
                     return
                 }
 
