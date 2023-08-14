@@ -115,7 +115,7 @@ extension AppDelegate {
         performUpdateIfRequired(updateKey: "MigrateRemoteSkipsChaptersToHeadphoneControls") {
             let key = "RemoteChapterSkip"
 
-            UserDefaults.standard.bool(forKey: key).when(true) {
+            if UserDefaults.standard.bool(forKey: key) {
                 Settings.headphonesNextAction = .nextChapter
                 Settings.headphonesPreviousAction = .previousChapter
 
