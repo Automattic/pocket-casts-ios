@@ -25,12 +25,12 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         let time = 86400.0
         let created = Date(timeIntervalSince1970: 456)
 
-        let apiBookmark = Api_SyncUserBookmark.forTesting(uuid: uuid,
-                                                          episode: episode,
-                                                          podcast: podcast,
-                                                          title: title,
-                                                          time: time,
-                                                          created: created)
+        let apiBookmark = Api_SyncUserBookmark(uuid: uuid,
+                                               episode: episode,
+                                               podcast: podcast,
+                                               title: title,
+                                               time: time,
+                                               created: created)
 
         await syncTask.importBookmark(apiBookmark)
 
@@ -47,7 +47,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
     }
 
     func testNonexistingDeletedBookmarkIsNotAdded() async {
-        let apiBookmark = Api_SyncUserBookmark.forTesting(uuid: "nope", isDeleted: true)
+        let apiBookmark = Api_SyncUserBookmark(uuid: "nope", isDeleted: true)
 
         await syncTask.importBookmark(apiBookmark)
 
@@ -85,12 +85,12 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         let updatedTime = 321.0
         let updatedDate = Date.init(timeIntervalSince1970: 99999)
 
-        let apiBookmark = Api_SyncUserBookmark.forTesting(uuid: uuid,
-                                                          episode: bookmark.episodeUuid,
-                                                          podcast: bookmark.podcastUuid,
-                                                          title: updatedTitle,
-                                                          time: updatedTime,
-                                                          created: updatedDate)
+        let apiBookmark = Api_SyncUserBookmark(uuid: uuid,
+                                               episode: bookmark.episodeUuid,
+                                               podcast: bookmark.podcastUuid,
+                                               title: updatedTitle,
+                                               time: updatedTime,
+                                               created: updatedDate)
 
         await syncTask.importBookmark(apiBookmark)
 
@@ -201,8 +201,12 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
 
 private extension SyncTaskTests_BookmarkImport {
     @discardableResult
-    func addBookmark(episodeUuid: String = "episode-1", podcastUuid: String = "podcast-uuid", title: String = "Title", time: TimeInterval = 1, created: Date = .now, syncStatus: SyncStatus = .notSynced) -> Bookmark {
-        bookmarkManager.add(episodeUuid: episodeUuid, podcastUuid: podcastUuid, title: title, time: time, dateCreated: created, syncStatus: syncStatus).flatMap {
+    func addBookmark(episodeUuid: String = "episode-1",
+                     podcastUuid: String = "podcast-uuid",
+                     title: String = "Title",
+                     time: TimeInterval = 1,
+                     created: Date = .now) -> Bookmark {
+        bookmarkManager.add(episodeUuid: episodeUuid, podcastUuid: podcastUuid, title: title, time: time, dateCreated: created).flatMap {
             bookmarkManager.bookmark(for: $0)
         }!
     }
@@ -213,7 +217,13 @@ private extension Api_SyncUpdateResponse {
         var response = Api_SyncUpdateResponse()
 
         for i in 0..<count {
-            let bookmark = Api_SyncUserBookmark.forTesting(uuid: "uuid_\(i)", episode: "episode_\(i)", podcast: "podcast_\(i)", title: "title_\(i)", time: TimeInterval(i), created: .init(timeIntervalSince1970: TimeInterval(i)), isDeleted: i < deletedCount)
+            let bookmark = Api_SyncUserBookmark(uuid: "uuid_\(i)",
+                                                episode: "episode_\(i)",
+                                                podcast: "podcast_\(i)",
+                                                title: "title_\(i)",
+                                                time: TimeInterval(i),
+                                                created: .init(timeIntervalSince1970: TimeInterval(i)),
+                                                isDeleted: i < deletedCount)
 
             var record = Api_Record()
             record.record = .bookmark(bookmark)
@@ -228,39 +238,38 @@ private extension Api_SyncUpdateResponse {
 
 private extension Api_SyncUserBookmark {
     static func fromBookmark(_ bookmark: Bookmark, isDeleted: Bool? = nil) -> Self {
-        return forTesting(uuid: bookmark.uuid,
-                          episode: bookmark.episodeUuid,
-                          podcast: bookmark.podcastUuid,
-                          title: bookmark.title,
-                          time: bookmark.time,
-                          created: bookmark.created,
-                          isDeleted: isDeleted)
+        return .init(uuid: bookmark.uuid,
+                     episode: bookmark.episodeUuid,
+                     podcast: bookmark.podcastUuid,
+                     title: bookmark.title,
+                     time: bookmark.time,
+                     created: bookmark.created,
+                     isDeleted: isDeleted)
     }
 
-    static func forTesting(uuid: String,
-                           episode: String = "episode",
-                           podcast: String? = nil,
-                           title: String = "Title",
-                           time: TimeInterval = 1234,
-                           created: Date = Date(),
-                           isDeleted: Bool? = nil) -> Self {
-        var apiBookmark = Api_SyncUserBookmark()
-        apiBookmark.bookmarkUuid = uuid
-        apiBookmark.episodeUuid = episode
+    init(uuid: String,
+         episode: String = "episode",
+         podcast: String? = nil,
+         title: String = "Title",
+         time: TimeInterval = 1234,
+         created: Date = Date(),
+         isDeleted: Bool? = nil) {
+        self.init()
+
+        bookmarkUuid = uuid
+        episodeUuid = episode
 
         if let podcast {
-            apiBookmark.podcastUuid = podcast
+            podcastUuid = podcast
         }
 
-        apiBookmark.title.value = title
-        apiBookmark.time.value = Int32(time)
-        apiBookmark.createdAt = .init(date: created)
+        self.title.value = title
+        self.time.value = Int32(time)
+        createdAt = .init(date: created)
 
         if let isDeleted {
-            apiBookmark.isDeleted.value = isDeleted
+            self.isDeleted.value = isDeleted
         }
-
-        return apiBookmark
     }
 }
 
