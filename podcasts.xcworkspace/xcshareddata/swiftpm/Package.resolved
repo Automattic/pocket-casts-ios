@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/firebase/abseil-cpp-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "d302de612e3d57c6f4afaf087da18fba8eac72a7",
-          "version": "0.20220203.1"
+          "revision": "583de9bd60f66b40e78d08599cc92036c2e7e4e1",
+          "version": "0.20220203.2"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/openid/AppAuth-iOS.git",
         "state": {
           "branch": null,
-          "revision": "3d36a58a2b736f7bc499453e996a704929b25080",
-          "version": "1.6.0"
+          "revision": "71cde449f13d453227e687458144bde372d30fc7",
+          "version": "1.6.2"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/firebase/boringssl-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "79db6516894a932d0ddaff3b05b9da1e4f6c4069",
-          "version": "0.9.0"
+          "revision": "dd3eda2b05a3f459fc3073695ad1b28659066eab",
+          "version": "0.9.1"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/ra1028/DifferenceKit",
         "state": {
           "branch": null,
-          "revision": "62745d7780deef4a023a792a1f8f763ec7bf9705",
-          "version": "1.2.0"
+          "revision": "073b9671ce2b9b5b96398611427a1f929927e428",
+          "version": "1.3.0"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "15ccdfd25ac55b9239b82809531ff26605e7556e",
-          "version": "9.1.2"
+          "revision": "aae45a320fd0d11811820335b1eabc8753902a40",
+          "version": "9.2.5"
         }
       },
       {
@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "f4abe56ce62a779e64b525eb133c8fc2a84bbc1f",
-          "version": "7.7.1"
+          "revision": "c38ce365d77b04a9a300c31061c5227589e5597b",
+          "version": "7.11.5"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/grpc/grpc-ios.git",
         "state": {
           "branch": null,
-          "revision": "abd2d5a4347efa0454606a788678a5d8ec223738",
-          "version": "1.44.0-grpc"
+          "revision": "8440b914756e0d26d4f4d054a1c1581daedfc5b6",
+          "version": "1.44.3-grpc"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/google/gtm-session-fetcher.git",
         "state": {
           "branch": null,
-          "revision": "eca9404a18f53727e4698211aaf2615eb93b962a",
-          "version": "1.7.1"
+          "revision": "4e9bbf2808b8fee444e84a48f5f3c12641987d3e",
+          "version": "1.7.2"
         }
       },
       {
@@ -159,8 +159,8 @@
         "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
         "state": {
           "branch": null,
-          "revision": "4a6058cbbdfe4f74aeae92c8bd51ad3b0de2a1ee",
-          "version": "3.3.0"
+          "revision": "b4bd0604ded9574807f41b4004b57dd1226a30a4",
+          "version": "3.5.0"
         }
       },
       {
@@ -177,8 +177,8 @@
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
-          "revision": "46c1e6b5ac09d8f82c991061c659f67e573d425d",
-          "version": "2.1.0"
+          "revision": "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
+          "version": "2.3.1"
         }
       },
       {
@@ -186,8 +186,8 @@
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {
           "branch": null,
-          "revision": "199000acd6a0a3f9c8e0bff03ef233f930993c71",
-          "version": "7.25.1"
+          "revision": "cf43eac1aa12017868c257ad3854ad87a5de0758",
+          "version": "7.31.5"
         }
       },
       {
@@ -195,8 +195,8 @@
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {
           "branch": null,
-          "revision": "e1499bc69b9040b29184f7f2996f7bab467c1639",
-          "version": "1.19.0"
+          "revision": "ce20dc083ee485524b802669890291c0d8090170",
+          "version": "1.22.1"
         }
       },
       {
@@ -213,8 +213,8 @@
         "repositoryURL": "https://github.com/kirualex/SwiftyGif",
         "state": {
           "branch": null,
-          "revision": "db0c122b671bc9760385e0355be00eede3b7bb44",
-          "version": "5.4.3"
+          "revision": "d6d26061d6553a493781ad3df4a8e275c43fc373",
+          "version": "5.4.4"
         }
       },
       {
@@ -240,8 +240,8 @@
         "repositoryURL": "https://github.com/buildkite/test-collector-swift",
         "state": {
           "branch": null,
-          "revision": "87afcecfb58dd017d6e835ec8e88e9eaa18095ba",
-          "version": "0.1.1"
+          "revision": "6e46839e1a4507ee047acd0896e29b9b278d9e3a",
+          "version": "0.4.0"
         }
       },
       {
@@ -249,8 +249,8 @@
         "repositoryURL": "https://github.com/squarefrog/UIDeviceIdentifier",
         "state": {
           "branch": null,
-          "revision": "5815e06b9ab916af6e2729b637efcdced887d8b9",
-          "version": "2.1.0"
+          "revision": "4699794b08bb79a4d77785edaba6ea739e298e4b",
+          "version": "2.3.0"
         }
       }
     ]
