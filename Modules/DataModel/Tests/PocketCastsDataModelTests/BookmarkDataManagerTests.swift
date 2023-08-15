@@ -150,7 +150,7 @@ final class BookmarkDataManagerTests: XCTestCase {
     func testUpdatingTitleSucceeds() async {
         let bookmark = addBookmark()
 
-        let success = await dataManager.update(title: "title2", for: bookmark)
+        let success = await dataManager.update(bookmark: bookmark, title: "title2")
         XCTAssertTrue(success)
     }
 
@@ -161,7 +161,7 @@ final class BookmarkDataManagerTests: XCTestCase {
 
         let bookmark = addBookmark(title: title1)
 
-        await dataManager.update(title: title2, for: bookmark, modified: modified)
+        await dataManager.update(bookmark: bookmark, title: title2, modified: modified)
 
         let updatedBookmark = dataManager.bookmark(for: bookmark.uuid)
         XCTAssertEqual(updatedBookmark?.title, title2)
@@ -175,7 +175,7 @@ final class BookmarkDataManagerTests: XCTestCase {
         let bookmarkToChange = 2
         let title2 = "c_title_2"
 
-        await dataManager.update(title: title2, for: bookmarks[bookmarkToChange])
+        await dataManager.update(bookmark: bookmarks[bookmarkToChange], title: title2)
 
         let updatedTitles = dataManager.allBookmarks().map { $0.title }.sorted()
         XCTAssertNotEqual(titles, updatedTitles)

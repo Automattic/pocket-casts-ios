@@ -81,7 +81,7 @@ class BookmarkManager {
     /// Updates the bookmark with the given title, emits `onBookmarkChanged` on success
     @discardableResult
     func update(title: String, for bookmark: Bookmark) async -> Bool {
-        await dataManager.update(title: title, for: bookmark).when(true) {
+        await dataManager.update(bookmark: bookmark, title: title).when(true) {
             onBookmarkChanged.send(.init(uuid: bookmark.uuid, change: .title(title)))
         }
     }
