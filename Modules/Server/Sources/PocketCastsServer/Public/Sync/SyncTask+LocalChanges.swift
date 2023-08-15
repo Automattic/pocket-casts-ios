@@ -132,6 +132,13 @@ extension SyncTask {
         return filterRecords
     }
 
+    /// Retrieve any bookmarks that need to be sent to the server
+    func changedBookmarks() -> [Api_Record]? {
+        dataManager.bookmarks.bookmarksToSync()
+            .map { .init(bookmark: $0) }
+            .nilIfEmpty()
+    }
+
     func changedStats() -> Api_Record? {
         let timeSavedDynamicSpeed = convertStat(StatsManager.shared.timeSavedDynamicSpeed())
         let totalSkippedTime = convertStat(StatsManager.shared.totalSkippedTime())
@@ -165,5 +172,47 @@ extension SyncTask {
         if stat < 1 { return nil }
 
         return Int64(stat)
+    }
+}
+
+// MARK: - Bookmark Helpers
+
+private extension Api_Record {
+    init(bookmark: Bookmark) {
+        self.init()
+
+        self.bookmark = .init(bookmark: bookmark)
+    }
+}
+
+private extension Api_SyncUserBookmark {
+    init(bookmark: Bookmark) {
+        self.init()
+
+        self.bookmarkUuid = bookmark.uuid
+        self.episodeUuid = bookmark.episodeUuid
+        self.podcastUuid = bookmark.podcastUuid ?? ""
+        self.time.value = .init(bookmark.time)
+        self.createdAt = .init(date: bookmark.created)
+
+        bookmark.deletedModified.map {
+            self.isDeletedModified = .init(date: $0)
+            self.isDeleted.value = bookmark.deleted
+        }
+
+        bookmark.titleModified.map {
+            self.titleModified = .init(date: $0)
+            self.title.value = bookmark.title
+        }
+    }
+}
+
+extension SwiftProtobuf.Google_Protobuf_Int64Value {
+    init(date: Date) {
+        self.init()
+
+        // The server uses `Instant.ofEpochMilli` when converting the date which expects the time value to be in
+        // milliseconds. So we'll * 1000 to convert the time stamp
+        self.value = .init(date.timeIntervalSince1970 * 1000)
     }
 }

@@ -247,6 +247,11 @@ class SyncTask: ApiBaseTask {
             records.append(statsChanges)
         }
 
+        if dataManager.bookmarksEnabled, let bookmarks = changedBookmarks() {
+            records += bookmarks
+            FileLog.shared.addMessage("SyncTask: Number of changed bookmarks: \(bookmarks.count)")
+        }
+
         FileLog.shared.addMessage("SyncTask: sending \(records.count) changed items to the server")
 
         do {

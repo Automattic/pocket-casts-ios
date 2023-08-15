@@ -15,8 +15,10 @@ public struct Bookmark: Hashable {
     public var episode: BaseEpisode? = nil
     public var podcast: Podcast? = nil
 
+    // For syncing
     public var titleModified: Date? = nil
     public var deletedModified: Date? = nil
+    public var deleted: Bool = false
 
     // `BaseEpisode` and `Podcast` don't conform to Hashable, so instead we implement it manually to ignore those properties
     public func hash(into hasher: inout Hasher) {

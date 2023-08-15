@@ -142,6 +142,8 @@ public struct BookmarkDataManager {
         return count
     }
 
+    // MARK: - Syncing
+
     /// Returns all the bookmarks in the database that have the syncStatus of `notSynced`
     public func bookmarksToSync() -> [Bookmark] {
         selectBookmarks(where: [.syncStatus], values: [SyncStatus.notSynced.rawValue], allowDeleted: true)
@@ -173,6 +175,7 @@ public struct BookmarkDataManager {
     }
 
     /// Permanently removes the bookmarks from the database
+    @discardableResult
     public func permanentlyDelete(bookmarks: [Bookmark]) async -> Bool {
         await withCheckedContinuation { continuation in
             let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
@@ -326,6 +329,7 @@ private extension Bookmark {
         let podcast = resultSet.string(for: .podcast)
         let titleModified = resultSet.date(for: .titleModifiedDate)
         let deletedModified = resultSet.date(for: .deletedModifiedDate)
+        let deleted = resultSet.bool(for: .deleted) ?? false
 
         self.init(uuid: uuid,
                   title: title,
@@ -334,7 +338,8 @@ private extension Bookmark {
                   episodeUuid: episode,
                   podcastUuid: podcast,
                   titleModified: titleModified,
-                  deletedModified: deletedModified)
+                  deletedModified: deletedModified,
+                  deleted: deleted)
     }
 }
 
@@ -351,5 +356,9 @@ private extension FMResultSet {
 
     func double(for column: BookmarkDataManager.Column) -> Double? {
         double(forColumn: column.rawValue)
+    }
+
+    func bool(for column: BookmarkDataManager.Column) -> Bool? {
+        bool(forColumn: column.rawValue)
     }
 }
