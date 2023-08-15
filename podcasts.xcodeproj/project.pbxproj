@@ -1522,6 +1522,7 @@
 		C7CE415A28CBCFC200AD063E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5790289D87CF0089E435 /* Analytics.swift */; };
 		C7CE415B28CBD00A00AD063E /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */; };
 		C7CE415C28CBD01F00AD063E /* String+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2E289DA1650017883A /* String+Analytics.swift */; };
+		C7D5E7F12A8BF3150039F4A1 /* UIViewController+Presenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D5E7F02A8BF3150039F4A1 /* UIViewController+Presenting.swift */; };
 		C7D6551428E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551528E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551628E5450600AD7174 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
@@ -3276,6 +3277,7 @@
 		C7C4F9B52A4BAD57002822DD /* HeadphoneSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneSettingsViewController.swift; sourceTree = "<group>"; };
 		C7C4F9BE2A4CC359002822DD /* PCTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCTableViewController.swift; sourceTree = "<group>"; };
 		C7CA0558293E8918000E41BD /* HolographicEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolographicEffect.swift; sourceTree = "<group>"; };
+		C7D5E7F02A8BF3150039F4A1 /* UIViewController+Presenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Presenting.swift"; sourceTree = "<group>"; };
 		C7D6551328E5153200AD7174 /* Debounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debounce.swift; sourceTree = "<group>"; };
 		C7D813782A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-iphone@2x.png"; sourceTree = "<group>"; };
 		C7D813792A0D4B89007F715F /* AppIcon-Patron-Chrome-ipad-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-ipad-pro.png"; sourceTree = "<group>"; };
@@ -6299,6 +6301,7 @@
 				C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */,
 				C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */,
 				C7B7123929DC98BD00965BF7 /* SFSafariViewController+Creation.swift */,
+				C7D5E7F02A8BF3150039F4A1 /* UIViewController+Presenting.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -9036,6 +9039,7 @@
 				BD907DA621533243004D7C02 /* PodcastEffectsViewController.swift in Sources */,
 				C76ECAD62A69518800D9DB9E /* EpisodeBookmarksTabsView.swift in Sources */,
 				BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */,
+				C7D5E7F12A8BF3150039F4A1 /* UIViewController+Presenting.swift in Sources */,
 				BDE954E9236684E300CEB6DA /* ChaptersViewController.swift in Sources */,
 				BDF7BDD21CA2248E0045AB6D /* StatsTopCell.swift in Sources */,
 				BDA7A0A624C6BBA600ADA8AA /* SecondaryLabel.swift in Sources */,
