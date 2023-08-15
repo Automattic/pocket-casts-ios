@@ -38,7 +38,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     // this lock is to avoid race conditions where you're destroying the player while in the middle of setting it up (since the play method does its work asynchronously)
     private lazy var playerLock: NSLock? = {
-        NSLock()
+        Settings.lockEffectsPlayer ? NSLock() : nil
     }()
 
     // MARK: - PlaybackProtocol Impl
