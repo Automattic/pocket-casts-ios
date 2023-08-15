@@ -593,6 +593,7 @@ private extension MainTabBarController {
     // Shows a toast notification when a bookmark is created and we're not in the full screen player
     func addBookmarkCreatedToastHandler() {
         let bookmarkManager = PlaybackManager.shared.bookmarkManager
+
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
             .filter { event in
@@ -601,7 +602,7 @@ private extension MainTabBarController {
                 && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
             }
             .compactMap { event in
-                PlaybackManager.shared.bookmarkManager.bookmark(for: event.uuid)
+                bookmarkManager.bookmark(for: event.uuid)
             }
             .sink { [weak self] bookmark in
                 self?.showToast(for: bookmark)
@@ -622,7 +623,7 @@ private extension MainTabBarController {
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)
             })
 
-            self?.present(controller, animated: true)
+            self?.presentFromRootController(controller)
         }
 
         Toast.show(message, actions: [action], theme: .playerTheme)
@@ -637,8 +638,10 @@ private extension MainTabBarController {
     }
 
     func showBookmarksInPlayer() {
-        NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer {
-            NavigationManager.sharedManager.miniPlayer?.fullScreenPlayer?.scrollToBookmarks()
+        dismissIfNeeded {
+            NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer {
+                NavigationManager.sharedManager.miniPlayer?.fullScreenPlayer?.scrollToBookmarks()
+            }
         }
     }
 }
