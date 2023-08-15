@@ -160,6 +160,15 @@ class SyncTask: ApiBaseTask {
         }
         retrieveFiltersTask.runTaskSynchronously()
 
+        if dataManager.bookmarksEnabled {
+            // Retrieve all the bookmarks
+            RetrieveBookmarksTask { bookmarks in
+                guard let bookmarks else { return }
+
+                self.processServerBookmarks(bookmarks)
+            }.runTaskSynchronously()
+        }
+
         UserDefaults.standard.set(lastSyncDate, forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
 
         status = .successNewData

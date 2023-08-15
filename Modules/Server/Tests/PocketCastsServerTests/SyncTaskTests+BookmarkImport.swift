@@ -121,6 +121,82 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
 
         XCTAssertEqual(bookmarkManager.allBookmarks().count, 0)
     }
+
+    // MARK: - Full Sync
+
+    func testFullSyncMarksAllAsSynced() {
+        let bookmarks = [
+            addBookmark(time: 1),
+            addBookmark(time: 2),
+            addBookmark(time: 3)
+        ]
+
+        let server = bookmarks.map {
+            Api_BookmarkResponse.fromBookmark($0)
+        }
+
+        syncTask.processServerBookmarks(server)
+
+        XCTAssertEqual(bookmarkManager.bookmarksToSync().count, 0)
+    }
+
+    func testFullSyncReplacesExistingUUIDs() {
+        let bookmarks = [
+            addBookmark(time: 1),
+            addBookmark(time: 2),
+            addBookmark(time: 3)
+        ]
+
+        let newTitle = "NEW TITLE"
+        let created = Date(timeIntervalSince1970: 4321)
+
+        let server = bookmarks.map {
+            Api_BookmarkResponse.forTesting(uuid: $0.uuid, episode: $0.episodeUuid, podcast: $0.podcastUuid, title: newTitle, time: $0.time, created: created)
+        }
+
+        syncTask.processServerBookmarks(server)
+
+        let allBookmarks = bookmarkManager.allBookmarks()
+
+        XCTAssertEqual(allBookmarks.map(\.title), Array.init(repeating: newTitle, count: bookmarks.count))
+        XCTAssertEqual(allBookmarks.map(\.created), Array.init(repeating: created, count: bookmarks.count))
+    }
+
+    func testFullSyncImportsDataCorrectly() {
+        let serverData: [Api_BookmarkResponse] = [
+            .forTesting(uuid: "one", episode: "two", podcast: "three", title: "four", time: 5, created: .init(timeIntervalSince1970: 6)),
+            .forTesting(uuid: "seven", episode: "eight", podcast: "nine", title: "ten", time: 11, created: .init(timeIntervalSince1970: 12)),
+            .forTesting(uuid: "thirteen", episode: "fourteen", podcast: "fifteen", title: "sixteen", time: 17, created: .init(timeIntervalSince1970: 18))
+        ]
+
+        syncTask.processServerBookmarks(serverData)
+
+        let allBookmarks = bookmarkManager.allBookmarks(sorted: .timestamp)
+
+        XCTAssertEqual(allBookmarks.count, serverData.count)
+        XCTAssertEqual(allBookmarks.map(\.uuid), ["one", "seven", "thirteen"])
+        XCTAssertEqual(allBookmarks.map(\.title), ["four", "ten", "sixteen"])
+        XCTAssertEqual(allBookmarks.map(\.episodeUuid), ["two", "eight", "fourteen"])
+        XCTAssertEqual(allBookmarks.map(\.podcastUuid), ["three", "nine", "fifteen"])
+        XCTAssertEqual(allBookmarks.map(\.time), [5, 11, 17])
+        XCTAssertEqual(allBookmarks.map(\.created), [.init(timeIntervalSince1970: 6), .init(timeIntervalSince1970: 12), .init(timeIntervalSince1970: 18)])
+    }
+
+    func testFullSyncIgnoresExistingItems() {
+        addBookmark(time: 1)
+        addBookmark(time: 2)
+        addBookmark(time: 3)
+
+        let serverData: [Api_BookmarkResponse] = [
+            .forTesting(uuid: "one", episode: "two", podcast: "three", title: "four", time: 5, created: .init(timeIntervalSince1970: 6)),
+            .forTesting(uuid: "seven", episode: "eight", podcast: "nine", title: "ten", time: 11, created: .init(timeIntervalSince1970: 12)),
+            .forTesting(uuid: "thirteen", episode: "fourteen", podcast: "fifteen", title: "sixteen", time: 17, created: .init(timeIntervalSince1970: 18))
+        ]
+
+        syncTask.processServerBookmarks(serverData)
+
+        XCTAssertEqual( bookmarkManager.allBookmarks().count, 6)
+    }
 }
 
 private extension SyncTaskTests_BookmarkImport {
@@ -195,4 +271,37 @@ private extension Api_SyncUserBookmark {
             self.isDeleted.value = isDeleted
         }
     }
+}
+
+private extension Api_BookmarkResponse {
+    static func forTesting(uuid: String,
+                           episode: String = "episode",
+                           podcast: String? = nil,
+                           title: String = "Title",
+                           time: TimeInterval = 1234,
+                           created: Date = Date()) -> Self {
+        var apiBookmark = Api_BookmarkResponse()
+        apiBookmark.bookmarkUuid = uuid
+        apiBookmark.episodeUuid = episode
+
+        if let podcast {
+            apiBookmark.podcastUuid = podcast
+        }
+
+        apiBookmark.title = title
+        apiBookmark.time = Int32(time)
+        apiBookmark.createdAt = .init(date: created)
+
+        return apiBookmark
+    }
+
+    static func fromBookmark(_ bookmark: Bookmark) -> Self {
+        return forTesting(uuid: bookmark.uuid,
+                          episode: bookmark.episodeUuid,
+                          podcast: bookmark.podcastUuid,
+                          title: bookmark.title,
+                          time: bookmark.time,
+                          created: bookmark.created)
+    }
+
 }

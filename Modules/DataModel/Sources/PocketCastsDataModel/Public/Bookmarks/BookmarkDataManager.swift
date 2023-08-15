@@ -149,6 +149,23 @@ public struct BookmarkDataManager {
         selectBookmarks(where: [.syncStatus], values: [SyncStatus.notSynced.rawValue], allowDeleted: true)
     }
 
+    @discardableResult
+    public func markAllBookmarksAsSynced() async -> Bool {
+        let query = """
+        UPDATE \(Self.tableName)
+        SET \(Column.syncStatus) = ?
+        """
+
+        let result = await dbQueue.executeUpdate(query, values: [SyncStatus.synced])
+        switch result {
+        case .success:
+            return true
+        case .failure(let error):
+            FileLog.shared.addMessage("BookmarkManager.markAllBookmarksAsSynced failed: \(error)")
+            return false
+        }
+    }
+
     // MARK: - Deleting
 
     /// Marks the bookmarks as deleted, but doesn't actually remove them from the database

@@ -115,3 +115,54 @@ extension SyncTask {
         _ = dispatchGroup.wait(timeout: .now() + 30.seconds)
     }
 }
+
+// MARK: - Bookmarks
+
+extension SyncTask {
+    /// Fully imports the server bookmarks and replaces the existing data if there is any available
+    func processServerBookmarks(_ bookmarks: [Api_BookmarkResponse]) {
+        let semaphore = DispatchSemaphore(value: 0)
+
+        Task {
+            let bookmarkManager = dataManager.bookmarks
+
+            // Set all the bookmarks as synced
+            await bookmarkManager.markAllBookmarksAsSynced()
+
+            for apiBookmark in bookmarks {
+                await bookmarkManager.remove(apiBookmark: apiBookmark).when(false) {
+                    FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not delete existing bookmark: \(apiBookmark.bookmarkUuid)")
+                }
+
+                // Add the incoming bookmark to the database
+                bookmarkManager.add(from: apiBookmark).when(.none) {
+                    FileLog.shared.addMessage("SyncTask: Process Server Bookmarks - Could not add bookmark: \(String(describing: try? apiBookmark.jsonString()))")
+                }
+            }
+
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+    }
+}
+
+private extension BookmarkDataManager {
+    func add(from apiBookmark: Api_BookmarkResponse) -> String? {
+        add(uuid: apiBookmark.bookmarkUuid,
+            episodeUuid: apiBookmark.episodeUuid,
+            podcastUuid: apiBookmark.podcastUuid,
+            title: apiBookmark.title,
+            time: .init(apiBookmark.time),
+            dateCreated: apiBookmark.createdAt.date,
+            syncStatus: .synced)
+    }
+
+    func remove(apiBookmark: Api_BookmarkResponse) async -> Bool? {
+        guard let bookmark = bookmark(for: apiBookmark.bookmarkUuid) else {
+            return nil
+        }
+
+        return await permanentlyDelete(bookmarks: [bookmark])
+    }
+}

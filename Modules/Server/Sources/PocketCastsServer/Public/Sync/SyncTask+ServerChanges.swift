@@ -340,9 +340,12 @@ extension SyncTask {
         // Add the bookmark if it's not in the database
         guard let existingBookmark = bookmarkManager.bookmark(for: apiBookmark.bookmarkUuid) else {
             if !apiBookmark.shouldDelete {
+                // If the podcast is for a user episode then we default to nil
+                let podcastUuid = apiBookmark.podcastUuid == DataConstants.userEpisodeFakePodcastId ? nil : apiBookmark.podcastUuid
+
                 let addedUuid = bookmarkManager.add(uuid: apiBookmark.bookmarkUuid,
                                                     episodeUuid: apiBookmark.episodeUuid,
-                                                    podcastUuid: apiBookmark.podcastUuid,
+                                                    podcastUuid: podcastUuid,
                                                     title: apiBookmark.title.value,
                                                     time: Double(apiBookmark.time.value),
                                                     dateCreated: apiBookmark.createdAt.date,
