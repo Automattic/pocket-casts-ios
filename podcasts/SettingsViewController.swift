@@ -22,9 +22,6 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             case .pocketCastsPlus:
                 return !SubscriptionHelper.hasActiveSubscription()
 
-            case .headphoneControls:
-                return FeatureFlag.bookmarks.enabled
-
             default:
                 return true
             }
