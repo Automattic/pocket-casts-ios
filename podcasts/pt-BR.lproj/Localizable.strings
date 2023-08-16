@@ -247,6 +247,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Tem certeza de que deseja excluir esses favoritos? Essa ação não pode ser desfeita.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Excluir favoritos?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>Não encontramos nenhum favorito para essa pesquisa.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Nenhum favorito encontrado</string>
     <key>bookmarks</key>
     <string>Favoritos</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Limpar</string>
     <key>clear</key>
     <string>Limpar</string>
+    <key>clear_search</key>
+    <string>Limpar pesquisa</string>
     <key>clear_up_next</key>
     <string>Limpar Próximos</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@ que você ouviu foi
     <string>Episódio</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ episódios</string>
+    <key>episode_details_title</key>
+    <string>Detalhes</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filtrar por duração</string>
     <key>episode_filter_no_episodes_msg</key>

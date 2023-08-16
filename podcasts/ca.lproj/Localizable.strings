@@ -131,6 +131,8 @@
     <string>Benvingut a Pocket Casts Plus!</string>
     <key>add_bookmark</key>
     <string>Afegeix un favorit</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Afegeix un títol opcional per identificar aquest marcador</string>
     <key>add_to_up_next</key>
     <string>Afegir a la llista 'Tot seguit'</string>
     <key>after_playing</key>
@@ -233,8 +235,28 @@
     <string>Primer</string>
     <key>back</key>
     <string>Enrere</string>
+    <key>bookmark_added</key>
+    <string>Marcador afegit</string>
+    <key>bookmark_added_button_title</key>
+    <string>Veure</string>
+    <key>bookmark_added_notification</key>
+    <string>S'ha afegit el marcador "%1$@"</string>
+    <key>bookmark_default_title</key>
+    <string>Marcador</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Estàs segur que vols eliminar aquests marcadors? Aquesta acció no es pot desfer!</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Esborrar els marcadors?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>No hem pogut trobar cap marcador per a aquesta cerca.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>No s'han trobat marcadors</string>
     <key>bookmarks</key>
     <string>Favorits</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ marcadors</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 marcador</string>
     <key>bottom</key>
     <string>Darrer de la cua</string>
     <key>bulk_download_max_format</key>
@@ -271,6 +293,10 @@
     <string>Llista 'Tot seguit'</string>
     <key>change_app_icon</key>
     <string>Canvia la icona de l'app</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Canviar el títol que identifica aquest marcador</string>
+    <key>change_bookmark_title</key>
+    <string>Canviar el títol</string>
     <key>change_email</key>
     <string>Canviar l'adreça de correu electrònic</string>
     <key>change_email_conf</key>
@@ -307,6 +333,8 @@
     <string>Buidar</string>
     <key>clear</key>
     <string>Esborrar</string>
+    <key>clear_search</key>
+    <string>Esborrar la cerca</string>
     <key>clear_up_next</key>
     <string>Esborrar la llista 'Tot seguit'</string>
     <key>clear_up_next_message</key>
@@ -697,6 +725,8 @@
     <string>Episodi</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ episodis</string>
+    <key>episode_details_title</key>
+    <string>Detalls</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filtrar per durada</string>
     <key>episode_filter_no_episodes_msg</key>
@@ -1160,6 +1190,12 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <string>Episodi següent</string>
     <key>next_payment_format</key>
     <string>Pròxim pagament: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Configuració dels auriculars</string>
+    <key>no_bookmarks_message</key>
+    <string>Per desar les marques de temps dels episodis, aneu al menú d'accions del reproductor o configureu una acció amb els auriculars.</string>
+    <key>no_bookmarks_title</key>
+    <string>Encara no hi ha marcadors</string>
     <key>none</key>
     <string>Cap</string>
     <key>not_on_wifi</key>
@@ -1744,6 +1780,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Renova la teva subscripció</string>
     <key>retry</key>
     <string>Reintentar</string>
+    <key>save_bookmark</key>
+    <string>Desar marcador</string>
     <key>search</key>
     <string>Cercar</string>
     <key>search_label</key>
@@ -1770,6 +1808,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Seleccinar tots els anteriors</string>
     <key>select_all_below</key>
     <string>Seleccionar tots els següents</string>
+    <key>select_bookmarks</key>
+    <string>Tria els marcadors</string>
     <key>select_episodes</key>
     <string>Seleccionar episodis</string>
     <key>selected_count_format</key>
@@ -2305,6 +2345,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Ordenar per</string>
     <key>sort_episodes</key>
     <string>Ordenar episodis</string>
+    <key>sort_option_timestamp</key>
+    <string>Marca temporal</string>
     <key>speed</key>
     <string>Velocitat</string>
     <key>star_episode</key>

@@ -247,6 +247,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Bist du sicher, dass du diese Lesezeichen löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Lesezeichen löschen?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>Wir konnten keine Lesezeichen für diese Suche finden.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Keine Lesezeichen gefunden</string>
     <key>bookmarks</key>
     <string>Lesezeichen</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Bereinigen</string>
     <key>clear</key>
     <string>Löschen</string>
+    <key>clear_search</key>
+    <string>Suche löschen</string>
     <key>clear_up_next</key>
     <string>Warteschlange löschen</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@ Folge dauerte
     <string>Folge</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ Folgen</string>
+    <key>episode_details_title</key>
+    <string>Details</string>
     <key>episode_filter_by_duration_label</key>
     <string>Nach Dauer filtern</string>
     <key>episode_filter_no_episodes_msg</key>

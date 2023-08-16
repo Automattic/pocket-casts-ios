@@ -247,6 +247,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Weet je zeker dat je deze bladwijzers wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Bladwijzers verwijderen?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>We konden geen bladwijzers vinden voor die zoekopdrachten.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Geen bladwijzers gevonden</string>
     <key>bookmarks</key>
     <string>Bladwijzers</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Opschonen</string>
     <key>clear</key>
     <string>Wissen</string>
+    <key>clear_search</key>
+    <string>Zoekopdracht wissen</string>
     <key>clear_up_next</key>
     <string>Hierna wissen</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@ waar je naar hebt geluisterd was
     <string>Aflevering</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ afleveringen</string>
+    <key>episode_details_title</key>
+    <string>Details</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filteren op duur</string>
     <key>episode_filter_no_episodes_msg</key>

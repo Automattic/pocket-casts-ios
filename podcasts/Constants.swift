@@ -312,6 +312,9 @@ struct Constants {
 
         static let endOfYearRequireAccount = "end_of_year_require_account"
         static let endOfYearRequireAccountDefault: Bool = true
+
+        static let lockEffectsPlayer = "lock_effects_player"
+        static let lockEffectsPlayerDefault: Bool = false
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5

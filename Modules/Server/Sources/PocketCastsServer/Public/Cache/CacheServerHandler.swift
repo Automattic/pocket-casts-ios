@@ -11,6 +11,10 @@ public class CacheServerHandler {
     private let showNotesUrlCache: URLCache
     private let colorsUrlsCache: URLCache
 
+    private lazy var episodeInfoHandler = EpisodeInfoHandler()
+
+    public static var newShowNotesEndpoint: Bool = false
+
     public init() {
         showNotesUrlCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
         colorsUrlsCache = URLCache(memoryCapacity: 400.kilobytes, diskCapacity: 5.megabytes, diskPath: "colors")
@@ -18,7 +22,12 @@ public class CacheServerHandler {
 
     // MARK: - Show Notes
 
-    public func loadShowNotes(episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
+    public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
+        guard !Self.newShowNotesEndpoint else {
+            episodeInfoHandler.loadShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid, cached: cached, completion: completion)
+            return
+        }
+
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/show_notes/\(episodeUuid)")
         let request = URLRequest(url: url)
 
@@ -46,6 +55,17 @@ public class CacheServerHandler {
                 completion?(CacheServerHandler.noShowNotesMessage)
             }
         }
+    }
+
+    // MARK: - Episode Artwork
+
+    public func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String, completion: ((String?) -> Void)?) {
+        guard Self.newShowNotesEndpoint else {
+            completion?(nil)
+            return
+        }
+
+        episodeInfoHandler.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid, completion: completion)
     }
 
     public func loadPodcastColors(podcastUuid: String, allowCachedVersion: Bool, completion: @escaping ((String?, String?, String?) -> Void)) {

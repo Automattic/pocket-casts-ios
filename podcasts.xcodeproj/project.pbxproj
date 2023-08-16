@@ -530,7 +530,7 @@
 		8B723755291185B300FA8219 /* Analytics+story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B723754291185B300FA8219 /* Analytics+story.swift */; };
 		8B7298F829144EEC0059C077 /* PodcastCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7298F729144EEC0059C077 /* PodcastCover.swift */; };
 		8B738F3128F5CBE0004E7526 /* StoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B738F3028F5CBE0004E7526 /* StoriesView.swift */; };
-		8B87C47C29F0129A00257B96 /* StreamingEpisodeArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B87C47B29F0129A00257B96 /* StreamingEpisodeArtwork.swift */; };
+		8B87C47C29F0129A00257B96 /* EpisodeArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B87C47B29F0129A00257B96 /* EpisodeArtwork.swift */; };
 		8B938E2B29BFB4F2008997B9 /* SearchAnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B938E2A29BFB4F2008997B9 /* SearchAnalyticsHelper.swift */; };
 		8B99197429A67A7100A5C81C /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B99197329A67A7100A5C81C /* SearchView.swift */; };
 		8B99197729A686BA00A5C81C /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B99197629A686BA00A5C81C /* SearchResultsView.swift */; };
@@ -1523,6 +1523,7 @@
 		C7CE415A28CBCFC200AD063E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5790289D87CF0089E435 /* Analytics.swift */; };
 		C7CE415B28CBD00A00AD063E /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2C289DA14F0017883A /* AnalyticsEvent.swift */; };
 		C7CE415C28CBD01F00AD063E /* String+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED2E289DA1650017883A /* String+Analytics.swift */; };
+		C7D5E7F12A8BF3150039F4A1 /* UIViewController+Presenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D5E7F02A8BF3150039F4A1 /* UIViewController+Presenting.swift */; };
 		C7D6551428E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551528E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
 		C7D6551628E5450600AD7174 /* AnalyticsDescribable+Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */; };
@@ -2310,7 +2311,7 @@
 		8B723754291185B300FA8219 /* Analytics+story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Analytics+story.swift"; sourceTree = "<group>"; };
 		8B7298F729144EEC0059C077 /* PodcastCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCover.swift; sourceTree = "<group>"; };
 		8B738F3028F5CBE0004E7526 /* StoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesView.swift; sourceTree = "<group>"; };
-		8B87C47B29F0129A00257B96 /* StreamingEpisodeArtwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingEpisodeArtwork.swift; sourceTree = "<group>"; };
+		8B87C47B29F0129A00257B96 /* EpisodeArtwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeArtwork.swift; sourceTree = "<group>"; };
 		8B938E2A29BFB4F2008997B9 /* SearchAnalyticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAnalyticsHelper.swift; sourceTree = "<group>"; };
 		8B99197329A67A7100A5C81C /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		8B99197629A686BA00A5C81C /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
@@ -3277,6 +3278,7 @@
 		C7C4F9B52A4BAD57002822DD /* HeadphoneSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneSettingsViewController.swift; sourceTree = "<group>"; };
 		C7C4F9BE2A4CC359002822DD /* PCTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCTableViewController.swift; sourceTree = "<group>"; };
 		C7CA0558293E8918000E41BD /* HolographicEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolographicEffect.swift; sourceTree = "<group>"; };
+		C7D5E7F02A8BF3150039F4A1 /* UIViewController+Presenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Presenting.swift"; sourceTree = "<group>"; };
 		C7D6551328E5153200AD7174 /* Debounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debounce.swift; sourceTree = "<group>"; };
 		C7D813782A0D4B89007F715F /* AppIcon-Patron-Chrome-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-iphone@2x.png"; sourceTree = "<group>"; };
 		C7D813792A0D4B89007F715F /* AppIcon-Patron-Chrome-ipad-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Patron-Chrome-ipad-pro.png"; sourceTree = "<group>"; };
@@ -4901,7 +4903,7 @@
 			children = (
 				BD5294281B564417007A0B1D /* PlaybackItem.swift */,
 				BDB4E7D3240E3C7A005770E3 /* DefaultPlayer.swift */,
-				8B87C47B29F0129A00257B96 /* StreamingEpisodeArtwork.swift */,
+				8B87C47B29F0129A00257B96 /* EpisodeArtwork.swift */,
 			);
 			name = "Default Player";
 			sourceTree = "<group>";
@@ -6300,6 +6302,7 @@
 				C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */,
 				C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */,
 				C7B7123929DC98BD00965BF7 /* SFSafariViewController+Creation.swift */,
+				C7D5E7F02A8BF3150039F4A1 /* UIViewController+Presenting.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -8865,7 +8868,7 @@
 				BD056F111F6F8CE800AF8260 /* MainTabBarController.swift in Sources */,
 				BD26AFD727BE09E8008CC973 /* EditFolderView.swift in Sources */,
 				BD585C232047B9A400AC842C /* SharedItemImporter.swift in Sources */,
-				8B87C47C29F0129A00257B96 /* StreamingEpisodeArtwork.swift in Sources */,
+				8B87C47C29F0129A00257B96 /* EpisodeArtwork.swift in Sources */,
 				4041FEA1218AA5EC0089D4A1 /* SiriShortcutAddCell.swift in Sources */,
 				403D1AB42281C36100CE7C9B /* AccountViewController+TableView.swift in Sources */,
 				BDD5CA002303E8FA005E133C /* ThemeableUIButton.swift in Sources */,
@@ -9038,6 +9041,7 @@
 				BD907DA621533243004D7C02 /* PodcastEffectsViewController.swift in Sources */,
 				C76ECAD62A69518800D9DB9E /* EpisodeBookmarksTabsView.swift in Sources */,
 				BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */,
+				C7D5E7F12A8BF3150039F4A1 /* UIViewController+Presenting.swift in Sources */,
 				BDE954E9236684E300CEB6DA /* ChaptersViewController.swift in Sources */,
 				BDF7BDD21CA2248E0045AB6D /* StatsTopCell.swift in Sources */,
 				BDA7A0A624C6BBA600ADA8AA /* SecondaryLabel.swift in Sources */,

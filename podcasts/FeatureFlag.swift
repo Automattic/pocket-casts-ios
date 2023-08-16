@@ -40,6 +40,9 @@ enum FeatureFlag: String, CaseIterable {
     /// New episodes autoplay if Up Next is empty
     case autoplay
 
+    /// Enable the new show notes endpoint plus embedded episode artwork
+    case newShowNotesEndpoint
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -71,6 +74,8 @@ enum FeatureFlag: String, CaseIterable {
         case .showRatings:
             return true
         case .autoplay:
+            return true
+        case .newShowNotesEndpoint:
             return true
         }
     }

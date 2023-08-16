@@ -53,7 +53,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         GoogleCastManager.sharedManager.setup()
 
+        CacheServerHandler.newShowNotesEndpoint = FeatureFlag.newShowNotesEndpoint.enabled
+
         setupRoutes()
+
+        DataManager.sharedManager.bookmarksEnabled = FeatureFlag.bookmarks.enabled
 
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
@@ -271,7 +275,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.episodeSearchDebounceMs: NSNumber(value: Constants.RemoteParams.episodeSearchDebounceMsDefault),
             Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
             Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault),
-            Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault)
+            Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
+            Constants.RemoteParams.lockEffectsPlayer: NSNumber(value: Constants.RemoteParams.lockEffectsPlayerDefault)
         ])
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in

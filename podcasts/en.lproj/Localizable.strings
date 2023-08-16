@@ -3818,6 +3818,9 @@
 /* A message that appears after the user created a bookmark and %1$@ displays the title they choose for it. */
 "bookmark_added_notification" = "Bookmark \"%1$@\" added";
 
+/* A message that appears after the user updates a bookmark and %1$@ displays the title they choose for it. */
+"bookmark_updated_notification" = "Bookmark \"%1$@\" updated";
+
 /* A message that appears to inform the user their bookmark is added */
 "bookmark_added" = "Bookmark added";
 

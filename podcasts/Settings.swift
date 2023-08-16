@@ -341,18 +341,6 @@ class Settings: NSObject {
         UserDefaults.standard.set(adjustedTime, forKey: "CustomSleepTime")
     }
 
-    // MARK: - Chapter skipping
-
-    private static let remoteChapterSkipKey = "RemoteChapterSkip"
-    class func remoteSkipShouldSkipChapters() -> Bool {
-        UserDefaults.standard.bool(forKey: remoteChapterSkipKey)
-    }
-
-    class func setRemoteSkipShouldSkipChapters(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: remoteChapterSkipKey)
-        Settings.trackValueToggled(.settingsGeneralRemoteSkipsChaptersToggled, enabled: value)
-    }
-
     // MARK: - CarPlay/Lock Screen actions
 
     private static let mediaSessionActionsKey = "MediaSessionActions"
@@ -868,6 +856,11 @@ class Settings: NSObject {
 
         static var endOfYearRequireAccount: Bool {
             let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.endOfYearRequireAccount)
+            return remote.boolValue
+        }
+
+        static var lockEffectsPlayer: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.lockEffectsPlayer)
             return remote.boolValue
         }
 

@@ -247,6 +247,10 @@
     <string>确定删除这些书签？书签一经删除不可恢复！</string>
     <key>bookmark_delete_warning_title</key>
     <string>删除书签？</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>我们搜索不到任何书签。</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>未找到书签</string>
     <key>bookmarks</key>
     <string>书签</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@
     <string>清理</string>
     <key>clear</key>
     <string>清除</string>
+    <key>clear_search</key>
+    <string>清除搜索</string>
     <key>clear_up_next</key>
     <string>清除“接下来播放”</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@
     <string>剧集</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ 集</string>
+    <key>episode_details_title</key>
+    <string>详细信息</string>
     <key>episode_filter_by_duration_label</key>
     <string>按持续时间筛选</string>
     <key>episode_filter_no_episodes_msg</key>
