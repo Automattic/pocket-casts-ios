@@ -247,6 +247,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Desideri eliminare questi segnalibri? Non c'è modo di annullare l'azione.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Elimina i segnalibri?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>Non abbiamo trovato alcun segnalibro per la ricerca.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Nessun segnalibro trovato</string>
     <key>bookmarks</key>
     <string>Segnalibri</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Cancella</string>
     <key>clear</key>
     <string>Cancella</string>
+    <key>clear_search</key>
+    <string>Cancella la ricerca</string>
     <key>clear_up_next</key>
     <string>Cancella Successivo</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@ che hai ascoltato è stato
     <string>Episodio</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ episodi</string>
+    <key>episode_details_title</key>
+    <string>Dettagli</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filtra per durata</string>
     <key>episode_filter_no_episodes_msg</key>

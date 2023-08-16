@@ -247,6 +247,10 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>¿Seguro que quieres eliminar estos marcadores? Esta acción no se puede deshacer.</string>
     <key>bookmark_delete_warning_title</key>
     <string>¿Eliminar marcadores?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>No hemos podido encontrar ningún marcador para esa búsqueda.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>No se han encontrado marcadores</string>
     <key>bookmarks</key>
     <string>Marcadores</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Limpiar</string>
     <key>clear</key>
     <string>Borrar</string>
+    <key>clear_search</key>
+    <string>Borrar la búsqueda</string>
     <key>clear_up_next</key>
     <string>Borrar la lista de A continuación</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@ que has escuchado dura
     <string>Episodio</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ episodios</string>
+    <key>episode_details_title</key>
+    <string>Detalles</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filtrar por duración</string>
     <key>episode_filter_no_episodes_msg</key>
