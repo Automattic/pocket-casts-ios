@@ -129,7 +129,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
         loadingIndicator.startAnimating()
 
-        CacheServerHandler.shared.loadShowNotes(episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
+        CacheServerHandler.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
             self?.downloadingShowNotes = false
             self?.displayShowNotes(cachedShowNotes)
         }) { [weak self] showNotes in

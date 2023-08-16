@@ -53,6 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         GoogleCastManager.sharedManager.setup()
 
+        CacheServerHandler.newShowNotesEndpoint = FeatureFlag.newShowNotesEndpoint.enabled
+
         setupRoutes()
 
         DataManager.sharedManager.bookmarksEnabled = FeatureFlag.bookmarks.enabled

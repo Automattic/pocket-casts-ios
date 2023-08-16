@@ -1,6 +1,7 @@
 7.46
 -----
-
+- Adds a new show notes endpoint [#1033]
+- Show episode artwork from the feed if "Use Embedded Artwork" is enabled [#1033]
 
 7.45
 -----
