@@ -6,7 +6,7 @@
         "repositoryURL": "https://github.com/firebase/abseil-cpp-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "583de9bd60f66b40e78d08599cc92036c2e7e4e1",
+          "revision": "d302de612e3d57c6f4afaf087da18fba8eac72a7",
           "version": "0.20220203.2"
         }
       },
