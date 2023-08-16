@@ -139,7 +139,7 @@ final class BookmarkDataManagerTests: XCTestCase {
 
         XCTAssertEqual(bookmark.created, created)
         XCTAssertEqual(bookmark.episodeUuid, episode)
-        XCTAssertEqual(bookmark.modified, created)
+        XCTAssertEqual(bookmark.titleModified, created)
         XCTAssertEqual(bookmark.podcastUuid, podcast)
         XCTAssertEqual(bookmark.time, time)
         XCTAssertEqual(bookmark.title, title)
@@ -150,7 +150,7 @@ final class BookmarkDataManagerTests: XCTestCase {
     func testUpdatingTitleSucceeds() async {
         let bookmark = addBookmark()
 
-        let success = await dataManager.update(title: "title2", for: bookmark)
+        let success = await dataManager.update(bookmark: bookmark, title: "title2")
         XCTAssertTrue(success)
     }
 
@@ -161,11 +161,11 @@ final class BookmarkDataManagerTests: XCTestCase {
 
         let bookmark = addBookmark(title: title1)
 
-        await dataManager.update(title: title2, for: bookmark, modified: modified)
+        await dataManager.update(bookmark: bookmark, title: title2, modified: modified)
 
         let updatedBookmark = dataManager.bookmark(for: bookmark.uuid)
         XCTAssertEqual(updatedBookmark?.title, title2)
-        XCTAssertEqual(updatedBookmark?.modified, modified)
+        XCTAssertEqual(updatedBookmark?.titleModified, modified)
     }
 
     func testUpdatingTitleEffectsOnlyOneBookmark() async {
@@ -175,7 +175,7 @@ final class BookmarkDataManagerTests: XCTestCase {
         let bookmarkToChange = 2
         let title2 = "c_title_2"
 
-        await dataManager.update(title: title2, for: bookmarks[bookmarkToChange])
+        await dataManager.update(bookmark: bookmarks[bookmarkToChange], title: title2)
 
         let updatedTitles = dataManager.allBookmarks().map { $0.title }.sorted()
         XCTAssertNotEqual(titles, updatedTitles)
@@ -197,12 +197,14 @@ final class BookmarkDataManagerTests: XCTestCase {
         XCTAssertNil(dataManager.bookmark(for: bookmark.uuid))
     }
 
-    func testAllBookmarksReturnsDeletedItems() async {
-        let bookmark = addBookmark()
-        _ = await dataManager.remove(bookmarks: [bookmark])
-        let allBookmarks = dataManager.allBookmarks(includeDeleted: true)
+    func testAllBookmarksAlsoReturnsDeletedItems() async {
+        let bookmarkNotDeleted = addBookmark(time: 1)
+        let bookmark = addBookmark(time: 2)
 
-        XCTAssertEqual([bookmark.uuid], allBookmarks.map(\.uuid))
+        _ = await dataManager.remove(bookmarks: [bookmark])
+        let allBookmarks = dataManager.allBookmarks(includeDeleted: true, sorted: .timestamp)
+
+        XCTAssertEqual([bookmarkNotDeleted.uuid, bookmark.uuid], allBookmarks.map(\.uuid))
     }
 
     func testBookmarkIsPermanentlyRemoved() async {
@@ -249,12 +251,61 @@ final class BookmarkDataManagerTests: XCTestCase {
 
         XCTAssertEqual(ordered, bookmarks)
     }
+
+    // MARK: - Syncing
+    func testBookmarksToSyncReturnsOnlyItemsThatNeedSyncing() {
+        let count = 10
+
+        for i in 0..<count {
+            addBookmark(time: TimeInterval(i))
+        }
+
+        addBookmark(time: TimeInterval(999), syncStatus: .synced)
+
+        let unsyncedBookmarks = dataManager.bookmarksToSync()
+        XCTAssertEqual(unsyncedBookmarks.count, count)
+    }
+
+    func testUpdatingTitleMarksAsNotSynced() async {
+        addBookmark(time: TimeInterval(123), syncStatus: .synced)
+
+        let bookmark = addBookmark(time: TimeInterval(999), syncStatus: .synced)
+        await dataManager.update(bookmark: bookmark, title: "New Title")
+
+        XCTAssertEqual(dataManager.bookmarksToSync().count, 1)
+    }
+
+    func testUpdatingTitleUpdatesTheModifiedDate() async {
+        let created = Date(timeIntervalSince1970: 1234)
+        let bookmark = addBookmark(time: TimeInterval(999), created: created, syncStatus: .synced)
+        await dataManager.update(bookmark: bookmark, title: "New Title")
+
+        let updatedBookmark = dataManager.bookmark(for: bookmark.uuid)
+
+        XCTAssertNotEqual(updatedBookmark?.titleModified, created)
+    }
+
+    func testUpdatingWithSyncStatusSetsCorrectly() async {
+        addBookmark(time: TimeInterval(123), syncStatus: .synced)
+        let bookmark = addBookmark(time: TimeInterval(999))
+        await dataManager.update(bookmark: bookmark, title: "New Title", syncStatus: .synced)
+
+        XCTAssertEqual(dataManager.bookmarksToSync().count, 0)
+    }
+
+    func testDeletingUpdatesSyncStatus() async {
+        addBookmark(time: TimeInterval(123), syncStatus: .synced)
+        let bookmark = addBookmark(time: TimeInterval(999), syncStatus: .synced)
+        _ = await dataManager.remove(bookmarks: [bookmark])
+
+        XCTAssertEqual(dataManager.bookmarksToSync().count, 1)
+    }
 }
 
 private extension BookmarkDataManagerTests {
     @discardableResult
-    func addBookmark(episodeUuid: String = "episode-1", podcastUuid: String = "podcast-uuid", title: String = "Title", time: TimeInterval = 1, created: Date = .now) -> Bookmark {
-        dataManager.add(episodeUuid: episodeUuid, podcastUuid: podcastUuid, title: title, time: time, dateCreated: created).flatMap {
+    func addBookmark(episodeUuid: String = "episode-1", podcastUuid: String = "podcast-uuid", title: String = "Title", time: TimeInterval = 1, created: Date = .now, syncStatus: SyncStatus = .notSynced) -> Bookmark {
+        dataManager.add(episodeUuid: episodeUuid, podcastUuid: podcastUuid, title: title, time: time, dateCreated: created, syncStatus: syncStatus).flatMap {
             dataManager.bookmark(for: $0)
         }!
     }

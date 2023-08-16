@@ -37,7 +37,7 @@ extension MiniPlayerViewController {
         })
     }
 
-    func openFullScreenPlayer() {
+    func openFullScreenPlayer(completion: (() -> Void)? = nil) {
         guard PlaybackManager.shared.currentEpisode() != nil else { return }
 
         if playerOpenState == .open || playerOpenState == .animating { return }
@@ -56,6 +56,7 @@ extension MiniPlayerViewController {
             self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
             self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
             AnalyticsHelper.nowPlayingOpened()
+            completion?()
         }
     }
 

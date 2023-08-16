@@ -7,6 +7,13 @@ class ApiBaseTask: Operation {
     private let isoDateFormatter = ISO8601DateFormatter()
     let apiVersion = "2"
 
+    let dataManager: DataManager
+
+    init(dataManager: DataManager = .sharedManager) {
+        self.dataManager = dataManager
+        super.init()
+    }
+
     override func main() {
         autoreleasepool {
             runTaskSynchronously()

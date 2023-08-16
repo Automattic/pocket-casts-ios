@@ -160,6 +160,15 @@ class SyncTask: ApiBaseTask {
         }
         retrieveFiltersTask.runTaskSynchronously()
 
+        if dataManager.bookmarksEnabled {
+            // Retrieve all the bookmarks
+            RetrieveBookmarksTask { bookmarks in
+                guard let bookmarks else { return }
+
+                self.processServerBookmarks(bookmarks)
+            }.runTaskSynchronously()
+        }
+
         UserDefaults.standard.set(lastSyncDate, forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
 
         status = .successNewData
@@ -245,6 +254,11 @@ class SyncTask: ApiBaseTask {
         }
         if let statsChanges = changedStats() {
             records.append(statsChanges)
+        }
+
+        if dataManager.bookmarksEnabled, let bookmarks = changedBookmarks() {
+            records += bookmarks
+            FileLog.shared.addMessage("SyncTask: Number of changed bookmarks: \(bookmarks.count)")
         }
 
         FileLog.shared.addMessage("SyncTask: sending \(records.count) changed items to the server")

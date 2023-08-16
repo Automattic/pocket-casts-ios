@@ -8,13 +8,17 @@ public struct Bookmark: Hashable {
     public let time: TimeInterval
 
     public let created: Date
-    public let modified: Date
 
     public let episodeUuid: String
     public let podcastUuid: String?
 
     public var episode: BaseEpisode? = nil
     public var podcast: Podcast? = nil
+
+    // For syncing
+    public var titleModified: Date? = nil
+    public var deletedModified: Date? = nil
+    public var deleted: Bool = false
 
     // `BaseEpisode` and `Podcast` don't conform to Hashable, so instead we implement it manually to ignore those properties
     public func hash(into hasher: inout Hasher) {
@@ -24,6 +28,8 @@ public struct Bookmark: Hashable {
         hasher.combine(created)
         hasher.combine(episodeUuid)
         hasher.combine(podcastUuid)
+        hasher.combine(titleModified)
+        hasher.combine(deletedModified)
     }
 
     public static func == (lhs: Bookmark, rhs: Bookmark) -> Bool {
@@ -45,7 +51,6 @@ extension PreviewProvider {
                  title: title,
                  time: time,
                  created: created,
-                 modified: Date(),
                  episodeUuid: "episode",
                  podcastUuid: "podcast")
     }

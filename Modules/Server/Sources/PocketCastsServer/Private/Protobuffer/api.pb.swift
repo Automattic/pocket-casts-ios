@@ -1214,6 +1214,11 @@ struct Api_EpisodeResponse {
     set {_uniqueStorage()._author = newValue}
   }
 
+  var bookmarks: [Api_BookmarkResponse] {
+    get {return _storage._bookmarks}
+    set {_uniqueStorage()._bookmarks = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1755,6 +1760,8 @@ struct Api_EpisodeSyncResponse {
   var starred: Bool = false
 
   var duration: Int32 = 0
+
+  var bookmarks: [Api_BookmarkResponse] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2341,6 +2348,43 @@ struct Api_SubscriptionsWebStatusResponse {
 
   var webStatus: Int32 = 0
 
+  var plus: Api_SubscriptionsWebProduct {
+    get {return _plus ?? Api_SubscriptionsWebProduct()}
+    set {_plus = newValue}
+  }
+  /// Returns true if `plus` has been explicitly set.
+  var hasPlus: Bool {return self._plus != nil}
+  /// Clears the value of `plus`. Subsequent reads from it will return its default value.
+  mutating func clearPlus() {self._plus = nil}
+
+  var patron: Api_SubscriptionsWebProduct {
+    get {return _patron ?? Api_SubscriptionsWebProduct()}
+    set {_patron = newValue}
+  }
+  /// Returns true if `patron` has been explicitly set.
+  var hasPatron: Bool {return self._patron != nil}
+  /// Clears the value of `patron`. Subsequent reads from it will return its default value.
+  mutating func clearPatron() {self._patron = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _plus: Api_SubscriptionsWebProduct? = nil
+  fileprivate var _patron: Api_SubscriptionsWebProduct? = nil
+}
+
+struct Api_SubscriptionsWebProduct {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var monthly: Int32 = 0
+
+  var yearly: Int32 = 0
+
+  var trialDays: Int32 = 0
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -2788,6 +2832,14 @@ struct Api_Record {
     set {record = .folder(newValue)}
   }
 
+  var bookmark: Api_SyncUserBookmark {
+    get {
+      if case .bookmark(let v)? = record {return v}
+      return Api_SyncUserBookmark()
+    }
+    set {record = .bookmark(newValue)}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   enum OneOf_Record: Equatable {
@@ -2796,6 +2848,7 @@ struct Api_Record {
     case playlist(Api_SyncUserPlaylist)
     case device(Api_SyncUserDevice)
     case folder(Api_SyncUserFolder)
+    case bookmark(Api_SyncUserBookmark)
 
   #if !swift(>=4.1)
     static func ==(lhs: Api_Record.OneOf_Record, rhs: Api_Record.OneOf_Record) -> Bool {
@@ -2821,6 +2874,10 @@ struct Api_Record {
       }()
       case (.folder, .folder): return {
         guard case .folder(let l) = lhs, case .folder(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.bookmark, .bookmark): return {
+        guard case .bookmark(let l) = lhs, case .bookmark(let r) = rhs else { preconditionFailure() }
         return l == r
       }()
       default: return false
@@ -3376,6 +3433,83 @@ struct Api_SyncUserFolder {
   fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
+struct Api_SyncUserBookmark {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var bookmarkUuid: String = String()
+
+  var podcastUuid: String = String()
+
+  var episodeUuid: String = String()
+
+  var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_createdAt = newValue}
+  }
+  /// Returns true if `createdAt` has been explicitly set.
+  var hasCreatedAt: Bool {return self._createdAt != nil}
+  /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
+  mutating func clearCreatedAt() {self._createdAt = nil}
+
+  var time: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_time = newValue}
+  }
+  /// Returns true if `time` has been explicitly set.
+  var hasTime: Bool {return self._time != nil}
+  /// Clears the value of `time`. Subsequent reads from it will return its default value.
+  mutating func clearTime() {self._time = nil}
+
+  var title: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_title = newValue}
+  }
+  /// Returns true if `title` has been explicitly set.
+  var hasTitle: Bool {return self._title != nil}
+  /// Clears the value of `title`. Subsequent reads from it will return its default value.
+  mutating func clearTitle() {self._title = nil}
+
+  var titleModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_titleModified = newValue}
+  }
+  /// Returns true if `titleModified` has been explicitly set.
+  var hasTitleModified: Bool {return self._titleModified != nil}
+  /// Clears the value of `titleModified`. Subsequent reads from it will return its default value.
+  mutating func clearTitleModified() {self._titleModified = nil}
+
+  var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_isDeleted = newValue}
+  }
+  /// Returns true if `isDeleted` has been explicitly set.
+  var hasIsDeleted: Bool {return self._isDeleted != nil}
+  /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
+  mutating func clearIsDeleted() {self._isDeleted = nil}
+
+  var isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_isDeletedModified = newValue}
+  }
+  /// Returns true if `isDeletedModified` has been explicitly set.
+  var hasIsDeletedModified: Bool {return self._isDeletedModified != nil}
+  /// Clears the value of `isDeletedModified`. Subsequent reads from it will return its default value.
+  mutating func clearIsDeletedModified() {self._isDeletedModified = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _time: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+  fileprivate var _title: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+  fileprivate var _titleModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+  fileprivate var _isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+}
+
 struct Api_LegacySyncData {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -3842,6 +3976,43 @@ struct Api_LegacyRecord {
   var hasDateAdded: Bool {return _storage._dateAdded != nil}
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {_uniqueStorage()._dateAdded = nil}
+
+  /// bookmark fields
+  var bookmarkUuid: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._bookmarkUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._bookmarkUuid = newValue}
+  }
+  /// Returns true if `bookmarkUuid` has been explicitly set.
+  var hasBookmarkUuid: Bool {return _storage._bookmarkUuid != nil}
+  /// Clears the value of `bookmarkUuid`. Subsequent reads from it will return its default value.
+  mutating func clearBookmarkUuid() {_uniqueStorage()._bookmarkUuid = nil}
+
+  var time: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._time = newValue}
+  }
+  /// Returns true if `time` has been explicitly set.
+  var hasTime: Bool {return _storage._time != nil}
+  /// Clears the value of `time`. Subsequent reads from it will return its default value.
+  mutating func clearTime() {_uniqueStorage()._time = nil}
+
+  var titleModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _storage._titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_uniqueStorage()._titleModified = newValue}
+  }
+  /// Returns true if `titleModified` has been explicitly set.
+  var hasTitleModified: Bool {return _storage._titleModified != nil}
+  /// Clears the value of `titleModified`. Subsequent reads from it will return its default value.
+  mutating func clearTitleModified() {_uniqueStorage()._titleModified = nil}
+
+  var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._createdAt = newValue}
+  }
+  /// Returns true if `createdAt` has been explicitly set.
+  var hasCreatedAt: Bool {return _storage._createdAt != nil}
+  /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
+  mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -4318,6 +4489,43 @@ struct Api_LegacyResponseRecord {
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {_uniqueStorage()._dateAdded = nil}
 
+  /// bookmark fields
+  var bookmarkUuid: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._bookmarkUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._bookmarkUuid = newValue}
+  }
+  /// Returns true if `bookmarkUuid` has been explicitly set.
+  var hasBookmarkUuid: Bool {return _storage._bookmarkUuid != nil}
+  /// Clears the value of `bookmarkUuid`. Subsequent reads from it will return its default value.
+  mutating func clearBookmarkUuid() {_uniqueStorage()._bookmarkUuid = nil}
+
+  var time: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._time = newValue}
+  }
+  /// Returns true if `time` has been explicitly set.
+  var hasTime: Bool {return _storage._time != nil}
+  /// Clears the value of `time`. Subsequent reads from it will return its default value.
+  mutating func clearTime() {_uniqueStorage()._time = nil}
+
+  var titleModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _storage._titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_uniqueStorage()._titleModified = newValue}
+  }
+  /// Returns true if `titleModified` has been explicitly set.
+  var hasTitleModified: Bool {return _storage._titleModified != nil}
+  /// Clears the value of `titleModified`. Subsequent reads from it will return its default value.
+  mutating func clearTitleModified() {_uniqueStorage()._titleModified = nil}
+
+  var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._createdAt = newValue}
+  }
+  /// Returns true if `createdAt` has been explicitly set.
+  var hasCreatedAt: Bool {return _storage._createdAt != nil}
+  /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
+  mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -4609,6 +4817,84 @@ struct Api_AuthorizeCallbackRequest {
   init() {}
 }
 
+struct Api_BookmarkRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var podcastUuid: String = String()
+
+  var episodeUuid: String = String()
+
+  var time: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_time = newValue}
+  }
+  /// Returns true if `time` has been explicitly set.
+  var hasTime: Bool {return self._time != nil}
+  /// Clears the value of `time`. Subsequent reads from it will return its default value.
+  mutating func clearTime() {self._time = nil}
+
+  var title: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_title = newValue}
+  }
+  /// Returns true if `title` has been explicitly set.
+  var hasTitle: Bool {return self._title != nil}
+  /// Clears the value of `title`. Subsequent reads from it will return its default value.
+  mutating func clearTitle() {self._title = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _time: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+  fileprivate var _title: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+}
+
+struct Api_BookmarkResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var bookmarkUuid: String = String()
+
+  var podcastUuid: String = String()
+
+  var episodeUuid: String = String()
+
+  var time: Int32 = 0
+
+  var title: String = String()
+
+  var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_createdAt = newValue}
+  }
+  /// Returns true if `createdAt` has been explicitly set.
+  var hasCreatedAt: Bool {return self._createdAt != nil}
+  /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
+  mutating func clearCreatedAt() {self._createdAt = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+struct Api_BookmarksResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var bookmarks: [Api_BookmarkResponse] = []
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Api_UserChangeResponse: @unchecked Sendable {}
 extension Api_UserResetPasswordRequest: @unchecked Sendable {}
@@ -4691,6 +4977,7 @@ extension Api_SubscriptionsPurchaseAndroidRequest: @unchecked Sendable {}
 extension Api_SubscriptionsPurchaseAppleRequest: @unchecked Sendable {}
 extension Api_SubscriptionsPurchaseWebRequest: @unchecked Sendable {}
 extension Api_SubscriptionsWebStatusResponse: @unchecked Sendable {}
+extension Api_SubscriptionsWebProduct: @unchecked Sendable {}
 extension Api_SubscriptionResponse: @unchecked Sendable {}
 extension Api_PaymentResponse: @unchecked Sendable {}
 extension Api_PodcastPair: @unchecked Sendable {}
@@ -4707,6 +4994,7 @@ extension Api_SyncUserEpisode: @unchecked Sendable {}
 extension Api_SyncUserDevice: @unchecked Sendable {}
 extension Api_SyncUserPlaylist: @unchecked Sendable {}
 extension Api_SyncUserFolder: @unchecked Sendable {}
+extension Api_SyncUserBookmark: @unchecked Sendable {}
 extension Api_LegacySyncData: @unchecked Sendable {}
 extension Api_LegacySyncRecord: @unchecked Sendable {}
 extension Api_LegacyRecord: @unchecked Sendable {}
@@ -4729,6 +5017,9 @@ extension Api_TokenLoginResponse: @unchecked Sendable {}
 extension Api_TokenErrorResponse: @unchecked Sendable {}
 extension Api_VerifyEmailRequest: @unchecked Sendable {}
 extension Api_AuthorizeCallbackRequest: @unchecked Sendable {}
+extension Api_BookmarkRequest: @unchecked Sendable {}
+extension Api_BookmarkResponse: @unchecked Sendable {}
+extension Api_BookmarksResponse: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -6739,6 +7030,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     15: .standard(proto: "episode_number"),
     16: .standard(proto: "is_deleted"),
     17: .same(proto: "author"),
+    18: .same(proto: "bookmarks"),
   ]
 
   fileprivate class _StorageClass {
@@ -6759,6 +7051,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     var _episodeNumber: Int32 = 0
     var _isDeleted: Bool = false
     var _author: String = String()
+    var _bookmarks: [Api_BookmarkResponse] = []
 
     static let defaultInstance = _StorageClass()
 
@@ -6782,6 +7075,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       _episodeNumber = source._episodeNumber
       _isDeleted = source._isDeleted
       _author = source._author
+      _bookmarks = source._bookmarks
     }
   }
 
@@ -6817,6 +7111,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         case 15: try { try decoder.decodeSingularInt32Field(value: &_storage._episodeNumber) }()
         case 16: try { try decoder.decodeSingularBoolField(value: &_storage._isDeleted) }()
         case 17: try { try decoder.decodeSingularStringField(value: &_storage._author) }()
+        case 18: try { try decoder.decodeRepeatedMessageField(value: &_storage._bookmarks) }()
         default: break
         }
       }
@@ -6880,6 +7175,9 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       if !_storage._author.isEmpty {
         try visitor.visitSingularStringField(value: _storage._author, fieldNumber: 17)
       }
+      if !_storage._bookmarks.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._bookmarks, fieldNumber: 18)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -6906,6 +7204,7 @@ extension Api_EpisodeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         if _storage._episodeNumber != rhs_storage._episodeNumber {return false}
         if _storage._isDeleted != rhs_storage._isDeleted {return false}
         if _storage._author != rhs_storage._author {return false}
+        if _storage._bookmarks != rhs_storage._bookmarks {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -8046,6 +8345,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     4: .standard(proto: "is_deleted"),
     5: .same(proto: "starred"),
     6: .same(proto: "duration"),
+    7: .same(proto: "bookmarks"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -8060,6 +8360,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       case 4: try { try decoder.decodeSingularBoolField(value: &self.isDeleted) }()
       case 5: try { try decoder.decodeSingularBoolField(value: &self.starred) }()
       case 6: try { try decoder.decodeSingularInt32Field(value: &self.duration) }()
+      case 7: try { try decoder.decodeRepeatedMessageField(value: &self.bookmarks) }()
       default: break
       }
     }
@@ -8084,6 +8385,9 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     if self.duration != 0 {
       try visitor.visitSingularInt32Field(value: self.duration, fieldNumber: 6)
     }
+    if !self.bookmarks.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.bookmarks, fieldNumber: 7)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -8094,6 +8398,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     if lhs.isDeleted != rhs.isDeleted {return false}
     if lhs.starred != rhs.starred {return false}
     if lhs.duration != rhs.duration {return false}
+    if lhs.bookmarks != rhs.bookmarks {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -9214,6 +9519,8 @@ extension Api_SubscriptionsWebStatusResponse: SwiftProtobuf.Message, SwiftProtob
     2: .same(proto: "yearly"),
     3: .same(proto: "trial"),
     4: .same(proto: "webStatus"),
+    5: .same(proto: "plus"),
+    6: .same(proto: "patron"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -9226,12 +9533,18 @@ extension Api_SubscriptionsWebStatusResponse: SwiftProtobuf.Message, SwiftProtob
       case 2: try { try decoder.decodeSingularInt32Field(value: &self.yearly) }()
       case 3: try { try decoder.decodeSingularInt32Field(value: &self.trial) }()
       case 4: try { try decoder.decodeSingularInt32Field(value: &self.webStatus) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._plus) }()
+      case 6: try { try decoder.decodeSingularMessageField(value: &self._patron) }()
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if self.monthly != 0 {
       try visitor.visitSingularInt32Field(value: self.monthly, fieldNumber: 1)
     }
@@ -9244,6 +9557,12 @@ extension Api_SubscriptionsWebStatusResponse: SwiftProtobuf.Message, SwiftProtob
     if self.webStatus != 0 {
       try visitor.visitSingularInt32Field(value: self.webStatus, fieldNumber: 4)
     }
+    try { if let v = self._plus {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+    } }()
+    try { if let v = self._patron {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -9252,6 +9571,52 @@ extension Api_SubscriptionsWebStatusResponse: SwiftProtobuf.Message, SwiftProtob
     if lhs.yearly != rhs.yearly {return false}
     if lhs.trial != rhs.trial {return false}
     if lhs.webStatus != rhs.webStatus {return false}
+    if lhs._plus != rhs._plus {return false}
+    if lhs._patron != rhs._patron {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_SubscriptionsWebProduct: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".SubscriptionsWebProduct"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "monthly"),
+    2: .same(proto: "yearly"),
+    3: .same(proto: "trialDays"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularInt32Field(value: &self.monthly) }()
+      case 2: try { try decoder.decodeSingularInt32Field(value: &self.yearly) }()
+      case 3: try { try decoder.decodeSingularInt32Field(value: &self.trialDays) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.monthly != 0 {
+      try visitor.visitSingularInt32Field(value: self.monthly, fieldNumber: 1)
+    }
+    if self.yearly != 0 {
+      try visitor.visitSingularInt32Field(value: self.yearly, fieldNumber: 2)
+    }
+    if self.trialDays != 0 {
+      try visitor.visitSingularInt32Field(value: self.trialDays, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_SubscriptionsWebProduct, rhs: Api_SubscriptionsWebProduct) -> Bool {
+    if lhs.monthly != rhs.monthly {return false}
+    if lhs.yearly != rhs.yearly {return false}
+    if lhs.trialDays != rhs.trialDays {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -10091,6 +10456,7 @@ extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     3: .same(proto: "playlist"),
     4: .same(proto: "device"),
     5: .same(proto: "folder"),
+    6: .same(proto: "bookmark"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10164,6 +10530,19 @@ extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
           self.record = .folder(v)
         }
       }()
+      case 6: try {
+        var v: Api_SyncUserBookmark?
+        var hadOneofValue = false
+        if let current = self.record {
+          hadOneofValue = true
+          if case .bookmark(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.record = .bookmark(v)
+        }
+      }()
       default: break
       }
     }
@@ -10194,6 +10573,10 @@ extension Api_Record: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     case .folder?: try {
       guard case .folder(let v)? = self.record else { preconditionFailure() }
       try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+    }()
+    case .bookmark?: try {
+      guard case .bookmark(let v)? = self.record else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
     }()
     case nil: break
     }
@@ -10787,6 +11170,90 @@ extension Api_SyncUserFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
   }
 }
 
+extension Api_SyncUserBookmark: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".SyncUserBookmark"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "bookmark_uuid"),
+    2: .standard(proto: "podcast_uuid"),
+    3: .standard(proto: "episode_uuid"),
+    4: .standard(proto: "created_at"),
+    5: .same(proto: "time"),
+    6: .same(proto: "title"),
+    7: .standard(proto: "title_modified"),
+    8: .standard(proto: "is_deleted"),
+    9: .standard(proto: "is_deleted_modified"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.bookmarkUuid) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.podcastUuid) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.episodeUuid) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._createdAt) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._time) }()
+      case 6: try { try decoder.decodeSingularMessageField(value: &self._title) }()
+      case 7: try { try decoder.decodeSingularMessageField(value: &self._titleModified) }()
+      case 8: try { try decoder.decodeSingularMessageField(value: &self._isDeleted) }()
+      case 9: try { try decoder.decodeSingularMessageField(value: &self._isDeletedModified) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.bookmarkUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.bookmarkUuid, fieldNumber: 1)
+    }
+    if !self.podcastUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.podcastUuid, fieldNumber: 2)
+    }
+    if !self.episodeUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.episodeUuid, fieldNumber: 3)
+    }
+    try { if let v = self._createdAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
+    try { if let v = self._time {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+    } }()
+    try { if let v = self._title {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+    } }()
+    try { if let v = self._titleModified {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+    } }()
+    try { if let v = self._isDeleted {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+    } }()
+    try { if let v = self._isDeletedModified {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_SyncUserBookmark, rhs: Api_SyncUserBookmark) -> Bool {
+    if lhs.bookmarkUuid != rhs.bookmarkUuid {return false}
+    if lhs.podcastUuid != rhs.podcastUuid {return false}
+    if lhs.episodeUuid != rhs.episodeUuid {return false}
+    if lhs._createdAt != rhs._createdAt {return false}
+    if lhs._time != rhs._time {return false}
+    if lhs._title != rhs._title {return false}
+    if lhs._titleModified != rhs._titleModified {return false}
+    if lhs._isDeleted != rhs._isDeleted {return false}
+    if lhs._isDeletedModified != rhs._isDeletedModified {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension Api_LegacySyncData: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacySyncData"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
@@ -10911,6 +11378,10 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     45: .same(proto: "color"),
     46: .standard(proto: "podcasts_sort_type"),
     47: .standard(proto: "date_added"),
+    48: .standard(proto: "bookmark_uuid"),
+    49: .same(proto: "time"),
+    50: .standard(proto: "title_modified"),
+    51: .standard(proto: "created_at"),
   ]
 
   fileprivate class _StorageClass {
@@ -10961,6 +11432,10 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     var _color: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _bookmarkUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _time: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _titleModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+    var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -11014,6 +11489,10 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       _color = source._color
       _podcastsSortType = source._podcastsSortType
       _dateAdded = source._dateAdded
+      _bookmarkUuid = source._bookmarkUuid
+      _time = source._time
+      _titleModified = source._titleModified
+      _createdAt = source._createdAt
     }
   }
 
@@ -11079,6 +11558,10 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         case 45: try { try decoder.decodeSingularMessageField(value: &_storage._color) }()
         case 46: try { try decoder.decodeSingularMessageField(value: &_storage._podcastsSortType) }()
         case 47: try { try decoder.decodeSingularMessageField(value: &_storage._dateAdded) }()
+        case 48: try { try decoder.decodeSingularMessageField(value: &_storage._bookmarkUuid) }()
+        case 49: try { try decoder.decodeSingularMessageField(value: &_storage._time) }()
+        case 50: try { try decoder.decodeSingularMessageField(value: &_storage._titleModified) }()
+        case 51: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
         default: break
         }
       }
@@ -11232,6 +11715,18 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       try { if let v = _storage._dateAdded {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 47)
       } }()
+      try { if let v = _storage._bookmarkUuid {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 48)
+      } }()
+      try { if let v = _storage._time {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 49)
+      } }()
+      try { if let v = _storage._titleModified {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 50)
+      } }()
+      try { if let v = _storage._createdAt {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -11288,6 +11783,10 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         if _storage._color != rhs_storage._color {return false}
         if _storage._podcastsSortType != rhs_storage._podcastsSortType {return false}
         if _storage._dateAdded != rhs_storage._dateAdded {return false}
+        if _storage._bookmarkUuid != rhs_storage._bookmarkUuid {return false}
+        if _storage._time != rhs_storage._time {return false}
+        if _storage._titleModified != rhs_storage._titleModified {return false}
+        if _storage._createdAt != rhs_storage._createdAt {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -11427,6 +11926,10 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     45: .same(proto: "color"),
     46: .standard(proto: "podcasts_sort_type"),
     47: .standard(proto: "date_added"),
+    48: .standard(proto: "bookmark_uuid"),
+    49: .same(proto: "time"),
+    50: .standard(proto: "title_modified"),
+    51: .standard(proto: "created_at"),
   ]
 
   fileprivate class _StorageClass {
@@ -11477,6 +11980,10 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _color: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _bookmarkUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _time: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _titleModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+    var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -11530,6 +12037,10 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _color = source._color
       _podcastsSortType = source._podcastsSortType
       _dateAdded = source._dateAdded
+      _bookmarkUuid = source._bookmarkUuid
+      _time = source._time
+      _titleModified = source._titleModified
+      _createdAt = source._createdAt
     }
   }
 
@@ -11595,6 +12106,10 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 45: try { try decoder.decodeSingularMessageField(value: &_storage._color) }()
         case 46: try { try decoder.decodeSingularMessageField(value: &_storage._podcastsSortType) }()
         case 47: try { try decoder.decodeSingularMessageField(value: &_storage._dateAdded) }()
+        case 48: try { try decoder.decodeSingularMessageField(value: &_storage._bookmarkUuid) }()
+        case 49: try { try decoder.decodeSingularMessageField(value: &_storage._time) }()
+        case 50: try { try decoder.decodeSingularMessageField(value: &_storage._titleModified) }()
+        case 51: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
         default: break
         }
       }
@@ -11748,6 +12263,18 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       try { if let v = _storage._dateAdded {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 47)
       } }()
+      try { if let v = _storage._bookmarkUuid {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 48)
+      } }()
+      try { if let v = _storage._time {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 49)
+      } }()
+      try { if let v = _storage._titleModified {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 50)
+      } }()
+      try { if let v = _storage._createdAt {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -11804,6 +12331,10 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._color != rhs_storage._color {return false}
         if _storage._podcastsSortType != rhs_storage._podcastsSortType {return false}
         if _storage._dateAdded != rhs_storage._dateAdded {return false}
+        if _storage._bookmarkUuid != rhs_storage._bookmarkUuid {return false}
+        if _storage._time != rhs_storage._time {return false}
+        if _storage._titleModified != rhs_storage._titleModified {return false}
+        if _storage._createdAt != rhs_storage._createdAt {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -12550,6 +13081,158 @@ extension Api_AuthorizeCallbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Me
   static func ==(lhs: Api_AuthorizeCallbackRequest, rhs: Api_AuthorizeCallbackRequest) -> Bool {
     if lhs.idToken != rhs.idToken {return false}
     if lhs.state != rhs.state {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_BookmarkRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".BookmarkRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "podcast_uuid"),
+    2: .standard(proto: "episode_uuid"),
+    3: .same(proto: "time"),
+    4: .same(proto: "title"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.podcastUuid) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.episodeUuid) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._time) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._title) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.podcastUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.podcastUuid, fieldNumber: 1)
+    }
+    if !self.episodeUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.episodeUuid, fieldNumber: 2)
+    }
+    try { if let v = self._time {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
+    try { if let v = self._title {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_BookmarkRequest, rhs: Api_BookmarkRequest) -> Bool {
+    if lhs.podcastUuid != rhs.podcastUuid {return false}
+    if lhs.episodeUuid != rhs.episodeUuid {return false}
+    if lhs._time != rhs._time {return false}
+    if lhs._title != rhs._title {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_BookmarkResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".BookmarkResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "bookmark_uuid"),
+    2: .standard(proto: "podcast_uuid"),
+    3: .standard(proto: "episode_uuid"),
+    5: .same(proto: "time"),
+    6: .same(proto: "title"),
+    7: .same(proto: "createdAt"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.bookmarkUuid) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.podcastUuid) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.episodeUuid) }()
+      case 5: try { try decoder.decodeSingularInt32Field(value: &self.time) }()
+      case 6: try { try decoder.decodeSingularStringField(value: &self.title) }()
+      case 7: try { try decoder.decodeSingularMessageField(value: &self._createdAt) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.bookmarkUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.bookmarkUuid, fieldNumber: 1)
+    }
+    if !self.podcastUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.podcastUuid, fieldNumber: 2)
+    }
+    if !self.episodeUuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.episodeUuid, fieldNumber: 3)
+    }
+    if self.time != 0 {
+      try visitor.visitSingularInt32Field(value: self.time, fieldNumber: 5)
+    }
+    if !self.title.isEmpty {
+      try visitor.visitSingularStringField(value: self.title, fieldNumber: 6)
+    }
+    try { if let v = self._createdAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_BookmarkResponse, rhs: Api_BookmarkResponse) -> Bool {
+    if lhs.bookmarkUuid != rhs.bookmarkUuid {return false}
+    if lhs.podcastUuid != rhs.podcastUuid {return false}
+    if lhs.episodeUuid != rhs.episodeUuid {return false}
+    if lhs.time != rhs.time {return false}
+    if lhs.title != rhs.title {return false}
+    if lhs._createdAt != rhs._createdAt {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_BookmarksResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".BookmarksResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "bookmarks"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.bookmarks) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.bookmarks.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.bookmarks, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_BookmarksResponse, rhs: Api_BookmarksResponse) -> Bool {
+    if lhs.bookmarks != rhs.bookmarks {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

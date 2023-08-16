@@ -109,6 +109,21 @@ extension AppDelegate {
             }
         }
 
+        // With the addition of bookmarks we have added a new headphone controls setting that this is being migrated to
+        // This will check if the user has the old Remote Skips Chapters preference enabled, and will move that setting
+        // by setting both the previous and next track actions to the change chapter action.
+        performUpdateIfRequired(updateKey: "MigrateRemoteSkipsChaptersToHeadphoneControls") {
+            let key = "RemoteChapterSkip"
+
+            if UserDefaults.standard.bool(forKey: key) {
+                Settings.headphonesNextAction = .nextChapter
+                Settings.headphonesPreviousAction = .previousChapter
+
+                // Remove the setting
+                UserDefaults.standard.removeObject(forKey: key)
+            }
+        }
+
         defaults.synchronize()
     }
 

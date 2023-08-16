@@ -1,11 +1,18 @@
 import PocketCastsUtils
 import UIKit
+import CarPlay
 
 class SceneHelper {
     class func connectedScene() -> UIWindowScene? {
         UIApplication.shared.connectedScenes.compactMap {
             $0 as? UIWindowScene
         }.first
+    }
+
+    static var isConnectedToCarPlay: Bool {
+        UIApplication.shared.connectedScenes.contains(where: {
+            $0 is CPTemplateApplicationScene
+        })
     }
 
     class func newMainScreenWindow() -> UIWindow {

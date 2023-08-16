@@ -18,7 +18,7 @@ public struct BookmarkDataManager {
     ///   - time: The playback time for the bookmark
     ///   - transcription: A transcription of the clip if available
     @discardableResult
-    public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date()) -> String? {
+    public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date(), syncStatus: SyncStatus = .notSynced) -> String? {
         // Prevent adding more than 1 bookmark at the same place
         guard existingBookmark(forEpisode: episodeUuid, time: time) == nil else {
             return nil
@@ -33,11 +33,11 @@ public struct BookmarkDataManager {
 
                 let columns: [Column] = [
                     .uuid, .title, .time,
-                    .createdDate, .modifiedDate,
-                    .episode, .podcast
+                    .createdDate, .titleModifiedDate,
+                    .episode, .podcast, .syncStatus
                 ]
 
-                let values: [Any?] = [uuid, title, time, created, created, episodeUuid, podcastUuid]
+                let values: [Any?] = [uuid, title, time, created, created, episodeUuid, podcastUuid, syncStatus.rawValue]
 
                 try db.insert(into: Self.tableName, columns: columns.map { $0.rawValue }, values: values)
 
@@ -52,15 +52,32 @@ public struct BookmarkDataManager {
 
     // MARK: - Updating
     @discardableResult
-    public func update(title: String, for bookmark: Bookmark, modified: Date = Date()) async -> Bool {
+    public func update(bookmark: Bookmark, title: String, time: TimeInterval? = nil, created: Date? = nil, modified: Date? = Date(), syncStatus: SyncStatus = .notSynced) async -> Bool {
+        let updateColumns = [
+            "\(Column.title) = ?",
+            time.map { _ in "\(Column.time) = ?" },
+            created.map { _ in "\(Column.createdDate) = ?" },
+            "\(Column.titleModifiedDate) = ?",
+            "\(Column.syncStatus) = ?",
+        ].compactMap { $0 }
+
+        let values: [Any?] = [
+            title,
+            time,
+            created,
+            modified ?? Date(),
+            syncStatus.rawValue,
+            bookmark.uuid
+        ]
+
         let query = """
                 UPDATE \(Self.tableName)
-                SET \(Column.title) = ?, \(Column.modifiedDate) = ?
+                SET \(updateColumns.columnString)
                 WHERE \(Column.uuid) = ?
                 LIMIT 1
                 """
 
-        let result = await dbQueue.executeUpdate(query, values: [title, modified.timeIntervalSince1970, bookmark.uuid])
+        let result = await dbQueue.executeUpdate(query, values: values.compactMap { $0 })
 
         switch result {
         case .success:
@@ -98,7 +115,7 @@ public struct BookmarkDataManager {
 
     /// Returns all the bookmarks in the database and optionally can also return deleted items
     public func allBookmarks(includeDeleted: Bool = false, sorted: SortOption = .newestToOldest) -> [Bookmark] {
-        selectBookmarks(where: [.deleted], values: [includeDeleted], sorted: sorted)
+        selectBookmarks(sorted: sorted, allowDeleted: includeDeleted)
     }
 
     /// Returns the number of bookmarks for the given episode and can optionally include deleted items in the count
@@ -125,19 +142,45 @@ public struct BookmarkDataManager {
         return count
     }
 
+    // MARK: - Syncing
+
+    /// Returns all the bookmarks in the database that have the syncStatus of `notSynced`
+    public func bookmarksToSync() -> [Bookmark] {
+        selectBookmarks(where: [.syncStatus], values: [SyncStatus.notSynced.rawValue], allowDeleted: true)
+    }
+
+    @discardableResult
+    public func markAllBookmarksAsSynced() async -> Bool {
+        let query = """
+        UPDATE \(Self.tableName)
+        SET \(Column.syncStatus) = ?
+        """
+
+        let result = await dbQueue.executeUpdate(query, values: [SyncStatus.synced])
+        switch result {
+        case .success:
+            return true
+        case .failure(let error):
+            FileLog.shared.addMessage("BookmarkManager.markAllBookmarksAsSynced failed: \(error)")
+            return false
+        }
+    }
+
     // MARK: - Deleting
 
     /// Marks the bookmarks as deleted, but doesn't actually remove them from the database
-    public func remove(bookmarks: [Bookmark]) async -> Bool {
+    @discardableResult
+    public func remove(bookmarks: [Bookmark], syncStatus: SyncStatus = .notSynced) async -> Bool {
         let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
 
         let query = """
         UPDATE \(Self.tableName)
-        SET \(Column.deleted) = 1
+        SET \(Column.deleted) = 1, \(Column.deletedModifiedDate) = ?, \(Column.syncStatus) = ?
         WHERE \(Column.uuid) IN (\(uuids))
+        LIMIT \(uuids.count)
         """
 
-        let result = await dbQueue.executeUpdate(query)
+        let result = await dbQueue.executeUpdate(query, values: [Date(), syncStatus.rawValue])
 
         switch result {
         case .success:
@@ -149,6 +192,7 @@ public struct BookmarkDataManager {
     }
 
     /// Permanently removes the bookmarks from the database
+    @discardableResult
     public func permanentlyDelete(bookmarks: [Bookmark]) async -> Bool {
         await withCheckedContinuation { continuation in
             let uuids = bookmarks.map { "'\($0.uuid)'" }.joined(separator: ",")
@@ -193,11 +237,15 @@ public struct BookmarkDataManager {
         case uuid
         case title
         case createdDate = "date_added"
-        case modifiedDate = "date_modified"
         case episode = "episode_uuid"
         case podcast = "podcast_uuid"
         case time
         case deleted
+
+        // For Syncing
+        case titleModifiedDate = "title_modified_date"
+        case deletedModifiedDate = "deleted_modified_date"
+        case syncStatus = "sync_status"
 
         var description: String { rawValue }
     }
@@ -213,14 +261,19 @@ private extension BookmarkDataManager {
                         limit: 1).first
     }
 
-    func selectBookmarks(where whereColumns: [Column], values: [Any], limit: Int = 0, sorted: SortOption = .newestToOldest) -> [Bookmark] {
+    func selectBookmarks(where whereColumns: [Column] = [], values: [Any] = [], limit: Int = 0, sorted: SortOption = .newestToOldest, allowDeleted: Bool = false) -> [Bookmark] {
         let limitQuery = limit != 0 ? "LIMIT \(limit)" : ""
 
         let selectColumns = Column.allCases.map { $0.rawValue }
-        let whereString = whereColumns.map { "\($0.rawValue) = ?" }.joined(separator: " AND ")
 
         // If the deleted column isn't specified, then by default exclude deleted items
-        let deleteString = whereColumns.contains(.deleted) ? "" : "AND \(Column.deleted) = 0"
+        let deleteString = allowDeleted ? "" : "\(Column.deleted) = 0"
+
+        let whereValues = (whereColumns.map { "\($0.rawValue) = ?" } + [deleteString])
+            .filter { !$0.isEmpty }
+            .joined(separator: " AND ")
+
+        let whereString = whereColumns.isEmpty ? "" : "WHERE \(whereValues)"
 
         var results: [Bookmark] = []
 
@@ -229,8 +282,7 @@ private extension BookmarkDataManager {
                 let query = """
                     SELECT \(selectColumns.columnString)
                     FROM \(Self.tableName)
-                    WHERE \(whereString)
-                    \(deleteString)
+                    \(whereString)
                     \(sorted.queryString)
                     \(limitQuery)
                 """
@@ -259,12 +311,14 @@ extension BookmarkDataManager {
             CREATE TABLE IF NOT EXISTS \(Self.tableName) (
                 \(Column.uuid) varchar(40) NOT NULL,
                 \(Column.title) varchar(100) NOT NULL,
+                \(Column.titleModifiedDate) INTEGER,
                 \(Column.episode) varchar(40) NOT NULL,
                 \(Column.podcast) varchar(40),
                 \(Column.time) real NOT NULL,
                 \(Column.createdDate) INTEGER NOT NULL,
-                \(Column.modifiedDate) INTEGER NOT NULL,
                 \(Column.deleted) int NOT NULL DEFAULT 0,
+                \(Column.deletedModifiedDate) INTEGER,
+                \(Column.syncStatus) int NOT NULL DEFAULT 0,
                 PRIMARY KEY (\(Column.uuid))
             );
         """, values: nil)
@@ -283,7 +337,6 @@ private extension Bookmark {
             let uuid = resultSet.string(for: .uuid),
             let title = resultSet.string(for: .title),
             let createdDate = resultSet.date(for: .createdDate),
-            let modified = resultSet.date(for: .modifiedDate),
             let episode = resultSet.string(for: .episode),
             let time = resultSet.double(for: .time)
         else {
@@ -291,14 +344,19 @@ private extension Bookmark {
         }
 
         let podcast = resultSet.string(for: .podcast)
+        let titleModified = resultSet.date(for: .titleModifiedDate)
+        let deletedModified = resultSet.date(for: .deletedModifiedDate)
+        let deleted = resultSet.bool(for: .deleted) ?? false
 
         self.init(uuid: uuid,
                   title: title,
                   time: time,
                   created: createdDate,
-                  modified: modified,
                   episodeUuid: episode,
-                  podcastUuid: podcast)
+                  podcastUuid: podcast,
+                  titleModified: titleModified,
+                  deletedModified: deletedModified,
+                  deleted: deleted)
     }
 }
 
@@ -315,5 +373,9 @@ private extension FMResultSet {
 
     func double(for column: BookmarkDataManager.Column) -> Double? {
         double(forColumn: column.rawValue)
+    }
+
+    func bool(for column: BookmarkDataManager.Column) -> Bool? {
+        bool(forColumn: column.rawValue)
     }
 }
