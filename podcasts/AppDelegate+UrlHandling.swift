@@ -339,7 +339,7 @@ extension AppDelegate {
                   let rootViewController = SceneHelper.rootViewController(),
                   let originalUrl = parameters[JLRouteURLKey] as? URL else { return false }
 
-            let opmlURLString = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-file/", with: "")
+            let fileURLString = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-file/", with: "")
 
             guard let fileURL = URL(string: opmlURLString) else {
                 return true
