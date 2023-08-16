@@ -341,7 +341,7 @@ extension AppDelegate {
 
             let fileURLString = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-file/", with: "")
 
-            guard let fileURL = URL(string: opmlURLString) else {
+            guard let fileURL = URL(string: fileURLString) else {
                 return true
             }
 
