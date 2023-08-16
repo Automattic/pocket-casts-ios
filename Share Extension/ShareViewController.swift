@@ -13,16 +13,11 @@ class ShareViewController: UIViewController {
             return
         }
 
-        // We accept 3 types of files: audio, movie and opml
-        var identifier: String = ""
-        if attachment.hasItemConformingToTypeIdentifier(UTType.audio.identifier) {
-            identifier = UTType.audio.identifier
-        } else if attachment.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
-            identifier = UTType.movie.identifier
-        } else if attachment.hasItemConformingToTypeIdentifier(UTType.data.identifier) {
-            identifier = UTType.data.identifier
+        let acceptedTypes: [UTType] = [.audio, .movie, .data]
+
+        if let type = acceptedTypes.first(where: { attachment.hasItemConformingToTypeIdentifier($0.identifier) }) {
+            loadFile(from: attachment, identifier: type.identifier)
         }
-        loadFile(from: attachment, identifier: identifier)
     }
 
     func redirectToHostApp(_ url: String) {
