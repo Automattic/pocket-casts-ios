@@ -247,6 +247,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Är du säker på att du vill ta bort dessa bokmärken? Det finns inget sätt att ångra det!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Ta bort bokmärken?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>Vi kunde inte hitta några bokmärken för denna sökning.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Inga bokmärken hittades</string>
     <key>bookmarks</key>
     <string>Bokmärken</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Rensa</string>
     <key>clear</key>
     <string>Rensa</string>
+    <key>clear_search</key>
+    <string>Rensa sökning</string>
     <key>clear_up_next</key>
     <string>Rensa Nästa</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@ du lyssnade på var
     <string>Avsnitt</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ avsnitt</string>
+    <key>episode_details_title</key>
+    <string>Detaljer</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filtrera efter längd</string>
     <key>episode_filter_no_episodes_msg</key>

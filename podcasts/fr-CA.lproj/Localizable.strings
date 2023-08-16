@@ -247,6 +247,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Voulez-vous vraiment supprimer ces signets ? Cette opération est irréversible !</string>
     <key>bookmark_delete_warning_title</key>
     <string>Supprimer les signets ?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>Nous n'avons trouvé aucun signet lors de la recherche.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Aucun signet trouvé</string>
     <key>bookmarks</key>
     <string>Favoris</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Nettoyer</string>
     <key>clear</key>
     <string>Supprimer</string>
+    <key>clear_search</key>
+    <string>Supprimer la recherche</string>
     <key>clear_up_next</key>
     <string>Effacer la file d’attente Prochains épisodes</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@ que vous avez écouté était
     <string>Épisode</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ épisodes</string>
+    <key>episode_details_title</key>
+    <string>Détails</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filtrer par durée</string>
     <key>episode_filter_no_episodes_msg</key>

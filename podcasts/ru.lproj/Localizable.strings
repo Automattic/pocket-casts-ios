@@ -247,6 +247,10 @@
     <string>Точно удалить эти закладки? Это действие нельзя отменить.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Удалить закладки?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>Не удалось найти закладки по этому запросу.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Закладки не найдены</string>
     <key>bookmarks</key>
     <string>Закладки</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@
     <string>Очистить</string>
     <key>clear</key>
     <string>Очистить</string>
+    <key>clear_search</key>
+    <string>Очистить поле поиска</string>
     <key>clear_up_next</key>
     <string>Очистить «Следующие»</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@
     <string>Выпуск</string>
     <key>episode_count_plural_format</key>
     <string>Выпусков: %1$@</string>
+    <key>episode_details_title</key>
+    <string>Детали</string>
     <key>episode_filter_by_duration_label</key>
     <string>Фильтровать по длительности</string>
     <key>episode_filter_no_episodes_msg</key>
