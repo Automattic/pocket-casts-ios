@@ -272,6 +272,10 @@ internal enum L10n {
   internal static var bookmarkSearchNoResultsMessage: String { return L10n.tr("Localizable", "bookmark_search_no_results_message") }
   /// No bookmarks found
   internal static var bookmarkSearchNoResultsTitle: String { return L10n.tr("Localizable", "bookmark_search_no_results_title") }
+  /// Bookmark "%1$@" updated
+  internal static func bookmarkUpdatedNotification(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmark_updated_notification", String(describing: p1))
+  }
   /// Bookmarks
   internal static var bookmarks: String { return L10n.tr("Localizable", "bookmarks") }
   /// %1$@ bookmarks
