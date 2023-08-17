@@ -334,14 +334,14 @@ extension AppDelegate {
         }
 
         // Import OMPL extension
-        JLRoutes.global().addRoute("/import-opml/*") { [weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/import-file/*") { [weak self] parameters -> Bool in
             guard let self,
                   let rootViewController = SceneHelper.rootViewController(),
                   let originalUrl = parameters[JLRouteURLKey] as? URL else { return false }
 
-            let opmlURLString = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-opml/", with: "")
+            let fileURLString = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-file/", with: "")
 
-            guard let fileURL = URL(string: opmlURLString) else {
+            guard let fileURL = URL(string: fileURLString) else {
                 return true
             }
 

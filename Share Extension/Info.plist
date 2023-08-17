@@ -17,6 +17,8 @@
                 ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "unofficial.opml"
                 || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.opml"
                 || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "org.opml.opml"
+                || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.audio"
+                || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.movie"
                 )
                 ).@count == 1
                 ).@count == 1

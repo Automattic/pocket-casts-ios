@@ -1,5 +1,6 @@
 7.46
 -----
+- Added import support for audio and movie files [#1039]
 - Adds a new show notes endpoint [#1033]
 - Show episode artwork from the feed if "Use Embedded Artwork" is enabled [#1033]
 
