@@ -1,6 +1,6 @@
 import UIKit
 
-public class SubscriptionHelper: NSObject {
+open class SubscriptionHelper: NSObject {
     /// Returns the users active subscription type or .none if they don't currently have one
     public static var activeSubscriptionType: SubscriptionType {
         hasActiveSubscription() ? subscriptionType() : .none
@@ -28,7 +28,7 @@ public class SubscriptionHelper: NSObject {
     }
 
     /// The users subscription tier, or .none if there isn't one available
-    public static var subscriptionTier: SubscriptionTier {
+    open class var subscriptionTier: SubscriptionTier {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: ServerConstants.UserDefaults.subscriptionTier)
         }
@@ -40,7 +40,7 @@ public class SubscriptionHelper: NSObject {
         }
     }
 
-    public class func hasActiveSubscription() -> Bool {
+    open class func hasActiveSubscription() -> Bool {
         let status = UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionPaid)
         return status
     }
@@ -139,7 +139,7 @@ public class SubscriptionHelper: NSObject {
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.subscriptionType)
     }
 
-    public class func subscriptionType() -> SubscriptionType {
+    open class func subscriptionType() -> SubscriptionType {
         SubscriptionType(rawValue: UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionType)) ?? SubscriptionType.none
     }
 
