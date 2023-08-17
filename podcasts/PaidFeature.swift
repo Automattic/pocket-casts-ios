@@ -10,7 +10,7 @@ import SwiftUI
 ///     Template:
 ///         static var <#FeatureName#>: PaidFeature = .init(tier: <#Tier#>)
 ///
-///     3. Check the unlock state using `PaidFeature.hello.isUnlocked`
+///     2. Check the unlock state using `PaidFeature.hello.isUnlocked`
 ///
 extension PaidFeature {
     static var bookmarks: PaidFeature = .init(tier: .patron)
