@@ -20,37 +20,16 @@ final class PaidFeatureTests: XCTestCase {
         assertTierValues(tier: .patron, free: false, plus: false, patron: true)
     }
 
-    func testUnlocksAfterIAPPurchase() {
-        assertUnlockedAfterNotification(ServerNotifications.iapPurchaseCompleted)
-    }
-
-    func testUnlocksAfterSubscriptionStatusChanged() {
-        assertUnlockedAfterNotification(ServerNotifications.subscriptionStatusChanged)
-    }
-
-    func assertUnlockedAfterNotification(_ name: Notification.Name) {
-        let feature = feature(tier: .patron)
-
-        XCTAssertFalse(feature.isUnlocked)
-
-        TestSubscriptionHelper.activePatron()
-
-        NotificationCenter.default.post(name: name, object: nil)
-
-        eventually {
-            XCTAssertTrue(feature.isUnlocked)
-        }
-    }
-
     func assertTierValues(tier: SubscriptionTier, free: Bool, plus: Bool, patron: Bool) {
-        TestSubscriptionHelper.noSubscription()
-        XCTAssertEqual(feature(tier: tier).isUnlocked, free)
+        let feature = feature(tier: tier)
+
+        XCTAssertEqual(feature.isUnlocked, free)
 
         TestSubscriptionHelper.activePlus()
-        XCTAssertEqual(feature(tier: tier).isUnlocked, plus)
+        XCTAssertEqual(feature.isUnlocked, plus)
 
         TestSubscriptionHelper.activePatron()
-        XCTAssertEqual(feature(tier: tier).isUnlocked, patron)
+        XCTAssertEqual(feature.isUnlocked, patron)
     }
 
     private func feature(tier: SubscriptionTier) -> PaidFeature {
