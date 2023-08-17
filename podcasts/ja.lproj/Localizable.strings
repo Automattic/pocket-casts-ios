@@ -247,6 +247,10 @@
     <string>これらのブックマークを削除してもよろしいですか。元に戻すことはできません。</string>
     <key>bookmark_delete_warning_title</key>
     <string>ブックマークを削除しますか ?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>その検索に該当するブックマークは見つかりませんでした。</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>ブックマークが見つかりません</string>
     <key>bookmarks</key>
     <string>ブックマーク</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@
     <string>クリーンアップ</string>
     <key>clear</key>
     <string>クリア</string>
+    <key>clear_search</key>
+    <string>検索をクリア</string>
     <key>clear_up_next</key>
     <string>次のエピソードをクリア</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@
     <string>エピソード</string>
     <key>episode_count_plural_format</key>
     <string>%1$@件のエピソード</string>
+    <key>episode_details_title</key>
+    <string>詳細</string>
     <key>episode_filter_by_duration_label</key>
     <string>再生時間でフィルター</string>
     <key>episode_filter_no_episodes_msg</key>
