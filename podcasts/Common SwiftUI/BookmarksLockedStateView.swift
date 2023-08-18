@@ -85,8 +85,7 @@ private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {
         guard let parentController = SceneHelper.rootViewController() else { return }
 
-        let controller = feature.upgradeController(source: "bookmarks_locked_state")
-        parentController.presentFromRootController(controller)
+        feature.presentUpgradeController(from: parentController, source: "bookmarks_locked_state")
     }
 
     private func product(for tier: SubscriptionTier) -> PlusProductPricingInfo? {

@@ -149,8 +149,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
             .sink { unlocked() }
             .store(in: &cancellables)
 
-        let controller = feature.upgradeController(source: "headphone_settings")
-        present(controller, animated: true)
+        feature.presentUpgradeController(from: self, source: "headphone_settings")
     }
 
     // MARK: - Data Struct
