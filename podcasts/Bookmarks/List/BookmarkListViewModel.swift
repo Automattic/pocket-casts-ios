@@ -25,6 +25,8 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     var cancellables = Set<AnyCancellable>()
     private let sortSettingValue: SortSetting
 
+    let feature: PaidFeature = .bookmarks
+
     init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager
         self.sortSettingValue = sortOption
