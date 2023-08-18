@@ -1464,6 +1464,10 @@
 		C76ECAC42A67622900D9DB9E /* BookmarksEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */; };
 		C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */; };
 		C76ECAD62A69518800D9DB9E /* EpisodeBookmarksTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */; };
+		C7811D832A90090700FC68B4 /* Settings+Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */; };
+		C7811D842A9009A800FC68B4 /* Settings+Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */; };
+		C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D852A90247B00FC68B4 /* Unlockable.swift */; };
+		C7811D872A90248C00FC68B4 /* Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D852A90247B00FC68B4 /* Unlockable.swift */; };
 		C781EA412A6B72AE001DBFCC /* SearchableListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C781EA402A6B72AE001DBFCC /* SearchableListViewModelTests.swift */; };
 		C781EA432A6B7BF9001DBFCC /* BookmarkRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C781EA422A6B7BF9001DBFCC /* BookmarkRowViewModel.swift */; };
 		C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */; };
@@ -3233,6 +3237,8 @@
 		C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksEmptyStateView.swift; sourceTree = "<group>"; };
 		C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksListView.swift; sourceTree = "<group>"; };
 		C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeBookmarksTabsView.swift; sourceTree = "<group>"; };
+		C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Settings+Unlockable.swift"; sourceTree = "<group>"; };
+		C7811D852A90247B00FC68B4 /* Unlockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unlockable.swift; sourceTree = "<group>"; };
 		C781EA402A6B72AE001DBFCC /* SearchableListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableListViewModelTests.swift; sourceTree = "<group>"; };
 		C781EA422A6B7BF9001DBFCC /* BookmarkRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRowViewModel.swift; sourceTree = "<group>"; };
 		C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithContentOffset.swift; sourceTree = "<group>"; };
@@ -4628,6 +4634,7 @@
 		BD2A49E31701A66E00C2F192 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C7811D812A9008F500FC68B4 /* Unlockable */,
 				C7BDECAC2A15311000BECF02 /* Haptics */,
 				C74887782919DC7B00EBC926 /* SwiftUI */,
 				C7AF578F289D7F1E0089E435 /* Analytics */,
@@ -6462,6 +6469,15 @@
 				8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C7811D812A9008F500FC68B4 /* Unlockable */ = {
+			isa = PBXGroup;
+			children = (
+				C7811D852A90247B00FC68B4 /* Unlockable.swift */,
+				C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */,
+			);
+			path = Unlockable;
 			sourceTree = "<group>";
 		};
 		C799373C2A0963420010DC64 /* Account */ = {
@@ -8886,6 +8902,7 @@
 				466DE3F6278794D50046F722 /* EpisodeListTableViewCell.swift in Sources */,
 				BD056F111F6F8CE800AF8260 /* MainTabBarController.swift in Sources */,
 				BD26AFD727BE09E8008CC973 /* EditFolderView.swift in Sources */,
+				C7811D832A90090700FC68B4 /* Settings+Unlockable.swift in Sources */,
 				BD585C232047B9A400AC842C /* SharedItemImporter.swift in Sources */,
 				8B87C47C29F0129A00257B96 /* StreamingEpisodeArtwork.swift in Sources */,
 				4041FEA1218AA5EC0089D4A1 /* SiriShortcutAddCell.swift in Sources */,
@@ -8903,6 +8920,7 @@
 				BDB1E4FE1B8C5C2B009AD30F /* CategorySummaryViewController.swift in Sources */,
 				BD1C46E027B9E6F600B1D8BB /* HomeGridListItem.swift in Sources */,
 				BD542C20240382A100F35D26 /* EpisodeFilter+Formatting.swift in Sources */,
+				C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */,
 				BDB5F0CF2045296200437669 /* PodcastGridCell.swift in Sources */,
 				BD6FADF024C1625D009F3183 /* PlusDetailsViewController.swift in Sources */,
 				C7AF7B912925E5CD002F0025 /* PlusHostingViewController.swift in Sources */,
@@ -9398,6 +9416,7 @@
 				C761300C28E4CAE90044C6C2 /* AnalyticsCoordinator.swift in Sources */,
 				BDEF20A62435AA780000ABB2 /* ColorManager.swift in Sources */,
 				4670303827D7B5CF00844CED /* PodcastEpisodeListViewModel.swift in Sources */,
+				C7811D842A9009A800FC68B4 /* Settings+Unlockable.swift in Sources */,
 				BDE48A2E2410D3E700ECA6CA /* ShowNotesUpdater.swift in Sources */,
 				468F800F27D0042900E6D764 /* BaseEpisode+Display.swift in Sources */,
 				BDE48A322410D44900ECA6CA /* ChapterInfo.swift in Sources */,
@@ -9436,6 +9455,7 @@
 				463538F426F2413400BA9D35 /* Strings+L10n.swift in Sources */,
 				BDE48A1F2410D09900ECA6CA /* DownloadManager.swift in Sources */,
 				468F800D27CFCFB500E6D764 /* PlaySourceViewModel.swift in Sources */,
+				C7811D872A90248C00FC68B4 /* Unlockable.swift in Sources */,
 				40541471243603D300431FD5 /* SourceInterfaceController.swift in Sources */,
 				46B5DFD227EA2705006FC2ED /* NowPlayingEmptyView.swift in Sources */,
 				BDC063D1246A626E00208446 /* DownloadManager+SessionManagement.swift in Sources */,
