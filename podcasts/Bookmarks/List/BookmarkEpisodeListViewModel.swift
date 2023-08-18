@@ -16,6 +16,10 @@ class BookmarkEpisodeListViewModel: BookmarkListViewModel {
     }
 
     override func reload() {
+        guard feature.isUnlocked else {
+            items = []
+            return
+        }
         items = episode.map { bookmarkManager.bookmarks(for: $0, sorted: sortOption) } ?? []
     }
 

@@ -63,6 +63,14 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
                 self?.refresh(bookmark: bookmark)
             }
             .store(in: &cancellables)
+
+        feature.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] bookmark in
+                self?.reload()
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
     }
 }
 
