@@ -1,3 +1,4 @@
+import Combine
 import UIKit
 
 class HeadphoneSettingsViewController: PCTableViewController {
@@ -8,6 +9,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
 
     private var visibleSections: [TableSection] = []
     private let bookmarksManager = BookmarkManager()
+    private var cancellables = Set<AnyCancellable>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,6 +139,16 @@ class HeadphoneSettingsViewController: PCTableViewController {
 
     private func showUpsell(for selection: HeadphoneControlAction, unlocked: @escaping () -> Void) {
         guard let feature = selection.paidFeature else { return }
+
+        // If the feature is unlocked, then finish updating the setting they were trying to change to
+        // This will only fire once, and only if the feature is unlocked.
+        feature.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .filter { feature.isUnlocked }
+            .first()
+            .sink { unlocked() }
+            .store(in: &cancellables)
+
         let controller = feature.upgradeController(source: "headphone_settings")
         present(controller, animated: true)
     }
