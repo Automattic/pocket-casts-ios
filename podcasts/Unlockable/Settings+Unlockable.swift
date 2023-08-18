@@ -14,16 +14,3 @@ extension Constants.SettingValue: Unlockable {
         isUnlocked ? value : defaultValue
     }
 }
-
-// MARK: - HeadphoneControlAction + Bookmarks
-
-extension HeadphoneControlAction: Unlockable {
-    var paidFeature: PaidFeature? {
-        switch self {
-        case .addBookmark:
-            return .bookmarks
-        default:
-            return nil
-        }
-    }
-}
