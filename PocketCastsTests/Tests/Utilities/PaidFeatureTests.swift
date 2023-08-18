@@ -5,37 +5,83 @@ import PocketCastsServer
 
 final class PaidFeatureTests: XCTestCase {
     override func setUp() {
-        TestSubscriptionHelper.noSubscription()
+        userHasNoSubscription()
     }
 
-    func testFreeFeatureIsAlwaysUnlocked() {
-        assertTierValues(tier: .none, free: true, plus: true, patron: true)
+    // MARK: - Free Features
+
+    func testFreeFeatureIsUnlockedForNoActiveSubscription() {
+        userHasNoSubscription()
+        XCTAssertTrue(feature(tier: .none).isUnlocked)
     }
 
-    func testPlusFeatureIsUnlockedForPlusAndPatron() {
-        assertTierValues(tier: .plus, free: false, plus: true, patron: true)
+    func testFreeFeatureIsUnlockedForPlusSubscription() {
+        userHasPlus()
+        XCTAssertTrue(feature(tier: .none).isUnlocked)
     }
 
-    func testPatronFeatureIsUnlockedForOnlyPatron() {
-        assertTierValues(tier: .patron, free: false, plus: false, patron: true)
+    func testFreeFeatureIsUnlockedForPatronSubscription() {
+        userHasPatron()
+        XCTAssertTrue(feature(tier: .none).isUnlocked)
     }
 
-    func assertTierValues(tier: SubscriptionTier, free: Bool, plus: Bool, patron: Bool) {
-        let feature = feature(tier: tier)
+    // MARK: - Plus Features
 
-        XCTAssertEqual(feature.isUnlocked, free)
+    func testPlusFeatureIsLockedForNoActiveSubscription() {
+        userHasNoSubscription()
+        XCTAssertFalse(feature(tier: .plus).isUnlocked)
+    }
 
-        TestSubscriptionHelper.activePlus()
-        XCTAssertEqual(feature.isUnlocked, plus)
+    func testPlusFeatureIsUnlockedForPlusSubscription() {
+        userHasPlus()
+        XCTAssertTrue(feature(tier: .plus).isUnlocked)
+    }
 
-        TestSubscriptionHelper.activePatron()
-        XCTAssertEqual(feature.isUnlocked, patron)
+    func testPlusFeatureIsUnLockedForPatronSubscription() {
+        userHasPatron()
+        XCTAssertTrue(feature(tier: .plus).isUnlocked)
+    }
+
+    // MARK: - Plus Features
+
+    func testPatronFeatureIsLockedForNoActiveSubscription() {
+        userHasNoSubscription()
+        XCTAssertFalse(feature(tier: .patron).isUnlocked)
+    }
+
+    func testPatronFeatureIsLockedForPlusSubscription() {
+        userHasPlus()
+        XCTAssertFalse(feature(tier: .patron).isUnlocked)
+    }
+
+    func testPatronFeatureIsUnlockedForPatronSubscription() {
+        userHasPatron()
+        XCTAssertTrue(feature(tier: .patron).isUnlocked)
+    }
+
+    // MARK: - Private
+
+    private func userHasNoSubscription() {
+        TestSubscriptionHelper._hasActiveSubscription = false
+        TestSubscriptionHelper._subscriptionTier = .none
+    }
+
+    private func userHasPlus() {
+        TestSubscriptionHelper._hasActiveSubscription = true
+        TestSubscriptionHelper._subscriptionTier = .plus
+    }
+
+    private func userHasPatron() {
+        TestSubscriptionHelper._hasActiveSubscription = true
+        TestSubscriptionHelper._subscriptionTier = .patron
     }
 
     private func feature(tier: SubscriptionTier) -> PaidFeature {
         PaidFeature(tier: tier, subscriptionHelper: TestSubscriptionHelper.self)
     }
 }
+
+// MARK: - Mocks
 
 private class TestSubscriptionHelper: SubscriptionHelper {
     static var _hasActiveSubscription: Bool = false
@@ -48,20 +94,5 @@ private class TestSubscriptionHelper: SubscriptionHelper {
     override class var subscriptionTier: SubscriptionTier {
         set { _subscriptionTier = newValue }
         get { _subscriptionTier }
-    }
-
-    static func noSubscription() {
-        _hasActiveSubscription = false
-        _subscriptionTier = .none
-    }
-
-    static func activePlus() {
-        _hasActiveSubscription = true
-        _subscriptionTier = .plus
-    }
-
-    static func activePatron() {
-        _hasActiveSubscription = true
-        _subscriptionTier = .patron
     }
 }
