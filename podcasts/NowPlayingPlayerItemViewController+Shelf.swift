@@ -216,14 +216,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     func bookmarkTapped() {
-        let feature = PaidFeature.bookmarks
-
-        guard feature.isUnlocked else {
-            let controller = feature.upgradeController(source: "shelf_action")
-            presentFromRootController(controller)
-            return
-        }
-
         PlaybackManager.shared.bookmark()
     }
 
@@ -274,7 +266,14 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     @objc private func bookmarkTapped(_ sender: UIButton) {
-        shelfButtonTapped(.addBookmark)
+        let action = PlayerAction.addBookmark
+        shelfButtonTapped(action)
+
+        guard action.isUnlocked else {
+            action.paidFeature?.presentUpgradeController(from: self, source: "shelf")
+            return
+        }
+
         bookmarkTapped()
     }
 
