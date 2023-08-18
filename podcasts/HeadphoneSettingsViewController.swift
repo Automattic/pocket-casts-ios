@@ -33,14 +33,12 @@ class HeadphoneSettingsViewController: PCTableViewController {
 
         switch row {
         case .nextAction:
-            showPicker(L10n.settingsNextAction, [.skipForward, .nextChapter, .addBookmark], currentValue: Settings.headphonesNextAction) { [weak self] selection in
-                Settings.headphonesNextAction = selection
-                self?.reloadData()
+            showPicker(L10n.settingsNextAction, [.skipForward, .nextChapter, .addBookmark], currentValue: Settings.headphonesNextAction) { [weak self] in
+                self?.headphoneOptionChanged(to: $0, for: row)
             }
         case .previousAction:
-            showPicker(L10n.settingsPreviousAction, [.skipBack, .previousChapter, .addBookmark], currentValue: Settings.headphonesPreviousAction) { [weak self] selection in
-                Settings.headphonesPreviousAction = selection
-                self?.reloadData()
+            showPicker(L10n.settingsPreviousAction, [.skipBack, .previousChapter, .addBookmark], currentValue: Settings.headphonesPreviousAction) { [weak self] in
+                self?.headphoneOptionChanged(to: $0, for: row)
             }
         case .bookmarkSound:
             // Toggle the value when the row is tapped
@@ -113,6 +111,34 @@ class HeadphoneSettingsViewController: PCTableViewController {
         if enabled {
             bookmarksManager.playTone()
         }
+    }
+
+    // MARK: - Headphone Option
+
+    private func headphoneOptionChanged(to selection: HeadphoneControlAction, for row: TableSection.Row) {
+        // Store the setting action as a closure to be able to finish setting the value after the purchase
+        let action = { [weak self] in
+            switch row {
+            case .previousAction:
+                Settings.headphonesPreviousAction = selection
+
+            case .nextAction:
+                Settings.headphonesNextAction = selection
+
+            default: break
+            }
+
+            self?.reloadData()
+        }
+
+        // Show the upsell if needed
+        selection.isUnlocked ? action() : showUpsell(for: selection, unlocked: action)
+    }
+
+    private func showUpsell(for selection: HeadphoneControlAction, unlocked: @escaping () -> Void) {
+        guard let feature = selection.paidFeature else { return }
+        let controller = feature.upgradeController(source: "headphone_settings")
+        present(controller, animated: true)
     }
 
     // MARK: - Data Struct
