@@ -31,7 +31,14 @@ class SimpleActionView: UIView {
         addSubview(label)
 
         let iconTintColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride)
-        if let icon = action.icon, let image = UIImage(named: icon)?.tintedImage(iconTintColor) {
+
+        var image = action.icon.flatMap { UIImage(named: $0) }
+
+        if action.tintIcon {
+            image = image?.tintedImage(iconTintColor)
+        }
+
+        if let image {
             let imageView = UIImageView(image: image)
             imageView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(imageView)
