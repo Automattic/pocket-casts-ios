@@ -1570,6 +1570,7 @@
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
 		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
 		C7F4C6682A8EAB2800483C37 /* PaidFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */; };
+		C7F4C66B2A8FDCB800483C37 /* BookmarksLockedStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4C6692A8FDC3000483C37 /* BookmarksLockedStateView.swift */; };
 		C7F605112A69C5AB00795F3C /* BookmarksPodcastListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F605102A69C5AB00795F3C /* BookmarksPodcastListView.swift */; };
 		C7F605132A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F605122A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift */; };
 		C7FAFF5B294183AA00329B40 /* CancelConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FAFF5A294183AA00329B40 /* CancelConfirmationView.swift */; };
@@ -3324,6 +3325,7 @@
 		C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListenerTests.swift; sourceTree = "<group>"; };
 		C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverItem+Helper.swift"; sourceTree = "<group>"; };
 		C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidFeatureTests.swift; sourceTree = "<group>"; };
+		C7F4C6692A8FDC3000483C37 /* BookmarksLockedStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksLockedStateView.swift; sourceTree = "<group>"; };
 		C7F605102A69C5AB00795F3C /* BookmarksPodcastListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPodcastListView.swift; sourceTree = "<group>"; };
 		C7F605122A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEpisodeListViewModel.swift; sourceTree = "<group>"; };
 		C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+FontStyle.swift"; sourceTree = "<group>"; };
@@ -7095,10 +7097,11 @@
 		C7E99F022A5E0F9600E7CBAF /* Common SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				C7DC401C2A67025D00883D03 /* Toast */,
-				C7E99F072A5E103A00E7CBAF /* List View */,
 				C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */,
+				C7F4C6692A8FDC3000483C37 /* BookmarksLockedStateView.swift */,
 				C7252E132A71950500E7D3C0 /* EpisodeImage.swift */,
+				C7E99F072A5E103A00E7CBAF /* List View */,
+				C7DC401C2A67025D00883D03 /* Toast */,
 			);
 			path = "Common SwiftUI";
 			sourceTree = "<group>";
@@ -8580,6 +8583,7 @@
 				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
 				BD85E3A61E667475001B17C1 /* SkipButton.swift in Sources */,
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,
+				C7F4C66B2A8FDCB800483C37 /* BookmarksLockedStateView.swift in Sources */,
 				406568EE232A090A0004281C /* ThemeableAccessibilityCollectionView.swift in Sources */,
 				C752F28C29D5F8FF00681C33 /* PodcastRatingViewModel.swift in Sources */,
 				8B1F09BA29BB5A3D00842854 /* SearchResultsListView.swift in Sources */,
