@@ -3,7 +3,6 @@ import SwiftUI
 
 /// A view that displays the locked empty state for a `PaidFeature`
 struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
-    @EnvironmentObject var theme: Theme
     @ObservedObject var style: Style
     @StateObject private var upgradeModel: BookmarksUpgradeViewModel
 
@@ -15,9 +14,7 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
     var body: some View {
         EmptyStateView(title: { lockedTitleView }, message: L10n.noBookmarksMessage, actions: [
             .init(title: upgradeModel.upgradeLabel, action: {
-//                upgradeModel.upgradeTapped()
-
-                theme.cycleThemeForTesting()
+                upgradeModel.upgradeTapped()
             })
         ], style: style)
     }
