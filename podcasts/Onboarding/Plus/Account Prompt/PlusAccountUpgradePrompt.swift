@@ -115,37 +115,7 @@ struct PlusAccountUpgradePrompt: View {
     @ViewBuilder
     private func subscribeButton(for product: ProductInfo) -> some View {
         let plan = product.identifier.plan
-        let subscription = viewModel.subscription
-        let expiringPlus = subscription?.isExpiring(.plus) == true
-
-        let label: String = {
-            switch plan {
-            case .patron:
-                return {
-                    // Show the renew your sub title
-                    if subscription?.isExpiring(.patron) == true {
-                        return L10n.renewSubscription
-                    }
-
-                    // If the user has an expiring plus subscription show the 'Upgrade Account' title
-                    return expiringPlus ? L10n.upgradeAccount : L10n.patronSubscribeTo
-                }()
-
-            case .plus:
-                // Show 'Renew Sub' title if it's expiring
-                return {
-                    if expiringPlus {
-                        return L10n.renewSubscription
-                    }
-
-                    if product.freeTrialDuration != nil {
-                        return L10n.plusStartMyFreeTrial
-                    }
-
-                    return L10n.plusSubscribeTo
-                }()
-            }
-        }()
+        let label = viewModel.upgradeLabel(for: product)
 
         // Only show loading if the user has tapped the button and is waiting
         let isLoading = waitingToLoad ? viewModel.priceAvailability != .available : false

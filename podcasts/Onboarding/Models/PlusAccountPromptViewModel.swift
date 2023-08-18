@@ -41,14 +41,45 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }
 
+    /// Returns the label that should be displayed on an upgrade button
+    func upgradeLabel(for product: PlusProductPricingInfo) -> String {
+        let plan = product.identifier.plan
+        let expiringPlus = subscription?.isExpiring(.plus) == true
+
+        switch plan {
+        case .patron:
+            return {
+                // Show the renew your sub title
+                if subscription?.isExpiring(.patron) == true {
+                    return L10n.renewSubscription
+                }
+
+                // If the user has an expiring plus subscription show the 'Upgrade Account' title
+                return expiringPlus ? L10n.upgradeAccount : L10n.patronSubscribeTo
+            }()
+
+        case .plus:
+            // Show 'Renew Sub' title if it's expiring
+            return {
+                if expiringPlus {
+                    return L10n.renewSubscription
+                }
+
+                if product.freeTrialDuration != nil {
+                    return L10n.plusStartMyFreeTrial
+                }
+
+                return L10n.plusSubscribeTo
+            }()
+        }
+    }
+
     enum Source: String {
         case unknown
         case accountDetails = "account_details"
         case plusDetails = "plus_details"
     }
-}
 
-private extension PlusAccountPromptViewModel {
     func showModal(for product: PlusProductPricingInfo? = nil) {
         guard let parentController else { return }
 
@@ -66,7 +97,7 @@ private extension PlusAccountPromptViewModel {
         let flow: OnboardingFlow.Flow = subscription?.isExpiring(.patron) == true ? .patronAccountUpgrade : .plusAccountUpgrade
         let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue, context: context)
 
-        parentController.present(controller, animated: true)
+        parentController.presentFromRootController(controller, animated: true)
     }
 
     func showError() {
