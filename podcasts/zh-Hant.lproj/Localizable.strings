@@ -247,6 +247,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你確定要刪除這些書籤嗎？這個動作無法復原！</string>
     <key>bookmark_delete_warning_title</key>
     <string>要刪除書籤嗎？</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>找不到符合搜尋內容的書籤。</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>找不到書籤</string>
     <key>bookmarks</key>
     <string>書籤</string>
     <key>bookmarks_count_plural</key>
@@ -329,6 +333,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>清除</string>
     <key>clear</key>
     <string>清除</string>
+    <key>clear_search</key>
+    <string>清除搜尋</string>
     <key>clear_up_next</key>
     <string>清除「接下來播放」</string>
     <key>clear_up_next_message</key>
@@ -722,6 +728,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>單集</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ 集</string>
+    <key>episode_details_title</key>
+    <string>詳細資料</string>
     <key>episode_filter_by_duration_label</key>
     <string>依時間長度篩選</string>
     <key>episode_filter_no_episodes_msg</key>
