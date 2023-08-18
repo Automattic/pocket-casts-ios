@@ -1468,6 +1468,8 @@
 		C7811D842A9009A800FC68B4 /* Settings+Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */; };
 		C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D852A90247B00FC68B4 /* Unlockable.swift */; };
 		C7811D872A90248C00FC68B4 /* Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D852A90247B00FC68B4 /* Unlockable.swift */; };
+		C7811D892A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */; };
+		C7811D8A2A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */; };
 		C781EA412A6B72AE001DBFCC /* SearchableListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C781EA402A6B72AE001DBFCC /* SearchableListViewModelTests.swift */; };
 		C781EA432A6B7BF9001DBFCC /* BookmarkRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C781EA422A6B7BF9001DBFCC /* BookmarkRowViewModel.swift */; };
 		C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */; };
@@ -3239,6 +3241,7 @@
 		C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeBookmarksTabsView.swift; sourceTree = "<group>"; };
 		C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Settings+Unlockable.swift"; sourceTree = "<group>"; };
 		C7811D852A90247B00FC68B4 /* Unlockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unlockable.swift; sourceTree = "<group>"; };
+		C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unlockable+Bookmarks.swift"; sourceTree = "<group>"; };
 		C781EA402A6B72AE001DBFCC /* SearchableListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableListViewModelTests.swift; sourceTree = "<group>"; };
 		C781EA422A6B7BF9001DBFCC /* BookmarkRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRowViewModel.swift; sourceTree = "<group>"; };
 		C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithContentOffset.swift; sourceTree = "<group>"; };
@@ -6474,8 +6477,9 @@
 		C7811D812A9008F500FC68B4 /* Unlockable */ = {
 			isa = PBXGroup;
 			children = (
-				C7811D852A90247B00FC68B4 /* Unlockable.swift */,
 				C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */,
+				C7811D852A90247B00FC68B4 /* Unlockable.swift */,
+				C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */,
 			);
 			path = Unlockable;
 			sourceTree = "<group>";
@@ -8825,6 +8829,7 @@
 				BD27B8C72756F4C9007A0EA7 /* Styles.swift in Sources */,
 				8B484F0228D25DB5001AFA97 /* UIViewController+requestReview.swift in Sources */,
 				8B6B68E528F744520032BFFF /* StoriesDataSource.swift in Sources */,
+				C7811D892A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */,
 				406C6854216AC9EF0004E249 /* PodcastFilterSelectionCell.swift in Sources */,
 				BD5945291D8A7F1700020B12 /* IncomingShareListViewController.swift in Sources */,
 				BDEC9AB720511F8900088D76 /* SettingsOptionsViewController.swift in Sources */,
@@ -9391,6 +9396,7 @@
 				BDE48A292410D27300ECA6CA /* BaseEpisode+Formatting.swift in Sources */,
 				4633FEC127D7E6B700996077 /* EpisodeRow.swift in Sources */,
 				468A0FBE27D68B1A00F800C8 /* EpisodeActionView.swift in Sources */,
+				C7811D8A2A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */,
 				8B68C1D429421B4700CF25C5 /* FeatureFlagOverrideStore.swift in Sources */,
 				46C843B927E373B100D1DBF3 /* NowPlayingImage.swift in Sources */,
 				BD74F15827F2955D00222785 /* FolderView.swift in Sources */,
