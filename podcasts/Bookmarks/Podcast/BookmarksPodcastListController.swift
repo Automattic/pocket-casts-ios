@@ -7,8 +7,6 @@ class BookmarksPodcastListController: ThemedHostingController<BookmarksPodcastLi
     private let bookmarkManager: BookmarkManager
     private let viewModel: BookmarkPodcastListViewModel
 
-    private var cancellables = Set<AnyCancellable>()
-
     init(podcast: Podcast,
          bookmarkManager: BookmarkManager = PlaybackManager.shared.bookmarkManager,
          playbackManager: PlaybackManager = .shared) {
