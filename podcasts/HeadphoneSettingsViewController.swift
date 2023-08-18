@@ -196,7 +196,7 @@ private extension HeadphoneSettingsViewController {
 
         let picker = OptionsPicker(title: title)
         picker.addActions(options.map { option in
-            OptionAction(label: option.displayableTitle, icon: option.iconName, selected: currentValue == option) {
+            OptionAction(label: option.displayableTitle, icon: option.iconName, tintIcon: false, selected: currentValue == option) {
                 onChange(option)
             }
         })
@@ -223,7 +223,6 @@ private extension HeadphoneControlAction {
     }
 
     var iconName: String? {
-        // placeholder for the future
-        return nil
+        isUnlocked ? nil : "plusGold24"
     }
 }
