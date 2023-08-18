@@ -208,7 +208,7 @@ platform :ios do
     }
     appstoreconnect_url = 'https://appstoreconnect.apple.com/apps/414834813'
     testflight_submit_link = "<#{appstoreconnect_url}/testflight/ios|App Store Connect>"
-    appstore_submit_link = "<#{appstoreconnect_url}/versions/deliverable|App Store Connect>"
+    appstore_submit_link = "<#{appstoreconnect_url}/appstore/ios/version/deliverable|App Store Connect>"
     merge_pr_link = "<https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
 
     if is_beta
