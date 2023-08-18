@@ -5,6 +5,7 @@ import PocketCastsUtils
 struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     @ObservedObject var viewModel: BookmarkListViewModel
     @ObservedObject var style: ListStyle
+    @ObservedObject private var feature: PaidFeature
 
     /// When true, when entering multiselect the select all/cancel buttons will appear over the heading view
     /// Set this to false to implement custom handling
@@ -14,13 +15,24 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     @State private var showShadow = false
 
+    init(viewModel: BookmarkListViewModel,
+         style: ListStyle,
+         showMultiSelectInHeader: Bool = true,
+         showMoreInHeader: Bool = true) {
+        self.viewModel = viewModel
+        self.feature = viewModel.feature
+        self.style = style
+        self.showMultiSelectInHeader = showMultiSelectInHeader
+        self.showMoreInHeader = showMoreInHeader
+    }
+
     private var actionBarVisible: Bool {
         viewModel.isMultiSelecting && viewModel.numberOfSelectedItems > 0
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            if viewModel.bookmarks.isEmpty {
+            if !feature.isUnlocked || viewModel.bookmarks.isEmpty {
                 emptyView
             } else {
                 listView
@@ -33,7 +45,10 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     /// An empty state view that displays instructions
     @ViewBuilder
     private var emptyView: some View {
-        if !viewModel.isSearching {
+        if !feature.isUnlocked {
+            BookmarksLockedStateView(style: style.emptyStyle, feature: feature)
+        }
+        else if !viewModel.isSearching {
             BookmarksEmptyStateView(style: style.emptyStyle)
         } else {
             noSearchResultsView
