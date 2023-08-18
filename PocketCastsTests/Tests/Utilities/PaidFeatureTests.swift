@@ -39,42 +39,29 @@ final class PaidFeatureTests: XCTestCase {
 
 private class TestSubscriptionHelper: SubscriptionHelper {
     static var _hasActiveSubscription: Bool = false
-    static var _subscriptionType: SubscriptionType = .none
     static var _subscriptionTier: SubscriptionTier = .none
 
     override class func hasActiveSubscription() -> Bool {
         _hasActiveSubscription
     }
 
-    override class func subscriptionType() -> SubscriptionType {
-        _subscriptionType
-    }
-
     override class var subscriptionTier: SubscriptionTier {
-        set {
-            _subscriptionTier = newValue
-        }
-
-        get {
-            _subscriptionTier
-        }
+        set { _subscriptionTier = newValue }
+        get { _subscriptionTier }
     }
 
     static func noSubscription() {
         _hasActiveSubscription = false
         _subscriptionTier = .none
-        _subscriptionType = .none
     }
 
     static func activePlus() {
         _hasActiveSubscription = true
         _subscriptionTier = .plus
-        _subscriptionType = .plus
     }
 
     static func activePatron() {
         _hasActiveSubscription = true
         _subscriptionTier = .patron
-        _subscriptionType = .plus
     }
 }
