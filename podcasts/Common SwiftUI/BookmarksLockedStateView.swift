@@ -11,8 +11,22 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
         _upgradeModel = .init(wrappedValue: .init(feature: feature))
     }
 
+    private var message: String {
+        let tierName: String
+        switch upgradeModel.feature.tier {
+        case .patron:
+            tierName = L10n.patron
+        case .plus:
+            tierName = L10n.pocketCastsPlusShort
+        case .none:
+            tierName = L10n.pocketCastsPlusShort
+        }
+
+        return L10n.boomarksLockedMessage(tierName)
+    }
+
     var body: some View {
-        EmptyStateView(title: { lockedTitleView }, message: L10n.noBookmarksMessage, actions: [
+        EmptyStateView(title: { lockedTitleView }, message: message, actions: [
             .init(title: upgradeModel.upgradeLabel, action: {
                 upgradeModel.upgradeTapped()
             })
