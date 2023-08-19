@@ -1944,7 +1944,7 @@ extension PlaybackManager {
 
         Analytics.track(.bookmarkPlayTapped, source: source)
 
-        analyticsPlaybackHelper.currentSource = .bookmarks
+        analyticsPlaybackHelper.currentSource = .bookmark
 
         // If we're already the now playing episode, then just seek to the bookmark time
         if isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
