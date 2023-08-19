@@ -639,4 +639,12 @@ enum AnalyticsEvent: String {
     case whatsnewDismissed
     case whatsnewConfirmButtonTapped
 
+    // MARK: - Bookmarks
+    case bookmarkCreated
+    case bookmarkUpdateTitle
+    case bookmarkUpgradeButtonTapped
+    case bookmarksEmptyGoToHeadphoneSettings
+    case bookmarkPlayTapped
+    case bookmarksSortByChanged
+    case bookmarkDeleted
 }
