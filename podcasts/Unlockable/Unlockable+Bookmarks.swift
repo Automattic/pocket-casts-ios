@@ -1,12 +1,15 @@
 import Foundation
 
+/// Defines the feature in this file that can be unlocked
+private let UnlockableFeature = PaidFeature.bookmarks
+
 // MARK: - HeadphoneControlAction
 
 extension HeadphoneControlAction: Unlockable {
     var paidFeature: PaidFeature? {
         switch self {
         case .addBookmark:
-            return .bookmarks
+            return UnlockableFeature
         default:
             return nil
         }
@@ -19,7 +22,7 @@ extension PlayerAction: Unlockable {
     var paidFeature: PaidFeature? {
         switch self {
         case .addBookmark:
-            return .bookmarks
+            return UnlockableFeature
         default:
             return nil
         }
