@@ -212,7 +212,7 @@ public struct BookmarkDataManager {
     // MARK: - Sortings
 
     public enum SortOption {
-        case newestToOldest, oldestToNewest, timestamp
+        case newestToOldest, oldestToNewest, timestamp, episode
 
         var queryString: String {
             switch self {
@@ -220,7 +220,7 @@ public struct BookmarkDataManager {
                 return "ORDER BY \(Column.createdDate) DESC"
             case .oldestToNewest:
                 return "ORDER BY \(Column.createdDate) ASC"
-            case .timestamp:
+            case .timestamp, .episode:
                 return "ORDER BY \(Column.time) ASC"
             }
         }
