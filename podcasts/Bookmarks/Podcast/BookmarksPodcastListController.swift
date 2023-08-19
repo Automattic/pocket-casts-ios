@@ -35,12 +35,13 @@ class BookmarksPodcastListController: ThemedHostingController<BookmarksPodcastLi
 
 extension BookmarksPodcastListController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
-        playbackManager.playBookmark(bookmark)
+        playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
         dismiss(animated: true)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating)
+        controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)
     }
