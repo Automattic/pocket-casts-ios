@@ -15,6 +15,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
         super.viewDidLoad()
 
         title = L10n.settingsHeadphoneControls
+        Analytics.track(.settingsHeadphoneControlsShown)
     }
 
     override var customCellTypes: [ReusableTableCell.Type] {
@@ -108,6 +109,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
 
     private func updateBookmarkSoundEnabled(_ enabled: Bool) {
         Settings.playBookmarkCreationSound = enabled
+        Settings.trackValueToggled(.settingsHeadphoneControlsBookmarkSoundToggled, enabled: enabled)
 
         // Play a preview of the sound if the user has enabled the option
         if enabled {
@@ -122,9 +124,11 @@ class HeadphoneSettingsViewController: PCTableViewController {
         let action = { [weak self] in
             switch row {
             case .previousAction:
+                Settings.trackValueChanged(.settingsHeadphoneControlsPreviousChanged, value: selection)
                 Settings.headphonesPreviousAction = selection
 
             case .nextAction:
+                Settings.trackValueChanged(.settingsHeadphoneControlsNextChanged, value: selection)
                 Settings.headphonesNextAction = selection
 
             default: break

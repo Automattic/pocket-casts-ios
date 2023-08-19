@@ -647,4 +647,10 @@ enum AnalyticsEvent: String {
     case bookmarkPlayTapped
     case bookmarksSortByChanged
     case bookmarkDeleted
+
+    // MARK: - Headphone Controls
+    case settingsHeadphoneControlsShown
+    case settingsHeadphoneControlsNextChanged
+    case settingsHeadphoneControlsPreviousChanged
+    case settingsHeadphoneControlsBookmarkSoundToggled
 }

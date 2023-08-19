@@ -28,3 +28,20 @@ extension BookmarkSortOption: AnalyticsDescribable {
         }
     }
 }
+
+extension HeadphoneControlAction: AnalyticsDescribable {
+    var analyticsDescription: String {
+        switch self {
+        case .skipBack:
+            return "skip_back"
+        case .skipForward:
+            return "skip_forward"
+        case .previousChapter:
+            return "previous_chapter"
+        case .nextChapter:
+            return "next_chapter"
+        case .addBookmark:
+            return "add_bookmark"
+        }
+    }
+}
