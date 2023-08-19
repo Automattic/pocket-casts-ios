@@ -4,6 +4,10 @@ import PocketCastsDataModel
 class BookmarkPodcastListViewModel: BookmarkListViewModel {
     var podcast: Podcast?
 
+    override var availableSortOptions: [BookmarkSortOption] {
+        [.newestToOldest, .oldestToNewest, .episode]
+    }
+
     init(podcast: Podcast, bookmarkManager: BookmarkManager, sortOption: BookmarkListViewModel.SortSetting) {
         self.podcast = podcast
 
