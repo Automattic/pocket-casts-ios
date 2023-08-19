@@ -6,9 +6,10 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
     @ObservedObject var style: Style
     @StateObject private var upgradeModel: BookmarksUpgradeViewModel
 
-    init(style: Style, feature: PaidFeature) {
+    init(style: Style, feature: PaidFeature, source: BookmarkAnalyticsSource) {
         self.style = style
-        _upgradeModel = .init(wrappedValue: .init(feature: feature))
+
+        _upgradeModel = .init(wrappedValue: .init(feature: feature, source: source))
     }
 
     private var message: String {
@@ -65,8 +66,9 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
 private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature
 
-    init(feature: PaidFeature) {
+    init(feature: PaidFeature, source: BookmarkAnalyticsSource) {
         self.feature = feature
+        self.bookmarksSource = source
         super.init()
     }
 

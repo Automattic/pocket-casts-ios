@@ -15,9 +15,12 @@ class BookmarksPodcastListController: ThemedHostingController<BookmarksPodcastLi
         self.playbackManager = playbackManager
 
         let sortOption = Constants.UserDefaults.bookmarks.podcastSort
-        self.viewModel = BookmarkPodcastListViewModel(podcast: podcast,
+        let viewModel = BookmarkPodcastListViewModel(podcast: podcast,
                                                       bookmarkManager: bookmarkManager,
                                                       sortOption: sortOption)
+        viewModel.analyticsSource = .podcasts
+
+        self.viewModel = viewModel
         super.init(rootView: .init(viewModel: viewModel))
 
         viewModel.router = self

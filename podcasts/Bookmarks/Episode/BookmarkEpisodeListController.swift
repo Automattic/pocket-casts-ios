@@ -16,9 +16,12 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
         self.bookmarkManager = bookmarkManager
         self.playbackManager = playbackManager
 
-        self.viewModel = BookmarkEpisodeListViewModel(episode: episode,
+        let viewModel = BookmarkEpisodeListViewModel(episode: episode,
                                                       bookmarkManager: bookmarkManager,
                                                       sortOption: Constants.UserDefaults.bookmarks.podcastSort)
+        viewModel.analyticsSource = (episode is Episode) ? .episodes : .files
+
+        self.viewModel = viewModel
 
         super.init(rootView: BookmarkEpisodeListView(viewModel: viewModel, displayMode: displayMode))
 

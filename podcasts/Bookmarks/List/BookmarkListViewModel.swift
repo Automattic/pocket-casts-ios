@@ -26,6 +26,7 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     private let sortSettingValue: SortSetting
 
     let feature: PaidFeature = .bookmarks
+    var analyticsSource: BookmarkAnalyticsSource = .unknown
 
     init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager

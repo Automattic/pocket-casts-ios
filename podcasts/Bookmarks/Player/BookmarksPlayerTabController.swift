@@ -12,6 +12,9 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     private var cancellables = Set<AnyCancellable>()
 
     init(bookmarkManager: BookmarkManager, playbackManager: PlaybackManager) {
+        let viewModel = BookmarkEpisodeListViewModel(bookmarkManager: bookmarkManager, sortOption: Constants.UserDefaults.bookmarks.playerSort)
+        viewModel.analyticsSource = .player
+
         self.playbackManager = playbackManager
         self.bookmarkManager = bookmarkManager
         let viewModel = BookmarkEpisodeListViewModel(bookmarkManager: bookmarkManager, sortOption: Constants.UserDefaults.bookmarks.playerSort)

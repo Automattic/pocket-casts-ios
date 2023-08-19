@@ -23,6 +23,8 @@ class BookmarkEditViewModel: ObservableObject {
     private let bookmarkManager: BookmarkManager
     private let bookmark: Bookmark
 
+    var analyticsSource: BookmarkAnalyticsSource? = nil
+
     init(manager: BookmarkManager, bookmark: Bookmark, state: EditState) {
         self.bookmarkManager = manager
         self.bookmark = bookmark
