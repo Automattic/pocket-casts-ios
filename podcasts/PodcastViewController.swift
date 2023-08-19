@@ -913,6 +913,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func showBookmarks() {
         guard let podcast else { return }
 
+        Analytics.track(.podcastsScreenTabTapped, properties: ["value": "bookmarks"])
+
         let controller = BookmarksPodcastListController(podcast: podcast)
         present(controller, animated: true)
     }
