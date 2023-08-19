@@ -2,7 +2,7 @@ import Combine
 import PocketCastsDataModel
 
 class BookmarkEpisodeListViewModel: BookmarkListViewModel {
-    weak var episode: BaseEpisode? = nil {
+    var episode: BaseEpisode? = nil {
         didSet {
             reload()
         }
