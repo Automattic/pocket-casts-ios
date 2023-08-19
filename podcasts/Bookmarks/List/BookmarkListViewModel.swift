@@ -17,6 +17,10 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
         }
     }
 
+    var availableSortOptions: [BookmarkSortOption] {
+        [.newestToOldest, .oldestToNewest, .timestamp]
+    }
+
     var bookmarks: [Bookmark] {
         isSearching ? filteredItems : items
     }
@@ -137,9 +141,7 @@ extension BookmarkListViewModel {
     func showSortOptions() {
         let optionPicker = OptionsPicker(title: L10n.sortBy)
 
-        let options: [BookmarkSortOption] = [.newestToOldest, .oldestToNewest, .timestamp]
-
-        optionPicker.addActions(options.map({ option in
+        optionPicker.addActions(availableSortOptions.map({ option in
             .init(label: option.label) { [weak self] in
                 self?.sorted(by: option)
             }
@@ -186,6 +188,8 @@ private extension BookmarkSortOption {
             return L10n.podcastsEpisodeSortOldestToNewest
         case .timestamp:
             return L10n.sortOptionTimestamp
+        case .episode:
+            return L10n.episode
         }
     }
 }
