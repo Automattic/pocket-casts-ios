@@ -10,6 +10,9 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
     var sortOption: BookmarkSortOption {
         didSet {
+            Analytics.track(.bookmarksSortByChanged, source: analyticsSource, properties: [
+                "sort_order": sortOption
+            ])
             sortSettingValue.save(sortOption)
         }
     }
