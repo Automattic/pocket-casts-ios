@@ -19,11 +19,6 @@ public struct BookmarkDataManager {
     ///   - transcription: A transcription of the clip if available
     @discardableResult
     public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date(), syncStatus: SyncStatus = .notSynced) -> String? {
-        // Prevent adding more than 1 bookmark at the same place
-        guard existingBookmark(forEpisode: episodeUuid, time: time) == nil else {
-            return nil
-        }
-
         var bookmarkUuid: String? = nil
 
         dbQueue.inDatabase { db in
