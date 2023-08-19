@@ -5,7 +5,7 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
     private let viewModel: BookmarkEditViewModel
     let onDismiss: ((String) -> Void)?
 
-    var source: BookmarkAnalyticsSource? = nil {
+    var source: BookmarkAnalyticsSource = .unknown {
         didSet {
             viewModel.analyticsSource = source
         }
