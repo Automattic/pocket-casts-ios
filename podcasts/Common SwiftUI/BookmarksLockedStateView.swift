@@ -82,14 +82,14 @@ private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     }
 
     func upgradeTapped() {
-        Analytics.track(.bookmarkUpgradeButtonTapped, source: bookmarksSource)
+        Analytics.track(.bookmarksUpgradeButtonTapped, source: bookmarksSource)
         upgradeTapped(with: product(for: feature.tier))
     }
 
     override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {
         guard let parentController = SceneHelper.rootViewController() else { return }
 
-        feature.presentUpgradeController(from: parentController, source: bookmarksSource.analyticsDescription)
+        feature.presentUpgradeController(from: parentController, source: "bookmarks_locked")
     }
 
     private func product(for tier: SubscriptionTier) -> PlusProductPricingInfo? {
