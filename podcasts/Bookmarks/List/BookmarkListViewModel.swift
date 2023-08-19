@@ -171,6 +171,7 @@ private extension BookmarkListViewModel {
                 return
             }
 
+            Analytics.track(.bookmarkDeleted, source: analyticsSource)
             reload()
         }
     }
