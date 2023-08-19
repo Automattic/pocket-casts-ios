@@ -660,10 +660,12 @@ private extension EpisodeDetailViewController {
     }
 
     private func didSwitchToTab(_ tab: Tab, animated: Bool = true) {
+        if currentTab != tab {
+            Analytics.track(.episodeDetailTabChanged, properties: ["value": tab])
+        }
+
         currentTab = tab
         tabViewModel?.selectTabIndex(tab.rawValue)
-
-        Analytics.track(.episodeDetailTabChanged, properties: ["value": tab])
 
         guard animated else {
             updateRightButtons()
