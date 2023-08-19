@@ -1921,7 +1921,7 @@ extension PlaybackManager {
         FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked
     }
 
-    func bookmark() {
+    func bookmark(source: BookmarkAnalyticsSource) {
         guard bookmarksEnabled, let episode = currentEpisode() else {
             return
         }
@@ -1933,7 +1933,7 @@ extension PlaybackManager {
     /// Plays the given bookmark
     /// - if the episode is not currently playing we'll load it and then play at the bookmark time
     /// - if the episode is playing, we trigger a seek to the bookmark time
-    func playBookmark(_ bookmark: Bookmark) {
+    func playBookmark(_ bookmark: Bookmark, source: BookmarkAnalyticsSource) {
         guard bookmarksEnabled else { return }
 
         // If we're already the now playing episode, then just seek to the bookmark time
