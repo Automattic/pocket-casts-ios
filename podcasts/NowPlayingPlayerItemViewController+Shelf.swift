@@ -216,7 +216,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     func bookmarkTapped() {
-        PlaybackManager.shared.bookmark()
+        PlaybackManager.shared.bookmark(source: .player)
     }
 
     // MARK: - Player Actions
