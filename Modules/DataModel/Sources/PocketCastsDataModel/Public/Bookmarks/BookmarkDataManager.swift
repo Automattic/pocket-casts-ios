@@ -86,8 +86,8 @@ public struct BookmarkDataManager {
     // MARK: - Retrieving
 
     /// Retrieves a single Bookmark for the given UUID
-    public func bookmark(for uuid: String) -> Bookmark? {
-        selectBookmarks(where: [.uuid], values: [uuid], limit: 1).first
+    public func bookmark(for uuid: String, allowDeleted: Bool = false) -> Bookmark? {
+        selectBookmarks(where: [.uuid], values: [uuid], limit: 1, allowDeleted: allowDeleted).first
     }
 
     /// Retrieves all the Bookmarks for an episode
