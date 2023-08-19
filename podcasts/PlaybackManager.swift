@@ -1882,7 +1882,7 @@ private extension PlaybackManager {
     func handleRemoteAction(_ action: HeadphoneControlAction) {
         switch action {
         case .addBookmark:
-            bookmark()
+            bookmark(source: .headphones)
 
         case .previousChapter:
             guard let chapter = chapterManager.previousVisibleChapter() else { fallthrough }
@@ -1928,6 +1928,12 @@ extension PlaybackManager {
 
         let currentTime = currentTime()
         bookmarkManager.add(to: episode, at: currentTime)
+
+        Analytics.track(.bookmarkCreated, source: source, properties: [
+            "episode_uuid": episode.uuid,
+            "podcast_uuid": (episode as? Episode)?.podcastUuid ?? "user_file",
+            "time": Int(currentTime)
+        ])
     }
 
     /// Plays the given bookmark
