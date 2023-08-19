@@ -37,7 +37,7 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 
 extension BookmarkEpisodeListController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
-        playbackManager.playBookmark(bookmark)
+        playbackManager.playBookmark(bookmark, source: .episodes)
         dismiss(animated: true)
     }
 
@@ -45,6 +45,8 @@ extension BookmarkEpisodeListController: BookmarkListRouter {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager,
                                                          bookmark: bookmark,
                                                          state: .updating)
+
+        controller.source = .episodes
 
         present(controller, animated: true)
     }
