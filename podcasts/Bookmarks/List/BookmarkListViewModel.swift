@@ -109,6 +109,8 @@ extension BookmarkListViewModel {
     }
 
     func openHeadphoneSettings() {
+        Analytics.track(.bookmarksEmptyGoToHeadphoneSettings, source: analyticsSource)
+
         router?.dismissBookmarksList()
         NavigationManager.sharedManager.navigateTo(NavigationManager.settingsHeadphoneKey)
     }
