@@ -65,6 +65,7 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
 
 private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature
+    let bookmarksSource: BookmarkAnalyticsSource
 
     init(feature: PaidFeature, source: BookmarkAnalyticsSource) {
         self.feature = feature
@@ -81,6 +82,7 @@ private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     }
 
     func upgradeTapped() {
+        Analytics.track(.bookmarkUpgradeButtonTapped, source: bookmarksSource)
         upgradeTapped(with: product(for: feature.tier))
     }
 
