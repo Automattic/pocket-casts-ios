@@ -1464,6 +1464,14 @@
 		C76ECAC42A67622900D9DB9E /* BookmarksEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */; };
 		C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */; };
 		C76ECAD62A69518800D9DB9E /* EpisodeBookmarksTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */; };
+		C7811D832A90090700FC68B4 /* Settings+Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */; };
+		C7811D842A9009A800FC68B4 /* Settings+Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */; };
+		C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D852A90247B00FC68B4 /* Unlockable.swift */; };
+		C7811D872A90248C00FC68B4 /* Unlockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D852A90247B00FC68B4 /* Unlockable.swift */; };
+		C7811D892A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */; };
+		C7811D8A2A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */; };
+		C7811D8C2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D8B2A90491000FC68B4 /* Bookmarks+Analytics.swift */; };
+		C7811D8D2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7811D8B2A90491000FC68B4 /* Bookmarks+Analytics.swift */; };
 		C781EA412A6B72AE001DBFCC /* SearchableListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C781EA402A6B72AE001DBFCC /* SearchableListViewModelTests.swift */; };
 		C781EA432A6B7BF9001DBFCC /* BookmarkRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C781EA422A6B7BF9001DBFCC /* BookmarkRowViewModel.swift */; };
 		C784DE7B2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */; };
@@ -1570,6 +1578,7 @@
 		C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */; };
 		C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */; };
 		C7F4C6682A8EAB2800483C37 /* PaidFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */; };
+		C7F4C66B2A8FDCB800483C37 /* BookmarksLockedStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4C6692A8FDC3000483C37 /* BookmarksLockedStateView.swift */; };
 		C7F605112A69C5AB00795F3C /* BookmarksPodcastListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F605102A69C5AB00795F3C /* BookmarksPodcastListView.swift */; };
 		C7F605132A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F605122A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift */; };
 		C7FAFF5B294183AA00329B40 /* CancelConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FAFF5A294183AA00329B40 /* CancelConfirmationView.swift */; };
@@ -3232,6 +3241,10 @@
 		C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksEmptyStateView.swift; sourceTree = "<group>"; };
 		C76ECACD2A685FB300D9DB9E /* BookmarksListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksListView.swift; sourceTree = "<group>"; };
 		C76ECAD52A69518800D9DB9E /* EpisodeBookmarksTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeBookmarksTabsView.swift; sourceTree = "<group>"; };
+		C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Settings+Unlockable.swift"; sourceTree = "<group>"; };
+		C7811D852A90247B00FC68B4 /* Unlockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unlockable.swift; sourceTree = "<group>"; };
+		C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unlockable+Bookmarks.swift"; sourceTree = "<group>"; };
+		C7811D8B2A90491000FC68B4 /* Bookmarks+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bookmarks+Analytics.swift"; sourceTree = "<group>"; };
 		C781EA402A6B72AE001DBFCC /* SearchableListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableListViewModelTests.swift; sourceTree = "<group>"; };
 		C781EA422A6B7BF9001DBFCC /* BookmarkRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRowViewModel.swift; sourceTree = "<group>"; };
 		C784DE7A2A58CFA1004D03E7 /* ScrollViewWithContentOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithContentOffset.swift; sourceTree = "<group>"; };
@@ -3324,6 +3337,7 @@
 		C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSignOutListenerTests.swift; sourceTree = "<group>"; };
 		C7F4BABE28DB7F7C001C9785 /* DiscoverItem+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverItem+Helper.swift"; sourceTree = "<group>"; };
 		C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidFeatureTests.swift; sourceTree = "<group>"; };
+		C7F4C6692A8FDC3000483C37 /* BookmarksLockedStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksLockedStateView.swift; sourceTree = "<group>"; };
 		C7F605102A69C5AB00795F3C /* BookmarksPodcastListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPodcastListView.swift; sourceTree = "<group>"; };
 		C7F605122A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEpisodeListViewModel.swift; sourceTree = "<group>"; };
 		C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+FontStyle.swift"; sourceTree = "<group>"; };
@@ -4626,6 +4640,7 @@
 		BD2A49E31701A66E00C2F192 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C7811D812A9008F500FC68B4 /* Unlockable */,
 				C7BDECAC2A15311000BECF02 /* Haptics */,
 				C74887782919DC7B00EBC926 /* SwiftUI */,
 				C7AF578F289D7F1E0089E435 /* Analytics */,
@@ -6429,6 +6444,7 @@
 				C7E99EF62A5C803B00E7CBAF /* List */,
 				C75274E02A3252180004DD15 /* Player */,
 				C7F6050F2A69C59000795F3C /* Podcast */,
+				C7811D8B2A90491000FC68B4 /* Bookmarks+Analytics.swift */,
 			);
 			path = Bookmarks;
 			sourceTree = "<group>";
@@ -6460,6 +6476,16 @@
 				8BA55A0C28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C7811D812A9008F500FC68B4 /* Unlockable */ = {
+			isa = PBXGroup;
+			children = (
+				C7811D822A90090700FC68B4 /* Settings+Unlockable.swift */,
+				C7811D852A90247B00FC68B4 /* Unlockable.swift */,
+				C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */,
+			);
+			path = Unlockable;
 			sourceTree = "<group>";
 		};
 		C799373C2A0963420010DC64 /* Account */ = {
@@ -7095,10 +7121,11 @@
 		C7E99F022A5E0F9600E7CBAF /* Common SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				C7DC401C2A67025D00883D03 /* Toast */,
-				C7E99F072A5E103A00E7CBAF /* List View */,
 				C76ECAC32A67622900D9DB9E /* BookmarksEmptyStateView.swift */,
+				C7F4C6692A8FDC3000483C37 /* BookmarksLockedStateView.swift */,
 				C7252E132A71950500E7D3C0 /* EpisodeImage.swift */,
+				C7E99F072A5E103A00E7CBAF /* List View */,
+				C7DC401C2A67025D00883D03 /* Toast */,
 			);
 			path = "Common SwiftUI";
 			sourceTree = "<group>";
@@ -8580,6 +8607,7 @@
 				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
 				BD85E3A61E667475001B17C1 /* SkipButton.swift in Sources */,
 				46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */,
+				C7F4C66B2A8FDCB800483C37 /* BookmarksLockedStateView.swift in Sources */,
 				406568EE232A090A0004281C /* ThemeableAccessibilityCollectionView.swift in Sources */,
 				C752F28C29D5F8FF00681C33 /* PodcastRatingViewModel.swift in Sources */,
 				8B1F09BA29BB5A3D00842854 /* SearchResultsListView.swift in Sources */,
@@ -8805,6 +8833,7 @@
 				BD27B8C72756F4C9007A0EA7 /* Styles.swift in Sources */,
 				8B484F0228D25DB5001AFA97 /* UIViewController+requestReview.swift in Sources */,
 				8B6B68E528F744520032BFFF /* StoriesDataSource.swift in Sources */,
+				C7811D892A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */,
 				406C6854216AC9EF0004E249 /* PodcastFilterSelectionCell.swift in Sources */,
 				BD5945291D8A7F1700020B12 /* IncomingShareListViewController.swift in Sources */,
 				BDEC9AB720511F8900088D76 /* SettingsOptionsViewController.swift in Sources */,
@@ -8854,6 +8883,7 @@
 				40FE395F229CF424004526CD /* UserEpisode+Formatting.swift in Sources */,
 				BD14CCD61D7D2BCE00DB4547 /* SharePublishViewController.swift in Sources */,
 				C713D4FB2A04C90500A78468 /* SubscriptionBadge.swift in Sources */,
+				C7811D8C2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */,
 				46737E6A272B2EEC00739C3E /* ReadOnlyTextView.swift in Sources */,
 				4011B93B2164546E00661A7D /* FilterEditOptionsViewController.swift in Sources */,
 				4051A5762281A9DD00C13C12 /* AccountActionCell.swift in Sources */,
@@ -8882,6 +8912,7 @@
 				466DE3F6278794D50046F722 /* EpisodeListTableViewCell.swift in Sources */,
 				BD056F111F6F8CE800AF8260 /* MainTabBarController.swift in Sources */,
 				BD26AFD727BE09E8008CC973 /* EditFolderView.swift in Sources */,
+				C7811D832A90090700FC68B4 /* Settings+Unlockable.swift in Sources */,
 				BD585C232047B9A400AC842C /* SharedItemImporter.swift in Sources */,
 				8B87C47C29F0129A00257B96 /* StreamingEpisodeArtwork.swift in Sources */,
 				4041FEA1218AA5EC0089D4A1 /* SiriShortcutAddCell.swift in Sources */,
@@ -8899,6 +8930,7 @@
 				BDB1E4FE1B8C5C2B009AD30F /* CategorySummaryViewController.swift in Sources */,
 				BD1C46E027B9E6F600B1D8BB /* HomeGridListItem.swift in Sources */,
 				BD542C20240382A100F35D26 /* EpisodeFilter+Formatting.swift in Sources */,
+				C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */,
 				BDB5F0CF2045296200437669 /* PodcastGridCell.swift in Sources */,
 				BD6FADF024C1625D009F3183 /* PlusDetailsViewController.swift in Sources */,
 				C7AF7B912925E5CD002F0025 /* PlusHostingViewController.swift in Sources */,
@@ -9369,6 +9401,7 @@
 				BDE48A292410D27300ECA6CA /* BaseEpisode+Formatting.swift in Sources */,
 				4633FEC127D7E6B700996077 /* EpisodeRow.swift in Sources */,
 				468A0FBE27D68B1A00F800C8 /* EpisodeActionView.swift in Sources */,
+				C7811D8A2A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */,
 				8B68C1D429421B4700CF25C5 /* FeatureFlagOverrideStore.swift in Sources */,
 				46C843B927E373B100D1DBF3 /* NowPlayingImage.swift in Sources */,
 				BD74F15827F2955D00222785 /* FolderView.swift in Sources */,
@@ -9394,6 +9427,7 @@
 				C761300C28E4CAE90044C6C2 /* AnalyticsCoordinator.swift in Sources */,
 				BDEF20A62435AA780000ABB2 /* ColorManager.swift in Sources */,
 				4670303827D7B5CF00844CED /* PodcastEpisodeListViewModel.swift in Sources */,
+				C7811D842A9009A800FC68B4 /* Settings+Unlockable.swift in Sources */,
 				BDE48A2E2410D3E700ECA6CA /* ShowNotesUpdater.swift in Sources */,
 				468F800F27D0042900E6D764 /* BaseEpisode+Display.swift in Sources */,
 				BDE48A322410D44900ECA6CA /* ChapterInfo.swift in Sources */,
@@ -9432,12 +9466,14 @@
 				463538F426F2413400BA9D35 /* Strings+L10n.swift in Sources */,
 				BDE48A1F2410D09900ECA6CA /* DownloadManager.swift in Sources */,
 				468F800D27CFCFB500E6D764 /* PlaySourceViewModel.swift in Sources */,
+				C7811D872A90248C00FC68B4 /* Unlockable.swift in Sources */,
 				40541471243603D300431FD5 /* SourceInterfaceController.swift in Sources */,
 				46B5DFD227EA2705006FC2ED /* NowPlayingEmptyView.swift in Sources */,
 				BDC063D1246A626E00208446 /* DownloadManager+SessionManagement.swift in Sources */,
 				BDE48A212410D0A300ECA6CA /* DownloadProgress.swift in Sources */,
 				467DF6EA26E10AFB00AC290C /* Strings+Generated.swift in Sources */,
 				46D88ABC27DFDB5B00F3BC43 /* FilesListView.swift in Sources */,
+				C7811D8D2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */,
 				BDD301931EFB9979004A9972 /* SessionManager.swift in Sources */,
 				BDE48A372410D4E300ECA6CA /* WatchNowPlayingHelper.swift in Sources */,
 				BDE48A1C2410D07300ECA6CA /* PlaybackProtocol.swift in Sources */,

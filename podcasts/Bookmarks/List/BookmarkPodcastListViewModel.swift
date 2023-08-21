@@ -4,6 +4,10 @@ import PocketCastsDataModel
 class BookmarkPodcastListViewModel: BookmarkListViewModel {
     var podcast: Podcast?
 
+    override var availableSortOptions: [BookmarkSortOption] {
+        [.newestToOldest, .oldestToNewest, .episode]
+    }
+
     init(podcast: Podcast, bookmarkManager: BookmarkManager, sortOption: BookmarkListViewModel.SortSetting) {
         self.podcast = podcast
 
@@ -13,9 +17,18 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
     }
 
     override func reload() {
-        super.reload()
+        guard feature.isUnlocked, let podcast else {
+            items = []
+            return
+        }
 
-        items = podcast.map { bookmarkManager.bookmarks(for: $0, sorted: sortOption).includeEpisodes() } ?? []
+        var items = bookmarkManager.bookmarks(for: podcast, sorted: sortOption).includeEpisodes()
+
+        if sortOption == .episode {
+            items.sortByNewestEpisodeAndBookmarkTimestamp()
+        }
+
+        self.items = items
     }
 
     override func refresh(bookmark: Bookmark) {
@@ -38,5 +51,31 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
                 self?.reload()
             }
             .store(in: &cancellables)
+    }
+}
+
+private extension BaseEpisode {
+    var sortDate: Date? {
+        publishedDate ?? addedDate
+    }
+}
+
+private extension Array where Element == Bookmark {
+    /// Sorts the array by episodes release date, and the bookmarks timestamp
+    mutating func sortByNewestEpisodeAndBookmarkTimestamp() {
+        sort(by: {
+            let timestampAsc = $0.time < $1.time
+
+            guard let date1 = $0.episode?.sortDate, let date2 = $1.episode?.sortDate else {
+                return timestampAsc
+            }
+
+            // We're grouping by the episode date, so default to using the timestamp sort if the dates are equal
+            if date1 == date2 {
+                return timestampAsc
+            }
+
+            return date1 > date2
+        })
     }
 }

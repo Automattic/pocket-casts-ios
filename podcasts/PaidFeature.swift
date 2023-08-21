@@ -72,6 +72,11 @@ extension PaidFeature {
         OnboardingFlow.shared.begin(flow: upgradeFlow, source: source)
     }
 
+    /// Presents the `upgradeController` from the given view controller
+    func presentUpgradeController(from controller: UIViewController, source: String) {
+        controller.presentFromRootController(upgradeController(source: source))
+    }
+
     private var upgradeFlow: OnboardingFlow.Flow {
         switch tier {
         case .patron:

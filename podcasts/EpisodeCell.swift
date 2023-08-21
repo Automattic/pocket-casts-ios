@@ -180,7 +180,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             upNextIndicator.isHidden = !PlaybackManager.shared.inUpNext(episode: episode)
             upNextIndicator.tintColor = ThemeColor.support01()
 
-            if FeatureFlag.bookmarks.enabled {
+            let showBookmarksIcon = FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked
+            if showBookmarksIcon {
                 bookmarkIcon.image = UIImage(named: "bookmark-icon-episode")
                 bookmarkIcon.tintColor = mainTintColor
                 bookmarkIcon.isHidden = !episode.hasBookmarks
@@ -204,7 +205,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 } else if episode.downloaded(pathFinder: DownloadManager.shared) {
                     statusImage = UIImage(named: "list_downloaded")
                 } else {
-                    if FeatureFlag.bookmarks.enabled {
+                    if showBookmarksIcon {
                         statusImage = UIImage(named: "bookmark-icon-episode")?.tintedImage(mainTintColor ?? ThemeColor.primaryIcon02())
                         bookmarkIcon.image = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())
                     } else {

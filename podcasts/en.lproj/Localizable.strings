@@ -3847,3 +3847,6 @@
 
 /* Title of a button the clears the current search text */
 "episode_details_title" = "Details";
+
+/* A message informing the user a feature is locked. %1$@ is the name of the tier (Plus or Patron) */
+"boomarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";

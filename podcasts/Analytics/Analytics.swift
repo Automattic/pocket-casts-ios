@@ -26,6 +26,17 @@ class Analytics {
     }
 }
 
+// MARK: - Analytics + Source
+
+extension Analytics {
+    static func track(_ event: AnalyticsEvent, source: Any, properties: [AnyHashable: Any]? = nil) {
+        var sourceProperties = properties ?? [:]
+        sourceProperties.updateValue(source, forKey: "source")
+
+        track(event, properties: sourceProperties)
+    }
+}
+
 // MARK: - Opt out/in
 
 extension Analytics {

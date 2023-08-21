@@ -19,11 +19,6 @@ public struct BookmarkDataManager {
     ///   - transcription: A transcription of the clip if available
     @discardableResult
     public func add(uuid: String? = nil, episodeUuid: String, podcastUuid: String?, title: String, time: TimeInterval, dateCreated: Date = Date(), syncStatus: SyncStatus = .notSynced) -> String? {
-        // Prevent adding more than 1 bookmark at the same place
-        guard existingBookmark(forEpisode: episodeUuid, time: time) == nil else {
-            return nil
-        }
-
         var bookmarkUuid: String? = nil
 
         dbQueue.inDatabase { db in
@@ -91,8 +86,8 @@ public struct BookmarkDataManager {
     // MARK: - Retrieving
 
     /// Retrieves a single Bookmark for the given UUID
-    public func bookmark(for uuid: String) -> Bookmark? {
-        selectBookmarks(where: [.uuid], values: [uuid], limit: 1).first
+    public func bookmark(for uuid: String, allowDeleted: Bool = false) -> Bookmark? {
+        selectBookmarks(where: [.uuid], values: [uuid], limit: 1, allowDeleted: allowDeleted).first
     }
 
     /// Retrieves all the Bookmarks for an episode
@@ -217,7 +212,7 @@ public struct BookmarkDataManager {
     // MARK: - Sortings
 
     public enum SortOption {
-        case newestToOldest, oldestToNewest, timestamp
+        case newestToOldest, oldestToNewest, timestamp, episode
 
         var queryString: String {
             switch self {
@@ -225,7 +220,7 @@ public struct BookmarkDataManager {
                 return "ORDER BY \(Column.createdDate) DESC"
             case .oldestToNewest:
                 return "ORDER BY \(Column.createdDate) ASC"
-            case .timestamp:
+            case .timestamp, .episode:
                 return "ORDER BY \(Column.time) ASC"
             }
         }
