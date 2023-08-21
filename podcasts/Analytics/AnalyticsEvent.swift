@@ -266,6 +266,7 @@ enum AnalyticsEvent: String {
     case podcastScreenToggleSummary
     case podcastsScreenSortOrderChanged
     case podcastsScreenEpisodeGroupingChanged
+    case podcastsScreenTabTapped
 
     // MARK: - App Store Review Request
 
@@ -395,6 +396,7 @@ enum AnalyticsEvent: String {
     case episodeDetailShowNotesLinkTapped
     case episodeDetailPodcastNameTapped
     case episodeDetailDismissed
+    case episodeDetailTabChanged
 
     // MARK: - Multi Select View
 
@@ -639,4 +641,18 @@ enum AnalyticsEvent: String {
     case whatsnewDismissed
     case whatsnewConfirmButtonTapped
 
+    // MARK: - Bookmarks
+    case bookmarkCreated
+    case bookmarkUpdateTitle
+    case bookmarksUpgradeButtonTapped
+    case bookmarksEmptyGoToHeadphoneSettings
+    case bookmarkPlayTapped
+    case bookmarksSortByChanged
+    case bookmarkDeleted
+
+    // MARK: - Headphone Controls
+    case settingsHeadphoneControlsShown
+    case settingsHeadphoneControlsNextChanged
+    case settingsHeadphoneControlsPreviousChanged
+    case settingsHeadphoneControlsBookmarkSoundToggled
 }

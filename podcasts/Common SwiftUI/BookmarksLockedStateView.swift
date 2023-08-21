@@ -6,9 +6,10 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
     @ObservedObject var style: Style
     @StateObject private var upgradeModel: BookmarksUpgradeViewModel
 
-    init(style: Style, feature: PaidFeature) {
+    init(style: Style, feature: PaidFeature, source: BookmarkAnalyticsSource) {
         self.style = style
-        _upgradeModel = .init(wrappedValue: .init(feature: feature))
+
+        _upgradeModel = .init(wrappedValue: .init(feature: feature, source: source))
     }
 
     private var message: String {
@@ -64,9 +65,11 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
 
 private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature
+    let bookmarksSource: BookmarkAnalyticsSource
 
-    init(feature: PaidFeature) {
+    init(feature: PaidFeature, source: BookmarkAnalyticsSource) {
         self.feature = feature
+        self.bookmarksSource = source
         super.init()
     }
 
@@ -79,13 +82,14 @@ private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     }
 
     func upgradeTapped() {
+        Analytics.track(.bookmarksUpgradeButtonTapped, source: bookmarksSource)
         upgradeTapped(with: product(for: feature.tier))
     }
 
     override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {
         guard let parentController = SceneHelper.rootViewController() else { return }
 
-        feature.presentUpgradeController(from: parentController, source: "bookmarks_locked_state")
+        feature.presentUpgradeController(from: parentController, source: "bookmarks_locked")
     }
 
     private func product(for tier: SubscriptionTier) -> PlusProductPricingInfo? {

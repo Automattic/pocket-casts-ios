@@ -538,12 +538,21 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         Analytics.track(.episodeDetailDismissed, properties: ["source": viewSource])
     }
 
-    private enum Tab: Int {
+    private enum Tab: Int, AnalyticsDescribable {
         case details, bookmarks
 
         // Allow comparing against a raw int to the enum
         static func == (lhs: Int, rhs: Self) -> Bool {
             Tab(rawValue: lhs) == rhs
+        }
+
+        var analyticsDescription: String {
+            switch self {
+            case .details:
+                return "details"
+            case .bookmarks:
+                return "bookmarks"
+            }
         }
     }
 }
@@ -651,6 +660,10 @@ private extension EpisodeDetailViewController {
     }
 
     private func didSwitchToTab(_ tab: Tab, animated: Bool = true) {
+        if currentTab != tab {
+            Analytics.track(.episodeDetailTabChanged, properties: ["value": tab])
+        }
+
         currentTab = tab
         tabViewModel?.selectTabIndex(tab.rawValue)
 

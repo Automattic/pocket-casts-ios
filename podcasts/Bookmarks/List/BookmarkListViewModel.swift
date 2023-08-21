@@ -10,8 +10,15 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
     var sortOption: BookmarkSortOption {
         didSet {
+            Analytics.track(.bookmarksSortByChanged, source: analyticsSource, properties: [
+                "sort_order": sortOption
+            ])
             sortSettingValue.save(sortOption)
         }
+    }
+
+    var availableSortOptions: [BookmarkSortOption] {
+        [.newestToOldest, .oldestToNewest, .timestamp]
     }
 
     var bookmarks: [Bookmark] {
@@ -26,6 +33,7 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     private let sortSettingValue: SortSetting
 
     let feature: PaidFeature = .bookmarks
+    var analyticsSource: BookmarkAnalyticsSource = .unknown
 
     init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager
@@ -105,6 +113,8 @@ extension BookmarkListViewModel {
     }
 
     func openHeadphoneSettings() {
+        Analytics.track(.bookmarksEmptyGoToHeadphoneSettings, source: analyticsSource)
+
         router?.dismissBookmarksList()
         NavigationManager.sharedManager.navigateTo(NavigationManager.settingsHeadphoneKey)
     }
@@ -131,9 +141,7 @@ extension BookmarkListViewModel {
     func showSortOptions() {
         let optionPicker = OptionsPicker(title: L10n.sortBy)
 
-        let options: [BookmarkSortOption] = [.newestToOldest, .oldestToNewest, .timestamp]
-
-        optionPicker.addActions(options.map({ option in
+        optionPicker.addActions(availableSortOptions.map({ option in
             .init(label: option.label) { [weak self] in
                 self?.sorted(by: option)
             }
@@ -165,6 +173,7 @@ private extension BookmarkListViewModel {
                 return
             }
 
+            Analytics.track(.bookmarkDeleted, source: analyticsSource)
             reload()
         }
     }
@@ -179,6 +188,8 @@ private extension BookmarkSortOption {
             return L10n.podcastsEpisodeSortOldestToNewest
         case .timestamp:
             return L10n.sortOptionTimestamp
+        case .episode:
+            return L10n.episode
         }
     }
 }

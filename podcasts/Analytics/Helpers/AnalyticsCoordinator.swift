@@ -43,6 +43,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case videoPlayerSkipForwardLongPress = "video_player_skip_forward_long_press"
     case playbackFailed = "playback_failed"
     case watch
+    case bookmark
     case unknown
 
     var analyticsDescription: String { rawValue }
