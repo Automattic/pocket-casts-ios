@@ -218,6 +218,12 @@ class SyncTask: ApiBaseTask {
             DataManager.sharedManager.markAllEpisodeFiltersSynced()
             DataManager.sharedManager.markAllFoldersSynced()
 
+            if dataManager.bookmarksEnabled {
+                Task {
+                    await dataManager.bookmarks.markAllBookmarksAsSynced()
+                }
+            }
+
             let response = try Api_SyncUpdateResponse(serializedData: responseData)
             processServerData(response: response)
 

@@ -46,7 +46,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     @ViewBuilder
     private var emptyView: some View {
         if !feature.isUnlocked {
-            BookmarksLockedStateView(style: style.emptyStyle, feature: feature)
+            BookmarksLockedStateView(style: style.emptyStyle, feature: feature, source: viewModel.analyticsSource)
         }
         else if !viewModel.isSearching {
             BookmarksEmptyStateView(style: style.emptyStyle)

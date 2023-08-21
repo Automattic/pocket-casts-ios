@@ -159,7 +159,7 @@ private extension BookmarkDataManager {
     }
 
     func remove(apiBookmark: Api_BookmarkResponse) async -> Bool? {
-        guard let bookmark = bookmark(for: apiBookmark.bookmarkUuid) else {
+        guard let bookmark = bookmark(for: apiBookmark.bookmarkUuid, allowDeleted: true) else {
             return nil
         }
 

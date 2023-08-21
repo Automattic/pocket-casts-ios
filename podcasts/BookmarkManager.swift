@@ -155,6 +155,8 @@ private extension BookmarkSortOption {
             return .oldestToNewest
         case .timestamp:
             return .timestamp
+        case .episode:
+            return .episode
         }
     }
 }
