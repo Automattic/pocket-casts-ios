@@ -25,6 +25,8 @@ extension BookmarkSortOption: AnalyticsDescribable {
             return "date_added_oldest_to_newest"
         case .timestamp:
             return "timestamp"
+        case .episode:
+            return "episode"
         }
     }
 }
