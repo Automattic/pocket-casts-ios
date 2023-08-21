@@ -425,5 +425,5 @@ enum HeadphoneControlAction: JSONCodable {
 // MARK: - Bookmark Sorting
 
 enum BookmarkSortOption: JSONCodable {
-    case newestToOldest, oldestToNewest, timestamp
+    case newestToOldest, oldestToNewest, timestamp, episode
 }

@@ -7,8 +7,6 @@ class BookmarksPodcastListController: ThemedHostingController<BookmarksPodcastLi
     private let bookmarkManager: BookmarkManager
     private let viewModel: BookmarkPodcastListViewModel
 
-    private var cancellables = Set<AnyCancellable>()
-
     init(podcast: Podcast,
          bookmarkManager: BookmarkManager = PlaybackManager.shared.bookmarkManager,
          playbackManager: PlaybackManager = .shared) {
@@ -17,9 +15,12 @@ class BookmarksPodcastListController: ThemedHostingController<BookmarksPodcastLi
         self.playbackManager = playbackManager
 
         let sortOption = Constants.UserDefaults.bookmarks.podcastSort
-        self.viewModel = BookmarkPodcastListViewModel(podcast: podcast,
+        let viewModel = BookmarkPodcastListViewModel(podcast: podcast,
                                                       bookmarkManager: bookmarkManager,
                                                       sortOption: sortOption)
+        viewModel.analyticsSource = .podcasts
+
+        self.viewModel = viewModel
         super.init(rootView: .init(viewModel: viewModel))
 
         viewModel.router = self
@@ -34,12 +35,13 @@ class BookmarksPodcastListController: ThemedHostingController<BookmarksPodcastLi
 
 extension BookmarksPodcastListController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
-        playbackManager.playBookmark(bookmark)
+        playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
         dismiss(animated: true)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating)
+        controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)
     }

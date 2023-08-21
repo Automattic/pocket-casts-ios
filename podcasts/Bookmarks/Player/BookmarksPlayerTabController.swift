@@ -12,12 +12,13 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     private var cancellables = Set<AnyCancellable>()
 
     init(bookmarkManager: BookmarkManager, playbackManager: PlaybackManager) {
+        let viewModel = BookmarkEpisodeListViewModel(bookmarkManager: bookmarkManager, sortOption: Constants.UserDefaults.bookmarks.playerSort)
+        viewModel.analyticsSource = .player
+
         self.playbackManager = playbackManager
         self.bookmarkManager = bookmarkManager
-        let viewModel = BookmarkEpisodeListViewModel(bookmarkManager: bookmarkManager, sortOption: Constants.UserDefaults.bookmarks.playerSort)
         self.viewModel = viewModel
         self.controller = ThemedHostingController(rootView: BookmarksPlayerTab(viewModel: viewModel))
-
         super.init(nibName: nil, bundle: nil)
 
         viewModel.router = self
@@ -88,6 +89,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
             self?.handleEditDismissed(isNew: isNew, title: title)
         })
 
+        controller.source = viewModel.analyticsSource
+
         present(controller, animated: true)
     }
 
@@ -120,7 +123,7 @@ extension BookmarksPlayerTabController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
         containerDelegate?.scrollToNowPlaying()
 
-        playbackManager.playBookmark(bookmark)
+        playbackManager.playBookmark(bookmark, source: .player)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {

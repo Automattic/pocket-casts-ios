@@ -2,7 +2,7 @@ import Combine
 import PocketCastsDataModel
 
 class BookmarkEpisodeListViewModel: BookmarkListViewModel {
-    weak var episode: BaseEpisode? = nil {
+    var episode: BaseEpisode? = nil {
         didSet {
             reload()
         }
@@ -16,7 +16,12 @@ class BookmarkEpisodeListViewModel: BookmarkListViewModel {
     }
 
     override func reload() {
-        items = episode.map { bookmarkManager.bookmarks(for: $0, sorted: sortOption) } ?? []
+        guard feature.isUnlocked, let episode else {
+            items = []
+            return
+        }
+
+        items = bookmarkManager.bookmarks(for: episode, sorted: sortOption)
     }
 
     override func addListeners() {

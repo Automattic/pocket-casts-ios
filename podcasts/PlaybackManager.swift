@@ -1871,7 +1871,7 @@ private extension PlaybackManager {
     func handleRemoteAction(_ action: HeadphoneControlAction) {
         switch action {
         case .addBookmark:
-            bookmark()
+            bookmark(source: .headphones)
 
         case .previousChapter:
             guard let chapter = chapterManager.previousVisibleChapter() else { fallthrough }
@@ -1906,22 +1906,35 @@ private extension PlaybackManager {
 // MARK: - Bookmarks
 
 extension PlaybackManager {
-    func bookmark() {
-        guard
-            FeatureFlag.bookmarks.enabled,
-            let episode = currentEpisode()
-        else {
+    private var bookmarksEnabled: Bool {
+        FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked
+    }
+
+    func bookmark(source: BookmarkAnalyticsSource) {
+        guard bookmarksEnabled, let episode = currentEpisode() else {
             return
         }
 
         let currentTime = currentTime()
         bookmarkManager.add(to: episode, at: currentTime)
+
+        Analytics.track(.bookmarkCreated, source: source, properties: [
+            "episode_uuid": episode.uuid,
+            "podcast_uuid": (episode as? Episode)?.podcastUuid ?? "user_file",
+            "time": Int(currentTime)
+        ])
     }
 
     /// Plays the given bookmark
     /// - if the episode is not currently playing we'll load it and then play at the bookmark time
     /// - if the episode is playing, we trigger a seek to the bookmark time
-    func playBookmark(_ bookmark: Bookmark) {
+    func playBookmark(_ bookmark: Bookmark, source: BookmarkAnalyticsSource) {
+        guard bookmarksEnabled else { return }
+
+        Analytics.track(.bookmarkPlayTapped, source: source)
+
+        analyticsPlaybackHelper.currentSource = .bookmark
+
         // If we're already the now playing episode, then just seek to the bookmark time
         if isNowPlayingEpisode(episodeUuid: bookmark.episodeUuid) {
             seekTo(time: bookmark.time, startPlaybackAfterSeek: true)

@@ -623,6 +623,8 @@ private extension MainTabBarController {
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)
             })
 
+            controller.source = .headphones
+
             self?.presentFromRootController(controller)
         }
 

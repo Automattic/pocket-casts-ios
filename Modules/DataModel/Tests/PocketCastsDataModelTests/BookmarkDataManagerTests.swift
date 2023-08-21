@@ -42,24 +42,6 @@ final class BookmarkDataManagerTests: XCTestCase {
         XCTAssertEqual(dataManager.bookmarks(forEpisode: episode).count, 1)
     }
 
-    func testAddingABookmarkAtTheSameTimeAsAnotherDoesntGetAdded() {
-        let title = "Title 1"
-        let date = Date(timeIntervalSince1970: 321)
-        let time = 9876.0
-
-        let first = dataManager.add(episodeUuid: "episode-uuid", podcastUuid: "podcast-uuid", title: title, time: time, dateCreated: date)
-
-        let second = dataManager.add(episodeUuid: "episode-uuid", podcastUuid: "podcast-uuid", title: "Title 2", time: 9876, dateCreated: Date())
-
-        XCTAssertNil(second)
-
-        // Verify stored data was not modified
-        let bookmark = dataManager.bookmark(for: first!)
-        XCTAssertEqual(title, bookmark?.title)
-        XCTAssertEqual(time, bookmark?.time)
-        XCTAssertEqual(date, bookmark?.created)
-    }
-
     // MARK: - Retrieving
 
     func testGettingAllBookmarksForPodcast() {

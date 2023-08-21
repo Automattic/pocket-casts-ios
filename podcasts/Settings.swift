@@ -811,7 +811,7 @@ class Settings: NSObject {
 
     static var headphonesPreviousAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.previousAction.value
+            Constants.UserDefaults.headphones.previousAction.unlockedValue
         }
 
         set {
@@ -821,7 +821,7 @@ class Settings: NSObject {
 
     static var headphonesNextAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.nextAction.value
+            Constants.UserDefaults.headphones.nextAction.unlockedValue
         }
 
         set {
