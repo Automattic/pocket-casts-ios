@@ -1,6 +1,14 @@
 import UIKit
 
 open class SubscriptionHelper: NSObject {
+    public static let shared = SubscriptionHelper()
+
+    /// Returns the users active subscription tier or .none if they don't currently have one
+    open var activeTier: SubscriptionTier {
+        // Right now we're just returning the class var to maintain compatibility. In the future this will change.
+        Self.activeTier
+    }
+
     /// Returns the users active subscription type or .none if they don't currently have one
     public static var activeSubscriptionType: SubscriptionType {
         hasActiveSubscription() ? subscriptionType() : .none
@@ -28,7 +36,7 @@ open class SubscriptionHelper: NSObject {
     }
 
     /// The users subscription tier, or .none if there isn't one available
-    open class var subscriptionTier: SubscriptionTier {
+    public class var subscriptionTier: SubscriptionTier {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: ServerConstants.UserDefaults.subscriptionTier)
         }
@@ -40,7 +48,7 @@ open class SubscriptionHelper: NSObject {
         }
     }
 
-    open class func hasActiveSubscription() -> Bool {
+    public class func hasActiveSubscription() -> Bool {
         let status = UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionPaid)
         return status
     }
@@ -139,7 +147,7 @@ open class SubscriptionHelper: NSObject {
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.subscriptionType)
     }
 
-    open class func subscriptionType() -> SubscriptionType {
+    public class func subscriptionType() -> SubscriptionType {
         SubscriptionType(rawValue: UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionType)) ?? SubscriptionType.none
     }
 
