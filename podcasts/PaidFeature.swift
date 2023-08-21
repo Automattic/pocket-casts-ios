@@ -37,12 +37,12 @@ class PaidFeature: ObservableObject {
     let tier: SubscriptionTier
 
     /// The static class to use to check for the active subscription.
-    private let subscriptionHelper: SubscriptionHelper.Type
+    private let subscriptionHelper: SubscriptionHelper
 
     private var cancellables = Set<AnyCancellable>()
 
     /// Creates a new paid feature with the minimum `unlockTier`.
-    init(tier: SubscriptionTier, subscriptionHelper: SubscriptionHelper.Type = SubscriptionHelper.self) {
+    init(tier: SubscriptionTier, subscriptionHelper: SubscriptionHelper = .shared) {
         self.tier = tier
         self.subscriptionHelper = subscriptionHelper
 
