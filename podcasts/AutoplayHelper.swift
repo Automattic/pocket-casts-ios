@@ -4,12 +4,27 @@ import PocketCastsUtils
 
 /// Reponsible for handling the Autoplay of episodes
 class AutoplayHelper {
-    enum Playlist: Codable {
+    enum Playlist: Codable, AnalyticsDescribable {
         case podcast(uuid: String)
         case filter(uuid: String)
         case downloads
         case files
         case starred
+
+        var analyticsDescription: String {
+            switch self {
+            case .podcast(uuid: _):
+                return "podcast"
+            case .filter(uuid: _):
+                return "filter"
+            case .downloads:
+                return "downloads"
+            case .files:
+                return "files"
+            case .starred:
+                return "starred"
+            }
+        }
     }
 
     #if !os(watchOS)
@@ -71,6 +86,7 @@ class AutoplayHelper {
 
         userDefaults.set(data, forKey: userDefaultsKey)
         FileLog.shared.addMessage("Autoplay: saving the latest playlist: \(playlist)")
+        Analytics.track(.autoplayStarted, properties: ["source": playlist])
     }
     #endif
 }
