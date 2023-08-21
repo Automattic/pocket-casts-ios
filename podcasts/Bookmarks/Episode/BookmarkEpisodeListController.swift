@@ -46,7 +46,7 @@ extension BookmarkEpisodeListController: BookmarkListRouter {
                                                          bookmark: bookmark,
                                                          state: .updating)
 
-        controller.source = .episodes
+        controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)
     }

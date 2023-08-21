@@ -89,7 +89,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
             self?.handleEditDismissed(isNew: isNew, title: title)
         })
 
-        controller.source = .player
+        controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)
     }
