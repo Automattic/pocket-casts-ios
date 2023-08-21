@@ -1858,6 +1858,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         } else {
             // Reset the latest played from
             AutoplayHelper.shared.playedFrom(playlist: nil)
+
+            Analytics.track(.autoplayFinishedLastEpisode)
         }
         #endif
     }
