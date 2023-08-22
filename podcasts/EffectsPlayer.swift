@@ -4,6 +4,12 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 
+enum EffectsPlayerStrategy: Int {
+    case normalPlay = 1
+    case playAndRetryIfNeeded = 2
+    case playAndFallbackIfNeeded = 3
+}
+
 class EffectsPlayer: PlaybackProtocol, Hashable {
     private static let targetVolumeDbGain = 15.0 as Float
 
