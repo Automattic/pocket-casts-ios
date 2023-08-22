@@ -7,6 +7,12 @@ import UIKit
 class EffectsPlayer: PlaybackProtocol, Hashable {
     private static let targetVolumeDbGain = 15.0 as Float
 
+    /// The maximum number this player will retry to restard an audio if it fails
+    private static let maxNumberOfRetries = 3
+
+    /// The current attempt number to start the player
+    private static var attemptNumber = 1
+
     private var engine: AVAudioEngine?
     private var player: AVAudioPlayerNode?
 
@@ -144,7 +150,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 return
             }
 
-            strongSelf.player?.play()
+            strongSelf.playAndRetryIfNeeded()
 
             strongSelf.playerLock.unlock()
 
@@ -157,6 +163,41 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             }
 
             self?.aboutToPlay.value = false
+        }
+    }
+
+    // MARK: - Play
+    /// We have three ways to start the player here. This is here to try
+    /// to fix one of our top-crashes which is related to EffectsPlayer initialization
+
+    /// Just play the player and don't deal with any exception
+    func normalPlay() {
+        player?.play()
+    }
+
+    /// Try to play. If an exception happens, try again until `maxNumberOfRetries`
+    /// is reached.
+    func playAndRetryIfNeeded() {
+        var failedToStart = false
+        if Self.attemptNumber < Self.maxNumberOfRetries {
+            do {
+                try SJCommonUtils.catchException {
+                    self.player?.play()
+                }
+            } catch {
+                failedToStart = true
+                FileLog.shared.addMessage("EffectsPlayer: failed to start playback (\(Self.attemptNumber)/\(Self.maxNumberOfRetries): \(error)")
+                Self.attemptNumber += 1
+                self.playerLock.unlock()
+                PlaybackManager.shared.pause(userInitiated: false)
+                PlaybackManager.shared.play(userInitiated: false)
+            }
+        } else {
+            self.player?.play()
+        }
+
+        if !failedToStart {
+            Self.attemptNumber = 1
         }
     }
 
