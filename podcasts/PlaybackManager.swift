@@ -60,6 +60,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         BookmarkManager(playbackManager: self)
     }()
 
+    /// The player we should fallback to
+    private var fallbackToPlayer: PlaybackProtocol.Type? = nil
+
     init() {
         queue = PlaybackQueue()
         queue.loadPersistedQueue()
@@ -806,8 +809,22 @@ class PlaybackManager: ServerPlaybackDelegate {
         updateAllNowPlayingData()
     }
 
-    func playbackDidFail(logMessage: String?, userMessage: String?) {
+    func playbackDidFail(logMessage: String?, userMessage: String?, fallbackToDefaultPlayer: Bool = false) {
         FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
+
+        #if !os(watchOS)
+        if fallbackToDefaultPlayer, let episode = currentEpisode() {
+            FileLog.shared.addMessage("Playback Failed, attempting to fallback to: DefaultPlayer")
+
+            fallbackToPlayer = DefaultPlayer.self
+
+            load(episode: episode, autoPlay: true, overrideUpNext: false) { [weak self] in
+                self?.fallbackToPlayer = nil
+            }
+            return
+        }
+        #endif
+
         AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
@@ -1056,6 +1073,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let currEpisode = currentEpisode() else { return possiblePlayers }
 
         #if !os(watchOS)
+            if let fallbackToPlayer {
+                return [fallbackToPlayer]
+            }
+
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
                 possiblePlayers.append(GoogleCastPlayer.self)
 

@@ -150,7 +150,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 return
             }
 
-            strongSelf.playAndRetryIfNeeded()
+            strongSelf.playAndFallbackIfNeeded()
 
             strongSelf.playerLock.unlock()
 
@@ -198,6 +198,18 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         if !failedToStart {
             Self.attemptNumber = 1
+        }
+    }
+
+    /// Try to play. If it fails, fallback to DefaultPlayer
+    func playAndFallbackIfNeeded() {
+        do {
+            try SJCommonUtils.catchException {
+                self.player?.play()
+            }
+        } catch {
+            self.playerLock.unlock()
+            PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil, fallbackToDefaultPlayer: true)
         }
     }
 
