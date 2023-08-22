@@ -37,9 +37,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var lastSeekTime = 0 as TimeInterval
 
     // this lock is to avoid race conditions where you're destroying the player while in the middle of setting it up (since the play method does its work asynchronously)
-    private lazy var playerLock: NSLock? = {
-        Settings.lockEffectsPlayer ? NSLock() : nil
-    }()
+    private lazy var playerLock = NSLock()
 
     // MARK: - PlaybackProtocol Impl
 
@@ -65,7 +63,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self, let episode = strongSelf.episode else { return }
 
-            strongSelf.playerLock?.lock()
+            strongSelf.playerLock.lock()
 
             strongSelf.engine = AVAudioEngine()
             strongSelf.player = AVAudioPlayerNode()
@@ -102,7 +100,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                     DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
                 }
             } catch {
-                strongSelf.playerLock?.unlock()
+                strongSelf.playerLock.unlock()
                 PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
                 return
             }
@@ -134,13 +132,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 strongSelf.engine?.prepare()
                 try strongSelf.engine?.start()
             } catch {
-                strongSelf.playerLock?.unlock()
+                strongSelf.playerLock.unlock()
                 PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
                 return
             }
             // there seem to be cases where the above call succeeds but the engine isn't actually started. Handle that here
             if !(strongSelf.engine?.isRunning ?? false) {
-                strongSelf.playerLock?.unlock()
+                strongSelf.playerLock.unlock()
                 FileLog.shared.addMessage("EffectsPlayer: engine reported not running, calling playbackDidFail")
                 PlaybackManager.shared.playbackDidFail(logMessage: "AVAudioEngine reported not running", userMessage: nil)
                 return
@@ -148,7 +146,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
             strongSelf.player?.play()
 
-            strongSelf.playerLock?.unlock()
+            strongSelf.playerLock.unlock()
 
             completion?()
 
@@ -237,8 +235,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func endPlayback(permanent: Bool) {
-        playerLock?.lock()
-        defer { playerLock?.unlock() }
+        playerLock.lock()
+        defer { playerLock.unlock() }
 
         shouldKeepPlaying.value = false
         aboutToPlay.value = false

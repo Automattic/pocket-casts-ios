@@ -859,11 +859,6 @@ class Settings: NSObject {
             return remote.boolValue
         }
 
-        static var lockEffectsPlayer: Bool {
-            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.lockEffectsPlayer)
-            return remote.boolValue
-        }
-
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
