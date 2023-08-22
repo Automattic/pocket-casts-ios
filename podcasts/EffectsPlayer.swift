@@ -156,7 +156,16 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 return
             }
 
-            strongSelf.playAndFallbackIfNeeded()
+            switch Settings.effectsPlayerStrategy {
+            case .normalPlay:
+                strongSelf.normalPlay()
+            case .playAndRetryIfNeeded:
+                strongSelf.playAndRetryIfNeeded()
+            case .playAndFallbackIfNeeded:
+                strongSelf.playAndFallbackIfNeeded()
+            default:
+                strongSelf.normalPlay()
+            }
 
             strongSelf.playerLock.unlock()
 
