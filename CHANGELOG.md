@@ -1,3 +1,7 @@
+7.47
+-----
+
+
 7.46
 -----
 - Added import support for audio and movie files [#1039]

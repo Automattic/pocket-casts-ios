@@ -3822,6 +3822,9 @@
 /* A message that appears after the user created a bookmark and %1$@ displays the title they choose for it. */
 "bookmark_added_notification" = "Bookmark \"%1$@\" added";
 
+/* A message that appears after the user updates a bookmark and %1$@ displays the title they choose for it. */
+"bookmark_updated_notification" = "Bookmark \"%1$@\" updated";
+
 /* A message that appears to inform the user their bookmark is added */
 "bookmark_added" = "Bookmark added";
 
@@ -3848,6 +3851,9 @@
 
 /* Title of a button the clears the current search text */
 "episode_details_title" = "Details";
+
+/* A message informing the user a feature is locked. %1$@ is the name of the tier (Plus or Patron) */
+"boomarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";
 
 /* MARK: - InfoPlist.strings */
 
