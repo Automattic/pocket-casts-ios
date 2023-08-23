@@ -110,7 +110,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            FileLog.shared.addMessage("Failed to DELETE to server \(url.absoluteString) \(error.localizedDescription)")
+            FileLog.shared.addMessage("Failed to DELETE to server (\(url.absoluteString)) \(error.localizedDescription)")
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
