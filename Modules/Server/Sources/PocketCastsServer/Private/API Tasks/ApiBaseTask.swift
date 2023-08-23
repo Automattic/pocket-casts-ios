@@ -54,7 +54,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
+            FileLog.shared.addMessage("Failed to POST to server (\(url) \(error.localizedDescription)")
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
@@ -88,7 +88,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse)
         } catch {
-            FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
+            FileLog.shared.addMessage("Failed to GET from server (\(url) \(error.localizedDescription)")
         }
 
         return (nil, nil)
@@ -110,7 +110,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
+            FileLog.shared.addMessage("Failed to DELETE to server \(url.absoluteString) \(error.localizedDescription)")
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
