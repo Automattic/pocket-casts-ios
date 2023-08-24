@@ -54,7 +54,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            FileLog.shared.addMessage("Failed to POST to server (\(url)) \(error.localizedDescription)")
+            logFailure(method: "POST", url: url, error: error)
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
@@ -88,7 +88,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse)
         } catch {
-            FileLog.shared.addMessage("Failed to GET from server (\(url)) \(error.localizedDescription)")
+            logFailure(method: "GET", url: url, error: error)
         }
 
         return (nil, nil)
@@ -110,7 +110,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            FileLog.shared.addMessage("Failed to DELETE to server (\(url.absoluteString)) \(error.localizedDescription)")
+            logFailure(method: "DELETE", url: url.absoluteString, error: error)
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
@@ -140,4 +140,8 @@ class ApiBaseTask: Operation {
     // for subclasses that talk to the API server to override
     func apiTokenAcquired(token: String) {}
     func apiTokenAcquisitionFailed() { print("\(self) apiTokenAcquisitionFailed") }
+
+    private func logFailure(method: String, url: String, error: Error) {
+        FileLog.shared.addMessage("[\(type(of: self))] Failed to \(method) to server (\(url)) \(error)")
+    }
 }
