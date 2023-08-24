@@ -1850,17 +1850,21 @@ class PlaybackManager: ServerPlaybackDelegate {
         // If Autoplay is enabled we check if there's another episode to play
         if Settings.autoplay,
            queue.upNextCount() == 0,
-           let episode = currentEpisode(),
-           let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
-            FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
-            queue.add(episode: nextEpisode, fireNotification: false)
-            Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid])
-        } else {
-            // Reset the latest played from
-            AutoplayHelper.shared.playedFrom(playlist: nil)
+           let episode = currentEpisode() {
 
-            Analytics.track(.autoplayFinishedLastEpisode)
+            if let nextEpisode = AutoplayHelper.shared.nextEpisode(currentEpisodeUuid: episode.uuid) {
+                FileLog.shared.addMessage("Autoplaying next episode: \(nextEpisode.displayableTitle())")
+                queue.add(episode: nextEpisode, fireNotification: false)
+                Analytics.track(.playbackEpisodeAutoplayed, properties: ["episode_uuid": nextEpisode.uuid])
+                return
+            } else {
+                Analytics.track(.autoplayFinishedLastEpisode)
+            }
+
         }
+
+        // Nothing to autoplay or Up Next has items, reset the latest played from
+        AutoplayHelper.shared.playedFrom(playlist: nil)
         #endif
     }
 
