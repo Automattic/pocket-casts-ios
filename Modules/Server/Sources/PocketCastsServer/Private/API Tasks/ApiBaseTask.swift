@@ -88,7 +88,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse)
         } catch {
-            FileLog.shared.addMessage("Failed to GET from server (\(url) \(error.localizedDescription)")
+            FileLog.shared.addMessage("Failed to GET from server (\(url)) \(error.localizedDescription)")
         }
 
         return (nil, nil)
