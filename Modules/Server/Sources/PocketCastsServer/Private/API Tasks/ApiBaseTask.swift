@@ -54,7 +54,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            FileLog.shared.addMessage("Failed to POST to server (\(url) \(error.localizedDescription)")
+            FileLog.shared.addMessage("Failed to POST to server (\(url)) \(error.localizedDescription)")
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
