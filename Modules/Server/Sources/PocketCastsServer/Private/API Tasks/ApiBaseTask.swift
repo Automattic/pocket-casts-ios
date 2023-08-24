@@ -36,7 +36,8 @@ class ApiBaseTask: Operation {
 
     private func performPostToServer(url: String, token: String, data: Data, retryOnUnauthorized: Bool = true) -> (Data?, Int) {
         let requestUrl = ServerHelper.asUrl(url)
-        var request = createRequest(url: requestUrl, method: "POST", token: token)
+        let method = "POST"
+        var request = createRequest(url: requestUrl, method: method, token: token)
         do {
             request.httpBody = data
 
@@ -54,7 +55,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            logFailure(method: "POST", url: url, error: error)
+            logFailure(method: method, url: url, error: error)
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
@@ -66,7 +67,8 @@ class ApiBaseTask: Operation {
 
     func performGetToServer(url: String, token: String, retryOnUnauthorized: Bool = true, customHeaders: [String: String]? = nil) -> (Data?, HTTPURLResponse?) {
         let requestUrl = ServerHelper.asUrl(url)
-        var request = createRequest(url: requestUrl, method: "GET", token: token)
+        let method = "GET"
+        var request = createRequest(url: requestUrl, method: method, token: token)
         if let customHeaders = customHeaders {
             for header in customHeaders {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
@@ -88,7 +90,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse)
         } catch {
-            logFailure(method: "GET", url: url, error: error)
+            logFailure(method: method, url: url, error: error)
         }
 
         return (nil, nil)
@@ -96,7 +98,8 @@ class ApiBaseTask: Operation {
 
     func deleteToServer(url: String, token: String?, data: Data) -> (Data?, Int) {
         let url = ServerHelper.asUrl(url)
-        var request = createRequest(url: url, method: "DELETE", token: token)
+        let method = "DELETE"
+        var request = createRequest(url: url, method: method, token: token)
         do {
             request.httpBody = data
 
@@ -110,7 +113,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            logFailure(method: "DELETE", url: url.absoluteString, error: error)
+            logFailure(method: method, url: url.absoluteString, error: error)
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
