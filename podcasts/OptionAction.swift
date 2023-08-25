@@ -17,7 +17,7 @@ class OptionAction {
         self.icon = icon
         self.tintIcon = tintIcon
         self.action = action
-        self.selected = false
+        self.selected = selected
     }
 
     init(label: String, icon: String, tintIcon: Bool = true, selected: Bool, onOffAction: Bool, action: @escaping (() -> Void)) {
