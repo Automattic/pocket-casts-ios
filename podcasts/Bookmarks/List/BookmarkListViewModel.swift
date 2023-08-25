@@ -140,9 +140,10 @@ extension BookmarkListViewModel {
 
     func showSortOptions() {
         let optionPicker = OptionsPicker(title: L10n.sortBy)
+        let currentSort = sortOption
 
         optionPicker.addActions(availableSortOptions.map({ option in
-            .init(label: option.label) { [weak self] in
+                .init(label: option.label, selected: option == currentSort) { [weak self] in
                 self?.sorted(by: option)
             }
         }))
