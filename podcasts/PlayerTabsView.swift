@@ -55,18 +55,6 @@ class PlayerTabsView: UIScrollView {
         }
     }
 
-    var leadingEdgePullDistance: CGFloat = 0 {
-        didSet {
-            updateLine()
-        }
-    }
-
-    var trailingEdgePullDistance: CGFloat = 0 {
-        didSet {
-            updateLine()
-        }
-    }
-
     weak var tabDelegate: PlayerTabDelegate?
 
     private let lineLayer = CAShapeLayer()
@@ -93,7 +81,6 @@ class PlayerTabsView: UIScrollView {
         showsHorizontalScrollIndicator = false
         clipsToBounds = true
 
-        configureLine()
         updateTabs()
 
         addSubview(tabsStackView)
@@ -151,7 +138,6 @@ class PlayerTabsView: UIScrollView {
         }
 
         layoutIfNeeded()
-        updateLine()
     }
 
     @objc private func buttonTapped(_ sender: UIButton) {
@@ -161,57 +147,7 @@ class PlayerTabsView: UIScrollView {
         tabDelegate?.didSwitchToTab(index: currentTab)
     }
 
-    private func configureLine() {
-        lineLayer.lineWidth = 1
-        let contrast01 = ThemeColor.playerContrast01().cgColor
-        lineLayer.fillColor = contrast01
-        lineLayer.strokeColor = contrast01
-
-        lineLayer.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 24, height: TabConstants.lineHeight)).cgPath
-        lineLayer.lineCap = CAShapeLayerLineCap.round
-
-        layer.addSublayer(lineLayer)
-    }
-
-    private func updateLine() {
-        lineLayer.path = UIBezierPath(rect: lineRectForTab(index: currentTab)).cgPath
-    }
-
-    func animateBackToNonCompressed() {
-        let currentLine = lineLayer.path
-        let newLine = lineRectForTab(index: currentTab, ignoreLeadingTrailing: true)
-
-        //  line moving animation
-        let animation = CABasicAnimation(keyPath: "path")
-        animation.fromValue = currentLine
-        animation.toValue = UIBezierPath(rect: newLine).cgPath
-
-        animation.duration = Constants.Animation.defaultAnimationTime
-        animation.fillMode = CAMediaTimingFillMode.forwards
-        animation.isRemovedOnCompletion = false
-
-        CATransaction.begin()
-        CATransaction.setCompletionBlock {
-            self.leadingEdgePullDistance = 0
-            self.trailingEdgePullDistance = 0
-            self.lineLayer.removeAllAnimations()
-        }
-        lineLayer.add(animation, forKey: "animatePath")
-        CATransaction.commit()
-    }
-
     private func animateTabChange(fromIndex: Int, toIndex: Int) {
-        let previousLine = lineRectForTab(index: fromIndex)
-        let newLine = lineRectForTab(index: toIndex)
-
-        //  line moving animation
-        let animation = CABasicAnimation(keyPath: "path")
-        animation.fromValue = UIBezierPath(rect: previousLine).cgPath
-        animation.toValue = UIBezierPath(rect: newLine).cgPath
-
-        animation.duration = Constants.Animation.defaultAnimationTime
-        animation.fillMode = CAMediaTimingFillMode.forwards
-        animation.isRemovedOnCompletion = false
 
         // text color animation
         if let fromTab = tabsStackView.arrangedSubviews[safe: fromIndex] as? UIButton {
@@ -228,34 +164,10 @@ class PlayerTabsView: UIScrollView {
             // Scroll the button into view, but make sure it clears the fade
             scrollRectToVisible(toTab.frame.insetBy(dx: -TabConstants.fadeSize, dy: 0), animated: true)
         }
-
-        CATransaction.begin()
-        CATransaction.setCompletionBlock {
-            self.updateLine()
-            self.lineLayer.removeAllAnimations()
-        }
-        lineLayer.add(animation, forKey: "animatePath")
-        CATransaction.commit()
     }
 
-    private func lineRectForTab(index: Int, ignoreLeadingTrailing: Bool = false) -> CGRect {
-        guard let tab = tabsStackView.arrangedSubviews[safe: index] else { return CGRect.zero }
 
-        let height = TabConstants.lineHeight
-        let offset = TabConstants.lineOffset
 
-        let tabRect = convert(tab.frame, from: tab.superview)
-        if !ignoreLeadingTrailing, leadingEdgePullDistance > 0 || trailingEdgePullDistance > 0 {
-            let width = tabRect.width - min(tabRect.width * 0.9, (leadingEdgePullDistance + trailingEdgePullDistance) / 3)
-            if leadingEdgePullDistance > 0 {
-                return CGRect(x: tabRect.minX, y: tabRect.maxY - offset, width: width, height: height)
-            } else {
-                return CGRect(x: tabRect.minX + (tabRect.width - width), y: tabRect.maxY - offset, width: width, height: height)
-            }
-        } else {
-            return CGRect(x: tabRect.minX, y: tabRect.maxY - offset, width: tabRect.width, height: height)
-        }
-    }
 
     private enum TabConstants {
         static let titleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
