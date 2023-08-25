@@ -1,5 +1,6 @@
 import Combine
 import PocketCastsDataModel
+import PocketCastsServer
 
 class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     typealias SortSetting = Constants.SettingValue<BookmarkSortOption>
@@ -69,6 +70,13 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] bookmark in
                 self?.refresh(bookmark: bookmark)
+            }
+            .store(in: &cancellables)
+
+        ServerNotifications.syncCompleted.publisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] bookmark in
+                self?.reload()
             }
             .store(in: &cancellables)
 
