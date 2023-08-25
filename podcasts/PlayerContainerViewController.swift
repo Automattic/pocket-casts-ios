@@ -122,34 +122,25 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     // MARK: - PlayerItemContainerDelegate
 
     func scrollToCurrentChapter() {
-        guard let chapterTabIndex = tabsView.tabs.firstIndex(of: .chapters) else { return }
-
-        tabsView.currentTab = chapterTabIndex
-        let scrollRect = CGRect(x: CGFloat(chapterTabIndex) * mainScrollView.frame.width, y: 0, width: mainScrollView.frame.width, height: mainScrollView.frame.height)
-        mainScrollView.scrollRectToVisible(scrollRect, animated: true)
+        guard scroll(to: .chapters) else {
+            return
+        }
 
         chaptersItem.scrollToCurrentlyPlayingChapter(animated: false)
     }
 
     func scrollToNowPlaying() {
-        tabsView.currentTab = 0
-        let scrollRect = CGRect(x: 0, y: 0, width: mainScrollView.frame.width, height: mainScrollView.frame.height)
-        mainScrollView.scrollRectToVisible(scrollRect, animated: true)
+        scroll(to: .nowPlaying)
     }
 
     func scrollToBookmarks() {
-        guard let index = tabsView.tabs.firstIndex(of: .bookmarks) else { return }
-
-        tabsView.currentTab = index
-        let scrollRect = CGRect(x: CGFloat(index) * mainScrollView.frame.width, y: 0, width: mainScrollView.frame.width, height: mainScrollView.frame.height)
-        mainScrollView.scrollRectToVisible(scrollRect, animated: true)
+        scroll(to: .bookmarks)
     }
 
     // MARK: - PlayerTabDelegate
 
     func didSwitchToTab(index: Int) {
-        let scrollWidth = mainScrollView.bounds.width
-        mainScrollView.setContentOffset(CGPoint(x: CGFloat(index) * scrollWidth, y: 0), animated: true)
+        scroll(to: index)
     }
 
     private func setupObservers() {
@@ -236,5 +227,30 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @objc func handleAppWillBecomeActive() {
         didSwitchToTab(index: tabsView.currentTab)
+    }
+}
+
+private extension PlayerContainerViewController {
+    @discardableResult
+    func scroll(to tab: PlayerTabs) -> Bool {
+        guard let index = tabsView.tabs.firstIndex(of: tab) else {
+            return false
+        }
+
+        scroll(to: index)
+
+        return true
+    }
+
+    func scroll(to index: Int) {
+        if tabsView.currentTab != index {
+            tabsView.currentTab = index
+        }
+
+        let offset = CGFloat(index) * mainScrollView.frame.width
+
+        UIView.animate(withDuration: Constants.Animation.playerTabSwitch) {
+            self.mainScrollView.setContentOffset(.init(x: offset, y: 0), animated: false)
+        }
     }
 }
