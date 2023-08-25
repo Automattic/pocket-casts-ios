@@ -195,15 +195,11 @@ private extension Api_SyncUserBookmark {
         self.time.value = .init(bookmark.time)
         self.createdAt = .init(date: bookmark.created)
 
-        bookmark.deletedModified.map {
-            self.isDeletedModified = .init(date: $0)
-            self.isDeleted.value = bookmark.deleted
-        }
+        self.isDeleted.value = bookmark.deleted
+        self.isDeletedModified = .init(date: bookmark.deletedModified ?? bookmark.created)
 
-        bookmark.titleModified.map {
-            self.titleModified = .init(date: $0)
-            self.title.value = bookmark.title
-        }
+        self.title.value = bookmark.title
+        self.titleModified = .init(date: bookmark.titleModified ?? bookmark.created)
     }
 }
 
