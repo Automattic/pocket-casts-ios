@@ -54,11 +54,13 @@ class BookmarksPlayerTabController: PlayerItemViewController {
             .filter { [weak self] event in
                 self?.viewModel.episode?.uuid == event.episode
             }
-            .compactMap { [weak self] event in
-                self?.bookmarkManager.bookmark(for: event.uuid)
+            .map { [weak self] event in
+                (event.isDuplicate, self?.bookmarkManager.bookmark(for: event.uuid))
             }
-            .sink { [weak self] bookmark in
-                self?.handleBookmarkCreated(bookmark: bookmark)
+            .sink { [weak self] info in
+                guard let bookmark = info.1 else { return }
+
+                self?.handleBookmarkCreated(bookmark: bookmark, isDuplicate: info.0)
             }
             .store(in: &cancellables)
     }
@@ -73,7 +75,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         viewModel.episode = playbackManager.currentEpisode()
     }
 
-    private func handleBookmarkCreated(bookmark: Bookmark) {
+    private func handleBookmarkCreated(bookmark: Bookmark, isDuplicate: Bool) {
         // Prevent the add bookmark window from opening if the app isn't active
         // We also prevent it from opening while connected to CarPlay to not distract anyone, and in my testing the app state is always
         // true while connected to CarPlay, even if it's in the background
@@ -81,7 +83,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
             return
         }
 
-        showBookmarkEdit(isNew: true, bookmark: bookmark)
+        showBookmarkEdit(isNew: !isDuplicate, bookmark: bookmark)
     }
 
     private func showBookmarkEdit(isNew: Bool, bookmark: Bookmark) {
