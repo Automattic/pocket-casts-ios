@@ -2704,6 +2704,8 @@ internal enum L10n {
   internal static var starEpisode: String { return L10n.tr("Localizable", "star_episode") }
   /// Star
   internal static var starEpisodeShort: String { return L10n.tr("Localizable", "star_episode_short") }
+  /// Start Free Trial
+  internal static var startFreeTrial: String { return L10n.tr("Localizable", "start_free_trial") }
   /// You've listened for %1$@. %2$@
   internal static func statsAccessibilityListenHistoryFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "stats_accessibility_listen_history_format", String(describing: p1), String(describing: p2))
@@ -2860,6 +2862,10 @@ internal enum L10n {
   internal static var upNextEmptyTitle: String { return L10n.tr("Localizable", "up_next_empty_title") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
+  /// Upgrade to %1$@
+  internal static func upgradeToPlan(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))
+  }
   /// Title (A-Z)
   internal static var uploadSortAlpha: String { return L10n.tr("Localizable", "upload_sort_alpha") }
   /// Volume Boost
