@@ -44,6 +44,11 @@ class BookmarkManager {
         // If the episode has a podcast attached, also save that
         let podcastUuid: String? = (episode as? Episode)?.podcastUuid
 
+        if let existing = dataManager.existingBookmark(forEpisode: episode.uuid, time: time) {
+            onBookmarkCreated.send(.init(uuid: existing.uuid, episode: episode.uuid, podcast: podcastUuid, isDuplicate: true))
+            return existing
+        }
+
         return dataManager.add(episodeUuid: episode.uuid, podcastUuid: podcastUuid, title: title, time: time).flatMap {
             FileLog.shared.addMessage("[Bookmarks] Added bookmark for \(episode.displayableTitle()) at \(time)")
 
@@ -103,6 +108,9 @@ class BookmarkManager {
 
             /// The uuid of the podcast the bookmark was added to, if available
             let podcast: String?
+
+            /// Whether the bookmark that is being created already existed for the current time
+            var isDuplicate: Bool = false
         }
 
         struct Changed {
