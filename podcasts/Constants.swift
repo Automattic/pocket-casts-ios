@@ -224,6 +224,8 @@ struct Constants {
         static let bottomCardAnimationTime = 0.2 as TimeInterval
         static let playerDragLineFadeTime = 0.6 as TimeInterval
         static let multiSelectStatusDelayTime = 0.8 as TimeInterval
+
+        static let playerTabSwitch: TimeInterval = 0.2
     }
 
     #if !os(watchOS)
