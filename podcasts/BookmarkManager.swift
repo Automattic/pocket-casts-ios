@@ -123,8 +123,13 @@ class BookmarkManager {
             let items: [Info]
 
             struct Info {
+                /// The uuid of the deleted bookmark
                 let uuid: String
+
+                /// The uuid of the episode the bookmark was removed from
                 let episode: String
+
+                /// The uuid of the podcast the bookmark was removed from, if available
                 let podcast: String?
             }
         }
