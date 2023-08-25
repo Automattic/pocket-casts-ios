@@ -264,3 +264,63 @@ private extension PlayerTabsView {
         Analytics.track(.playerTabSelected, properties: ["tab": tabName])
     }
 }
+
+/// A button subclass that applies the tab button style
+private class PlayerTabButton: UIButton {
+    let title: String
+
+    init(title: String) {
+        self.title = title
+        super.init(frame: .zero)
+
+        configuration = .plain()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func updateConfiguration() {
+        let background: UIColor
+        let text: UIColor
+
+        var config = UIButton.Configuration.plain()
+        config.automaticallyUpdateForSelection = true
+
+        switch state {
+
+        case .selected, [.selected, .highlighted]:
+            background = ThemeColor.playerContrast05()
+            text = ThemeColor.playerContrast01()
+
+        case .highlighted:
+            background = ThemeColor.playerContrast05().withAlphaComponent(0.1)
+            text = ThemeColor.playerContrast01()
+
+        default:
+            background = .clear
+            text = ThemeColor.playerContrast02()
+        }
+
+        config.contentInsets = .init(top: 8, leading: 12, bottom: 8, trailing: 12)
+
+        config.attributedTitle = {
+            var attributedTitle = AttributedString(title)
+            attributedTitle.font = TabConstants.titleFont
+            attributedTitle.foregroundColor = text
+            return attributedTitle
+        }()
+
+        config.background = {
+            var config = UIBackgroundConfiguration.clear()
+            config.backgroundColor = .clear
+            return config
+        }()
+
+        // Background isn't animatable, so we'll default to using the layer
+        layer.backgroundColor = background.cgColor
+        layer.cornerRadius = 8
+
+        self.configuration = config
+    }
+}
