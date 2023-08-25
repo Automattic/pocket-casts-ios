@@ -62,6 +62,9 @@ class PlayerTabsView: UIScrollView {
     private lazy var tabsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .fill
+
         stackView.spacing = TabConstants.spacing
 
         return stackView
@@ -122,18 +125,11 @@ class PlayerTabsView: UIScrollView {
         tabsStackView.removeAllSubviews()
 
         for (index, tab) in tabs.enumerated() {
-            let button = UIButton(type: .custom)
-            button.isPointerInteractionEnabled = true
-            button.titleLabel?.font = TabConstants.titleFont
-
-            let titleColor = index == currentTab ? ThemeColor.playerContrast01() : ThemeColor.playerContrast02()
-            button.setTitleColor(titleColor, for: .normal)
-
-            let title = tab.description
-            button.setTitle(title, for: .normal)
+            let button = PlayerTabButton(title: tab.description)
+            button.isSelected = index == currentTab
             button.tag = index
+            button.isPointerInteractionEnabled = true
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-
             tabsStackView.addArrangedSubview(button)
         }
 
@@ -141,43 +137,40 @@ class PlayerTabsView: UIScrollView {
     }
 
     @objc private func buttonTapped(_ sender: UIButton) {
-        let tabIndex = sender.tag
-
-        currentTab = tabIndex
+        currentTab = sender.tag
         tabDelegate?.didSwitchToTab(index: currentTab)
     }
 
     private func animateTabChange(fromIndex: Int, toIndex: Int) {
+        let animationDuration = Constants.Animation.playerTabSwitch
 
         // text color animation
         if let fromTab = tabsStackView.arrangedSubviews[safe: fromIndex] as? UIButton {
-            UIView.transition(with: fromTab, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve, animations: {
-                fromTab.setTitleColor(ThemeColor.playerContrast02(), for: .normal)
-            }, completion: nil)
+            UIView.transition(with: fromTab, duration: animationDuration, options: .transitionCrossDissolve, animations: {
+                fromTab.isSelected = false
+            })
         }
 
         if let toTab = tabsStackView.arrangedSubviews[safe: toIndex] as? UIButton {
-            UIView.transition(with: toTab, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve, animations: {
-                toTab.setTitleColor(ThemeColor.playerContrast01(), for: .normal)
-            }, completion: nil)
+            UIView.transition(with: toTab, duration: animationDuration, options: .transitionCrossDissolve, animations: {
+                toTab.isSelected = true
+            })
 
             // Scroll the button into view, but make sure it clears the fade
             scrollRectToVisible(toTab.frame.insetBy(dx: -TabConstants.fadeSize, dy: 0), animated: true)
         }
     }
+}
 
 
+private enum TabConstants {
+    static let titleFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
+    static let spacing: CGFloat = 0
 
+    static let lineHeight: CGFloat = 2
+    static let lineOffset: CGFloat = 8
 
-    private enum TabConstants {
-        static let titleFont = UIFont.systemFont(ofSize: 16, weight: .bold)
-        static let spacing: CGFloat = 14
-
-        static let lineHeight: CGFloat = 2
-        static let lineOffset: CGFloat = 8
-
-        static let fadeSize: CGFloat = 50
-    }
+    static let fadeSize: CGFloat = 50
 }
 
 // MARK: - Private: Scroll Fading
