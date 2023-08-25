@@ -16,6 +16,7 @@ class BookmarkEditViewModel: ObservableObject {
     /// Localized Strings
     let headerTitle: String
     let headerSubTitle: String
+    let saveButtonTitle: String
     let placeholder: String = L10n.bookmarkDefaultTitle
 
     @Published var didAppear = false
@@ -35,9 +36,11 @@ class BookmarkEditViewModel: ObservableObject {
         case .adding:
             headerTitle = L10n.addBookmark
             headerSubTitle = L10n.addBookmarkSubtitle
+            saveButtonTitle = L10n.saveBookmark
         case .updating:
             headerTitle = L10n.changeBookmarkTitle
             headerSubTitle = L10n.changeBookmarkSubtitle
+            saveButtonTitle = L10n.changeBookmarkTitle
         }
     }
 
