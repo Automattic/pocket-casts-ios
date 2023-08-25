@@ -19,7 +19,8 @@ class BookmarkEditTitleViewController: ThemedHostingController<BookmarkEditTitle
         self.viewModel = viewModel
         self.onDismiss = onDismiss
 
-        super.init(rootView: .init(viewModel: viewModel))
+        let theme = BookmarkEditTheme(episode: manager.episode(for: bookmark))
+        super.init(rootView: .init(viewModel: viewModel, theme: theme))
 
         viewModel.router = self
     }
