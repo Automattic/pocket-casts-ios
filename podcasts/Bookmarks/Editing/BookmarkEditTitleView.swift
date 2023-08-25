@@ -4,15 +4,17 @@ import PocketCastsUtils
 import SwiftUI
 
 struct BookmarkEditTitleView: View {
-    @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: BookmarkEditViewModel
+    @ObservedObject var theme: BookmarkEditTheme
 
     @State private var bookmarkTitle: String
     @State private var textFieldSize: CGSize = .zero
     @FocusState private var focusedField: Field?
 
-    init(viewModel: BookmarkEditViewModel) {
+    init(viewModel: BookmarkEditViewModel, theme: BookmarkEditTheme) {
         self.viewModel = viewModel
+        self.theme = theme
+
         _bookmarkTitle = .init(initialValue: viewModel.originalTitle)
     }
 
@@ -22,14 +24,14 @@ struct BookmarkEditTitleView: View {
 
             Image("close")
                 .renderingMode(.template)
-                .foregroundStyle(theme.playerContrast01)
+                .foregroundStyle(theme.closeButton)
                 .buttonize {
                     viewModel.cancel()
                 }
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(theme.playerBackground01)
+        .background(theme.background)
         .onChange(of: viewModel.didAppear) { _ in
             focusedField = .title
         }
@@ -53,11 +55,11 @@ struct BookmarkEditTitleView: View {
     @ViewBuilder
     private var headerView: some View {
         Text(viewModel.headerTitle)
-            .foregroundStyle(theme.playerContrast01)
+            .foregroundStyle(theme.title)
             .font(size: 19, style: .title3, weight: .bold)
 
         Text(viewModel.headerSubTitle)
-            .foregroundStyle(theme.playerContrast02)
+            .foregroundStyle(theme.subTitle)
             .font(style: .callout)
     }
 
@@ -67,28 +69,22 @@ struct BookmarkEditTitleView: View {
         VStack {
             Spacer()
 
-            Divider().background(theme.playerContrast05)
+            Divider().background(theme.textFieldUnderline)
         }
         .offset(y: 6)
     }
 
     @ViewBuilder
     private var saveButton: some View {
-        let background = theme.playerHighlight01
-
-        // Calculate the text color to make sure the button text is readable
-        let text: Color = background.luminance() < 0.5 ? .white : .black
-
-        Button(L10n.saveBookmark) {
+        Button(viewModel.saveButtonTitle) {
             viewModel.save(title: bookmarkTitle)
         }
-        .buttonStyle(BasicButtonStyle(textColor: text, backgroundColor: background))
+        .buttonStyle(BasicButtonStyle(textColor: theme.saveButton, backgroundColor: theme.saveButtonBackground))
     }
-
 
     @ViewBuilder
     private var textField: some View {
-        let prompt = Text(viewModel.placeholder).foregroundColor(theme.playerContrast05)
+        let prompt = Text(viewModel.placeholder).foregroundColor(theme.textFieldPlaceholder)
 
         ZStack {
             /// This looks really bad and I bet you may have questions...
@@ -123,8 +119,8 @@ struct BookmarkEditTitleView: View {
                 .focused($focusedField, equals: .title)
                 .textFieldStyle(.plain)
                 .applyTextStyle()
-                .foregroundStyle(theme.playerContrast01)
-                .accentColor(theme.playerHighlight01)
+                .foregroundStyle(theme.textField)
+                .accentColor(theme.textFieldAccent)
 
                 // Force the height to be equal to the invisible text view
                 .frame(height: textFieldSize.height)
@@ -180,12 +176,46 @@ private extension View {
     }
 }
 
+// MARK: - Theme
+
+class BookmarkEditTheme: ThemeObserver {
+    let episode: BaseEpisode?
+
+    init(episode: BaseEpisode?) {
+        self.episode = episode
+    }
+
+    var background: Color {
+        PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme, episode: episode).color
+    }
+
+    var title: Color { theme.playerContrast01 }
+    var subTitle: Color { theme.playerContrast02 }
+    var closeButton: Color { theme.playerContrast01 }
+    var textField: Color { theme.playerContrast01 }
+
+    var textFieldAccent: Color {
+        PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+    }
+
+    var textFieldPlaceholder: Color { theme.playerContrast05 }
+    var textFieldUnderline: Color { theme.playerContrast05 }
+
+    var saveButton: Color {
+        background.luminance() < 0.5 ? .white : .black
+    }
+
+    var saveButtonBackground: Color {
+        PlayerColorHelper.playerHighlightColor01(for: .dark, episode: episode).color
+    }
+}
+
 // MARK: - Preview
 
 struct BookmarkEditTitleView_Previews: PreviewProvider {
     static var previews: some View {
         BookmarkEditTitleView(viewModel: .init(manager: .init(),
                                                bookmark: Self.previewBookmark(title: "Hello", time: 3600, created: .now),
-                                               state: .adding)).setupDefaultEnvironment()
+                                               state: .adding), theme: .init(episode: nil)).setupDefaultEnvironment()
     }
 }
