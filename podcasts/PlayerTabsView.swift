@@ -49,7 +49,7 @@ class PlayerTabsView: UIScrollView {
                 AnalyticsHelper.playerShowNotesOpened()
             case .chapters:
                 AnalyticsHelper.chaptersOpened()
-            case .bookmarks: #warning("TODO: Bookmarks: Analytics")
+            case .bookmarks:
                 break
             }
         }
