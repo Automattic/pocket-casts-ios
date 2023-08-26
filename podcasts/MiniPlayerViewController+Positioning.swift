@@ -49,7 +49,6 @@ extension MiniPlayerViewController {
             self.moveToHiddenTopPosition()
             self.fullScreenPlayer?.view.moveTo(y: 0)
         }) { _ in
-            self.fullScreenPlayer?.viewDidAppear(true)
             self.view.isHidden = true
             self.moveToHiddenTopPosition() // call this again in case the animation block wasn't called. It's ok to call this twice
             self.playerOpenState = .open
