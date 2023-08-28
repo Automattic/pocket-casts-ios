@@ -7,6 +7,8 @@
 - Added import support for audio and movie files [#1039]
 - Adds a new show notes endpoint [#1033]
 - Show episode artwork from the feed if "Use Embedded Artwork" is enabled [#1033]
+- Adds a new Headphone Controls section in the settings [#1027]
+- Moves the Remote Skips Chapters setting in the General section to Headphone Controls [#1027]
 
 7.45
 -----
