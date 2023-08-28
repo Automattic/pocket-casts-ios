@@ -57,6 +57,12 @@ class AutoplayHelper {
     /// Saves the current playlist
     func playedFrom(playlist: Playlist?) {
         save(selectedPlaylist: playlist)
+
+        // We always save the playlist no matter if Up Next is empty or not
+        // However this event should be fired only if the Up Next is empty.
+        if Settings.autoplay && upNextQueue.upNextCount() == 0 {
+            Analytics.track(.autoplayStarted, properties: ["source": playlist ?? "unknown"])
+        }
     }
 
     /// Given the current episode UUID, checks if there's any
@@ -89,12 +95,6 @@ class AutoplayHelper {
 
         userDefaults.set(data, forKey: userDefaultsKey)
         FileLog.shared.addMessage("Autoplay: saving the latest playlist: \(playlist)")
-
-        // We always save the playlist no matter if Up Next is empty or not
-        // However this event should be fired only if the Up Next is empty.
-        if upNextQueue.upNextCount() == 0 {
-            Analytics.track(.autoplayStarted, properties: ["source": playlist])
-        }
     }
     #endif
 }
