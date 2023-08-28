@@ -51,10 +51,6 @@ enum FeatureFlag: String, CaseIterable {
             return overriddenValue
         }
 
-        if availableOnlyOnTestFlight && !FeatureFlag.isTestFlight {
-            return false
-        }
-
         switch self {
         case .freeTrialsEnabled:
             return true
@@ -85,17 +81,7 @@ enum FeatureFlag: String, CaseIterable {
         case .newShowNotesEndpoint:
             return true
         case .episodeFeedArtwork:
-            return true
-        }
-    }
-
-    /// Whether the feature should be available only in TestFlight
-    private var availableOnlyOnTestFlight: Bool {
-        switch self {
-        case .episodeFeedArtwork:
-            return true
-        default:
-            return false
+            return Self.isTestFlight ? true : false
         }
     }
 }
