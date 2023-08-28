@@ -13,7 +13,13 @@ public enum BuildEnvironment {
     case appStore
 
     /// Returns the `BuildEnvironment` for the current build
-    public static var current: BuildEnvironment {
+    public static var current: BuildEnvironment = .determineCurrentEnvironment
+
+    /// Determines the current environment by:
+    /// - If the DEBUG or STAGING preprocessor macros are set, return `.debug`
+    /// - If the `appStoreReceiptURL` is `sandboxReceipt` return `.beta`
+    /// - For anything else, return `.appStore`
+    private static var determineCurrentEnvironment: BuildEnvironment {
         #if DEBUG || STAGING
         return .debug
         #else
