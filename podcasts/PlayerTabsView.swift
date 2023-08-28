@@ -154,10 +154,9 @@ class PlayerTabsView: UIScrollView {
         if let toTab = tabsStackView.arrangedSubviews[safe: toIndex] as? UIButton {
             UIView.transition(with: toTab, duration: animationDuration, options: .transitionCrossDissolve, animations: {
                 toTab.isSelected = true
+                // Scroll the button into view, but make sure it clears the fade
+                self.scrollRectToVisible(toTab.frame.insetBy(dx: -TabConstants.fadeSize, dy: 0), animated: false)
             })
-
-            // Scroll the button into view, but make sure it clears the fade
-            scrollRectToVisible(toTab.frame.insetBy(dx: -TabConstants.fadeSize, dy: 0), animated: true)
         }
     }
 }
