@@ -189,7 +189,8 @@ class HeadphoneSettingsViewController: PCTableViewController {
                 switch self {
                 case .bookmarkSound:
                     // Only show this option if the user has selected addBookmark as one of the options
-                    let optionEnabled = [Settings.headphonesNextAction, Settings.headphonesPreviousAction].contains(.addBookmark)
+                    let optionEnabled = Settings.isPlayBookmarkCreationSoundAvailable
+
                     // and the FeatureFlag is enabled
                     return FeatureFlag.bookmarks.enabled && optionEnabled
                 default:
