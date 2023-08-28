@@ -27,15 +27,22 @@ class BookmarkManager {
 
     /// Plays the "bookmark created" tone
     private lazy var tonePlayer: AVAudioPlayer? = {
-        guard
-            let url = Bundle.main.url(forResource: "TODO", withExtension: "TODO"),
-            let player = try? AVAudioPlayer(contentsOf: url)
-        else {
+        guard let url = Bundle.main.url(forResource: "bookmark-creation-sound", withExtension: "wav") else {
+            FileLog.shared.addMessage("[Bookmarks] Unable to create tone player because the sound file is missing from the bundle.")
             return nil
         }
 
-        player.prepareToPlay()
-        return player
+        do {
+            let player = try AVAudioPlayer(contentsOf: url)
+            // At 100% the volume the tone is very loud when compared to the podcast episode
+            // Setting to 50% allows it to be noticeable without being overpowering
+            player.volume = 0.5
+            player.prepareToPlay()
+            return player
+        } catch {
+            FileLog.shared.addMessage("[Bookmarks] Unable to create tone player because of an exception: \(error)")
+            return nil
+        }
     }()
 
     /// Adds a new bookmark for an episode at the given time
@@ -143,12 +150,14 @@ class BookmarkManager {
 
 extension BookmarkManager {
     func playTone() {
-        // Stop playing immediately and reset to 0
-        tonePlayer?.pause()
-        tonePlayer?.currentTime = 0
+        guard let tonePlayer else { return }
+
+        // If multiple bookmarks are created at the same time, stop playing immediately and reset the playhead to 0
+        tonePlayer.pause()
+        tonePlayer.currentTime = 0
 
         // Play
-        tonePlayer?.play()
+        tonePlayer.play()
     }
 }
 
