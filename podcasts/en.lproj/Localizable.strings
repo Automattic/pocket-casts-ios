@@ -3744,7 +3744,7 @@
 "support_watch_help_send_without_log" = "Send without Watch logs";
 
 /* Title of a tab in the player that shows the episode description (show notes). */
-"player_show_notes_title" = "Description";
+"player_show_notes_title" = "Details";
 
 /* The plural name of a feature called Bookmarks, used in various places in the app */
 "bookmarks" = "Bookmarks";
