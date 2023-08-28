@@ -4,12 +4,27 @@ import PocketCastsUtils
 
 /// Reponsible for handling the Autoplay of episodes
 class AutoplayHelper {
-    enum Playlist: Codable {
+    enum Playlist: Codable, AnalyticsDescribable {
         case podcast(uuid: String)
         case filter(uuid: String)
         case downloads
         case files
         case starred
+
+        var analyticsDescription: String {
+            switch self {
+            case .podcast(uuid: _):
+                return "podcast"
+            case .filter(uuid: _):
+                return "filter"
+            case .downloads:
+                return "downloads"
+            case .files:
+                return "files"
+            case .starred:
+                return "starred"
+            }
+        }
     }
 
     #if !os(watchOS)
@@ -18,6 +33,7 @@ class AutoplayHelper {
     private let userDefaults: UserDefaults
     private let userDefaultsKey = "playlist"
     private let episodesDataManager: EpisodesDataManager
+    private let upNextQueue: PlaybackQueue
 
     /// Returns the latest playlist that the user played an episode from
     var lastPlaylist: Playlist? {
@@ -31,14 +47,22 @@ class AutoplayHelper {
     }
 
     init(userDefaults: UserDefaults = UserDefaults.standard,
-         episodesDataManager: EpisodesDataManager = EpisodesDataManager()) {
+         episodesDataManager: EpisodesDataManager = EpisodesDataManager(),
+         queue: PlaybackQueue = PlaybackQueue()) {
         self.userDefaults = userDefaults
         self.episodesDataManager = episodesDataManager
+        self.upNextQueue = queue
     }
 
     /// Saves the current playlist
     func playedFrom(playlist: Playlist?) {
         save(selectedPlaylist: playlist)
+
+        // We always save the playlist no matter if Up Next is empty or not
+        // However this event should be fired only if the Up Next is empty.
+        if Settings.autoplay && upNextQueue.upNextCount() == 0 {
+            Analytics.track(.autoplayStarted, properties: ["source": playlist ?? "unknown"])
+        }
     }
 
     /// Given the current episode UUID, checks if there's any

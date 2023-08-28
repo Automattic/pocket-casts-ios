@@ -224,7 +224,10 @@ enum AnalyticsEvent: String {
     case playbackEffectTrimSilenceAmountChanged
     case playbackEffectVolumeBoostToggled
 
+    // MARK: - Autoplay
     case playbackEpisodeAutoplayed
+    case autoplayStarted
+    case autoplayFinishedLastEpisode
 
     // MARK: - Filters
 
