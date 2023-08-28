@@ -1480,6 +1480,8 @@
 		C7891DC82A6AFE26009DA661 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7891DC72A6AFE26009DA661 /* SearchField.swift */; };
 		C7891DCA2A6B080F009DA661 /* BookmarksPodcastListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7891DC92A6B080F009DA661 /* BookmarksPodcastListController.swift */; };
 		C7891DCE2A6B2C0F009DA661 /* SearchableListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7891DCD2A6B2C0F009DA661 /* SearchableListViewModel.swift */; };
+		C7897B472A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */; };
+		C7897B482A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */; };
 		C791418D294CE32D00F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C791418E294CE33700F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C797D7C22A7A13AA004D7419 /* BookmarkCardTitleView.swift */; };
@@ -3253,6 +3255,7 @@
 		C7891DC72A6AFE26009DA661 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		C7891DC92A6B080F009DA661 /* BookmarksPodcastListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPodcastListController.swift; sourceTree = "<group>"; };
 		C7891DCD2A6B2C0F009DA661 /* SearchableListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableListViewModel.swift; sourceTree = "<group>"; };
+		C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "bookmark-creation-sound.wav"; path = "Resources/bookmark-creation-sound.wav"; sourceTree = "<group>"; };
 		C791418C294CE32D00F1852B /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C797D7C22A7A13AA004D7419 /* BookmarkCardTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCardTitleView.swift; sourceTree = "<group>"; };
 		C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoLabels.swift; sourceTree = "<group>"; };
@@ -3859,6 +3862,7 @@
 		460C375026D83171008B3609 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */,
 				467DF6E826E1093A00AC290C /* Strings+Generated.swift */,
 				463538A626E16CD100BA9D35 /* Strings+L10n.swift */,
 				461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */,
@@ -8092,6 +8096,7 @@
 				BD03DF891CACD9AB005A127E /* DownloadedFilesViewController.xib in Resources */,
 				400A3EFB22703D54007361C7 /* AccountUpdatedViewController.xib in Resources */,
 				BD92323223629E1900C1E118 /* PlayerContainerViewController.xib in Resources */,
+				C7897B472A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */,
 				BDA002E31F7B318B00DCB4AE /* AppIcon-Round-Dark76x76@2x~ipad.png in Resources */,
 				BD9086AD204E413800C0C78D /* PodcastSearchCell.xib in Resources */,
 				BDA002FD1F7B318B00DCB4AE /* AppIcon-Default29x29@2x.png in Resources */,
@@ -8218,6 +8223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD73A5D52452BFA400679864 /* Extension Assets.xcassets in Resources */,
+				C7897B482A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */,
 				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
 				8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */,
 			);
