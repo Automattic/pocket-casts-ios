@@ -34,13 +34,15 @@ class HeadphoneSettingsViewController: PCTableViewController {
         let section = visibleSections[indexPath.section]
         let row = section.rows[indexPath.row]
 
+        let actions: [HeadphoneControlAction] = [.skipForward, .nextChapter, .skipBack, .previousChapter, .addBookmark]
+
         switch row {
         case .nextAction:
-            showPicker(L10n.settingsNextAction, [.skipForward, .nextChapter, .addBookmark], currentValue: Settings.headphonesNextAction) { [weak self] in
+            showPicker(L10n.settingsNextAction, actions, currentValue: Settings.headphonesNextAction) { [weak self] in
                 self?.headphoneOptionChanged(to: $0, for: row)
             }
         case .previousAction:
-            showPicker(L10n.settingsPreviousAction, [.skipBack, .previousChapter, .addBookmark], currentValue: Settings.headphonesPreviousAction) { [weak self] in
+            showPicker(L10n.settingsPreviousAction, actions, currentValue: Settings.headphonesPreviousAction) { [weak self] in
                 self?.headphoneOptionChanged(to: $0, for: row)
             }
         case .bookmarkSound:

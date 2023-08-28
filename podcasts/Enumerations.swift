@@ -168,8 +168,17 @@ enum PlaylistIcon: Int32 {
          redTop, blueTop, greenTop, purpleTop, yellowTop
 }
 
-enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
+enum PlayerAction: Int, AnalyticsDescribable {
     case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive, addBookmark
+
+    /// Specify default actions and their order
+    static var defaultActions: [PlayerAction] {
+        [
+            .effects, .sleepTimer, .routePicker, .starEpisode,
+            .shareEpisode, .goToPodcast, .chromecast, .markPlayed,
+            .addBookmark, .archive
+        ]
+    }
 
     func title(episode: BaseEpisode? = nil) -> String {
         switch self {

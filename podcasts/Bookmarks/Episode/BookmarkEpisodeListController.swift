@@ -18,7 +18,7 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 
         let viewModel = BookmarkEpisodeListViewModel(episode: episode,
                                                       bookmarkManager: bookmarkManager,
-                                                      sortOption: Constants.UserDefaults.bookmarks.podcastSort)
+                                                      sortOption: Constants.UserDefaults.bookmarks.episodeSort)
         viewModel.analyticsSource = (episode is Episode) ? .episodes : .files
 
         self.viewModel = viewModel
@@ -38,7 +38,6 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 extension BookmarkEpisodeListController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
         playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
-        dismiss(animated: true)
     }
 
     func bookmarkEdit(_ bookmark: Bookmark) {

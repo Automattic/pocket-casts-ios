@@ -123,8 +123,6 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 
 extension BookmarksPlayerTabController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
-        containerDelegate?.scrollToNowPlaying()
-
         playbackManager.playBookmark(bookmark, source: .player)
     }
 

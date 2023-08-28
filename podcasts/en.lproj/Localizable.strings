@@ -3850,3 +3850,9 @@
 
 /* A message informing the user a feature is locked. %1$@ is the name of the tier (Plus or Patron) */
 "boomarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";
+
+/* A button title that prompts the user to upgrade their plan. %1$@ is the name of the tier (Plus or Patron) */
+"upgrade_to_plan" = "Upgrade to %1$@";
+
+/* A button title that prompts the user upgrade to redeem a free trial */
+"start_free_trial" = "Start Free Trial";
