@@ -45,11 +45,12 @@ extension MiniPlayerViewController {
         playerOpenState = .animating
         aboutToDisplayFullScreenPlayer()
         view.superview?.layoutIfNeeded()
+        fullScreenPlayer?.beginAppearanceTransition(true, animated: true)
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.94, initialSpringVelocity: 0.7, options: UIView.AnimationOptions.curveEaseIn, animations: { () in
             self.moveToHiddenTopPosition()
             self.fullScreenPlayer?.view.moveTo(y: 0)
         }) { _ in
-            self.fullScreenPlayer?.viewDidAppear(true)
+            self.fullScreenPlayer?.endAppearanceTransition()
             self.view.isHidden = true
             self.moveToHiddenTopPosition() // call this again in case the animation block wasn't called. It's ok to call this twice
             self.playerOpenState = .open
@@ -67,8 +68,9 @@ extension MiniPlayerViewController {
             return
         }
 
+        fullScreenPlayer?.beginAppearanceTransition(false, animated: true)
         playerOpenState = .animating
-        DispatchQueue.main.async { () in
+        DispatchQueue.main.async {
             guard let parentView = self.view.superview else { return }
 
             let isSomethingPlaying = PlaybackManager.shared.currentEpisode() != nil
@@ -80,6 +82,8 @@ extension MiniPlayerViewController {
                 self.fullScreenPlayer?.view.moveTo(y: parentViewHeight)
             }, completion: { _ in
                 self.moveToShownPosition() // call this again in case the animation block wasn't called. It's ok to call this twice
+                self.fullScreenPlayer?.endAppearanceTransition()
+
                 self.finishedWithFullScreenPlayer()
                 self.playerOpenState = .closed
                 completion?()
