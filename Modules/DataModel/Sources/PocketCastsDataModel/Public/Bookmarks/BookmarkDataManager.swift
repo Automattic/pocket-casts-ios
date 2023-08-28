@@ -9,6 +9,13 @@ public struct BookmarkDataManager {
         self.dbQueue = dbQueue
     }
 
+    /// Looks for any existing bookmarks in an episode that have the same start time
+    public func existingBookmark(forEpisode episodeUuid: String, time: TimeInterval) -> Bookmark? {
+        selectBookmarks(where: [.episode, .time],
+                        values: [episodeUuid, time],
+                        limit: 1).first
+    }
+
     // MARK: - Adding
 
     /// Adds a new bookmark to the database
@@ -249,13 +256,6 @@ public struct BookmarkDataManager {
 // MARK: - Private
 
 private extension BookmarkDataManager {
-    /// Looks for any existing bookmarks in an episode that have the same start time
-    func existingBookmark(forEpisode episodeUuid: String, time: TimeInterval) -> Bookmark? {
-        selectBookmarks(where: [.episode, .time],
-                        values: [episodeUuid, time],
-                        limit: 1).first
-    }
-
     func selectBookmarks(where whereColumns: [Column] = [], values: [Any] = [], limit: Int = 0, sorted: SortOption = .newestToOldest, allowDeleted: Bool = false) -> [Bookmark] {
         let limitQuery = limit != 0 ? "LIMIT \(limit)" : ""
 
