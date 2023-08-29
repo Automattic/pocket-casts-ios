@@ -251,12 +251,16 @@
     <string>Не удалось найти закладки по этому запросу.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Закладки не найдены</string>
+    <key>bookmark_updated_notification</key>
+    <string>Закладка «%1$@» обновлена</string>
     <key>bookmarks</key>
     <string>Закладки</string>
     <key>bookmarks_count_plural</key>
     <string>Закладки: %1$@</string>
     <key>bookmarks_count_singular</key>
     <string>1 закладка</string>
+    <key>boomarks_locked_message</key>
+    <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов.</string>
     <key>bottom</key>
     <string>Низ</string>
     <key>bulk_download_max_format</key>

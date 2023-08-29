@@ -251,12 +251,16 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Wir konnten keine Lesezeichen für diese Suche finden.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Keine Lesezeichen gefunden</string>
+    <key>bookmark_updated_notification</key>
+    <string>Lesezeichen „%1$@“ aktualisiert</string>
     <key>bookmarks</key>
     <string>Lesezeichen</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ Lesezeichen</string>
     <key>bookmarks_count_singular</key>
     <string>1 Lesezeichen</string>
+    <key>boomarks_locked_message</key>
+    <string>Schalte diese und weitere Funktionen mit Pocket Casts %1$@ frei und speichere Zeitstempel für deine Lieblingsfolgen.</string>
     <key>bottom</key>
     <string>Ende</string>
     <key>bulk_download_max_format</key>

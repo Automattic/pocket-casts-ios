@@ -251,12 +251,16 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Não encontramos nenhum favorito para essa pesquisa.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Nenhum favorito encontrado</string>
+    <key>bookmark_updated_notification</key>
+    <string>Favorito "%1$@" atualizado</string>
     <key>bookmarks</key>
     <string>Favoritos</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ favoritos</string>
     <key>bookmarks_count_singular</key>
     <string>1 favorito</string>
+    <key>boomarks_locked_message</key>
+    <string>Obtenha o Pocket Casts %1$@ para desbloquear esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos.</string>
     <key>bottom</key>
     <string>Último</string>
     <key>bulk_download_max_format</key>

@@ -251,12 +251,16 @@
     <string>我们搜索不到任何书签。</string>
     <key>bookmark_search_no_results_title</key>
     <string>未找到书签</string>
+    <key>bookmark_updated_notification</key>
+    <string>已更新书签“%1$@”</string>
     <key>bookmarks</key>
     <string>书签</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ 个书签</string>
     <key>bookmarks_count_singular</key>
     <string>1 个书签</string>
+    <key>boomarks_locked_message</key>
+    <string>通过 Pocket Casts %1$@ 解锁此功能及其他更多功能，并保存收藏剧集的时间戳。</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>

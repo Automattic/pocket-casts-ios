@@ -251,12 +251,16 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>We konden geen bladwijzers vinden voor die zoekopdrachten.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Geen bladwijzers gevonden</string>
+    <key>bookmark_updated_notification</key>
+    <string>Bladwijzer %1$@ bijgewerkt</string>
     <key>bookmarks</key>
     <string>Bladwijzers</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ bladwijzers</string>
     <key>bookmarks_count_singular</key>
     <string>1 bladwijzer</string>
+    <key>boomarks_locked_message</key>
+    <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen.</string>
     <key>bottom</key>
     <string>Onder</string>
     <key>bulk_download_max_format</key>
