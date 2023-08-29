@@ -251,12 +251,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>找不到符合搜尋內容的書籤。</string>
     <key>bookmark_search_no_results_title</key>
     <string>找不到書籤</string>
+    <key>bookmark_updated_notification</key>
+    <string>已更新書籤「%1$@」</string>
     <key>bookmarks</key>
     <string>書籤</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ 個書籤</string>
     <key>bookmarks_count_singular</key>
     <string>1 個書籤</string>
+    <key>boomarks_locked_message</key>
+    <string>利用 Pocket Casts %1$@ 解鎖此功能與其他許多功能，並儲存你所愛單集的時間戳記。</string>
     <key>bottom</key>
     <string>底部</string>
     <key>bulk_download_max_format</key>

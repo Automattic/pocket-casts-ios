@@ -43,6 +43,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable the new show notes endpoint plus embedded episode artwork
     case newShowNotesEndpoint
 
+    /// Enable retrieving episode artwork from the RSS feed
+    case episodeFeedArtwork
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -77,6 +80,8 @@ enum FeatureFlag: String, CaseIterable {
             return true
         case .newShowNotesEndpoint:
             return true
+        case .episodeFeedArtwork:
+            return Self.isTestFlight ? true : false
         }
     }
 }
@@ -89,4 +94,6 @@ extension FeatureFlag: OverrideableFlag {
     var canOverride: Bool {
         true
     }
+
+    private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
 }
