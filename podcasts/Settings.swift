@@ -30,18 +30,6 @@ class Settings: NSObject {
         return LibraryType.threeByThree // default value
     }
 
-    // MARK: - Up Next Syncing
-
-    private static let upNextSyncingKey = "UpNextSync"
-    private static let upNextSyncDefault = false
-    class func upNextSyncingEnabled() -> Bool {
-        if let setting = DataManager.sharedManager.findSetting(name: upNextSyncingKey) {
-            return setting.boolValue(defaultValue: upNextSyncDefault)
-        }
-
-        return upNextSyncDefault
-    }
-
     // MARK: - Podcast Badge
 
     private static let badgeKey = "SJBadgeType"
