@@ -88,6 +88,30 @@ final class PaidFeatureTests: XCTestCase {
         XCTAssertTrue(feature.isUnlocked)
     }
 
+    // MARK: - Beta Testing
+
+    func testPatronFeatureWithBetaPlusIsUnlockedInBeta() {
+        let feature = PaidFeature(tier: .patron,
+                                  betaTier: .plus,
+                                  subscriptionHelper: subscriptionHelper,
+                                  buildEnvironment: .testFlight)
+
+        subscriptionHelper.userHasPlusSubscription()
+
+        XCTAssertTrue(feature.isUnlocked)
+    }
+
+    func testPatronFeatureWithBetaPlusIsLockedForAppStore() {
+        let feature = PaidFeature(tier: .patron,
+                                  betaTier: .plus,
+                                  subscriptionHelper: subscriptionHelper,
+                                  buildEnvironment: .appStore)
+
+        subscriptionHelper.userHasPlusSubscription()
+
+        XCTAssertFalse(feature.isUnlocked)
+    }
+
     // MARK: - Private
     private func freeFeature() -> PaidFeature {
         feature(tier: .none)

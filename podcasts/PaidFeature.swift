@@ -1,5 +1,6 @@
 import Combine
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 
 // MARK: - Features
@@ -13,7 +14,7 @@ import SwiftUI
 ///     2. Check the unlock state using `PaidFeature.hello.isUnlocked`
 ///
 extension PaidFeature {
-    static var bookmarks: PaidFeature = .init(tier: .patron)
+    static var bookmarks: PaidFeature = .init(tier: .patron, betaTier: .plus)
 }
 
 /// A `PaidFeature` represents a feature that is unlocked with a subscription tier, and is considered to be unlocked if the tier
@@ -41,9 +42,20 @@ class PaidFeature: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
-    /// Creates a new paid feature with the minimum `unlockTier`.
-    init(tier: SubscriptionTier, subscriptionHelper: SubscriptionHelper = .shared) {
-        self.tier = tier
+    /// Creates a new paid feature with a minimum tier
+    /// - Parameters:
+    ///   - tier: The minimum tier required to unlock
+    ///   - betaTier: The minimum tier required when running in the app beta
+    init(tier: SubscriptionTier,
+         betaTier: SubscriptionTier? = nil,
+         subscriptionHelper: SubscriptionHelper = .shared,
+         buildEnvironment: BuildEnvironment = .current) {
+        if let betaTier, buildEnvironment == .testFlight {
+            self.tier = betaTier
+        } else {
+            self.tier = tier
+        }
+
         self.subscriptionHelper = subscriptionHelper
 
         addListeners()
