@@ -9,7 +9,6 @@ public class DataManager {
     public static let filtersTableName = "SJFilteredPlaylist"
     public static let playlistEpisodeTableName = "SJPlaylistEpisode"
     public static let upNextChangesTableName = "UpNextChanges"
-    public static let settingsTableName = "UserSetting"
     public static let folderTableName = "Folder"
 
     private let podcastManager = PodcastDataManager()
