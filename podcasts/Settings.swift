@@ -829,6 +829,17 @@ class Settings: NSObject {
         }
     }
 
+
+    /// Returns whether the bookmark creation sound option is enabled
+    static var isPlayBookmarkCreationSoundAvailable: Bool {
+        [Settings.headphonesNextAction, Settings.headphonesPreviousAction].contains(.addBookmark)
+    }
+
+    /// Determines if we should play the sound when a bookmark is created
+    static var shouldPlayBookmarkSound: Bool {
+        isPlayBookmarkCreationSoundAvailable && playBookmarkCreationSound
+    }
+
     static var playBookmarkCreationSound: Bool {
         get {
             Constants.UserDefaults.bookmarks.creationSound.value

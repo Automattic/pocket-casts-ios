@@ -1945,11 +1945,25 @@ extension PlaybackManager {
         let currentTime = currentTime()
         bookmarkManager.add(to: episode, at: currentTime)
 
+        playBookmarkCreationSoundIfNeeded(source: source)
+
         Analytics.track(.bookmarkCreated, source: source, properties: [
             "episode_uuid": episode.uuid,
             "podcast_uuid": (episode as? Episode)?.podcastUuid ?? "user_file",
             "time": Int(currentTime)
         ])
+    }
+
+    /// Plays the bookmark creation sound only if:
+    /// - The source is from the headphones
+    /// - The user has the addBookmark option enabled in the Headphone Controls setting
+    /// - The bookmark sound setting is enabled
+    private func playBookmarkCreationSoundIfNeeded(source: BookmarkAnalyticsSource) {
+        guard source == .headphones, Settings.shouldPlayBookmarkSound else {
+            return
+        }
+
+        bookmarkManager.playTone()
     }
 
     /// Plays the given bookmark
