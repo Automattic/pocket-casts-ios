@@ -345,22 +345,7 @@ class DatabaseHelper {
                 return
             }
         }
-        if schemaVersion < 19 {
-            do {
-                try db.executeUpdate("""
-                    CREATE TABLE UserSetting (
-                    name TEXT PRIMARY KEY,
-                    value TEXT,
-                    modifiedTime INTEGER NOT NULL
-                    );
-                """, values: nil)
 
-                schemaVersion = 19
-            } catch {
-                failedAt(19)
-                return
-            }
-        }
         if schemaVersion < 20 {
             do {
                 try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN episodeNumber INTEGER NOT NULL DEFAULT -1;", values: nil)
