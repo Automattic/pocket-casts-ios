@@ -251,12 +251,16 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>No hemos podido encontrar ningún marcador para esa búsqueda.</string>
     <key>bookmark_search_no_results_title</key>
     <string>No se han encontrado marcadores</string>
+    <key>bookmark_updated_notification</key>
+    <string>Se ha actualizado el marcador "%1$@"</string>
     <key>bookmarks</key>
     <string>Marcadores</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ marcadores</string>
     <key>bookmarks_count_singular</key>
     <string>1 marcador</string>
+    <key>boomarks_locked_message</key>
+    <string>Desbloquea esta función y muchas más con Pocket Casts %1$@ y guarda las marcas de tiempo de tus episodios favoritos.</string>
     <key>bottom</key>
     <string>Abajo</string>
     <key>bulk_download_max_format</key>

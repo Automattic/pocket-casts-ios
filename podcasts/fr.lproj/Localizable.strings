@@ -251,12 +251,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Nous n'avons trouvé aucun signet lors de la recherche.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Aucun signet trouvé</string>
+    <key>bookmark_updated_notification</key>
+    <string>Signet « %1$@ » mis à jour</string>
     <key>bookmarks</key>
     <string>Favoris</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ signets</string>
     <key>bookmarks_count_singular</key>
     <string>1 signet</string>
+    <key>boomarks_locked_message</key>
+    <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris.</string>
     <key>bottom</key>
     <string>Bas</string>
     <key>bulk_download_max_format</key>
