@@ -35,9 +35,14 @@ class FloatingVideoView: UIView {
 
         lastWidthLayedOut = bounds.width
         videoHeightSet = false
+
+        setupView()
     }
 
     private func setupView() {
+        shadowView.removeFromSuperview()
+        videoView.removeFromSuperview()
+
         backgroundColor = UIColor.clear
 
         videoView.videoSizeKnown = { [weak self] videoSize in
@@ -45,9 +50,10 @@ class FloatingVideoView: UIView {
 
             strongSelf.videoHeightSet = true
 
-            let aspectRatio = videoSize.height / videoSize.width
-            let currentWidth = strongSelf.videoView.bounds.width
-            let newHeight = aspectRatio * currentWidth
+            let aspectRatio = videoSize.width / videoSize.height
+            let currentHeight = strongSelf.videoView.bounds.height
+            let newHeight = aspectRatio >= 1 ? aspectRatio * currentHeight : currentHeight
+
             strongSelf.videoHeightConstraint.constant = newHeight
         }
 
