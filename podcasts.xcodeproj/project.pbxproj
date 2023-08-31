@@ -1482,6 +1482,8 @@
 		C7891DCE2A6B2C0F009DA661 /* SearchableListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7891DCD2A6B2C0F009DA661 /* SearchableListViewModel.swift */; };
 		C7897B472A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */; };
 		C7897B482A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */; };
+		C7897B4D2A9D9C3D00BEF84F /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7897B4C2A9D9C3D00BEF84F /* UserSettings.swift */; };
+		C7897B4E2A9DA04900BEF84F /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7897B4C2A9D9C3D00BEF84F /* UserSettings.swift */; };
 		C791418D294CE32D00F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C791418E294CE33700F1852B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791418C294CE32D00F1852B /* StorageManager.swift */; };
 		C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C797D7C22A7A13AA004D7419 /* BookmarkCardTitleView.swift */; };
@@ -3256,6 +3258,7 @@
 		C7891DC92A6B080F009DA661 /* BookmarksPodcastListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksPodcastListController.swift; sourceTree = "<group>"; };
 		C7891DCD2A6B2C0F009DA661 /* SearchableListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableListViewModel.swift; sourceTree = "<group>"; };
 		C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "bookmark-creation-sound.wav"; path = "Resources/bookmark-creation-sound.wav"; sourceTree = "<group>"; };
+		C7897B4C2A9D9C3D00BEF84F /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		C791418C294CE32D00F1852B /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C797D7C22A7A13AA004D7419 /* BookmarkCardTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCardTitleView.swift; sourceTree = "<group>"; };
 		C799373A2A095F6F0010DC64 /* ProfileInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoLabels.swift; sourceTree = "<group>"; };
@@ -4645,6 +4648,7 @@
 		BD2A49E31701A66E00C2F192 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C7897B4B2A9D9C1D00BEF84F /* Settings */,
 				C7811D812A9008F500FC68B4 /* Unlockable */,
 				C7BDECAC2A15311000BECF02 /* Haptics */,
 				C74887782919DC7B00EBC926 /* SwiftUI */,
@@ -6491,6 +6495,14 @@
 				C7811D882A90334200FC68B4 /* Unlockable+Bookmarks.swift */,
 			);
 			path = Unlockable;
+			sourceTree = "<group>";
+		};
+		C7897B4B2A9D9C1D00BEF84F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C7897B4C2A9D9C3D00BEF84F /* UserSettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		C799373C2A0963420010DC64 /* Account */ = {
@@ -9330,6 +9342,7 @@
 				8B0EEDE829008B6300075772 /* TopOnePodcastStory.swift in Sources */,
 				BD9A43EE1D067AF20012FD9B /* ColorManager.swift in Sources */,
 				BD9FF6291B8EFC6F009F075E /* DiscoverSummaryProtocol.swift in Sources */,
+				C7897B4D2A9D9C3D00BEF84F /* UserSettings.swift in Sources */,
 				BDDF8AA4240CE598009BA263 /* ThemeableSwipeCell.swift in Sources */,
 				BD92323523629F7B00C1E118 /* PlayerItemViewController.swift in Sources */,
 				BDB1E4F61B8C5BF9009AD30F /* NetworkSummaryViewController.swift in Sources */,
@@ -9363,6 +9376,7 @@
 				46703E0E27BEEF0900DD7998 /* Bundle+Helpers.swift in Sources */,
 				4670303627D7A70700844CED /* PodcastEpisodeListView.swift in Sources */,
 				BD74F15527F293ED00222785 /* HomeGridDataHelper.swift in Sources */,
+				C7897B4E2A9DA04900BEF84F /* UserSettings.swift in Sources */,
 				46B5DFD427EA2739006FC2ED /* NowPlayingContainerView.swift in Sources */,
 				C7D6551628E5450600AD7174 /* AnalyticsDescribable+Modules.swift in Sources */,
 				468A0FC027D68B6800F800C8 /* UpNextEpisodeActionView.swift in Sources */,
