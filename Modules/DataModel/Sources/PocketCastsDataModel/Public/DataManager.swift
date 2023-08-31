@@ -9,7 +9,6 @@ public class DataManager {
     public static let filtersTableName = "SJFilteredPlaylist"
     public static let playlistEpisodeTableName = "SJPlaylistEpisode"
     public static let upNextChangesTableName = "UpNextChanges"
-    public static let settingsTableName = "UserSetting"
     public static let folderTableName = "Folder"
 
     private let podcastManager = PodcastDataManager()
@@ -18,7 +17,6 @@ public class DataManager {
     private let filterManager = EpisodeFilterDataManager()
     private let episodeManager = EpisodeDataManager()
     private let userEpisodeManager = UserEpisodeDataManager()
-    private let settingsManager = UserSettingsManager()
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
 
@@ -840,16 +838,6 @@ public class DataManager {
     public func clearAllFolderInformation() {
         podcastManager.removeAllPodcastsFromAllFolders(dbQueue: dbQueue)
         folderManager.deleteAllFolders(dbQueue: dbQueue)
-    }
-
-    // MARK: - User Settings
-
-    public func findSetting(name: String) -> UserSetting? {
-        settingsManager.loadSetting(name: name, dbQueue: dbQueue)
-    }
-
-    public func save(setting: UserSetting) {
-        settingsManager.save(setting: setting, dbQueue: dbQueue)
     }
 
     // MARK: - Advanced
