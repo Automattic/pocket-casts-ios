@@ -103,10 +103,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         guard let rootVC = rootViewController() else { return }
 
         guard !FeatureFlag.newPlayerTransition.enabled else {
-            fullScreenPlayer?.dismiss(animated: true) {
-                self.playerOpenState = .closed
-            }
-
             rootViewController()?.setNeedsStatusBarAppearanceUpdate()
             rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
 
