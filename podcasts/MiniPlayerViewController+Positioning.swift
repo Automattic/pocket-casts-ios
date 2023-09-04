@@ -49,6 +49,7 @@ extension MiniPlayerViewController {
             fullScreenPlayer?.modalPresentationStyle = .overCurrentContext
 
             presentFromRootController(fullScreenPlayer!, animated: true) {
+                self.playerOpenState = .open
                 self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
                 self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
                 AnalyticsHelper.nowPlayingOpened()
