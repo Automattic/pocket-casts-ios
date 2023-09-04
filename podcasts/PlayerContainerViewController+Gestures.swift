@@ -11,6 +11,34 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
 
         let touchPoint = sender.location(in: view?.window)
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+
+            switch sender.state {
+            case .began:
+                initialTouchPoint = touchPoint
+            case .changed:
+                if touchPoint.y > initialTouchPoint.y {
+                    view.frame.origin.y = touchPoint.y - initialTouchPoint.y
+                }
+            case .ended, .cancelled:
+                // The new PlayerContainerViewController.pullDownThreshold is 100
+                if touchPoint.y - initialTouchPoint.y > 100 {
+                    miniPlayer.closeFullScreenPlayer()
+                } else {
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.view.frame = CGRect(x: 0,
+                                                 y: 0,
+                                                 width: self.view.frame.size.width,
+                                                 height: self.view.frame.size.height)
+                    })
+                }
+            default:
+                break
+            }
+
+            return
+        }
+
         switch sender.state {
         case .began:
             initialTouchPoint = touchPoint
