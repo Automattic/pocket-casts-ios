@@ -100,7 +100,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     func finishedWithFullScreenPlayer() {
-        guard let rootVC = rootViewController() else { return }
+        guard let rootVC = rootViewController(),
+              !FeatureFlag.newPlayerTransition.enabled else { return }
 
         if fullScreenPlayer?.presentedViewController != nil {
             fullScreenPlayer?.dismiss(animated: false, completion: nil)
