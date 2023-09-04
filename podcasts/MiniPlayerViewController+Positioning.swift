@@ -83,6 +83,12 @@ extension MiniPlayerViewController {
             return
         }
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            playerOpenState = .animating
+            finishedWithFullScreenPlayer()
+            return
+        }
+
         fullScreenPlayer?.beginAppearanceTransition(false, animated: true)
         playerOpenState = .animating
         DispatchQueue.main.async {
