@@ -113,6 +113,10 @@ extension MiniPlayerViewController {
     }
 
     func moveToHiddenTopPosition() {
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            return
+        }
+
         guard let parentView = view.superview, let tabBar = rootViewController()?.tabBar else { return }
 
         view.transform = CGAffineTransform(translationX: 0, y: tabBar.bounds.height - parentView.bounds.height)
@@ -120,6 +124,10 @@ extension MiniPlayerViewController {
     }
 
     func moveWhileDragging(offsetFromTop: CGFloat) {
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            return
+        }
+
         view.transform = CGAffineTransform.identity
         let tabBarHeight = rootViewController()?.tabBar.bounds.height ?? 0
         view.transform = offsetFromTop < -tabBarHeight ? CGAffineTransform(translationX: 0, y: offsetFromTop + tabBarHeight) : CGAffineTransform(translationX: 0, y: 0)
