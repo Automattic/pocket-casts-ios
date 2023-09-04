@@ -42,22 +42,36 @@ extension MiniPlayerViewController {
 
         if playerOpenState == .open || playerOpenState == .animating { return }
 
-        playerOpenState = .animating
-        aboutToDisplayFullScreenPlayer()
-        view.superview?.layoutIfNeeded()
-        fullScreenPlayer?.beginAppearanceTransition(true, animated: true)
-        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.94, initialSpringVelocity: 0.7, options: UIView.AnimationOptions.curveEaseIn, animations: { () in
-            self.moveToHiddenTopPosition()
-            self.fullScreenPlayer?.view.moveTo(y: 0)
-        }) { _ in
-            self.fullScreenPlayer?.endAppearanceTransition()
-            self.view.isHidden = true
-            self.moveToHiddenTopPosition() // call this again in case the animation block wasn't called. It's ok to call this twice
-            self.playerOpenState = .open
-            self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
-            self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
-            AnalyticsHelper.nowPlayingOpened()
-            completion?()
+        if FeatureFlag.newPlayerTransition.enabled {
+            playerOpenState = .animating
+            aboutToDisplayFullScreenPlayer()
+
+            fullScreenPlayer?.modalPresentationStyle = .overCurrentContext
+
+            presentFromRootController(fullScreenPlayer!, animated: true) {
+                self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
+                self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+                AnalyticsHelper.nowPlayingOpened()
+                completion?()
+            }
+        } else {
+            playerOpenState = .animating
+            aboutToDisplayFullScreenPlayer()
+            view.superview?.layoutIfNeeded()
+            fullScreenPlayer?.beginAppearanceTransition(true, animated: true)
+            UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.94, initialSpringVelocity: 0.7, options: UIView.AnimationOptions.curveEaseIn, animations: { () in
+                self.moveToHiddenTopPosition()
+                self.fullScreenPlayer?.view.moveTo(y: 0)
+            }) { _ in
+                self.fullScreenPlayer?.endAppearanceTransition()
+                self.view.isHidden = true
+                self.moveToHiddenTopPosition() // call this again in case the animation block wasn't called. It's ok to call this twice
+                self.playerOpenState = .open
+                self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
+                self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+                AnalyticsHelper.nowPlayingOpened()
+                completion?()
+            }
         }
     }
 
