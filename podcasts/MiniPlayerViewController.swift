@@ -100,8 +100,17 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     func finishedWithFullScreenPlayer() {
-        guard let rootVC = rootViewController(),
-              !FeatureFlag.newPlayerTransition.enabled else { return }
+        guard let rootVC = rootViewController() else { return }
+
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            rootViewController()?.setNeedsStatusBarAppearanceUpdate()
+            rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+
+            // update the mini player on full screen player close
+            playbackStateDidChange()
+            playbackProgressDidChange()
+            return
+        }
 
         if fullScreenPlayer?.presentedViewController != nil {
             fullScreenPlayer?.dismiss(animated: false, completion: nil)
