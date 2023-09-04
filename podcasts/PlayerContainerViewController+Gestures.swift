@@ -11,14 +11,15 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
 
         let touchPoint = sender.location(in: view?.window)
 
-        if sender.state == UIGestureRecognizer.State.began {
+        switch sender.state {
+        case .began:
             initialTouchPoint = touchPoint
-        } else if sender.state == UIGestureRecognizer.State.changed {
+        case .changed:
             if touchPoint.y - initialTouchPoint.y > 0 {
                 let yPosition = touchPoint.y - initialTouchPoint.y
                 handleMoveTo(yPosition: yPosition, miniPlayer: miniPlayer)
             }
-        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
+        case .ended, .cancelled:
             if touchPoint.y - initialTouchPoint.y > PlayerContainerViewController.pullDownThreshold {
                 miniPlayer.closeFullScreenPlayer()
             } else {
@@ -27,6 +28,8 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
                     miniPlayer.moveToHiddenTopPosition()
                 }
             }
+        default:
+            break
         }
     }
 
