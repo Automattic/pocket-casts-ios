@@ -251,12 +251,16 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Vi kunde inte hitta några bokmärken för denna sökning.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Inga bokmärken hittades</string>
+    <key>bookmark_updated_notification</key>
+    <string>Bokmärket "%1$@" har uppdaterats</string>
     <key>bookmarks</key>
     <string>Bokmärken</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ bokmärken</string>
     <key>bookmarks_count_singular</key>
     <string>1 bokmärke</string>
+    <key>boomarks_locked_message</key>
+    <string>Lås upp den här och många andra funktioner med Pocket Casts %1$@ och spara tidsstämplar för dina favoritavsnitt.</string>
     <key>bottom</key>
     <string>Längst ner</string>
     <key>bulk_download_max_format</key>

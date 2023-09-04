@@ -251,12 +251,16 @@
     <string>No hem pogut trobar cap marcador per a aquesta cerca.</string>
     <key>bookmark_search_no_results_title</key>
     <string>No s'han trobat marcadors</string>
+    <key>bookmark_updated_notification</key>
+    <string>Marcador "%1$@" actualitzat</string>
     <key>bookmarks</key>
     <string>Favorits</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ marcadors</string>
     <key>bookmarks_count_singular</key>
     <string>1 marcador</string>
+    <key>boomarks_locked_message</key>
+    <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa les marques de temps dels teus episodis preferits.</string>
     <key>bottom</key>
     <string>Darrer de la cua</string>
     <key>bulk_download_max_format</key>

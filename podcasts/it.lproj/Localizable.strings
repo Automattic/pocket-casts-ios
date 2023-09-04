@@ -251,12 +251,16 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Non abbiamo trovato alcun segnalibro per la ricerca.</string>
     <key>bookmark_search_no_results_title</key>
     <string>Nessun segnalibro trovato</string>
+    <key>bookmark_updated_notification</key>
+    <string>Segnalibro "%1$@" aggiornato</string>
     <key>bookmarks</key>
     <string>Segnalibri</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ segnalibri</string>
     <key>bookmarks_count_singular</key>
     <string>1 segnalibro</string>
+    <key>boomarks_locked_message</key>
+    <string>Sblocca questa e molte altre funzionalità con Pocket Casts %1$@ e salva data e ora dei tuoi episodi preferiti.</string>
     <key>bottom</key>
     <string>In basso</string>
     <key>bulk_download_max_format</key>

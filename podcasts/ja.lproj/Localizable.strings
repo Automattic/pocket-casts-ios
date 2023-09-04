@@ -251,12 +251,16 @@
     <string>その検索に該当するブックマークは見つかりませんでした。</string>
     <key>bookmark_search_no_results_title</key>
     <string>ブックマークが見つかりません</string>
+    <key>bookmark_updated_notification</key>
+    <string>ブックマーク「%1$@」を更新しました</string>
     <key>bookmarks</key>
     <string>ブックマーク</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@件のブックマーク</string>
     <key>bookmarks_count_singular</key>
     <string>1件のブックマーク</string>
+    <key>boomarks_locked_message</key>
+    <string>Pocket Casts %1$@ でこの機能やその他の機能のロックを解除し、お気に入りのエピソードのタイムスタンプを保存します。</string>
     <key>bottom</key>
     <string>一番下</string>
     <key>bulk_download_max_format</key>
