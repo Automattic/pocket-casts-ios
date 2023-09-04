@@ -77,6 +77,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     func aboutToDisplayFullScreenPlayer() {
         guard let rootVC = rootViewController() else { return }
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            if fullScreenPlayer == nil {
+                fullScreenPlayer = PlayerContainerViewController()
+            }
+
+            return
+        }
+
         let viewSize = rootVC.view.bounds.size
         let startingYPos = fullScreenPlayer?.view.frame.minY ?? viewSize.height
         if fullScreenPlayer == nil {
