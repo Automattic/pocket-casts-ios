@@ -38,6 +38,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             return
         }
 
+        // MARK: - Full Player
+
         /// The player initial frame
         var fromFrame: CGRect = {
             var fromFrame: CGRect
@@ -72,6 +74,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         toViewController.view.setNeedsLayout()
         toViewController.view.layoutIfNeeded()
 
+        // MARK: - Artwork
+
         // Calculate initial and final frame for the artwork
         var fullPlayerArtworkFrame: CGRect = {
             var fullPlayerArtworkFrame = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
@@ -93,11 +97,13 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         artwork.layer.cornerRadius = isPresenting ? miniPlayerArtwork.imageView!.layer.cornerRadius : fullPlayerArtwork.layer.cornerRadius
         artwork.layer.masksToBounds = true
 
-        // has image?
+        // If it has artwork, hide the original ones
         if artwork.image != nil {
             fullPlayerArtwork.layer.opacity = 0
             miniPlayerArtwork.layer.opacity = 0
         }
+
+        // MARK: - Artwork animation
 
         UIView.animate(withDuration: isPresenting ? 0.25 : 0.35, delay: isPresenting ? 0.1 : 0, options: .curveEaseInOut) { [self] in
             artwork.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
@@ -108,6 +114,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             self.fullPlayerArtwork.layer.opacity = 1
             self.miniPlayerArtwork.layer.opacity = 1
         }
+
+        // MARK: - Player animation
 
         UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut) {
             toView.frame = toFrame
