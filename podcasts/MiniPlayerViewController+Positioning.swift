@@ -37,20 +37,6 @@ extension MiniPlayerViewController {
         })
     }
 
-    func showMiniPlayerWithDelay() {
-        // only show if something is playing
-        if PlaybackManager.shared.currentEpisode() == nil { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            UIView.animate(withDuration: 0.2, animations: { () in
-                self.moveToShownPosition()
-            }, completion: { _ in
-                self.moveToShownPosition() // call this again in case the animation block wasn't called. It's ok to call this twice
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidAppear)
-            })
-        }
-    }
-
     func openFullScreenPlayer(completion: (() -> Void)? = nil) {
         guard PlaybackManager.shared.currentEpisode() != nil else { return }
 
@@ -66,7 +52,6 @@ extension MiniPlayerViewController {
                 self.playerOpenState = .open
                 self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
                 self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
-                self.moveToHiddenBottomPosition()
                 AnalyticsHelper.nowPlayingOpened()
                 completion?()
             }
@@ -102,8 +87,6 @@ extension MiniPlayerViewController {
 
         guard !FeatureFlag.newPlayerTransition.enabled else {
             playerOpenState = .animating
-
-            self.showMiniPlayerWithDelay()
 
             fullScreenPlayer?.dismiss(animated: true) {
                 self.finishedWithFullScreenPlayer()
