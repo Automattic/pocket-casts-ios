@@ -46,7 +46,8 @@ extension MiniPlayerViewController {
             playerOpenState = .animating
             aboutToDisplayFullScreenPlayer()
 
-            fullScreenPlayer?.modalPresentationStyle = .overCurrentContext
+            fullScreenPlayer?.modalPresentationStyle = .custom
+            fullScreenPlayer?.transitioningDelegate = self
 
             presentFromRootController(fullScreenPlayer!, animated: true) {
                 self.playerOpenState = .open
