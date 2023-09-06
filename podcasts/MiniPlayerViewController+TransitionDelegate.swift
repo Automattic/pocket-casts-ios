@@ -2,20 +2,10 @@ import Foundation
 
 extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return Animator()
+        return MiniPlayerToFullPlayerAnimator()
     }
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return Animator()
-    }
-}
-
-class Animator: NSObject, UIViewControllerAnimatedTransitioning {
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        3.5
-    }
-
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-
+        return MiniPlayerToFullPlayerAnimator()
     }
 }
