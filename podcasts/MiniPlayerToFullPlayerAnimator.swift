@@ -5,16 +5,21 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     private let toViewController: UIViewController
     private let transition: Transition
 
+    private let miniPlayerArtwork: PodcastImageView
+    private let fullPlayerArtwork: UIImageView
+
     private var duration: TimeInterval = 0.35
 
     // Initialize with an empty UIView to avoid optional code
     private var containerView = UIView()
     private var toView = UIView()
 
-    init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition) {
+    init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition, miniPlayerArtwork: PodcastImageView, fullPlayerArtwork: UIImageView) {
         self.fromViewController = fromViewController
         self.toViewController = toViewController
         self.transition = transition
+        self.miniPlayerArtwork = miniPlayerArtwork
+        self.fullPlayerArtwork = fullPlayerArtwork
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
