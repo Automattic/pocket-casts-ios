@@ -5,35 +5,11 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     private let toViewController: UIViewController
     private let transition: Transition
 
+    private var duration: TimeInterval = 0.35
+
     // Initialize with an empty UIView to avoid optional code
     private var containerView = UIView()
     private var toView = UIView()
-
-    private lazy var fromFrame: CGRect = {
-        var fromFrame: CGRect
-
-        switch transition {
-        case .presenting:
-            fromFrame = containerView.frame
-            fromFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.height)
-        case .dismissing:
-            fromFrame = containerView.frame
-            fromFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.origin.y)
-        }
-
-        return fromFrame
-    }()
-
-    private lazy var toFrame: CGRect = {
-        switch transition {
-        case .presenting:
-            return containerView.frame
-        case .dismissing:
-            var toFrame = containerView.frame
-            toFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.height)
-            return toFrame
-        }
-    }()
 
     init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition) {
         self.fromViewController = fromViewController
@@ -42,7 +18,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        3.5
+        duration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -53,7 +29,33 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             return
         }
 
-        self.toView = toView
+        /// The player initial frame
+        var fromFrame: CGRect = {
+            var fromFrame: CGRect
+
+            switch transition {
+            case .presenting:
+                fromFrame = containerView.frame
+                fromFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.height)
+            case .dismissing:
+                fromFrame = containerView.frame
+                fromFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.origin.y)
+            }
+
+            return fromFrame
+        }()
+
+        /// The player final frame
+        var toFrame: CGRect = {
+            switch transition {
+            case .presenting:
+                return containerView.frame
+            case .dismissing:
+                var toFrame = containerView.frame
+                toFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.height)
+                return toFrame
+            }
+        }()
 
         // Add the full player and do a layout pass to avoid issues
         containerView.addSubview(toView)
@@ -61,7 +63,13 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         toViewController.view.setNeedsLayout()
         toViewController.view.layoutIfNeeded()
 
-        transitionContext.completeTransition(true)
+        toView.frame = fromFrame
+
+        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut) {
+            toView.frame = toFrame
+        } completion: { completed in
+            transitionContext.completeTransition(completed)
+        }
     }
 
     enum Transition {
