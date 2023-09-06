@@ -5,6 +5,21 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     private let toViewController: UIViewController
     private let transition: Transition
 
+    // Initialize with an empty UIView to avoid optional code
+    private var containerView = UIView()
+    private var toView = UIView()
+
+    private lazy var toFrame: CGRect = {
+        switch transition {
+        case .presenting:
+            return containerView.frame
+        case .dismissing:
+            var toFrame = containerView.frame
+            toFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.height)
+            return toFrame
+        }
+    }()
+
     init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition) {
         self.fromViewController = fromViewController
         self.toViewController = toViewController
@@ -16,13 +31,16 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let containerView = transitionContext.containerView
+        containerView = transitionContext.containerView
 
         guard let toView = toViewController.view else {
             transitionContext.completeTransition(false)
             return
         }
 
+        self.toView = toView
+
+        // Add the full player and do a layout pass to avoid issues
         containerView.addSubview(toView)
         toView.frame = containerView.frame
         toViewController.view.setNeedsLayout()
