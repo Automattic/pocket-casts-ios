@@ -9,6 +9,21 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     private var containerView = UIView()
     private var toView = UIView()
 
+    private lazy var fromFrame: CGRect = {
+        var fromFrame: CGRect
+
+        switch transition {
+        case .presenting:
+            fromFrame = containerView.frame
+            fromFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.height)
+        case .dismissing:
+            fromFrame = containerView.frame
+            fromFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.origin.y)
+        }
+
+        return fromFrame
+    }()
+
     private lazy var toFrame: CGRect = {
         switch transition {
         case .presenting:
