@@ -41,7 +41,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         // MARK: - Full Player
 
         /// The player initial frame
-        var fromFrame: CGRect = {
+        let fromFrame: CGRect = {
             var fromFrame: CGRect
 
             switch transition {
@@ -57,7 +57,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         }()
 
         /// The player final frame
-        var toFrame: CGRect = {
+        let toFrame: CGRect = {
             switch transition {
             case .presenting:
                 return containerView.frame
@@ -77,7 +77,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         // MARK: - Artwork
 
         // Calculate initial and final frame for the artwork
-        var fullPlayerArtworkFrame: CGRect = {
+        let fullPlayerArtworkFrame: CGRect = {
             var fullPlayerArtworkFrame = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
             if !isPresenting {
                 fullPlayerArtworkFrame.origin = .init(x: fullPlayerArtworkFrame.origin.x, y: fullPlayerArtworkFrame.origin.y + fromFrame.origin.y)
@@ -85,7 +85,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             return fullPlayerArtworkFrame
         }()
 
-        var miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
+        let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
 
         toView.frame = fromFrame
 
