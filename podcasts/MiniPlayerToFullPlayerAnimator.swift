@@ -47,7 +47,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             switch transition {
             case .presenting:
                 fromFrame = containerView.frame
-                fromFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.height)
+                fromFrame.origin = .init(x: containerView.frame.origin.x, y: fromViewController.view.frame.origin.y)
             case .dismissing:
                 fromFrame = containerView.frame
                 fromFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.origin.y)
@@ -63,7 +63,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
                 return containerView.frame
             case .dismissing:
                 var toFrame = containerView.frame
-                toFrame.origin = .init(x: containerView.frame.origin.x, y: toView.frame.height)
+                toFrame.origin = .init(x: containerView.frame.origin.x, y: fromViewController.view.frame.origin.y)
                 return toFrame
             }
         }()
@@ -105,7 +105,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // MARK: - Artwork animation
 
-        UIView.animate(withDuration: isPresenting ? 0.25 : 0.35, delay: isPresenting ? 0.1 : 0, options: .curveEaseInOut) { [self] in
+        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut) { [self] in
             artwork.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
             artwork.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
         } completion: { completed in
@@ -117,10 +117,59 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // MARK: - Player animation
 
-        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut) {
+        toView.layer.opacity = isPresenting ? 0 : 1
+        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut) {
             toView.frame = toFrame
+            toView.layer.opacity = self.isPresenting ? 1 : 0
         } completion: { completed in
             transitionContext.completeTransition(completed)
+        }
+
+        // MARK: - Background and Mini Player
+
+        let backgroundTransitionView = UIView()
+        containerView.addSubview(backgroundTransitionView)
+        containerView.sendSubviewToBack(backgroundTransitionView)
+
+        // Get the initial and final colors
+        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.mainView.backgroundColor
+        let fullPlayerBackgroundColor = (toViewController as? PlayerContainerViewController)?.nowPlayingItem.view.backgroundColor
+
+        let fromColor = isPresenting ? miniPlayerBackgroundColor : fullPlayerBackgroundColor
+        let toColor = isPresenting ? fullPlayerBackgroundColor : miniPlayerBackgroundColor
+
+        // Get the initial and final frames
+        let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
+
+        var backgroundTransitionInitialFrame = containerView.frame
+        if !isPresenting {
+            backgroundTransitionInitialFrame.origin = .init(x: backgroundTransitionInitialFrame.origin.x, y: backgroundTransitionInitialFrame.origin.y + fromFrame.origin.y)
+        }
+
+        let backgroundFromFrame = isPresenting ? miniplayerFrame : backgroundTransitionInitialFrame
+        let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
+
+        // Add a snapshot of the miniplayer
+        let miniPlayerSnapshotView = fromViewController.view.snapshotView(afterScreenUpdates: true)
+        backgroundTransitionView.addSubview(miniPlayerSnapshotView ?? UIView())
+
+        // MARK: - Background animation
+
+        backgroundTransitionView.backgroundColor = fromColor
+        backgroundTransitionView.frame = backgroundFromFrame
+
+        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut) {
+            backgroundTransitionView.backgroundColor = toColor
+            backgroundTransitionView.frame = backgroundToFrame
+        } completion: { completed in
+            backgroundTransitionView.removeFromSuperview()
+        }
+
+        // MARK: - Mini Player animation
+
+        miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
+        UIView.animate(withDuration: isPresenting ? 0.1 : duration, delay: 0, options: .curveEaseInOut) {
+            miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
         }
     }
 
