@@ -78,6 +78,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     var finalScrollViewConstraint: NSLayoutConstraint?
 
+    /// The velocity in which the player was dismissed
+    var dismissVelocity: CGFloat = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.accessibilityViewIsModal = true

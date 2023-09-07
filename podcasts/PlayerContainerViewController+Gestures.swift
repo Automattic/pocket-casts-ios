@@ -4,7 +4,7 @@ import PocketCastsUtils
 extension PlayerContainerViewController: UIGestureRecognizerDelegate {
     private static let pullDownThreshold: CGFloat = 150
     private static let minimumVelocityToHide: CGFloat = 1000
-    private static let minimumScreenRatioToHide: CGFloat = 0.5
+    private static let minimumScreenRatioToHide: CGFloat = 0.15
 
     @IBAction func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
         guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
@@ -30,6 +30,7 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
                 let velocity = sender.velocity(in: view)
                 let closing = (translation.y > view.frame.size.height * Self.minimumScreenRatioToHide) ||
                 (velocity.y > Self.minimumVelocityToHide)
+                dismissVelocity = velocity.y
 
                 if closing {
                     miniPlayer.closeFullScreenPlayer()

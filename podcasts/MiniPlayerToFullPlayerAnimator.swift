@@ -8,7 +8,25 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     private let miniPlayerArtwork: PodcastImageView
     private let fullPlayerArtwork: UIImageView
 
-    private var duration: TimeInterval = 0.35
+    private let dismissVelocity: CGFloat
+
+    // The max duration that the transition can last
+    private let maxDismissDuration: TimeInterval = 0.28
+
+    // An assumed "normal" velocity from a pan gesture
+    private let normalVelocity: CGFloat = 2500
+
+    // When presenting the player, duration is always 0.35
+    // However, if the view is being dismissed we take into account
+    // the velocity of the swipe down gesture to carry it
+    // An agressive swipe down will make the view to be dismissed faster.
+    private var duration: TimeInterval {
+        guard !isPresenting || dismissVelocity != 0 else {
+            return 0.35
+        }
+
+        return min((normalVelocity * maxDismissDuration) / dismissVelocity, maxDismissDuration)
+    }
 
     // Initialize with an empty UIView to avoid optional code
     private var containerView = UIView()
@@ -22,12 +40,13 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
     }
 
-    init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition, miniPlayerArtwork: PodcastImageView, fullPlayerArtwork: UIImageView) {
+    init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition, miniPlayerArtwork: PodcastImageView, fullPlayerArtwork: UIImageView, dismissVelocity: CGFloat = 0) {
         self.fromViewController = fromViewController
         self.toViewController = toViewController
         self.transition = transition
         self.miniPlayerArtwork = miniPlayerArtwork
         self.fullPlayerArtwork = fullPlayerArtwork
+        self.dismissVelocity = dismissVelocity
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
