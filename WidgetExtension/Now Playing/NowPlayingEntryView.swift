@@ -47,14 +47,12 @@ struct NowPlayingWidgetEntryView: View {
                 }
             }
             .widgetURL(URL(string: "pktc://last_opened"))
-            .clearBackground()
         } else {
             ZStack {
                 Image(CommonWidgetHelper.loadAppIconName())
                     .resizable()
             }
             .widgetURL(URL(string: "pktc://last_opened"))
-            .clearBackground()
         }
     }
 }
