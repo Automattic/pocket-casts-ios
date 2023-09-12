@@ -45,12 +45,16 @@ struct NowPlayingWidgetEntryView: View {
                         .padding(EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16))
                         .layoutPriority(1)
                 }
-            }.widgetURL(URL(string: "pktc://last_opened"))
+            }
+            .widgetURL(URL(string: "pktc://last_opened"))
+            .clearBackground()
         } else {
             ZStack {
                 Image(CommonWidgetHelper.loadAppIconName())
                     .resizable()
-            }.widgetURL(URL(string: "pktc://last_opened"))
+            }
+            .widgetURL(URL(string: "pktc://last_opened"))
+            .clearBackground()
         }
     }
 }
