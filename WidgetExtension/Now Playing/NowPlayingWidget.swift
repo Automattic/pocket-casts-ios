@@ -6,6 +6,7 @@ struct NowPlayingWidget: Widget {
         StaticConfiguration(kind: "Now_Playing_Widget", provider: NowPlayingProvider()) { entry in
             NowPlayingWidgetEntryView(entry: entry)
         }
+        .contentMarginsDisabled()
         .configurationDisplayName(L10n.nowPlaying)
         .description(L10n.widgetsNowPlayingDesc)
         .supportedFamilies([.systemSmall])
