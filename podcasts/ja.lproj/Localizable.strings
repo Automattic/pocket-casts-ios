@@ -1369,7 +1369,7 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>player_share_header</key>
     <string>リンクを共有</string>
     <key>player_show_notes_title</key>
-    <string>説明</string>
+    <string>詳細</string>
     <key>player_user_episode_download_error</key>
     <string>ダウンロードエラー</string>
     <key>player_user_episode_playback_error</key>
@@ -2364,6 +2364,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>エピソードに星を付ける</string>
     <key>star_episode_short</key>
     <string>星を付ける</string>
+    <key>start_free_trial</key>
+    <string>無料お試しを開始</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>聴取時間: %1$@ (%2$@)</string>
     <key>stats_auto_skip</key>
@@ -2508,6 +2510,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソードには何もありません</string>
     <key>upgrade_account</key>
     <string>アカウントをアップグレード</string>
+    <key>upgrade_to_plan</key>
+    <string>%1$@ にアップグレード</string>
     <key>upload_sort_alpha</key>
     <string>タイトル (アルファベット順)</string>
     <key>volume_boost</key>
