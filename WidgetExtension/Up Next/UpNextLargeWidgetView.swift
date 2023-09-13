@@ -20,65 +20,66 @@ struct LargeUpNextWidgetView: View {
     @Binding var isPlaying: Bool
 
     var body: some View {
-        guard let firstEpisode = episodes.first else {
-            return AnyView(EmptyView())
-        }
-
-        return AnyView(
-            GeometryReader { geometry in
-                VStack(alignment: .leading, spacing: 0) {
-                    ZStack {
-                        Rectangle().fill(Color.clear)
-                            .lightBackgroundShadow()
-                            .frame(width: .infinity, height: .infinity)
-                        HStack(alignment: .top) {
-                            EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedUppercase) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration)).localizedUppercase))
-                            Spacer()
-                            Image("logo_red_small")
-                                .frame(width: 28, height: 28)
-                                .unredacted()
-                        }
-                    }
-                    .padding(16)
-                    .frame(height: geometry.size.height * 82 / 345)
-
-                    ZStack {
-                        Rectangle().fill(darkBackgroundColor)
-
-                        VStack(alignment: .leading, spacing: 10) {
-                            if episodes.count > 1 {
-                                ForEach(episodes[1 ... min(4, episodes.count - 1)], id: \.self) { episode in
-
-                                    EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
-                                        .frame(height: geometry.size.height * 50 / 345)
-                                }
-                            }
-
-                            if episodes.count < 5 {
-                                if episodes.count > 1 {
-                                    if episodes.count != 4 {
-                                        Spacer().frame(height: 1)
-                                    }
-                                    Divider()
-                                        .background(Color(UIColor.opaqueSeparator))
-                                }
-                                if episodes.count != 4 {
-                                    Spacer()
-                                }
-                                HStack {
-                                    Spacer()
-                                    HungryForMoreView()
-                                    Spacer()
-                                }
+        ZStack {
+            if let firstEpisode = episodes.first {
+                GeometryReader { geometry in
+                    VStack(alignment: .leading, spacing: 0) {
+                        ZStack {
+                            Rectangle().fill(Color.clear)
+                                .lightBackgroundShadow()
+                                .frame(width: .infinity, height: .infinity)
+                            HStack(alignment: .top) {
+                                EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedUppercase) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration)).localizedUppercase))
                                 Spacer()
+                                Image("logo_red_small")
+                                    .frame(width: 28, height: 28)
+                                    .unredacted()
                             }
                         }
                         .padding(16)
-                        .frame(width: .infinity, height: .infinity, alignment: .center)
+                        .frame(height: geometry.size.height * 82 / 345)
+
+                        ZStack {
+                            Rectangle().fill(darkBackgroundColor)
+
+                            VStack(alignment: .leading, spacing: 10) {
+                                if episodes.count > 1 {
+                                    ForEach(episodes[1 ... min(4, episodes.count - 1)], id: \.episodeUuid) { episode in
+
+                                        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
+                                            .frame(height: geometry.size.height * 50 / 345)
+                                    }
+                                }
+
+                                if episodes.count < 5 {
+                                    if episodes.count > 1 {
+                                        if episodes.count != 4 {
+                                            Spacer().frame(height: 1)
+                                        }
+                                        Divider()
+                                            .background(Color(UIColor.opaqueSeparator))
+                                    }
+                                    if episodes.count != 4 {
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Spacer()
+                                        HungryForMoreView()
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                }
+                            }
+                            .padding(16)
+                            .frame(width: .infinity, height: .infinity, alignment: .center)
+                        }
                     }
                 }
+                .clearBackground()
+            } else {
+                EmptyView()
             }
-            .clearBackground())
+        }
     }
 }
 
