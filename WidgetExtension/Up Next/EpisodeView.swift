@@ -13,7 +13,14 @@ struct EpisodeView: View {
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
-                SmallArtworkView(imageData: episode.imageData)
+                if #available(iOS 17, *) {
+                    Toggle(isOn: false, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
+                        SmallArtworkView(imageData: episode.imageData)
+                    }
+                    .toggleStyle(WidgetPlayToggleStyle())
+                } else {
+                    SmallArtworkView(imageData: episode.imageData)
+                }
                 VStack(alignment: .leading) {
                     if !compactView {
                         topText
@@ -51,4 +58,28 @@ struct EpisodeView: View {
     static func createCompactWhenNecessaryView(episode: WidgetEpisode) -> some View {
         EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
     }
+}
+
+struct WidgetPlayToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+         ZStack {
+             configuration.label
+                 .truncationMode(.tail)
+             Group {
+                 ZStack {
+                     Group {
+                         configuration.isOn ?
+                         Image("icon-pause")
+                             .foregroundStyle(.white)
+                         :
+                             Image("icon-play")
+                             .foregroundStyle(.white)
+                     }
+                     .opacity(0.95)
+                 }
+             }
+             .symbolRenderingMode(.palette)
+             .foregroundStyle(.black, .white)
+         }
+     }
 }
