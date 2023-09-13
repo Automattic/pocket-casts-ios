@@ -1369,7 +1369,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>player_share_header</key>
     <string>分享連結</string>
     <key>player_show_notes_title</key>
-    <string>說明</string>
+    <string>詳細資料</string>
     <key>player_user_episode_download_error</key>
     <string>下載錯誤</string>
     <key>player_user_episode_playback_error</key>
@@ -2365,6 +2365,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>為單集加上星號</string>
     <key>star_episode_short</key>
     <string>加上星號</string>
+    <key>start_free_trial</key>
+    <string>開始免費試用</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>你已收聽 %1$@。%2$@</string>
     <key>stats_auto_skip</key>
@@ -2509,6 +2511,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>「接下來播放」中沒有任何節目</string>
     <key>upgrade_account</key>
     <string>升級帳號</string>
+    <key>upgrade_to_plan</key>
+    <string>升級至 %1$@</string>
     <key>upload_sort_alpha</key>
     <string>標題 (A-Z)</string>
     <key>volume_boost</key>

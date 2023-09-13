@@ -1369,7 +1369,7 @@ UM UPDATES ZU ERHALTEN</string>
     <key>player_share_header</key>
     <string>LINK TEILEN MIT</string>
     <key>player_show_notes_title</key>
-    <string>Beschreibung</string>
+    <string>Details</string>
     <key>player_user_episode_download_error</key>
     <string>Downloadfehler</string>
     <key>player_user_episode_playback_error</key>
@@ -2365,6 +2365,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Folge mit Stern markieren</string>
     <key>star_episode_short</key>
     <string>Mit Stern markieren</string>
+    <key>start_free_trial</key>
+    <string>Gratis-Test starten</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Bis jetzt hast du angehört: %1$@. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2509,6 +2511,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Die Warteschlange ist leer.</string>
     <key>upgrade_account</key>
     <string>Upgrade für Konto durchführen</string>
+    <key>upgrade_to_plan</key>
+    <string>Upgrade auf %1$@ durchführen</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A–Z)</string>
     <key>volume_boost</key>

@@ -1369,7 +1369,7 @@ ATUALIZAÇÕES</string>
     <key>player_share_header</key>
     <string>COMPARTILHAR LINK PARA</string>
     <key>player_show_notes_title</key>
-    <string>Descrição</string>
+    <string>Detalhes</string>
     <key>player_user_episode_download_error</key>
     <string>Erro no download</string>
     <key>player_user_episode_playback_error</key>
@@ -2365,6 +2365,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Marcar como favorito</string>
     <key>star_episode_short</key>
     <string>Favoritar</string>
+    <key>start_free_trial</key>
+    <string>Iniciar teste gratuito</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Você ouviu podcasts por %1$@. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2509,6 +2511,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Nada na fila de Próximos</string>
     <key>upgrade_account</key>
     <string>Fazer upgrade de conta</string>
+    <key>upgrade_to_plan</key>
+    <string>Fazer upgrade para %1$@</string>
     <key>upload_sort_alpha</key>
     <string>Título (A-Z)</string>
     <key>volume_boost</key>

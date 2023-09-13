@@ -1369,7 +1369,7 @@
     <key>player_share_header</key>
     <string>ПОДЕЛИТЬСЯ ССЫЛКОЙ С</string>
     <key>player_show_notes_title</key>
-    <string>Описание</string>
+    <string>Сведения</string>
     <key>player_user_episode_download_error</key>
     <string>Ошибка скачивания</string>
     <key>player_user_episode_playback_error</key>
@@ -2365,6 +2365,8 @@
     <string>Включить выпуск в избранное </string>
     <key>star_episode_short</key>
     <string>Отметить</string>
+    <key>start_free_trial</key>
+    <string>Запустить бесплатную пробную версию</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Вы слушали %1$@. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2509,6 +2511,8 @@
     <string>Очередь пуста</string>
     <key>upgrade_account</key>
     <string>Перейти на платный план</string>
+    <key>upgrade_to_plan</key>
+    <string>Обновить до %1$@</string>
     <key>upload_sort_alpha</key>
     <string>По названию (A-Z)</string>
     <key>volume_boost</key>
