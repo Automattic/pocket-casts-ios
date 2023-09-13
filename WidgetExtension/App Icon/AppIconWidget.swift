@@ -22,10 +22,20 @@ struct AppIconWidgetEntryView: View {
     var body: some View {
         ZStack {
             Color.black
+                .clipShape(Circle())
             Image("logo-transparent-medium")
                 .resizable()
                 .frame(width: 55, height: 55)
         }
         .widgetURL(URL(string: "pktc://last_opened"))
+        .clearBackground()
+    }
+}
+
+@available(iOSApplicationExtension 17.0, *)
+struct Previews_AppIconWidgetEntryView_Previews: PreviewProvider {
+    static var previews: some View {
+        AppIconWidgetEntryView(entry: StaticEntry(date: Date()))
+            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
     }
 }

@@ -77,7 +77,8 @@ struct LargeUpNextWidgetView: View {
                         .frame(width: .infinity, height: .infinity, alignment: .center)
                     }
                 }
-            })
+            }
+            .clearBackground())
     }
 }
 

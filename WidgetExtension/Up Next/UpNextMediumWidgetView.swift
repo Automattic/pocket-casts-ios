@@ -92,7 +92,9 @@ struct MediumFilterView: View {
                     Spacer()
                         .frame(minHeight: 42, maxHeight: 56)
                 }
-            }.padding(geometry.size.height > 155 ? 16 : 12)
+            }
+            .padding(geometry.size.height > 155 ? 16 : 12)
+            .clearBackground()
         }
     }
 }

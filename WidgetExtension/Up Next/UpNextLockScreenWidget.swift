@@ -16,7 +16,7 @@ struct UpNextLockScreenWidget: Widget {
     }
 }
 
-@available(iOSApplicationExtension 16.0, *)
+@available(iOS 16.0, *)
 struct UpNextLockScreenWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) private var family
@@ -71,6 +71,7 @@ struct UpNextCircularWidgetView: View {
             }
         }
         .widgetURL(URL(string: widgetURL))
+        .clearBackground()
     }
 }
 
@@ -129,12 +130,14 @@ struct UpNextRectangularWidgetView: View {
                     .fontWeight(.medium)
                     .foregroundColor(Color.secondary)
             }
-        }.widgetURL(URL(string: widgetURL))
+        }
+        .widgetURL(URL(string: widgetURL))
+        .clearBackground()
     }
 }
 
 @available(iOSApplicationExtension 16.0, *)
-struct Previews_UpNextLockScreenWidget_Previews: PreviewProvider {
+struct UpNextLockScreenWidget_Previews: PreviewProvider {
     static var previews: some View {
         UpNextLockScreenWidgetEntryView(entry: UpNextEntry(date: Date(), isPlaying: false, upNextEpisodesCount: 18))
             .previewContext(WidgetPreviewContext(family: .accessoryCircular))
