@@ -64,24 +64,25 @@ struct EpisodeView: View {
 
 struct WidgetPlayToggleStyle: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {
-         ZStack {
-             configuration.label
-                 .truncationMode(.tail)
-             Group {
-                 ZStack {
-                     Group {
-                         configuration.isOn ?
-                         Image("icon-pause")
-                             .foregroundStyle(.white)
-                         :
-                             Image("icon-play")
-                             .foregroundStyle(.white)
-                     }
-                     .opacity(0.95)
-                 }
-             }
-             .symbolRenderingMode(.palette)
-             .foregroundStyle(.black, .white)
-         }
+        ZStack {
+            configuration.label
+                .truncationMode(.tail)
+
+            Circle()
+                .foregroundStyle(.white)
+                .frame(width: 24, height: 24)
+            Group {
+                configuration.isOn ?
+                Image("icon-pause")
+                    .resizable()
+                    .foregroundStyle(.black)
+                :
+                    Image("icon-play")
+                    .resizable()
+                    .foregroundStyle(.black)
+            }
+            .frame(width: 24, height: 24)
+        }
+        .opacity(0.9)
      }
 }
