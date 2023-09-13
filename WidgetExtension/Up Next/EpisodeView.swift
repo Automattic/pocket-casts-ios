@@ -4,6 +4,8 @@ import SwiftUI
 struct EpisodeView: View {
     @State var episode: WidgetEpisode
     @State var topText: Text
+    @State var isPlaying: Bool = false
+
     var compactView: Bool {
         typeSize >= .xxLarge
     }
@@ -14,7 +16,7 @@ struct EpisodeView: View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
                 if #available(iOS 17, *) {
-                    Toggle(isOn: false, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
+                    Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
                         SmallArtworkView(imageData: episode.imageData)
                     }
                     .toggleStyle(WidgetPlayToggleStyle())
