@@ -16,7 +16,10 @@ extension PlayEpisodeIntent {
         if current?.uuid == podcastEpisode.uuid {
             PlaybackActionHelper.playPause()
         } else {
-            PlaybackActionHelper.play(episode: podcastEpisode, playlist: .none)
+            // Ideally we should use PlaybackActionHelper here
+            // However this can potentially triger an UI and does a lot of other checks
+            // that is not as performant as this call.
+            PlaybackManager.shared.load(episode: podcastEpisode, autoPlay: true, overrideUpNext: false)
         }
     }
 }
