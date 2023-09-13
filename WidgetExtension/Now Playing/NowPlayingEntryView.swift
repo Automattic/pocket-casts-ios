@@ -9,7 +9,14 @@ struct NowPlayingWidgetEntryView: View {
             VStack(alignment: .leading, spacing: 3) {
                 GeometryReader { geometry in
                     HStack(alignment: .top) {
-                        LargeArtworkView(imageData: playingEpisode.imageData)
+                        if #available(iOS 17, *) {
+                            Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
+                                LargeArtworkView(imageData: playingEpisode.imageData)
+                            }
+                            .toggleStyle(WidgetPlayToggleStyle())
+                        } else {
+                            LargeArtworkView(imageData: playingEpisode.imageData)
+                        }
                         Spacer()
                         Image("logo-transparent")
                             .frame(width: 28, height: 28)
