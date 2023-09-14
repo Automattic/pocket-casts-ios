@@ -4,6 +4,8 @@ import SwiftUI
 struct EpisodeView: View {
     @State var episode: WidgetEpisode
     @State var topText: Text
+    @State var isPlaying: Bool = false
+
     var compactView: Bool {
         typeSize >= .xxLarge
     }
@@ -13,7 +15,14 @@ struct EpisodeView: View {
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
-                SmallArtworkView(imageData: episode.imageData)
+                if #available(iOS 17, *) {
+                    Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
+                        SmallArtworkView(imageData: episode.imageData)
+                    }
+                    .toggleStyle(WidgetPlayToggleStyle())
+                } else {
+                    SmallArtworkView(imageData: episode.imageData)
+                }
                 VStack(alignment: .leading) {
                     if !compactView {
                         topText
@@ -51,4 +60,29 @@ struct EpisodeView: View {
     static func createCompactWhenNecessaryView(episode: WidgetEpisode) -> some View {
         EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
     }
+}
+
+struct WidgetPlayToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            configuration.label
+                .truncationMode(.tail)
+
+            Circle()
+                .foregroundStyle(.white)
+                .frame(width: 24, height: 24)
+            Group {
+                configuration.isOn ?
+                Image("icon-pause")
+                    .resizable()
+                    .foregroundStyle(.black)
+                :
+                    Image("icon-play")
+                    .resizable()
+                    .foregroundStyle(.black)
+            }
+            .frame(width: 24, height: 24)
+        }
+        .opacity(0.9)
+     }
 }
