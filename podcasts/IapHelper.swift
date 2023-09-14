@@ -211,6 +211,7 @@ private extension IapHelper {
     private func addSubscriptionNotifications() {
         NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
             self?.updateTrialEligibility()
+            self?.requestProductInfo()
         }
     }
 
