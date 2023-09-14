@@ -68,7 +68,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
         alert.addAction(.init(title: L10n.ok, style: .cancel))
 
-        presentingViewController.present(alert, animated: true, completion: nil)
+        presentingViewController.presentFromRootController(alert)
     }
 
     // Our internal state
