@@ -2,28 +2,38 @@ import SwiftUI
 
 struct LargeArtworkView: View {
     @State var imageData: Data?
+
+    var showShadow: Bool = true
+
     var body: some View {
         ZStack {
-            Rectangle()
-                .foregroundColor(Color.nowPlayingShadowColor)
-                .aspectRatio(1, contentMode: .fit)
-                .frame(maxHeight: 74)
-                .cornerRadius(9)
-                .secondaryShadow()
+            if showShadow {
+                Rectangle()
+                    .foregroundColor(Color.nowPlayingShadowColor)
+                    .aspectRatio(1, contentMode: .fit)
+                    .frame(maxHeight: 74)
+                    .cornerRadius(9)
+                    .secondaryShadow()
+            }
+
             if let imageData = imageData, let uiImage = UIImage(data: imageData) {
                 Image(uiImage: uiImage)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
                     .frame(maxHeight: 74)
                     .cornerRadius(8)
-                    .artworkShadow()
+                    .if(showShadow) { view in
+                        view.artworkShadow()
+                    }
             } else {
                 Image("no-podcast-artwork")
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
                     .frame(maxHeight: 74)
                     .cornerRadius(8)
-                    .artworkShadow()
+                    .if(showShadow) { view in
+                        view.artworkShadow()
+                    }
             }
         }
     }
