@@ -20,6 +20,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     /// Prevent multiple eligibility requests from being performed
     private var isCheckingEligibility = false
 
+    /// Whether purchasing is allowed in the current environment or not
+    var canMakePurchases = BuildEnvironment.current != .testFlight
+
     override init() {
         super.init()
 
@@ -208,6 +211,7 @@ private extension IapHelper {
     private func addSubscriptionNotifications() {
         NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
             self?.updateTrialEligibility()
+            self?.requestProductInfo()
         }
     }
 
