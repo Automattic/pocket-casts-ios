@@ -168,7 +168,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         populate(progressOnly: false)
     }
 
-    
+
     /// Determines whether the bookmark indicator icon should appear
     private var showBookmarksIcon: Bool {
         FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked && episode?.hasBookmarks == true
@@ -193,10 +193,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             } else {
                 uploadStatusIndicator.isHidden = true
             }
-            
+
             // Since this calls out to the DB we'll cache the value here so later calls don't hit it again
             let showBookmarksIcon = self.showBookmarksIcon
-            
+
             // Setup the bookmarks icon
             bookmarkIcon.image = UIImage(named: "bookmark-icon-episode")
             bookmarkIcon.tintColor = mainTintColor
