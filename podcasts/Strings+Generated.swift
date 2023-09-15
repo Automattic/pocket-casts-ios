@@ -254,6 +254,12 @@ internal enum L10n {
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// Please download Pocket Casts from the App Store to purchase %1$@.
+  internal static func betaPurchaseDisabled(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "beta_purchase_disabled", String(describing: p1))
+  }
+  /// Thank you for beta testing!
+  internal static var betaThankYou: String { return L10n.tr("Localizable", "beta_thank_you") }
   /// Bookmark added
   internal static var bookmarkAdded: String { return L10n.tr("Localizable", "bookmark_added") }
   /// View
