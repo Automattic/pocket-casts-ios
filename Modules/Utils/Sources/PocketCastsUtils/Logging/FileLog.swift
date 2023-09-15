@@ -58,7 +58,7 @@ public class FileLog {
     // See: https://github.com/Automattic/pocket-casts-ios/issues/791
     public func foldersIssue(_ message: String?) {
         guard let message else { return }
-    
+
         addMessage("[Folders] \(message)")
     }
 
