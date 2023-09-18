@@ -325,7 +325,9 @@ platform :ios do
     close_milestone(repository: GHHELPER_REPO, milestone: version)
 
     # Start the build
-    trigger_release_build(branch_to_build: release_branch_name)
+    after_confirming_push(push_merge_branch: false) do
+      trigger_release_build(branch_to_build: release_branch_name)
+    end
   end
 
   # Builds the Pocket Casts app and uploads it to TestFlight, for beta-testing or final release
