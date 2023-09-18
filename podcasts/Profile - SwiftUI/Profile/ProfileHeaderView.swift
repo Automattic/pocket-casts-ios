@@ -182,6 +182,7 @@ struct ProfileHeaderView: View {
                         .foregroundColor(theme.primaryText02)
                 }
                 .frame(maxWidth: .infinity)
+                .accessibilityElement(children: .combine)
             }
         }
 
