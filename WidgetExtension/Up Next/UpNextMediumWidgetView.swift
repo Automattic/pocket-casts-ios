@@ -31,7 +31,7 @@ struct MediumUpNextView: View {
                     Rectangle().fill(lightBackgroundColor)
                         .lightBackgroundShadow()
                     HStack(alignment: .top) {
-                        EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedUppercase) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration)).localizedUppercase))
+                        EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedUppercase) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration)).localizedUppercase), isPlaying: isPlaying)
                         Spacer()
                         Image("logo_red_small")
                             .frame(width: 28, height: 28)
@@ -92,7 +92,9 @@ struct MediumFilterView: View {
                     Spacer()
                         .frame(minHeight: 42, maxHeight: 56)
                 }
-            }.padding(geometry.size.height > 155 ? 16 : 12)
+            }
+            .padding(geometry.size.height > 155 ? 16 : 12)
+            .clearBackground()
         }
     }
 }

@@ -1369,7 +1369,7 @@ MISES À JOUR</string>
     <key>player_share_header</key>
     <string>PARTAGER LE LIEN VERS</string>
     <key>player_show_notes_title</key>
-    <string>Description</string>
+    <string>Détails</string>
     <key>player_user_episode_download_error</key>
     <string>Erreur de téléchargement</string>
     <key>player_user_episode_playback_error</key>
@@ -2365,6 +2365,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Épisode favori</string>
     <key>star_episode_short</key>
     <string>Favori</string>
+    <key>start_free_trial</key>
+    <string>Démarrer mon essai gratuit</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Votre durée d’écoute est de %1$@. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2509,6 +2511,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>File d’attente vide</string>
     <key>upgrade_account</key>
     <string>Mettre le compte à niveau</string>
+    <key>upgrade_to_plan</key>
+    <string>Passer à %1$@</string>
     <key>upload_sort_alpha</key>
     <string>Titre (A-Z)</string>
     <key>volume_boost</key>

@@ -26,7 +26,7 @@ steps:
     agents:
       queue: mac
     env:
-      IMAGE_ID: xcode-14.2
+      IMAGE_ID: xcode-15.0-rc.1
 
   # Because this repo is large (~2m 20s to checkout), we periodically create a
   # Git Mirror and copy it to S3, from where it can be fetched by agents more

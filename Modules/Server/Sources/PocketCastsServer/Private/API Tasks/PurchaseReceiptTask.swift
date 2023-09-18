@@ -18,6 +18,9 @@ class PurchaseReceiptTask: ApiBaseTask {
             return
         }
 
+        FileLog.shared.addMessage("PurchaseReceiptTask: Receipt URL: \(receiptUrl)")
+        FileLog.shared.addMessage("PurchaseReceiptTask: iapUnverifiedPurchaseReceiptDate: \(String(describing: ServerSettings.iapUnverifiedPurchaseReceiptDate()))")
+
         let receiptString = receiptData.base64EncodedString()
         var updateRequest = Api_SubscriptionsPurchaseAppleRequest()
         updateRequest.receipt = receiptString

@@ -863,6 +863,10 @@ class Settings: NSObject {
             return EffectsPlayerStrategy(rawValue: remote.numberValue.intValue)
         }
 
+        static var plusCloudStorageLimit: Int {
+            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.customStorageLimitGB).numberValue.intValue
+        }
+
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
@@ -880,3 +884,11 @@ extension Settings {
         Analytics.track(event, properties: ["enabled": enabled])
     }
 }
+
+#if !os(watchOS)
+extension L10n {
+    static var plusCloudStorageLimit: String {
+        plusCloudStorageLimitFormat(Settings.plusCloudStorageLimit.localized())
+    }
+}
+#endif

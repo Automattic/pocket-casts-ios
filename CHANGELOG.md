@@ -1,6 +1,6 @@
 7.48
 -----
-
+- Enables Patron: [#1104] [Internal]
 
 7.47
 -----
