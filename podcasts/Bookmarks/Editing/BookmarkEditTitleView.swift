@@ -202,7 +202,7 @@ class BookmarkEditTheme: ThemeObserver {
     var textFieldUnderline: Color { theme.playerContrast05 }
 
     var saveButton: Color {
-        background.luminance() < 0.5 ? .white : .black
+        saveButtonBackground.luminance() < 0.5 ? .white : .black
     }
 
     var saveButtonBackground: Color {
