@@ -148,7 +148,7 @@ class WidgetHelper {
         var imageUrl = ""
 
         if let episode = episode as? Episode {
-            imageUrl = ServerHelper.image(podcastUuid: episode.parentIdentifier(), size: 130)
+            imageUrl = ServerHelper.image(podcastUuid: episode.parentIdentifier(), size: 340)
         } else if let userEpisode = episode as? UserEpisode {
             imageUrl = userEpisodeImageString(userEpisode)
         }

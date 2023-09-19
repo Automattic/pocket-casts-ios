@@ -1369,7 +1369,7 @@ AGGIORNAMENTI</string>
     <key>player_share_header</key>
     <string>CONDIVIDI IL LINK SU</string>
     <key>player_show_notes_title</key>
-    <string>Descrizione</string>
+    <string>Dettagli</string>
     <key>player_user_episode_download_error</key>
     <string>Errore di download</string>
     <key>player_user_episode_playback_error</key>
@@ -2365,6 +2365,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Aggiungi ai preferiti</string>
     <key>star_episode_short</key>
     <string>Preferiti</string>
+    <key>start_free_trial</key>
+    <string>Inizia la prova gratuita</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Hai ascoltato per %1$@. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2509,6 +2511,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Nessun elemento in Prossimo</string>
     <key>upgrade_account</key>
     <string>Effettua upgrade dell'account</string>
+    <key>upgrade_to_plan</key>
+    <string>Effettua l'aggiornamento a %1$@</string>
     <key>upload_sort_alpha</key>
     <string>Titolo (A-Z)</string>
     <key>volume_boost</key>

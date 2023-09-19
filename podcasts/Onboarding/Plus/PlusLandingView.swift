@@ -80,7 +80,7 @@ struct PlusLandingView: View {
                     title: L10n.folders,
                     description: L10n.plusMarketingUpdatedFoldersDescription),
         PlusFeature(iconName: "plus-feature-cloud",
-                    title: L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized()),
+                    title: L10n.plusCloudStorageLimit,
                     description: L10n.plusMarketingUpdatedCloudStorageDescription),
         PlusFeature(iconName: "plus-feature-watch",
                     title: L10n.plusMarketingWatchPlaybackTitle,

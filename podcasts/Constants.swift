@@ -311,7 +311,7 @@ struct Constants {
         static let episodeSearchDebounceMsDefault: Double = 800
 
         static let customStorageLimitGB = "custom_storage_limit_gb"
-        static let customStorageLimitGBDefault: Int = 10
+        static let customStorageLimitGBDefault: Int = 20
 
         static let endOfYearRequireAccount = "end_of_year_require_account"
         static let endOfYearRequireAccountDefault: Bool = true

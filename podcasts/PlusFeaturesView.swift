@@ -63,6 +63,6 @@ class PlusFeaturesView: UIView {
     }
 
     private func configureLabels() {
-        customStorageLabel.text = L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized())
+        customStorageLabel.text = L10n.plusCloudStorageLimit
     }
 }

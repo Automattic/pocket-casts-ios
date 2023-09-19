@@ -1364,7 +1364,7 @@ ACTUALITZACIONS</string>
     <key>player_share_header</key>
     <string>COMPARTEIX L'ENLLAÇ A</string>
     <key>player_show_notes_title</key>
-    <string>Descripció</string>
+    <string>Detalls</string>
     <key>player_user_episode_download_error</key>
     <string>Error de la descàrrega</string>
     <key>player_user_episode_playback_error</key>
@@ -2357,6 +2357,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Destacar episodi</string>
     <key>star_episode_short</key>
     <string>Destacar</string>
+    <key>start_free_trial</key>
+    <string>Comença un període de prova</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Has escoltat durant %1$@. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2501,6 +2503,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>No hi ha res a la llista de 'Tot seguit'</string>
     <key>upgrade_account</key>
     <string>Actualizar el compte</string>
+    <key>upgrade_to_plan</key>
+    <string>Actualitza a %1$@</string>
     <key>upload_sort_alpha</key>
     <string>Títol (A-Z)</string>
     <key>volume_boost</key>

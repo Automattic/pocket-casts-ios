@@ -1369,7 +1369,7 @@ MISES À JOUR</string>
     <key>player_share_header</key>
     <string>PARTAGER LE LIEN DANS</string>
     <key>player_show_notes_title</key>
-    <string>Description</string>
+    <string>Détails</string>
     <key>player_user_episode_download_error</key>
     <string>Erreur lors du téléchargement</string>
     <key>player_user_episode_playback_error</key>
@@ -2365,6 +2365,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Ajouter l’épisode aux favoris</string>
     <key>star_episode_short</key>
     <string>Favori</string>
+    <key>start_free_trial</key>
+    <string>Démarrer mon essai gratuit</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Vous avez écouté des balados pendant %1$@. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2509,6 +2511,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Aucun épisode dans Prochains épisodes</string>
     <key>upgrade_account</key>
     <string>Mettre le compte à niveau</string>
+    <key>upgrade_to_plan</key>
+    <string>Passer à %1$@</string>
     <key>upload_sort_alpha</key>
     <string>Titre (A à Z)</string>
     <key>volume_boost</key>
