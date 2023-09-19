@@ -51,4 +51,11 @@ class ChaptersViewController: PlayerItemViewController {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         chaptersTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
     }
+
+    // MARK: - Present
+
+    /// Always present from the parent VC
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        parent?.present(viewControllerToPresent, animated: flag, completion: completion)
+    }
 }

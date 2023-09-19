@@ -238,4 +238,9 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
         safariViewController?.delegate = nil
         safariViewController = nil
     }
+
+    /// Always present from the parent VC
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        parent?.present(viewControllerToPresent, animated: flag, completion: completion)
+    }
 }
