@@ -268,7 +268,7 @@ platform :ios do
       trigger_beta_build(branch_to_build: release_branch_name)
 
       setbranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
-      setfrozentag(repository: GHHELPER_REPO, milestone: new_version)
+      setfrozentag(repository: GHHELPER_REPO, milestone: ios_get_app_version(public_version_xcconfig_file: VERSION_XCCONFIG_PATH))
     end
   end
 
