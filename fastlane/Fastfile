@@ -248,8 +248,6 @@ platform :ios do
       new_version: new_version,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
-    setbranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
-    setfrozentag(repository: GHHELPER_REPO, milestone: new_version)
   end
 
   # Executes the final steps for the code freeze
@@ -268,6 +266,9 @@ platform :ios do
 
     after_confirming_push(push_merge_branch: true) do
       trigger_beta_build(branch_to_build: release_branch_name)
+
+      setbranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
+      setfrozentag(repository: GHHELPER_REPO, milestone: new_version)
     end
   end
 
