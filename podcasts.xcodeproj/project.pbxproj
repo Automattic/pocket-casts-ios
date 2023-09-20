@@ -490,6 +490,12 @@
 		8B44446229785287007E0AA8 /* AppleSocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44446129785287007E0AA8 /* AppleSocialLogin.swift */; };
 		8B44446429785947007E0AA8 /* SocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44446329785947007E0AA8 /* SocialLogin.swift */; };
 		8B44446729785BD0007E0AA8 /* SocialLoginFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44446629785BD0007E0AA8 /* SocialLoginFactory.swift */; };
+		8B4552112ABB5BD200B45407 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4090974F25235DFA00CED68C /* WidgetKit.framework */; };
+		8B4552132ABB5BD200B45407 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4552122ABB5BD200B45407 /* SwiftUI.framework */; };
+		8B4552162ABB5BD300B45407 /* WatchWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4552152ABB5BD300B45407 /* WatchWidget.swift */; };
+		8B4552182ABB5BD300B45407 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4552172ABB5BD300B45407 /* AppIntent.swift */; };
+		8B45521A2ABB5BD400B45407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B4552192ABB5BD400B45407 /* Assets.xcassets */; };
+		8B45521E2ABB5BD400B45407 /* WatchWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B4552102ABB5BD200B45407 /* WatchWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8B472E022A4B83CE005905F4 /* AutoplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */; };
 		8B484EF528D23BEF001AFA97 /* PlaybackTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EF428D23BEF001AFA97 /* PlaybackTimeHelper.swift */; };
 		8B484EF728D23F06001AFA97 /* PlaybackTimeHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EF628D23F06001AFA97 /* PlaybackTimeHelperTests.swift */; };
@@ -1686,6 +1692,13 @@
 			remoteGlobalIDString = 2F90990A2A4F88B00044FC55;
 			remoteInfo = "Share Extension";
 		};
+		8B45521C2ABB5BD400B45407 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B45520F2ABB5BD200B45407;
+			remoteInfo = WatchWidgetExtension;
+		};
 		BD3A21121E6CFC2400F42241 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -1728,6 +1741,17 @@
 				8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B45521F2ABB5BD600B45407 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8B45521E2ABB5BD400B45407 /* WatchWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8BF0BBD5289199D2006BBECF /* Embed Frameworks */ = {
@@ -2299,6 +2323,12 @@
 		8B44446129785287007E0AA8 /* AppleSocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSocialLogin.swift; sourceTree = "<group>"; };
 		8B44446329785947007E0AA8 /* SocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLogin.swift; sourceTree = "<group>"; };
 		8B44446629785BD0007E0AA8 /* SocialLoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginFactory.swift; sourceTree = "<group>"; };
+		8B4552102ABB5BD200B45407 /* WatchWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B4552122ABB5BD200B45407 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		8B4552152ABB5BD300B45407 /* WatchWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchWidget.swift; sourceTree = "<group>"; };
+		8B4552172ABB5BD300B45407 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		8B4552192ABB5BD400B45407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8B45521B2ABB5BD400B45407 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoplayHelper.swift; sourceTree = "<group>"; };
 		8B484EF428D23BEF001AFA97 /* PlaybackTimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackTimeHelper.swift; sourceTree = "<group>"; };
 		8B484EF628D23F06001AFA97 /* PlaybackTimeHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackTimeHelperTests.swift; sourceTree = "<group>"; };
@@ -3449,6 +3479,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8B45520D2ABB5BD200B45407 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B4552132ABB5BD200B45407 /* SwiftUI.framework in Frameworks */,
+				8B4552112ABB5BD200B45407 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BD3A210A1E6CFC2400F42241 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -4221,6 +4260,17 @@
 				8B3295422A5336DA00BDFA11 /* WhatsNewTests.swift */,
 			);
 			path = "Whats New";
+			sourceTree = "<group>";
+		};
+		8B4552142ABB5BD300B45407 /* WatchWidget */ = {
+			isa = PBXGroup;
+			children = (
+				8B4552152ABB5BD300B45407 /* WatchWidget.swift */,
+				8B4552172ABB5BD300B45407 /* AppIntent.swift */,
+				8B4552192ABB5BD400B45407 /* Assets.xcassets */,
+				8B45521B2ABB5BD400B45407 /* Info.plist */,
+			);
+			path = WatchWidget;
 			sourceTree = "<group>";
 		};
 		8B47542C28D36D5800BC89F7 /* Tests */ = {
@@ -5772,6 +5822,7 @@
 				46AFC23527AB19CE004B026F /* Screenshot Automation Watch */,
 				45ECEF7C27E910E300C65030 /* PocketCastsTests */,
 				2F90990C2A4F88B10044FC55 /* Share Extension */,
+				8B4552142ABB5BD300B45407 /* WatchWidget */,
 				BDBD53EE17019B2A0048C8C5 /* Frameworks */,
 				BDBD53ED17019B2A0048C8C5 /* Products */,
 				0AEDA899EF3BB3B8C0034C76 /* Pods */,
@@ -5793,6 +5844,7 @@
 				46AFC23427AB19CE004B026F /* Screenshot Automation Watch.xctest */,
 				45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */,
 				2F90990B2A4F88B00044FC55 /* Share Extension.appex */,
+				8B4552102ABB5BD200B45407 /* WatchWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5834,6 +5886,7 @@
 				28DC441F0290179068AA8DBD /* libPods-Today Extension.a */,
 				C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */,
 				6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */,
+				8B4552122ABB5BD200B45407 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7387,6 +7440,23 @@
 			productReference = 46AFC23427AB19CE004B026F /* Screenshot Automation Watch.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		8B45520F2ABB5BD200B45407 /* WatchWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B4552232ABB5BD600B45407 /* Build configuration list for PBXNativeTarget "WatchWidgetExtension" */;
+			buildPhases = (
+				8B45520C2ABB5BD200B45407 /* Sources */,
+				8B45520D2ABB5BD200B45407 /* Frameworks */,
+				8B45520E2ABB5BD200B45407 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WatchWidgetExtension;
+			productName = WatchWidgetExtension;
+			productReference = 8B4552102ABB5BD200B45407 /* WatchWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		BD3A210C1E6CFC2400F42241 /* NotificationExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BD3A21171E6CFC2400F42241 /* Build configuration list for PBXNativeTarget "NotificationExtension" */;
@@ -7483,11 +7553,13 @@
 				BDD3016D1EFB9356004A9972 /* Frameworks */,
 				BDD3016E1EFB9356004A9972 /* Resources */,
 				BDE48A462410DADE00ECA6CA /* Embed Frameworks */,
+				8B45521F2ABB5BD600B45407 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				46DB228B274EB52A0057D3DD /* PBXTargetDependency */,
+				8B45521D2ABB5BD400B45407 /* PBXTargetDependency */,
 			);
 			name = "Pocket Casts Watch App Extension";
 			packageProductDependencies = (
@@ -7523,7 +7595,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SJ;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "Shifty Jelly";
 				TargetAttributes = {
@@ -7557,6 +7629,9 @@
 					46AFC23327AB19CE004B026F = {
 						CreatedOnToolsVersion = 13.2.1;
 						TestTargetID = BDD301631EFB9356004A9972;
+					};
+					8B45520F2ABB5BD200B45407 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 					BD3A210C1E6CFC2400F42241 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -7656,6 +7731,7 @@
 				46AFC23327AB19CE004B026F /* Screenshot Automation Watch */,
 				45ECEF7A27E910E300C65030 /* PocketCastsTests */,
 				2F90990A2A4F88B00044FC55 /* Share Extension */,
+				8B45520F2ABB5BD200B45407 /* WatchWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -7715,6 +7791,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B45520E2ABB5BD200B45407 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B45521A2ABB5BD400B45407 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8584,6 +8668,15 @@
 				46AB84D627AC392F00B219BA /* XCUIElement+Extensions.swift in Sources */,
 				46AFC23727AB19CE004B026F /* Watch_GenerateScreenshots.swift in Sources */,
 				46AFC24127AB1AD9004B026F /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B45520C2ABB5BD200B45407 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B4552162ABB5BD300B45407 /* WatchWidget.swift in Sources */,
+				8B4552182ABB5BD300B45407 /* AppIntent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9596,6 +9689,11 @@
 			target = 2F90990A2A4F88B00044FC55 /* Share Extension */;
 			targetProxy = 8B0845942A66C86D00742C2F /* PBXContainerItemProxy */;
 		};
+		8B45521D2ABB5BD400B45407 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B45520F2ABB5BD200B45407 /* WatchWidgetExtension */;
+			targetProxy = 8B45521C2ABB5BD400B45407 /* PBXContainerItemProxy */;
+		};
 		BD3A21131E6CFC2400F42241 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BD3A210C1E6CFC2400F42241 /* NotificationExtension */;
@@ -10493,6 +10591,166 @@
 			};
 			name = Release;
 		};
+		8B4552202ABB5BD600B45407 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=watchos*]" = PZYM8XX95Q;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WatchWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension.WatchWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = "Pocket Casts Watch App Extension Development";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		8B4552212ABB5BD600B45407 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=watchos*]" = PZYM8XX95Q;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WatchWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension.WatchWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = "Pocket Casts Watch App Extension Development";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Staging;
+		};
+		8B4552222ABB5BD600B45407 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WatchWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension.WatchWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 		BD3A21151E6CFC2400F42241 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -10747,6 +11005,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
+				"DEVELOPMENT_TEAM[sdk=watchos*]" = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Pocket Casts Watch App Extension/Info.plist";
@@ -10760,6 +11019,7 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "0bcd4b78-e154-427e-b907-ddd11c3039c8";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Extension Development";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = "Pocket Casts Watch App Extension";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -11091,6 +11351,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
+				"DEVELOPMENT_TEAM[sdk=watchos*]" = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Pocket Casts Watch App Extension/Info.plist";
@@ -11104,6 +11365,7 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "0bcd4b78-e154-427e-b907-ddd11c3039c8";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Extension Development";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = "Pocket Casts Watch App Extension";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -11290,6 +11552,16 @@
 				46AFC23D27AB19CF004B026F /* Debug */,
 				46AFC23E27AB19CF004B026F /* Staging */,
 				46AFC23F27AB19CF004B026F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B4552232ABB5BD600B45407 /* Build configuration list for PBXNativeTarget "WatchWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B4552202ABB5BD600B45407 /* Debug */,
+				8B4552212ABB5BD600B45407 /* Staging */,
+				8B4552222ABB5BD600B45407 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
