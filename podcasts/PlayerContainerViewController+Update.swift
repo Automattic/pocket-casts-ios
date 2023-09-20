@@ -20,6 +20,9 @@ extension PlayerContainerViewController {
     private func updateAvailableTabs() {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
+        // Update the colors when the episode changes
+        tabsView.themeDidChange()
+
         let shouldShowNotes = (playingEpisode is Episode)
         let shouldShowChapters = PlaybackManager.shared.chapterCount() > 0
         let shouldShowBookmarks = FeatureFlag.bookmarks.enabled
