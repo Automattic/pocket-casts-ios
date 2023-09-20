@@ -4,6 +4,7 @@
 
 7.48
 -----
+- Fix importing podcasts route [#1091]
 
 7.47
 -----
