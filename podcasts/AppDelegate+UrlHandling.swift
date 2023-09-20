@@ -150,7 +150,8 @@ extension AppDelegate {
             if prefix.count >= subscribeUrl.count { return true } // this request is missing a URL
 
             let feedUrl = subscribeUrl.replacingOccurrences(of: prefix, with: "")
-            let searchTerm = "http://\(feedUrl)"
+
+            let searchTerm = !feedUrl.hasPrefix("http://") && !feedUrl.hasPrefix("https://") ? "http://\(feedUrl)" : feedUrl
 
             strongSelf.progressDialog = ShiftyLoadingAlert(title: L10n.podcastLoading)
             controller.dismiss(animated: false, completion: nil)
