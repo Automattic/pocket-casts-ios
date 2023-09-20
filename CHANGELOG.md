@@ -5,6 +5,7 @@
 7.48
 -----
 - Fix importing podcasts route [#1091]
+- Fixes the player tab scroll indicator colors [#1120]
 
 7.47
 -----
