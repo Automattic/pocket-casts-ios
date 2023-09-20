@@ -73,7 +73,7 @@ enum FeatureFlag: String, CaseIterable {
         case .discoverFeaturedAutoScroll:
             return true
         case .patron:
-            return true
+            return false
         case .showRatings:
             return true
         case .autoplay:
