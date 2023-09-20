@@ -132,7 +132,7 @@ class PlayerTabsView: UIScrollView {
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
             tabsStackView.addArrangedSubview(button)
         }
-        
+
         // Add an empty view to make sure the sizes are calculated correctly when there is a longer first item
         let empty = UIView()
         empty.isUserInteractionEnabled = false
