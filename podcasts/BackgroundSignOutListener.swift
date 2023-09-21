@@ -5,15 +5,17 @@ import PocketCastsServer
 /// and alert to the user asking them to sign in again
 class BackgroundSignOutListener {
     private let notificationCenter: NotificationCenter
-    private let presentingViewController: UIViewController
     private let navigationManager: NavigationManager
+
+    private var presentingViewController: UIViewController? {
+        SceneHelper.rootViewController()
+    }
 
     private var canShowSignOut = true
 
-    init(notificationCenter: NotificationCenter = NotificationCenter.default, presentingViewController: UIViewController,
+    init(notificationCenter: NotificationCenter = NotificationCenter.default,
          navigationManager: NavigationManager = NavigationManager.sharedManager) {
         self.notificationCenter = notificationCenter
-        self.presentingViewController = presentingViewController
         self.navigationManager = navigationManager
 
         addNotificationObservers()
@@ -76,6 +78,6 @@ private extension BackgroundSignOutListener {
 
         alert.addAction(okAction)
 
-        presentingViewController.present(alert, animated: true, completion: nil)
+        presentingViewController?.present(alert, animated: true, completion: nil)
     }
 }
