@@ -78,9 +78,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     var finalScrollViewConstraint: NSLayoutConstraint?
 
-    /// Whether the player is appearing or disappearing because of an user interaction
-    private var isAppearingOrDisappearingThroughUserGesture = true
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.accessibilityViewIsModal = true
@@ -96,17 +93,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if isAppearingOrDisappearingThroughUserGesture {
+        if !FeatureFlag.newPlayerTransition.enabled {
             Analytics.track(.playerShown)
         }
-
-        isAppearingOrDisappearingThroughUserGesture = true
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        if isAppearingOrDisappearingThroughUserGesture {
+        if !FeatureFlag.newPlayerTransition.enabled {
             Analytics.track(.playerDismissed)
         }
     }
@@ -239,13 +234,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @objc func handleAppWillBecomeActive() {
         didSwitchToTab(index: tabsView.currentTab)
-    }
-
-    // MARK: - Present
-
-    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-        isAppearingOrDisappearingThroughUserGesture = false
-        super.present(viewControllerToPresent, animated: flag, completion: completion)
     }
 }
 

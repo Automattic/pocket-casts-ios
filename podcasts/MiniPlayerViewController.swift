@@ -108,6 +108,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             fullScreenPlayer?.view.removeFromSuperview()
             fullScreenPlayer = nil
 
+            Analytics.track(.playerDismissed)
+
             // update the mini player on full screen player close
             playbackStateDidChange()
             playbackProgressDidChange()

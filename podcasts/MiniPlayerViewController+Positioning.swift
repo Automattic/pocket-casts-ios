@@ -68,6 +68,7 @@ extension MiniPlayerViewController {
                 self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
                 self.moveToHiddenBottomPosition()
                 AnalyticsHelper.nowPlayingOpened()
+                Analytics.track(.playerShown)
                 completion?()
             }
 
