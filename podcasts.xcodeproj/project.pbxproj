@@ -506,6 +506,15 @@
 		8B484F0228D25DB5001AFA97 /* UIViewController+requestReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */; };
 		8B4881E929A3AE6D00E7C016 /* SearchHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4881E829A3AE6D00E7C016 /* SearchHistoryView.swift */; };
 		8B4D794A290876C200F4A56F /* DynamicBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4D7949290876C200F4A56F /* DynamicBackgroundView.swift */; };
+		8B58BD2B2ABCCBF9004D5097 /* NowPlayingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD422EBC26840DAD0078B799 /* NowPlayingProvider.swift */; };
+		8B58BD2C2ABCCC0A004D5097 /* NowPlayingEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD422EBE26840DE20078B799 /* NowPlayingEntry.swift */; };
+		8B58BD2D2ABCCC13004D5097 /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD422EC326840EDD0078B799 /* WidgetData.swift */; };
+		8B58BD2E2ABCCC1C004D5097 /* CommonWidgetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090978625236B0400CED68C /* CommonWidgetHelper.swift */; };
+		8B58BD2F2ABCCC25004D5097 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD054A791E3EDEB300D9195B /* SharedConstants.swift */; };
+		8B58BD302ABCCC2E004D5097 /* CommonUpNextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */; };
+		8B58BD312ABCCC37004D5097 /* WidgetEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4031466C252568970085E76B /* WidgetEpisode.swift */; };
+		8B58BD332ABCCC61004D5097 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8B58BD322ABCCC61004D5097 /* PocketCastsUtils */; };
+		8B58BD352ABCCC61004D5097 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8B58BD322ABCCC61004D5097 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8B5AB488290188F30018C637 /* IntroStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB487290188F30018C637 /* IntroStory.swift */; };
 		8B5AB48A29018A950018C637 /* EpilogueStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB48929018A950018C637 /* EpilogueStory.swift */; };
 		8B5AB48C29018EFA0018C637 /* StoriesConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */; };
@@ -1754,6 +1763,17 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8B58BD342ABCCC61004D5097 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8B58BD352ABCCC61004D5097 /* PocketCastsUtils in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8BF0BBD5289199D2006BBECF /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2339,6 +2359,8 @@
 		8B484F0028D25D1E001AFA97 /* UIViewController+requestReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+requestReview.swift"; sourceTree = "<group>"; };
 		8B4881E829A3AE6D00E7C016 /* SearchHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryView.swift; sourceTree = "<group>"; };
 		8B4D7949290876C200F4A56F /* DynamicBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicBackgroundView.swift; sourceTree = "<group>"; };
+		8B58BD282ABCCAD0004D5097 /* Pocket Casts Watch App Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Pocket Casts Watch App Extension.entitlements"; sourceTree = "<group>"; };
+		8B58BD362ABCCE58004D5097 /* WatchWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidgetExtension.entitlements; sourceTree = "<group>"; };
 		8B5AB487290188F30018C637 /* IntroStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroStory.swift; sourceTree = "<group>"; };
 		8B5AB48929018A950018C637 /* EpilogueStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpilogueStory.swift; sourceTree = "<group>"; };
 		8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesConfiguration.swift; sourceTree = "<group>"; };
@@ -3483,6 +3505,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B58BD332ABCCC61004D5097 /* PocketCastsUtils in Frameworks */,
 				8B4552132ABB5BD200B45407 /* SwiftUI.framework in Frameworks */,
 				8B4552112ABB5BD200B45407 /* WidgetKit.framework in Frameworks */,
 			);
@@ -5808,6 +5831,7 @@
 		BDBD53E317019B290048C8C5 = {
 			isa = PBXGroup;
 			children = (
+				8B58BD362ABCCE58004D5097 /* WatchWidgetExtension.entitlements */,
 				3F299D882872BF3600F2ED7F /* config */,
 				BDBD53F717019B2A0048C8C5 /* Pocket Casts */,
 				BD3A210E1E6CFC2400F42241 /* NotificationExtension */,
@@ -6039,6 +6063,7 @@
 		BDD301741EFB9356004A9972 /* Pocket Casts Watch App Extension */ = {
 			isa = PBXGroup;
 			children = (
+				8B58BD282ABCCAD0004D5097 /* Pocket Casts Watch App Extension.entitlements */,
 				BD2AFEDE1EFC9D5F00398A34 /* Extensions */,
 				BDD301901EFB9969004A9972 /* Data & Communication */,
 				BDDC199E1F009EAC00BAC535 /* Complication */,
@@ -7447,12 +7472,16 @@
 				8B45520C2ABB5BD200B45407 /* Sources */,
 				8B45520D2ABB5BD200B45407 /* Frameworks */,
 				8B45520E2ABB5BD200B45407 /* Resources */,
+				8B58BD342ABCCC61004D5097 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = WatchWidgetExtension;
+			packageProductDependencies = (
+				8B58BD322ABCCC61004D5097 /* PocketCastsUtils */,
+			);
 			productName = WatchWidgetExtension;
 			productReference = 8B4552102ABB5BD200B45407 /* WatchWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -8675,7 +8704,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B58BD312ABCCC37004D5097 /* WidgetEpisode.swift in Sources */,
+				8B58BD2F2ABCCC25004D5097 /* SharedConstants.swift in Sources */,
+				8B58BD2B2ABCCBF9004D5097 /* NowPlayingProvider.swift in Sources */,
 				8B4552162ABB5BD300B45407 /* WatchWidget.swift in Sources */,
+				8B58BD2C2ABCCC0A004D5097 /* NowPlayingEntry.swift in Sources */,
+				8B58BD2D2ABCCC13004D5097 /* WidgetData.swift in Sources */,
+				8B58BD302ABCCC2E004D5097 /* CommonUpNextItem.swift in Sources */,
+				8B58BD2E2ABCCC1C004D5097 /* CommonWidgetHelper.swift in Sources */,
 				8B4552182ABB5BD300B45407 /* AppIntent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10606,6 +10642,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = WatchWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -10659,6 +10696,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = WatchWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
@@ -10714,6 +10752,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = WatchWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -11002,6 +11041,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_ENTITLEMENTS = "Pocket Casts Watch App Extension/Pocket Casts Watch App Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
@@ -11348,6 +11388,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_ENTITLEMENTS = "Pocket Casts Watch App Extension/Pocket Casts Watch App Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
@@ -11386,6 +11427,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_ENTITLEMENTS = "Pocket Casts Watch App Extension/Pocket Casts Watch App Extension.entitlements";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
@@ -11728,6 +11770,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfig;
+		};
+		8B58BD322ABCCC61004D5097 /* PocketCastsUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsUtils;
 		};
 		8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
