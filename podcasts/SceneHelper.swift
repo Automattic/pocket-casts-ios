@@ -24,6 +24,16 @@ class SceneHelper {
     }
 
     class func rootViewController() -> UIViewController? {
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            if let scene = connectedScene() {
+                for window in scene.windows {
+                    return Self.getPresentedViewController(base: window.rootViewController)
+                }
+            }
+
+            return nil
+        }
+
         if let scene = connectedScene() {
             for window in scene.windows {
                 if let mainTabController = window.rootViewController as? MainTabBarController {
@@ -37,6 +47,19 @@ class SceneHelper {
         }
         return appDelegate.window?.rootViewController
     }
+
+    class func getPresentedViewController(base: UIViewController?) -> UIViewController? {
+            guard UIApplication.shared.applicationState == .active else {
+                return nil
+            }
+
+            if let nav = base as? UINavigationController {
+                return getPresentedViewController(base: nav.visibleViewController)
+            } else if let presented = base?.presentedViewController {
+                return getPresentedViewController(base: presented)
+            }
+            return base
+        }
 
     /// Returns the main window for the app from the AppDelegate
     static var mainWindow: UIWindow? {
