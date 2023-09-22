@@ -463,6 +463,10 @@
 		8B14E3B029B9159B0069B6F2 /* SearchHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B14E3AF29B9159B0069B6F2 /* SearchHistoryModel.swift */; };
 		8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B14E3B229BA43A00069B6F2 /* SearchHistoryModelTests.swift */; };
 		8B1877E52A45DC570025D245 /* AutoplayHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1877E42A45DC570025D245 /* AutoplayHelperTests.swift */; };
+		8B19C0472ABDD54F00CCA030 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
+		8B19C0482ABDD56D00CCA030 /* Strings+L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538A626E16CD100BA9D35 /* Strings+L10n.swift */; };
+		8B19C0492ABDD57300CCA030 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
+		8B19C04A2ABDD57A00CCA030 /* LocalizationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */; };
 		8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */; };
 		8B1C974828FE234B00BD5EB9 /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */; };
 		8B1F09BA29BB5A3D00842854 /* SearchResultsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */; };
@@ -7828,6 +7832,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B45521A2ABB5BD400B45407 /* Assets.xcassets in Resources */,
+				8B19C0492ABDD57300CCA030 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8704,12 +8709,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B19C0472ABDD54F00CCA030 /* Strings+Generated.swift in Sources */,
 				8B58BD312ABCCC37004D5097 /* WidgetEpisode.swift in Sources */,
+				8B19C0482ABDD56D00CCA030 /* Strings+L10n.swift in Sources */,
 				8B58BD2F2ABCCC25004D5097 /* SharedConstants.swift in Sources */,
 				8B58BD2B2ABCCBF9004D5097 /* NowPlayingProvider.swift in Sources */,
 				8B4552162ABB5BD300B45407 /* WatchWidget.swift in Sources */,
 				8B58BD2C2ABCCC0A004D5097 /* NowPlayingEntry.swift in Sources */,
 				8B58BD2D2ABCCC13004D5097 /* WidgetData.swift in Sources */,
+				8B19C04A2ABDD57A00CCA030 /* LocalizationHelpers.swift in Sources */,
 				8B58BD302ABCCC2E004D5097 /* CommonUpNextItem.swift in Sources */,
 				8B58BD2E2ABCCC1C004D5097 /* CommonWidgetHelper.swift in Sources */,
 				8B4552182ABB5BD300B45407 /* AppIntent.swift in Sources */,
