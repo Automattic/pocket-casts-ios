@@ -5,7 +5,9 @@
 7.48
 -----
 - Fix importing podcasts route [#1091]
+- Fixes the player tab scroll indicator colors [#1120]
 - Fixes an issue where the player tabs may not render correctly [#1119]
+- Fixes the play/pause on interactive widgets not working for user files [#1123]
 
 7.47
 -----
