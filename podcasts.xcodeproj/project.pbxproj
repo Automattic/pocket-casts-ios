@@ -467,6 +467,7 @@
 		8B19C0482ABDD56D00CCA030 /* Strings+L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538A626E16CD100BA9D35 /* Strings+L10n.swift */; };
 		8B19C0492ABDD57300CCA030 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
 		8B19C04A2ABDD57A00CCA030 /* LocalizationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */; };
+		8B19C04C2ABDDA5400CCA030 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4090975625235DFC00CED68C /* Assets.xcassets */; };
 		8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */; };
 		8B1C974828FE234B00BD5EB9 /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */; };
 		8B1F09BA29BB5A3D00842854 /* SearchResultsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */; };
@@ -498,7 +499,6 @@
 		8B4552132ABB5BD200B45407 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4552122ABB5BD200B45407 /* SwiftUI.framework */; };
 		8B4552162ABB5BD300B45407 /* WatchWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4552152ABB5BD300B45407 /* WatchWidget.swift */; };
 		8B4552182ABB5BD300B45407 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4552172ABB5BD300B45407 /* AppIntent.swift */; };
-		8B45521A2ABB5BD400B45407 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B4552192ABB5BD400B45407 /* Assets.xcassets */; };
 		8B45521E2ABB5BD400B45407 /* WatchWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B4552102ABB5BD200B45407 /* WatchWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8B472E022A4B83CE005905F4 /* AutoplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */; };
 		8B484EF528D23BEF001AFA97 /* PlaybackTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EF428D23BEF001AFA97 /* PlaybackTimeHelper.swift */; };
@@ -2351,7 +2351,6 @@
 		8B4552122ABB5BD200B45407 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8B4552152ABB5BD300B45407 /* WatchWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchWidget.swift; sourceTree = "<group>"; };
 		8B4552172ABB5BD300B45407 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
-		8B4552192ABB5BD400B45407 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B45521B2ABB5BD400B45407 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoplayHelper.swift; sourceTree = "<group>"; };
 		8B484EF428D23BEF001AFA97 /* PlaybackTimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackTimeHelper.swift; sourceTree = "<group>"; };
@@ -4294,7 +4293,6 @@
 			children = (
 				8B4552152ABB5BD300B45407 /* WatchWidget.swift */,
 				8B4552172ABB5BD300B45407 /* AppIntent.swift */,
-				8B4552192ABB5BD400B45407 /* Assets.xcassets */,
 				8B45521B2ABB5BD400B45407 /* Info.plist */,
 			);
 			path = WatchWidget;
@@ -7831,7 +7829,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B45521A2ABB5BD400B45407 /* Assets.xcassets in Resources */,
+				8B19C04C2ABDDA5400CCA030 /* Assets.xcassets in Resources */,
 				8B19C0492ABDD57300CCA030 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
