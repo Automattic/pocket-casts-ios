@@ -1,4 +1,5 @@
 import Foundation
+import WidgetKit
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -87,6 +88,7 @@ class WatchSyncManager {
             }
         }
         updatePodcastSettings()
+        updateWidgetsData()
     }
 
     func loginAndRefreshIfRequired() {
@@ -334,5 +336,19 @@ class WatchSyncManager {
 
     func isPlusUser() -> Bool {
         SyncManager.isUserLoggedIn() && SubscriptionHelper.hasActiveSubscription()
+    }
+
+    private func updateWidgetsData() {
+        if let firstUpNextEpisode = PlaySourceHelper.playSourceViewModel.episodesInQueue.first {
+            UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId)?.set(firstUpNextEpisode.title, forKey: "upNextEpisodeTitle")
+            UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId)?.set(firstUpNextEpisode.subTitle(), forKey: "upNextPodcastTitle")
+        } else {
+            UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId)?.removeObject(forKey: "upNextEpisodeTitle")
+            UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId)?.removeObject(forKey: "upNextPodcastTitle")
+        }
+
+        if #available(watchOSApplicationExtension 9.0, *) {
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
 }
