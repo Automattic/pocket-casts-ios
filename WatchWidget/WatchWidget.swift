@@ -1,72 +1,46 @@
-//
-//  WatchWidget.swift
-//  WatchWidget
-//
-//  Created by Leandro Alonso on 20/09/23.
-//  Copyright © 2023 Shifty Jelly. All rights reserved.
-//
-
 import WidgetKit
 import SwiftUI
 
 struct Provider: AppIntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+    func placeholder(in context: Context) -> UpNextEntry {
+        UpNextEntry(date: Date(), configuration: ConfigurationAppIntent())
     }
 
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
+    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> UpNextEntry {
+        UpNextEntry(date: Date(), configuration: configuration)
     }
-    
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        return Timeline(entries: entries, policy: .atEnd)
+    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<UpNextEntry> {
+        Timeline(entries: [UpNextEntry(date: Date(), configuration: configuration)], policy: .atEnd)
     }
 
     func recommendations() -> [AppIntentRecommendation<ConfigurationAppIntent>] {
-        // Create an array with all the preconfigured widgets to show.
-        [AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Example Widget")]
+        [AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Up Next")]
     }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct UpNextEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationAppIntent
+
+    var episodeTitle: String? {
+        UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId)?.string(forKey: "upNextEpisodeTitle")
+    }
+
+    var podcastTitle: String? {
+        UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId)?.string(forKey: "upNextPodcastTitle")
+    }
 }
 
 struct WatchWidgetEntryView: View {
     let entry: Provider.Entry
 
-    var nextEpisode: WidgetEpisode? {
-        return nil
-//        // The first item returned is the currently playing episode
-//        // so we check if the queue has at least 2 episodes in it since we pull the second one in the queue
-//        guard let episodes = entry.episodes, episodes.count > 1 else {
-//            return nil
-//        }
-//
-//        return episodes[1]
-    }
-
     var title: String {
-        nextEpisode?.episodeTitle ?? L10n.upNextEmptyTitle
+        entry.episodeTitle ?? L10n.upNextEmptyTitle
     }
 
     var subtitle: String {
-        nextEpisode?.podcastName ?? L10n.widgetsNowPlayingTapDiscover
-    }
-
-    var widgetURL: String {
-        return nextEpisode != nil ? "pktc://upnext?source=lock_screen_widget" : "pktc://discover"
+        entry.podcastTitle ?? L10n.widgetsNowPlayingTapDiscover
     }
 
     var body: some View {
@@ -97,7 +71,6 @@ struct WatchWidgetEntryView: View {
                     .foregroundColor(Color.secondary)
             }
         }
-        .widgetURL(URL(string: widgetURL))
     }
 }
 
@@ -112,24 +85,3 @@ struct WatchWidget: Widget {
         }
     }
 }
-
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
-    }
-}
-
-#Preview(as: .accessoryRectangular) {
-    WatchWidget()
-} timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
-}    
