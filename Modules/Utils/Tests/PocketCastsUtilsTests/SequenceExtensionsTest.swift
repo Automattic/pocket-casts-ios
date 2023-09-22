@@ -18,7 +18,7 @@ final class SequenceExtensionsTest: XCTestCase {
             }
         }
 
-        XCTAssertEqual(data.mapFirst(where: { $0.value }), data[nonNilValue].value)
+        XCTAssertEqual(data.mapFirst({ $0.value }), data[nonNilValue].value)
     }
 
     func testMapFirstTransformIsCalledOnlyUntilNonNilValueIsFound() {
@@ -30,10 +30,10 @@ final class SequenceExtensionsTest: XCTestCase {
         ]
 
         var count = 0
-        let _ = data.mapFirst(where: {
+        let _ = data.mapFirst {
             count += 1
             return $0.value
-        })
+        }
 
         XCTAssertEqual(count, 2)
     }
@@ -51,7 +51,7 @@ final class SequenceExtensionsTest: XCTestCase {
             data.append(.init(value: nil))
         }
 
-        XCTAssertEqual(data.mapFirst(where: { $0.value }), data[nonNilValue].value)
+        XCTAssertEqual(data.mapFirst({ $0.value }), data[nonNilValue].value)
     }
 }
 

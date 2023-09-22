@@ -14,14 +14,14 @@ import Foundation
 ///     }
 ///
 ///  After:
-///     coolData.mapFirst(where: { $0.someValue })
+///     coolData.mapFirst { $0.someValue }
 ///
 public extension Sequence {
     /// Finds the first non-`nil` transformed element in the sequence if available.
     /// - Parameter transform: A closure that accepts an element of this
     ///   sequence as its argument and returns an optional value.
     /// - Returns: The first non-`nil` result of `transform` or nil if there are none.
-    func mapFirst<U>(where transform: (Element) throws -> U?) rethrows -> U? {
+    func mapFirst<U>(_ transform: (Element) throws -> U?) rethrows -> U? {
         for element in self {
             guard let result = try transform(element) else {
                 continue
