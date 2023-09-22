@@ -11,6 +11,7 @@ extension PlayEpisodeIntent {
             return
         }
 
+        AnalyticsPlaybackHelper.shared.currentSource = .interactiveWidget
         let current = PlaybackManager.shared.currentEpisode()
 
         if current?.uuid == podcastEpisode.uuid {
