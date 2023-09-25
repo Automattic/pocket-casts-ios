@@ -105,10 +105,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         guard !FeatureFlag.newPlayerTransition.enabled else {
             rootViewController()?.setNeedsStatusBarAppearanceUpdate()
             rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+
             fullScreenPlayer?.view.removeFromSuperview()
             fullScreenPlayer = nil
-
-            Analytics.track(.playerDismissed)
 
             // update the mini player on full screen player close
             playbackStateDidChange()

@@ -109,6 +109,7 @@ extension MiniPlayerViewController {
             fullScreenPlayer?.dismiss(animated: true) {
                 self.finishedWithFullScreenPlayer()
                 self.playerOpenState = .closed
+                Analytics.track(.playerDismissed)
                 completion?()
             }
             return
