@@ -57,12 +57,16 @@ extension MiniPlayerViewController {
         if playerOpenState == .open || playerOpenState == .animating { return }
 
         guard !FeatureFlag.newPlayerTransition.enabled else {
+            guard let fullScreenPlayer else {
+                return
+            }
+
             playerOpenState = .animating
             aboutToDisplayFullScreenPlayer()
 
-            fullScreenPlayer?.modalPresentationStyle = .overCurrentContext
+            fullScreenPlayer.modalPresentationStyle = .overCurrentContext
 
-            presentFromRootController(fullScreenPlayer!, animated: true) {
+            presentFromRootController(fullScreenPlayer, animated: true) {
                 self.playerOpenState = .open
                 self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
                 self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
