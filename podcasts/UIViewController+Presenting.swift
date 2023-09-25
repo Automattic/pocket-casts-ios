@@ -6,7 +6,7 @@ extension UIViewController {
             return nil
         }
 
-        if let presentedViewController {
+        if let presentedViewController, !presentedViewController.isBeingDismissed {
             return presentedViewController.topMostPresentedViewController
         }
 
