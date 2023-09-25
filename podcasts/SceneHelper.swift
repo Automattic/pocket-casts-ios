@@ -25,13 +25,7 @@ class SceneHelper {
 
     class func rootViewController() -> UIViewController? {
         guard !FeatureFlag.newPlayerTransition.enabled else {
-            if let scene = connectedScene() {
-                for window in scene.windows {
-                    return Self.getPresentedViewController(base: window.rootViewController)
-                }
-            }
-
-            return nil
+            return connectedScene()?.windows.mapFirst { getPresentedViewController(base: $0.rootViewController) }
         }
 
         if let scene = connectedScene() {
