@@ -364,7 +364,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
-        backgroundSignOutListener = BackgroundSignOutListener()
+        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
     }
 
     // MARK: What's New

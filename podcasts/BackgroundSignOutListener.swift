@@ -7,16 +7,16 @@ class BackgroundSignOutListener {
     private let notificationCenter: NotificationCenter
     private let navigationManager: NavigationManager
 
-    private var presentingViewController: UIViewController? {
-        SceneHelper.rootViewController()
-    }
+    private var presentingViewController: () -> UIViewController?
 
     private var canShowSignOut = true
 
     init(notificationCenter: NotificationCenter = NotificationCenter.default,
-         navigationManager: NavigationManager = NavigationManager.sharedManager) {
+         navigationManager: NavigationManager = NavigationManager.sharedManager,
+         presentingViewController: @autoclosure @escaping () -> UIViewController?) {
         self.notificationCenter = notificationCenter
         self.navigationManager = navigationManager
+        self.presentingViewController = presentingViewController
 
         addNotificationObservers()
     }
@@ -78,6 +78,6 @@ private extension BackgroundSignOutListener {
 
         alert.addAction(okAction)
 
-        presentingViewController?.present(alert, animated: true, completion: nil)
+        presentingViewController()?.present(alert, animated: true, completion: nil)
     }
 }
