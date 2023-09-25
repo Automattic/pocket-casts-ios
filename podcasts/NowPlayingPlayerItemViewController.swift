@@ -311,11 +311,4 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         present(navController, animated: true, completion: nil)
     }
-
-    // MARK: - Present
-
-    /// Always present from the parent VC
-    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-        parent?.present(viewControllerToPresent, animated: flag, completion: completion)
-    }
 }

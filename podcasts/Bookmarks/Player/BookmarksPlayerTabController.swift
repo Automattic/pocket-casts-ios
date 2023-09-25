@@ -117,13 +117,6 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Present
-
-    /// Always present from the parent VC
-    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-        parent?.present(viewControllerToPresent, animated: flag, completion: completion)
-    }
 }
 
 // MARK: - BookmarkListRouter
