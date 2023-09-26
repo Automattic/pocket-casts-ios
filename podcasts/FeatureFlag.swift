@@ -46,6 +46,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable retrieving episode artwork from the RSS feed
     case episodeFeedArtwork
 
+    /// Enable the ability to rate podcasts
+    case giveRatings
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -86,6 +89,8 @@ enum FeatureFlag: String, CaseIterable {
             true
         case .episodeFeedArtwork:
             Self.isTestFlight ? true : false
+        case .giveRatings:
+            false
         }
     }
 }
