@@ -14,15 +14,7 @@ struct RatePodcastView: View {
         ZStack(alignment: .topTrailing) {
             VStack {
                 Spacer()
-                PodcastCover(podcastUuid: viewModel.podcastUuid, big: true)
-                    .frame(width: 164, height: 164)
-                    .padding(.bottom, 40)
-                Text(L10n.ratingListenToThisPodcastTitle)
-                    .font(size: 20, style: .title3, weight: .bold)
-                    .padding(.bottom, 16)
-                Text(L10n.ratingListenToThisPodcastMessage)
-                    .font(style: .body)
-                    .multilineTextAlignment(.center)
+                content
                 Spacer()
                 Button("Done") {
 
@@ -40,6 +32,34 @@ struct RatePodcastView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .applyDefaultThemeOptions()
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch viewModel.userCanRate {
+        case .checking:
+            ProgressView()
+                .controlSize(.large)
+                .foregroundStyle(theme.primaryIcon01)
+        case .allowed:
+            EmptyView()
+        case .disallowed:
+            cannotRate
+        }
+    }
+
+    private var cannotRate: some View {
+        Group {
+            PodcastCover(podcastUuid: viewModel.podcastUuid, big: true)
+                .frame(width: 164, height: 164)
+                .padding(.bottom, 40)
+            Text(L10n.ratingListenToThisPodcastTitle)
+                .font(size: 20, style: .title3, weight: .bold)
+                .padding(.bottom, 16)
+            Text(L10n.ratingListenToThisPodcastMessage)
+                .font(style: .body)
+                .multilineTextAlignment(.center)
+        }
     }
 }
 
