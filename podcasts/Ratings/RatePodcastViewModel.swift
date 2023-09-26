@@ -13,6 +13,10 @@ class RatePodcastViewModel: ObservableObject {
         checkIfUserCanRate()
     }
 
+    func dismiss() {
+        presented = false
+    }
+
     private func checkIfUserCanRate() {
         // Check through an API if the user can rate this podcast
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in

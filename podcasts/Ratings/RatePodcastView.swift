@@ -17,16 +17,16 @@ struct RatePodcastView: View {
                 content
                 Spacer()
                 Button("Done") {
-
+                    viewModel.dismiss()
                 }
-                .buttonStyle(BasicButtonStyle(textColor: .white, backgroundColor: .black))
+                .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
             }
 
             Image("close")
                 .renderingMode(.template)
                 .foregroundStyle(theme.primaryText01)
                 .buttonize {
-
+                    viewModel.dismiss()
                 }
         }
         .frame(maxWidth: .infinity)
@@ -39,8 +39,8 @@ struct RatePodcastView: View {
         switch viewModel.userCanRate {
         case .checking:
             ProgressView()
+                .tint(theme.primaryIcon01)
                 .controlSize(.large)
-                .foregroundStyle(theme.primaryIcon01)
         case .allowed:
             EmptyView()
         case .disallowed:
