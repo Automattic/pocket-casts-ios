@@ -42,13 +42,27 @@ struct RatePodcastView: View {
                 .tint(theme.primaryIcon01)
                 .controlSize(.large)
         case .allowed:
-            EmptyView()
+            rate
         case .disallowed:
             cannotRate
         }
     }
 
     private var cannotRate: some View {
+        Group {
+            PodcastCover(podcastUuid: viewModel.podcastUuid, big: true)
+                .frame(width: 164, height: 164)
+                .padding(.bottom, 40)
+            Text(L10n.ratingListenToThisPodcastTitle)
+                .font(size: 20, style: .title3, weight: .bold)
+                .padding(.bottom, 16)
+            Text(L10n.ratingListenToThisPodcastMessage)
+                .font(style: .body)
+                .multilineTextAlignment(.center)
+        }
+    }
+
+    private var rate: some View {
         Group {
             PodcastCover(podcastUuid: viewModel.podcastUuid, big: true)
                 .frame(width: 164, height: 164)
