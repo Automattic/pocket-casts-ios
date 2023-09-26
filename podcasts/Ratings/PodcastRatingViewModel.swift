@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsDataModel
 
 class PodcastRatingViewModel: ObservableObject {
     @Published var rating: PodcastRating? = nil
@@ -15,9 +16,13 @@ class PodcastRatingViewModel: ObservableObject {
     /// the uuid yet
     private(set) var uuid: String? = nil
 
+    private(set) var podcast: Podcast?
+
     /// Updates the rating for the podcast.
     ///
-    func update(uuid: String) {
+    func update(uuid: String, podcast: Podcast?) {
+        self.podcast = podcast
+
         // Don't update if we have already finished or are currently updating
         guard state == .waiting else { return }
 

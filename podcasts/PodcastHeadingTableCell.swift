@@ -262,7 +262,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         if FeatureFlag.showRatings.enabled {
-            delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
+            delegate.podcastRatingViewModel.update(uuid: podcast.uuid, podcast: podcast)
             addRatingIfNeeded()
         }
 
