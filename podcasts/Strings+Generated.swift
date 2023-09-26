@@ -2030,6 +2030,10 @@ internal enum L10n {
   internal static func queueTotalTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "queue_total_time_remaining", String(describing: p1))
   }
+  /// Only listeners of this podcast can give it a rating. Have a listen to a few episodes and then come back to give your rating. We look forward to hearing what you think!
+  internal static var ratingListenToThisPodcastMessage: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_message") }
+  /// Please listen to this podcast first
+  internal static var ratingListenToThisPodcastTitle: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_title") }
   /// FINDING NEW PODCAST EPISODES
   internal static var refreshControlFetchingEpisodes: String { return L10n.tr("Localizable", "refresh_control_fetching_episodes") }
   /// PULL TO REFRESH
