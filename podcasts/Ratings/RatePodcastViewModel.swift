@@ -15,7 +15,9 @@ class RatePodcastViewModel: ObservableObject {
 
     private func checkIfUserCanRate() {
         // Check through an API if the user can rate this podcast
-        userCanRate = .disallowed
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.userCanRate = .disallowed
+        }
     }
 
     enum UserCanRate {
