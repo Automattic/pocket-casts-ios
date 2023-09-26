@@ -20,4 +20,5 @@ struct RatePodcastView: View {
 
 #Preview {
     RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true)))
+        .environmentObject(Theme.sharedTheme)
 }
