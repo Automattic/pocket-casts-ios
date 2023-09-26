@@ -1,15 +1,16 @@
 import SwiftUI
+import PocketCastsDataModel
 
 class RatePodcastViewModel: ObservableObject {
     @Binding var presented: Bool
 
     @Published var userCanRate: UserCanRate = .checking
 
-    var podcastUuid: String
+    var podcast: Podcast
 
-    init(presented: Binding<Bool>, podcastUuid: String) {
+    init(presented: Binding<Bool>, podcast: Podcast) {
         self._presented = presented
-        self.podcastUuid = podcastUuid
+        self.podcast = podcast
         checkIfUserCanRate()
     }
 
@@ -19,9 +20,7 @@ class RatePodcastViewModel: ObservableObject {
 
     private func checkIfUserCanRate() {
         // Check through an API if the user can rate this podcast
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.userCanRate = .disallowed
-        }
+        userCanRate = .allowed
     }
 
     enum UserCanRate {

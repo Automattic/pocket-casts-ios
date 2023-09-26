@@ -29,7 +29,11 @@ struct StarRatingView: View {
         }.onTapGesture {
             viewModel.didTapRating()
         }
-        .sheet(isPresented: $viewModel.presentingGiveRatings) { RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, podcastUuid: viewModel.uuid ?? "")) }
+        .sheet(isPresented: $viewModel.presentingGiveRatings) {
+            if let podcast = viewModel.podcast {
+                RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, podcast: podcast))
+            }
+        }
     }
 
     @ViewBuilder

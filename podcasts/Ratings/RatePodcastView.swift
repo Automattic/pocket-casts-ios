@@ -50,7 +50,7 @@ struct RatePodcastView: View {
 
     private var cannotRate: some View {
         Group {
-            PodcastCover(podcastUuid: viewModel.podcastUuid, big: true)
+            PodcastCover(podcastUuid: viewModel.podcast.uuid, big: true)
                 .frame(width: 164, height: 164)
                 .padding(.bottom, 40)
             Text(L10n.ratingListenToThisPodcastTitle)
@@ -64,12 +64,13 @@ struct RatePodcastView: View {
 
     private var rate: some View {
         Group {
-            PodcastCover(podcastUuid: viewModel.podcastUuid, big: true)
+            PodcastCover(podcastUuid: viewModel.podcast.uuid, big: true)
                 .frame(width: 164, height: 164)
                 .padding(.bottom, 40)
-            Text(L10n.ratingListenToThisPodcastTitle)
+            Text(L10n.ratingTitle(viewModel.podcast.title ?? ""))
                 .font(size: 20, style: .title3, weight: .bold)
                 .padding(.bottom, 16)
+                .multilineTextAlignment(.center)
             Text(L10n.ratingListenToThisPodcastMessage)
                 .font(style: .body)
                 .multilineTextAlignment(.center)
@@ -78,6 +79,6 @@ struct RatePodcastView: View {
 }
 
 #Preview {
-    RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true), podcastUuid: Podcast.previewPodcast().uuid))
+    RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true), podcast: Podcast.previewPodcast()))
         .environmentObject(Theme.sharedTheme)
 }
