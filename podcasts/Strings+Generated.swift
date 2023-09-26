@@ -2034,6 +2034,10 @@ internal enum L10n {
   internal static var ratingListenToThisPodcastMessage: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_message") }
   /// Please listen to this podcast first
   internal static var ratingListenToThisPodcastTitle: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_title") }
+  /// Rate %1$@
+  internal static func ratingTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "rating_title", String(describing: p1))
+  }
   /// FINDING NEW PODCAST EPISODES
   internal static var refreshControlFetchingEpisodes: String { return L10n.tr("Localizable", "refresh_control_fetching_episodes") }
   /// PULL TO REFRESH
