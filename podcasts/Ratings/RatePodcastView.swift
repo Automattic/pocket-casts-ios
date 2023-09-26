@@ -1,12 +1,16 @@
 import SwiftUI
 
 struct RatePodcastView: View {
-    @Binding var presented: Bool
+    @ObservedObject var viewModel: RatePodcastViewModel
+
+    init(viewModel: RatePodcastViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         Group {
             Spacer()
-            Button("dismiss") { self.presented = false }
+            Button("dismiss") { viewModel.presented = false }
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -15,5 +19,5 @@ struct RatePodcastView: View {
 }
 
 #Preview {
-    RatePodcastView(presented: .constant(true))
+    RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true)))
 }
