@@ -13,7 +13,7 @@ class PodcastRatingViewModel: ObservableObject {
     /// Internally track the podcast UUID
     /// We don't init with this because the podcast view controller may not have
     /// the uuid yet
-    private var uuid: String? = nil
+    private(set) var uuid: String? = nil
 
     /// Updates the rating for the podcast.
     ///
