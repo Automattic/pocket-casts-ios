@@ -51,37 +51,41 @@ enum FeatureFlag: String, CaseIterable {
             return overriddenValue
         }
 
+        return `default`
+    }
+
+    var `default`: Bool {
         switch self {
         case .freeTrialsEnabled:
-            return true
+            true
         case .tracks:
-            return true
+            true
         case .tracksLogging:
-            return false
+            false
         case .firebaseLogging:
-            return false
+            false
         case .endOfYear:
-            return false
+            false
         case .signInWithApple:
-            return true
+            true
         case .onboardingUpdates:
-            return true
+            true
         case .newSearch:
-            return true
+            true
         case .bookmarks:
-            return false
+            false
         case .discoverFeaturedAutoScroll:
-            return true
+            true
         case .patron:
-            return false
+            false
         case .showRatings:
-            return true
+            true
         case .autoplay:
-            return true
+            true
         case .newShowNotesEndpoint:
-            return true
+            true
         case .episodeFeedArtwork:
-            return Self.isTestFlight ? true : false
+            Self.isTestFlight ? true : false
         }
     }
 }
