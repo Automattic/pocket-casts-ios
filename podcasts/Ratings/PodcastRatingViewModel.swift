@@ -3,6 +3,7 @@ import PocketCastsServer
 
 class PodcastRatingViewModel: ObservableObject {
     @Published var rating: PodcastRating? = nil
+    @Published var presentingGiveRatings = false
 
     /// Whether we should display the total ratings or not
     var showTotal: Bool = true
@@ -43,6 +44,10 @@ class PodcastRatingViewModel: ObservableObject {
 // MARK: - View Interactions
 extension PodcastRatingViewModel {
     func didTapRating() {
+        if FeatureFlag.giveRatings.enabled {
+            presentingGiveRatings = true
+        }
+
         Analytics.shared.track(.ratingStarsTapped, properties: ["uuid": uuid ?? "unknown"])
     }
 }
