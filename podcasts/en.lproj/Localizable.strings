@@ -3875,5 +3875,8 @@
 /* Confirmation message that a user rating for a podcast was submitted */
 "rating_submitted" = "Your rating was submitted!";
 
+/* Error message when a user rating for a podcast couldn't be submitted */
+"rating_error" = "Ops! There was an error.";
+
 /* A thank you followed by a ! */
 "thank_you_exclamation" = "Thank you!";

@@ -46,6 +46,13 @@ struct RatePodcastView: View {
                 }
             )
         }
+        .alert(isPresented: $viewModel.anErrorOccurred) {
+            Alert(
+                title: Text(L10n.ratingError),
+                message: Text(L10n.pleaseTryAgain),
+                dismissButton: .default(Text(L10n.ok))
+            )
+        }
         .frame(maxWidth: .infinity)
         .padding()
         .applyDefaultThemeOptions()

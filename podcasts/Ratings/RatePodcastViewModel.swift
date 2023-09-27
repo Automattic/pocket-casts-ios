@@ -10,6 +10,8 @@ class RatePodcastViewModel: ObservableObject {
 
     @Published var showConfirmation: Bool = false
 
+    @Published var anErrorOccurred: Bool = false
+
     @Published var stars: Double = 0 {
         didSet {
             if oldValue != stars {
@@ -41,7 +43,8 @@ class RatePodcastViewModel: ObservableObject {
     func submit() {
         isSubmitting = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.showConfirmation = true
+            self?.isSubmitting = false
+            self?.anErrorOccurred = true
         }
     }
 
@@ -51,7 +54,9 @@ class RatePodcastViewModel: ObservableObject {
 
     private func checkIfUserCanRate() {
         // Check through an API if the user can rate this podcast
-        userCanRate = .allowed
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.userCanRate = .allowed
+        }
     }
 
     enum UserCanRate {
