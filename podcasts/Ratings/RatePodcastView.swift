@@ -80,14 +80,18 @@ struct RatePodcastView: View {
                             if currentStar > 0 && currentStar < 1 {
                                 Image("star-half")
                                     .resizable()
+                                    .renderingMode(.template)
                             } else if currentStar > 0 {
                                 Image("star-full")
                                     .resizable()
+                                    .renderingMode(.template)
                             } else {
                                 Image("star")
                                     .resizable()
+                                    .renderingMode(.template)
                             }
                         }
+                        .foregroundStyle(theme.primaryText01)
                         .frame(width: 36, height: 36)
                         .padding(4)
                         .onTapGesture {
