@@ -16,19 +16,7 @@ struct RatePodcastView: View {
                 Spacer()
                 content
                 Spacer()
-                Button(action: {
-                    viewModel.buttonAction()
-                }, label: {
-                    if viewModel.isSubmitting {
-                        ProgressView()
-                            .tint(theme.primaryInteractive02)
-                    } else {
-                        Text(viewModel.buttonLabel)
-                    }
-                })
-                .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
-                .disabled(!viewModel.isButtonEnabled)
-                .opacity(viewModel.isButtonEnabled ? 1 : 0.8)
+                button
             }
 
             Image("close")
@@ -38,20 +26,10 @@ struct RatePodcastView: View {
                     viewModel.dismiss()
                 }
         }.alert(isPresented: $viewModel.showConfirmation) {
-            Alert(
-                title: Text(L10n.thankYouExclamation),
-                message: Text(L10n.ratingSubmitted),
-                dismissButton: .default(Text(L10n.ok)) {
-                    viewModel.dismiss()
-                }
-            )
+            successAlert
         }
         .alert(isPresented: $viewModel.anErrorOccurred) {
-            Alert(
-                title: Text(L10n.ratingError),
-                message: Text(L10n.pleaseTryAgain),
-                dismissButton: .default(Text(L10n.ok))
-            )
+            errorAlert
         }
         .frame(maxWidth: .infinity)
         .padding()
@@ -133,6 +111,40 @@ struct RatePodcastView: View {
                 )
             }
         }
+    }
+
+    private var button: some View {
+        Button(action: {
+            viewModel.buttonAction()
+        }, label: {
+            if viewModel.isSubmitting {
+                ProgressView()
+                    .tint(theme.primaryInteractive02)
+            } else {
+                Text(viewModel.buttonLabel)
+            }
+        })
+        .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
+        .disabled(!viewModel.isButtonEnabled)
+        .opacity(viewModel.isButtonEnabled ? 1 : 0.8)
+    }
+
+    private var successAlert: Alert {
+        Alert(
+            title: Text(L10n.thankYouExclamation),
+            message: Text(L10n.ratingSubmitted),
+            dismissButton: .default(Text(L10n.ok)) {
+                viewModel.dismiss()
+            }
+        )
+    }
+
+    private var errorAlert: Alert {
+        Alert(
+            title: Text(L10n.ratingError),
+            message: Text(L10n.pleaseTryAgain),
+            dismissButton: .default(Text(L10n.ok))
+        )
     }
 
     enum Constants {
