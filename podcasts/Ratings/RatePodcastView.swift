@@ -25,8 +25,6 @@ struct RatePodcastView: View {
                 .buttonize {
                     viewModel.dismiss()
                 }
-        }.alert(isPresented: $viewModel.showConfirmation) {
-            successAlert
         }
         .alert(isPresented: $viewModel.anErrorOccurred) {
             errorAlert
@@ -127,16 +125,6 @@ struct RatePodcastView: View {
         .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
         .disabled(!viewModel.isButtonEnabled)
         .opacity(viewModel.isButtonEnabled ? 1 : 0.8)
-    }
-
-    private var successAlert: Alert {
-        Alert(
-            title: Text(L10n.thankYouExclamation),
-            message: Text(L10n.ratingSubmitted),
-            dismissButton: .default(Text(L10n.ok)) {
-                viewModel.dismiss()
-            }
-        )
     }
 
     private var errorAlert: Alert {

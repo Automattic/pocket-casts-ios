@@ -2828,8 +2828,6 @@ internal enum L10n {
   internal static var syncing: String { return L10n.tr("Localizable", "syncing") }
   /// Terms of Use
   internal static var termsOfUse: String { return L10n.tr("Localizable", "terms_of_use") }
-  /// Thank you!
-  internal static var thankYouExclamation: String { return L10n.tr("Localizable", "thank_you_exclamation") }
   /// Classic
   internal static var themeClassic: String { return L10n.tr("Localizable", "theme_classic") }
   /// Default Dark

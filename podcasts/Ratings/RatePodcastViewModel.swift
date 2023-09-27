@@ -44,7 +44,8 @@ class RatePodcastViewModel: ObservableObject {
         isSubmitting = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
             self?.isSubmitting = false
-            self?.anErrorOccurred = true
+            self?.dismiss()
+            Toast.show(L10n.ratingSubmitted)
         }
     }
 
