@@ -5,7 +5,6 @@ struct RatePodcastView: View {
     @ObservedObject var viewModel: RatePodcastViewModel
 
     @EnvironmentObject var theme: Theme
-    @State var stars: Double = 0
 
     init(viewModel: RatePodcastViewModel) {
         self.viewModel = viewModel
@@ -74,42 +73,42 @@ struct RatePodcastView: View {
                 .multilineTextAlignment(.center)
             ContentSizeGeometryReader { reader in
                 HStack {
-                    let fullStars = Int(floor(stars))
-                    let halfStar = stars.truncatingRemainder(dividingBy: 1) > 0
-                    let emptyStars = Int((halfStar ? 4 : 5) - fullStars)
-                    ForEach(0..<fullStars, id: \.self) { index in
-                        Image("star-full")
-                            .resizable()
-                            .frame(width: 36, height: 36)
-                            .padding(4)
-                    }
+                    ForEach(0..<Constants.maxStars, id: \.self) { index in
+                        let currentStar = viewModel.stars - Double(index)
 
-                    if halfStar {
-                        Image("star-half")
-                            .resizable()
-                            .frame(width: 36, height: 36)
-                            .padding(4)
-                    }
-
-                    ForEach(0..<emptyStars, id: \.self) { index in
-                        Image("star")
-                            .resizable()
-                            .frame(width: 36, height: 36)
-                            .padding(4)
+                        Group {
+                            if currentStar > 0 && currentStar < 1 {
+                                Image("star-half")
+                                    .resizable()
+                            } else if currentStar > 0 {
+                                Image("star-full")
+                                    .resizable()
+                            } else {
+                                Image("star")
+                                    .resizable()
+                            }
+                        }
+                        .frame(width: 36, height: 36)
+                        .padding(4)
+                        .onTapGesture {
+                            viewModel.stars = Double(index) + 1
+                        }
                     }
                 }
                 .gesture(
                     DragGesture()
                         .onChanged { gesture in
-                            var value = (gesture.location.x * 5) / reader.size.width
-                            value = value * 2
-                            value = value.rounded() / 2
-                            stars = value
-                            print("$$ \(value)")
+                            var starValue = (gesture.location.x * 5) / reader.size.width
+                            starValue = (starValue * 2).rounded() / 2
+                            viewModel.stars = max(0, min(5, starValue))
                         }
                 )
             }
         }
+    }
+
+    enum Constants {
+        static let maxStars = 5
     }
 }
 

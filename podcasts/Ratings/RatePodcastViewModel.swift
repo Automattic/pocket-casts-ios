@@ -6,6 +6,14 @@ class RatePodcastViewModel: ObservableObject {
 
     @Published var userCanRate: UserCanRate = .checking
 
+    @Published var stars: Double = 0 {
+        didSet {
+            if oldValue != stars {
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+            }
+        }
+    }
+
     var podcast: Podcast
 
     init(presented: Binding<Bool>, podcast: Podcast) {
