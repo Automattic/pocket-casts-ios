@@ -63,7 +63,7 @@ struct RatePodcastView: View {
         switch viewModel.userCanRate {
         case .checking:
             ProgressView()
-                .tint(theme.primaryIcon01)
+                .tint(theme.primaryText01)
                 .controlSize(.large)
         case .allowed:
             rate
