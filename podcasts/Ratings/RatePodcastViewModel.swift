@@ -15,7 +15,7 @@ class RatePodcastViewModel: ObservableObject {
     @Published var stars: Double = 0 {
         didSet {
             if oldValue != stars {
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                HapticsHelper.triggerStarHaptic()
             }
         }
     }
