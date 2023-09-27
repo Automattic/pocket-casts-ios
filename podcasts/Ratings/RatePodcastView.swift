@@ -16,9 +16,16 @@ struct RatePodcastView: View {
                 Spacer()
                 content
                 Spacer()
-                Button(viewModel.buttonLabel) {
+                Button(action: {
                     viewModel.buttonAction()
-                }
+                }, label: {
+                    if viewModel.isSubmitting {
+                        ProgressView()
+                            .tint(theme.primaryInteractive02)
+                    } else {
+                        Text(viewModel.buttonLabel)
+                    }
+                })
                 .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
                 .disabled(!viewModel.isButtonEnabled)
                 .opacity(viewModel.isButtonEnabled ? 1 : 0.8)
@@ -30,6 +37,14 @@ struct RatePodcastView: View {
                 .buttonize {
                     viewModel.dismiss()
                 }
+        }.alert(isPresented: $viewModel.showConfirmation) {
+            Alert(
+                title: Text(L10n.thankYouExclamation),
+                message: Text(L10n.ratingSubmitted),
+                dismissButton: .default(Text(L10n.ok)) {
+                    viewModel.dismiss()
+                }
+            )
         }
         .frame(maxWidth: .infinity)
         .padding()

@@ -6,6 +6,10 @@ class RatePodcastViewModel: ObservableObject {
 
     @Published var userCanRate: UserCanRate = .checking
 
+    @Published var isSubmitting: Bool = false
+
+    @Published var showConfirmation: Bool = false
+
     @Published var stars: Double = 0 {
         didSet {
             if oldValue != stars {
@@ -35,7 +39,10 @@ class RatePodcastViewModel: ObservableObject {
     }
 
     func submit() {
-
+        isSubmitting = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.showConfirmation = true
+        }
     }
 
     func dismiss() {
