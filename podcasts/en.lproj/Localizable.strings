@@ -3871,3 +3871,9 @@
 
 /* Title displayed when an user want to rate a podcast. %1$@ is the podcast title. */
 "rating_title" = "Rate %1$@";
+
+/* Confirmation message that a user rating for a podcast was submitted */
+"rating_submitted" = "Your rating was submitted!";
+
+/* A thank you followed by a ! */
+"thank_you_exclamation" = "Thank you!";

@@ -2034,6 +2034,8 @@ internal enum L10n {
   internal static var ratingListenToThisPodcastMessage: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_message") }
   /// Please listen to this podcast first
   internal static var ratingListenToThisPodcastTitle: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_title") }
+  /// Your rating was submitted!
+  internal static var ratingSubmitted: String { return L10n.tr("Localizable", "rating_submitted") }
   /// Rate %1$@
   internal static func ratingTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "rating_title", String(describing: p1))
@@ -2824,6 +2826,8 @@ internal enum L10n {
   internal static var syncing: String { return L10n.tr("Localizable", "syncing") }
   /// Terms of Use
   internal static var termsOfUse: String { return L10n.tr("Localizable", "terms_of_use") }
+  /// Thank you!
+  internal static var thankYouExclamation: String { return L10n.tr("Localizable", "thank_you_exclamation") }
   /// Classic
   internal static var themeClassic: String { return L10n.tr("Localizable", "theme_classic") }
   /// Default Dark
