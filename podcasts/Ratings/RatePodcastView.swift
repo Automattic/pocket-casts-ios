@@ -5,6 +5,7 @@ struct RatePodcastView: View {
     @ObservedObject var viewModel: RatePodcastViewModel
 
     @EnvironmentObject var theme: Theme
+    @State var stars: Double = 0
 
     init(viewModel: RatePodcastViewModel) {
         self.viewModel = viewModel
@@ -71,10 +72,52 @@ struct RatePodcastView: View {
                 .font(size: 20, style: .title3, weight: .bold)
                 .padding(.bottom, 16)
                 .multilineTextAlignment(.center)
-            Text(L10n.ratingListenToThisPodcastMessage)
-                .font(style: .body)
-                .multilineTextAlignment(.center)
+            ContentSizeGeometryReader { reader in
+                HStack {
+                    let fullStars = Int(floor(stars))
+                    let halfStar = stars.truncatingRemainder(dividingBy: 1) > 0
+                    let emptyStars = Int((halfStar ? 4 : 5) - fullStars)
+                    ForEach(0..<fullStars, id: \.self) { index in
+                        Image("star-full")
+                            .resizable()
+                            .frame(width: 36, height: 36)
+                            .padding(4)
+                    }
+
+                    if halfStar {
+                        Image("star-half")
+                            .resizable()
+                            .frame(width: 36, height: 36)
+                            .padding(4)
+                    }
+
+                    ForEach(0..<emptyStars, id: \.self) { index in
+                        Image("star")
+                            .resizable()
+                            .frame(width: 36, height: 36)
+                            .padding(4)
+                    }
+                }
+                .gesture(
+                    DragGesture()
+                        .onChanged { gesture in
+                            var value = (gesture.location.x * 5) / reader.size.width
+                            value = value * 2
+                            value = value.rounded() / 2
+                            stars = value
+                            print("$$ \(value)")
+                        }
+                )
+            }
         }
+    }
+}
+
+extension Double {
+    func round(nearest: Double) -> Double {
+        let n = 1/nearest
+        let numberToRound = self * n
+        return numberToRound.rounded() / n
     }
 }
 
