@@ -16,10 +16,26 @@ class RatePodcastViewModel: ObservableObject {
 
     var podcast: Podcast
 
+    var buttonLabel: String {
+        userCanRate == .allowed ? L10n.supportSubmit : L10n.done
+    }
+
+    var isButtonEnabled: Bool {
+        userCanRate != .allowed || userCanRate == .allowed && stars > 0
+    }
+
     init(presented: Binding<Bool>, podcast: Podcast) {
         self._presented = presented
         self.podcast = podcast
         checkIfUserCanRate()
+    }
+
+    func buttonAction() {
+        userCanRate == .allowed ? submit() : dismiss()
+    }
+
+    func submit() {
+
     }
 
     func dismiss() {

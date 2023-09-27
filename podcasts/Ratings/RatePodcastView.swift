@@ -16,10 +16,12 @@ struct RatePodcastView: View {
                 Spacer()
                 content
                 Spacer()
-                Button("Done") {
-                    viewModel.dismiss()
+                Button(viewModel.buttonLabel) {
+                    viewModel.buttonAction()
                 }
                 .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
+                .disabled(!viewModel.isButtonEnabled)
+                .opacity(viewModel.isButtonEnabled ? 1 : 0.8)
             }
 
             Image("close")
