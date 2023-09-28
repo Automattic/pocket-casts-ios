@@ -1,6 +1,6 @@
 7.49
 -----
-
+- Fixes the app playing automatically after putting AirPods on the case [#1132]
 
 7.48
 -----
