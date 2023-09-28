@@ -235,6 +235,10 @@
     <string>Первый</string>
     <key>back</key>
     <string>Назад</string>
+    <key>beta_purchase_disabled</key>
+    <string>Загрузите Pocket Casts из App Store, чтобы приобрести %1$@.</string>
+    <key>beta_thank_you</key>
+    <string>Благодарим за участие в бета-тестировании!</string>
     <key>bookmark_added</key>
     <string>Закладка добавлена</string>
     <key>bookmark_added_button_title</key>

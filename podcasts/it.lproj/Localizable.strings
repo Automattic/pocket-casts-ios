@@ -235,6 +235,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Primo</string>
     <key>back</key>
     <string>Indietro</string>
+    <key>beta_purchase_disabled</key>
+    <string>Scarica Pocket Casts dall'App Store per acquistare il livello %1$@.</string>
+    <key>beta_thank_you</key>
+    <string>Ti ringraziamo per aver partecipato al beta test.</string>
     <key>bookmark_added</key>
     <string>Segnalibro aggiunto</string>
     <key>bookmark_added_button_title</key>
