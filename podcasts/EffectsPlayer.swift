@@ -6,7 +6,7 @@ import UIKit
 
 enum EffectsPlayerStrategy: Int {
     case normalPlay = 1
-    case playAndRetryIfNeeded = 2
+    case playAndCatchExceptionIfNeeded = 2
     case playAndFallbackIfNeeded = 3
 }
 
@@ -159,8 +159,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             switch Settings.effectsPlayerStrategy {
             case .normalPlay:
                 strongSelf.normalPlay()
-            case .playAndRetryIfNeeded:
-                strongSelf.playAndRetryIfNeeded()
+            case .playAndCatchExceptionIfNeeded:
+                strongSelf.playAndCatchExceptionIfNeeded()
             case .playAndFallbackIfNeeded:
                 strongSelf.playAndFallbackIfNeeded()
             default:
@@ -192,27 +192,15 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     /// Try to play. If an exception happens, try again until `maxNumberOfRetries`
     /// is reached.
-    func playAndRetryIfNeeded() {
-        var failedToStart = false
-        if Self.attemptNumber < Self.maxNumberOfRetries {
-            do {
-                try SJCommonUtils.catchException {
-                    self.player?.play()
-                }
-            } catch {
-                failedToStart = true
-                FileLog.shared.addMessage("EffectsPlayer: failed to start playback (\(Self.attemptNumber)/\(Self.maxNumberOfRetries): \(error)")
-                Self.attemptNumber += 1
-                self.playerLock.unlock()
-                PlaybackManager.shared.pause(userInitiated: false)
-                PlaybackManager.shared.play(userInitiated: false)
+    func playAndCatchExceptionIfNeeded() {
+        do {
+            try SJCommonUtils.catchException {
+                self.player?.play()
             }
-        } else {
-            self.player?.play()
-        }
-
-        if !failedToStart {
-            Self.attemptNumber = 1
+        } catch {
+            FileLog.shared.addMessage("EffectsPlayer: failed to start playback: \(error)")
+            self.playerLock.unlock()
+            PlaybackManager.shared.pause(userInitiated: false)
         }
     }
 
