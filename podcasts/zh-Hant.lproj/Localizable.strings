@@ -235,6 +235,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>頂端</string>
     <key>back</key>
     <string>上一步</string>
+    <key>beta_purchase_disabled</key>
+    <string>請從 App Store 下載 Pocket Casts 來購買 %1$@。</string>
+    <key>beta_thank_you</key>
+    <string>感謝你協助進行測試版的測試！</string>
     <key>bookmark_added</key>
     <string>已新增書籤</string>
     <key>bookmark_added_button_title</key>

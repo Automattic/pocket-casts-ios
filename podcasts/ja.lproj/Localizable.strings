@@ -235,6 +235,10 @@
     <string>最初</string>
     <key>back</key>
     <string>戻る</string>
+    <key>beta_purchase_disabled</key>
+    <string>%1$@ を購入するには App Store から Pocket Cast をダウンロードしてください。</string>
+    <key>beta_thank_you</key>
+    <string>ベータテストお疲れ様でした !</string>
     <key>bookmark_added</key>
     <string>ブックマークを追加しました</string>
     <key>bookmark_added_button_title</key>

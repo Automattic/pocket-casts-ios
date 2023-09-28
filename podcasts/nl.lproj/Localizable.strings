@@ -235,6 +235,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Eerste</string>
     <key>back</key>
     <string>Terug</string>
+    <key>beta_purchase_disabled</key>
+    <string>Download Pocket Casts via de App Store om %1$@ aan te kunnen schaffen.</string>
+    <key>beta_thank_you</key>
+    <string>Bedankt dat je deelneemt aan de bètatests!</string>
     <key>bookmark_added</key>
     <string>Bladwijzer toegevoegd</string>
     <key>bookmark_added_button_title</key>
