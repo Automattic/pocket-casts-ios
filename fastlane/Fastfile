@@ -1096,7 +1096,7 @@ inal copy, and try again.")
     # calculator can be used to calculate the next four-part version
     version = VERSION_FORMATTER.parse(VERSION_FILE.read_build_code(attribute_name: 'VERSION_LONG'))
     # Return the formatted build code
-    BUILD_CODE_FORMATTER.build_code(version:)
+    BUILD_CODE_FORMATTER.build_code(version: version)
   end
 
   # Returns the build code of the app for the code freeze. It is the release version name plus sets the build number to 0
