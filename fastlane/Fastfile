@@ -295,11 +295,7 @@ platform :ios do
   desc 'Completes the final steps for the code freeze'
   desc 'Creates a new release branch from the current trunk'
   lane :complete_code_freeze do |options|
-    # Verify that the current branch is a release branch
-    unless git_branch.start_with?('release/')
-      UI.user_error!("Current branch - '#{git_branch}' - is not a release branch. Abort.")
-    end
-
+    ensure_git_branch(branch: '^release/') # Match branch names that begin with `release/`
     ensure_git_status_clean
 
     message = "Completing code freeze for: #{current_release_version}\n"
@@ -612,9 +608,7 @@ platform :ios do
   #
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
   lane :finalize_hotfix_release do
-    unless git_branch.start_with?('release/')
-      UI.user_error!("Current branch - '#{git_branch}' - is not a release branch. Abort.")
-    end
+    ensure_git_branch(branch: '^release/') # Match branch names that begin with `release/`
     ensure_git_status_clean
 
     UI.message = "Triggering hotfix build for version: #{current_release_version}"
