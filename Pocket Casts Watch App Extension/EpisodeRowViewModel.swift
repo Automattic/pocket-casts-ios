@@ -45,16 +45,16 @@ class EpisodeRowViewModel: EpisodeViewModel, Identifiable {
 
         let info: String
         let statusText: String?
-        switch episode.episodeStatus {
-        case DownloadStatus.downloaded.rawValue:
+        switch DownloadStatus(rawValue: episode.episodeStatus) {
+        case .downloaded:
             self.downloadStatusIconName = "episodedownloaded"
             info = episode.displayableTimeLeft()
             statusText = L10n.statusDownloaded
-        case DownloadStatus.downloading.rawValue:
+        case .downloading:
             self.downloadStatusIconName = nil
             info = episode.displayableInfo(includeSize: false)
             statusText = L10n.statusDownloading
-        case DownloadStatus.downloadFailed.rawValue:
+        case .downloadFailed:
             self.downloadStatusIconName = "downloadfailed"
             informationLabel = []
             accessibilityLabel = [L10n.downloadFailed]
