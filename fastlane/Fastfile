@@ -242,9 +242,9 @@ platform :ios do
   #
   desc 'Executes the initial steps needed during code freeze'
   lane :start_code_freeze do |options|
-    Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
-
     ensure_git_status_clean
+    Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
+    ensure_git_branch(branch: DEFAULT_BRANCH)
 
     confirmation_message = <<-MESSAGE
 
@@ -262,7 +262,6 @@ platform :ios do
 
     # Create the release branch
     UI.message 'Creating release branch...'
-    ensure_git_branch(branch: DEFAULT_BRANCH)
     Fastlane::Helper::GitHelper.create_branch("release/#{next_release_version}", from: DEFAULT_BRANCH)
     UI.message "Done! New release branch is: #{git_branch}"
 
@@ -359,12 +358,8 @@ platform :ios do
     if ios_current_branch_is_hotfix
       UI.user_error!('To finalize a hotfix, please use the `finalize_hotfix_release` lane instead')
     end
-
-    unless git_branch.start_with?('release/')
-      UI.user_error!("Current branch - '#{git_branch}' - is not a release branch. Abort.")
-    end
-
     ensure_git_status_clean
+    ensure_git_branch(branch: '^release/') # Match branch names that begin with `release/`
 
     message = "Finalizing release: #{current_release_version}\n"
     if options[:skip_confirm]
@@ -380,7 +375,6 @@ platform :ios do
 
     # Bump the build code
     UI.message 'Bumping build code...'
-    ensure_git_branch(branch: '^release/') # Match branch names that begin with `release/`
     VERSION_FILE.write(version_long: next_build_code)
     Fastlane::Helper::Ios::GitHelper.commit_version_bump
     UI.message "Done! New Build Code: #{current_build_code}"
@@ -509,11 +503,8 @@ platform :ios do
   #
   desc 'Trigger a new beta build on CI'
   lane :new_beta_release do |options|
-    # Checkout default branch and update
-    Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
-
-    # Check local repo status
     ensure_git_status_clean
+    Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
 
     # Check versions
     message = <<-MESSAGE
