@@ -235,6 +235,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Erste</string>
     <key>back</key>
     <string>Zurück</string>
+    <key>beta_purchase_disabled</key>
+    <string>Bitte lade Pocket Casts aus dem App Store herunter, um %1$@ zu kaufen.</string>
+    <key>beta_thank_you</key>
+    <string>Danke, dass du die Beta-Version testest!</string>
     <key>bookmark_added</key>
     <string>Lesezeichen hinzugefügt</string>
     <key>bookmark_added_button_title</key>
