@@ -190,8 +190,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         player?.play()
     }
 
-    /// Try to play. If an exception happens, try again until `maxNumberOfRetries`
-    /// is reached.
+    /// Try to play. If an exception happens, just pause it.
     func playAndCatchExceptionIfNeeded() {
         do {
             try SJCommonUtils.catchException {
