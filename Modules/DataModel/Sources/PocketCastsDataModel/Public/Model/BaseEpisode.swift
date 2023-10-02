@@ -57,4 +57,5 @@ import Foundation
     func mayContainChapters() -> Bool
 
     var hasBookmarks: Bool { get }
+    var isStub: Bool { get set }
 }
