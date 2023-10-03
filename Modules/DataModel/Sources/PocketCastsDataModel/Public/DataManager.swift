@@ -93,22 +93,20 @@ public class DataManager {
         if userEpisodes.isEmpty {
             return episodes
         }
+
         var convertedEpisodes = [BaseEpisode]()
         var episodeIndex = 0
         var userEpisodeIndex = 0
         for upNextEpisode in allUpNextEpisodes {
-            if let episode = episodes[safe: episodeIndex] {
-                if episode.uuid == upNextEpisode.episodeUuid {
-                    convertedEpisodes.append(episode)
-                    episodeIndex += 1
-                    continue
-                }
+            if let episode = episodes[safe: episodeIndex],
+               episode.uuid == upNextEpisode.episodeUuid {
+                convertedEpisodes.append(episode)
+                episodeIndex += 1
+                continue
             }
-            if let userEpisode = userEpisodes[safe: userEpisodeIndex] {
-                if userEpisode.uuid == upNextEpisode.episodeUuid {
-                    convertedEpisodes.append(userEpisode)
-                    userEpisodeIndex += 1
-                }
+            if let userEpisode = userEpisodes[safe: userEpisodeIndex], userEpisode.uuid == upNextEpisode.episodeUuid {
+                convertedEpisodes.append(userEpisode)
+                userEpisodeIndex += 1
             }
         }
 
