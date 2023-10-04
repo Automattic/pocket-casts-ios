@@ -1188,7 +1188,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func allEpisodesInQueue(includeNowPlaying: Bool) -> [BaseEpisode] {
         queue.allEpisodes(includeNowPlaying: includeNowPlaying)
     }
-    
+
     func allEpisodeUuidsInQueue() -> [BaseEpisode] {
         queue.allEpisodeUuids()
     }

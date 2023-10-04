@@ -99,7 +99,7 @@ public class DataManager {
     }
 
     public func allUpNextEpisodeUuids() -> [BaseEpisode] {
-        upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue).map{
+        upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue).map {
             let episode = Episode()
             episode.uuid = $0.episodeUuid
             episode.isStub = true
