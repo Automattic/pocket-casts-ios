@@ -23,7 +23,7 @@ class EpisodeViewModel: ObservableObject {
             return
         }
         alreadyHydrated = true
-        if episode.isStub {
+        if episode.hasOnlyUuid {
             episode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) ?? episode
         }
         inUpNext = playSourceViewModel.inUpNext(forEpisode: episode)

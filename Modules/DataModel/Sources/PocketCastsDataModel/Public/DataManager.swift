@@ -102,7 +102,7 @@ public class DataManager {
         upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue).map {
             let episode = Episode()
             episode.uuid = $0.episodeUuid
-            episode.isStub = true
+            episode.hasOnlyUuid = true
             return episode
         }
     }
