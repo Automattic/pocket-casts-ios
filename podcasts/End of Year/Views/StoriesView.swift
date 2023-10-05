@@ -29,7 +29,7 @@ struct StoriesView: View {
 
             storiesToPreload
 
-            StoryViewContainer {
+            ZStack {
                 // Manually set the zIndex order to ensure we can change the order when needed
                 model.story(index: model.currentStory).zIndex(3).ignoresSafeArea(edges: .bottom)
 
