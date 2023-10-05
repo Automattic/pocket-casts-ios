@@ -143,7 +143,7 @@ struct PlusAccountUpgradePrompt: View {
         .patronYearly: [
             .init(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             .init(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
-            .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
+            .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(100)),
             .init(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             .init(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons)
         ]
