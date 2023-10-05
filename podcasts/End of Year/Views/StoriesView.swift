@@ -24,32 +24,30 @@ struct StoriesView: View {
     }
 
     var stories: some View {
-        VStack {
-            ZStack {
-                Spacer()
+        ZStack {
+            Spacer()
 
-                storiesToPreload
+            storiesToPreload
 
-                StoryViewContainer {
-                    // Manually set the zIndex order to ensure we can change the order when needed
-                    model.story(index: model.currentStory).zIndex(3)
+            StoryViewContainer {
+                // Manually set the zIndex order to ensure we can change the order when needed
+                model.story(index: model.currentStory).zIndex(3).ignoresSafeArea(edges: .bottom)
 
-                    // By default the story switcher will appear above the story and override all
-                    // interaction, but if the story contains interactive elements then move the
-                    // switcher to appear behind the view to allow the story override the switcher, or
-                    // allow the story to pass switcher events thru by controlling the allowsHitTesting
-                    storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
-                }.cornerRadius(Constants.storyCornerRadius)
-
-                header
+                // By default the story switcher will appear above the story and override all
+                // interaction, but if the story contains interactive elements then move the
+                // switcher to appear behind the view to allow the story override the switcher, or
+                // allow the story to pass switcher events thru by controlling the allowsHitTesting
+                storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
             }
+
+            header
 
             // Hide the share button if needed
             if model.storyIsShareable(index: model.currentStory) {
-                ZStack {}
-                    .frame(height: Constants.spaceBetweenShareAndStory)
-
-                shareButton
+                VStack {
+                    Spacer()
+                    shareButton
+                }
             }
         }
         .background(Color.black)
