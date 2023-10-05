@@ -16,38 +16,6 @@ struct ListenedNumbersStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
-                ZStack {
-                    podcastCover(5)
-                        .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
-                        .padding(.leading, (geometry.size.width / 2))
-                        .padding(.top, -(geometry.size.width / 3))
-
-                    podcastCover(4)
-                        .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
-                        .padding(.leading, -(geometry.size.width / 2.1))
-                        .padding(.top, (geometry.size.width / 1.3))
-
-                    podcastCover(0)
-                        .frame(width: geometry.size.width * 0.31, height: geometry.size.width * 0.31)
-                        .padding(.leading, -(geometry.size.width / 2))
-                        .padding(.top, -(geometry.size.width / 3.5))
-
-                    podcastCover(2)
-                        .frame(width: geometry.size.width * 0.30, height: geometry.size.width * 0.30)
-                        .padding(.leading, (geometry.size.width / 1.8))
-                        .padding(.top, (geometry.size.width / 1.5))
-
-                    podcastCover(1)
-                        .frame(width: geometry.size.width * 0.37, height: geometry.size.width * 0.37)
-                        .padding(.leading, (geometry.size.width / 4.5))
-                        .padding(.top, (geometry.size.width / 3))
-
-                    podcastCover(3)
-                        .frame(width: geometry.size.width * 0.35, height: geometry.size.width * 0.35)
-                        .padding(.leading, -(geometry.size.width / 4))
-                }
-                .applyPodcastCoverPerspective()
-
                 StoryLabelContainer(geometry: geometry) {
                     if NSLocale.isCurrentLanguageEnglish {
                         let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
@@ -62,7 +30,39 @@ struct ListenedNumbersStory: ShareableStory {
                             .opacity(renderForSharing ? 0.0 : 0.8)
                     }
                 }
-                Spacer()
+
+                VStack(spacing: 20) {
+                    HStack(spacing: 16) {
+                        podcastCover(5)
+                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+
+                        podcastCover(4)
+                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+
+                        podcastCover(0)
+                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+
+                        podcastCover(2)
+                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                    }
+
+                    HStack(spacing: 16) {
+                        podcastCover(1)
+                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+
+                        podcastCover(3)
+                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+
+                        podcastCover(6)
+                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+
+                        podcastCover(7)
+                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                    }
+                    .padding(.leading, geometry.size.width * 0.35)
+                }
+                .rotationEffect(Angle(degrees: -15))
+                .padding(.top, geometry.size.height * 0.1)
             }
             .background(DynamicBackgroundView(podcast: podcasts[safe: 3] ?? podcasts[0]))
         }
