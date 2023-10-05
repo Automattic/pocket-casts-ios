@@ -7,11 +7,11 @@ import PocketCastsServer
 /// in the order listed here.
 enum EndOfYearStory: CaseIterable {
     case intro
+    case numberOfPodcastsAndEpisodesListened
+    case topOnePodcast
     case listeningTime
     case listenedCategories
     case topCategories
-    case numberOfPodcastsAndEpisodesListened
-    case topOnePodcast
     case topFivePodcasts
     case longestEpisode
     case epilogue
