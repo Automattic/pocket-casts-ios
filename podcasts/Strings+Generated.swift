@@ -712,6 +712,8 @@ internal enum L10n {
   internal static var eoyDescription: String { return L10n.tr("Localizable", "eoy_description") }
   /// Not Now
   internal static var eoyNotNow: String { return L10n.tr("Localizable", "eoy_not_now") }
+  /// Share this story
+  internal static var eoyShare: String { return L10n.tr("Localizable", "eoy_share") }
   /// Year in Podcasts
   internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
   /// Failed to load stories.

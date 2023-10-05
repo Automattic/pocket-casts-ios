@@ -3581,6 +3581,9 @@
 /* When loading the End of Year stats stories fails. */
 "eoy_stories_failed" = "Failed to load stories.";
 
+/* Label of a button to share the current story (similar to Instagram stories) */
+"eoy_share" = "Share this story";
+
 /* Title of the view displayed after a user successfully upgrades to plus */
 "welcome_plus_title" = "Thank you, now let's get you listening!";
 

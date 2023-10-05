@@ -165,7 +165,7 @@ struct StoriesView: View {
     }
 
     var shareButton: some View {
-        Button(L10n.share) {
+        Button(L10n.eoyShare) {
             model.share()
         }
         .buttonStyle(ShareButtonStyle())
