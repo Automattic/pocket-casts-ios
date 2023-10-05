@@ -246,8 +246,8 @@ struct PodcastCoverContainer<Content: View>: View {
     private var content: () -> Content
     private let geometry: GeometryProxy
 
-    let topPaddingSmall = 0.10
-    let topPaddingLarge = 0.13
+    let topPaddingSmall = 0.01
+    let topPaddingLarge = 0.01
     let smallDeviceHeight = 700.0
 
     init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
