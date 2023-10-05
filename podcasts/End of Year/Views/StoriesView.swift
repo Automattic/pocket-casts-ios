@@ -220,10 +220,6 @@ private struct ShareButtonStyle: ButtonStyle {
 
         .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
 
-        .overlay(
-            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
-                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
-        )
         .applyButtonEffect(isPressed: configuration.isPressed)
         .contentShape(Rectangle())
     }
