@@ -3,7 +3,9 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 /// The available stories for EoY
-enum EndOfYearStory {
+/// Order is important, as the stories will be displayed
+/// in the order listed here.
+enum EndOfYearStory: CaseIterable {
     case intro
     case listeningTime
     case listenedCategories

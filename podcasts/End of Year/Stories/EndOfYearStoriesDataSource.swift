@@ -51,12 +51,21 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         (stories, data) = await EndOfYearStoriesBuilder().build()
 
         if !stories.isEmpty {
-            stories.insert(.intro, at: 0)
+            stories.append(.intro)
             stories.append(.epilogue)
+
+            stories.sort()
 
             return true
         }
 
         return false
+    }
+}
+
+extension [EndOfYearStory] {
+    mutating func sort() {
+        let allCases = EndOfYearStory.allCases
+        self = sorted { allCases.firstIndex(of: $0) ?? 0 < allCases.firstIndex(of: $1) ?? 0 }
     }
 }
