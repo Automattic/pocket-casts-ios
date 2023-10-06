@@ -760,8 +760,7 @@ internal enum L10n {
   }
   /// But there was one that you kept coming back to...
   internal static var eoyStoryListenedToNumbersSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle") }
-  /// But there was one that you
-  /// kept coming back to...
+  /// But there was one that you kept coming to...
   internal static var eoyStoryListenedToNumbersSubtitleUpdated: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle_updated") }
   /// You listened to %1$@ and %2$@
   internal static func eoyStoryListenedToNumbersUpdated(_ p1: Any, _ p2: Any) -> String {

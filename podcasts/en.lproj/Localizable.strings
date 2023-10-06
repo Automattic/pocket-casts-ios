@@ -3522,7 +3522,7 @@
 "eoy_story_listened_to_numbers_subtitle" = "But there was one that you kept coming back to...";
 
 /* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
-"eoy_story_listened_to_numbers_subtitle_updated" = "But there was one that you\nkept coming back to...";
+"eoy_story_listened_to_numbers_subtitle_updated" = "But there was one that you kept coming to...";
 
 /* Text that appear when someone share the listened numbers story to Twitter. %1$@ is a placeholder for the number of podcasts listened and %2$@ for the number of episodes. */
 "eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes in 2022";
