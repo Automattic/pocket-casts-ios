@@ -750,7 +750,7 @@ internal enum L10n {
   internal static func eoyStoryListenedToEpisodesText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_episodes_text", String(describing: p1))
   }
-  /// You listened to %1$@ different podcasts and %2$@ episodes
+  /// You listened to %1$@ different shows and %2$@ episodes in total
   internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers", String(describing: p1), String(describing: p2))
   }
@@ -758,10 +758,8 @@ internal enum L10n {
   internal static func eoyStoryListenedToNumbersShareText(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers_share_text", String(describing: p1), String(describing: p2))
   }
-  /// But there was one that you kept coming back to...
+  /// But there was one you kept coming to...
   internal static var eoyStoryListenedToNumbersSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle") }
-  /// But there was one that you kept coming to...
-  internal static var eoyStoryListenedToNumbersSubtitleUpdated: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle_updated") }
   /// You listened to %1$@ and %2$@
   internal static func eoyStoryListenedToNumbersUpdated(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers_updated", String(describing: p1), String(describing: p2))
