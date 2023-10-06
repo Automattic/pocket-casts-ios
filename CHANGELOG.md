@@ -6,6 +6,7 @@
 -----
 - Improves performance when opening a large Up Next queue in the Apple Watch [#950]
 - Fixes the app playing automatically after putting AirPods on the case [#1132]
+- Enables Patron [#1146] [Internal]
 
 7.48
 -----
