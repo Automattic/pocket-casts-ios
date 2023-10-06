@@ -26,7 +26,7 @@ struct StoryLabel: View {
     private func applyDefaults(_ content: some View, forHighlights: Bool = false) -> some View {
         return content
             .foregroundColor(.white)
-            .lineSpacing(2.5)
+            .lineSpacing(0)
             .multilineTextAlignment(.center)
             .font(forHighlights ? nil : font)
             .padding([.leading, .trailing], horizontalPadding)
@@ -69,15 +69,15 @@ struct StoryLabel: View {
     private var font: Font {
         switch type {
         case .title:
-            return .system(size: 22, weight: .bold)
+            return .custom("DM Sans", size: 30).weight(.bold).leading(.tight)
         case .title2:
-            return .system(size: 18, weight: .semibold)
+            return .custom("DM Sans", size: 18).weight(.semibold).leading(.tight)
         case .subtitle:
-            return .system(size: 15, weight: .regular)
+            return .custom("DM Sans", size: 15).weight(.regular).leading(.tight)
         case .pillarTitle:
-            return .system(size: 14, weight: .bold)
+            return .custom("DM Sans", size: 14).weight(.bold).leading(.tight)
         case .pillarSubtitle:
-            return .system(size: 13, weight: .regular)
+            return .custom("DM Sans", size: 14).weight(.regular).leading(.tight)
         }
     }
 
@@ -281,7 +281,7 @@ struct StoryLabelContainer<Content: View>: View {
 
     var body: some View {
         // Try to reduce the label distance based on the screen height, but keep
-        let labelSpacing = (geometry.size.height * 0.033).clamped(to: 10..<22)
+        let labelSpacing = (geometry.size.height * 0.013).clamped(to: 0..<10)
         let topPadding = topPadding ?? (geometry.size.height * 0.054).clamped(to: 10..<60)
         VStack(spacing: labelSpacing) {
             content()
