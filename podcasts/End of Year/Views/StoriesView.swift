@@ -215,7 +215,7 @@ private struct ShareButtonStyle: ButtonStyle {
             configuration.label
             Spacer()
         }
-        .font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
+        .font(.custom("DM Sans", size: 14, relativeTo: .body).bold())
         .foregroundColor(Constants.shareButtonColor)
 
         .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
