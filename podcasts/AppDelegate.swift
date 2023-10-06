@@ -292,6 +292,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func updatePatronRemoteFeatureFlag() {
+        #if !DEBUG
         do {
             try FeatureFlagOverrideStore().override(FeatureFlag.patron, withValue: Settings.patronEnabled)
 
@@ -300,6 +301,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             FileLog.shared.addMessage("Failed to set the patron remote feature flag: \(error)")
         }
+        #endif
     }
 
     private func updateEndOfYearRemoteValue() {
