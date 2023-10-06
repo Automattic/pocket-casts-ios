@@ -111,6 +111,15 @@ public class DataManager {
         return convertedEpisodes
     }
 
+    public func allUpNextEpisodeUuids() -> [BaseEpisode] {
+        upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue).map {
+            let episode = Episode()
+            episode.uuid = $0.episodeUuid
+            episode.hasOnlyUuid = true
+            return episode
+        }
+    }
+
     public func findPlaylistEpisode(uuid: String) -> PlaylistEpisode? {
         upNextManager.findPlaylistEpisode(uuid: uuid, dbQueue: dbQueue)
     }

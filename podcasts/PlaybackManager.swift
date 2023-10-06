@@ -1189,6 +1189,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.allEpisodes(includeNowPlaying: includeNowPlaying)
     }
 
+    func allEpisodeUuidsInQueue() -> [BaseEpisode] {
+        queue.allEpisodeUuids()
+    }
+
     func upNextQueueChanged() {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
     }

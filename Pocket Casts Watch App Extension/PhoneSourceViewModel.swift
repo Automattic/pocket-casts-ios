@@ -202,6 +202,10 @@ class PhoneSourceViewModel: PlaySourceViewModel {
         WatchDataManager.upNextEpisodes() ?? []
     }
 
+    var episodeUuidsInQueue: [BaseEpisode] {
+        episodesInQueue
+    }
+
     func clearUpNext() {
         SessionManager.shared.clearUpNext()
     }
