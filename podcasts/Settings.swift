@@ -867,6 +867,10 @@ class Settings: NSObject {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.customStorageLimitGB).numberValue.intValue
         }
 
+        static var patronEnabled: Bool {
+            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronEnabled).boolValue
+        }
+
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
