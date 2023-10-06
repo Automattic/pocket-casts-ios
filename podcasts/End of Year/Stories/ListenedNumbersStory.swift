@@ -24,31 +24,23 @@ struct ListenedNumbersStory: ShareableStory {
 
                 VStack(spacing: 20) {
                     HStack(spacing: 16) {
-                        podcastCover(5)
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
-
-                        podcastCover(4)
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
-
-                        podcastCover(0)
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
-
-                        podcastCover(2)
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                        Group {
+                            podcastCover(5)
+                            podcastCover(4)
+                            podcastCover(0)
+                            podcastCover(2)
+                        }
+                        .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
                     }
 
                     HStack(spacing: 16) {
-                        podcastCover(1)
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
-
-                        podcastCover(3)
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
-
-                        podcastCover(6)
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
-
-                        podcastCover(7)
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                        Group {
+                            podcastCover(1)
+                            podcastCover(3)
+                            podcastCover(5)
+                            podcastCover(7)
+                        }
+                        .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
                     }
                     .padding(.leading, geometry.size.width * 0.35)
                 }
