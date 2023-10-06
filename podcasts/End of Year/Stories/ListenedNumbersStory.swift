@@ -17,18 +17,9 @@ struct ListenedNumbersStory: ShareableStory {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
                 StoryLabelContainer(geometry: geometry) {
-                    if NSLocale.isCurrentLanguageEnglish {
-                        let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
-                        let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
-
-                        StoryLabel(L10n.eoyStoryListenedToNumbersUpdated("\n" + podcasts + "\n", episodes), highlighting: [podcasts, episodes], for: .title, geometry: geometry)
-                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitleUpdated, for: .subtitle, geometry: geometry)
-                            .opacity(renderForSharing ? 0.0 : 0.8)
-                    } else {
-                        StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title)
-                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
-                            .opacity(renderForSharing ? 0.0 : 0.8)
-                    }
+                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                        .opacity(renderForSharing ? 0.0 : 1)
                 }
 
                 VStack(spacing: 20) {
