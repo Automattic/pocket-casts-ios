@@ -9,12 +9,14 @@ struct StoryLabel: View {
     private let highlights: [String]?
     private let type: StoryLabelType
     private let geometry: GeometryProxy?
+    private let color: Color
 
-    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType, geometry: GeometryProxy? = nil) {
+    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType, color: Color = .white, geometry: GeometryProxy? = nil) {
         self.text = Self.processText(text)
         self.highlights = highlighting
         self.type = type
         self.geometry = geometry
+        self.color = color
     }
 
     var body: some View {
@@ -27,7 +29,7 @@ struct StoryLabel: View {
 
     private func applyDefaults(_ content: some View, forHighlights: Bool = false) -> some View {
         return content
-            .foregroundColor(.white)
+            .foregroundColor(color)
             .lineSpacing(0)
             .multilineTextAlignment(.center)
             .font(forHighlights ? nil : font)
@@ -71,16 +73,35 @@ struct StoryLabel: View {
     private var font: Font {
         switch type {
         case .title:
-            return .custom("DM Sans", size: (geometry?.size.height ?? 759) * 0.035).weight(.bold)
+            .custom("DM Sans", size: (geometry?.size.height ?? 759) * 0.035).weight(.semibold)
         case .title2:
-            return .custom("DM Sans", size: 18).weight(.semibold)
+            .custom("DM Sans", size: 18).weight(.semibold)
         case .subtitle:
-            return .custom("DM Sans", size: (geometry?.size.height ?? 759) * 0.018).weight(.regular)
+            .custom("DM Sans", size: (geometry?.size.height ?? 759) * 0.018).weight(.semibold)
         case .pillarTitle:
-            return .custom("DM Sans", size: 14).weight(.bold)
+            .custom("DM Sans", size: 14).weight(.bold)
         case .pillarSubtitle:
-            return .custom("DM Sans", size: 14).weight(.regular)
+            .custom("DM Sans", size: 14).weight(.regular)
         }
+    }
+
+    private var size: CGFloat {
+        let iPhone15DefaultHeight: CGFloat = 759
+        let screenHeight = geometry?.size.height ?? iPhone15DefaultHeight
+
+        switch type {
+        case .title:
+            return screenHeight * 0.035
+        case .title2:
+            return 18
+        case .subtitle:
+            return screenHeight * 0.018
+        case .pillarTitle:
+            return 14
+        case .pillarSubtitle:
+            return 14
+        }
+
     }
 
     private var horizontalPadding: CGFloat {
