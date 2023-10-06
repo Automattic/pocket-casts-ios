@@ -73,15 +73,15 @@ struct StoryLabel: View {
     private var font: Font {
         switch type {
         case .title:
-            .custom("DM Sans", size: (geometry?.size.height ?? 759) * 0.035).weight(.semibold)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .title2:
-            .custom("DM Sans", size: 18).weight(.semibold)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .subtitle:
-            .custom("DM Sans", size: (geometry?.size.height ?? 759) * 0.018).weight(.semibold)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .pillarTitle:
-            .custom("DM Sans", size: 14).weight(.bold)
+            .custom("DM Sans", size: size).weight(.bold)
         case .pillarSubtitle:
-            .custom("DM Sans", size: 14).weight(.regular)
+            .custom("DM Sans", size: size).weight(.regular)
         }
     }
 
