@@ -278,7 +278,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault),
             Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
             Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
-            Constants.RemoteParams.patronEnabled: NSNumber(value: Constants.RemoteParams.patronEnabledDefault)
+            Constants.RemoteParams.patronEnabled: NSNumber(value: Constants.RemoteParams.patronEnabledDefault),
+            Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault)
         ])
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in

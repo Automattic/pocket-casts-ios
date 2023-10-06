@@ -321,6 +321,9 @@ struct Constants {
 
         static let patronEnabled = "add_patron_enabled"
         static let patronEnabledDefault = true
+
+        static let patronCloudStorageGB = "patron_custom_storage_limit_gb"
+        static let patronCloudStorageGBDefault = 100
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
