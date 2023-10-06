@@ -867,6 +867,14 @@ class Settings: NSObject {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.customStorageLimitGB).numberValue.intValue
         }
 
+        static var patronEnabled: Bool {
+            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronEnabled).boolValue
+        }
+
+        static var patronCloudStorageLimit: Int {
+            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronCloudStorageGB).numberValue.intValue
+        }
+
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
@@ -889,6 +897,10 @@ extension Settings {
 extension L10n {
     static var plusCloudStorageLimit: String {
         plusCloudStorageLimitFormat(Settings.plusCloudStorageLimit.localized())
+    }
+
+    static var patronCloudStorageLimit: String {
+        plusCloudStorageLimitFormat(Settings.patronCloudStorageLimit.localized())
     }
 }
 #endif
