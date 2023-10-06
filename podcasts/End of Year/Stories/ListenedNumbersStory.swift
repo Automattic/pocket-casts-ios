@@ -21,8 +21,8 @@ struct ListenedNumbersStory: ShareableStory {
                         let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
                         let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
 
-                        StoryLabel(L10n.eoyStoryListenedToNumbersUpdated("\n" + podcasts + "\n", episodes), highlighting: [podcasts, episodes], for: .title)
-                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitleUpdated, for: .subtitle)
+                        StoryLabel(L10n.eoyStoryListenedToNumbersUpdated("\n" + podcasts + "\n", episodes), highlighting: [podcasts, episodes], for: .title, geometry: geometry)
+                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitleUpdated, for: .subtitle, geometry: geometry)
                             .opacity(renderForSharing ? 0.0 : 0.8)
                     } else {
                         StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title)

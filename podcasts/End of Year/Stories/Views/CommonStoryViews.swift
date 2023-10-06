@@ -8,11 +8,13 @@ struct StoryLabel: View {
     private let text: String
     private let highlights: [String]?
     private let type: StoryLabelType
+    private let geometry: GeometryProxy?
 
-    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType) {
+    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType, geometry: GeometryProxy? = nil) {
         self.text = Self.processText(text)
         self.highlights = highlighting
         self.type = type
+        self.geometry = geometry
     }
 
     var body: some View {
@@ -69,15 +71,15 @@ struct StoryLabel: View {
     private var font: Font {
         switch type {
         case .title:
-            return .custom("DM Sans", size: 30).weight(.bold).leading(.tight)
+            return .custom("DM Sans", size: (geometry?.size.height ?? 759) * 0.035).weight(.bold)
         case .title2:
-            return .custom("DM Sans", size: 18).weight(.semibold).leading(.tight)
+            return .custom("DM Sans", size: 18).weight(.semibold)
         case .subtitle:
-            return .custom("DM Sans", size: 15).weight(.regular).leading(.tight)
+            return .custom("DM Sans", size: (geometry?.size.height ?? 759) * 0.018).weight(.regular)
         case .pillarTitle:
-            return .custom("DM Sans", size: 14).weight(.bold).leading(.tight)
+            return .custom("DM Sans", size: 14).weight(.bold)
         case .pillarSubtitle:
-            return .custom("DM Sans", size: 14).weight(.regular).leading(.tight)
+            return .custom("DM Sans", size: 14).weight(.regular)
         }
     }
 
