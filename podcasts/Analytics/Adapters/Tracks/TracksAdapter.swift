@@ -36,7 +36,6 @@ class TracksAdapter: AnalyticsAdapter {
 
     deinit {
         notificationCenter.removeObserver(self)
-        tracksService.clearQueuedEvents()
     }
 
     init(userDefaults: UserDefaults = .standard,
