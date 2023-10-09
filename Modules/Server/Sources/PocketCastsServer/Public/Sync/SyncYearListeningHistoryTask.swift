@@ -173,7 +173,7 @@ class PodcastExistsHelper {
 
 public class YearListeningHistory {
     public static func sync() -> Bool {
-        let syncYearListeningHistory = SyncYearListeningHistoryTask(year: 2022)
+        let syncYearListeningHistory = SyncYearListeningHistoryTask(year: 2023)
 
         syncYearListeningHistory.start()
 
