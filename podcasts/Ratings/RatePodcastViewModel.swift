@@ -20,7 +20,7 @@ class RatePodcastViewModel: ObservableObject {
         }
     }
 
-    var podcast: Podcast
+    let podcast: Podcast
 
     var buttonLabel: String {
         userCanRate == .allowed ? L10n.supportSubmit : L10n.done
