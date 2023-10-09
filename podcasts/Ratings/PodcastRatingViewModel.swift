@@ -20,11 +20,11 @@ class PodcastRatingViewModel: ObservableObject {
 
     /// Updates the rating for the podcast.
     ///
-    func update(uuid: String, podcast: Podcast?) {
+    func update(podcast: Podcast?) {
         self.podcast = podcast
 
         // Don't update if we have already finished or are currently updating
-        guard state == .waiting else { return }
+        guard state == .waiting, let uuid = podcast?.uuid else { return }
 
         self.uuid = uuid
         state = .loading
