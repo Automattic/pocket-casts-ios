@@ -9,6 +9,7 @@ struct IntroStory: StoryView {
             TwentyThree()
 
             Image("2023-title")
+                .modifier(IconParallaxModifier())
 
             Twenty()
         }
