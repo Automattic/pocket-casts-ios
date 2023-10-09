@@ -140,14 +140,6 @@ struct RatePodcastView: View {
     }
 }
 
-extension Double {
-    func round(nearest: Double) -> Double {
-        let n = 1/nearest
-        let numberToRound = self * n
-        return numberToRound.rounded() / n
-    }
-}
-
 #Preview {
     RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true), podcast: Podcast.previewPodcast()))
         .environmentObject(Theme.sharedTheme)
