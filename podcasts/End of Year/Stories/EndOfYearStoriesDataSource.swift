@@ -23,7 +23,7 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         case .numberOfPodcastsAndEpisodesListened:
             return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.top10Podcasts)
         case .topOnePodcast:
-            return TopOnePodcastStory(topPodcast: data.topPodcasts[0])
+            return TopOnePodcastStory(podcasts: data.topPodcasts)
         case .topFivePodcasts:
             return TopFivePodcastsStory(podcasts: data.topPodcasts.map { $0.podcast })
         case .longestEpisode:
