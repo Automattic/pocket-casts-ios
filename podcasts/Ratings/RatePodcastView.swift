@@ -94,7 +94,7 @@ struct RatePodcastView: View {
                     }
                 }
             }
-            .gesture(
+            .highPriorityGesture(
                 DragGesture()
                     .onChanged { gesture in
                         var starValue = (gesture.location.x * 5) / reader.size.width
