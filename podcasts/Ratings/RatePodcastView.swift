@@ -50,9 +50,7 @@ struct RatePodcastView: View {
 
     private var cannotRate: some View {
         Group {
-            PodcastCover(podcastUuid: viewModel.podcast.uuid, big: true)
-                .frame(width: 164, height: 164)
-                .padding(.bottom, 40)
+            cover
             Text(L10n.ratingListenToThisPodcastTitle)
                 .font(size: 20, style: .title3, weight: .bold)
                 .padding(.bottom, 16)
@@ -64,9 +62,7 @@ struct RatePodcastView: View {
 
     private var rate: some View {
         Group {
-            PodcastCover(podcastUuid: viewModel.podcast.uuid, big: true)
-                .frame(width: 164, height: 164)
-                .padding(.bottom, 40)
+            cover
             Text(L10n.ratingTitle(viewModel.podcast.title ?? ""))
                 .font(size: 20, style: .title3, weight: .bold)
                 .padding(.bottom, 16)
@@ -133,6 +129,12 @@ struct RatePodcastView: View {
             message: Text(L10n.pleaseTryAgain),
             dismissButton: .default(Text(L10n.ok))
         )
+    }
+
+    private var cover: some View {
+        PodcastCover(podcastUuid: viewModel.podcast.uuid, big: true)
+            .frame(width: 164, height: 164)
+            .padding(.bottom, 40)
     }
 
     enum Constants {
