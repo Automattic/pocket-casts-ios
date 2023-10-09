@@ -48,62 +48,60 @@ struct RatePodcastView: View {
         }
     }
 
+    @ViewBuilder
     private var cannotRate: some View {
-        Group {
-            cover
-            Text(L10n.ratingListenToThisPodcastTitle)
-                .font(size: 20, style: .title3, weight: .bold)
-                .padding(.bottom, 16)
-            Text(L10n.ratingListenToThisPodcastMessage)
-                .font(style: .body)
-                .multilineTextAlignment(.center)
-        }
+        cover
+        Text(L10n.ratingListenToThisPodcastTitle)
+            .font(size: 20, style: .title3, weight: .bold)
+            .padding(.bottom, 16)
+        Text(L10n.ratingListenToThisPodcastMessage)
+            .font(style: .body)
+            .multilineTextAlignment(.center)
     }
 
+    @ViewBuilder
     private var rate: some View {
-        Group {
-            cover
-            Text(L10n.ratingTitle(viewModel.podcast.title ?? ""))
-                .font(size: 20, style: .title3, weight: .bold)
-                .padding(.bottom, 16)
-                .multilineTextAlignment(.center)
-            ContentSizeGeometryReader { reader in
-                HStack {
-                    ForEach(0..<Constants.maxStars, id: \.self) { index in
-                        let currentStar = viewModel.stars - Double(index)
+        cover
+        Text(L10n.ratingTitle(viewModel.podcast.title ?? ""))
+            .font(size: 20, style: .title3, weight: .bold)
+            .padding(.bottom, 16)
+            .multilineTextAlignment(.center)
+        ContentSizeGeometryReader { reader in
+            HStack {
+                ForEach(0..<Constants.maxStars, id: \.self) { index in
+                    let currentStar = viewModel.stars - Double(index)
 
-                        Group {
-                            if currentStar > 0 && currentStar < 1 {
-                                Image("star-half")
-                                    .resizable()
-                                    .renderingMode(.template)
-                            } else if currentStar > 0 {
-                                Image("star-full")
-                                    .resizable()
-                                    .renderingMode(.template)
-                            } else {
-                                Image("star")
-                                    .resizable()
-                                    .renderingMode(.template)
-                            }
-                        }
-                        .foregroundStyle(theme.primaryText01)
-                        .frame(width: 36, height: 36)
-                        .padding(4)
-                        .onTapGesture {
-                            viewModel.stars = Double(index) + 1
+                    Group {
+                        if currentStar > 0 && currentStar < 1 {
+                            Image("star-half")
+                                .resizable()
+                                .renderingMode(.template)
+                        } else if currentStar > 0 {
+                            Image("star-full")
+                                .resizable()
+                                .renderingMode(.template)
+                        } else {
+                            Image("star")
+                                .resizable()
+                                .renderingMode(.template)
                         }
                     }
+                    .foregroundStyle(theme.primaryText01)
+                    .frame(width: 36, height: 36)
+                    .padding(4)
+                    .onTapGesture {
+                        viewModel.stars = Double(index) + 1
+                    }
                 }
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            var starValue = (gesture.location.x * 5) / reader.size.width
-                            starValue = (starValue * 2).rounded() / 2
-                            viewModel.stars = max(0, min(5, starValue))
-                        }
-                )
             }
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        var starValue = (gesture.location.x * 5) / reader.size.width
+                        starValue = (starValue * 2).rounded() / 2
+                        viewModel.stars = max(0, min(5, starValue))
+                    }
+            )
         }
     }
 
