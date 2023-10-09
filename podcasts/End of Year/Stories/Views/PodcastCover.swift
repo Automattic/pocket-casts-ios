@@ -44,7 +44,7 @@ struct PodcastCover: View {
                 }
             }
             .opacity(image != nil ? 1 : 0.2)
-            .blendMode(!renderForSharing && image != nil ? .multiply : .normal)
+            .blendMode(.multiply)
 
             ImageView(image: image)
                 .cornerRadius(big ? 8 : 4)
