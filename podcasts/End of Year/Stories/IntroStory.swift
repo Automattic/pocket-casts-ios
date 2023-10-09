@@ -9,6 +9,8 @@ struct IntroStory: StoryView {
             TwentyThree()
 
             Image("2023-title")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .modifier(IconParallaxModifier())
 
             Twenty()
@@ -20,9 +22,13 @@ struct IntroStory: StoryView {
     private struct TwentyThree: View {
         @ProportionalValue(with: .width) var xPosition = 0.5
         @ProportionalValue(with: .height) var yPosition = 0.5
+        @ProportionalValue(with: .width) var width = 1.2
 
         var body: some View {
             Image("23")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: width)
                 .position(x: xPosition, y: yPosition)
                 .modifier(TwentyThreeParallaxModifier())
         }
@@ -30,10 +36,14 @@ struct IntroStory: StoryView {
 
     private struct Twenty: View {
         @ProportionalValue(with: .width) var xPosition = 0.5
-        @ProportionalValue(with: .height) var yPosition = 0.48
+        @ProportionalValue(with: .height) var yPosition = 0.49
+        @ProportionalValue(with: .width) var width = 1.1
 
         var body: some View {
             Image("20")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: width)
                 .position(x: xPosition, y: yPosition)
                 .modifier(TwentyThreeParallaxModifier())
         }
