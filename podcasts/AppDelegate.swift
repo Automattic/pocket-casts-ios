@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupWhatsNew()
 
         setupSecrets()
+        addAnalyticsObservers()
         setupAnalytics()
         appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
 
