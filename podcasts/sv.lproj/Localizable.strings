@@ -235,6 +235,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>De första</string>
     <key>back</key>
     <string>Tillbaka</string>
+    <key>beta_purchase_disabled</key>
+    <string>Ladda ner Pocket Casts från App Store för att köpa %1$@.</string>
+    <key>beta_thank_you</key>
+    <string>Tack för att du är med som betatestare.</string>
     <key>bookmark_added</key>
     <string>Bokmärke tillagt</string>
     <key>bookmark_added_button_title</key>

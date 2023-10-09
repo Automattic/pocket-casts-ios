@@ -57,4 +57,7 @@ import Foundation
     func mayContainChapters() -> Bool
 
     var hasBookmarks: Bool { get }
+
+    // This property is true if the only filled property is the episode's UUID. If true, this object should only be used as a thin wrapper over the UUID.
+    var hasOnlyUuid: Bool { get set }
 }

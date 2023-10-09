@@ -235,6 +235,10 @@
     <string>首先</string>
     <key>back</key>
     <string>返回</string>
+    <key>beta_purchase_disabled</key>
+    <string>请从 App Store 中下载 Pocket Casts，以购买 %1$@。</string>
+    <key>beta_thank_you</key>
+    <string>感谢您参与 Beta 测试！</string>
     <key>bookmark_added</key>
     <string>已添加书签</string>
     <key>bookmark_added_button_title</key>

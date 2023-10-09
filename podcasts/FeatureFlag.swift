@@ -80,7 +80,7 @@ enum FeatureFlag: String, CaseIterable {
         case .discoverFeaturedAutoScroll:
             true
         case .patron:
-            false
+            true
         case .showRatings:
             true
         case .autoplay:

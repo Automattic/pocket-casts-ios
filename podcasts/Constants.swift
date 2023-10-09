@@ -318,6 +318,12 @@ struct Constants {
 
         static let effectsPlayerStrategy = "effects_player_strategy"
         static let effectsPlayerStrategyDefault: Int = 1
+
+        static let patronEnabled = "add_patron_enabled"
+        static let patronEnabledDefault = true
+
+        static let patronCloudStorageGB = "patron_custom_storage_limit_gb"
+        static let patronCloudStorageGBDefault = 100
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
