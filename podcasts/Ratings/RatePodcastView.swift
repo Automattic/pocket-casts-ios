@@ -6,6 +6,9 @@ struct RatePodcastView: View {
 
     @EnvironmentObject var theme: Theme
 
+    // Avoid the rate view from flickering
+    @State private var rateRendered = false
+
     init(viewModel: RatePodcastViewModel) {
         self.viewModel = viewModel
     }
@@ -43,6 +46,7 @@ struct RatePodcastView: View {
                 .controlSize(.large)
         case .allowed:
             rate
+                .opacity(rateRendered ? 1 : 0)
         case .disallowed:
             cannotRate
         }
@@ -66,7 +70,7 @@ struct RatePodcastView: View {
             .font(size: 20, style: .title3, weight: .bold)
             .padding(.bottom, 16)
             .multilineTextAlignment(.center)
-        ContentSizeGeometryReader { reader in
+        ContentSizeGeometryReader(content: { reader in
             HStack {
                 ForEach(0..<Constants.maxStars, id: \.self) { index in
                     let currentStar = viewModel.stars - Double(index)
@@ -102,7 +106,9 @@ struct RatePodcastView: View {
                         viewModel.stars = max(0, min(5, starValue))
                     }
             )
-        }
+        }, contentSizeUpdated: { _ in
+            rateRendered = true
+        })
     }
 
     private var button: some View {
