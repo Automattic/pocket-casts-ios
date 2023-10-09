@@ -54,7 +54,7 @@ struct TopOnePodcastStory: ShareableStory {
                         .offset(x: geometry.size.width * 0.4, y: -geometry.size.height * 0.11)
                         .opacity(0.2)
 
-                    PodcastCover(podcastUuid: topPodcast.podcast.uuid)
+                    PodcastCover(podcastUuid: topPodcast.podcast.uuid, higherQuality: true)
                         .frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7)
                 }
                 .padding(.top, geometry.size.height * 0.09)
