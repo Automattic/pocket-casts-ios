@@ -5,19 +5,15 @@ struct IntroStory: StoryView {
     let identifier: String = "intro"
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                ZStack {
-                    TwentyThree()
+        ZStack {
+            TwentyThree()
 
-                    Image("2023-title")
+            Image("2023-title")
 
-                    Twenty()
-                }
-                .background(.black)
-            }
-            .enableProportionalValueScaling()
+            Twenty()
         }
+        .background(.black)
+        .enableProportionalValueScaling()
     }
 
     private struct TwentyThree: View {
