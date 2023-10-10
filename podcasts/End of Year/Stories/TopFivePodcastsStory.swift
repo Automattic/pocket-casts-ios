@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct TopFivePodcastsStory: ShareableStory {
-    let podcasts: [Podcast]
+    let topPodcasts: [TopPodcast]
 
     let identifier: String = "top_five_podcast"
 
@@ -47,7 +47,7 @@ struct TopFivePodcastsStory: ShareableStory {
                 .foregroundColor(Color(hex: "8F97A4"))
                 .frame(width: size * 0.2)
 
-                if let podcast = podcasts[safe: index] {
+                if let podcast = topPodcasts[safe: index]?.podcast {
                     PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: size, height: size)
                 } else {
@@ -56,12 +56,12 @@ struct TopFivePodcastsStory: ShareableStory {
                 }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(podcasts[safe: index]?.title ?? "")
+                Text(topPodcasts[safe: index]?.podcast.title ?? "")
                     .font(.custom("DM Sans", size: 18))
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
 
-                Text(podcasts[safe: index]?.author ?? "")
+                Text(topPodcasts[safe: index]?.podcast.author ?? "")
                     .font(.custom("DM Sans", size: 14))
                     .fontWeight(.semibold)
                     .foregroundColor(Color(hex: "8F97A4"))
@@ -73,7 +73,7 @@ struct TopFivePodcastsStory: ShareableStory {
             .frame(maxHeight: size)
             Spacer()
         }
-        .opacity(podcasts[safe: index] != nil ? 1 : 0)
+        .opacity(topPodcasts[safe: index]?.podcast != nil ? 1 : 0)
     }
 
     func onAppear() {
@@ -87,13 +87,13 @@ struct TopFivePodcastsStory: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryTopPodcastsShareText("%1$@"), podcasts: podcasts)
+            StoryShareableText(L10n.eoyStoryTopPodcastsShareText("%1$@"), podcasts: topPodcasts.map { $0.podcast })
         ]
     }
 }
 
 struct DummyStory_Previews: PreviewProvider {
     static var previews: some View {
-        TopFivePodcastsStory(podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
+        TopFivePodcastsStory(topPodcasts: [TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600)])
     }
 }
