@@ -61,7 +61,7 @@ struct TopFivePodcastsStory: ShareableStory {
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
 
-                Text(topPodcasts[safe: index]?.podcast.author ?? "")
+                Text(topPodcasts[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")
                     .font(.custom("DM Sans", size: 14))
                     .fontWeight(.semibold)
                     .foregroundColor(Color(hex: "8F97A4"))
