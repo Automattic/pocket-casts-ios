@@ -12,28 +12,39 @@ struct TopFivePodcastsStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
+                StoryLabelContainer(geometry: geometry) {
+                    StoryLabel(L10n.eoyStoryTopPodcastsTitle, for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyStoryTopPodcastsSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                }
+
                 let headerSpacing = geometry.size.height * 0.054
                 let size = round(max(geometry.size.height * 0.099, 60))
 
-                VStack(spacing: headerSpacing) {
-                    StoryLabel(L10n.eoyStoryTopPodcasts, for: .title2)
-                        .opacity(0.8)
-                    VStack(spacing: geometry.size.height * 0.03) {
-                        ForEach(0...4, id: \.self) {
-                            topPodcastRow($0, size: size)
-                        }
-                    }.padding([.leading, .trailing], 35)
+                VStack(spacing: geometry.size.height * 0.03) {
+                    ForEach(0...4, id: \.self) {
+                        topPodcastRow($0, size: size)
+                    }
                 }
-            }.background(DynamicBackgroundView(podcast: podcasts[0]))
+                .padding([.leading, .trailing], 35)
+                .padding(.top, headerSpacing)
+            }.background(
+                ZStack(alignment: .bottom) {
+                    Color.black
+
+                    StoryGradient()
+                    .offset(x: geometry.size.width * 0.7, y: -geometry.size.height * 0.7)
+                }
+            )
         }
     }
 
     @ViewBuilder
     func topPodcastRow(_ index: Int, size: Double) -> some View {
         HStack(spacing: 16) {
-            Text("\(index + 1).")
-                .font(.system(size: 18, weight: .medium))
-                .foregroundColor(.white)
+            Text("\(index + 1)")
+                .font(.custom("DM Sans", size: 18))
+                .fontWeight(.semibold)
+                .foregroundColor(Color(hex: "8F97A4"))
 
                 if let podcast = podcasts[safe: index] {
                     PodcastCover(podcastUuid: podcast.uuid)
