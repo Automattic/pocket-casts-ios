@@ -28,7 +28,14 @@ struct TopListenedCategoriesStory: ShareableStory {
                         pillar($0, size: geometry.size)
                     }
                 }.padding(.top, headerSpacing)
-            }.background(DynamicBackgroundView(backgroundColor: contrastColor.backgroundColor, foregroundColor: contrastColor.foregroundColor))
+            }.background(
+                ZStack(alignment: .bottom) {
+                    Color.black
+
+                    StoryGradient()
+                    .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.7)
+                }
+            )
         }
     }
 
