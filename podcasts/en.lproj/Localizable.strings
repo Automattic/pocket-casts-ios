@@ -3525,7 +3525,7 @@
 "eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes in 2022";
 
 /* Title for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the podcast title and %2$@ is a placeholder for the author. */
-"eoy_story_top_podcast" = "Your top podcast was %1$@ by %2$@";
+"eoy_story_top_podcast" = "%1$@ was your most listened show in 2023";
 
 /* Subtitle for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the number of episodes and %2$@ is a placeholder for the listened time. */
 "eoy_story_top_podcast_subtitle" = "You listened to %1$@ episodes for a total of %2$@";

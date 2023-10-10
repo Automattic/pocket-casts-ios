@@ -7,20 +7,17 @@ struct PodcastCover: View {
     let podcastUuid: String
 
     /// Whether this is a big cover, in which shadows should be bigger
-    let big: Bool
+    var big: Bool = false
 
     /// The color of the view the cover will appear on
     /// Prevents a flickering issue on dark backgrounds
-    let viewBackgroundStyle: ThemeStyle?
+    var viewBackgroundStyle: ThemeStyle? = nil
+
+    /// If the artwork needs a bigger image with higher quality
+    var higherQuality: Bool = false
 
     @State private var image: UIImage?
     @Environment(\.renderForSharing) var renderForSharing: Bool
-
-    init(podcastUuid: String, big: Bool = false, viewBackgroundStyle: ThemeStyle? = nil) {
-        self.podcastUuid = podcastUuid
-        self.big = big
-        self.viewBackgroundStyle = viewBackgroundStyle
-    }
 
     private var rectangleColor: Color? {
         if let viewBackgroundStyle {
@@ -44,7 +41,7 @@ struct PodcastCover: View {
                 }
             }
             .opacity(image != nil ? 1 : 0.2)
-            .blendMode(!renderForSharing && image != nil ? .multiply : .normal)
+            .blendMode(.multiply)
 
             ImageView(image: image)
                 .cornerRadius(big ? 8 : 4)
@@ -65,7 +62,8 @@ struct PodcastCover: View {
 
     private func loadImage() {
         image = nil
-        KingfisherManager.shared.retrieveImage(with: ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 280)) { result in
+        let size = higherQuality ? 680 : 280
+        KingfisherManager.shared.retrieveImage(with: ServerHelper.imageUrl(podcastUuid: podcastUuid, size: size)) { result in
             switch result {
             case .success(let result):
                 image = result.image
