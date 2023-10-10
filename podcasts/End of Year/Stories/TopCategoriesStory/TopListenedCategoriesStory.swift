@@ -18,10 +18,15 @@ struct TopListenedCategoriesStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
-                let headerSpacing = geometry.size.height * 0.054
+                StoryLabelContainer(geometry: geometry) {
+                    let mostListenedCategory = listenedCategories.first?.categoryTitle ?? ""
+                    let listenedTime = listenedCategories.first?.totalPlayedTime.storyTimeDescription ?? ""
+                    let listenedEpisodes = "\(listenedCategories.first?.numberOfPodcasts ?? 0)"
+                    StoryLabel(L10n.eoyStoryTopCategoriesTitle(mostListenedCategory), for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyStoryTopCategoriesSubtitle(listenedEpisodes, listenedTime), for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                }
 
-                StoryLabel(L10n.eoyStoryTopCategories, for: .title2)
-                    .opacity(0.8)
+                let headerSpacing = geometry.size.height * 0.054
 
                 HStack(alignment: .bottom, spacing: 25) {
                     ForEach([1, 0, 2], id: \.self) {
