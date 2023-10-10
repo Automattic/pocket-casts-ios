@@ -37,6 +37,11 @@ class PaidFeature: ObservableObject {
     /// The minimum subscription level required to unlock this feature
     let tier: SubscriptionTier
 
+    /// Whether the feature is in its early access period or not.
+    /// 
+    /// Internally this doesn't change anything with the feature, but allows the app to check its state and display different UI if needed.
+    let inEarlyAccess: Bool
+
     /// The static class to use to check for the active subscription.
     private let subscriptionHelper: SubscriptionHelper
 
@@ -46,8 +51,10 @@ class PaidFeature: ObservableObject {
     /// - Parameters:
     ///   - tier: The minimum tier required to unlock
     ///   - betaTier: The minimum tier required when running in the app beta
+    ///   - inEarlyAccess: Whether this feature is in its early access period or not.
     init(tier: SubscriptionTier,
          betaTier: SubscriptionTier? = nil,
+         inEarlyAccess: Bool = false,
          subscriptionHelper: SubscriptionHelper = .shared,
          buildEnvironment: BuildEnvironment = .current) {
         if let betaTier, buildEnvironment == .testFlight {
@@ -56,6 +63,7 @@ class PaidFeature: ObservableObject {
             self.tier = tier
         }
 
+        self.inEarlyAccess = inEarlyAccess
         self.subscriptionHelper = subscriptionHelper
 
         addListeners()
