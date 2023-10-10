@@ -5,16 +5,12 @@ import SwiftUI
 
 // MARK: - Features
 
-/// To add a new feature:
-///     1. Add a new static var for the feature name and tier it should be unlocked with
-///
-///     Template:
-///         static var <#FeatureName#>: PaidFeature = .init(tier: <#Tier#>)
-///
-///     2. Check the unlock state using `PaidFeature.hello.isUnlocked`
-///
 extension PaidFeature {
-    static var bookmarks: PaidFeature = .init(tier: .patron, betaTier: .plus)
+    static var bookmarks: PaidFeature = .inEarlyAccess
+
+    // When the feature leaves early access, it will switch to being a Plus feature
+    // Adding this here to make it easier to uncomment
+    // static var bookmarks: PaidFeature = .plusFeature
 }
 
 /// A `PaidFeature` represents a feature that is unlocked with a subscription tier, and is considered to be unlocked if the tier
