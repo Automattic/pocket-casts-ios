@@ -18,7 +18,7 @@ struct TopFivePodcastsStory: ShareableStory {
                 }
 
                 let headerSpacing = geometry.size.height * 0.054
-                let size = round(max(geometry.size.height * 0.099, 60))
+                let size = round(geometry.size.height * 0.09)
 
                 VStack(spacing: geometry.size.height * 0.03) {
                     ForEach(0...4, id: \.self) {
@@ -45,6 +45,7 @@ struct TopFivePodcastsStory: ShareableStory {
                 .font(.custom("DM Sans", size: 18))
                 .fontWeight(.semibold)
                 .foregroundColor(Color(hex: "8F97A4"))
+                .frame(width: size * 0.2)
 
                 if let podcast = podcasts[safe: index] {
                     PodcastCover(podcastUuid: podcast.uuid)
@@ -56,12 +57,14 @@ struct TopFivePodcastsStory: ShareableStory {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(podcasts[safe: index]?.title ?? "")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.custom("DM Sans", size: 18))
+                    .fontWeight(.semibold)
                     .foregroundColor(.white)
 
                 Text(podcasts[safe: index]?.author ?? "")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(.white)
+                    .font(.custom("DM Sans", size: 14))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(hex: "8F97A4"))
                     .lineLimit(2)
                     .opacity(0.8)
             }
