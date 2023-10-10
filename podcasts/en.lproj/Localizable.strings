@@ -3578,6 +3578,12 @@
 /* Text that appear when someone share the top categories story to Twitter. */
 "eoy_story_top_categories_share_text" = "My most listened to podcast categories";
 
+/* Title of the top categories story. %1$@ being the name of the most listened category. */
+"eoy_story_top_categories_title" = "Did you know that %1$@ was your favorite category?";
+
+/* Subtitle of the top categories story. %1$@ is the total number of episodes and %2$@ is the total listened time. */
+"eoy_story_top_categories_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
+
 /* Description to why the user needs to create an account to see their end of year stats. */
 "eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";
 

@@ -804,6 +804,14 @@ internal enum L10n {
   internal static var eoyStoryTopCategories: String { return L10n.tr("Localizable", "eoy_story_top_categories") }
   /// My most listened to podcast categories
   internal static var eoyStoryTopCategoriesShareText: String { return L10n.tr("Localizable", "eoy_story_top_categories_share_text") }
+  /// You listened to %1$@ episodes for a total of %2$@
+  internal static func eoyStoryTopCategoriesSubtitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_categories_subtitle", String(describing: p1), String(describing: p2))
+  }
+  /// Did you know that %1$@ was your favorite category?
+  internal static func eoyStoryTopCategoriesTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_categories_title", String(describing: p1))
+  }
   /// %1$@ was your most listened show in 2023
   internal static func eoyStoryTopPodcast(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1))
