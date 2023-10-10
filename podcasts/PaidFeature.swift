@@ -34,7 +34,7 @@ class PaidFeature: ObservableObject {
     let tier: SubscriptionTier
 
     /// Whether the feature is in its early access period or not.
-    /// 
+    ///
     /// Internally this doesn't change anything with the feature, but allows the app to check its state and display different UI if needed.
     let inEarlyAccess: Bool
 
