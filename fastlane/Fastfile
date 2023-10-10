@@ -246,7 +246,7 @@ platform :ios do
     Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
     ensure_git_branch(branch: DEFAULT_BRANCH)
 
-    confirmation_message = <<-MESSAGE
+    message = <<-MESSAGE
 
       Code Freeze:
       • New release branch from #{DEFAULT_BRANCH}: release/#{next_release_version}
@@ -556,8 +556,8 @@ platform :ios do
 
     MESSAGE
 
-     UI.important(message)
-     UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
+    UI.important(message)
+    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
 
     # Check tags
     UI.user_error!("Version #{new_version} already exists! Abort!") if git_tag_exists(tag: new_version)
