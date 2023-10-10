@@ -107,3 +107,33 @@ extension PaidFeature {
     }
 }
 #endif
+
+
+// MARK: - Private: Feature State Helpers
+
+private extension PaidFeature {
+    /// A `PaidFeature` that is currently in early access.
+    ///
+    /// - Available to Patron users on the AppStore
+    /// - Available to Plus users during beta
+    /// - Has the `inEarlyAccess` flag set to True
+    static var inEarlyAccess: PaidFeature {
+        .init(tier: .patron, betaTier: .plus, inEarlyAccess: true)
+    }
+
+    /// A `PaidFeature` that is available to Patron subscribers.
+    ///
+    /// - Available to Patron users on the AppStore and Beta.
+    /// - The `inEarlyAccess` flag is set to False
+    static var patronFeature: PaidFeature {
+        .init(tier: .patron)
+    }
+
+    /// A `PaidFeature` that is available to Plus and Patron subscribers.
+    ///
+    /// - Available to Plus and Patron users on the AppStore and Beta.
+    /// - The `inEarlyAccess` flag is set to False
+    static var plusFeature: PaidFeature {
+        .init(tier: .plus)
+    }
+}
