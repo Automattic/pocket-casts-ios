@@ -8,11 +8,15 @@ struct StoryLabel: View {
     private let text: String
     private let highlights: [String]?
     private let type: StoryLabelType
+    private let geometry: GeometryProxy?
+    private let color: Color
 
-    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType) {
+    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType, color: Color = .white, geometry: GeometryProxy? = nil) {
         self.text = Self.processText(text)
         self.highlights = highlighting
         self.type = type
+        self.geometry = geometry
+        self.color = color
     }
 
     var body: some View {
@@ -25,8 +29,8 @@ struct StoryLabel: View {
 
     private func applyDefaults(_ content: some View, forHighlights: Bool = false) -> some View {
         return content
-            .foregroundColor(.white)
-            .lineSpacing(2.5)
+            .foregroundColor(color)
+            .lineSpacing(0)
             .multilineTextAlignment(.center)
             .font(forHighlights ? nil : font)
             .padding([.leading, .trailing], horizontalPadding)
@@ -69,16 +73,35 @@ struct StoryLabel: View {
     private var font: Font {
         switch type {
         case .title:
-            return .system(size: 22, weight: .bold)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .title2:
-            return .system(size: 18, weight: .semibold)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .subtitle:
-            return .system(size: 15, weight: .regular)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .pillarTitle:
-            return .system(size: 14, weight: .bold)
+            .custom("DM Sans", size: size).weight(.bold)
         case .pillarSubtitle:
-            return .system(size: 13, weight: .regular)
+            .custom("DM Sans", size: size).weight(.regular)
         }
+    }
+
+    private var size: CGFloat {
+        let iPhone15DefaultHeight: CGFloat = 759
+        let screenHeight = geometry?.size.height ?? iPhone15DefaultHeight
+
+        switch type {
+        case .title:
+            return screenHeight * 0.035
+        case .title2:
+            return 18
+        case .subtitle:
+            return screenHeight * 0.018
+        case .pillarTitle:
+            return 14
+        case .pillarSubtitle:
+            return 14
+        }
+
     }
 
     private var horizontalPadding: CGFloat {
@@ -246,8 +269,8 @@ struct PodcastCoverContainer<Content: View>: View {
     private var content: () -> Content
     private let geometry: GeometryProxy
 
-    let topPaddingSmall = 0.10
-    let topPaddingLarge = 0.13
+    let topPaddingSmall = 0.03
+    let topPaddingLarge = 0.045
     let smallDeviceHeight = 700.0
 
     init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
@@ -281,7 +304,7 @@ struct StoryLabelContainer<Content: View>: View {
 
     var body: some View {
         // Try to reduce the label distance based on the screen height, but keep
-        let labelSpacing = (geometry.size.height * 0.033).clamped(to: 10..<22)
+        let labelSpacing = (geometry.size.height * 0.013).clamped(to: 0..<10)
         let topPadding = topPadding ?? (geometry.size.height * 0.054).clamped(to: 10..<60)
         VStack(spacing: labelSpacing) {
             content()

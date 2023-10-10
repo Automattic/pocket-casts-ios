@@ -16,55 +16,45 @@ struct ListenedNumbersStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
-                ZStack {
-                    podcastCover(5)
-                        .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
-                        .padding(.leading, (geometry.size.width / 2))
-                        .padding(.top, -(geometry.size.width / 3))
-
-                    podcastCover(4)
-                        .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
-                        .padding(.leading, -(geometry.size.width / 2.1))
-                        .padding(.top, (geometry.size.width / 1.3))
-
-                    podcastCover(0)
-                        .frame(width: geometry.size.width * 0.31, height: geometry.size.width * 0.31)
-                        .padding(.leading, -(geometry.size.width / 2))
-                        .padding(.top, -(geometry.size.width / 3.5))
-
-                    podcastCover(2)
-                        .frame(width: geometry.size.width * 0.30, height: geometry.size.width * 0.30)
-                        .padding(.leading, (geometry.size.width / 1.8))
-                        .padding(.top, (geometry.size.width / 1.5))
-
-                    podcastCover(1)
-                        .frame(width: geometry.size.width * 0.37, height: geometry.size.width * 0.37)
-                        .padding(.leading, (geometry.size.width / 4.5))
-                        .padding(.top, (geometry.size.width / 3))
-
-                    podcastCover(3)
-                        .frame(width: geometry.size.width * 0.35, height: geometry.size.width * 0.35)
-                        .padding(.leading, -(geometry.size.width / 4))
-                }
-                .applyPodcastCoverPerspective()
-
                 StoryLabelContainer(geometry: geometry) {
-                    if NSLocale.isCurrentLanguageEnglish {
-                        let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
-                        let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
-
-                        StoryLabel(L10n.eoyStoryListenedToNumbersUpdated("\n" + podcasts + "\n", episodes), highlighting: [podcasts, episodes], for: .title)
-                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitleUpdated, for: .subtitle)
-                            .opacity(renderForSharing ? 0.0 : 0.8)
-                    } else {
-                        StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title)
-                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
-                            .opacity(renderForSharing ? 0.0 : 0.8)
-                    }
+                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                        .opacity(renderForSharing ? 0.0 : 1)
                 }
-                Spacer()
+
+                VStack(spacing: 20) {
+                    HStack(spacing: 16) {
+                        Group {
+                            podcastCover(5)
+                            podcastCover(4)
+                            podcastCover(0)
+                            podcastCover(2)
+                        }
+                        .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                    }
+
+                    HStack(spacing: 16) {
+                        Group {
+                            podcastCover(1)
+                            podcastCover(3)
+                            podcastCover(5)
+                            podcastCover(7)
+                        }
+                        .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                    }
+                    .padding(.leading, geometry.size.width * 0.35)
+                }
+                .rotationEffect(Angle(degrees: -15))
+                .padding(.top, geometry.size.height * 0.1)
             }
-            .background(DynamicBackgroundView(podcast: podcasts[safe: 3] ?? podcasts[0]))
+            .background(
+                ZStack(alignment: .bottom) {
+                    Color.black
+
+                    StoryGradient()
+                    .offset(x: geometry.size.width * 0.4, y: geometry.size.height * 0.25)
+                }
+            )
         }
     }
 
@@ -87,6 +77,28 @@ struct ListenedNumbersStory: ShareableStory {
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
         ]
+    }
+}
+
+struct StoryGradient: View {
+    var body: some View {
+        Rectangle()
+        .foregroundColor(.clear)
+        .frame(width: 510, height: 510)
+        .background(
+            LinearGradient(
+                stops: [
+                    Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                    Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.61),
+                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 1.00),
+                ],
+                startPoint: UnitPoint(x: 0.49, y: 0.11),
+                endPoint: UnitPoint(x: 0.49, y: 0.98)
+            )
+        )
+        .cornerRadius(510)
+        .blur(radius: 107)
+        .opacity(0.6)
     }
 }
 

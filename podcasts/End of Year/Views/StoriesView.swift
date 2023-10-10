@@ -24,32 +24,30 @@ struct StoriesView: View {
     }
 
     var stories: some View {
-        VStack {
+        ZStack {
+            Spacer()
+
+            storiesToPreload
+
             ZStack {
-                Spacer()
+                // Manually set the zIndex order to ensure we can change the order when needed
+                model.story(index: model.currentStory).zIndex(3).ignoresSafeArea(edges: .bottom)
 
-                storiesToPreload
-
-                StoryViewContainer {
-                    // Manually set the zIndex order to ensure we can change the order when needed
-                    model.story(index: model.currentStory).zIndex(3)
-
-                    // By default the story switcher will appear above the story and override all
-                    // interaction, but if the story contains interactive elements then move the
-                    // switcher to appear behind the view to allow the story override the switcher, or
-                    // allow the story to pass switcher events thru by controlling the allowsHitTesting
-                    storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
-                }.cornerRadius(Constants.storyCornerRadius)
-
-                header
+                // By default the story switcher will appear above the story and override all
+                // interaction, but if the story contains interactive elements then move the
+                // switcher to appear behind the view to allow the story override the switcher, or
+                // allow the story to pass switcher events thru by controlling the allowsHitTesting
+                storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
             }
+
+            header
 
             // Hide the share button if needed
             if model.storyIsShareable(index: model.currentStory) {
-                ZStack {}
-                    .frame(height: Constants.spaceBetweenShareAndStory)
-
-                shareButton
+                VStack {
+                    Spacer()
+                    shareButton
+                }
             }
         }
         .background(Color.black)
@@ -167,7 +165,7 @@ struct StoriesView: View {
     }
 
     var shareButton: some View {
-        Button(L10n.share) {
+        Button(L10n.eoyShare) {
             model.share()
         }
         .buttonStyle(ShareButtonStyle())
@@ -217,15 +215,11 @@ private struct ShareButtonStyle: ButtonStyle {
             configuration.label
             Spacer()
         }
-        .font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
+        .font(.custom("DM Sans", size: 14, relativeTo: .body).bold())
         .foregroundColor(Constants.shareButtonColor)
 
         .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
 
-        .overlay(
-            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
-                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
-        )
         .applyButtonEffect(isPressed: configuration.isPressed)
         .contentShape(Rectangle())
     }
