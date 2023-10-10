@@ -253,17 +253,15 @@ platform :ios do
       • Current release version and build code: #{current_release_version} (#{current_build_code}).
       • New release version and build code: #{next_release_version} (#{code_freeze_build_code}).
 
-      Do you want to continue?
-
     MESSAGE
 
-    # Ask user confirmation
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm(confirmation_message)
+    UI.important(message)
+    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
 
     # Create the release branch
     UI.message 'Creating release branch...'
     Fastlane::Helper::GitHelper.create_branch("release/#{next_release_version}", from: DEFAULT_BRANCH)
-    UI.message "Done! New release branch is: #{git_branch}"
+    UI.success "Done! New release branch is: #{git_branch}"
 
     # Bump the release version and build code and write it to the `xcconfig` file
     UI.message 'Bumping release version and build code...'
@@ -272,7 +270,7 @@ platform :ios do
       version_long: code_freeze_build_code
     )
     Fastlane::Helper::Ios::GitHelper.commit_version_bump
-    UI.message "Done! New Release Version: #{current_release_version}. New Build Code: #{current_build_code}"
+    UI.success "Done! New Release Version: #{current_release_version}. New Build Code: #{current_build_code}"
 
     extract_release_notes_for_version(
       version: current_release_version,
@@ -298,12 +296,8 @@ platform :ios do
     ensure_git_branch(branch: '^release/') # Match branch names that begin with `release/`
     ensure_git_status_clean
 
-    message = "Completing code freeze for: #{current_release_version}\n"
-    if options[:skip_confirm]
-      UI.message(message)
-    else
-      UI.user_error!('Aborted by user request') unless UI.confirm("#{message}Do you want to continue?")
-    end
+    UI.important("Completing code freeze for: #{current_release_version}")
+    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
 
     generate_strings_file_for_glotpress
     create_merge_release_branch
@@ -357,12 +351,8 @@ platform :ios do
     ensure_git_status_clean
     ensure_git_branch(branch: '^release/') # Match branch names that begin with `release/`
 
-    message = "Finalizing release: #{current_release_version}\n"
-    if options[:skip_confirm]
-      UI.message(message)
-    else
-      UI.user_error!('Aborted by user request') unless UI.confirm("#{message}Do you want to continue?")
-    end
+    UI.important("Finalizing release: #{current_release_version}")
+    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
 
     check_all_translations_progress(interactive: true)
 
@@ -373,7 +363,7 @@ platform :ios do
     UI.message 'Bumping build code...'
     VERSION_FILE.write(version_long: next_build_code)
     Fastlane::Helper::Ios::GitHelper.commit_version_bump
-    UI.message "Done! New Build Code: #{current_build_code}"
+    UI.success "Done! New Build Code: #{current_build_code}"
 
     # Wrap up
     removebranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
@@ -399,17 +389,12 @@ platform :ios do
   desc 'Builds and uploads for distribution to App Store Connect'
   lane :build_and_upload_app_store_connect do |options|
     unless options[:skip_prechecks]
-      message = "Building version #{current_release_version} (#{current_build_code}) and uploading to TestFlight\n"
-      if options[:skip_confirm]
-        UI.message(message)
-      else
-        UI.user_error!('Aborted by user request') unless UI.confirm("#{message}Do you want to continue?")
-      end
-
-      # Check local repo status
       ensure_git_status_clean unless is_ci
       ios_build_preflight
     end
+
+    UI.important("Building version #{current_release_version} (#{current_build_code}) and uploading to TestFlight")
+    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
 
     sentry_check_cli_installed
     configure_code_signing
@@ -518,12 +503,8 @@ platform :ios do
     # Check user override
     override_default_release_branch(options[:base_version]) unless options[:base_version].nil?
 
-    # Verify
-    if options[:skip_confirm]
-      UI.message(message)
-    else
-      UI.user_error!('Aborted by user request') unless UI.confirm("#{message}Do you want to continue?")
-    end
+    UI.important(message)
+    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
 
     # Re-generate the strings for GlotPress, just in case there were
     # localization fixes.
@@ -537,7 +518,7 @@ platform :ios do
     ensure_git_branch(branch: '^release/') # Match branch names that begin with `release/`
     VERSION_FILE.write(version_long: next_build_code)
     Fastlane::Helper::Ios::GitHelper.commit_version_bump
-    UI.message "Done! New Build Code: #{current_build_code}"
+    UI.success "Done! New Build Code: #{current_build_code}"
 
     create_merge_release_branch
     push_release_branches
@@ -575,11 +556,8 @@ platform :ios do
 
     MESSAGE
 
-    if options[:skip_confirm]
-      UI.message(message)
-    else
-      UI.user_error!('Aborted by user request') unless UI.confirm("#{message}Do you want to continue?")
-    end
+     UI.important(message)
+     UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
 
     # Check tags
     UI.user_error!("Version #{new_version} already exists! Abort!") if git_tag_exists(tag: new_version)
@@ -591,7 +569,7 @@ platform :ios do
     UI.message 'Creating hotfix branch...'
     ensure_git_status_clean
     Fastlane::Helper::GitHelper.create_branch("release/#{new_version}", from: previous_version)
-    UI.message "Done! New hotfix branch is: #{git_branch}"
+    UI.success "Done! New hotfix branch is: #{git_branch}"
 
     # Bump the hotfix version and build code and write it to the `xcconfig` file
     UI.message 'Bumping hotfix version and build code...'
@@ -599,7 +577,7 @@ platform :ios do
       version_short: new_version,
       version_long: hotfix_build_code
     )
-    UI.message "Done! New Release Version: #{current_release_version}. New Build Code: #{current_build_code}"
+    UI.success "Done! New Release Version: #{current_release_version}. New Build Code: #{current_build_code}"
 
     Fastlane::Helper::Ios::GitHelper.commit_version_bump
   end
@@ -611,7 +589,9 @@ platform :ios do
     ensure_git_branch(branch: '^release/') # Match branch names that begin with `release/`
     ensure_git_status_clean
 
-    UI.message = "Triggering hotfix build for version: #{current_release_version}"
+    UI.important("Triggering hotfix build for version: #{current_release_version}")
+    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
+
     trigger_release_build(branch_to_build: "release/#{current_release_version}")
   end
 
