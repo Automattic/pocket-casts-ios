@@ -27,39 +27,7 @@ struct TopListenedCategoriesStory: ShareableStory {
 
                 VStack(alignment: .leading, spacing: geometry.size.height * 0.03) {
                     ForEach(0...min(listenedCategories.count, 3), id: \.self) { index in
-                        HStack(spacing: 24) {
-                            Text("\(index + 1)")
-                                .font(.custom("DM Sans", size: geometry.size.height * 0.025))
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color(hex: "8F97A4"))
-                                .offset(y: -5)
-                                .frame(width: geometry.size.width * 0.03)
-
-                            VStack(alignment: .leading) {
-                                Text("\(listenedCategories[safe: index]?.categoryTitle.localized ?? "")")
-                                    .font(.custom("DM Sans", size: geometry.size.height * 0.06))
-                                    .fontWeight(.medium)
-                                    .scaledToFill()
-                                    .minimumScaleFactor(0.5)
-                                    .lineLimit(1)
-                                    .if(index == 0) { view in
-                                        view
-                                            .modifier(CategoryStoryTextGradient())
-                                    }
-                                    .if(index != 0) { view in
-                                        view
-                                            .foregroundColor(Color(hex: "686C74"))
-                                    }
-
-
-                                Text("\(listenedCategories[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")")
-                                    .font(.custom("DM Sans", size: geometry.size.height * 0.018))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(index == 0 ? Color(hex: "FBFBFC") : Color(hex: "686C74"))
-                            }
-
-                            Spacer()
-                        }
+                        category(row: index, geometry: geometry)
                     }
                 }
                 .padding([.leading, .trailing], 35)
@@ -72,6 +40,42 @@ struct TopListenedCategoriesStory: ShareableStory {
                     .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.7)
                 }
             )
+        }
+    }
+
+    func category(row index: Int, geometry: GeometryProxy) -> some View {
+        HStack(spacing: 24) {
+            Text("\(index + 1)")
+                .font(.custom("DM Sans", size: geometry.size.height * 0.025))
+                .fontWeight(.semibold)
+                .foregroundColor(Color(hex: "8F97A4"))
+                .offset(y: -5)
+                .frame(width: geometry.size.width * 0.03)
+
+            VStack(alignment: .leading) {
+                Text("\(listenedCategories[safe: index]?.categoryTitle.localized ?? "")")
+                    .font(.custom("DM Sans", size: geometry.size.height * 0.06))
+                    .fontWeight(.medium)
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(1)
+                    .if(index == 0) { view in
+                        view
+                            .modifier(CategoryStoryTextGradient())
+                    }
+                    .if(index != 0) { view in
+                        view
+                            .foregroundColor(Color(hex: "686C74"))
+                    }
+
+
+                Text("\(listenedCategories[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")")
+                    .font(.custom("DM Sans", size: geometry.size.height * 0.018))
+                    .fontWeight(.medium)
+                    .foregroundColor(index == 0 ? Color(hex: "FBFBFC") : Color(hex: "686C74"))
+            }
+
+            Spacer()
         }
     }
 
