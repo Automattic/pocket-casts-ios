@@ -19,7 +19,7 @@ struct TopListenedCategoriesStory: ShareableStory {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
                 StoryLabelContainer(geometry: geometry) {
-                    let mostListenedCategory = listenedCategories.first?.categoryTitle ?? ""
+                    let mostListenedCategory = listenedCategories.first?.categoryTitle.localized ?? ""
                     let listenedTime = listenedCategories.first?.totalPlayedTime.storyTimeDescription ?? ""
                     let listenedEpisodes = "\(listenedCategories.first?.numberOfEpisodes ?? 0)"
                     StoryLabel(L10n.eoyStoryTopCategoriesTitle(mostListenedCategory), for: .title, geometry: geometry)
@@ -39,14 +39,14 @@ struct TopListenedCategoriesStory: ShareableStory {
                                 .frame(width: geometry.size.width * 0.03)
 
                             VStack(alignment: .leading) {
-                                if index == 0 {
-                                    Text("\(listenedCategories[safe: index]?.categoryTitle ?? "")")
-                                        .font(.custom("DM Sans", size: geometry.size.height * 0.06))
-                                        .fontWeight(.medium)
-                                        .scaledToFill()
-                                        .minimumScaleFactor(0.5)
-                                        .lineLimit(1)
-                                        .foregroundStyle(
+                                Text("\(listenedCategories[safe: index]?.categoryTitle.localized ?? "")")
+                                    .font(.custom("DM Sans", size: geometry.size.height * 0.06))
+                                    .fontWeight(.medium)
+                                    .scaledToFill()
+                                    .minimumScaleFactor(0.5)
+                                    .lineLimit(1)
+                                    .if(index == 0) { view in
+                                        view.foregroundStyle(
                                             LinearGradient(
                                             stops: [
                                             Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
@@ -59,25 +59,17 @@ struct TopListenedCategoriesStory: ShareableStory {
                                             endPoint: UnitPoint(x: 1.5, y: 1.19)
                                             )
                                         )
+                                    }
+                                    .if(index != 0) { view in
+                                        view
+                                            .foregroundColor(Color(hex: "686C74"))
+                                    }
 
-                                    Text("\(listenedCategories[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")")
-                                        .font(.custom("DM Sans", size: geometry.size.height * 0.018))
-                                        .fontWeight(.medium)
-                                        .foregroundColor(Color(hex: "FBFBFC"))
-                                } else {
-                                    Text("\(listenedCategories[safe: index]?.categoryTitle ?? "")")
-                                        .font(.custom("DM Sans", size: geometry.size.height * 0.06))
-                                        .fontWeight(.medium)
-                                        .scaledToFill()
-                                        .minimumScaleFactor(0.5)
-                                        .lineLimit(1)
-                                        .foregroundColor(Color(hex: "686C74"))
 
-                                    Text("\(listenedCategories[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")")
-                                        .font(.custom("DM Sans", size: geometry.size.height * 0.018))
-                                        .fontWeight(.medium)
-                                        .foregroundColor(Color(hex: "686C74"))
-                                }
+                                Text("\(listenedCategories[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")")
+                                    .font(.custom("DM Sans", size: geometry.size.height * 0.018))
+                                    .fontWeight(.medium)
+                                    .foregroundColor(index == 0 ? Color(hex: "FBFBFC") : Color(hex: "686C74"))
                             }
 
                             Spacer()
