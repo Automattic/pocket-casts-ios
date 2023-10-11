@@ -22,11 +22,13 @@ struct WhatsNewView: View {
                     .font(style: .title3, weight: .bold)
                     .foregroundStyle(theme.primaryText01)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
                 Text(announcement.message)
                     .font(style: .subheadline)
                     .foregroundStyle(theme.primaryText02)
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
+                    .fixedSize(horizontal: false, vertical: true)
                 Button(announcement.buttonTitle) {
                     track(.whatsnewConfirmButtonTapped)
 
