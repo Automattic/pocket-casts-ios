@@ -32,13 +32,16 @@ struct TopListenedCategoriesStory: ShareableStory {
                 }
                 .padding([.leading, .trailing], 35)
                 .padding(.top, headerSpacing)
-            }.background(
-                ZStack(alignment: .bottom) {
+            }
+            .background(
+                ZStack(alignment: .top) {
                     Color.black
 
                     StoryGradient()
-                    .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.7)
+                    .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.22)
+                    .clipped()
                 }
+                .ignoresSafeArea()
             )
         }
     }
