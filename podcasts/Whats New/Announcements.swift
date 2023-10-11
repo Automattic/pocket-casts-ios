@@ -71,6 +71,34 @@ struct Announcements {
 
         announcements.append(announcement)
     }
+
+    /// When bookmarks is out of early access we'll show the announcement to everyone
+    /// but don't show it to people who already saw the full announcement when it was in early access
+    /// This is a placeholder for now.
+    /**
+    mutating func addBookmarksReleaseAnnouncement() {
+        guard
+            FeatureFlag.bookmarks.enabled, !PaidFeature.bookmarks.inEarlyAccess,
+            !UserDefaults.standard.bool(forKey: "WhatsNew.Bookmarks.EarlyAccess.Seen")
+        else {
+            return
+        }
+
+        // TODO: Update with the real content
+        let announcement = WhatsNew.Announcement(
+            version: "99.99",
+            header: {
+                AnyView(AutoplayWhatsNewHeader())
+            },
+            title: "Normal Title",
+            message: "Bookmarks Message",
+            buttonTitle: "Action Button",
+            action: { }
+        )
+
+        announcements.append(announcement)
+    }
+     */
 }
 
 class AnnouncementFlow {
