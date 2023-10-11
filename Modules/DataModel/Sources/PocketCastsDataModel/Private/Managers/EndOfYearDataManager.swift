@@ -322,7 +322,7 @@ class EndOfYearDataManager {
 
 public struct ListenedCategory {
     public let numberOfPodcasts: Int
-    public let categoryTitle: String
+    public var categoryTitle: String
     public let mostListenedPodcast: Podcast
     public let totalPlayedTime: Double
     public let numberOfEpisodes: Int
@@ -333,6 +333,22 @@ public struct ListenedCategory {
         self.mostListenedPodcast = mostListenedPodcast
         self.totalPlayedTime = totalPlayedTime
         self.numberOfEpisodes = numberOfEpisodes
+        self.categoryTitle = simplifyCategoryName(categoryTitle)
+    }
+
+    private func simplifyCategoryName(_ category: String) -> String {
+        switch category {
+        case "Health & Fitness":
+            "Health"
+        case "Kids & Family":
+            "Family"
+        case "Religion & Spirituality":
+            "Spirituality"
+        case "Society & Culture":
+            "Culture"
+        default:
+            category
+        }
     }
 }
 
