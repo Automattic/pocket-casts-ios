@@ -121,6 +121,26 @@ class WhatsNewtests: XCTestCase {
 
         XCTAssertNil(whatsNew.viewControllerToShow())
     }
+
+    // If there are multiple announcements in the list, we should only show the last one
+    func testShowOnlyTheLastAnnouncement() {
+        let lastAnnouncement = announcement(version: "7.12")
+
+        let whatsNew = WhatsNew(
+            announcements: [
+                announcement(version: "7.10"),
+                announcement(version: "7.11"),
+                lastAnnouncement
+            ],
+            previousOpenedVersion: "7.00",
+            currentVersion: "7.40"
+        )
+
+        XCTAssertEqual(whatsNew.visibleAnnouncement?.version, lastAnnouncement.version)
+    }
+
+    private func announcement(version: String, isEnabled: Bool = true) -> WhatsNew.Announcement {
+        return .init(version: version, header: { AnyView(EmptyView()) }, title: "", message: "", buttonTitle: "", action: {}, isEnabled: isEnabled)
     }
 }
 
