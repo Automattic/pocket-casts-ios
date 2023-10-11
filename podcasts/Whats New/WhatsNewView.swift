@@ -11,9 +11,17 @@ struct WhatsNewView: View {
                 announcement.header()
             }
             VStack(spacing: 10) {
+                if announcement.unlockTier != .none {
+                    SubscriptionBadge(tier: announcement.unlockTier,
+                                      displayMode: .gradient,
+                                      fontSize: 16)
+                    .padding(.bottom, 5)
+                }
+
                 Text(announcement.title)
                     .font(style: .title3, weight: .bold)
                     .foregroundStyle(theme.primaryText01)
+                    .multilineTextAlignment(.center)
                 Text(announcement.message)
                     .font(style: .subheadline)
                     .foregroundStyle(theme.primaryText02)
