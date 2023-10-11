@@ -53,7 +53,7 @@ struct Announcements {
 
         // TODO: Update with the real content
         let announcement = WhatsNew.Announcement(
-            version: "7.50",
+            version: "99.99",
             header: {
                 AnyView(AutoplayWhatsNewHeader().onAppear {
                     // Record when someone sees the full announcement while in early access so we don't show it again
