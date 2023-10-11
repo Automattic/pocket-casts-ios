@@ -111,8 +111,16 @@ class WhatsNewtests: XCTestCase {
         XCTAssertNil(whatsNew.viewControllerToShow())
     }
 
-    private func announcement(version: String) -> WhatsNew.Announcement {
-        return .init(version: version, header: { AnyView(EmptyView()) }, title: "", message: "", buttonTitle: "", action: {})
+    // Don't show any announcements that are disabled even if the other conditions are true
+    func testDontShowDisabledAnnouncements() {
+        let whatsNew = WhatsNew(
+            announcements: [announcement(version: "7.40", isEnabled: false)],
+            previousOpenedVersion: "7.39",
+            currentVersion: "7.40"
+        )
+
+        XCTAssertNil(whatsNew.viewControllerToShow())
+    }
     }
 }
 
