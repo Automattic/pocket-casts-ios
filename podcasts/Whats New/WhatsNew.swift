@@ -9,6 +9,7 @@ class WhatsNew {
         let message: String
         let buttonTitle: String
         let action: () -> Void
+        var isEnabled: Bool = true
     }
 
     let announcements: [Announcement]
