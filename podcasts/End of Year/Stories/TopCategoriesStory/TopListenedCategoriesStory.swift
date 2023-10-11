@@ -21,18 +21,71 @@ struct TopListenedCategoriesStory: ShareableStory {
                 StoryLabelContainer(geometry: geometry) {
                     let mostListenedCategory = listenedCategories.first?.categoryTitle ?? ""
                     let listenedTime = listenedCategories.first?.totalPlayedTime.storyTimeDescription ?? ""
-                    let listenedEpisodes = "\(listenedCategories.first?.numberOfPodcasts ?? 0)"
+                    let listenedEpisodes = "\(listenedCategories.first?.numberOfEpisodes ?? 0)"
                     StoryLabel(L10n.eoyStoryTopCategoriesTitle(mostListenedCategory), for: .title, geometry: geometry)
                     StoryLabel(L10n.eoyStoryTopCategoriesSubtitle(listenedEpisodes, listenedTime), for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
 
                 let headerSpacing = geometry.size.height * 0.054
 
-                HStack(alignment: .bottom, spacing: 25) {
-                    ForEach([1, 0, 2], id: \.self) {
-                        pillar($0, size: geometry.size)
+                VStack(alignment: .leading, spacing: geometry.size.height * 0.03) {
+                    ForEach(0...min(listenedCategories.count, 3), id: \.self) { index in
+                        HStack(spacing: 24) {
+                            Text("\(index + 1)")
+                                .font(.custom("DM Sans", size: geometry.size.height * 0.025))
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color(hex: "8F97A4"))
+                                .offset(y: -5)
+                                .frame(width: geometry.size.width * 0.03)
+
+                            VStack(alignment: .leading) {
+                                if index == 0 {
+                                    Text("\(listenedCategories[safe: index]?.categoryTitle ?? "")")
+                                        .font(.custom("DM Sans", size: geometry.size.height * 0.06))
+                                        .fontWeight(.medium)
+                                        .scaledToFill()
+                                        .minimumScaleFactor(0.5)
+                                        .lineLimit(1)
+                                        .foregroundStyle(
+                                            LinearGradient(
+                                            stops: [
+                                            Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                                            Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                                            Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                                            Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                                            Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                                            ],
+                                            startPoint: UnitPoint(x: -0.3, y: -0.27),
+                                            endPoint: UnitPoint(x: 1.5, y: 1.19)
+                                            )
+                                        )
+
+                                    Text("\(listenedCategories[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")")
+                                        .font(.custom("DM Sans", size: geometry.size.height * 0.018))
+                                        .fontWeight(.medium)
+                                        .foregroundColor(Color(hex: "FBFBFC"))
+                                } else {
+                                    Text("\(listenedCategories[safe: index]?.categoryTitle ?? "")")
+                                        .font(.custom("DM Sans", size: geometry.size.height * 0.06))
+                                        .fontWeight(.medium)
+                                        .scaledToFill()
+                                        .minimumScaleFactor(0.5)
+                                        .lineLimit(1)
+                                        .foregroundColor(Color(hex: "686C74"))
+
+                                    Text("\(listenedCategories[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")")
+                                        .font(.custom("DM Sans", size: geometry.size.height * 0.018))
+                                        .fontWeight(.medium)
+                                        .foregroundColor(Color(hex: "686C74"))
+                                }
+                            }
+
+                            Spacer()
+                        }
                     }
-                }.padding(.top, headerSpacing)
+                }
+                .padding([.leading, .trailing], 35)
+                .padding(.top, headerSpacing)
             }.background(
                 ZStack(alignment: .bottom) {
                     Color.black
@@ -40,6 +93,7 @@ struct TopListenedCategoriesStory: ShareableStory {
                     StoryGradient()
                     .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.7)
                 }
+                    .clipped()
             )
         }
     }
@@ -84,9 +138,10 @@ struct TopListenedCategoriesStory: ShareableStory {
 struct TopListenedCategories_Previews: PreviewProvider {
     static var previews: some View {
         TopListenedCategoriesStory(listenedCategories: [
-            ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Test category big title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300),
-            ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Small title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300),
-            ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Category", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300)
+            ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Test category big title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300, numberOfEpisodes: 1),
+            ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Small title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300, numberOfEpisodes: 2),
+            ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Tech", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300, numberOfEpisodes: 3),
+            ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Art", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 80000, numberOfEpisodes: 4)
         ])
     }
 }
