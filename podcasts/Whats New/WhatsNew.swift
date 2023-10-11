@@ -39,6 +39,26 @@ class WhatsNew {
 
         return whatsNewViewController
     }
+
+    /// Returns the announcement to be displayed if one is available
+    var visibleAnnouncement: Announcement? {
+        // Don't show any announcements if this is the first run of the app,
+        // or if we've already checked the what's new for this version
+        guard let previousOpenedVersion, previousOpenedVersion != currentVersion else {
+            return nil
+        }
+
+        // Find the last announcement that:
+        // - is enabled
+        // - has not been shown already
+        // - the target version is not before the last opened version, and not for a future version
+        return announcements
+            .last(where: {
+                $0.isEnabled &&
+                $0.version != lastWhatsNewShown &&
+                $0.version.inRange(of: previousOpenedVersion, upper: currentVersion)
+            })
+    }
 }
 
 private extension String {
