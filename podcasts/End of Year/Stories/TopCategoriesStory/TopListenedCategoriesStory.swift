@@ -46,19 +46,8 @@ struct TopListenedCategoriesStory: ShareableStory {
                                     .minimumScaleFactor(0.5)
                                     .lineLimit(1)
                                     .if(index == 0) { view in
-                                        view.foregroundStyle(
-                                            LinearGradient(
-                                            stops: [
-                                            Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
-                                            Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
-                                            Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
-                                            Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
-                                            Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
-                                            ],
-                                            startPoint: UnitPoint(x: -0.3, y: -0.27),
-                                            endPoint: UnitPoint(x: 1.5, y: 1.19)
-                                            )
-                                        )
+                                        view
+                                            .modifier(CategoryStoryTextGradient())
                                     }
                                     .if(index != 0) { view in
                                         view
@@ -125,6 +114,26 @@ struct TopListenedCategoriesStory: ShareableStory {
         ]
     }
 }
+
+struct CategoryStoryTextGradient: ViewModifier {
+    public func body(content: Content) -> some View {
+        content
+            .foregroundStyle(
+                LinearGradient(
+                    stops: [
+                        Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                        Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                        Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                        Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                        Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                    ],
+                    startPoint: UnitPoint(x: -0.3, y: -0.27),
+                    endPoint: UnitPoint(x: 1.5, y: 1.19)
+                )
+        )
+    }
+}
+
 
 #if DEBUG
 struct TopListenedCategories_Previews: PreviewProvider {
