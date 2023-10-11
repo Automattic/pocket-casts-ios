@@ -48,14 +48,15 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
         endOfYearManager.listenedCategoriesToReturn = [
-            ListenedCategory(numberOfPodcasts: 1, categoryTitle: "title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 500)
+            ListenedCategory(numberOfPodcasts: 1, categoryTitle: "title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 500, numberOfEpisodes: 5)
         ]
         let stories = await builder.build()
 
         XCTAssertEqual(stories.0.first, EndOfYearStory.listenedCategories)
         XCTAssertEqual(stories.0[1], EndOfYearStory.topCategories)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
-        XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
+        XCTAssertEqual(stories.1.listenedCategories.first?.totalPlayedTime, 500)
+        XCTAssertEqual(stories.1.listenedCategories.first?.numberOfEpisodes, 5)
     }
 
     func testDontReturnListenedCategoriesIfEmpty() async {
