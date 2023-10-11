@@ -55,4 +55,9 @@ private extension String {
 
         return "\(major).\(minor)"
     }
+
+    /// Returns whether the version is above the `lower` and equal to or below the `upper` bounds
+    func inRange(of lower: String, upper: String) -> Bool {
+        self > lower && self <= upper
+    }
 }
