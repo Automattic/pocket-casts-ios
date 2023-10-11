@@ -71,7 +71,6 @@ struct TopListenedCategoriesStory: ShareableStory {
                     StoryGradient()
                     .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.7)
                 }
-                    .clipped()
             )
         }
     }
