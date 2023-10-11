@@ -22,7 +22,7 @@ struct TopFivePodcastsStory: ShareableStory {
 
                 VStack(spacing: geometry.size.height * 0.03) {
                     ForEach(0...4, id: \.self) {
-                        topPodcastRow($0, size: size)
+                        topPodcastRow($0, size: size, geometry: geometry)
                     }
                 }
                 .padding([.leading, .trailing], 35)
@@ -39,10 +39,10 @@ struct TopFivePodcastsStory: ShareableStory {
     }
 
     @ViewBuilder
-    func topPodcastRow(_ index: Int, size: Double) -> some View {
+    func topPodcastRow(_ index: Int, size: Double, geometry: GeometryProxy) -> some View {
         HStack(spacing: 16) {
             Text("\(index + 1)")
-                .font(.custom("DM Sans", size: 18))
+                .font(.custom("DM Sans", size: geometry.size.height * 0.025))
                 .fontWeight(.semibold)
                 .foregroundColor(Color(hex: "8F97A4"))
                 .frame(width: size * 0.2)
@@ -57,12 +57,12 @@ struct TopFivePodcastsStory: ShareableStory {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(topPodcasts[safe: index]?.podcast.title ?? "")
-                    .font(.custom("DM Sans", size: 18))
+                    .font(.custom("DM Sans", size: geometry.size.height * 0.024))
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
 
                 Text(topPodcasts[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")
-                    .font(.custom("DM Sans", size: 14))
+                    .font(.custom("DM Sans", size: geometry.size.height * 0.018))
                     .fontWeight(.semibold)
                     .foregroundColor(Color(hex: "8F97A4"))
                     .lineLimit(2)
