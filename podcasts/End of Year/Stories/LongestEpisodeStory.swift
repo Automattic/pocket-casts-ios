@@ -53,7 +53,7 @@ struct LongestEpisodeStory: ShareableStory {
                     PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
                         .frame(width: geometry.size.width * 0.75, height: geometry.size.width * 0.75)
                 }
-                .offset(x: geometry.size.width * 0.04, y: geometry.size.height * 0.05)
+                .offset(x: geometry.size.width * 0.04, y: geometry.size.height * 0.04)
             }
         }.background(.black)
     }
