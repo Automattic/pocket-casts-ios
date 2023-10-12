@@ -3497,6 +3497,12 @@
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
 
+/* Title of the listening time Story. */
+"eoy_story_listened_to_title" = "This was your total time listening to podcasts";
+
+/* Title of the listening time Story. */
+"eoy_story_listened_to_subtitle" = "We hope you loved every minute of it!";
+
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to_updated" = "This year, you spent %1$@ listening to podcasts";
 
