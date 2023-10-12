@@ -3567,13 +3567,13 @@
 "eoy_story_top_podcasts_list_title" = "My top podcasts of 2022";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
-"eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";
+"eoy_story_longest_episode" = "The longest episode you listened to was %1$@";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the duration of the episode. */
 "eoy_story_longest_episode_time" = "The longest episode\nyou listened to was\n%1$@";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the title of the podcast for the longest episode. */
-"eoy_story_longest_episode_subtitle" = "The episode was %1$@ from %2$@";
+"eoy_story_longest_episode_subtitle" = "It was none other than “%1$@” from “%2$@”";
 
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
