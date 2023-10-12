@@ -30,23 +30,23 @@ struct LongestEpisodeStory: ShareableStory {
                 }
 
                 ZStack {
-                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                    PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.5, height: geometry.size.width * 0.5)
                         .offset(x: -geometry.size.width * 0.4, y: geometry.size.width * 0.4)
 
-                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                    PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.55, height: geometry.size.width * 0.55)
                         .offset(x: -geometry.size.width * 0.32, y: geometry.size.width * 0.32)
 
-                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                    PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.6)
                         .offset(x: -geometry.size.width * 0.24, y: geometry.size.width * 0.24)
 
-                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                    PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.65, height: geometry.size.width * 0.65)
                         .offset(x: -geometry.size.width * 0.16, y: geometry.size.width * 0.16)
 
-                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                    PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7)
                         .offset(x: -geometry.size.width * 0.08, y: geometry.size.width * 0.08)
 
