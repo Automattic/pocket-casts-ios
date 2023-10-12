@@ -22,24 +22,40 @@ struct LongestEpisodeStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
-                PodcastStackView(podcasts: [podcast], geometry: geometry)
-
                 StoryLabelContainer(geometry: geometry) {
-                    if NSLocale.isCurrentLanguageEnglish {
-                        let time = episode.duration.storyTimeDescription
-                        let podcastTitle = podcast.title?.limited(to: 30).nonBreakingSpaces() ?? ""
-                        let episodeTitle = episode.title?.limited(to: 30).nonBreakingSpaces().nonBreakingSpaces() ?? ""
-                        StoryLabel(L10n.eoyStoryLongestEpisodeTime(time), highlighting: [time], for: .title)
-                        StoryLabel(L10n.eoyStoryLongestEpisodeSubtitle(episodeTitle, podcastTitle), highlighting: [episodeTitle, podcastTitle], for: .subtitle)
-                            .opacity(0.8)
-                    } else {
-                        StoryLabel(L10n.eoyStoryLongestEpisode(episode.title ?? "", podcast.title ?? ""), for: .title)
-                        StoryLabel(L10n.eoyStoryLongestEpisodeDuration(episode.duration.localizedTimeDescription ?? ""), for: .subtitle)
-                            .opacity(0.8)
-                    }
+                    let podcastTitle = podcast.title ?? ""
+                    let episodeTitle = episode.title ?? ""
+                    StoryLabel(L10n.eoyStoryLongestEpisode(episode.duration.localizedTimeDescription ?? ""), for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyStoryLongestEpisodeSubtitle(episodeTitle, podcastTitle), for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
+
+                ZStack {
+                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                        .frame(width: geometry.size.width * 0.5, height: geometry.size.width * 0.5)
+                        .offset(x: -geometry.size.width * 0.4, y: geometry.size.width * 0.4)
+
+                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                        .frame(width: geometry.size.width * 0.55, height: geometry.size.width * 0.55)
+                        .offset(x: -geometry.size.width * 0.32, y: geometry.size.width * 0.32)
+
+                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                        .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.6)
+                        .offset(x: -geometry.size.width * 0.24, y: geometry.size.width * 0.24)
+
+                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                        .frame(width: geometry.size.width * 0.65, height: geometry.size.width * 0.65)
+                        .offset(x: -geometry.size.width * 0.16, y: geometry.size.width * 0.16)
+
+                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                        .frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7)
+                        .offset(x: -geometry.size.width * 0.08, y: geometry.size.width * 0.08)
+
+                    PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
+                        .frame(width: geometry.size.width * 0.75, height: geometry.size.width * 0.75)
+                }
+                .offset(x: geometry.size.width * 0.04, y: geometry.size.height * 0.05)
             }
-        }.background(DynamicBackgroundView(podcast: podcast))
+        }.background(.black)
     }
 
     func onAppear() {
