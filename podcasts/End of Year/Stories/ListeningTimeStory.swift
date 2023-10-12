@@ -29,13 +29,10 @@ struct ListeningTimeStory: ShareableStory {
                     StoryLabel(L10n.eoyStoryListenedToSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
 
-                // Podcast images angled to fill the width of the view
-                let size = 0.30 * geometry.size.height
-
                 ContentSizeGeometryReader { listeningTimeReader in
                     Text(listeningTime.firstNumber)
                         .font(.custom("DM Sans", size: geometry.size.height * 0.4))
-                        .fontWeight(.light)
+                        .fontWeight(.regular)
                         .frame(width: geometry.size.width - 70)
                         .scaledToFill()
                         .minimumScaleFactor(0.5)
@@ -48,40 +45,10 @@ struct ListeningTimeStory: ShareableStory {
                 StoryLabel(listeningTime.subtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                     .padding(.bottom, geometry.size.height * 0.025)
 
-
-//                VStack(alignment: .leading) {
-//                    ForEach(0..<numberOfLines, id: \.self) { _ in
-//                        LinearGradient(
-//                                                    stops: [
-//                                                    Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
-//                                                    Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
-//                                                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
-//                                                    Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.76),
-//                                                    Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
-//                                                    ],
-//                                                    startPoint: UnitPoint(x: 0, y: 0),
-//                                                    endPoint: UnitPoint(x: 1.22, y: 1.25)
-//                                                    )
-//                        .mask(
-//                            HStack(alignment: .top) {
-//                                Group {
-//                                    Circle()
-//                                    Circle()
-//                                    Circle()
-//                                    Circle()
-//                                    Circle()
-//                                    Circle()
-//                                    Circle()
-//                                }
-//                                .frame(width: geometry.size.height * 0.055)
-//                            }
-//                        )
-//                    }
-//                }
-//                .padding([.leading, .trailing], 18)
+                Spacer()
 
                 let maxArea = CGSize(width: geometry.size.width, height: geometry.size.height * 0.3)
-                let number = Double(listeningTime.firstNumber) ?? 0
+                let number = Double(listeningTime / 86400).rounded(.up)
                 let eachBallSquareArea = Double(maxArea.width * maxArea.height) / number
                 let numberOfBallsPerLine = max(7, (maxArea.width / eachBallSquareArea.squareRoot()).rounded(.up))
                 let numberOfLines = min((number / numberOfBallsPerLine).rounded(.up), max(1, (maxArea.height / eachBallSquareArea.squareRoot()).rounded(.up)))
@@ -92,7 +59,6 @@ struct ListeningTimeStory: ShareableStory {
                 // The width of the days displayed as balls that the user didn't listened to podcasts
                 let missingDaysWidth = ((((numberOfLines * numberOfBallsPerLine) * 86400) - listeningTime) / 86400) * (ballFinalWidth + (2 * ballPadding))
                 let ballTotalArea = min(ballCalculatedWidth, ballCalculatedHeight)
-                let daysArea = CGSize(width: numberOfBallsPerLine * ballTotalArea, height: numberOfLines * ballTotalArea)
 
                 VStack(spacing: 0) {
                     ForEach(0..<Int(numberOfLines), id: \.self) { _ in
@@ -142,6 +108,11 @@ struct ListeningTimeStory: ShareableStory {
 
                 )
 
+                Spacer()
+
+                Rectangle()
+                    .frame(height: geometry.size.height * 0.1)
+                    .opacity(0)
             }
             .background(
                 ZStack(alignment: .bottom) {
@@ -194,6 +165,6 @@ private extension Double {
 
 struct ListeningTimeStory_Previews: PreviewProvider {
     static var previews: some View {
-        ListeningTimeStory(listeningTime: 22000000, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
+        ListeningTimeStory(listeningTime: 5000000, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
     }
 }
