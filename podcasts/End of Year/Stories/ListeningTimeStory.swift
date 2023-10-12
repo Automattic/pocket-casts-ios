@@ -19,9 +19,10 @@ struct ListeningTimeStory: ShareableStory {
                     StoryLabel(L10n.eoyStoryListenedToSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
 
+                let fontSize = Int(listeningTime.firstNumber) ?? 0 <= 21 ? 0.4 : 0.3
                 ContentSizeGeometryReader { listeningTimeReader in
                     Text(listeningTime.firstNumber)
-                        .font(.custom("DM Sans", size: geometry.size.height * 0.4))
+                        .font(.custom("DM Sans", size: geometry.size.height * fontSize))
                         .fontWeight(.regular)
                         .frame(width: geometry.size.width - 70)
                         .scaledToFill()
