@@ -134,15 +134,15 @@ private struct GradientHolographicEffect<Content>: View where Content: View {
     private var gradientView: some View {
         GeometryReader { proxy in
             LinearGradient(
-            stops: [
-            Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
-            Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
-            Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
-            Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
-            Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
-            ],
-            startPoint: UnitPoint(x: 0, y: -0.12),
-            endPoint: UnitPoint(x: 1, y: 1.39)
+                stops: [
+                    Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                    Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                    Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                    Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                ],
+                startPoint: UnitPoint(x: 0, y: -0.12),
+                endPoint: UnitPoint(x: 1, y: 1.39)
             )
             .scaleEffect(.init(width: 1.1, height: 1.1))
             .rotationEffect(Angle(degrees: (motion.roll / .pi) * 360))
