@@ -24,7 +24,7 @@ struct EpilogueStory: StoryView {
 
                 StoryLabelContainer(topPadding: 0, geometry: geometry) {
                     if visibility.isVisible {
-                        HolographicEffect(parentSize: geometry.size) {
+                        GradientHolographicEffect(parentSize: geometry.size) {
                             Image("heart")
                                 .renderingMode(.template)
                         }
@@ -102,6 +102,52 @@ struct EpilogueStory: StoryView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             try? player.start(atTime: 0)
         }
+    }
+}
+
+private struct GradientHolographicEffect<Content>: View where Content: View {
+    @StateObject var motion = MotionManager(options: .attitude)
+
+    var parentSize: CGSize = UIScreen.main.bounds.size
+    var mode: Mode = .background
+    let content: () -> Content
+
+    private let multiplier = 0.1
+
+    var body: some View {
+        content()
+            .foregroundColor(mode == .background ? .clear : nil)
+            .overlay(mode == .overlay ? gradientView.blendMode(.overlay) : nil)
+            .background(mode == .background ? gradientView : nil)
+            .onAppear() {
+                motion.start()
+            }.onDisappear() {
+                motion.stop()
+            }
+    }
+
+    @ViewBuilder
+    private var gradientView: some View {
+        GeometryReader { proxy in
+            LinearGradient(
+            stops: [
+            Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+            Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+            Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+            Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+            Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+            ],
+            startPoint: UnitPoint(x: 0, y: -0.12),
+            endPoint: UnitPoint(x: 1, y: 1.39)
+            )
+            .scaleEffect(.init(width: 1.1, height: 1.1))
+            .rotationEffect(Angle(degrees: (motion.roll / .pi) * 360))
+            .mask(content())
+        }.allowsHitTesting(false)
+    }
+
+    enum Mode {
+        case overlay, background
     }
 }
 
