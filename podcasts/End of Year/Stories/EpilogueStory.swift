@@ -39,9 +39,8 @@ struct EpilogueStory: StoryView {
 
                     let pocketCasts = "Pocket Casts".nonBreakingSpaces()
 
-                    StoryLabel(L10n.eoyStoryEpilogueTitle, highlighting: [pocketCasts], for: .title)
-                    StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle)
-                        .opacity(0.8)
+                    StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }.allowsHitTesting(false)
 
                 Button(L10n.eoyStoryReplay) {
