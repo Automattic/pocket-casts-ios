@@ -52,7 +52,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         ]
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0[1], EndOfYearStory.topCategories)
+        XCTAssertEqual(stories.0.first, EndOfYearStory.topCategories)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
         XCTAssertEqual(stories.1.listenedCategories.first?.totalPlayedTime, 500)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfEpisodes, 5)
