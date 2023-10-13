@@ -37,8 +37,6 @@ struct EpilogueStory: StoryView {
                         Image("heart")
                     }
 
-                    let pocketCasts = "Pocket Casts".nonBreakingSpaces()
-
                     StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title, geometry: geometry)
                     StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }.allowsHitTesting(false)
@@ -53,7 +51,28 @@ struct EpilogueStory: StoryView {
 
                 Spacer()
             }
-        }.background(Constants.backgroundColor.allowsHitTesting(false).onAppear(perform: prepareHaptics))
+            .background(
+                ZStack(alignment: .top) {
+                    Color.black
+
+                    background
+                    .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.22)
+                    .clipped()
+                }
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+                .onAppear(perform: prepareHaptics)
+            )
+        }
+    }
+
+    @ViewBuilder
+    var background: some View {
+        if isPlus {
+            PlusStoryGradient()
+        } else {
+            StoryGradient()
+        }
     }
 
     func onAppear() {
