@@ -98,7 +98,6 @@ struct CircleDays: View {
 
         // The width of the days displayed as balls that the user didn't listened to podcasts
         let missingDaysWidth = ((((numberOfLines * numberOfBallsPerLine) * 86400) - listeningTime) / 86400) * (ballFinalWidth + (2 * ballPadding))
-        let ballTotalArea = min(ballCalculatedWidth, ballCalculatedHeight)
 
         // The content is repeated on the background so the gradient
         // can have the exact same size as the circles.
