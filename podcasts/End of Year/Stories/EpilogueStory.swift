@@ -18,7 +18,7 @@ struct EpilogueStory: StoryView {
     var body: some View {
         GeometryReader { geometry in
             if visibility.isVisible {
-                WelcomeConfetti(type: isPlus ? .plus : .normal)
+                WelcomeConfetti(type: .normal)
                     .onAppear(perform: playHaptics)
                     .allowsHitTesting(false)
                     .accessibilityHidden(true)
