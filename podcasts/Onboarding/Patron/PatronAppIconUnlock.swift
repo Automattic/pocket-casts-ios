@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 import CoreHaptics
 
 struct PatronAppIconUnlock: View {
@@ -25,6 +26,10 @@ struct PatronAppIconUnlock: View {
     @Namespace var namespace
     @State private var selectedIconIndex: Int? = nil
 
+    var isPlus: Bool {
+        SubscriptionHelper.hasActiveSubscription()
+    }
+
     private var isSmallScreen: Bool {
         UIScreen.main.bounds.height <= 667
     }
@@ -33,7 +38,7 @@ struct PatronAppIconUnlock: View {
         GeometryReader { proxy in
             ZStack {
                 if !isUnlocked {
-                    WelcomeConfetti(type: .normal)
+                    WelcomeConfetti(type: isPlus ? .plus : .normal)
                         .onAppear { haptics.confetti() }
                         .allowsHitTesting(false)
                         .accessibilityHidden(true)
