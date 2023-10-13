@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 import CoreHaptics
 
 struct EpilogueStory: StoryView {
@@ -10,10 +11,14 @@ struct EpilogueStory: StoryView {
 
     var identifier: String = "epilogue"
 
+    var isPlus: Bool {
+        SubscriptionHelper.hasActiveSubscription()
+    }
+
     var body: some View {
         GeometryReader { geometry in
             if visibility.isVisible {
-                WelcomeConfetti(type: .normal)
+                WelcomeConfetti(type: isPlus ? .plus : .normal)
                     .onAppear(perform: playHaptics)
                     .allowsHitTesting(false)
                     .accessibilityHidden(true)
