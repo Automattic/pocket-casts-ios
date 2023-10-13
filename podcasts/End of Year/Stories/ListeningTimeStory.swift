@@ -19,22 +19,23 @@ struct ListeningTimeStory: ShareableStory {
                     StoryLabel(L10n.eoyStoryListenedToSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
 
-                let fontSize = Int(listeningTime.firstNumber) ?? 0 <= 21 ? 0.4 : 0.3
-                ContentSizeGeometryReader { listeningTimeReader in
-                    Text(listeningTime.firstNumber)
-                        .font(.custom("DM Sans", size: geometry.size.height * fontSize))
-                        .fontWeight(.regular)
-                        .frame(width: geometry.size.width - 70)
-                        .scaledToFill()
-                        .minimumScaleFactor(0.5)
-                        .lineLimit(1)
-                        .foregroundColor(.white)
-                        .padding([.leading, .trailing], 35)
-                        .padding(.bottom, -listeningTimeReader.size.height * 0.2)
-                }
-
-                StoryLabel(listeningTime.subtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
-                    .padding(.bottom, geometry.size.height * 0.025)
+                // We treat numbers below 21 differently, as there's much more space available
+                let maxHeight = Int(listeningTime.firstNumber) ?? 0 <= 21 ? 0.5 : 0.35
+                let subtitleTopPadding = (Int(listeningTime.firstNumber) ?? 0 <= 21 ? 0.35 : 0.25)
+                Text(listeningTime.firstNumber)
+                    .font(.custom("DM Sans", size: geometry.size.height * 0.4))
+                    .fontWeight(.regular)
+                    .frame(width: geometry.size.width - 70)
+                    .frame(maxHeight: geometry.size.height * maxHeight)
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(1)
+                    .foregroundColor(.white)
+                    .padding([.leading, .trailing], 35)
+                    .overlay {
+                        StoryLabel(listeningTime.subtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                            .padding(.top, geometry.size.height * subtitleTopPadding)
+                    }
 
                 Spacer()
 
@@ -163,6 +164,6 @@ private extension Double {
 
 struct ListeningTimeStory_Previews: PreviewProvider {
     static var previews: some View {
-        ListeningTimeStory(listeningTime: 8600000, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
+        ListeningTimeStory(listeningTime: 109000, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
     }
 }
