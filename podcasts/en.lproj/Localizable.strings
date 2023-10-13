@@ -3588,7 +3588,7 @@
 "eoy_story_epilogue_subtitle" = "Don't forget to share with your friends and give a shout out to your favorite podcast creators";
 
 /* Label for the replay button, which when tapped started the end of year stories from the first one. */
-"eoy_story_replay" = "Replay";
+"eoy_story_replay" = "Play again";
 
 /* Title of the top categories story. */
 "eoy_story_top_categories" = "Your Top Categories";

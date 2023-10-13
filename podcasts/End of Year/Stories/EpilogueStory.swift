@@ -158,15 +158,17 @@ private struct GradientHolographicEffect<Content>: View where Content: View {
 struct ReplayButtonStyle: ButtonStyle {
     let color: Color
     func makeBody(configuration: Self.Configuration) -> some View {
-        HStack {
+        HStack() {
             Image("eoy-replay-icon")
+                .resizable()
+                .frame(width: 24, height: 24)
             configuration.label
         }
-        .font(.system(size: 15, weight: .bold))
+        .font(.custom("DM Sans", size: 14).weight(.semibold))
         .foregroundColor(color)
-        .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 15))
+        .padding(EdgeInsets(top: 16, leading: 78, bottom: 16, trailing: 78))
         .background(
-            Capsule().fill(.white)
+            RoundedRectangle(cornerRadius: 4 ).fill(.white)
         )
         .contentShape(Rectangle())
         .applyButtonEffect(isPressed: configuration.isPressed)
