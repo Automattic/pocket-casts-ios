@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsServer
 import SwiftUI
 
 class WhatsNew {
@@ -9,7 +10,7 @@ class WhatsNew {
         let message: String
         let buttonTitle: String
         let action: () -> Void
-        let unlockTier: SubscriptionTier
+        let displayTier: SubscriptionTier
         let isEnabled: () -> Bool
 
         init(version: String,
@@ -17,7 +18,7 @@ class WhatsNew {
              title: String, message: String,
              buttonTitle: String,
              action: @escaping () -> Void,
-             unlockTier: SubscriptionTier = .none,
+             displayTier: SubscriptionTier = .none,
              isEnabled: @autoclosure @escaping () -> Bool) {
             self.version = version
             self.header = header

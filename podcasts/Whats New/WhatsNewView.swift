@@ -11,8 +11,8 @@ struct WhatsNewView: View {
                 announcement.header()
             }
             VStack(spacing: 10) {
-                if announcement.unlockTier != .none {
-                    SubscriptionBadge(tier: announcement.unlockTier,
+                if announcement.displayTier != .none {
+                    SubscriptionBadge(tier: announcement.displayTier,
                                       displayMode: .gradient,
                                       fontSize: 16)
                     .padding(.bottom, 5)
