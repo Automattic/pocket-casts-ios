@@ -13,6 +13,7 @@ enum EndOfYearStory: CaseIterable {
     case topCategories
     case listeningTime
     case longestEpisode
+    case yearOverYearListeningTime
     case epilogue
 }
 
@@ -100,7 +101,7 @@ class EndOfYearStoriesBuilder {
             if yearOverYearListeningTime.totalPlayedTimeThisYear != 0 ||
                 yearOverYearListeningTime.totalPlayedTimeLastYear != 0 {
                 data.yearOverYearListeningTime = yearOverYearListeningTime
-//                stories.append(.longestEpisode)
+                stories.append(.yearOverYearListeningTime)
             }
 
             continuation.resume(returning: (stories, data))

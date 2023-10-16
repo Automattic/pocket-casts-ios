@@ -26,6 +26,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             return TopFivePodcastsStory(topPodcasts: data.topPodcasts)
         case .longestEpisode:
             return LongestEpisodeStory(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
+        case .yearOverYearListeningTime:
+            return YearOverYearStory(yearOverYearListeningTime: data.yearOverYearListeningTime)
         case .epilogue:
             return EpilogueStory()
         }
