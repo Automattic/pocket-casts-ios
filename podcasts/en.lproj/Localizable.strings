@@ -3611,6 +3611,24 @@
 /* Label of a button to share the current story (similar to Instagram stories) */
 "eoy_share" = "Share this story";
 
+/* Title of the story when this year's listening time is bigger than previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_went_up" = "Compared to 2022, your listening time went up a whopping %1$@%";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is bigger than last's year */
+"eoy_year_over_year_subtitle_went_up" = "Ready to top it in 2024?";
+
+/* Title of the story when this year's listening time is almost the same as the previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_flat" = "Compared to 2022, your listening time went up a whopping %1$@%";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is almost the same as last's year */
+"eoy_year_over_year_subtitle_flat" = "And they say consistency is the key to success... or something like that!";
+
+/* Title of the story when this year's listening time is less than the previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_went_down" = "Compared to 2022, your listening time went down a little";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is less than last's year */
+"eoy_year_over_year_subtitle_went_down" = "Aaaah... there’s a life to be lived, right?";
+
 /* Title of the view displayed after a user successfully upgrades to plus */
 "welcome_plus_title" = "Thank you, now let's get you listening!";
 
