@@ -34,8 +34,8 @@ struct EndOfYearCard: View {
                         Image("23_small")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 200 * imageScale,
-                                   height: 200 * imageScale)
+                            .frame(width: Constants.eoyImageSize.width * imageScale,
+                                   height: Constants.eoyImageSize.height * imageScale)
                             .padding(.trailing, Constants.eoyImageTrailingPadding)
                             .offset(x: 40)
                     }
@@ -50,7 +50,7 @@ struct EndOfYearCard: View {
     private struct Constants {
         static let textSpace: CGFloat = 8
 
-        static let eoyImageSize: CGSize = .init(width: 150, height: 150)
+        static let eoyImageSize: CGSize = .init(width: 180, height: 180)
         static let eoyImageTrailingPadding: CGFloat = 20
 
         static let lightThemeBackgroundColor: Color = UIColor(hex: "#1A1A1A").color

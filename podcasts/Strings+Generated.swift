@@ -704,7 +704,7 @@ internal enum L10n {
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
   /// Enable it now
   internal static var enableItNow: String { return L10n.tr("Localizable", "enable_it_now") }
-  /// See your top podcasts, categories, listening stats and more.
+  /// See your listening stats, top podcasts, and more.
   internal static var eoyCardDescription: String { return L10n.tr("Localizable", "eoy_card_description") }
   /// Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.
   internal static var eoyCreateAccountToSee: String { return L10n.tr("Localizable", "eoy_create_account_to_see") }
