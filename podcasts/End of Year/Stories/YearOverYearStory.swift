@@ -9,6 +9,8 @@ struct YearOverYearStory: ShareableStory {
 
     let listeningPercentage = 7.5
 
+    let subscriptionTier: SubscriptionTier = .plus
+
     var title: String {
         switch listeningPercentage {
         case _ where listeningPercentage > 10:
@@ -35,7 +37,7 @@ struct YearOverYearStory: ShareableStory {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
                 StoryLabelContainer(geometry: geometry) {
-                    SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
+                    SubscriptionBadge(tier: subscriptionTier, displayMode: .gradient, foregroundColor: .black)
                     StoryLabel(title, for: .title, geometry: geometry)
                     StoryLabel(subtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
