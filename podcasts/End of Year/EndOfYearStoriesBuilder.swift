@@ -95,6 +95,14 @@ class EndOfYearStoriesBuilder {
                 stories.append(.longestEpisode)
             }
 
+            // Year over year listening time
+            let yearOverYearListeningTime = dataManager.yearOverYearListeningTime()
+            if yearOverYearListeningTime.totalPlayedTimeThisYear != 0 ||
+                yearOverYearListeningTime.totalPlayedTimeLastYear != 0 {
+                data.yearOverYearListeningTime = yearOverYearListeningTime
+//                stories.append(.longestEpisode)
+            }
+
             continuation.resume(returning: (stories, data))
         }
     }
@@ -115,4 +123,6 @@ class EndOfYearStoriesData {
     var longestEpisodePodcast: Podcast!
 
     var top10Podcasts: [Podcast] = []
+
+    var yearOverYearListeningTime: YearOverYearListeningTime!
 }

@@ -190,6 +190,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let stories = await builder.build()
 
         XCTAssertEqual(endOfYearManager.yearOverYearToReturn?.percentage, 53.0)
+        XCTAssertNotNil(stories.1.yearOverYearListeningTime)
     }
 
     func testSyncWhenNeeded() async {
