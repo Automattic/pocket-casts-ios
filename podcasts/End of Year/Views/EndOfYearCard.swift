@@ -22,12 +22,24 @@ struct EndOfYearCard: View {
                 }
                 .padding()
                 Spacer()
-                Image("2022_small")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: Constants.eoyImageSize.width * imageScale,
-                           height: Constants.eoyImageSize.height * imageScale)
-                    .padding(.trailing, Constants.eoyImageTrailingPadding)
+                Rectangle()
+                    .frame(width: 150, height: 1)
+                    .opacity(0)
+            }
+            .background {
+                ZStack(alignment: .trailing) {
+                    HStack {
+                        Spacer()
+
+                        Image("23_small")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 200 * imageScale,
+                                   height: 200 * imageScale)
+                            .padding(.trailing, Constants.eoyImageTrailingPadding)
+                            .offset(x: 40)
+                    }
+                }
             }
             .background(theme.activeTheme.isDark ? Constants.darkThemeBackgroundColor : Constants.lightThemeBackgroundColor)
             .cornerRadius(Constants.cornerRadius)
