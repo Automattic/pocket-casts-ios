@@ -44,7 +44,7 @@ struct YearOverYearStory: ShareableStory {
                 Spacer()
 
                 ZStack(alignment: .bottom) {
-                    HStack(spacing: 0) {
+                    HStack(alignment: .bottom, spacing: 0) {
                         ZStack(alignment: .top) {
                             Rectangle()
                                 .foregroundColor(.clear)
