@@ -448,7 +448,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
-        Settings.showBadgeFor2022EndOfYear = false
+        Settings.showBadgeForEndOfYear = false
     }
 
     func observersForEndOfYearStats() {
@@ -509,7 +509,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
+        if EndOfYear.isEligible && Settings.showBadgeForEndOfYear {
             profileTabBarItem.badgeValue = "●"
         }
     }
