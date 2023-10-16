@@ -3618,7 +3618,7 @@
 "eoy_year_over_year_subtitle_went_up" = "Ready to top it in 2024?";
 
 /* Title of the story when this year's listening time is almost the same as the previous year. %1$@ is the percentage */
-"eoy_year_over_year_title_flat" = "Compared to 2022, your listening time went up a whopping %1$@%";
+"eoy_year_over_year_title_flat" = "Compared to 2022, your listening time stayed pretty consistent";
 
 /* Subtitle of the story that compares year listening time when this year's listening time is almost the same as last's year */
 "eoy_year_over_year_subtitle_flat" = "And they say consistency is the key to success... or something like that!";

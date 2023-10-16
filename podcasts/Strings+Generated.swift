@@ -855,10 +855,8 @@ internal enum L10n {
   internal static var eoyYearOverYearSubtitleWentDown: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_went_down") }
   /// Ready to top it in 2024?
   internal static var eoyYearOverYearSubtitleWentUp: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_went_up") }
-  /// Compared to 2022, your listening time went up a whopping %1$@%
-  internal static func eoyYearOverYearTitleFlat(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "eoy_year_over_year_title_flat", String(describing: p1))
-  }
+  /// Compared to 2022, your listening time stayed pretty consistent
+  internal static var eoyYearOverYearTitleFlat: String { return L10n.tr("Localizable", "eoy_year_over_year_title_flat") }
   /// Compared to 2022, your listening time went down a little
   internal static var eoyYearOverYearTitleWentDown: String { return L10n.tr("Localizable", "eoy_year_over_year_title_went_down") }
   /// Compared to 2022, your listening time went up a whopping %1$@%
