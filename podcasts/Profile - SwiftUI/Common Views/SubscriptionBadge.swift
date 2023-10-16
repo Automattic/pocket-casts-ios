@@ -10,6 +10,7 @@ import PocketCastsServer
 struct SubscriptionBadge: View {
     let tier: SubscriptionTier
     var displayMode: DisplayMode = .black
+    var foregroundColor: Color? = nil
 
     /// The base of the font the label should use
     var fontSize: Double = 14
@@ -35,11 +36,11 @@ struct SubscriptionBadge: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 12, height: 12)
-                .foregroundColor(model.iconColor)
+                .foregroundColor(foregroundColor ?? model.iconColor)
 
             Text(model.label)
                 .font(size: fontSize, style: .subheadline, weight: .semibold)
-                .foregroundColor(.white)
+                .foregroundColor(foregroundColor ?? .white)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
