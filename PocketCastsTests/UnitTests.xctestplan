@@ -13,7 +13,15 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false,
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:podcasts.xcodeproj",
+          "identifier" : "BDBD53EB17019B2A0048C8C5",
+          "name" : "podcasts"
+        }
+      ]
+    },
     "environmentVariableEntries" : [
       {
         "key" : "BUILDKITE_ANALYTICS_TOKEN",
