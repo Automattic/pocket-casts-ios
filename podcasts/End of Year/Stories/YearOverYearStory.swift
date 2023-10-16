@@ -7,14 +7,15 @@ struct YearOverYearStory: ShareableStory {
 
     let identifier: String = "year_over_year"
 
-    let listeningPercentage = 7.5
+    let yearOverYearListeningTime: YearOverYearListeningTime
 
     let subscriptionTier: SubscriptionTier = .plus
 
     var title: String {
+        let listeningPercentage = yearOverYearListeningTime.percentage
         switch listeningPercentage {
         case _ where listeningPercentage > 10:
-            return L10n.eoyYearOverYearTitleWentUp("\(listeningPercentage)%")
+            return L10n.eoyYearOverYearTitleWentUp("\(listeningPercentage.clean)%")
         case _ where listeningPercentage < 0:
             return L10n.eoyYearOverYearTitleWentDown
         default:
@@ -23,6 +24,7 @@ struct YearOverYearStory: ShareableStory {
     }
 
     var subtitle: String {
+        let listeningPercentage = yearOverYearListeningTime.percentage
         switch listeningPercentage {
         case _ where listeningPercentage > 10:
             return L10n.eoyYearOverYearSubtitleWentUp
@@ -137,8 +139,14 @@ struct YearOverYearStory: ShareableStory {
     }
 }
 
+private extension Double {
+    var clean: String {
+       return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
+    }
+}
+
 struct YearOverYearStory_Previews: PreviewProvider {
     static var previews: some View {
-        YearOverYearStory()
+        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 100))
     }
 }

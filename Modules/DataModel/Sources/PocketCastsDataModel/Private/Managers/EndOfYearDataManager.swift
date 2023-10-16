@@ -362,6 +362,21 @@ public struct ListenedNumbers {
     }
 }
 
+public struct YearOverYearListeningTime {
+    public let totalPlayedTimeThisYear: Double
+    public let totalPlayedTimeLastYear: Double
+
+    public var percentage: Double {
+        let nonRoundendPercentage = ((100 * totalPlayedTimeThisYear) / totalPlayedTimeLastYear)
+        return (nonRoundendPercentage.rounded() * 100) / 100
+    }
+
+    public init(totalPlayedTimeThisYear: Double, totalPlayedTimeLastYear: Double) {
+        self.totalPlayedTimeThisYear = totalPlayedTimeThisYear
+        self.totalPlayedTimeLastYear = totalPlayedTimeLastYear
+    }
+}
+
 public struct TopPodcast {
     public let podcast: Podcast
     public let numberOfPlayedEpisodes: Int
