@@ -826,7 +826,7 @@ internal enum L10n {
   }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
-  /// View My 2022
+  /// View My 2023
   internal static var eoyViewYear: String { return L10n.tr("Localizable", "eoy_view_year") }
   /// Episode
   internal static var episode: String { return L10n.tr("Localizable", "episode") }
