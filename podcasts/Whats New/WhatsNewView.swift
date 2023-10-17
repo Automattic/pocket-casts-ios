@@ -31,20 +31,21 @@ struct WhatsNewView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Button(announcement.buttonTitle) {
                     track(.whatsnewConfirmButtonTapped)
-                    
+
                     // Trigger the action after we've dismissed the What's New
                     dismiss(completion: {
                         announcement.action()
                     })
                 }
-                    .buttonStyle(RoundedButtonStyle(theme: theme))
+                .buttonStyle(RoundedButtonStyle(theme: theme))
+
                 Button(L10n.maybeLater) {
                     dismiss()
                     track(.whatsnewDismissed)
                 }
                 .buttonStyle(SimpleTextButtonStyle(theme: theme, size: 16, textColor: .primaryInteractive01, style: .subheadline, weight: .medium))
-                    .padding(.bottom, 5)
-                    .padding(.top, -5)
+                .padding(.bottom, 5)
+                .padding(.top, -5)
             }
             .padding(.horizontal)
             .padding(.top)
