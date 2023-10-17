@@ -35,6 +35,26 @@ struct YearOverYearStory: ShareableStory {
         }
     }
 
+    var leftBarPercentageSize: Double {
+        let percentage = yearOverYearListeningTime.percentage
+        if percentage == .infinity {
+            return 0.2
+        } else if percentage > 0 {
+            return max(yearOverYearListeningTime.totalPlayedTimeLastYear / yearOverYearListeningTime.totalPlayedTimeThisYear, 0.35)
+        }
+
+        return 1
+    }
+
+    var rightBarPercentageSize: Double {
+        let percentage = yearOverYearListeningTime.percentage
+        if percentage < 0 {
+            return max(yearOverYearListeningTime.totalPlayedTimeThisYear / yearOverYearListeningTime.totalPlayedTimeLastYear, 0.35)
+        }
+
+        return 1
+    }
+
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
@@ -48,98 +68,104 @@ struct YearOverYearStory: ShareableStory {
                 Spacer()
 
                 ZStack(alignment: .bottom) {
-                    HStack(alignment: .bottom, spacing: 0) {
-                        ZStack(alignment: .top) {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .background(
-                                    VStack {
-                                        Spacer()
-                                        Rectangle()
-                                          .foregroundColor(.clear)
-                                          .frame(height: geometry.size.height * 0.35)
-                                          .background(
-                                            LinearGradient(
-                                              stops: [
-                                                Gradient.Stop(color: .black.opacity(0), location: 0.00),
-                                                Gradient.Stop(color: .black, location: 1.00),
-                                              ],
-                                              startPoint: UnitPoint(x: 0.5, y: 0.05),
-                                              endPoint: UnitPoint(x: 0.5, y: 0.89)
-                                            )
-                                          )
-                                    }
-                                )
-                                .background(
-                                    LinearGradient(
-                                    stops: [
-                                    Gradient.Stop(color: Color(red: 0.31, green: 0.31, blue: 0.31), location: 0.00),
-                                    Gradient.Stop(color: .black.opacity(0), location: 1.00),
-                                    ],
-                                    startPoint: UnitPoint(x: 0.5, y: 0),
-                                    endPoint: UnitPoint(x: 0.5, y: 1)
+
+                    GeometryReader { proxy in
+                        HStack(alignment: .bottom, spacing: 0) {
+                            ZStack(alignment: .top) {
+                                Rectangle()
+                                    .foregroundColor(.clear)
+                                    .background(
+                                        VStack {
+                                            Spacer()
+                                            Rectangle()
+                                              .foregroundColor(.clear)
+                                              .frame(height: geometry.size.height * 0.35)
+                                              .background(
+                                                LinearGradient(
+                                                  stops: [
+                                                    Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                                                    Gradient.Stop(color: .black, location: 1.00),
+                                                  ],
+                                                  startPoint: UnitPoint(x: 0.5, y: 0.05),
+                                                  endPoint: UnitPoint(x: 0.5, y: 0.89)
+                                                )
+                                              )
+                                        }
                                     )
-                                )
-
-                            VStack(alignment: .leading) {
-                                Text("2022")
-                                .font(.custom("DM Sans", size: geometry.size.height * 0.09).weight(.medium))
-                                .foregroundColor(.white)
-
-                                Text(yearOverYearListeningTime.totalPlayedTimeLastYear.storyTimeDescription)
-                                .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
-                                .foregroundColor(.white)
-                            }
-                            .opacity(0.5)
-                        }
-
-                        ZStack(alignment: .top) {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .background(
-                                    VStack {
-                                        Spacer()
-                                        Rectangle()
-                                          .foregroundColor(.clear)
-                                          .frame(height: geometry.size.height * 0.35)
-                                          .background(
-                                            LinearGradient(
-                                              stops: [
-                                                Gradient.Stop(color: .black.opacity(0), location: 0.00),
-                                                Gradient.Stop(color: .black, location: 1.00),
-                                              ],
-                                              startPoint: UnitPoint(x: 0.5, y: 0.05),
-                                              endPoint: UnitPoint(x: 0.5, y: 0.89)
-                                            )
-                                          )
-                                    }
-                                )
-                                .background(
-                                    LinearGradient(
-                                    stops: [
-                                    Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
-                                    Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
-                                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
-                                    Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
-                                    Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
-                                    ],
-                                    startPoint: UnitPoint(x: 0.8, y: 1.27),
-                                    endPoint: UnitPoint(x: 0.76, y: -0.44)
+                                    .background(
+                                        LinearGradient(
+                                        stops: [
+                                        Gradient.Stop(color: Color(red: 0.31, green: 0.31, blue: 0.31), location: 0.00),
+                                        Gradient.Stop(color: .black.opacity(0), location: 1.00),
+                                        ],
+                                        startPoint: UnitPoint(x: 0.5, y: 0),
+                                        endPoint: UnitPoint(x: 0.5, y: 1)
+                                        )
                                     )
-                                )
 
-                            VStack(alignment: .leading) {
-                                Text("2023")
-                                .font(.custom("DM Sans", size: geometry.size.height * 0.09).weight(.medium))
-                                .foregroundColor(.white)
+                                VStack(alignment: .leading) {
+                                    Text("2022")
+                                    .font(.custom("DM Sans", size: geometry.size.height * 0.09).weight(.medium))
+                                    .foregroundColor(.white)
 
-                                Text(yearOverYearListeningTime.totalPlayedTimeThisYear.storyTimeDescription)
-                                .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
-                                .foregroundColor(.white)
+                                    Text(yearOverYearListeningTime.totalPlayedTimeLastYear.storyTimeDescription)
+                                    .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
+                                    .foregroundColor(.white)
+                                }
+                                .opacity(0.5)
                             }
-                        }
+                            .frame(height: leftBarPercentageSize * proxy.size.height)
 
+                            ZStack(alignment: .top) {
+                                Rectangle()
+                                    .foregroundColor(.clear)
+                                    .background(
+                                        VStack {
+                                            Spacer()
+                                            Rectangle()
+                                              .foregroundColor(.clear)
+                                              .frame(height: geometry.size.height * 0.35)
+                                              .background(
+                                                LinearGradient(
+                                                  stops: [
+                                                    Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                                                    Gradient.Stop(color: .black, location: 1.00),
+                                                  ],
+                                                  startPoint: UnitPoint(x: 0.5, y: 0.05),
+                                                  endPoint: UnitPoint(x: 0.5, y: 0.89)
+                                                )
+                                              )
+                                        }
+                                    )
+                                    .background(
+                                        LinearGradient(
+                                        stops: [
+                                        Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                                        Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                                        Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                                        Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                                        Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                                        ],
+                                        startPoint: UnitPoint(x: 0.8, y: 1.27),
+                                        endPoint: UnitPoint(x: 0.76, y: -0.44)
+                                        )
+                                    )
+
+                                VStack(alignment: .leading) {
+                                    Text("2023")
+                                    .font(.custom("DM Sans", size: geometry.size.height * 0.09).weight(.medium))
+                                    .foregroundColor(.white)
+
+                                    Text(yearOverYearListeningTime.totalPlayedTimeThisYear.storyTimeDescription)
+                                    .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
+                                    .foregroundColor(.white)
+                                }
+                            }
+                            .frame(height: rightBarPercentageSize * proxy.size.height)
+
+                        }
                     }
+
                 }
             }
             .background(.black)
@@ -170,6 +196,6 @@ private extension Double {
 
 struct YearOverYearStory_Previews: PreviewProvider {
     static var previews: some View {
-        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 100))
+        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 400))
     }
 }
