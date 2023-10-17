@@ -26,6 +26,7 @@ class WhatsNew {
             self.message = message
             self.buttonTitle = buttonTitle
             self.action = action
+            self.displayTier = displayTier
             self.isEnabled = isEnabled
         }
     }
