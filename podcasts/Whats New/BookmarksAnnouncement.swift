@@ -52,8 +52,7 @@ class BookmarkAnnouncementViewModel {
 
     /// Show the full release what's new to anyone who hasn't seen it in early access
     var isReleaseAnnouncementEnabled: Bool {
-        true
-//        !userDefaults.bool(forKey: Constants.seenKey)
+        !userDefaults.bool(forKey: Constants.seenKey)
     }
 
     /// Will display the subscription badge in early access and when not unlocked in full release
