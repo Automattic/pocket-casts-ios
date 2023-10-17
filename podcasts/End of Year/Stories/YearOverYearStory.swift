@@ -86,7 +86,7 @@ struct YearOverYearStory: ShareableStory {
                                 .font(.custom("DM Sans", size: geometry.size.height * 0.09).weight(.medium))
                                 .foregroundColor(.white)
 
-                                Text("10 days 2 hours")
+                                Text(yearOverYearListeningTime.totalPlayedTimeLastYear.storyTimeDescription)
                                 .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
                                 .foregroundColor(.white)
                             }
@@ -133,7 +133,7 @@ struct YearOverYearStory: ShareableStory {
                                 .font(.custom("DM Sans", size: geometry.size.height * 0.09).weight(.medium))
                                 .foregroundColor(.white)
 
-                                Text("10 days 2 hours")
+                                Text(yearOverYearListeningTime.totalPlayedTimeThisYear.storyTimeDescription)
                                 .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
                                 .foregroundColor(.white)
                             }
