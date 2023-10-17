@@ -53,6 +53,24 @@ struct YearOverYearStory: ShareableStory {
                             Rectangle()
                                 .foregroundColor(.clear)
                                 .background(
+                                    VStack {
+                                        Spacer()
+                                        Rectangle()
+                                          .foregroundColor(.clear)
+                                          .frame(height: geometry.size.height * 0.35)
+                                          .background(
+                                            LinearGradient(
+                                              stops: [
+                                                Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                                                Gradient.Stop(color: .black, location: 1.00),
+                                              ],
+                                              startPoint: UnitPoint(x: 0.5, y: 0.05),
+                                              endPoint: UnitPoint(x: 0.5, y: 0.89)
+                                            )
+                                          )
+                                    }
+                                )
+                                .background(
                                     LinearGradient(
                                     stops: [
                                     Gradient.Stop(color: Color(red: 0.31, green: 0.31, blue: 0.31), location: 0.00),
@@ -79,6 +97,24 @@ struct YearOverYearStory: ShareableStory {
                             Rectangle()
                                 .foregroundColor(.clear)
                                 .background(
+                                    VStack {
+                                        Spacer()
+                                        Rectangle()
+                                          .foregroundColor(.clear)
+                                          .frame(height: geometry.size.height * 0.35)
+                                          .background(
+                                            LinearGradient(
+                                              stops: [
+                                                Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                                                Gradient.Stop(color: .black, location: 1.00),
+                                              ],
+                                              startPoint: UnitPoint(x: 0.5, y: 0.05),
+                                              endPoint: UnitPoint(x: 0.5, y: 0.89)
+                                            )
+                                          )
+                                    }
+                                )
+                                .background(
                                     LinearGradient(
                                     stops: [
                                     Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
@@ -102,21 +138,8 @@ struct YearOverYearStory: ShareableStory {
                                 .foregroundColor(.white)
                             }
                         }
-                    }
 
-                    Rectangle()
-                      .foregroundColor(.clear)
-                      .frame(width: 393, height: geometry.size.height * 0.35)
-                      .background(
-                        LinearGradient(
-                          stops: [
-                            Gradient.Stop(color: .black.opacity(0), location: 0.00),
-                            Gradient.Stop(color: .black, location: 1.00),
-                          ],
-                          startPoint: UnitPoint(x: 0.5, y: 0.05),
-                          endPoint: UnitPoint(x: 0.5, y: 0.89)
-                        )
-                      )
+                    }
                 }
             }
             .background(.black)
