@@ -40,7 +40,7 @@ struct YearOverYearStory: ShareableStory {
         if percentage == .infinity {
             return 0.2
         } else if percentage > 0 {
-            return max(yearOverYearListeningTime.totalPlayedTimeLastYear / yearOverYearListeningTime.totalPlayedTimeThisYear, 0.35)
+            return max(yearOverYearListeningTime.totalPlayedTimeLastYear / yearOverYearListeningTime.totalPlayedTimeThisYear, 0.4)
         }
 
         return 1
@@ -49,7 +49,7 @@ struct YearOverYearStory: ShareableStory {
     var rightBarPercentageSize: Double {
         let percentage = yearOverYearListeningTime.percentage
         if percentage < 0 {
-            return max(yearOverYearListeningTime.totalPlayedTimeThisYear / yearOverYearListeningTime.totalPlayedTimeLastYear, 0.35)
+            return max(yearOverYearListeningTime.totalPlayedTimeThisYear / yearOverYearListeningTime.totalPlayedTimeLastYear, 0.4)
         }
 
         return 1
@@ -110,6 +110,7 @@ struct YearOverYearStory: ShareableStory {
 
                                     Text(yearOverYearListeningTime.totalPlayedTimeLastYear.storyTimeDescription)
                                     .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
+                                    .padding(.top, -geometry.size.height * 0.08)
                                     .foregroundColor(.white)
                                 }
                                 .opacity(0.5)
@@ -158,6 +159,7 @@ struct YearOverYearStory: ShareableStory {
 
                                     Text(yearOverYearListeningTime.totalPlayedTimeThisYear.storyTimeDescription)
                                     .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
+                                    .padding(.top, -geometry.size.height * 0.08)
                                     .foregroundColor(.white)
                                 }
                             }
