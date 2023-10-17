@@ -402,8 +402,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func dismissPresentedViewController() {
-        presentedViewController?.dismiss(animated: true)
+    func dismissPresentedViewController(completion: (() -> Void)? = nil) {
+        presentedViewController?.dismiss(animated: true, completion: completion)
     }
 
     func showOnboardingFlow(flow: OnboardingFlow.Flow?) {

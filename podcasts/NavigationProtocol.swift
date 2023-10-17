@@ -44,6 +44,6 @@ protocol NavigationProtocol: AnyObject {
     func showInSafariViewController(urlString: String)
 
     func showEndOfYearStories()
-    func dismissPresentedViewController()
+    func dismissPresentedViewController(completion: (() -> Void)?)
     func showOnboardingFlow(flow: OnboardingFlow.Flow?)
 }
