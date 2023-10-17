@@ -9,7 +9,22 @@ class WhatsNew {
         let message: String
         let buttonTitle: String
         let action: () -> Void
-        var isEnabled: Bool = true
+        let isEnabled: () -> Bool
+
+        init(version: String,
+             header: @autoclosure @escaping () -> AnyView,
+             title: String, message: String,
+             buttonTitle: String,
+             action: @escaping () -> Void,
+             isEnabled: @autoclosure @escaping () -> Bool) {
+            self.version = version
+            self.header = header
+            self.title = title
+            self.message = message
+            self.buttonTitle = buttonTitle
+            self.action = action
+            self.isEnabled = isEnabled
+        }
     }
 
     let announcements: [Announcement]
@@ -51,7 +66,7 @@ class WhatsNew {
         // - the target version is not before the last opened version, and not for a future version
         return announcements
             .last(where: {
-                $0.isEnabled &&
+                $0.isEnabled() &&
                 $0.version != lastWhatsNewShown &&
                 $0.version.inRange(of: previousOpenedVersion, upper: currentVersion)
             })
