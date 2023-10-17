@@ -140,7 +140,7 @@ class WhatsNewtests: XCTestCase {
     }
 
     private func announcement(version: String, isEnabled: Bool = true) -> WhatsNew.Announcement {
-        return .init(version: version, header: { AnyView(EmptyView()) }, title: "", message: "", buttonTitle: "", action: {}, isEnabled: isEnabled)
+        return .init(version: version, header: AnyView(EmptyView()), title: "", message: "", buttonTitle: "", action: {}, isEnabled: isEnabled)
     }
 }
 
