@@ -61,9 +61,10 @@ struct WhatsNewView: View {
     }
 
     private func dismiss(completion: (() -> Void)? = nil) {
-        NavigationManager.sharedManager.dismissPresentedViewController(completion: completion)
-
-        NotificationCenter.postOnMainThread(notification: .whatsNewDismissed)
+        NavigationManager.sharedManager.dismissPresentedViewController {
+            completion?()
+            NotificationCenter.postOnMainThread(notification: .whatsNewDismissed)
+        }
     }
 
     private func track(_ event: AnalyticsEvent) {
