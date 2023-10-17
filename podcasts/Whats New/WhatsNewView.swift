@@ -31,10 +31,11 @@ struct WhatsNewView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Button(announcement.buttonTitle) {
                     track(.whatsnewConfirmButtonTapped)
-
-                    announcement.action()
-
-                    dismiss()
+                    
+                    // Trigger the action after we've dismissed the What's New
+                    dismiss(completion: {
+                        announcement.action()
+                    })
                 }
                     .buttonStyle(RoundedButtonStyle(theme: theme))
                 Button(L10n.maybeLater) {
@@ -58,8 +59,8 @@ struct WhatsNewView: View {
         }
     }
 
-    private func dismiss() {
-        NavigationManager.sharedManager.dismissPresentedViewController()
+    private func dismiss(completion: (() -> Void)? = nil) {
+        NavigationManager.sharedManager.dismissPresentedViewController(completion: completion)
 
         NotificationCenter.postOnMainThread(notification: .whatsNewDismissed)
     }
