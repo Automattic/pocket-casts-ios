@@ -957,4 +957,8 @@ public extension DataManager {
     func yearOverYearListeningTime() -> YearOverYearListeningTime {
         endOfYearManager.yearOverYearListeningTime(dbQueue: dbQueue)
     }
+
+    func episodesStartedAndCompleted() -> EpisodesStartedAndCompleted {
+        endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
+    }
 }
