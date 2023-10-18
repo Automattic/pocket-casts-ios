@@ -442,7 +442,7 @@ public struct EpisodesStartedAndCompleted {
         Double(completed) / Double(started)
     }
 
-    init(started: Int, completed: Int) {
+    public init(started: Int, completed: Int) {
         self.started = started
         self.completed = completed
     }

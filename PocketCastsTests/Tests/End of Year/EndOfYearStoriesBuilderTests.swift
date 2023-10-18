@@ -206,6 +206,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
 
         let stories = await builder.build()
 
+        XCTAssertFalse(stories.0.contains(.completionRate))
         XCTAssertEqual(endOfYearManager.episodesStartedAndCompleted?.percentage, 0.5)
         XCTAssertNotNil(stories.1.episodesStartedAndCompleted)
     }

@@ -9,16 +9,10 @@ struct CompletionRateStory: ShareableStory {
 
     let subscriptionTier: SubscriptionTier
 
-    let startedEpisodes: Int
-
-    let listenedEpisodes: Int
-
-    var percentage: Double {
-        Double(listenedEpisodes) / Double(startedEpisodes)
-    }
+    let startedAndCompleted: EpisodesStartedAndCompleted
 
     var percentageToDisplay: String {
-        "\(Int(percentage * 100))%"
+        "\(Int(startedAndCompleted.percentage * 100))%"
     }
 
     var body: some View {
@@ -27,7 +21,7 @@ struct CompletionRateStory: ShareableStory {
                 StoryLabelContainer(geometry: geometry) {
                     SubscriptionBadge(tier: subscriptionTier, displayMode: .gradient, foregroundColor: .black)
                     StoryLabel(L10n.eoyYearCompletionRateTitle(percentageToDisplay), for: .title, geometry: geometry)
-                    StoryLabel(L10n.eoyYearCompletionRateSubtitle(startedEpisodes, listenedEpisodes), for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                    StoryLabel(L10n.eoyYearCompletionRateSubtitle(startedAndCompleted.started, startedAndCompleted.completed), for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
                 .padding(.bottom, geometry.size.height * 0.06)
 
@@ -56,7 +50,7 @@ struct CompletionRateStory: ShareableStory {
                         .mask(
                             Circle()
                                .rotation(.degrees(-90))
-                               .trim(from: 1 - percentage, to: 1.0)
+                               .trim(from: 1 - startedAndCompleted.percentage, to: 1.0)
                                .stroke(.red, style: StrokeStyle(lineWidth: geometry.size.height * 0.03))
                                .scaleEffect(.init(width: -1, height: 1))
                                .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
@@ -77,6 +71,10 @@ struct CompletionRateStory: ShareableStory {
 
                         }
                     }
+
+                    Rectangle()
+                        .opacity(0)
+                        .frame(height: geometry.size.height * 0.15)
                 }
             }
             .background(
@@ -116,16 +114,16 @@ private extension Double {
 
 struct CompletionRateStory_Previews: PreviewProvider {
     static var previews: some View {
-        CompletionRateStory(subscriptionTier: .plus, startedEpisodes: 100, listenedEpisodes: 10)
+        CompletionRateStory(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 10))
             .previewDisplayName("10%")
 
-        CompletionRateStory(subscriptionTier: .plus, startedEpisodes: 100, listenedEpisodes: 30)
+        CompletionRateStory(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 30))
             .previewDisplayName("30%")
 
-        CompletionRateStory(subscriptionTier: .plus, startedEpisodes: 100, listenedEpisodes: 70)
+        CompletionRateStory(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 70))
             .previewDisplayName("70%")
 
-        CompletionRateStory(subscriptionTier: .plus, startedEpisodes: 100, listenedEpisodes: 100)
+        CompletionRateStory(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 100))
             .previewDisplayName("100%")
     }
 }
