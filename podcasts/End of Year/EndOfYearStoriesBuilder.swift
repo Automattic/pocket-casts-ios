@@ -104,6 +104,8 @@ class EndOfYearStoriesBuilder {
                 stories.append(.yearOverYearListeningTime)
             }
 
+            data.episodesStartedAndCompleted = dataManager.episodesStartedAndCompleted()
+
             continuation.resume(returning: (stories, data))
         }
     }
@@ -126,4 +128,6 @@ class EndOfYearStoriesData {
     var top10Podcasts: [Podcast] = []
 
     var yearOverYearListeningTime: YearOverYearListeningTime!
+
+    var episodesStartedAndCompleted: EpisodesStartedAndCompleted!
 }
