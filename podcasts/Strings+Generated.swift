@@ -849,6 +849,8 @@ internal enum L10n {
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2022
   internal static var eoyViewYear: String { return L10n.tr("Localizable", "eoy_view_year") }
+  /// My 2023 listening time compared to 2022
+  internal static var eoyYearOverShareText: String { return L10n.tr("Localizable", "eoy_year_over_share_text") }
   /// And they say consistency is the key to success... or something like that!
   internal static var eoyYearOverYearSubtitleFlat: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_flat") }
   /// Aaaah... there’s a life to be lived, right?

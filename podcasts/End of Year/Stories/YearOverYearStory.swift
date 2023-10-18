@@ -189,7 +189,7 @@ struct YearOverYearStory: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText("Shareable text")
+            StoryShareableText(L10n.eoyYearOverShareText)
         ]
     }
 }

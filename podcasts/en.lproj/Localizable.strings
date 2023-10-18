@@ -3632,6 +3632,9 @@
 /* Subtitle of the story that compares year listening time when this year's listening time is less than last's year */
 "eoy_year_over_year_subtitle_went_down" = "Aaaah... there’s a life to be lived, right?";
 
+/* Text for when a user shares the story comparing the 2022 and 2023 listening time. */
+"eoy_year_over_share_text" = "My 2023 listening time compared to 2022";
+
 /* Title of the view displayed after a user successfully upgrades to plus */
 "welcome_plus_title" = "Thank you, now let's get you listening!";
 
