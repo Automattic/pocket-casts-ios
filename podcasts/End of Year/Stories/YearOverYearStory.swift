@@ -42,7 +42,7 @@ struct YearOverYearStory: ShareableStory {
         if percentage == .infinity {
             return 0.2
         } else if percentage > 0 {
-            return max(yearOverYearListeningTime.totalPlayedTimeLastYear / yearOverYearListeningTime.totalPlayedTimeThisYear, 0.4)
+            return max(yearOverYearListeningTime.totalPlayedTimeLastYear / yearOverYearListeningTime.totalPlayedTimeThisYear, minimumBarPercentage)
         }
 
         return 1
@@ -51,11 +51,13 @@ struct YearOverYearStory: ShareableStory {
     var rightBarPercentageSize: Double {
         let percentage = yearOverYearListeningTime.percentage
         if percentage < 0 {
-            return max(yearOverYearListeningTime.totalPlayedTimeThisYear / yearOverYearListeningTime.totalPlayedTimeLastYear, 0.4)
+            return max(yearOverYearListeningTime.totalPlayedTimeThisYear / yearOverYearListeningTime.totalPlayedTimeLastYear, minimumBarPercentage)
         }
 
         return 1
     }
+
+    private let minimumBarPercentage: Double = 0.4
 
     var body: some View {
         GeometryReader { geometry in
