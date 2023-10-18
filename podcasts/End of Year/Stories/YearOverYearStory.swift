@@ -14,6 +14,8 @@ struct YearOverYearStory: ShareableStory {
     var title: String {
         let listeningPercentage = yearOverYearListeningTime.percentage
         switch listeningPercentage {
+        case _ where listeningPercentage == .infinity:
+            return L10n.eoyYearOverYearTitleSkyrocketed
         case _ where listeningPercentage > 10:
             return L10n.eoyYearOverYearTitleWentUp("\(listeningPercentage.clean)%")
         case _ where listeningPercentage < 0:
@@ -199,5 +201,15 @@ private extension Double {
 struct YearOverYearStory_Previews: PreviewProvider {
     static var previews: some View {
         YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 400))
+            .previewDisplayName("Went down")
+
+        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 130))
+            .previewDisplayName("Went up")
+
+        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 130))
+            .previewDisplayName("Stayed same")
+
+        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 0))
+            .previewDisplayName("No listening time for past year")
     }
 }
