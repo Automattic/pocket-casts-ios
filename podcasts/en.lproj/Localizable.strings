@@ -3611,6 +3611,9 @@
 /* Label of a button to share the current story (similar to Instagram stories) */
 "eoy_share" = "Share this story";
 
+/* Title of the story when this year's listening time is way bigger than previous year. */
+"eoy_year_over_year_title_skyrocketed" = "Compared to 2022, your listening time skyrocketed!";
+
 /* Title of the story when this year's listening time is bigger than previous year. %1$@ is the percentage */
 "eoy_year_over_year_title_went_up" = "Compared to 2022, your listening time went up a whopping %1$@%";
 
