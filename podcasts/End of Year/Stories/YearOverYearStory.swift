@@ -9,7 +9,7 @@ struct YearOverYearStory: ShareableStory {
 
     let yearOverYearListeningTime: YearOverYearListeningTime
 
-    let subscriptionTier: SubscriptionTier = .plus
+    let subscriptionTier: SubscriptionTier = SubscriptionHelper.subscriptionTier
 
     var title: String {
         let listeningPercentage = yearOverYearListeningTime.percentage
