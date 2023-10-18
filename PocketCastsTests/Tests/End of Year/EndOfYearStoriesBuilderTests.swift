@@ -194,6 +194,21 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertNotNil(stories.1.yearOverYearListeningTime)
     }
 
+    func testReturnCompletionRate() async {
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
+
+        endOfYearManager.episodesStartedAndCompleted = EpisodesStartedAndCompleted(
+            started: 10,
+            completed: 5
+        )
+
+        let stories = await builder.build()
+
+        XCTAssertEqual(endOfYearManager.episodesStartedAndCompleted?.percentage, 0.5)
+    }
+
     func testSyncWhenNeeded() async {
         var syncCalled = false
         let endOfYearManager = EndOfYearManagerMock()

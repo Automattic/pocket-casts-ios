@@ -18,6 +18,8 @@ class EndOfYearManagerMock: EndOfYearDataManager {
 
     var yearOverYearToReturn: YearOverYearListeningTime?
 
+    var episodesStartedAndCompleted: EpisodesStartedAndCompleted?
+
     override func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
         listeningTimeToReturn
     }
@@ -44,5 +46,9 @@ class EndOfYearManagerMock: EndOfYearDataManager {
 
     override func yearOverYearListeningTime(dbQueue: FMDatabaseQueue) -> YearOverYearListeningTime {
         return yearOverYearToReturn ?? YearOverYearListeningTime(totalPlayedTimeThisYear: 0, totalPlayedTimeLastYear: 0)
+    }
+
+    override func episodesStartedAndCompleted(dbQueue: FMDatabaseQueue) -> EpisodesStartedAndCompleted {
+        episodesStartedAndCompleted ?? EpisodesStartedAndCompleted(started: 0, completed: 0)
     }
 }
