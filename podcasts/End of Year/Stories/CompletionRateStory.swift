@@ -9,19 +9,75 @@ struct CompletionRateStory: ShareableStory {
 
     let subscriptionTier: SubscriptionTier
 
+    let startedEpisodes: Int
+
+    let listenedEpisodes: Int
+
+    var percentage: Double {
+        Double(listenedEpisodes) / Double(startedEpisodes)
+    }
+
+    var percentageToDisplay: String {
+        "\(Int(percentage * 100))%"
+    }
+
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
                 StoryLabelContainer(geometry: geometry) {
                     SubscriptionBadge(tier: subscriptionTier, displayMode: .gradient, foregroundColor: .black)
-                    StoryLabel(L10n.eoyYearCompletionRateTitle("10%"), for: .title, geometry: geometry)
-                    StoryLabel(L10n.eoyYearCompletionRateSubtitle(30, 15), for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                    StoryLabel(L10n.eoyYearCompletionRateTitle(percentageToDisplay), for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyYearCompletionRateSubtitle(startedEpisodes, listenedEpisodes), for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
                 .padding(.bottom, geometry.size.height * 0.06)
 
                 Spacer()
 
-                Text("heh")
+                VStack {
+                    ZStack {
+                        Circle()
+                           .rotation(.degrees(-90))
+                           .stroke(Color(hex: "292B2E"), style: StrokeStyle(lineWidth: geometry.size.height * 0.02))
+                           .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+
+                        LinearGradient(
+                        stops: [
+                        Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                        Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                        Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                        Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                        Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                        ],
+                        startPoint: UnitPoint(x: -0.65, y: 0.5),
+                        endPoint: UnitPoint(x: 1.49, y: 0.5)
+                        )
+                        .frame(width: geometry.size.height * 0.4, height: geometry.size.height * 0.4)
+                        .rotationEffect(.degrees(-90))
+                        .mask(
+                            Circle()
+                               .rotation(.degrees(-90))
+                               .trim(from: 1 - percentage, to: 1.0)
+                               .stroke(.red, style: StrokeStyle(lineWidth: geometry.size.height * 0.03))
+                               .scaleEffect(.init(width: -1, height: 1))
+                               .frame(width: geometry.size.height * 0.35, height: geometry.size.height * 0.35)
+                        )
+
+                        VStack(spacing: 0) {
+                            Text(percentageToDisplay)
+                            .font(.custom("DM Sans", size: geometry.size.height * 0.127).weight(.light))
+                            .foregroundColor(Color(red: 0.98, green: 0.98, blue: 0.99))
+
+                            Text("completion rate")
+                            .font(
+                            Font.custom("DM Sans", size: geometry.size.height * 0.018)
+                            .weight(.semibold)
+                            )
+                            .foregroundColor(Color(red: 0.56, green: 0.59, blue: 0.64))
+                            .padding(.top, -geometry.size.height * 0.02)
+
+                        }
+                    }
+                }
             }
             .background(
                 ZStack(alignment: .top) {
@@ -60,7 +116,16 @@ private extension Double {
 
 struct CompletionRateStory_Previews: PreviewProvider {
     static var previews: some View {
-        CompletionRateStory(subscriptionTier: .plus)
-            .previewDisplayName("Went down")
+        CompletionRateStory(subscriptionTier: .plus, startedEpisodes: 100, listenedEpisodes: 10)
+            .previewDisplayName("10%")
+
+        CompletionRateStory(subscriptionTier: .plus, startedEpisodes: 100, listenedEpisodes: 30)
+            .previewDisplayName("30%")
+
+        CompletionRateStory(subscriptionTier: .plus, startedEpisodes: 100, listenedEpisodes: 70)
+            .previewDisplayName("70%")
+
+        CompletionRateStory(subscriptionTier: .plus, startedEpisodes: 100, listenedEpisodes: 100)
+            .previewDisplayName("100%")
     }
 }
