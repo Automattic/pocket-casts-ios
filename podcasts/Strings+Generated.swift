@@ -853,7 +853,7 @@ internal enum L10n {
   internal static func eoyYearCompletionRateSubtitle(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_year_completion_rate_subtitle", String(describing: p1), String(describing: p2))
   }
-  /// You completion rate this year was %1$@
+  /// Your completion rate this year was %1$@
   internal static func eoyYearCompletionRateTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_year_completion_rate_title", String(describing: p1))
   }

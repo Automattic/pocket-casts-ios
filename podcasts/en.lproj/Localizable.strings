@@ -3636,7 +3636,7 @@
 "eoy_year_over_share_text" = "My 2023 listening time compared to 2022";
 
 /* Title for the completion rate. %1$@ is the percentage. */
-"eoy_year_completion_rate_title" = "You completion rate this year was %1$@";
+"eoy_year_completion_rate_title" = "Your completion rate this year was %1$@";
 
 /* Title for the completion rate. %1$@ is the total of episodes listened this year, %2$@ is the total of episodes fully listened to. */
 "eoy_year_completion_rate_subtitle" = "From the %1$@ episodes you started you listened fully to a total of %2$@";
