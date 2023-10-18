@@ -57,12 +57,13 @@ extension MiniPlayerViewController {
         if playerOpenState == .open || playerOpenState == .animating { return }
 
         guard !FeatureFlag.newPlayerTransition.enabled else {
+            aboutToDisplayFullScreenPlayer()
+
             guard let fullScreenPlayer else {
                 return
             }
 
             playerOpenState = .animating
-            aboutToDisplayFullScreenPlayer()
 
             fullScreenPlayer.modalPresentationStyle = .overCurrentContext
 
