@@ -348,6 +348,33 @@ class EndOfYearDataManager {
 
         return YearOverYearListeningTime(totalPlayedTimeThisYear: listeningTimeThisYear, totalPlayedTimeLastYear: listeningTimePreviousYear)
     }
+
+    /// Returns the number of episodes started and finished
+    /// The episode is considered completed if it was played at least 90%
+    func episodesStartedAndCompleted(dbQueue: FMDatabaseQueue) -> EpisodesStartedAndCompleted {
+        var started: Int = 0
+        var completed: Int = 0
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = "SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE playingStatus = 3 OR playedUpTo >= 0.9 * duration AND \(listenedEpisodesThisYear) UNION SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear)"
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    completed = Int(resultSet.int(forColumn: "episodesPlayed"))
+                }
+
+                if resultSet.next() {
+                    started = Int(resultSet.int(forColumn: "episodesPlayed"))
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.episodesStartedAndCompleted error: \(error)")
+            }
+        }
+
+        return EpisodesStartedAndCompleted(started: started, completed: completed)
+    }
 }
 
 public struct ListenedCategory {
@@ -404,6 +431,20 @@ public struct YearOverYearListeningTime {
     public init(totalPlayedTimeThisYear: Double, totalPlayedTimeLastYear: Double) {
         self.totalPlayedTimeThisYear = totalPlayedTimeThisYear
         self.totalPlayedTimeLastYear = totalPlayedTimeLastYear
+    }
+}
+
+public struct EpisodesStartedAndCompleted {
+    public let started: Int
+    public let completed: Int
+
+    public var percentage: Double {
+        Double(completed) / Double(started)
+    }
+
+    init(started: Int, completed: Int) {
+        self.started = started
+        self.completed = completed
     }
 }
 
