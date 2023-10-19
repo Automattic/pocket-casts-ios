@@ -5,16 +5,12 @@ import SwiftUI
 
 // MARK: - Features
 
-/// To add a new feature:
-///     1. Add a new static var for the feature name and tier it should be unlocked with
-///
-///     Template:
-///         static var <#FeatureName#>: PaidFeature = .init(tier: <#Tier#>)
-///
-///     2. Check the unlock state using `PaidFeature.hello.isUnlocked`
-///
 extension PaidFeature {
-    static var bookmarks: PaidFeature = .init(tier: .patron, betaTier: .plus)
+    static var bookmarks: PaidFeature = .inEarlyAccess
+
+    // When the feature leaves early access, it will switch to being a Plus feature
+    // Adding this here to make it easier to uncomment
+    // static var bookmarks: PaidFeature = .plusFeature
 }
 
 /// A `PaidFeature` represents a feature that is unlocked with a subscription tier, and is considered to be unlocked if the tier
@@ -37,6 +33,11 @@ class PaidFeature: ObservableObject {
     /// The minimum subscription level required to unlock this feature
     let tier: SubscriptionTier
 
+    /// Whether the feature is in its early access period or not.
+    ///
+    /// Internally this doesn't change anything with the feature, but allows the app to check its state and display different UI if needed.
+    let inEarlyAccess: Bool
+
     /// The static class to use to check for the active subscription.
     private let subscriptionHelper: SubscriptionHelper
 
@@ -46,8 +47,10 @@ class PaidFeature: ObservableObject {
     /// - Parameters:
     ///   - tier: The minimum tier required to unlock
     ///   - betaTier: The minimum tier required when running in the app beta
+    ///   - inEarlyAccess: Whether this feature is in its early access period or not.
     init(tier: SubscriptionTier,
          betaTier: SubscriptionTier? = nil,
+         inEarlyAccess: Bool = false,
          subscriptionHelper: SubscriptionHelper = .shared,
          buildEnvironment: BuildEnvironment = .current) {
         if let betaTier, buildEnvironment == .testFlight {
@@ -56,6 +59,7 @@ class PaidFeature: ObservableObject {
             self.tier = tier
         }
 
+        self.inEarlyAccess = inEarlyAccess
         self.subscriptionHelper = subscriptionHelper
 
         addListeners()
@@ -99,3 +103,33 @@ extension PaidFeature {
     }
 }
 #endif
+
+
+// MARK: - Private: Feature State Helpers
+
+private extension PaidFeature {
+    /// A `PaidFeature` that is currently in early access.
+    ///
+    /// - Available to Patron users on the AppStore
+    /// - Available to Plus users during beta
+    /// - Has the `inEarlyAccess` flag set to True
+    static var inEarlyAccess: PaidFeature {
+        .init(tier: .patron, betaTier: .plus, inEarlyAccess: true)
+    }
+
+    /// A `PaidFeature` that is available to Patron subscribers.
+    ///
+    /// - Available to Patron users on the AppStore and Beta.
+    /// - The `inEarlyAccess` flag is set to False
+    static var patronFeature: PaidFeature {
+        .init(tier: .patron)
+    }
+
+    /// A `PaidFeature` that is available to Plus and Patron subscribers.
+    ///
+    /// - Available to Plus and Patron users on the AppStore and Beta.
+    /// - The `inEarlyAccess` flag is set to False
+    static var plusFeature: PaidFeature {
+        .init(tier: .plus)
+    }
+}
