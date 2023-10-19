@@ -10,7 +10,7 @@ final class BookmarkAnnouncementViewModelTests: XCTestCase {
     private var userDefaults: UserDefaults!
 
     override func setUp() {
-        userDefaults = UserDefaults(suiteName: "\(Int.random(in: 0..<1000))")!
+        userDefaults = UserDefaults(suiteName: UUID().uuidString)!
     }
 
     // MARK: - Early Access Beta
