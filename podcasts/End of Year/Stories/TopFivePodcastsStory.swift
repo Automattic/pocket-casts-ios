@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct TopFivePodcastsStory: ShareableStory {
-    let podcasts: [Podcast]
+    let topPodcasts: [TopPodcast]
 
     let identifier: String = "top_five_podcast"
 
@@ -12,30 +12,42 @@ struct TopFivePodcastsStory: ShareableStory {
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
-                let headerSpacing = geometry.size.height * 0.054
-                let size = round(max(geometry.size.height * 0.099, 60))
-
-                VStack(spacing: headerSpacing) {
-                    StoryLabel(L10n.eoyStoryTopPodcasts, for: .title2)
-                        .opacity(0.8)
-                    VStack(spacing: geometry.size.height * 0.03) {
-                        ForEach(0...4, id: \.self) {
-                            topPodcastRow($0, size: size)
-                        }
-                    }.padding([.leading, .trailing], 35)
+                StoryLabelContainer(geometry: geometry) {
+                    StoryLabel(L10n.eoyStoryTopPodcastsTitle, for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyStoryTopPodcastsSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
-            }.background(DynamicBackgroundView(podcast: podcasts[0]))
+
+                let headerSpacing = geometry.size.height * 0.054
+                let size = round(geometry.size.height * 0.09)
+
+                VStack(spacing: geometry.size.height * 0.03) {
+                    ForEach(0...4, id: \.self) {
+                        topPodcastRow($0, size: size, geometry: geometry)
+                    }
+                }
+                .padding([.leading, .trailing], 35)
+                .padding(.top, headerSpacing)
+            }.background(
+                ZStack(alignment: .bottom) {
+                    Color.black
+
+                    StoryGradient()
+                    .offset(x: geometry.size.width * 0.7, y: -geometry.size.height * 0.7)
+                }
+            )
         }
     }
 
     @ViewBuilder
-    func topPodcastRow(_ index: Int, size: Double) -> some View {
+    func topPodcastRow(_ index: Int, size: Double, geometry: GeometryProxy) -> some View {
         HStack(spacing: 16) {
-            Text("\(index + 1).")
-                .font(.system(size: 18, weight: .medium))
-                .foregroundColor(.white)
+            Text("\(index + 1)")
+                .font(.custom("DM Sans", size: geometry.size.height * 0.025))
+                .fontWeight(.semibold)
+                .foregroundColor(Color(hex: "8F97A4"))
+                .frame(width: size * 0.2)
 
-                if let podcast = podcasts[safe: index] {
+                if let podcast = topPodcasts[safe: index]?.podcast {
                     PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: size, height: size)
                 } else {
@@ -44,13 +56,15 @@ struct TopFivePodcastsStory: ShareableStory {
                 }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(podcasts[safe: index]?.title ?? "")
-                    .font(.system(size: 16, weight: .bold))
+                Text(topPodcasts[safe: index]?.podcast.title ?? "")
+                    .font(.custom("DM Sans", size: geometry.size.height * 0.024))
+                    .fontWeight(.semibold)
                     .foregroundColor(.white)
 
-                Text(podcasts[safe: index]?.author ?? "")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(.white)
+                Text(topPodcasts[safe: index]?.totalPlayedTime.storyTimeDescription ?? "")
+                    .font(.custom("DM Sans", size: geometry.size.height * 0.018))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(hex: "8F97A4"))
                     .lineLimit(2)
                     .opacity(0.8)
             }
@@ -59,7 +73,7 @@ struct TopFivePodcastsStory: ShareableStory {
             .frame(maxHeight: size)
             Spacer()
         }
-        .opacity(podcasts[safe: index] != nil ? 1 : 0)
+        .opacity(topPodcasts[safe: index]?.podcast != nil ? 1 : 0)
     }
 
     func onAppear() {
@@ -73,13 +87,13 @@ struct TopFivePodcastsStory: ShareableStory {
     func sharingAssets() -> [Any] {
         [
             StoryShareableProvider.new(AnyView(self)),
-            StoryShareableText(L10n.eoyStoryTopPodcastsShareText("%1$@"), podcasts: podcasts)
+            StoryShareableText(L10n.eoyStoryTopPodcastsShareText("%1$@"), podcasts: topPodcasts.map { $0.podcast })
         ]
     }
 }
 
 struct DummyStory_Previews: PreviewProvider {
     static var previews: some View {
-        TopFivePodcastsStory(podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
+        TopFivePodcastsStory(topPodcasts: [TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600)])
     }
 }
