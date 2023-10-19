@@ -16,8 +16,9 @@ struct EndOfYearModal: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16))
 
                 Text(L10n.eoyDescription)
-                    .font(style: .body, weight: .medium, maxSizeCategory: .accessibilityMedium)
+                    .font(style: .callout, weight: .medium, maxSizeCategory: .accessibilityMedium)
                     .multilineTextAlignment(.center)
+                    .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
                     .allowsTightening(false)
                     .padding(.bottom, Constants.verticalSpacing)
