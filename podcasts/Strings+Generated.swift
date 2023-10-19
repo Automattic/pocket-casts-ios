@@ -296,9 +296,13 @@ internal enum L10n {
   }
   /// 1 bookmark
   internal static var bookmarksCountSingular: String { return L10n.tr("Localizable", "bookmarks_count_singular") }
+  /// Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes. Available for %2$@ subscribers soon.
+  internal static func bookmarksEarlyAccessLockedMessage(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_early_access_locked_message", String(describing: p1), String(describing: p2))
+  }
   /// Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.
-  internal static func boomarksLockedMessage(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "boomarks_locked_message", String(describing: p1))
+  internal static func bookmarksLockedMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_locked_message", String(describing: p1))
   }
   /// Bottom
   internal static var bottom: String { return L10n.tr("Localizable", "bottom") }

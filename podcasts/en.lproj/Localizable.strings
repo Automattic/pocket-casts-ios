@@ -3861,7 +3861,10 @@
 "episode_details_title" = "Details";
 
 /* A message informing the user a feature is locked. %1$@ is the name of the tier (Plus or Patron) */
-"boomarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";
+"bookmarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";
+
+/* A message informing the user a feature is locked while in early access. %1$@ and %2$@ are the names of the tier (Plus or Patron) */
+"bookmarks_early_access_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes. Available for %2$@ subscribers soon.";
 
 /* A button title that prompts the user to upgrade their plan. %1$@ is the name of the tier (Plus or Patron) */
 "upgrade_to_plan" = "Upgrade to %1$@";

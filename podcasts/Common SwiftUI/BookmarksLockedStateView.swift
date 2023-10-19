@@ -13,17 +13,27 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
     }
 
     private var message: String {
+        let feature = upgradeModel.feature
+
         let tierName: String
-        switch upgradeModel.feature.tier {
+        var secondaryTierName: String? = nil
+
+        switch feature.tier {
         case .patron:
             tierName = L10n.patron
+            secondaryTierName = feature.inEarlyAccess ? L10n.pocketCastsPlusShort : nil
         case .plus:
             tierName = L10n.pocketCastsPlusShort
         case .none:
             tierName = L10n.pocketCastsPlusShort
         }
 
-        return L10n.boomarksLockedMessage(tierName)
+        // Show the regular unlock message if there isn't a secondary early access tier to display
+        guard let secondaryTierName else {
+            return L10n.bookmarksLockedMessage(tierName).preventWidows()
+        }
+
+        return L10n.bookmarksEarlyAccessLockedMessage(tierName, secondaryTierName).preventWidows()
     }
 
     var body: some View {
