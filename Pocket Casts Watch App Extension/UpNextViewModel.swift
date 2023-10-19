@@ -12,7 +12,7 @@ class UpNextViewModel: ObservableObject {
 
     init() {
         upNextTitle = playSource.nowPlayingEpisode?.subTitle()
-        episodes = playSource.episodesInQueue.map { EpisodeRowViewModel(episode: $0) }
+        episodes = playSource.episodeUuidsInQueue.map { EpisodeRowViewModel(episode: $0) }
         isPlaying = playSource.isPlaying
 
         Publishers.Notification.playbackChanged
@@ -37,7 +37,7 @@ class UpNextViewModel: ObservableObject {
         .receive(on: RunLoop.main)
         .sink { [unowned self] _ in
             self.upNextTitle = playSource.nowPlayingEpisode?.subTitle()
-            self.episodes = playSource.episodesInQueue.map { EpisodeRowViewModel(episode: $0) }
+            self.episodes = playSource.episodeUuidsInQueue.map { EpisodeRowViewModel(episode: $0) }
             self.isPlaying = playSource.isPlaying
         }
         .store(in: &cancellables)

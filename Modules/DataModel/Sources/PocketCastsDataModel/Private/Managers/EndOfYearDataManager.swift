@@ -5,12 +5,12 @@ import PocketCastsUtils
 class EndOfYearDataManager {
     /// The date to start calculating results from
     /// The data will start from 00:00:00 (midnight) the users device time
-    private let startDate = "2022-01-01"
+    private let startDate = "2023-01-01"
 
     /// The date to stop including results from
     /// This is set to the day after the final day we want to include in the results to make sure we include the full
     /// day up to midnight
-    private let endDate = "2023-01-01"
+    private let endDate = "2024-01-01"
 
     private lazy var listenedEpisodesThisYear = """
                                             lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '\(startDate)') and strftime('%s', '\(endDate)')

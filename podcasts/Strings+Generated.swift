@@ -156,6 +156,12 @@ internal enum L10n {
   internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description") }
   /// Autoplay is here!
   internal static var announcementAutoplayTitle: String { return L10n.tr("Localizable", "announcement_autoplay_title") }
+  /// You can now save timestamps of episodes from the actions menu in the player or with a headphones action.
+  internal static var announcementBookmarksDescription: String { return L10n.tr("Localizable", "announcement_bookmarks_description") }
+  /// Bookmarks are here!
+  internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
+  /// Join us in the beta testing for bookmarks!
+  internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
   /// Classic
@@ -290,9 +296,13 @@ internal enum L10n {
   }
   /// 1 bookmark
   internal static var bookmarksCountSingular: String { return L10n.tr("Localizable", "bookmarks_count_singular") }
+  /// Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes. Available for %2$@ subscribers soon.
+  internal static func bookmarksEarlyAccessLockedMessage(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_early_access_locked_message", String(describing: p1), String(describing: p2))
+  }
   /// Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.
-  internal static func boomarksLockedMessage(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "boomarks_locked_message", String(describing: p1))
+  internal static func bookmarksLockedMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_locked_message", String(describing: p1))
   }
   /// Bottom
   internal static var bottom: String { return L10n.tr("Localizable", "bottom") }
@@ -712,6 +722,8 @@ internal enum L10n {
   internal static var eoyDescription: String { return L10n.tr("Localizable", "eoy_description") }
   /// Not Now
   internal static var eoyNotNow: String { return L10n.tr("Localizable", "eoy_not_now") }
+  /// Share this story
+  internal static var eoyShare: String { return L10n.tr("Localizable", "eoy_share") }
   /// Year in Podcasts
   internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
   /// Failed to load stories.
@@ -748,7 +760,7 @@ internal enum L10n {
   internal static func eoyStoryListenedToEpisodesText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_episodes_text", String(describing: p1))
   }
-  /// You listened to %1$@ different podcasts and %2$@ episodes
+  /// You listened to %1$@ different shows and %2$@ episodes in total
   internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers", String(describing: p1), String(describing: p2))
   }
@@ -756,11 +768,8 @@ internal enum L10n {
   internal static func eoyStoryListenedToNumbersShareText(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers_share_text", String(describing: p1), String(describing: p2))
   }
-  /// But there was one that you kept coming back to...
+  /// But there was one you kept coming to...
   internal static var eoyStoryListenedToNumbersSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle") }
-  /// But there was one that you
-  /// kept coming back to...
-  internal static var eoyStoryListenedToNumbersSubtitleUpdated: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle_updated") }
   /// You listened to %1$@ and %2$@
   internal static func eoyStoryListenedToNumbersUpdated(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers_updated", String(describing: p1), String(describing: p2))
@@ -805,9 +814,9 @@ internal enum L10n {
   internal static var eoyStoryTopCategories: String { return L10n.tr("Localizable", "eoy_story_top_categories") }
   /// My most listened to podcast categories
   internal static var eoyStoryTopCategoriesShareText: String { return L10n.tr("Localizable", "eoy_story_top_categories_share_text") }
-  /// Your top podcast was %1$@ by %2$@
-  internal static func eoyStoryTopPodcast(_ p1: Any, _ p2: Any) -> String {
-    return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1), String(describing: p2))
+  /// %1$@ was your most listened show in 2023
+  internal static func eoyStoryTopPodcast(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1))
   }
   /// My favorite podcast of 2022! %1$@
   internal static func eoyStoryTopPodcastShareText(_ p1: Any) -> String {
@@ -825,6 +834,10 @@ internal enum L10n {
   internal static func eoyStoryTopPodcastsShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcasts_share_text", String(describing: p1))
   }
+  /// This is your top 5 most listened to in 2023
+  internal static var eoyStoryTopPodcastsSubtitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_subtitle") }
+  /// And you were big on these shows too!
+  internal static var eoyStoryTopPodcastsTitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_title") }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2022
@@ -2850,6 +2863,8 @@ internal enum L10n {
   internal static var trimSilence: String { return L10n.tr("Localizable", "trim_silence") }
   /// Try Again
   internal static var tryAgain: String { return L10n.tr("Localizable", "try_again") }
+  /// Try It Now
+  internal static var tryItNow: String { return L10n.tr("Localizable", "try_it_now") }
   /// Unarchive
   internal static var unarchive: String { return L10n.tr("Localizable", "unarchive") }
   /// ? m
