@@ -103,16 +103,7 @@ struct CircleDays: View {
         // The content is repeated on the background so the gradient
         // can have the exact same size as the circles.
         VStack(spacing: 0) {
-            ForEach(0..<Int(numberOfLines), id: \.self) { _ in
-                HStack(spacing: 0) {
-                    ForEach(0..<Int(numberOfBallsPerLine), id: \.self) { _ in
-                        Circle()
-                            .foregroundStyle(.white)
-                            .frame(width: ballFinalWidth, height: ballFinalWidth)
-                            .padding(.all, ballPadding)
-                    }
-                }
-            }
+            circles(numberOfLines: numberOfLines, numberOfBallsPerLine: numberOfBallsPerLine, ballWidth: ballFinalWidth, ballPadding: ballPadding)
             .opacity(0)
         }
         .background(
@@ -135,20 +126,24 @@ struct CircleDays: View {
             }
             .mask (
                 VStack(spacing: 0) {
-                    ForEach(0..<Int(numberOfLines), id: \.self) { _ in
-                        HStack(spacing: 0) {
-                            ForEach(0..<Int(numberOfBallsPerLine), id: \.self) { _ in
-                                Circle()
-                                    .foregroundStyle(.white)
-                                    .frame(width: ballFinalWidth, height: ballFinalWidth)
-                                    .padding(.all, ballPadding)
-                            }
-                        }
-                    }
+                    circles(numberOfLines: numberOfLines, numberOfBallsPerLine: numberOfBallsPerLine, ballWidth: ballFinalWidth, ballPadding: ballPadding)
                 }
             )
 
         )
+    }
+
+    func circles(numberOfLines: Double, numberOfBallsPerLine: Double, ballWidth: Double, ballPadding: Double) -> some View {
+        ForEach(0..<Int(numberOfLines), id: \.self) { _ in
+            HStack(spacing: 0) {
+                ForEach(0..<Int(numberOfBallsPerLine), id: \.self) { _ in
+                    Circle()
+                        .foregroundStyle(.white)
+                        .frame(width: ballWidth, height: ballWidth)
+                        .padding(.all, ballPadding)
+                }
+            }
+        }
     }
 }
 
