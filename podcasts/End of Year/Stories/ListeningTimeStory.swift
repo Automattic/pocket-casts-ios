@@ -120,6 +120,7 @@ struct CircleDays: View {
                     endPoint: UnitPoint(x: 1.22, y: 1.25)
                 )
 
+                // Fill the non-listened days
                 Rectangle()
                     .foregroundStyle(Color(hex: "8F97A4"))
                     .frame(width: missingDaysWidth, height: ballFinalWidth + 2 * ballPadding)
