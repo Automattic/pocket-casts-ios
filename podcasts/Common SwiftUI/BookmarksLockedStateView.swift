@@ -63,13 +63,16 @@ struct BookmarksLockedStateView<Style: EmptyStateViewStyle>: View {
 
 // MARK: - Upgrade Model
 
-private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
+class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature
     let bookmarksSource: BookmarkAnalyticsSource
+    let upgradeSource: String
 
-    init(feature: PaidFeature, source: BookmarkAnalyticsSource) {
+    init(feature: PaidFeature, source: BookmarkAnalyticsSource, upgradeSource: String = "bookmarks_locked") {
         self.feature = feature
         self.bookmarksSource = source
+        self.upgradeSource = upgradeSource
+
         super.init()
     }
 
@@ -83,13 +86,17 @@ private class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
 
     func upgradeTapped() {
         Analytics.track(.bookmarksUpgradeButtonTapped, source: bookmarksSource)
+        showUpgrade()
+    }
+
+    func showUpgrade() {
         upgradeTapped(with: product(for: feature.tier))
     }
 
     override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {
         guard let parentController = SceneHelper.rootViewController() else { return }
 
-        feature.presentUpgradeController(from: parentController, source: "bookmarks_locked")
+        feature.presentUpgradeController(from: parentController, source: upgradeSource)
     }
 
     private func product(for tier: SubscriptionTier) -> PlusProductPricingInfo? {

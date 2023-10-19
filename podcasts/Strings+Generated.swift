@@ -156,6 +156,12 @@ internal enum L10n {
   internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description") }
   /// Autoplay is here!
   internal static var announcementAutoplayTitle: String { return L10n.tr("Localizable", "announcement_autoplay_title") }
+  /// You can now save timestamps of episodes from the actions menu in the player or with a headphones action.
+  internal static var announcementBookmarksDescription: String { return L10n.tr("Localizable", "announcement_bookmarks_description") }
+  /// Bookmarks are here!
+  internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
+  /// Join us in the beta testing for bookmarks!
+  internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
   /// Classic
@@ -2849,6 +2855,8 @@ internal enum L10n {
   internal static var trimSilence: String { return L10n.tr("Localizable", "trim_silence") }
   /// Try Again
   internal static var tryAgain: String { return L10n.tr("Localizable", "try_again") }
+  /// Try It Now
+  internal static var tryItNow: String { return L10n.tr("Localizable", "try_it_now") }
   /// Unarchive
   internal static var unarchive: String { return L10n.tr("Localizable", "unarchive") }
   /// ? m

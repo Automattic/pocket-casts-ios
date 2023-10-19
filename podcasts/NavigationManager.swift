@@ -84,8 +84,8 @@ class NavigationManager {
         mainController = controller
     }
 
-    func dismissPresentedViewController() {
-        mainController?.dismissPresentedViewController()
+    func dismissPresentedViewController(completion: (() -> Void)? = nil) {
+        mainController?.dismissPresentedViewController(completion: completion)
     }
 
     private func performNavigation(_ place: String, data: NSDictionary?, animated: Bool) {

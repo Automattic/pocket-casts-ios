@@ -3764,6 +3764,18 @@
 /* An action that the user want to postpone and maybe do later */
 "maybe_later" = "Maybe later";
 
+/* Bookmarks feature announcement title */
+"announcement_bookmarks_title" = "Bookmarks are here!";
+
+/* Bookmarks feature announcement description */
+"announcement_bookmarks_description" = "You can now save timestamps of episodes from the actions menu in the player or with a headphones action.";
+
+/* Bookmarks feature announcement title */
+"announcement_bookmarks_title_beta" = "Join us in the beta testing for bookmarks!";
+
+/* Button label for a feature that the user can enable */
+"try_it_now" = "Try It Now";
+
 /* Label for a settings menu that allows the user to customize headphone action. */
 "settings_headphone_controls" = "Headphone Controls";
 
