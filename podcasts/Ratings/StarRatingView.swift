@@ -21,18 +21,30 @@ struct StarRatingView: View {
     }
 
     var body: some View {
-        HStack(alignment: .center) {
-            ratingView(rating: viewModel.rating)
-                .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
+        VStack(spacing: 0) {
+            HStack(alignment: .center) {
+                ratingView(rating: viewModel.rating)
+                    .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
 
-            Spacer()
-        }.onTapGesture {
-            viewModel.didTapRating()
-        }
-        .sheet(isPresented: $viewModel.presentingGiveRatings) {
-            if let podcast = viewModel.podcast {
-                RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, podcast: podcast))
+                Spacer()
+
+                Text(L10n.rate)
+                    .font(.system(.callout))
+                    .foregroundStyle(theme.primaryText01)
+                    .buttonize {
+                        viewModel.didTapRating()
+                    }
             }
+            .sheet(isPresented: $viewModel.presentingGiveRatings) {
+                if let podcast = viewModel.podcast {
+                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, podcast: podcast))
+                }
+            }
+
+            Rectangle()
+                .foregroundStyle(theme.primaryUi05)
+                .frame(height: 1)
+                .padding(.vertical, 5)
         }
     }
 
@@ -62,7 +74,7 @@ struct StarRatingView: View {
 
     @ViewBuilder
     private func labelView(total: Int?) -> some View {
-        Text(total?.abbreviated ?? "")
+        Text("(\(total?.abbreviated ?? ""))")
             .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
             .font(size: 14, style: .footnote)
             .padding(.top, 1)
