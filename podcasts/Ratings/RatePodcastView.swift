@@ -103,7 +103,7 @@ struct RatePodcastView: View {
                     .onChanged { gesture in
                         var starValue = (gesture.location.x * 5) / reader.size.width
                         starValue = (starValue * 2).rounded() / 2
-                        viewModel.stars = max(0, min(5, starValue))
+                        viewModel.stars = max(1, min(5, starValue))
                     }
             )
         }, contentSizeUpdated: { _ in
