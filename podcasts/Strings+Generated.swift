@@ -2030,6 +2030,8 @@ internal enum L10n {
   internal static func queueTotalTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "queue_total_time_remaining", String(describing: p1))
   }
+  /// Rate
+  internal static var rate: String { return L10n.tr("Localizable", "rate") }
   /// Ops! There was an error.
   internal static var ratingError: String { return L10n.tr("Localizable", "rating_error") }
   /// Only listeners of this podcast can give it a rating. Have a listen to a few episodes and then come back to give your rating. We look forward to hearing what you think!
