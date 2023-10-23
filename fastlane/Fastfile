@@ -121,12 +121,7 @@ before_all do
 end
 
 platform :ios do
-  # Unfortunately, release toolkit still relies on certain settings being set in the environment
-  ENV['PROJECT_NAME'] = 'podcasts'
-  ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
-  ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
-  ENV['GHHELPER_REPO'] = GHHELPER_REPO
-
+  # This explicit timeout helps resolve Xcode build errors
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
   desc 'Run the unit tests'
