@@ -13,65 +13,6 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : {
-      "targets" : [
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "BDBD53EB17019B2A0048C8C5",
-          "name" : "podcasts"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "BDD301631EFB9356004A9972",
-          "name" : "Pocket Casts Watch App"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "BD3A210C1E6CFC2400F42241",
-          "name" : "NotificationExtension"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "BDEFBA131E6D3C2300B9024B",
-          "name" : "NotificationContent"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "BDD3016F1EFB9356004A9972",
-          "name" : "Pocket Casts Watch App Extension"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "403B5B0F21813FFA00821A54",
-          "name" : "PodcastsIntents"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "403B5B1821813FFA00821A54",
-          "name" : "PodcastsIntentsUI"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "4090974D25235DFA00CED68C",
-          "name" : "WidgetExtension"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "2F90990A2A4F88B00044FC55",
-          "name" : "Share Extension"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "4694FA5F2799C80300E9CF70",
-          "name" : "Screenshot Automation"
-        },
-        {
-          "containerPath" : "container:podcasts.xcodeproj",
-          "identifier" : "46AFC23327AB19CE004B026F",
-          "name" : "Screenshot Automation Watch"
-        }
-      ]
-    },
     "environmentVariableEntries" : [
       {
         "key" : "BUILDKITE_ANALYTICS_TOKEN",
