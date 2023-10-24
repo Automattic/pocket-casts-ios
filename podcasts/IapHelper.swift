@@ -44,6 +44,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 
     func requestProductInfo() {
+        // Don't request if we're already requesting
+        guard !isRequestingProducts else { return }
+
         isRequestingProducts = true
         let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self

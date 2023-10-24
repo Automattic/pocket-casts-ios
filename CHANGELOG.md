@@ -1,3 +1,7 @@
+7.51
+-----
+
+
 7.50
 -----
 - Further improves performance when opening a large Up Next queue in the Apple Watch [#1139]
