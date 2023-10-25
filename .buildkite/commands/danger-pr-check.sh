@@ -8,4 +8,4 @@ echo "--- Install Pods"
 bundle exec pod install --allow-root
 
 echo "--- Running Danger: PR Check"
-bundle exec danger --fail-on-errors=true --dangerfile=.buildkite/danger/Dangerfile --remove-previous-comments --danger_id=pr-check
+bundle exec danger --fail-on-errors=true --remove-previous-comments --danger_id=pr-check

@@ -1,16 +1,10 @@
 inherit_from: .rubocop_todo.yml
 
-inherit_mode:
-  merge:
-    - Include
-
 AllCops:
   Exclude:
     - DerivedData/**/*
     - Pods/**/*
     - vendor/**/*
-  Include:
-    - .buildkite/danger/**/*
   NewCops: enable
   SuggestExtensions:
     rubocop-rake: false
@@ -34,7 +28,3 @@ Metrics/MethodLength:
 Naming/AsciiIdentifiers:
   Exclude:
     - scripts/themes/generate_themes.rb
-
-Naming/FileName:
-  Exclude:
-    - .buildkite/danger/Dangerfile
