@@ -684,7 +684,7 @@
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@件のエピソード</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>%1$@個のショーで%合計2$@話のエピソードを聴きました</string>
+    <string>%1$@個のショーで%合計%2$@話のエピソードを聴きました</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>2022年に%1$@個のポッドキャストで%2$@件のエピソードを聴きました</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
