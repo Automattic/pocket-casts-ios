@@ -657,6 +657,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Visualizza i tuoi podcast principali, le categorie, le statistiche di ascolto e molto altro ancora. Condividi con gli amici e ringrazia pubblicamente i tuoi creatori preferiti!</string>
     <key>eoy_not_now</key>
     <string>Non ora</string>
+    <key>eoy_share</key>
+    <string>Condividi questa storia</string>
     <key>eoy_small_title</key>
     <string>L'anno in podcast</string>
     <key>eoy_stories_failed</key>
@@ -682,14 +684,11 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ episodi</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Hai ascoltato %1$@ differenti podcast e %2$@ episodi</string>
+    <string>Hai ascoltato %1$@ podcast diversi e %2$@ episodi in totale</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Nel 2022 ho ascoltato %1$@ podcast differenti e %2$@ episodi</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>C'è stato però uno su cui continuavi a tornare...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Era presente, però, uno
-a cui continuavi a tornare...</string>
+    <string>C'è stato però uno su cui continuavi ad andare...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Hai ascoltato %1$@ e %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +716,7 @@ che hai ascoltato è stato
     <key>eoy_story_top_categories_share_text</key>
     <string>I più ascoltati nelle categorie podcast</string>
     <key>eoy_story_top_podcast</key>
-    <string>Il podcast migliore è stato %1$@ di %2$@</string>
+    <string>%1$@ è stato il podcast che hai ascoltato di più nel 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Il mio podcast preferito del 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>

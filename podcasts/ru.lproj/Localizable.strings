@@ -681,15 +681,8 @@
     <string>Различных рубрик: %1$@</string>
     <key>eoy_story_listened_to_episodes_text</key>
     <string>Выпусков: %1$@</string>
-    <key>eoy_story_listened_to_numbers</key>
-    <string>Вы слушали %1$@ подкастов (-а) и %2$@ выпусков (-а)</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Я прослушал (-а) %1$@ подкастов (-а) и %2$@ выпусков (-а) в 2022 году</string>
-    <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Но к одному подкасту вы всегда возвращались...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Но был один выпуск,
-который вы прослушивали снова и снова…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Вы слушали %1$@ и %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -716,8 +709,6 @@
     <string>Ваши любимые рубрики</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Рубрики подкастов, которые я слушаю чаще всего</string>
-    <key>eoy_story_top_podcast</key>
-    <string>Ваш любимый подкаст — %1$@ (автор: %2$@)</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Мой любимый подкаст в 2022 году! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>

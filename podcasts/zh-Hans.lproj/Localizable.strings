@@ -657,6 +657,8 @@
     <string>查看您的热门播客、分类、收听统计数据等。 分享给朋友，告诉他们您最喜欢的创作者！</string>
     <key>eoy_not_now</key>
     <string>不用了</string>
+    <key>eoy_share</key>
+    <string>分享此故事</string>
     <key>eoy_small_title</key>
     <string>年度播客盘点</string>
     <key>eoy_stories_failed</key>
@@ -682,14 +684,11 @@
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ 集</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>您收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
+    <string>您总共收听了 %1$@ 个不同的节目和 %2$@ 部剧集</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>我在 2022 年收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>但还有一个您经常回顾的播客…</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>不过，有一个
-您经常回听的...</string>
+    <string>但还有一个您经常收听的播客…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>您收听了 %1$@ 个播客和 %2$@ 集</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +716,7 @@
     <key>eoy_story_top_categories_share_text</key>
     <string>我收听最多的播客分类</string>
     <key>eoy_story_top_podcast</key>
-    <string>您的热门播客为 %2$@ 的 %1$@</string>
+    <string>%1$@ 是您在 2023 年收听率最高的节目</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>2022 年我最喜欢的播客！%1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>

@@ -657,6 +657,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bekijk je beste podcasts, categorieën, luisterstatistieken en meer. Deel met vrienden en geef een shoutout naar je favoriete makers!</string>
     <key>eoy_not_now</key>
     <string>Niet nu</string>
+    <key>eoy_share</key>
+    <string>Deel dit verhaal</string>
     <key>eoy_small_title</key>
     <string>Jaar in podcasts</string>
     <key>eoy_stories_failed</key>
@@ -686,10 +688,7 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Ik heb in 2022 naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Maar er was er één waar je steeds maar weer naar terugkeerde...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Maar er was er een die je
-bleef luisteren...</string>
+    <string>Maar er was er één waar je steeds maar weer naar terugkeerde ...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Je luisterde naar %1$@ en %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +716,7 @@ waar je naar hebt geluisterd was
     <key>eoy_story_top_categories_share_text</key>
     <string>Mijn meest beluisterde podcast-categorieën</string>
     <key>eoy_story_top_podcast</key>
-    <string>Je beste podcast was %1$@ van %2$@</string>
+    <string>%1$@ was jouw meest beluisterde show in 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Mijn favoriete podcast van 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>

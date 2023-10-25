@@ -681,15 +681,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>%1$@ unterschiedliche Kategorien</string>
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ Folgen</string>
-    <key>eoy_story_listened_to_numbers</key>
-    <string>Du hast dir %1$@ unterschiedliche Podcasts und %2$@ Folgen angehört</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Ich habe mir im Jahr 2022 %1$@ verschiedene Podcasts und %2$@ Folgen angehört</string>
-    <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Aber es gab einen, der dir besonders gut gefallen hat …</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Aber es gab eine, die dir
-besonders gut gefallen hat …</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Du hast dir %1$@ und %2$@ angehört</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -716,8 +709,6 @@ Folge dauerte
     <string>Deine Top-Kategorien</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Meine am häufigsten gehörten Podcast-Kategorien</string>
-    <key>eoy_story_top_podcast</key>
-    <string>Dein Top-Podcast war %1$@ von %2$@</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Mein Lieblings-Podcast 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>

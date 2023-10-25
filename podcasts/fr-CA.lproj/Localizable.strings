@@ -657,6 +657,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Retrouvez vos meilleurs podcasts, catégories, statistiques d’écoute, et plus encore. Partagez du contenu avec vos amis et remerciez vos créateurs favoris !</string>
     <key>eoy_not_now</key>
     <string>Pas maintenant</string>
+    <key>eoy_share</key>
+    <string>Partager cette story</string>
     <key>eoy_small_title</key>
     <string>Votre année en podcasts</string>
     <key>eoy_stories_failed</key>
@@ -682,14 +684,11 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ épisodes</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Vous avez écouté %1$@ podcasts différents et %2$@ épisodes.</string>
+    <string>Vous avez écouté %1$@ émissions différentes et %2$@ épisodes au total</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>J’ai écouté %1$@ podcasts différents et %2$@ épisodes en 2022</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Vous avez écouté plusieurs fois un même podcast…</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Il y en a cependant un que
-vous avez écouté plusieurs fois...</string>
+    <string>Vous avez écouté plusieurs fois une même émission…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Vous avez écouté %1$@ et %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +716,7 @@ que vous avez écouté était
     <key>eoy_story_top_categories_share_text</key>
     <string>Mes catégories de podcasts les plus écoutés</string>
     <key>eoy_story_top_podcast</key>
-    <string>Votre meilleur podcast était %1$@ de %2$@.</string>
+    <string>%1$@ est l’émission que vous avez le plus écoutée en 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Mon podcast préféré de 2022 ! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>

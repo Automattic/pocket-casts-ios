@@ -681,15 +681,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>%1$@ olika kategorier</string>
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ avsnitt</string>
-    <key>eoy_story_listened_to_numbers</key>
-    <string>Du lyssnade på %1$@ olika podcasts och %2$@ avsnitt</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Jag lyssnade på %1$@ olika podcasts och %2$@ avsnitt under 2022</string>
-    <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Men det fanns ett avsnitt som du fortsatte att komma tillbaka till ...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Men det fanns ett avsnitt som du
-fortsatte att komma tillbaka till ...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Du lyssnade på %1$@ och %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -716,8 +709,6 @@ du lyssnade på var
     <string>Dina favoritkategorier</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Mina mest lyssnade podcastkategorier</string>
-    <key>eoy_story_top_podcast</key>
-    <string>Din favoritpodcast var %1$@ av %2$@</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Min favoritpodcast 2022. %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>

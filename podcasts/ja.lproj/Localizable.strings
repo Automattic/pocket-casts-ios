@@ -657,6 +657,8 @@
     <string>人気のポッドキャスト、カテゴリー、視聴統計などを確認します。 友達と共有したり、お気に入りのクリエイターにエールを送ったりしましょう。</string>
     <key>eoy_not_now</key>
     <string>後で</string>
+    <key>eoy_share</key>
+    <string>このストーリーを共有</string>
     <key>eoy_small_title</key>
     <string>ポッドキャストで振り返る1年</string>
     <key>eoy_stories_failed</key>
@@ -682,14 +684,11 @@
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@件のエピソード</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>%1$@個のポッドキャストで%2$@話のエピソードを聴きました</string>
+    <string>%1$@個のショーで%合計2$@話のエピソードを聴きました</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>2022年に%1$@個のポッドキャストで%2$@件のエピソードを聴きました</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>何度も聴いたエピソードもありました...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>何度も聴いた
-エピソードもありました...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>%1$@と%2$@を聴きました</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +716,7 @@
     <key>eoy_story_top_categories_share_text</key>
     <string>最もよく聴いたポッドキャストカテゴリー</string>
     <key>eoy_story_top_podcast</key>
-    <string>あなたに人気のポッドキャストは %2$@ による %1$@ でした</string>
+    <string>%1$@ は2023年で最も視聴されたショーでした</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>2022年のお気に入りポッドキャスト ! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
