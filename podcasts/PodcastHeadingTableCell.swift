@@ -275,7 +275,6 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         let view = StarRatingView(viewModel: viewModel)
-            .frame(height: 16)
             .padding(.top, 10)
             .themedUIView
 
