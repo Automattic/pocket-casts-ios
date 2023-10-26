@@ -54,7 +54,7 @@ struct StarRatingView: View {
             Rectangle()
                 .foregroundStyle(theme.primaryUi05)
                 .frame(height: 1)
-                .padding(.top, 15)
+                .padding(.top, 12)
                 .padding(.bottom, 0)
         }
     }
