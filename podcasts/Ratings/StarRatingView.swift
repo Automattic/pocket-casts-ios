@@ -21,9 +21,19 @@ struct StarRatingView: View {
     }
 
     var body: some View {
+        if FeatureFlag.giveRatings.enabled {
+            starsAndRate
+        } else {
+            onlyStars
+        }
+    }
+
+    /// A view that returns stars and the "Rate" button
+    var starsAndRate: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
                 ratingView(rating: viewModel.rating)
+                    .frame(height: 16)
                     .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
 
                 Spacer()
@@ -44,8 +54,20 @@ struct StarRatingView: View {
             Rectangle()
                 .foregroundStyle(theme.primaryUi05)
                 .frame(height: 1)
-                .padding(.vertical, 5)
+                .padding(.top, 15)
+                .padding(.bottom, 0)
         }
+    }
+
+    // A view that returns only the stars
+    var onlyStars: some View {
+        HStack(alignment: .center) {
+            ratingView(rating: viewModel.rating)
+                .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
+
+            Spacer()
+        }
+        .frame(height: 15)
     }
 
     @ViewBuilder
