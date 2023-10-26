@@ -85,11 +85,13 @@ struct StarRatingView: View {
         // Get the float value
         let half = rating.truncatingRemainder(dividingBy: 1)
 
-        HStack(spacing: 0) {
+        HStack(spacing: 3) {
             ForEach(0..<Constants.maxStars, id: \.self) { index in
                 image(for: index, stars: stars, half: half)
+                    .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(theme.filter03)
             }
         }.foregroundColor(AppTheme.color(for: .filter03, theme: theme))
     }
@@ -120,9 +122,9 @@ struct StarRatingView: View {
         static let maxStars = 5
 
         // Star Images
-        static let filled = Image(systemName: "star.fill")
-        static let empty = Image(systemName: "star")
-        static let half = Image(systemName: "star.fill.left")
+        static let filled = Image("star-full")
+        static let empty = Image("star")
+        static let half = Image("star-half")
 
         static let minTimeBeforeAnimating: TimeInterval = 0.2
         static let animationDuration: TimeInterval = 0.1
