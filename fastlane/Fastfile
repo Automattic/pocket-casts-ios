@@ -361,7 +361,7 @@ platform :ios do
     ensure_git_branch(branch: '^release/')
 
     UI.important("Finalizing release: #{release_version_current}")
-    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
 
     check_all_translations_progress(interactive: true)
 
