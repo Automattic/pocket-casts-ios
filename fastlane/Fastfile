@@ -302,7 +302,7 @@ platform :ios do
     ensure_git_status_clean
 
     UI.important("Completing code freeze for: #{release_version_current}")
-    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
 
     generate_strings_file_for_glotpress
     create_merge_release_branch
