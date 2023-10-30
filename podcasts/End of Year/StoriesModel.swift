@@ -138,7 +138,7 @@ class StoriesModel: ObservableObject {
     }
 
     func next() {
-        guard numberOfStories > 0 else {
+        guard isReady, numberOfStories > 0 else {
             return
         }
 
@@ -150,7 +150,7 @@ class StoriesModel: ObservableObject {
     }
 
     func previous() {
-        guard numberOfStories > 0 else {
+        guard isReady, numberOfStories > 0 else {
             return
         }
 
@@ -235,7 +235,6 @@ private extension StoriesModel {
         ServerNotifications.iapPurchaseCompleted.publisher()
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
-            Settings.hasSyncedEpisodesForPlayback2023 = false
             self?.refresh()
         }
         .store(in: &cancellables)
