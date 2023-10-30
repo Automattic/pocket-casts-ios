@@ -78,11 +78,8 @@ struct EndOfYear {
         if Self.requireAccount && !SyncManager.isUserLoggedIn() {
             Self.state = .waitingForLogin
 
-            let profileIntroController = ProfileIntroViewController()
-            profileIntroController.infoLabelText = L10n.eoyCreateAccountToSee
-            let navigationController = UINavigationController(rootViewController: profileIntroController)
-            navigationController.modalPresentationStyle = .fullScreen
-            viewController.present(navigationController, animated: true)
+            let onboardingController = OnboardingFlow.shared.begin(flow: .endOfYear)
+            viewController.present(onboardingController, animated: true)
             return
         }
 
