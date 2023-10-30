@@ -121,12 +121,8 @@ before_all do
 end
 
 platform :ios do
-  # Unfortunately, release toolkit still relies on certain settings being set in the environment
-  ENV['PROJECT_NAME'] = 'podcasts'
-  ENV['PROJECT_ROOT_FOLDER'] = "#{PROJECT_ROOT_FOLDER}/"
-  ENV['PUBLIC_CONFIG_FILE'] = VERSION_XCCONFIG_PATH
-  ENV['GHHELPER_REPO'] = GHHELPER_REPO
-
+  # This explicit timeout is necessary for the `xcodebuild -showBuildSettings` call to succeed in CI.
+  # See https://buildkite.com/automattic/pocket-casts-ios/builds/4875#018b7eea-e8d7-40a1-8ce5-515dd8feafce/666-805
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
   desc 'Run the unit tests'
