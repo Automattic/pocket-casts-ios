@@ -45,7 +45,7 @@ struct EpilogueStory: StoryView {
                     StoriesController.shared.replay()
                     Analytics.track(.endOfYearStoryReplayButtonTapped)
                 }
-                .buttonStyle(ReplayButtonStyle(color: Constants.backgroundColor))
+                .buttonStyle(StoriesButtonStyle(color: Constants.backgroundColor, icon: Image("eoy-replay-icon")))
                 .opacity(renderForSharing ? 0 : 1)
                 .padding(.top, 36)
 
@@ -174,11 +174,13 @@ private struct GradientHolographicEffect<Content>: View where Content: View {
     }
 }
 
-struct ReplayButtonStyle: ButtonStyle {
+struct StoriesButtonStyle: ButtonStyle {
     let color: Color
+    let icon: Image?
+
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack() {
-            Image("eoy-replay-icon")
+            icon?
                 .resizable()
                 .frame(width: 24, height: 24)
             configuration.label

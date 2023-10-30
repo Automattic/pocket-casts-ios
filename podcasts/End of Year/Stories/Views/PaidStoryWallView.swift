@@ -19,7 +19,7 @@ struct PaidStoryWallView: View {
                     NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: .endOfYearUpsell)
 
                 }
-                .buttonStyle(ReplayButtonStyle(color: .black))
+                .buttonStyle(StoriesButtonStyle(color: .black, icon: nil))
             }
         }
         .background(
