@@ -3,10 +3,14 @@ import PocketCastsServer
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel
+
+    @ObservedObject private var syncProgressModel: SyncYearListeningProgress
+
     @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
 
-    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress = .shared) {
         model = StoriesModel(dataSource: dataSource, configuration: configuration)
+        self.syncProgressModel = syncProgressModel
     }
 
     @ViewBuilder
@@ -65,7 +69,7 @@ struct StoriesView: View {
             Spacer()
 
             VStack(spacing: 15) {
-                let progress = SyncYearListeningProgress.shared.progress
+                let progress = syncProgressModel.progress
                 CircularProgressView(value: progress, stroke: Color.white, strokeWidth: 6)
                     .frame(width: 40, height: 40)
                 Text(L10n.loading)
