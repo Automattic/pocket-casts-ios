@@ -428,6 +428,7 @@ extension NSLocale {
 
 struct StoryGradient: View {
     let geometry: GeometryProxy
+    var plus: Bool = false
 
     var body: some View {
         Rectangle()
@@ -435,11 +436,7 @@ struct StoryGradient: View {
         .frame(width: geometry.size.height * 0.6, height: geometry.size.height * 0.6)
         .background(
             LinearGradient(
-                stops: [
-                    Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
-                    Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.61),
-                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 1.00),
-                ],
+                stops: gradient,
                 startPoint: UnitPoint(x: 0.49, y: 0.11),
                 endPoint: UnitPoint(x: 0.49, y: 0.98)
             )
@@ -448,28 +445,24 @@ struct StoryGradient: View {
         .blur(radius: geometry.size.height * 0.13)
         .opacity(0.6)
     }
-}
 
-struct PlusStoryGradient: View {
-    let geometry: GeometryProxy
+    private var gradient: [Gradient.Stop] {
+        plus ? plusGradient : normalGradient
+    }
 
-    var body: some View {
-        Rectangle()
-        .foregroundColor(.clear)
-        .frame(width: geometry.size.height * 0.6, height: geometry.size.height * 0.6)
-        .background(
-            LinearGradient(
-                stops: [
-                    Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.00),
-                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.61),
-                    Gradient.Stop(color: .black, location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0.49, y: 0.11),
-                endPoint: UnitPoint(x: 0.49, y: 0.98)
-            )
-        )
-        .cornerRadius(geometry.size.height * 0.6)
-        .blur(radius: geometry.size.height * 0.13)
-        .opacity(0.55)
+    private var plusGradient: [Gradient.Stop] {
+        [
+            Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.00),
+            Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.61),
+            Gradient.Stop(color: .black, location: 1.00),
+        ]
+    }
+
+    private var normalGradient: [Gradient.Stop] {
+        [
+            Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+            Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.61),
+            Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 1.00),
+        ]
     }
 }

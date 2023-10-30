@@ -69,7 +69,7 @@ struct EpilogueStory: StoryView {
     @ViewBuilder
     func background(geometry: GeometryProxy) -> some View {
         if isPlus {
-            PlusStoryGradient(geometry: geometry)
+            StoryGradient(geometry: geometry, plus: true)
         } else {
             StoryGradient(geometry: geometry)
         }
