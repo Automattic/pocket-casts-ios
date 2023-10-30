@@ -444,8 +444,8 @@ struct StoryGradient: View {
                 endPoint: UnitPoint(x: 0.49, y: 0.98)
             )
         )
-        .cornerRadius(510)
-        .blur(radius: 107)
+        .cornerRadius(geometry.size.height * 0.6)
+        .blur(radius: geometry.size.height * 0.13)
         .opacity(0.6)
     }
 }
@@ -468,8 +468,8 @@ struct PlusStoryGradient: View {
                 endPoint: UnitPoint(x: 0.49, y: 0.98)
             )
         )
-        .cornerRadius(510)
-        .blur(radius: 107)
+        .cornerRadius(geometry.size.height * 0.6)
+        .blur(radius: geometry.size.height * 0.13)
         .opacity(0.55)
     }
 }
