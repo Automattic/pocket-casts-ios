@@ -121,9 +121,6 @@ before_all do
 end
 
 platform :ios do
-  # This explicit timeout helps resolve Xcode build errors
-  ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
-
   desc 'Run the unit tests'
   lane :test do
     run_tests(
