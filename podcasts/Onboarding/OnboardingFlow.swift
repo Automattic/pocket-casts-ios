@@ -6,7 +6,7 @@ struct OnboardingFlow {
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
-    private var source: String? = nil
+    private(set) var source: String? = nil
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil) -> UIViewController {
         self.currentFlow = flow
@@ -113,6 +113,9 @@ struct OnboardingFlow {
         /// When the user was logged out due to a server or token issue, not as a result of user interaction and is
         /// asked to sign in again. See the `BackgroundSignOutListener`
         case forcedLoggedOut = "forced_logged_out"
+
+        /// When the user is brought into the onboarding flow from the End Of Year Stories
+        case endOfYear
 
         var analyticsDescription: String { rawValue }
 
