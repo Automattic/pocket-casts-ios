@@ -68,7 +68,7 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
     func refresh() async -> Bool {
         Settings.hasSyncedEpisodesForPlayback2023 = false
 
-        SyncYearListeningProgress.shared.reset()
+        await SyncYearListeningProgress.shared.reset()
 
         return await isReady()
     }

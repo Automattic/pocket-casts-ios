@@ -278,13 +278,14 @@ class EndOfYearDataManager {
     }
 
     /// Given a list of UUIDs, return which UUIDs are present on the database
-    func episodesThatExist(dbQueue: FMDatabaseQueue, uuids: [String]) -> [String] {
+    func episodesThatExist(year: Int32, dbQueue: FMDatabaseQueue, uuids: [String]) -> [String] {
         var episodes: [String] = []
 
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT DISTINCT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count))
+                            SELECT DISTINCT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count)) and
+                                \(listenedEpisodes(year: year))
                             """
                 let resultSet = try db.executeQuery(query, values: uuids)
                 defer { resultSet.close() }

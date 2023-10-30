@@ -950,8 +950,8 @@ public extension DataManager {
         endOfYearManager.longestEpisode(dbQueue: dbQueue)
     }
 
-    func episodesThatExist(uuids: [String]) -> [String] {
-        endOfYearManager.episodesThatExist(dbQueue: dbQueue, uuids: uuids)
+    func episodesThatExist(year: Int32, uuids: [String]) -> [String] {
+        endOfYearManager.episodesThatExist(year: year, dbQueue: dbQueue, uuids: uuids)
     }
 
     func yearOverYearListeningTime() -> YearOverYearListeningTime {

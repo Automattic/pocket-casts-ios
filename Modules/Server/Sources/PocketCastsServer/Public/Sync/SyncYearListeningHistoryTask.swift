@@ -70,7 +70,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
                 if !shouldSync {
                     compareNumberOfEpisodes(year: yearToSync, serverData: response)
                 } else {
-                    syncMissingEpisodes(serverData: response)
+                    syncMissingEpisodes(year: yearToSync, serverData: response)
                 }
             } else {
                 print("SyncYearListeningHistory Unable to sync with server got status \(httpStatus)")
@@ -97,13 +97,13 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         }
     }
 
-    private func syncMissingEpisodes(serverData: Data) {
+    private func syncMissingEpisodes(year: Int32, serverData: Data) {
         do {
             let response = try Api_YearHistoryResponse(serializedData: serverData)
 
             // on watchOS, we don't show history, so we also don't process server changes we only want to push changes up, not down
             #if !os(watchOS)
-            updateEpisodes(updates: response.history.changes)
+            updateEpisodes(year: year, updates: response.history.changes)
             #endif
 
             success = true
@@ -112,12 +112,12 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         }
     }
 
-    private func updateEpisodes(updates: [Api_HistoryChange]) {
+    private func updateEpisodes(year: Int32, updates: [Api_HistoryChange]) {
         var podcastsToUpdate: Set<String> = []
 
         // Get the list of missing episodes in the database
         let uuids = updates.map { $0.episode }
-        let episodesThatExist = DataManager.sharedManager.episodesThatExist(uuids: uuids)
+        let episodesThatExist = DataManager.sharedManager.episodesThatExist(year: year, uuids: uuids)
         let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
         SyncYearListeningProgress.shared.episodesToSync += Double(missingEpisodes.count)
