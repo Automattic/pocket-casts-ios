@@ -12,7 +12,11 @@ struct PaidStoryWallView: View {
                 .padding(.bottom, geometry.size.height * 0.06)
 
                 Button(L10n.eoyStartYourFreeTrial) {
-                    NavigationManager.sharedManager.showUpsellView(from: SceneHelper.rootViewController()!, source: .endOfYear)
+                    guard let storiesViewController = SceneHelper.rootViewController()?.presentedViewController else {
+                        return
+                    }
+
+                    NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: .plusUpsell)
 
                 }
                 .buttonStyle(ReplayButtonStyle(color: .black))
