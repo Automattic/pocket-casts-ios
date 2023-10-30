@@ -84,7 +84,7 @@ class EndOfYearDataManager {
     }
 
     /// Returns the number of episodes we have for this year
-    func numberOfEpisodes(dbQueue: FMDatabaseQueue) -> Int {
+    func numberOfEpisodes(year: Int32, dbQueue: FMDatabaseQueue) -> Int {
         var numberOfEpisodes: Int = 0
 
         dbQueue.inDatabase { db in
@@ -92,7 +92,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as numberOfEpisodes from \(DataManager.episodeTableName)
                             WHERE
-                            \(listenedEpisodesThisYear)
+                            \(listenedEpisodes(year: year))
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
@@ -106,6 +106,10 @@ class EndOfYearDataManager {
         }
 
         return numberOfEpisodes
+    }
+
+    private func listenedEpisodes(year: Int32) -> String {
+       "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '\(year)-01-01') and strftime('%s', '\(year + 1)-01-01')"
     }
 
     /// Returns the approximate listening time for the current year
@@ -280,8 +284,7 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT DISTINCT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count)) and
-                                \(listenedEpisodesThisYear)
+                            SELECT DISTINCT uuid FROM \(DataManager.episodeTableName) WHERE \(DataManager.episodeTableName).uuid IN \(DBUtils.valuesQuestionMarks(amount: uuids.count))
                             """
                 let resultSet = try db.executeQuery(query, values: uuids)
                 defer { resultSet.close() }

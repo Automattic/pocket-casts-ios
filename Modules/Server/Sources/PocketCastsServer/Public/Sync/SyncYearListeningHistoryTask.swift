@@ -21,6 +21,7 @@ public class SyncYearListeningProgress: ObservableObject {
     }
 
     public func reset() {
+        progress = 0
         episodesToSync = 0
         syncedEpisodes = 0
     }
@@ -40,44 +41,53 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     override func apiTokenAcquired(token: String) {
         self.token = token
 
-        performRequest(token: token, shouldSync: false)
+        let dispatchGroup = DispatchGroup()
+        yearsToSync.forEach { yearToSync in
+            dispatchGroup.enter()
+
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.performRequest(yearToSync: yearToSync, token: token, shouldSync: false)
+
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.wait()
     }
 
-    private func performRequest(token: String, shouldSync: Bool) {
-        yearsToSync.forEach { yearToSync in
-            var dataToSync = Api_YearHistoryRequest()
-            dataToSync.version = apiVersion
-            dataToSync.year = yearToSync
-            dataToSync.count = !shouldSync
+    private func performRequest(yearToSync: Int32, token: String, shouldSync: Bool) {
+        var dataToSync = Api_YearHistoryRequest()
+        dataToSync.version = apiVersion
+        dataToSync.year = yearToSync
+        dataToSync.count = !shouldSync
 
-            let url = ServerConstants.Urls.api() + "history/year"
-            do {
-                let data = try dataToSync.serializedData()
-                let (response, httpStatus) = postToServer(url: url, token: token, data: data)
-                if let response, httpStatus == ServerConstants.HttpConstants.ok {
-                    if !shouldSync {
-                        compareNumberOfEpisodes(serverData: response)
-                    } else {
-                        syncMissingEpisodes(serverData: response)
-                    }
+        let url = ServerConstants.Urls.api() + "history/year"
+        do {
+            let data = try dataToSync.serializedData()
+            let (response, httpStatus) = postToServer(url: url, token: token, data: data)
+            if let response, httpStatus == ServerConstants.HttpConstants.ok {
+                if !shouldSync {
+                    compareNumberOfEpisodes(year: yearToSync, serverData: response)
                 } else {
-                    print("SyncYearListeningHistory Unable to sync with server got status \(httpStatus)")
+                    syncMissingEpisodes(serverData: response)
                 }
-            } catch {
-                print("SyncYearListeningHistory had issues encoding protobuf \(error.localizedDescription)")
+            } else {
+                print("SyncYearListeningHistory Unable to sync with server got status \(httpStatus)")
             }
+        } catch {
+            print("SyncYearListeningHistory had issues encoding protobuf \(error.localizedDescription)")
         }
     }
 
-    private func compareNumberOfEpisodes(serverData: Data) {
+    private func compareNumberOfEpisodes(year: Int32, serverData: Data) {
         do {
             let response = try Api_YearHistoryResponse(serializedData: serverData)
 
-            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodesThisYear()
+            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodes(year: year)
 
             if response.count > localNumberOfEpisodes, let token {
                 print("SyncYearListeningHistory: \(Int(response.count) - localNumberOfEpisodes) episodes missing, adding them...")
-                performRequest(token: token, shouldSync: true)
+                performRequest(yearToSync: year, token: token, shouldSync: true)
             } else {
                 success = true
             }
