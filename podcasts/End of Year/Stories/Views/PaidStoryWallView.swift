@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 struct PaidStoryWallView: View {
     var body: some View {
@@ -16,7 +17,7 @@ struct PaidStoryWallView: View {
                         return
                     }
 
-                    NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: .endOfYearUpsell)
+                    NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
 
                 }
                 .buttonStyle(StoriesButtonStyle(color: .black, icon: nil))
