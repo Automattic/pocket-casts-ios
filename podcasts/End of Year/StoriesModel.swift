@@ -228,10 +228,7 @@ private extension StoriesModel {
             }
         }
 
-        Publishers.Merge(
-            ServerNotifications.iapPurchaseCompleted.publisher(),
-            ServerNotifications.subscriptionStatusChanged.publisher()
-        )
+        ServerNotifications.iapPurchaseCompleted.publisher()
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
             self?.start()
