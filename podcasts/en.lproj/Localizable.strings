@@ -3644,6 +3644,15 @@
 /* Title for the completion rate. %1$@ is the total of episodes listened this year, %2$@ is the total of episodes fully listened to. */
 "eoy_year_completion_rate_subtitle" = "From the %1$@ episodes you started you listened fully to a total of %2$@";
 
+/* Title of the story paywall. Telling the users that there are more stories to check. */
+"eoy_theres_more" = "There’s more!";
+
+/* Subtitle explaining the user why they should susbcribe to Plus in the context of the end of year stories. */
+"eoy_subscribe_to_plus" = "Subscribe to Plus and find out how your listening compares to 2022, other fun stats, and Premium features like bookmarks and folders.";
+
+/* Subtitle explaining the user why they should susbcribe to Plus in the context of the end of year stories. */
+"eoy_start_your_free_trial" = "Start your Free Trial";
+
 /* Title of the view displayed after a user successfully upgrades to plus */
 "welcome_plus_title" = "Thank you, now let's get you listening!";
 
