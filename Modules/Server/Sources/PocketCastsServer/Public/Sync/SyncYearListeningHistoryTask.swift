@@ -33,6 +33,8 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
     private let yearsToSync: [Int32]
 
+    private var totalEpisodesDispatchGroup = DispatchGroup()
+
     var success: Bool = false
 
     init(years: [Int32]) {
@@ -42,8 +44,10 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     override func apiTokenAcquired(token: String) {
         self.token = token
 
+        // Sync multiple years in parallel so it's faster
         let dispatchGroup = DispatchGroup()
         yearsToSync.forEach { yearToSync in
+            totalEpisodesDispatchGroup.enter()
             dispatchGroup.enter()
 
             DispatchQueue.global(qos: .userInitiated).async {
@@ -121,6 +125,11 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
         SyncYearListeningProgress.shared.episodesToSync += Double(missingEpisodes.count)
+
+        totalEpisodesDispatchGroup.leave()
+
+        // Wait until we have the total number of episodes to be synced
+        totalEpisodesDispatchGroup.wait()
 
         let dispatchGroup = DispatchGroup()
 
