@@ -19,6 +19,11 @@ public class SyncYearListeningProgress: ObservableObject {
         // There are a few additional requests after syncing episodes, so we hang on 95%
         progress = min(syncedEpisodes / episodesToSync, 0.95)
     }
+
+    public func reset() {
+        episodesToSync = 0
+        syncedEpisodes = 0
+    }
 }
 
 class SyncYearListeningHistoryTask: ApiBaseTask {
