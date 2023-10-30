@@ -121,7 +121,8 @@ before_all do
 end
 
 platform :ios do
-  # This explicit timeout helps resolve Xcode build errors
+  # This explicit timeout is necessary for the `xcodebuild -showBuildSettings` call to succeed in CI.
+  # See https://buildkite.com/automattic/pocket-casts-ios/builds/4875#018b7eea-e8d7-40a1-8ce5-515dd8feafce/666-805
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
   desc 'Run the unit tests'
