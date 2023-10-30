@@ -1,6 +1,7 @@
 7.51
 -----
-
+- Improvements on battery consumption when trim silence is not enabled [#1186]
+- TestFlight: Disable new show notes endpoint and custom RSS artwork due to memory issues
 
 7.50
 -----
