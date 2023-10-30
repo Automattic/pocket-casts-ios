@@ -164,6 +164,10 @@ class MockStoriesDataSource: StoriesDataSource {
     func isReady() async -> Bool {
         true
     }
+
+    func refresh() async -> Bool {
+        true
+    }
 }
 
 class MockStoriesWithPlusDataSource: StoriesDataSource {
@@ -193,6 +197,10 @@ class MockStoriesWithPlusDataSource: StoriesDataSource {
     }
 
     func isReady() async -> Bool {
+        true
+    }
+
+    func refresh() async -> Bool {
         true
     }
 }

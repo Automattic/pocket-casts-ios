@@ -26,11 +26,14 @@ class EndOfYearStoriesBuilder {
 
     private let data = EndOfYearStoriesData()
 
+    private var hasActiveSubscription: () -> Bool
+
     private let sync: (() -> Bool)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Bool)? = YearListeningHistory.sync) {
+    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Bool)? = YearListeningHistory.sync, hasActiveSubscription: @escaping () -> Bool = SubscriptionHelper.hasActiveSubscription) {
         self.dataManager = dataManager
         self.sync = sync
+        self.hasActiveSubscription = hasActiveSubscription
     }
 
     /// Call this method to build the list of stories and the data provider
@@ -38,11 +41,12 @@ class EndOfYearStoriesBuilder {
         await withCheckedContinuation { continuation in
 
             // Check if the user has the full listening history for this year
-            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedEpisodesForPlayback2023 {
+            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedEpisodesForPlayback2023 || (Settings.hasSyncedEpisodesForPlayback2023 && Settings.hasSyncedEpisodesForPlayback2023AsPlusUser != hasActiveSubscription()) {
                 let syncedWithSuccess = sync?()
 
                 if syncedWithSuccess == true {
                     Settings.hasSyncedEpisodesForPlayback2023 = true
+                    Settings.hasSyncedEpisodesForPlayback2023AsPlusUser = hasActiveSubscription()
                 } else {
                     continuation.resume(returning: ([], data))
                     return

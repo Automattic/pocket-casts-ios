@@ -746,6 +746,17 @@ class Settings: NSObject {
         }
     }
 
+    /// Whether the user was plus or not by the time the sync happened
+    class var hasSyncedEpisodesForPlayback2023AsPlusUser: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
+        }
+    }
+
     class var top5PodcastsListLink: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.top5PodcastsListLink)
