@@ -258,7 +258,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
 
     func testDontSyncAgainWhenSubscriptionStatusDontChange() async {
         var syncCalledTimes = 0
-        var plusUser = true
+        let plusUser = false
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
