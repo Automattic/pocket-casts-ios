@@ -84,11 +84,6 @@ class StoriesModel: ObservableObject {
 
             self.progress = newProgress
             StoriesProgressModel.shared.progress = newProgress
-
-            // When showing a paid story for a free user, pause
-            if self.currentStoryIsPlus && !self.isPaidUser() {
-                self.pause()
-            }
         })
     }
 

@@ -34,7 +34,9 @@ struct StoriesView: View {
                 model.story(index: model.currentStory).zIndex(3).ignoresSafeArea(edges: .bottom)
 
                 if model.shouldShowUpsell() {
-                    PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom)
+                    PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom).onAppear {
+                        model.pause()
+                    }
                 }
 
                 // By default the story switcher will appear above the story and override all
