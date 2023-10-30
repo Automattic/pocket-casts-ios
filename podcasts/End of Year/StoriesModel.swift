@@ -54,6 +54,15 @@ class StoriesModel: ObservableObject {
         subscribeToNotifications()
     }
 
+    func refresh() {
+        isReady = false
+
+        Task.init {
+            await isReady = dataSource.isReady()
+            failed = !isReady
+        }
+    }
+
     func start() {
         cancellable = publisher.autoconnect().sink(receiveValue: { _ in
             guard self.numberOfStories > 0 else {
@@ -226,8 +235,8 @@ private extension StoriesModel {
         ServerNotifications.iapPurchaseCompleted.publisher()
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
-            self?.start()
-            self?.objectWillChange.send()
+            Settings.hasSyncedEpisodesForPlayback2023 = false
+            self?.refresh()
         }
         .store(in: &cancellables)
     }
