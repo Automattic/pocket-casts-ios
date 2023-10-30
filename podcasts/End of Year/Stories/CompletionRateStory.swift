@@ -7,6 +7,8 @@ struct CompletionRateStory: ShareableStory {
 
     let identifier: String = "year_over_year"
 
+    let plusOnly = true
+
     let subscriptionTier: SubscriptionTier
 
     let startedAndCompleted: EpisodesStartedAndCompleted
