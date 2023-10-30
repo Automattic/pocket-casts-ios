@@ -18,6 +18,8 @@ class StoriesModel: ObservableObject {
     private let publisher: Timer.TimerPublisher
     private let configuration: StoriesConfiguration
 
+    private var cancellables = Set<AnyCancellable>()
+
     private var cancellable: Cancellable?
     private var interval: TimeInterval {
         dataSource.story(for: currentStory).duration
@@ -225,6 +227,17 @@ private extension StoriesModel {
                 }
             }
         }
+
+        Publishers.Merge(
+            ServerNotifications.iapPurchaseCompleted.publisher(),
+            ServerNotifications.subscriptionStatusChanged.publisher()
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _ in
+            self?.start()
+            self?.objectWillChange.send()
+        }
+        .store(in: &cancellables)
     }
 
     func isPaidUser() -> Bool {
