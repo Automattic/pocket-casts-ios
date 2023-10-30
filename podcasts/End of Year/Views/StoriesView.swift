@@ -33,6 +33,10 @@ struct StoriesView: View {
                 // Manually set the zIndex order to ensure we can change the order when needed
                 model.story(index: model.currentStory).zIndex(3).ignoresSafeArea(edges: .bottom)
 
+                if model.shouldShowUpsell() {
+                    PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom)
+                }
+
                 // By default the story switcher will appear above the story and override all
                 // interaction, but if the story contains interactive elements then move the
                 // switcher to appear behind the view to allow the story override the switcher, or
@@ -43,7 +47,7 @@ struct StoriesView: View {
             header
 
             // Hide the share button if needed
-            if model.storyIsShareable(index: model.currentStory) {
+            if model.storyIsShareable(index: model.currentStory) && !model.shouldShowUpsell() {
                 VStack {
                     Spacer()
                     shareButton
