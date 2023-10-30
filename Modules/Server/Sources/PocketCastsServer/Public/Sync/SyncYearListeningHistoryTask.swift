@@ -20,6 +20,7 @@ public class SyncYearListeningProgress: ObservableObject {
         progress = min(syncedEpisodes / episodesToSync, 0.95)
     }
 
+    @MainActor
     public func reset() {
         progress = 0
         episodesToSync = 0
