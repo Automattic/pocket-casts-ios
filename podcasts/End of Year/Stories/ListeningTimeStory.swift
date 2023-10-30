@@ -50,7 +50,7 @@ struct ListeningTimeStory: ShareableStory {
                 ZStack(alignment: .bottom) {
                     Color.black
 
-                    StoryGradient()
+                    StoryGradient(geometry: geometry)
                     .offset(x: -geometry.size.width * 0.8, y: geometry.size.height * 0.25)
                 }
             )

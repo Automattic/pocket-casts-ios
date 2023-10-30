@@ -427,10 +427,12 @@ extension NSLocale {
 // MARK: - 2023 background
 
 struct StoryGradient: View {
+    let geometry: GeometryProxy
+
     var body: some View {
         Rectangle()
         .foregroundColor(.clear)
-        .frame(width: 510, height: 510)
+        .frame(width: geometry.size.height * 0.6, height: geometry.size.height * 0.6)
         .background(
             LinearGradient(
                 stops: [
@@ -449,10 +451,12 @@ struct StoryGradient: View {
 }
 
 struct PlusStoryGradient: View {
+    let geometry: GeometryProxy
+
     var body: some View {
         Rectangle()
         .foregroundColor(.clear)
-        .frame(width: 510, height: 510)
+        .frame(width: geometry.size.height * 0.6, height: geometry.size.height * 0.6)
         .background(
             LinearGradient(
                 stops: [

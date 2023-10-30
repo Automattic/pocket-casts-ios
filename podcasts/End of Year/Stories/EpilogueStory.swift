@@ -55,7 +55,7 @@ struct EpilogueStory: StoryView {
                 ZStack(alignment: .top) {
                     Color.black
 
-                    background
+                    background(geometry: geometry)
                     .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.22)
                     .clipped()
                 }
@@ -67,11 +67,11 @@ struct EpilogueStory: StoryView {
     }
 
     @ViewBuilder
-    var background: some View {
+    func background(geometry: GeometryProxy) -> some View {
         if isPlus {
-            PlusStoryGradient()
+            PlusStoryGradient(geometry: geometry)
         } else {
-            StoryGradient()
+            StoryGradient(geometry: geometry)
         }
     }
 
