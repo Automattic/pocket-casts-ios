@@ -28,3 +28,6 @@ Metrics/MethodLength:
 Naming/AsciiIdentifiers:
   Exclude:
     - scripts/themes/generate_themes.rb
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never

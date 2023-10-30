@@ -242,7 +242,7 @@ platform :ios do
       extracted_notes_file_path: EXTRACTED_RELEASE_NOTES_PATH
     )
     ios_update_release_notes(
-      new_version:,
+      new_version: new_version,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
   end
@@ -567,8 +567,8 @@ platform :ios do
     ios_download_strings_files_from_glotpress(
       project_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
       locales: GLOTPRESS_TO_LPROJ_APP_LOCALE_CODES,
-      download_dir:,
-      table_basename:
+      download_dir: download_dir,
+      table_basename: table_basename
     )
 
     # Redispatch the appropriate subset of translations back to the individual
@@ -603,7 +603,7 @@ platform :ios do
 
     gp_downloadmetadata(
       project_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
-      target_files:,
+      target_files: target_files,
       locales: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES,
       download_path: APP_STORE_METADATA_FOLDER
     )
@@ -657,16 +657,16 @@ inal copy, and try again.")
     check_translation_progress(
       glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
       language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
-      abort_on_violations:,
-      skip_confirm:
+      abort_on_violations: abort_on_violations,
+      skip_confirm: skip_confirm
     )
 
     UI.header('Checking release notes strings translation status...')
     check_translation_progress(
       glotpress_url: GLOTPRESS_APP_STORE_METADATA_PROJECT_URL,
       language_codes: GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES.keys,
-      abort_on_violations:,
-      skip_confirm:
+      abort_on_violations: abort_on_violations,
+      skip_confirm: skip_confirm
     )
   end
 
@@ -687,7 +687,7 @@ inal copy, and try again.")
       app_version: ios_get_app_version(public_version_xcconfig_file: VERSION_XCCONFIG_PATH),
       skip_binary_upload: true,
       screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
-      skip_screenshots:,
+      skip_screenshots: skip_screenshots,
       overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
       phased_release: true,
       precheck_include_in_app_purchases: false,
@@ -702,7 +702,7 @@ inal copy, and try again.")
     buildkite_trigger_build(
       buildkite_organization: 'automattic',
       buildkite_pipeline: 'pocket-casts-ios',
-      branch:,
+      branch: branch,
       environment: { BETA_RELEASE: beta },
       pipeline_file: 'release-builds.yml'
     )
