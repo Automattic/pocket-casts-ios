@@ -25,22 +25,23 @@ struct PaidStoryWallView: View {
         .background(
             ZStack {
                 LinearGradient(
-                stops: [
-                Gradient.Stop(color: .black, location: 0.00),
-                Gradient.Stop(color: .black.opacity(0), location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0.5, y: 0.24),
-                endPoint: UnitPoint(x: 0.5, y: 1.04)
+                    stops: [
+                        Gradient.Stop(color: .black, location: 0.00),
+                        Gradient.Stop(color: .black.opacity(0), location: 1.00),
+                    ],
+                    startPoint: UnitPoint(x: 0.5, y: 0.24),
+                    endPoint: UnitPoint(x: 0.5, y: 1.04)
                 )
 
                 VisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
             }
-                .allowsHitTesting(false)
+            .allowsHitTesting(false)
+            .ignoresSafeArea(edges: [.top, .bottom])
         )
     }
 }
 
-struct VisualEffectView: UIViewRepresentable {
+private struct VisualEffectView: UIViewRepresentable {
     var effect: UIVisualEffect?
     func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
     func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
