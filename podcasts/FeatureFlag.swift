@@ -74,9 +74,9 @@ enum FeatureFlag: String, CaseIterable {
         case .autoplay:
             return true
         case .newShowNotesEndpoint:
-            return true
+            return false
         case .episodeFeedArtwork:
-            return Self.isTestFlight ? true : false
+            return false // To be enabled, newShowNotesEndpoint needs to be too
         }
     }
 }
