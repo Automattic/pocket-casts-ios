@@ -209,6 +209,10 @@ class StoriesModel: ObservableObject {
         pause()
         NavigationManager.sharedManager.dismissPresentedViewController()
     }
+
+    func shouldShowUpsell() -> Bool {
+        currentStoryIsPlus && activeTier() == .none
+    }
 }
 
 private extension StoriesModel {
