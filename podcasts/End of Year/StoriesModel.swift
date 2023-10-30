@@ -55,6 +55,10 @@ class StoriesModel: ObservableObject {
     }
 
     func refresh() {
+        Settings.hasSyncedEpisodesForPlayback2023 = false
+
+        SyncYearListeningProgress.shared.reset()
+
         isReady = false
 
         Task.init {
