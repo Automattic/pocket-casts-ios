@@ -142,7 +142,7 @@ private extension PlusPurchaseModel {
 
         /// When purchasing from the End Of Year flow we want to take the user directly
         /// back to their stories.
-        if OnboardingFlow.shared.source == PlusUpgradeViewSource.endOfYear.rawValue {
+        if OnboardingFlow.shared.currentFlow == .endOfYearUpsell {
             if FeatureFlag.patron.enabled {
                 parentController.dismiss(animated: true)
             } else {

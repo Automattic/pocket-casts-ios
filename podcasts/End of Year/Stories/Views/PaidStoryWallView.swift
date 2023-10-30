@@ -16,7 +16,7 @@ struct PaidStoryWallView: View {
                         return
                     }
 
-                    NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: .plusUpsell)
+                    NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: .endOfYearUpsell)
 
                 }
                 .buttonStyle(ReplayButtonStyle(color: .black))

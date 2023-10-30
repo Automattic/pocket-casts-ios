@@ -6,7 +6,7 @@ struct OnboardingFlow {
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
-    private(set) var source: String? = nil
+    private var source: String? = nil
 
     mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil) -> UIViewController {
         self.currentFlow = flow
@@ -16,7 +16,7 @@ struct OnboardingFlow {
 
         let flowController: UIViewController
         switch flow {
-        case .plusUpsell, .endOfYear:
+        case .plusUpsell, .endOfYearUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
             flowController = upgradeController(in: navigationController, context: context)
@@ -114,8 +114,11 @@ struct OnboardingFlow {
         /// asked to sign in again. See the `BackgroundSignOutListener`
         case forcedLoggedOut = "forced_logged_out"
 
-        /// When the user is brought into the onboarding flow from the End Of Year Stories
+        /// When the user is brought into the onboarding flow from the End Of Year prompt
         case endOfYear
+
+        /// When the user is brought into the onboarding flow from the End Of Year stories
+        case endOfYearUpsell
 
         var analyticsDescription: String { rawValue }
 
