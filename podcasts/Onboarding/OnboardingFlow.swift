@@ -16,7 +16,7 @@ struct OnboardingFlow {
 
         let flowController: UIViewController
         switch flow {
-        case .plusUpsell:
+        case .plusUpsell, .endOfYear:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
             flowController = upgradeController(in: navigationController, context: context)
