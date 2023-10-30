@@ -1,6 +1,6 @@
 7.51
 -----
-
+- Improvements on battery consumption when trim silence is not enabled [#1186]
 
 7.50
 -----
