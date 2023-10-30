@@ -38,11 +38,11 @@ class EndOfYearStoriesBuilder {
         await withCheckedContinuation { continuation in
 
             // Check if the user has the full listening history for this year
-            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedAll2022Episodes {
+            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedEpisodesForPlayback2023 {
                 let syncedWithSuccess = sync?()
 
                 if syncedWithSuccess == true {
-                    Settings.hasSyncedAll2022Episodes = true
+                    Settings.hasSyncedEpisodesForPlayback2023 = true
                 } else {
                     continuation.resume(returning: ([], data))
                     return

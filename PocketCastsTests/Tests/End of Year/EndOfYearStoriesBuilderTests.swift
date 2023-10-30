@@ -7,7 +7,7 @@ import XCTest
 class EndOfYearStoriesBuilderTests: XCTestCase {
     override func setUp() {
         // Do not sync for episodes
-        Settings.hasSyncedAll2022Episodes = true
+        Settings.hasSyncedEpisodesForPlayback2023 = true
 
         // Pretend we're logged in
         ServerSettings.setSyncingEmail(email: "test@test.com")
@@ -216,7 +216,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
-        Settings.hasSyncedAll2022Episodes = false
+        Settings.hasSyncedEpisodesForPlayback2023 = false
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         _ = await builder.build()
@@ -229,7 +229,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
-        Settings.hasSyncedAll2022Episodes = true
+        Settings.hasSyncedEpisodesForPlayback2023 = true
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         _ = await builder.build()
