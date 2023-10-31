@@ -106,8 +106,6 @@ class StoriesModel: ObservableObject {
         return AnyView(story)
     }
 
-    func storyIsShareable(index: Int) -> Bool {
-        dataSource.shareableStory(for: index) != nil ? true : false
     func showShareButton(index: Int) -> Bool {
         dataSource.shareableStory(for: index)?.hideShareButton() == false
     }
@@ -239,6 +237,7 @@ private extension StoriesModel {
         UIApplication.userDidTakeScreenshotNotification.publisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
+                self?.pause()
                 self?.screenshotTaken = true
             }
             .store(in: &cancellables)

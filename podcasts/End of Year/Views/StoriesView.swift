@@ -66,7 +66,6 @@ struct StoriesView: View {
             Button(L10n.eoyNotNow) { model.start() }
             Button(L10n.share) { model.share() }.keyboardShortcut(.defaultAction)
         } message: {
-            model.pause()
             return Text(L10n.eoyShareThisStoryMessage)
         }
     }
