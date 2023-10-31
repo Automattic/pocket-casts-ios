@@ -486,6 +486,8 @@ internal enum L10n {
   internal static var discoverBrowseByCategoryComedy: String { return L10n.tr("Localizable", "discover_browse_by_category_comedy") }
   /// Education
   internal static var discoverBrowseByCategoryEducation: String { return L10n.tr("Localizable", "discover_browse_by_category_education") }
+  /// Family
+  internal static var discoverBrowseByCategoryFamily: String { return L10n.tr("Localizable", "discover_browse_by_category_family") }
   /// Fiction
   internal static var discoverBrowseByCategoryFiction: String { return L10n.tr("Localizable", "discover_browse_by_category_fiction") }
   /// Games & Hobbies
@@ -518,8 +520,10 @@ internal enum L10n {
   internal static var discoverBrowseByCategoryScienceAndMedicine: String { return L10n.tr("Localizable", "discover_browse_by_category_science_and_medicine") }
   /// Society
   internal static var discoverBrowseByCategorySociety: String { return L10n.tr("Localizable", "discover_browse_by_category_society") }
-  /// Society & Culture
+  /// Culture
   internal static var discoverBrowseByCategorySocietyAndCulture: String { return L10n.tr("Localizable", "discover_browse_by_category_society_and_culture") }
+  /// Spirituality
+  internal static var discoverBrowseByCategorySpirituality: String { return L10n.tr("Localizable", "discover_browse_by_category_spirituality") }
   /// Sports
   internal static var discoverBrowseByCategorySports: String { return L10n.tr("Localizable", "discover_browse_by_category_sports") }
   /// Sports & Recreation
@@ -814,6 +818,14 @@ internal enum L10n {
   internal static var eoyStoryTopCategories: String { return L10n.tr("Localizable", "eoy_story_top_categories") }
   /// My most listened to podcast categories
   internal static var eoyStoryTopCategoriesShareText: String { return L10n.tr("Localizable", "eoy_story_top_categories_share_text") }
+  /// You listened to %1$@ episodes for a total of %2$@
+  internal static func eoyStoryTopCategoriesSubtitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_categories_subtitle", String(describing: p1), String(describing: p2))
+  }
+  /// Did you know that %1$@ was your favorite category?
+  internal static func eoyStoryTopCategoriesTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_categories_title", String(describing: p1))
+  }
   /// %1$@ was your most listened show in 2023
   internal static func eoyStoryTopPodcast(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1))

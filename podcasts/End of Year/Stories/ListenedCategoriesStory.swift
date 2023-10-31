@@ -50,6 +50,6 @@ struct ListenedCategoriesStory: ShareableStory {
 
 struct ListenedCategoriesStory_Previews: PreviewProvider {
     static var previews: some View {
-        ListenedCategoriesStory(listenedCategories: [ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Seila", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300)])
+        ListenedCategoriesStory(listenedCategories: [ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Seila", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300, numberOfEpisodes: 5)])
     }
 }

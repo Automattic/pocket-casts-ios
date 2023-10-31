@@ -10,9 +10,9 @@ enum EndOfYearStory: CaseIterable {
     case numberOfPodcastsAndEpisodesListened
     case topOnePodcast
     case topFivePodcasts
+    case topCategories
     case listeningTime
     case listenedCategories
-    case topCategories
     case longestEpisode
     case epilogue
 }

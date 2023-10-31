@@ -493,8 +493,14 @@
 /* Title for the podcast category Health & Fitness */
 "discover_browse_by_category_health_and_fitness" = "Health & Fitness";
 
+/* Abbreviation for the podcast category Health & Fitness, using only "Health" */
+"discover_browse_by_category_health" = "Health";
+
 /* Title for the podcast category Kids & Family */
 "discover_browse_by_category_kids_and_family" = "Kids & Family";
+
+/* Abbreviation for the podcast category Kids & Family, using only "Family" */
+"discover_browse_by_category_family" = "Family";
 
 /* Title for the podcast category Leisure */
 "discover_browse_by_category_leisure" = "Leisure";
@@ -511,6 +517,9 @@
 /* Title for the podcast category Religion & Spirituality */
 "discover_browse_by_category_religion_and_spirituality" = "Religion & Spirituality";
 
+/* Abbreviation for the podcast category Religion & Spirituality */
+"discover_browse_by_category_spirituality" = "Spirituality";
+
 /* Title for the podcast category Science */
 "discover_browse_by_category_science" = "Science";
 
@@ -522,6 +531,9 @@
 
 /* Title for the podcast category Society & Culture */
 "discover_browse_by_category_society_and_culture" = "Society & Culture";
+
+/* Abbreviation for the podcast category Society & Culture, using only "Culture" */
+"discover_browse_by_category_society_and_culture" = "Culture";
 
 /* Title for the podcast category Sports */
 "discover_browse_by_category_sports" = "Sports";
@@ -3577,6 +3589,12 @@
 
 /* Text that appear when someone share the top categories story to Twitter. */
 "eoy_story_top_categories_share_text" = "My most listened to podcast categories";
+
+/* Title of the top categories story. %1$@ being the name of the most listened category. */
+"eoy_story_top_categories_title" = "Did you know that %1$@ was your favorite category?";
+
+/* Subtitle of the top categories story. %1$@ is the total number of episodes and %2$@ is the total listened time. */
+"eoy_story_top_categories_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
 
 /* Description to why the user needs to create an account to see their end of year stats. */
 "eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";

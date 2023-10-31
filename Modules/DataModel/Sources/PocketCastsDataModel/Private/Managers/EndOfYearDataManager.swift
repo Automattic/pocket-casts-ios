@@ -136,6 +136,7 @@ class EndOfYearDataManager {
                 let query = """
                             SELECT DISTINCT \(DataManager.episodeTableName).uuid,
                                 COUNT(DISTINCT podcastUuid) as numberOfPodcasts,
+                                COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as numberOfEpisodes,
                                 SUM(playedUpTo) as totalPlayedTime,
                                 \(DataManager.podcastTableName).*,
                                 substr(trim(\(DataManager.podcastTableName).podcastCategory),1,instr(trim(\(DataManager.podcastTableName).podcastCategory)||char(10),char(10))-1) as category
@@ -152,12 +153,15 @@ class EndOfYearDataManager {
 
                 while resultSet.next() {
                     let numberOfPodcasts = Int(resultSet.int(forColumn: "numberOfPodcasts"))
+                    let numberOfEpisodes = Int(resultSet.int(forColumn: "numberOfEpisodes"))
                     let totalPlayedTime = resultSet.double(forColumn: "totalPlayedTime")
                     if let categoryTitle = resultSet.string(forColumn: "category") {
                         listenedCategories.append(ListenedCategory(
                             numberOfPodcasts: numberOfPodcasts,
                             categoryTitle: categoryTitle,
-                            mostListenedPodcast: Podcast.from(resultSet: resultSet), totalPlayedTime: totalPlayedTime)
+                            mostListenedPodcast: Podcast.from(resultSet: resultSet),
+                            totalPlayedTime: totalPlayedTime,
+                            numberOfEpisodes: numberOfEpisodes)
                         )
                     }
                 }
@@ -318,15 +322,33 @@ class EndOfYearDataManager {
 
 public struct ListenedCategory {
     public let numberOfPodcasts: Int
-    public let categoryTitle: String
+    public var categoryTitle: String
     public let mostListenedPodcast: Podcast
     public let totalPlayedTime: Double
+    public let numberOfEpisodes: Int
 
-    public init(numberOfPodcasts: Int, categoryTitle: String, mostListenedPodcast: Podcast, totalPlayedTime: Double) {
+    public init(numberOfPodcasts: Int, categoryTitle: String, mostListenedPodcast: Podcast, totalPlayedTime: Double, numberOfEpisodes: Int) {
         self.numberOfPodcasts = numberOfPodcasts
         self.categoryTitle = categoryTitle
         self.mostListenedPodcast = mostListenedPodcast
         self.totalPlayedTime = totalPlayedTime
+        self.numberOfEpisodes = numberOfEpisodes
+        self.categoryTitle = simplifyCategoryName(categoryTitle)
+    }
+
+    private func simplifyCategoryName(_ category: String) -> String {
+        switch category {
+        case "Health & Fitness":
+            "Health"
+        case "Kids & Family":
+            "Family"
+        case "Religion & Spirituality":
+            "Spirituality"
+        case "Society & Culture":
+            "Culture"
+        default:
+            category
+        }
     }
 }
 
