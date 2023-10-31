@@ -14,7 +14,7 @@ class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource {
     var shareableMetadataProvider = ShareableMetadataProvider()
 
     var hashtags: [String] {
-        ["pocketcasts", "endofyear2022"]
+        ["pocketcasts", "playback2023"]
     }
 
     var shareableLink: String {
