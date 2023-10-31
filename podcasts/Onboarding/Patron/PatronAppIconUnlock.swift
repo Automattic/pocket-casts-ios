@@ -38,7 +38,7 @@ struct PatronAppIconUnlock: View {
         GeometryReader { proxy in
             ZStack {
                 if !isUnlocked {
-                    WelcomeConfetti(type: isPlus ? .plus : .normal)
+                    WelcomeConfetti(type: .normal)
                         .onAppear { haptics.confetti() }
                         .allowsHitTesting(false)
                         .accessibilityHidden(true)

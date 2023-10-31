@@ -24,45 +24,69 @@ struct EpilogueStory: StoryView {
                     .accessibilityHidden(true)
             }
 
-            PodcastCoverContainer(geometry: geometry) {
-                Spacer()
+            ZStack {
+                PodcastCoverContainer(geometry: geometry) {
+                    Spacer()
 
-                StoryLabelContainer(topPadding: 0, geometry: geometry) {
-                    if visibility.isVisible {
-                        GradientHolographicEffect(parentSize: geometry.size) {
-                            Image("heart")
-                                .renderingMode(.template)
-                        }
-                    } else {
+                    StoryLabelContainer(topPadding: 0, geometry: geometry) {
                         Image("heart")
+                            .renderingMode(.template)
+                            .overlay(
+                                LinearGradient(
+                                    stops: [
+                                        Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                                        Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                                        Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                                        Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                                        Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                                    ],
+                                    startPoint: UnitPoint(x: 0, y: -0.12),
+                                    endPoint: UnitPoint(x: 1, y: 1.39)
+                                )
+                                .scaleEffect(.init(width: 1.1, height: 1.1))
+                                .mask(
+                                    Image("heart")
+                                        .renderingMode(.template)
+                                )
+                            )
+
+                        StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title, geometry: geometry)
+                        StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                    }.allowsHitTesting(false)
+
+                    Button(L10n.eoyStoryReplay) {
+                        StoriesController.shared.replay()
+                        Analytics.track(.endOfYearStoryReplayButtonTapped)
                     }
+                    .buttonStyle(StoriesButtonStyle(color: Constants.backgroundColor, icon: Image("eoy-replay-icon")))
+                    .opacity(renderForSharing ? 0 : 1)
+                    .padding(.top, 36)
 
-                    StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title, geometry: geometry)
-                    StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
-                }.allowsHitTesting(false)
-
-                Button(L10n.eoyStoryReplay) {
-                    StoriesController.shared.replay()
-                    Analytics.track(.endOfYearStoryReplayButtonTapped)
+                    Spacer()
                 }
-                .buttonStyle(StoriesButtonStyle(color: Constants.backgroundColor, icon: Image("eoy-replay-icon")))
-                .opacity(renderForSharing ? 0 : 1)
-                .padding(.top, 36)
+                .background(
+                    ZStack(alignment: .top) {
+                        Color.black
 
-                Spacer()
+                        background(geometry: geometry)
+                        .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.22)
+                        .clipped()
+                    }
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+                    .onAppear(perform: prepareHaptics)
+                )
+
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Image("logo")
+                            .padding(.bottom, geometry.size.height * 0.06)
+                        Spacer()
+                    }
+                }
             }
-            .background(
-                ZStack(alignment: .top) {
-                    Color.black
-
-                    background(geometry: geometry)
-                    .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.22)
-                    .clipped()
-                }
-                .ignoresSafeArea()
-                .allowsHitTesting(false)
-                .onAppear(perform: prepareHaptics)
-            )
         }
     }
 
