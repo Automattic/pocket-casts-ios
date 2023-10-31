@@ -26,6 +26,8 @@ struct EndOfYearModal: View {
                 showStoriesButton
             }
             .padding()
+
+            Spacer()
         }
         .frame(maxWidth: Constants.maxWidth)
         .applyDefaultThemeOptions()
