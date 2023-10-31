@@ -8,10 +8,10 @@ struct StoryLabel: View {
     private let text: String
     private let highlights: [String]?
     private let type: StoryLabelType
-    private let geometry: GeometryProxy?
+    private let geometry: GeometryProxy
     private let color: Color
 
-    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType, color: Color = .white, geometry: GeometryProxy? = nil) {
+    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType, color: Color = .white, geometry: GeometryProxy) {
         self.text = Self.processText(text)
         self.highlights = highlighting
         self.type = type
@@ -86,16 +86,16 @@ struct StoryLabel: View {
     }
 
     private var size: CGFloat {
-        let iPhone15DefaultHeight: CGFloat = 759
-        let screenHeight = geometry?.size.height ?? iPhone15DefaultHeight
+        let screenWidth = geometry.size.width
+        let isSmallScreen = geometry.size.height <= 700
 
         switch type {
         case .title:
-            return screenHeight * 0.035
+            return screenWidth * 0.069
         case .title2:
             return 18
         case .subtitle:
-            return screenHeight * 0.018
+            return screenWidth * (isSmallScreen ? 0.04 : 0.035)
         case .pillarTitle:
             return 14
         case .pillarSubtitle:
