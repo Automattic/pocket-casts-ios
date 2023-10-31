@@ -16,6 +16,7 @@ struct ListeningTimeStory: ShareableStory {
             PodcastCoverContainer(geometry: geometry) {
                 StoryLabelContainer(geometry: geometry) {
                     StoryLabel(L10n.eoyStoryListenedToTitle, for: .title, geometry: geometry)
+                        .fixedSize(horizontal: false, vertical: true)
                     StoryLabel(L10n.eoyStoryListenedToSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
 
