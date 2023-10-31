@@ -8,13 +8,51 @@ struct IntroStory: StoryView {
         GeometryReader { geometry in
             ZStack {
                 ZStack {
-                    TwentyThree()
-
                     Image("2023-title")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width)
+                        .modifier(IconParallaxModifier())
 
-                    Twenty()
+                    Image("22")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: geometry.size.height * 0.3)
+                        .position(x: geometry.size.width * 0.13, y: geometry.size.height * 0.71)
+                        .modifier(TwentyThreeParallaxModifier(rollMultiplier: 6, pitchMultiplier: 60))
+
+
+                    Image("0")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: geometry.size.height * 0.3)
+                        .position(x: geometry.size.width * 0.9, y: geometry.size.height * 0.29)
+                        .modifier(TwentyThreeParallaxModifier(rollMultiplier: 6, pitchMultiplier: 60))
                 }
-                .background(.black)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(
+                    ZStack {
+                        ZStack {
+                            Color.black
+
+                            Image("2")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: geometry.size.height * 0.5)
+                                .position(x: geometry.size.width * 0.25, y: geometry.size.height * 0.34)
+                                .modifier(TwentyThreeParallaxModifier(rollMultiplier: 5, pitchMultiplier: 50))
+
+                            Image("3")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: geometry.size.height * 0.5)
+                                .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.84)
+                                .modifier(TwentyThreeParallaxModifier())
+                        }
+                        .clipped()
+                    }
+                    .ignoresSafeArea()
+                )
             }
             .enableProportionalValueScaling()
         }
@@ -57,16 +95,17 @@ struct IntroStory: StoryView {
     }
 }
 
-/// Adds a not so subtle parallax effect to the app icon as the user tilts their device
 private struct TwentyThreeParallaxModifier: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject var manager: MotionManager = .init()
+    var rollMultiplier: Double = 4
+    var pitchMultiplier: Double = 40
 
     func body(content: Content) -> some View {
         let roll = manager.roll * 10
         let pitch = manager.pitch
         content
-            .offset(x: roll * 4, y: pitch * 40)
+            .offset(x: roll * rollMultiplier, y: pitch * pitchMultiplier)
             .onAppear() {
                 if !reduceMotion {
                     manager.start()
