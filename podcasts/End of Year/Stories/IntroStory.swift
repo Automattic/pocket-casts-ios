@@ -58,28 +58,6 @@ struct IntroStory: StoryView {
         }
     }
 
-    private struct TwentyThree: View {
-        @ProportionalValue(with: .width) var xPosition = 0.5
-        @ProportionalValue(with: .height) var yPosition = 0.5
-
-        var body: some View {
-            Image("23")
-                .position(x: xPosition, y: yPosition)
-                .modifier(TwentyThreeParallaxModifier())
-        }
-    }
-
-    private struct Twenty: View {
-        @ProportionalValue(with: .width) var xPosition = 0.5
-        @ProportionalValue(with: .height) var yPosition = 0.48
-
-        var body: some View {
-            Image("20")
-                .position(x: xPosition, y: yPosition)
-                .modifier(TwentyThreeParallaxModifier())
-        }
-    }
-
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
