@@ -53,7 +53,8 @@ class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource {
         // Facebook ignores text, so we only share the image
         // WhatsApp ignore the image if we share text, so we also share just the image
         if activityType == .postToFacebook ||
-            activityType?.rawValue.contains("whatsapp") == true {
+            activityType?.rawValue.contains("whatsapp") == true ||
+            activityType?.rawValue.contains("instagram") == true {
             return nil
         }
 
