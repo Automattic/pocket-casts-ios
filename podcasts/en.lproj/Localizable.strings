@@ -3653,6 +3653,12 @@
 /* Subtitle explaining the user why they should susbcribe to Plus in the context of the end of year stories. */
 "eoy_start_your_free_trial" = "Start your Free Trial";
 
+/* Title of an alert displayed to the user asking if they want to share the current story */
+"eoy_share_this_story_title" = "Share this story?";
+
+/* Message of an alert displayed to the user asking if they want to share the current story */
+"eoy_share_this_story_message" = "You can share directly to your favorite app and give a shout out to your favorite shows and creators";
+
 /* Title of the view displayed after a user successfully upgrades to plus */
 "welcome_plus_title" = "Thank you, now let's get you listening!";
 

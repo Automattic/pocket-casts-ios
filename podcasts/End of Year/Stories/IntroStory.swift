@@ -62,6 +62,12 @@ struct IntroStory: StoryView {
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self))
+        ]
+    }
+
     private struct Constants {
         // Percentage based on total view height
         static let imageVerticalPadding = 0.10

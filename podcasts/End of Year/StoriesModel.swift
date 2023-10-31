@@ -12,6 +12,8 @@ class StoriesModel: ObservableObject {
 
     @Published var failed: Bool = false
 
+    @Published var screenshotTaken: Bool = false
+
     let activeTier: () -> SubscriptionTier
 
     private let dataSource: StoriesDataSource
@@ -231,6 +233,13 @@ private extension StoriesModel {
                 }
             }
         }
+
+        UIApplication.userDidTakeScreenshotNotification.publisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.screenshotTaken = true
+            }
+            .store(in: &cancellables)
 
         ServerNotifications.iapPurchaseCompleted.publisher()
         .receive(on: DispatchQueue.main)

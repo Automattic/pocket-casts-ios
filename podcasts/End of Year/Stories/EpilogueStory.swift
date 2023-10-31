@@ -104,6 +104,12 @@ struct EpilogueStory: StoryView {
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self))
+        ]
+    }
+
     private enum Constants {
         static let backgroundColor = Color.black
     }
