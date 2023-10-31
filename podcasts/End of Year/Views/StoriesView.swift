@@ -53,7 +53,7 @@ struct StoriesView: View {
             header
 
             // Hide the share button if needed
-            if model.storyIsShareable(index: model.currentStory) && !model.shouldShowUpsell() {
+            if model.showShareButton(index: model.currentStory) && !model.shouldShowUpsell() {
                 VStack {
                     Spacer()
                     shareButton
