@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import CoreHaptics
 
-struct EpilogueStory: StoryView {
+struct EpilogueStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @ObservedObject private var visibility = Visiblity()
     @State private var engine: CHHapticEngine?
@@ -108,6 +108,10 @@ struct EpilogueStory: StoryView {
         [
             StoryShareableProvider.new(AnyView(self))
         ]
+    }
+
+    func hideShareButton() -> Bool {
+        true
     }
 
     private enum Constants {

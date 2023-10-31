@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct IntroStory: StoryView {
+struct IntroStory: ShareableStory {
     var duration: TimeInterval = 5.seconds
     let identifier: String = "intro"
 
@@ -66,6 +66,10 @@ struct IntroStory: StoryView {
         [
             StoryShareableProvider.new(AnyView(self))
         ]
+    }
+
+    func hideShareButton() -> Bool {
+        true
     }
 
     private struct Constants {
