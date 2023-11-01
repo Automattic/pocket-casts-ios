@@ -2,6 +2,8 @@ import SwiftUI
 import PocketCastsServer
 
 struct PaidStoryWallView: View {
+    @StateObject private var model = PlusPricingInfoModel()
+
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
@@ -12,7 +14,7 @@ struct PaidStoryWallView: View {
                 }
                 .padding(.bottom, geometry.size.height * 0.06)
 
-                Button(L10n.eoyStartYourFreeTrial) {
+                Button(model.pricingInfo.hasFreeTrial ? L10n.eoyStartYourFreeTrial : L10n.upgradeToPlan(L10n.pocketCastsPlusShort)) {
                     guard let storiesViewController = SceneHelper.rootViewController()?.presentedViewController else {
                         return
                     }
