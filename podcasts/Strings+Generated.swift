@@ -849,6 +849,8 @@ internal enum L10n {
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2022
   internal static var eoyViewYear: String { return L10n.tr("Localizable", "eoy_view_year") }
+  /// completion rate
+  internal static var eoyYearCompletionRate: String { return L10n.tr("Localizable", "eoy_year_completion_rate") }
   /// My 2023 completion rate
   internal static var eoyYearCompletionRateShareText: String { return L10n.tr("Localizable", "eoy_year_completion_rate_share_text") }
   /// From the %1$@ episodes you started you listened fully to a total of %2$@
