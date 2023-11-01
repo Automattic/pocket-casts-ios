@@ -23,22 +23,8 @@ struct PaidStoryWallView: View {
                 .buttonStyle(StoriesButtonStyle(color: .black, icon: nil))
             }
         }
-        .background(
-            ZStack {
-                LinearGradient(
-                    stops: [
-                        Gradient.Stop(color: .black, location: 0.00),
-                        Gradient.Stop(color: .black.opacity(0), location: 1.00),
-                    ],
-                    startPoint: UnitPoint(x: 0.5, y: 0.24),
-                    endPoint: UnitPoint(x: 0.5, y: 1.04)
-                )
-
-                VisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
-            }
-            .allowsHitTesting(false)
-            .ignoresSafeArea(edges: [.top, .bottom])
-        )
+        .background(.ultraThinMaterial)
+        .environment(\.colorScheme, .dark)
     }
 }
 
