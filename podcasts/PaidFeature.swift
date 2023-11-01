@@ -14,6 +14,7 @@ import SwiftUI
 ///     2. Check the unlock state using `PaidFeature.hello.isUnlocked`
 ///
 extension PaidFeature {
+    static var free: PaidFeature = .init(tier: .none)
     static var bookmarks: PaidFeature = .init(tier: .patron, betaTier: .plus)
 }
 
@@ -63,6 +64,9 @@ class PaidFeature: ObservableObject {
 
     /// Listen for changes and update the internal state
     private func addListeners() {
+        // Don't listen for changes for free features
+        guard tier != .none else { return }
+
         Publishers.Merge(
             ServerNotifications.iapPurchaseCompleted.publisher(),
             ServerNotifications.subscriptionStatusChanged.publisher()
