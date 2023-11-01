@@ -68,6 +68,8 @@ class StoriesModel: ObservableObject {
                     self.pause()
                 }
             } else if currentStory != self.currentStory {
+                self.currentStory = self.nextAvailableStory(currentStory)
+                newProgress = Double(self.currentStory)
             }
 
             self.progress = newProgress
@@ -120,6 +122,7 @@ class StoriesModel: ObservableObject {
             return
         }
 
+        progress = Double(nextAvailableStory(min(numberOfStories, Int(progress) + 1)))
     }
 
     func previous() {
@@ -127,6 +130,7 @@ class StoriesModel: ObservableObject {
             return
         }
 
+        progress = Double(previousAvailableStory(max(0, Int(progress) - 1)))
     }
 
     func pause() {
