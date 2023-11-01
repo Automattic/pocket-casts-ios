@@ -17,9 +17,7 @@ class StoriesModel: ObservableObject {
     private let configuration: StoriesConfiguration
 
     private var cancellable: Cancellable?
-    private var interval: TimeInterval {
-        dataSource.story(for: currentStory).duration
-    }
+    private var interval: TimeInterval = 5.seconds
 
     private var currentStoryIdentifier: String = ""
 
@@ -81,6 +79,7 @@ class StoriesModel: ObservableObject {
         let story = dataSource.story(for: index)
         story.onAppear()
         currentStoryIdentifier = story.identifier
+        interval = story.duration
         return AnyView(story)
     }
 
