@@ -89,3 +89,11 @@ extension StorySharing {
         return []
     }
 }
+
+// MARK: - PlusStory
+
+protocol PlusStory: ShareableStory { }
+
+extension PlusStory {
+    var feature: PaidFeature { .eoyPlusStory }
+}
