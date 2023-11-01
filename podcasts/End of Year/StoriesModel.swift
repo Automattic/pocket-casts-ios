@@ -153,6 +153,38 @@ class StoriesModel: ObservableObject {
         pause()
         NavigationManager.sharedManager.dismissPresentedViewController()
     }
+
+    /// Calculates the next story index to jump to
+    func nextAvailableStory(_ next: Int) -> Int {
+        let story = dataSource.story(for: currentStory)
+        var nextAvailable = next
+
+        if !story.feature.isUnlocked {
+            while !dataSource.story(for: nextAvailable).feature.isUnlocked {
+                nextAvailable += 1
+            }
+        }
+
+        return nextAvailable
+    }
+    
+    /// Calculates the previous story index to jump to
+    func previousAvailableStory(_ previous: Int) -> Int {
+        let previousStory = dataSource.story(for: previous)
+        var prevAvailable = previous
+
+        // If the next story is locked, then find the first unlocked story
+        if !previousStory.feature.isUnlocked {
+            while !dataSource.story(for: prevAvailable).feature.isUnlocked {
+                prevAvailable -= 1
+            }
+
+            // Jump forward to show the first locked story
+            prevAvailable += 1
+        }
+
+        return prevAvailable
+    }
 }
 
 private extension StoriesModel {
