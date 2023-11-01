@@ -47,7 +47,7 @@ protocol Story {
     var identifier: String { get }
 
     /// If the story is available only for Plus users
-    var plusOnly: Bool { get }
+    var feature: PaidFeature { get }
 
     /// Called when the story actually appears.
     ///
@@ -64,9 +64,7 @@ extension Story {
         "unknown"
     }
 
-    var plusOnly: Bool {
-        false
-    }
+    var feature: PaidFeature { .free }
 
     func onAppear() {}
 }
