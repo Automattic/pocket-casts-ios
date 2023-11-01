@@ -12,28 +12,26 @@ struct YearOverYearStory: ShareableStory {
     let subscriptionTier: SubscriptionTier = SubscriptionHelper.subscriptionTier
 
     var title: String {
-        let listeningPercentage = data.percentage
-        switch listeningPercentage {
-        case _ where listeningPercentage == .infinity:
-            return L10n.eoyYearOverYearTitleSkyrocketed
-        case _ where listeningPercentage > 10:
-            return L10n.eoyYearOverYearTitleWentUp("\(listeningPercentage.clean)%")
-        case _ where listeningPercentage < 0:
-            return L10n.eoyYearOverYearTitleWentDown
+        switch data.percentage {
+        case .infinity:
+            L10n.eoyYearOverYearTitleSkyrocketed
+        case 10...:
+            L10n.eoyYearOverYearTitleWentUp("\(data.percentage.clean)%")
+        case ...0:
+            L10n.eoyYearOverYearTitleWentDown
         default:
-            return L10n.eoyYearOverYearTitleFlat
+            L10n.eoyYearOverYearTitleFlat
         }
     }
 
     var subtitle: String {
-        let listeningPercentage = data.percentage
-        switch listeningPercentage {
-        case _ where listeningPercentage > 10:
-            return L10n.eoyYearOverYearSubtitleWentUp
-        case _ where listeningPercentage < 0:
-            return L10n.eoyYearOverYearSubtitleWentDown
+        switch data.percentage {
+        case 10...:
+            L10n.eoyYearOverYearSubtitleWentUp
+        case ...0:
+            L10n.eoyYearOverYearSubtitleWentDown
         default:
-            return L10n.eoyYearOverYearSubtitleFlat
+            L10n.eoyYearOverYearSubtitleFlat
         }
     }
 
