@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct LongestEpisodeStory: ShareableStory {
+struct LongestEpisodeStory: PlusStory {
     let duration: TimeInterval = 5.seconds
 
     var identifier: String = "longest_episode"

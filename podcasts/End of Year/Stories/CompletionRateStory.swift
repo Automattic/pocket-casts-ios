@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct CompletionRateStory: ShareableStory {
+struct CompletionRateStory: PlusStory {
     var duration: TimeInterval = 5.seconds
 
     let identifier: String = "year_over_year"
