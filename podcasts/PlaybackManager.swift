@@ -1570,8 +1570,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             starCommand.removeTarget(nil)
             starCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode() as? Episode else { return .noActionableNowPlayingItem }
-
-                EpisodeManager.setStarred(true, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
+                EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
                 return .success
             }
             starCommand.isEnabled = true
