@@ -438,7 +438,7 @@ public struct EpisodesStartedAndCompleted {
     public let started: Int
     public let completed: Int
     public let percentage: Double
-    
+
     public init(started: Int, completed: Int) {
         self.started = max(started, completed)
         self.completed = completed
