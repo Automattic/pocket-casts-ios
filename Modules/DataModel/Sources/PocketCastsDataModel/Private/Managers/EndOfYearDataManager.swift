@@ -395,15 +395,12 @@ public struct ListenedNumbers {
 public struct YearOverYearListeningTime {
     public let totalPlayedTimeThisYear: Double
     public let totalPlayedTimeLastYear: Double
-
-    public var percentage: Double {
-        let nonRoundendPercentage = ((100 * totalPlayedTimeThisYear) / totalPlayedTimeLastYear) - 100
-        return (nonRoundendPercentage.rounded() * 100) / 100
-    }
+    public let percentage: Double
 
     public init(totalPlayedTimeThisYear: Double, totalPlayedTimeLastYear: Double) {
         self.totalPlayedTimeThisYear = totalPlayedTimeThisYear
         self.totalPlayedTimeLastYear = totalPlayedTimeLastYear
+        self.percentage = (((totalPlayedTimeThisYear - totalPlayedTimeLastYear) / totalPlayedTimeLastYear) * 100).rounded()
     }
 }
 
