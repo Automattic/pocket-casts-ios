@@ -608,7 +608,7 @@ platform :ios do
 
     UI.important("Triggering hotfix build for version: #{release_version_current}")
     UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
-
+    push_to_git_remote(tags: false)
     trigger_release_build(branch_to_build: "release/#{release_version_current}")
   end
 
