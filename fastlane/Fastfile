@@ -514,7 +514,7 @@ platform :ios do
     override_default_release_branch(options[:base_version]) unless options[:base_version].nil?
 
     UI.important(message)
-    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
 
     # Re-generate the strings for GlotPress, just in case there were localization fixes.
     generate_strings_file_for_glotpress
@@ -570,7 +570,7 @@ platform :ios do
     MESSAGE
 
     UI.important(message)
-    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
 
     # Check tags
     UI.user_error!("Version #{new_version} already exists! Abort!") if git_tag_exists(tag: new_version)
@@ -580,8 +580,6 @@ platform :ios do
 
     # Create the hotfix branch
     UI.message 'Creating hotfix branch...'
-    # Verify that there's nothing in progress in the working copy
-    ensure_git_status_clean
     Fastlane::Helper::GitHelper.create_branch("release/#{new_version}", from: previous_version)
     UI.success "Done! New hotfix branch is: #{git_branch}"
 
@@ -607,7 +605,7 @@ platform :ios do
     ensure_git_status_clean
 
     UI.important("Triggering hotfix build for version: #{release_version_current}")
-    UI.user_error!('Aborted by user request') if !options[:skip_confirm] && !UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
     push_to_git_remote(tags: false)
     trigger_release_build(branch_to_build: "release/#{release_version_current}")
   end
