@@ -1573,6 +1573,11 @@ class PlaybackManager: ServerPlaybackDelegate {
                 EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
                 return .success
             }
+            if let episode = self.currentEpisode() {
+                starCommand.isActive = episode.keepEpisode
+            } else {
+                starCommand.isActive = false
+            }
             starCommand.isEnabled = true
         } else {
             markPlayedCommand.removeTarget(nil)
