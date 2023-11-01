@@ -17,7 +17,7 @@ class EndOfYearDataManager {
                                            """
 
     private lazy var listenedEpisodesPreviousYear = """
-                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2021-01-01') and strftime('%s', '"2023-01-01"')
+                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '2023-01-01')
                                            """
 
     /// If the user is eligible to see End of Year stats
