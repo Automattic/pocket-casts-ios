@@ -16,6 +16,7 @@ import SwiftUI
 extension PaidFeature {
     static var free: PaidFeature = .init(tier: .none)
     static var bookmarks: PaidFeature = .init(tier: .patron, betaTier: .plus)
+    static var eoyPlusStory: PaidFeature = .init(tier: .plus)
 }
 
 /// A `PaidFeature` represents a feature that is unlocked with a subscription tier, and is considered to be unlocked if the tier
