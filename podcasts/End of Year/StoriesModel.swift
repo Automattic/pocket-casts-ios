@@ -12,8 +12,6 @@ class StoriesModel: ObservableObject {
 
     @Published var failed: Bool = false
 
-    let activeTier: () -> SubscriptionTier
-
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
     private let configuration: StoriesConfiguration
@@ -37,12 +35,11 @@ class StoriesModel: ObservableObject {
         configuration.storiesToPreload
     }
 
-    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration, activeTier: @autoclosure @escaping () -> SubscriptionTier = SubscriptionHelper.activeTier) {
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration) {
         self.dataSource = dataSource
         self.configuration = configuration
         self.progress = 0
         self.publisher = Timer.publish(every: 0.01, on: .main, in: .default)
-        self.activeTier = activeTier
 
         Task.init {
             await isReady = dataSource.isReady()
