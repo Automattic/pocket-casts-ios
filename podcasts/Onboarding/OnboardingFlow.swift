@@ -132,5 +132,16 @@ struct OnboardingFlow {
                 return false
             }
         }
+
+        /// If after a successful purchase the flow should be
+        /// dismissed right away
+        var shouldDismissAfterPurchase: Bool {
+            switch self {
+            case .endOfYearUpsell:
+                true
+            default:
+                false
+            }
+        }
     }
 }
