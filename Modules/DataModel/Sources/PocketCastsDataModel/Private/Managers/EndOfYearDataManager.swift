@@ -330,7 +330,7 @@ class EndOfYearDataManager {
 
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear) UNION SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesPreviousYear)"
+                let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear) UNION ALL SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesPreviousYear)"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
