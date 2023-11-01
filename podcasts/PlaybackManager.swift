@@ -1554,7 +1554,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             #if !os(watchOS)
                 markPlayedCommand.setTitle(title: L10n.markPlayedShort)
             #endif
-            markPlayedCommand.removeTarget(self)
+            markPlayedCommand.removeTarget(nil)
             markPlayedCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
@@ -1567,7 +1567,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             #if !os(watchOS)
                 starCommand.setTitle(title: L10n.starEpisodeShort)
             #endif
-            starCommand.removeTarget(self)
+            starCommand.removeTarget(nil)
             starCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode() as? Episode else { return .noActionableNowPlayingItem }
 
@@ -1576,10 +1576,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             starCommand.isEnabled = true
         } else {
-            markPlayedCommand.removeTarget(self)
+            markPlayedCommand.removeTarget(nil)
             markPlayedCommand.isEnabled = false
 
-            starCommand.removeTarget(self)
+            starCommand.removeTarget(nil)
             starCommand.isEnabled = false
         }
     }
