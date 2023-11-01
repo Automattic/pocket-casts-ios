@@ -7,12 +7,12 @@ struct YearOverYearStory: ShareableStory {
 
     let identifier: String = "year_over_year"
 
-    let yearOverYearListeningTime: YearOverYearListeningTime
+    let data: YearOverYearListeningTime
 
     let subscriptionTier: SubscriptionTier = SubscriptionHelper.subscriptionTier
 
     var title: String {
-        let listeningPercentage = yearOverYearListeningTime.percentage
+        let listeningPercentage = data.percentage
         switch listeningPercentage {
         case _ where listeningPercentage == .infinity:
             return L10n.eoyYearOverYearTitleSkyrocketed
@@ -26,7 +26,7 @@ struct YearOverYearStory: ShareableStory {
     }
 
     var subtitle: String {
-        let listeningPercentage = yearOverYearListeningTime.percentage
+        let listeningPercentage = data.percentage
         switch listeningPercentage {
         case _ where listeningPercentage > 10:
             return L10n.eoyYearOverYearSubtitleWentUp
@@ -38,20 +38,20 @@ struct YearOverYearStory: ShareableStory {
     }
 
     var leftBarPercentageSize: Double {
-        let percentage = yearOverYearListeningTime.percentage
+        let percentage = data.percentage
         if percentage == .infinity {
             return 0.2
         } else if percentage > 0 {
-            return max(yearOverYearListeningTime.totalPlayedTimeLastYear / yearOverYearListeningTime.totalPlayedTimeThisYear, minimumBarPercentage)
+            return max(data.totalPlayedTimeLastYear / data.totalPlayedTimeThisYear, minimumBarPercentage)
         }
 
         return 1
     }
 
     var rightBarPercentageSize: Double {
-        let percentage = yearOverYearListeningTime.percentage
+        let percentage = data.percentage
         if percentage < 0 {
-            return max(yearOverYearListeningTime.totalPlayedTimeThisYear / yearOverYearListeningTime.totalPlayedTimeLastYear, minimumBarPercentage)
+            return max(data.totalPlayedTimeThisYear / data.totalPlayedTimeLastYear, minimumBarPercentage)
         }
 
         return 1
@@ -77,7 +77,7 @@ struct YearOverYearStory: ShareableStory {
                         HStack(alignment: .bottom, spacing: 0) {
                             bar(
                                 title: "2022",
-                                subtitle: yearOverYearListeningTime.totalPlayedTimeLastYear.storyTimeDescription,
+                                subtitle: data.totalPlayedTimeLastYear.storyTimeDescription,
                                 geometry: geometry,
                                 barStyle: .grey
                             )
@@ -85,7 +85,7 @@ struct YearOverYearStory: ShareableStory {
 
                             bar(
                                 title: "2023",
-                                subtitle: yearOverYearListeningTime.totalPlayedTimeThisYear.storyTimeDescription,
+                                subtitle: data.totalPlayedTimeThisYear.storyTimeDescription,
                                 geometry: geometry,
                                 barStyle: .rainbow
                             )
@@ -196,16 +196,16 @@ private extension Double {
 
 struct YearOverYearStory_Previews: PreviewProvider {
     static var previews: some View {
-        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 400))
+        YearOverYearStory(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 400))
             .previewDisplayName("Went down")
 
-        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 130))
+        YearOverYearStory(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 130))
             .previewDisplayName("Went up")
 
-        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 130))
+        YearOverYearStory(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 130))
             .previewDisplayName("Stayed same")
 
-        YearOverYearStory(yearOverYearListeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 0))
+        YearOverYearStory(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 0))
             .previewDisplayName("No listening time for past year")
     }
 }
