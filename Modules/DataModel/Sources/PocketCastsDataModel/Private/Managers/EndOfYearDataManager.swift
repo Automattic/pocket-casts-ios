@@ -437,14 +437,12 @@ public struct YearOverYearListeningTime {
 public struct EpisodesStartedAndCompleted {
     public let started: Int
     public let completed: Int
-
-    public var percentage: Double {
-        Double(completed) / Double(started)
-    }
-
+    public let percentage: Double
+    
     public init(started: Int, completed: Int) {
-        self.started = started
+        self.started = max(started, completed)
         self.completed = completed
+        self.percentage = (Double(completed) / Double(started)).clamped(to: 0..<1)
     }
 }
 
