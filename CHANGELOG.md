@@ -1,6 +1,6 @@
 7.52
 -----
-
+- Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
 
 7.51
 -----
