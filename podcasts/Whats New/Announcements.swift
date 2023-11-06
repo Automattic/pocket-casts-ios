@@ -28,7 +28,7 @@ struct Announcements {
         // Bookmarks Early Access: Beta
         // Show only in TestFlight, for Plus and Patron
         .init(
-            version: "99.99",
+            version: "7.52",
             header: AnyView(BookmarksWhatsNewHeader()),
             title: L10n.announcementBookmarksTitleBeta,
             message: L10n.announcementBookmarksDescription,
@@ -43,7 +43,7 @@ struct Announcements {
         // Bookmarks Early Access: Release
         // Show when not in beta, for Patron only
         .init(
-            version: "99.99",
+            version: "7.52",
             header: AnyView(BookmarksWhatsNewHeader().onAppear {
                 // Record when someone sees the full announcement while in early access so we don't show it again to them when we move to full release.
                 bookmarksViewModel.markAsSeen()
