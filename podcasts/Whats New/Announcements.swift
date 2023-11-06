@@ -79,5 +79,9 @@ class AnnouncementFlow {
     static let shared = AnnouncementFlow()
 
     var isShowingAutoplayOption = false
-    var isShowingBookmarksOption = false
+    var bookmarksFlow: BookmarksFlow = .none
+
+    enum BookmarksFlow {
+        case none, player, profile
+    }
 }
