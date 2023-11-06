@@ -351,11 +351,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             navigationController?.pushViewController(generalSettingsViewController, animated: true)
         }
 
-        if AnnouncementFlow.shared.isShowingBookmarksOption {
-            let controller = HeadphoneSettingsViewController()
-            navigationController?.pushViewController(controller, animated: true)
-            AnnouncementFlow.shared.isShowingBookmarksOption = false
-        }
+        showHeadphoneControlsFromWhatsNew()
+    }
+
+    // Pushes to the headphone controls if shown from the what's new
+    private func showHeadphoneControlsFromWhatsNew() {
+        guard AnnouncementFlow.shared.bookmarksFlow == .profile else { return }
+
+        let controller = HeadphoneSettingsViewController()
+        navigationController?.pushViewController(controller, animated: true)
+        AnnouncementFlow.shared.bookmarksFlow = .none
     }
 }
 
