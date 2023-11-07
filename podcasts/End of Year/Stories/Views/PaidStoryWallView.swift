@@ -25,8 +25,14 @@ struct PaidStoryWallView: View {
                 .buttonStyle(StoriesButtonStyle(color: .black, icon: nil))
             }
         }
-        .background(.ultraThinMaterial)
-        .environment(\.colorScheme, .dark)
+        .background(
+            Rectangle()
+                .fill(.clear)
+                .background(.ultraThinMaterial)
+                .environment(\.colorScheme, .dark)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+        )
     }
 }
 
