@@ -202,7 +202,17 @@ struct DeveloperMenu: View {
                     Text("⚠️ Temporary items only, the changes will only be active until the next server sync.")
                 }
             }
+
+            Section {
+                Button("Reset modal/profile badge") {
+                    Settings.endOfYearModalHasBeenShown = false
+                    Settings.showBadgeForEndOfYear = true
+                }
+            } header: {
+                Text("End of Year")
+            }
         }
+        .modifier(MiniPlayerPadding())
     }
 }
 

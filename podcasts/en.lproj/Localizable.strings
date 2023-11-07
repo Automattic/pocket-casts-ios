@@ -3483,13 +3483,13 @@
 "eoy_description" = "See your top podcasts, categories, listening stats, and more. Share with friends and shout out your favorite creators!";
 
 /* Label of the End of Year call to action button */
-"eoy_view_year" = "View My 2022";
+"eoy_view_year" = "View My 2023";
 
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
 
 /* End of Year card description that appears under Profile */
-"eoy_card_description" = "See your top podcasts, categories, listening stats and more.";
+"eoy_card_description" = "See your listening stats, top podcasts, and more.";
 
 /* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
 "eoy_story_intro_title" = "Let's celebrate your year of listening...";

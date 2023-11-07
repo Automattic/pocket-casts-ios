@@ -716,23 +716,23 @@ class Settings: NSObject {
 
     // MARK: - End of Year 2022
 
-    class var showBadgeFor2022EndOfYear: Bool {
+    class var showBadgeForEndOfYear: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear)
         }
 
         get {
-            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear) as? Bool) ?? true
+            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear) as? Bool) ?? true
         }
     }
 
     class var endOfYearModalHasBeenShown: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2022HasBeenShown)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2023HasBeenShown)
         }
 
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2022HasBeenShown)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2023HasBeenShown)
         }
     }
 
