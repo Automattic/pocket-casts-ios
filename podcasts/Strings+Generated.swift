@@ -859,6 +859,18 @@ internal enum L10n {
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2023
   internal static var eoyViewYear: String { return L10n.tr("Localizable", "eoy_view_year") }
+  /// completion rate
+  internal static var eoyYearCompletionRate: String { return L10n.tr("Localizable", "eoy_year_completion_rate") }
+  /// My 2023 completion rate
+  internal static var eoyYearCompletionRateShareText: String { return L10n.tr("Localizable", "eoy_year_completion_rate_share_text") }
+  /// From the %1$@ episodes you started you listened fully to a total of %2$@
+  internal static func eoyYearCompletionRateSubtitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_completion_rate_subtitle", String(describing: p1), String(describing: p2))
+  }
+  /// Your completion rate this year was %1$@
+  internal static func eoyYearCompletionRateTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_completion_rate_title", String(describing: p1))
+  }
   /// My 2023 listening time compared to 2022
   internal static var eoyYearOverShareText: String { return L10n.tr("Localizable", "eoy_year_over_share_text") }
   /// And they say consistency is the key to success... or something like that!

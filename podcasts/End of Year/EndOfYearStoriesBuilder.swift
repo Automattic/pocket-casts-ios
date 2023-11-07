@@ -14,6 +14,7 @@ enum EndOfYearStory: CaseIterable {
     case listeningTime
     case longestEpisode
     case yearOverYearListeningTime
+    case completionRate
     case epilogue
 }
 
@@ -104,6 +105,9 @@ class EndOfYearStoriesBuilder {
                 stories.append(.yearOverYearListeningTime)
             }
 
+            data.episodesStartedAndCompleted = dataManager.episodesStartedAndCompleted()
+            stories.append(.completionRate)
+
             continuation.resume(returning: (stories, data))
         }
     }
@@ -126,4 +130,6 @@ class EndOfYearStoriesData {
     var top10Podcasts: [Podcast] = []
 
     var yearOverYearListeningTime: YearOverYearListeningTime!
+
+    var episodesStartedAndCompleted: EpisodesStartedAndCompleted!
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 import PocketCastsDataModel
 
 class EndOfYearStoriesDataSource: StoriesDataSource {
@@ -28,6 +29,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             return LongestEpisodeStory(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
         case .yearOverYearListeningTime:
             return YearOverYearStory(data: data.yearOverYearListeningTime)
+        case .completionRate:
+            return CompletionRateStory(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
         case .epilogue:
             return EpilogueStory()
         }
