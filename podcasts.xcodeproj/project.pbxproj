@@ -604,6 +604,7 @@
 		8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0BBD82891AFB5006BBECF /* PodcastBuilder.swift */; };
 		8BF0BBDB2891B038006BBECF /* FolderBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0BBDA2891B038006BBECF /* FolderBuilder.swift */; };
 		8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */; };
+		8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory.swift */; };
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
@@ -2390,6 +2391,7 @@
 		8BF0BBD82891AFB5006BBECF /* PodcastBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastBuilder.swift; sourceTree = "<group>"; };
 		8BF0BBDA2891B038006BBECF /* FolderBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderBuilder.swift; sourceTree = "<group>"; };
 		8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderModelTests.swift; sourceTree = "<group>"; };
+		8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearStory.swift; sourceTree = "<group>"; };
 		8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageViewModel.swift; sourceTree = "<group>"; };
 		8F94CEC98B0A0E0B35578196 /* Pods-Today Extension.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.ad hoc.xcconfig"; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
@@ -4331,6 +4333,7 @@
 				8BB1187D290C56D1009E3A39 /* TopCategoriesStory */,
 				8B0EEDE729008B6300075772 /* TopOnePodcastStory.swift */,
 				8B4D7949290876C200F4A56F /* DynamicBackgroundView.swift */,
+				8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory.swift */,
 			);
 			path = Stories;
 			sourceTree = "<group>";
@@ -9084,6 +9087,7 @@
 				BD03DF881CACD9AB005A127E /* DownloadedFilesViewController.swift in Sources */,
 				BDB0C5C3231F74D60071FBA2 /* PCSearchBarController+Search.swift in Sources */,
 				BD7BCF111F6A4F110006E008 /* SharingHelper.swift in Sources */,
+				8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory.swift in Sources */,
 				BDF15A3E1B54E053000EC323 /* PlaybackManager.swift in Sources */,
 				BD40987C1B9ED731007F36BD /* SynchronizedAudioStack.swift in Sources */,
 				BD77E9031B9D2CF600DC4ADF /* AngularProgressIndicator.swift in Sources */,

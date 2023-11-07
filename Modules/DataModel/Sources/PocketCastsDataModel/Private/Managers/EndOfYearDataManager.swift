@@ -16,6 +16,10 @@ class EndOfYearDataManager {
                                             lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '\(startDate)') and strftime('%s', '\(endDate)')
                                            """
 
+    private lazy var listenedEpisodesPreviousYear = """
+                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '2023-01-01')
+                                           """
+
     /// If the user is eligible to see End of Year stats
     ///
     /// All it's needed is a single episode listened for more than 5 minutes.
@@ -318,6 +322,32 @@ class EndOfYearDataManager {
 
         return numberOfItemsInListeningHistory
     }
+
+    /// Returns the approximate listening time for the current year
+    func yearOverYearListeningTime(dbQueue: FMDatabaseQueue) -> YearOverYearListeningTime {
+        var listeningTimeThisYear: Double = 0
+        var listeningTimePreviousYear: Double = 0
+
+        dbQueue.inDatabase { db in
+            do {
+                let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear) UNION ALL SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesPreviousYear)"
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    listeningTimeThisYear = resultSet.double(forColumn: "totalPlayedTime")
+                }
+
+                if resultSet.next() {
+                    listeningTimePreviousYear = resultSet.double(forColumn: "totalPlayedTime")
+                }
+            } catch {
+                FileLog.shared.addMessage("EndOfYearDataManager.listeningTime error: \(error)")
+            }
+        }
+
+        return YearOverYearListeningTime(totalPlayedTimeThisYear: listeningTimeThisYear, totalPlayedTimeLastYear: listeningTimePreviousYear)
+    }
 }
 
 public struct ListenedCategory {
@@ -359,6 +389,18 @@ public struct ListenedNumbers {
     public init(numberOfPodcasts: Int, numberOfEpisodes: Int) {
         self.numberOfPodcasts = numberOfPodcasts
         self.numberOfEpisodes = numberOfEpisodes
+    }
+}
+
+public struct YearOverYearListeningTime {
+    public let totalPlayedTimeThisYear: Double
+    public let totalPlayedTimeLastYear: Double
+    public let percentage: Double
+
+    public init(totalPlayedTimeThisYear: Double, totalPlayedTimeLastYear: Double) {
+        self.totalPlayedTimeThisYear = totalPlayedTimeThisYear
+        self.totalPlayedTimeLastYear = totalPlayedTimeLastYear
+        self.percentage = (((totalPlayedTimeThisYear - totalPlayedTimeLastYear) / totalPlayedTimeLastYear) * 100).rounded()
     }
 }
 

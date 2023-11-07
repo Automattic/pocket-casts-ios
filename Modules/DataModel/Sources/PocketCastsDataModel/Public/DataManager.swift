@@ -975,4 +975,8 @@ public extension DataManager {
     func episodesThatExist(uuids: [String]) -> [String] {
         endOfYearManager.episodesThatExist(dbQueue: dbQueue, uuids: uuids)
     }
+
+    func yearOverYearListeningTime() -> YearOverYearListeningTime {
+        endOfYearManager.yearOverYearListeningTime(dbQueue: dbQueue)
+    }
 }

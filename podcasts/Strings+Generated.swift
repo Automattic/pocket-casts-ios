@@ -859,6 +859,24 @@ internal enum L10n {
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2023
   internal static var eoyViewYear: String { return L10n.tr("Localizable", "eoy_view_year") }
+  /// My 2023 listening time compared to 2022
+  internal static var eoyYearOverShareText: String { return L10n.tr("Localizable", "eoy_year_over_share_text") }
+  /// And they say consistency is the key to success... or something like that!
+  internal static var eoyYearOverYearSubtitleFlat: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_flat") }
+  /// Aaaah... there’s a life to be lived, right?
+  internal static var eoyYearOverYearSubtitleWentDown: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_went_down") }
+  /// Ready to top it in 2024?
+  internal static var eoyYearOverYearSubtitleWentUp: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_went_up") }
+  /// Compared to 2022, your listening time stayed pretty consistent
+  internal static var eoyYearOverYearTitleFlat: String { return L10n.tr("Localizable", "eoy_year_over_year_title_flat") }
+  /// Compared to 2022, your listening time skyrocketed!
+  internal static var eoyYearOverYearTitleSkyrocketed: String { return L10n.tr("Localizable", "eoy_year_over_year_title_skyrocketed") }
+  /// Compared to 2022, your listening time went down a little
+  internal static var eoyYearOverYearTitleWentDown: String { return L10n.tr("Localizable", "eoy_year_over_year_title_went_down") }
+  /// Compared to 2022, your listening time went up a whopping %1$@%
+  internal static func eoyYearOverYearTitleWentUp(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_over_year_title_went_up", String(describing: p1))
+  }
   /// Episode
   internal static var episode: String { return L10n.tr("Localizable", "episode") }
   /// %1$@ episodes
