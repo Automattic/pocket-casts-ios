@@ -734,7 +734,8 @@ internal enum L10n {
   internal static var eoyStoriesFailed: String { return L10n.tr("Localizable", "eoy_stories_failed") }
   /// Don't forget to share with your friends and give a shout out to your favorite podcast creators
   internal static var eoyStoryEpilogueSubtitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_subtitle") }
-  /// Thank you for letting Pocket Casts be a part of your listening experience in 2022
+  /// Thank you for listening with us this year.
+  /// See you in 2024!
   internal static var eoyStoryEpilogueTitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_title") }
   /// Let's celebrate your year of listening...
   internal static var eoyStoryIntroTitle: String { return L10n.tr("Localizable", "eoy_story_intro_title") }
@@ -816,7 +817,7 @@ internal enum L10n {
   internal static func eoyStoryLongestEpisodeTime(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_time", String(describing: p1))
   }
-  /// Replay
+  /// Play again
   internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
   /// Your Top Categories
   internal static var eoyStoryTopCategories: String { return L10n.tr("Localizable", "eoy_story_top_categories") }
