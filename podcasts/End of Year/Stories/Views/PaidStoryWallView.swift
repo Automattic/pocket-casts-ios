@@ -39,6 +39,9 @@ struct PaidStoryWallView: View {
             .allowsHitTesting(false)
             .ignoresSafeArea(edges: [.top, .bottom])
         )
+        .onAppear {
+            Analytics.track(.endOfYearUpsellShown)
+        }
     }
 }
 
