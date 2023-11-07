@@ -46,6 +46,9 @@ protocol Story {
     /// A string that identifies the story
     var identifier: String { get }
 
+    /// If the story is available only for Plus users
+    var plusOnly: Bool { get }
+
     /// Called when the story actually appears.
     ///
     /// If you use SwiftUI `onAppear` together with preload
@@ -59,6 +62,10 @@ protocol Story {
 extension Story {
     var identifier: String {
         "unknown"
+    }
+
+    var plusOnly: Bool {
+        false
     }
 
     func onAppear() {}
