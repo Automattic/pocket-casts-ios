@@ -12,7 +12,6 @@ enum EndOfYearStory: CaseIterable {
     case topFivePodcasts
     case topCategories
     case listeningTime
-    case listenedCategories
     case longestEpisode
     case epilogue
 }
@@ -66,7 +65,6 @@ class EndOfYearStoriesBuilder {
             let listenedCategories = dataManager.listenedCategories()
             if !listenedCategories.isEmpty {
                 data.listenedCategories = listenedCategories
-                stories.append(.listenedCategories)
                 stories.append(.topCategories)
             }
 
