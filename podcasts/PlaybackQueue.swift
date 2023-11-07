@@ -255,6 +255,15 @@ class PlaybackQueue: NSObject {
         return episodes
     }
 
+    func allEpisodeUuids() -> [BaseEpisode] {
+        var episodes = DataManager.sharedManager.allUpNextEpisodeUuids()
+        if episodes.count == 0 { return episodes }
+
+        episodes.removeFirst()
+
+        return episodes
+    }
+
     func currentEpisode() -> BaseEpisode? {
         topEpisode
     }

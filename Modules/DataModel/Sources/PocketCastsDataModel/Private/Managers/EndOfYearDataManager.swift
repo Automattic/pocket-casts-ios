@@ -17,7 +17,7 @@ class EndOfYearDataManager {
                                            """
 
     private lazy var listenedEpisodesPreviousYear = """
-                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2021-01-01') and strftime('%s', '"2023-01-01"')
+                                            lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate BETWEEN strftime('%s', '2022-01-01') and strftime('%s', '2023-01-01')
                                            """
 
     /// If the user is eligible to see End of Year stats
@@ -330,7 +330,7 @@ class EndOfYearDataManager {
 
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear) UNION SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesPreviousYear)"
+                let query = "SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear) UNION ALL SELECT DISTINCT \(DataManager.episodeTableName).uuid, SUM(playedUpTo) as totalPlayedTime from \(DataManager.episodeTableName) WHERE \(listenedEpisodesPreviousYear)"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
@@ -422,15 +422,12 @@ public struct ListenedNumbers {
 public struct YearOverYearListeningTime {
     public let totalPlayedTimeThisYear: Double
     public let totalPlayedTimeLastYear: Double
-
-    public var percentage: Double {
-        let nonRoundendPercentage = ((100 * totalPlayedTimeThisYear) / totalPlayedTimeLastYear) - 100
-        return (nonRoundendPercentage.rounded() * 100) / 100
-    }
+    public let percentage: Double
 
     public init(totalPlayedTimeThisYear: Double, totalPlayedTimeLastYear: Double) {
         self.totalPlayedTimeThisYear = totalPlayedTimeThisYear
         self.totalPlayedTimeLastYear = totalPlayedTimeLastYear
+        self.percentage = (((totalPlayedTimeThisYear - totalPlayedTimeLastYear) / totalPlayedTimeLastYear) * 100).rounded()
     }
 }
 

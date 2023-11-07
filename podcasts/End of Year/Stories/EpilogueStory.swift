@@ -24,45 +24,69 @@ struct EpilogueStory: StoryView {
                     .accessibilityHidden(true)
             }
 
-            PodcastCoverContainer(geometry: geometry) {
-                Spacer()
+            ZStack {
+                PodcastCoverContainer(geometry: geometry) {
+                    Spacer()
 
-                StoryLabelContainer(topPadding: 0, geometry: geometry) {
-                    if visibility.isVisible {
-                        GradientHolographicEffect(parentSize: geometry.size) {
-                            Image("heart")
-                                .renderingMode(.template)
-                        }
-                    } else {
+                    StoryLabelContainer(topPadding: 0, geometry: geometry) {
                         Image("heart")
+                            .renderingMode(.template)
+                            .overlay(
+                                LinearGradient(
+                                    stops: [
+                                        Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                                        Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                                        Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                                        Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                                        Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                                    ],
+                                    startPoint: UnitPoint(x: 0, y: -0.12),
+                                    endPoint: UnitPoint(x: 1, y: 1.39)
+                                )
+                                .scaleEffect(.init(width: 1.1, height: 1.1))
+                                .mask(
+                                    Image("heart")
+                                        .renderingMode(.template)
+                                )
+                            )
+
+                        StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title, geometry: geometry)
+                        StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                    }.allowsHitTesting(false)
+
+                    Button(L10n.eoyStoryReplay) {
+                        StoriesController.shared.replay()
+                        Analytics.track(.endOfYearStoryReplayButtonTapped)
                     }
+                    .buttonStyle(ReplayButtonStyle(color: Constants.backgroundColor))
+                    .opacity(renderForSharing ? 0 : 1)
+                    .padding(.top, 36)
 
-                    StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title, geometry: geometry)
-                    StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
-                }.allowsHitTesting(false)
-
-                Button(L10n.eoyStoryReplay) {
-                    StoriesController.shared.replay()
-                    Analytics.track(.endOfYearStoryReplayButtonTapped)
+                    Spacer()
                 }
-                .buttonStyle(ReplayButtonStyle(color: Constants.backgroundColor))
-                .opacity(renderForSharing ? 0 : 1)
-                .padding(.top, 36)
+                .background(
+                    ZStack(alignment: .top) {
+                        Color.black
 
-                Spacer()
+                        background
+                        .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.22)
+                        .clipped()
+                    }
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+                    .onAppear(perform: prepareHaptics)
+                )
+
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Image("logo")
+                            .padding(.bottom, geometry.size.height * 0.06)
+                        Spacer()
+                    }
+                }
             }
-            .background(
-                ZStack(alignment: .top) {
-                    Color.black
-
-                    background
-                    .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.22)
-                    .clipped()
-                }
-                .ignoresSafeArea()
-                .allowsHitTesting(false)
-                .onAppear(perform: prepareHaptics)
-            )
         }
     }
 
@@ -128,56 +152,10 @@ struct EpilogueStory: StoryView {
     }
 }
 
-private struct GradientHolographicEffect<Content>: View where Content: View {
-    @StateObject var motion = MotionManager(options: .attitude)
-
-    var parentSize: CGSize = UIScreen.main.bounds.size
-    var mode: Mode = .background
-    let content: () -> Content
-
-    private let multiplier = 0.1
-
-    var body: some View {
-        content()
-            .foregroundColor(mode == .background ? .clear : nil)
-            .overlay(mode == .overlay ? gradientView.blendMode(.overlay) : nil)
-            .background(mode == .background ? gradientView : nil)
-            .onAppear() {
-                motion.start()
-            }.onDisappear() {
-                motion.stop()
-            }
-    }
-
-    @ViewBuilder
-    private var gradientView: some View {
-        GeometryReader { proxy in
-            LinearGradient(
-                stops: [
-                    Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
-                    Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
-                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
-                    Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
-                    Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0, y: -0.12),
-                endPoint: UnitPoint(x: 1, y: 1.39)
-            )
-            .scaleEffect(.init(width: 1.1, height: 1.1))
-            .rotationEffect(Angle(degrees: (motion.roll / .pi) * 360))
-            .mask(content())
-        }.allowsHitTesting(false)
-    }
-
-    enum Mode {
-        case overlay, background
-    }
-}
-
 struct ReplayButtonStyle: ButtonStyle {
     let color: Color
     func makeBody(configuration: Self.Configuration) -> some View {
-        HStack() {
+        HStack {
             Image("eoy-replay-icon")
                 .resizable()
                 .frame(width: 24, height: 24)

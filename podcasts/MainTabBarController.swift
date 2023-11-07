@@ -402,8 +402,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func dismissPresentedViewController() {
-        presentedViewController?.dismiss(animated: true)
+    func dismissPresentedViewController(completion: (() -> Void)? = nil) {
+        presentedViewController?.dismiss(animated: true, completion: completion)
     }
 
     func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
@@ -448,7 +448,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
-        Settings.showBadgeFor2022EndOfYear = false
+        Settings.showBadgeForEndOfYear = false
     }
 
     func observersForEndOfYearStats() {
@@ -509,7 +509,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
+        if EndOfYear.isEligible && Settings.showBadgeForEndOfYear {
             profileTabBarItem.badgeValue = "●"
         }
     }
