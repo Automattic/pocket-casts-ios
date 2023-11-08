@@ -78,6 +78,20 @@ extension Story {
     func onAppear() {}
 }
 
+// MARK: - Animations
+
+extension EnvironmentValues {
+    var animated: Bool {
+        get { self[AnimatedKey.self] }
+        set { self[AnimatedKey.self] = newValue }
+    }
+
+    private struct AnimatedKey: EnvironmentKey {
+        static let defaultValue: Bool = false
+    }
+}
+
+
 // MARK: - Shareable Stories
 typealias ShareableStory = StoryView & StorySharing
 
