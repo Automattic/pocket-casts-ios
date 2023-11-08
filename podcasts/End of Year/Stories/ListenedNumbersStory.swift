@@ -4,6 +4,9 @@ import PocketCastsDataModel
 
 struct ListenedNumbersStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
+    @Environment(\.animated) var animated: Bool
+
+    @ObservedObject private var animationManager = PauseModifierManager(maxTime: 5.seconds)
 
     var duration: TimeInterval = 5.seconds
 
@@ -12,6 +15,9 @@ struct ListenedNumbersStory: ShareableStory {
     let listenedNumbers: ListenedNumbers
 
     let podcasts: [Podcast]
+
+    @State var topRowXOffset: Double = 0
+    @State var bottomRowXOffset: Double = 0
 
     var body: some View {
         GeometryReader { geometry in
@@ -36,6 +42,13 @@ struct ListenedNumbersStory: ShareableStory {
                         }
                         .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
                     }
+                    .offset(x: topRowXOffset)
+                    .modifier(animationManager.modifier(
+                        propertyValue: $topRowXOffset,
+                        propertyFinalValue: -300,
+                        startTime: 0,
+                        endTime: 5
+                    ))
 
                     HStack(spacing: 16) {
                         Group {
@@ -51,6 +64,13 @@ struct ListenedNumbersStory: ShareableStory {
                         .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
                     }
                     .padding(.leading, geometry.size.width * 0.35)
+                    .offset(x: bottomRowXOffset)
+                    .modifier(animationManager.modifier(
+                        propertyValue: $bottomRowXOffset,
+                        propertyFinalValue: 300,
+                        startTime: 0,
+                        endTime: 5
+                    ))
                 }
                 .rotationEffect(Angle(degrees: -15))
                 .padding(.top, geometry.size.height * 0.1)
@@ -63,6 +83,11 @@ struct ListenedNumbersStory: ShareableStory {
                     .offset(x: geometry.size.width * 0.4, y: geometry.size.height * 0.25)
                 }
             )
+            .onAppear {
+                if animated {
+                    animationManager.togglePaused()
+                }
+            }
         }
     }
 
