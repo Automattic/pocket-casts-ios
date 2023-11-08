@@ -83,7 +83,7 @@ struct CompletionRateStory: ShareableStory {
                 ZStack(alignment: .top) {
                     Color.black
 
-                    PlusStoryGradient()
+                    StoryGradient(geometry: geometry, plus: true)
                     .offset(x: geometry.size.width * 0.6, y: -geometry.size.height * 0.22)
                     .clipped()
                 }

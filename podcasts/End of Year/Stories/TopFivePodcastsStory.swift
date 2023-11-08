@@ -31,7 +31,7 @@ struct TopFivePodcastsStory: ShareableStory {
                 ZStack(alignment: .top) {
                     Color.black
 
-                    StoryGradient()
+                    StoryGradient(geometry: geometry)
                     .offset(x: geometry.size.width * 0.7, y: -geometry.size.height * 0.22)
                     .clipped()
                 }
