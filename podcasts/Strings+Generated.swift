@@ -728,7 +728,7 @@ internal enum L10n {
   internal static var eoyNotNow: String { return L10n.tr("Localizable", "eoy_not_now") }
   /// Share this story
   internal static var eoyShare: String { return L10n.tr("Localizable", "eoy_share") }
-  /// You can share directly to your favorite app and give a shout out to your favorite shows and creators
+  /// Paste this image to your socials and give a shout out to your favorite shows and creators
   internal static var eoyShareThisStoryMessage: String { return L10n.tr("Localizable", "eoy_share_this_story_message") }
   /// Share this story?
   internal static var eoyShareThisStoryTitle: String { return L10n.tr("Localizable", "eoy_share_this_story_title") }

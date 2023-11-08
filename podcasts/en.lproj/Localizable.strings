@@ -3657,7 +3657,7 @@
 "eoy_share_this_story_title" = "Share this story?";
 
 /* Message of an alert displayed to the user asking if they want to share the current story */
-"eoy_share_this_story_message" = "You can share directly to your favorite app and give a shout out to your favorite shows and creators";
+"eoy_share_this_story_message" = "Paste this image to your socials and give a shout out to your favorite shows and creators";
 
 /* Subtitle when displaying the user episode completion rate, all in lowercase. */
 "eoy_year_completion_rate" = "completion rate";
