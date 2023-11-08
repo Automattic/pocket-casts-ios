@@ -29,12 +29,20 @@ struct ListenedNumbersStory: ShareableStory {
                             podcastCover(1)
                             podcastCover(2)
                             podcastCover(3)
+                            podcastCover(0)
+                            podcastCover(1)
+                            podcastCover(2)
+                            podcastCover(3)
                         }
                         .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
                     }
 
                     HStack(spacing: 16) {
                         Group {
+                            podcastCover(4)
+                            podcastCover(5)
+                            podcastCover(6)
+                            podcastCover(7)
                             podcastCover(4)
                             podcastCover(5)
                             podcastCover(6)
