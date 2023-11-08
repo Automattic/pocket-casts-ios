@@ -35,7 +35,10 @@ struct StoriesView: View {
 
             ZStack {
                 // Manually set the zIndex order to ensure we can change the order when needed
-                model.story(index: model.currentStory).zIndex(3).ignoresSafeArea(edges: .bottom)
+                model.story(index: model.currentStory)
+                    .zIndex(3)
+                    .ignoresSafeArea(edges: .bottom)
+                    .environment(\.animated, true)
 
                 if model.shouldShowUpsell() {
                     PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom).onAppear {
