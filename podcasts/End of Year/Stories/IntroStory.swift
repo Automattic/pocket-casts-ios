@@ -51,11 +51,12 @@ struct IntroStory: ShareableStory {
                         }
                         .clipped()
                     }
-                    .ignoresSafeArea()
+                        .ignoresSafeArea()
                 )
             }
-            .enableProportionalValueScaling()
         }
+        .background(.black)
+        .enableProportionalValueScaling()
     }
 
     func onAppear() {

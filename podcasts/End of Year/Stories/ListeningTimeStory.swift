@@ -16,25 +16,27 @@ struct ListeningTimeStory: ShareableStory {
             PodcastCoverContainer(geometry: geometry) {
                 StoryLabelContainer(geometry: geometry) {
                     StoryLabel(L10n.eoyStoryListenedToTitle, for: .title, geometry: geometry)
+                        .fixedSize(horizontal: false, vertical: true)
                     StoryLabel(L10n.eoyStoryListenedToSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
                 }
 
-                let fontSize = Int(listeningTime.firstNumber) ?? 0 <= 21 ? 0.4 : 0.3
-                ContentSizeGeometryReader { listeningTimeReader in
-                    Text(listeningTime.firstNumber)
-                        .font(.custom("DM Sans", size: geometry.size.height * fontSize))
-                        .fontWeight(.regular)
-                        .frame(width: geometry.size.width - 70)
-                        .scaledToFill()
-                        .minimumScaleFactor(0.5)
-                        .lineLimit(1)
-                        .foregroundColor(.white)
-                        .padding([.leading, .trailing], 35)
-                        .padding(.bottom, -listeningTimeReader.size.height * 0.2)
-                }
-
-                StoryLabel(listeningTime.subtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
-                    .padding(.bottom, geometry.size.height * 0.025)
+                // We treat numbers below 21 differently, as there's much more space available
+                let maxHeight = Int(listeningTime.firstNumber) ?? 0 <= 21 ? 0.5 : 0.35
+                let subtitleTopPadding = (Int(listeningTime.firstNumber) ?? 0 <= 21 ? 0.35 : 0.25)
+                Text(listeningTime.firstNumber)
+                    .font(.custom("DM Sans", size: geometry.size.height * 0.4))
+                    .fontWeight(.regular)
+                    .frame(width: geometry.size.width - 70)
+                    .frame(maxHeight: geometry.size.height * maxHeight)
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(1)
+                    .foregroundColor(.white)
+                    .padding([.leading, .trailing], 35)
+                    .overlay {
+                        StoryLabel(listeningTime.subtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                            .padding(.top, geometry.size.height * subtitleTopPadding)
+                    }
 
                 Spacer()
 
@@ -98,21 +100,11 @@ struct CircleDays: View {
 
         // The width of the days displayed as balls that the user didn't listened to podcasts
         let missingDaysWidth = ((((numberOfLines * numberOfBallsPerLine) * 86400) - listeningTime) / 86400) * (ballFinalWidth + (2 * ballPadding))
-        let ballTotalArea = min(ballCalculatedWidth, ballCalculatedHeight)
 
         // The content is repeated on the background so the gradient
         // can have the exact same size as the circles.
         VStack(spacing: 0) {
-            ForEach(0..<Int(numberOfLines), id: \.self) { _ in
-                HStack(spacing: 0) {
-                    ForEach(0..<Int(numberOfBallsPerLine), id: \.self) { _ in
-                        Circle()
-                            .foregroundStyle(.white)
-                            .frame(width: ballFinalWidth, height: ballFinalWidth)
-                            .padding(.all, ballPadding)
-                    }
-                }
-            }
+            circles(numberOfLines: numberOfLines, numberOfBallsPerLine: numberOfBallsPerLine, ballWidth: ballFinalWidth, ballPadding: ballPadding)
             .opacity(0)
         }
         .background(
@@ -129,26 +121,31 @@ struct CircleDays: View {
                     endPoint: UnitPoint(x: 1.22, y: 1.25)
                 )
 
+                // Fill the non-listened days
                 Rectangle()
                     .foregroundStyle(Color(hex: "8F97A4"))
                     .frame(width: missingDaysWidth, height: ballFinalWidth + 2 * ballPadding)
             }
             .mask (
                 VStack(spacing: 0) {
-                    ForEach(0..<Int(numberOfLines), id: \.self) { _ in
-                        HStack(spacing: 0) {
-                            ForEach(0..<Int(numberOfBallsPerLine), id: \.self) { _ in
-                                Circle()
-                                    .foregroundStyle(.white)
-                                    .frame(width: ballFinalWidth, height: ballFinalWidth)
-                                    .padding(.all, ballPadding)
-                            }
-                        }
-                    }
+                    circles(numberOfLines: numberOfLines, numberOfBallsPerLine: numberOfBallsPerLine, ballWidth: ballFinalWidth, ballPadding: ballPadding)
                 }
             )
 
         )
+    }
+
+    func circles(numberOfLines: Double, numberOfBallsPerLine: Double, ballWidth: Double, ballPadding: Double) -> some View {
+        ForEach(0..<Int(numberOfLines), id: \.self) { _ in
+            HStack(spacing: 0) {
+                ForEach(0..<Int(numberOfBallsPerLine), id: \.self) { _ in
+                    Circle()
+                        .foregroundStyle(.white)
+                        .frame(width: ballWidth, height: ballWidth)
+                        .padding(.all, ballPadding)
+                }
+            }
+        }
     }
 }
 
@@ -164,6 +161,6 @@ private extension Double {
 
 struct ListeningTimeStory_Previews: PreviewProvider {
     static var previews: some View {
-        ListeningTimeStory(listeningTime: 8600000, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
+        ListeningTimeStory(listeningTime: 109000, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
     }
 }
