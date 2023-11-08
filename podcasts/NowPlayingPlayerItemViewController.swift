@@ -175,7 +175,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         // Show the overflow menu
         if FeatureFlag.bookmarks.enabled, AnnouncementFlow.shared.bookmarksFlow == .player {
             overflowTapped()
