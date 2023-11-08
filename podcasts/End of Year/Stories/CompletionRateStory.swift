@@ -63,7 +63,7 @@ struct CompletionRateStory: ShareableStory {
                             .font(.custom("DM Sans", size: geometry.size.height * 0.127).weight(.light))
                             .foregroundColor(Color(red: 0.98, green: 0.98, blue: 0.99))
 
-                            Text("completion rate")
+                            Text(L10n.eoyYearCompletionRate)
                             .font(
                             Font.custom("DM Sans", size: geometry.size.height * 0.018)
                             .weight(.semibold)

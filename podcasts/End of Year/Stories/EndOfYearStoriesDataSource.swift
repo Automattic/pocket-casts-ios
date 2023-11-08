@@ -28,7 +28,7 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         case .longestEpisode:
             return LongestEpisodeStory(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
         case .yearOverYearListeningTime:
-            return YearOverYearStory(yearOverYearListeningTime: data.yearOverYearListeningTime)
+            return YearOverYearStory(data: data.yearOverYearListeningTime)
         case .completionRate:
             return CompletionRateStory(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
         case .epilogue:

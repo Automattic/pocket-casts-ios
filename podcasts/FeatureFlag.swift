@@ -4,9 +4,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Whether we should detect and show the free trial UI
     case freeTrialsEnabled
 
-    /// Whether the Tracks analytics are enabled
-    case tracks
-
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
@@ -54,8 +51,6 @@ enum FeatureFlag: String, CaseIterable {
         switch self {
         case .freeTrialsEnabled:
             return true
-        case .tracks:
-            return true
         case .tracksLogging:
             return false
         case .firebaseLogging:
@@ -73,15 +68,15 @@ enum FeatureFlag: String, CaseIterable {
         case .discoverFeaturedAutoScroll:
             return true
         case .patron:
-            return false
+            return true
         case .showRatings:
             return true
         case .autoplay:
             return true
         case .newShowNotesEndpoint:
-            return true
+            return false
         case .episodeFeedArtwork:
-            return Self.isTestFlight ? true : false
+            return false // To be enabled, newShowNotesEndpoint needs to be too
         }
     }
 }

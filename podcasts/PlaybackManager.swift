@@ -1083,7 +1083,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return possiblePlayers // for Google Cast, only the Google Cast player is allowed
             }
 
-            if !playingOverAirplay(), !currEpisode.videoPodcast(), currEpisode.downloaded(pathFinder: DownloadManager.shared) || currEpisode.bufferedForStreaming() {
+            if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
                 possiblePlayers.append(EffectsPlayer.self)
             }
         #endif
@@ -1187,6 +1187,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func allEpisodesInQueue(includeNowPlaying: Bool) -> [BaseEpisode] {
         queue.allEpisodes(includeNowPlaying: includeNowPlaying)
+    }
+
+    func allEpisodeUuidsInQueue() -> [BaseEpisode] {
+        queue.allEpisodeUuids()
     }
 
     func upNextQueueChanged() {
