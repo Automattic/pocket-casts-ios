@@ -98,6 +98,8 @@ class StoriesModel: ObservableObject {
             self.progress = newProgress
             StoriesProgressModel.shared.progress = newProgress
         })
+
+        currentStory?.onResume()
     }
 
     func story(index: Int) -> AnyView {
@@ -205,6 +207,7 @@ class StoriesModel: ObservableObject {
 
     func pause() {
         cancellable?.cancel()
+        currentStory?.onPause()
     }
 
     func replay() {
