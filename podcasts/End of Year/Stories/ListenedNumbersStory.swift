@@ -101,6 +101,14 @@ struct ListenedNumbersStory: ShareableStory {
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 
+    func onPause() {
+        animationManager.togglePaused()
+    }
+
+    func onResume() {
+        animationManager.togglePaused()
+    }
+
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: identifier)
     }
