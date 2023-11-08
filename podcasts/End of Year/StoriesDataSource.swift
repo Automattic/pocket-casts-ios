@@ -64,6 +64,12 @@ protocol Story {
     /// This method instead will only be called when the story
     /// is being presented.
     func onAppear()
+
+    /// Called when the story is paused
+    func onPause()
+
+    /// Called when the story is resumed after being paused
+    func onResume()
 }
 
 extension Story {
@@ -76,6 +82,8 @@ extension Story {
     }
 
     func onAppear() {}
+    func onPause() {}
+    func onResume() {}
 }
 
 // MARK: - Animations
