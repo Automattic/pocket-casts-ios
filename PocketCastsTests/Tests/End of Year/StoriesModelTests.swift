@@ -9,7 +9,7 @@ class StoriesModelTests: XCTestCase {
         let model = StoriesModel(dataSource: MockStoriesDataSource(),
                                  configuration: StoriesConfiguration())
 
-        XCTAssertEqual(model.currentStory, 0)
+        XCTAssertEqual(model.currentStoryIndex, 0)
         XCTAssertEqual(model.progress, 0)
     }
 
@@ -40,7 +40,7 @@ class StoriesModelTests: XCTestCase {
         model.next()
 
         eventually {
-            XCTAssertEqual(model.currentStory, 1)
+            XCTAssertEqual(model.currentStoryIndex, 1)
         }
     }
 
@@ -53,7 +53,7 @@ class StoriesModelTests: XCTestCase {
         model.previous()
 
         eventually {
-            XCTAssertEqual(model.currentStory, 0)
+            XCTAssertEqual(model.currentStoryIndex, 0)
         }
     }
 
@@ -83,7 +83,7 @@ class StoriesModelTests: XCTestCase {
         model.next()
 
         eventually(timeout: 0.1) {
-            XCTAssertEqual(model.currentStory, 3)
+            XCTAssertEqual(model.currentStoryIndex, 3)
         }
     }
 
@@ -102,7 +102,7 @@ class StoriesModelTests: XCTestCase {
         model.previous()
 
         eventually(timeout: 0.1) {
-            XCTAssertEqual(model.currentStory, 0)
+            XCTAssertEqual(model.currentStoryIndex, 0)
         }
     }
 
@@ -118,7 +118,7 @@ class StoriesModelTests: XCTestCase {
         model.next()
 
         eventually(timeout: 0.1) {
-            XCTAssertEqual(model.currentStory, 1)
+            XCTAssertEqual(model.currentStoryIndex, 1)
         }
     }
 
@@ -136,11 +136,11 @@ class StoriesModelTests: XCTestCase {
         model.next()
         model.next()
         model.next()
-        model.currentStory = 3
+        model.currentStoryIndex = 3
         model.previous()
 
         eventually(timeout: 0.1) {
-            XCTAssertEqual(model.currentStory, 2)
+            XCTAssertEqual(model.currentStoryIndex, 2)
         }
     }
 }
