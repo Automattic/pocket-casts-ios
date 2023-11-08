@@ -60,7 +60,7 @@ struct ListenedNumbersStory: ShareableStory {
 
     @ViewBuilder
     func podcastCover(_ index: Int) -> some View {
-        let podcast = podcasts[safe: index] ?? podcasts[0]
+        let podcast = podcasts[safe: index] ?? podcasts[safe: index % 2 == 0 ? 0 : 1] ?? podcasts[0]
         PodcastCover(podcastUuid: podcast.uuid)
     }
 
