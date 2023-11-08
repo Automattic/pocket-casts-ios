@@ -7,6 +7,8 @@ struct YearOverYearStory: ShareableStory {
 
     let identifier: String = "year_over_year"
 
+    let plusOnly = true
+
     var data: YearOverYearListeningTime
 
     let subscriptionTier: SubscriptionTier = SubscriptionHelper.subscriptionTier

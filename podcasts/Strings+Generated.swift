@@ -730,6 +730,8 @@ internal enum L10n {
   internal static var eoyShare: String { return L10n.tr("Localizable", "eoy_share") }
   /// Year in Podcasts
   internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
+  /// Start your Free Trial
+  internal static var eoyStartYourFreeTrial: String { return L10n.tr("Localizable", "eoy_start_your_free_trial") }
   /// Failed to load stories.
   internal static var eoyStoriesFailed: String { return L10n.tr("Localizable", "eoy_stories_failed") }
   /// Don't forget to share with your friends and give a shout out to your favorite podcast creators
@@ -855,6 +857,10 @@ internal enum L10n {
   internal static var eoyStoryTopPodcastsSubtitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_subtitle") }
   /// And you were big on these shows too!
   internal static var eoyStoryTopPodcastsTitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_title") }
+  /// Subscribe to Plus and find out how your listening compares to 2022, other fun stats, and Premium features like bookmarks and folders.
+  internal static var eoySubscribeToPlus: String { return L10n.tr("Localizable", "eoy_subscribe_to_plus") }
+  /// There’s more!
+  internal static var eoyTheresMore: String { return L10n.tr("Localizable", "eoy_theres_more") }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
   /// View My 2023
