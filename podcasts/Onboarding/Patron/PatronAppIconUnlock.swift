@@ -38,7 +38,7 @@ struct PatronAppIconUnlock: View {
         GeometryReader { proxy in
             ZStack {
                 if !isUnlocked {
-                    WelcomeConfetti(type: isPlus ? .plus : .normal)
+                    WelcomeConfetti(type: .normal)
                         .onAppear { haptics.confetti() }
                         .allowsHitTesting(false)
                         .accessibilityHidden(true)
@@ -442,7 +442,7 @@ private class PatronIconHaptics: ObservableObject {
 // MARK: - Icon Card Parallax Modifier
 
 /// Adds a subtle parallax effect to the app icon as the user tilts their device
-private struct IconParallaxModifier: ViewModifier {
+struct IconParallaxModifier: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject var manager: MotionManager = .init()
 

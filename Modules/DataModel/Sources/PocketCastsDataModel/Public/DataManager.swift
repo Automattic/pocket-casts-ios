@@ -88,14 +88,36 @@ public class DataManager {
         let userEpisodes = userEpisodeManager.allUpNextEpisodes(dbQueue: dbQueue)
 
         // this extra step is to make sure we return the episodes in the order they are in the up next list, which they won't be if there's both Episodes and UserEpisodes in Up Next
-        var convertedEpisodes = [BaseEpisode]()
-        for upNextEpisode in allUpNextEpisodes {
-            guard let episode: BaseEpisode = episodes.first(where: { $0.uuid == upNextEpisode.episodeUuid }) ?? userEpisodes.first(where: { $0.uuid == upNextEpisode.episodeUuid }) else { continue }
+        if userEpisodes.isEmpty {
+            return episodes
+        }
 
-            convertedEpisodes.append(episode)
+        var convertedEpisodes = [BaseEpisode]()
+        var episodeIndex = 0
+        var userEpisodeIndex = 0
+        for upNextEpisode in allUpNextEpisodes {
+            if let episode = episodes[safe: episodeIndex],
+               episode.uuid == upNextEpisode.episodeUuid {
+                convertedEpisodes.append(episode)
+                episodeIndex += 1
+                continue
+            }
+            if let userEpisode = userEpisodes[safe: userEpisodeIndex], userEpisode.uuid == upNextEpisode.episodeUuid {
+                convertedEpisodes.append(userEpisode)
+                userEpisodeIndex += 1
+            }
         }
 
         return convertedEpisodes
+    }
+
+    public func allUpNextEpisodeUuids() -> [BaseEpisode] {
+        upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue).map {
+            let episode = Episode()
+            episode.uuid = $0.episodeUuid
+            episode.hasOnlyUuid = true
+            return episode
+        }
     }
 
     public func findPlaylistEpisode(uuid: String) -> PlaylistEpisode? {

@@ -74,7 +74,7 @@ struct SubscriptionBadge: View {
                     background = .init(colors: [.init(hex: "6046F5")], startPoint: .top, endPoint: .bottom)
                     iconColor = Color(hex: "E4E0FD")
                 case .gradient:
-                    background = Color.patronGradient
+                    background = .init(colors: [.init(hex: "9583F8")], startPoint: .top, endPoint: .bottom)
                     iconColor = .white
                 }
 

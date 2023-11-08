@@ -20,6 +20,9 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     /// Prevent multiple eligibility requests from being performed
     private var isCheckingEligibility = false
 
+    /// Prevent multiple product requests from being performed
+    private var isRequestingProducts = false
+
     /// Whether purchasing is allowed in the current environment or not
     var canMakePurchases = BuildEnvironment.current != .testFlight
 
@@ -29,7 +32,22 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         addSubscriptionNotifications()
     }
 
+    /// Requests the product info if we're not checking already, and the products we have already are different
+    func requestProductInfoIfNeeded() {
+        let isMissingProducts = productsArray.isEmpty || productsArray.map { $0.productIdentifier } == productIdentifiers.map { $0.rawValue }
+
+        guard isMissingProducts, !isRequestingProducts else {
+            return
+        }
+
+        requestProductInfo()
+    }
+
     func requestProductInfo() {
+        // Don't request if we're already requesting
+        guard !isRequestingProducts else { return }
+
+        isRequestingProducts = true
         let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
         request.delegate = self
         request.start()
@@ -102,6 +120,8 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     // MARK: SKProductReuqestDelelgate
 
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        defer { isRequestingProducts = false }
+
         if response.products.count > 0 {
             productsArray = response.products
 
@@ -120,6 +140,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 
     public func request(_ request: SKRequest, didFailWithError error: Error) {
+        defer { isRequestingProducts = false }
         FileLog.shared.addMessage("IAPHelper Failed to load list of products \(error.localizedDescription)")
         NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsFailed)
         clearRequestAndHandler()
@@ -211,7 +232,7 @@ private extension IapHelper {
     private func addSubscriptionNotifications() {
         NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
             self?.updateTrialEligibility()
-            self?.requestProductInfo()
+            self?.requestProductInfoIfNeeded()
         }
     }
 
