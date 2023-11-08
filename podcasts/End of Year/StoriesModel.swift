@@ -24,7 +24,7 @@ class StoriesModel: ObservableObject {
 
     private var cancellable: Cancellable?
     private var interval: TimeInterval {
-        dataSource.story(for: currentStoryIndex).duration
+        currentStory?.duration ?? 0
     }
 
     private var currentStoryIdentifier: String = ""
@@ -32,6 +32,8 @@ class StoriesModel: ObservableObject {
     private var currentStoryIsPlus = false
 
     private var manuallyChanged = false
+
+    private var currentStory: Story?
 
     var numberOfStories: Int {
         dataSource.numberOfStories
@@ -107,6 +109,8 @@ class StoriesModel: ObservableObject {
             story.onAppear()
         }
 
+        currentStory = story
+
         currentStoryIdentifier = story.identifier
         currentStoryIsPlus = story.plusOnly
         return AnyView(story)
@@ -125,7 +129,7 @@ class StoriesModel: ObservableObject {
     }
 
     func sharingAssets() -> [Any]? {
-        guard let story = dataSource.shareableStory(for: currentStoryIndex) else {
+        guard let story = currentStory as? (any ShareableStory) else {
             return nil
         }
 
