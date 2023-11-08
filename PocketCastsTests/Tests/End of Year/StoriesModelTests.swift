@@ -34,6 +34,7 @@ class StoriesModelTests: XCTestCase {
     func testNext() {
         let model = StoriesModel(dataSource: MockStoriesDataSource(),
                                  configuration: StoriesConfiguration())
+        model.isReady = true
         model.start()
 
         model.next()
@@ -75,6 +76,7 @@ class StoriesModelTests: XCTestCase {
         let model = StoriesModel(dataSource: MockStoriesWithPlusDataSource(),
                                  configuration: StoriesConfiguration(),
                                  activeTier: .none)
+        model.isReady = true
         model.start()
         _ = model.story(index: 0)
 
@@ -109,6 +111,7 @@ class StoriesModelTests: XCTestCase {
         let model = StoriesModel(dataSource: MockStoriesWithPlusDataSource(),
                                  configuration: StoriesConfiguration(),
                                  activeTier: .plus)
+        model.isReady = true
         model.start()
         _ = model.story(index: 0)
 
@@ -126,6 +129,7 @@ class StoriesModelTests: XCTestCase {
         let model = StoriesModel(dataSource: MockStoriesWithPlusDataSource(),
                                  configuration: StoriesConfiguration(),
                                  activeTier: .patron)
+        model.isReady = true
         model.start()
         _ = model.story(index: 0)
 
@@ -164,6 +168,10 @@ class MockStoriesDataSource: StoriesDataSource {
     func isReady() async -> Bool {
         true
     }
+
+    func refresh() async -> Bool {
+        true
+    }
 }
 
 class MockStoriesWithPlusDataSource: StoriesDataSource {
@@ -193,6 +201,10 @@ class MockStoriesWithPlusDataSource: StoriesDataSource {
     }
 
     func isReady() async -> Bool {
+        true
+    }
+
+    func refresh() async -> Bool {
         true
     }
 }

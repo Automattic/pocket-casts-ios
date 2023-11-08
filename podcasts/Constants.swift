@@ -150,8 +150,9 @@ struct Constants {
 
         static let showBadgeFor2023EndOfYear = "showBadgeFor2023EndOfYear"
         static let modal2023HasBeenShown = "modal2023HasBeenShown"
-        static let hasSyncedAll2022Episodes = "hasSyncedAll2022Episodes"
-        static let top5PodcastsListLink = "top5PodcastsListLink"
+        static let hasSyncedEpisodesForPlayback2023 = "hasSyncedEpisodesForPlayback2023"
+        static let hasSyncedEpisodesForPlayback2023AsPlusUser = "hasSyncedEpisodesForPlayback2023AsPlusUser"
+        static let top5PodcastsListLink = "top5PodcastsListLink2023"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
 
         static let autoplay = "autoplay"

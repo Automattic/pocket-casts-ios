@@ -22,6 +22,13 @@ protocol StoriesDataSource {
     /// Once you finished any task and the data source is ready
     /// return `true`.
     func isReady() async -> Bool
+
+    /// A method to update all data from the data source.
+    ///
+    /// You may want to update a request, or preload images/video.
+    /// Once you finished all refreshes and the data source is ready
+    /// return `true`.
+    func refresh() async -> Bool
 }
 
 extension StoriesDataSource {

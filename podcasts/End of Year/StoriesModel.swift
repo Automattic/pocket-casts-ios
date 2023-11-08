@@ -54,6 +54,15 @@ class StoriesModel: ObservableObject {
         subscribeToNotifications()
     }
 
+    func refresh() {
+        isReady = false
+
+        Task.init {
+            await isReady = dataSource.refresh()
+            failed = !isReady
+        }
+    }
+
     func start() {
         cancellable = publisher.autoconnect().sink(receiveValue: { _ in
             guard self.numberOfStories > 0 else {
@@ -129,7 +138,7 @@ class StoriesModel: ObservableObject {
     }
 
     func next() {
-        guard numberOfStories > 0 else {
+        guard isReady, numberOfStories > 0 else {
             return
         }
 
@@ -141,7 +150,7 @@ class StoriesModel: ObservableObject {
     }
 
     func previous() {
-        guard numberOfStories > 0 else {
+        guard isReady, numberOfStories > 0 else {
             return
         }
 
@@ -226,8 +235,7 @@ private extension StoriesModel {
         ServerNotifications.iapPurchaseCompleted.publisher()
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
-            self?.start()
-            self?.objectWillChange.send()
+            self?.refresh()
         }
         .store(in: &cancellables)
     }

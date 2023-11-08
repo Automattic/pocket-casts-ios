@@ -948,8 +948,8 @@ public extension DataManager {
         endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
     }
 
-    func numberOfEpisodesThisYear() -> Int {
-        endOfYearManager.numberOfEpisodes(dbQueue: dbQueue)
+    func numberOfEpisodes(year: Int32) -> Int {
+        endOfYearManager.numberOfEpisodes(year: year, dbQueue: dbQueue)
     }
 
     func listeningTime() -> Double? {
@@ -972,8 +972,8 @@ public extension DataManager {
         endOfYearManager.longestEpisode(dbQueue: dbQueue)
     }
 
-    func episodesThatExist(uuids: [String]) -> [String] {
-        endOfYearManager.episodesThatExist(dbQueue: dbQueue, uuids: uuids)
+    func episodesThatExist(year: Int32, uuids: [String]) -> [String] {
+        endOfYearManager.episodesThatExist(year: year, dbQueue: dbQueue, uuids: uuids)
     }
 
     func yearOverYearListeningTime() -> YearOverYearListeningTime {

@@ -7,7 +7,7 @@ import XCTest
 class EndOfYearStoriesBuilderTests: XCTestCase {
     override func setUp() {
         // Do not sync for episodes
-        Settings.hasSyncedAll2022Episodes = true
+        Settings.hasSyncedEpisodesForPlayback2023 = true
 
         // Pretend we're logged in
         ServerSettings.setSyncingEmail(email: "test@test.com")
@@ -216,7 +216,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
-        Settings.hasSyncedAll2022Episodes = false
+        Settings.hasSyncedEpisodesForPlayback2023 = false
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         _ = await builder.build()
@@ -229,12 +229,46 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
-        Settings.hasSyncedAll2022Episodes = true
+        Settings.hasSyncedEpisodesForPlayback2023 = true
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         _ = await builder.build()
 
         XCTAssertFalse(syncCalled)
+    }
+
+    /// When a user syncs their listening history but aren't Plus users
+    /// the app doesn't sync their 2022 data.
+    /// So if they become Plus we should re-sync again.
+    func testSyncWhenAlreadySyncedButAsFreeUser() async {
+        var syncCalledTimes = 0
+        var plusUser = false
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
+        Settings.hasSyncedEpisodesForPlayback2023 = false
+        endOfYearManager.isFullListeningHistoryToReturn = false
+        _ = await builder.build()
+
+        plusUser = true
+        _ = await builder.build()
+
+        XCTAssertEqual(syncCalledTimes, 2)
+    }
+
+    func testDontSyncAgainWhenSubscriptionStatusDontChange() async {
+        var syncCalledTimes = 0
+        let plusUser = false
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
+        Settings.hasSyncedEpisodesForPlayback2023 = false
+        endOfYearManager.isFullListeningHistoryToReturn = false
+        _ = await builder.build()
+
+        _ = await builder.build()
+
+        XCTAssertEqual(syncCalledTimes, 1)
     }
 }
 

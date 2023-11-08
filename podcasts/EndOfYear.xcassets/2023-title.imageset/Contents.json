@@ -1,18 +1,8 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "eoy_2023_title_@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "eoy_2023_title_@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "2023-title.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
