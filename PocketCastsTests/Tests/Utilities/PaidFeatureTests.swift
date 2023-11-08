@@ -4,7 +4,7 @@ import XCTest
 import PocketCastsServer
 
 final class PaidFeatureTests: XCTestCase {
-    private var subscriptionHelper: MockSubscriptionHelper! = .init()
+    private var subscriptionHelper: MockActiveTierSubscriptionHelper! = .init()
 
     override func setUp() {
         subscriptionHelper = .init()
@@ -131,7 +131,7 @@ final class PaidFeatureTests: XCTestCase {
 }
 
 // MARK: - Mocks
-private class MockSubscriptionHelper: SubscriptionHelper {
+class MockActiveTierSubscriptionHelper: SubscriptionHelper {
     var _activeTier: SubscriptionTier = .none
 
     override var activeTier: SubscriptionTier {

@@ -350,6 +350,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             let generalSettingsViewController = GeneralSettingsViewController()
             navigationController?.pushViewController(generalSettingsViewController, animated: true)
         }
+
+        if AnnouncementFlow.shared.isShowingBookmarksOption {
+            let controller = HeadphoneSettingsViewController()
+            navigationController?.pushViewController(controller, animated: true)
+            AnnouncementFlow.shared.isShowingBookmarksOption = false
+        }
     }
 }
 
