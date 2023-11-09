@@ -81,7 +81,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateExtraActions), name: Constants.Notifications.extraMediaSessionActionsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: .episodeEmbeddedArtworkLoaded, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleEpisodeStarredChanged), name: Constants.Notifications.episodeStarredChanged, object: nil)
 
         // run these on a background queue because some of them might call our singleton instance back, causing a crash because PlaybackManager.shared is called from the init method
         DispatchQueue.global().async {
@@ -1588,11 +1587,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             starCommand.isEnabled = false
         }
     }
-    
-    @objc private func handleEpisodeStarredChanged() {
-        guard let episode = self.currentEpisode() else {return}
-        MPRemoteCommandCenter.shared().likeCommand.isActive = episode.keepEpisode
-    }
 
     // MARK: - Skip Time Changes
 
@@ -1806,6 +1800,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func nowPlayingStarredChanged() {
         queue.nowPlayingEpisodeChanged()
+        guard let episode = currentEpisode() else { return }
+        MPRemoteCommandCenter.shared().likeCommand.isActive = episode.keepEpisode
     }
 
     // MARK: - Downloading a streamed episode check
