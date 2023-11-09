@@ -100,7 +100,13 @@ class StoriesModel: ObservableObject {
 
     func story(index: Int) -> AnyView {
         let story = dataSource.story(for: index)
-        story.onAppear()
+
+        // Only trigger onAppear if the story is not plus or user is paid
+        // Otherwise, the paywall appears in front of the story
+        if !story.plusOnly || isPaidUser() {
+            story.onAppear()
+        }
+
         currentStoryIdentifier = story.identifier
         currentStoryIsPlus = story.plusOnly
         return AnyView(story)
