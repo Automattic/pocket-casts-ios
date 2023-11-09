@@ -8,6 +8,7 @@ class StoriesModelTests: XCTestCase {
     func testCurrentStoryAndProgressStartsInZero() {
         let model = StoriesModel(dataSource: MockStoriesDataSource(),
                                  configuration: StoriesConfiguration())
+        _ = model.story(index: 0)
 
         XCTAssertEqual(model.currentStoryIndex, 0)
         XCTAssertEqual(model.progress, 0)
@@ -16,6 +17,7 @@ class StoriesModelTests: XCTestCase {
     func testNumberOfStoriesReflectDataSourceValue() {
         let model = StoriesModel(dataSource: MockStoriesDataSource(),
                                  configuration: StoriesConfiguration())
+        _ = model.story(index: 0)
 
         XCTAssertEqual(model.numberOfStories, 2)
     }
@@ -23,6 +25,7 @@ class StoriesModelTests: XCTestCase {
     func testProgressChangesAfterStart() {
         let model = StoriesModel(dataSource: MockStoriesDataSource(),
                                  configuration: StoriesConfiguration())
+        _ = model.story(index: 0)
 
         model.start()
 
@@ -34,6 +37,7 @@ class StoriesModelTests: XCTestCase {
     func testNext() {
         let model = StoriesModel(dataSource: MockStoriesDataSource(),
                                  configuration: StoriesConfiguration())
+        _ = model.story(index: 0)
         model.isReady = true
         model.start()
 
@@ -47,6 +51,7 @@ class StoriesModelTests: XCTestCase {
     func testPrevious() {
         let model = StoriesModel(dataSource: MockStoriesDataSource(),
                                  configuration: StoriesConfiguration())
+        _ = model.story(index: 0)
         model.start()
         model.next()
 
