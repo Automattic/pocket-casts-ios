@@ -473,6 +473,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             self.endOfYear.resetStateIfNeeded()
         }
 
+        // When the What's New is dismissed, check to see if we should also show the end of year prompt
+        NotificationCenter.default.addObserver(forName: .whatsNewDismissed, object: nil, queue: .main) { _ in
+            self.isShowingWhatsNew = false
+            self.showEndOfYearPromptIfNeeded()
+        }
+
         NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
             self.endOfYear.showPromptBasedOnState(in: self)
 
