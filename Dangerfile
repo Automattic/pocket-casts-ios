@@ -7,16 +7,18 @@ def wip_feature?
   has_wip_label || has_wip_title
 end
 
-def finished_reviews?
+# these are reviewers actively providing feedback and potentially changing the state of the PR (approved, changes-requested)
+def active_reviewers?
   repo_name = github.pr_json['base']['repo']['full_name']
   pr_number = github.pr_json['number']
 
   !github.api.pull_request_reviews(repo_name, pr_number).empty?
 end
 
+# requested_teams / requested_reviewers are users initially requested to review a PR, who haven't reacted yet
 def requested_reviewers?
   has_requested_reviews = !github.pr_json['requested_teams'].to_a.empty? || !github.pr_json['requested_reviewers'].to_a.empty?
-  has_requested_reviews || finished_reviews?
+  has_requested_reviews || active_reviewers?
 end
 
 return if github.pr_labels.include?('Releases')
