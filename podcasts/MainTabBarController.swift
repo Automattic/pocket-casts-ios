@@ -72,9 +72,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
 
-        endOfYear.showPromptBasedOnState(in: self)
+        // Show any app launch announcements/prompts only once
+        if !viewDidAppear {
+            showWhatsNewIfNeeded()
+            showEndOfYearPromptIfNeeded()
+
+            viewDidAppear = true
+        }
+
         showInitialOnboardingIfNeeded()
-        showWhatsNewIfNeeded()
     }
 
     private func showInitialOnboardingIfNeeded() {
