@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -46,6 +46,14 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Aqu-XA-Xqc"/>
                         </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ut-tE-UeQ" customClass="BouncyButton" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="20" y="10.5" width="24" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <connections>
+                            <action selector="boxTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="D8q-uY-I5x"/>
+                        </connections>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tO-zw-yY4">
                         <rect key="frame" x="20" y="10.5" width="10" height="14.5"/>
@@ -140,6 +148,7 @@
                 <outlet property="chapterLength" destination="IbE-k6-vdl" id="0d6-30-7rh"/>
                 <outlet property="chapterName" destination="MTd-fM-Gsz" id="jOW-Js-kdG"/>
                 <outlet property="chapterNumber" destination="7tO-zw-yY4" id="Cee-Z7-UcQ"/>
+                <outlet property="checkButton" destination="2Ut-tE-UeQ" id="Xgr-Ha-SBz"/>
                 <outlet property="isPlayingView" destination="MnS-7T-IZe" id="OXM-O3-1H2"/>
                 <outlet property="linkAndTimeView" destination="Gii-fb-Tnl" id="txZ-B3-P3c"/>
                 <outlet property="linkView" destination="gi5-rn-or5" id="xbh-8k-0Hn"/>
@@ -152,5 +161,8 @@
     </objects>
     <resources>
         <image name="chapter-link-white" width="24" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

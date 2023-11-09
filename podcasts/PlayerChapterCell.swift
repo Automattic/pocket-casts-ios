@@ -5,6 +5,13 @@ class PlayerChapterCell: UITableViewCell {
     @IBOutlet var chapterName: UILabel!
     @IBOutlet var chapterLength: UILabel!
     @IBOutlet var chapterNumber: UILabel!
+    @IBOutlet var checkButton: BouncyButton! {
+        didSet {
+            checkButton.onImage = UIImage(named: "checkbox-selected")
+            checkButton.offImage = UIImage(named: "checkbox-unselected")
+            checkButton.tintColor = ThemeColor.primaryInteractive01()
+        }
+    }
     @IBOutlet var nowPlayingAnimation: NowPlayingAnimationView!
     @IBOutlet var linkAndTimeView: UIView! {
         didSet {
@@ -60,6 +67,7 @@ class PlayerChapterCell: UITableViewCell {
         chapterName.text = chapter.title
         chapterLength.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
         chapterNumber.text = "\(chapter.index + 1)"
+        checkButton.currentlyOn = chapter.shouldPlay
         linkView.alpha = playState == .played ? 0.5 : 1
         linkView.isHidden = (chapter.url == nil)
 
@@ -86,6 +94,10 @@ class PlayerChapterCell: UITableViewCell {
         linkTapped(url)
     }
 
+    @IBAction func boxTapped(_ sender: Any) {
+        chapter?.shouldPlay.toggle()
+    }
+    
     @objc func progressUpdated(animated: Bool = true) {
         guard let chapter = chapter, chapter == PlaybackManager.shared.currentChapters().visibleChapter else { return }
 
