@@ -219,6 +219,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             self.startUpdateTimer()
             self.updateCommandCenterSkipTimes(addTarget: false)
+            self.updateExtraActions()
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
 
