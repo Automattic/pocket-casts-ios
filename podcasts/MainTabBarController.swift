@@ -15,6 +15,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile)!)
 
+
+    /// The viewDidAppear can trigger more than once per lifecycle, setting this flag on the first did appear prevents use from prompting more than once per lifecycle. But still wait until the tab bar has appeared to do so.
+    var viewDidAppear: Bool = false
+    
+    /// Whether we're actively presenting the what's new
+    var isShowingWhatsNew: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
