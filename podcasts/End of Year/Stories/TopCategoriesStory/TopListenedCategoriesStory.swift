@@ -24,9 +24,10 @@ struct TopListenedCategoriesStory: ShareableStory {
                 }
 
                 let headerSpacing = geometry.size.height * 0.054
+                let count = min(listenedCategories.count, 4)
 
                 VStack(alignment: .leading, spacing: geometry.size.height * 0.03) {
-                    ForEach(0..<min(listenedCategories.count, 4), id: \.self) { index in
+                    ForEach(0..<count, id: \.self) { index in
                         category(row: index, geometry: geometry)
                     }
                 }

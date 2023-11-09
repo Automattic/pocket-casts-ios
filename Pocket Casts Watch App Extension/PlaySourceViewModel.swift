@@ -75,6 +75,7 @@ protocol PlaySourceViewModel {
     // MARK: Up Next
 
     var episodesInQueue: [BaseEpisode] { get }
+    var episodeUuidsInQueue: [BaseEpisode] { get }
     func clearUpNext()
 
     // MARK: Now Playing

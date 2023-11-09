@@ -3483,13 +3483,13 @@
 "eoy_description" = "See your top podcasts, categories, listening stats, and more. Share with friends and shout out your favorite creators!";
 
 /* Label of the End of Year call to action button */
-"eoy_view_year" = "View My 2022";
+"eoy_view_year" = "View My 2023";
 
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
 
 /* End of Year card description that appears under Profile */
-"eoy_card_description" = "See your top podcasts, categories, listening stats and more.";
+"eoy_card_description" = "See your listening stats, top podcasts, and more.";
 
 /* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
 "eoy_story_intro_title" = "Let's celebrate your year of listening...";
@@ -3657,7 +3657,10 @@
 "eoy_share_this_story_title" = "Share this story?";
 
 /* Message of an alert displayed to the user asking if they want to share the current story */
-"eoy_share_this_story_message" = "You can share directly to your favorite app and give a shout out to your favorite shows and creators";
+"eoy_share_this_story_message" = "Paste this image to your socials and give a shout out to your favorite shows and creators";
+
+/* Subtitle when displaying the user episode completion rate, all in lowercase. */
+"eoy_year_completion_rate" = "completion rate";
 
 /* Title of the view displayed after a user successfully upgrades to plus */
 "welcome_plus_title" = "Thank you, now let's get you listening!";
@@ -3842,6 +3845,18 @@
 /* An action that the user want to postpone and maybe do later */
 "maybe_later" = "Maybe later";
 
+/* Bookmarks feature announcement title */
+"announcement_bookmarks_title" = "Bookmarks are here!";
+
+/* Bookmarks feature announcement description */
+"announcement_bookmarks_description" = "You can now save timestamps of episodes from the actions menu in the player or with a headphones action.";
+
+/* Bookmarks feature announcement title */
+"announcement_bookmarks_title_beta" = "Join us in the beta testing for bookmarks!";
+
+/* Button label for a feature that the user can enable */
+"try_it_now" = "Try It Now";
+
 /* Label for a settings menu that allows the user to customize headphone action. */
 "settings_headphone_controls" = "Headphone Controls";
 
@@ -3927,7 +3942,10 @@
 "episode_details_title" = "Details";
 
 /* A message informing the user a feature is locked. %1$@ is the name of the tier (Plus or Patron) */
-"boomarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";
+"bookmarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";
+
+/* A message informing the user a feature is locked while in early access. %1$@ and %2$@ are the names of the tier (Plus or Patron) */
+"bookmarks_early_access_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes. Available for %2$@ subscribers soon.";
 
 /* A button title that prompts the user to upgrade their plan. %1$@ is the name of the tier (Plus or Patron) */
 "upgrade_to_plan" = "Upgrade to %1$@";

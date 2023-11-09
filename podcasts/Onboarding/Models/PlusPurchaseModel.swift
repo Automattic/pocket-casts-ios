@@ -140,9 +140,7 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
-        /// When purchasing from the End Of Year flow we want to take the user directly
-        /// back to their stories.
-        if OnboardingFlow.shared.currentFlow == .endOfYearUpsell {
+        if OnboardingFlow.shared.currentFlow.shouldDismissAfterPurchase {
             if FeatureFlag.patron.enabled {
                 parentController.dismiss(animated: true)
             } else {

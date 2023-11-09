@@ -2,6 +2,8 @@ import SwiftUI
 import PocketCastsServer
 
 struct PaidStoryWallView: View {
+    @StateObject private var model = PlusPricingInfoModel()
+
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
@@ -12,7 +14,7 @@ struct PaidStoryWallView: View {
                 }
                 .padding(.bottom, geometry.size.height * 0.06)
 
-                Button(L10n.eoyStartYourFreeTrial) {
+                Button(model.pricingInfo.hasFreeTrial ? L10n.eoyStartYourFreeTrial : L10n.upgradeToPlan(L10n.pocketCastsPlusShort)) {
                     guard let storiesViewController = SceneHelper.rootViewController()?.presentedViewController else {
                         return
                     }
@@ -24,20 +26,12 @@ struct PaidStoryWallView: View {
             }
         }
         .background(
-            ZStack {
-                LinearGradient(
-                    stops: [
-                        Gradient.Stop(color: .black, location: 0.00),
-                        Gradient.Stop(color: .black.opacity(0), location: 1.00),
-                    ],
-                    startPoint: UnitPoint(x: 0.5, y: 0.24),
-                    endPoint: UnitPoint(x: 0.5, y: 1.04)
-                )
-
-                VisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
-            }
-            .allowsHitTesting(false)
-            .ignoresSafeArea(edges: [.top, .bottom])
+            Rectangle()
+                .fill(.clear)
+                .background(.ultraThinMaterial)
+                .environment(\.colorScheme, .dark)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
         )
         .onAppear {
             Analytics.track(.endOfYearUpsellShown)
