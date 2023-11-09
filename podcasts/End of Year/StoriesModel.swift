@@ -12,6 +12,8 @@ class StoriesModel: ObservableObject {
 
     @Published var failed: Bool = false
 
+    @Published var screenshotTaken: Bool = false
+
     let activeTier: () -> SubscriptionTier
 
     private let dataSource: StoriesDataSource
@@ -104,8 +106,8 @@ class StoriesModel: ObservableObject {
         return AnyView(story)
     }
 
-    func storyIsShareable(index: Int) -> Bool {
-        dataSource.shareableStory(for: index) != nil ? true : false
+    func showShareButton(index: Int) -> Bool {
+        dataSource.shareableStory(for: index)?.hideShareButton() == false
     }
 
     func preload(index: Int) -> AnyView {
@@ -231,6 +233,14 @@ private extension StoriesModel {
                 }
             }
         }
+
+        UIApplication.userDidTakeScreenshotNotification.publisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.pause()
+                self?.screenshotTaken = true
+            }
+            .store(in: &cancellables)
 
         ServerNotifications.iapPurchaseCompleted.publisher()
         .receive(on: DispatchQueue.main)

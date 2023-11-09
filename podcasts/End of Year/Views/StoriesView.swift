@@ -53,7 +53,7 @@ struct StoriesView: View {
             header
 
             // Hide the share button if needed
-            if model.storyIsShareable(index: model.currentStory) && !model.shouldShowUpsell() {
+            if model.showShareButton(index: model.currentStory) && !model.shouldShowUpsell() {
                 VStack {
                     Spacer()
                     shareButton
@@ -61,6 +61,13 @@ struct StoriesView: View {
             }
         }
         .background(Color.black)
+        .alert(L10n.eoyShareThisStoryTitle,
+               isPresented: $model.screenshotTaken) {
+            Button(L10n.eoyNotNow) { model.start() }
+            Button(L10n.share) { model.share() }.keyboardShortcut(.defaultAction)
+        } message: {
+            return Text(L10n.eoyShareThisStoryMessage)
+        }
     }
 
     // View shown while data source is preparing

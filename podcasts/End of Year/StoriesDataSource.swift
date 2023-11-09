@@ -89,6 +89,9 @@ protocol StorySharing {
     ///
     /// This will be given to `UIActivityViewController` as the `activityItems`
     func sharingAssets() -> [Any]
+
+    /// If the share button should be hidden for this story
+    func hideShareButton() -> Bool
 }
 
 extension StorySharing {
@@ -96,5 +99,9 @@ extension StorySharing {
 
     func sharingAssets() -> [Any] {
         return []
+    }
+
+    func hideShareButton() -> Bool {
+        false
     }
 }
