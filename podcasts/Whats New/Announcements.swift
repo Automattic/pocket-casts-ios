@@ -18,7 +18,7 @@ struct Announcements {
             message: L10n.announcementAutoplayDescription,
             buttonTitle: L10n.enableItNow,
             action: {
-                AnnouncementFlow.shared.isShowingAutoplayOption = true
+                AnnouncementFlow.current = .autoPlay
 
                 NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
             },
@@ -75,13 +75,20 @@ struct Announcements {
     ]
 }
 
-class AnnouncementFlow {
-    static let shared = AnnouncementFlow()
+// MARK: - AnnouncementFlow
 
-    var isShowingAutoplayOption = false
-    var bookmarksFlow: BookmarksFlow = .none
+enum AnnouncementFlow {
+    static var current: Self = .none
 
-    enum BookmarksFlow {
-        case none, player, profile
-    }
+    /// No active flow
+    case none
+
+    /// Show the autoplay settings
+    case autoPlay
+
+    /// Show the player and highlight the Add Bookmark item
+    case bookmarksPlayer
+
+    /// Show the headphone controls action for Bookmarks
+    case bookmarksProfile
 }
