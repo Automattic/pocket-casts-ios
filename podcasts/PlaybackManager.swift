@@ -1578,7 +1578,12 @@ class PlaybackManager: ServerPlaybackDelegate {
             } else {
                 starCommand.isActive = false
             }
-            starCommand.isEnabled = true
+            if self.currentEpisode() is UserEpisode {
+                starCommand.isEnabled = false
+            }
+            else {
+                starCommand.isEnabled = true
+            }
         } else {
             markPlayedCommand.removeTarget(nil)
             markPlayedCommand.isEnabled = false
