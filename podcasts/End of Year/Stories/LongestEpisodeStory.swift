@@ -8,7 +8,7 @@ struct LongestEpisodeStory: ShareableStory {
 
     let duration: TimeInterval = 5.seconds
 
-    @ObservedObject private var animationManager = PauseModifierManager(maxTime: 5.seconds)
+    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 1.4)
 
     var identifier: String = "longest_episode"
 
@@ -22,8 +22,6 @@ struct LongestEpisodeStory: ShareableStory {
     @State var fourthCover: Double = 0.16
     @State var fifthCover: Double = 0.08
     @State var sixthCover: Double = 0
-
-    private let animationDuration: Double = 1.4
 
     var backgroundColor: Color {
         Color(podcast.bgColor())
@@ -47,62 +45,32 @@ struct LongestEpisodeStory: ShareableStory {
                     PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.5, height: geometry.size.width * 0.5)
                         .offset(x: -geometry.size.width * firstCover, y: geometry.size.width * firstCover)
-                        .modifier(animationManager.modifier(
-                            propertyValue: $firstCover,
-                            propertyFinalValue: 0.4,
-                            startTime: 0,
-                            endTime: animationDuration
-                        ))
+                        .modifier(animationViewModel.animate($firstCover, to: 0.4))
 
                     PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.55, height: geometry.size.width * 0.55)
                         .offset(x: -geometry.size.width * secondCover, y: geometry.size.width * secondCover)
-                        .modifier(animationManager.modifier(
-                            propertyValue: $secondCover,
-                            propertyFinalValue: 0.32,
-                            startTime: 0,
-                            endTime: animationDuration
-                        ))
+                        .modifier(animationViewModel.animate($secondCover, to: 0.32))
 
                     PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.6)
                         .offset(x: -geometry.size.width * thirdCover, y: geometry.size.width * thirdCover)
-                        .modifier(animationManager.modifier(
-                            propertyValue: $thirdCover,
-                            propertyFinalValue: 0.24,
-                            startTime: 0,
-                            endTime: animationDuration
-                        ))
+                        .modifier(animationViewModel.animate($thirdCover, to: 0.24))
 
                     PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.65, height: geometry.size.width * 0.65)
                         .offset(x: -geometry.size.width * fourthCover, y: geometry.size.width * fourthCover)
-                        .modifier(animationManager.modifier(
-                            propertyValue: $fourthCover,
-                            propertyFinalValue: 0.16,
-                            startTime: 0,
-                            endTime: animationDuration
-                        ))
+                        .modifier(animationViewModel.animate($fourthCover, to: 0.16))
 
                     PodcastCover(podcastUuid: podcast.uuid)
                         .frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7)
                         .offset(x: -geometry.size.width * fifthCover, y: geometry.size.width * fifthCover)
-                        .modifier(animationManager.modifier(
-                            propertyValue: $fifthCover,
-                            propertyFinalValue: 0.08,
-                            startTime: 0,
-                            endTime: animationDuration
-                        ))
+                        .modifier(animationViewModel.animate($fifthCover, to: 0.08))
 
                     PodcastCover(podcastUuid: podcast.uuid, higherQuality: true)
                         .frame(width: geometry.size.width * 0.75, height: geometry.size.width * 0.75)
                         .offset(x: -geometry.size.width * sixthCover, y: geometry.size.width * sixthCover)
-                        .modifier(animationManager.modifier(
-                            propertyValue: $sixthCover,
-                            propertyFinalValue: 0,
-                            startTime: 0,
-                            endTime: animationDuration
-                        ))
+                        .modifier(animationViewModel.animate($sixthCover, to: 0))
                 }
                 .offset(x: geometry.size.width * 0.04, y: geometry.size.height * 0.04)
             }
@@ -110,7 +78,7 @@ struct LongestEpisodeStory: ShareableStory {
         .onAppear {
             if animated {
                 setInitialCoverOffsetForAnimation()
-                animationManager.togglePaused()
+                animationViewModel.play()
             }
         }
     }
@@ -120,11 +88,11 @@ struct LongestEpisodeStory: ShareableStory {
     }
 
     func onPause() {
-        animationManager.togglePaused()
+        animationViewModel.pause()
     }
 
     func onResume() {
-        animationManager.togglePaused()
+        animationViewModel.play()
     }
 
     func willShare() {
