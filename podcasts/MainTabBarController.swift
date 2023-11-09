@@ -278,7 +278,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         controller?.present(SJUIUtils.popupNavController(for: cancelledVC), animated: true, completion: nil)
     }
 
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context? = nil) {
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context? = nil, flow: OnboardingFlow.Flow = .plusUpsell) {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
@@ -288,7 +288,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue, context: context)
+        let controller = OnboardingFlow.shared.begin(flow: flow, source: source.rawValue, context: context)
         presentingController?.present(controller, animated: true, completion: nil)
     }
 
@@ -448,7 +448,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
-        Settings.showBadgeFor2022EndOfYear = false
+        Settings.showBadgeForEndOfYear = false
     }
 
     func observersForEndOfYearStats() {
@@ -509,7 +509,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
+        if EndOfYear.isEligible && Settings.showBadgeForEndOfYear {
             profileTabBarItem.badgeValue = "●"
         }
     }

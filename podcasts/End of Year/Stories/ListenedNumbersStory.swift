@@ -51,7 +51,7 @@ struct ListenedNumbersStory: ShareableStory {
                 ZStack(alignment: .bottom) {
                     Color.black
 
-                    StoryGradient()
+                    StoryGradient(geometry: geometry)
                     .offset(x: geometry.size.width * 0.4, y: geometry.size.height * 0.25)
                 }
             )
@@ -77,28 +77,6 @@ struct ListenedNumbersStory: ShareableStory {
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText(L10n.eoyStoryListenedToNumbersShareText(listenedNumbers.numberOfPodcasts, listenedNumbers.numberOfEpisodes))
         ]
-    }
-}
-
-struct StoryGradient: View {
-    var body: some View {
-        Rectangle()
-        .foregroundColor(.clear)
-        .frame(width: 510, height: 510)
-        .background(
-            LinearGradient(
-                stops: [
-                    Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
-                    Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.61),
-                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0.49, y: 0.11),
-                endPoint: UnitPoint(x: 0.49, y: 0.98)
-            )
-        )
-        .cornerRadius(510)
-        .blur(radius: 107)
-        .opacity(0.6)
     }
 }
 

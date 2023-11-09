@@ -148,10 +148,11 @@ struct Constants {
 
         static let reviewRequestDates = "reviewRequestDates"
 
-        static let showBadgeFor2022EndOfYear = "showBadgeFor2022EndOfYear"
-        static let modal2022HasBeenShown = "modal2022HasBeenShown"
-        static let hasSyncedAll2022Episodes = "hasSyncedAll2022Episodes"
-        static let top5PodcastsListLink = "top5PodcastsListLink"
+        static let showBadgeFor2023EndOfYear = "showBadgeFor2023EndOfYear"
+        static let modal2023HasBeenShown = "modal2023HasBeenShown"
+        static let hasSyncedEpisodesForPlayback2023 = "hasSyncedEpisodesForPlayback2023"
+        static let hasSyncedEpisodesForPlayback2023AsPlusUser = "hasSyncedEpisodesForPlayback2023AsPlusUser"
+        static let top5PodcastsListLink = "top5PodcastsListLink2023"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
 
         static let autoplay = "autoplay"
@@ -390,6 +391,7 @@ enum PlusUpgradeViewSource: String {
     case icons
     case watch
     case unknown
+    case endOfYear
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

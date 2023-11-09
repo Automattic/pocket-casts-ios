@@ -3,10 +3,14 @@ import PocketCastsServer
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel
+
+    @ObservedObject private var syncProgressModel: SyncYearListeningProgress
+
     @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
 
-    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress = .shared) {
         model = StoriesModel(dataSource: dataSource, configuration: configuration)
+        self.syncProgressModel = syncProgressModel
     }
 
     @ViewBuilder
@@ -33,6 +37,12 @@ struct StoriesView: View {
                 // Manually set the zIndex order to ensure we can change the order when needed
                 model.story(index: model.currentStory).zIndex(3).ignoresSafeArea(edges: .bottom)
 
+                if model.shouldShowUpsell() {
+                    PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom).onAppear {
+                        model.pause()
+                    }
+                }
+
                 // By default the story switcher will appear above the story and override all
                 // interaction, but if the story contains interactive elements then move the
                 // switcher to appear behind the view to allow the story override the switcher, or
@@ -43,7 +53,7 @@ struct StoriesView: View {
             header
 
             // Hide the share button if needed
-            if model.storyIsShareable(index: model.currentStory) {
+            if model.showShareButton(index: model.currentStory) && !model.shouldShowUpsell() {
                 VStack {
                     Spacer()
                     shareButton
@@ -51,6 +61,13 @@ struct StoriesView: View {
             }
         }
         .background(Color.black)
+        .alert(L10n.eoyShareThisStoryTitle,
+               isPresented: $model.screenshotTaken) {
+            Button(L10n.eoyNotNow) { model.start() }
+            Button(L10n.share) { model.share() }.keyboardShortcut(.defaultAction)
+        } message: {
+            return Text(L10n.eoyShareThisStoryMessage)
+        }
     }
 
     // View shown while data source is preparing
@@ -59,7 +76,7 @@ struct StoriesView: View {
             Spacer()
 
             VStack(spacing: 15) {
-                let progress = SyncYearListeningProgress.shared.progress
+                let progress = syncProgressModel.progress
                 CircularProgressView(value: progress, stroke: Color.white, strokeWidth: 6)
                     .frame(width: 40, height: 40)
                 Text(L10n.loading)

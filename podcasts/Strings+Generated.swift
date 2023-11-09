@@ -718,7 +718,7 @@ internal enum L10n {
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
   /// Enable it now
   internal static var enableItNow: String { return L10n.tr("Localizable", "enable_it_now") }
-  /// See your top podcasts, categories, listening stats and more.
+  /// See your listening stats, top podcasts, and more.
   internal static var eoyCardDescription: String { return L10n.tr("Localizable", "eoy_card_description") }
   /// Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.
   internal static var eoyCreateAccountToSee: String { return L10n.tr("Localizable", "eoy_create_account_to_see") }
@@ -728,13 +728,20 @@ internal enum L10n {
   internal static var eoyNotNow: String { return L10n.tr("Localizable", "eoy_not_now") }
   /// Share this story
   internal static var eoyShare: String { return L10n.tr("Localizable", "eoy_share") }
+  /// Paste this image to your socials and give a shout out to your favorite shows and creators
+  internal static var eoyShareThisStoryMessage: String { return L10n.tr("Localizable", "eoy_share_this_story_message") }
+  /// Share this story?
+  internal static var eoyShareThisStoryTitle: String { return L10n.tr("Localizable", "eoy_share_this_story_title") }
   /// Year in Podcasts
   internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
+  /// Start your Free Trial
+  internal static var eoyStartYourFreeTrial: String { return L10n.tr("Localizable", "eoy_start_your_free_trial") }
   /// Failed to load stories.
   internal static var eoyStoriesFailed: String { return L10n.tr("Localizable", "eoy_stories_failed") }
   /// Don't forget to share with your friends and give a shout out to your favorite podcast creators
   internal static var eoyStoryEpilogueSubtitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_subtitle") }
-  /// Thank you for letting Pocket Casts be a part of your listening experience in 2022
+  /// Thank you for listening with us this year.
+  /// See you in 2024!
   internal static var eoyStoryEpilogueTitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_title") }
   /// Let's celebrate your year of listening...
   internal static var eoyStoryIntroTitle: String { return L10n.tr("Localizable", "eoy_story_intro_title") }
@@ -750,7 +757,7 @@ internal enum L10n {
   internal static func eoyStoryListenedToCategoriesHighlighted(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories_highlighted", String(describing: p1))
   }
-  /// I listened to %1$@ different categories in 2022
+  /// I listened to %1$@ different categories in 2023
   internal static func eoyStoryListenedToCategoriesShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories_share_text", String(describing: p1))
   }
@@ -768,7 +775,7 @@ internal enum L10n {
   internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers", String(describing: p1), String(describing: p2))
   }
-  /// I listened to %1$@ different podcasts and %2$@ episodes in 2022
+  /// I listened to %1$@ different podcasts and %2$@ episodes this year
   internal static func eoyStoryListenedToNumbersShareText(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers_share_text", String(describing: p1), String(describing: p2))
   }
@@ -782,27 +789,31 @@ internal enum L10n {
   internal static func eoyStoryListenedToPodcastText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_podcast_text", String(describing: p1))
   }
-  /// I spent %1$@ listening to podcasts in 2022
+  /// I spent %1$@ listening to podcasts this year
   internal static func eoyStoryListenedToShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_share_text", String(describing: p1))
   }
+  /// We hope you loved every minute of it!
+  internal static var eoyStoryListenedToSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_subtitle") }
+  /// This was your total time listening to podcasts
+  internal static var eoyStoryListenedToTitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_title") }
   /// This year, you spent %1$@ listening to podcasts
   internal static func eoyStoryListenedToUpdated(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_updated", String(describing: p1))
   }
-  /// The longest episode you listened to was %1$@ from the podcast %2$@
-  internal static func eoyStoryLongestEpisode(_ p1: Any, _ p2: Any) -> String {
-    return L10n.tr("Localizable", "eoy_story_longest_episode", String(describing: p1), String(describing: p2))
+  /// The longest episode you listened to was %1$@
+  internal static func eoyStoryLongestEpisode(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_longest_episode", String(describing: p1))
   }
   /// This episode was %1$@ long
   internal static func eoyStoryLongestEpisodeDuration(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_duration", String(describing: p1))
   }
-  /// The longest episode I listened to in 2022 %1$@
+  /// The longest episode I listened to this year %1$@
   internal static func eoyStoryLongestEpisodeShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_share_text", String(describing: p1))
   }
-  /// The episode was %1$@ from %2$@
+  /// It was none other than “%1$@” from “%2$@”
   internal static func eoyStoryLongestEpisodeSubtitle(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_subtitle", String(describing: p1), String(describing: p2))
   }
@@ -812,7 +823,7 @@ internal enum L10n {
   internal static func eoyStoryLongestEpisodeTime(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_time", String(describing: p1))
   }
-  /// Replay
+  /// Play again
   internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
   /// Your Top Categories
   internal static var eoyStoryTopCategories: String { return L10n.tr("Localizable", "eoy_story_top_categories") }
@@ -830,7 +841,7 @@ internal enum L10n {
   internal static func eoyStoryTopPodcast(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1))
   }
-  /// My favorite podcast of 2022! %1$@
+  /// My favorite podcast this year! %1$@
   internal static func eoyStoryTopPodcastShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast_share_text", String(describing: p1))
   }
@@ -850,10 +861,44 @@ internal enum L10n {
   internal static var eoyStoryTopPodcastsSubtitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_subtitle") }
   /// And you were big on these shows too!
   internal static var eoyStoryTopPodcastsTitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_title") }
+  /// Subscribe to Plus and find out how your listening compares to 2022, other fun stats, and Premium features like bookmarks and folders.
+  internal static var eoySubscribeToPlus: String { return L10n.tr("Localizable", "eoy_subscribe_to_plus") }
+  /// There’s more!
+  internal static var eoyTheresMore: String { return L10n.tr("Localizable", "eoy_theres_more") }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
-  /// View My 2022
+  /// View My 2023
   internal static var eoyViewYear: String { return L10n.tr("Localizable", "eoy_view_year") }
+  /// completion rate
+  internal static var eoyYearCompletionRate: String { return L10n.tr("Localizable", "eoy_year_completion_rate") }
+  /// My 2023 completion rate
+  internal static var eoyYearCompletionRateShareText: String { return L10n.tr("Localizable", "eoy_year_completion_rate_share_text") }
+  /// From the %1$@ episodes you started you listened fully to a total of %2$@
+  internal static func eoyYearCompletionRateSubtitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_completion_rate_subtitle", String(describing: p1), String(describing: p2))
+  }
+  /// Your completion rate this year was %1$@
+  internal static func eoyYearCompletionRateTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_completion_rate_title", String(describing: p1))
+  }
+  /// My 2023 listening time compared to 2022
+  internal static var eoyYearOverShareText: String { return L10n.tr("Localizable", "eoy_year_over_share_text") }
+  /// And they say consistency is the key to success... or something like that!
+  internal static var eoyYearOverYearSubtitleFlat: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_flat") }
+  /// Aaaah... there’s a life to be lived, right?
+  internal static var eoyYearOverYearSubtitleWentDown: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_went_down") }
+  /// Ready to top it in 2024?
+  internal static var eoyYearOverYearSubtitleWentUp: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_went_up") }
+  /// Compared to 2022, your listening time stayed pretty consistent
+  internal static var eoyYearOverYearTitleFlat: String { return L10n.tr("Localizable", "eoy_year_over_year_title_flat") }
+  /// Compared to 2022, your listening time skyrocketed!
+  internal static var eoyYearOverYearTitleSkyrocketed: String { return L10n.tr("Localizable", "eoy_year_over_year_title_skyrocketed") }
+  /// Compared to 2022, your listening time went down a little
+  internal static var eoyYearOverYearTitleWentDown: String { return L10n.tr("Localizable", "eoy_year_over_year_title_went_down") }
+  /// Compared to 2022, your listening time went up a whopping %1$@%
+  internal static func eoyYearOverYearTitleWentUp(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_over_year_title_went_up", String(describing: p1))
+  }
   /// Episode
   internal static var episode: String { return L10n.tr("Localizable", "episode") }
   /// %1$@ episodes
