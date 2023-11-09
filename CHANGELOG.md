@@ -1,6 +1,6 @@
 7.52
 -----
-
+- Enables Bookmarks for Early Access: [#1202]
 
 7.51
 -----
