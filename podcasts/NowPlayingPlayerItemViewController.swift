@@ -173,6 +173,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         routePicker.delegate = self
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Show the overflow menu
+        if FeatureFlag.bookmarks.enabled, AnnouncementFlow.shared.bookmarksFlow == .player {
+            overflowTapped()
+        }
+    }
+
     private var lastBoundsAdjustedFor = CGRect.zero
 
     var analyticsSource: AnalyticsSource {
