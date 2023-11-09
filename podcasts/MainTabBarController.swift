@@ -18,7 +18,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     /// The viewDidAppear can trigger more than once per lifecycle, setting this flag on the first did appear prevents use from prompting more than once per lifecycle. But still wait until the tab bar has appeared to do so.
     var viewDidAppear: Bool = false
-    
+
     /// Whether we're actively presenting the what's new
     var isShowingWhatsNew: Bool = false
 
