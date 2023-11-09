@@ -14,10 +14,18 @@ class PlayPauseAnimationViewModel: ObservableObject {
     }
 
     func play() {
+        guard paused else {
+            return
+        }
+
         paused = false
     }
 
     func pause() {
+        guard !paused else {
+            return
+        }
+
         paused = true
     }
 }
