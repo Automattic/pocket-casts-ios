@@ -35,7 +35,10 @@ struct StoriesView: View {
 
             ZStack {
                 // Manually set the zIndex order to ensure we can change the order when needed
-                model.story(index: model.currentStory).zIndex(3).ignoresSafeArea(edges: .bottom)
+                model.story(index: model.currentStoryIndex)
+                    .zIndex(3)
+                    .ignoresSafeArea(edges: .bottom)
+                    .environment(\.animated, true)
 
                 if model.shouldShowUpsell() {
                     PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom).onAppear {
@@ -47,13 +50,13 @@ struct StoriesView: View {
                 // interaction, but if the story contains interactive elements then move the
                 // switcher to appear behind the view to allow the story override the switcher, or
                 // allow the story to pass switcher events thru by controlling the allowsHitTesting
-                storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
+                storySwitcher.zIndex(model.isInteractiveView(index: model.currentStoryIndex) ? 2 : 5)
             }
 
             header
 
             // Hide the share button if needed
-            if model.showShareButton(index: model.currentStory) && !model.shouldShowUpsell() {
+            if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell() {
                 VStack {
                     Spacer()
                     shareButton
@@ -193,7 +196,7 @@ struct StoriesView: View {
         ZStack {
             if model.numberOfStoriesToPreload > 0 {
                 ForEach(0...model.numberOfStoriesToPreload, id: \.self) { index in
-                    model.preload(index: model.currentStory + index + 1)
+                    model.preload(index: model.currentStoryIndex + index + 1)
                 }
             }
         }

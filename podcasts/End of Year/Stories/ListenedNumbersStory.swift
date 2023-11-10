@@ -4,6 +4,9 @@ import PocketCastsDataModel
 
 struct ListenedNumbersStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
+    @Environment(\.animated) var animated: Bool
+
+    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 5.seconds)
 
     var duration: TimeInterval = 5.seconds
 
@@ -12,6 +15,9 @@ struct ListenedNumbersStory: ShareableStory {
     let listenedNumbers: ListenedNumbers
 
     let podcasts: [Podcast]
+
+    @State var topRowXOffset: Double = 0
+    @State var bottomRowXOffset: Double = 0
 
     var body: some View {
         GeometryReader { geometry in
@@ -25,24 +31,36 @@ struct ListenedNumbersStory: ShareableStory {
                 VStack(spacing: 20) {
                     HStack(spacing: 16) {
                         Group {
-                            podcastCover(5)
-                            podcastCover(4)
                             podcastCover(0)
+                            podcastCover(1)
                             podcastCover(2)
+                            podcastCover(3)
+                            podcastCover(0)
+                            podcastCover(1)
+                            podcastCover(2)
+                            podcastCover(3)
                         }
                         .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
                     }
+                    .offset(x: topRowXOffset)
+                    .modifier(animationViewModel.animate($topRowXOffset, to: -300))
 
                     HStack(spacing: 16) {
                         Group {
-                            podcastCover(1)
-                            podcastCover(3)
+                            podcastCover(4)
                             podcastCover(5)
+                            podcastCover(6)
+                            podcastCover(7)
+                            podcastCover(4)
+                            podcastCover(5)
+                            podcastCover(6)
                             podcastCover(7)
                         }
                         .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
                     }
                     .padding(.leading, geometry.size.width * 0.35)
+                    .offset(x: bottomRowXOffset)
+                    .modifier(animationViewModel.animate($bottomRowXOffset, to: 300))
                 }
                 .rotationEffect(Angle(degrees: -15))
                 .padding(.top, geometry.size.height * 0.1)
@@ -55,17 +73,30 @@ struct ListenedNumbersStory: ShareableStory {
                     .offset(x: geometry.size.width * 0.4, y: geometry.size.height * 0.25)
                 }
             )
+            .onAppear {
+                if animated {
+                    animationViewModel.play()
+                }
+            }
         }
     }
 
     @ViewBuilder
     func podcastCover(_ index: Int) -> some View {
-        let podcast = podcasts[safe: index] ?? podcasts[0]
+        let podcast = podcasts[safe: index] ?? podcasts[safe: index % 2 == 0 ? 0 : 1] ?? podcasts[0]
         PodcastCover(podcastUuid: podcast.uuid)
     }
 
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
+    }
+
+    func onPause() {
+        animationViewModel.pause()
+    }
+
+    func onResume() {
+        animationViewModel.play()
     }
 
     func willShare() {

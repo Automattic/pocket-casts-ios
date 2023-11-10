@@ -6,7 +6,7 @@ import SwiftUI
 class StoriesModel: ObservableObject {
     var progress: Double
 
-    @Published var currentStory: Int = 0
+    @Published var currentStoryIndex: Int = 0
 
     @Published var isReady: Bool = false
 
@@ -24,7 +24,7 @@ class StoriesModel: ObservableObject {
 
     private var cancellable: Cancellable?
     private var interval: TimeInterval {
-        dataSource.story(for: currentStory).duration
+        currentStory?.duration ?? 0
     }
 
     private var currentStoryIdentifier: String = ""
@@ -32,6 +32,8 @@ class StoriesModel: ObservableObject {
     private var currentStoryIsPlus = false
 
     private var manuallyChanged = false
+
+    private var currentStory: Story?
 
     var numberOfStories: Int {
         dataSource.numberOfStories
@@ -78,17 +80,17 @@ class StoriesModel: ObservableObject {
             if currentStory >= self.numberOfStories || newProgress < 0 {
                 if self.configuration.startOverFromBeginningAfterFinished {
                     newProgress = 0
-                    self.currentStory = 0
+                    self.currentStoryIndex = 0
                 }
                 else {
                     self.pause()
                 }
-            } else if currentStory != self.currentStory {
+            } else if currentStory != self.currentStoryIndex {
                 if self.shouldSkipPlusStories() {
                     newProgress = Double(currentStory + self.numberOfPlusStoriesAfterTheCurrentOne())
-                    self.currentStory = currentStory + self.numberOfPlusStoriesAfterTheCurrentOne()
+                    self.currentStoryIndex = currentStory + self.numberOfPlusStoriesAfterTheCurrentOne()
                 } else {
-                    self.currentStory = currentStory
+                    self.currentStoryIndex = currentStory
                 }
                 self.manuallyChanged = false
             }
@@ -96,6 +98,8 @@ class StoriesModel: ObservableObject {
             self.progress = newProgress
             StoriesProgressModel.shared.progress = newProgress
         })
+
+        currentStory?.onResume()
     }
 
     func story(index: Int) -> AnyView {
@@ -106,6 +110,8 @@ class StoriesModel: ObservableObject {
         if !story.plusOnly || isPaidUser() {
             story.onAppear()
         }
+
+        currentStory = story
 
         currentStoryIdentifier = story.identifier
         currentStoryIsPlus = story.plusOnly
@@ -125,7 +131,7 @@ class StoriesModel: ObservableObject {
     }
 
     func sharingAssets() -> [Any]? {
-        guard let story = dataSource.shareableStory(for: currentStory) else {
+        guard let story = currentStory as? (any ShareableStory) else {
             return nil
         }
 
@@ -162,7 +168,7 @@ class StoriesModel: ObservableObject {
             return
         }
 
-        let previousNonPlus = currentStory - numberOfPlusStoriesBeforeTheCurrentOne()
+        let previousNonPlus = currentStoryIndex - numberOfPlusStoriesBeforeTheCurrentOne()
 
         manuallyChanged = true
 
@@ -174,7 +180,7 @@ class StoriesModel: ObservableObject {
             return 0
         }
 
-        var currentStory = currentStory
+        var currentStory = currentStoryIndex
         var numberOfStoriesToSkip = 0
         while currentStory > 0 && dataSource.story(for: currentStory - 1).plusOnly {
             numberOfStoriesToSkip += 1
@@ -189,7 +195,7 @@ class StoriesModel: ObservableObject {
             return 0
         }
 
-        var currentStory = currentStory
+        var currentStory = currentStoryIndex
         var numberOfStoriesToSkip = 0
         while currentStory + 1 < numberOfStories && dataSource.story(for: currentStory + 1).plusOnly {
             numberOfStoriesToSkip += 1
@@ -201,11 +207,12 @@ class StoriesModel: ObservableObject {
 
     func pause() {
         cancellable?.cancel()
+        currentStory?.onPause()
     }
 
     func replay() {
         progress = 0
-        currentStory = 0
+        currentStoryIndex = 0
         pause()
         start()
     }
@@ -261,8 +268,8 @@ private extension StoriesModel {
     }
 
     func nextStoryIsPlus() -> Bool {
-        if currentStory + 1 < numberOfStories {
-            return dataSource.story(for: currentStory + 1).plusOnly
+        if currentStoryIndex + 1 < numberOfStories {
+            return dataSource.story(for: currentStoryIndex + 1).plusOnly
         }
 
         return false
