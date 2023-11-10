@@ -95,13 +95,13 @@ class BookmarkAnnouncementViewModel {
 
         // Show the player
         if PlaybackManager.shared.currentEpisode() != nil {
-            AnnouncementFlow.shared.bookmarksFlow = .player
+            AnnouncementFlow.current = .bookmarksPlayer
             NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer()
             return
         }
 
         // Show the headphone controls
-        AnnouncementFlow.shared.bookmarksFlow = .profile
+        AnnouncementFlow.current = .bookmarksProfile
         NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
     }
 

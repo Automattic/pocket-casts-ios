@@ -15,6 +15,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile)!)
 
+
+    /// The viewDidAppear can trigger more than once per lifecycle, setting this flag on the first did appear prevents use from prompting more than once per lifecycle. But still wait until the tab bar has appeared to do so.
+    var viewDidAppearBefore: Bool = false
+
+    /// Whether we're actively presenting the what's new
+    var isShowingWhatsNew: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,9 +72,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
 
-        endOfYear.showPromptBasedOnState(in: self)
+        // Show any app launch announcements/prompts only once
+        if !viewDidAppearBefore {
+            showWhatsNewIfNeeded()
+            showEndOfYearPromptIfNeeded()
+
+            viewDidAppearBefore = true
+        }
+
         showInitialOnboardingIfNeeded()
-        showWhatsNewIfNeeded()
     }
 
     private func showInitialOnboardingIfNeeded() {
@@ -460,6 +473,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             self.endOfYear.resetStateIfNeeded()
         }
 
+        // When the What's New is dismissed, check to see if we should also show the end of year prompt
+        NotificationCenter.default.addObserver(forName: .whatsNewDismissed, object: nil, queue: .main) { _ in
+            self.isShowingWhatsNew = false
+            self.showEndOfYearPromptIfNeeded()
+        }
+
         NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
             self.endOfYear.showPromptBasedOnState(in: self)
 
@@ -575,16 +594,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.sharedManager.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
         }
     }
-
-    // MARK: - What's New
-
-    func showWhatsNewIfNeeded() {
-        guard let controller = view.window?.rootViewController else { return }
-
-        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
-            controller.present(whatsNewViewController, animated: true)
-        }
-    }
 }
 
 // MARK: - Bookmarks
@@ -669,5 +678,25 @@ private extension MainTabBarController {
         }
 
         Analytics.track(event, properties: ["initial": isInitial])
+    }
+}
+
+// MARK: - App Launch Prompts
+
+private extension MainTabBarController {
+    func showEndOfYearPromptIfNeeded() {
+        // Only show the prompt if there isn't an active announcement flow
+        guard !isShowingWhatsNew, AnnouncementFlow.current == .none else { return }
+
+        endOfYear.showPromptBasedOnState(in: self)
+    }
+
+    func showWhatsNewIfNeeded() {
+        guard let controller = view.window?.rootViewController else { return }
+
+        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
+            controller.present(whatsNewViewController, animated: true)
+            isShowingWhatsNew = true
+        }
     }
 }

@@ -343,24 +343,23 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func whatsNewDismissed() {
         showGeneralSettingsIfNeeded()
+        showHeadphoneControlsFromWhatsNew()
     }
 
     private func showGeneralSettingsIfNeeded() {
-        if AnnouncementFlow.shared.isShowingAutoplayOption {
+        if AnnouncementFlow.current == .autoPlay {
             let generalSettingsViewController = GeneralSettingsViewController()
             navigationController?.pushViewController(generalSettingsViewController, animated: true)
         }
-
-        showHeadphoneControlsFromWhatsNew()
     }
 
     // Pushes to the headphone controls if shown from the what's new
     private func showHeadphoneControlsFromWhatsNew() {
-        guard AnnouncementFlow.shared.bookmarksFlow == .profile else { return }
+        guard AnnouncementFlow.current == .bookmarksProfile else { return }
 
         let controller = HeadphoneSettingsViewController()
         navigationController?.pushViewController(controller, animated: true)
-        AnnouncementFlow.shared.bookmarksFlow = .none
+        AnnouncementFlow.current = .none
     }
 }
 

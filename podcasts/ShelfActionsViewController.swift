@@ -157,11 +157,11 @@ class ShelfActionsViewController: UIViewController {
 private extension ShelfActionsViewController {
     /// Highlights the bookmarks row when triggered from the what's new
     func highlightAddBookmarksIfNeeded() {
-        guard FeatureFlag.bookmarks.enabled, AnnouncementFlow.shared.bookmarksFlow == .player else {
+        guard FeatureFlag.bookmarks.enabled, AnnouncementFlow.current == .bookmarksPlayer else {
             return
         }
 
-        defer { AnnouncementFlow.shared.bookmarksFlow = .none }
+        defer { AnnouncementFlow.current = .none }
 
         // Find the index of the row
         guard let index = extraActions.firstIndex(of: .addBookmark) else {
