@@ -141,6 +141,12 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Als je Wachtrij Hierna leeg is en je begint naar een aflevering te luisteren, zal Automatisch afspelen afleveringen van die serie of lijst blijven afspelen.</string>
     <key>announcement_autoplay_title</key>
     <string>Automatisch afspelen is nu beschikbaar!</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Je kan nu tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een koptelefoon-actie.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>De bladwijzers zijn er!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Doe mee met de bètatests voor bladwijzers!</string>
     <key>app_badge</key>
     <string>App-badge</string>
     <key>app_icon_classic</key>
@@ -263,7 +269,9 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>%1$@ bladwijzers</string>
     <key>bookmarks_count_singular</key>
     <string>1 bladwijzer</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen. Binnenkort beschikbaar voor %2$@-abonnees.</string>
+    <key>bookmarks_locked_message</key>
     <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen.</string>
     <key>bottom</key>
     <string>Onder</string>
@@ -657,6 +665,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bekijk je beste podcasts, categorieën, luisterstatistieken en meer. Deel met vrienden en geef een shoutout naar je favoriete makers!</string>
     <key>eoy_not_now</key>
     <string>Niet nu</string>
+    <key>eoy_share</key>
+    <string>Deel dit verhaal</string>
     <key>eoy_small_title</key>
     <string>Jaar in podcasts</string>
     <key>eoy_stories_failed</key>
@@ -686,10 +696,7 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Ik heb in 2022 naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Maar er was er één waar je steeds maar weer naar terugkeerde...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Maar er was er een die je
-bleef luisteren...</string>
+    <string>Maar er was er één waar je steeds maar weer naar terugkeerde ...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Je luisterde naar %1$@ en %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +724,7 @@ waar je naar hebt geluisterd was
     <key>eoy_story_top_categories_share_text</key>
     <string>Mijn meest beluisterde podcast-categorieën</string>
     <key>eoy_story_top_podcast</key>
-    <string>Je beste podcast was %1$@ van %2$@</string>
+    <string>%1$@ was jouw meest beluisterde show in 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Mijn favoriete podcast van 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
@@ -728,6 +735,10 @@ waar je naar hebt geluisterd was
     <string>Mijn beste podcasts van 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Mijn beste podcasts van het jaar! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Dit is je top 5 meest geluisterd in 2023</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>En deze shows vond je ook geweldig!</string>
     <key>eoy_title</key>
     <string>Jouw jaar in podcasts</string>
     <key>eoy_view_year</key>
@@ -2497,6 +2508,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Stiltes wegfilteren</string>
     <key>try_again</key>
     <string>Probeer opnieuw</string>
+    <key>try_it_now</key>
+    <string>Probeer het nu</string>
     <key>unarchive</key>
     <string>Dearchiveren</string>
     <key>unknown_duration</key>

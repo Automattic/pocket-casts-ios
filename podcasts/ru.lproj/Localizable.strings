@@ -141,6 +141,12 @@
     <string>Если в очереди «Следующие» ничего нет, после выпуска, который вы слушаете, автоматически запустится другой из этого шоу или списка.</string>
     <key>announcement_autoplay_title</key>
     <string>А вот и автовоспроизведение!</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Теперь вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>Закладки уже готовы!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Примите участие в бета-тестировании закладок!</string>
     <key>app_badge</key>
     <string>Значок приложения</string>
     <key>app_icon_classic</key>
@@ -263,7 +269,9 @@
     <string>Закладки: %1$@</string>
     <key>bookmarks_count_singular</key>
     <string>1 закладка</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов. Скоро станет доступно для подписчиков %2$@.</string>
+    <key>bookmarks_locked_message</key>
     <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов.</string>
     <key>bottom</key>
     <string>Низ</string>
@@ -657,6 +665,8 @@
     <string>Просмотрите свой топ подкастов и рубрик, статистику прослушивания и другие показатели. Поделитесь ими с друзьями и поблагодарите любимых подкастеров.</string>
     <key>eoy_not_now</key>
     <string>Не сейчас</string>
+    <key>eoy_share</key>
+    <string>Поделитесь этим</string>
     <key>eoy_small_title</key>
     <string>Год в подкастах</string>
     <key>eoy_stories_failed</key>
@@ -682,14 +692,11 @@
     <key>eoy_story_listened_to_episodes_text</key>
     <string>Выпусков: %1$@</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Вы слушали %1$@ подкастов (-а) и %2$@ выпусков (-а)</string>
+    <string>Вы слушали %1$@ шоу и %2$@ выпусков</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Я прослушал (-а) %1$@ подкастов (-а) и %2$@ выпусков (-а) в 2022 году</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Но к одному подкасту вы всегда возвращались...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Но был один выпуск,
-который вы прослушивали снова и снова…</string>
+    <string>Но было одно шоу, которое вы слушали снова и снова…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Вы слушали %1$@ и %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +724,7 @@
     <key>eoy_story_top_categories_share_text</key>
     <string>Рубрики подкастов, которые я слушаю чаще всего</string>
     <key>eoy_story_top_podcast</key>
-    <string>Ваш любимый подкаст — %1$@ (автор: %2$@)</string>
+    <string>Шоу %1$@ набрало больше всего прослушиваний в 2023 году</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Мой любимый подкаст в 2022 году! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
@@ -728,6 +735,10 @@
     <string>Мои любимые подкасты в 2022 году</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Мои любимые подкасты этого года! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Эти 5 эпизодов вы слушали чаще всего в 2023 г.</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>А ещё вы были на высоте в этих шоу!</string>
     <key>eoy_title</key>
     <string>Ваш год в подкастах</string>
     <key>eoy_view_year</key>
@@ -2497,6 +2508,8 @@
     <string>Удалить паузы</string>
     <key>try_again</key>
     <string>Попробуйте еще раз.</string>
+    <key>try_it_now</key>
+    <string>Попробовать</string>
     <key>unarchive</key>
     <string>Из&amp;nbsp;архива</string>
     <key>unknown_duration</key>
