@@ -141,6 +141,12 @@
     <string>Si comences a escoltar un episodi i no en tens més a la cua, la reproducció automàtica continuarà reproduint episodis d'aquest programa o llista.</string>
     <key>announcement_autoplay_title</key>
     <string>Ja pots gaudir de la reproducció automàtica!</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Ara podeu guardar els marcadors dels episodis des del menú d'accions del reproductor o amb una acció dels auriculars.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>Els marcadors són aquí!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Uneix-te a nosaltres a la prova beta dels marcadors!</string>
     <key>app_badge</key>
     <string>Insígnia de l'aplicació</string>
     <key>app_icon_classic</key>
@@ -263,8 +269,10 @@
     <string>%1$@ marcadors</string>
     <key>bookmarks_count_singular</key>
     <string>1 marcador</string>
-    <key>boomarks_locked_message</key>
-    <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa les marques de temps dels teus episodis preferits.</string>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa les marques de temps dels teus episodis preferits.  Prest disponible per a %2$@ subscriptors.</string>
+    <key>bookmarks_locked_message</key>
+    <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa els mercadors dels teus episodis preferits.</string>
     <key>bottom</key>
     <string>Darrer de la cua</string>
     <key>bulk_download_max_format</key>
@@ -657,6 +665,8 @@
     <string>Consulta quins han estat els podcasts i les categories que més has escoltat, les estadístiques d'escolta i molt més. Comparteix-ho amb els teus amics i fes que tothom sapiga quins són els teus creadors favorits.</string>
     <key>eoy_not_now</key>
     <string>Ara no</string>
+    <key>eoy_share</key>
+    <string>Comparteix aquesta història</string>
     <key>eoy_small_title</key>
     <string>L'any en podcasts</string>
     <key>eoy_stories_failed</key>
@@ -682,12 +692,10 @@
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ episodis</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Has escoltat %1$@ podcast diferents i %2$@ episodis.</string>
+    <string>Has escoltat %1$@ podcast diferents i %2$@ episodis en total.</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Al 2022 vaig escoltar %1$@ podcast diferents i %2$@ episodis</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Però n'hi havia un al que tornaves...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
     <string>Així i tot, n'hi ha un que has escoltat una vegada i una altra...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Has escoltat %1$@ i %2$@</string>
@@ -714,7 +722,7 @@
     <key>eoy_story_top_categories_share_text</key>
     <string>Les meves categories de podcasts més escoltats</string>
     <key>eoy_story_top_podcast</key>
-    <string>El vostre podcast preferit va ser %1$@ de %2$@.</string>
+    <string>%1$@ ha estat el podcast que més has escoltat al 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>El meu podcast favorit de 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
@@ -725,6 +733,10 @@
     <string>Els meus podcasts principals de 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Els meus podcasts principals de l'any! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Aquest és el top 5 del més escoltat al 2023</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>I tu també has estat gran en aquests podcasts!</string>
     <key>eoy_title</key>
     <string>El teu any en podcasts</string>
     <key>eoy_view_year</key>
@@ -2489,6 +2501,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Retallar silencis</string>
     <key>try_again</key>
     <string>Tornar-ho a provar</string>
+    <key>try_it_now</key>
+    <string>Prova-ho ara</string>
     <key>unarchive</key>
     <string>Desarxivar</string>
     <key>unknown_duration</key>

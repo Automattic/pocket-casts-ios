@@ -141,6 +141,12 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Si empiezas a escuchar un episodio y no tienes más en cola, la reproducción automática seguirá reproduciendo episodios de ese programa o lista.</string>
     <key>announcement_autoplay_title</key>
     <string>¡Ya puedes disfrutar de la reproducción automática!</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Ya puedes guardar las marcas de tiempo de los episodios desde el menú de acciones del reproductor o con una acción de los auriculares.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>¡Ya están aquí los marcadores!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>¡Únete a nosotros en las pruebas beta de marcadores!</string>
     <key>app_badge</key>
     <string>Insignia de la aplicación</string>
     <key>app_icon_classic</key>
@@ -263,7 +269,9 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>%1$@ marcadores</string>
     <key>bookmarks_count_singular</key>
     <string>1 marcador</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Desbloquea esta función y muchas más con Pocket Casts %1$@ y guarda las marcas de tiempo de tus episodios favoritos. Disponible para %2$@ suscriptores próximamente.</string>
+    <key>bookmarks_locked_message</key>
     <string>Desbloquea esta función y muchas más con Pocket Casts %1$@ y guarda las marcas de tiempo de tus episodios favoritos.</string>
     <key>bottom</key>
     <string>Abajo</string>
@@ -657,6 +665,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Consulta cuáles han sido los pódcast y las categorías que más has escuchado, las estadísticas de escucha y mucho más. Compártelo con tus amigos y haz que todo el mundo sepa cuáles son tus creadores favoritos.</string>
     <key>eoy_not_now</key>
     <string>Ahora no</string>
+    <key>eoy_share</key>
+    <string>Compartir esta historia</string>
     <key>eoy_small_title</key>
     <string>Año en pódcast</string>
     <key>eoy_stories_failed</key>
@@ -682,14 +692,11 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ episodios</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Escuchaste %1$@ pódcast diferentes y %2$@ episodios.</string>
+    <string>Has escuchado %1$@ programas diferentes y %2$@ episodios en total</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>En 2022 escuché %1$@ pódcast diferentes y %2$@ episodios</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Pero había uno al que volvías...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Sin embargo, hay uno
-que has escuchado una y otra vez...</string>
+    <string>Pero había uno al que siempre venías...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Has escuchado %1$@ y %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +724,7 @@ que has escuchado dura
     <key>eoy_story_top_categories_share_text</key>
     <string>Mis categorías de pódcast más escuchadas</string>
     <key>eoy_story_top_podcast</key>
-    <string>Tu pódcast favorito fue %1$@ de %2$@.</string>
+    <string>%1$@ fue tu programa más escuchado en 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>¡Mi pódcast favorito de 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
@@ -728,6 +735,10 @@ que has escuchado dura
     <string>Mis pódcast principales de 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>¡Mis pódcast principales del año! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Este es tu top 5 de lo más escuchado en 2023.</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>Y también escuchaste mucho estos programas.</string>
     <key>eoy_title</key>
     <string>Tu año en pódcast</string>
     <key>eoy_view_year</key>
@@ -2497,6 +2508,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Recortar silencio</string>
     <key>try_again</key>
     <string>Intentar de nuevo</string>
+    <key>try_it_now</key>
+    <string>Probar ahora</string>
     <key>unarchive</key>
     <string>Desarchivar</string>
     <key>unknown_duration</key>

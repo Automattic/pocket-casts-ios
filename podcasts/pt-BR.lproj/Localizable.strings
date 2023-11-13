@@ -141,6 +141,12 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Se você começar a ouvir um episódio e a fila de Próximos estiver vazia, os episódios desse programa ou lista vão ser reproduzidos automaticamente.</string>
     <key>announcement_autoplay_title</key>
     <string>Chegou a reprodução automática</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Você pode salvar a data/hora dos episódios pelo menu de ações do reprodutor ou com uma ação do seu headset.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>Chegaram os favoritos!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Junte-se a nós na versão beta dos favoritos!</string>
     <key>app_badge</key>
     <string>Selo do app</string>
     <key>app_icon_classic</key>
@@ -263,8 +269,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>%1$@ favoritos</string>
     <key>bookmarks_count_singular</key>
     <string>1 favorito</string>
-    <key>boomarks_locked_message</key>
-    <string>Obtenha o Pocket Casts %1$@ para desbloquear esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos.</string>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Obtenha o Pocket Casts %1$@ para ter acesso a esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos. Disponível para assinantes %2$@ em breve.</string>
+    <key>bookmarks_locked_message</key>
+    <string>Obtenha o Pocket Casts %1$@ para ter acesso a esta funcionalidade e muito mais, além de salvar a data/hora dos seus episódios favoritos.</string>
     <key>bottom</key>
     <string>Último</string>
     <key>bulk_download_max_format</key>
@@ -657,6 +665,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Veja seus principais podcasts, categorias, estatísticas de reprodução e muito mais. Compartilhe com amigos e divulgue seus criadores favoritos!</string>
     <key>eoy_not_now</key>
     <string>Agora não</string>
+    <key>eoy_share</key>
+    <string>Compartilhar este story</string>
     <key>eoy_small_title</key>
     <string>Ano em podcasts</string>
     <key>eoy_stories_failed</key>
@@ -682,14 +692,11 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ episódios</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Você ouviu %1$@ podcasts diferentes e %2$@ episódios</string>
+    <string>Você ouviu %1$@ programas diferentes e %2$@ episódios no total</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>Eu ouvi %1$@ podcasts diferentes e %2$@ episódios em 2022</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Mas tinha um que sempre fazia você pedir bis...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Mas havia um que você
-sempre escutava de novo...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Você ouviu %1$@ e %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +724,7 @@ que você ouviu foi
     <key>eoy_story_top_categories_share_text</key>
     <string>Categorias de podcasts que mais ouvi</string>
     <key>eoy_story_top_podcast</key>
-    <string>Seu principal podcast foi %1$@ de %2$@</string>
+    <string>%1$@ foi o seu programa mais ouvido em 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Meu podcast favorito de 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
@@ -728,6 +735,10 @@ que você ouviu foi
     <string>Meus principais podcasts de 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Meus principais podcasts do ano! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Estes são os 5 mais ouvidos do seu 2023</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>E você marcou presença nestes programas também!</string>
     <key>eoy_title</key>
     <string>Seu ano em podcasts</string>
     <key>eoy_view_year</key>
@@ -2497,6 +2508,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Cortar momentos de silêncio</string>
     <key>try_again</key>
     <string>Tente novamente</string>
+    <key>try_it_now</key>
+    <string>Experimente já</string>
     <key>unarchive</key>
     <string>Desarquivar</string>
     <key>unknown_duration</key>

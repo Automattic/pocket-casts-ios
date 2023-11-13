@@ -141,6 +141,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Si votre file d’attente À écouter ensuite est vide et que vous commencez à écouter un épisode, l’option Lecture automatique continuera à lire les épisodes de cette émission ou de cette liste.</string>
     <key>announcement_autoplay_title</key>
     <string>La lecture automatique est disponible !</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Vous pouvez enregistrer les horodatages des épisodes à partir du menu Actions du lecteur ou en configurant une action avec vos écouteurs.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>Les favoris sont là !</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Rejoignez-nous pour le bêta-test des favoris !</string>
     <key>app_badge</key>
     <string>Badge de l’application</string>
     <key>app_icon_classic</key>
@@ -263,7 +269,9 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>%1$@ signets</string>
     <key>bookmarks_count_singular</key>
     <string>1 signet</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris. Bientôt disponible pour les abonnés %2$@.</string>
+    <key>bookmarks_locked_message</key>
     <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris.</string>
     <key>bottom</key>
     <string>Bas</string>
@@ -657,6 +665,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Retrouvez vos meilleurs podcasts, catégories, statistiques d’écoute, et plus encore. Partagez du contenu avec vos amis et remerciez vos créateurs favoris !</string>
     <key>eoy_not_now</key>
     <string>Pas maintenant</string>
+    <key>eoy_share</key>
+    <string>Partager cette story</string>
     <key>eoy_small_title</key>
     <string>Votre année en podcasts</string>
     <key>eoy_stories_failed</key>
@@ -682,14 +692,11 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ épisodes</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Vous avez écouté %1$@ podcasts différents et %2$@ épisodes.</string>
+    <string>Vous avez écouté %1$@ émissions différentes et %2$@ épisodes au total</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
     <string>J’ai écouté %1$@ podcasts différents et %2$@ épisodes en 2022</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Vous avez écouté plusieurs fois un même podcast…</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Il y en a cependant un que
-vous avez écouté plusieurs fois...</string>
+    <string>Vous avez écouté plusieurs fois une même émission…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Vous avez écouté %1$@ et %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
@@ -717,7 +724,7 @@ que vous avez écouté était
     <key>eoy_story_top_categories_share_text</key>
     <string>Mes catégories de podcasts les plus écoutés</string>
     <key>eoy_story_top_podcast</key>
-    <string>Votre meilleur podcast était %1$@ de %2$@.</string>
+    <string>%1$@ est l’émission que vous avez le plus écoutée en 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
     <string>Mon podcast préféré de 2022 ! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
@@ -728,6 +735,10 @@ que vous avez écouté était
     <string>Mes meilleurs podcasts de 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Mes meilleurs podcasts de l’année ! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Voici les 5 émissions que vous avez le plus écoutées en 2023</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>Vous avez aussi adoré ces émissions !</string>
     <key>eoy_title</key>
     <string>Votre année en podcasts</string>
     <key>eoy_view_year</key>
@@ -2497,6 +2508,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Couper les silences</string>
     <key>try_again</key>
     <string>Recommencer</string>
+    <key>try_it_now</key>
+    <string>Essayez-la maintenant</string>
     <key>unarchive</key>
     <string>Désarchiver</string>
     <key>unknown_duration</key>
