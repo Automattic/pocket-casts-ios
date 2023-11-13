@@ -1,3 +1,3 @@
-- Improvements on battery consumption when trim silence is not enabled [#1186]
-- TestFlight: Disable new show notes endpoint and custom RSS artwork due to memory issues
+- Enables Bookmarks for Early Access: [#1202]
+- Enables Playback 2023 [#1206]
 
