@@ -73,7 +73,7 @@
           ],
           "displayPrice" : "39.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 2,
           "internalID" : "C9B37131",
           "introductoryOffer" : {
             "displayPrice" : "0.99",
@@ -103,7 +103,7 @@
           ],
           "displayPrice" : "3.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 2,
           "internalID" : "267218F7",
           "introductoryOffer" : null,
           "localizations" : [
