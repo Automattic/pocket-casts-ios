@@ -25,22 +25,22 @@ struct LargeUpNextWidgetView: View {
                 GeometryReader { geometry in
                     VStack(alignment: .leading, spacing: 0) {
                         ZStack {
-                            Rectangle().fill(Color.clear)
+                            Rectangle().fill(newTopBackgroundColor)
                                 .lightBackgroundShadow()
                                 .frame(width: .infinity, height: .infinity)
                             HStack(alignment: .top) {
-                                EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedUppercase) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration)).localizedUppercase), isPlaying: isPlaying)
+                                EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedCapitalized) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                                 Spacer()
-                                Image("logo_red_small")
+                                Image("logo_white_small")
                                     .frame(width: 28, height: 28)
                                     .unredacted()
                             }
+                            .padding(16)
                         }
-                        .padding(16)
                         .frame(height: geometry.size.height * 82 / 345)
 
                         ZStack {
-                            Rectangle().fill(darkBackgroundColor)
+                            Rectangle().fill(newBottomBackgroundColor)
 
                             VStack(alignment: .leading, spacing: 10) {
                                 if episodes.count > 1 {
@@ -52,13 +52,6 @@ struct LargeUpNextWidgetView: View {
                                 }
 
                                 if episodes.count < 5 {
-                                    if episodes.count > 1 {
-                                        if episodes.count != 4 {
-                                            Spacer().frame(height: 1)
-                                        }
-                                        Divider()
-                                            .background(Color(UIColor.opaqueSeparator))
-                                    }
                                     if episodes.count != 4 {
                                         Spacer()
                                     }

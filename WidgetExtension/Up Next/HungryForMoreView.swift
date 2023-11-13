@@ -11,11 +11,11 @@ struct HungryForMoreView: View {
                     Text(L10n.widgetsDiscoverPromptTitle)
                         .font(.footnote)
                         .fontWeight(.semibold)
-                        .foregroundColor(Color.secondary)
+                        .foregroundColor(Color.white)
                         .lineLimit(1)
                     Text(L10n.widgetsDiscoverPromptMsg)
                         .font(.caption2)
-                        .foregroundColor(Color(UIColor.tertiaryLabel))
+                        .foregroundColor(Color.white.opacity(0.8))
                         .lineLimit(1)
                 }
             }.offset(x: -8, y: 0)
