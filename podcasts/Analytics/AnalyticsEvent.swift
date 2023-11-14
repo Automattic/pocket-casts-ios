@@ -607,6 +607,7 @@ enum AnalyticsEvent: String {
     case endOfYearStoryShare
     case endOfYearStoryShared
     case endOfYearProfileCardTapped
+    case endOfYearUpsellShown
 
     // MARK: - Welcome View
 

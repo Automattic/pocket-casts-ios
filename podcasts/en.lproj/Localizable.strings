@@ -493,8 +493,14 @@
 /* Title for the podcast category Health & Fitness */
 "discover_browse_by_category_health_and_fitness" = "Health & Fitness";
 
+/* Abbreviation for the podcast category Health & Fitness, using only "Health" */
+"discover_browse_by_category_health" = "Health";
+
 /* Title for the podcast category Kids & Family */
 "discover_browse_by_category_kids_and_family" = "Kids & Family";
+
+/* Abbreviation for the podcast category Kids & Family, using only "Family" */
+"discover_browse_by_category_family" = "Family";
 
 /* Title for the podcast category Leisure */
 "discover_browse_by_category_leisure" = "Leisure";
@@ -511,6 +517,9 @@
 /* Title for the podcast category Religion & Spirituality */
 "discover_browse_by_category_religion_and_spirituality" = "Religion & Spirituality";
 
+/* Abbreviation for the podcast category Religion & Spirituality */
+"discover_browse_by_category_spirituality" = "Spirituality";
+
 /* Title for the podcast category Science */
 "discover_browse_by_category_science" = "Science";
 
@@ -522,6 +531,9 @@
 
 /* Title for the podcast category Society & Culture */
 "discover_browse_by_category_society_and_culture" = "Society & Culture";
+
+/* Abbreviation for the podcast category Society & Culture, using only "Culture" */
+"discover_browse_by_category_society_and_culture" = "Culture";
 
 /* Title for the podcast category Sports */
 "discover_browse_by_category_sports" = "Sports";
@@ -3471,13 +3483,13 @@
 "eoy_description" = "See your top podcasts, categories, listening stats, and more. Share with friends and shout out your favorite creators!";
 
 /* Label of the End of Year call to action button */
-"eoy_view_year" = "View My 2022";
+"eoy_view_year" = "View My 2023";
 
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
 
 /* End of Year card description that appears under Profile */
-"eoy_card_description" = "See your top podcasts, categories, listening stats and more.";
+"eoy_card_description" = "See your listening stats, top podcasts, and more.";
 
 /* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
 "eoy_story_intro_title" = "Let's celebrate your year of listening...";
@@ -3485,11 +3497,17 @@
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
 
+/* Title of the listening time Story. */
+"eoy_story_listened_to_title" = "This was your total time listening to podcasts";
+
+/* Title of the listening time Story. */
+"eoy_story_listened_to_subtitle" = "We hope you loved every minute of it!";
+
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to_updated" = "This year, you spent %1$@ listening to podcasts";
 
 /* Text that appears when someone shares the listened to story to Twitter, for example. %1$@ is a placeholder for the amount of time. */
-"eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts in 2022";
+"eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts this year";
 
 /* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
 "eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
@@ -3504,7 +3522,7 @@
 "eoy_story_listened_to_categories_subtitle" = "Let's take a look at some of your favorites...";
 
 /* Text that appears when someone shares the listened categories to story to Twitter, for example. %1$@ is a placeholder for the number of categories. */
-"eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2022";
+"eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2023";
 
 /* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
 "eoy_story_listened_to_numbers" = "You listened to %1$@ different shows and %2$@ episodes in total";
@@ -3522,7 +3540,7 @@
 "eoy_story_listened_to_numbers_subtitle" = "But there was one you kept coming to...";
 
 /* Text that appear when someone share the listened numbers story to Twitter. %1$@ is a placeholder for the number of podcasts listened and %2$@ for the number of episodes. */
-"eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes in 2022";
+"eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes this year";
 
 /* Title for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the podcast title and %2$@ is a placeholder for the author. */
 "eoy_story_top_podcast" = "%1$@ was your most listened show in 2023";
@@ -3531,7 +3549,7 @@
 "eoy_story_top_podcast_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
 
 /* Text that appear when someone share the top podcast of the year story to Twitter. %1$@ is the URL to the podcast. */
-"eoy_story_top_podcast_share_text" = "My favorite podcast of 2022! %1$@";
+"eoy_story_top_podcast_share_text" = "My favorite podcast this year! %1$@";
 
 /* Title for the story showing the top podcasts for the user in the current year. */
 "eoy_story_top_podcasts" = "Your Top Podcasts";
@@ -3549,34 +3567,40 @@
 "eoy_story_top_podcasts_list_title" = "My top podcasts of 2022";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
-"eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";
+"eoy_story_longest_episode" = "The longest episode you listened to was %1$@";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the duration of the episode. */
 "eoy_story_longest_episode_time" = "The longest episode\nyou listened to was\n%1$@";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the title of the podcast for the longest episode. */
-"eoy_story_longest_episode_subtitle" = "The episode was %1$@ from %2$@";
+"eoy_story_longest_episode_subtitle" = "It was none other than “%1$@” from “%2$@”";
 
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
 
 /* Text that appear when someone share the longest episode they listened to story to Twitter. %1$@ is the URL to the episode. */
-"eoy_story_longest_episode_share_text" = "The longest episode I listened to in 2022 %1$@";
+"eoy_story_longest_episode_share_text" = "The longest episode I listened to this year %1$@";
 
 /* Title for the epilogue story */
-"eoy_story_epilogue_title" = "Thank you for letting Pocket Casts be a part of your listening experience in 2022";
+"eoy_story_epilogue_title" = "Thank you for listening with us this year.\nSee you in 2024!";
 
 /* Subtitle for the epilogue story */
 "eoy_story_epilogue_subtitle" = "Don't forget to share with your friends and give a shout out to your favorite podcast creators";
 
 /* Label for the replay button, which when tapped started the end of year stories from the first one. */
-"eoy_story_replay" = "Replay";
+"eoy_story_replay" = "Play again";
 
 /* Title of the top categories story. */
 "eoy_story_top_categories" = "Your Top Categories";
 
 /* Text that appear when someone share the top categories story to Twitter. */
 "eoy_story_top_categories_share_text" = "My most listened to podcast categories";
+
+/* Title of the top categories story. %1$@ being the name of the most listened category. */
+"eoy_story_top_categories_title" = "Did you know that %1$@ was your favorite category?";
+
+/* Subtitle of the top categories story. %1$@ is the total number of episodes and %2$@ is the total listened time. */
+"eoy_story_top_categories_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
 
 /* Description to why the user needs to create an account to see their end of year stats. */
 "eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";
@@ -3586,6 +3610,57 @@
 
 /* Label of a button to share the current story (similar to Instagram stories) */
 "eoy_share" = "Share this story";
+
+/* Title of the story when this year's listening time is way bigger than previous year. */
+"eoy_year_over_year_title_skyrocketed" = "Compared to 2022, your listening time skyrocketed!";
+
+/* Title of the story when this year's listening time is bigger than previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_went_up" = "Compared to 2022, your listening time went up a whopping %1$@%";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is bigger than last's year */
+"eoy_year_over_year_subtitle_went_up" = "Ready to top it in 2024?";
+
+/* Title of the story when this year's listening time is almost the same as the previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_flat" = "Compared to 2022, your listening time stayed pretty consistent";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is almost the same as last's year */
+"eoy_year_over_year_subtitle_flat" = "And they say consistency is the key to success... or something like that!";
+
+/* Title of the story when this year's listening time is less than the previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_went_down" = "Compared to 2022, your listening time went down a little";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is less than last's year */
+"eoy_year_over_year_subtitle_went_down" = "Aaaah... there’s a life to be lived, right?";
+
+/* Text for when a user shares the story comparing the 2022 and 2023 listening time. */
+"eoy_year_over_share_text" = "My 2023 listening time compared to 2022";
+
+/* Title for the completion rate. %1$@ is the percentage. */
+"eoy_year_completion_rate_title" = "Your completion rate this year was %1$@";
+
+/* Title for when sharing the completion rate story to social media. */
+"eoy_year_completion_rate_share_text" = "My 2023 completion rate";
+
+/* Title for the completion rate. %1$@ is the total of episodes listened this year, %2$@ is the total of episodes fully listened to. */
+"eoy_year_completion_rate_subtitle" = "From the %1$@ episodes you started you listened fully to a total of %2$@";
+
+/* Title of the story paywall. Telling the users that there are more stories to check. */
+"eoy_theres_more" = "There’s more!";
+
+/* Subtitle explaining the user why they should susbcribe to Plus in the context of the end of year stories. */
+"eoy_subscribe_to_plus" = "Subscribe to Plus and find out how your listening compares to 2022, other fun stats, and Premium features like bookmarks and folders.";
+
+/* Subtitle explaining the user why they should susbcribe to Plus in the context of the end of year stories. */
+"eoy_start_your_free_trial" = "Start your Free Trial";
+
+/* Title of an alert displayed to the user asking if they want to share the current story */
+"eoy_share_this_story_title" = "Share this story?";
+
+/* Message of an alert displayed to the user asking if they want to share the current story */
+"eoy_share_this_story_message" = "Paste this image to your socials and give a shout out to your favorite shows and creators";
+
+/* Subtitle when displaying the user episode completion rate, all in lowercase. */
+"eoy_year_completion_rate" = "completion rate";
 
 /* Title of the view displayed after a user successfully upgrades to plus */
 "welcome_plus_title" = "Thank you, now let's get you listening!";

@@ -22,6 +22,13 @@ protocol StoriesDataSource {
     /// Once you finished any task and the data source is ready
     /// return `true`.
     func isReady() async -> Bool
+
+    /// A method to update all data from the data source.
+    ///
+    /// You may want to update a request, or preload images/video.
+    /// Once you finished all refreshes and the data source is ready
+    /// return `true`.
+    func refresh() async -> Bool
 }
 
 extension StoriesDataSource {
@@ -46,6 +53,9 @@ protocol Story {
     /// A string that identifies the story
     var identifier: String { get }
 
+    /// If the story is available only for Plus users
+    var plusOnly: Bool { get }
+
     /// Called when the story actually appears.
     ///
     /// If you use SwiftUI `onAppear` together with preload
@@ -54,6 +64,12 @@ protocol Story {
     /// This method instead will only be called when the story
     /// is being presented.
     func onAppear()
+
+    /// Called when the story is paused
+    func onPause()
+
+    /// Called when the story is resumed after being paused
+    func onResume()
 }
 
 extension Story {
@@ -61,8 +77,28 @@ extension Story {
         "unknown"
     }
 
+    var plusOnly: Bool {
+        false
+    }
+
     func onAppear() {}
+    func onPause() {}
+    func onResume() {}
 }
+
+// MARK: - Animations
+
+extension EnvironmentValues {
+    var animated: Bool {
+        get { self[AnimatedKey.self] }
+        set { self[AnimatedKey.self] = newValue }
+    }
+
+    private struct AnimatedKey: EnvironmentKey {
+        static let defaultValue: Bool = false
+    }
+}
+
 
 // MARK: - Shareable Stories
 typealias ShareableStory = StoryView & StorySharing
@@ -75,6 +111,9 @@ protocol StorySharing {
     ///
     /// This will be given to `UIActivityViewController` as the `activityItems`
     func sharingAssets() -> [Any]
+
+    /// If the share button should be hidden for this story
+    func hideShareButton() -> Bool
 }
 
 extension StorySharing {
@@ -82,5 +121,9 @@ extension StorySharing {
 
     func sharingAssets() -> [Any] {
         return []
+    }
+
+    func hideShareButton() -> Bool {
+        false
     }
 }

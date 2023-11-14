@@ -716,33 +716,44 @@ class Settings: NSObject {
 
     // MARK: - End of Year 2022
 
-    class var showBadgeFor2022EndOfYear: Bool {
+    class var showBadgeForEndOfYear: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear)
         }
 
         get {
-            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear) as? Bool) ?? true
+            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear) as? Bool) ?? true
         }
     }
 
     class var endOfYearModalHasBeenShown: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2022HasBeenShown)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2023HasBeenShown)
         }
 
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2022HasBeenShown)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2023HasBeenShown)
         }
     }
 
-    class var hasSyncedAll2022Episodes: Bool {
+    class var hasSyncedEpisodesForPlayback2023: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
         }
 
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
+        }
+    }
+
+    /// Whether the user was plus or not by the time the sync happened
+    class var hasSyncedEpisodesForPlayback2023AsPlusUser: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
         }
     }
 
@@ -879,6 +890,10 @@ class Settings: NSObject {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
             return TimeInterval(remoteMs.numberValue.doubleValue / 1000)
+        }
+
+        static var remoteBookmarksEnabled: Bool {
+            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.bookmarksEnabled).boolValue
         }
     #endif
 }

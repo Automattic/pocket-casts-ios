@@ -78,13 +78,13 @@ struct EndOfYear {
         if Self.requireAccount && !SyncManager.isUserLoggedIn() {
             Self.state = .waitingForLogin
 
-            let profileIntroController = ProfileIntroViewController()
-            profileIntroController.infoLabelText = L10n.eoyCreateAccountToSee
-            let navigationController = UINavigationController(rootViewController: profileIntroController)
-            navigationController.modalPresentationStyle = .fullScreen
-            viewController.present(navigationController, animated: true)
+            let onboardingController = OnboardingFlow.shared.begin(flow: .endOfYear)
+            viewController.present(onboardingController, animated: true)
             return
         }
+
+        // Don't show the prompt if the user is has already viewed the stories.
+        Settings.endOfYearModalHasBeenShown = true
 
         let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource()).padding(storiesPadding))
         storiesViewController.view.backgroundColor = .black

@@ -16,7 +16,7 @@ struct OnboardingFlow {
 
         let flowController: UIViewController
         switch flow {
-        case .plusUpsell:
+        case .plusUpsell, .endOfYearUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
             flowController = upgradeController(in: navigationController, context: context)
@@ -114,6 +114,12 @@ struct OnboardingFlow {
         /// asked to sign in again. See the `BackgroundSignOutListener`
         case forcedLoggedOut = "forced_logged_out"
 
+        /// When the user is brought into the onboarding flow from the End Of Year prompt
+        case endOfYear
+
+        /// When the user is brought into the onboarding flow from the End Of Year stories
+        case endOfYearUpsell
+
         var analyticsDescription: String { rawValue }
 
         /// If after a successful sign in or sign up the onboarding flow
@@ -124,6 +130,17 @@ struct OnboardingFlow {
                 return true
             default:
                 return false
+            }
+        }
+
+        /// If after a successful purchase the flow should be
+        /// dismissed right away
+        var shouldDismissAfterPurchase: Bool {
+            switch self {
+            case .endOfYearUpsell:
+                true
+            default:
+                false
             }
         }
     }

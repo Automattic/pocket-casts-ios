@@ -1,6 +1,11 @@
-7.52
+7.53
 -----
 
+
+7.52
+-----
+- Enables Bookmarks for Early Access: [#1202]
+- Enables Playback 2023 [#1206]
 
 7.51
 -----

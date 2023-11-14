@@ -19,26 +19,48 @@ public class SyncYearListeningProgress: ObservableObject {
         // There are a few additional requests after syncing episodes, so we hang on 95%
         progress = min(syncedEpisodes / episodesToSync, 0.95)
     }
+
+    @MainActor
+    public func reset() {
+        progress = 0
+        episodesToSync = 0
+        syncedEpisodes = 0
+    }
 }
 
 class SyncYearListeningHistoryTask: ApiBaseTask {
     private var token: String?
 
-    private let yearToSync: Int32
+    private let yearsToSync: [Int32]
+
+    private var totalEpisodesDispatchGroup = DispatchGroup()
 
     var success: Bool = false
 
-    init(year: Int32) {
-        self.yearToSync = year
+    init(years: [Int32]) {
+        self.yearsToSync = years
     }
 
     override func apiTokenAcquired(token: String) {
         self.token = token
 
-        performRequest(token: token, shouldSync: false)
+        // Sync multiple years in parallel so it's faster
+        let dispatchGroup = DispatchGroup()
+        yearsToSync.forEach { yearToSync in
+            totalEpisodesDispatchGroup.enter()
+            dispatchGroup.enter()
+
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.performRequest(yearToSync: yearToSync, token: token, shouldSync: false)
+
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.wait()
     }
 
-    private func performRequest(token: String, shouldSync: Bool) {
+    private func performRequest(yearToSync: Int32, token: String, shouldSync: Bool) {
         var dataToSync = Api_YearHistoryRequest()
         dataToSync.version = apiVersion
         dataToSync.year = yearToSync
@@ -50,9 +72,9 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
             if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 if !shouldSync {
-                    compareNumberOfEpisodes(serverData: response)
+                    compareNumberOfEpisodes(year: yearToSync, serverData: response)
                 } else {
-                    syncMissingEpisodes(serverData: response)
+                    syncMissingEpisodes(year: yearToSync, serverData: response)
                 }
             } else {
                 print("SyncYearListeningHistory Unable to sync with server got status \(httpStatus)")
@@ -62,15 +84,15 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         }
     }
 
-    private func compareNumberOfEpisodes(serverData: Data) {
+    private func compareNumberOfEpisodes(year: Int32, serverData: Data) {
         do {
             let response = try Api_YearHistoryResponse(serializedData: serverData)
 
-            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodesThisYear()
+            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodes(year: year)
 
             if response.count > localNumberOfEpisodes, let token {
                 print("SyncYearListeningHistory: \(Int(response.count) - localNumberOfEpisodes) episodes missing, adding them...")
-                performRequest(token: token, shouldSync: true)
+                performRequest(yearToSync: year, token: token, shouldSync: true)
             } else {
                 success = true
             }
@@ -79,13 +101,13 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         }
     }
 
-    private func syncMissingEpisodes(serverData: Data) {
+    private func syncMissingEpisodes(year: Int32, serverData: Data) {
         do {
             let response = try Api_YearHistoryResponse(serializedData: serverData)
 
             // on watchOS, we don't show history, so we also don't process server changes we only want to push changes up, not down
             #if !os(watchOS)
-            updateEpisodes(updates: response.history.changes)
+            updateEpisodes(year: year, updates: response.history.changes)
             #endif
 
             success = true
@@ -94,15 +116,20 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         }
     }
 
-    private func updateEpisodes(updates: [Api_HistoryChange]) {
+    private func updateEpisodes(year: Int32, updates: [Api_HistoryChange]) {
         var podcastsToUpdate: Set<String> = []
 
         // Get the list of missing episodes in the database
         let uuids = updates.map { $0.episode }
-        let episodesThatExist = DataManager.sharedManager.episodesThatExist(uuids: uuids)
+        let episodesThatExist = DataManager.sharedManager.episodesThatExist(year: year, uuids: uuids)
         let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
-        SyncYearListeningProgress.shared.episodesToSync = Double(missingEpisodes.count)
+        SyncYearListeningProgress.shared.episodesToSync += Double(missingEpisodes.count)
+
+        totalEpisodesDispatchGroup.leave()
+
+        // Wait until we have the total number of episodes to be synced
+        totalEpisodesDispatchGroup.wait()
 
         let dispatchGroup = DispatchGroup()
 
@@ -173,7 +200,8 @@ class PodcastExistsHelper {
 
 public class YearListeningHistory {
     public static func sync() -> Bool {
-        let syncYearListeningHistory = SyncYearListeningHistoryTask(year: 2023)
+        let yearsToSync: [Int32] = SubscriptionHelper.hasActiveSubscription() ? [2023, 2022] : [2023]
+        let syncYearListeningHistory = SyncYearListeningHistoryTask(years: yearsToSync)
 
         syncYearListeningHistory.start()
 
