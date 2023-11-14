@@ -657,8 +657,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>編輯</string>
     <key>enable_it_now</key>
     <string>立即啟用</string>
-    <key>eoy_card_description</key>
-    <string>查看你最熱門的 Podcast、分類、收聽統計等資料。</string>
     <key>eoy_create_account_to_see</key>
     <string>將你的 Podcast 儲存在雲端、獲得年末回顧，並與其他裝置同步進度。</string>
     <key>eoy_description</key>
@@ -673,8 +671,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>無法載入故事。</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>別忘了與朋友分享，以及向最愛的 Podcast 創作者致意</string>
-    <key>eoy_story_epilogue_title</key>
-    <string>感謝你在 2022 年使用 Pocket Casts 收聽</string>
     <key>eoy_story_intro_title</key>
     <string>來慶祝你收聽節目的一年...</string>
     <key>eoy_story_listened_to</key>
@@ -683,8 +679,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你今年收聽了 %1$@ 個不同類別</string>
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>你今年收聽了 %1$@</string>
-    <key>eoy_story_listened_to_categories_share_text</key>
-    <string>我在 2022 年收聽了 %1$@ 個不同分類</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>來看看你的最愛...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -693,40 +687,26 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>%1$@ 集</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>你一共收聽了 %1$@ 個不同節目和 %2$@ 集內容</string>
-    <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>我在 2022 年收聽了 %1$@ 個不同 Podcast 節目和 %2$@ 集內容</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>但有個節目你已成為忠實聽眾了...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>你收聽了「%1$@」和「%2$@」</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ 個不同的 Podcast</string>
-    <key>eoy_story_listened_to_share_text</key>
-    <string>我在 2022 年花了 %1$@ 收聽 Podcast</string>
     <key>eoy_story_listened_to_updated</key>
     <string>你今年花了 %1$@ 收聽 Podcast</string>
-    <key>eoy_story_longest_episode</key>
-    <string>你所收聽時間最長的一集為 Podcast %2$@ 的 %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>這集長達 %1$@</string>
-    <key>eoy_story_longest_episode_share_text</key>
-    <string>我在 2022 年所收聽最長的一集 %1$@</string>
-    <key>eoy_story_longest_episode_subtitle</key>
-    <string>這一集是「%2$@」的「%1$@」</string>
     <key>eoy_story_longest_episode_time</key>
     <string>你收聽過
 最長的一集是
 %1$@</string>
-    <key>eoy_story_replay</key>
-    <string>重播</string>
     <key>eoy_story_top_categories</key>
     <string>你最愛的類別</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>我最常收聽的 Podcast 分類</string>
     <key>eoy_story_top_podcast</key>
     <string>「%1$@」是你在 2023 年最常收聽的節目</string>
-    <key>eoy_story_top_podcast_share_text</key>
-    <string>2022 年我最愛的 Podcast！%1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>你收聽了 %1$@ 集，總共 %2$@</string>
     <key>eoy_story_top_podcasts</key>
@@ -741,8 +721,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你也是這些節目的忠實粉絲！</string>
     <key>eoy_title</key>
     <string>你的 Podcast 年度回顧</string>
-    <key>eoy_view_year</key>
-    <string>檢視我的 2022 年</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>比起 2022 年，你的收聽時間可說是一飛沖天！</string>
     <key>episode</key>
     <string>單集</string>
     <key>episode_count_plural_format</key>

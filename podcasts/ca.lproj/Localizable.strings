@@ -657,8 +657,6 @@
     <string>Editar</string>
     <key>enable_it_now</key>
     <string>Activar-ho ara</string>
-    <key>eoy_card_description</key>
-    <string>Consulta quins han estat els podcasts i les categories que més has escoltat, les estadístiques d'escolta i molt més.</string>
     <key>eoy_create_account_to_see</key>
     <string>Guarda els teus podcasts al núvol, aconsegueix un resum al final de l'any i sincronitza el teu progrés amb altres dispositius.</string>
     <key>eoy_description</key>
@@ -673,8 +671,6 @@
     <string>No s'han pogut carregar les històries.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>No oblidis de compartir-los amb els teus amics i enviar una salutació als teus creadors de podcast preferits.</string>
-    <key>eoy_story_epilogue_title</key>
-    <string>Gràcies per permetre que Pocket Casts sigui part de la teva experiència auditiva al 2022.</string>
     <key>eoy_story_intro_title</key>
     <string>Celebra l'any que portes escoltant podcast...</string>
     <key>eoy_story_listened_to</key>
@@ -683,8 +679,6 @@
     <string>Has escoltat %1$@ categories diferents enguany.</string>
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>Has escoltat %1$@ enguany</string>
-    <key>eoy_story_listened_to_categories_share_text</key>
-    <string>He escoltat %1$@ categories diferents al 2022</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Anem a fer un cop d'ull a alguns dels teus favorits...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -693,38 +687,24 @@
     <string>%1$@ episodis</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Has escoltat %1$@ podcast diferents i %2$@ episodis en total.</string>
-    <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>Al 2022 vaig escoltar %1$@ podcast diferents i %2$@ episodis</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Així i tot, n'hi ha un que has escoltat una vegada i una altra...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Has escoltat %1$@ i %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ podcasts diferents</string>
-    <key>eoy_story_listened_to_share_text</key>
-    <string>Al 2022 he estat %1$@ escoltant podcasts</string>
     <key>eoy_story_listened_to_updated</key>
     <string>Enguany, has passat %1$@ escoltant podcasts</string>
-    <key>eoy_story_longest_episode</key>
-    <string>L'episodi més llarg que has sentit ha estat %1$@ del podcast %2$@.</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Aquest episodi va durar %1$@</string>
-    <key>eoy_story_longest_episode_share_text</key>
-    <string>L'episodi més llarg que vaig sentir el 2022 %1$@</string>
-    <key>eoy_story_longest_episode_subtitle</key>
-    <string>L'episodi es titula %1$@ de %2$@</string>
     <key>eoy_story_longest_episode_time</key>
     <string>L'episodi més llarg que has sentit dura %1$@</string>
-    <key>eoy_story_replay</key>
-    <string>Torna a reproduir</string>
     <key>eoy_story_top_categories</key>
     <string>Les teves principals categories</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Les meves categories de podcasts més escoltats</string>
     <key>eoy_story_top_podcast</key>
     <string>%1$@ ha estat el podcast que més has escoltat al 2023</string>
-    <key>eoy_story_top_podcast_share_text</key>
-    <string>El meu podcast favorit de 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Has escoltat %1$@ episodis d'un total de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
@@ -739,8 +719,6 @@
     <string>I tu també has estat gran en aquests podcasts!</string>
     <key>eoy_title</key>
     <string>El teu any en podcasts</string>
-    <key>eoy_view_year</key>
-    <string>Veure el meu 2022</string>
     <key>episode</key>
     <string>Episodi</string>
     <key>episode_count_plural_format</key>

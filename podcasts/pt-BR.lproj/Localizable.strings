@@ -657,8 +657,6 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Editar</string>
     <key>enable_it_now</key>
     <string>Ativar agora</string>
-    <key>eoy_card_description</key>
-    <string>Veja seus principais podcasts, categorias, estatísticas de reprodução e muito mais.</string>
     <key>eoy_create_account_to_see</key>
     <string>Salve seus podcasts na nuvem, receba sua avaliação de fim de ano e sincronize seu andamento com outros dispositivos.</string>
     <key>eoy_description</key>
@@ -673,8 +671,6 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Falha ao carregar stories.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>Não esqueça de compartilhar com seus amigos e agradecer a seus criadores favoritos</string>
-    <key>eoy_story_epilogue_title</key>
-    <string>Obrigado por deixar o Pocket Casts ser uma parte da sua experiência sonora em 2022</string>
     <key>eoy_story_intro_title</key>
     <string>Vamos celebrar seu ano em podcasts...</string>
     <key>eoy_story_listened_to</key>
@@ -683,8 +679,6 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Você ouviu %1$@ categorias diferentes neste ano</string>
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>Você ouviu %1$@ este ano</string>
-    <key>eoy_story_listened_to_categories_share_text</key>
-    <string>Eu ouvi %1$@ categorias diferentes em 2022</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Vamos dar uma olhada em alguns dos seus favoritos...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -693,40 +687,26 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>%1$@ episódios</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Você ouviu %1$@ programas diferentes e %2$@ episódios no total</string>
-    <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>Eu ouvi %1$@ podcasts diferentes e %2$@ episódios em 2022</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Mas tinha um que sempre fazia você pedir bis...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Você ouviu %1$@ e %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ podcasts diferentes</string>
-    <key>eoy_story_listened_to_share_text</key>
-    <string>Eu passei %1$@ ouvindo podcasts em 2022</string>
     <key>eoy_story_listened_to_updated</key>
     <string>Este ano, você passou %1$@ ouvindo podcasts</string>
-    <key>eoy_story_longest_episode</key>
-    <string>O maior episódio que você ouviu foi %1$@ do podcast %2$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Este episódio tinha %1$@</string>
-    <key>eoy_story_longest_episode_share_text</key>
-    <string>O episódio mais longo que eu ouvi em 2022 %1$@</string>
-    <key>eoy_story_longest_episode_subtitle</key>
-    <string>O episódio foi %1$@ de %2$@</string>
     <key>eoy_story_longest_episode_time</key>
     <string>O episódio mais longo
 que você ouviu foi
 %1$@</string>
-    <key>eoy_story_replay</key>
-    <string>Replay</string>
     <key>eoy_story_top_categories</key>
     <string>Suas principais categorias</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Categorias de podcasts que mais ouvi</string>
     <key>eoy_story_top_podcast</key>
     <string>%1$@ foi o seu programa mais ouvido em 2023</string>
-    <key>eoy_story_top_podcast_share_text</key>
-    <string>Meu podcast favorito de 2022! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Você ouviu %1$@ episódios em um total de %2$@</string>
     <key>eoy_story_top_podcasts</key>
@@ -741,8 +721,8 @@ que você ouviu foi
     <string>E você marcou presença nestes programas também!</string>
     <key>eoy_title</key>
     <string>Seu ano em podcasts</string>
-    <key>eoy_view_year</key>
-    <string>Visualizar meu 2022</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>Em comparação com 2022, seu tempo de streaming disparou!</string>
     <key>episode</key>
     <string>Episódio</string>
     <key>episode_count_plural_format</key>
