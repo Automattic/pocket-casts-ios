@@ -657,8 +657,6 @@
     <string>編集する</string>
     <key>enable_it_now</key>
     <string>すぐに有効化</string>
-    <key>eoy_card_description</key>
-    <string>人気のポッドキャスト、カテゴリー、視聴統計などを確認します。</string>
     <key>eoy_create_account_to_see</key>
     <string>ポッドキャストをクラウドに保存して、年末レビューを取得し、他の端末と進捗を同期します。</string>
     <key>eoy_description</key>
@@ -673,8 +671,6 @@
     <string>ストーリーの読み込みに失敗しました。</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>友達と共有したりお気に入りのポッドキャストクリエイターにエールを送ったりしましょう</string>
-    <key>eoy_story_epilogue_title</key>
-    <string>2022年、Pocket Casts をお聴きくださりありがとうございました</string>
     <key>eoy_story_intro_title</key>
     <string>今年聴いたポッドキャストを振り返ってみましょう...</string>
     <key>eoy_story_listened_to</key>
@@ -683,8 +679,6 @@
     <string>今年、%1$@個のカテゴリーを聴きました</string>
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>今年は%1$@を聴きました</string>
-    <key>eoy_story_listened_to_categories_share_text</key>
-    <string>2022年に%1$@種類のカテゴリーを聴きました</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>お気に入りをいくつか振り返りましょう...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -693,40 +687,26 @@
     <string>%1$@件のエピソード</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>%1$@個のショーで%合計%2$@話のエピソードを聴きました</string>
-    <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>2022年に%1$@個のポッドキャストで%2$@件のエピソードを聴きました</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>何度も聴いたエピソードもありました...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>%1$@と%2$@を聴きました</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@種類のポッドキャスト</string>
-    <key>eoy_story_listened_to_share_text</key>
-    <string>2022年に%1$@ポッドキャストを聴きました</string>
     <key>eoy_story_listened_to_updated</key>
     <string>今年ポッドキャストを聴いた時間は%1$@時間でした</string>
-    <key>eoy_story_longest_episode</key>
-    <string>聴いた最長のエピソードは、ポッドキャスト %2$@ の %1$@ でした</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>このエピソードの時間は%1$@です</string>
-    <key>eoy_story_longest_episode_share_text</key>
-    <string>2022年に聴いた最長のエピソード %1$@</string>
-    <key>eoy_story_longest_episode_subtitle</key>
-    <string>エピソードは%2$@の%1$@でした</string>
     <key>eoy_story_longest_episode_time</key>
     <string>お聴きになった
 最長のエピソードは
 %1$@でした</string>
-    <key>eoy_story_replay</key>
-    <string>再生</string>
     <key>eoy_story_top_categories</key>
     <string>トップカテゴリー</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>最もよく聴いたポッドキャストカテゴリー</string>
     <key>eoy_story_top_podcast</key>
     <string>%1$@ は2023年で最も視聴されたショーでした</string>
-    <key>eoy_story_top_podcast_share_text</key>
-    <string>2022年のお気に入りポッドキャスト ! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>%1$@個のエピソードで合計%2$@聴きました</string>
     <key>eoy_story_top_podcasts</key>
@@ -741,8 +721,8 @@
     <string>そしてこれらのショーも大変気に入っていただけました !</string>
     <key>eoy_title</key>
     <string>ポッドキャストで振り返る1年</string>
-    <key>eoy_view_year</key>
-    <string>私の2022年をプレビュー</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>2022年と比較して、聴取時間が急増しました !</string>
     <key>episode</key>
     <string>エピソード</string>
     <key>episode_count_plural_format</key>
