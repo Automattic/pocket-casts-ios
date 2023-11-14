@@ -95,6 +95,9 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
                 performRequest(yearToSync: year, token: token, shouldSync: true)
             } else {
                 success = true
+
+                // If there are no episodes to sync we leave the dispatch group
+                totalEpisodesDispatchGroup.leave()
             }
         } catch {
             print("SyncYearListeningHistory had issues decoding protobuf \(error.localizedDescription)")
