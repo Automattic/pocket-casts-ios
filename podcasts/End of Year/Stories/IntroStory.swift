@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct IntroStory: ShareableStory {
-    var duration: TimeInterval = 5.seconds
+    let duration: TimeInterval = EndOfYear.defaultDuration
+
     let identifier: String = "intro"
 
     var body: some View {
@@ -106,6 +107,10 @@ private struct TwentyThreeParallaxModifier: ViewModifier {
                 }
             }
     }
+}
+
+extension EndOfYear {
+    static var defaultDuration = 7.seconds
 }
 
 struct IntroStory_Previews: PreviewProvider {

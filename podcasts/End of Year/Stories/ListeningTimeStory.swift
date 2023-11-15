@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct ListeningTimeStory: ShareableStory {
-    var duration: TimeInterval = 5.seconds
+    let duration: TimeInterval = EndOfYear.defaultDuration
 
     let identifier: String = "listening_time"
 

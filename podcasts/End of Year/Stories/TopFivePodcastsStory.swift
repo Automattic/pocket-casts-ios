@@ -11,7 +11,7 @@ struct TopFivePodcastsStory: ShareableStory {
 
     let identifier: String = "top_five_podcast"
 
-    let duration: TimeInterval = 5.seconds
+    let duration: TimeInterval = EndOfYear.defaultDuration
 
     @Namespace private var coverAnimation
 

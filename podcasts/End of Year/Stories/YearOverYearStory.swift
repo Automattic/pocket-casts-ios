@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct YearOverYearStory: ShareableStory {
-    var duration: TimeInterval = 5.seconds
+    let duration: TimeInterval = EndOfYear.defaultDuration
 
     let identifier: String = "year_over_year"
 

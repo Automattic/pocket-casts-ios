@@ -5,7 +5,7 @@ import PocketCastsDataModel
 struct TopOnePodcastStory: ShareableStory {
     @Environment(\.animated) var animated: Bool
 
-    var duration: TimeInterval = 5.seconds
+    let duration: TimeInterval = EndOfYear.defaultDuration
 
     let identifier: String = "top_one_podcast"
 
