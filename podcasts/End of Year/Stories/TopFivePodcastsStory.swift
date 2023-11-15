@@ -28,7 +28,7 @@ struct TopFivePodcastsStory: ShareableStory {
             }
         }
         .onAppear {
-            withAnimation(.spring(duration: 1.5, bounce: 0.3)) {
+            withAnimation(.spring(duration: 1, bounce: 0.3)) {
                 showTopFive = true
             }
         }
