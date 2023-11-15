@@ -22,21 +22,11 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 30
   Exclude:
-    - fastlane/Fastfile
     - scripts/themes/generate_themes.rb
 
 Naming/AsciiIdentifiers:
   Exclude:
     - scripts/themes/generate_themes.rb
 
-Naming/FileName:
-  Exclude:
-    - fastlane/*file
-    - '**/*.podspec'
-
-Style/Documentation:
-  Exclude:
-    - 'scripts/themes/generate_themes.rb'
-
 Style/HashSyntax:
-   EnforcedShorthandSyntax: never
+  EnforcedShorthandSyntax: never

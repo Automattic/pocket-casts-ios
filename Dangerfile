@@ -38,7 +38,8 @@ pr_size_checker.check_diff_size
 
 milestone_checker.check_milestone_due_date(days_before_due: 2)
 
-rubocop.lint(inline_comment: true, fail_on_inline_comment: true, include_cop_names: true)
+# `files: []` forces rubocop to scan all files, not just the ones modified in the PR
+rubocop.lint(files: [], inline_comment: true, fail_on_inline_comment: true, include_cop_names: true)
 
 swiftlint.binary_path = './Pods/SwiftLint/swiftlint'
 swiftlint.lint_all_files = true
