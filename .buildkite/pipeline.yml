@@ -21,13 +21,22 @@ steps:
     env: *common_env
     plugins: *common_plugins
 
-  - group: Linters
+  - group: "Linters"
     steps:
-      - label: Lints via Danger
-        command: .buildkite/commands/danger.sh
-        agents: *common_agents
-        env: *common_env
-        plugins: *common_plugins
+      - label: "☢️ Danger - PR Check"
+        command: .buildkite/commands/danger-pr-check.sh
+        plugins:
+          - docker#v5.8.0:
+              image: "public.ecr.aws/docker/library/ruby:3.2.2"
+              propagate-environment: true
+              environment:
+                - "DANGER_GITHUB_API_TOKEN"
+        if: "build.pull_request.id != null"
+        agents:
+          queue: "default"
+        retry:
+          manual:
+            permit_on_passed: true
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: lint_localized_strings_format

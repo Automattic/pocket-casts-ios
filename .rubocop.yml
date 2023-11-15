@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   Exclude:
     - DerivedData/**/*
@@ -5,54 +7,26 @@ AllCops:
     - vendor/**/*
   NewCops: enable
   SuggestExtensions:
-    # For some reason, RuboCop suggests installing this, even though we don't use Rake
     rubocop-rake: false
 
 Layout/LineLength:
+  Max: 180
   Exclude:
-    - 'scripts/themes/generate_themes.rb'
     - fastlane/Fastfile
-
-Metrics/AbcSize:
-  Exclude:
-    - 'scripts/themes/generate_themes.rb'
 
 Metrics/BlockLength:
   Exclude:
-    - fastlane/*file
-    - 'scripts/themes/generate_themes.rb'
-
-Metrics/BlockNesting:
-  Exclude:
-    - fastlane/*file
-    - 'scripts/themes/generate_themes.rb'
-
-Metrics/CyclomaticComplexity:
-  Exclude:
-    - 'scripts/themes/generate_themes.rb'
+    - fastlane/Fastfile
+    - scripts/themes/generate_themes.rb
 
 Metrics/MethodLength:
+  Max: 30
   Exclude:
-    - 'scripts/themes/generate_themes.rb'
-
-Metrics/PerceivedComplexity:
-  Exclude:
-    - 'scripts/themes/generate_themes.rb'
+    - scripts/themes/generate_themes.rb
 
 Naming/AsciiIdentifiers:
   Exclude:
-    # Uses rosé in code generation. If we decide to address this, it should be
-    # in a dedicated commit that updates the consuming Swift code, too.
-    - 'scripts/themes/generate_themes.rb'
-
-Naming/FileName:
-  Exclude:
-    - fastlane/*file
-    - '**/*.podspec'
-
-Style/Documentation:
-  Exclude:
-    - 'scripts/themes/generate_themes.rb'
+    - scripts/themes/generate_themes.rb
 
 Style/HashSyntax:
-   EnforcedShorthandSyntax: never
+  EnforcedShorthandSyntax: never
