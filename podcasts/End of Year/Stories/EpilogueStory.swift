@@ -77,13 +77,15 @@ struct EpilogueStory: ShareableStory {
                     .onAppear(perform: prepareHaptics)
                 )
 
-                VStack {
-                    Spacer()
-                    HStack {
+                if !renderForSharing {
+                    VStack {
                         Spacer()
-                        Image("logo")
-                            .padding(.bottom, geometry.size.height * 0.06)
-                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image("logo")
+                                .padding(.bottom, geometry.size.height * 0.06)
+                            Spacer()
+                        }
                     }
                 }
             }
