@@ -40,7 +40,7 @@ struct YearOverYearStory: ShareableStory {
     var leftBarPercentageSize: Double {
         let percentage = data.percentage
         if percentage == .infinity {
-            return 0.2
+            return minimumBarPercentage
         } else if percentage > 0 {
             return max(data.totalPlayedTimeLastYear / data.totalPlayedTimeThisYear, minimumBarPercentage)
         }
@@ -128,12 +128,12 @@ struct YearOverYearStory: ShareableStory {
 
             VStack(alignment: .leading) {
                 Text(title)
-                .font(.custom("DM Sans", size: geometry.size.height * 0.09).weight(.medium))
+                .font(.custom("DM Sans", size: geometry.size.height * 0.08).weight(.medium))
                 .foregroundColor(.white)
 
                 Text(subtitle)
-                .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
-                .padding(.top, -geometry.size.height * 0.08)
+                .font(.custom("DM Sans", size: geometry.size.height * 0.015).weight(.semibold))
+                .padding(.top, -geometry.size.height * 0.075)
                 .foregroundColor(.white)
             }
             .opacity(barStyle == .grey ? 0.5 : 1)
