@@ -5,7 +5,7 @@ import PocketCastsDataModel
 struct CompletionRateStory: ShareableStory {
     var duration: TimeInterval = 5.seconds
 
-    let identifier: String = "year_over_year"
+    let identifier: String = "completion_rate"
 
     let plusOnly = true
 

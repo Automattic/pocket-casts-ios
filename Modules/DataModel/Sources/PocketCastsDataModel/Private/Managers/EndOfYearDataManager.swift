@@ -356,7 +356,7 @@ class EndOfYearDataManager {
 
         dbQueue.inDatabase { db in
             do {
-                let query = "SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE playingStatus = 3 OR playedUpTo >= 0.9 * duration AND \(listenedEpisodesThisYear) UNION SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear)"
+                let query = "SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE (playingStatus = 3 OR playedUpTo >= 0.9 * duration) AND \(listenedEpisodesThisYear) UNION SELECT COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed from \(DataManager.episodeTableName) WHERE \(listenedEpisodesThisYear)"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 

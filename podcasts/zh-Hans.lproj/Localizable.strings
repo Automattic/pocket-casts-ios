@@ -141,6 +141,12 @@
     <string>如果您的“接下来播放”队列为空，在您开始听节目时，自动播放会继续播放该节目或列表中的剧集。</string>
     <key>announcement_autoplay_title</key>
     <string>自动播放功能现已推出！</string>
+    <key>announcement_bookmarks_description</key>
+    <string>您现在可以使用播放器的操作菜单或耳机操作程序来保存剧集的时间戳。</string>
+    <key>announcement_bookmarks_title</key>
+    <string>书签在这里！</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>加入我们的 Beta 测试，试用书签功能！</string>
     <key>app_badge</key>
     <string>应用程序徽章</string>
     <key>app_icon_classic</key>
@@ -263,7 +269,9 @@
     <string>%1$@ 个书签</string>
     <key>bookmarks_count_singular</key>
     <string>1 个书签</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>通过 Pocket Casts %1$@ 解锁此功能及其他更多功能，并保存收藏剧集的时间戳。 即将面向 %2$@ 订阅者推出。</string>
+    <key>bookmarks_locked_message</key>
     <string>通过 Pocket Casts %1$@ 解锁此功能及其他更多功能，并保存收藏剧集的时间戳。</string>
     <key>bottom</key>
     <string>底部</string>
@@ -649,22 +657,20 @@
     <string>编辑</string>
     <key>enable_it_now</key>
     <string>立即启用</string>
-    <key>eoy_card_description</key>
-    <string>查看您的热门播客、分类、收听统计数据等。</string>
     <key>eoy_create_account_to_see</key>
     <string>将您的博客保存到云端，获得年终回顾，并与其他设备同步您的进度。</string>
     <key>eoy_description</key>
     <string>查看您的热门播客、分类、收听统计数据等。 分享给朋友，告诉他们您最喜欢的创作者！</string>
     <key>eoy_not_now</key>
     <string>不用了</string>
+    <key>eoy_share</key>
+    <string>分享此故事</string>
     <key>eoy_small_title</key>
     <string>年度播客盘点</string>
     <key>eoy_stories_failed</key>
     <string>无法加载故事。</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>不要忘记分享给朋友，告诉他们您最喜欢的播客创作者</string>
-    <key>eoy_story_epilogue_title</key>
-    <string>感谢您在 2022 年收听 Pocket Casts</string>
     <key>eoy_story_intro_title</key>
     <string>庆祝您的聆听之年…</string>
     <key>eoy_story_listened_to</key>
@@ -673,8 +679,6 @@
     <string>您今年收听了 %1$@ 种不同的分类</string>
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>您今年收听了 %1$@ 种分类</string>
-    <key>eoy_story_listened_to_categories_share_text</key>
-    <string>我在 2022 年收听了 %1$@ 种不同的分类</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>我们来看看您最喜欢的内容…</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -682,44 +686,27 @@
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ 集</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>您收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
-    <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>我在 2022 年收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
+    <string>您总共收听了 %1$@ 个不同的节目和 %2$@ 部剧集</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>但还有一个您经常回顾的播客…</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>不过，有一个
-您经常回听的...</string>
+    <string>但还有一个您经常收听的播客…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>您收听了 %1$@ 个播客和 %2$@ 集</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ 个不同的播客</string>
-    <key>eoy_story_listened_to_share_text</key>
-    <string>2022 年，我收听播客的时间为 %1$@</string>
     <key>eoy_story_listened_to_updated</key>
     <string>您今年收听播客的时间为 %1$@</string>
-    <key>eoy_story_longest_episode</key>
-    <string>您收听的最长剧集为 %2$@ 播客的 %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>本剧集时长为 %1$@</string>
-    <key>eoy_story_longest_episode_share_text</key>
-    <string>2022 年我收听时间最长的剧集 %1$@</string>
-    <key>eoy_story_longest_episode_subtitle</key>
-    <string>该剧集是来自 %2$@ 的 %1$@</string>
     <key>eoy_story_longest_episode_time</key>
     <string>您收听过的
 最长的剧集是
 %1$@</string>
-    <key>eoy_story_replay</key>
-    <string>重播</string>
     <key>eoy_story_top_categories</key>
     <string>您的热门分类</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>我收听最多的播客分类</string>
     <key>eoy_story_top_podcast</key>
-    <string>您的热门播客为 %2$@ 的 %1$@</string>
-    <key>eoy_story_top_podcast_share_text</key>
-    <string>2022 年我最喜欢的播客！%1$@</string>
+    <string>%1$@ 是您在 2023 年收听率最高的节目</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>您收听了 %1$@ 部剧集，总共有 %2$@ 部剧集</string>
     <key>eoy_story_top_podcasts</key>
@@ -728,10 +715,14 @@
     <string>我的 2022 年热门播客</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>我的年度热门播客！%1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>这是您在 2023 年收听率最高的 5 个节目</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>您也非常喜欢这些节目！</string>
     <key>eoy_title</key>
     <string>您的年度播客盘点</string>
-    <key>eoy_view_year</key>
-    <string>查看我的 2022 年度盘点</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>相比于 2022 年，您的收听时长飙升！</string>
     <key>episode</key>
     <string>剧集</string>
     <key>episode_count_plural_format</key>
@@ -2497,6 +2488,8 @@
     <string>剪裁静音</string>
     <key>try_again</key>
     <string>重试</string>
+    <key>try_it_now</key>
+    <string>立即试用</string>
     <key>unarchive</key>
     <string>取消存档</string>
     <key>unknown_duration</key>

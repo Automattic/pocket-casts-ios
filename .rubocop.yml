@@ -29,5 +29,14 @@ Naming/AsciiIdentifiers:
   Exclude:
     - scripts/themes/generate_themes.rb
 
+Naming/FileName:
+  Exclude:
+    - fastlane/*file
+    - '**/*.podspec'
+
+Style/Documentation:
+  Exclude:
+    - 'scripts/themes/generate_themes.rb'
+
 Style/HashSyntax:
-  EnforcedShorthandSyntax: never
+   EnforcedShorthandSyntax: never
