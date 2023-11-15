@@ -1,2 +1,3 @@
-- Enables Patron: [#1104] [Internal]
+- Enables Bookmarks for Early Access: [#1202]
+- Enables Playback 2023 [#1206]
 

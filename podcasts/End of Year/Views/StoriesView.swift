@@ -3,10 +3,14 @@ import PocketCastsServer
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel
+
+    @ObservedObject private var syncProgressModel: SyncYearListeningProgress
+
     @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
 
-    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration()) {
+    init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress = .shared) {
         model = StoriesModel(dataSource: dataSource, configuration: configuration)
+        self.syncProgressModel = syncProgressModel
     }
 
     @ViewBuilder
@@ -24,35 +28,49 @@ struct StoriesView: View {
     }
 
     var stories: some View {
-        VStack {
+        ZStack {
+            Spacer()
+
+            storiesToPreload
+
             ZStack {
-                Spacer()
+                // Manually set the zIndex order to ensure we can change the order when needed
+                model.story(index: model.currentStoryIndex)
+                    .zIndex(3)
+                    .ignoresSafeArea(edges: .bottom)
+                    .environment(\.animated, true)
 
-                storiesToPreload
+                if model.shouldShowUpsell() {
+                    PaidStoryWallView().zIndex(6).ignoresSafeArea(edges: .bottom).onAppear {
+                        model.pause()
+                    }
+                }
 
-                StoryViewContainer {
-                    // Manually set the zIndex order to ensure we can change the order when needed
-                    model.story(index: model.currentStory).zIndex(3)
-
-                    // By default the story switcher will appear above the story and override all
-                    // interaction, but if the story contains interactive elements then move the
-                    // switcher to appear behind the view to allow the story override the switcher, or
-                    // allow the story to pass switcher events thru by controlling the allowsHitTesting
-                    storySwitcher.zIndex(model.isInteractiveView(index: model.currentStory) ? 2 : 5)
-                }.cornerRadius(Constants.storyCornerRadius)
-
-                header
+                // By default the story switcher will appear above the story and override all
+                // interaction, but if the story contains interactive elements then move the
+                // switcher to appear behind the view to allow the story override the switcher, or
+                // allow the story to pass switcher events thru by controlling the allowsHitTesting
+                storySwitcher.zIndex(model.isInteractiveView(index: model.currentStoryIndex) ? 2 : 5)
             }
 
-            // Hide the share button if needed
-            if model.storyIsShareable(index: model.currentStory) {
-                ZStack {}
-                    .frame(height: Constants.spaceBetweenShareAndStory)
+            header
 
-                shareButton
+            // Hide the share button if needed
+            if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell() {
+                VStack {
+                    Spacer()
+                    shareButton
+                }
             }
         }
         .background(Color.black)
+        .alert(L10n.eoyShareThisStoryTitle,
+               isPresented: $model.screenshotTaken) {
+            Button(L10n.eoyNotNow) { model.start() }
+            Button(L10n.share) { model.share() }.keyboardShortcut(.defaultAction)
+        } message: {
+            return Text(L10n.eoyShareThisStoryMessage)
+        }
     }
 
     // View shown while data source is preparing
@@ -61,7 +79,7 @@ struct StoriesView: View {
             Spacer()
 
             VStack(spacing: 15) {
-                let progress = SyncYearListeningProgress.shared.progress
+                let progress = syncProgressModel.progress
                 CircularProgressView(value: progress, stroke: Color.white, strokeWidth: 6)
                     .frame(width: 40, height: 40)
                 Text(L10n.loading)
@@ -167,7 +185,7 @@ struct StoriesView: View {
     }
 
     var shareButton: some View {
-        Button(L10n.share) {
+        Button(L10n.eoyShare) {
             model.share()
         }
         .buttonStyle(ShareButtonStyle())
@@ -178,7 +196,7 @@ struct StoriesView: View {
         ZStack {
             if model.numberOfStoriesToPreload > 0 {
                 ForEach(0...model.numberOfStoriesToPreload, id: \.self) { index in
-                    model.preload(index: model.currentStory + index + 1)
+                    model.preload(index: model.currentStoryIndex + index + 1)
                 }
             }
         }
@@ -217,15 +235,11 @@ private struct ShareButtonStyle: ButtonStyle {
             configuration.label
             Spacer()
         }
-        .font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
+        .font(.custom("DM Sans", size: 14, relativeTo: .body).bold())
         .foregroundColor(Constants.shareButtonColor)
 
         .padding([.top, .bottom], Constants.shareButtonVerticalPadding)
 
-        .overlay(
-            RoundedRectangle(cornerRadius: Constants.shareButtonCornerRadius)
-                .stroke(.white, style: StrokeStyle(lineWidth: Constants.shareButtonBorderSize))
-        )
         .applyButtonEffect(isPressed: configuration.isPressed)
         .contentShape(Rectangle())
     }

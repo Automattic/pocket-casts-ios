@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 import CoreHaptics
 
 struct PatronAppIconUnlock: View {
@@ -24,6 +25,10 @@ struct PatronAppIconUnlock: View {
     // Selected icon support
     @Namespace var namespace
     @State private var selectedIconIndex: Int? = nil
+
+    var isPlus: Bool {
+        SubscriptionHelper.hasActiveSubscription()
+    }
 
     private var isSmallScreen: Bool {
         UIScreen.main.bounds.height <= 667
@@ -437,7 +442,7 @@ private class PatronIconHaptics: ObservableObject {
 // MARK: - Icon Card Parallax Modifier
 
 /// Adds a subtle parallax effect to the app icon as the user tilts their device
-private struct IconParallaxModifier: ViewModifier {
+struct IconParallaxModifier: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject var manager: MotionManager = .init()
 

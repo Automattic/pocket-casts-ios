@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "2023-title.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

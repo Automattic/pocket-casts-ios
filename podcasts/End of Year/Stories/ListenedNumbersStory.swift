@@ -4,6 +4,9 @@ import PocketCastsDataModel
 
 struct ListenedNumbersStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
+    @Environment(\.animated) var animated: Bool
+
+    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 5.seconds)
 
     var duration: TimeInterval = 5.seconds
 
@@ -13,69 +16,87 @@ struct ListenedNumbersStory: ShareableStory {
 
     let podcasts: [Podcast]
 
+    @State var topRowXOffset: Double = 0
+    @State var bottomRowXOffset: Double = 0
+
     var body: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
-                ZStack {
-                    podcastCover(5)
-                        .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
-                        .padding(.leading, (geometry.size.width / 2))
-                        .padding(.top, -(geometry.size.width / 3))
-
-                    podcastCover(4)
-                        .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
-                        .padding(.leading, -(geometry.size.width / 2.1))
-                        .padding(.top, (geometry.size.width / 1.3))
-
-                    podcastCover(0)
-                        .frame(width: geometry.size.width * 0.31, height: geometry.size.width * 0.31)
-                        .padding(.leading, -(geometry.size.width / 2))
-                        .padding(.top, -(geometry.size.width / 3.5))
-
-                    podcastCover(2)
-                        .frame(width: geometry.size.width * 0.30, height: geometry.size.width * 0.30)
-                        .padding(.leading, (geometry.size.width / 1.8))
-                        .padding(.top, (geometry.size.width / 1.5))
-
-                    podcastCover(1)
-                        .frame(width: geometry.size.width * 0.37, height: geometry.size.width * 0.37)
-                        .padding(.leading, (geometry.size.width / 4.5))
-                        .padding(.top, (geometry.size.width / 3))
-
-                    podcastCover(3)
-                        .frame(width: geometry.size.width * 0.35, height: geometry.size.width * 0.35)
-                        .padding(.leading, -(geometry.size.width / 4))
-                }
-                .applyPodcastCoverPerspective()
-
                 StoryLabelContainer(geometry: geometry) {
-                    if NSLocale.isCurrentLanguageEnglish {
-                        let podcasts = L10n.eoyStoryListenedToPodcastText(listenedNumbers.numberOfPodcasts)
-                        let episodes = L10n.eoyStoryListenedToEpisodesText(listenedNumbers.numberOfEpisodes)
-
-                        StoryLabel(L10n.eoyStoryListenedToNumbersUpdated("\n" + podcasts + "\n", episodes), highlighting: [podcasts, episodes], for: .title)
-                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitleUpdated, for: .subtitle)
-                            .opacity(renderForSharing ? 0.0 : 0.8)
-                    } else {
-                        StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title)
-                        StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle)
-                            .opacity(renderForSharing ? 0.0 : 0.8)
-                    }
+                    StoryLabel(L10n.eoyStoryListenedToNumbers("\n\(listenedNumbers.numberOfPodcasts)", "\(listenedNumbers.numberOfEpisodes)"), for: .title, geometry: geometry)
+                    StoryLabel(L10n.eoyStoryListenedToNumbersSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                        .opacity(renderForSharing ? 0.0 : 1)
                 }
-                Spacer()
+
+                VStack(spacing: 20) {
+                    HStack(spacing: 16) {
+                        Group {
+                            podcastCover(0)
+                            podcastCover(1)
+                            podcastCover(2)
+                            podcastCover(3)
+                            podcastCover(0)
+                            podcastCover(1)
+                            podcastCover(2)
+                            podcastCover(3)
+                        }
+                        .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                    }
+                    .offset(x: topRowXOffset)
+                    .modifier(animationViewModel.animate($topRowXOffset, to: -300))
+
+                    HStack(spacing: 16) {
+                        Group {
+                            podcastCover(4)
+                            podcastCover(5)
+                            podcastCover(6)
+                            podcastCover(7)
+                            podcastCover(4)
+                            podcastCover(5)
+                            podcastCover(6)
+                            podcastCover(7)
+                        }
+                        .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.4)
+                    }
+                    .padding(.leading, geometry.size.width * 0.35)
+                    .offset(x: bottomRowXOffset)
+                    .modifier(animationViewModel.animate($bottomRowXOffset, to: 300))
+                }
+                .rotationEffect(Angle(degrees: -15))
+                .padding(.top, geometry.size.height * 0.1)
             }
-            .background(DynamicBackgroundView(podcast: podcasts[safe: 3] ?? podcasts[0]))
+            .background(
+                ZStack(alignment: .bottom) {
+                    Color.black
+
+                    StoryGradient(geometry: geometry)
+                    .offset(x: geometry.size.width * 0.4, y: geometry.size.height * 0.25)
+                }
+            )
+            .onAppear {
+                if animated {
+                    animationViewModel.play()
+                }
+            }
         }
     }
 
     @ViewBuilder
     func podcastCover(_ index: Int) -> some View {
-        let podcast = podcasts[safe: index] ?? podcasts[0]
+        let podcast = podcasts[safe: index] ?? podcasts[safe: index % 2 == 0 ? 0 : 1] ?? podcasts[0]
         PodcastCover(podcastUuid: podcast.uuid)
     }
 
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
+    }
+
+    func onPause() {
+        animationViewModel.pause()
+    }
+
+    func onResume() {
+        animationViewModel.play()
     }
 
     func willShare() {

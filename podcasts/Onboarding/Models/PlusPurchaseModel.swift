@@ -140,6 +140,16 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
+        if OnboardingFlow.shared.currentFlow.shouldDismissAfterPurchase {
+            if FeatureFlag.patron.enabled {
+                parentController.dismiss(animated: true)
+            } else {
+                parentController.presentingViewController?.dismiss(animated: true)
+            }
+
+            return
+        }
+
         let navigationController = parentController as? UINavigationController
 
         let controller: UIViewController

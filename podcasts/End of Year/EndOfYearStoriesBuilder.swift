@@ -3,15 +3,18 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 /// The available stories for EoY
-enum EndOfYearStory {
+/// Order is important, as the stories will be displayed
+/// in the order listed here.
+enum EndOfYearStory: CaseIterable {
     case intro
-    case listeningTime
-    case listenedCategories
-    case topCategories
     case numberOfPodcastsAndEpisodesListened
     case topOnePodcast
     case topFivePodcasts
+    case topCategories
+    case listeningTime
     case longestEpisode
+    case yearOverYearListeningTime
+    case completionRate
     case epilogue
 }
 
@@ -23,11 +26,14 @@ class EndOfYearStoriesBuilder {
 
     private let data = EndOfYearStoriesData()
 
+    private var hasActiveSubscription: () -> Bool
+
     private let sync: (() -> Bool)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Bool)? = YearListeningHistory.sync) {
+    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Bool)? = YearListeningHistory.sync, hasActiveSubscription: @escaping () -> Bool = SubscriptionHelper.hasActiveSubscription) {
         self.dataManager = dataManager
         self.sync = sync
+        self.hasActiveSubscription = hasActiveSubscription
     }
 
     /// Call this method to build the list of stories and the data provider
@@ -35,11 +41,12 @@ class EndOfYearStoriesBuilder {
         await withCheckedContinuation { continuation in
 
             // Check if the user has the full listening history for this year
-            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedAll2022Episodes {
+            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedEpisodesForPlayback2023 || (Settings.hasSyncedEpisodesForPlayback2023 && Settings.hasSyncedEpisodesForPlayback2023AsPlusUser != hasActiveSubscription()) {
                 let syncedWithSuccess = sync?()
 
                 if syncedWithSuccess == true {
-                    Settings.hasSyncedAll2022Episodes = true
+                    Settings.hasSyncedEpisodesForPlayback2023 = true
+                    Settings.hasSyncedEpisodesForPlayback2023AsPlusUser = hasActiveSubscription()
                 } else {
                     continuation.resume(returning: ([], data))
                     return
@@ -64,7 +71,6 @@ class EndOfYearStoriesBuilder {
             let listenedCategories = dataManager.listenedCategories()
             if !listenedCategories.isEmpty {
                 data.listenedCategories = listenedCategories
-                stories.append(.listenedCategories)
                 stories.append(.topCategories)
             }
 
@@ -95,6 +101,17 @@ class EndOfYearStoriesBuilder {
                 stories.append(.longestEpisode)
             }
 
+            // Year over year listening time
+            let yearOverYearListeningTime = dataManager.yearOverYearListeningTime()
+            if yearOverYearListeningTime.totalPlayedTimeThisYear != 0 ||
+                yearOverYearListeningTime.totalPlayedTimeLastYear != 0 {
+                data.yearOverYearListeningTime = yearOverYearListeningTime
+                stories.append(.yearOverYearListeningTime)
+            }
+
+            data.episodesStartedAndCompleted = dataManager.episodesStartedAndCompleted()
+            stories.append(.completionRate)
+
             continuation.resume(returning: (stories, data))
         }
     }
@@ -115,4 +132,8 @@ class EndOfYearStoriesData {
     var longestEpisodePodcast: Podcast!
 
     var top10Podcasts: [Podcast] = []
+
+    var yearOverYearListeningTime: YearOverYearListeningTime!
+
+    var episodesStartedAndCompleted: EpisodesStartedAndCompleted!
 }
