@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct IntroStory: ShareableStory {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
+
     let duration: TimeInterval = EndOfYear.defaultDuration
 
     let identifier: String = "intro"
@@ -54,6 +56,18 @@ struct IntroStory: ShareableStory {
                     }
                         .ignoresSafeArea()
                 )
+
+                if !renderForSharing {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image("logo")
+                                .padding(.bottom, geometry.size.height * 0.06)
+                            Spacer()
+                        }
+                    }
+                }
             }
         }
         .background(.black)
