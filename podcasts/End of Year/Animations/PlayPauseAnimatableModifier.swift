@@ -5,12 +5,15 @@ class PlayPauseAnimationViewModel: ObservableObject {
 
     private var duration: TimeInterval
 
-    init(duration: TimeInterval) {
+    private let animationType: (TimeInterval) -> Animation
+
+    init(duration: TimeInterval, animation: @escaping (TimeInterval) -> Animation = Animation.linear(duration:)) {
         self.duration = duration
+        self.animationType = animation
     }
 
     func animate(_ value: Binding<Double>, to: Double) -> PlayPauseAnimatableModifier {
-        return PlayPauseAnimatableModifier(value: value, to: to, duration: duration, viewModel: self)
+        return PlayPauseAnimatableModifier(value: value, to: to, duration: duration, viewModel: self, animation: animationType)
     }
 
     func play() {
@@ -38,6 +41,7 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
     private var finalValue: Double
 
     private var duration: TimeInterval
+    private let animationType: (TimeInterval) -> Animation
 
     @State private var paused: Bool = true
 
@@ -50,13 +54,14 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
         set { currentValue = newValue }
     }
 
-    init(value: Binding<Double>, to finalValue: Double, duration: TimeInterval, viewModel: PlayPauseAnimationViewModel) {
+    init(value: Binding<Double>, to finalValue: Double, duration: TimeInterval, viewModel: PlayPauseAnimationViewModel, animation: @escaping (TimeInterval) -> Animation = Animation.linear(duration:)) {
         self._value = value
         self.currentValue = value.wrappedValue
         self.finalValue = finalValue
         self.duration = duration
         self._remainingTime = State(initialValue: duration)
         self.viewModel = viewModel
+        self.animationType = animation
     }
 
     func body(content: Content) -> some View {
@@ -80,8 +85,14 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
 
     private func play() {
         startTime = Date()
-        withAnimation(.linear(duration: remainingTime)) {
+        withAnimation(animationType(remainingTime)) {
             value = finalValue
         }
+    }
+}
+
+extension Animation {
+    static func spring(_ duration: TimeInterval) -> Animation {
+        return spring(duration: duration, bounce: 0.3)
     }
 }

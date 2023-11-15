@@ -8,7 +8,7 @@ struct LongestEpisodeStory: ShareableStory {
 
     let duration: TimeInterval = 5.seconds
 
-    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 1.4)
+    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 0.8, animation: Animation.spring(_:))
 
     var identifier: String = "longest_episode"
 
