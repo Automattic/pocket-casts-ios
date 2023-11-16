@@ -3,8 +3,6 @@ import SwiftUI
 struct IntroStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
 
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     let identifier: String = "intro"
 
     var body: some View {

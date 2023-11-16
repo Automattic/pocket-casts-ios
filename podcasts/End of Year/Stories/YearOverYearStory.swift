@@ -3,8 +3,6 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct YearOverYearStory: ShareableStory {
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     let identifier: String = "year_over_year"
 
     let plusOnly = true

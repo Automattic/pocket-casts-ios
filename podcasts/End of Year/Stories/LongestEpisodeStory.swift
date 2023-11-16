@@ -6,8 +6,6 @@ struct LongestEpisodeStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @Environment(\.animated) var animated: Bool
 
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 0.8, animation: Animation.spring(_:))
 
     var identifier: String = "longest_episode"

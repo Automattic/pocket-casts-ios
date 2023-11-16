@@ -7,8 +7,6 @@ struct EpilogueStory: ShareableStory {
     @ObservedObject private var visibility = Visiblity()
     @State private var engine: CHHapticEngine?
 
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     var identifier: String = "epilogue"
 
     var isPlus: Bool {

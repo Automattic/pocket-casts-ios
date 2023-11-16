@@ -8,8 +8,6 @@ struct ListenedNumbersStory: ShareableStory {
 
     @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: EndOfYear.defaultDuration)
 
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     let identifier: String = "number_of_podcasts_and_episodes_listened"
 
     let listenedNumbers: ListenedNumbers

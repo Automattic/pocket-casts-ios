@@ -3,8 +3,6 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct CompletionRateStory: ShareableStory {
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     let identifier: String = "completion_rate"
 
     let plusOnly = true
