@@ -5,8 +5,6 @@ import PocketCastsDataModel
 struct YearOverYearStory: ShareableStory {
     @Environment(\.animated) var animated: Bool
 
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     let identifier: String = "year_over_year"
 
     let plusOnly = true

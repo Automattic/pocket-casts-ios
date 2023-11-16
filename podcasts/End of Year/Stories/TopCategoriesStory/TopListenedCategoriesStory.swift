@@ -2,8 +2,6 @@ import SwiftUI
 import PocketCastsDataModel
 
 struct TopListenedCategoriesStory: ShareableStory {
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     let identifier: String = "top_categories"
 
     let listenedCategories: [ListenedCategory]

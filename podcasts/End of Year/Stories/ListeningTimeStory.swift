@@ -3,8 +3,6 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct ListeningTimeStory: ShareableStory {
-    let duration: TimeInterval = EndOfYear.defaultDuration
-
     let identifier: String = "listening_time"
 
     let listeningTime: Double
