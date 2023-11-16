@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct IntroStory: ShareableStory {
-    var duration: TimeInterval = 5.seconds
+    @Environment(\.renderForSharing) var renderForSharing: Bool
+
     let identifier: String = "intro"
 
     var body: some View {
@@ -53,6 +54,18 @@ struct IntroStory: ShareableStory {
                     }
                         .ignoresSafeArea()
                 )
+
+                if !renderForSharing {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image("logo")
+                                .padding(.bottom, geometry.size.height * 0.06)
+                            Spacer()
+                        }
+                    }
+                }
             }
         }
         .background(.black)
@@ -106,6 +119,10 @@ private struct TwentyThreeParallaxModifier: ViewModifier {
                 }
             }
     }
+}
+
+extension EndOfYear {
+    static var defaultDuration = 7.seconds
 }
 
 struct IntroStory_Previews: PreviewProvider {

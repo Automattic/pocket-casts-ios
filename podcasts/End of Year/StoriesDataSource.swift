@@ -73,6 +73,8 @@ protocol Story {
 }
 
 extension Story {
+    var duration: TimeInterval { EndOfYear.defaultDuration }
+
     var identifier: String {
         "unknown"
     }

@@ -6,9 +6,7 @@ struct ListenedNumbersStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @Environment(\.animated) var animated: Bool
 
-    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 5.seconds)
-
-    var duration: TimeInterval = 5.seconds
+    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: EndOfYear.defaultDuration)
 
     let identifier: String = "number_of_podcasts_and_episodes_listened"
 

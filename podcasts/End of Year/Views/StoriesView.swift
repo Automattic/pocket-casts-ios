@@ -8,6 +8,10 @@ struct StoriesView: View {
 
     @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
 
+    /// The maximum tap time for a gesture to be recognized as tap
+    /// If it's longer than that, it's considered a gesture
+    private let maximumTapTime: Double = 0.35
+
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress = .shared) {
         model = StoriesModel(dataSource: dataSource, configuration: configuration)
         self.syncProgressModel = syncProgressModel
@@ -147,18 +151,31 @@ struct StoriesView: View {
         }
 
     // Invisible component to go to the next/prev story
+    @ViewBuilder
     var storySwitcher: some View {
+        var ignoreNextTap = false
+        var lastDragGestureInteraction: TimeInterval = 0
         HStack(alignment: .center, spacing: Constants.storySwitcherSpacing) {
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
+                    guard !ignoreNextTap else {
+                        ignoreNextTap = false
+                        return
+                    }
+
                     model.previous()
                 }
             Rectangle()
                 .foregroundColor(.clear)
                 .contentShape(Rectangle())
                 .onTapGesture {
+                    guard !ignoreNextTap else {
+                        ignoreNextTap = false
+                        return
+                    }
+
                     model.next()
                 }
         }
@@ -166,8 +183,11 @@ struct StoriesView: View {
             DragGesture(minimumDistance: 0, coordinateSpace: .local)
                 .onChanged { _ in
                     model.pause()
+                    lastDragGestureInteraction = Date.timeIntervalSinceReferenceDate
                 }
                 .onEnded { value in
+                    ignoreNextTap = Date.timeIntervalSinceReferenceDate - lastDragGestureInteraction < maximumTapTime ? false : true
+
                     let velocity = CGSize(
                         width: value.predictedEndLocation.x - value.location.x,
                         height: value.predictedEndLocation.y - value.location.y
