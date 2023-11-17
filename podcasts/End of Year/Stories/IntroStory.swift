@@ -106,7 +106,7 @@ private struct TwentyThreeParallaxModifier: ViewModifier {
     private let rollAndPitchBoundary = -1.4..<1.5
 
     func body(content: Content) -> some View {
-        let roll = manager.roll.betweenOrClamped(to: rollAndPitchBoundary) * 10
+        let roll = manager.roll.betweenOrClamped(to: rollAndPitchBoundary) * 7
         let pitch = manager.pitch.betweenOrClamped(to: rollAndPitchBoundary)
         return content
             .offset(x: roll * rollMultiplier, y: pitch * pitchMultiplier)
