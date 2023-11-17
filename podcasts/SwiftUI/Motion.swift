@@ -72,9 +72,6 @@ class MotionManager: ObservableObject {
 
                 self.pitch = pitch - (initialPitch ?? 0)
                 self.roll = roll - (initialRoll ?? 0)
-
-                print("$$ \(self.pitch) \(self.roll)")
-                print("$$ \(self.roll > -2 && self.roll < 2 && self.pitch > -2 && self.pitch < 2))")
             }
         }
 
