@@ -13,6 +13,7 @@ struct EndOfYearCard: View {
             HStack {
                 VStack(alignment: .leading, spacing: Constants.textSpace) {
                     Text(L10n.eoyTitle)
+                        .minimumScaleFactor(0.7)
                         .font(style: .title2, weight: .semibold, maxSizeCategory: .extraExtraLarge)
                         .foregroundColor(.white)
 
