@@ -99,14 +99,14 @@ struct IntroStory: ShareableStory {
 
 private struct TwentyThreeParallaxModifier: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @StateObject var manager: MotionManager = .init()
+    @StateObject var manager: MotionManager = .init(relativeToWhenStarting: true)
     var rollMultiplier: Double = 4
     var pitchMultiplier: Double = 40
 
     func body(content: Content) -> some View {
-        let roll = manager.roll * 10
-        let pitch = manager.pitch
-        content
+        let roll = manager.roll.betweenOrClamped(to: -1.4..<1.5) * 10
+        let pitch = manager.pitch.betweenOrClamped(to: -1.4..<1.5)
+        return content
             .offset(x: roll * rollMultiplier, y: pitch * pitchMultiplier)
             .onAppear() {
                 if !reduceMotion {
