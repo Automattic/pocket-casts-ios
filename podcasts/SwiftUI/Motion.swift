@@ -8,6 +8,14 @@ class MotionManager: ObservableObject {
     /// A number representing how much the device is being tilted up and down
     @Published var roll: Double = 0
 
+    /// A number representing how much the user had the device tilted side to side
+    /// when the motion updates started
+    @Published var initialPitch: Double?
+
+    /// A number representing how much the user had the device tilted up and down
+    /// when the motion updates started
+    @Published var initialRoll: Double?
+
     // Gravity values
     @Published var x: Double = 0
     @Published var y: Double = 0
@@ -15,10 +23,17 @@ class MotionManager: ObservableObject {
 
     private var motionManager: CMMotionManager
     let options: MotionOptions
+    private let relativeToWhenStarting: Bool
 
-    init(options: MotionOptions = .all) {
+
+    /// Creates an ObservableObject that published changes on the device motion
+    /// - Parameters:
+    ///   - options: whether it should take into account only attitude, gravity or all
+    ///   - relativeToWhenStarting: if set to `true` the values will be relative to when the motion started. Ie.: they will be subtracted from the final value
+    init(options: MotionOptions = .all, relativeToWhenStarting: Bool = false) {
         self.options = options
         self.motionManager = CMMotionManager()
+        self.relativeToWhenStarting = relativeToWhenStarting
     }
 
     func start() {
@@ -37,6 +52,8 @@ class MotionManager: ObservableObject {
 
     func stop() {
         self.motionManager.stopDeviceMotionUpdates()
+        initialPitch = nil
+        initialRoll = nil
     }
 
     private func update(_ data: CMDeviceMotion) {
@@ -45,11 +62,19 @@ class MotionManager: ObservableObject {
 
             if !attitude.pitch.isNaN && !attitude.roll.isNaN {
                 let gz = data.gravity.z
-                let pitch = adjustValueForUpsideDown(attitude.pitch, gravityZ: gz)
-                let roll = adjustValueForUpsideDown(attitude.roll, gravityZ: gz)
+                let pitch = attitude.pitch
+                let roll = attitude.roll
 
-                self.pitch = pitch
-                self.roll = roll
+                if relativeToWhenStarting && initialRoll == nil && initialPitch == nil {
+                    initialPitch = pitch
+                    initialRoll = roll
+                }
+
+                self.pitch = pitch - (initialPitch ?? 0)
+                self.roll = roll - (initialRoll ?? 0)
+
+                print("$$ \(self.pitch) \(self.roll)")
+                print("$$ \(self.roll > -2 && self.roll < 2 && self.pitch > -2 && self.pitch < 2))")
             }
         }
 
