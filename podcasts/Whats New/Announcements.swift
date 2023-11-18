@@ -28,7 +28,7 @@ struct Announcements {
         // Bookmarks: Full Release
         // Show for everyone, except those who saw the `Early Access: Release` announcement
         .init(
-            version: "99.99",
+            version: "7.53",
             header: AnyView(BookmarksWhatsNewHeader()),
             title: L10n.announcementBookmarksTitle,
             message: L10n.announcementBookmarksDescription,
