@@ -95,6 +95,7 @@ class PlayerChapterCell: UITableViewCell {
 
     @IBAction func boxTapped(_ sender: Any) {
         chapter?.shouldPlay.toggle()
+        self.checkButton.currentlyOn.toggle()
     }
     
     @objc func progressUpdated(animated: Bool = true) {
