@@ -9,7 +9,6 @@ class PlayerChapterCell: UITableViewCell {
         didSet {
             checkButton.onImage = UIImage(named: "checkbox-selected")
             checkButton.offImage = UIImage(named: "checkbox-unselected")
-            checkButton.tintColor = ThemeColor.primaryInteractive01()
         }
     }
     @IBOutlet var nowPlayingAnimation: NowPlayingAnimationView!
