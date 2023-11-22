@@ -56,6 +56,14 @@
                             <action selector="boxTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="D8q-uY-I5x"/>
                         </connections>
                     </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tick" translatesAutoresizingMaskIntoConstraints="NO" id="F5f-qc-Mrn">
+                        <rect key="frame" x="12" y="15" width="20" height="20"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="GoH-9E-Ne7"/>
+                            <constraint firstAttribute="height" constant="20" id="w5T-Ti-Ypw"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tO-zw-yY4">
                         <rect key="frame" x="44" y="10.5" width="10" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
@@ -126,6 +134,7 @@
                 <color key="backgroundColor" red="0.070588235294117646" green="0.070588235294117646" blue="0.070588235294117646" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="7tO-zw-yY4" firstAttribute="leading" secondItem="2Ut-tE-UeQ" secondAttribute="trailing" constant="10" id="0zr-JU-0cg"/>
+                    <constraint firstItem="F5f-qc-Mrn" firstAttribute="leading" secondItem="2Ut-tE-UeQ" secondAttribute="leading" constant="2" id="18D-Ta-3Lo"/>
                     <constraint firstItem="Bm9-Ke-jXY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="92a-z4-FGz"/>
                     <constraint firstAttribute="trailing" secondItem="Bm9-Ke-jXY" secondAttribute="trailing" constant="20" id="A0f-dS-oKL"/>
                     <constraint firstAttribute="bottom" secondItem="Gii-fb-Tnl" secondAttribute="bottom" id="FVM-4m-0ce"/>
@@ -143,6 +152,7 @@
                     <constraint firstAttribute="bottom" secondItem="MnS-7T-IZe" secondAttribute="bottom" id="nzm-06-L0A"/>
                     <constraint firstAttribute="bottom" secondItem="Bm9-Ke-jXY" secondAttribute="bottom" id="qCv-CY-gTs"/>
                     <constraint firstItem="2Ut-tE-UeQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="wkC-qB-Cn2"/>
+                    <constraint firstItem="F5f-qc-Mrn" firstAttribute="top" secondItem="2Ut-tE-UeQ" secondAttribute="top" constant="2" id="xci-FC-zWf"/>
                     <constraint firstItem="2Ut-tE-UeQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zzx-Uj-MSo"/>
                 </constraints>
             </tableViewCellContentView>
@@ -158,11 +168,13 @@
                 <outlet property="nowPlayingAnimation" destination="Bke-e5-Ifv" id="Oz5-C3-Qyn"/>
                 <outlet property="progressViewWidth" destination="jBd-mB-N0I" id="5ys-L1-3e9"/>
                 <outlet property="seperatorView" destination="Bm9-Ke-jXY" id="aaK-b3-02B"/>
+                <outlet property="tickImage" destination="F5f-qc-Mrn" id="60x-Oa-PGw"/>
             </connections>
             <point key="canvasLocation" x="-432" y="-254.57271364317842"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="chapter-link-white" width="24" height="24"/>
+        <image name="tick" width="24" height="24"/>
     </resources>
 </document>
