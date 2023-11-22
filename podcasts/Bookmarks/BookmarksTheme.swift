@@ -81,7 +81,7 @@ class ThemedBookmarksStyle: ThemeObserver, BookmarksStyle {
 // MARK: - Override Themed Style
 class OverrideThemedBookmarksStyle: ThemedBookmarksStyle {
     private var overrideTheme: Theme.ThemeType
-    private lazy var overridenEmptyStyle: DefaultEmptyStateStyle = OverrideEmptyStateStyle(overrideTheme: overrideTheme)
+    private lazy var overrideEmptyStyle: DefaultEmptyStateStyle = OverrideEmptyStateStyle(overrideTheme: overrideTheme)
 
     init(overrideTheme: Theme.ThemeType) {
         self.overrideTheme = overrideTheme
@@ -105,7 +105,7 @@ class OverrideThemedBookmarksStyle: ThemedBookmarksStyle {
     }
     override var emptyStyle: DefaultEmptyStateStyle {
         set { }
-        get { overridenEmptyStyle }
+        get { overrideEmptyStyle }
     }
 }
 
