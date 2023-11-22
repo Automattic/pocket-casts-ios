@@ -47,7 +47,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ut-tE-UeQ" customClass="BouncyButton" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="10" y="13" width="24" height="24"/>
+                        <rect key="frame" x="15" y="13" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="2Ki-yP-D1M"/>
                             <constraint firstAttribute="height" constant="24" id="9jN-xA-bhZ"/>
@@ -57,7 +57,7 @@
                         </connections>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tick" translatesAutoresizingMaskIntoConstraints="NO" id="F5f-qc-Mrn">
-                        <rect key="frame" x="12" y="15" width="20" height="20"/>
+                        <rect key="frame" x="17" y="15" width="20" height="20"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="GoH-9E-Ne7"/>
@@ -65,13 +65,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tO-zw-yY4">
-                        <rect key="frame" x="44" y="10.5" width="10" height="14.5"/>
+                        <rect key="frame" x="49" y="10.5" width="10" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bke-e5-Ifv" customClass="NowPlayingAnimationView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="35" y="13" width="24" height="24"/>
+                        <rect key="frame" x="40" y="13" width="24" height="24"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="MKf-8M-z5M"/>
@@ -79,7 +79,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Chapter Name Is Really Really Really long" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTd-fM-Gsz">
-                        <rect key="frame" x="64" y="8.5" width="167" height="33.5"/>
+                        <rect key="frame" x="69" y="8.5" width="162" height="33.5"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -151,7 +151,7 @@
                     <constraint firstAttribute="trailing" secondItem="MnS-7T-IZe" secondAttribute="trailing" constant="8" id="jmT-vE-W1y"/>
                     <constraint firstAttribute="bottom" secondItem="MnS-7T-IZe" secondAttribute="bottom" id="nzm-06-L0A"/>
                     <constraint firstAttribute="bottom" secondItem="Bm9-Ke-jXY" secondAttribute="bottom" id="qCv-CY-gTs"/>
-                    <constraint firstItem="2Ut-tE-UeQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="wkC-qB-Cn2"/>
+                    <constraint firstItem="2Ut-tE-UeQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="wkC-qB-Cn2"/>
                     <constraint firstItem="F5f-qc-Mrn" firstAttribute="top" secondItem="2Ut-tE-UeQ" secondAttribute="top" constant="2" id="xci-FC-zWf"/>
                     <constraint firstItem="2Ut-tE-UeQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zzx-Uj-MSo"/>
                 </constraints>
