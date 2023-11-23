@@ -11,7 +11,7 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 
     init(episode: BaseEpisode, displayMode: BookmarkEpisodeListView.DisplayMode = .list,
          bookmarkManager: BookmarkManager = PlaybackManager.shared.bookmarkManager,
-         playbackManager: PlaybackManager = .shared) {
+         playbackManager: PlaybackManager = .shared, themeOverride: Theme.ThemeType? = nil) {
 
         self.bookmarkManager = bookmarkManager
         self.playbackManager = playbackManager
@@ -23,7 +23,11 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 
         self.viewModel = viewModel
 
-        super.init(rootView: BookmarkEpisodeListView(viewModel: viewModel, displayMode: displayMode))
+        if let themeOverride {
+            super.init(rootView: BookmarkEpisodeListView(viewModel: viewModel, style: OverrideThemedBookmarksStyle(overrideTheme: themeOverride), displayMode: displayMode))
+        } else {
+            super.init(rootView: BookmarkEpisodeListView(viewModel: viewModel, displayMode: displayMode))
+        }
 
         viewModel.router = self
     }
