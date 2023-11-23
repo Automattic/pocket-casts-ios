@@ -133,12 +133,6 @@ extension NowPlayingPlayerItemViewController {
         guard let chapter = chapter else {
             return
         }
-        
-        if !chapter.shouldPlay {
-            PlaybackManager.shared.skipToNextChapter()
-            return
-        }
-
         let remainingTime = chapter.duration + chapter.startTime.seconds - playheadPosition
         chapterTimeLeftLabel.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: remainingTime)
         let percentageCompleted = 1 - (remainingTime / chapter.duration)
