@@ -441,6 +441,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Humor</string>
     <key>discover_browse_by_category_education</key>
     <string>Opleiding</string>
+    <key>discover_browse_by_category_family</key>
+    <string>Familie</string>
     <key>discover_browse_by_category_fiction</key>
     <string>Fictie</string>
     <key>discover_browse_by_category_games_and_hobbies</key>
@@ -475,6 +477,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Maatschappij</string>
     <key>discover_browse_by_category_society_and_culture</key>
     <string>Maatschappij en cultuur</string>
+    <key>discover_browse_by_category_spirituality</key>
+    <string>Spiritualiteit</string>
     <key>discover_browse_by_category_sports</key>
     <string>Sport</string>
     <key>discover_browse_by_category_sports_and_recreation</key>
@@ -657,6 +661,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Bewerken</string>
     <key>enable_it_now</key>
     <string>Nu inschakelen</string>
+    <key>eoy_card_description</key>
+    <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
     <key>eoy_create_account_to_see</key>
     <string>Sla je podcasts op in de cloud, krijg je beoordeling aan het einde van het jaar en synchroniseer je voortgang met andere apparaten.</string>
     <key>eoy_description</key>
@@ -665,12 +671,21 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Niet nu</string>
     <key>eoy_share</key>
     <string>Deel dit verhaal</string>
+    <key>eoy_share_this_story_message</key>
+    <string>Plaats deze afbeelding op je sociale media en noem je favoriete shows en makers</string>
+    <key>eoy_share_this_story_title</key>
+    <string>Dit verhaal delen?</string>
     <key>eoy_small_title</key>
     <string>Jaar in podcasts</string>
+    <key>eoy_start_your_free_trial</key>
+    <string>Start nu je gratis proefabonnement</string>
     <key>eoy_stories_failed</key>
     <string>Verhalen konden niet geladen worden.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>Vergeet niet om te delen met je vrienden en een shoutout te geven naar je favoriete podcastmakers</string>
+    <key>eoy_story_epilogue_title</key>
+    <string>Bedankt dat je dit jaar met ons geluisterd hebt.
+We zien je in 2024!</string>
     <key>eoy_story_intro_title</key>
     <string>Laten we je luisterjaar vieren...</string>
     <key>eoy_story_listened_to</key>
@@ -679,6 +694,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Je hebt dit jaar naar %1$@ verschillende categorieën geluisterd</string>
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>Je hebt dit jaar naar %1$@ geluisterd</string>
+    <key>eoy_story_listened_to_categories_share_text</key>
+    <string>Ik heb in 2023 naar %1$@ verschillende categorieën geluisterd</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Laten we eens kijken naar je favorieten...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -687,26 +704,48 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>%1$@ afleveringen</string>
     <key>eoy_story_listened_to_numbers</key>
     <string>Je hebt naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
+    <key>eoy_story_listened_to_numbers_share_text</key>
+    <string>Ik heb dit jaar naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
     <string>Maar er was er één waar je steeds maar weer naar terugkeerde ...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Je luisterde naar %1$@ en %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ verschillende podcasts</string>
+    <key>eoy_story_listened_to_share_text</key>
+    <string>Dit jaar heb ik %1$@ naar podcasts geluisterd</string>
+    <key>eoy_story_listened_to_subtitle</key>
+    <string>We hopen dat je hebt genoten van elke minuut!</string>
+    <key>eoy_story_listened_to_title</key>
+    <string>Dit was je totale luistertijd wat betreft podcasts.</string>
     <key>eoy_story_listened_to_updated</key>
     <string>Dit jaar heb je %1$@ naar podcasts geluisterd</string>
+    <key>eoy_story_longest_episode</key>
+    <string>De langste aflevering waarnaar je hebt geluisterd was %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Deze aflevering duurde %1$@</string>
+    <key>eoy_story_longest_episode_share_text</key>
+    <string>De langste aflevering waarnaar ik dit jaar heb geluisterd is %1$@</string>
+    <key>eoy_story_longest_episode_subtitle</key>
+    <string>Het was '%1$@' van '%2$@'</string>
     <key>eoy_story_longest_episode_time</key>
     <string>De langste aflevering
 waar je naar hebt geluisterd was
 %1$@</string>
+    <key>eoy_story_replay</key>
+    <string>Opnieuw afspelen</string>
     <key>eoy_story_top_categories</key>
     <string>Je beste categorieën</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Mijn meest beluisterde podcast-categorieën</string>
+    <key>eoy_story_top_categories_subtitle</key>
+    <string>Je hebt in totaal %2$@ geluisterd naar %1$@ afleveringen</string>
+    <key>eoy_story_top_categories_title</key>
+    <string>Wist je dat %1$@ je favoriete categorie was?</string>
     <key>eoy_story_top_podcast</key>
     <string>%1$@ was jouw meest beluisterde show in 2023</string>
+    <key>eoy_story_top_podcast_share_text</key>
+    <string>Mijn favoriete podcast van dit jaar! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Je hebt in totaal %2$@ geluisterd naar %1$@ podcasts</string>
     <key>eoy_story_top_podcasts</key>
@@ -719,10 +758,38 @@ waar je naar hebt geluisterd was
     <string>Dit is je top 5 meest geluisterd in 2023</string>
     <key>eoy_story_top_podcasts_title</key>
     <string>En deze shows vond je ook geweldig!</string>
+    <key>eoy_subscribe_to_plus</key>
+    <string>Abonneer je op Plus en bekijk hoe jouw luistergedrag is veranderd ten opzichte van 2022, andere leuke statistieken en Premium-functies zoals bladwijzers en mappen.</string>
+    <key>eoy_theres_more</key>
+    <string>Dat is niet alles!</string>
     <key>eoy_title</key>
     <string>Jouw jaar in podcasts</string>
+    <key>eoy_view_year</key>
+    <string>Mijn 2023 bekijken</string>
+    <key>eoy_year_completion_rate</key>
+    <string>afrondingspercentage</string>
+    <key>eoy_year_completion_rate_share_text</key>
+    <string>Mijn afrondingspercentage van 2023</string>
+    <key>eoy_year_completion_rate_subtitle</key>
+    <string>Van de %1$@ afleveringen waar je aan bent begonnen, heb je er %2$@ helemaal afgekeken </string>
+    <key>eoy_year_completion_rate_title</key>
+    <string>Je afrondingspercentage dit jaar was %1$@</string>
+    <key>eoy_year_over_share_text</key>
+    <string>Mijn luistertijd in 2023, ten opzichte van 2022</string>
+    <key>eoy_year_over_year_subtitle_flat</key>
+    <string>Consistentie is de sleutel tot succes … of zoiets!</string>
+    <key>eoy_year_over_year_subtitle_went_down</key>
+    <string>Aaaah … er moet worden geleefd, toch?</string>
+    <key>eoy_year_over_year_subtitle_went_up</key>
+    <string>Klaar om dit te overtreffen in 2024?</string>
+    <key>eoy_year_over_year_title_flat</key>
+    <string>Ten opzichte van 2022 is je luistertijd redelijk hetzelfde gebleven</string>
     <key>eoy_year_over_year_title_skyrocketed</key>
     <string>Ten opzichte van 2022 is je luistertijd veel hoger!</string>
+    <key>eoy_year_over_year_title_went_down</key>
+    <string>Ten opzichte van 2022 is je luistertijd een klein beetje omlaag gegaan</string>
+    <key>eoy_year_over_year_title_went_up</key>
+    <string>Ten opzichte van 2022 is je luistertijd met maar liefst %1$@ gestegen</string>
     <key>episode</key>
     <string>Aflevering</string>
     <key>episode_count_plural_format</key>
