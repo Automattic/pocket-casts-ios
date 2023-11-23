@@ -771,7 +771,7 @@ que vous avez écouté était
     <key>eoy_year_completion_rate_share_text</key>
     <string>Mon taux d’achèvement en 2023</string>
     <key>eoy_year_completion_rate_subtitle</key>
-    <string>Sur le(s) %1$@ épisode(s) que vous avez commencé(s), vous en avez écouté %2$@ en totalité</string>
+    <string>Sur les %1$@ épisodes que vous avez commencés, vous en avez écouté %2$@ en totalité</string>
     <key>eoy_year_completion_rate_title</key>
     <string>Cette année, votre taux d’achèvement s’élève à %1$@</string>
     <key>eoy_year_over_share_text</key>

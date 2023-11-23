@@ -1327,7 +1327,7 @@ ACTUALITZACIONS</string>
     <key>patron</key>
     <string>Patron</string>
     <key>patron_callout</key>
-    <string>Confies a la nostra feina i vols mostrar-nos el teu suport?</string>
+    <string>Confies en la nostra feina i vols mostrar-nos el teu suport?</string>
     <key>patron_description</key>
     <string>Converteix-te en membre Patron de Pocket Casts i ajuda'ns a continuar oferint la millor experiència de podcast possible.</string>
     <key>patron_feature_early_access</key>
@@ -1544,7 +1544,7 @@ Aconsegueix aplicacions per a ordinador, porta els teus propis fitxers i adorna-
     <key>plus_skip</key>
     <string>Saltar</string>
     <key>plus_start_my_free_trial</key>
-    <string>Comença el meu període de prova</string>
+    <string>Comença el període de prova</string>
     <key>plus_start_trial_duration_price</key>
     <string>Prova-ho de franc durant %1$@, i després paga %2$@</string>
     <key>plus_subscribe_to</key>
