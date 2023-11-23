@@ -141,6 +141,12 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Si empiezas a escuchar un episodio y no tienes más en cola, la reproducción automática seguirá reproduciendo episodios de ese programa o lista.</string>
     <key>announcement_autoplay_title</key>
     <string>¡Ya puedes disfrutar de la reproducción automática!</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Ya puedes guardar las marcas de tiempo de los episodios desde el menú de acciones del reproductor o con una acción de los auriculares.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>¡Ya están aquí los marcadores!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>¡Únete a nosotros en las pruebas beta de marcadores!</string>
     <key>app_badge</key>
     <string>Insignia de la aplicación</string>
     <key>app_icon_classic</key>
@@ -263,7 +269,9 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>%1$@ marcadores</string>
     <key>bookmarks_count_singular</key>
     <string>1 marcador</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Desbloquea esta función y muchas más con Pocket Casts %1$@ y guarda las marcas de tiempo de tus episodios favoritos. Disponible para %2$@ suscriptores próximamente.</string>
+    <key>bookmarks_locked_message</key>
     <string>Desbloquea esta función y muchas más con Pocket Casts %1$@ y guarda las marcas de tiempo de tus episodios favoritos.</string>
     <key>bottom</key>
     <string>Final de la cola</string>
@@ -433,6 +441,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Comedia</string>
     <key>discover_browse_by_category_education</key>
     <string>Educación</string>
+    <key>discover_browse_by_category_family</key>
+    <string>Familia</string>
     <key>discover_browse_by_category_fiction</key>
     <string>Ficción</string>
     <key>discover_browse_by_category_games_and_hobbies</key>
@@ -467,6 +477,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Sociedad</string>
     <key>discover_browse_by_category_society_and_culture</key>
     <string>Sociedad y cultura</string>
+    <key>discover_browse_by_category_spirituality</key>
+    <string>Espiritualidad</string>
     <key>discover_browse_by_category_sports</key>
     <string>Deportes</string>
     <key>discover_browse_by_category_sports_and_recreation</key>
@@ -650,21 +662,30 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>enable_it_now</key>
     <string>Activar esta opción ahora</string>
     <key>eoy_card_description</key>
-    <string>Consulta cuáles han sido los pódcast y las categorías que más has escuchado, las estadísticas de escucha y mucho más.</string>
+    <string>Consulta tus estadísticas de escuchas, los pódcast principales y más.</string>
     <key>eoy_create_account_to_see</key>
     <string>Guarda tus pódcast en la nube, obtén un resumen al final del año y sincroniza tu progreso con otros dispositivos.</string>
     <key>eoy_description</key>
     <string>Consulta cuáles han sido los pódcast y las categorías que más has escuchado, las estadísticas de escucha y mucho más. Compártelo con tus amigos y haz que todo el mundo sepa cuáles son tus creadores favoritos.</string>
     <key>eoy_not_now</key>
     <string>Ahora no</string>
+    <key>eoy_share</key>
+    <string>Compartir esta historia</string>
+    <key>eoy_share_this_story_message</key>
+    <string>Pega esta imagen en tus redes sociales y haz que todo el mundo sepa cuáles son tus programas y creadores favoritos.</string>
+    <key>eoy_share_this_story_title</key>
+    <string>¿Quieres compartir esta historia?</string>
     <key>eoy_small_title</key>
     <string>Año en pódcast</string>
+    <key>eoy_start_your_free_trial</key>
+    <string>Empieza la prueba gratuita.</string>
     <key>eoy_stories_failed</key>
     <string>No se han podido cargar las historias.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>No olvides compartirlos con tus amigos y mandar un saludo a tus creadores de pódcast favoritos.</string>
     <key>eoy_story_epilogue_title</key>
-    <string>Gracias por permitir que Pocket Casts sea parte de tu experiencia auditiva en 2022.</string>
+    <string>Gracias por escuchar con nosotros este año.
+¡Nos vemos en 2024!</string>
     <key>eoy_story_intro_title</key>
     <string>Celebremos el año que llevas escuchando pódcast...</string>
     <key>eoy_story_listened_to</key>
@@ -674,7 +695,7 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>Has escuchado %1$@ este año</string>
     <key>eoy_story_listened_to_categories_share_text</key>
-    <string>Escuché %1$@ categorías diferentes en 2022</string>
+    <string>Escuché %1$@ categorías diferentes en 2023.</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Vamos a echar un vistazo a algunos de tus favoritos...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -682,44 +703,49 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ episodios</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Escuchaste %1$@ pódcast diferentes y %2$@ episodios.</string>
+    <string>Has escuchado %1$@ programas diferentes y %2$@ episodios en total</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>En 2022 escuché %1$@ pódcast diferentes y %2$@ episodios</string>
+    <string>Este año escuché %1$@ pódcast diferentes y %2$@ episodios.</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Pero había uno al que volvías...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Sin embargo, hay uno
-que has escuchado una y otra vez...</string>
+    <string>Pero había uno al que siempre venías...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Has escuchado %1$@ y %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ pódcast diferentes</string>
     <key>eoy_story_listened_to_share_text</key>
-    <string>En 2022 estuve %1$@ escuchando pódcast</string>
+    <string>Este año he pasado %1$@ escuchando pódcast.</string>
+    <key>eoy_story_listened_to_subtitle</key>
+    <string>¡Esperamos que te haya encantado cada minuto!</string>
+    <key>eoy_story_listened_to_title</key>
+    <string>Este fue tu tiempo total de escucha de pódcast.</string>
     <key>eoy_story_listened_to_updated</key>
     <string>Este año, has pasado %1$@ escuchando pódcast</string>
     <key>eoy_story_longest_episode</key>
-    <string>El episodio más largo que escuchaste fue %1$@ del pódcast %2$@.</string>
+    <string>El episodio más largo que escuchaste fue %1$@.</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Este episodio duró %1$@.</string>
     <key>eoy_story_longest_episode_share_text</key>
-    <string>El episodio más largo que escuché en 2022 %1$@</string>
+    <string>El episodio más largo que escuché este año fue %1$@.</string>
     <key>eoy_story_longest_episode_subtitle</key>
-    <string>El episodio se titula %1$@ de %2$@</string>
+    <string>No fue otro que «%1$@» de «%2$@».</string>
     <key>eoy_story_longest_episode_time</key>
     <string>El episodio más largo
 que has escuchado dura
 %1$@</string>
     <key>eoy_story_replay</key>
-    <string>Volver a reproducir</string>
+    <string>Reproducir otra vez</string>
     <key>eoy_story_top_categories</key>
     <string>Tus categorías principales</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Mis categorías de pódcast más escuchadas</string>
+    <key>eoy_story_top_categories_subtitle</key>
+    <string>Escuchaste %1$@ episodios de un total de %2$@.</string>
+    <key>eoy_story_top_categories_title</key>
+    <string>¿Sabías que %1$@ fue tu categoría favorita?</string>
     <key>eoy_story_top_podcast</key>
-    <string>Tu pódcast favorito fue %1$@ de %2$@.</string>
+    <string>%1$@ fue tu programa más escuchado en 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
-    <string>¡Mi pódcast favorito de 2022! %1$@</string>
+    <string>¡Mi pódcast favorito de este año! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Escuchaste %1$@ episodios de un total de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
@@ -728,10 +754,42 @@ que has escuchado dura
     <string>Mis pódcast principales de 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>¡Mis pódcast principales del año! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Este es tu top 5 de lo más escuchado en 2023.</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>Y también escuchaste mucho estos programas.</string>
+    <key>eoy_subscribe_to_plus</key>
+    <string>Suscríbete a Plus y descubre cómo se comparan tus escuchas con las de 2022, otras estadísticas divertidas y funciones Premium como marcadores y carpetas.</string>
+    <key>eoy_theres_more</key>
+    <string>¡Y hay más!</string>
     <key>eoy_title</key>
     <string>Tu año en pódcast</string>
     <key>eoy_view_year</key>
-    <string>Ver mi 2022</string>
+    <string>Ver Mi 2023</string>
+    <key>eoy_year_completion_rate</key>
+    <string>tasa de finalización</string>
+    <key>eoy_year_completion_rate_share_text</key>
+    <string>Mi tasa de finalización de 2023</string>
+    <key>eoy_year_completion_rate_subtitle</key>
+    <string>De los %1$@ episodios que has comenzado, has escuchado por completo un total de %2$@.</string>
+    <key>eoy_year_completion_rate_title</key>
+    <string>Tu tasa de finalización de este año es de %1$@.</string>
+    <key>eoy_year_over_share_text</key>
+    <string>Mis escuchas de 2023, en comparación con las de 2022.</string>
+    <key>eoy_year_over_year_subtitle_flat</key>
+    <string>Dicen que la constancia es la clave del éxito, ¡o algo así!</string>
+    <key>eoy_year_over_year_subtitle_went_down</key>
+    <string>La vida hay que vivirla, ¿no?</string>
+    <key>eoy_year_over_year_subtitle_went_up</key>
+    <string>¿Lo superarás en 2024?</string>
+    <key>eoy_year_over_year_title_flat</key>
+    <string>En comparación con 2022, tu tiempo de escucha se mantuvo más o menos igual.</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>En comparación con 2022, ¡tu tiempo de escucha se ha disparado!</string>
+    <key>eoy_year_over_year_title_went_down</key>
+    <string>En comparación con 2022, tu tiempo de escucha disminuyó un poco.</string>
+    <key>eoy_year_over_year_title_went_up</key>
+    <string>En comparación con 2022, tu tiempo de escucha aumentó en un gran %1$@%.</string>
     <key>episode</key>
     <string>Episodio</string>
     <key>episode_count_plural_format</key>
@@ -2497,6 +2555,8 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Recortar silencio</string>
     <key>try_again</key>
     <string>Vuelve a intentarlo</string>
+    <key>try_it_now</key>
+    <string>Probar ahora</string>
     <key>unarchive</key>
     <string>Eliminar de los archivos</string>
     <key>unknown_duration</key>

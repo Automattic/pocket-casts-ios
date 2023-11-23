@@ -56,7 +56,7 @@ enum FeatureFlag: String, CaseIterable {
         case .firebaseLogging:
             return false
         case .endOfYear:
-            return false
+            return true
         case .signInWithApple:
             return true
         case .onboardingUpdates:
@@ -64,7 +64,7 @@ enum FeatureFlag: String, CaseIterable {
         case .newSearch:
             return true
         case .bookmarks:
-            return false
+            return true
         case .discoverFeaturedAutoScroll:
             return true
         case .patron:

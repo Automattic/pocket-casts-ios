@@ -18,7 +18,7 @@ struct Announcements {
             message: L10n.announcementAutoplayDescription,
             buttonTitle: L10n.enableItNow,
             action: {
-                AnnouncementFlow.shared.isShowingAutoplayOption = true
+                AnnouncementFlow.current = .autoPlay
 
                 NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
             },
@@ -28,7 +28,7 @@ struct Announcements {
         // Bookmarks Early Access: Beta
         // Show only in TestFlight, for Plus and Patron
         .init(
-            version: "99.99",
+            version: "7.52",
             header: AnyView(BookmarksWhatsNewHeader()),
             title: L10n.announcementBookmarksTitleBeta,
             message: L10n.announcementBookmarksDescription,
@@ -43,7 +43,7 @@ struct Announcements {
         // Bookmarks Early Access: Release
         // Show when not in beta, for Patron only
         .init(
-            version: "99.99",
+            version: "7.52",
             header: AnyView(BookmarksWhatsNewHeader().onAppear {
                 // Record when someone sees the full announcement while in early access so we don't show it again to them when we move to full release.
                 bookmarksViewModel.markAsSeen()
@@ -75,9 +75,20 @@ struct Announcements {
     ]
 }
 
-class AnnouncementFlow {
-    static let shared = AnnouncementFlow()
+// MARK: - AnnouncementFlow
 
-    var isShowingAutoplayOption = false
-    var isShowingBookmarksOption = false
+enum AnnouncementFlow {
+    static var current: Self = .none
+
+    /// No active flow
+    case none
+
+    /// Show the autoplay settings
+    case autoPlay
+
+    /// Show the player and highlight the Add Bookmark item
+    case bookmarksPlayer
+
+    /// Show the headphone controls action for Bookmarks
+    case bookmarksProfile
 }

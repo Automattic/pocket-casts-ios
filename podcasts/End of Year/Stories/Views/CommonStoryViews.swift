@@ -59,7 +59,7 @@ struct StoryLabel: View {
 
     private static func processText(_ text: String) -> String {
         // Typographic apostrophes
-        text.preventWidows().replacingOccurrences(of: "'", with: "ʼ")
+        text.replacingOccurrences(of: "'", with: "ʼ")
     }
 
     enum StoryLabelType {

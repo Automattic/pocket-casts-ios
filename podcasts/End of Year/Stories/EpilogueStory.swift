@@ -2,12 +2,10 @@ import SwiftUI
 import PocketCastsServer
 import CoreHaptics
 
-struct EpilogueStory: StoryView {
+struct EpilogueStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @ObservedObject private var visibility = Visiblity()
     @State private var engine: CHHapticEngine?
-
-    var duration: TimeInterval = 5.seconds
 
     var identifier: String = "epilogue"
 
@@ -77,13 +75,15 @@ struct EpilogueStory: StoryView {
                     .onAppear(perform: prepareHaptics)
                 )
 
-                VStack {
-                    Spacer()
-                    HStack {
+                if !renderForSharing {
+                    VStack {
                         Spacer()
-                        Image("logo")
-                            .padding(.bottom, geometry.size.height * 0.06)
-                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image("logo")
+                                .padding(.bottom, geometry.size.height * 0.06)
+                            Spacer()
+                        }
                     }
                 }
             }
@@ -102,6 +102,16 @@ struct EpilogueStory: StoryView {
     func onAppear() {
         self.visibility.isVisible = true
         Analytics.track(.endOfYearStoryShown, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self))
+        ]
+    }
+
+    func hideShareButton() -> Bool {
+        true
     }
 
     private enum Constants {

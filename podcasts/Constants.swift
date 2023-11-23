@@ -252,8 +252,8 @@ struct Constants {
         enum IapProducts: String {
             case yearly = "com.pocketcasts.plus.yearly"
             case monthly = "com.pocketcasts.plus.monthly"
-            case patronYearly = "com.pocketcasts.yearly.patron"
-            case patronMonthly = "com.pocketcasts.monthly.patron"
+            case patronYearly = "com.pocketcasts.patron_yearly"
+            case patronMonthly = "com.pocketcasts.patron_monthly"
 
             var renewalPrompt: String {
                 switch self {
@@ -325,6 +325,9 @@ struct Constants {
 
         static let patronCloudStorageGB = "patron_custom_storage_limit_gb"
         static let patronCloudStorageGBDefault = 100
+
+        static let bookmarksEnabled = "bookmarks_enabled"
+        static let bookmarksEnabledDefault = true
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5

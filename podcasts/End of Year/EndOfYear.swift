@@ -83,6 +83,9 @@ struct EndOfYear {
             return
         }
 
+        // Don't show the prompt if the user is has already viewed the stories.
+        Settings.endOfYearModalHasBeenShown = true
+
         let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource()).padding(storiesPadding))
         storiesViewController.view.backgroundColor = .black
         storiesViewController.modalPresentationStyle = presentationMode

@@ -64,9 +64,17 @@ protocol Story {
     /// This method instead will only be called when the story
     /// is being presented.
     func onAppear()
+
+    /// Called when the story is paused
+    func onPause()
+
+    /// Called when the story is resumed after being paused
+    func onResume()
 }
 
 extension Story {
+    var duration: TimeInterval { EndOfYear.defaultDuration }
+
     var identifier: String {
         "unknown"
     }
@@ -76,7 +84,23 @@ extension Story {
     }
 
     func onAppear() {}
+    func onPause() {}
+    func onResume() {}
 }
+
+// MARK: - Animations
+
+extension EnvironmentValues {
+    var animated: Bool {
+        get { self[AnimatedKey.self] }
+        set { self[AnimatedKey.self] = newValue }
+    }
+
+    private struct AnimatedKey: EnvironmentKey {
+        static let defaultValue: Bool = false
+    }
+}
+
 
 // MARK: - Shareable Stories
 typealias ShareableStory = StoryView & StorySharing
@@ -89,6 +113,9 @@ protocol StorySharing {
     ///
     /// This will be given to `UIActivityViewController` as the `activityItems`
     func sharingAssets() -> [Any]
+
+    /// If the share button should be hidden for this story
+    func hideShareButton() -> Bool
 }
 
 extension StorySharing {
@@ -96,5 +123,9 @@ extension StorySharing {
 
     func sharingAssets() -> [Any] {
         return []
+    }
+
+    func hideShareButton() -> Bool {
+        false
     }
 }

@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct YearOverYearStory: ShareableStory {
-    var duration: TimeInterval = 5.seconds
+    @Environment(\.animated) var animated: Bool
 
     let identifier: String = "year_over_year"
 
@@ -12,6 +12,8 @@ struct YearOverYearStory: ShareableStory {
     var data: YearOverYearListeningTime
 
     let subscriptionTier: SubscriptionTier = SubscriptionHelper.subscriptionTier
+
+    @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 0.8, animation: Animation.easeInOut(duration:))
 
     var title: String {
         switch data.percentage {
@@ -37,10 +39,16 @@ struct YearOverYearStory: ShareableStory {
         }
     }
 
-    var leftBarPercentageSize: Double {
+    @State var leftBarPercentageSize: Double = 0
+    @State var rightBarPercentageSize: Double = 0
+
+    @State var leftBarOpacity: Double = 0
+    @State var rightBarOpacity: Double = 0
+
+    var finalLeftBarPercentageSize: Double {
         let percentage = data.percentage
         if percentage == .infinity {
-            return 0.2
+            return minimumBarPercentage
         } else if percentage > 0 {
             return max(data.totalPlayedTimeLastYear / data.totalPlayedTimeThisYear, minimumBarPercentage)
         }
@@ -48,7 +56,7 @@ struct YearOverYearStory: ShareableStory {
         return 1
     }
 
-    var rightBarPercentageSize: Double {
+    var finalRightBarPercentageSize: Double {
         let percentage = data.percentage
         if percentage < 0 {
             return max(data.totalPlayedTimeThisYear / data.totalPlayedTimeLastYear, minimumBarPercentage)
@@ -74,29 +82,45 @@ struct YearOverYearStory: ShareableStory {
                 ZStack(alignment: .bottom) {
 
                     GeometryReader { proxy in
-                        HStack(alignment: .bottom, spacing: 0) {
-                            bar(
-                                title: "2022",
-                                subtitle: data.totalPlayedTimeLastYear.storyTimeDescription,
-                                geometry: geometry,
-                                barStyle: .grey
-                            )
-                            .frame(height: leftBarPercentageSize * proxy.size.height)
+                        VStack(spacing: 0) {
+                            Spacer()
 
-                            bar(
-                                title: "2023",
-                                subtitle: data.totalPlayedTimeThisYear.storyTimeDescription,
-                                geometry: geometry,
-                                barStyle: .rainbow
-                            )
-                            .frame(height: rightBarPercentageSize * proxy.size.height)
+                            HStack(alignment: .bottom, spacing: 0) {
+                                bar(
+                                    title: "2022",
+                                    subtitle: data.totalPlayedTimeLastYear.storyTimeDescription,
+                                    geometry: geometry,
+                                    barStyle: .grey
+                                )
+                                .frame(height: leftBarPercentageSize * proxy.size.height)
+                                .modifier(animationViewModel.animate($leftBarPercentageSize, to: finalLeftBarPercentageSize))
 
+                                bar(
+                                    title: "2023",
+                                    subtitle: data.totalPlayedTimeThisYear.storyTimeDescription,
+                                    geometry: geometry,
+                                    barStyle: .rainbow
+                                )
+                                .frame(height: rightBarPercentageSize * proxy.size.height)
+                                .modifier(animationViewModel.animate($rightBarPercentageSize, to: finalRightBarPercentageSize))
+
+                            }
                         }
                     }
 
                 }
             }
             .background(.black)
+            .onAppear {
+                if animated {
+                    animationViewModel.play()
+                } else {
+                    leftBarPercentageSize = finalLeftBarPercentageSize
+                    rightBarPercentageSize = finalRightBarPercentageSize
+                    leftBarOpacity = 0.5
+                    rightBarOpacity = 1
+                }
+            }
         }
     }
 
@@ -128,15 +152,16 @@ struct YearOverYearStory: ShareableStory {
 
             VStack(alignment: .leading) {
                 Text(title)
-                .font(.custom("DM Sans", size: geometry.size.height * 0.09).weight(.medium))
+                .font(.custom("DM Sans", size: geometry.size.height * 0.08).weight(.medium))
                 .foregroundColor(.white)
 
                 Text(subtitle)
-                .font(.custom("DM Sans", size: geometry.size.height * 0.018).weight(.semibold))
-                .padding(.top, -geometry.size.height * 0.08)
+                .font(.custom("DM Sans", size: geometry.size.height * 0.015).weight(.semibold))
+                .padding(.top, -geometry.size.height * 0.075)
                 .foregroundColor(.white)
             }
-            .opacity(barStyle == .grey ? 0.5 : 1)
+            .opacity(barStyle == .grey ? leftBarOpacity : rightBarOpacity)
+            .modifier(animationViewModel.animate(barStyle == .grey ? $leftBarOpacity : $rightBarOpacity, to: barStyle == .grey ? 0.5 : 1, after: 0.4))
         }
     }
 
@@ -178,6 +203,14 @@ struct YearOverYearStory: ShareableStory {
 
     func willShare() {
         Analytics.track(.endOfYearStoryShare, story: identifier)
+    }
+
+    func onPause() {
+        animationViewModel.pause()
+    }
+
+    func onResume() {
+        animationViewModel.play()
     }
 
     func sharingAssets() -> [Any] {

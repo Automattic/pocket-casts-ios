@@ -1,7 +1,8 @@
 import SwiftUI
 
-struct IntroStory: StoryView {
-    var duration: TimeInterval = 5.seconds
+struct IntroStory: ShareableStory {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
+
     let identifier: String = "intro"
 
     var body: some View {
@@ -53,6 +54,18 @@ struct IntroStory: StoryView {
                     }
                         .ignoresSafeArea()
                 )
+
+                if !renderForSharing {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image("logo")
+                                .padding(.bottom, geometry.size.height * 0.06)
+                            Spacer()
+                        }
+                    }
+                }
             }
         }
         .background(.black)
@@ -61,6 +74,16 @@ struct IntroStory: StoryView {
 
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self))
+        ]
+    }
+
+    func hideShareButton() -> Bool {
+        true
     }
 
     private struct Constants {
@@ -76,14 +99,16 @@ struct IntroStory: StoryView {
 
 private struct TwentyThreeParallaxModifier: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @StateObject var manager: MotionManager = .init()
+    @StateObject var manager: MotionManager = .init(relativeToWhenStarting: true)
     var rollMultiplier: Double = 4
     var pitchMultiplier: Double = 40
 
+    private let rollAndPitchBoundary = -1.4..<1.5
+
     func body(content: Content) -> some View {
-        let roll = manager.roll * 10
-        let pitch = manager.pitch
-        content
+        let roll = manager.roll.betweenOrClamped(to: rollAndPitchBoundary) * 7
+        let pitch = manager.pitch.betweenOrClamped(to: rollAndPitchBoundary)
+        return content
             .offset(x: roll * rollMultiplier, y: pitch * pitchMultiplier)
             .onAppear() {
                 if !reduceMotion {
@@ -96,6 +121,10 @@ private struct TwentyThreeParallaxModifier: ViewModifier {
                 }
             }
     }
+}
+
+extension EndOfYear {
+    static var defaultDuration = 7.seconds
 }
 
 struct IntroStory_Previews: PreviewProvider {
