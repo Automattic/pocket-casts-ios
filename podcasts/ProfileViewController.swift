@@ -124,7 +124,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
 
-        showGeneralSettingsIfNeeded()
+        whatsNewDismissed()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
