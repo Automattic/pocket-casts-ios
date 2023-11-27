@@ -25,43 +25,10 @@ struct Announcements {
             isEnabled: true
         ),
 
-        // Bookmarks Early Access: Beta
-        // Show only in TestFlight, for Plus and Patron
-        .init(
-            version: "7.52",
-            header: AnyView(BookmarksWhatsNewHeader()),
-            title: L10n.announcementBookmarksTitleBeta,
-            message: L10n.announcementBookmarksDescription,
-            buttonTitle: bookmarksViewModel.enableButtonTitle,
-            action: {
-                bookmarksViewModel.enableAction()
-            },
-            displayTier: bookmarksViewModel.displayTier,
-            isEnabled: bookmarksViewModel.isEarlyAccessBetaAnnouncementEnabled
-        ),
-
-        // Bookmarks Early Access: Release
-        // Show when not in beta, for Patron only
-        .init(
-            version: "7.52",
-            header: AnyView(BookmarksWhatsNewHeader().onAppear {
-                // Record when someone sees the full announcement while in early access so we don't show it again to them when we move to full release.
-                bookmarksViewModel.markAsSeen()
-            }),
-            title: L10n.announcementBookmarksTitle,
-            message: L10n.announcementBookmarksDescription,
-            buttonTitle: bookmarksViewModel.enableButtonTitle,
-            action: {
-                bookmarksViewModel.enableAction()
-            },
-            displayTier: bookmarksViewModel.displayTier,
-            isEnabled: bookmarksViewModel.isEarlyAccessAnnouncementEnabled
-        ),
-
         // Bookmarks: Full Release
         // Show for everyone, except those who saw the `Early Access: Release` announcement
         .init(
-            version: "99.99",
+            version: "7.53",
             header: AnyView(BookmarksWhatsNewHeader()),
             title: L10n.announcementBookmarksTitle,
             message: L10n.announcementBookmarksDescription,

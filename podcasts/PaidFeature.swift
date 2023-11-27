@@ -6,11 +6,7 @@ import SwiftUI
 // MARK: - Features
 
 extension PaidFeature {
-    static var bookmarks: PaidFeature = .inEarlyAccess
-
-    // When the feature leaves early access, it will switch to being a Plus feature
-    // Adding this here to make it easier to uncomment
-    // static var bookmarks: PaidFeature = .plusFeature
+    static var bookmarks: PaidFeature = .plusFeature
 }
 
 /// A `PaidFeature` represents a feature that is unlocked with a subscription tier, and is considered to be unlocked if the tier
