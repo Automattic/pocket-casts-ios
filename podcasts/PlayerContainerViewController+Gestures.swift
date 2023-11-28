@@ -7,13 +7,15 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
     private static let minimumScreenRatioToHide: CGFloat = 0.15
 
     @IBAction func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
-        guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
+        FeatureFlag.newPlayerTransition.enabled ? newTransitionPanGestureRecognizerHandler(sender) : oldTransitionPanGestureRecognizerHandler(sender)
+    }
 
-        if nowPlayingItem.timeSlider.isScrubbing() { return }
+    func newTransitionPanGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
+            guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
 
-        let touchPoint = sender.location(in: view?.window)
+            if nowPlayingItem.timeSlider.isScrubbing() { return }
 
-        guard !FeatureFlag.newPlayerTransition.enabled else {
+            let touchPoint = sender.location(in: view?.window)
 
             switch sender.state {
             case .began:
@@ -23,16 +25,8 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
                     view.frame.origin.y = touchPoint.y - initialTouchPoint.y
                 }
             case .ended, .cancelled:
-                // If pan ended, decide it we should close or reset the view
-                // based on the final position and the speed of the gesture
-                // (https://stackoverflow.com/a/47339617)
-                let translation = sender.translation(in: view)
-                let velocity = sender.velocity(in: view)
-                let closing = (translation.y > view.frame.size.height * Self.minimumScreenRatioToHide) ||
-                (velocity.y > Self.minimumVelocityToHide)
-                dismissVelocity = velocity.y
-
-                if closing {
+                // The new PlayerContainerViewController.pullDownThreshold is 100
+                if touchPoint.y - initialTouchPoint.y > 100 {
                     miniPlayer.closeFullScreenPlayer()
                 } else {
                     UIView.animate(withDuration: 0.2, animations: {
@@ -45,9 +39,14 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
             default:
                 break
             }
-
-            return
         }
+
+    func oldTransitionPanGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
+        guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
+
+        if nowPlayingItem.timeSlider.isScrubbing() { return }
+
+        let touchPoint = sender.location(in: view?.window)
 
         switch sender.state {
         case .began:

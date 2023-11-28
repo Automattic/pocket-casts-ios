@@ -106,6 +106,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             rootViewController()?.setNeedsStatusBarAppearanceUpdate()
             rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
 
+            fullScreenPlayer?.view.removeFromSuperview()
+            fullScreenPlayer = nil
+
             // update the mini player on full screen player close
             playbackStateDidChange()
             playbackProgressDidChange()

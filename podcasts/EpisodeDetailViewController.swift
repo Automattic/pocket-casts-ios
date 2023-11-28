@@ -19,7 +19,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private lazy var bookmarksController: BookmarkEpisodeListController? = {
         guard FeatureFlag.bookmarks.enabled else { return nil }
 
-        return BookmarkEpisodeListController(episode: episode)
+        return BookmarkEpisodeListController(episode: episode, themeOverride: themeOverride)
     }()
 
     @IBOutlet var podcastImage: PodcastImageView!

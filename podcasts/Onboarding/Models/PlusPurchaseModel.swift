@@ -39,6 +39,11 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
     // MARK: - Triggers the purchase process
     func purchase(product: Constants.IapProducts) {
+        guard purchaseHandler.canMakePurchases else {
+            showPurchaseDisabledAlert(product: product)
+            return
+        }
+
         guard purchaseHandler.buyProduct(identifier: product.rawValue) else {
             handlePurchaseFailed(error: nil)
             return
@@ -48,6 +53,23 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
         purchasedProduct = product
         state = .purchasing
+    }
+
+    func showPurchaseDisabledAlert(product: Constants.IapProducts) {
+        guard let presentingViewController = parentController ?? SceneHelper.rootViewController() else {
+            return
+        }
+
+        let displayName = product.subscriptionTier.displayName
+
+        let alert = UIAlertController(title: L10n.betaThankYou,
+                                      message: L10n.betaPurchaseDisabled(displayName),
+                                      preferredStyle: .alert)
+
+        alert.addAction(.init(title: L10n.ok, style: .cancel))
+
+        let controller = (presentingViewController.presentedViewController ?? presentingViewController)
+        controller.present(alert, animated: true)
     }
 
     // Our internal state
@@ -117,6 +139,16 @@ private extension PlusPurchaseModel {
 private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
+
+        if OnboardingFlow.shared.currentFlow.shouldDismissAfterPurchase {
+            if FeatureFlag.patron.enabled {
+                parentController.dismiss(animated: true)
+            } else {
+                parentController.presentingViewController?.dismiss(animated: true)
+            }
+
+            return
+        }
 
         let navigationController = parentController as? UINavigationController
 

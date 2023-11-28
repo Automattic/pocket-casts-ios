@@ -168,6 +168,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         populate(progressOnly: false)
     }
 
+
+    /// Determines whether the bookmark indicator icon should appear
+    private var showBookmarksIcon: Bool {
+        FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked && episode?.hasBookmarks == true
+    }
+
     private func populate(progressOnly: Bool) {
         guard let episode = episode else { return }
 
@@ -180,15 +186,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             upNextIndicator.isHidden = !PlaybackManager.shared.inUpNext(episode: episode)
             upNextIndicator.tintColor = ThemeColor.support01()
 
-            let showBookmarksIcon = FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked
-            if showBookmarksIcon {
-                bookmarkIcon.image = UIImage(named: "bookmark-icon-episode")
-                bookmarkIcon.tintColor = mainTintColor
-                bookmarkIcon.isHidden = !episode.hasBookmarks
-            } else {
-                bookmarkIcon.isHidden = true
-            }
-
             var uploadFailed = false
             if let userEpisode = episode as? UserEpisode {
                 uploadStatusIndicator.isHidden = !userEpisode.uploaded()
@@ -196,6 +193,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             } else {
                 uploadStatusIndicator.isHidden = true
             }
+
+            // Since this calls out to the DB we'll cache the value here so later calls don't hit it again
+            let showBookmarksIcon = self.showBookmarksIcon
+
+            // Setup the bookmarks icon
+            bookmarkIcon.image = UIImage(named: "bookmark-icon-episode")
+            bookmarkIcon.tintColor = mainTintColor
+            bookmarkIcon.isHidden = !showBookmarksIcon
 
             let hideStatus = !episode.archived && !episode.downloaded(pathFinder: DownloadManager.shared) && !episode.downloadFailed() && !uploadFailed && !episode.playbackError()
             if !hideStatus {
@@ -205,6 +210,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 } else if episode.downloaded(pathFinder: DownloadManager.shared) {
                     statusImage = UIImage(named: "list_downloaded")
                 } else {
+                    // To show the archive and bookmark indicator in the correct places we show the bookmark indicator
+                    // in the status image, and move the archive icon into the bookmarks place.
                     if showBookmarksIcon {
                         statusImage = UIImage(named: "bookmark-icon-episode")?.tintedImage(mainTintColor ?? ThemeColor.primaryIcon02())
                         bookmarkIcon.image = UIImage(named: "list_archived")?.tintedImage(ThemeColor.primaryIcon02())

@@ -135,7 +135,7 @@ struct PlusAccountUpgradePrompt: View {
         .yearly: [
             .init(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             .init(iconName: "plus-feature-folders", title: L10n.folders),
-            .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(Constants.RemoteParams.customStorageLimitGBDefault.localized())),
+            .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             .init(iconName: "plus-feature-themes", title: L10n.plusMarketingThemesIconsTitle)
         ],
@@ -143,7 +143,7 @@ struct PlusAccountUpgradePrompt: View {
         .patronYearly: [
             .init(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             .init(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
-            .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
+            .init(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
             .init(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             .init(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons)
         ]

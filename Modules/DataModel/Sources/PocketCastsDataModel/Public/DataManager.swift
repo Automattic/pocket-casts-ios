@@ -88,14 +88,36 @@ public class DataManager {
         let userEpisodes = userEpisodeManager.allUpNextEpisodes(dbQueue: dbQueue)
 
         // this extra step is to make sure we return the episodes in the order they are in the up next list, which they won't be if there's both Episodes and UserEpisodes in Up Next
-        var convertedEpisodes = [BaseEpisode]()
-        for upNextEpisode in allUpNextEpisodes {
-            guard let episode: BaseEpisode = episodes.first(where: { $0.uuid == upNextEpisode.episodeUuid }) ?? userEpisodes.first(where: { $0.uuid == upNextEpisode.episodeUuid }) else { continue }
+        if userEpisodes.isEmpty {
+            return episodes
+        }
 
-            convertedEpisodes.append(episode)
+        var convertedEpisodes = [BaseEpisode]()
+        var episodeIndex = 0
+        var userEpisodeIndex = 0
+        for upNextEpisode in allUpNextEpisodes {
+            if let episode = episodes[safe: episodeIndex],
+               episode.uuid == upNextEpisode.episodeUuid {
+                convertedEpisodes.append(episode)
+                episodeIndex += 1
+                continue
+            }
+            if let userEpisode = userEpisodes[safe: userEpisodeIndex], userEpisode.uuid == upNextEpisode.episodeUuid {
+                convertedEpisodes.append(userEpisode)
+                userEpisodeIndex += 1
+            }
         }
 
         return convertedEpisodes
+    }
+
+    public func allUpNextEpisodeUuids() -> [BaseEpisode] {
+        upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue).map {
+            let episode = Episode()
+            episode.uuid = $0.episodeUuid
+            episode.hasOnlyUuid = true
+            return episode
+        }
     }
 
     public func findPlaylistEpisode(uuid: String) -> PlaylistEpisode? {
@@ -926,8 +948,8 @@ public extension DataManager {
         endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
     }
 
-    func numberOfEpisodesThisYear() -> Int {
-        endOfYearManager.numberOfEpisodes(dbQueue: dbQueue)
+    func numberOfEpisodes(year: Int32) -> Int {
+        endOfYearManager.numberOfEpisodes(year: year, dbQueue: dbQueue)
     }
 
     func listeningTime() -> Double? {
@@ -950,7 +972,15 @@ public extension DataManager {
         endOfYearManager.longestEpisode(dbQueue: dbQueue)
     }
 
-    func episodesThatExist(uuids: [String]) -> [String] {
-        endOfYearManager.episodesThatExist(dbQueue: dbQueue, uuids: uuids)
+    func episodesThatExist(year: Int32, uuids: [String]) -> [String] {
+        endOfYearManager.episodesThatExist(year: year, dbQueue: dbQueue, uuids: uuids)
+    }
+
+    func yearOverYearListeningTime() -> YearOverYearListeningTime {
+        endOfYearManager.yearOverYearListeningTime(dbQueue: dbQueue)
+    }
+
+    func episodesStartedAndCompleted() -> EpisodesStartedAndCompleted {
+        endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
     }
 }

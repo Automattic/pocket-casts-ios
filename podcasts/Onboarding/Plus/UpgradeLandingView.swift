@@ -257,7 +257,7 @@ extension UpgradeTier {
         UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(10)),
+            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
@@ -269,7 +269,7 @@ extension UpgradeTier {
         UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, features: [
             TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
+            TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
             TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)

@@ -52,7 +52,9 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
 
             // didn't move far enough
             if abs(endPoint.y) < MiniPlayerViewController.minMoveAmount {
-                closeFullScreenPlayer()
+                if !FeatureFlag.newPlayerTransition.enabled {
+                    closeFullScreenPlayer()
+                }
 
                 return
             }

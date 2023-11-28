@@ -22,7 +22,8 @@ struct EpisodeBookmarksTabsView: View {
 
             Spacer()
         }
-        .font(style: .subheadline, weight: .medium)
+        .font(.subheadline.weight(.medium))
+        .environment(\.dynamicTypeSize, .large)
     }
 }
 

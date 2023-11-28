@@ -4,7 +4,7 @@ import SwiftUI
 /// This is useful when you need to position and/or size a view consistently across device sizes
 ///
 ///
-/// Basic usage is: @ScalingValue(with: .width) var scaledSize = 0.5
+/// Basic usage is: @ProportionalValue(with: .width) var scaledSize = 0.5
 /// You can also specify a custom arithmetic operator (+, -, /, *) *to use in the calculations, the default is *
 ///
 /// See the ExampleView in the PreviewProvider below for usage
