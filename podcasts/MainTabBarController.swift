@@ -607,16 +607,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         super.present(viewControllerToPresent, animated: flag, completion: completion)
     }
-
-    // MARK: - What's New
-
-    func showWhatsNewIfNeeded() {
-        guard let controller = view.window?.rootViewController else { return }
-
-        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
-            controller.present(whatsNewViewController, animated: true)
-        }
-    }
 }
 
 // MARK: - Bookmarks
