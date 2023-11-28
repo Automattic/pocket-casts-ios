@@ -141,6 +141,12 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Wenn deine „Als Nächstes“-Warteschlange leer ist und du anfängst, eine Folge zu hören, spielt Autoplay weiter Folgen aus dieser Show oder Liste ab.</string>
     <key>announcement_autoplay_title</key>
     <string>Autoplay ist da!</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Du kannst jetzt Zeitstempel von Folgen über das Aktionsmenü im Player oder über eine Aktion mit deinen Kopfhörern speichern.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>Die Lesezeichen sind da!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Sei beim Testen der Beta-Version der Lesezeichen dabei!</string>
     <key>app_badge</key>
     <string>App-Badge</string>
     <key>app_icon_classic</key>
@@ -235,6 +241,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Erste</string>
     <key>back</key>
     <string>Zurück</string>
+    <key>beta_purchase_disabled</key>
+    <string>Bitte lade Pocket Casts aus dem App Store herunter, um %1$@ zu kaufen.</string>
+    <key>beta_thank_you</key>
+    <string>Danke, dass du die Beta-Version testest!</string>
     <key>bookmark_added</key>
     <string>Lesezeichen hinzugefügt</string>
     <key>bookmark_added_button_title</key>
@@ -259,7 +269,9 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>%1$@ Lesezeichen</string>
     <key>bookmarks_count_singular</key>
     <string>1 Lesezeichen</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Schalte diese und weitere Funktionen mit Pocket Casts %1$@ frei und speichere Zeitstempel für deine Lieblingsfolgen. Bald für %2$@-Abonnenten verfügbar.</string>
+    <key>bookmarks_locked_message</key>
     <string>Schalte diese und weitere Funktionen mit Pocket Casts %1$@ frei und speichere Zeitstempel für deine Lieblingsfolgen.</string>
     <key>bottom</key>
     <string>Ende</string>
@@ -429,6 +441,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Comedy</string>
     <key>discover_browse_by_category_education</key>
     <string>Bildung</string>
+    <key>discover_browse_by_category_family</key>
+    <string>Familie</string>
     <key>discover_browse_by_category_fiction</key>
     <string>Literatur</string>
     <key>discover_browse_by_category_games_and_hobbies</key>
@@ -463,6 +477,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Gesellschaft</string>
     <key>discover_browse_by_category_society_and_culture</key>
     <string>Gesellschaft und Kultur</string>
+    <key>discover_browse_by_category_spirituality</key>
+    <string>Spiritualität</string>
     <key>discover_browse_by_category_sports</key>
     <string>Sport</string>
     <key>discover_browse_by_category_sports_and_recreation</key>
@@ -646,21 +662,30 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>enable_it_now</key>
     <string>Jetzt aktivieren</string>
     <key>eoy_card_description</key>
-    <string>Schau dir deine Top-Podcasts, Kategorien, Hörstatistiken und mehr an.</string>
+    <string>Schau dir deine Audiostatistiken, Top-Podcasts und mehr an.</string>
     <key>eoy_create_account_to_see</key>
     <string>Speichere deine Podcasts in der Cloud, erhalte deinen Rückblick zum Jahresende und synchronisiere deinen Fortschritt mit anderen Geräten.</string>
     <key>eoy_description</key>
     <string>Schau dir deine Top-Podcasts, Kategorien, Hörstatistiken und mehr an. Teile sie mit Freunden und danke deinen bevorzugten Erstellern!</string>
     <key>eoy_not_now</key>
     <string>Nicht jetzt</string>
+    <key>eoy_share</key>
+    <string>Diese Story teilen</string>
+    <key>eoy_share_this_story_message</key>
+    <string>Füge dieses Bild deinen zu sozialen Medien hinzu, um deine Lieblingsshows und -ersteller dankend zu erwähnen</string>
+    <key>eoy_share_this_story_title</key>
+    <string>Diese Story teilen?</string>
     <key>eoy_small_title</key>
     <string>Das Jahr in Podcasts</string>
+    <key>eoy_start_your_free_trial</key>
+    <string>Gratis-Test starten</string>
     <key>eoy_stories_failed</key>
     <string>Die Storys konnten nicht geladen werden.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>Vergiss nicht, sie mit deinen Freunden zu teilen und deine bevorzugten Podcast-Ersteller dankend zu erwähnen</string>
     <key>eoy_story_epilogue_title</key>
-    <string>Danke, dass Pocket Casts zu deinem Audioerlebnis 2022 gehört</string>
+    <string>Vielen Dank, dass du dieses Jahr dein Audioerlebnis mit uns genossen hast.
+Wir hören uns 2024!</string>
     <key>eoy_story_intro_title</key>
     <string>Feiern wir dein Audio-Jahr …</string>
     <key>eoy_story_listened_to</key>
@@ -670,7 +695,7 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>Du hast dir in diesem Jahr %1$@ angehört</string>
     <key>eoy_story_listened_to_categories_share_text</key>
-    <string>Ich habe mir im Jahr 2022 %1$@ unterschiedliche Kategorien angehört</string>
+    <string>Ich habe mir im Jahr 2023 %1$@ unterschiedliche Kategorien angehört</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Sehen wir uns einige deiner Favoriten an …</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -678,30 +703,31 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ Folgen</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Du hast dir %1$@ unterschiedliche Podcasts und %2$@ Folgen angehört</string>
+    <string>Du hast dir insgesamt %1$@ unterschiedliche Shows und %2$@ Folgen angehört</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>Ich habe mir im Jahr 2022 %1$@ verschiedene Podcasts und %2$@ Folgen angehört</string>
+    <string>Ich habe mir in diesem Jahr %1$@ verschiedene Podcasts und %2$@ Folgen angehört</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Aber es gab einen, der dir besonders gut gefallen hat …</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Aber es gab eine, die dir
-besonders gut gefallen hat …</string>
+    <string>Aber es gab eine, die dir besonders gut gefallen hat …</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Du hast dir %1$@ und %2$@ angehört</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ verschiedene Podcasts</string>
     <key>eoy_story_listened_to_share_text</key>
-    <string>Ich habe 2022 %1$@ mit dem Hören von Podcasts verbracht</string>
+    <string>Ich habe in diesem Jahr %1$@ mit dem Anhören von Podcasts verbracht</string>
+    <key>eoy_story_listened_to_subtitle</key>
+    <string>Wir hoffen, du hast jede Minute genossen!</string>
+    <key>eoy_story_listened_to_title</key>
+    <string>Dies ist die Gesamtzeit der von dir angehörten Podcasts</string>
     <key>eoy_story_listened_to_updated</key>
     <string>Du hast dieses Jahr %1$@ mit dem Anhören von Podcasts verbracht</string>
     <key>eoy_story_longest_episode</key>
-    <string>Die längste von dir angehörte Folge war %1$@ aus dem Podcast %2$@</string>
+    <string>Die längste von dir angehörte Folge war %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Diese Folge dauerte %1$@ </string>
     <key>eoy_story_longest_episode_share_text</key>
-    <string>Die längste Folge, die ich mir 2022 angehört habe: %1$@</string>
+    <string>Die längste Folge, die ich mir in diesem Jahr angehört habe: %1$@</string>
     <key>eoy_story_longest_episode_subtitle</key>
-    <string>Die Folge war %1$@ aus %2$@</string>
+    <string>Es war keine geringere als „%1$@“ aus „%2$@“</string>
     <key>eoy_story_longest_episode_time</key>
     <string>Die längste von dir angehörte
 Folge dauerte
@@ -712,10 +738,14 @@ Folge dauerte
     <string>Deine Top-Kategorien</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Meine am häufigsten gehörten Podcast-Kategorien</string>
+    <key>eoy_story_top_categories_subtitle</key>
+    <string>Du hast dir %1$@ Folgen mit einer Gesamtdauer von %2$@ angehört</string>
+    <key>eoy_story_top_categories_title</key>
+    <string>Schon gewusst? %1$@ war deine Lieblingskategorie!</string>
     <key>eoy_story_top_podcast</key>
-    <string>Dein Top-Podcast war %1$@ von %2$@</string>
+    <string>%1$@ war deine am häufigsten angehörte Show im Jahr 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
-    <string>Mein Lieblings-Podcast 2022! %1$@</string>
+    <string>Mein Lieblings-Podcast in diesem Jahr! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Du hast dir %1$@ Folgen mit einer Gesamtdauer von %2$@ angehört</string>
     <key>eoy_story_top_podcasts</key>
@@ -724,10 +754,42 @@ Folge dauerte
     <string>Meine Top-Podcasts 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Meine Top-Podcasts des Jahres! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Das sind deine Top 5 am häufigsten angehörten Shows im Jahr 2023</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>Und auch diese Shows haben dir gefallen!</string>
+    <key>eoy_subscribe_to_plus</key>
+    <string>Abonniere Plus und vergleiche dein diesjähriges Audioerlebnis mit dem in 2022. Nutze außerdem weitere unterhaltsame Statistiken sowie Premium-Funktionen wie Lesezeichen und Ordner.</string>
+    <key>eoy_theres_more</key>
+    <string>Es gibt noch mehr!</string>
     <key>eoy_title</key>
     <string>Dein Jahr in Podcasts</string>
     <key>eoy_view_year</key>
-    <string>Mein Jahr 2022 anzeigen</string>
+    <string>Mein 2023 anzeigen</string>
+    <key>eoy_year_completion_rate</key>
+    <string>Abschlussquote</string>
+    <key>eoy_year_completion_rate_share_text</key>
+    <string>Meine Abschlussquote 2023</string>
+    <key>eoy_year_completion_rate_subtitle</key>
+    <string>Von deinen %1$@ angefangenen Episoden hast du insgesamt %2$@ vollständig angehört</string>
+    <key>eoy_year_completion_rate_title</key>
+    <string>Deine Abschlussquote lag dieses Jahr bei %1$@</string>
+    <key>eoy_year_over_share_text</key>
+    <string>Meine Audiozeit in 2023 im Vergleich zu 2022</string>
+    <key>eoy_year_over_year_subtitle_flat</key>
+    <string>Man sagt, Beständigkeit ist der Schlüssel zum Erfolg … oder so ähnlich!</string>
+    <key>eoy_year_over_year_subtitle_went_down</key>
+    <string>Man muss das Leben genießen, nicht wahr?</string>
+    <key>eoy_year_over_year_subtitle_went_up</key>
+    <string>Bist du bereit, sie in 2024 zu überbieten?</string>
+    <key>eoy_year_over_year_title_flat</key>
+    <string>Im Vergleich zu 2022 hat sich deine Audiozeit kaum verändert</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>Im Vergleich zu 2022 ist deine Audiozeit in die Höhe geschnellt!</string>
+    <key>eoy_year_over_year_title_went_down</key>
+    <string>Im Vergleich zu 2022 ist deine Audiozeit ein wenig zurückgegangen</string>
+    <key>eoy_year_over_year_title_went_up</key>
+    <string>Im Vergleich zu 2022 ist deine Audiozeit um ganze %1$@ angestiegen</string>
     <key>episode</key>
     <string>Folge</string>
     <key>episode_count_plural_format</key>
@@ -2493,6 +2555,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Stille kürzen</string>
     <key>try_again</key>
     <string>Erneut versuchen</string>
+    <key>try_it_now</key>
+    <string>Jetzt ausprobieren</string>
     <key>unarchive</key>
     <string>Wiederherstellen</string>
     <key>unknown_duration</key>

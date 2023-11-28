@@ -179,8 +179,8 @@ end
 
 File.write(file_path_colors, "\n\n", mode: 'a')
 all_token_names.each do |token|
-  if token.start_with?('podcast') || token.start_with?('playerBackground') || token.start_with?('playerHighlight')
-    token_str = "    static func #{token}(podcastColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
+  token_str = if token.start_with?('podcast') || token.start_with?('playerBackground') || token.start_with?('playerHighlight')
+                "    static func #{token}(podcastColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
                 let theme = theme ?? Theme.sharedTheme.activeTheme
                 switch theme {
                 case .light:
@@ -205,8 +205,8 @@ all_token_names.each do |token|
                     return ThemeColor.#{token}ContrastDark(podcastColor: podcastColor)
                 }
             }\n\n"
-  elsif token.start_with?('filterU') || token.start_with?('filterI') || token.start_with?('filterT')
-    token_str = "    static func #{token}(filterColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
+              elsif token.start_with?('filterU') || token.start_with?('filterI') || token.start_with?('filterT')
+                "    static func #{token}(filterColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
                 let theme = theme ?? Theme.sharedTheme.activeTheme
                 switch theme {
                 case .light:
@@ -231,8 +231,8 @@ all_token_names.each do |token|
                     return ThemeColor.#{token}ContrastDark(filterColor: filterColor)
                 }
             }\n\n"
-  else
-    token_str = "    static func #{token}(for theme: Theme.ThemeType? = nil) -> UIColor {
+              else
+                "    static func #{token}(for theme: Theme.ThemeType? = nil) -> UIColor {
                 let theme = theme ?? Theme.sharedTheme.activeTheme
                 switch theme {
                 case .light:
@@ -257,7 +257,7 @@ all_token_names.each do |token|
                     return ThemeColor.#{token}ContrastDark
                 }
             }\n\n"
-  end
+              end
   File.write(file_path_colors, token_str, mode: 'a')
 end
 

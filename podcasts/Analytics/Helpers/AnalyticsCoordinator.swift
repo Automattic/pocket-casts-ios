@@ -44,6 +44,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case playbackFailed = "playback_failed"
     case watch
     case bookmark
+    case interactiveWidget = "interactive_widget"
     case unknown
 
     var analyticsDescription: String { rawValue }

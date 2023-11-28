@@ -9,9 +9,23 @@ class EpisodeViewModel: ObservableObject {
 
     let playSourceViewModel = PlaySourceHelper.playSourceViewModel
     var cancellables = Set<AnyCancellable>()
+    var alreadyHydrated = false
 
-    init(episode: BaseEpisode) {
+    init(episode: BaseEpisode, skipHydration: Bool = false) {
         self.episode = episode
+        if !skipHydration {
+            hydrate()
+        }
+    }
+
+    func hydrate() {
+        if alreadyHydrated {
+            return
+        }
+        alreadyHydrated = true
+        if episode.hasOnlyUuid {
+            episode = DataManager.sharedManager.findBaseEpisode(uuid: episode.uuid) ?? episode
+        }
         inUpNext = playSourceViewModel.inUpNext(forEpisode: episode)
 
         if episode.downloading() {

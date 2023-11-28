@@ -1,6 +1,33 @@
+7.53
+-----
+- Moves Bookmarks out of Early Access: [#1224]
+
+7.52
+-----
+- Enables Bookmarks for Early Access: [#1202]
+- Enables Playback 2023 [#1206]
+
+7.51
+-----
+- Improvements on battery consumption when trim silence is not enabled [#1186]
+- TestFlight: Disable new show notes endpoint and custom RSS artwork due to memory issues
+
+7.50
+-----
+- Further improves performance when opening a large Up Next queue in the Apple Watch [#1139]
+
+7.49
+-----
+- Improves performance when opening a large Up Next queue in the Apple Watch [#950]
+- Fixes the app playing automatically after putting AirPods on the case [#1132]
+- Enables Patron [#1146] [Internal]
+
 7.48
 -----
-- Enables Patron: [#1104] [Internal]
+- Fix importing podcasts route [#1091]
+- Fixes the player tab scroll indicator colors [#1120]
+- Fixes an issue where the player tabs may not render correctly [#1119]
+- Fixes the play/pause on interactive widgets not working for user files [#1123]
 
 7.47
 -----

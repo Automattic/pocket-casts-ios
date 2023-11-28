@@ -25,7 +25,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToAddCustom(_ fileURL: URL)
 
     func showSubscriptionCancelledAcknowledge()
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context?)
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context?, flow: OnboardingFlow.Flow)
     func showPlusMarketingPage()
     func showSettingsAppearance()
     func showPromotionPage(promoCode: String?)
@@ -44,6 +44,6 @@ protocol NavigationProtocol: AnyObject {
     func showInSafariViewController(urlString: String)
 
     func showEndOfYearStories()
-    func dismissPresentedViewController()
+    func dismissPresentedViewController(completion: (() -> Void)?)
     func showOnboardingFlow(flow: OnboardingFlow.Flow?)
 }

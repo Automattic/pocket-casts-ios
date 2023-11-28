@@ -124,7 +124,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
 
-        showGeneralSettingsIfNeeded()
+        whatsNewDismissed()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -343,13 +343,23 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func whatsNewDismissed() {
         showGeneralSettingsIfNeeded()
+        showHeadphoneControlsFromWhatsNew()
     }
 
     private func showGeneralSettingsIfNeeded() {
-        if AnnouncementFlow.shared.isShowingAutoplayOption {
+        if AnnouncementFlow.current == .autoPlay {
             let generalSettingsViewController = GeneralSettingsViewController()
             navigationController?.pushViewController(generalSettingsViewController, animated: true)
         }
+    }
+
+    // Pushes to the headphone controls if shown from the what's new
+    private func showHeadphoneControlsFromWhatsNew() {
+        guard AnnouncementFlow.current == .bookmarksProfile else { return }
+
+        let controller = HeadphoneSettingsViewController()
+        navigationController?.pushViewController(controller, animated: true)
+        AnnouncementFlow.current = .none
     }
 }
 

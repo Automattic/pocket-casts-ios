@@ -8,11 +8,15 @@ struct StoryLabel: View {
     private let text: String
     private let highlights: [String]?
     private let type: StoryLabelType
+    private let geometry: GeometryProxy
+    private let color: Color
 
-    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType) {
+    init(_ text: String, highlighting: [String]? = nil, for type: StoryLabelType, color: Color = .white, geometry: GeometryProxy) {
         self.text = Self.processText(text)
         self.highlights = highlighting
         self.type = type
+        self.geometry = geometry
+        self.color = color
     }
 
     var body: some View {
@@ -25,8 +29,8 @@ struct StoryLabel: View {
 
     private func applyDefaults(_ content: some View, forHighlights: Bool = false) -> some View {
         return content
-            .foregroundColor(.white)
-            .lineSpacing(2.5)
+            .foregroundColor(color)
+            .lineSpacing(0)
             .multilineTextAlignment(.center)
             .font(forHighlights ? nil : font)
             .padding([.leading, .trailing], horizontalPadding)
@@ -55,7 +59,7 @@ struct StoryLabel: View {
 
     private static func processText(_ text: String) -> String {
         // Typographic apostrophes
-        text.preventWidows().replacingOccurrences(of: "'", with: "ʼ")
+        text.replacingOccurrences(of: "'", with: "ʼ")
     }
 
     enum StoryLabelType {
@@ -69,16 +73,35 @@ struct StoryLabel: View {
     private var font: Font {
         switch type {
         case .title:
-            return .system(size: 22, weight: .bold)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .title2:
-            return .system(size: 18, weight: .semibold)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .subtitle:
-            return .system(size: 15, weight: .regular)
+            .custom("DM Sans", size: size).weight(.semibold)
         case .pillarTitle:
-            return .system(size: 14, weight: .bold)
+            .custom("DM Sans", size: size).weight(.bold)
         case .pillarSubtitle:
-            return .system(size: 13, weight: .regular)
+            .custom("DM Sans", size: size).weight(.regular)
         }
+    }
+
+    private var size: CGFloat {
+        let screenWidth = geometry.size.width
+        let isSmallScreen = geometry.size.height <= 700
+
+        switch type {
+        case .title:
+            return screenWidth * 0.069
+        case .title2:
+            return 18
+        case .subtitle:
+            return screenWidth * (isSmallScreen ? 0.04 : 0.035)
+        case .pillarTitle:
+            return 14
+        case .pillarSubtitle:
+            return 14
+        }
+
     }
 
     private var horizontalPadding: CGFloat {
@@ -246,8 +269,8 @@ struct PodcastCoverContainer<Content: View>: View {
     private var content: () -> Content
     private let geometry: GeometryProxy
 
-    let topPaddingSmall = 0.10
-    let topPaddingLarge = 0.13
+    let topPaddingSmall = 0.03
+    let topPaddingLarge = 0.045
     let smallDeviceHeight = 700.0
 
     init(geometry: GeometryProxy, @ViewBuilder _ content: @escaping () -> Content) {
@@ -281,7 +304,7 @@ struct StoryLabelContainer<Content: View>: View {
 
     var body: some View {
         // Try to reduce the label distance based on the screen height, but keep
-        let labelSpacing = (geometry.size.height * 0.033).clamped(to: 10..<22)
+        let labelSpacing = (geometry.size.height * 0.013).clamped(to: 0..<10)
         let topPadding = topPadding ?? (geometry.size.height * 0.054).clamped(to: 10..<60)
         VStack(spacing: labelSpacing) {
             content()
@@ -398,5 +421,48 @@ extension NSLocale {
 
         // Support multiple english language checks en-US, en-GB
         return currentLanguageCode.hasPrefix("en")
+    }
+}
+
+// MARK: - 2023 background
+
+struct StoryGradient: View {
+    let geometry: GeometryProxy
+    var plus: Bool = false
+
+    var body: some View {
+        Rectangle()
+        .foregroundColor(.clear)
+        .frame(width: geometry.size.height * 0.6, height: geometry.size.height * 0.6)
+        .background(
+            LinearGradient(
+                stops: gradient,
+                startPoint: UnitPoint(x: 0.49, y: 0.11),
+                endPoint: UnitPoint(x: 0.49, y: 0.98)
+            )
+        )
+        .cornerRadius(geometry.size.height * 0.6)
+        .blur(radius: geometry.size.height * 0.13)
+        .opacity(0.6)
+    }
+
+    private var gradient: [Gradient.Stop] {
+        plus ? plusGradient : normalGradient
+    }
+
+    private var plusGradient: [Gradient.Stop] {
+        [
+            Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.00),
+            Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.61),
+            Gradient.Stop(color: .black, location: 1.00),
+        ]
+    }
+
+    private var normalGradient: [Gradient.Stop] {
+        [
+            Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+            Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.61),
+            Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 1.00),
+        ]
     }
 }
