@@ -2,6 +2,7 @@
 -----
 - Moves Bookmarks out of Early Access: [#1224]
 - Makes the player transition faster, smoother and with a new effect [#1090]
+- Attempts to fix podcast being removed from their folders [#1239]
 
 7.52
 -----
