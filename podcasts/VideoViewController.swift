@@ -115,6 +115,8 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .black
+
         let skipBackAmount = ServerSettings.skipBackTime()
         skipBackBtn.skipAmount = skipBackAmount
 

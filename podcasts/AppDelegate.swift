@@ -379,11 +379,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupSignOutListener() {
-        guard backgroundSignOutListener == nil, let rootController = SceneHelper.rootViewController() else {
+        guard backgroundSignOutListener == nil else {
             return
         }
 
-        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: rootController)
+        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
     }
 
     // MARK: What's New

@@ -5,20 +5,56 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
     private static let pullDownThreshold: CGFloat = 150
 
     @IBAction func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
+        FeatureFlag.newPlayerTransition.enabled ? newTransitionPanGestureRecognizerHandler(sender) : oldTransitionPanGestureRecognizerHandler(sender)
+    }
+
+    func newTransitionPanGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
         guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
 
         if nowPlayingItem.timeSlider.isScrubbing() { return }
 
         let touchPoint = sender.location(in: view?.window)
 
-        if sender.state == UIGestureRecognizer.State.began {
+        switch sender.state {
+        case .began:
             initialTouchPoint = touchPoint
-        } else if sender.state == UIGestureRecognizer.State.changed {
+        case .changed:
+            if touchPoint.y > initialTouchPoint.y {
+                view.frame.origin.y = touchPoint.y - initialTouchPoint.y
+            }
+        case .ended, .cancelled:
+            // The new PlayerContainerViewController.pullDownThreshold is 100
+            if touchPoint.y - initialTouchPoint.y > 100 {
+                miniPlayer.closeFullScreenPlayer()
+            } else {
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.view.frame = CGRect(x: 0,
+                                             y: 0,
+                                             width: self.view.frame.size.width,
+                                             height: self.view.frame.size.height)
+                })
+            }
+        default:
+            break
+        }
+    }
+
+    func oldTransitionPanGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
+        guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
+
+        if nowPlayingItem.timeSlider.isScrubbing() { return }
+
+        let touchPoint = sender.location(in: view?.window)
+
+        switch sender.state {
+        case .began:
+            initialTouchPoint = touchPoint
+        case .changed:
             if touchPoint.y - initialTouchPoint.y > 0 {
                 let yPosition = touchPoint.y - initialTouchPoint.y
                 handleMoveTo(yPosition: yPosition, miniPlayer: miniPlayer)
             }
-        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
+        case .ended, .cancelled:
             if touchPoint.y - initialTouchPoint.y > PlayerContainerViewController.pullDownThreshold {
                 miniPlayer.closeFullScreenPlayer()
             } else {
@@ -27,6 +63,8 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
                     miniPlayer.moveToHiddenTopPosition()
                 }
             }
+        default:
+            break
         }
     }
 

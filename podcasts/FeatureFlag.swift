@@ -43,6 +43,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable retrieving episode artwork from the RSS feed
     case episodeFeedArtwork
 
+    /// Enable a quicker and more responsive player transition
+    case newPlayerTransition
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -77,6 +80,8 @@ enum FeatureFlag: String, CaseIterable {
             return false
         case .episodeFeedArtwork:
             return false // To be enabled, newShowNotesEndpoint needs to be too
+        case .newPlayerTransition:
+            return true
         }
     }
 }
