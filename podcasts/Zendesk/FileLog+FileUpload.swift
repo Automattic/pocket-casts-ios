@@ -49,7 +49,7 @@ extension FileLog: EventLoggingDelegate {
                     promise(.success(nil))
                     return
                 }
-                let file = self.watchUploadLog
+                let file = LogFilePaths.watchUploadLog
                 do {
                     try wearableLog.write(toFile: file, atomically: true, encoding: String.Encoding.utf8)
                 } catch {
@@ -79,7 +79,7 @@ extension FileLog: EventLoggingDelegate {
     // MARK: - EventLoggingDelegate
 
     public var shouldUploadLogFiles: Bool {
-        FileManager.default.fileExists(atPath: debugUploadLog) || FileManager.default.fileExists(atPath: watchUploadLog)
+        FileManager.default.fileExists(atPath: LogFilePaths.debugUploadLog) || FileManager.default.fileExists(atPath: LogFilePaths.watchUploadLog)
     }
 
     public func didFinishUploadingLog(_ log: LogFile) {

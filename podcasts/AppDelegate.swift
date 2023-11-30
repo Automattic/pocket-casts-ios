@@ -103,6 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func handleEnterBackground() {
         scheduleNextBackgroundRefresh()
+        FileLog.shared.forceFlush()
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
         badgeHelper.updateBadge()
