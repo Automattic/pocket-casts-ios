@@ -2,7 +2,7 @@ import UIKit
 
 extension UIViewController {
     var topMostPresentedViewController: UIViewController? {
-        guard UIApplication.shared.applicationState == .active else {
+        guard UIApplication.shared.applicationState != .background else {
             return nil
         }
 
