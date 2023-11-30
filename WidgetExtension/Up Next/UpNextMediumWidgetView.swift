@@ -28,12 +28,12 @@ struct MediumUpNextView: View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
                 ZStack {
-                    Rectangle().fill(lightBackgroundColor)
+                    Rectangle().fill(newTopBackgroundColor)
                         .lightBackgroundShadow()
                     HStack(alignment: .top) {
-                        EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedUppercase) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration)).localizedUppercase), isPlaying: isPlaying)
+                        EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                         Spacer()
-                        Image("logo_red_small")
+                        Image("logo_white_small")
                             .frame(width: 28, height: 28)
                             .accessibility(hidden: true)
                             .unredacted()
@@ -46,7 +46,7 @@ struct MediumUpNextView: View {
                     if let nextEpisode = secondEpisode {
                         EpisodeView(episode: nextEpisode, topText: Text(CommonWidgetHelper.durationString(duration: nextEpisode.duration)))
                             .padding(16.0)
-                        Spacer()
+                            .frame(maxWidth: .infinity)
                     } else {
                         Spacer()
                         HungryForMoreView()
@@ -54,7 +54,7 @@ struct MediumUpNextView: View {
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height / 2)
-                .background(darkBackgroundColor)
+                .background(newBottomBackgroundColor)
             }
         }
     }
