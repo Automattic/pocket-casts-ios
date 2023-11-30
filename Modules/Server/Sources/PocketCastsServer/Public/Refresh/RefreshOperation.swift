@@ -122,8 +122,14 @@ class RefreshOperation: Operation {
                     return .cancelled
                 }
 
-                guard let episodeUuid = episode.uuid else { continue }
-                if let _ = DataManager.sharedManager.findEpisode(uuid: episodeUuid) { continue }
+                guard let episodeUuid = episode.uuid else {
+                    print("No episode uuid for podcast: \(podcast.uuid)")
+                    continue
+                }
+                if let _ = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
+                    print("Can't find episode \(episodeUuid) for podcast: \(String(describing: podcast.title))")
+                    continue
+                }
 
                 let newEpisode = Episode()
                 newEpisode.podcast_id = podcast.id
