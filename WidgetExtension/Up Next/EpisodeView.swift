@@ -78,7 +78,7 @@ struct WidgetPlayToggleStyle: ToggleStyle {
         HStack {
             ZStack {
                 Circle()
-                    .foregroundStyle(.ultraThinMaterial)
+                    .foregroundStyle(Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 0.2))
                     .frame(width: 24, height: 24)
                 Group {
                     configuration.isOn ?
