@@ -494,8 +494,8 @@ platform :ios do
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
 
-    # Check out the up-to-date default branch, the designated starting point for the code freeze
-    Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
+    # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
+    ensure_git_branch(branch: '^release/')
 
     # Check versions
     message = <<-MESSAGE
