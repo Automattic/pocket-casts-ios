@@ -17,7 +17,13 @@ extension SyncTask {
             podcastRecord.isDeleted.value = !podcast.isSubscribed()
             podcastRecord.subscribed.value = podcast.isSubscribed()
             podcastRecord.sortPosition.value = podcast.sortOrder
+
+            // There's a bug on the watch app that resets all users folders
+            // Since the watch don't use folders at all, it shouldn't sync
+            #if !os(watchOS)
             podcastRecord.folderUuid.value = podcast.folderUuid ?? DataConstants.homeGridFolderUuid
+            #endif
+
             if let addedDate = podcast.addedDate {
                 podcastRecord.dateAdded = Google_Protobuf_Timestamp(date: addedDate)
             }
