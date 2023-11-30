@@ -19,27 +19,23 @@ struct EpisodeView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(Color.white)
                         .lineLimit(1)
-                    if !isFirstEpisode {
+                    if isFirstEpisode, #available(iOS 17, *) {
+                        Spacer()
+                        Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
+                            topText
+                                .font(.caption2)
+                                .foregroundColor(newTopBackgroundColor)
+                        }
+                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle())
+                    } else {
                         topText
                             .font(.caption2)
                             .foregroundColor(Color.white.opacity(0.8))
-                    } else {
-                        if #available(iOS 17, *) {
-                            Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
-                                topText
-                                    .font(.caption2)
-                                    .foregroundColor(newTopBackgroundColor)
-                            }
-                            .toggleStyle(WidgetFirstEpisodePlayToggleStyle())
-                        }
                     }
                 }
-                if !isFirstEpisode {
-                    if #available(iOS 17, *) {
-                        Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
-                        }
-                        .toggleStyle(WidgetPlayToggleStyle())
-                    }
+                if !isFirstEpisode, #available(iOS 17, *) {
+                    Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {}
+                    .toggleStyle(WidgetPlayToggleStyle())
                 }
             }
         }
