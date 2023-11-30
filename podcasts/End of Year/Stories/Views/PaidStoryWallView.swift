@@ -15,7 +15,7 @@ struct PaidStoryWallView: View {
                 .padding(.bottom, geometry.size.height * 0.06)
 
                 Button(model.pricingInfo.hasFreeTrial ? L10n.eoyStartYourFreeTrial : L10n.upgradeToPlan(L10n.pocketCastsPlusShort)) {
-                    guard let storiesViewController = SceneHelper.rootViewController()?.presentedViewController else {
+                    guard let storiesViewController = SceneHelper.rootViewController() else {
                         return
                     }
 

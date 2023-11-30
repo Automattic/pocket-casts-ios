@@ -112,7 +112,7 @@ struct AboutView: View {
     }
 
     private func openShareApp() {
-        guard let controller = SceneHelper.rootViewController()?.presentedViewController else { return }
+        guard let controller = SceneHelper.rootViewController() else { return }
 
         SharingHelper.shared.shareLinkToApp(fromController: controller)
     }

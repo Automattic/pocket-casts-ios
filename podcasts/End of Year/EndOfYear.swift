@@ -100,7 +100,7 @@ struct EndOfYear {
     }
 
     func share(assets: [Any], storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
-        let presenter = SceneHelper.rootViewController()?.presentedViewController
+        let presenter = SceneHelper.rootViewController()
 
         let fakeViewController = FakeViewController()
         fakeViewController.onDismiss = onDismiss
