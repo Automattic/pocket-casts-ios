@@ -42,6 +42,32 @@ extension MiniPlayerViewController {
 
         if playerOpenState == .open || playerOpenState == .animating { return }
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            aboutToDisplayFullScreenPlayer()
+
+            fullScreenPlayer?.modalPresentationStyle = .custom
+            fullScreenPlayer?.transitioningDelegate = self
+
+            guard let fullScreenPlayer else {
+                return
+            }
+
+            playerOpenState = .animating
+
+            fullScreenPlayer.modalPresentationStyle = .overCurrentContext
+
+            presentFromRootController(fullScreenPlayer, animated: true) {
+                self.playerOpenState = .open
+                self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
+                self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+                AnalyticsHelper.nowPlayingOpened()
+                Analytics.track(.playerShown)
+                completion?()
+            }
+
+            return
+        }
+
         playerOpenState = .animating
         aboutToDisplayFullScreenPlayer()
         view.superview?.layoutIfNeeded()
@@ -65,6 +91,18 @@ extension MiniPlayerViewController {
         if playerOpenState == .closed || playerOpenState == .animating {
             completion?()
 
+            return
+        }
+
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            playerOpenState = .animating
+
+            fullScreenPlayer?.dismiss(animated: true) {
+                self.finishedWithFullScreenPlayer()
+                self.playerOpenState = .closed
+                Analytics.track(.playerDismissed)
+                completion?()
+            }
             return
         }
 
@@ -92,6 +130,10 @@ extension MiniPlayerViewController {
     }
 
     func moveToHiddenTopPosition() {
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            return
+        }
+
         guard let parentView = view.superview, let tabBar = rootViewController()?.tabBar else { return }
 
         view.transform = CGAffineTransform(translationX: 0, y: tabBar.bounds.height - parentView.bounds.height)
@@ -99,6 +141,10 @@ extension MiniPlayerViewController {
     }
 
     func moveWhileDragging(offsetFromTop: CGFloat) {
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            return
+        }
+
         view.transform = CGAffineTransform.identity
         let tabBarHeight = rootViewController()?.tabBar.bounds.height ?? 0
         view.transform = offsetFromTop < -tabBarHeight ? CGAffineTransform(translationX: 0, y: offsetFromTop + tabBarHeight) : CGAffineTransform(translationX: 0, y: 0)

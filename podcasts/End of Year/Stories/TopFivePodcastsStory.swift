@@ -11,8 +11,6 @@ struct TopFivePodcastsStory: ShareableStory {
 
     let identifier: String = "top_five_podcast"
 
-    let duration: TimeInterval = 5.seconds
-
     @Namespace private var coverAnimation
 
     @State var showTopFive = false
@@ -28,7 +26,7 @@ struct TopFivePodcastsStory: ShareableStory {
             }
         }
         .onAppear {
-            withAnimation(.spring(duration: 1.5, bounce: 0.3)) {
+            withAnimation(.spring(duration: 1, bounce: 0.3)) {
                 showTopFive = true
             }
         }

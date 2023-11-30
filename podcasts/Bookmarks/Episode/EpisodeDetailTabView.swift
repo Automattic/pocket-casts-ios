@@ -64,7 +64,8 @@ struct EpisodeDetailTabView: View {
 
                 Spacer()
             }
-            .font(style: .subheadline, weight: .medium)
+            .font(.subheadline.weight(.medium))
+            .environment(\.dynamicTypeSize, .large)
         }
         .padding(.leading, isSmallScreen ? 0 : 10)
     }

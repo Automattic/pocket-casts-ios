@@ -172,7 +172,6 @@ platform :ios do
   end
 
   # Go through PRs and check their milestones, leaving a message if the target milestone is being frozen
-  # rubocop:disable Metrics/MethodLength
   def comment_on_prs(milestone:)
     version = milestone
     UI.message("Checking open PRs pointing to #{version} milestone...")
@@ -226,8 +225,6 @@ platform :ios do
       "#{message_root.call(version, version)} final build has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
     end
   end
-  # rubocop:enable Metrics/MethodLength
-
   # Executes the initial steps of the code freeze
   #
   # - Cuts a new release branch
@@ -346,9 +343,7 @@ platform :ios do
   #
   desc 'Trigger the final release build on CI'
   lane :finalize_release do |options|
-    if ios_current_branch_is_hotfix
-      UI.user_error!('To finalize a hotfix, please use the `finalize_hotfix_release` lane instead')
-    end
+    UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead') if ios_current_branch_is_hotfix
 
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean

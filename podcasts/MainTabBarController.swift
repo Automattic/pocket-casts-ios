@@ -594,6 +594,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.sharedManager.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
         }
     }
+
+    // There are different areas of the app that relies on presenting VCs from the tab bar
+    // However, sometimes the tab bar is already displaying the player.
+    // This code simple checks if the tab bar is already presenting something and, if yes,
+    // present the VC through the presentedViewController
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        if FeatureFlag.newPlayerTransition.enabled, let presentedViewController, !presentedViewController.isBeingDismissed {
+            presentedViewController.present(viewControllerToPresent, animated: flag, completion: completion)
+            return
+        }
+
+        super.present(viewControllerToPresent, animated: flag, completion: completion)
+    }
 }
 
 // MARK: - Bookmarks

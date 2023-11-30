@@ -5,12 +5,22 @@ class PlayPauseAnimationViewModel: ObservableObject {
 
     private var duration: TimeInterval
 
-    init(duration: TimeInterval) {
+    private let animationType: (TimeInterval) -> Animation
+
+    init(duration: TimeInterval, animation: @escaping (TimeInterval) -> Animation = Animation.linear(duration:)) {
         self.duration = duration
+        self.animationType = animation
     }
 
-    func animate(_ value: Binding<Double>, to: Double) -> PlayPauseAnimatableModifier {
-        return PlayPauseAnimatableModifier(value: value, to: to, duration: duration, viewModel: self)
+
+    /// Adds a modifier that will animates the given View
+    /// - Parameters:
+    ///   - value: the value to bind to
+    ///   - to: the final value of the property
+    ///   - after: how long the animation should wait before starting
+    /// - Returns: PlayPauseAnimatableModifier
+    func animate(_ value: Binding<Double>, to: Double, after: Double = 0) -> PlayPauseAnimatableModifier {
+        return PlayPauseAnimatableModifier(value: value, to: to, duration: duration, viewModel: self, animation: animationType, after: after)
     }
 
     func play() {
@@ -38,6 +48,7 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
     private var finalValue: Double
 
     private var duration: TimeInterval
+    private let animationType: (TimeInterval) -> Animation
 
     @State private var paused: Bool = true
 
@@ -45,18 +56,24 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
 
     @State private var remainingTime: TimeInterval = 0
 
+    @State private var after: Double = 0
+
+    @State private var timer: Timer?
+
     var animatableData: Double {
         get { currentValue }
         set { currentValue = newValue }
     }
 
-    init(value: Binding<Double>, to finalValue: Double, duration: TimeInterval, viewModel: PlayPauseAnimationViewModel) {
+    init(value: Binding<Double>, to finalValue: Double, duration: TimeInterval, viewModel: PlayPauseAnimationViewModel, animation: @escaping (TimeInterval) -> Animation = Animation.linear(duration:), after: Double) {
         self._value = value
         self.currentValue = value.wrappedValue
         self.finalValue = finalValue
         self.duration = duration
         self._remainingTime = State(initialValue: duration)
         self.viewModel = viewModel
+        self.animationType = animation
+        self._after = State(initialValue: after)
     }
 
     func body(content: Content) -> some View {
@@ -68,11 +85,20 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
     }
 
     private func playOrPause() {
+        if timer?.isValid == true || after > 0 {
+            paused ? pauseTimer() : startTimer()
+            return
+        }
+
         paused ? pause() : play()
     }
 
     private func pause() {
-        remainingTime += startTime?.timeIntervalSinceNow ?? 0
+        guard let startTime else {
+            return
+        }
+
+        remainingTime += startTime.timeIntervalSinceNow
         withAnimation(.linear(duration: 0)) {
             value = currentValue
         }
@@ -80,8 +106,33 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
 
     private func play() {
         startTime = Date()
-        withAnimation(.linear(duration: remainingTime)) {
+        withAnimation(animationType(remainingTime)) {
             value = finalValue
         }
+    }
+
+    private func pauseTimer() {
+        guard let timer else {
+            return
+        }
+
+        after = timer.fireDate.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+        timer.invalidate()
+    }
+
+    private func startTimer() {
+        timer = Timer(fire: Date.now + after, interval: 0, repeats: false) { timer in
+            after = 0
+            timer.invalidate()
+            play()
+        }
+
+        RunLoop.current.add(timer!, forMode: .default)
+    }
+}
+
+extension Animation {
+    static func spring(_ duration: TimeInterval) -> Animation {
+        return spring(duration: duration, bounce: 0.3)
     }
 }
