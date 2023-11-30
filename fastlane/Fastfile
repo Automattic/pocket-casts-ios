@@ -569,9 +569,7 @@ platform :ios do
 
     # Check tags
     UI.user_error!("Version #{new_version} already exists! Abort!") if git_tag_exists(tag: new_version)
-    unless git_tag_exists(tag: previous_version)
-      UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.")
-    end
+    UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
 
     # Create the hotfix branch
     UI.message 'Creating hotfix branch...'
