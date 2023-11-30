@@ -154,7 +154,7 @@ public class CacheServerHandler {
         let url = urlForPodcast(uuid: podcast.uuid)
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: CacheServerHandler.defaultTimeout)
         if let lastUpdated = podcast.lastUpdatedAt, podcast.isSubscribed() {
-            request.setValue(lastUpdated, forHTTPHeaderField: ServerConstants.HttpHeaders.ifModifiedSince)
+//            request.setValue(lastUpdated, forHTTPHeaderField: ServerConstants.HttpHeaders.ifModifiedSince)
         }
 
         TokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
