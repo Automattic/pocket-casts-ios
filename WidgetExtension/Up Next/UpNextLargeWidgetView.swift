@@ -48,6 +48,7 @@ struct LargeUpNextWidgetView: View {
 
                                         EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
                                             .frame(height: geometry.size.height * 50 / 345)
+                                            .frame(maxWidth: .infinity)
                                     }
                                 }
 

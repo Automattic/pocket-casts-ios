@@ -19,6 +19,7 @@ struct EpisodeView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(Color.white)
                         .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     if isFirstEpisode, #available(iOS 17, *) {
                         Spacer()
                         Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
