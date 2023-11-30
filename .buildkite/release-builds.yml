@@ -10,7 +10,7 @@ common_params:
         repo: "automattic/pocket-casts-ios/"
   # Common environment values to use with the `env` key.
   - &common_env
-    IMAGE_ID: xcode-15.0
+    IMAGE_ID: xcode-15.0.1
 
 steps:
 
