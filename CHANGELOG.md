@@ -5,6 +5,7 @@
 7.53
 -----
 - Moves Bookmarks out of Early Access: [#1224]
+- Shows the Bookmarks tab after Chapters [#1240]
 - Makes the player transition faster, smoother and with a new effect [#1090]
 
 7.52
