@@ -13,7 +13,7 @@ struct EpisodeView: View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
                 SmallArtworkView(imageData: episode.imageData)
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading) {
                     Text(episode.episodeTitle)
                         .font(.footnote)
                         .fontWeight(.semibold)
@@ -23,14 +23,17 @@ struct EpisodeView: View {
                         Spacer()
                         Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
                             topText
-                                .font(.caption2)
+                                .font(.caption)
+                                .fontWeight(.medium)
                                 .foregroundColor(newTopBackgroundColor)
                         }
                         .toggleStyle(WidgetFirstEpisodePlayToggleStyle())
                     } else {
+                        Spacer()
+                            .frame(height: 4)
                         topText
                             .font(.caption2)
-                            .foregroundColor(Color.white.opacity(0.8))
+                            .foregroundColor(Color.white.opacity(0.6))
                     }
                 }
                 if !isFirstEpisode, #available(iOS 17, *) {
@@ -61,11 +64,13 @@ struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
                     .foregroundStyle(newTopBackgroundColor)
             }
             .frame(width: 24, height: 24)
-            // TODO: Something fun - create a timeline that counts down by the minute?
+            // TODO: Something fun - create a timeline that counts down by the minute instead of showing "now playing"
             configuration.label
                 .truncationMode(.tail)
         }
-        .padding(.trailing, 8) // matches the 8px leading built into the icon
+        .padding(.trailing, 14) // matches the 8px leading built into the icon
+        .padding(.leading, 6) // 6 + 8 (from icon) = 14 in design
+        .padding(.vertical, 2) // 2 + 8 (from icon) = 10 in design (actually 9.76)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .foregroundColor(.white)
