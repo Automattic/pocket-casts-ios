@@ -1,3 +1,7 @@
+7.54
+-----
+
+
 7.53
 -----
 - Moves Bookmarks out of Early Access: [#1224]
