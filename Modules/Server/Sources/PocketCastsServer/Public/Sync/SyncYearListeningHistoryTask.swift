@@ -102,6 +102,8 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     }
 
     private func updateEpisodes(updates: [Api_HistoryChange]) {
+        let lock = NSLock()
+
         var podcastsToUpdate: Set<String> = []
 
         // Get the list of missing episodes in the database
@@ -121,7 +123,11 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
                 ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
                 DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+
+                // Ensure podcastsToUpdate access is thread-safe to avoid crashes
+                lock.lock()
                 podcastsToUpdate.insert(change.podcast)
+                lock.unlock()
 
                 DispatchQueue.main.async {
                     SyncYearListeningProgress.shared.episodeSynced()

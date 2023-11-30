@@ -8,7 +8,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     private enum TableRow: String {
         case general, notifications, appearance, storageAndDataUse
         case autoArchive, autoDownload, autoAddToUpNext, siriShortcuts
-        case watch, customFiles, help, importSteps, opml
+        case watch, customFiles, importSteps, opml
         case about, pocketCastsPlus, privacy
         case headphoneControls
         case developer, beta
@@ -43,8 +43,6 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.settingsAutoAdd, UIImage(named: "playlast"))
             case .autoDownload:
                 return (L10n.settingsAutoDownload, UIImage(named: "settings_autodownload"))
-            case .help:
-                return (L10n.settingsHelp, UIImage(named: "settings_help"))
             case .importSteps:
                 return (L10n.welcomeImportButton, UIImage(named: "settings_import_podcasts"))
             case .opml:
@@ -88,7 +86,6 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             [.autoArchive, .autoDownload, .autoAddToUpNext],
             [.storageAndDataUse, .siriShortcuts, .headphoneControls, .watch, .customFiles],
             [.importSteps, .opml],
-            [.help],
             [.privacy, .about]
         ]
     }()
@@ -161,9 +158,6 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             navigationController?.pushViewController(AutoArchiveViewController(), animated: true)
         case .autoDownload:
             navigationController?.pushViewController(DownloadSettingsViewController(), animated: true)
-        case .help:
-            let navController = SJUIUtils.navController(for: OnlineSupportController())
-            present(navController, animated: true, completion: nil)
         case .importSteps:
             let controller = ImportViewModel.make(source: "settings", showSubtitle: false)
             navigationController?.present(controller, animated: true)

@@ -78,6 +78,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     var finalScrollViewConstraint: NSLayoutConstraint?
 
+    /// The velocity in which the player was dismissed
+    var dismissVelocity: CGFloat = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.accessibilityViewIsModal = true
@@ -89,14 +92,21 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Analytics.track(.playerShown)
+
+        if !FeatureFlag.newPlayerTransition.enabled {
+            Analytics.track(.playerShown)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        Analytics.track(.playerDismissed)
+
+        if !FeatureFlag.newPlayerTransition.enabled {
+            Analytics.track(.playerDismissed)
+        }
     }
 
     override func viewDidLayoutSubviews() {
