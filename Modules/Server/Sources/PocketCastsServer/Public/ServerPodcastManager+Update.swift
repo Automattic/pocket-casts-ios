@@ -89,6 +89,15 @@ extension ServerPodcastManager {
                     existingEpisode.publishedDate = episodeDate
                     episodeChanged = true
                 }
+
+                // If this episode is the podcasts latest episode, then make sure we also update the latest episode date
+                if uuid == podcast.latestEpisodeUuid, episodeDate != podcast.latestEpisodeDate {
+                    FileLog.shared.addMessage("UpdatePodcast: Updating the podcasts latestEpisodeDate because the episode date changed from \(podcast.latestEpisodeDate?.timeIntervalSince1970 ?? 0) to \(episodeDate.timeIntervalSince1970)")
+
+                    podcast.latestEpisodeDate = episodeDate
+                    DataManager.sharedManager.save(podcast: podcast)
+                }
+
                 if let number = episodeJson["number"] as? Int64, existingEpisode.episodeNumber != number {
                     existingEpisode.episodeNumber = number
                     episodeChanged = true
