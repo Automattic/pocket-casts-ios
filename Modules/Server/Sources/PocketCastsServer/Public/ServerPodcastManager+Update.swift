@@ -29,6 +29,8 @@ extension ServerPodcastManager {
     private func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?) {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return }
 
+        FileLog.shared.addMessage("UpdatePodcast: Updating podcast \(podcast.uuid) from cache server")
+
         podcast.lastUpdatedAt = lastModified
         if let title = podcastJson["title"] as? String {
             podcast.title = title
@@ -67,7 +69,10 @@ extension ServerPodcastManager {
         DataManager.sharedManager.save(podcast: podcast)
 
         for episodeJson in episodesJson {
-            guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else { continue }
+            guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else {
+                FileLog.shared.addMessage("UpdatePodcast: Skipping episode because it is missing required keys: \(episodeJson.debugDescription)")
+                continue
+            }
 
             // for existing episodes, update the fields we want to pick up when they change
             if let existingEpisode = DataManager.sharedManager.findEpisode(uuid: uuid) {
@@ -106,8 +111,11 @@ extension ServerPodcastManager {
 
             // for subscribed podcasts, only add older episodes, newer ones are handled by a refresh
             if podcast.isSubscribed(), episodeDate.timeIntervalSinceNow >= podcast.latestEpisodeDate?.timeIntervalSinceNow ?? TimeInterval.greatestFiniteMagnitude {
+                FileLog.shared.addMessage("UpdatePodcast: Not adding missing episode (\(episodeJson["title"] ?? uuid)) because it's date is newer than the latestEpisodeDate: \(episodeDate.timeIntervalSince1970) vs \(podcast.latestEpisodeDate?.timeIntervalSince1970 ?? TimeInterval.greatestFiniteMagnitude)")
                 continue
             }
+
+            FileLog.shared.addMessage("UpdatePodcast: Adding missing episode: \(episodeJson["title"] ?? uuid)")
 
             // if we get to here then we need to add this episode because we are missing it
             let episode = Episode()
