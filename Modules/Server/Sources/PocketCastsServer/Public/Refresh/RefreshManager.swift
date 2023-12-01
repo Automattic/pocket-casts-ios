@@ -30,6 +30,22 @@ public class RefreshManager {
         refreshQueue.addOperation(UpNextSyncTask())
     }
 
+
+    /// Updates a podcast and all the associated information.
+    ///
+    /// Note that this will force all the episodes to be updated.
+    /// - Parameter podcast: a `Podcast` object
+    public func refresh(podcast: Podcast) {
+        podcast.forceRefreshEpisodes = true
+        refresh(podcasts: [podcast]) {
+            if SyncManager.isUserLoggedIn() {
+                guard let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcast.uuid) else { return }
+
+                DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+            }
+        }
+    }
+
     public func refreshPodcasts(forceEvenIfRefreshedRecently: Bool = false) {
         if !forceEvenIfRefreshedRecently {
             if let lastRefreshStartTime = ServerSettings.lastRefreshStartTime(), fabs(lastRefreshStartTime.timeIntervalSinceNow) < RefreshManager.minTimeBetweenRefreshes {
@@ -44,14 +60,20 @@ public class RefreshManager {
             }
         }
 
+        refresh(podcasts: DataManager.sharedManager.allPodcasts(includeUnsubscribed: false))
+    }
+
+    private func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) {
         UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
-        let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let podcasts = podcasts
 
         DispatchQueue.global().async {
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
                 guard let self = self else { return }
 
-                self.processPodcastRefreshResponse(refreshResponse, completion: nil)
+                self.processPodcastRefreshResponse(refreshResponse) { _ in
+                    completion?()
+                }
             }
         }
     }
