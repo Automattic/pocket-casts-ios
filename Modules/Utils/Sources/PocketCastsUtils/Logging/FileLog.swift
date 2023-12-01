@@ -41,6 +41,8 @@ public final class FileLog {
     private let logQueue: DispatchQueueing
     private let logger: Logger?
 
+    private var filePathCreated = false
+
     private lazy var logBuffer: [LogEntry] = [] {
         didSet {
             if logBuffer.count >= bufferThreshold {
@@ -61,13 +63,6 @@ public final class FileLog {
         self.logQueue = writeQueue
         self.bufferThreshold = bufferThreshold
         self.logger = logger
-    }
-
-    public func setup() {
-        let fileManager = FileManager.default
-        do {
-            try fileManager.createDirectory(atPath: LogFilePaths.logDirectory, withIntermediateDirectories: true, attributes: nil)
-        } catch {}
     }
 
     public func addMessage(_ message: String) {
