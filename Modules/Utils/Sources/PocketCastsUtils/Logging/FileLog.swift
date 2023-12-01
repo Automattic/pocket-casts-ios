@@ -38,16 +38,16 @@ public final class FileLog {
     private let bufferThreshold: UInt
     private let logPersistence: PersistentTextWriting
     private let logRotator: FileRotating
+    private let logQueue: DispatchQueueing
     private let logger: Logger?
 
-    private lazy var entries: [LogEntry] = [] {
+    private lazy var logBuffer: [LogEntry] = [] {
         didSet {
-            if entries.count >= bufferThreshold {
+            if logBuffer.count >= bufferThreshold {
                 writeLogBufferToDisk()
             }
         }
     }
-    private let logQueue: DispatchQueueing
 
     init(
         logPersistence: PersistentTextWriting,
@@ -74,7 +74,7 @@ public final class FileLog {
         // if it's important enough to log to file, write it to the debug console as well
         logger?.log("\(message, privacy: .public)")
 
-        entries.append(LogEntry(message))
+        logBuffer.append(LogEntry(message))
     }
 
     // Just a shortcut for `addMessage` to be used specifically for
@@ -90,21 +90,8 @@ public final class FileLog {
     }
 
     public func forceFlush() {
-        logger?.log("\(Self.self) forcibly flushing to disk.")
+        logger?.debug("\(Self.self) forcibly flushing to disk.")
         writeLogBufferToDisk()
-    }
-
-    private func writeLogBufferToDisk() {
-        let logTimestampFormatter = DateFormatHelper.sharedHelper.localTimeJsonDateFormatter
-        let newLogChunk = entries.reduce(into: "") { resultChunk, logEntry in
-            let formattedTimestamp = logTimestampFormatter.string(from: logEntry.timestamp)
-            let logLine = "\(formattedTimestamp) \(logEntry.message)\n"
-
-            resultChunk.append(logLine)
-        }
-
-        entries.removeAll(keepingCapacity: true)
-        appendStringToLog(newLogChunk)
     }
 
     public func loadLogFileAsString(completion: @escaping (String) -> Void) {
@@ -143,6 +130,19 @@ public final class FileLog {
             }
         }
         .eraseToAnyPublisher()
+    }
+
+    private func writeLogBufferToDisk() {
+        let logTimestampFormatter = DateFormatHelper.sharedHelper.localTimeJsonDateFormatter
+        let newLogChunk = logBuffer.reduce(into: "") { resultChunk, logEntry in
+            let formattedTimestamp = logTimestampFormatter.string(from: logEntry.timestamp)
+            let logLine = "\(formattedTimestamp) \(logEntry.message)\n"
+
+            resultChunk.append(logLine)
+        }
+
+        logBuffer.removeAll(keepingCapacity: true)
+        appendStringToLog(newLogChunk)
     }
 
     private func appendStringToLog(_ logUpdate: String) {
