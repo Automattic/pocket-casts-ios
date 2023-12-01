@@ -41,8 +41,6 @@ public final class FileLog {
     private let logQueue: DispatchQueueing
     private let logger: Logger?
 
-    private var filePathCreated = false
-
     private lazy var logBuffer: [LogEntry] = [] {
         didSet {
             if logBuffer.count >= bufferThreshold {
