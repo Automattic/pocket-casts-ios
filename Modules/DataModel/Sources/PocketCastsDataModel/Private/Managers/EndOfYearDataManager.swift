@@ -218,16 +218,15 @@ class EndOfYearDataManager {
         dbQueue.inDatabase { db in
             do {
                 let query = """
-                            SELECT (totalPlayedTime * 0.4) * (played_episodes * 0.6) as weighted, * FROM
-                            (SELECT DISTINCT \(DataManager.episodeTableName).uuid as episodeUuid,
+                            SELECT DISTINCT \(DataManager.episodeTableName).uuid,
                                 SUM(playedUpTo) as totalPlayedTime,
                                 COUNT(\(DataManager.episodeTableName).id) as played_episodes,
                                 \(DataManager.podcastTableName).*
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
                             WHERE `\(DataManager.podcastTableName)`.uuid = `\(DataManager.episodeTableName)`.podcastUuid and
                                 \(listenedEpisodesThisYear)
-                            GROUP BY podcastUuid)
-                            ORDER BY weighted DESC
+                            GROUP BY podcastUuid
+                            ORDER BY totalPlayedTime DESC
                             LIMIT \(limit)
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
@@ -243,7 +242,13 @@ class EndOfYearDataManager {
             }
         }
 
-        return allPodcasts
+        // If there's a tie on total played time, check number of played episodes
+        return allPodcasts.sorted(by: {
+            if $0.totalPlayedTime == $1.totalPlayedTime {
+                return $0.numberOfPlayedEpisodes > $1.numberOfPlayedEpisodes
+            }
+            return $0.totalPlayedTime > $1.totalPlayedTime
+        })
     }
 
     /// Return the longest listened episode
