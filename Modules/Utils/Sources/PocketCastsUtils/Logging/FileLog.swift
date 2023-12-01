@@ -88,6 +88,7 @@ public final class FileLog {
     }
 
     public func loadLogFileAsString(completion: @escaping (String) -> Void) {
+        forceFlush()
         logQueue.async {
             let mainFileContents: String
             do {

@@ -77,8 +77,12 @@ struct LogFileWriter: PersistentTextWriting {
     }
 
     private func createDirectoryStructure(for filePath: String) throws {
+        let filePathComponents = filePath.split(separator: "/")
+        let directoryPathComponenets = filePathComponents.dropLast()
+        let directoryPath = directoryPathComponenets.joined(separator: "/")
+
         try fileManager.createDirectory(
-            atPath: filePath,
+            atPath: directoryPath,
             withIntermediateDirectories: true,
             attributes: nil
         )
