@@ -3152,10 +3152,10 @@
 "whats_new" = "What's New";
 
 /* Widget prompt title to direct the user to the discover tab to add new podcasts to their queue */
-"widgets_discover_prompt_title" = "Ears hungry for more?";
+"widgets_discover_prompt_title" = "Nothing in Up Next";
 
 /* Widget prompt message to direct the user to the discover tab to add new podcasts to their queue */
-"widgets_discover_prompt_msg" = "Check out the Discover Tab";
+"widgets_discover_prompt_msg" = "Check out Discover for more";
 
 /* Widget label informing the user that nothing is currently being played. */
 "widgets_nothing_playing" = "Nothing Playing";

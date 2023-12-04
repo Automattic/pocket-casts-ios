@@ -3072,9 +3072,9 @@ internal enum L10n {
   internal static var widgetsAppIconDescription: String { return L10n.tr("Localizable", "widgets_app_icon_description") }
   /// Icon
   internal static var widgetsAppIconName: String { return L10n.tr("Localizable", "widgets_app_icon_name") }
-  /// Check out the Discover Tab
+  /// Check out Discover for more
   internal static var widgetsDiscoverPromptMsg: String { return L10n.tr("Localizable", "widgets_discover_prompt_msg") }
-  /// Ears hungry for more?
+  /// Nothing in Up Next
   internal static var widgetsDiscoverPromptTitle: String { return L10n.tr("Localizable", "widgets_discover_prompt_title") }
   /// Nothing Playing
   internal static var widgetsNothingPlaying: String { return L10n.tr("Localizable", "widgets_nothing_playing") }
