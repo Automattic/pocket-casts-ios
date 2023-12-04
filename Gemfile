@@ -8,7 +8,7 @@ gem 'commonmarker'
 gem 'danger-dangermattic', git: 'https://github.com/Automattic/dangermattic'
 gem 'fastlane', '~> 2.216'
 gem 'fastlane-plugin-sentry', '~> 1.14'
-gem 'fastlane-plugin-wpmreleasetoolkit', '~> 9.0'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 9.1'
 gem 'rubocop', '~> 1.57'
 gem 'watchbuild'
 

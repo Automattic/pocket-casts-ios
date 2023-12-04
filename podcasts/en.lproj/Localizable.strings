@@ -3564,7 +3564,7 @@
 "eoy_story_top_podcasts_share_text" = "My top podcasts of the year! %1$@";
 
 /* Title of a list of podcasts created containing the user's top 5 podcasts of 2022. */
-"eoy_story_top_podcasts_list_title" = "My top podcasts of 2022";
+"eoy_story_top_podcasts_list_title" = "My top podcasts of the year!";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
 "eoy_story_longest_episode" = "The longest episode you listened to was %1$@";
