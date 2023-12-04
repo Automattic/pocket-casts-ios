@@ -1,6 +1,18 @@
-7.52
+7.54
 -----
 - Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
+
+7.53
+-----
+- Moves Bookmarks out of Early Access: [#1224]
+- Shows the Bookmarks tab after Chapters [#1240]
+- Makes the player transition faster, smoother and with a new effect [#1090]
+- Attempts to fix podcast being removed from their folders [#1239]
+
+7.52
+-----
+- Enables Bookmarks for Early Access: [#1202]
+- Enables Playback 2023 [#1206]
 
 7.51
 -----

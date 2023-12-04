@@ -221,7 +221,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     // MARK: - Player Actions
 
-    @objc private func overflowTapped() {
+    @objc func overflowTapped() {
         let shelfController = ShelfActionsViewController()
         shelfController.playerActionsDelegate = self
         let bottomSheet = MDCBottomSheetController(contentViewController: shelfController)

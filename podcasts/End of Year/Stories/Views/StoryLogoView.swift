@@ -6,7 +6,7 @@ struct StoryLogoView: View {
             Spacer()
             HStack {
                 Spacer()
-                Image("logo_white")
+                Image("logo")
                     .padding(.bottom, Constants.paddingBottom)
                 Spacer()
             }

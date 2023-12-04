@@ -7,7 +7,7 @@ import XCTest
 class EndOfYearStoriesBuilderTests: XCTestCase {
     override func setUp() {
         // Do not sync for episodes
-        Settings.hasSyncedAll2022Episodes = true
+        Settings.hasSyncedEpisodesForPlayback2023 = true
 
         // Pretend we're logged in
         ServerSettings.setSyncingEmail(email: "test@test.com")
@@ -48,14 +48,14 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
 
         endOfYearManager.listenedCategoriesToReturn = [
-            ListenedCategory(numberOfPodcasts: 1, categoryTitle: "title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 500)
+            ListenedCategory(numberOfPodcasts: 1, categoryTitle: "title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 500, numberOfEpisodes: 5)
         ]
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0.first, EndOfYearStory.listenedCategories)
-        XCTAssertEqual(stories.0[1], EndOfYearStory.topCategories)
+        XCTAssertEqual(stories.0.first, EndOfYearStory.topCategories)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
-        XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
+        XCTAssertEqual(stories.1.listenedCategories.first?.totalPlayedTime, 500)
+        XCTAssertEqual(stories.1.listenedCategories.first?.numberOfEpisodes, 5)
     }
 
     func testDontReturnListenedCategoriesIfEmpty() async {
@@ -66,7 +66,6 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         endOfYearManager.listenedCategoriesToReturn = []
         let stories = await builder.build()
 
-        XCTAssertFalse(stories.0.contains(.listenedCategories))
         XCTAssertFalse(stories.0.contains(.topCategories))
         XCTAssertTrue(stories.1.listenedCategories.isEmpty)
     }
@@ -178,12 +177,46 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         XCTAssertNil(stories.1.longestEpisodePodcast)
     }
 
+    func testReturnYearOverYearListeningTime() async {
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
+
+        endOfYearManager.yearOverYearToReturn = YearOverYearListeningTime(
+            totalPlayedTimeThisYear: 153,
+            totalPlayedTimeLastYear: 100
+        )
+
+        let stories = await builder.build()
+
+        XCTAssertTrue(stories.0.contains(.yearOverYearListeningTime))
+        XCTAssertEqual(endOfYearManager.yearOverYearToReturn?.percentage, 53.0)
+        XCTAssertNotNil(stories.1.yearOverYearListeningTime)
+    }
+
+    func testReturnCompletionRate() async {
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager)
+
+        endOfYearManager.episodesStartedAndCompleted = EpisodesStartedAndCompleted(
+            started: 10,
+            completed: 5
+        )
+
+        let stories = await builder.build()
+
+        XCTAssertTrue(stories.0.contains(.completionRate))
+        XCTAssertEqual(endOfYearManager.episodesStartedAndCompleted?.percentage, 0.5)
+        XCTAssertNotNil(stories.1.episodesStartedAndCompleted)
+    }
+
     func testSyncWhenNeeded() async {
         var syncCalled = false
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
-        Settings.hasSyncedAll2022Episodes = false
+        Settings.hasSyncedEpisodesForPlayback2023 = false
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         _ = await builder.build()
@@ -196,12 +229,46 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalled = true; return true })
-        Settings.hasSyncedAll2022Episodes = true
+        Settings.hasSyncedEpisodesForPlayback2023 = true
 
         endOfYearManager.isFullListeningHistoryToReturn = false
         _ = await builder.build()
 
         XCTAssertFalse(syncCalled)
+    }
+
+    /// When a user syncs their listening history but aren't Plus users
+    /// the app doesn't sync their 2022 data.
+    /// So if they become Plus we should re-sync again.
+    func testSyncWhenAlreadySyncedButAsFreeUser() async {
+        var syncCalledTimes = 0
+        var plusUser = false
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
+        Settings.hasSyncedEpisodesForPlayback2023 = false
+        endOfYearManager.isFullListeningHistoryToReturn = false
+        _ = await builder.build()
+
+        plusUser = true
+        _ = await builder.build()
+
+        XCTAssertEqual(syncCalledTimes, 2)
+    }
+
+    func testDontSyncAgainWhenSubscriptionStatusDontChange() async {
+        var syncCalledTimes = 0
+        let plusUser = false
+        let endOfYearManager = EndOfYearManagerMock()
+        let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, sync: { syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
+        Settings.hasSyncedEpisodesForPlayback2023 = false
+        endOfYearManager.isFullListeningHistoryToReturn = false
+        _ = await builder.build()
+
+        _ = await builder.build()
+
+        XCTAssertEqual(syncCalledTimes, 1)
     }
 }
 

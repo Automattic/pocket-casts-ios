@@ -280,7 +280,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
             Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
             Constants.RemoteParams.patronEnabled: NSNumber(value: Constants.RemoteParams.patronEnabledDefault),
-            Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault)
+            Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
+            Constants.RemoteParams.bookmarksEnabled: NSNumber(value: Constants.RemoteParams.bookmarksEnabledDefault),
         ])
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
@@ -288,15 +289,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 remoteConfig.activate(completion: nil)
 
                 self?.updateEndOfYearRemoteValue()
-                self?.updatePatronRemoteFeatureFlag()
+                self?.updateRemoteFeatureFlags()
             }
         }
     }
 
-    private func updatePatronRemoteFeatureFlag() {
+    private func updateRemoteFeatureFlags() {
         #if !DEBUG
         do {
             try FeatureFlagOverrideStore().override(FeatureFlag.patron, withValue: Settings.patronEnabled)
+            try FeatureFlagOverrideStore().override(FeatureFlag.bookmarks, withValue: Settings.remoteBookmarksEnabled)
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
             IapHelper.shared.requestProductInfoIfNeeded()
@@ -377,11 +379,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupSignOutListener() {
-        guard backgroundSignOutListener == nil, let rootController = SceneHelper.rootViewController() else {
+        guard backgroundSignOutListener == nil else {
             return
         }
 
-        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: rootController)
+        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
     }
 
     // MARK: What's New

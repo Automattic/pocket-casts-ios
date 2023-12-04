@@ -7,7 +7,6 @@ struct BookmarksPlayerTab: View {
 
     var body: some View {
         BookmarksListView(viewModel: viewModel, style: BookmarksPlayerTabStyle())
-            .padding(.bottom)
     }
 }
 

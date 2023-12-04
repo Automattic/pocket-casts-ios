@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct TopOnePodcastStory: ShareableStory {
-    var duration: TimeInterval = 5.seconds
+    @Environment(\.animated) var animated: Bool
 
     let identifier: String = "top_one_podcast"
 
@@ -21,6 +21,8 @@ struct TopOnePodcastStory: ShareableStory {
         .white
     }
 
+    var coverAnimation: Namespace.ID?
+
     var body: some View {
         let podcast = topPodcast.podcast
         GeometryReader { geometry in
@@ -35,26 +37,41 @@ struct TopOnePodcastStory: ShareableStory {
 
                 ZStack {
                     podcastCover(1)
+                        .if(animated && coverAnimation != nil) { view in
+                            view.matchedGeometryEffect(id: "secondCover", in: coverAnimation!)
+                        }
                         .frame(width: geometry.size.width * 0.3, height: geometry.size.width * 0.3)
                         .offset(x: -geometry.size.width * 0.53, y: -geometry.size.height * 0.15)
                         .opacity(0.3)
 
                     podcastCover(2)
+                        .if(animated && coverAnimation != nil) { view in
+                            view.matchedGeometryEffect(id: "thirdCover", in: coverAnimation!)
+                        }
                         .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.25)
                         .offset(x: -geometry.size.width * 0.3, y: geometry.size.height * 0.2)
                         .opacity(0.5)
 
                     podcastCover(3)
+                        .if(animated && coverAnimation != nil) { view in
+                            view.matchedGeometryEffect(id: "fourthCover", in: coverAnimation!)
+                        }
                         .frame(width: geometry.size.width * 0.32, height: geometry.size.width * 0.32)
                         .offset(x: geometry.size.width * 0.3, y: geometry.size.height * 0.23)
                         .opacity(0.5)
 
                     podcastCover(4)
+                        .if(animated && coverAnimation != nil) { view in
+                            view.matchedGeometryEffect(id: "fifthCover", in: coverAnimation!)
+                        }
                         .frame(width: geometry.size.width * 0.2, height: geometry.size.width * 0.2)
                         .offset(x: geometry.size.width * 0.4, y: -geometry.size.height * 0.11)
                         .opacity(0.2)
 
                     PodcastCover(podcastUuid: topPodcast.podcast.uuid, higherQuality: true)
+                        .if(animated && coverAnimation != nil) { view in
+                            view.matchedGeometryEffect(id: "firstCover", in: coverAnimation!)
+                        }
                         .frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7)
                 }
                 .padding(.top, geometry.size.height * 0.09)
@@ -62,7 +79,7 @@ struct TopOnePodcastStory: ShareableStory {
                 ZStack(alignment: .bottom) {
                     Color.black
 
-                    StoryGradient()
+                    StoryGradient(geometry: geometry)
                     .offset(x: -geometry.size.width * 0.8, y: geometry.size.height * 0.25)
                 }
             )

@@ -1,6 +1,22 @@
 import UIKit
 
 extension UIViewController {
+    var topMostPresentedViewController: UIViewController? {
+        guard UIApplication.shared.applicationState != .background else {
+            return nil
+        }
+
+        if let presentedViewController, !presentedViewController.isBeingDismissed {
+            return presentedViewController.topMostPresentedViewController
+        }
+
+        if self is UINavigationController {
+            return navigationController?.visibleViewController?.topMostPresentedViewController
+        }
+
+        return self
+    }
+
     /// Presents the given view controller from the root view controller, or the currently presented view controller if there is one.
     func presentFromRootController(_ controller: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
         guard let presentingController = presentedViewController ?? SceneHelper.rootViewController() else {

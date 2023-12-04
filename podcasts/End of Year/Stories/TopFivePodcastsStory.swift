@@ -3,13 +3,36 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 struct TopFivePodcastsStory: ShareableStory {
+    @Environment(\.animated) var animated: Bool
+
+    @Environment(\.renderForSharing) var renderForSharing: Bool
+
     let topPodcasts: [TopPodcast]
 
     let identifier: String = "top_five_podcast"
 
-    let duration: TimeInterval = 5.seconds
+    @Namespace private var coverAnimation
+
+    @State var showTopFive = false
 
     var body: some View {
+        ZStack {
+            if renderForSharing || showTopFive {
+                topFiveStory
+            }
+
+            if !renderForSharing && !showTopFive {
+                TopOnePodcastStory(podcasts: topPodcasts, coverAnimation: coverAnimation)
+            }
+        }
+        .onAppear {
+            withAnimation(.spring(duration: 1, bounce: 0.3)) {
+                showTopFive = true
+            }
+        }
+    }
+
+    var topFiveStory: some View {
         GeometryReader { geometry in
             PodcastCoverContainer(geometry: geometry) {
                 StoryLabelContainer(geometry: geometry) {
@@ -28,12 +51,14 @@ struct TopFivePodcastsStory: ShareableStory {
                 .padding([.leading, .trailing], 35)
                 .padding(.top, headerSpacing)
             }.background(
-                ZStack(alignment: .bottom) {
+                ZStack(alignment: .top) {
                     Color.black
 
-                    StoryGradient()
-                    .offset(x: geometry.size.width * 0.7, y: -geometry.size.height * 0.7)
+                    StoryGradient(geometry: geometry)
+                    .offset(x: geometry.size.width * 0.7, y: -geometry.size.height * 0.22)
+                    .clipped()
                 }
+                .ignoresSafeArea()
             )
         }
     }
@@ -49,6 +74,26 @@ struct TopFivePodcastsStory: ShareableStory {
 
                 if let podcast = topPodcasts[safe: index]?.podcast {
                     PodcastCover(podcastUuid: podcast.uuid)
+                        .if(animated && index == 0) { view in
+                            view
+                                .matchedGeometryEffect(id: "firstCover", in: coverAnimation, isSource: false)
+                        }
+                        .if(animated && index == 1) { view in
+                            view
+                                .matchedGeometryEffect(id: "secondCover", in: coverAnimation, isSource: false)
+                        }
+                        .if(animated && index == 2) { view in
+                            view
+                                .matchedGeometryEffect(id: "thirdCover", in: coverAnimation, isSource: false)
+                        }
+                        .if(animated && index == 3) { view in
+                            view
+                                .matchedGeometryEffect(id: "fourthCover", in: coverAnimation, isSource: false)
+                        }
+                        .if(animated && index == 4) { view in
+                            view
+                                .matchedGeometryEffect(id: "fifthCover", in: coverAnimation, isSource: false)
+                        }
                         .frame(width: size, height: size)
                 } else {
                     Rectangle()
@@ -95,5 +140,11 @@ struct TopFivePodcastsStory: ShareableStory {
 struct DummyStory_Previews: PreviewProvider {
     static var previews: some View {
         TopFivePodcastsStory(topPodcasts: [TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600)])
+    }
+}
+
+extension AnyTransition {
+    static var identityHack: AnyTransition {
+        .asymmetric(insertion: .identity, removal: .identity)
     }
 }
