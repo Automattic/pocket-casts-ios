@@ -83,6 +83,8 @@ public final class FileLog {
     }
 
     public func forceFlush() {
+        guard !logBuffer.isEmpty else { return }
+        
         logger?.debug("\(Self.self) forcibly flushing to disk.")
         writeLogBufferToDisk()
     }
