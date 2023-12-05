@@ -3958,3 +3958,6 @@
 
 /* Message of an alert that informs the user purchasing is disabled in the beta. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. %1$@ is the name of the tier (Plus or Patron)*/
 "beta_purchase_disabled" = "Please download Pocket Casts from the App Store to purchase %1$@.";
+
+/* Title of a message shown when the users data is being exported */
+"exporting" = "Exporting...";
