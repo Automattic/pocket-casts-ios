@@ -398,7 +398,7 @@ platform :ios do
       body: "Merge changes from #{app_version} (#{build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
       head: options[:beta_release] ? merge_branch_name : release_branch_name,
       base: 'trunk',
-      labels: ["Releases"]
+      labels: ['Releases']
     )
 
     UI.message('Sending message to Slack...')
