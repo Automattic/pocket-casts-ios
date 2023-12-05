@@ -1,6 +1,7 @@
 7.54
 -----
 - Adds a button to export the database and preferences from the Help & Feedback view [#1257]
+- Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
 
 7.53
 -----
