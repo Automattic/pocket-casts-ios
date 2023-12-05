@@ -39,16 +39,10 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneTapped))
 
-        customRightBtn = nil
+        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .done, target: self, action: #selector(showOptions))
+
         AnalyticsHelper.userGuideOpened()
         Analytics.track(.settingsHelpShown)
-    }
-
-    override func refreshRightButtons() {
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(named: "settings_export_podcasts"), style: .done, target: self, action: #selector(export)),
-            UIBarButtonItem(image: UIImage(named: "status_page"), style: .done, target: self, action: #selector(showStatusPage)),
-        ]
     }
 
     private func setupWebView() {
@@ -71,16 +65,29 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc private func showStatusPage() {
+    @objc private func showOptions() {
+        let controller = UIAlertController()
+        controller.addAction(.init(title: L10n.settingsStatusPage, style: .default, handler: { [weak self] _ in
+            self?.showStatusPage()
+        }))
+
+        controller.addAction(.init(title: L10n.exportDatabase, style: .default, handler: { [weak self] _ in
+            self?.export()
+        }))
+
+        present(controller, animated: true)
+    }
+
+    private func showStatusPage() {
         let hostingController = ThemedHostingController(rootView: StatusPageView())
         navigationController?.pushViewController(hostingController, animated: true)
     }
 
-    @objc private func export() {
+    private func export() {
         databaseExport = .init()
-        databaseExport?.exportDatabase(from: self) { [weak self] in
-            self?.databaseExport = nil
-        }
+                databaseExport?.exportDatabase(from: self) { [weak self] in
+                    self?.databaseExport = nil
+                }
     }
 
     private func load() {
