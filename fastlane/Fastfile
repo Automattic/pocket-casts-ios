@@ -391,22 +391,14 @@ platform :ios do
 
     # TODO: move this to a GH action
     UI.message('Opening PR to merge changes to trunk...')
-    github_api(
-      server_url: 'https://api.github.com',
+    create_pull_request(
       api_token: ENV.fetch('GITHUB_TOKEN'),
-      http_method: 'POST',
-      path: "/repos/#{GHHELPER_REPO}/pulls",
-      body: {
-        title: "#{app_version} Release: Merge changes from #{build_version} into `trunk`",
-        body: "Merge changes from #{app_version} (#{build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
-        head: options[:beta_release] ? merge_branch_name : release_branch_name,
-        base: 'trunk'
-      },
-      error_handlers: {
-        '*' => proc do |_result|
-          UI.important("⚠️ Couldn't open the PR to merge changes to trunk. Please do it manually.")
-        end
-      }
+      repo: GHHELPER_REPO,
+      title: "#{app_version} Release: Merge changes from #{build_version} into `trunk`",
+      body: "Merge changes from #{app_version} (#{build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
+      head: options[:beta_release] ? merge_branch_name : release_branch_name,
+      base: 'trunk',
+      labels: ["Releases"]
     )
 
     UI.message('Sending message to Slack...')
