@@ -13,6 +13,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
     private var emailHelper = EmailHelper()
     private var supportWebView: WKWebView!
+    private var databaseExport: DatabaseExport? = nil
 
     var request: URLRequest
 
@@ -38,10 +39,16 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneTapped))
 
-        customRightBtn = UIBarButtonItem(image: UIImage(named: "status_page"), style: .done, target: self, action: #selector(showStatusPage))
-
+        customRightBtn = nil
         AnalyticsHelper.userGuideOpened()
         Analytics.track(.settingsHelpShown)
+    }
+
+    override func refreshRightButtons() {
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: UIImage(named: "settings_export_podcasts"), style: .done, target: self, action: #selector(export)),
+            UIBarButtonItem(image: UIImage(named: "status_page"), style: .done, target: self, action: #selector(showStatusPage)),
+        ]
     }
 
     private func setupWebView() {
@@ -67,6 +74,13 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
     @objc private func showStatusPage() {
         let hostingController = ThemedHostingController(rootView: StatusPageView())
         navigationController?.pushViewController(hostingController, animated: true)
+    }
+
+    @objc private func export() {
+        databaseExport = .init()
+        databaseExport?.exportDatabase(from: self) { [weak self] in
+            self?.databaseExport = nil
+        }
     }
 
     private func load() {
