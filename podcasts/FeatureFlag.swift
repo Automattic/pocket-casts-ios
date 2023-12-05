@@ -1,9 +1,6 @@
 import Foundation
 
 enum FeatureFlag: String, CaseIterable {
-    /// Whether we should detect and show the free trial UI
-    case freeTrialsEnabled
-
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
@@ -52,8 +49,6 @@ enum FeatureFlag: String, CaseIterable {
         }
 
         switch self {
-        case .freeTrialsEnabled:
-            return true
         case .tracksLogging:
             return false
         case .firebaseLogging:
