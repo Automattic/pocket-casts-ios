@@ -3961,3 +3961,6 @@
 
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
+
+/* Title of an option to export the users data */
+"export_database" = "Export Database";

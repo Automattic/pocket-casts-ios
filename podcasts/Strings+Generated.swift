@@ -935,6 +935,8 @@ internal enum L10n {
   internal static var error: String { return L10n.tr("Localizable", "error") }
   /// Unable to find podcast. Please contact the podcast author.
   internal static var errorGeneralPodcastNotFound: String { return L10n.tr("Localizable", "error_general_podcast_not_found") }
+  /// Export Database
+  internal static var exportDatabase: String { return L10n.tr("Localizable", "export_database") }
   /// Exports all your podcasts as an OPML file, which you can import into other podcast apps.
   internal static var exportPodcastsDescription: String { return L10n.tr("Localizable", "export_podcasts_description") }
   /// Export Podcasts
