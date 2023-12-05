@@ -15,7 +15,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     private var productsRequest: SKProductsRequest?
 
     /// Whether or not the user is eligible for a free trial
-    private var isEligibleForTrial = Constants.Values.freeTrialDefaultValue
+    private (set) var isEligibleForTrial = Constants.Values.freeTrialDefaultValue
 
     /// Prevent multiple eligibility requests from being performed
     private var isCheckingEligibility = false
@@ -199,16 +199,12 @@ extension IapHelper {
         return (duration, pricing)
     }
 
-    func isEligibleForFreeTrial() -> Bool {
-        return FeatureFlag.freeTrialsEnabled.enabled && isEligibleForTrial
-    }
-
     /// Checks if there is a free trial introductory offer for the given product
     /// - Parameter identifier: The product to check
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     private func getFreeTrialOffer(_ identifier: Constants.IapProducts) -> SKProductDiscount? {
         guard
-            isEligibleForFreeTrial(),
+            isEligibleForTrial,
             let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
             offer.paymentMode == .freeTrial
         else {
@@ -245,7 +241,6 @@ private extension IapHelper {
     private func updateTrialEligibility() {
         guard
             isCheckingEligibility == false,
-            FeatureFlag.freeTrialsEnabled.enabled,
             getFirstFreeTrialProductId() != nil,
             SubscriptionHelper.hasActiveSubscription() == false,
             let receiptUrl = Bundle.main.appStoreReceiptURL,
@@ -368,7 +363,7 @@ private extension IapHelper {
     func trackPaymentEvent(_ event: AnalyticsEvent, productId: String, error: NSError? = nil) {
         let product = getProductWithIdentifier(identifier: productId)
         let isFreeTrial = product?.introductoryPrice?.paymentMode == .freeTrial
-        let isEligible = isEligibleForFreeTrial()
+        let isEligible = isEligibleForTrial
 
         var properties: [AnyHashable: Any] = ["product": productId,
                                               "is_free_trial_available": isFreeTrial,
