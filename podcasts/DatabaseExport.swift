@@ -11,7 +11,7 @@ class DatabaseExport {
 
     /// ZIPs the users SQLite database and shows a share dialog for them to share it with us
     func exportDatabase(from controller: UIViewController, completion: @escaping () -> Void) {
-        loadingAlert = ShiftyLoadingAlert(title: L10n.exporting)
+        loadingAlert = ShiftyLoadingAlert(title: L10n.exportingDatabase)
         loadingAlert?.showAlert(controller, hasProgress: false, completion: { [weak self] in
             self?.export { url in
                 self?.share(url: url, from: controller, completion: completion)

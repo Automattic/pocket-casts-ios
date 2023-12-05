@@ -3960,4 +3960,4 @@
 "beta_purchase_disabled" = "Please download Pocket Casts from the App Store to purchase %1$@.";
 
 /* Title of a message shown when the users data is being exported */
-"exporting" = "Exporting...";
+"exporting_database" = "Exporting Database...";
