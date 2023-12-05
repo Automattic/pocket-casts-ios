@@ -5,7 +5,7 @@ import PocketCastsUtils
 class DatabaseExport {
     private let fileManager = FileManager.default
     private var loadingAlert: ShiftyLoadingAlert?
-    
+
     /// The resulting file name of the zip file
     private let exportName = "Pocket Casts Export"
 
@@ -28,7 +28,7 @@ class DatabaseExport {
             SJUIUtils.showAlert(title: L10n.settingsExportError, message: nil, from: controller)
             return
         }
-        
+
         // Share the file
         let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         shareSheet.completionWithItemsHandler = { [weak self] _, _, _, _ in
@@ -97,7 +97,7 @@ class DatabaseExport {
             // Write the preferences to the export folder
             let preferencesFile = exportDirectory.appendingPathComponent("preferences.plist", isDirectory: false)
             try writePreferences(to: preferencesFile)
-
+            
             // Copy the database file into the export folder
             let databaseFile = exportDirectory.appendingPathComponent("database.sqlite", isDirectory: false)
             try fileManager.copyItem(at: databaseURL, to: databaseFile)
