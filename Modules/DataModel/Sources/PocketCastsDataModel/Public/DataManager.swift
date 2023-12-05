@@ -881,7 +881,7 @@ public class DataManager {
 
     // MARK: - Path Related
 
-    private static func pathToDb() -> String {
+    public static func pathToDb() -> String {
         let folderPath = pathToDbFolder() as NSString
 
         return folderPath.appendingPathComponent("podcast_newDB.sqlite3")
