@@ -35,8 +35,8 @@ public class RefreshManager {
     ///
     /// Note that this will force all the episodes to be updated.
     /// - Parameter podcast: a `Podcast` object
-    public func refresh(podcast: Podcast) {
-        podcast.forceRefreshEpisodes = true
+    public func refresh(podcast: Podcast, from episodeUuid: String) {
+        podcast.forceRefreshEpisodeFrom = episodeUuid
         refresh(podcasts: [podcast]) {
             if SyncManager.isUserLoggedIn() {
                 guard let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcast.uuid) else { return }
