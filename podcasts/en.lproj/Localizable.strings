@@ -2657,7 +2657,7 @@
 "settings_read_privacy_policy" = "Read privacy policy";
 
 /* Title of the status page, to check the status of the user's connection. */
-"settings_status_page" = "Status Page";
+"settings_connection_status" = "Connection Status";
 
 /* Label explaining the purpose of the Status Page */
 "settings_status_description" = "Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.";

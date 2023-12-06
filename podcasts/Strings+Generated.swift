@@ -2330,6 +2330,8 @@ internal enum L10n {
   internal static var settingsCollectInformation: String { return L10n.tr("Localizable", "settings_collect_information") }
   /// Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.
   internal static var settingsCollectInformationAdditionalInformation: String { return L10n.tr("Localizable", "settings_collect_information_additional_information") }
+  /// Connection Status
+  internal static var settingsConnectionStatus: String { return L10n.tr("Localizable", "settings_connection_status") }
   /// Create Siri Shortcut
   internal static var settingsCreateSiriShortcut: String { return L10n.tr("Localizable", "settings_create_siri_shortcut") }
   /// Create a Siri Shortcut to play the newest episode of %1$@
@@ -2576,8 +2578,6 @@ internal enum L10n {
   internal static var settingsStatusInternetDescription: String { return L10n.tr("Localizable", "settings_status_internet_description") }
   /// Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).
   internal static var settingsStatusInternetFailureMessage: String { return L10n.tr("Localizable", "settings_status_internet_failure_message") }
-  /// Status Page
-  internal static var settingsStatusPage: String { return L10n.tr("Localizable", "settings_status_page") }
   /// Refresh Service
   internal static var settingsStatusRefreshService: String { return L10n.tr("Localizable", "settings_status_refresh_service") }
   /// The service used to find new episodes.

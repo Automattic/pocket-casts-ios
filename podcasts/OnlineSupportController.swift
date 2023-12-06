@@ -67,7 +67,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
     @objc private func showOptions() {
         let controller = UIAlertController()
-        controller.addAction(.init(title: L10n.settingsStatusPage, style: .default, handler: { [weak self] _ in
+        controller.addAction(.init(title: L10n.settingsConnectionStatus, style: .default, handler: { [weak self] _ in
             self?.showStatusPage()
         }))
 
