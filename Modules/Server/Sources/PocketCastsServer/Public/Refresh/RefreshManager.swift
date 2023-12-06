@@ -65,7 +65,6 @@ public class RefreshManager {
 
     private func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) {
         UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
-        let podcasts = podcasts
 
         DispatchQueue.global().async {
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
