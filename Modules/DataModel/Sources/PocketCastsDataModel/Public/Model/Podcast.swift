@@ -54,8 +54,8 @@ public class Podcast: NSObject, Identifiable {
     // transient not saved to database
     public var cachedUnreadCount = 0
 
-    // if set to true, all podcast episodes will be refreshed in the next sync
-    // useful for when episodes are missing
+    // if set to an episode UUID, all podcast episodes after the given
+    // UUID will be updated
     public var forceRefreshEpisodeFrom: String? = nil
 
     public func autoDownloadOn() -> Bool {
