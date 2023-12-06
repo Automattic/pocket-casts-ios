@@ -125,7 +125,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     @objc private func showUpNext() {
-        let navController = SJUIUtils.navController(for: upNextViewController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let navController = SJUIUtils.navController(for: upNextViewController, iconStyle: .secondaryText01, themeOverride: upNextViewController.themeOverride)
         present(navController, animated: true, completion: nil)
     }
 
