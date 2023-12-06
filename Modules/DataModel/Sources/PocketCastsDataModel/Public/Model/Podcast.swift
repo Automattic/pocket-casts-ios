@@ -56,7 +56,7 @@ public class Podcast: NSObject, Identifiable {
 
     // if set to true, all podcast episodes will be refreshed in the next sync
     // useful for when episodes are missing
-    public var forceRefreshEpisodes: Bool = false
+    public var forceRefreshEpisodeFrom: String? = nil
 
     public func autoDownloadOn() -> Bool {
         autoDownloadSetting == AutoDownloadSetting.latest.rawValue
