@@ -3,10 +3,17 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 extension ServerPodcastManager {
-    public func updatePodcastIfRequired(podcast: Podcast, completion: ((Bool) -> Void)?) {
+
+    /// Update a podcast if required.
+    /// - Parameters:
+    ///   - podcast: a `Podcast`
+    ///   - addMissingEpisodes: if set to `true` it will add missing episodes that are not the latest ones.
+    ///   Latest ones are handled by a refresh (due to auto-download/up next)
+    ///   - completion: a completion block that receives a `Bool`
+    public func updatePodcastIfRequired(podcast: Podcast, addMissingEpisodes: Bool = false, completion: ((Bool) -> Void)?) {
         CacheServerHandler.shared.loadPodcastIfModified(podcast: podcast) { [weak self] podcastInfo, lastModified in
             if let podcastInfo = podcastInfo {
-                self?.updatePodcast(podcast: podcast, lastModified: lastModified, podcastInfo: podcastInfo, completion: {
+                self?.updatePodcast(podcast: podcast, lastModified: lastModified, podcastInfo: podcastInfo, addMissingEpisodes: addMissingEpisodes, completion: {
                     FileLog.shared.addMessage("\(podcast.title ?? "") updated from cache server")
                     completion?(true)
                 })
@@ -17,16 +24,16 @@ extension ServerPodcastManager {
         }
     }
 
-    private func updatePodcast(podcast: Podcast, lastModified: String?, podcastInfo: [String: Any], completion: (() -> Void)?) {
+    private func updatePodcast(podcast: Podcast, lastModified: String?, podcastInfo: [String: Any], addMissingEpisodes: Bool, completion: (() -> Void)?) {
         subscribeQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
 
-            strongSelf.update(podcast: podcast, podcastInfo: podcastInfo, lastModified: lastModified)
+            strongSelf.update(podcast: podcast, podcastInfo: podcastInfo, lastModified: lastModified, addMissingEpisodes: addMissingEpisodes)
             completion?()
         }
     }
 
-    private func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?) {
+    private func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?, addMissingEpisodes: Bool) {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return }
 
         podcast.lastUpdatedAt = lastModified
