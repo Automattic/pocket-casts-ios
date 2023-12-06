@@ -237,7 +237,7 @@ public class MainServerHandler {
         var jsonRequest = jsonWithStandardParams(uniqueId: uniqueId)
         jsonRequest["push_sound"].string = "11" // for legacy reasons, this is always the push sound we send, since it's no longer configurable
         jsonRequest["podcasts"].string = podcasts.map(\.uuid).joined(separator: ",")
-        jsonRequest["last_episodes"].string = podcasts.map { $0.forceRefreshEpisodes ? "" : $0.latestEpisodeUuid ?? "" }.joined(separator: ",")
+        jsonRequest["last_episodes"].string = podcasts.map { $0.forceRefreshEpisodeFrom ?? $0.latestEpisodeUuid ?? "" }.joined(separator: ",")
         jsonRequest["push_messages_on"].string = podcasts.map { (pushEnabled && $0.pushEnabled) ? "1" : "0" }.joined()
         if let pushToken = ServerSettings.pushToken() {
             jsonRequest["push_token"].string = pushToken
