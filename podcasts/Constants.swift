@@ -328,6 +328,9 @@ struct Constants {
 
         static let bookmarksEnabled = "bookmarks_enabled"
         static let bookmarksEnabledDefault = true
+
+        static let addMissingEpisodes = "add_missing_episodes"
+        static let addMissingEpisodesDefault: Bool = true
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5

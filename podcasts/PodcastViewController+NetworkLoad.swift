@@ -24,7 +24,8 @@ extension PodcastViewController {
 
     func checkIfPodcastNeedsUpdating() {
         guard let podcast = podcast else { return }
-        ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast, addMissingEpisodes: true) { [weak self] updated in
+        let addMissingEpisodes = Settings.addMissingEpisodes
+        ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast, addMissingEpisodes: addMissingEpisodes) { [weak self] updated in
             if updated {
                 self?.loadLocalEpisodes(podcast: podcast, animated: true)
             }
