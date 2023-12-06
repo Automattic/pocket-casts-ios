@@ -66,11 +66,13 @@ extension ServerPodcastManager {
 
         DataManager.sharedManager.save(podcast: podcast)
 
-        var missingEpisodesThatIsNotTheLastOne = false
+        var latestEpisodeWasMissing: Bool?
 
-        var latestMissingIndex = 0
+        var missingEpisodesThatIsNotTheLatestOnes = false
 
-        for (index, episodeJson) in episodesJson.enumerated() {
+        var latestAvailableEpisodeUuid: String?
+
+        for episodeJson in episodesJson {
             guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else { continue }
 
             // for existing episodes, update the fields we want to pick up when they change
@@ -105,6 +107,12 @@ extension ServerPodcastManager {
                     DataManager.sharedManager.save(episode: existingEpisode)
                 }
 
+                if latestEpisodeWasMissing == true {
+                    latestAvailableEpisodeUuid = uuid
+                }
+
+                latestEpisodeWasMissing = false
+
                 continue
             }
 
@@ -112,11 +120,11 @@ extension ServerPodcastManager {
             // so stuff like auto-download, auto add to up next works as expected
             // However, if this is not a new episode we force update the podcast episodes
             if podcast.isSubscribed(), episodeDate.timeIntervalSinceNow >= podcast.latestEpisodeDate?.timeIntervalSinceNow ?? TimeInterval.greatestFiniteMagnitude {
-                if !missingEpisodesThatIsNotTheLastOne {
-                    missingEpisodesThatIsNotTheLastOne = (index + 1) - latestMissingIndex == 1 ? false : true
+                if latestEpisodeWasMissing == false {
+                    missingEpisodesThatIsNotTheLatestOnes = true
                 }
 
-                latestMissingIndex = index + 1
+                latestEpisodeWasMissing = true
                 continue
             }
 
@@ -167,8 +175,12 @@ extension ServerPodcastManager {
             cleanupDeletedEpisodes(podcast: podcast, serverEpisodes: episodesJson)
         }
 
-        if missingEpisodesThatIsNotTheLastOne {
-            RefreshManager.shared.refresh(podcast: podcast)
+        // If there are episode missing that are not the recent ones this mean that
+        // likely this show changed the episodes dates. This might lead to some
+        // episodes never being added, so we add them here
+        if missingEpisodesThatIsNotTheLatestOnes, let latestAvailableEpisodeUuid {
+            FileLog.shared.addMessage("[ServerPodcastManager] Updating \(podcast.title ?? "") from episode UUID \(latestAvailableEpisodeUuid)")
+            RefreshManager.shared.refresh(podcast: podcast, from: latestAvailableEpisodeUuid)
         }
     }
 
