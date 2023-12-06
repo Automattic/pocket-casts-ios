@@ -42,6 +42,7 @@ public class RefreshManager {
                 guard let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcast.uuid) else { return }
 
                 DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+                podcast.forceRefreshEpisodeFrom = nil
             }
         }
     }
