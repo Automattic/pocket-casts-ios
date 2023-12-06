@@ -133,7 +133,12 @@ class UpNextNowPlayingCell: ThemeableCell {
         super.handleThemeDidChange()
 
         let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
-        roundedBackgroundView.style = .primaryUi02
+        roundedBackgroundView.style = switch activeTheme {
+        case .extraDark, .contrastDark: .primaryUi05
+        case .contrastLight: .primaryUi05
+        default: .primaryUi02
+        }
+
         progressView.backgroundColor = (activeTheme.isDark ? UIColor.white : UIColor.black).withAlphaComponent(0.1)
         disclosureImageView.layer.cornerRadius = 12
         disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryUi05, themeOverride: themeOverride)
