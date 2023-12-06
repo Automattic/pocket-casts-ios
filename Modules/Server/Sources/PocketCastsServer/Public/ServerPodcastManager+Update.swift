@@ -185,7 +185,7 @@ extension ServerPodcastManager {
         // If there are episode missing that are not the recent ones this mean that
         // likely this show changed the episodes dates. This might lead to some
         // episodes never being added, so we add them here
-        if missingEpisodesThatIsNotTheLatestOnes, let latestAvailableEpisodeUuid {
+        if addMissingEpisodes, missingEpisodesThatIsNotTheLatestOnes, let latestAvailableEpisodeUuid {
             FileLog.shared.addMessage("[ServerPodcastManager] Updating \(podcast.title ?? "") from episode UUID \(latestAvailableEpisodeUuid)")
             RefreshManager.shared.refresh(podcast: podcast, from: latestAvailableEpisodeUuid)
         }
