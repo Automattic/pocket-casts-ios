@@ -869,6 +869,11 @@ class Settings: NSObject {
             return remote.boolValue
         }
 
+        static var addMissingEpisodes: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.addMissingEpisodes)
+            return remote.boolValue
+        }
+
         static var effectsPlayerStrategy: EffectsPlayerStrategy? {
             let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.effectsPlayerStrategy)
             return EffectsPlayerStrategy(rawValue: remote.numberValue.intValue)
