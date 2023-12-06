@@ -9,25 +9,18 @@ class UpNextNowPlayingCell: ThemeableCell {
             episodeTitle.themeOverride = themeOverride
             dateLabel.themeOverride = themeOverride
             timeRemainingLabel.themeOverride = themeOverride
+            roundedBackgroundView.themeOverride = themeOverride
         }
     }
 
-    @IBOutlet var roundedBackgroundView: ThemeableView! {
-        didSet {
-            roundedBackgroundView.style = .playerContrast06
-        }
-    }
+    @IBOutlet var roundedBackgroundView: ThemeableView!
 
-    @IBOutlet var progressView: UIView! {
-        didSet {
-            progressView.backgroundColor = AppTheme.colorForStyle(.playerContrast06, themeOverride: themeOverride).withAlphaComponent(0.1)
-        }
-    }
+    @IBOutlet var progressView: UIView!
 
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var dateLabel: ThemeableLabel! {
         didSet {
-            dateLabel.style = .playerContrast02
+            dateLabel.style = .primaryText02
         }
     }
 
@@ -40,22 +33,17 @@ class UpNextNowPlayingCell: ThemeableCell {
 
     @IBOutlet var timeRemainingLabel: ThemeableLabel! {
         didSet {
-            timeRemainingLabel.style = .playerContrast03
+            timeRemainingLabel.style = .primaryText02
         }
     }
 
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
-            episodeTitle.style = .playerContrast01
+            episodeTitle.style = .primaryText01
         }
     }
 
-    @IBOutlet var disclosureImageView: UIImageView! {
-        didSet {
-            disclosureImageView.layer.cornerRadius = 12
-            disclosureImageView.backgroundColor = ThemeColor.primaryInteractive02()
-        }
-    }
+    @IBOutlet var disclosureImageView: UIImageView!
 
     @IBOutlet var playingAnimationView: NowPlayingAnimationView!
 
@@ -65,6 +53,8 @@ class UpNextNowPlayingCell: ThemeableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        style = .primaryUi04
+
         NotificationCenter.default.addObserver(self, selector: #selector(progressUpdated), name: Constants.Notifications.playbackProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackPaused, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlayingAnimation), name: Constants.Notifications.playbackStarted, object: nil)
@@ -88,7 +78,7 @@ class UpNextNowPlayingCell: ThemeableCell {
             podcastImage.setUserEpisode(uuid: episode.uuid, size: .list)
         }
 
-        EpisodeDateHelper.setDate(episode: episode, on: dateLabel, tintColor: ThemeColor.playerContrast02(for: themeOverride))
+        EpisodeDateHelper.setDate(episode: episode, on: dateLabel, tintColor: ThemeColor.primaryText02(for: themeOverride))
 
         if let dateText = dateLabel.text {
             dateLabel.accessibilityLabel = L10n.queueNowPlayingAccessibility(dateText)
@@ -140,8 +130,14 @@ class UpNextNowPlayingCell: ThemeableCell {
     }
 
     override func handleThemeDidChange() {
-        disclosureImageView.backgroundColor = ThemeColor.primaryInteractive02()
-        progressView.backgroundColor = AppTheme.colorForStyle(.playerContrast06, themeOverride: themeOverride).withAlphaComponent(0.1)
+        super.handleThemeDidChange()
+
+        let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
+        roundedBackgroundView.style = .primaryUi02
+        progressView.backgroundColor = (activeTheme.isDark ? UIColor.white : UIColor.black).withAlphaComponent(0.1)
+        disclosureImageView.layer.cornerRadius = 12
+        disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryUi05, themeOverride: themeOverride)
+        disclosureImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
     }
 
     func updateDownloadStatus() {
