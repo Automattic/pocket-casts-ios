@@ -2,42 +2,34 @@ import PocketCastsDataModel
 import SwipeCellKit
 import UIKit
 
-class PlayerCell: SwipeTableViewCell {
-    var themeOverride: Theme.ThemeType? {
+class PlayerCell: ThemeableSwipeCell {
+    override var themeOverride: Theme.ThemeType? {
         didSet {
-            updateColor()
+            super.updateColor()
             episodeTitle.themeOverride = themeOverride
             episodeInfo.themeOverride = themeOverride
             dayName.themeOverride = themeOverride
+            dividerView.themeOverride = themeOverride
         }
     }
-
-    var style: ThemeStyle = .primaryUi02 {
-        didSet {
-            updateColor()
-        }
-    }
-
-    var selectedStyle: ThemeStyle = .primaryUi02Active
-    var iconStyle: ThemeStyle = .primaryIcon02
 
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
-            episodeTitle.style = .playerContrast01
+            episodeTitle.style = .primaryText01
         }
     }
 
     @IBOutlet var episodeInfo: ThemeableLabel! {
         didSet {
-            episodeInfo.style = .playerContrast03
+            episodeInfo.style = .primaryText02
         }
     }
 
     @IBOutlet var downloadedIndicator: UIImageView!
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
-            dayName.style = .playerContrast03
+            dayName.style = .primaryText02
         }
     }
 
@@ -49,7 +41,6 @@ class PlayerCell: SwipeTableViewCell {
 
     @IBOutlet var selectView: UIView! {
         didSet {
-            selectView.layer.borderColor = AppTheme.colorForStyle(.playerContrast01, themeOverride: themeOverride).cgColor
             selectView.layer.borderWidth = 0
             selectView.layer.cornerRadius = 12
         }
@@ -57,8 +48,7 @@ class PlayerCell: SwipeTableViewCell {
 
     @IBOutlet var dividerView: ThemeableView! {
         didSet {
-            dividerView.style = .playerContrast05
-            dividerView.themeOverride = themeOverride
+            dividerView.style = .primaryUi05
         }
     }
 
@@ -69,8 +59,9 @@ class PlayerCell: SwipeTableViewCell {
     var showTick = false {
         didSet {
             selectTickImageView.isHidden = !showTick
-            selectView.backgroundColor = showTick ? AppTheme.colorForStyle(.playerContrast01, themeOverride: themeOverride) : AppTheme.colorForStyle(.primaryUi04, themeOverride: themeOverride)
-            selectTickImageView.tintColor = AppTheme.colorForStyle(.primaryUi04, themeOverride: themeOverride)
+            selectView.backgroundColor = showTick ? AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride) : AppTheme.colorForStyle(.primaryUi04, themeOverride: themeOverride)
+            selectView.layer.borderWidth = showTick ? 0 : 2
+            selectTickImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive02, themeOverride: themeOverride)
 
             selectView.accessibilityLabel = showTick ? L10n.accessibilityDeselectEpisode : L10n.accessibilitySelectEpisode
         }
@@ -84,8 +75,6 @@ class PlayerCell: SwipeTableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadProgressChange), name: Constants.Notifications.downloadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloadStatusChanged, object: nil)
-
-        overrideUserInterfaceStyle = .dark
     }
 
     override func addSubview(_ view: UIView) {
@@ -193,22 +182,6 @@ class PlayerCell: SwipeTableViewCell {
         }
     }
 
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        setHighlightedState(highlighted)
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        setHighlightedState(selected)
-    }
-
-    private func setHighlightedState(_ highlighted: Bool) {
-        if highlighted {
-            updateBgColor(AppTheme.colorForStyle(selectedStyle, themeOverride: themeOverride))
-        } else {
-            updateBgColor(AppTheme.colorForStyle(style, themeOverride: themeOverride))
-        }
-    }
-
     override func setEditing(_ editing: Bool, animated: Bool) {
         // Show the reordering control but not the native selection view (editControl)
         // In iOS13+ the tableView is in editing mode but the cell is not
@@ -220,12 +193,6 @@ class PlayerCell: SwipeTableViewCell {
 
         showTick = false
         setSelected(false, animated: false)
-    }
-
-    func updateColor() {
-        updateBgColor(AppTheme.colorForStyle(style, themeOverride: themeOverride))
-        accessoryView?.tintColor = AppTheme.colorForStyle(iconStyle, themeOverride: themeOverride)
-        tintColor = AppTheme.colorForStyle(iconStyle, themeOverride: themeOverride)
     }
 
     private func updateBgColor(_ color: UIColor) {
@@ -259,6 +226,14 @@ class PlayerCell: SwipeTableViewCell {
                 setHighlightedState(false)
             }
         }
+    }
+
+    override func handleThemeDidChange() {
+        selectView.layer.borderColor = AppTheme.colorForStyle(.primaryIcon02, themeOverride: themeOverride).cgColor
+        selectView.backgroundColor = showTick ? AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride) : AppTheme.colorForStyle(.primaryUi04, themeOverride: themeOverride)
+        selectView.layer.borderWidth = showTick ? 0 : 2
+        selectTickImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive02, themeOverride: themeOverride)
+
     }
 }
 
