@@ -44,6 +44,10 @@ extension PlayerContainerViewController {
         chaptersItem.view.removeFromSuperview()
         showingChapters = false
 
+        bookmarksItem.removeFromParent()
+        bookmarksItem.view.removeFromSuperview()
+        showingBookmarks = false
+
         tabsView.tabs = [.nowPlaying]
 
         var previousTab: PlayerItemViewController = nowPlayingItem
