@@ -4,7 +4,7 @@ import PocketCastsUtils
 extension PlayerContainerViewController: UIGestureRecognizerDelegate {
     private static let pullDownThreshold: CGFloat = 150
     private static let minimumVelocityToHide: CGFloat = 1000
-    private static let minimumScreenRatioToHide: CGFloat = 0.15
+    private static let minimumScreenRatioToHide: CGFloat = 0.1
 
     @IBAction func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
         FeatureFlag.newPlayerTransition.enabled ? newTransitionPanGestureRecognizerHandler(sender) : oldTransitionPanGestureRecognizerHandler(sender)
@@ -25,8 +25,17 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
                     view.frame.origin.y = touchPoint.y - initialTouchPoint.y
                 }
             case .ended, .cancelled:
-                // The new PlayerContainerViewController.pullDownThreshold is 100
-                if touchPoint.y - initialTouchPoint.y > 100 {
+                // If pan ended, decide it we should close or reset the view
+                // based on the final position and the speed of the gesture
+                // (https://stackoverflow.com/a/47339617)
+                // If the swipe is too quick, we dismiss
+                let translation = sender.translation(in: view)
+                let velocity = sender.velocity(in: view)
+                let closing = (translation.y > view.frame.size.height * Self.minimumScreenRatioToHide) ||
+                (velocity.y > Self.minimumVelocityToHide) || velocity.y > 1000
+                dismissVelocity = velocity.y
+
+                if closing {
                     miniPlayer.closeFullScreenPlayer()
                 } else {
                     UIView.animate(withDuration: 0.2, animations: {

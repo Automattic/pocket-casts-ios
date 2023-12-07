@@ -11,18 +11,18 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     private let dismissVelocity: CGFloat
 
     // The max duration that the transition can last
-    private let maxDismissDuration: TimeInterval = 0.28
+    private let maxDismissDuration: TimeInterval = 0.2
 
     // An assumed "normal" velocity from a pan gesture
     private let normalVelocity: CGFloat = 2500
 
-    // When presenting the player, duration is always 0.35
+    // When presenting the player, duration is always the same
     // However, if the view is being dismissed we take into account
     // the velocity of the swipe down gesture to carry it
     // An agressive swipe down will make the view to be dismissed faster.
     private var duration: TimeInterval {
         guard !isPresenting || dismissVelocity != 0 else {
-            return 0.35
+            return 0.3
         }
 
         return min((normalVelocity * maxDismissDuration) / dismissVelocity, maxDismissDuration)
