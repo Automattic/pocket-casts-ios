@@ -16,7 +16,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     // An assumed "normal" velocity from a pan gesture
     private let normalVelocity: CGFloat = 2500
 
-    // When presenting the player, duration is always 0.25
+    // When presenting the player, duration is always the same
     // However, if the view is being dismissed we take into account
     // the velocity of the swipe down gesture to carry it
     // An agressive swipe down will make the view to be dismissed faster.
