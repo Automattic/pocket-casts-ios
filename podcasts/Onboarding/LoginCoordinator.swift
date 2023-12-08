@@ -62,7 +62,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     func signUpTapped() {
         socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
-        let controller = NewEmailViewController(newSubscription: NewSubscription(isNewAccount: true, iap_identifier: ""))
+        let controller = NewEmailViewController()
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
