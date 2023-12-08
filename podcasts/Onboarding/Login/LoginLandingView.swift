@@ -16,7 +16,6 @@ private struct LoginLandingContent: View {
     @EnvironmentObject var theme: Theme
     @Environment(\.sizeCategory) var sizeCategory
 
-    @ProportionalValue(with: .height) var calculatedHeaderHeightLarge: Double
     @ProportionalValue(with: .height) var calculatedHeaderHeightSmall: Double
     @ProportionalValue(with: .height) var deviceHeight = 1
 
@@ -25,23 +24,13 @@ private struct LoginLandingContent: View {
 
     /// Reduce the header height to allow the buttons to fit for larger size categories
     private var useSmallHeader: Bool {
-        (smallHeight && sizeCategory > .extraLarge) || FeatureFlag.signInWithApple.enabled
+        smallHeight && sizeCategory > .extraLarge
     }
 
     let coordinator: LoginCoordinator
 
     init(coordinator: LoginCoordinator) {
         self.coordinator = coordinator
-
-        // Find the value that will appear the lowest, and use that to calculate the
-        // "total view height" since the actual view height doesn't account correctly
-        calculatedHeaderHeightLarge = {
-            let maxModel = largeHeaderModels.max {
-                $0.y < $1.y
-            }
-
-            return maxModel?.y ?? 0
-        }()
 
         // Calculate the header height for the small header too
         calculatedHeaderHeightSmall = {
@@ -149,12 +138,7 @@ private struct LoginLandingContent: View {
     /// Return the models to use in the header and allow them to be
     /// swapped out dynamically
     var calculatedModels: [CoverModel] {
-        var models: [CoverModel]
-        if useSmallHeader {
-            models = smallHeaderModels
-        } else {
-            models = largeHeaderModels
-        }
+        var models: [CoverModel] = smallHeaderModels
 
         // Map the models to images
         for i in 0..<models.count {
@@ -165,8 +149,7 @@ private struct LoginLandingContent: View {
     }
 
     var loginHeaderHeight: Double {
-        let height = useSmallHeader ? calculatedHeaderHeightSmall : calculatedHeaderHeightLarge
-        return height + (smallHeight ? Config.topPaddingSmallDevice : Config.topPadding)
+        calculatedHeaderHeightSmall + (smallHeight ? Config.topPaddingSmallDevice : Config.topPadding)
     }
 
 }
@@ -349,20 +332,16 @@ private struct SocialLoginButtons: View {
     let coordinator: LoginCoordinator
 
     var body: some View {
-        if !FeatureFlag.signInWithApple.enabled {
-            EmptyView()
-        } else {
-            ForEach(SocialAuthProvider.allCases, id: \.self) { provider in
-                switch provider {
-                case .apple:
-                    Button(L10n.socialSignInContinueWithApple) {
-                        coordinator.signIn(with: provider)
-                    }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName()))
-                case .google:
-                    Button(L10n.socialSignInContinueWithGoogle) {
-                        coordinator.signIn(with: provider)
-                    }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
-                }
+        ForEach(SocialAuthProvider.allCases, id: \.self) { provider in
+            switch provider {
+            case .apple:
+                Button(L10n.socialSignInContinueWithApple) {
+                    coordinator.signIn(with: provider)
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName()))
+            case .google:
+                Button(L10n.socialSignInContinueWithGoogle) {
+                    coordinator.signIn(with: provider)
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
             }
         }
     }
