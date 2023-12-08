@@ -95,7 +95,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil) {
         self.source = source
-        self.themeOverride = themeOverride
+        self.themeOverride = Settings.darkUpNextTheme ? .dark : themeOverride
 
         super.init(nibName: nil, bundle: nil)
     }
