@@ -22,9 +22,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Bookmarks / Highlights
     case bookmarks
 
-    /// Auto scrolls Discover Featured carousel
-    case discoverFeaturedAutoScroll
-
     /// Patron
     case patron
 
@@ -62,8 +59,6 @@ enum FeatureFlag: String, CaseIterable {
         case .newSearch:
             return true
         case .bookmarks:
-            return true
-        case .discoverFeaturedAutoScroll:
             return true
         case .patron:
             return true
