@@ -39,19 +39,15 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     }
 
     func searchDidBegin() {
-        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view,
-              searchView.superview == nil else {
+        guard let searchView = newSearchResultsController.view, searchView.superview == nil else {
             return
         }
 
         searchView.alpha = 0
-        if FeatureFlag.newSearch.enabled {
-            addChild(newSearchResultsController)
-            view.addSubview(searchView)
-            newSearchResultsController.didMove(toParent: self)
-        } else {
-            view.addSubview(searchView)
-        }
+        addChild(newSearchResultsController)
+        view.addSubview(searchView)
+        newSearchResultsController.didMove(toParent: self)
+
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -67,7 +63,7 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     }
 
     func searchDidEnd() {
-        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view else { return }
+        guard let searchView = newSearchResultsController.view else { return }
 
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
             searchView.alpha = 0
