@@ -402,6 +402,7 @@ enum PlusUpgradeViewSource: String {
     case watch
     case unknown
     case endOfYear
+    case promoCode
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

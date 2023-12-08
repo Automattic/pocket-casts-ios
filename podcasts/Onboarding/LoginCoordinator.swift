@@ -182,9 +182,13 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     private func handleDismiss() {
-        navigationController?.dismiss(animated: true) {
-            DispatchQueue.main.async {
-                OnboardingFlow.shared.reset()
+        if OnboardingFlow.shared.currentFlow == .promoCode {
+            navigationController?.popToRootViewController(animated: true)
+        } else {
+            navigationController?.dismiss(animated: true) {
+                DispatchQueue.main.async {
+                    OnboardingFlow.shared.reset()
+                }
             }
         }
     }

@@ -120,13 +120,15 @@ struct OnboardingFlow {
         /// When the user is brought into the onboarding flow from the End Of Year stories
         case endOfYearUpsell
 
+        case promoCode = "promo_code"
+
         var analyticsDescription: String { rawValue }
 
         /// If after a successful sign in or sign up the onboarding flow
         /// should be dismissed right away
         var shouldDismiss: Bool {
             switch self {
-            case .sonosLink, .forcedLoggedOut:
+            case .sonosLink, .forcedLoggedOut, .promoCode:
                 return true
             default:
                 return false
