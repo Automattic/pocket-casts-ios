@@ -43,10 +43,10 @@ class PromotionFinishedViewController: UIViewController {
     }
 
     @IBAction func upgradeTapped(_ sender: Any) {
-        Settings.setPromotionFinishedAcknowledged(true)
-        let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
-        let termsVC = TermsViewController(newSubscription: newSubscription)
-        navigationController?.pushViewController(termsVC, animated: false)
+        dismiss(animated: true) {
+            guard let controller = SceneHelper.rootViewController() else { return }
+            NavigationManager.sharedManager.showUpsellView(from: controller, source: .promotionFinished)
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
