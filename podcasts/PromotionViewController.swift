@@ -73,7 +73,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
         }
     }
 
-    private var updatedPromoStatus: PromoStatusType?
+    private var userLoginNotification: NSObjectProtocol? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +103,10 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(closeTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
+
+        userLoginNotification = NotificationCenter.default.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { [weak self] _ in
+            self?.userDidSignIn = SyncManager.isUserLoggedIn()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -156,6 +160,11 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.secondDescriptionLabel.text = L10n.plusPromotionExpiredNudge
                 self.centreImageView.isHidden = false
                 self.centreImageView.imageNameFunc = AppTheme.promoErrorImageName
+                self.createAccountWithPromoButton.isHidden = true
+                self.signInWithPromoButton.isHidden = true
+                self.upgradeToPlusButton.isHidden = true
+                self.signUpNoPromoButton.isHidden = true
+
                 if SyncManager.isUserLoggedIn() {
                     self.upgradeToPlusButton.isHidden = false
                 } else {
@@ -173,12 +182,16 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.centreImageView.isHidden = false
                 self.centreImageView.imageNameFunc = AppTheme.promoErrorImageName
                 self.doneButton.isHidden = false
+                self.createAccountWithPromoButton.isHidden = true
+                self.signInWithPromoButton.isHidden = true
+
                 if SyncManager.isUserLoggedIn() {
                     self.upgradeToPlusButton.isHidden = false
                 } else {
                     self.signUpNoPromoButton.isHidden = false
                 }
                 self.buttonContainerView.isHidden = false
+                self.createAccountWithPromoButton.setTitle(L10n.next, for: .normal)
             case .codeReused:
                 self.activityIndicator.stopAnimating()
                 self.activityIndicator.isHidden = true
@@ -204,9 +217,10 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
                 self.centreImageView.isHidden = false
                 self.centreImageView.imageNameFunc = AppTheme.accountUpgradedImageName
                 self.createAccountWithPromoButton.isHidden = false
-                self.signInWithPromoButton.isHidden = false
+                self.signInWithPromoButton.isHidden = true
                 self.doneButton.isHidden = true
                 self.buttonContainerView.isHidden = false
+                self.createAccountWithPromoButton.setTitle(L10n.next, for: .normal)
             }
         }
     }
@@ -250,33 +264,39 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
         }
     }
 
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: true, completion: completion)
+
+        if let userLoginNotification {
+            NotificationCenter.default.removeObserver(userLoginNotification)
+        }
+    }
+
     @IBAction func closeTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func createAccountTapped(_ sender: Any) {
-        let newSubscription = NewSubscription(isNewAccount: true, iap_identifier: "", promoCode: promoCode)
-        let emailVC = NewEmailViewController(newSubscription: newSubscription)
-        emailVC.accountUpdatedDelegate = self
-        navigationController?.pushViewController(emailVC, animated: true)
+        let controller = OnboardingFlow.shared.begin(flow: .promoCode, in: navigationController)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     @IBAction func signInWithValidPromoTapped(_ sender: Any) {
-        let signinPage = SyncSigninViewController()
-        signinPage.delegate = self
-
-        navigationController?.pushViewController(signinPage, animated: true)
+        let controller = OnboardingFlow.shared.begin(flow: .promoCode, in: navigationController)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     @IBAction func upgradeToPlusTapped(_ sender: Any) {
-        let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
-        let termsVC = TermsViewController(newSubscription: newSubscription)
-        navigationController?.pushViewController(termsVC, animated: true)
+        dismiss(animated: true) {
+            guard let controller = SceneHelper.rootViewController() else { return }
+            NavigationManager.sharedManager.showUpsellView(from: controller, source: .promoCode)
+        }
     }
 
     @IBAction func signUpNoPromoTapped(_ sender: Any) {
-        let signinPage = ProfileIntroViewController()
-        navigationController?.pushViewController(signinPage, animated: true)
+        dismiss(animated: true) {
+            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.promoCode])
+        }
     }
 
     // MARK: - Private helpers
