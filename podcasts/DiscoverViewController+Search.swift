@@ -2,13 +2,13 @@ import Foundation
 
 extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard searchResultsController?.view?.superview == nil else { return } // don't send scroll events while the search results are up
+        guard newSearchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard searchResultsController?.view?.superview == nil else { return } // don't send scroll events while the search results are up
+        guard newSearchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
     }
@@ -32,10 +32,6 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
         searchController.setupScrollView(mainScrollView, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
-
-        searchResultsController = DiscoverPodcastSearchResultsController()
-        searchResultsController.delegate = self
-        searchResultsController.searchTextField = searchController.searchTextField
     }
 
     func searchDidBegin() {
