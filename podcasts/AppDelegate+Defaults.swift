@@ -18,9 +18,7 @@ extension AppDelegate {
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
             Settings.setMobileDataAllowed(true)
             Settings.shouldShowInitialOnboardingFlow = true
-            if FeatureFlag.autoplay.enabled {
-                Settings.autoplay = true
-            }
+            Settings.autoplay = true
 
             // Disable dark up next theme for new users
             Settings.darkUpNextTheme = false
