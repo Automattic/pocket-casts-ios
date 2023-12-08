@@ -62,10 +62,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     var searchController: PCSearchBarController!
 
-    lazy var newSearchResultsController = SearchResultsViewController(source: .podcastsList)
+    lazy var searchResultsController = SearchResultsViewController(source: .podcastsList)
 
     var resultsControllerDelegate: SearchResultsDelegate {
-        newSearchResultsController
+        searchResultsController
     }
 
     override func viewDidLoad() {

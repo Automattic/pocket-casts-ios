@@ -2,7 +2,7 @@ import UIKit
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     var searchControllerView: UIView? {
-        newSearchResultsController.view
+        searchResultsController.view
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -94,9 +94,9 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         }
 
         searchView.alpha = 0
-        addChild(newSearchResultsController)
+        addChild(searchResultsController)
         view.addSubview(searchView)
-        newSearchResultsController.didMove(toParent: self)
+        searchResultsController.didMove(toParent: self)
 
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
@@ -122,7 +122,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         }) { _ in
             searchView.removeFromSuperview()
 
-            self.newSearchResultsController.clearSearch()
+            self.searchResultsController.clearSearch()
         }
 
         Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.podcastsList])

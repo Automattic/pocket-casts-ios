@@ -2,13 +2,13 @@ import Foundation
 
 extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard newSearchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard newSearchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
     }
@@ -35,14 +35,14 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     }
 
     func searchDidBegin() {
-        guard let searchView = newSearchResultsController.view, searchView.superview == nil else {
+        guard let searchView = searchResultsController.view, searchView.superview == nil else {
             return
         }
 
         searchView.alpha = 0
-        addChild(newSearchResultsController)
+        addChild(searchResultsController)
         view.addSubview(searchView)
-        newSearchResultsController.didMove(toParent: self)
+        searchResultsController.didMove(toParent: self)
 
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +59,7 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     }
 
     func searchDidEnd() {
-        guard let searchView = newSearchResultsController.view else { return }
+        guard let searchView = searchResultsController.view else { return }
 
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
             searchView.alpha = 0
