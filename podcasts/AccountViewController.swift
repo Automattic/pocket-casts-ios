@@ -147,16 +147,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
     // MARK: - Actions
 
-    @IBAction func upgradeTapped(_ sender: Any) {
-        showUpgradeOptions()
-    }
-
-    func showUpgradeOptions() {
-        let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
-        let termsOfUseVC = TermsViewController(newSubscription: newSubscription)
-        present(SJUIUtils.popupNavController(for: termsOfUseVC), animated: true, completion: nil)
-    }
-
     @objc func newsletterOptInChanged(_ sender: UISwitch) {
         Analytics.track(.newsletterOptInChanged, properties: ["enabled": sender.isOn, "source": "profile"])
 
