@@ -129,12 +129,8 @@ public final class FileLog {
     }
 
     private func writeLogBufferToDisk() {
-        let logTimestampFormatter = DateFormatHelper.sharedHelper.localTimeJsonDateFormatter
         let newLogChunk = logBuffer.reduce(into: "") { resultChunk, logEntry in
-            let formattedTimestamp = logTimestampFormatter.string(from: logEntry.timestamp)
-            let logLine = "\(formattedTimestamp) \(logEntry.message)\n"
-
-            resultChunk.append(logLine)
+            resultChunk.append("\(logEntry.formattedForLog)\n")
         }
 
         logBuffer.removeAll(keepingCapacity: true)
