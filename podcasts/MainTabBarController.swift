@@ -295,12 +295,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
-        guard FeatureFlag.onboardingUpdates.enabled else {
-            let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
-            presentingController?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
-            return
-        }
-
         let controller = OnboardingFlow.shared.begin(flow: flow, source: source.rawValue, context: context)
         presentingController?.present(controller, animated: true, completion: nil)
     }
