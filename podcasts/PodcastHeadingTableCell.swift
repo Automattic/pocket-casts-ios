@@ -261,10 +261,8 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             layoutIfNeeded()
         }
 
-        if FeatureFlag.showRatings.enabled {
-            delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
-            addRatingIfNeeded()
-        }
+        delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
+        addRatingIfNeeded()
 
         addBookmarksTabViewIfNeeded(parentController: parentController)
     }
@@ -373,7 +371,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         roundedBorder.isHidden = nextEpisodeView.isHidden && scheduleView.isHidden && linkView.isHidden && authorView.isHidden
 
         let hasRating = delegate?.podcastRatingViewModel.rating != nil
-        ratingView?.isHidden = !FeatureFlag.showRatings.enabled || !hasRating || !expanded
+        ratingView?.isHidden = !hasRating || !expanded
     }
 
     private func setupButtons() {
