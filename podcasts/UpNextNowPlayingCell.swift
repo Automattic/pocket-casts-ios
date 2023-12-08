@@ -134,21 +134,38 @@ class UpNextNowPlayingCell: ThemeableCell {
 
         let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
 
-        roundedBackgroundView.style = switch activeTheme {
-        case .extraDark, .contrastDark: .primaryUi05
-        case .contrastLight: .primaryUi05
-        default: .primaryUi02
+        // Rounded background
+        if activeTheme.isDark {
+            roundedBackgroundView.style = .playerContrast06
+        } else {
+            roundedBackgroundView.style = activeTheme == .contrastLight ? .primaryUi05 : .primaryUi02
         }
 
-        progressView.backgroundColor = switch activeTheme {
-        case .rosé, .radioactive:
-            AppTheme.colorForStyle(.primaryIcon02Selected, themeOverride: themeOverride).withAlphaComponent(0.1)
-        default:
-            (activeTheme.isDark ? UIColor.white : UIColor.black).withAlphaComponent(0.1)
+        // Progress view
+        if activeTheme == .rosé {
+            progressView.backgroundColor = AppTheme.colorForStyle(.primaryIcon02Selected, themeOverride: themeOverride).withAlphaComponent(0.1)
+        } else if activeTheme.isDark {
+            progressView.backgroundColor = AppTheme.colorForStyle(.playerContrast06, themeOverride: themeOverride).withAlphaComponent(0.1)
+        } else {
+            progressView.backgroundColor = .black.withAlphaComponent(0.1)
         }
+
+        // Disclosure icon
+        switch activeTheme {
+        case .dark:
+            disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryInteractive02)
+            disclosureImageView.tintColor = nil
+
+        case .contrastLight, .contrastDark:
+            disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
+            disclosureImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive02, themeOverride: themeOverride)
+
+        default:
+            disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryUi05, themeOverride: themeOverride)
+            disclosureImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
+        }
+
         disclosureImageView.layer.cornerRadius = 12
-        disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryUi05, themeOverride: themeOverride)
-        disclosureImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
     }
 
     func updateDownloadStatus() {
