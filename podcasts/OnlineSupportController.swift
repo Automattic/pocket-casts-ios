@@ -13,6 +13,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
     private var emailHelper = EmailHelper()
     private var supportWebView: WKWebView!
+    private var databaseExport: DatabaseExport? = nil
 
     var request: URLRequest
 
@@ -38,7 +39,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneTapped))
 
-        customRightBtn = UIBarButtonItem(image: UIImage(named: "status_page"), style: .done, target: self, action: #selector(showStatusPage))
+        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .done, target: self, action: #selector(showOptions))
 
         AnalyticsHelper.userGuideOpened()
         Analytics.track(.settingsHelpShown)
@@ -64,9 +65,29 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc private func showStatusPage() {
+    @objc private func showOptions() {
+        let controller = UIAlertController()
+        controller.addAction(.init(title: L10n.settingsConnectionStatus, style: .default, handler: { [weak self] _ in
+            self?.showStatusPage()
+        }))
+
+        controller.addAction(.init(title: L10n.exportDatabase, style: .default, handler: { [weak self] _ in
+            self?.export()
+        }))
+
+        present(controller, animated: true)
+    }
+
+    private func showStatusPage() {
         let hostingController = ThemedHostingController(rootView: StatusPageView())
         navigationController?.pushViewController(hostingController, animated: true)
+    }
+
+    private func export() {
+        databaseExport = .init()
+                databaseExport?.exportDatabase(from: self) { [weak self] in
+                    self?.databaseExport = nil
+                }
     }
 
     private func load() {

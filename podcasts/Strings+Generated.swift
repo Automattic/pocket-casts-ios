@@ -935,12 +935,16 @@ internal enum L10n {
   internal static var error: String { return L10n.tr("Localizable", "error") }
   /// Unable to find podcast. Please contact the podcast author.
   internal static var errorGeneralPodcastNotFound: String { return L10n.tr("Localizable", "error_general_podcast_not_found") }
+  /// Export Database
+  internal static var exportDatabase: String { return L10n.tr("Localizable", "export_database") }
   /// Exports all your podcasts as an OPML file, which you can import into other podcast apps.
   internal static var exportPodcastsDescription: String { return L10n.tr("Localizable", "export_podcasts_description") }
   /// Export Podcasts
   internal static var exportPodcastsOption: String { return L10n.tr("Localizable", "export_podcasts_option") }
   /// EXPORT
   internal static var exportPodcastsTitle: String { return L10n.tr("Localizable", "export_podcasts_title") }
+  /// Exporting Database...
+  internal static var exportingDatabase: String { return L10n.tr("Localizable", "exporting_database") }
   /// End Tour
   internal static var featureTourEndTour: String { return L10n.tr("Localizable", "feature_tour_end_tour") }
   /// NEW
@@ -2326,6 +2330,8 @@ internal enum L10n {
   internal static var settingsCollectInformation: String { return L10n.tr("Localizable", "settings_collect_information") }
   /// Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.
   internal static var settingsCollectInformationAdditionalInformation: String { return L10n.tr("Localizable", "settings_collect_information_additional_information") }
+  /// Connection Status
+  internal static var settingsConnectionStatus: String { return L10n.tr("Localizable", "settings_connection_status") }
   /// Create Siri Shortcut
   internal static var settingsCreateSiriShortcut: String { return L10n.tr("Localizable", "settings_create_siri_shortcut") }
   /// Create a Siri Shortcut to play the newest episode of %1$@
@@ -2572,8 +2578,6 @@ internal enum L10n {
   internal static var settingsStatusInternetDescription: String { return L10n.tr("Localizable", "settings_status_internet_description") }
   /// Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).
   internal static var settingsStatusInternetFailureMessage: String { return L10n.tr("Localizable", "settings_status_internet_failure_message") }
-  /// Status Page
-  internal static var settingsStatusPage: String { return L10n.tr("Localizable", "settings_status_page") }
   /// Refresh Service
   internal static var settingsStatusRefreshService: String { return L10n.tr("Localizable", "settings_status_refresh_service") }
   /// The service used to find new episodes.
