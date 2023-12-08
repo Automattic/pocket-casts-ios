@@ -16,9 +16,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Patron
     case patron
 
-    /// Displaying podcast ratings
-    case showRatings
-
     /// Enable the new show notes endpoint plus embedded episode artwork
     case newShowNotesEndpoint
 
@@ -43,8 +40,6 @@ enum FeatureFlag: String, CaseIterable {
         case .bookmarks:
             return true
         case .patron:
-            return true
-        case .showRatings:
             return true
         case .newShowNotesEndpoint:
             return false
