@@ -19,9 +19,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Displaying podcast ratings
     case showRatings
 
-    /// New episodes autoplay if Up Next is empty
-    case autoplay
-
     /// Enable the new show notes endpoint plus embedded episode artwork
     case newShowNotesEndpoint
 
@@ -48,8 +45,6 @@ enum FeatureFlag: String, CaseIterable {
         case .patron:
             return true
         case .showRatings:
-            return true
-        case .autoplay:
             return true
         case .newShowNotesEndpoint:
             return false
