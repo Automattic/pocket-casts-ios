@@ -2,7 +2,7 @@ import UIKit
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     var searchControllerView: UIView? {
-        FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsControler?.view
+        newSearchResultsController.view
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -97,13 +97,10 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         }
 
         searchView.alpha = 0
-        if FeatureFlag.newSearch.enabled {
-            addChild(newSearchResultsController)
-            view.addSubview(searchView)
-            newSearchResultsController.didMove(toParent: self)
-        } else {
-            view.addSubview(searchView)
-        }
+        addChild(newSearchResultsController)
+        view.addSubview(searchView)
+        newSearchResultsController.didMove(toParent: self)
+
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -128,11 +125,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         }) { _ in
             searchView.removeFromSuperview()
 
-            if FeatureFlag.newSearch.enabled {
-                self.newSearchResultsController.clearSearch()
-            } else {
-                self.searchResultsControler.clearSearch()
-            }
+            self.newSearchResultsController.clearSearch()
         }
 
         Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.podcastsList])
@@ -144,12 +137,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
     func searchTermChanged(_ searchTerm: String) {
         resultsControllerDelegate.performLocalSearch(searchTerm: searchTerm)
-
-        debounce.call {
-            if !searchTerm.trim().isEmpty && !FeatureFlag.newSearch.enabled {
-                Analytics.track(.searchPerformed, properties: ["source": "podcasts_list"])
-            }
-        }
     }
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {

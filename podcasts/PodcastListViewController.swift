@@ -68,7 +68,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     lazy var newSearchResultsController = SearchResultsViewController(source: .podcastsList)
 
     var resultsControllerDelegate: SearchResultsDelegate {
-        FeatureFlag.newSearch.enabled ? newSearchResultsController : searchResultsControler
+        newSearchResultsController
     }
 
     override func viewDidLoad() {
