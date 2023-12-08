@@ -849,6 +849,16 @@ class Settings: NSObject {
         }
     }
 
+    static var darkUpNextTheme: Bool {
+        get {
+            Constants.UserDefaults.appearance.darkUpNextTheme.value
+        }
+
+        set {
+            Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)

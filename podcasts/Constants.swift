@@ -174,6 +174,10 @@ struct Constants {
             static let podcastSort = SettingValue("bookmarks.podcastSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let episodeSort = SettingValue("bookmarks.episodeSort", defaultValue: BookmarkSortOption.newestToOldest)
         }
+
+        enum appearance {
+            static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
+        }
     }
 
     enum Values {
