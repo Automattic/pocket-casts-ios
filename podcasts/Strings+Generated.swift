@@ -2600,6 +2600,10 @@ internal enum L10n {
   internal static var settingsTrimLevel: String { return L10n.tr("Localizable", "settings_trim_level") }
   /// Trim Silence
   internal static var settingsTrimSilence: String { return L10n.tr("Localizable", "settings_trim_silence") }
+  /// When enabled the Up Next will always use the dark theme, or will match the current theme when disabled.
+  internal static var settingsUpNextDarkModeFooter: String { return L10n.tr("Localizable", "settings_up_next_dark_mode_footer") }
+  /// Use Dark Up Next Theme
+  internal static var settingsUpNextDarkModeTitle: String { return L10n.tr("Localizable", "settings_up_next_dark_mode_title") }
   /// Automatically add new episodes to Up Next. New episodes will stop being added when Up Next reaches %1$@.
   internal static func settingsUpNextLimit(_ p1: Any) -> String {
     return L10n.tr("Localizable", "settings_up_next_limit", String(describing: p1))

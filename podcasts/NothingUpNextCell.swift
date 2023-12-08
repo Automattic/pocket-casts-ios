@@ -12,14 +12,14 @@ class NothingUpNextCell: ThemeableCell {
 
     @IBOutlet var messageBackground: ThemeableView! {
         didSet {
-            messageBackground.style = .playerContrast06
+            messageBackground.style = .primaryUi06
             messageBackground.layer.cornerRadius = 8
         }
     }
 
     @IBOutlet var headingLabel: ThemeableLabel! {
         didSet {
-            headingLabel.style = .playerContrast01
+            headingLabel.style = .primaryText01
             headingLabel.themeOverride = themeOverride
             headingLabel.text = L10n.upNextEmptyTitle
         }
@@ -27,7 +27,7 @@ class NothingUpNextCell: ThemeableCell {
 
     @IBOutlet var descriptionLabel: ThemeableLabel! {
         didSet {
-            descriptionLabel.style = .playerContrast02
+            descriptionLabel.style = .primaryText02
             descriptionLabel.themeOverride = themeOverride
             descriptionLabel.text = L10n.upNextEmptyDescription
         }

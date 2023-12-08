@@ -149,7 +149,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private lazy var upNextController = UpNextViewController(source: .nowPlaying)
 
     lazy var upNextViewController: UIViewController = {
-        let controller = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let controller = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         controller.modalPresentationStyle = .pageSheet
 
         return controller
