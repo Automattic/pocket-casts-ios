@@ -1,6 +1,7 @@
 7.54
 -----
 - Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
+- Adds theme support to the Up Next [#1265]
 
 7.53
 -----
