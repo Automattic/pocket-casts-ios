@@ -245,6 +245,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     // MARK: - Actions
     @objc private func darkUpNextToggled(_ sender: UISwitch) {
         Settings.darkUpNextTheme = sender.isOn
+        Settings.trackValueToggled(.settingsAppearanceUseDarkUpNextToggled, enabled: sender.isOn)
     }
 
     @objc private func shouldFollowSystemThemeToggled(_ sender: UISwitch) {

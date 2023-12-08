@@ -487,6 +487,7 @@ enum AnalyticsEvent: String {
     case settingsAppearanceAppIconChanged
     case settingsAppearanceRefreshAllArtworkTapped
     case settingsAppearanceUseEmbeddedArtworkToggled
+    case settingsAppearanceUseDarkUpNextToggled
 
     // MARK: - Settings: Auto Archive
 
