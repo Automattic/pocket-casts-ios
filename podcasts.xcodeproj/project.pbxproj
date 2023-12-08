@@ -760,8 +760,6 @@
 		BD2B50AD201076310099B79D /* PodcastSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2B50AB201076310099B79D /* PodcastSettingsViewController.swift */; };
 		BD2B50AE201076310099B79D /* PodcastSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD2B50AC201076310099B79D /* PodcastSettingsViewController.xib */; };
 		BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2B50AF201077150099B79D /* PodcastSettingsViewController+Table.swift */; };
-		BD2B6DCB231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2B6DC9231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.swift */; };
-		BD2B6DCC231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD2B6DCA231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.xib */; };
 		BD2BE6791C5B11C20087EE1E /* ShiftyRoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2BE6781C5B11C20087EE1E /* ShiftyRoundButton.swift */; };
 		BD2CB3E32418B48600E2D762 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2CB3E22418B48600E2D762 /* ArrayExtension.swift */; };
 		BD2D0AD3243C4138000B313A /* MainEpisodeActionView+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D0AD2243C4138000B313A /* MainEpisodeActionView+Pointer.swift */; };
@@ -1164,8 +1162,6 @@
 		BDB002BF211A9E1B00224A55 /* ProgressLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB002BE211A9E1B00224A55 /* ProgressLine.swift */; };
 		BDB002C1211A9EDD00224A55 /* ProgressLineLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB002C0211A9EDD00224A55 /* ProgressLineLayer.swift */; };
 		BDB0C5C3231F74D60071FBA2 /* PCSearchBarController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB0C5C2231F74D60071FBA2 /* PCSearchBarController+Search.swift */; };
-		BDB0C5C6231F97D60071FBA2 /* PodcastListSearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB0C5C4231F97D60071FBA2 /* PodcastListSearchResultsController.swift */; };
-		BDB0C5C7231F97D60071FBA2 /* PodcastListSearchResultsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDB0C5C5231F97D60071FBA2 /* PodcastListSearchResultsController.xib */; };
 		BDB165DE20806F86007B57CD /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB165DD20806F86007B57CD /* DownloadManager.swift */; };
 		BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB165DF208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift */; };
 		BDB1DC632316964E00119B81 /* HowToUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB1DC612316964E00119B81 /* HowToUploadViewController.swift */; };
@@ -2564,8 +2560,6 @@
 		BD2B56C317045BDE00BE1189 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		BD2B56C517045BF800BE1189 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		BD2B56C717045C0D00BE1189 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		BD2B6DC9231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverPodcastSearchResultsController.swift; sourceTree = "<group>"; };
-		BD2B6DCA231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiscoverPodcastSearchResultsController.xib; sourceTree = "<group>"; };
 		BD2BE6781C5B11C20087EE1E /* ShiftyRoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftyRoundButton.swift; sourceTree = "<group>"; };
 		BD2CB3E22418B48600E2D762 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		BD2D0AD2243C4138000B313A /* MainEpisodeActionView+Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainEpisodeActionView+Pointer.swift"; sourceTree = "<group>"; };
@@ -2985,8 +2979,6 @@
 		BDB002BE211A9E1B00224A55 /* ProgressLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressLine.swift; sourceTree = "<group>"; };
 		BDB002C0211A9EDD00224A55 /* ProgressLineLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressLineLayer.swift; sourceTree = "<group>"; };
 		BDB0C5C2231F74D60071FBA2 /* PCSearchBarController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PCSearchBarController+Search.swift"; sourceTree = "<group>"; };
-		BDB0C5C4231F97D60071FBA2 /* PodcastListSearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastListSearchResultsController.swift; sourceTree = "<group>"; };
-		BDB0C5C5231F97D60071FBA2 /* PodcastListSearchResultsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastListSearchResultsController.xib; sourceTree = "<group>"; };
 		BDB165DD20806F86007B57CD /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		BDB165DF208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+URLSessionDelegate.swift"; sourceTree = "<group>"; };
 		BDB1DC612316964E00119B81 /* HowToUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUploadViewController.swift; sourceTree = "<group>"; };
@@ -4567,8 +4559,6 @@
 				BDDA14D7219AFA1E0066441E /* SearchInfoCell.xib */,
 				BDDA14DA219B021A0066441E /* SearchLoadingCell.swift */,
 				BDDA14DB219B021A0066441E /* SearchLoadingCell.xib */,
-				BD2B6DC9231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.swift */,
-				BD2B6DCA231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.xib */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -5526,8 +5516,6 @@
 			children = (
 				BD9086AA204E413800C0C78D /* PodcastSearchCell.swift */,
 				BD9086AB204E413800C0C78D /* PodcastSearchCell.xib */,
-				BDB0C5C4231F97D60071FBA2 /* PodcastListSearchResultsController.swift */,
-				BDB0C5C5231F97D60071FBA2 /* PodcastListSearchResultsController.xib */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -7798,7 +7786,6 @@
 				BDB1E4EE1B8C5BCF009AD30F /* FeaturedSummaryViewController.xib in Resources */,
 				BDA0030A1F7B318B00DCB4AE /* AppIcon-Default76x76~ipad.png in Resources */,
 				BDA002CE1F7B318B00DCB4AE /* AppIcon-Dark40x40~ipad.png in Resources */,
-				BD2B6DCC231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.xib in Resources */,
 				BD874EEF1C9A373C00F5B2A5 /* SettingsViewController.xib in Resources */,
 				BDAA3CF02122754700649F81 /* PlayerChapterCell.xib in Resources */,
 				466DE3F3278783F70046F722 /* EpisodeListHeaderView.xib in Resources */,
@@ -7997,7 +7984,6 @@
 				BDBCE6D7244E7755004FFE13 /* AppIcon-Radioactive40x40@2x~ipad.png in Resources */,
 				BD12927A22F7CCC9004608A6 /* AppIcon-Electric-Blue60x60@2x.png in Resources */,
 				BDA002FA1F7B318B00DCB4AE /* AppIcon-Default20x20@2x~ipad.png in Resources */,
-				BDB0C5C7231F97D60071FBA2 /* PodcastListSearchResultsController.xib in Resources */,
 				BDA003061F7B318B00DCB4AE /* AppIcon-Default60x60@2x~car.png in Resources */,
 				40D1EF9922DC38E2000B9291 /* CustomStorage.xcassets in Resources */,
 				407B21E82231F6A300B4E492 /* UploadedSettingsViewController.xib in Resources */,
@@ -8810,7 +8796,6 @@
 				4041FE572181751F0089D4A1 /* SiriShortcutsManager.swift in Sources */,
 				4053CDFB214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift in Sources */,
 				BD26AFD427BDFD18008CC973 /* Folder+Formatting.swift in Sources */,
-				BDB0C5C6231F97D60071FBA2 /* PodcastListSearchResultsController.swift in Sources */,
 				40F0DE8922E42AD2001DAA52 /* PlusLockedInfoView.swift in Sources */,
 				C7318EA42A61E40800EAFA9C /* BookmarkEditTitleView.swift in Sources */,
 				BDF4D30B2175A9E90086463E /* StarredViewController.swift in Sources */,
@@ -9270,7 +9255,6 @@
 				4647623128F70CD0006D005A /* AuthenticationHelper.swift in Sources */,
 				BDDF8AA2240CE240009BA263 /* PlaylistViewController+Swipe.swift in Sources */,
 				BD9324742398BB6B004F19A1 /* TourViewController.swift in Sources */,
-				BD2B6DCB231FD9A800E76FF7 /* DiscoverPodcastSearchResultsController.swift in Sources */,
 				8BDDD2AC29770479009E4DD3 /* SyncLoadingAlert.swift in Sources */,
 				46CD3C9B2715E25800F5EB8F /* SupportLogsView.swift in Sources */,
 				BD2F3BAD2366CA5600416633 /* NowPlayingPlayerItemViewController+Seek.swift in Sources */,
