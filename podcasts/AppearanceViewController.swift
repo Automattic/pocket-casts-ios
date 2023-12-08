@@ -198,18 +198,20 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let firstItem = tableData[section][0]
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
 
-        if firstItem == .themeOption {
+        switch tableData[section][0] {
+        case .themeOption:
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceThemeHeader)
-        } else if firstItem == .appIcon {
+        case .appIcon:
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceAppIconHeader)
-        } else if firstItem == .refreshArtwork {
+        case .refreshArtwork:
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceArtworkHeader)
+        case .darkUpNextTheme:
+            return SettingsTableHeader(frame: headerFrame, title: L10n.upNext)
+        default:
+            return nil
         }
-
-        return nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
