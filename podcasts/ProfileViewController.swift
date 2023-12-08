@@ -158,10 +158,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         navigationController?.pushViewController(settingsController, animated: true)
     }
 
-    func showProfileSetupController() {
-        NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.loggedOut])
-    }
-
     private func showAccountController() {
         let accountVC = AccountViewController()
         navigationController?.pushViewController(accountVC, animated: true)
