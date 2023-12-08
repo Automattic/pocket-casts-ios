@@ -64,7 +64,7 @@ struct SearchResultCell: View {
 
                     if let result, result.kind == .podcast {
                         Spacer()
-                        SubscribeButtonView(podcastUuid: result.uuid)
+                        SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
                 .padding(.trailing, 8)

@@ -8,8 +8,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     let gridHelper = GridHelper()
     var refreshControl: PCRefreshControl?
 
-    let debounce = Debounce(delay: 1)
-
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
@@ -64,11 +62,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     var searchController: PCSearchBarController!
 
-    var searchResultsControler: PodcastListSearchResultsController!
-    lazy var newSearchResultsController = SearchResultsViewController(source: .podcastsList)
+    lazy var searchResultsController = SearchResultsViewController(source: .podcastsList)
 
     var resultsControllerDelegate: SearchResultsDelegate {
-        FeatureFlag.newSearch.enabled ? newSearchResultsController : searchResultsControler
+        searchResultsController
     }
 
     override func viewDidLoad() {

@@ -16,9 +16,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Displays the new onboarding view updates
     case onboardingUpdates
 
-    /// New search
-    case newSearch
-
     /// Bookmarks / Highlights
     case bookmarks
 
@@ -55,8 +52,6 @@ enum FeatureFlag: String, CaseIterable {
         case .signInWithApple:
             return true
         case .onboardingUpdates:
-            return true
-        case .newSearch:
             return true
         case .bookmarks:
             return true
