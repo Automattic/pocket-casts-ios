@@ -322,7 +322,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         upNextViewController = UpNextViewController(source: source)
         guard let upNextController = upNextViewController else { return }
 
-        let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let navWrapper = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         navWrapper.modalPresentationStyle = .formSheet
         rootViewController()?.present(navWrapper, animated: true, completion: nil)
     }

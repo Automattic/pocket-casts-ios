@@ -21,6 +21,10 @@ extension AppDelegate {
             if FeatureFlag.autoplay.enabled {
                 Settings.autoplay = true
             }
+
+            // Disable dark up next theme for new users
+            Settings.darkUpNextTheme = false
+
             setWhatsNewAcknowledgeToLatest()
         }
 

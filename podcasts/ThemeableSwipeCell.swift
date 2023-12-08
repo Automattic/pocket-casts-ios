@@ -49,7 +49,7 @@ class ThemeableSwipeCell: SwipeTableViewCell {
         handleThemeDidChange()
     }
 
-    private func setHighlightedState(_ highlighted: Bool) {
+    func setHighlightedState(_ highlighted: Bool) {
         if highlighted {
             updateBgColor(AppTheme.colorForStyle(selectedStyle, themeOverride: themeOverride))
         } else {

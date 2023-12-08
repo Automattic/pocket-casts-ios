@@ -1,9 +1,6 @@
 import Foundation
 
 enum FeatureFlag: String, CaseIterable {
-    /// Whether we should detect and show the free trial UI
-    case freeTrialsEnabled
-
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
@@ -19,14 +16,8 @@ enum FeatureFlag: String, CaseIterable {
     /// Displays the new onboarding view updates
     case onboardingUpdates
 
-    /// New search
-    case newSearch
-
     /// Bookmarks / Highlights
     case bookmarks
-
-    /// Auto scrolls Discover Featured carousel
-    case discoverFeaturedAutoScroll
 
     /// Patron
     case patron
@@ -52,8 +43,6 @@ enum FeatureFlag: String, CaseIterable {
         }
 
         switch self {
-        case .freeTrialsEnabled:
-            return true
         case .tracksLogging:
             return false
         case .firebaseLogging:
@@ -64,11 +53,7 @@ enum FeatureFlag: String, CaseIterable {
             return true
         case .onboardingUpdates:
             return true
-        case .newSearch:
-            return true
         case .bookmarks:
-            return true
-        case .discoverFeaturedAutoScroll:
             return true
         case .patron:
             return true

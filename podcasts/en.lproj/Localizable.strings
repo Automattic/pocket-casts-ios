@@ -3964,3 +3964,9 @@
 
 /* Title of an option to export the users data */
 "export_database" = "Export Database";
+
+/* Title of a setting that lets the user use dark mode for the up next */
+"settings_up_next_dark_mode_title" = "Use Dark Up Next Theme";
+
+/* Description explaining to the user what up next dark mode means. */
+"settings_up_next_dark_mode_footer" = "When enabled the Up Next will always use the dark theme, or will match the current theme when disabled.";

@@ -849,6 +849,16 @@ class Settings: NSObject {
         }
     }
 
+    static var darkUpNextTheme: Bool {
+        get {
+            Constants.UserDefaults.appearance.darkUpNextTheme.value
+        }
+
+        set {
+            Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
@@ -866,6 +876,11 @@ class Settings: NSObject {
 
         static var endOfYearRequireAccount: Bool {
             let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.endOfYearRequireAccount)
+            return remote.boolValue
+        }
+
+        static var addMissingEpisodes: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.addMissingEpisodes)
             return remote.boolValue
         }
 

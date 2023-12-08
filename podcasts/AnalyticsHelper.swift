@@ -318,7 +318,7 @@ class AnalyticsHelper {
             ]
 
             // Log that a free trial was used
-            if IapHelper.shared.isEligibleForFreeTrial(), product.introductoryPrice?.paymentMode == .freeTrial {
+            if IapHelper.shared.isEligibleForTrial, product.introductoryPrice?.paymentMode == .freeTrial {
                 parameters[AnalyticsParameterCoupon] = "FREE_TRIAL"
             }
 

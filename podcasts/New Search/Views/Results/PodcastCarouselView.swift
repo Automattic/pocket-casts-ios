@@ -180,7 +180,7 @@ struct PodcastResultCell: View {
                 }
 
                 if result.kind == .podcast {
-                    RoundedSubscribeButtonView(podcastUuid: result.uuid)
+                    RoundedSubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                 }
             }
 

@@ -152,7 +152,7 @@ struct Constants {
         static let modal2023HasBeenShown = "modal2023HasBeenShown"
         static let hasSyncedEpisodesForPlayback2023 = "hasSyncedEpisodesForPlayback2023"
         static let hasSyncedEpisodesForPlayback2023AsPlusUser = "hasSyncedEpisodesForPlayback2023AsPlusUser"
-        static let top5PodcastsListLink = "top5PodcastsListLink2023"
+        static let top5PodcastsListLink = "top5PodcastsListLink2023_2"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
 
         static let autoplay = "autoplay"
@@ -173,6 +173,10 @@ struct Constants {
             static let playerSort = SettingValue("bookmarks.playerSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let podcastSort = SettingValue("bookmarks.podcastSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let episodeSort = SettingValue("bookmarks.episodeSort", defaultValue: BookmarkSortOption.newestToOldest)
+        }
+
+        enum appearance {
+            static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
         }
     }
 
@@ -328,6 +332,9 @@ struct Constants {
 
         static let bookmarksEnabled = "bookmarks_enabled"
         static let bookmarksEnabledDefault = true
+
+        static let addMissingEpisodes = "add_missing_episodes"
+        static let addMissingEpisodesDefault: Bool = true
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
