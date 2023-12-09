@@ -4,11 +4,11 @@ import XCTest
 
 final class FileLogTests: XCTestCase {
 
-    func testLogFlushedWhenThresholdReached() {
+    func testLogFlushedWhenThresholdReached() async {
         // GIVEN that we have a FileLog with a buffer threshold of 3...
         let fileWriteSpy = LogPersistenceSpy()
         let bufferThreshold: UInt = 3
-        let fileLog = FileLog(
+        let fileLog = FileLog.Log(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
             writeQueue: SerialDispatchMock(),
@@ -17,7 +17,7 @@ final class FileLogTests: XCTestCase {
 
         // WHEN we write three log messages...
         for messageNum in 1...bufferThreshold {
-            fileLog.addMessage("Log Message \(messageNum)")
+            await fileLog.addMessage("Log Message \(messageNum)")
         }
 
         // THEN the log messages have been flushed to file persistence.
@@ -25,10 +25,10 @@ final class FileLogTests: XCTestCase {
         XCTAssertEqual(fileWriteSpy.writeCount, 1)
     }
 
-    func testLogNotFlushedBeforeThresholdReached() {
+    func testLogNotFlushedBeforeThresholdReached() async {
         // GIVEN that we have a FileLog with a buffer threshold of 2...
         let fileWriteSpy = LogPersistenceSpy()
-        let fileLog = FileLog(
+        let fileLog = FileLog.Log(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
             writeQueue: SerialDispatchMock(),
@@ -36,17 +36,17 @@ final class FileLogTests: XCTestCase {
         )
 
         // WHEN we write only one log message...
-        fileLog.addMessage("Log Message")
+        await fileLog.addMessage("Log Message")
 
         // THEN the log is not flushed to persistence as the threshold was not reached.
         XCTAssertFalse(fileWriteSpy.textWrittenToLog)
         XCTAssertEqual(fileWriteSpy.writeCount, 0)
     }
 
-    func testFileRotationRequestedWhenFlushing() {
+    func testFileRotationRequestedWhenFlushing() async {
         // GIVEN that we have a FileLog with a low threshold...
         let rotationSpy = LogRotationSpy()
-        let fileLog = FileLog(
+        let fileLog = FileLog.Log(
             logPersistence: LogPersistenceStub(),
             logRotator: rotationSpy,
             writeQueue: SerialDispatchMock(),
@@ -54,17 +54,17 @@ final class FileLogTests: XCTestCase {
         )
 
         // WHEN we exceed the buffer threshold and trigger the log to be flushed...
-        fileLog.addMessage("Log Message")
+        await fileLog.addMessage("Log Message")
 
         // THEN file rotation is requested.
         XCTAssertTrue(rotationSpy.rotationRequested)
     }
 
-    func testFlushedMessagesSeperatedByNewlines() {
+    func testFlushedMessagesSeperatedByNewlines() async {
         // GIVEN that we have a FileLog with a low threshold...
         let fileWriteSpy = LogPersistenceSpy()
         let bufferThreshold: UInt = 3
-        let fileLog = FileLog(
+        let fileLog = FileLog.Log(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
             writeQueue: SerialDispatchMock(),
@@ -73,7 +73,7 @@ final class FileLogTests: XCTestCase {
 
         // WHEN we write enough messages to trigger a flush...
         for messageNum in 1...bufferThreshold {
-            fileLog.addMessage("Log Message \(messageNum)")
+            await fileLog.addMessage("Log Message \(messageNum)")
         }
 
         // THEN the flushed messages are seperated by newlines.
@@ -83,11 +83,11 @@ final class FileLogTests: XCTestCase {
         XCTAssertEqual(lineCount, 3)
     }
 
-    func testForceFlushFlushesRegardlessOfNumberOfBufferedMessages() {
+    func testForceFlushFlushesRegardlessOfNumberOfBufferedMessages() async {
         // GIVEN that we have a FileLog with a high threshold...
         let fileWriteSpy = LogPersistenceSpy()
         let bufferThreshold: UInt = 10
-        let fileLog = FileLog(
+        let fileLog = FileLog.Log(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
             writeQueue: SerialDispatchMock(),
@@ -97,11 +97,11 @@ final class FileLogTests: XCTestCase {
         // AND the number of buffered messages is below the threshold...
         let halfBufferThreshold = (bufferThreshold / 2)
         for messageNum in 1...halfBufferThreshold {
-            fileLog.addMessage("Log Message \(messageNum)")
+            await fileLog.addMessage("Log Message \(messageNum)")
         }
 
         // WHEN we force the FileLog to flush...
-        fileLog.forceFlush()
+        await fileLog.forceFlush()
 
         // THEN all of the buffered messages are flushed despite being below the threshold.
         XCTAssertTrue(fileWriteSpy.textWrittenToLog)
