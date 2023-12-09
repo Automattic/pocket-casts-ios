@@ -40,6 +40,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
     private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles, endOfYearPrompt }
+    private var showEndOfYear: Bool = false
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
@@ -70,6 +71,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return view
     }()
 
+    private var tableData: [[ProfileViewController.TableRow]] = []
+
+    func updateTableData() {
+        var data: [[ProfileViewController.TableRow]] = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
+
+        if showEndOfYear {
+            data[0].insert(.endOfYearPrompt, at: 0)
+        }
+
+        tableData = data
+    }
+
     // MARK: - View Events
 
     override func viewDidLoad() {
@@ -81,18 +94,20 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         navigationItem.title = L10n.profile
 
         profileTable.tableFooterView = footerView
-
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
         setupRefreshControl()
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        updateDisplayedData()
+        showEndOfYear = EndOfYear.isEligible
 
+        updateDisplayedData()
+        updateTableData()
         Analytics.track(.profileShown)
     }
 
@@ -120,7 +135,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             promoRedeemedMessage = nil
         }
 
-        if EndOfYear.isEligible {
+        if showEndOfYear {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
 
@@ -191,6 +206,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             self.refreshControl?.endRefreshing(true)
             self.refreshBtn.stopAnimatingImage()
             self.updateLastRefreshDetails()
+            self.updateTableData()
+            self.showEndOfYear = EndOfYear.isEligible
         }
     }
 
@@ -236,15 +253,15 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     // MARK: - UITableView
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        tableData().count
+        tableData.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableData()[section].count
+        tableData[section].count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = tableData()[indexPath.section][indexPath.row]
+        let row = tableData[indexPath.section][indexPath.row]
 
         guard row != .endOfYearPrompt else {
             return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
@@ -278,7 +295,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if EndOfYear.isEligible && indexPath.row == 0 {
+        if showEndOfYear && indexPath.row == 0 {
             return UITableView.automaticDimension
         } else {
             return 70
@@ -288,7 +305,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let row = tableData()[indexPath.section][indexPath.row]
+        let row = tableData[indexPath.section][indexPath.row]
         switch row {
         case .allStats:
             let statsViewController = StatsViewController()
@@ -321,17 +338,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return headerViewModel.contentSize?.height ?? UITableView.automaticDimension
-    }
-
-    private func tableData() -> [[ProfileViewController.TableRow]] {
-        var data: [[ProfileViewController.TableRow]]
-        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
-
-        if EndOfYear.isEligible {
-            data[0].insert(.endOfYearPrompt, at: 0)
-        }
-
-        return data
     }
 
     private func updateFooterFrame() {
