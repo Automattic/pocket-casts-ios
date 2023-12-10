@@ -14,7 +14,7 @@ extension ProfileViewController: PromotionRedeemedDelegate {
         if let bottomSheet = promoAcknowledgementVC.sheetPresentationController {
             bottomSheet.detents = [.medium()]
             bottomSheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-            // The Promo Acknowledgement VC implements its own custom grabber.
+            // The Promo Acknowledgement VC implements its own grabber UI.
             bottomSheet.prefersGrabberVisible = false
         }
 
