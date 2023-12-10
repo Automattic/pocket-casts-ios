@@ -1,6 +1,5 @@
 import SwiftUI
 import PocketCastsServer
-import MaterialComponents.MaterialBottomSheet
 import PocketCastsDataModel
 
 enum EndOfYearPresentationSource: String {
