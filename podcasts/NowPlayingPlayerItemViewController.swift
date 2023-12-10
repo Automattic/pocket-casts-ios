@@ -1,6 +1,5 @@
 import Agrume
 import AVKit
-import MaterialComponents.MaterialBottomSheet
 import SafariServices
 import UIKit
 
@@ -177,9 +176,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         super.viewDidAppear(animated)
 
         // Show the overflow menu
-        if FeatureFlag.bookmarks.enabled, AnnouncementFlow.current == .bookmarksPlayer {
+        // if FeatureFlag.bookmarks.enabled, AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
-        }
+        // }
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero

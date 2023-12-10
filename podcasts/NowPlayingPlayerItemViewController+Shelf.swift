@@ -1,7 +1,6 @@
 import AVKit
 import PocketCastsServer
-import Foundation
-import MaterialComponents.MaterialBottomSheet
+import UIKit
 import PocketCastsDataModel
 
 protocol NowPlayingActionsDelegate: AnyObject {
@@ -224,10 +223,24 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     @objc func overflowTapped() {
         let shelfController = ShelfActionsViewController()
         shelfController.playerActionsDelegate = self
-        let bottomSheet = MDCBottomSheetController(contentViewController: shelfController)
-        roundCorners(bottomSheet: bottomSheet)
 
-        present(bottomSheet, animated: true, completion: nil)
+        if let sheetController = shelfController.sheetPresentationController {
+            if #available(iOS 16.0, *) {
+                // We create a custom detent height of a bit more than half the hosting VC to try and
+                // ensure that all of the shelf content is visible in the sheet. We offer a large detent
+                // as a fallback so that the user can pull the sheet up if any content is ever cut off.
+                let hostingControllerHeight = view.bounds.height
+                let sheetDetentHeight = hostingControllerHeight * 0.675
+                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight }), .large()]
+            } else {
+                sheetController.detents = [.large()]
+            }
+
+            // The Shelf Actions VC implements its own grabber UI.
+            sheetController.prefersGrabberVisible = false
+        }
+
+        present(shelfController, animated: true, completion: nil)
     }
 
     @objc private func sleepBtnTapped(_ sender: UIButton) {
@@ -333,16 +346,26 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     private func showSleepPanel() {
         let sleepController = SleepTimerViewController()
-        let bottomSheet = MDCBottomSheetController(contentViewController: sleepController)
-        roundCorners(bottomSheet: bottomSheet)
-        present(bottomSheet, animated: true, completion: nil)
+
+        if let sheetController = sleepController.sheetPresentationController {
+            sheetController.detents = [.medium()]
+            // The Sleep Timer VC implements its own grabber UI.
+            sheetController.prefersGrabberVisible = false
+        }
+
+        present(sleepController, animated: true, completion: nil)
     }
 
     private func showEffectsPanel() {
         let effectsController = EffectsViewController()
-        let bottomSheet = MDCBottomSheetController(contentViewController: effectsController)
-        roundCorners(bottomSheet: bottomSheet)
-        present(bottomSheet, animated: true, completion: nil)
+
+        if let sheetController = effectsController.sheetPresentationController {
+            sheetController.detents = [.medium()]
+            // The Playback Effects VC implements its own grabber UI.
+            sheetController.prefersGrabberVisible = false
+        }
+
+        present(effectsController, animated: true, completion: nil)
     }
 
     private func performStarAction(starBtn: UIButton? = nil) {
@@ -412,13 +435,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             view.widthAnchor.constraint(equalToConstant: 32),
             view.heightAnchor.constraint(equalToConstant: 32)
         ])
-    }
-
-    private func roundCorners(bottomSheet: MDCBottomSheetController) {
-        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
     }
 }
 
