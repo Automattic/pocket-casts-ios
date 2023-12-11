@@ -46,7 +46,7 @@ struct EndOfYear {
             return
         }
 
-        MDCSwiftUIWrapper.present(EndOfYearModal(), in: viewController)
+        BottomSheetSwiftUIWrapper.present(EndOfYearModal(), in: viewController)
     }
 
     func showPromptBasedOnState(in viewController: UIViewController) {

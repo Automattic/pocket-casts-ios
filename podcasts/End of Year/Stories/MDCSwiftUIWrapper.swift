@@ -1,9 +1,8 @@
 import SwiftUI
-import MaterialComponents.MaterialBottomSheet
 
-/// A wrapper for `MDCBottomSheetController` to work with SwiftUI
+/// A wrapper for `SwiftUI` views to work with UISheetPresentationController
 ///
-class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
+class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
     private let stackView = UIStackView()
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -81,24 +80,20 @@ class MDCSwiftUIWrapper<ContentView: View>: UIViewController {
 
     /// Present a SwiftUI us a bottom sheet in the given VC
     static func present(_ content: ContentView, in viewController: UIViewController) {
-        let wrapperController = MDCSwiftUIWrapper(rootView: content)
+        let wrapperController = BottomSheetSwiftUIWrapper(rootView: content)
         wrapperController.presentModally(in: viewController)
     }
 }
 
 
 extension UIViewController {
-    func presentModally(in viewController: UIViewController) {
-        let bottomSheet = MDCBottomSheetController(contentViewController: self)
+    func presentModally(in viewController: UIViewController, detents: [UISheetPresentationController.Detent] = [.medium()]) {
 
-        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
-        bottomSheet.isScrimAccessibilityElement = true
-        bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
-        bottomSheet.ignoreKeyboardHeight = true
+        if let sheetController = self.sheetPresentationController {
+            sheetController.detents = detents
+            sheetController.prefersGrabberVisible = false
+        }
 
-        viewController.present(bottomSheet, animated: true, completion: nil)
+        viewController.present(self, animated: true, completion: nil)
     }
 }
