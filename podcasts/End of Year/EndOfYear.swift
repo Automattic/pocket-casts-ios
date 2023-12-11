@@ -10,10 +10,10 @@ enum EndOfYearPresentationSource: String {
 }
 
 struct EndOfYear {
-    static var isEligible: Bool { eligibilityChecker.isEligible }
+    static var isEligible: Bool { eligibilityChecker?.isEligible ?? false }
 
     // Setup the eligibility checker
-    private static let eligibilityChecker: EligibilityChecker = .init()
+    private static let eligibilityChecker: EligibilityChecker? = .init()
 
     /// Internal state machine to determine how we should react to login changes
     /// and when to show the modal vs go directly to the stories
@@ -186,6 +186,8 @@ private class FakeViewController: UIViewController {
 }
 
 extension EndOfYear {
+    static let eoyEligibilityDidChange = NSNotification.Name(rawValue: "eoyEligibilityDidChange")
+
     private class EligibilityChecker {
         deinit {
             notifications.forEach { notificationCenter.removeObserver($0) }
@@ -232,6 +234,9 @@ extension EndOfYear {
             let didChange = isEligible != self.isEligible
             self.isEligible = isEligible
 
+            // Let others know this changed
+            if didChange {
+                NotificationCenter.postOnMainThread(notification: EndOfYear.eoyEligibilityDidChange)
             }
         }
     }
