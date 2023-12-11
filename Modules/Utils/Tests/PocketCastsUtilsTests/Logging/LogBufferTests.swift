@@ -8,7 +8,7 @@ final class LogBufferTests: XCTestCase {
         // GIVEN that we have a FileLog with a buffer threshold of 3...
         let fileWriteSpy = LogPersistenceSpy()
         let bufferThreshold: UInt = 3
-        let fileLog = LogBuffer(
+        let logBuffer = LogBuffer(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
             bufferThreshold: bufferThreshold
@@ -16,7 +16,7 @@ final class LogBufferTests: XCTestCase {
 
         // WHEN we write three log messages...
         for messageNum in 1...bufferThreshold {
-            await fileLog.append("Log Message \(messageNum)", date: Date())
+            await logBuffer.append("Log Message \(messageNum)", date: Date())
         }
 
         // THEN the log messages have been flushed to file persistence.
@@ -27,14 +27,14 @@ final class LogBufferTests: XCTestCase {
     func testLogNotFlushedBeforeThresholdReached() async {
         // GIVEN that we have a FileLog with a buffer threshold of 2...
         let fileWriteSpy = LogPersistenceSpy()
-        let fileLog = LogBuffer(
+        let logBuffer = LogBuffer(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
             bufferThreshold: 2
         )
 
         // WHEN we write only one log message...
-        await fileLog.append("Log Message", date: Date())
+        await logBuffer.append("Log Message", date: Date())
 
         // THEN the log is not flushed to persistence as the threshold was not reached.
         XCTAssertFalse(fileWriteSpy.textWrittenToLog)
@@ -44,14 +44,14 @@ final class LogBufferTests: XCTestCase {
     func testFileRotationRequestedWhenFlushing() async {
         // GIVEN that we have a FileLog with a low threshold...
         let rotationSpy = LogRotationSpy()
-        let fileLog = LogBuffer(
+        let logBuffer = LogBuffer(
             logPersistence: LogPersistenceStub(),
             logRotator: rotationSpy,
             bufferThreshold: 1
         )
 
         // WHEN we exceed the buffer threshold and trigger the log to be flushed...
-        await fileLog.append("Log Message", date: Date())
+        await logBuffer.append("Log Message", date: Date())
 
         // THEN file rotation is requested.
         XCTAssertTrue(rotationSpy.rotationRequested)
@@ -61,7 +61,7 @@ final class LogBufferTests: XCTestCase {
         // GIVEN that we have a FileLog with a low threshold...
         let fileWriteSpy = LogPersistenceSpy()
         let bufferThreshold: UInt = 3
-        let fileLog = LogBuffer(
+        let logBuffer = LogBuffer(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
             bufferThreshold: bufferThreshold
@@ -69,7 +69,7 @@ final class LogBufferTests: XCTestCase {
 
         // WHEN we write enough messages to trigger a flush...
         for messageNum in 1...bufferThreshold {
-            await fileLog.append("Log Message \(messageNum)", date: Date())
+            await logBuffer.append("Log Message \(messageNum)", date: Date())
         }
 
         // THEN the flushed messages are seperated by newlines.
@@ -83,7 +83,7 @@ final class LogBufferTests: XCTestCase {
         // GIVEN that we have a FileLog with a high threshold...
         let fileWriteSpy = LogPersistenceSpy()
         let bufferThreshold: UInt = 10
-        let fileLog = LogBuffer(
+        let logBuffer = LogBuffer(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
             bufferThreshold: bufferThreshold
@@ -92,11 +92,11 @@ final class LogBufferTests: XCTestCase {
         // AND the number of buffered messages is below the threshold...
         let halfBufferThreshold = (bufferThreshold / 2)
         for messageNum in 1...halfBufferThreshold {
-            await fileLog.append("Log Message \(messageNum)", date: Date())
+            await logBuffer.append("Log Message \(messageNum)", date: Date())
         }
 
         // WHEN we force the FileLog to flush...
-        await fileLog.forceFlush()
+        await logBuffer.forceFlush()
 
         // THEN all of the buffered messages are flushed despite being below the threshold.
         XCTAssertTrue(fileWriteSpy.textWrittenToLog)
