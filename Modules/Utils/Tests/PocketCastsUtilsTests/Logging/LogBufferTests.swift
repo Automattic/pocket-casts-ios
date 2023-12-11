@@ -56,28 +56,28 @@ final class LogBufferTests: XCTestCase {
         // THEN file rotation is requested.
         XCTAssertTrue(rotationSpy.rotationRequested)
     }
-//
-//    func testFlushedMessagesSeperatedByNewlines() {
-//        // GIVEN that we have a FileLog with a low threshold...
-//        let fileWriteSpy = LogPersistenceSpy()
-//        let bufferThreshold: UInt = 3
-//        let fileLog = FileLog(
-//            logPersistence: fileWriteSpy,
-//            logRotator: LogRotatorStub(),
-//            bufferThreshold: bufferThreshold
-//        )
-//
-//        // WHEN we write enough messages to trigger a flush...
-//        for messageNum in 1...bufferThreshold {
-//            fileLog.addMessage("Log Message \(messageNum)")
-//        }
-//
-//        // THEN the flushed messages are seperated by newlines.
-//        XCTAssertTrue(fileWriteSpy.textWrittenToLog)
-//        XCTAssertNotNil(fileWriteSpy.lastWrittenChunk)
-//        let lineCount = fileWriteSpy.lastWrittenChunk!.split(separator: "\n").count
-//        XCTAssertEqual(lineCount, 3)
-//    }
+
+    func testFlushedMessagesSeperatedByNewlines() async {
+        // GIVEN that we have a FileLog with a low threshold...
+        let fileWriteSpy = LogPersistenceSpy()
+        let bufferThreshold: UInt = 3
+        let fileLog = LogBuffer(
+            logPersistence: fileWriteSpy,
+            logRotator: LogRotatorStub(),
+            bufferThreshold: bufferThreshold
+        )
+
+        // WHEN we write enough messages to trigger a flush...
+        for messageNum in 1...bufferThreshold {
+            await fileLog.append("Log Message \(messageNum)", date: Date())
+        }
+
+        // THEN the flushed messages are seperated by newlines.
+        XCTAssertTrue(fileWriteSpy.textWrittenToLog)
+        XCTAssertNotNil(fileWriteSpy.lastWrittenChunk)
+        let lineCount = fileWriteSpy.lastWrittenChunk!.split(separator: "\n").count
+        XCTAssertEqual(lineCount, 3)
+    }
 //
 //    func testForceFlushFlushesRegardlessOfNumberOfBufferedMessages() {
 //        // GIVEN that we have a FileLog with a high threshold...
