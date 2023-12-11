@@ -7647,12 +7647,12 @@
 			mainGroup = BDBD53E317019B290048C8C5;
 			packageReferences = (
 				BD14A2F3252EBBD50028EE75 /* XCRemoteSwiftPackageReference "Agrume" */,
-				BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios.git" */,
 				BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */,
 				BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */,
 				BDD239BB267C869B0047750C /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
 				46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */,
-				468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
 				3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */,
 				C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
@@ -11397,7 +11397,7 @@
 				minimumVersion = 0.13.0;
 			};
 		};
-		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -11421,7 +11421,7 @@
 				minimumVersion = 1.2.0;
 			};
 		};
-		BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -11468,17 +11468,17 @@
 		};
 		468F00CE27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
 		};
 		468F00D227CD575C00FFAAAA /* FirebasePerformance */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebasePerformance;
 		};
 		468F00D427CD575C00FFAAAA /* FirebaseRemoteConfig */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseRemoteConfig;
 		};
 		8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */ = {
@@ -11534,7 +11534,7 @@
 		};
 		BDBEE72C267C845E00BA43FB /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios.git" */;
 			productName = Lottie;
 		};
 		BDD239BC267C869B0047750C /* SwipeCellKit */ = {
