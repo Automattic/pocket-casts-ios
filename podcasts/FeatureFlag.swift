@@ -10,9 +10,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Adds the Sign In With Apple options to the login flow
-    case signInWithApple
-
     /// Bookmarks / Highlights
     case bookmarks
 
@@ -45,8 +42,6 @@ enum FeatureFlag: String, CaseIterable {
         case .firebaseLogging:
             return false
         case .endOfYear:
-            return true
-        case .signInWithApple:
             return true
         case .bookmarks:
             return true
