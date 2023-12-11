@@ -2,6 +2,89 @@ import Combine
 import Foundation
 import os
 
+actor LogBuffer {
+    private let bufferThreshold: UInt
+
+    private var logBuffer: [LogEntry] = [] {
+        didSet {
+            if logBuffer.count >= bufferThreshold {
+                writeLogBufferToDisk()
+            }
+        }
+    }
+
+    private let logPersistence: PersistentTextWriting
+    private let logRotator: FileRotating
+    private let logger: Logger?
+
+    init(logPersistence: PersistentTextWriting,
+         logRotator: FileRotating,
+         bufferThreshold: UInt = 100,
+         loggingTo logger: Logger? = nil) {
+        self.logPersistence = logPersistence
+        self.logRotator = logRotator
+        self.bufferThreshold = bufferThreshold
+        self.logger = logger
+    }
+
+    #if os(watchOS)
+        private let maxFileSize = 25.kilobytes
+    #else
+        private let maxFileSize = 100.kilobytes
+    #endif
+
+    func append(_ message: String, date: Date) {
+        // if it's important enough to log to file, write it to the debug console as well
+        logger?.log("\(message, privacy: .public)")
+
+        logBuffer.append(LogEntry(message, timestamp: date))
+    }
+
+    private func writeLogBufferToDisk() {
+        let newLogChunk = logBuffer.sorted(by: { $0.timestamp.compare($1.timestamp) == .orderedAscending }).reduce(into: "") { resultChunk, logEntry in
+            resultChunk.append("\(logEntry.formattedForLog)\n")
+        }
+
+        logBuffer.removeAll(keepingCapacity: true)
+        appendStringToLog(newLogChunk)
+    }
+
+    private func appendStringToLog(_ logUpdate: String) {
+        let trace = TraceManager.shared.beginTracing(eventName: "FILE_LOG_WRITE_MESSAGE_TO_FILE")
+        defer { TraceManager.shared.endTracing(trace: trace) }
+
+        logRotator.rotateFile(ifSizeExceeds: maxFileSize)
+        logPersistence.write(logUpdate)
+    }
+
+    public func forceFlush() {
+        guard !logBuffer.isEmpty else { return }
+
+        logger?.debug("\(Self.self) forcibly flushing to disk.")
+        writeLogBufferToDisk()
+    }
+
+    public func loadLogFileAsString() -> String {
+        forceFlush()
+
+        let mainFileContents: String
+        do {
+            mainFileContents = try String(contentsOfFile: LogFilePaths.mainLogFilePath)
+        } catch {
+            mainFileContents = "Main log is empty"
+        }
+
+        let secondaryFileContents: String
+        do {
+            secondaryFileContents = try String(contentsOfFile: LogFilePaths.backupLogFilePath)
+        } catch {
+            secondaryFileContents = ""
+        }
+
+        return "\(secondaryFileContents)\n\(mainFileContents)"
+    }
+}
+
 public final class FileLog {
     public enum LogError: Error {
         case logCanceled
@@ -29,45 +112,21 @@ public final class FileLog {
         )
     }()
 
-    #if os(watchOS)
-        private let maxFileSize = 25.kilobytes
-    #else
-        private let maxFileSize = 100.kilobytes
-    #endif
-
-    private let bufferThreshold: UInt
-    private let logPersistence: PersistentTextWriting
-    private let logRotator: FileRotating
-    private let logQueue: DispatchQueueing
-    private let logger: Logger?
-
-    private lazy var logBuffer: [LogEntry] = [] {
-        didSet {
-            if logBuffer.count >= bufferThreshold {
-                writeLogBufferToDisk()
-            }
-        }
-    }
+    private var logBuffer: LogBuffer
 
     init(
         logPersistence: PersistentTextWriting,
         logRotator: FileRotating,
-        writeQueue: DispatchQueueing = DispatchQueue(label: "au.com.pocketcasts.LogQueue", qos: .background),
         bufferThreshold: UInt = 100,
         loggingTo logger: Logger? = nil
     ) {
-        self.logPersistence = logPersistence
-        self.logRotator = logRotator
-        self.logQueue = writeQueue
-        self.bufferThreshold = bufferThreshold
-        self.logger = logger
+        self.logBuffer = LogBuffer(logPersistence: logPersistence, logRotator: logRotator, bufferThreshold: bufferThreshold, loggingTo: logger)
     }
 
-    public func addMessage(_ message: String) {
-        // if it's important enough to log to file, write it to the debug console as well
-        logger?.log("\(message, privacy: .public)")
-
-        logBuffer.append(LogEntry(message))
+    public func addMessage(_ message: String, date: Date = Date()) {
+        Task {
+            await logBuffer.append(message, date: date)
+        }
     }
 
     // Just a shortcut for `addMessage` to be used specifically for
@@ -83,30 +142,15 @@ public final class FileLog {
     }
 
     public func forceFlush() {
-        guard !logBuffer.isEmpty else { return }
-        
-        logger?.debug("\(Self.self) forcibly flushing to disk.")
-        writeLogBufferToDisk()
+        Task {
+            await logBuffer.forceFlush()
+        }
     }
 
     public func loadLogFileAsString(completion: @escaping (String) -> Void) {
-        forceFlush()
-        logQueue.async {
-            let mainFileContents: String
-            do {
-                mainFileContents = try String(contentsOfFile: LogFilePaths.mainLogFilePath)
-            } catch {
-                mainFileContents = "Main log is empty"
-            }
-
-            let secondaryFileContents: String
-            do {
-                secondaryFileContents = try String(contentsOfFile: LogFilePaths.backupLogFilePath)
-            } catch {
-                secondaryFileContents = ""
-            }
-
-            completion("\(secondaryFileContents)\n\(mainFileContents)")
+        Task {
+            let log = await logBuffer.loadLogFileAsString()
+            completion(log)
         }
     }
 
@@ -126,24 +170,5 @@ public final class FileLog {
             }
         }
         .eraseToAnyPublisher()
-    }
-
-    private func writeLogBufferToDisk() {
-        let newLogChunk = logBuffer.reduce(into: "") { resultChunk, logEntry in
-            resultChunk.append("\(logEntry.formattedForLog)\n")
-        }
-
-        logBuffer.removeAll(keepingCapacity: true)
-        appendStringToLog(newLogChunk)
-    }
-
-    private func appendStringToLog(_ logUpdate: String) {
-        let trace = TraceManager.shared.beginTracing(eventName: "FILE_LOG_WRITE_MESSAGE_TO_FILE")
-        logQueue.async { [logRotator, logPersistence, logUpdate, maxFileSize] in
-            defer { TraceManager.shared.endTracing(trace: trace) }
-
-            logRotator.rotateFile(ifSizeExceeds: maxFileSize)
-            logPersistence.write(logUpdate)
-        }
     }
 }
