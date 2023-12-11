@@ -1,3 +1,4 @@
-- Moves Bookmarks out of Early Access: [#1224]
-- Makes the player transition faster, smoother and with a new effect [#1090]
+- Adds a button to export the database and preferences from the Help & Feedback view [#1257]
+- Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
+- Adds theme support to the Up Next [#1265]
 
