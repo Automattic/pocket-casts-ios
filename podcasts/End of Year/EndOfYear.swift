@@ -10,10 +10,10 @@ enum EndOfYearPresentationSource: String {
 }
 
 struct EndOfYear {
-    // We'll calculate this just once
-    static var isEligible: Bool {
-        FeatureFlag.endOfYear.enabled && DataManager.sharedManager.isEligibleForEndOfYearStories()
-    }
+    static var isEligible: Bool { eligibilityChecker.isEligible }
+
+    // Setup the eligibility checker
+    private static let eligibilityChecker: EligibilityChecker = .init()
 
     /// Internal state machine to determine how we should react to login changes
     /// and when to show the modal vs go directly to the stories
@@ -182,5 +182,11 @@ private class FakeViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         onDismiss?()
+    }
+}
+
+extension EndOfYear {
+    private class EligibilityChecker {
+        var isEligible = false
     }
 }
