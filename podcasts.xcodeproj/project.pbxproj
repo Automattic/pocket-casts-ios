@@ -173,8 +173,6 @@
 		40541471243603D300431FD5 /* SourceInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40541470243603D300431FD5 /* SourceInterfaceController.swift */; };
 		40542E2C2265604700046330 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40542E2A2265604600046330 /* AccountViewController.xib */; };
 		40542E2D2265604700046330 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40542E2B2265604700046330 /* AccountViewController.swift */; };
-		40542E34226569BC00046330 /* ProfileIntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40542E32226569BB00046330 /* ProfileIntroViewController.xib */; };
-		40542E35226569BC00046330 /* ProfileIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40542E33226569BB00046330 /* ProfileIntroViewController.swift */; };
 		405471272163345400341BF6 /* PodcastSelectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405471262163345400341BF6 /* PodcastSelectionHeaderView.swift */; };
 		405471292163346D00341BF6 /* PodcastSelectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 405471282163346D00341BF6 /* PodcastSelectionHeaderView.xib */; };
 		405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405553D5244AD7A70048FE7A /* WatchSettingsViewController.swift */; };
@@ -1959,8 +1957,6 @@
 		40541470243603D300431FD5 /* SourceInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceController.swift; sourceTree = "<group>"; };
 		40542E2A2265604600046330 /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AccountViewController.xib; path = podcasts/AccountViewController.xib; sourceTree = SOURCE_ROOT; };
 		40542E2B2265604700046330 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountViewController.swift; path = podcasts/AccountViewController.swift; sourceTree = SOURCE_ROOT; };
-		40542E32226569BB00046330 /* ProfileIntroViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileIntroViewController.xib; path = podcasts/ProfileIntroViewController.xib; sourceTree = SOURCE_ROOT; };
-		40542E33226569BB00046330 /* ProfileIntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileIntroViewController.swift; path = podcasts/ProfileIntroViewController.swift; sourceTree = SOURCE_ROOT; };
 		405471262163345400341BF6 /* PodcastSelectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastSelectionHeaderView.swift; sourceTree = "<group>"; };
 		405471282163346D00341BF6 /* PodcastSelectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastSelectionHeaderView.xib; sourceTree = "<group>"; };
 		405553D5244AD7A70048FE7A /* WatchSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSettingsViewController.swift; sourceTree = "<group>"; };
@@ -3732,8 +3728,6 @@
 				40542E2B2265604700046330 /* AccountViewController.swift */,
 				403D1AB32281C36100CE7C9B /* AccountViewController+TableView.swift */,
 				40542E2A2265604600046330 /* AccountViewController.xib */,
-				40542E33226569BB00046330 /* ProfileIntroViewController.swift */,
-				40542E32226569BB00046330 /* ProfileIntroViewController.xib */,
 				407CD7272266DF510033C18E /* CancelInfoViewController.swift */,
 				407CD7282266DF510033C18E /* CancelInfoViewController.xib */,
 				400A3EFC22729B85007361C7 /* SelectAccountTypeViewController.swift */,
@@ -7836,7 +7830,6 @@
 				BD1292EC22F7D066004608A6 /* AppIcon-Classic20x20~ipad.png in Resources */,
 				400AB2FE220BA3050003EE21 /* UploadedViewController.xib in Resources */,
 				BD12930E22F809F8004608A6 /* AppIcon-Electric-Pink20x20@3x.png in Resources */,
-				40542E34226569BC00046330 /* ProfileIntroViewController.xib in Resources */,
 				BD874EF81C9A428B00F5B2A5 /* GeneralSettingsViewController.xib in Resources */,
 				BD023C682251C192008A9C6F /* HeadingCell.xib in Resources */,
 				BD0D7AF41F6BC564006B673F /* AppIcon.xcassets in Resources */,
@@ -8649,7 +8642,6 @@
 				4030D465249653B000BEC7D9 /* MultiSelectActionCell.swift in Sources */,
 				45ECEF8827E9253900C65030 /* ShowNotesFormatterUtils.swift in Sources */,
 				E3F37446291F0DD1005916ED /* Chapters.swift in Sources */,
-				40542E35226569BC00046330 /* ProfileIntroViewController.swift in Sources */,
 				BD7EA4DC1E52D4320014EAC5 /* PlayPauseButton.swift in Sources */,
 				C7BDECB62A15327000BECF02 /* UnlockHaptic.swift in Sources */,
 				BD85E3A61E667475001B17C1 /* SkipButton.swift in Sources */,
