@@ -1,3 +1,7 @@
+7.55
+-----
+
+
 7.54
 -----
 - Adds a button to export the database and preferences from the Help & Feedback view [#1257]
