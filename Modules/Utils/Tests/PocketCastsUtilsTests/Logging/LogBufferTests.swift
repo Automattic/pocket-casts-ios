@@ -2,7 +2,7 @@ import XCTest
 
 @testable import PocketCastsUtils
 
-final class FileLogTests: XCTestCase {
+final class LogBufferTests: XCTestCase {
 
     func testLogFlushedWhenThresholdReached() {
         // GIVEN that we have a FileLog with a buffer threshold of 3...
