@@ -12,7 +12,7 @@ enum EndOfYearPresentationSource: String {
 struct EndOfYear {
     static var isEligible: Bool { eligibilityChecker?.isEligible ?? false }
 
-    // Setup the eligibility checker
+    // Eligibility checker to manage the `isEligible` state
     private static let eligibilityChecker: EligibilityChecker? = .init()
 
     /// Internal state machine to determine how we should react to login changes
