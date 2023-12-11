@@ -137,7 +137,6 @@ struct EndOfYear {
         // shown to show it again.
         if Self.state == .showModalIfNeeded {
             Settings.endOfYearModalHasBeenShown = false
-            Self.eligibilityChecker?.update()
             return
         }
 
