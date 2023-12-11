@@ -24,22 +24,22 @@ final class LogBufferTests: XCTestCase {
         XCTAssertEqual(fileWriteSpy.writeCount, 1)
     }
 
-//    func testLogNotFlushedBeforeThresholdReached() {
-//        // GIVEN that we have a FileLog with a buffer threshold of 2...
-//        let fileWriteSpy = LogPersistenceSpy()
-//        let fileLog = FileLog(
-//            logPersistence: fileWriteSpy,
-//            logRotator: LogRotatorStub(),
-//            bufferThreshold: 2
-//        )
-//
-//        // WHEN we write only one log message...
-//        fileLog.addMessage("Log Message")
-//
-//        // THEN the log is not flushed to persistence as the threshold was not reached.
-//        XCTAssertFalse(fileWriteSpy.textWrittenToLog)
-//        XCTAssertEqual(fileWriteSpy.writeCount, 0)
-//    }
+    func testLogNotFlushedBeforeThresholdReached() async {
+        // GIVEN that we have a FileLog with a buffer threshold of 2...
+        let fileWriteSpy = LogPersistenceSpy()
+        let fileLog = LogBuffer(
+            logPersistence: fileWriteSpy,
+            logRotator: LogRotatorStub(),
+            bufferThreshold: 2
+        )
+
+        // WHEN we write only one log message...
+        await fileLog.append("Log Message", date: Date())
+
+        // THEN the log is not flushed to persistence as the threshold was not reached.
+        XCTAssertFalse(fileWriteSpy.textWrittenToLog)
+        XCTAssertEqual(fileWriteSpy.writeCount, 0)
+    }
 //
 //    func testFileRotationRequestedWhenFlushing() {
 //        // GIVEN that we have a FileLog with a low threshold...
