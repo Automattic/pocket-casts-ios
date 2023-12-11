@@ -10,7 +10,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
     private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay }
-    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
+    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -27,10 +27,6 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         title = L10n.settingsGeneral
 
         Analytics.track(.settingsGeneralShown)
-
-        if FeatureFlag.autoplay.enabled {
-            tableData.append([.autoplay])
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
