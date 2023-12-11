@@ -194,7 +194,6 @@ extension EndOfYear {
             notifications.forEach { notificationCenter.removeObserver($0) }
         }
 
-
         var isEligible = false
 
         private let updateQueue = OperationQueue()
