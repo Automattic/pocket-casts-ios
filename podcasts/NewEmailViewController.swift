@@ -90,18 +90,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    var newSubscription: NewSubscription
     weak var accountUpdatedDelegate: AccountUpdatedDelegate?
-
-    init(newSubscription: NewSubscription) {
-        self.newSubscription = newSubscription
-        super.init(nibName: "NewEmailViewController", bundle: nil)
-    }
-
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
