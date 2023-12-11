@@ -187,6 +187,52 @@ private class FakeViewController: UIViewController {
 
 extension EndOfYear {
     private class EligibilityChecker {
+        deinit {
+            notifications.forEach { notificationCenter.removeObserver($0) }
+        }
+
+
         var isEligible = false
+
+        private let updateQueue = OperationQueue()
+        private let notificationCenter: NotificationCenter
+        private var notifications: [NSObjectProtocol] = []
+
+        init?(notificationCenter: NotificationCenter = .default) {
+            guard FeatureFlag.endOfYear.enabled else { return nil }
+
+            self.notificationCenter = notificationCenter
+
+            startListening()
+            update()
+        }
+
+        private func startListening() {
+            // The notifications to update the state for
+            let notifications: [Notification.Name] = [
+                // Check after a sync succeeds or the user logs into an account
+                ServerNotifications.syncCompleted,
+                .userSignedIn,
+
+                // Check as the user is listening to episodes
+                Constants.Notifications.playbackPaused,
+                Constants.Notifications.playbackEnded,
+                Constants.Notifications.playbackTrackChanged
+            ]
+
+            self.notifications = notifications.map {
+                notificationCenter.addObserver(forName: $0, object: nil, queue: updateQueue) { [weak self] notification in
+                    self?.update()
+                }
+            }
+        }
+
+        func update() {
+            let isEligible = DataManager.sharedManager.isEligibleForEndOfYearStories()
+            let didChange = isEligible != self.isEligible
+            self.isEligible = isEligible
+
+            }
+        }
     }
 }
