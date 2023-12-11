@@ -22,11 +22,6 @@ private struct LoginLandingContent: View {
     /// Determines if we should compact the view for smaller devices such as the iPhone SE / iPhone 12 Mini
     private var smallHeight: Bool { deviceHeight < 700 }
 
-    /// Reduce the header height to allow the buttons to fit for larger size categories
-    private var useSmallHeader: Bool {
-        smallHeight && sizeCategory > .extraLarge
-    }
-
     let coordinator: LoginCoordinator
 
     init(coordinator: LoginCoordinator) {
