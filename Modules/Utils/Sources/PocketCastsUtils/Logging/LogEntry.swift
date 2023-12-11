@@ -19,8 +19,8 @@ struct LogEntry {
 
     // MARK: - Initializers
 
-    init(_ message: String) {
+    init(_ message: String, timestamp: Date) {
         self.message = message
-        self.timestamp = Date() // Now
+        self.timestamp = timestamp
     }
 }
