@@ -11,7 +11,6 @@ final class FileLogTests: XCTestCase {
         let fileLog = FileLog(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
-            writeQueue: SerialDispatchMock(),
             bufferThreshold: bufferThreshold
         )
 
@@ -31,7 +30,6 @@ final class FileLogTests: XCTestCase {
         let fileLog = FileLog(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
-            writeQueue: SerialDispatchMock(),
             bufferThreshold: 2
         )
 
@@ -49,7 +47,6 @@ final class FileLogTests: XCTestCase {
         let fileLog = FileLog(
             logPersistence: LogPersistenceStub(),
             logRotator: rotationSpy,
-            writeQueue: SerialDispatchMock(),
             bufferThreshold: 1
         )
 
@@ -67,7 +64,6 @@ final class FileLogTests: XCTestCase {
         let fileLog = FileLog(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
-            writeQueue: SerialDispatchMock(),
             bufferThreshold: bufferThreshold
         )
 
@@ -90,7 +86,6 @@ final class FileLogTests: XCTestCase {
         let fileLog = FileLog(
             logPersistence: fileWriteSpy,
             logRotator: LogRotatorStub(),
-            writeQueue: SerialDispatchMock(),
             bufferThreshold: bufferThreshold
         )
 
