@@ -78,31 +78,31 @@ final class LogBufferTests: XCTestCase {
         let lineCount = fileWriteSpy.lastWrittenChunk!.split(separator: "\n").count
         XCTAssertEqual(lineCount, 3)
     }
-//
-//    func testForceFlushFlushesRegardlessOfNumberOfBufferedMessages() {
-//        // GIVEN that we have a FileLog with a high threshold...
-//        let fileWriteSpy = LogPersistenceSpy()
-//        let bufferThreshold: UInt = 10
-//        let fileLog = FileLog(
-//            logPersistence: fileWriteSpy,
-//            logRotator: LogRotatorStub(),
-//            bufferThreshold: bufferThreshold
-//        )
-//
-//        // AND the number of buffered messages is below the threshold...
-//        let halfBufferThreshold = (bufferThreshold / 2)
-//        for messageNum in 1...halfBufferThreshold {
-//            fileLog.addMessage("Log Message \(messageNum)")
-//        }
-//
-//        // WHEN we force the FileLog to flush...
-//        fileLog.forceFlush()
-//
-//        // THEN all of the buffered messages are flushed despite being below the threshold.
-//        XCTAssertTrue(fileWriteSpy.textWrittenToLog)
-//        XCTAssertEqual(fileWriteSpy.writeCount, 1)
-//        let linesWrittenCount = fileWriteSpy.lastWrittenChunk!.split(separator: "\n").count
-//        XCTAssertEqual(UInt(linesWrittenCount), halfBufferThreshold)
-//    }
+
+    func testForceFlushFlushesRegardlessOfNumberOfBufferedMessages() async {
+        // GIVEN that we have a FileLog with a high threshold...
+        let fileWriteSpy = LogPersistenceSpy()
+        let bufferThreshold: UInt = 10
+        let fileLog = LogBuffer(
+            logPersistence: fileWriteSpy,
+            logRotator: LogRotatorStub(),
+            bufferThreshold: bufferThreshold
+        )
+
+        // AND the number of buffered messages is below the threshold...
+        let halfBufferThreshold = (bufferThreshold / 2)
+        for messageNum in 1...halfBufferThreshold {
+            await fileLog.append("Log Message \(messageNum)", date: Date())
+        }
+
+        // WHEN we force the FileLog to flush...
+        await fileLog.forceFlush()
+
+        // THEN all of the buffered messages are flushed despite being below the threshold.
+        XCTAssertTrue(fileWriteSpy.textWrittenToLog)
+        XCTAssertEqual(fileWriteSpy.writeCount, 1)
+        let linesWrittenCount = fileWriteSpy.lastWrittenChunk!.split(separator: "\n").count
+        XCTAssertEqual(UInt(linesWrittenCount), halfBufferThreshold)
+    }
 
 }
