@@ -40,22 +40,22 @@ final class LogBufferTests: XCTestCase {
         XCTAssertFalse(fileWriteSpy.textWrittenToLog)
         XCTAssertEqual(fileWriteSpy.writeCount, 0)
     }
-//
-//    func testFileRotationRequestedWhenFlushing() {
-//        // GIVEN that we have a FileLog with a low threshold...
-//        let rotationSpy = LogRotationSpy()
-//        let fileLog = FileLog(
-//            logPersistence: LogPersistenceStub(),
-//            logRotator: rotationSpy,
-//            bufferThreshold: 1
-//        )
-//
-//        // WHEN we exceed the buffer threshold and trigger the log to be flushed...
-//        fileLog.addMessage("Log Message")
-//
-//        // THEN file rotation is requested.
-//        XCTAssertTrue(rotationSpy.rotationRequested)
-//    }
+
+    func testFileRotationRequestedWhenFlushing() async {
+        // GIVEN that we have a FileLog with a low threshold...
+        let rotationSpy = LogRotationSpy()
+        let fileLog = LogBuffer(
+            logPersistence: LogPersistenceStub(),
+            logRotator: rotationSpy,
+            bufferThreshold: 1
+        )
+
+        // WHEN we exceed the buffer threshold and trigger the log to be flushed...
+        await fileLog.append("Log Message", date: Date())
+
+        // THEN file rotation is requested.
+        XCTAssertTrue(rotationSpy.rotationRequested)
+    }
 //
 //    func testFlushedMessagesSeperatedByNewlines() {
 //        // GIVEN that we have a FileLog with a low threshold...
