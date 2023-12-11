@@ -207,26 +207,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
                     delegate.handleAccountCreated()
                     return
                 }
-
-                if self.newSubscription.iap_identifier.count > 0 {
-                    let confirmPaymentVC = ConfirmPaymentViewController(newSubscription: self.newSubscription)
-                    self.navigationController?.pushViewController(confirmPaymentVC, animated: true)
-                } else if self.newSubscription.promoCode != nil {
-                    let accountCreatedVC = AccountUpdatedViewController()
-                    accountCreatedVC.titleText = L10n.accountCreated
-                    accountCreatedVC.detailText = L10n.accountWelcome
-                    accountCreatedVC.imageName = AppTheme.plusCreatedImageName
-                    accountCreatedVC.hideNewsletter = false
-                    accountCreatedVC.delegate = self.accountUpdatedDelegate
-                    self.navigationController?.pushViewController(accountCreatedVC, animated: true)
-                } else { // Free account
-                    let accountCreatedVC = AccountUpdatedViewController()
-                    accountCreatedVC.titleText = L10n.accountCreated
-                    accountCreatedVC.detailText = L10n.accountWelcome
-                    accountCreatedVC.imageName = AppTheme.accountCreatedImageName
-                    accountCreatedVC.hideNewsletter = false
-                    self.navigationController?.pushViewController(accountCreatedVC, animated: true)
-                }
             }
         }
     }

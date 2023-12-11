@@ -56,8 +56,6 @@
 		4009F3F3253D12CA0050AFCB /* FilterChipCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4009F3F2253D12CA0050AFCB /* FilterChipCollectionView.swift */; };
 		400A3EE9226EE633007361C7 /* PlusFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400A3EE8226EE633007361C7 /* PlusFeaturesView.swift */; };
 		400A3EEB226EE659007361C7 /* PlusFeaturesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400A3EEA226EE659007361C7 /* PlusFeaturesView.xib */; };
-		400A3EF622703D19007361C7 /* ConfirmPaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400A3EF422703D19007361C7 /* ConfirmPaymentViewController.swift */; };
-		400A3EF722703D19007361C7 /* ConfirmPaymentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400A3EF522703D19007361C7 /* ConfirmPaymentViewController.xib */; };
 		400A3EFA22703D54007361C7 /* AccountUpdatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400A3EF822703D54007361C7 /* AccountUpdatedViewController.swift */; };
 		400A3EFB22703D54007361C7 /* AccountUpdatedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 400A3EF922703D54007361C7 /* AccountUpdatedViewController.xib */; };
 		400A3F032277CB3A007361C7 /* NewEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400A3F012277CB3A007361C7 /* NewEmailViewController.swift */; };
@@ -1838,8 +1836,6 @@
 		4009F3F2253D12CA0050AFCB /* FilterChipCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChipCollectionView.swift; sourceTree = "<group>"; };
 		400A3EE8226EE633007361C7 /* PlusFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusFeaturesView.swift; sourceTree = "<group>"; };
 		400A3EEA226EE659007361C7 /* PlusFeaturesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlusFeaturesView.xib; sourceTree = "<group>"; };
-		400A3EF422703D19007361C7 /* ConfirmPaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConfirmPaymentViewController.swift; path = podcasts/ConfirmPaymentViewController.swift; sourceTree = SOURCE_ROOT; };
-		400A3EF522703D19007361C7 /* ConfirmPaymentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ConfirmPaymentViewController.xib; path = podcasts/ConfirmPaymentViewController.xib; sourceTree = SOURCE_ROOT; };
 		400A3EF822703D54007361C7 /* AccountUpdatedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountUpdatedViewController.swift; path = podcasts/AccountUpdatedViewController.swift; sourceTree = SOURCE_ROOT; };
 		400A3EF922703D54007361C7 /* AccountUpdatedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AccountUpdatedViewController.xib; path = podcasts/AccountUpdatedViewController.xib; sourceTree = SOURCE_ROOT; };
 		400A3F012277CB3A007361C7 /* NewEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewEmailViewController.swift; path = podcasts/NewEmailViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -3718,8 +3714,6 @@
 				40542E2A2265604600046330 /* AccountViewController.xib */,
 				407CD7272266DF510033C18E /* CancelInfoViewController.swift */,
 				407CD7282266DF510033C18E /* CancelInfoViewController.xib */,
-				400A3EF422703D19007361C7 /* ConfirmPaymentViewController.swift */,
-				400A3EF522703D19007361C7 /* ConfirmPaymentViewController.xib */,
 				400A3EF822703D54007361C7 /* AccountUpdatedViewController.swift */,
 				400A3EF922703D54007361C7 /* AccountUpdatedViewController.xib */,
 				400A3F012277CB3A007361C7 /* NewEmailViewController.swift */,
@@ -7818,7 +7812,6 @@
 				BD1292C522F7CD83004608A6 /* AppIcon-Plus29x29@3x.png in Resources */,
 				BD6B6693245BC28800CF5245 /* AppIcon-Red-Velvet60x60@2x.png in Resources */,
 				BD8E76C81B9EA709000E20C7 /* NoArtwork.xcassets in Resources */,
-				400A3EF722703D19007361C7 /* ConfirmPaymentViewController.xib in Resources */,
 				BD14CCE01D7D3CB800DB4547 /* SelectedPodcastCell.xib in Resources */,
 				BD6B6670245BC25B00CF5245 /* AppIcon-Indigo20x20@2x.png in Resources */,
 				BD6B664E245BC24C00CF5245 /* AppIcon-Pocket-Cats20x20@2x.png in Resources */,
@@ -9312,7 +9305,6 @@
 				40FFCDBD2304E7ED00395CA5 /* ThemeableImageView.swift in Sources */,
 				BD98C54F1BA8058800E85D3B /* PodcastHeaderListViewController.swift in Sources */,
 				BDB4E7D4240E3C7A005770E3 /* DefaultPlayer.swift in Sources */,
-				400A3EF622703D19007361C7 /* ConfirmPaymentViewController.swift in Sources */,
 				46CD3C9F2715E38E00F5EB8F /* SupportLogsViewModel.swift in Sources */,
 				C750EF7F28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift in Sources */,
 				40A0A91124B5FE5300C29362 /* UITableView+MultiSelect.swift in Sources */,
