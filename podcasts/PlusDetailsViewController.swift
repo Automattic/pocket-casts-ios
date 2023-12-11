@@ -142,7 +142,7 @@ class PlusDetailsViewController: PCViewController {
         }
     }
 
-    private func handleUpgrade() {
+    @IBAction func upgradeTapped(_ sender: Any) {
         let source = PlusAccountPromptViewModel.Source.plusDetails
         if SyncManager.isUserLoggedIn() {
             let model = PlusAccountPromptViewModel()
@@ -151,24 +151,6 @@ class PlusDetailsViewController: PCViewController {
             model.upgradeTapped()
         } else {
             present(OnboardingFlow.shared.begin(flow: .plusAccountUpgradeNeedsLogin, source: source.rawValue), animated: true)
-        }
-
-        Analytics.track(.settingsPlusUpgradeButtonTapped)
-    }
-
-    @IBAction func upgradeTapped(_ sender: Any) {
-        guard !FeatureFlag.onboardingUpdates.enabled else {
-            handleUpgrade()
-            return
-        }
-        if SyncManager.isUserLoggedIn() {
-            let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
-            let termsVC = TermsViewController(newSubscription: newSubscription)
-            present(SJUIUtils.popupNavController(for: termsVC), animated: true, completion: nil)
-        } else {
-            let profileIntroViewController = ProfileIntroViewController()
-            profileIntroViewController.upgradeRootViewController = self
-            present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)
         }
 
         Analytics.track(.settingsPlusUpgradeButtonTapped)

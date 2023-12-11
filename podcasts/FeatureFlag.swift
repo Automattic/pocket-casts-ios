@@ -13,9 +13,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Adds the Sign In With Apple options to the login flow
     case signInWithApple
 
-    /// Displays the new onboarding view updates
-    case onboardingUpdates
-
     /// Bookmarks / Highlights
     case bookmarks
 
@@ -50,8 +47,6 @@ enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             return true
         case .signInWithApple:
-            return true
-        case .onboardingUpdates:
             return true
         case .bookmarks:
             return true
