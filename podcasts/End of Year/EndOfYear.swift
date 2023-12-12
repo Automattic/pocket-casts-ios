@@ -195,7 +195,6 @@ extension EndOfYear {
 
         var isEligible = false
 
-        private let updateQueue = OperationQueue()
         private let notificationCenter: NotificationCenter
         private var notifications: [NSObjectProtocol] = []
 
@@ -222,7 +221,7 @@ extension EndOfYear {
             ]
 
             self.notifications = notifications.map {
-                notificationCenter.addObserver(forName: $0, object: nil, queue: updateQueue) { [weak self] notification in
+                notificationCenter.addObserver(forName: $0, object: nil, queue: .main) { [weak self] notification in
                     self?.update()
                 }
             }
@@ -235,7 +234,7 @@ extension EndOfYear {
 
             // Let others know this changed
             if didChange {
-                NotificationCenter.postOnMainThread(notification: EndOfYear.eoyEligibilityDidChange)
+                notificationCenter.post(name: EndOfYear.eoyEligibilityDidChange, object: nil)
             }
         }
     }
