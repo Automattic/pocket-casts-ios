@@ -190,7 +190,7 @@ extension EndOfYear {
 
     private class EligibilityChecker {
         deinit {
-            notifications.forEach { notificationCenter.removeObserver($0) }
+            stopListening()
         }
 
         var isEligible = false
@@ -227,14 +227,20 @@ extension EndOfYear {
             }
         }
 
-        func update() {
-            let isEligible = DataManager.sharedManager.isEligibleForEndOfYearStories()
-            let didChange = isEligible != self.isEligible
-            self.isEligible = isEligible
+        private func stopListening() {
+            notifications.forEach { notificationCenter.removeObserver($0) }
+            notifications.removeAll()
+        }
+
+        private func update() {
+            isEligible = DataManager.sharedManager.isEligibleForEndOfYearStories()
 
             // Let others know this changed
-            if didChange {
+            if isEligible {
                 notificationCenter.post(name: EndOfYear.eoyEligibilityDidChange, object: nil)
+
+                // We don't need to check eligibility anymore
+                stopListening()
             }
         }
     }
