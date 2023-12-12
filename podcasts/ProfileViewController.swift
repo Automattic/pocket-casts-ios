@@ -83,6 +83,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         profileTable.tableFooterView = footerView
 
+        updateTableData()
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
@@ -346,6 +347,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         let controller = HeadphoneSettingsViewController()
         navigationController?.pushViewController(controller, animated: true)
         AnnouncementFlow.current = .none
+    }
+
+    func updateTableData() {
+        var data: [ProfileViewController.TableRow] = [.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory, .help]
+
+        if EndOfYear.isEligible {
+            data.insert(.endOfYearPrompt, at: 0)
+        }
+
+        tableData = [data]
     }
 }
 
