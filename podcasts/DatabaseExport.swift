@@ -3,10 +3,14 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 class DatabaseExport {
-    private let fileManager = FileManager.default
-
     /// The resulting file name of the zip file
-    private let exportName = "Pocket Casts Export"
+    let exportName: String
+
+    init(exportName: String = "Pocket Casts Export") {
+        self.exportName = exportName
+    }
+
+    private let fileManager = FileManager.default
 
     /// Create a zip of the database and prefrences
     func export() async -> URL? {
