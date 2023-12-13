@@ -750,8 +750,6 @@
     <string>Вы прослушали %1$@ выпусков (-а) общей продолжительностью %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>Ваши любимые подкасты</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>Мои любимые подкасты в 2022 году</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Мои любимые подкасты этого года! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2243,8 +2241,6 @@
     <string>Проверьте статус своей сети.</string>
     <key>settings_status_internet_failure_message</key>
     <string>Не удаётся подключиться к Интернету. Попробуйте подключиться через другую сеть (например, мобильную).</string>
-    <key>settings_status_page</key>
-    <string>Страница состояния</string>
     <key>settings_status_refresh_service</key>
     <string>Сервис обновления</string>
     <key>settings_status_refresh_service_description</key>

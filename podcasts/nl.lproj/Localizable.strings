@@ -750,8 +750,6 @@ waar je naar hebt geluisterd was
     <string>Je hebt in totaal %2$@ geluisterd naar %1$@ podcasts</string>
     <key>eoy_story_top_podcasts</key>
     <string>Je beste podcasts</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>Mijn beste podcasts van 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Mijn beste podcasts van het jaar! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2243,8 +2241,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Controleer de status van je netwerk.</string>
     <key>settings_status_internet_failure_message</key>
     <string>Kan geen verbinding maken met het internet. Probeer verbinding te maken met een ander netwerk (bij. mobiele data).</string>
-    <key>settings_status_page</key>
-    <string>Statuspagina</string>
     <key>settings_status_refresh_service</key>
     <string>Service vernieuwen</string>
     <key>settings_status_refresh_service_description</key>

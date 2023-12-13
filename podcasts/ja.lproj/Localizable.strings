@@ -750,8 +750,6 @@
     <string>%1$@個のエピソードで合計%2$@聴きました</string>
     <key>eoy_story_top_podcasts</key>
     <string>人気のポッドキャスト</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>私の2022年のトップポッドキャスト</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>今年私が一番よく聴いたポッドキャスト ! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2242,8 +2240,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ネットワークのステータスを確認してください。</string>
     <key>settings_status_internet_failure_message</key>
     <string>インターネットに接続できません。 別のネットワーク (モバイルデータなど) に接続してみてください。</string>
-    <key>settings_status_page</key>
-    <string>ステータスページ</string>
     <key>settings_status_refresh_service</key>
     <string>サービスの再読み込み</string>
     <key>settings_status_refresh_service_description</key>
