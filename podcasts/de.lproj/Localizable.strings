@@ -750,8 +750,6 @@ Folge dauerte
     <string>Du hast dir %1$@ Folgen mit einer Gesamtdauer von %2$@ angehört</string>
     <key>eoy_story_top_podcasts</key>
     <string>Deine Top-Podcasts</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>Meine Top-Podcasts 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Meine Top-Podcasts des Jahres! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2243,8 +2241,6 @@ Gratis-Test für %1$@</string>
     <string>Prüfe den Status deines Netzwerks.</string>
     <key>settings_status_internet_failure_message</key>
     <string>Es kann keine Internetverbindung hergestellt werden. Versuche, ein anderes Netzwerk zu verbinden (z. B. mobile Daten).</string>
-    <key>settings_status_page</key>
-    <string>Statusseite</string>
     <key>settings_status_refresh_service</key>
     <string>Dienst aktualisieren</string>
     <key>settings_status_refresh_service_description</key>

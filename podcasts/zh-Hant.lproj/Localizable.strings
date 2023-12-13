@@ -750,8 +750,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你收聽了 %1$@ 集，總共 %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>你最愛的 Podcast</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>2022 年我最愛的 Podcast</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>本年度我最愛的 Podcast！%1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2243,8 +2241,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>請檢查你的網路狀態。</string>
     <key>settings_status_internet_failure_message</key>
     <string>無法連線到網際網路。 請嘗試連線不同網路 (例如行動數據)。</string>
-    <key>settings_status_page</key>
-    <string>狀態頁面</string>
     <key>settings_status_refresh_service</key>
     <string>重新整理服務</string>
     <key>settings_status_refresh_service_description</key>

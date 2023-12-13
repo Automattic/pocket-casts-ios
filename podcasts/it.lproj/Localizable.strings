@@ -750,8 +750,6 @@ che hai ascoltato è stato
     <string>Hai ascoltato %1$@ episodi per un totale di %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>I migliori podcast</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>I miei podcast preferiti del 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>I miei podcast preferiti dell'anno! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2243,8 +2241,6 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Controlla lo stato della tua rete.</string>
     <key>settings_status_internet_failure_message</key>
     <string>Impossibile connettersi a Internet. Prova a connetterti a una rete diversa (ad esempio rete dati).</string>
-    <key>settings_status_page</key>
-    <string>Stato</string>
     <key>settings_status_refresh_service</key>
     <string>Aggiorna il servizio</string>
     <key>settings_status_refresh_service_description</key>

@@ -750,8 +750,6 @@ du lyssnade på var
     <string>Du lyssnade på %1$@ avsnitt i sammanlagt %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>Dina favoritpodcasts</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>Mina favoritpodcasts 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Mina favoritpodcasts för året. %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2243,8 +2241,6 @@ gratis provperiod på %1$@</string>
     <string>Kontrollera ditt nätverks status.</string>
     <key>settings_status_internet_failure_message</key>
     <string>Det gick inte att ansluta till internet. Prova att ansluta till ett annat nätverk (t.ex. mobildata).</string>
-    <key>settings_status_page</key>
-    <string>Statussida</string>
     <key>settings_status_refresh_service</key>
     <string>Tjänsten Uppdatera</string>
     <key>settings_status_refresh_service_description</key>

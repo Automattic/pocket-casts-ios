@@ -3,61 +3,22 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 class DatabaseExport {
-    private let fileManager = FileManager.default
-    private var loadingAlert: ShiftyLoadingAlert?
-
     /// The resulting file name of the zip file
-    private let exportName = "Pocket Casts Export"
+    let exportName: String
 
-    /// ZIPs the users SQLite database and shows a share dialog for them to share it with us
-    func exportDatabase(from controller: UIViewController, completion: @escaping () -> Void) {
-        loadingAlert = ShiftyLoadingAlert(title: L10n.exportingDatabase)
-        loadingAlert?.showAlert(controller, hasProgress: false, completion: { [weak self] in
-            self?.export { url in
-                self?.share(url: url, from: controller, completion: completion)
-            }
-        })
+    init(exportName: String = "Pocket Casts Export") {
+        self.exportName = exportName
     }
 
-    /// Open the resulting zip file in the share sheet, or show an error
-    private func share(url: URL?, from controller: UIViewController, completion: @escaping () -> Void) {
-        loadingAlert?.hideAlert(false)
-        loadingAlert = nil
-
-        guard let url else {
-            SJUIUtils.showAlert(title: L10n.settingsExportError, message: nil, from: controller)
-            return
-        }
-
-        // Share the file
-        let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        shareSheet.completionWithItemsHandler = { [weak self] _, _, _, _ in
-            // Attempt to cleanup the temporary file
-            self?.cleanup(url: url)
-
-            completion()
-        }
-
-        controller.present(shareSheet, animated: true, completion: nil)
-    }
-
-    /// Attempt to remove the temporary export directory and files
-    private func cleanup(url: URL) {
-        do {
-            try fileManager.removeItem(at: url.deletingLastPathComponent())
-        } catch {
-            FileLog.shared.addMessage("[Export] Could not cleanup file: \(error)")
-        }
-    }
+    private let fileManager = FileManager.default
 
     /// Create a zip of the database and prefrences
-    private func export(_ handler: @escaping (URL?) -> Void) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            guard let exportFolder = self.prepareFiles() else {
-                handler(nil)
-                return
-            }
+    func export() async -> URL? {
+        guard let exportFolder = self.prepareFiles() else {
+            return nil
+        }
 
+        return await withCheckedContinuation { continutation in
             let coordinator = NSFileCoordinator()
 
             // The file coordinate will zip the export folder for us
@@ -68,14 +29,21 @@ class DatabaseExport {
                     let tempURL = exportFolder.appendingPathComponent("\(self.exportName).zip")
                     try self.fileManager.moveItem(at: zipURL, to: tempURL)
 
-                    DispatchQueue.main.async {
-                        handler(tempURL)
-                    }
+                    continutation.resume(returning: tempURL)
                 } catch {
                     FileLog.shared.addMessage("[Export] Could not generate zip file: \(error)")
-                    handler(nil)
+                    continutation.resume(returning: nil)
                 }
             }
+        }
+    }
+
+    /// Attempt to remove the temporary export directory and files
+    func cleanup(url: URL) {
+        do {
+            try fileManager.removeItem(at: url.deletingLastPathComponent())
+        } catch {
+            FileLog.shared.addMessage("[Export] Could not cleanup file: \(error)")
         }
     }
 
