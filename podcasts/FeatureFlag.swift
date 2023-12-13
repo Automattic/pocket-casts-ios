@@ -46,7 +46,7 @@ enum FeatureFlag: String, CaseIterable {
         case .episodeFeedArtwork:
             return false // To be enabled, newShowNotesEndpoint needs to be too
         case .newPlayerTransition:
-            return true
+            return false
         }
     }
 }
