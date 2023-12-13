@@ -367,6 +367,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func showHeadphoneSettings() {
+        let state = NavigationManager.sharedManager.miniPlayer?.playerOpenState
+
+        // Dismiss any presented views if the player is not already open/dismissing since it will dismiss itself
+        if state != .open, state != .animating {
+            dismissPresentedViewController()
+        }
+
         switchToTab(.profile)
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)
