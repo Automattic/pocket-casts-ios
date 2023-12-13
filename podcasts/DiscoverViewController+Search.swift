@@ -2,13 +2,13 @@ import Foundation
 
 extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard searchResultsController?.view?.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard searchResultsController?.view?.superview == nil else { return } // don't send scroll events while the search results are up
+        guard searchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
     }
@@ -32,26 +32,18 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
         searchController.setupScrollView(mainScrollView, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
-
-        searchResultsController = DiscoverPodcastSearchResultsController()
-        searchResultsController.delegate = self
-        searchResultsController.searchTextField = searchController.searchTextField
     }
 
     func searchDidBegin() {
-        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view,
-              searchView.superview == nil else {
+        guard let searchView = searchResultsController.view, searchView.superview == nil else {
             return
         }
 
         searchView.alpha = 0
-        if FeatureFlag.newSearch.enabled {
-            addChild(newSearchResultsController)
-            view.addSubview(searchView)
-            newSearchResultsController.didMove(toParent: self)
-        } else {
-            view.addSubview(searchView)
-        }
+        addChild(searchResultsController)
+        view.addSubview(searchView)
+        searchResultsController.didMove(toParent: self)
+
 
         searchView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -67,7 +59,7 @@ extension DiscoverViewController: PCSearchBarDelegate, UIScrollViewDelegate {
     }
 
     func searchDidEnd() {
-        guard let searchView = FeatureFlag.newSearch.enabled ? newSearchResultsController.view : searchResultsController.view else { return }
+        guard let searchView = searchResultsController.view else { return }
 
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
             searchView.alpha = 0

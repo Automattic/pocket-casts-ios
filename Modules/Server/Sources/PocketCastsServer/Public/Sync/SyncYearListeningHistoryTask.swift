@@ -167,9 +167,14 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 class PodcastExistsHelper {
     static let shared = PodcastExistsHelper()
 
-    var checkedUuidsThatExist: [String] = []
+    private var checkedUuidsThatExist: [String] = []
+
+    private var lock = NSLock()
 
     func exists(uuid: String) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+
         if checkedUuidsThatExist.contains(uuid) {
             return true
         }

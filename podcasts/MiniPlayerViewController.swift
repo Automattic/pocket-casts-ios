@@ -109,6 +109,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             fullScreenPlayer?.view.removeFromSuperview()
             fullScreenPlayer = nil
 
+            // When there are a stack of VCs the player might not dismiss as expected
+            // Here we ensure it is correctly dismissed
+            SceneHelper.rootViewController()?.dismiss(animated: true)
+
             // update the mini player on full screen player close
             playbackStateDidChange()
             playbackProgressDidChange()
@@ -322,7 +326,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         upNextViewController = UpNextViewController(source: source)
         guard let upNextController = upNextViewController else { return }
 
-        let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let navWrapper = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         navWrapper.modalPresentationStyle = .formSheet
         rootViewController()?.present(navWrapper, animated: true, completion: nil)
     }

@@ -797,11 +797,7 @@ class Settings: NSObject {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
         }
         get {
-            guard FeatureFlag.autoplay.enabled else {
-                return false
-            }
-
-            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
         }
     }
 
@@ -846,6 +842,16 @@ class Settings: NSObject {
 
         set {
             Constants.UserDefaults.bookmarks.creationSound.save(newValue)
+        }
+    }
+
+    static var darkUpNextTheme: Bool {
+        get {
+            Constants.UserDefaults.appearance.darkUpNextTheme.value
+        }
+
+        set {
+            Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
         }
     }
 

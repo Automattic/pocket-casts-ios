@@ -25,8 +25,6 @@ class WatchSyncManager {
     }
 
     func setup() {
-        FileLog.shared.setup()
-
         let defaults = UserDefaults.standard
 
         // check to see that this app has a unique ID, if not create one

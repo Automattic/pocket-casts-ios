@@ -2657,7 +2657,7 @@
 "settings_read_privacy_policy" = "Read privacy policy";
 
 /* Title of the status page, to check the status of the user's connection. */
-"settings_status_page" = "Status Page";
+"settings_connection_status" = "Connection Status";
 
 /* Label explaining the purpose of the Status Page */
 "settings_status_description" = "Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.";
@@ -3564,7 +3564,7 @@
 "eoy_story_top_podcasts_share_text" = "My top podcasts of the year! %1$@";
 
 /* Title of a list of podcasts created containing the user's top 5 podcasts of 2022. */
-"eoy_story_top_podcasts_list_title" = "My top podcasts of 2022";
+"eoy_story_top_podcasts_list_title" = "My top podcasts of the year!";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
 "eoy_story_longest_episode" = "The longest episode you listened to was %1$@";
@@ -3958,3 +3958,15 @@
 
 /* Message of an alert that informs the user purchasing is disabled in the beta. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. %1$@ is the name of the tier (Plus or Patron)*/
 "beta_purchase_disabled" = "Please download Pocket Casts from the App Store to purchase %1$@.";
+
+/* Title of a message shown when the users data is being exported */
+"exporting_database" = "Exporting Database...";
+
+/* Title of an option to export the users data */
+"export_database" = "Export Database";
+
+/* Title of a setting that lets the user use dark mode for the up next */
+"settings_up_next_dark_mode_title" = "Use Dark Up Next Theme";
+
+/* Description explaining to the user what up next dark mode means. */
+"settings_up_next_dark_mode_footer" = "When enabled the Up Next will always use the dark theme, or will match the current theme when disabled.";

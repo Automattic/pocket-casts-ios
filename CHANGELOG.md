@@ -1,6 +1,12 @@
-7.54
+7.55
 -----
 
+
+7.54
+-----
+- Adds a button to export the database and preferences from the Help & Feedback view [#1257]
+- Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
+- Adds theme support to the Up Next [#1265]
 
 7.53
 -----

@@ -13,9 +13,9 @@ class AutoplayHelper {
 
         var analyticsDescription: String {
             switch self {
-            case .podcast(uuid: _):
+            case .podcast:
                 return "podcast"
-            case .filter(uuid: _):
+            case .filter:
                 return "filter"
             case .downloads:
                 return "downloads"

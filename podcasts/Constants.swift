@@ -174,6 +174,10 @@ struct Constants {
             static let podcastSort = SettingValue("bookmarks.podcastSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let episodeSort = SettingValue("bookmarks.episodeSort", defaultValue: BookmarkSortOption.newestToOldest)
         }
+
+        enum appearance {
+            static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
+        }
     }
 
     enum Values {
@@ -398,6 +402,8 @@ enum PlusUpgradeViewSource: String {
     case watch
     case unknown
     case endOfYear
+    case promoCode
+    case promotionFinished
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

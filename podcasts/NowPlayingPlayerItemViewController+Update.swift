@@ -19,6 +19,7 @@ extension NowPlayingPlayerItemViewController {
         addCustomObserver(Constants.Notifications.sleepTimerChanged, selector: #selector(sleepTimerUpdated))
         addCustomObserver(Constants.Notifications.playerActionsUpdated, selector: #selector(reloadShelfActions))
         addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(reloadShelfActions))
     }
 
     @objc private func playbackTrackChanged() {

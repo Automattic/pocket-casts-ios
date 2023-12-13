@@ -748,8 +748,6 @@ Ens veiem al 2024!</string>
     <string>Has escoltat %1$@ episodis d'un total de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
     <string>Els teus podcasts favorits</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>Els meus podcasts principals de 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Els meus podcasts principals de l'any! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2237,8 +2235,6 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Comprova l'estat de la xarxa.</string>
     <key>settings_status_internet_failure_message</key>
     <string>No és possible connectar-se a Internet. Prova de connectar a una xarxa diferent, per exemple a les dades mòbils.</string>
-    <key>settings_status_page</key>
-    <string>Pàgina d'estat</string>
     <key>settings_status_refresh_service</key>
     <string>Servei d'actualizació</string>
     <key>settings_status_refresh_service_description</key>

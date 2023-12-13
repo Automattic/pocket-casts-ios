@@ -750,8 +750,6 @@
     <string>您收听了 %1$@ 部剧集，总共有 %2$@ 部剧集</string>
     <key>eoy_story_top_podcasts</key>
     <string>您的热门播客</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>我的 2022 年热门播客</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>我的年度热门播客！%1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2243,8 +2241,6 @@
     <string>检查网络的状态。</string>
     <key>settings_status_internet_failure_message</key>
     <string>无法连接到互联网。 尝试在不同的网络上连接（例如移动数据）。</string>
-    <key>settings_status_page</key>
-    <string>状态页</string>
     <key>settings_status_refresh_service</key>
     <string>刷新服务</string>
     <key>settings_status_refresh_service_description</key>

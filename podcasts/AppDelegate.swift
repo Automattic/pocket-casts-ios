@@ -33,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
-        FileLog.shared.setup()
 
         setupWhatsNew()
 
@@ -103,6 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func handleEnterBackground() {
         scheduleNextBackgroundRefresh()
+        FileLog.shared.forceFlush()
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
         badgeHelper.updateBadge()

@@ -750,8 +750,6 @@ que has escuchado dura
     <string>Escuchaste %1$@ episodios de un total de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
     <string>Tus pódcast favoritos</string>
-    <key>eoy_story_top_podcasts_list_title</key>
-    <string>Mis pódcast principales de 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>¡Mis pódcast principales del año! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -2243,8 +2241,6 @@ prueba gratuita de %1$@</string>
     <string>Comprueba el estado de la red.</string>
     <key>settings_status_internet_failure_message</key>
     <string>No se ha podido conectar a Internet. Intenta conectarte a una red diferente (por ejemplo, a los datos móviles).</string>
-    <key>settings_status_page</key>
-    <string>Página de estado</string>
     <key>settings_status_refresh_service</key>
     <string>Servicio de actualización</string>
     <key>settings_status_refresh_service_description</key>
