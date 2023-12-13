@@ -110,8 +110,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             fullScreenPlayer = nil
 
             // When there are a stack of VCs the player might not dismiss as expected
-            // Here we ensure it is correctly dismissed
-            SceneHelper.rootViewController()?.dismiss(animated: true)
+            // Here we ensure everything is correctly dismissed
+            rootViewController()?.dismiss(animated: UIApplication.shared.applicationState == .active)
 
             // update the mini player on full screen player close
             playbackStateDidChange()
