@@ -99,14 +99,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         if !FeatureFlag.newPlayerTransition.enabled {
             Analytics.track(.playerShown)
         }
-    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        // When the app is not active, dismissing it animated causes
-        // the `UITransitionView` to never disappear, blocking any gesture
-        // with the app.
-        let animated = UIApplication.shared.applicationState == .active
-        super.dismiss(animated: animated, completion: completion)
-    }
-
     }
 
     override func viewDidDisappear(_ animated: Bool) {
