@@ -149,7 +149,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             toView.frame = toFrame
             toView.layer.opacity = self.isPresenting ? 1 : 0
         } completion: { completed in
-            transitionContext.completeTransition(completed)
+            transitionContext.completeTransition(true)
         }
 
         // MARK: - Background and Mini Player

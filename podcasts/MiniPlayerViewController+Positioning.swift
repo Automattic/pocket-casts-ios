@@ -95,7 +95,7 @@ extension MiniPlayerViewController {
         guard !FeatureFlag.newPlayerTransition.enabled else {
             playerOpenState = .animating
 
-            fullScreenPlayer?.dismiss(animated: true) {
+            rootViewController()?.dismiss(animated: true) {
                 self.finishedWithFullScreenPlayer()
                 self.playerOpenState = .closed
                 Analytics.track(.playerDismissed)
