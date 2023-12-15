@@ -133,6 +133,31 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
 
+            // We need a mini player artwork snapshot when dismissing
+            // to ensure a smooth transition and that the shadows are
+            // displayed
+            let miniPlayerArtworkSnapshot: UIView? = {
+                guard !isPresenting else {
+                    return nil
+                }
+
+                let toSnapshot = UIView()
+                toSnapshot.frame = miniPlayerArtworkFrame
+                let coverWithShadow = PodcastImageView()
+                coverWithShadow.setImageManually(image: fullPlayerArtwork.image, size: .list)
+                toSnapshot.addSubview(coverWithShadow)
+
+                // Padding is added so the shadow appears in the snapshot
+                coverWithShadow.anchorToAllSidesOf(view: toSnapshot, padding: 2)
+
+                return toSnapshot.snapshotView(afterScreenUpdates: true)
+            }()
+
+            if let miniPlayerArtworkSnapshot {
+                containerView.addSubview(miniPlayerArtworkSnapshot)
+                miniPlayerArtworkSnapshot.frame = isPresenting ? miniPlayerArtworkFrame : fullPlayerArtworkFrame
+            }
+
             let artwork = UIImageView()
             artwork.image = fullPlayerArtwork.image
 
@@ -152,6 +177,9 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             animate(withDuration: duration) { [self] in
                 artwork.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
                 artwork.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
+
+                // snapshot has its frame changed to account for the shadow
+                miniPlayerArtworkSnapshot?.frame = self.isPresenting ? fullPlayerArtworkFrame : CGRect(x: miniPlayerArtworkFrame.origin.x - 2, y: miniPlayerArtworkFrame.origin.y - 2, width: miniPlayerArtworkFrame.width + 4, height: miniPlayerArtworkFrame.height + 4)
             } completion: { completed in
                 artwork.removeFromSuperview()
 
