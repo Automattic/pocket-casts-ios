@@ -174,6 +174,17 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             // MARK: - Artwork animation
 
+            // We fade from the big artwork to the miniplayer snapshot to ensure
+            // a smooth transition. DispatchQueue is needed because delay conflicts
+            // with snapshotView(afterScreenUpdates: true) (yes...)
+            if !isPresenting {
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: self.duration * 0.3, delay: self.duration * 0.7, options: .curveEaseOut) { [self] in
+                        artwork.layer.opacity = self.isPresenting ? 1 : 0
+                    }
+                }
+            }
+
             animate(withDuration: duration) { [self] in
                 artwork.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
                 artwork.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
