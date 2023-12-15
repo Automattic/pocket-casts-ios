@@ -71,6 +71,16 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             return
         }
 
+        // MARK: - Tab bar
+
+        // When dismissing, add the tab bar so the miniplayer appear behind it (not in front)
+        if !isPresenting,
+           let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar,
+           let tabBarSnapshot = tabBar.snapshotView(afterScreenUpdates: true) {
+            containerView.addSubview(tabBarSnapshot)
+            tabBarSnapshot.frame = tabBar.frame
+        }
+
         // MARK: - Full Player
 
         /// The player initial frame
