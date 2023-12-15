@@ -205,9 +205,3 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         case dismissing
     }
 }
-
-extension FeatureFlag {
-    var isNewTransitionEnabled: Bool {
-        FeatureFlag.newPlayerTransition.enabled && Settings.newPlayerTransition
-    }
-}
