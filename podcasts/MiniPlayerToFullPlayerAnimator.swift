@@ -215,8 +215,11 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         // MARK: - Mini Player animation
 
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
+        fromViewController.view.layer.opacity = isPresenting ? 1 : 0
         animate(withDuration: duration) {
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
+        } completion: { _ in
+            self.fromViewController.view.layer.opacity = 1
         }
     }
 
