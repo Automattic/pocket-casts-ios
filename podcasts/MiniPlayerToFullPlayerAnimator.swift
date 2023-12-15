@@ -139,7 +139,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             // MARK: - Artwork animation
 
-            UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) { [self] in
+            animate(withDuration: duration) { [self] in
                 artwork.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
                 artwork.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
             } completion: { completed in
@@ -155,7 +155,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         toView.frame = fromFrame
         toView.layer.opacity = isPresenting ? 0 : 1
-        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
+        animate(withDuration: duration) {
             toView.frame = toFrame
             toView.layer.opacity = self.isPresenting ? 1 : 0
         } completion: { completed in
@@ -195,7 +195,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         backgroundTransitionView.backgroundColor = fromColor
         backgroundTransitionView.frame = backgroundFromFrame
 
-        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
+        animate(withDuration: duration) {
             backgroundTransitionView.backgroundColor = toColor
             backgroundTransitionView.frame = backgroundToFrame
         } completion: { completed in
@@ -205,7 +205,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         // MARK: - Mini Player animation
 
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
-        UIView.animate(withDuration: isPresenting ? 0.1 : duration, delay: 0, options: .curveEaseInOut) {
+        animate(withDuration: duration) {
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
         }
     }
