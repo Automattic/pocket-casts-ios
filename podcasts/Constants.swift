@@ -335,6 +335,9 @@ struct Constants {
 
         static let addMissingEpisodes = "add_missing_episodes"
         static let addMissingEpisodesDefault: Bool = true
+
+        static let newPlayerTransition = "new_player_transition"
+        static let newPlayerTransitionDefault: Bool = true
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
