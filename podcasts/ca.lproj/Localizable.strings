@@ -476,7 +476,7 @@
     <key>discover_browse_by_category_society</key>
     <string>Societat</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Societat i cultura</string>
+    <string>Cultura</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Espiritualitat</string>
     <key>discover_browse_by_category_sports</key>
@@ -748,6 +748,8 @@ Ens veiem al 2024!</string>
     <string>Has escoltat %1$@ episodis d'un total de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
     <string>Els teus podcasts favorits</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Els meus podcasts principals de 2022</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Els meus podcasts principals de l'any! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -814,12 +816,16 @@ Ens veiem al 2024!</string>
     <string>Error</string>
     <key>error_general_podcast_not_found</key>
     <string>No s'ha pogut trobar el podcast. Posa't en contacte amb el seu autor.</string>
+    <key>export_database</key>
+    <string>Exportar la base de dades</string>
     <key>export_podcasts_description</key>
     <string>Exporta tots els teus podcasts a un fitxer OPML, que pots importar a altres aplicacions de podcasts.</string>
     <key>export_podcasts_option</key>
     <string>Exportar podcasts</string>
     <key>export_podcasts_title</key>
     <string>EXPORTAR</string>
+    <key>exporting_database</key>
+    <string>Exportant la base dades...</string>
     <key>feature_tour_end_tour</key>
     <string>Acabar la guia</string>
     <key>feature_tour_new</key>
@@ -2007,6 +2013,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Recopilar la informació</string>
     <key>settings_collect_information_additional_information</key>
     <string>Si ens permets recopilar anàlitiques podrem millorar l'aplicació. Tanmateix, entenem que prefereixis no compartir aquesta informació</string>
+    <key>settings_connection_status</key>
+    <string>Estat de la connexió</string>
     <key>settings_create_siri_shortcut</key>
     <string>Crear una drecera de Siri</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2259,6 +2267,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Ajustar nivell</string>
     <key>settings_trim_silence</key>
     <string>Retallar silencis</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>Quan està activat, 'Tot seguit' sempre utilitzarà el tema fosc, o coincidirà amb el tema actual quan estigui desactivat.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Emprar el tema fosc a la llista 'Tot seguit'</string>
     <key>settings_up_next_limit</key>
     <string>Afegeix automàticament nous episodis a la llista 'Tot seguit'. Quan arribeu a %1$@, es deixaran d'afegir nous episodis.</string>
     <key>settings_up_next_limit_add_to_top</key>
