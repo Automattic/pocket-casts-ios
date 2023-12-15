@@ -18,6 +18,13 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
     private let fullPlayerYPosition: CGFloat
 
+    // Spring velocity is defined by pan gesture velocity / distance
+    private lazy var springVelocity: CGFloat = {
+        let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
+        let distance = miniplayerFrame.origin.y - fullPlayerYPosition
+        return dismissVelocity / distance
+    }()
+
     // When presenting the player, duration is always the same
     // However, if the view is being dismissed we take into account
     // the velocity of the swipe down gesture to carry it
@@ -200,6 +207,26 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         UIView.animate(withDuration: isPresenting ? 0.1 : duration, delay: 0, options: .curveEaseInOut) {
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
+        }
+    }
+
+    /// When presenting use curveEaseInOut. If dismissing, use spring animation
+    private func animate(withDuration duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
+        if isPresenting {
+            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: animations, completion: completion)
+        } else {
+            let timingParameters = UISpringTimingParameters(mass: 1, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: 0, dy: abs(springVelocity)))
+            let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
+            animator.addCompletion { position in
+                switch position {
+                case .end:
+                    completion?(true)
+                default:
+                    break
+                }
+            }
+            animator.addAnimations(animations)
+            animator.startAnimation()
         }
     }
 
