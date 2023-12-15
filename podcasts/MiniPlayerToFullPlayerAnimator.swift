@@ -16,6 +16,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     // An assumed "normal" velocity from a pan gesture
     private let normalVelocity: CGFloat = 2500
 
+    private let fullPlayerYPosition: CGFloat
+
     // When presenting the player, duration is always the same
     // However, if the view is being dismissed we take into account
     // the velocity of the swipe down gesture to carry it
@@ -40,13 +42,14 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
     }
 
-    init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition, miniPlayerArtwork: PodcastImageView, fullPlayerArtwork: UIImageView, dismissVelocity: CGFloat = 0) {
+    init?(fromViewController: UIViewController, toViewController: UIViewController, transition: Transition, miniPlayerArtwork: PodcastImageView, fullPlayerArtwork: UIImageView, dismissVelocity: CGFloat = 0, fullPlayerYPosition: CGFloat = 0) {
         self.fromViewController = fromViewController
         self.toViewController = toViewController
         self.transition = transition
         self.miniPlayerArtwork = miniPlayerArtwork
         self.fullPlayerArtwork = fullPlayerArtwork
         self.dismissVelocity = dismissVelocity
+        self.fullPlayerYPosition = fullPlayerYPosition
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
