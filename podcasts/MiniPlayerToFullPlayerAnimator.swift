@@ -213,7 +213,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         let backgroundFromFrame = isPresenting ? miniplayerFrame : backgroundTransitionInitialFrame
         let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
-        print("@@ \(backgroundToFrame) **")
 
         // Add a snapshot of the miniplayer
         let miniPlayerSnapshotView = fromViewController.view.snapshotView(afterScreenUpdates: true)
@@ -263,7 +262,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         if isPresenting {
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: animations, completion: completion)
         } else {
-            let timingParameters = UISpringTimingParameters(mass: 1, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: 0, dy: springVelocity))
+            let timingParameters = UISpringTimingParameters(mass: 1, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: -springVelocity, dy: springVelocity))
             let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
             animator.addCompletion { position in
                 switch position {
