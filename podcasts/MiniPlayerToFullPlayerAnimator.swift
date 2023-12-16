@@ -71,30 +71,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             return
         }
 
-        // MARK: - Mini player artwork + shadow
-
-        let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
-
-        // We need a mini player artwork snapshot when dismissing
-        // to ensure a smooth transition and that the shadows are
-        // displayed
-        let miniPlayerArtworkSnapshot: UIView? = {
-            guard !isPresenting else {
-                return nil
-            }
-
-            let toSnapshot = UIView()
-            toSnapshot.frame = miniPlayerArtworkFrame
-            let coverWithShadow = PodcastImageView()
-            coverWithShadow.setImageManually(image: fullPlayerArtwork.image, size: .list)
-            toSnapshot.addSubview(coverWithShadow)
-
-            // Padding is added so the shadow appears in the snapshot
-            coverWithShadow.anchorToAllSidesOf(view: toSnapshot, padding: 2)
-
-            return toSnapshot.snapshotView(afterScreenUpdates: true)
-        }()
-
         // MARK: - Full Player
 
         /// The player initial frame
@@ -157,6 +133,20 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
                 return fullPlayerArtworkFrame
             }()
 
+            let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
+            let miniPlayerArtworkWithShadowFrame = miniPlayerArtwork.superview?.superview?.convert(miniPlayerArtwork.superview?.frame ?? .zero, to: nil) ?? .zero
+
+            // We need a mini player artwork snapshot when dismissing
+            // to ensure a smooth transition and that the shadows are
+            // displayed
+            let miniPlayerArtworkSnapshot: UIView? = {
+                guard !isPresenting else {
+                    return nil
+                }
+
+                return miniPlayerArtwork.superview?.snapshotView(afterScreenUpdates: false)
+            }()
+
             if let miniPlayerArtworkSnapshot {
                 containerView.addSubview(miniPlayerArtworkSnapshot)
                 miniPlayerArtworkSnapshot.frame = isPresenting ? miniPlayerArtworkFrame : fullPlayerArtworkFrame
@@ -194,7 +184,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
                 artwork.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
 
                 // snapshot has its frame changed to account for the shadow
-                miniPlayerArtworkSnapshot?.frame = self.isPresenting ? fullPlayerArtworkFrame : CGRect(x: miniPlayerArtworkFrame.origin.x - 2, y: miniPlayerArtworkFrame.origin.y - 2, width: miniPlayerArtworkFrame.width + 4, height: miniPlayerArtworkFrame.height + 4)
+                miniPlayerArtworkSnapshot?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkWithShadowFrame
             } completion: { completed in
                 artwork.removeFromSuperview()
 
