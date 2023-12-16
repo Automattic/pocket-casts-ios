@@ -71,15 +71,29 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             return
         }
 
-        // MARK: - Tab bar
+        // MARK: - Mini player artwork + shadow
 
-        // When dismissing, add the tab bar so the miniplayer appear behind it (not in front)
-        if !isPresenting,
-           let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar,
-           let tabBarSnapshot = tabBar.snapshotView(afterScreenUpdates: true) {
-            containerView.addSubview(tabBarSnapshot)
-            tabBarSnapshot.frame = tabBar.frame
-        }
+        let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
+
+        // We need a mini player artwork snapshot when dismissing
+        // to ensure a smooth transition and that the shadows are
+        // displayed
+        let miniPlayerArtworkSnapshot: UIView? = {
+            guard !isPresenting else {
+                return nil
+            }
+
+            let toSnapshot = UIView()
+            toSnapshot.frame = miniPlayerArtworkFrame
+            let coverWithShadow = PodcastImageView()
+            coverWithShadow.setImageManually(image: fullPlayerArtwork.image, size: .list)
+            toSnapshot.addSubview(coverWithShadow)
+
+            // Padding is added so the shadow appears in the snapshot
+            coverWithShadow.anchorToAllSidesOf(view: toSnapshot, padding: 2)
+
+            return toSnapshot.snapshotView(afterScreenUpdates: true)
+        }()
 
         // MARK: - Full Player
 
@@ -117,6 +131,17 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         toViewController.view.setNeedsLayout()
         toViewController.view.layoutIfNeeded()
 
+        // MARK: - Tab bar
+
+        // When dismissing, add the tab bar so the miniplayer appear behind it (not in front)
+        if !isPresenting,
+           let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar,
+           let tabBarSnapshot = tabBar.snapshotView(afterScreenUpdates: true) {
+            containerView.addSubview(tabBarSnapshot)
+            containerView.sendSubviewToBack(tabBarSnapshot)
+            tabBarSnapshot.frame = tabBar.frame
+        }
+
         // MARK: - Artwork
 
         // Artwork is not animated if it's a video podcast
@@ -129,28 +154,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
                     fullPlayerArtworkFrame.origin = .init(x: fullPlayerArtworkFrame.origin.x, y: fullPlayerArtworkFrame.origin.y + fromFrame.origin.y)
                 }
                 return fullPlayerArtworkFrame
-            }()
-
-            let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
-
-            // We need a mini player artwork snapshot when dismissing
-            // to ensure a smooth transition and that the shadows are
-            // displayed
-            let miniPlayerArtworkSnapshot: UIView? = {
-                guard !isPresenting else {
-                    return nil
-                }
-
-                let toSnapshot = UIView()
-                toSnapshot.frame = miniPlayerArtworkFrame
-                let coverWithShadow = PodcastImageView()
-                coverWithShadow.setImageManually(image: fullPlayerArtwork.image, size: .list)
-                toSnapshot.addSubview(coverWithShadow)
-
-                // Padding is added so the shadow appears in the snapshot
-                coverWithShadow.anchorToAllSidesOf(view: toSnapshot, padding: 2)
-
-                return toSnapshot.snapshotView(afterScreenUpdates: true)
             }()
 
             if let miniPlayerArtworkSnapshot {
