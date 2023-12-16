@@ -137,8 +137,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         if !isPresenting,
            let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar,
            let tabBarSnapshot = tabBar.snapshotView(afterScreenUpdates: true) {
-            tabBarSnapshot.layer.borderWidth = 1.0 / UIScreen.main.scale
-            tabBarSnapshot.layer.borderColor = UITabBarAppearance().shadowColor?.cgColor
+            tabBarSnapshot.layer.drawTopBorder()
             containerView.addSubview(tabBarSnapshot)
             containerView.sendSubviewToBack(tabBarSnapshot)
             tabBarSnapshot.frame = tabBar.frame
@@ -290,5 +289,14 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     enum Transition {
         case presenting
         case dismissing
+    }
+}
+
+extension CALayer {
+    func drawTopBorder() {
+        let border = CALayer()
+        border.frame = CGRect(x: 0, y: 0, width: frame.width, height: 1.0 / UIScreen.main.scale)
+        border.backgroundColor = UITabBarAppearance().shadowColor?.cgColor
+        addSublayer(border)
     }
 }
