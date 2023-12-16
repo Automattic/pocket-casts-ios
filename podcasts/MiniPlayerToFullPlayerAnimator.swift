@@ -95,8 +95,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             case .presenting:
                 return containerView.frame
             case .dismissing:
-                var toFrame = fromViewController.view.frame
-                return toFrame
+                return fromViewController.view.frame
             }
         }()
 
@@ -124,10 +123,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         if !isVideoPodcast {
 
             // Calculate initial and final frame for the artwork
-            let fullPlayerArtworkFrame: CGRect = {
-                var fullPlayerArtworkFrame = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
-                return fullPlayerArtworkFrame
-            }()
+            let fullPlayerArtworkFrame: CGRect = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
 
             let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
             let miniPlayerArtworkWithShadowFrame = miniPlayerArtwork.superview?.superview?.convert(miniPlayerArtwork.superview?.frame ?? .zero, to: nil) ?? .zero
