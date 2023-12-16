@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +13,7 @@
                 <outlet property="mainView" destination="rTj-uk-yNW" id="ZLL-0J-RYU"/>
                 <outlet property="playPauseBtn" destination="CjL-4C-tuh" id="Y8g-6z-ZoN"/>
                 <outlet property="playbackProgressView" destination="aWD-bx-vF2" id="vpI-fM-bgO"/>
-                <outlet property="podcastArtwork" destination="Bqa-eT-t3r" id="THy-P0-Dp8"/>
+                <outlet property="podcastArtwork" destination="tJx-CO-hRe" id="Kzl-ZM-bdq"/>
                 <outlet property="skipBackBtn" destination="92g-6h-Yd9" id="i61-v9-wgd"/>
                 <outlet property="skipFwdBtn" destination="JHq-wc-GDV" id="Pkp-0D-lfF"/>
                 <outlet property="upNextBtn" destination="nTH-nm-IG6" id="QNQ-hP-BL6"/>
@@ -28,15 +28,30 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTj-uk-yNW" userLabel="Main View" customClass="MiniPlayerBackingView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="325" height="65"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-eT-t3r" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="8" y="5.5" width="52" height="52"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-eT-t3r">
+                            <rect key="frame" x="8" y="3.5" width="56" height="56"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJx-CO-hRe" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="2" y="2" width="52" height="52"/>
+                                    <accessibility key="accessibilityConfiguration" hint="Tap to open full size player" label="Player">
+                                        <accessibilityTraits key="traits" button="YES"/>
+                                        <bool key="isElement" value="YES"/>
+                                    </accessibility>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="52" id="dnA-Im-DKw"/>
+                                        <constraint firstAttribute="width" constant="52" id="nch-ve-CD6"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
                             <accessibility key="accessibilityConfiguration" hint="Tap to open full size player" label="Player">
                                 <accessibilityTraits key="traits" button="YES"/>
                                 <bool key="isElement" value="YES"/>
                             </accessibility>
                             <constraints>
-                                <constraint firstAttribute="height" constant="52" id="2cu-pH-twC"/>
-                                <constraint firstAttribute="width" constant="52" id="hQL-XX-9K1"/>
+                                <constraint firstAttribute="height" constant="56" id="2cu-pH-twC"/>
+                                <constraint firstItem="tJx-CO-hRe" firstAttribute="centerY" secondItem="Bqa-eT-t3r" secondAttribute="centerY" id="WJ7-YG-L41"/>
+                                <constraint firstItem="tJx-CO-hRe" firstAttribute="centerX" secondItem="Bqa-eT-t3r" secondAttribute="centerX" id="gaR-1g-5bG"/>
+                                <constraint firstAttribute="width" constant="56" id="hQL-XX-9K1"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92g-6h-Yd9" userLabel="Skip Back">
@@ -93,6 +108,7 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <viewLayoutGuide key="safeArea" id="AxG-ti-suk"/>
                     <accessibility key="accessibilityConfiguration">
                         <accessibilityTraits key="traits" button="YES"/>
                         <bool key="isElement" value="NO"/>
@@ -112,9 +128,9 @@
                         <constraint firstItem="CjL-4C-tuh" firstAttribute="centerY" secondItem="Bqa-eT-t3r" secondAttribute="centerY" id="hcs-EK-GcX"/>
                         <constraint firstItem="aWD-bx-vF2" firstAttribute="leading" secondItem="rTj-uk-yNW" secondAttribute="leading" id="yRh-2G-2xp"/>
                     </constraints>
-                    <viewLayoutGuide key="safeArea" id="AxG-ti-suk"/>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="rNg-cs-ZaL"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="rTj-uk-yNW" secondAttribute="bottom" id="4a5-HO-sPI"/>
                 <constraint firstItem="rTj-uk-yNW" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="UhX-sK-Mo9"/>
@@ -123,7 +139,6 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="rNg-cs-ZaL"/>
             <point key="canvasLocation" x="-1146" y="-201"/>
         </view>
     </objects>
