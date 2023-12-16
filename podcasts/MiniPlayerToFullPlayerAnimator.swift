@@ -22,7 +22,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     private lazy var springVelocity: CGFloat = {
         let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
         let distance = miniplayerFrame.origin.y - fullPlayerYPosition
-        return dismissVelocity / distance
+        return -1 * dismissVelocity / distance
     }()
 
     // When presenting the player, duration is always the same
@@ -95,15 +95,14 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             case .presenting:
                 return containerView.frame
             case .dismissing:
-                var toFrame = containerView.frame
-                toFrame.origin = .init(x: containerView.frame.origin.x, y: fromViewController.view.frame.origin.y)
+                var toFrame = fromViewController.view.frame
                 return toFrame
             }
         }()
 
         // Add the full player and do a layout pass to avoid issues
         containerView.addSubview(toView)
-        toView.frame = containerView.frame
+        toView.frame = isPresenting ? containerView.frame : fromFrame
         toViewController.view.setNeedsLayout()
         toViewController.view.layoutIfNeeded()
 
@@ -127,9 +126,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             // Calculate initial and final frame for the artwork
             let fullPlayerArtworkFrame: CGRect = {
                 var fullPlayerArtworkFrame = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
-                if !isPresenting {
-                    fullPlayerArtworkFrame.origin = .init(x: fullPlayerArtworkFrame.origin.x, y: fullPlayerArtworkFrame.origin.y + fromFrame.origin.y)
-                }
                 return fullPlayerArtworkFrame
             }()
 
@@ -194,17 +190,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         }
 
-        // MARK: - Player animation
-
-        toView.frame = fromFrame
-        toView.layer.opacity = isPresenting ? 0 : 1
-        animate(withDuration: duration) {
-            toView.frame = toFrame
-            toView.layer.opacity = self.isPresenting ? 1 : 0
-        } completion: { completed in
-            transitionContext.completeTransition(true)
-        }
-
         // MARK: - Background and Mini Player
 
         let backgroundTransitionView = MiniPlayerBackingView()
@@ -223,11 +208,12 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         var backgroundTransitionInitialFrame = containerView.frame
         if !isPresenting {
-            backgroundTransitionInitialFrame.origin = .init(x: backgroundTransitionInitialFrame.origin.x, y: backgroundTransitionInitialFrame.origin.y + fromFrame.origin.y)
+            backgroundTransitionInitialFrame = fromFrame
         }
 
         let backgroundFromFrame = isPresenting ? miniplayerFrame : backgroundTransitionInitialFrame
         let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
+        print("@@ \(backgroundToFrame) **")
 
         // Add a snapshot of the miniplayer
         let miniPlayerSnapshotView = fromViewController.view.snapshotView(afterScreenUpdates: true)
@@ -243,6 +229,22 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             backgroundTransitionView.frame = backgroundToFrame
         } completion: { completed in
             backgroundTransitionView.removeFromSuperview()
+            transitionContext.completeTransition(true)
+        }
+
+        // MARK: - Player animation
+
+        toView.frame = fromFrame
+        toView.layer.opacity = isPresenting ? 0 : 1
+        animate(withDuration: duration) {
+            if self.isPresenting {
+                toView.frame = backgroundToFrame
+            } else {
+                toView.frame = .init(x: backgroundToFrame.origin.x, y: backgroundToFrame.origin.y, width: backgroundToFrame.width, height: toFrame.height)
+            }
+            toView.layer.opacity = self.isPresenting ? 1 : 0
+        } completion: { completed in
+            transitionContext.completeTransition(true)
         }
 
         // MARK: - Mini Player animation
@@ -261,7 +263,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         if isPresenting {
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: animations, completion: completion)
         } else {
-            let timingParameters = UISpringTimingParameters(mass: 1, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: 0, dy: abs(springVelocity)))
+            let timingParameters = UISpringTimingParameters(mass: 1, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: 0, dy: springVelocity))
             let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
             animator.addCompletion { position in
                 switch position {
