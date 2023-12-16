@@ -29,10 +29,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="325" height="65"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-eT-t3r">
-                            <rect key="frame" x="8" y="3.5" width="56" height="56"/>
+                            <rect key="frame" x="8" y="2.5" width="58" height="58"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJx-CO-hRe" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="2" y="2" width="52" height="52"/>
+                                    <rect key="frame" x="3" y="3" width="52" height="52"/>
                                     <accessibility key="accessibilityConfiguration" hint="Tap to open full size player" label="Player">
                                         <accessibilityTraits key="traits" button="YES"/>
                                         <bool key="isElement" value="YES"/>
@@ -48,10 +48,10 @@
                                 <bool key="isElement" value="YES"/>
                             </accessibility>
                             <constraints>
-                                <constraint firstAttribute="height" constant="56" id="2cu-pH-twC"/>
+                                <constraint firstAttribute="height" constant="58" id="2cu-pH-twC"/>
                                 <constraint firstItem="tJx-CO-hRe" firstAttribute="centerY" secondItem="Bqa-eT-t3r" secondAttribute="centerY" id="WJ7-YG-L41"/>
                                 <constraint firstItem="tJx-CO-hRe" firstAttribute="centerX" secondItem="Bqa-eT-t3r" secondAttribute="centerX" id="gaR-1g-5bG"/>
-                                <constraint firstAttribute="width" constant="56" id="hQL-XX-9K1"/>
+                                <constraint firstAttribute="width" constant="58" id="hQL-XX-9K1"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92g-6h-Yd9" userLabel="Skip Back">
