@@ -94,8 +94,10 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         }()
 
         // Add the full player and do a layout pass to avoid issues
+        // If presenting, we do this out of the screen to avoid the view briefly appearing
+        let playerRenderingFrame = isPresenting ? .init(x: 0, y: 0 + containerView.frame.height, width: containerView.frame.width, height: containerView.frame.height) : fromFrame
         containerView.addSubview(playerView)
-        playerView.frame = isPresenting ? containerView.frame : fromFrame
+        playerView.frame = playerRenderingFrame
         playerView.setNeedsLayout()
         playerView.layoutIfNeeded()
 
@@ -112,7 +114,10 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         var artwork: UIImageView?
 
         // Calculate initial and final frame for the artwork
-        let fullPlayerArtworkFrame: CGRect = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
+        var fullPlayerArtworkFrame: CGRect = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
+        if isPresenting {
+            fullPlayerArtworkFrame.origin.y -= containerView.frame.height
+        }
 
         let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
         let miniPlayerArtworkWithShadowFrame = miniPlayerArtwork.superview?.superview?.convert(miniPlayerArtwork.superview?.frame ?? .zero, to: nil) ?? .zero
@@ -225,6 +230,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             artwork?.removeFromSuperview()
             backgroundTransitionView.removeFromSuperview()
 
+            playerView.frame = self.isPresenting ? self.containerView.frame : playerView.frame
             playerView.isHidden = false
 
             self.fromViewController.view.layer.opacity = 1
