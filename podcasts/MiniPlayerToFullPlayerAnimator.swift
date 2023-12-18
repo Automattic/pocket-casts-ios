@@ -141,13 +141,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             artwork?.frame = isPresenting ? miniPlayerArtworkFrame : fullPlayerArtworkFrame
             artwork?.layer.cornerRadius = isPresenting ? miniPlayerArtwork.imageView!.layer.cornerRadius : fullPlayerArtwork.layer.cornerRadius
             artwork?.layer.masksToBounds = true
-
-            // If it has artwork, hide the original ones
-            if artwork?.image != nil {
-                fullPlayerArtwork.layer.opacity = 0
-                miniPlayerArtwork.layer.opacity = 0
-            }
-
         }
 
         // MARK: - Background and Mini Player
@@ -189,6 +182,12 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         containerView.addSubview(tabBarSnapshot ?? UIView())
 
         // MARK: - Animations
+
+        // If it has artwork, hide the original ones
+        if artwork?.image != nil {
+            fullPlayerArtwork.layer.opacity = 0
+            miniPlayerArtwork.layer.opacity = 0
+        }
 
         backgroundTransitionView.backgroundColor = fromColor
         backgroundTransitionView.frame = backgroundFromFrame
