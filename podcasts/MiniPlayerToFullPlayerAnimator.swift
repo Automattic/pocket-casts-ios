@@ -169,6 +169,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // Add a snapshot of the miniplayer and full player
         let miniPlayerSnapshotView = fromViewController.view.snapshotView(afterScreenUpdates: true)
+        miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         backgroundTransitionView.addSubview(toView ?? UIView())
         backgroundTransitionView.addSubview(miniPlayerSnapshotView ?? UIView())
         playerView.isHidden = true
@@ -195,7 +196,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         toView?.frame = fromFrame
         toView?.layer.opacity = isPresenting ? 0 : 1
 
-        miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         fromViewController.view.layer.opacity = isPresenting ? 1 : 0
 
         let tabBarFrame = tabBar?.frame ?? .zero
