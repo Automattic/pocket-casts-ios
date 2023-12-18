@@ -108,25 +108,22 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // MARK: - Artwork
 
+        var miniPlayerArtworkSnapshot: UIView?
+        var artwork: UIImageView?
+
+        // Calculate initial and final frame for the artwork
+        let fullPlayerArtworkFrame: CGRect = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
+
+        let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
+        let miniPlayerArtworkWithShadowFrame = miniPlayerArtwork.superview?.superview?.convert(miniPlayerArtwork.superview?.frame ?? .zero, to: nil) ?? .zero
+
         // Artwork is not animated if it's a video podcast
         if !isVideoPodcast {
-
-            // Calculate initial and final frame for the artwork
-            let fullPlayerArtworkFrame: CGRect = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
-
-            let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
-            let miniPlayerArtworkWithShadowFrame = miniPlayerArtwork.superview?.superview?.convert(miniPlayerArtwork.superview?.frame ?? .zero, to: nil) ?? .zero
 
             // We need a mini player artwork snapshot when dismissing
             // to ensure a smooth transition and that the shadows are
             // displayed
-            let miniPlayerArtworkSnapshot: UIView? = {
-                guard !isPresenting else {
-                    return nil
-                }
-
-                return miniPlayerArtwork.superview?.snapshotView(afterScreenUpdates: false)
-            }()
+            miniPlayerArtworkSnapshot = isPresenting ? nil : miniPlayerArtwork.superview?.snapshotView(afterScreenUpdates: false)
 
             if fullPlayerArtwork.image != nil {
                 miniPlayerArtwork.layer.opacity = 0
@@ -137,42 +134,18 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
                 miniPlayerArtworkSnapshot.frame = isPresenting ? miniPlayerArtworkFrame : fullPlayerArtworkFrame
             }
 
-            let artwork = UIImageView()
-            artwork.image = fullPlayerArtwork.image
+            artwork = UIImageView()
+            artwork?.image = fullPlayerArtwork.image
 
-            containerView.addSubview(artwork)
-            artwork.frame = isPresenting ? miniPlayerArtworkFrame : fullPlayerArtworkFrame
-            artwork.layer.cornerRadius = isPresenting ? miniPlayerArtwork.imageView!.layer.cornerRadius : fullPlayerArtwork.layer.cornerRadius
-            artwork.layer.masksToBounds = true
+            containerView.addSubview(artwork ?? UIView())
+            artwork?.frame = isPresenting ? miniPlayerArtworkFrame : fullPlayerArtworkFrame
+            artwork?.layer.cornerRadius = isPresenting ? miniPlayerArtwork.imageView!.layer.cornerRadius : fullPlayerArtwork.layer.cornerRadius
+            artwork?.layer.masksToBounds = true
 
             // If it has artwork, hide the original ones
-            if artwork.image != nil {
+            if artwork?.image != nil {
                 fullPlayerArtwork.layer.opacity = 0
                 miniPlayerArtwork.layer.opacity = 0
-            }
-
-            // MARK: - Artwork animation
-
-            // We fade from the big artwork to the miniplayer snapshot to ensure
-            // a smooth transition. DispatchQueue is needed because delay conflicts
-            // with snapshotView(afterScreenUpdates: true) (yes...)
-            if !isPresenting {
-                UIView.animate(withDuration: self.duration * 0.3, delay: self.duration * 0.7, options: .curveEaseOut) { [self] in
-                    artwork.layer.opacity = self.isPresenting ? 1 : 0
-                }
-            }
-
-            animate(withDuration: duration) { [self] in
-                artwork.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
-                artwork.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
-
-                // snapshot has its frame changed to account for the shadow
-                miniPlayerArtworkSnapshot?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkWithShadowFrame
-            } completion: { completed in
-                artwork.removeFromSuperview()
-
-                self.fullPlayerArtwork.layer.opacity = 1
-                self.miniPlayerArtwork.layer.opacity = 1
             }
 
         }
@@ -201,10 +174,43 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let backgroundFromFrame = isPresenting ? miniplayerFrame : backgroundTransitionInitialFrame
         let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
 
-        // Add a snapshot of the miniplayer
+        // Add a snapshot of the miniplayer and full player
         let miniPlayerSnapshotView = fromViewController.view.snapshotView(afterScreenUpdates: true)
         backgroundTransitionView.addSubview(toView ?? UIView())
         backgroundTransitionView.addSubview(miniPlayerSnapshotView ?? UIView())
+        playerView.isHidden = true
+
+        // MARK: - Tab Bar
+
+        let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar
+        let tabBarSnapshot = tabBar?.snapshotView(afterScreenUpdates: true)
+        tabBar?.isHidden = true
+        tabBarSnapshot?.layer.drawTopBorder()
+        containerView.addSubview(tabBarSnapshot ?? UIView())
+
+        // MARK: - Artwork animation
+
+        // We fade from the big artwork to the miniplayer snapshot to ensure
+        // a smooth transition. DispatchQueue is needed because delay conflicts
+        // with snapshotView(afterScreenUpdates: true) (yes...)
+        if !isPresenting {
+            UIView.animate(withDuration: self.duration * 0.3, delay: self.duration * 0.7, options: .curveEaseOut) { [self] in
+                artwork?.layer.opacity = self.isPresenting ? 1 : 0
+            }
+        }
+
+        animate(withDuration: duration) { [self] in
+            artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
+            artwork?.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
+
+            // snapshot has its frame changed to account for the shadow
+            miniPlayerArtworkSnapshot?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkWithShadowFrame
+        } completion: { completed in
+            artwork?.removeFromSuperview()
+
+            self.fullPlayerArtwork.layer.opacity = 1
+            self.miniPlayerArtwork.layer.opacity = 1
+        }
 
         // MARK: - Background animation
 
@@ -223,7 +229,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // MARK: - Player animation
 
-        playerView.isHidden = true
         toView?.frame = fromFrame
         toView?.layer.opacity = isPresenting ? 0 : 1
         animate(withDuration: duration) {
@@ -251,21 +256,16 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             self.fromViewController.view.layer.opacity = 1
         }
 
-        // MARK: - Tab bar
+        // MARK: - Tab Bar animation
 
-        // When dismissing, add the tab bar so the miniplayer appear behind it (not in front)
-        if let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar,
-           let tabBarSnapshot = tabBar.snapshotView(afterScreenUpdates: true) {
-            tabBar.isHidden = true
-            tabBarSnapshot.layer.drawTopBorder()
-            containerView.addSubview(tabBarSnapshot)
-            tabBarSnapshot.frame = isPresenting ? tabBar.frame : .init(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y + tabBar.frame.height, width: tabBar.frame.width, height: tabBar.frame.height)
+        let tabBarFrame = tabBar?.frame ?? .zero
+        let hiddenTabBarFrame = CGRect(x: tabBarFrame.origin.x, y: tabBarFrame.origin.y + tabBarFrame.height, width: tabBarFrame.width, height: tabBarFrame.height)
+        tabBarSnapshot?.frame = isPresenting ? tabBarFrame : hiddenTabBarFrame
 
-            UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
-                tabBarSnapshot.frame = !self.isPresenting ? tabBar.frame : .init(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y + tabBar.frame.height, width: tabBar.frame.width, height: tabBar.frame.height)
-            } completion: { _ in
-                tabBar.isHidden = false
-            }
+        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
+            tabBarSnapshot?.frame = !self.isPresenting ? tabBarFrame : hiddenTabBarFrame
+        } completion: { _ in
+            tabBar?.isHidden = false
         }
     }
 
