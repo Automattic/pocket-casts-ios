@@ -34,7 +34,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             return 0.3
         }
 
-        return min((normalVelocity * maxDismissDuration) / dismissVelocity, maxDismissDuration)
+        return 0.2
     }
 
     // Initialize with an empty UIView to avoid optional code
@@ -220,11 +220,14 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         backgroundTransitionView.frame = backgroundFromFrame
 
         animate(withDuration: duration) {
-            backgroundTransitionView.backgroundColor = toColor
             backgroundTransitionView.frame = backgroundToFrame
         } completion: { completed in
             backgroundTransitionView.removeFromSuperview()
             transitionContext.completeTransition(true)
+        }
+
+        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) { [self] in
+            backgroundTransitionView.backgroundColor = toColor
         }
 
         // MARK: - Player animation
@@ -237,9 +240,12 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             } else {
                 toView.frame = .init(x: backgroundToFrame.origin.x, y: backgroundToFrame.origin.y, width: backgroundToFrame.width, height: toFrame.height)
             }
-            toView.layer.opacity = self.isPresenting ? 1 : 0
         } completion: { completed in
             transitionContext.completeTransition(true)
+        }
+
+        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) { [self] in
+            toView.layer.opacity = self.isPresenting ? 1 : 0
         }
 
         // MARK: - Mini Player animation
