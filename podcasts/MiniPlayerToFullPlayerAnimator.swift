@@ -264,8 +264,10 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         if isPresenting {
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: animations, completion: completion)
         } else {
-            let timingParameters = UISpringTimingParameters(mass: 1, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: -springVelocity, dy: springVelocity))
-            let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
+            // Mass is reduced accordingly to speed. This prevents the miniplayer from boucing really hard if the speed is high
+            let mass = -springVelocity > 20 ? 3 / log2(-springVelocity) : 1
+            let timingParameters = UISpringTimingParameters(mass: mass, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: -springVelocity, dy: springVelocity))
+            let animator = UIViewPropertyAnimator(duration: 0.2, timingParameters: timingParameters)
             animator.addCompletion { position in
                 switch position {
                 case .end:
