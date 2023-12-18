@@ -198,8 +198,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         backgroundTransitionView.backgroundColor = fromColor
         backgroundTransitionView.frame = backgroundFromFrame
 
-        toView?.frame = fromFrame
         toView?.layer.opacity = isPresenting ? 0 : 1
+        toView?.frame = .init(x: 0, y: 0, width: fromFrame.width, height: fromFrame.height)
 
         fromViewController.view.layer.opacity = isPresenting ? 1 : 0
 
@@ -217,9 +217,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             // Background
             backgroundTransitionView.frame = backgroundToFrame
-
-            // Player
-            toView?.frame = self.isPresenting ? backgroundToFrame : .init(x: backgroundToFrame.origin.x, y: backgroundToFrame.origin.y, width: backgroundToFrame.width, height: toFrame.height)
 
             // Miniplayer
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
