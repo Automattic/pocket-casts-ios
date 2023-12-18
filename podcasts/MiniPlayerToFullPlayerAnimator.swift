@@ -188,84 +188,77 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         tabBarSnapshot?.layer.drawTopBorder()
         containerView.addSubview(tabBarSnapshot ?? UIView())
 
-        // MARK: - Artwork animation
-
-        // We fade from the big artwork to the miniplayer snapshot to ensure
-        // a smooth transition. DispatchQueue is needed because delay conflicts
-        // with snapshotView(afterScreenUpdates: true) (yes...)
-        if !isPresenting {
-            UIView.animate(withDuration: self.duration * 0.3, delay: self.duration * 0.7, options: .curveEaseOut) { [self] in
-                artwork?.layer.opacity = self.isPresenting ? 1 : 0
-            }
-        }
-
-        animate(withDuration: duration) { [self] in
-            artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
-            artwork?.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
-
-            // snapshot has its frame changed to account for the shadow
-            miniPlayerArtworkSnapshot?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkWithShadowFrame
-        } completion: { completed in
-            artwork?.removeFromSuperview()
-
-            self.fullPlayerArtwork.layer.opacity = 1
-            self.miniPlayerArtwork.layer.opacity = 1
-        }
-
-        // MARK: - Background animation
+        // MARK: - Animations
 
         backgroundTransitionView.backgroundColor = fromColor
         backgroundTransitionView.frame = backgroundFromFrame
 
-        animate(withDuration: duration) {
-            backgroundTransitionView.frame = backgroundToFrame
-        } completion: { completed in
-            backgroundTransitionView.removeFromSuperview()
-        }
-
-        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
-            backgroundTransitionView.backgroundColor = toColor
-        }
-
-        // MARK: - Player animation
-
         toView?.frame = fromFrame
         toView?.layer.opacity = isPresenting ? 0 : 1
-        animate(withDuration: duration) {
-            if self.isPresenting {
-                toView?.frame = backgroundToFrame
-            } else {
-                toView?.frame = .init(x: backgroundToFrame.origin.x, y: backgroundToFrame.origin.y, width: backgroundToFrame.width, height: toFrame.height)
-            }
-        } completion: { completed in
-            playerView.isHidden = false
-            transitionContext.completeTransition(true)
-        }
-
-        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) { [self] in
-            toView?.layer.opacity = self.isPresenting ? 1 : 0
-        }
-
-        // MARK: - Mini Player animation
 
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         fromViewController.view.layer.opacity = isPresenting ? 1 : 0
-        animate(withDuration: duration) {
-            miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
-        } completion: { _ in
-            self.fromViewController.view.layer.opacity = 1
-        }
-
-        // MARK: - Tab Bar animation
 
         let tabBarFrame = tabBar?.frame ?? .zero
         let hiddenTabBarFrame = CGRect(x: tabBarFrame.origin.x, y: tabBarFrame.origin.y + tabBarFrame.height, width: tabBarFrame.width, height: tabBarFrame.height)
         tabBarSnapshot?.frame = isPresenting ? tabBarFrame : hiddenTabBarFrame
 
+        animate(withDuration: duration) { [self] in
+            // Artwork
+            artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
+            artwork?.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
+
+            // snapshot has its frame changed to account for the shadow
+            miniPlayerArtworkSnapshot?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkWithShadowFrame
+
+            // Background
+            backgroundTransitionView.frame = backgroundToFrame
+
+            // Player
+            toView?.frame = self.isPresenting ? backgroundToFrame : .init(x: backgroundToFrame.origin.x, y: backgroundToFrame.origin.y, width: backgroundToFrame.width, height: toFrame.height)
+
+            // Miniplayer
+            miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
+        } completion: { completed in
+            self.fullPlayerArtwork.layer.opacity = 1
+            self.miniPlayerArtwork.layer.opacity = 1
+
+            artwork?.removeFromSuperview()
+            backgroundTransitionView.removeFromSuperview()
+
+            playerView.isHidden = false
+
+            self.fromViewController.view.layer.opacity = 1
+
+            transitionContext.completeTransition(true)
+        }
+
+        // MARK: - Non-spring animation
+
         UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
+            // Background
+            backgroundTransitionView.backgroundColor = toColor
+
+            // Player
+            toView?.layer.opacity = self.isPresenting ? 1 : 0
+
+            // Tab Bar
             tabBarSnapshot?.frame = !self.isPresenting ? tabBarFrame : hiddenTabBarFrame
         } completion: { _ in
             tabBar?.isHidden = false
+        }
+
+        // MARK: - Delayed artwork transition
+
+        // We fade from the big artwork to the miniplayer snapshot to ensure
+        // a smooth transition. DispatchQueue is needed because delay conflicts
+        // with snapshotView(afterScreenUpdates: true) (yes...)
+        if !isPresenting {
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: self.duration * 0.3, delay: self.duration * 0.7, options: .curveEaseOut) { [self] in
+                    artwork?.layer.opacity = self.isPresenting ? 1 : 0
+                }
+            }
         }
     }
 
