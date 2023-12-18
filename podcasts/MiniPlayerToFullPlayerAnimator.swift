@@ -10,12 +10,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
     private let dismissVelocity: CGFloat
 
-    // The max duration that the transition can last
-    private let maxDismissDuration: TimeInterval = 0.2
-
-    // An assumed "normal" velocity from a pan gesture
-    private let normalVelocity: CGFloat = 2500
-
     private let fullPlayerYPosition: CGFloat
 
     // Spring velocity is defined by pan gesture velocity / distance
