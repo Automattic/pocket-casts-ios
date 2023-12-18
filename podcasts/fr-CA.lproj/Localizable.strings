@@ -476,7 +476,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>discover_browse_by_category_society</key>
     <string>Société</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Société et culture</string>
+    <string>Culture</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualité</string>
     <key>discover_browse_by_category_sports</key>
@@ -750,6 +750,8 @@ que vous avez écouté était
     <string>Vous avez écouté %1$@ épisodes pour une durée totale de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
     <string>Vos meilleurs podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Mes meilleurs podcasts de l’année !</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Mes meilleurs podcasts de l’année ! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -816,12 +818,16 @@ que vous avez écouté était
     <string>Erreur</string>
     <key>error_general_podcast_not_found</key>
     <string>Impossible de trouver le balado. Veuillez communiquer avec l’auteur du balado.</string>
+    <key>export_database</key>
+    <string>Exporter les bases de données</string>
     <key>export_podcasts_description</key>
     <string>Cette fonctionnalité vous permet d’exporter tous vos balados en tant que fichier OPML que vous pouvez importer dans d’autres applications de balados.</string>
     <key>export_podcasts_option</key>
     <string>Exporter des balados</string>
     <key>export_podcasts_title</key>
     <string>EXPORTER</string>
+    <key>exporting_database</key>
+    <string>Exportation de la base de données…</string>
     <key>feature_tour_end_tour</key>
     <string>Terminer la visite</string>
     <key>feature_tour_new</key>
@@ -2013,6 +2019,8 @@ essai gratuit de %1$@</string>
     <string>Collecter des informations</string>
     <key>settings_collect_information_additional_information</key>
     <string>En nous autorisant à collecter des statistiques, vous nous permettez de créer une meilleure application. Nous comprendrions toutefois que vous préfériez ne pas partager ces informations.</string>
+    <key>settings_connection_status</key>
+    <string>État de connexion</string>
     <key>settings_create_siri_shortcut</key>
     <string>Créer un raccourci Siri</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2265,6 +2273,10 @@ essai gratuit de %1$@</string>
     <string>Degré de coupure</string>
     <key>settings_trim_silence</key>
     <string>Couper le silence</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>Quand l’option est activée, la File d’attente affichera toujours le thème sombre ou alors elle correspondra au thème actuel si l’option est désactivée.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Utiliser le thème File d’attente sombre</string>
     <key>settings_up_next_limit</key>
     <string>Ajout automatique des nouveaux épisodes à la liste Prochains épisodes Les nouveaux épisodes ne seront plus ajoutés lorsque la file d’attente Prochains épisodes atteindra %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>
