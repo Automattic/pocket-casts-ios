@@ -105,18 +105,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         toViewController.view.setNeedsLayout()
         toViewController.view.layoutIfNeeded()
 
-        // MARK: - Tab bar
-
-        // When dismissing, add the tab bar so the miniplayer appear behind it (not in front)
-        if !isPresenting,
-           let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar,
-           let tabBarSnapshot = tabBar.snapshotView(afterScreenUpdates: true) {
-            tabBarSnapshot.layer.drawTopBorder()
-            containerView.addSubview(tabBarSnapshot)
-            containerView.sendSubviewToBack(tabBarSnapshot)
-            tabBarSnapshot.frame = tabBar.frame
-        }
-
         // MARK: - Artwork
 
         // Artwork is not animated if it's a video podcast
@@ -226,7 +214,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             transitionContext.completeTransition(true)
         }
 
-        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) { [self] in
+        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
             backgroundTransitionView.backgroundColor = toColor
         }
 
@@ -256,6 +244,23 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
         } completion: { _ in
             self.fromViewController.view.layer.opacity = 1
+        }
+
+        // MARK: - Tab bar
+
+        // When dismissing, add the tab bar so the miniplayer appear behind it (not in front)
+        if let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar,
+           let tabBarSnapshot = tabBar.snapshotView(afterScreenUpdates: true) {
+            tabBar.isHidden = true
+            tabBarSnapshot.layer.drawTopBorder()
+            containerView.addSubview(tabBarSnapshot)
+            tabBarSnapshot.frame = isPresenting ? tabBar.frame : .init(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y + tabBar.frame.height, width: tabBar.frame.width, height: tabBar.frame.height)
+
+            UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
+                tabBarSnapshot.frame = !self.isPresenting ? tabBar.frame : .init(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y + tabBar.frame.height, width: tabBar.frame.width, height: tabBar.frame.height)
+            } completion: { _ in
+                tabBar.isHidden = false
+            }
         }
     }
 
