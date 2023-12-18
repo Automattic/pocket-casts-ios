@@ -129,6 +129,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         present(navController, animated: true, completion: nil)
     }
 
+    // MARK: - Orientation
+
+    // we implement this here to lock all views (except presented modal VCs to portrait)
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        .portrait
+    }
+
     // MARK: - PlayerItemContainerDelegate
 
     func scrollToCurrentChapter() {
