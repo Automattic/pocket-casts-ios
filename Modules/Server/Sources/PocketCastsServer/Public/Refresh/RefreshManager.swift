@@ -65,16 +65,39 @@ public class RefreshManager {
     }
 
     private func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) {
-        UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
+//        UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
 
-        DispatchQueue.global().async {
-            MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
-                guard let self = self else { return }
+        let useNewSync = true
 
-                self.processPodcastRefreshResponse(refreshResponse) { _ in
+        let startedDate = Date()
+
+        if useNewSync {
+
+            Task {
+                let podcastsRefresh = PodcastsRefresh()
+                await podcastsRefresh.refresh(podcasts: podcasts)
+
+                processPodcastRefreshResponse(PodcastRefreshResponse(status: "ok", result: RefreshResult(podcastUpdates: [:]))) { _ in
+                    let elapsed = Date().timeIntervalSince(startedDate)
+                    print("$$ Took \(elapsed)")
                     completion?()
                 }
             }
+
+        } else {
+
+            DispatchQueue.global().async {
+                MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
+                    guard let self = self else { return }
+
+                    self.processPodcastRefreshResponse(refreshResponse) { _ in
+                        let elapsed = Date().timeIntervalSince(startedDate)
+                        print("$$ Took \(elapsed)")
+                        completion?()
+                    }
+                }
+            }
+
         }
     }
 

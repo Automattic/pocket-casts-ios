@@ -24,6 +24,14 @@ extension ServerPodcastManager {
         }
     }
 
+    public func updatePodcastIfRequired(podcast: Podcast) async -> Bool {
+        await withCheckedContinuation { continuation in
+            updatePodcastIfRequired(podcast: podcast) { result in
+                continuation.resume(returning: result)
+            }
+        }
+    }
+
     private func updatePodcast(podcast: Podcast, lastModified: String?, podcastInfo: [String: Any], addMissingEpisodes: Bool, completion: (() -> Void)?) {
         subscribeQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
