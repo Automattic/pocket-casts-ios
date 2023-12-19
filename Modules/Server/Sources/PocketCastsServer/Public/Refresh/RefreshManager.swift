@@ -67,7 +67,7 @@ public class RefreshManager {
     private func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) {
 //        UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
 
-        let useNewSync = true
+        let useNewSync = false
 
         let startedDate = Date()
 
@@ -77,9 +77,10 @@ public class RefreshManager {
                 let podcastsRefresh = PodcastsRefresh()
                 await podcastsRefresh.refresh(podcasts: podcasts)
 
+                let elapsed = Date().timeIntervalSince(startedDate)
+                print("$$ Took \(elapsed)")
+
                 processPodcastRefreshResponse(PodcastRefreshResponse(status: "ok", result: RefreshResult(podcastUpdates: [:]))) { _ in
-                    let elapsed = Date().timeIntervalSince(startedDate)
-                    print("$$ Took \(elapsed)")
                     completion?()
                 }
             }
@@ -90,9 +91,9 @@ public class RefreshManager {
                 MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
                     guard let self = self else { return }
 
+                    let elapsed = Date().timeIntervalSince(startedDate)
+                    print("$$ Took \(elapsed)")
                     self.processPodcastRefreshResponse(refreshResponse) { _ in
-                        let elapsed = Date().timeIntervalSince(startedDate)
-                        print("$$ Took \(elapsed)")
                         completion?()
                     }
                 }
