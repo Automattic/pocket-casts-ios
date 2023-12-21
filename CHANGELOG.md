@@ -1,6 +1,6 @@
 7.55
 -----
-
+- Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
 
 7.54
 -----
