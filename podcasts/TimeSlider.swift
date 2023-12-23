@@ -46,6 +46,27 @@ class TimeSlider: UIView {
         draggingKnob
     }
 
+    override var accessibilityValue: String? {
+        get {
+            let current = currentTime.accessibilityValue()
+            let total = totalDuration.accessibilityValue()
+            return "\(current) of \(total)"
+        }
+        set {
+            // No-op
+        }
+    }
+
+    override func accessibilityIncrement() {
+        currentTime += totalDuration.skipLength
+        delegate?.sliderDidSlide(to: currentTime)
+    }
+
+    override func accessibilityDecrement() {
+        currentTime -= totalDuration.skipLength
+        delegate?.sliderDidSlide(to: currentTime)
+    }
+
     // MARK: - View Methods
 
     override func awakeFromNib() {
@@ -178,5 +199,32 @@ class TimeSlider: UIView {
 
     override class var layerClass: AnyClass {
         TimeSliderLayer.self
+    }
+}
+
+private extension TimeInterval {
+    /// Base value is the number of seconds which should be skipped from a given track length
+    private static let secondsToSkipConverter = UnitConverterLinear(coefficient: 0.075, constant: 12)
+
+    /// Calculates the skip time for a given total time in a track
+    /// This is a linear equation which increases as time scales
+    /// - Parameter length: The total length of time for the track
+    /// - Returns: The time to skip by
+    var skipLength: TimeInterval {
+        TimeInterval.secondsToSkipConverter.baseUnitValue(fromValue: self)
+    }
+}
+
+private extension TimeInterval {
+    /// An accessibility string to be read by voice over. This will be a spelled out version of the TimeInterval.
+    /// - Returns: A string to be read by voice over, a spelled out version of the interval with full units.
+    func accessibilityValue() -> String {
+        let formatStyle = Date.ComponentsFormatStyle(style: .spellOut)
+        let origDate = Date()
+        let date = Date(timeInterval: self, since: origDate)
+
+        let dateRange = origDate..<date
+
+        return dateRange.formatted(.components(style: .spellOut))
     }
 }
