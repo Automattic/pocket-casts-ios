@@ -194,9 +194,11 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
         case .developer:
             let hostingController = UIHostingController(rootView: DeveloperMenu().setupDefaultEnvironment())
+            hostingController.applyInsetForMiniPlayer()
             navigationController?.pushViewController(hostingController, animated: true)
         case .beta:
             let hostingController = UIHostingController(rootView: BetaMenu().setupDefaultEnvironment())
+            hostingController.applyInsetForMiniPlayer()
             hostingController.title = "Beta Features"
             navigationController?.pushViewController(hostingController, animated: true)
         case .headphoneControls:

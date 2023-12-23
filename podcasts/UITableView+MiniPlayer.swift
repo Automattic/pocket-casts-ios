@@ -12,3 +12,10 @@ extension UITableView {
         contentInset = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
     }
 }
+
+extension UIViewController {
+    func applyInsetForMiniPlayer(additionalBottomInset: CGFloat = 0) {
+        let existingInset = additionalSafeAreaInsets
+        additionalSafeAreaInsets = UIEdgeInsets(top: existingInset.top, left: existingInset.left, bottom: existingInset.bottom + Constants.Values.miniPlayerOffset + additionalBottomInset, right: existingInset.right)
+    }
+}
