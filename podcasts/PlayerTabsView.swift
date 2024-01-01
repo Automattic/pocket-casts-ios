@@ -169,7 +169,7 @@ class PlayerTabsView: UIScrollView {
 
 
 private enum TabConstants {
-    static let titleFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
+    static let titleFont = UIFont.preferredFont(forTextStyle: .headline)
     static let spacing: CGFloat = 0
 
     static let lineHeight: CGFloat = 2

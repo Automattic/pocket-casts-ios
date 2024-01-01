@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -67,7 +67,7 @@
                                 <rect key="frame" x="68" y="3.5" width="220" height="57"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="AM4-hC-bId">
-                                        <rect key="frame" x="0.0" y="0.0" width="59" height="17"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="57" height="17"/>
                                         <subviews>
                                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="list_video" translatesAutoresizingMaskIntoConstraints="NO" id="coq-Rq-4hS" userLabel="Video Indicator">
                                                 <rect key="frame" x="-16" y="0.5" width="16" height="16"/>
@@ -76,12 +76,12 @@
                                                     <constraint firstAttribute="height" constant="16" id="l7p-Ne-qE9"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="DAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r76-GH-6nD" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="2" width="59" height="13.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="DAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r76-GH-6nD" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="2" width="57" height="13.5"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -101,7 +101,7 @@
                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="36" id="aXE-nH-euA"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="tpa-cl-8ND"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -115,7 +115,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="neM-x9-7TY" userLabel="Info Stack View">
-                                        <rect key="frame" x="0.0" y="41" width="54.5" height="16"/>
+                                        <rect key="frame" x="0.0" y="41" width="53" height="16"/>
                                         <subviews>
                                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="list_upnext" translatesAutoresizingMaskIntoConstraints="NO" id="bvr-nR-R0Y">
                                                 <rect key="frame" x="-16" y="0.0" width="16" height="16"/>
@@ -160,9 +160,9 @@
                                                     <constraint firstAttribute="width" constant="16" id="sch-Oh-jHC"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="..." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYh-rx-5sN" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="42" y="0.0" width="12.5" height="16"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="..." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYh-rx-5sN" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                                <rect key="frame" x="42" y="1" width="11" height="14.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>

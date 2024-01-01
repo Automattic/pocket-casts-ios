@@ -22,6 +22,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var newFilterButton: UIButton! {
         didSet {
             newFilterButton.setTitle(L10n.filtersNewFilterButton, for: .normal)
+            newFilterButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 

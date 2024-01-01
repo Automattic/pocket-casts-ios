@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="293" height="72"/>
+                <rect key="frame" x="0.0" y="0.0" width="293.5" height="72"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bBQ-1l-u3f">
@@ -24,22 +24,18 @@
                             <constraint firstAttribute="width" constant="24" id="FNN-JA-a1q"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFj-FB-qzU">
-                        <rect key="frame" x="262" y="26" width="15" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFj-FB-qzU">
+                        <rect key="frame" x="261.5" y="27" width="16" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="T4Q-hb-tTM"/>
-                            <constraint firstAttribute="height" constant="20" id="sph-Sp-FaH"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <color key="textColor" red="0.56078431370000004" green="0.59215686270000001" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Name Is Really Really Really Long" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SA4-8b-GPn" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="56" y="23.5" width="206" height="25"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="25" id="vtM-LW-Ss5"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Name Is Really Really Really Long" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SA4-8b-GPn" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="56" y="26" width="205.5" height="20.5"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -48,6 +44,7 @@
                     <constraint firstItem="bBQ-1l-u3f" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="36p-mO-sIt"/>
                     <constraint firstItem="bBQ-1l-u3f" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="NA4-2q-2eG"/>
                     <constraint firstItem="SA4-8b-GPn" firstAttribute="leading" secondItem="bBQ-1l-u3f" secondAttribute="trailing" constant="16" id="YXz-Wu-mJP"/>
+                    <constraint firstAttribute="trailing" secondItem="HFj-FB-qzU" secondAttribute="trailing" constant="16" id="iKP-fL-Gj8"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -55,7 +52,6 @@
                 <constraint firstItem="HFj-FB-qzU" firstAttribute="leading" secondItem="SA4-8b-GPn" secondAttribute="trailing" id="G81-Wq-yBz"/>
                 <constraint firstItem="HFj-FB-qzU" firstAttribute="centerY" secondItem="KGk-i7-Jjw" secondAttribute="centerY" id="NSh-N8-fsd"/>
                 <constraint firstItem="SA4-8b-GPn" firstAttribute="centerY" secondItem="KGk-i7-Jjw" secondAttribute="centerY" id="TRB-wd-e1n"/>
-                <constraint firstItem="H2p-sc-9uM" firstAttribute="trailing" secondItem="HFj-FB-qzU" secondAttribute="trailing" constant="16" id="iKP-fL-Gj8"/>
             </constraints>
             <connections>
                 <outlet property="episodeCount" destination="HFj-FB-qzU" id="5v8-X7-Ppy"/>

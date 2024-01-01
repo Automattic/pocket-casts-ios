@@ -197,7 +197,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         stackView.addArrangedSubview(containerView)
 
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        label.font = UIFont.font(with: .subheadline, weight: .bold)
+        label.adjustsFontForContentSizeCategory = true
         label.text = title
         label.textColor = ThemeColor.support01(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
