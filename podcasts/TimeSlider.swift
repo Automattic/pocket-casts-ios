@@ -50,7 +50,7 @@ class TimeSlider: UIView {
         get {
             let current = currentTime.accessibilityValue()
             let total = totalDuration.accessibilityValue()
-            return "\(current) of \(total)"
+            return L10n.accessibilityPlaybackProgress(current, total)
         }
         set {
             // No-op

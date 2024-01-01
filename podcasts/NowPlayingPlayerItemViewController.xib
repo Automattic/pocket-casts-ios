@@ -202,7 +202,7 @@
                                     <subviews>
                                         <view opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="v3N-m7-an0" customClass="TimeSlider" customModule="podcasts" customModuleProvider="target">
                                             <rect key="frame" x="10" y="-45" width="394" height="80"/>
-                                            <accessibility key="accessibilityConfiguration" hint="Swipe up or down with one finger to adjust the value" label="Episode Position">
+                                            <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" adjustable="YES"/>
                                                 <bool key="isElement" value="YES"/>
                                             </accessibility>
