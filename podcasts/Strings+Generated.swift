@@ -40,6 +40,10 @@ internal enum L10n {
   internal static var accessibilityDisabled: String { return L10n.tr("Localizable", "accessibility_disabled") }
   /// Dismiss
   internal static var accessibilityDismiss: String { return L10n.tr("Localizable", "accessibility_dismiss") }
+  /// Episode Playback
+  internal static var accessibilityEpisodePlayback: String { return L10n.tr("Localizable", "accessibility_episode_playback") }
+  /// Swipe up or down with one finger to adjust the value
+  internal static var accessibilityEpisodePlaybackHint: String { return L10n.tr("Localizable", "accessibility_episode_playback_hint") }
   /// Tap to hide filter details
   internal static var accessibilityHideFilterDetails: String { return L10n.tr("Localizable", "accessibility_hide_filter_details") }
   /// Double tap to star episode
@@ -53,6 +57,10 @@ internal enum L10n {
   /// %1$@ percent completed
   internal static func accessibilityPercentCompleteFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "accessibility_percent_complete_format", String(describing: p1))
+  }
+  /// %1$@ of %2$@
+  internal static func accessibilityPlaybackProgress(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "accessibility_playback_progress", String(describing: p1), String(describing: p2))
   }
   /// Playback speed %1$@ times
   internal static func accessibilityPlayerEffectsPlaybackSpeed(_ p1: Any) -> String {
