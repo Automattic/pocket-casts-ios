@@ -94,7 +94,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
         // Show the 'Upgrade Account' if the user has an active subscription that isn't patron.
         // Hide the cell if we're already showing the big upgrade prompt
-        let upgradeRow = (FeatureFlag.patron.enabled && SubscriptionHelper.activeTier == .plus && !isExpiring) ? TableRow.upgradeAccount : nil
+        let upgradeRow = (SubscriptionHelper.activeTier == .plus && !isExpiring) ? TableRow.upgradeAccount : nil
 
         // Only accounts created with username/password can change email/password
         var accountOptions: [TableRow]
