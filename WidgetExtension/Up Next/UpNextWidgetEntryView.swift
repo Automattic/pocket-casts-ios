@@ -4,13 +4,14 @@ import SwiftUI
 struct UpNextWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) var family
+    var colorScheme: PCWidgetColorScheme
 
     var body: some View {
         if let episodes = entry.episodes, episodes.count > 0 {
             if family == .systemMedium {
-                UpNextMediumWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
+                UpNextMediumWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying, colorScheme: colorScheme)
             } else {
-                UpNextLargeWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
+                UpNextLargeWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying, colorScheme: colorScheme)
             }
         } else {
             VStack(alignment: .center) {
@@ -29,10 +30,10 @@ struct UpNextWidgetEntryView: View {
 
                 Spacer()
                 if family == .systemMedium {
-                    HungryForMoreView()
+                    HungryForMoreView(colorScheme: colorScheme)
                         .offset(x: 0, y: -4)
                 } else {
-                    HungryForMoreLargeView()
+                    HungryForMoreLargeView(colorScheme: colorScheme)
                         .offset(x: 0, y: -8)
                 }
                 Spacer()

@@ -7,16 +7,18 @@ struct NowPlayingWidgetEntryView: View {
 
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
+    let colorScheme: PCWidgetColorScheme
+
     var body: some View {
         if let playingEpisode = entry.episode {
             ZStack { // overkill to get widget background in simulator. TODO: will revisit this before PR
-                Rectangle().fill(newTopBackgroundColor)
+                Rectangle().fill(colorScheme.topBackgroundColor)
 
                 VStack(alignment: .leading, spacing: 12) {
                     HStack(alignment: .top) {
                         LargeArtworkView(imageData: playingEpisode.imageData)
                         Spacer()
-                        Image("logo_white_small")
+                        Image(colorScheme.iconAssetName)
                             .frame(width: 28, height: 28)
                             .unredacted()
                     }.padding(topPadding)
@@ -36,16 +38,16 @@ struct NowPlayingWidgetEntryView: View {
                                 Text(L10n.nowPlaying)
                                     .font(.caption2)
                                     .fontWeight(.medium)
-                                    .foregroundColor(newTopBackgroundColor)
+                                    .foregroundColor(colorScheme.topBackgroundColor)
                             } else {
                                 Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                                     .font(.caption2)
                                     .fontWeight(.medium)
-                                    .foregroundColor(newTopBackgroundColor)
+                                    .foregroundColor(colorScheme.topBackgroundColor)
                                     .layoutPriority(1)
                             }
                         }
-                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle())
+                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: colorScheme))
                         .padding(bottomTextPadding)
                     } else {
                         if entry.isPlaying {
@@ -134,20 +136,20 @@ struct NowPlayingWidgetEntryView: View {
     }
 }
 
-struct NowPlayingEntryView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true))
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-                .previewDisplayName("Episode Playing")
-
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false))
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-                .previewDisplayName("Episode Paused")
-
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true))
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-                .previewDisplayName("Nothing Playing")
-        }
-    }
-}
+//struct NowPlayingEntryView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true), colorScheme: widgetColorSchemeContrast)
+//                .previewContext(WidgetPreviewContext(family: .systemSmall))
+//                .previewDisplayName("Episode Playing")
+//
+//            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true), colorScheme: widgetColorSchemeContrast), isPlaying: false))
+//                .previewContext(WidgetPreviewContext(family: .systemSmall))
+//                .previewDisplayName("Episode Paused")
+//
+//            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true), colorScheme: widgetColorSchemeContrast)
+//                .previewContext(WidgetPreviewContext(family: .systemSmall))
+//                .previewDisplayName("Nothing Playing")
+//        }
+//    }
+//}

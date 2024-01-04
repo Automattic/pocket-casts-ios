@@ -5,12 +5,13 @@ struct UpNextLargeWidgetView: View {
     @State var episodes: [WidgetEpisode]
     @State var filterName: String?
     @State var isPlaying: Bool
+    var colorScheme: PCWidgetColorScheme
 
     var body: some View {
         if filterName != nil {
             LargeFilterView(episodes: $episodes, filterName: $filterName)
         } else {
-            LargeUpNextWidgetView(episodes: $episodes, isPlaying: $isPlaying)
+            LargeUpNextWidgetView(episodes: $episodes, isPlaying: $isPlaying, colorScheme: colorScheme)
         }
     }
 }
@@ -18,6 +19,7 @@ struct UpNextLargeWidgetView: View {
 struct LargeUpNextWidgetView: View {
     @Binding var episodes: [WidgetEpisode]
     @Binding var isPlaying: Bool
+    var colorScheme: PCWidgetColorScheme
 
     var body: some View {
         ZStack {
@@ -25,13 +27,13 @@ struct LargeUpNextWidgetView: View {
                 GeometryReader { geometry in
                     VStack(alignment: .leading, spacing: 0) {
                         ZStack {
-                            Rectangle().fill(newTopBackgroundColor)
+                            Rectangle().fill(colorScheme.topBackgroundColor)
                                 .lightBackgroundShadow()
                                 .frame(width: .infinity, height: .infinity)
                             HStack(alignment: .top) {
-                                EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedCapitalized) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
+                                EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedCapitalized) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true, colorScheme: colorScheme)
                                 Spacer()
-                                Image("logo_white_small")
+                                Image(colorScheme.iconAssetName)
                                     .frame(width: 28, height: 28)
                                     .unredacted()
                             }
@@ -40,13 +42,13 @@ struct LargeUpNextWidgetView: View {
                         .frame(height: geometry.size.height * 82 / 345)
 
                         ZStack {
-                            Rectangle().fill(newBottomBackgroundColor)
+                            Rectangle().fill(colorScheme.bottomBackgroundColor)
 
                             VStack(alignment: .leading, spacing: 10) {
                                 if episodes.count > 1 {
                                     ForEach(episodes[1 ... min(4, episodes.count - 1)], id: \.episodeUuid) { episode in
 
-                                        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
+                                        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)), colorScheme: colorScheme)
                                             .frame(height: geometry.size.height * 50 / 345)
                                             .frame(maxWidth: .infinity)
                                     }
@@ -55,7 +57,7 @@ struct LargeUpNextWidgetView: View {
                                     Spacer()
                                     HStack {
                                         Spacer()
-                                        HungryForMoreView()
+                                        HungryForMoreView(colorScheme: colorScheme)
                                         Spacer()
                                     }
                                 }
@@ -104,7 +106,7 @@ struct LargeFilterView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(episodes[0 ... min(4, episodes.count - 1)], id: \.self) { episode in
                             HStack {
-                                EpisodeView.createCompactWhenNecessaryView(episode: episode)
+                                EpisodeView.createCompactWhenNecessaryView(episode: episode, colorScheme: widgetColorSchemeBold) // TODO: temporary hard code color scheme
                                     .frame(minHeight: 42, maxHeight: 56)
                                 Spacer()
                             }
@@ -119,7 +121,7 @@ struct LargeFilterView: View {
                     ZStack {
                         Rectangle()
                             .fill(darkBackgroundColor)
-                        HungryForMoreView()
+                        HungryForMoreView(colorScheme: widgetColorSchemeBold) // temporary hard code for now
                     }
                 }
             }

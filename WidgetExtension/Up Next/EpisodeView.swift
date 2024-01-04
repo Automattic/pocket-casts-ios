@@ -8,8 +8,11 @@ struct EpisodeView: View {
     @State var isFirstEpisode: Bool = false
 
     @Environment(\.dynamicTypeSize) var typeSize
+    let colorScheme: PCWidgetColorScheme
 
     var body: some View {
+        let textColor = isFirstEpisode ? colorScheme.topTextColor : colorScheme.bottomTextColor
+
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
                 SmallArtworkView(imageData: episode.imageData)
@@ -17,7 +20,7 @@ struct EpisodeView: View {
                     Text(episode.episodeTitle)
                         .font(.footnote)
                         .fontWeight(.semibold)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(textColor)
                         .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     if isFirstEpisode, #available(iOS 17, *) {
@@ -26,43 +29,45 @@ struct EpisodeView: View {
                             topText
                                 .font(.caption)
                                 .fontWeight(.medium)
-                                .foregroundColor(newTopBackgroundColor)
+                                .foregroundColor(colorScheme.topButtonTextColor)
                         }
-                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle())
+                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: colorScheme))
                     } else {
                         Spacer()
                             .frame(height: 4)
                         topText
                             .font(.caption2)
-                            .foregroundColor(Color.white.opacity(0.6))
+                            .foregroundColor(textColor.opacity(0.6))
                     }
                 }
                 if !isFirstEpisode, #available(iOS 17, *) {
                     Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {}
-                    .toggleStyle(WidgetPlayToggleStyle())
+                    .toggleStyle(WidgetPlayToggleStyle(colorScheme: colorScheme))
                 }
             }
         }
     }
 
     @ViewBuilder
-    static func createCompactWhenNecessaryView(episode: WidgetEpisode) -> some View {
-        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
+    static func createCompactWhenNecessaryView(episode: WidgetEpisode, colorScheme: PCWidgetColorScheme) -> some View {
+        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)), colorScheme: widgetColorSchemeBold) // TODO: temporary hard code color scheme
     }
 }
 
 struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
+    let colorScheme: PCWidgetColorScheme
+
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 0) {
             Group {
                 configuration.isOn ?
                 Image("icon-pause")
                     .resizable()
-                    .foregroundStyle(newTopBackgroundColor)
+                    .foregroundStyle(colorScheme.topButtonTextColor)
                 :
                 Image("icon-play")
                     .resizable()
-                    .foregroundStyle(newTopBackgroundColor)
+                    .foregroundStyle(colorScheme.topButtonTextColor)
             }
             .frame(width: 24, height: 24)
             // TODO: Something fun - create a timeline that counts down by the minute instead of showing "now playing"
@@ -74,27 +79,29 @@ struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
         .padding(.vertical, 2) // 2 + 8 (from icon) = 10 in design (actually 9.76)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(.white)
+                .foregroundColor(colorScheme.topButtonBackgroundColor)
         )
      }
 }
 
 struct WidgetPlayToggleStyle: ToggleStyle {
+    let colorScheme: PCWidgetColorScheme
+
     func makeBody(configuration: Configuration) -> some View {
         HStack {
             ZStack {
                 Circle()
-                    .foregroundStyle(Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 0.2))
+                    .foregroundStyle(colorScheme.bottomButtonBackgroundColor)
                     .frame(width: 24, height: 24)
                 Group {
                     configuration.isOn ?
                     Image("icon-pause")
                         .resizable()
-                        .foregroundStyle(.white)
+                        .foregroundStyle(colorScheme.bottomButtonTextColor)
                     :
                     Image("icon-play")
                         .resizable()
-                        .foregroundStyle(.white)
+                        .foregroundStyle(colorScheme.bottomButtonTextColor)
                 }
                 .frame(width: 24, height: 24)
             }

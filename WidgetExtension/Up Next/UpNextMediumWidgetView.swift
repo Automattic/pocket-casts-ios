@@ -5,16 +5,17 @@ struct UpNextMediumWidgetView: View {
     @State var episodes: [WidgetEpisode]
     @State var filterName: String?
     @State var isPlaying: Bool
+    var colorScheme: PCWidgetColorScheme
 
     var body: some View {
         if let firstEpisode = episodes.first {
             if let topFilter = filterName {
                 MediumFilterView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], filterName: topFilter)
             } else {
-                MediumUpNextView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], isPlaying: isPlaying)
+                MediumUpNextView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], isPlaying: isPlaying, colorScheme: colorScheme)
             }
         } else {
-            HungryForMoreView()
+            HungryForMoreView(colorScheme: colorScheme)
         }
     }
 }
@@ -23,17 +24,18 @@ struct MediumUpNextView: View {
     var firstEpisode: WidgetEpisode
     var secondEpisode: WidgetEpisode?
     var isPlaying: Bool
+    var colorScheme: PCWidgetColorScheme
 
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
                 ZStack {
-                    Rectangle().fill(newTopBackgroundColor)
+                    Rectangle().fill(colorScheme.topBackgroundColor)
                         .lightBackgroundShadow()
                     HStack(alignment: .top) {
-                        EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
+                        EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true, colorScheme: colorScheme)
                         Spacer()
-                        Image("logo_white_small")
+                        Image(colorScheme.iconAssetName)
                             .frame(width: 28, height: 28)
                             .accessibility(hidden: true)
                             .unredacted()
@@ -44,17 +46,17 @@ struct MediumUpNextView: View {
 
                 HStack {
                     if let nextEpisode = secondEpisode {
-                        EpisodeView(episode: nextEpisode, topText: Text(CommonWidgetHelper.durationString(duration: nextEpisode.duration)))
+                        EpisodeView(episode: nextEpisode, topText: Text(CommonWidgetHelper.durationString(duration: nextEpisode.duration)), colorScheme: colorScheme)
                             .padding(16.0)
                             .frame(maxWidth: .infinity)
                     } else {
                         Spacer()
-                        HungryForMoreView()
+                        HungryForMoreView(colorScheme: colorScheme)
                         Spacer()
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height / 2)
-                .background(newBottomBackgroundColor)
+                .background(colorScheme.bottomBackgroundColor)
             }
         }
     }
@@ -82,11 +84,11 @@ struct MediumFilterView: View {
                         .unredacted()
                 }
                 .frame(height: 32)
-                EpisodeView.createCompactWhenNecessaryView(episode: firstEpisode)
+                EpisodeView.createCompactWhenNecessaryView(episode: firstEpisode, colorScheme: widgetColorSchemeBold) // TODO: temporary hard code color scheme
                     .frame(minHeight: 40, maxHeight: 56)
                 Spacer().frame(minHeight: 8, maxHeight: 10)
                 if let secondEpisode = secondEpisode {
-                    EpisodeView.createCompactWhenNecessaryView(episode: secondEpisode)
+                    EpisodeView.createCompactWhenNecessaryView(episode: secondEpisode, colorScheme: widgetColorSchemeBold) // TODO: temporary hard code color scheme
                         .frame(minHeight: 40, maxHeight: 56)
                 } else {
                     Spacer()
