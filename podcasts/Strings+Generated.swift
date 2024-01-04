@@ -42,8 +42,6 @@ internal enum L10n {
   internal static var accessibilityDismiss: String { return L10n.tr("Localizable", "accessibility_dismiss") }
   /// Episode Playback
   internal static var accessibilityEpisodePlayback: String { return L10n.tr("Localizable", "accessibility_episode_playback") }
-  /// Swipe up or down with one finger to adjust the value
-  internal static var accessibilityEpisodePlaybackHint: String { return L10n.tr("Localizable", "accessibility_episode_playback_hint") }
   /// Tap to hide filter details
   internal static var accessibilityHideFilterDetails: String { return L10n.tr("Localizable", "accessibility_hide_filter_details") }
   /// Double tap to star episode
