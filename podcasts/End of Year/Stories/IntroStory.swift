@@ -1,56 +1,89 @@
 import SwiftUI
 
-struct IntroStory: StoryView {
-    var duration: TimeInterval = 5.seconds
+struct IntroStory: ShareableStory {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
+
     let identifier: String = "intro"
 
     var body: some View {
-        ZStack {
-            TwentyThree()
+        GeometryReader { geometry in
+            ZStack {
+                ZStack {
+                    Image("2023-title")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width)
+                        .modifier(IconParallaxModifier())
 
-            Image("2023-title")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .modifier(IconParallaxModifier())
+                    Image("22")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: geometry.size.height * 0.3)
+                        .position(x: geometry.size.width * 0.13, y: geometry.size.height * 0.71)
+                        .modifier(TwentyThreeParallaxModifier(rollMultiplier: 6, pitchMultiplier: 60))
 
-            Twenty()
+
+                    Image("0")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: geometry.size.height * 0.3)
+                        .position(x: geometry.size.width * 0.9, y: geometry.size.height * 0.29)
+                        .modifier(TwentyThreeParallaxModifier(rollMultiplier: 6, pitchMultiplier: 60))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(
+                    ZStack {
+                        ZStack {
+                            Color.black
+
+                            Image("2")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: geometry.size.height * 0.5)
+                                .position(x: geometry.size.width * 0.25, y: geometry.size.height * 0.34)
+                                .modifier(TwentyThreeParallaxModifier(rollMultiplier: 5, pitchMultiplier: 50))
+
+                            Image("3")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: geometry.size.height * 0.5)
+                                .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.84)
+                                .modifier(TwentyThreeParallaxModifier())
+                        }
+                        .clipped()
+                    }
+                        .ignoresSafeArea()
+                )
+
+                if !renderForSharing {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image("logo")
+                                .padding(.bottom, geometry.size.height * 0.06)
+                            Spacer()
+                        }
+                    }
+                }
+            }
         }
         .background(.black)
         .enableProportionalValueScaling()
     }
 
-    private struct TwentyThree: View {
-        @ProportionalValue(with: .width) var xPosition = 0.5
-        @ProportionalValue(with: .height) var yPosition = 0.5
-        @ProportionalValue(with: .width) var width = 1.2
-
-        var body: some View {
-            Image("23")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: width)
-                .position(x: xPosition, y: yPosition)
-                .modifier(TwentyThreeParallaxModifier())
-        }
-    }
-
-    private struct Twenty: View {
-        @ProportionalValue(with: .width) var xPosition = 0.5
-        @ProportionalValue(with: .height) var yPosition = 0.49
-        @ProportionalValue(with: .width) var width = 1.1
-
-        var body: some View {
-            Image("20")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: width)
-                .position(x: xPosition, y: yPosition)
-                .modifier(TwentyThreeParallaxModifier())
-        }
-    }
-
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self))
+        ]
+    }
+
+    func hideShareButton() -> Bool {
+        true
     }
 
     private struct Constants {
@@ -64,16 +97,19 @@ struct IntroStory: StoryView {
     }
 }
 
-/// Adds a not so subtle parallax effect to the app icon as the user tilts their device
 private struct TwentyThreeParallaxModifier: ViewModifier {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @StateObject var manager: MotionManager = .init()
+    @StateObject var manager: MotionManager = .init(relativeToWhenStarting: true)
+    var rollMultiplier: Double = 4
+    var pitchMultiplier: Double = 40
+
+    private let rollAndPitchBoundary = -1.4..<1.5
 
     func body(content: Content) -> some View {
-        let roll = manager.roll * 10
-        let pitch = manager.pitch
-        content
-            .offset(x: roll * 4, y: pitch * 40)
+        let roll = manager.roll.betweenOrClamped(to: rollAndPitchBoundary) * 7
+        let pitch = manager.pitch.betweenOrClamped(to: rollAndPitchBoundary)
+        return content
+            .offset(x: roll * rollMultiplier, y: pitch * pitchMultiplier)
             .onAppear() {
                 if !reduceMotion {
                     manager.start()
@@ -85,6 +121,10 @@ private struct TwentyThreeParallaxModifier: ViewModifier {
                 }
             }
     }
+}
+
+extension EndOfYear {
+    static var defaultDuration = 7.seconds
 }
 
 struct IntroStory_Previews: PreviewProvider {

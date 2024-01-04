@@ -148,10 +148,11 @@ struct Constants {
 
         static let reviewRequestDates = "reviewRequestDates"
 
-        static let showBadgeFor2022EndOfYear = "showBadgeFor2022EndOfYear"
-        static let modal2022HasBeenShown = "modal2022HasBeenShown"
-        static let hasSyncedAll2022Episodes = "hasSyncedAll2022Episodes"
-        static let top5PodcastsListLink = "top5PodcastsListLink"
+        static let showBadgeFor2023EndOfYear = "showBadgeFor2023EndOfYear"
+        static let modal2023HasBeenShown = "modal2023HasBeenShown"
+        static let hasSyncedEpisodesForPlayback2023 = "hasSyncedEpisodesForPlayback2023"
+        static let hasSyncedEpisodesForPlayback2023AsPlusUser = "hasSyncedEpisodesForPlayback2023AsPlusUser"
+        static let top5PodcastsListLink = "top5PodcastsListLink2023_2"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
 
         static let autoplay = "autoplay"
@@ -172,6 +173,10 @@ struct Constants {
             static let playerSort = SettingValue("bookmarks.playerSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let podcastSort = SettingValue("bookmarks.podcastSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let episodeSort = SettingValue("bookmarks.episodeSort", defaultValue: BookmarkSortOption.newestToOldest)
+        }
+
+        enum appearance {
+            static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
         }
     }
 
@@ -251,8 +256,8 @@ struct Constants {
         enum IapProducts: String {
             case yearly = "com.pocketcasts.plus.yearly"
             case monthly = "com.pocketcasts.plus.monthly"
-            case patronYearly = "com.pocketcasts.yearly.patron"
-            case patronMonthly = "com.pocketcasts.monthly.patron"
+            case patronYearly = "com.pocketcasts.patron_yearly"
+            case patronMonthly = "com.pocketcasts.patron_monthly"
 
             var renewalPrompt: String {
                 switch self {
@@ -324,6 +329,15 @@ struct Constants {
 
         static let patronCloudStorageGB = "patron_custom_storage_limit_gb"
         static let patronCloudStorageGBDefault = 100
+
+        static let bookmarksEnabled = "bookmarks_enabled"
+        static let bookmarksEnabledDefault = true
+
+        static let addMissingEpisodes = "add_missing_episodes"
+        static let addMissingEpisodesDefault: Bool = true
+
+        static let newPlayerTransition = "new_player_transition"
+        static let newPlayerTransitionDefault: Bool = true
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
@@ -390,6 +404,9 @@ enum PlusUpgradeViewSource: String {
     case icons
     case watch
     case unknown
+    case endOfYear
+    case promoCode
+    case promotionFinished
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

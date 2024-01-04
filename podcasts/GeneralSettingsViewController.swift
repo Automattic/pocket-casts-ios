@@ -10,7 +10,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
     private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay }
-    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles]]
+    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -27,21 +27,17 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         title = L10n.settingsGeneral
 
         Analytics.track(.settingsGeneralShown)
-
-        if FeatureFlag.autoplay.enabled {
-            tableData.append([.autoplay])
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if AnnouncementFlow.shared.isShowingAutoplayOption {
+        if AnnouncementFlow.current == .autoPlay {
             settingsTable.scrollToRow(at: IndexPath(row: 0, section: settingsTable.numberOfSections - 1), at: .bottom, animated: true)
 
 
             // Finish the Autoplay option flow
-            AnnouncementFlow.shared.isShowingAutoplayOption = false
+            AnnouncementFlow.current = .none
         }
     }
 

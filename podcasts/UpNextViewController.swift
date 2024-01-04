@@ -15,11 +15,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     enum sections: Int { case nowPlayingSection = 0, upNextSection }
 
-    var themeOverride: Theme.ThemeType {
-        if Theme.isDarkTheme() { return Theme.sharedTheme.activeTheme }
-
-        return .dark
-    }
+    var themeOverride: Theme.ThemeType? = nil
 
     var isMultiSelectEnabled = false {
         didSet {
@@ -97,8 +93,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     let source: UpNextViewSource
 
-    init(source: UpNextViewSource) {
+    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil) {
         self.source = source
+        self.themeOverride = Settings.darkUpNextTheme ? .dark : themeOverride
+
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -132,12 +130,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         remainingLabel.adjustsFontSizeToFitWidth = true
         remainingLabel.minimumScaleFactor = 0.8
         remainingLabel.numberOfLines = 2
-        remainingLabel.style = .playerContrast02
+        remainingLabel.style = .primaryText02
         remainingLabel.themeOverride = themeOverride
 
         clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
-        clearQueueButton.setTitleColor(AppTheme.colorForStyle(.playerContrast01, themeOverride: themeOverride), for: .normal)
-        clearQueueButton.setTitleColor(AppTheme.colorForStyle(.playerContrast05, themeOverride: themeOverride), for: .disabled)
+        clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
+        clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
         clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
     }
@@ -168,7 +166,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if queueCount <= Constants.Limits.upNextClearWithoutWarning {
             performClearAll()
         } else {
-            let clearOptions = OptionsPicker(title: nil, themeOverride: .dark)
+            let clearOptions = OptionsPicker(title: nil, themeOverride: themeOverride)
             let actionLabel = L10n.queueClearEpisodeQueuePlural(queueCount.localized())
             let clearAllAction = OptionAction(label: actionLabel, icon: nil, action: { [weak self] in
                 self?.performClearAll()

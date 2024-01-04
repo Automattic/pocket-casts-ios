@@ -10,7 +10,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     private let plusLockedInfoCellId = "PlusLockedCell"
 
     private enum TableRow {
-        case themeOption, lightTheme, darkTheme, appIcon, refreshArtwork, embeddedArtwork, plusCallout
+        case themeOption, lightTheme, darkTheme, appIcon, refreshArtwork, embeddedArtwork, plusCallout, darkUpNextTheme
     }
 
     private var tableData = [[TableRow]]()
@@ -106,6 +106,16 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
             cell.cellSwitch.addTarget(self, action: #selector(shouldFollowSystemThemeToggled(_:)), for: UIControl.Event.valueChanged)
 
             return cell
+
+        case .darkUpNextTheme:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+            cell.cellLabel.text = L10n.settingsUpNextDarkModeTitle
+            cell.cellSwitch.isOn = Settings.darkUpNextTheme
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(darkUpNextToggled(_:)), for: .valueChanged)
+
+            return cell
+
         case .lightTheme:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = Settings.shouldFollowSystemTheme() ? L10n.appearanceLightTheme : L10n.appearanceThemeHeader
@@ -188,18 +198,20 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let firstItem = tableData[section][0]
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
 
-        if firstItem == .themeOption {
+        switch tableData[section][0] {
+        case .themeOption:
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceThemeHeader)
-        } else if firstItem == .appIcon {
+        case .appIcon:
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceAppIconHeader)
-        } else if firstItem == .refreshArtwork {
+        case .refreshArtwork:
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceArtworkHeader)
+        case .darkUpNextTheme:
+            return SettingsTableHeader(frame: headerFrame, title: L10n.upNext)
+        default:
+            return nil
         }
-
-        return nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -207,11 +219,13 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        let firstItem = tableData[section][0]
-
-        if firstItem == .refreshArtwork { return L10n.appearanceEmbeddedArtworkSubtitle }
-
-        return nil
+        switch tableData[section][0] {
+        case .refreshArtwork:
+            L10n.appearanceEmbeddedArtworkSubtitle
+        case .darkUpNextTheme:
+            L10n.settingsUpNextDarkModeFooter
+        default: nil
+        }
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -229,6 +243,10 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     }
 
     // MARK: - Actions
+    @objc private func darkUpNextToggled(_ sender: UISwitch) {
+        Settings.darkUpNextTheme = sender.isOn
+        Settings.trackValueToggled(.settingsAppearanceUseDarkUpNextToggled, enabled: sender.isOn)
+    }
 
     @objc private func shouldFollowSystemThemeToggled(_ sender: UISwitch) {
         Settings.setShouldFollowSystemTheme(sender.isOn)
@@ -251,9 +269,9 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     private func updateTableAndData() {
         var newTableData: [[TableRow]]
         if Settings.shouldFollowSystemTheme() {
-            newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork]]
+            newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
         } else {
-            newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork]]
+            newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
         }
 
         if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnAppearance() {

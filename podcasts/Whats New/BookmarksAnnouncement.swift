@@ -36,20 +36,6 @@ class BookmarkAnnouncementViewModel {
 
     // MARK: - Checks to display the different announcements
 
-    /// Show the early access what's new to plus and above when in beta
-    var isEarlyAccessBetaAnnouncementEnabled: Bool {
-        feature.inEarlyAccess &&
-        buildEnvironment == .testFlight &&
-        activeTier > .none
-    }
-
-    /// Show the early access what's new to Patron when in the app store
-    var isEarlyAccessAnnouncementEnabled: Bool {
-        feature.inEarlyAccess &&
-        buildEnvironment != .testFlight &&
-        activeTier == .patron
-    }
-
     /// Show the full release what's new to anyone who hasn't seen it in early access
     var isReleaseAnnouncementEnabled: Bool {
         !userDefaults.bool(forKey: Constants.seenKey)
@@ -57,10 +43,6 @@ class BookmarkAnnouncementViewModel {
 
     /// Will display the subscription badge in early access and when not unlocked in full release
     var displayTier: SubscriptionTier {
-        guard !feature.inEarlyAccess else {
-            return feature.tier
-        }
-
         return feature.isUnlocked ? .none : feature.tier
     }
 
@@ -93,15 +75,15 @@ class BookmarkAnnouncementViewModel {
             return
         }
 
-        AnnouncementFlow.shared.isShowingBookmarksOption = true
-
         // Show the player
         if PlaybackManager.shared.currentEpisode() != nil {
+            AnnouncementFlow.current = .bookmarksPlayer
             NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer()
             return
         }
 
         // Show the headphone controls
+        AnnouncementFlow.current = .bookmarksProfile
         NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: nil)
     }
 

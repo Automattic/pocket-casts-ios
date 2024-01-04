@@ -141,6 +141,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Si votre file d’attente À écouter ensuite est vide et que vous commencez à écouter un épisode, l’option Lecture automatique continuera à lire les épisodes de cette émission ou de cette liste.</string>
     <key>announcement_autoplay_title</key>
     <string>La lecture automatique est disponible !</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Vous pouvez enregistrer les horodatages des épisodes à partir du menu Actions du lecteur ou en configurant une action avec vos écouteurs.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>Les favoris sont là !</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Rejoignez-nous pour le bêta-test des favoris !</string>
     <key>app_badge</key>
     <string>Badge de l’application</string>
     <key>app_icon_classic</key>
@@ -263,7 +269,9 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>%1$@ signets</string>
     <key>bookmarks_count_singular</key>
     <string>1 signet</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris. Bientôt disponible pour les abonnés %2$@.</string>
+    <key>bookmarks_locked_message</key>
     <string>Déverrouillez cette fonctionnalité et bien d’autres encore avec Pocket Casts %1$@ et enregistrez les horodatages de vos épisodes favoris.</string>
     <key>bottom</key>
     <string>Bas</string>
@@ -433,6 +441,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Comédie</string>
     <key>discover_browse_by_category_education</key>
     <string>Éducation</string>
+    <key>discover_browse_by_category_family</key>
+    <string>Famille</string>
     <key>discover_browse_by_category_fiction</key>
     <string>Fiction</string>
     <key>discover_browse_by_category_games_and_hobbies</key>
@@ -466,7 +476,9 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>discover_browse_by_category_society</key>
     <string>Société</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Société et culture</string>
+    <string>Culture</string>
+    <key>discover_browse_by_category_spirituality</key>
+    <string>Spiritualité</string>
     <key>discover_browse_by_category_sports</key>
     <string>Sports</string>
     <key>discover_browse_by_category_sports_and_recreation</key>
@@ -650,21 +662,30 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>enable_it_now</key>
     <string>Activez-la maintenant</string>
     <key>eoy_card_description</key>
-    <string>Retrouvez vos meilleurs podcasts, catégories, statistiques d’écoute, et plus encore.</string>
+    <string>Retrouvez vos statistiques d’écoute, vos meilleurs podcasts et plus encore.</string>
     <key>eoy_create_account_to_see</key>
     <string>Enregistrez vos podcasts dans le cloud, obtenez votre bilan de fin d’année et synchronisez votre progression avec d’autres appareils.</string>
     <key>eoy_description</key>
     <string>Retrouvez vos meilleurs podcasts, catégories, statistiques d’écoute, et plus encore. Partagez du contenu avec vos amis et remerciez vos créateurs favoris !</string>
     <key>eoy_not_now</key>
     <string>Pas maintenant</string>
+    <key>eoy_share</key>
+    <string>Partager cette story</string>
+    <key>eoy_share_this_story_message</key>
+    <string>Coller cette image sur vos réseaux sociaux et faire connaître vos émissions et créateurs préférés</string>
+    <key>eoy_share_this_story_title</key>
+    <string>Partager cette story ?</string>
     <key>eoy_small_title</key>
     <string>Votre année en podcasts</string>
+    <key>eoy_start_your_free_trial</key>
+    <string>Démarrer votre essai gratuit</string>
     <key>eoy_stories_failed</key>
     <string>Échec du chargement des histoires.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>N’oubliez pas de partager avec vos amis et de mettre en lumière vos créateurs de podcasts préférés.</string>
     <key>eoy_story_epilogue_title</key>
-    <string>Merci d’avoir utilisé Pocket Casts pour écouter vos podcasts en 2022.</string>
+    <string>Merci pour votre écoute cette année.
+Rendez-vous en 2024 !</string>
     <key>eoy_story_intro_title</key>
     <string>Célébrez votre année d’écoute…</string>
     <key>eoy_story_listened_to</key>
@@ -674,7 +695,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>Cette année, vous avez écouté %1$@</string>
     <key>eoy_story_listened_to_categories_share_text</key>
-    <string>J’ai écouté %1$@ catégories différentes en 2022</string>
+    <string>J’ai écouté %1$@ catégories différentes en 2023</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Découvrez certains de vos podcasts favoris.</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -682,56 +703,93 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ épisodes</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Vous avez écouté %1$@ podcasts différents et %2$@ épisodes.</string>
+    <string>Vous avez écouté %1$@ émissions différentes et %2$@ épisodes au total</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>J’ai écouté %1$@ podcasts différents et %2$@ épisodes en 2022</string>
+    <string>J’ai écouté %1$@ podcasts différents et %2$@ épisodes cette année</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Vous avez écouté plusieurs fois un même podcast…</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Il y en a cependant un que
-vous avez écouté plusieurs fois...</string>
+    <string>Vous avez écouté plusieurs fois une même émission…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Vous avez écouté %1$@ et %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ podcasts différents</string>
     <key>eoy_story_listened_to_share_text</key>
-    <string>En 2022, j’ai passé %1$@ à écouter des podcasts</string>
+    <string>J’ai passé %1$@ à écouter des podcasts cette année</string>
+    <key>eoy_story_listened_to_subtitle</key>
+    <string>On espère que vous en avez apprécié chaque minute !</string>
+    <key>eoy_story_listened_to_title</key>
+    <string>Il s’agit de votre temps total d’écoute de podcasts</string>
     <key>eoy_story_listened_to_updated</key>
     <string>Cette année, vous avez passé %1$@ à écouter des podcasts.</string>
     <key>eoy_story_longest_episode</key>
-    <string>L’épisode le plus long que vous avez écouté était de %1$@ extrait du podcast %2$@.</string>
+    <string>%1$@ est l’épisode le plus long que vous avez écouté</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>La durée de cet épisode était de %1$@.</string>
     <key>eoy_story_longest_episode_share_text</key>
-    <string>L’épisode le plus long que j’ai écouté en 2022 %1$@</string>
+    <string>L’épisode le plus long que j’ai écouté cette année : %1$@</string>
     <key>eoy_story_longest_episode_subtitle</key>
-    <string>L’épisode était %1$@ de %2$@</string>
+    <string>Ce n’était autre que « %1$@ » de « %2$@ »</string>
     <key>eoy_story_longest_episode_time</key>
     <string>L’épisode le plus long
 que vous avez écouté était
 %1$@</string>
     <key>eoy_story_replay</key>
-    <string>Reprendre la lecture</string>
+    <string>Réécouter</string>
     <key>eoy_story_top_categories</key>
     <string>Vos meilleures catégories</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Mes catégories de podcasts les plus écoutés</string>
+    <key>eoy_story_top_categories_subtitle</key>
+    <string>Vous avez écouté %1$@ épisodes pour une durée totale de %2$@.</string>
+    <key>eoy_story_top_categories_title</key>
+    <string>Le saviez-vous ? %1$@ est votre catégorie favorite.</string>
     <key>eoy_story_top_podcast</key>
-    <string>Votre meilleur podcast était %1$@ de %2$@.</string>
+    <string>%1$@ est l’émission que vous avez le plus écoutée en 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
-    <string>Mon podcast préféré de 2022 ! %1$@</string>
+    <string>Mon podcast préféré cette année ! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Vous avez écouté %1$@ épisodes pour une durée totale de %2$@.</string>
     <key>eoy_story_top_podcasts</key>
     <string>Vos meilleurs podcasts</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>Mes meilleurs podcasts de 2022</string>
+    <string>Mes meilleurs podcasts de l’année !</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Mes meilleurs podcasts de l’année ! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Voici les 5 émissions que vous avez le plus écoutées en 2023</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>Vous avez aussi adoré ces émissions !</string>
+    <key>eoy_subscribe_to_plus</key>
+    <string>Abonnez-vous à Plus et découvrez l’évolution de votre écoute par rapport à 2022, d’autres statistiques étonnantes et des fonctionnalités Premium comme les favoris et les dossiers.</string>
+    <key>eoy_theres_more</key>
+    <string>Ce n’est pas tout !</string>
     <key>eoy_title</key>
     <string>Votre année en podcasts</string>
     <key>eoy_view_year</key>
-    <string>Voir mon année 2022</string>
+    <string>Voir Mon année 2023</string>
+    <key>eoy_year_completion_rate</key>
+    <string>taux d’achèvement</string>
+    <key>eoy_year_completion_rate_share_text</key>
+    <string>Mon taux d’achèvement en 2023</string>
+    <key>eoy_year_completion_rate_subtitle</key>
+    <string>Sur les %1$@ épisodes que vous avez commencés, vous en avez écouté %2$@ en totalité</string>
+    <key>eoy_year_completion_rate_title</key>
+    <string>Cette année, votre taux d’achèvement s’élève à %1$@</string>
+    <key>eoy_year_over_share_text</key>
+    <string>Mon temps d’écoute en 2023 par rapport à 2022</string>
+    <key>eoy_year_over_year_subtitle_flat</key>
+    <string>On dit que la constance est la clé du succès… ou un truc du genre !</string>
+    <key>eoy_year_over_year_subtitle_went_down</key>
+    <string>Aaaah… il faut vivre sa vie à fond, n’est-ce pas ?</string>
+    <key>eoy_year_over_year_subtitle_went_up</key>
+    <string>On fait mieux en 2024 ?</string>
+    <key>eoy_year_over_year_title_flat</key>
+    <string>Par rapport à 2022, votre temps d’écoute est resté assez stable</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>Par rapport à 2022, votre temps d’écoute a explosé !</string>
+    <key>eoy_year_over_year_title_went_down</key>
+    <string>Par rapport à 2022, votre temps d’écoute a légèrement diminué</string>
+    <key>eoy_year_over_year_title_went_up</key>
+    <string>Par rapport à 2022, votre temps d’écoute a explosé de %1$@ %</string>
     <key>episode</key>
     <string>Épisode</string>
     <key>episode_count_plural_format</key>
@@ -760,12 +818,16 @@ que vous avez écouté était
     <string>Erreur</string>
     <key>error_general_podcast_not_found</key>
     <string>Impossible de trouver le balado. Veuillez communiquer avec l’auteur du balado.</string>
+    <key>export_database</key>
+    <string>Exporter les bases de données</string>
     <key>export_podcasts_description</key>
     <string>Cette fonctionnalité vous permet d’exporter tous vos balados en tant que fichier OPML que vous pouvez importer dans d’autres applications de balados.</string>
     <key>export_podcasts_option</key>
     <string>Exporter des balados</string>
     <key>export_podcasts_title</key>
     <string>EXPORTER</string>
+    <key>exporting_database</key>
+    <string>Exportation de la base de données…</string>
     <key>feature_tour_end_tour</key>
     <string>Terminer la visite</string>
     <key>feature_tour_new</key>
@@ -1957,6 +2019,8 @@ essai gratuit de %1$@</string>
     <string>Collecter des informations</string>
     <key>settings_collect_information_additional_information</key>
     <string>En nous autorisant à collecter des statistiques, vous nous permettez de créer une meilleure application. Nous comprendrions toutefois que vous préfériez ne pas partager ces informations.</string>
+    <key>settings_connection_status</key>
+    <string>État de connexion</string>
     <key>settings_create_siri_shortcut</key>
     <string>Créer un raccourci Siri</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2185,8 +2249,6 @@ essai gratuit de %1$@</string>
     <string>Vérifiez l’état de votre réseau.</string>
     <key>settings_status_internet_failure_message</key>
     <string>Impossible de se connecter à Internet. Essayez de vous connecter sur un réseau différent (par exemple, les données mobiles).</string>
-    <key>settings_status_page</key>
-    <string>Page de statut</string>
     <key>settings_status_refresh_service</key>
     <string>Service d’actualisation</string>
     <key>settings_status_refresh_service_description</key>
@@ -2211,6 +2273,10 @@ essai gratuit de %1$@</string>
     <string>Degré de coupure</string>
     <key>settings_trim_silence</key>
     <string>Couper le silence</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>Quand l’option est activée, la File d’attente affichera toujours le thème sombre ou alors elle correspondra au thème actuel si l’option est désactivée.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Utiliser le thème File d’attente sombre</string>
     <key>settings_up_next_limit</key>
     <string>Ajout automatique des nouveaux épisodes à la liste Prochains épisodes Les nouveaux épisodes ne seront plus ajoutés lorsque la file d’attente Prochains épisodes atteindra %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>
@@ -2497,6 +2563,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Couper le silence</string>
     <key>try_again</key>
     <string>Réessayer</string>
+    <key>try_it_now</key>
+    <string>Essayez-la maintenant</string>
     <key>unarchive</key>
     <string>Désarchiver</string>
     <key>unknown_duration</key>

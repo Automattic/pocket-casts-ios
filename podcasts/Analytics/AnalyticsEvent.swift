@@ -487,6 +487,7 @@ enum AnalyticsEvent: String {
     case settingsAppearanceAppIconChanged
     case settingsAppearanceRefreshAllArtworkTapped
     case settingsAppearanceUseEmbeddedArtworkToggled
+    case settingsAppearanceUseDarkUpNextToggled
 
     // MARK: - Settings: Auto Archive
 
@@ -607,6 +608,7 @@ enum AnalyticsEvent: String {
     case endOfYearStoryShare
     case endOfYearStoryShared
     case endOfYearProfileCardTapped
+    case endOfYearUpsellShown
 
     // MARK: - Welcome View
 

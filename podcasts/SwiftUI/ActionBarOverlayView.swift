@@ -27,8 +27,10 @@ struct ActionBarOverlayView<Content: View, Style: ActionBarStyle>: View {
                     .padding(.bottom)
             }
         }
+        .padding(.bottom)
         .accessibilityTransition(.opacity)
         .animation(.linear(duration: 0.1), value: actionBarVisible)
+        .ignoresSafeArea()
     }
 }
 

@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 import PocketCastsDataModel
 
 class EndOfYearStoriesDataSource: StoriesDataSource {
@@ -16,8 +17,6 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             return IntroStory()
         case .listeningTime:
             return ListeningTimeStory(listeningTime: data.listeningTime, podcasts: data.top10Podcasts)
-        case .listenedCategories:
-            return ListenedCategoriesStory(listenedCategories: data.listenedCategories.reversed())
         case .topCategories:
             return TopListenedCategoriesStory(listenedCategories: data.listenedCategories)
         case .numberOfPodcastsAndEpisodesListened:
@@ -28,6 +27,10 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
             return TopFivePodcastsStory(topPodcasts: data.topPodcasts)
         case .longestEpisode:
             return LongestEpisodeStory(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
+        case .yearOverYearListeningTime:
+            return YearOverYearStory(data: data.yearOverYearListeningTime)
+        case .completionRate:
+            return CompletionRateStory(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
         case .epilogue:
             return EpilogueStory()
         }
@@ -60,6 +63,14 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         }
 
         return false
+    }
+
+    func refresh() async -> Bool {
+        Settings.hasSyncedEpisodesForPlayback2023 = false
+
+        await SyncYearListeningProgress.shared.reset()
+
+        return await isReady()
     }
 }
 

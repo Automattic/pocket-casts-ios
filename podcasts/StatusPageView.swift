@@ -77,7 +77,7 @@ struct StatusPageView: View {
             }
         }
         .padding(.horizontal, 16)
-        .navigationTitle(L10n.settingsStatusPage)
+        .navigationTitle(L10n.settingsConnectionStatus)
         .applyDefaultThemeOptions()
     }
 }

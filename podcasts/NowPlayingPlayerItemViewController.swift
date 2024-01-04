@@ -149,7 +149,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private lazy var upNextController = UpNextViewController(source: .nowPlaying)
 
     lazy var upNextViewController: UIViewController = {
-        let controller = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let controller = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         controller.modalPresentationStyle = .pageSheet
 
         return controller
@@ -171,6 +171,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.isPointerInteractionEnabled = true
 
         routePicker.delegate = self
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Show the overflow menu
+        if FeatureFlag.bookmarks.enabled, AnnouncementFlow.current == .bookmarksPlayer {
+            overflowTapped()
+        }
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero

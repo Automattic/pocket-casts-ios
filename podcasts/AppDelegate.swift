@@ -33,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
-        FileLog.shared.setup()
 
         setupWhatsNew()
 
@@ -103,6 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func handleEnterBackground() {
         scheduleNextBackgroundRefresh()
+        FileLog.shared.forceFlush()
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
         badgeHelper.updateBadge()
@@ -280,7 +280,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
             Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
             Constants.RemoteParams.patronEnabled: NSNumber(value: Constants.RemoteParams.patronEnabledDefault),
-            Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault)
+            Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
+            Constants.RemoteParams.bookmarksEnabled: NSNumber(value: Constants.RemoteParams.bookmarksEnabledDefault),
+            Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
+            Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
         ])
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
@@ -288,20 +291,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 remoteConfig.activate(completion: nil)
 
                 self?.updateEndOfYearRemoteValue()
-                self?.updatePatronRemoteFeatureFlag()
+                self?.updateRemoteFeatureFlags()
             }
         }
     }
 
-    private func updatePatronRemoteFeatureFlag() {
+    private func updateRemoteFeatureFlags() {
         #if !DEBUG
         do {
             try FeatureFlagOverrideStore().override(FeatureFlag.patron, withValue: Settings.patronEnabled)
+            try FeatureFlagOverrideStore().override(FeatureFlag.bookmarks, withValue: Settings.remoteBookmarksEnabled)
+
+            if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
+                // If the player transition changes we dismiss the full screen player
+                // Otherwise this might lead to crashes or weird behavior
+                appDelegate()?.miniPlayer()?.closeFullScreenPlayer()
+                try FeatureFlagOverrideStore().override(FeatureFlag.newPlayerTransition, withValue: Settings.newPlayerTransition)
+            }
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
             IapHelper.shared.requestProductInfoIfNeeded()
         } catch {
-            FileLog.shared.addMessage("Failed to set the patron remote feature flag: \(error)")
+            FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
         }
         #endif
     }
@@ -377,11 +388,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupSignOutListener() {
-        guard backgroundSignOutListener == nil, let rootController = SceneHelper.rootViewController() else {
+        guard backgroundSignOutListener == nil else {
             return
         }
 
-        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: rootController)
+        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
     }
 
     // MARK: What's New
