@@ -51,18 +51,15 @@ struct LargeUpNextWidgetView: View {
                                             .frame(maxWidth: .infinity)
                                     }
                                 }
-
-                                if episodes.count < 5 {
-                                    if episodes.count != 4 {
-                                        Spacer()
-                                    }
+                                else {
+                                    Spacer()
                                     HStack {
                                         Spacer()
                                         HungryForMoreView()
                                         Spacer()
                                     }
-                                    Spacer()
                                 }
+                                Spacer()
                             }
                             .padding(16)
                             .frame(width: .infinity, height: .infinity, alignment: .center)
@@ -117,7 +114,8 @@ struct LargeFilterView: View {
                     .background(Rectangle().fill(Color.clear)
                         .lightBackgroundShadow())
 
-                if episodes.count < 5 {
+                // TODO: check if this should be a check for 0 instead
+                if episodes.count == 1 {
                     ZStack {
                         Rectangle()
                             .fill(darkBackgroundColor)
