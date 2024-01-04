@@ -476,7 +476,7 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <key>discover_browse_by_category_society</key>
     <string>Maatschappij</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Maatschappij en cultuur</string>
+    <string>Cultuur</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualiteit</string>
     <key>discover_browse_by_category_sports</key>
@@ -750,6 +750,8 @@ waar je naar hebt geluisterd was
     <string>Je hebt in totaal %2$@ geluisterd naar %1$@ podcasts</string>
     <key>eoy_story_top_podcasts</key>
     <string>Je beste podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Mijn beste podcasts van het jaar!</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Mijn beste podcasts van het jaar! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -816,12 +818,16 @@ waar je naar hebt geluisterd was
     <string>Fout</string>
     <key>error_general_podcast_not_found</key>
     <string>Kan podcast niet vinden. Neem contact op met de auteur van de podcast.</string>
+    <key>export_database</key>
+    <string>Database exporteren</string>
     <key>export_podcasts_description</key>
     <string>Exporteert al je podcasts als een OPML-bestand dat je in andere podcast-apps kunt importeren.</string>
     <key>export_podcasts_option</key>
     <string>Podcasts exporteren</string>
     <key>export_podcasts_title</key>
     <string>EXPORTEREN</string>
+    <key>exporting_database</key>
+    <string>Database exporteren ...</string>
     <key>feature_tour_end_tour</key>
     <string>Einde rondleiding</string>
     <key>feature_tour_new</key>
@@ -2013,6 +2019,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Gegevens verzamelen</string>
     <key>settings_collect_information_additional_information</key>
     <string>Wanneer we analytische gegevens mogen verzamelen, helpt dat ons met het verbeteren van de app. We begrijpen het als je deze gegevens liever niet deelt.</string>
+    <key>settings_connection_status</key>
+    <string>Verbindingsstatus</string>
     <key>settings_create_siri_shortcut</key>
     <string>Siri-snelkoppeling aanmaken</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2265,6 +2273,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Niveau van wegfilteren</string>
     <key>settings_trim_silence</key>
     <string>Stiltes wegfilteren</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>Indien ingeschakeld gebruikt Hierna altijd het donkere thema en indien uitgeschakeld gebruikt het het huidige thema.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Donker thema voor Hierna gebruiken</string>
     <key>settings_up_next_limit</key>
     <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Nieuwe afleveringen worden niet toegevoegd wanneer Hierna de %1$@ bereikt.</string>
     <key>settings_up_next_limit_add_to_top</key>
