@@ -5,8 +5,8 @@ import WidgetKit
 struct PocketCastsWidgetBundle: WidgetBundle {
     var body: some Widget {
         NowPlayingWidget()
-        UpNextWidget()
         UpNextWidgetBold()
+        UpNextWidget()
         NowPlayingLockScreenWidget()
         AppIconWidget()
         UpNextLockScreenWidget()
