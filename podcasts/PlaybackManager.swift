@@ -1950,7 +1950,7 @@ private extension PlaybackManager {
 
 extension PlaybackManager {
     private var bookmarksEnabled: Bool {
-        FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked
+        PaidFeature.bookmarks.isUnlocked
     }
 
     func bookmark(source: BookmarkAnalyticsSource) {

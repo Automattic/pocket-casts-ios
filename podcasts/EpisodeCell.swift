@@ -171,7 +171,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     /// Determines whether the bookmark indicator icon should appear
     private var showBookmarksIcon: Bool {
-        FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked && episode?.hasBookmarks == true
+        PaidFeature.bookmarks.isUnlocked && episode?.hasBookmarks == true
     }
 
     private func populate(progressOnly: Bool) {

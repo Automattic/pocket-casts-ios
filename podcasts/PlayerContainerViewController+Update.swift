@@ -25,7 +25,7 @@ extension PlayerContainerViewController {
 
         let shouldShowNotes = (playingEpisode is Episode)
         let shouldShowChapters = PlaybackManager.shared.chapterCount() > 0
-        let shouldShowBookmarks = FeatureFlag.bookmarks.enabled
+        let shouldShowBookmarks = true
 
         // check to see if the visible views are already configured correctly
         if shouldShowNotes == showingNotes,

@@ -58,8 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupRoutes()
 
-        DataManager.sharedManager.bookmarksEnabled = FeatureFlag.bookmarks.enabled
-
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
         checkDefaults()

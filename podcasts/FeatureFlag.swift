@@ -10,9 +10,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Bookmarks / Highlights
-    case bookmarks
-
     /// Patron
     case patron
 
@@ -36,8 +33,6 @@ enum FeatureFlag: String, CaseIterable {
         case .firebaseLogging:
             return false
         case .endOfYear:
-            return true
-        case .bookmarks:
             return true
         case .patron:
             return true

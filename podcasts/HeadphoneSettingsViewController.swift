@@ -190,9 +190,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
                 case .bookmarkSound:
                     // Only show this option if the user has selected addBookmark as one of the options
                     let optionEnabled = Settings.isPlayBookmarkCreationSoundAvailable
-
-                    // and the FeatureFlag is enabled
-                    return FeatureFlag.bookmarks.enabled && optionEnabled
+                    return optionEnabled
                 default:
                     return true
                 }
@@ -209,9 +207,6 @@ class HeadphoneSettingsViewController: PCTableViewController {
 
 private extension HeadphoneSettingsViewController {
     private func showPicker(_ title: String, _ options: [HeadphoneControlAction], currentValue: HeadphoneControlAction, onChange: @escaping ((HeadphoneControlAction) -> Void)) {
-        // Hide the add bookmark item if the flag is off
-        let options = FeatureFlag.bookmarks.enabled ? options : options.filter { $0 != .addBookmark }
-
         let picker = OptionsPicker(title: title)
         picker.addActions(options.map { option in
             OptionAction(label: option.displayableTitle, icon: option.iconName, tintIcon: false, selected: currentValue == option) {
