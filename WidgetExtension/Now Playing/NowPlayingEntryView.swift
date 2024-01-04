@@ -7,27 +7,42 @@ struct NowPlayingWidgetEntryView: View {
 
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
-    let colorScheme: PCWidgetColorScheme
+    var colorScheme: PCWidgetColorScheme = widgetColorSchemeContrastNowPlaying // testing
 
     var body: some View {
         if let playingEpisode = entry.episode {
-            ZStack { // overkill to get widget background in simulator. TODO: will revisit this before PR
-                Rectangle().fill(colorScheme.topBackgroundColor)
-
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack(alignment: .top) {
-                        LargeArtworkView(imageData: playingEpisode.imageData)
-                        Spacer()
-                        Image(colorScheme.iconAssetName)
-                            .frame(width: 28, height: 28)
-                            .unredacted()
-                    }.padding(topPadding)
+            ZStack {
+                if showsWidgetBackground {
+                    Rectangle().fill(colorScheme.bottomBackgroundColor)
+                }
+                VStack(alignment: .leading, spacing: 3) {
+                    GeometryReader { geometry in
+                        HStack(alignment: .top) {
+                            LargeArtworkView(imageData: playingEpisode.imageData)
+                            Spacer()
+                            Image(colorScheme.iconAssetName)
+                                .frame(width: 28, height: 28)
+                                .unredacted()
+                        }
+                        .padding(topPadding)
+                        .background(
+                            VStack {
+                                if showsWidgetBackground {
+                                    Rectangle()
+                                        .fill(colorScheme.topBackgroundColor)
+                                        .frame(height: 0.8 * geometry.size.height, alignment: .top)
+                                }
+                                Spacer()
+                            }
+                        )
+                    }
 
                     Text(playingEpisode.episodeTitle)
                         .font(.footnote)
                         .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .lineLimit(2)
+                        .foregroundColor(colorScheme.bottomTextColor)
+                        .lineLimit(1)
+                        .frame(height: 38, alignment: .center)
                         .layoutPriority(1)
                         .padding(episodeTitlePadding)
 
@@ -38,12 +53,12 @@ struct NowPlayingWidgetEntryView: View {
                                 Text(L10n.nowPlaying)
                                     .font(.caption2)
                                     .fontWeight(.medium)
-                                    .foregroundColor(colorScheme.topBackgroundColor)
+                                    .foregroundColor(colorScheme.topButtonTextColor)
                             } else {
                                 Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                                     .font(.caption2)
                                     .fontWeight(.medium)
-                                    .foregroundColor(colorScheme.topBackgroundColor)
+                                    .foregroundColor(colorScheme.topButtonTextColor)
                                     .layoutPriority(1)
                             }
                         }
@@ -136,20 +151,20 @@ struct NowPlayingWidgetEntryView: View {
     }
 }
 
-//struct NowPlayingEntryView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true), colorScheme: widgetColorSchemeContrast)
-//                .previewContext(WidgetPreviewContext(family: .systemSmall))
-//                .previewDisplayName("Episode Playing")
-//
-//            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true), colorScheme: widgetColorSchemeContrast), isPlaying: false))
-//                .previewContext(WidgetPreviewContext(family: .systemSmall))
-//                .previewDisplayName("Episode Paused")
-//
-//            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true), colorScheme: widgetColorSchemeContrast)
-//                .previewContext(WidgetPreviewContext(family: .systemSmall))
-//                .previewDisplayName("Nothing Playing")
-//        }
-//    }
-//}
+struct NowPlayingEntryView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true))
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+                .previewDisplayName("Episode Playing")
+
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false))
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+                .previewDisplayName("Episode Paused")
+
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true))
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+                .previewDisplayName("Nothing Playing")
+        }
+    }
+}

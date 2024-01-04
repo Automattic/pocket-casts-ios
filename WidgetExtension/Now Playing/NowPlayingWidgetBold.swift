@@ -1,10 +1,10 @@
 import SwiftUI
 import WidgetKit
 
-struct NowPlayingWidget: Widget {
+struct NowPlayingWidgetBold: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "Now_Playing_Widget", provider: NowPlayingProvider()) { entry in
-            NowPlayingWidgetEntryView(entry: entry, colorScheme: widgetColorSchemeContrastNowPlaying)
+        StaticConfiguration(kind: "Now_Playing_Widget_Bold", provider: NowPlayingProvider()) { entry in
+            NowPlayingWidgetEntryView(entry: entry, colorScheme: widgetColorSchemeBoldNowPlaying)
                 .clearBackground()
         }
         .contentMarginsDisabledIfAvailable()
