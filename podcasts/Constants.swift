@@ -330,9 +330,6 @@ struct Constants {
         static let patronCloudStorageGB = "patron_custom_storage_limit_gb"
         static let patronCloudStorageGBDefault = 100
 
-        static let bookmarksEnabled = "bookmarks_enabled"
-        static let bookmarksEnabledDefault = true
-
         static let addMissingEpisodes = "add_missing_episodes"
         static let addMissingEpisodesDefault: Bool = true
 
