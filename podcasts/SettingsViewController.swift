@@ -179,11 +179,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .watch:
             navigationController?.pushViewController(WatchSettingsViewController(), animated: true)
         case .pocketCastsPlus:
-            if FeatureFlag.patron.enabled {
-                navigationController?.present(OnboardingFlow.shared.begin(flow: .plusUpsell, source: "settings"), animated: true)
-            } else {
-                navigationController?.pushViewController(PlusDetailsViewController(), animated: true)
-            }
+            navigationController?.present(OnboardingFlow.shared.begin(flow: .plusUpsell, source: "settings"), animated: true)            
         case .privacy:
             navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
         case .developer:
