@@ -58,8 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupRoutes()
 
-        DataManager.sharedManager.bookmarksEnabled = FeatureFlag.bookmarks.enabled
-
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
         checkDefaults()
@@ -278,9 +276,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
             Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault),
             Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
-            Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),            
+            Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
             Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
-            Constants.RemoteParams.bookmarksEnabled: NSNumber(value: Constants.RemoteParams.bookmarksEnabledDefault),
             Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
             Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
         ])
@@ -298,8 +295,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func updateRemoteFeatureFlags() {
         #if !DEBUG
         do {
-            try FeatureFlagOverrideStore().override(FeatureFlag.bookmarks, withValue: Settings.remoteBookmarksEnabled)
-
             if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
                 // If the player transition changes we dismiss the full screen player
                 // Otherwise this might lead to crashes or weird behavior

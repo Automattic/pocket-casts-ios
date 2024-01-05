@@ -178,7 +178,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         super.viewDidAppear(animated)
 
         // Show the overflow menu
-        if FeatureFlag.bookmarks.enabled, AnnouncementFlow.current == .bookmarksPlayer {
+        if AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
         }
     }

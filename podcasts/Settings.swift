@@ -903,10 +903,6 @@ class Settings: NSObject {
 
             return TimeInterval(remoteMs.numberValue.doubleValue / 1000)
         }
-
-        static var remoteBookmarksEnabled: Bool {
-            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.bookmarksEnabled).boolValue
-        }
     #endif
 }
 

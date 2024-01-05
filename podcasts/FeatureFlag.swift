@@ -10,9 +10,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Bookmarks / Highlights
-    case bookmarks
-
     /// Enable the new show notes endpoint plus embedded episode artwork
     case newShowNotesEndpoint
 
@@ -34,8 +31,6 @@ enum FeatureFlag: String, CaseIterable {
             return false
         case .endOfYear:
             return false
-        case .bookmarks:
-            return true
         case .newShowNotesEndpoint:
             return false
         case .episodeFeedArtwork:

@@ -68,21 +68,19 @@ extension SyncTask {
             }
         }
 
-        if dataManager.bookmarksEnabled {
-            FileLog.shared.addMessage("SyncTask: Found \(bookmarksToImport.count) bookmarks to import")
+        FileLog.shared.addMessage("SyncTask: Found \(bookmarksToImport.count) bookmarks to import")
 
-            for bookmark in bookmarksToImport {
-                importQueue.addOperation { [weak self] in
-                    guard let strongSelf = self else { return }
-                    let semaphore = DispatchSemaphore(value: 0)
+        for bookmark in bookmarksToImport {
+            importQueue.addOperation { [weak self] in
+                guard let strongSelf = self else { return }
+                let semaphore = DispatchSemaphore(value: 0)
 
-                    Task {
-                        await strongSelf.importBookmark(bookmark)
-                        semaphore.signal()
-                    }
-
-                    semaphore.wait()
+                Task {
+                    await strongSelf.importBookmark(bookmark)
+                    semaphore.signal()
                 }
+
+                semaphore.wait()
             }
         }
 
