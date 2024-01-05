@@ -119,6 +119,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var timeSlider: TimeSlider! {
         didSet {
+            timeSlider.accessibilityLabel = L10n.accessibilityEpisodePlayback
             timeSlider.delegate = self
         }
     }

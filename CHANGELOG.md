@@ -1,12 +1,13 @@
 7.55
 -----
-
+- Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
 
 7.54
 -----
 - Adds a button to export the database and preferences from the Help & Feedback view [#1257]
 - Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
 - Adds theme support to the Up Next [#1265]
+- Now Playing scrubber is now interactive with Accessibility VoiceOver enabled [#1318]
 
 7.53
 -----

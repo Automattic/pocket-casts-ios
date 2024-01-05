@@ -476,7 +476,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>discover_browse_by_category_society</key>
     <string>社會</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社會與文化</string>
+    <string>文化</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>心靈</string>
     <key>discover_browse_by_category_sports</key>
@@ -750,6 +750,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你收聽了 %1$@ 集，總共 %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>你最愛的 Podcast</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>本年度我最愛的 Podcast！</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>本年度我最愛的 Podcast！%1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -816,12 +818,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>錯誤</string>
     <key>error_general_podcast_not_found</key>
     <string>找不到 Podcast 節目。請聯絡 Podcast 作者。</string>
+    <key>export_database</key>
+    <string>匯出資料庫</string>
     <key>export_podcasts_description</key>
     <string>將所有 Podcast 以 OPML 檔案匯出，這樣就能匯入其他 Podcast 應用程式。</string>
     <key>export_podcasts_option</key>
     <string>匯出 Podcast</string>
     <key>export_podcasts_title</key>
     <string>匯出</string>
+    <key>exporting_database</key>
+    <string>正在匯出資料庫...</string>
     <key>feature_tour_end_tour</key>
     <string>結束導覽</string>
     <key>feature_tour_new</key>
@@ -2013,6 +2019,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>收集資訊</string>
     <key>settings_collect_information_additional_information</key>
     <string>允許我們收集分析有助於我們打造更好的應用程式。如果你不願意分享這些資訊，我們也能理解。</string>
+    <key>settings_connection_status</key>
+    <string>連線狀態</string>
     <key>settings_create_siri_shortcut</key>
     <string>建立 Siri 捷徑</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2265,6 +2273,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>剪輯程度</string>
     <key>settings_trim_silence</key>
     <string>無聲剪輯</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>啟用後，「接下來播放」將永遠使用深色系佈景主題；若停用，系統則將採用與屆時設定相符的主題。</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>使用暗色系「接下來播放」佈景主題</string>
     <key>settings_up_next_limit</key>
     <string>自動新增單集到「接下來播放」。「接下來播放」達到 %1$@ 集時，將停止新增新單集。</string>
     <key>settings_up_next_limit_add_to_top</key>

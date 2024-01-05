@@ -33,7 +33,7 @@ enum FeatureFlag: String, CaseIterable {
         case .firebaseLogging:
             return false
         case .endOfYear:
-            return true
+            return false
         case .patron:
             return true
         case .newShowNotesEndpoint:

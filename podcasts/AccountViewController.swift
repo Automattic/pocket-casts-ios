@@ -107,7 +107,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         if SubscriptionHelper.hasActiveSubscription() {
             var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
-            if SubscriptionHelper.activeSubscriptionType != .none {
+            if SubscriptionHelper.hasRenewingSubscription() {
                 newTableRows[0].append(.cancelSubscription)
             }
 

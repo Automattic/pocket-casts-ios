@@ -59,6 +59,12 @@
 /* A common string used throughout the app. An accessibility label to direct the user to sort and option menus. */
 "accessibility_sort_and_options" = "Sort and Options";
 
+/* Accessibility label for episode playback progress scrubber */
+"accessibility_playback_progress" = "%1$@ of %2$@";
+
+/* Accessibility label for episode playback scrubber */
+"accessibility_episode_playback" = "Episode Playback";
+
 /* Prompt to allow the user to update the email associated to their account. */
 "account_change_email" = "Change Email";
 

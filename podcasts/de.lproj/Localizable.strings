@@ -476,7 +476,7 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>discover_browse_by_category_society</key>
     <string>Gesellschaft</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Gesellschaft und Kultur</string>
+    <string>Kultur</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualität</string>
     <key>discover_browse_by_category_sports</key>
@@ -750,6 +750,8 @@ Folge dauerte
     <string>Du hast dir %1$@ Folgen mit einer Gesamtdauer von %2$@ angehört</string>
     <key>eoy_story_top_podcasts</key>
     <string>Deine Top-Podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Meine Top-Podcasts des Jahres!</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Meine Top-Podcasts des Jahres! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -816,12 +818,16 @@ Folge dauerte
     <string>Fehler</string>
     <key>error_general_podcast_not_found</key>
     <string>Podcast wurde nicht gefunden. Bitte wende dich an den Autor des Podcasts.</string>
+    <key>export_database</key>
+    <string>Datenbank exportieren</string>
     <key>export_podcasts_description</key>
     <string>Exportiert alle deine Podcasts als OPML-Datei, die du in andere Podcast-Apps importieren kannst.</string>
     <key>export_podcasts_option</key>
     <string>Podcasts exportieren</string>
     <key>export_podcasts_title</key>
     <string>EXPORTIEREN</string>
+    <key>exporting_database</key>
+    <string>Datenbank wird exportiert …</string>
     <key>feature_tour_end_tour</key>
     <string>Tour beenden</string>
     <key>feature_tour_new</key>
@@ -2013,6 +2019,8 @@ Gratis-Test für %1$@</string>
     <string>Informationen erfassen</string>
     <key>settings_collect_information_additional_information</key>
     <string>Deine Erlaubnis, Statistiken zu erfassen, ermöglicht uns, eine bessere App zu entwickeln. Wir verstehen, wenn du diese Informationen lieber nicht teilen möchtest.</string>
+    <key>settings_connection_status</key>
+    <string>Verbindungsstatus</string>
     <key>settings_create_siri_shortcut</key>
     <string>Siri-Shortcut erstellen</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2265,6 +2273,10 @@ Gratis-Test für %1$@</string>
     <string>Kürzungsgrad</string>
     <key>settings_trim_silence</key>
     <string>Stille kürzen</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>Wenn das dunkle Theme aktiviert ist, wird es in „Up Next“ immer verwendet. Wenn es deaktiviert ist, wird „Up Next“ an das aktuelle Theme angepasst.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Dunkles „Up Next“-Theme verwenden</string>
     <key>settings_up_next_limit</key>
     <string>Neue Folgen werden automatisch zur Warteschlange hinzugefügt. Es werden keine neuen Folgen mehr hinzugefügt, sobald die Warteschlange %1$@ Folgen enthält.</string>
     <key>settings_up_next_limit_add_to_top</key>

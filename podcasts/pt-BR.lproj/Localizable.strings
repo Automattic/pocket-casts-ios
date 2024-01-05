@@ -476,7 +476,7 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>discover_browse_by_category_society</key>
     <string>Sociedade</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Sociedade e cultura</string>
+    <string>Cultura</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Espiritualidade</string>
     <key>discover_browse_by_category_sports</key>
@@ -750,6 +750,8 @@ que você ouviu foi
     <string>Você ouviu %1$@ episódios em um total de %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>Seus principais podcasts</string>
+    <key>eoy_story_top_podcasts_list_title</key>
+    <string>Meus principais podcasts do ano!</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Meus principais podcasts do ano! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -816,12 +818,16 @@ que você ouviu foi
     <string>Erro</string>
     <key>error_general_podcast_not_found</key>
     <string>Não é possível encontrar o podcast. Entre em contato com o autor do podcast.</string>
+    <key>export_database</key>
+    <string>Exportar banco de dados</string>
     <key>export_podcasts_description</key>
     <string>Exporta todos os seus podcasts como um arquivo OPML, que você pode importar para outros aplicativos de podcast.</string>
     <key>export_podcasts_option</key>
     <string>Exportar podcasts</string>
     <key>export_podcasts_title</key>
     <string>EXPORTAR</string>
+    <key>exporting_database</key>
+    <string>Exportando banco de dados...</string>
     <key>feature_tour_end_tour</key>
     <string>Fim do tour</string>
     <key>feature_tour_new</key>
@@ -2013,6 +2019,8 @@ teste gratuito de %1$@</string>
     <string>Coletar informações</string>
     <key>settings_collect_information_additional_information</key>
     <string>Permitir a coleta de dados analíticos nos ajuda a criar um aplicativo melhor, mas entenderemos se você preferir não compartilhar essas informações.</string>
+    <key>settings_connection_status</key>
+    <string>Status da conexão</string>
     <key>settings_create_siri_shortcut</key>
     <string>Criar um atalho da Siri</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2265,6 +2273,10 @@ teste gratuito de %1$@</string>
     <string>Nível do corte</string>
     <key>settings_trim_silence</key>
     <string>Cortar momentos de silêncio</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>Com essa opção ativada, a lista Próximos sempre usará o tema escuro. Quando desativada, a lista usará o tema atual.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Usar tema escuro na fila Próximos</string>
     <key>settings_up_next_limit</key>
     <string>Adicione novos episódios aos Próximos automaticamente. Novos episódios deixarão de ser adicionados quando a fila de Próximos chegar a %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>
