@@ -9,10 +9,6 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 
     lazy var products: [PlusProductPricingInfo] = {
         let productsToDisplay: [Constants.IapProducts] = {
-            guard FeatureFlag.patron.enabled else {
-                return [.yearly]
-            }
-
             return subscription?.tier == .patron ? [.patronYearly] : [.yearly, .patronYearly]
         }()
 
@@ -82,12 +78,6 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 
     func showModal(for product: PlusProductPricingInfo? = nil) {
         guard let parentController else { return }
-
-        guard FeatureFlag.patron.enabled else {
-            let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
-            controller.presentModally(in: parentController)
-            return
-        }
 
         // Set the initial product to display on the upsell
         let context: OnboardingFlow.Context? = product.map {

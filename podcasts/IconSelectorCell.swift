@@ -19,7 +19,7 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
 
     static var availableIcons: [IconType] {
         Self.allCases.filter {
-            $0.subscription <= (FeatureFlag.patron.enabled ? .patron : .plus)
+            $0.subscription <= .patron
         }
     }
 

@@ -278,8 +278,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
             Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault),
             Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
-            Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
-            Constants.RemoteParams.patronEnabled: NSNumber(value: Constants.RemoteParams.patronEnabledDefault),
+            Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),            
             Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
             Constants.RemoteParams.bookmarksEnabled: NSNumber(value: Constants.RemoteParams.bookmarksEnabledDefault),
             Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
@@ -299,7 +298,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func updateRemoteFeatureFlags() {
         #if !DEBUG
         do {
-            try FeatureFlagOverrideStore().override(FeatureFlag.patron, withValue: Settings.patronEnabled)
             try FeatureFlagOverrideStore().override(FeatureFlag.bookmarks, withValue: Settings.remoteBookmarksEnabled)
 
             if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {

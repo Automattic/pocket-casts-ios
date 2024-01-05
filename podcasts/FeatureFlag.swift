@@ -13,9 +13,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Bookmarks / Highlights
     case bookmarks
 
-    /// Patron
-    case patron
-
     /// Enable the new show notes endpoint plus embedded episode artwork
     case newShowNotesEndpoint
 
@@ -38,8 +35,6 @@ enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             return false
         case .bookmarks:
-            return true
-        case .patron:
             return true
         case .newShowNotesEndpoint:
             return false
