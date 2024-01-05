@@ -189,7 +189,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
                 switch self {
                 case .bookmarkSound:
                     // Only show this option if the user has selected addBookmark as one of the options
-                    return  Settings.isPlayBookmarkCreationSoundAvailable
+                    return Settings.isPlayBookmarkCreationSoundAvailable
                 default:
                     return true
                 }
