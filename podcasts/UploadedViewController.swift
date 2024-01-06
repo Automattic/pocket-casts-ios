@@ -46,6 +46,12 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
     }
 
+    @IBOutlet weak var addFilesButton: ThemeableRoundedButton! {
+        didSet {
+            addFilesButton.setTitle(L10n.fileUploadAddFile, for: .normal)
+        }
+    }
+
     var uploadedEpisodes = [UserEpisode]()
     let headerView = UploadedStorageHeaderView()
 
@@ -102,6 +108,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     override func viewDidLoad() {
         setupNavBar()
+        setupAddFilesButton()
         super.viewDidLoad()
 
         registerCells()
@@ -191,10 +198,21 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
+    func setupAddFilesButton() {
+        addFilesButton.shouldFill = false
+    }
+
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         Analytics.track(.uploadedFilesOptionsButtonTapped)
 
         let optionsPicker = OptionsPicker(title: nil)
+
+        let addFileAction = OptionAction(label: L10n.fileUploadAddFile, icon: "filter_add") { [weak self] in
+            Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "add_file"])
+            self?.addFilesTapped(UIButton())
+
+        }
+        optionsPicker.addAction(action: addFileAction)
 
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "select_episodes"])
@@ -247,6 +265,17 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         let howToController = HowToUploadViewController()
         let navController = SJUIUtils.navController(for: howToController)
         present(navController, animated: true, completion: nil)
+    }
+
+    @IBAction func addFilesTapped(_ sender: Any) {
+        Analytics.track(.uploadedFilesAddButtonTapped)
+
+        //TODO: Add other supported content types
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.mp3], asCopy: true)
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .overFullScreen
+        documentPicker.allowsMultipleSelection = false
+        present(documentPicker, animated: true)
     }
 
     func showSortByPicker() {
@@ -390,5 +419,15 @@ private extension UploadedViewController {
                 self?.handleReloadFromNotification()
             }
             .store(in: &cancellables)
+    }
+}
+
+extension UploadedViewController: UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else {
+            return
+        }
+        let addCustomVC = AddCustomViewController(fileUrl: url)
+        present(SJUIUtils.popupNavController(for: addCustomVC), animated: true, completion: nil)
     }
 }
