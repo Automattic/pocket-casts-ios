@@ -19,7 +19,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
     // When presenting the player, duration is always the same
     // However, if the view is being dismissed we take into account
     // the velocity of the swipe down gesture to carry it
-    // An agressive swipe down will make the view to be dismissed faster.
+    // An aggressive swipe down will make the view to be dismissed faster.
     private var duration: TimeInterval {
         guard !isPresenting || dismissVelocity != 0 else {
             return 0.3

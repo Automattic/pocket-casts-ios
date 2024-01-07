@@ -20,7 +20,7 @@ extension String {
               .applyingTransform(.stripDiacritics, reverse: false)?
               .capitalized,
               let unicodeScaler = UnicodeScalar(latinFirstCharacter),
-              uppercaseSet.contains(unicodeScaler) // Final Check to make sure the character was succesfully converted.
+              uppercaseSet.contains(unicodeScaler) // Final Check to make sure the character was successfully converted.
         else { return englishSourceUnicode(isWatch) }
 
         let characterValue = unicodeScaler.value

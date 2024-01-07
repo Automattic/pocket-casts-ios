@@ -29,7 +29,7 @@ class ModifedHostingController<Content: View, Modifier: ViewModifier>: UIHosting
 /// class MyCoolController: ThemedHostingController<MyThemedView> {
 ///     init(customValue: String) {
 ///         super.init(rootView: MyThemedView())
-///         or if you alread have a theme...
+///         or if you already have a theme...
 ///         super.init(rootView: MyThemedView(), theme: theme)
 ///     }
 /// }
