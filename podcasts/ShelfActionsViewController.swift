@@ -157,7 +157,7 @@ class ShelfActionsViewController: UIViewController {
 private extension ShelfActionsViewController {
     /// Highlights the bookmarks row when triggered from the what's new
     func highlightAddBookmarksIfNeeded() {
-        guard FeatureFlag.bookmarks.enabled, AnnouncementFlow.current == .bookmarksPlayer else {
+        guard AnnouncementFlow.current == .bookmarksPlayer else {
             return
         }
 

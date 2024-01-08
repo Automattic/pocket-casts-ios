@@ -10,12 +10,6 @@ enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Bookmarks / Highlights
-    case bookmarks
-
-    /// Patron
-    case patron
-
     /// Enable the new show notes endpoint plus embedded episode artwork
     case newShowNotesEndpoint
 
@@ -36,11 +30,7 @@ enum FeatureFlag: String, CaseIterable {
         case .firebaseLogging:
             return false
         case .endOfYear:
-            return true
-        case .bookmarks:
-            return true
-        case .patron:
-            return true
+            return false
         case .newShowNotesEndpoint:
             return false
         case .episodeFeedArtwork:

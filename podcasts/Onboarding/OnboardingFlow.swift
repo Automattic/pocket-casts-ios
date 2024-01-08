@@ -22,12 +22,8 @@ struct OnboardingFlow {
             flowController = upgradeController(in: navigationController, context: context)
 
         case .plusAccountUpgrade:
-            if FeatureFlag.patron.enabled {
-                self.source = source ?? "unknown"
-                flowController = upgradeController(in: navigationController, context: context)
-            } else {
-                flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
-            }
+            self.source = source ?? "unknown"
+            flowController = upgradeController(in: navigationController, context: context)            
 
         case .patronAccountUpgrade:
             self.source = source ?? "unknown"

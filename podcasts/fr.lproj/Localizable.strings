@@ -819,7 +819,7 @@ que vous avez écouté était
     <key>error_general_podcast_not_found</key>
     <string>Impossible de trouver le podcast. Veuillez contacter l’auteur du podcast.</string>
     <key>export_database</key>
-    <string>Exporter les bases de données</string>
+    <string>Exporter la base de données</string>
     <key>export_podcasts_description</key>
     <string>Exporte tous vos podcasts sous forme de fichier OPML, que vous pouvez importer dans d’autres applications de podcast.</string>
     <key>export_podcasts_option</key>

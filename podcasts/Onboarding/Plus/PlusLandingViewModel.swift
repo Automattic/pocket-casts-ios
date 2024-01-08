@@ -118,22 +118,13 @@ class PlusLandingViewModel: PlusPurchaseModel {
 
 private extension PlusLandingViewModel {
     func showModal(product: Constants.ProductInfo) {
-        if FeatureFlag.patron.enabled {
-            guard let product = self.product(for: product.plan, frequency: product.frequency) else {
-                state = .failed
-                return
-            }
-
-            purchase(product: product.identifier)
+        guard let product = self.product(for: product.plan, frequency: product.frequency) else {
+            state = .failed
             return
         }
 
-        guard let navigationController else { return }
-
-        let controller = PlusPurchaseModel.make(in: navigationController,
-                                                plan: product.plan,
-                                                selectedPrice: product.frequency)
-        controller.presentModally(in: navigationController)
+        purchase(product: product.identifier)
+        return
     }
 
     func showError() {
@@ -161,12 +152,7 @@ extension PlusLandingViewModel {
 
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
-        if FeatureFlag.patron.enabled {
-            UpgradeLandingView(viewModel: viewModel)
-                .setupDefaultEnvironment()
-        } else {
-            PlusLandingView(viewModel: viewModel)
-                .setupDefaultEnvironment()
-        }
+        UpgradeLandingView(viewModel: viewModel)
+            .setupDefaultEnvironment()
     }
 }

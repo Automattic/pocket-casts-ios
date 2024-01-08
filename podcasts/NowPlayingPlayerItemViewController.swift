@@ -119,6 +119,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var timeSlider: TimeSlider! {
         didSet {
+            timeSlider.accessibilityLabel = L10n.accessibilityEpisodePlayback
             timeSlider.delegate = self
         }
     }
@@ -177,7 +178,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         super.viewDidAppear(animated)
 
         // Show the overflow menu
-        if FeatureFlag.bookmarks.enabled, AnnouncementFlow.current == .bookmarksPlayer {
+        if AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
         }
     }
