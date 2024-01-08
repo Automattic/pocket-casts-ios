@@ -41,14 +41,13 @@ struct EpisodeRow: View {
 
             VStack(alignment: .leading) {
                 titleLabel
-                    .padding(.vertical, -3)
                 infoLabel
             }
         }
     }
 
     var textOnlyLayout: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading) {
             titleLabel
             HStack {
                 indicators
