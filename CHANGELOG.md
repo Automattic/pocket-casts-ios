@@ -1,3 +1,7 @@
+7.56
+-----
+- Adds Star button to CarPlay Now Playing screen [#1332]
+
 7.55
 -----
 - Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
