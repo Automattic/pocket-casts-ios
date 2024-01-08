@@ -30,7 +30,7 @@ struct PodcastEpisodeListView: View {
                 CachedImage(url: viewModel.podcast.artworkURL)
                     .frame(width: headerImageSize, height: headerImageSize, alignment: .center)
                 Text(viewModel.podcast.title ?? "")
-                    .font(.dynamic(size: 14))
+                    .font(.dynamic(size: 16))
                     .foregroundColor(.white)
                 Text(viewModel.podcast.author ?? "")
                     .font(.dynamic(size: 12))
@@ -43,6 +43,7 @@ struct PodcastEpisodeListView: View {
             }
             Spacer()
         }
+        .padding(.horizontal, -8)
         .multilineTextAlignment(.center)
     }
 }
