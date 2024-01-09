@@ -9,13 +9,11 @@ struct PodcastEpisodeListView: View {
 
     var body: some View {
         List {
-            Section(
-                content: {
-                    EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: false, episodes: $viewModel.episodes, playlist: .podcast(uuid: viewModel.podcast.uuid))
-                },
-                header: {
-                    podcastInfo.textCase(.none)
-                })
+            Section {
+                EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: false, episodes: $viewModel.episodes, playlist: .podcast(uuid: viewModel.podcast.uuid))
+            } header: {
+                podcastInfo.textCase(.none)
+            }
         }
         .navigationTitle(L10n.podcastsPlural.prefixSourceUnicode)
         .withOrderPickerToolbar(selectedOption: viewModel.sortOption, title: L10n.sortEpisodes, hasHorizontalPadding: true) { option in
