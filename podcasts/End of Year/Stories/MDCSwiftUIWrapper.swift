@@ -87,11 +87,16 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
 
 
 extension UIViewController {
-    func presentModally(in viewController: UIViewController, detents: [UISheetPresentationController.Detent] = [.medium()]) {
 
+    func presentModally(
+        in viewController: UIViewController,
+        detents: [UISheetPresentationController.Detent] = [.medium()],
+        // Grabber defaults to false as most pocketcasts views implement their own.
+        showingGrabber: Bool = false
+    ) {
         if let sheetController = self.sheetPresentationController {
             sheetController.detents = detents
-            sheetController.prefersGrabberVisible = false
+            sheetController.prefersGrabberVisible = showingGrabber
         }
 
         viewController.present(self, animated: true, completion: nil)
