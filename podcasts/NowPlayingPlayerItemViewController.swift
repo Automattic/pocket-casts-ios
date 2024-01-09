@@ -47,6 +47,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             podcastName.style = .playerContrast02
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
             podcastName.addGestureRecognizer(tapGesture)
+
+            podcastName.accessibilityTraits = .button
+            podcastName.accessibilityHint = L10n.accessibilityHintPlayerNavigateToPodcastLabel
         }
     }
 
