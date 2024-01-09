@@ -4,6 +4,7 @@ protocol PlayerItemContainerDelegate: AnyObject {
     func scrollToCurrentChapter()
     func scrollToNowPlaying()
     func scrollToBookmarks()
+    func navigateToPodcast()
 }
 
 class PlayerItemViewController: SimpleNotificationsViewController {

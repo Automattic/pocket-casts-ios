@@ -154,6 +154,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         scroll(to: .bookmarks)
     }
 
+    func navigateToPodcast() {
+        guard let podcast = PlaybackManager.shared.currentPodcast else {
+            return
+        }
+        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+    }
+
     // MARK: - PlayerTabDelegate
 
     func didSwitchToTab(index: Int) {

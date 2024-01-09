@@ -45,6 +45,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var podcastName: ThemeableLabel! {
         didSet {
             podcastName.style = .playerContrast02
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
+            podcastName.addGestureRecognizer(tapGesture)
         }
     }
 
@@ -287,6 +289,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @objc private func chapterNameTapped() {
         containerDelegate?.scrollToCurrentChapter()
+    }
+
+    @objc private func podcastNameTapped() {
+        containerDelegate?.navigateToPodcast()
     }
 
     private func skipForwardLongPressed() {
