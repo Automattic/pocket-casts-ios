@@ -164,6 +164,9 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
         let starButton = CPNowPlayingImageButton(image: image) { _ in
             guard let episode else { return }
+
+            AnalyticsEpisodeHelper.shared.currentSource = .carPlay
+            
             EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
         }
 
