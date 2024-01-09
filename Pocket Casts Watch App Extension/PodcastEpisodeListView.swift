@@ -24,26 +24,23 @@ struct PodcastEpisodeListView: View {
     }
 
     var podcastInfo: some View {
-        HStack {
-            Spacer()
-            VStack(alignment: .center) {
-                CachedImage(url: viewModel.podcast.artworkURL)
-                    .frame(width: headerImageSize, height: headerImageSize, alignment: .center)
-                Text(viewModel.podcast.title ?? "")
-                    .font(.dynamic(size: 16))
-                    .foregroundColor(.white)
-                Text(viewModel.podcast.author ?? "")
-                    .font(.dynamic(size: 12))
-                    .foregroundColor(.subheadlineText)
-                    .padding(.bottom, 3)
-                if viewModel.episodes.isEmpty {
-                    Text(L10n.watchNoEpisodes)
-                        .font(.subheadline)
-                }
+        VStack(alignment: .center) {
+            CachedImage(url: viewModel.podcast.artworkURL)
+                .frame(width: headerImageSize, height: headerImageSize, alignment: .center)
+            Text(viewModel.podcast.title ?? "")
+                .font(.dynamic(size: 16))
+                .foregroundColor(.white)
+            Text(viewModel.podcast.author ?? "")
+                .font(.dynamic(size: 12))
+                .foregroundColor(.subheadlineText)
+                .padding(.bottom, 3)
+            if viewModel.episodes.isEmpty {
+                Text(L10n.watchNoEpisodes)
+                    .font(.subheadline)
             }
-            Spacer()
         }
-        .padding(.horizontal, -8)
+        .frame(maxWidth: .infinity)
+        .multilineTextAlignment(.center)
         .multilineTextAlignment(.center)
     }
 }
