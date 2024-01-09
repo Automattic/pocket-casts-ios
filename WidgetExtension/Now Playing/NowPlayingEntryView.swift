@@ -20,7 +20,7 @@ struct NowPlayingWidgetEntryView: View {
                         HStack(alignment: .top) {
                             LargeArtworkView(imageData: playingEpisode.imageData)
                             Spacer()
-                            Image(colorScheme.iconAssetName)
+                            Image("logo_white_small_transparent")
                                 .frame(width: 28, height: 28)
                                 .unredacted()
                         }

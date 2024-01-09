@@ -33,7 +33,7 @@ struct LargeUpNextWidgetView: View {
                             HStack(alignment: .top) {
                                 EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedCapitalized) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true, colorScheme: colorScheme)
                                 Spacer()
-                                Image(colorScheme.iconAssetName)
+                                Image("logo_white_small_transparent")
                                     .frame(width: 28, height: 28)
                                     .unredacted()
                             }

@@ -13,7 +13,6 @@ struct PCWidgetColorScheme {
     let bottomTextColor: Color
     let topButtonTextColor: Color // foreground color?
     let bottomButtonTextColor: Color // foreground color?
-    let iconAssetName: String
 }
 
 let rgbMax = 255.0
@@ -29,8 +28,7 @@ let widgetColorSchemeBold = PCWidgetColorScheme(
     topTextColor: .white,
     bottomTextColor: .white,
     topButtonTextColor: widgetRedLight,
-    bottomButtonTextColor: .white,
-    iconAssetName: "logo_white_small"
+    bottomButtonTextColor: .white
 )
 
 let widgetColorSchemeContrast = PCWidgetColorScheme(
@@ -41,8 +39,7 @@ let widgetColorSchemeContrast = PCWidgetColorScheme(
     topTextColor: .white,
     bottomTextColor: widgetBlack,
     topButtonTextColor: widgetRedDark,
-    bottomButtonTextColor: .white,
-    iconAssetName: "logo_white_small_darker"
+    bottomButtonTextColor: .white
 )
 
 let widgetColorSchemeContrastNowPlaying = PCWidgetColorScheme(
@@ -53,8 +50,7 @@ let widgetColorSchemeContrastNowPlaying = PCWidgetColorScheme(
     topTextColor: widgetColorSchemeContrast.topTextColor,
     bottomTextColor: widgetColorSchemeContrast.bottomTextColor,
     topButtonTextColor: widgetColorSchemeContrast.bottomButtonTextColor,
-    bottomButtonTextColor: widgetColorSchemeContrast.bottomButtonTextColor,
-    iconAssetName: widgetColorSchemeContrast.iconAssetName
+    bottomButtonTextColor: widgetColorSchemeContrast.bottomButtonTextColor
 )
 
 let widgetColorSchemeBoldNowPlaying = PCWidgetColorScheme(
@@ -65,8 +61,7 @@ let widgetColorSchemeBoldNowPlaying = PCWidgetColorScheme(
     topTextColor: widgetColorSchemeBold.topTextColor,
     bottomTextColor: widgetColorSchemeBold.topTextColor,
     topButtonTextColor: widgetColorSchemeBold.topButtonTextColor,
-    bottomButtonTextColor: widgetColorSchemeBold.bottomButtonTextColor,
-    iconAssetName: widgetColorSchemeBold.iconAssetName
+    bottomButtonTextColor: widgetColorSchemeBold.bottomButtonTextColor
 )
 
 struct LightBackgroundShadow: ViewModifier {
