@@ -1,12 +1,12 @@
 7.56
-----
-- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads [#1183]
-- Adds Star button to CarPlay Now Playing screen [#1332]
+-----
 - Allows navigation from the Player to the Podcast screen by tapping on Podcast name [#1322]
 
 7.55
 -----
 - Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
+- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads [#1183]
+- Adds Star button to CarPlay Now Playing screen [#1332]
 
 7.54
 -----
