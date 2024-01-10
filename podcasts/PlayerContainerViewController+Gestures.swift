@@ -36,6 +36,7 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
                 dismissVelocity = velocity.y
 
                 if closing {
+                    finalYPositionWhenDismissing = touchPoint.y - initialTouchPoint.y
                     miniPlayer.closeFullScreenPlayer()
                 } else {
                     UIView.animate(withDuration: 0.2, animations: {

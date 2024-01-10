@@ -370,7 +370,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             return
         }
 
-        if artwork == nil { // add imgage
+        if artwork == nil { // add image
             // Check permissions and add the actions
             switch AVCaptureDevice.authorizationStatus(for: .video) {
             case .authorized:

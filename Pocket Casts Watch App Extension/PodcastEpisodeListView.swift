@@ -8,10 +8,11 @@ struct PodcastEpisodeListView: View {
     @StateObject var viewModel: PodcastEpisodeListViewModel
 
     var body: some View {
-        ScrollView {
-            LazyVStack {
-                podcastInfo
+        List {
+            Section {
                 EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: false, episodes: $viewModel.episodes, playlist: .podcast(uuid: viewModel.podcast.uuid))
+            } header: {
+                podcastInfo.textCase(.none)
             }
         }
         .navigationTitle(L10n.podcastsPlural.prefixSourceUnicode)
@@ -21,10 +22,12 @@ struct PodcastEpisodeListView: View {
     }
 
     var podcastInfo: some View {
-        Group {
+        VStack(alignment: .center) {
             CachedImage(url: viewModel.podcast.artworkURL)
                 .frame(width: headerImageSize, height: headerImageSize, alignment: .center)
             Text(viewModel.podcast.title ?? "")
+                .font(.dynamic(size: 16))
+                .foregroundColor(.white)
             Text(viewModel.podcast.author ?? "")
                 .font(.dynamic(size: 12))
                 .foregroundColor(.subheadlineText)
@@ -34,6 +37,8 @@ struct PodcastEpisodeListView: View {
                     .font(.subheadline)
             }
         }
+        .frame(maxWidth: .infinity)
+        .multilineTextAlignment(.center)
         .multilineTextAlignment(.center)
     }
 }
