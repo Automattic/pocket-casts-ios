@@ -476,7 +476,7 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>discover_browse_by_category_society</key>
     <string>Sociedad</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Sociedad y cultura</string>
+    <string>Cultura</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Espiritualidad</string>
     <key>discover_browse_by_category_sports</key>
@@ -751,7 +751,7 @@ que has escuchado dura
     <key>eoy_story_top_podcasts</key>
     <string>Tus pódcast favoritos</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>Mis pódcast principales de 2022</string>
+    <string>¡Mis pódcast favoritos del año!</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>¡Mis pódcast principales del año! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -818,12 +818,16 @@ que has escuchado dura
     <string>Error</string>
     <key>error_general_podcast_not_found</key>
     <string>No se puede encontrar el podcast. Ponte en contacto con el autor del podcast.</string>
+    <key>export_database</key>
+    <string>Exportar base de datos</string>
     <key>export_podcasts_description</key>
     <string>Exporta todos tus podcasts en un archivo OPML, que puedes importar en otras aplicaciones de podcasts.</string>
     <key>export_podcasts_option</key>
     <string>Exportar podcasts</string>
     <key>export_podcasts_title</key>
     <string>EXPORTAR</string>
+    <key>exporting_database</key>
+    <string>Exportando base de datos...</string>
     <key>feature_tour_end_tour</key>
     <string>Finalizar visita</string>
     <key>feature_tour_new</key>
@@ -2015,6 +2019,8 @@ prueba gratuita de %1$@</string>
     <string>Recopilar información</string>
     <key>settings_collect_information_additional_information</key>
     <string>Si nos permites recopilar análisis podremos mejorar la aplicación. Entendemos que prefieras no compartir esta información.</string>
+    <key>settings_connection_status</key>
+    <string>Estado de la conexión</string>
     <key>settings_create_siri_shortcut</key>
     <string>Crea un acceso directo de Siri</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2243,8 +2249,6 @@ prueba gratuita de %1$@</string>
     <string>Comprueba el estado de la red.</string>
     <key>settings_status_internet_failure_message</key>
     <string>No se ha podido conectar a Internet. Intenta conectarte a una red diferente (por ejemplo, a los datos móviles).</string>
-    <key>settings_status_page</key>
-    <string>Página de estado</string>
     <key>settings_status_refresh_service</key>
     <string>Servicio de actualización</string>
     <key>settings_status_refresh_service_description</key>
@@ -2269,6 +2273,10 @@ prueba gratuita de %1$@</string>
     <string>Recortar nivel</string>
     <key>settings_trim_silence</key>
     <string>Recortar silencio</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>Si está activado, Up Next utilizará siempre el tema oscuro, o coincidirá con el tema actual si está desactivado.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Utilizar tema Up Next oscuro</string>
     <key>settings_up_next_limit</key>
     <string>Añadir automáticamente nuevos episodios a la lista de A continuación. Cuando llegue a %1$@, se dejarán de añadir episodios nuevos.</string>
     <key>settings_up_next_limit_add_to_top</key>

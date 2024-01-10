@@ -141,19 +141,14 @@ private extension PlusPurchaseModel {
         guard let parentController else { return }
 
         if OnboardingFlow.shared.currentFlow.shouldDismissAfterPurchase {
-            if FeatureFlag.patron.enabled {
-                parentController.dismiss(animated: true)
-            } else {
-                parentController.presentingViewController?.dismiss(animated: true)
-            }
-
+            parentController.dismiss(animated: true)
             return
         }
 
         let navigationController = parentController as? UINavigationController
 
         let controller: UIViewController
-        if FeatureFlag.patron.enabled, SubscriptionHelper.activeTier == .patron {
+        if SubscriptionHelper.activeTier == .patron {
             controller = PatronWelcomeViewModel.make(in: navigationController)
         } else {
             controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
@@ -170,12 +165,8 @@ private extension PlusPurchaseModel {
             navigationController.setViewControllers([controller], animated: true)
         }
 
-        // Dismiss the current flow
-        if FeatureFlag.patron.enabled {
-            presentNextBlock()
-        } else {
-            parentController.dismiss(animated: true, completion: presentNextBlock)
-        }
+        // Dismiss the current flow        
+        presentNextBlock()
     }
 }
 

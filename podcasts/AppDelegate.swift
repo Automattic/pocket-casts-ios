@@ -58,8 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupRoutes()
 
-        DataManager.sharedManager.bookmarksEnabled = FeatureFlag.bookmarks.enabled
-
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
         checkDefaults()
@@ -279,10 +277,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault),
             Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
             Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
-            Constants.RemoteParams.patronEnabled: NSNumber(value: Constants.RemoteParams.patronEnabledDefault),
             Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
-            Constants.RemoteParams.bookmarksEnabled: NSNumber(value: Constants.RemoteParams.bookmarksEnabledDefault),
             Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
+            Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
         ])
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
@@ -298,13 +295,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func updateRemoteFeatureFlags() {
         #if !DEBUG
         do {
-            try FeatureFlagOverrideStore().override(FeatureFlag.patron, withValue: Settings.patronEnabled)
-            try FeatureFlagOverrideStore().override(FeatureFlag.bookmarks, withValue: Settings.remoteBookmarksEnabled)
+            if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
+                // If the player transition changes we dismiss the full screen player
+                // Otherwise this might lead to crashes or weird behavior
+                appDelegate()?.miniPlayer()?.closeFullScreenPlayer()
+                try FeatureFlagOverrideStore().override(FeatureFlag.newPlayerTransition, withValue: Settings.newPlayerTransition)
+            }
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
             IapHelper.shared.requestProductInfoIfNeeded()
         } catch {
-            FileLog.shared.addMessage("Failed to set the patron remote feature flag: \(error)")
+            FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
         }
         #endif
     }

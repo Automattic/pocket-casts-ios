@@ -16,7 +16,7 @@ enum PlayerTabs: Int {
         case .nowPlaying:
             return L10n.nowPlaying
         case .showNotes:
-            return FeatureFlag.bookmarks.enabled ? L10n.playerShowNotesTitle : L10n.showNotes
+            return L10n.playerShowNotesTitle
         case .chapters:
             return L10n.chapters
         case .bookmarks:

@@ -112,6 +112,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(.userLoginDidChange, selector: #selector(handleDataChangedNotification))
         addCustomObserver(.serverUserWillBeSignedOut, selector: #selector(handleDataChangedNotification))
         addCustomObserver(.whatsNewDismissed, selector: #selector(whatsNewDismissed))
+        addCustomObserver(EndOfYear.eoyEligibilityDidChange, selector: #selector(handleDataChangedNotification))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         if promoRedeemedMessage != nil {
@@ -156,17 +157,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
-    }
-
-    func showProfileSetupController() {
-        if FeatureFlag.onboardingUpdates.enabled {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.loggedOut])
-            return
-        }
-
-        let profileIntroController = ProfileIntroViewController()
-        let navController = SJUIUtils.popupNavController(for: profileIntroController)
-        present(navController, animated: true, completion: nil)
     }
 
     private func showAccountController() {

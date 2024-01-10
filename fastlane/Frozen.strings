@@ -59,6 +59,12 @@
 /* A common string used throughout the app. An accessibility label to direct the user to sort and option menus. */
 "accessibility_sort_and_options" = "Sort and Options";
 
+/* Accessibility label for episode playback progress scrubber */
+"accessibility_playback_progress" = "%1$@ of %2$@";
+
+/* Accessibility label for episode playback scrubber */
+"accessibility_episode_playback" = "Episode Playback";
+
 /* Prompt to allow the user to update the email associated to their account. */
 "account_change_email" = "Change Email";
 
@@ -707,7 +713,7 @@
 /* Region name for United States used in the Discover Section */
 "discover_region_united_states" = "United States";
 
-/* Region name used in the Discover Section for a genreic global setting instead of a specific region. */
+/* Region name used in the Discover Section for a generic global setting instead of a specific region. */
 "discover_region_worldwide" = "Worldwide";
 
 /* Error message when a user performs a search using a search term that's too short. */
@@ -962,7 +968,7 @@
 /* Used on the screen to create a new filter. The prompt about what they can do in order to make sure their filter returns results. */
 "filter_create_no_episodes_description_prompt" = "Choose different criteria, or save this filter if you think it will match episodes in the future.";
 
-/* Used on the screen to create a new filter. The section that shows a preview of waht podcast episodes will be included in the filter. */
+/* Used on the screen to create a new filter. The section that shows a preview of what podcast episodes will be included in the filter. */
 "filter_create_preview" = "PREVIEW";
 
 /* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
@@ -1502,10 +1508,10 @@
 /* Used in the player to describe effects you can use to change audio playback. Things like speed, volume, etc. */
 "playback_effects" = "Playback effects";
 
-/* Description for the empty state on screen where the user can review their starred (favorited) podcast epsiodes */
+/* Description for the empty state on screen where the user can review their starred (favorited) podcast episodes */
 "profile_starred_no_episodes_desc" = "You haven't starred any episodes yet.";
 
-/* Title for the empty state on screen where the user can review their starred (favorited) podcast epsiodes */
+/* Title for the empty state on screen where the user can review their starred (favorited) podcast episodes */
 "profile_starred_no_episodes_title" = "Nothing Starred";
 
 /* Used next to a setting for how fast audio will play */
@@ -2661,7 +2667,7 @@
 "settings_read_privacy_policy" = "Read privacy policy";
 
 /* Title of the status page, to check the status of the user's connection. */
-"settings_status_page" = "Status Page";
+"settings_connection_status" = "Connection Status";
 
 /* Label explaining the purpose of the Status Page */
 "settings_status_description" = "Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.";
@@ -3568,7 +3574,7 @@
 "eoy_story_top_podcasts_share_text" = "My top podcasts of the year! %1$@";
 
 /* Title of a list of podcasts created containing the user's top 5 podcasts of 2022. */
-"eoy_story_top_podcasts_list_title" = "My top podcasts of 2022";
+"eoy_story_top_podcasts_list_title" = "My top podcasts of the year!";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
 "eoy_story_longest_episode" = "The longest episode you listened to was %1$@";
@@ -3651,10 +3657,10 @@
 /* Title of the story paywall. Telling the users that there are more stories to check. */
 "eoy_theres_more" = "There’s more!";
 
-/* Subtitle explaining the user why they should susbcribe to Plus in the context of the end of year stories. */
+/* Subtitle explaining the user why they should subscribe to Plus in the context of the end of year stories. */
 "eoy_subscribe_to_plus" = "Subscribe to Plus and find out how your listening compares to 2022, other fun stats, and Premium features like bookmarks and folders.";
 
-/* Subtitle explaining the user why they should susbcribe to Plus in the context of the end of year stories. */
+/* Subtitle explaining the user why they should subscribe to Plus in the context of the end of year stories. */
 "eoy_start_your_free_trial" = "Start your Free Trial";
 
 /* Title of an alert displayed to the user asking if they want to share the current story */
@@ -3759,7 +3765,7 @@
 /* Sub title of a view that informs the user what will happen if they cancel their subscription */
 "cancel_confirm_subtitle" = "This will change your plan to a free account.";
 
-/* Title of a list item that informs the user the date their subscription will expire. %1$@ is the date of expiriation */
+/* Title of a list item that informs the user the date their subscription will expire. %1$@ is the date of expiration */
 "cancel_confirm_sub_expiry" = "Your current subscription will remain active until %1$@.";
 
 /* Item that appears in place of the user's missing expiration date if it's not available. */
@@ -3780,7 +3786,7 @@
 /* Button title that lets the user stop the cancellation process */
 "cancel_confirm_stay_button_title" =  "Actually, I want to stay";
 
-/* Button title that lets the user contine the cancellation process */
+/* Button title that lets the user continue the cancellation process */
 "cancel_confirm_cancel_button_title" =  "Yes, Cancel my Subscription";
 
 /* Label of a button that lets the user login/signup with Apple */
@@ -3962,6 +3968,18 @@
 
 /* Message of an alert that informs the user purchasing is disabled in the beta. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. %1$@ is the name of the tier (Plus or Patron)*/
 "beta_purchase_disabled" = "Please download Pocket Casts from the App Store to purchase %1$@.";
+
+/* Title of a message shown when the users data is being exported */
+"exporting_database" = "Exporting Database...";
+
+/* Title of an option to export the users data */
+"export_database" = "Export Database";
+
+/* Title of a setting that lets the user use dark mode for the up next */
+"settings_up_next_dark_mode_title" = "Use Dark Up Next Theme";
+
+/* Description explaining to the user what up next dark mode means. */
+"settings_up_next_dark_mode_footer" = "When enabled the Up Next will always use the dark theme, or will match the current theme when disabled.";
 
 /* MARK: - InfoPlist.strings */
 

@@ -81,6 +81,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     /// The velocity in which the player was dismissed
     var dismissVelocity: CGFloat = 0
 
+    /// The final yPosition when dismissing
+    var finalYPositionWhenDismissing: CGFloat = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.accessibilityViewIsModal = true
@@ -129,6 +132,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         present(navController, animated: true, completion: nil)
     }
 
+    // MARK: - Orientation
+
+    // we implement this here to lock all views (except presented modal VCs to portrait)
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        .portrait
+    }
+
     // MARK: - PlayerItemContainerDelegate
 
     func scrollToCurrentChapter() {
@@ -145,6 +155,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     func scrollToBookmarks() {
         scroll(to: .bookmarks)
+    }
+
+    func navigateToPodcast() {
+        guard let podcast = PlaybackManager.shared.currentPodcast else {
+            return
+        }
+        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
     }
 
     // MARK: - PlayerTabDelegate

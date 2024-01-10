@@ -476,7 +476,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社会与文化</string>
+    <string>文化</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>精神生活</string>
     <key>discover_browse_by_category_sports</key>
@@ -751,7 +751,7 @@
     <key>eoy_story_top_podcasts</key>
     <string>您的热门播客</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>我的 2022 年热门播客</string>
+    <string>我的年度热门播客！</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>我的年度热门播客！%1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -818,12 +818,16 @@
     <string>错误</string>
     <key>error_general_podcast_not_found</key>
     <string>无法找到播客。 请联系播客作者。</string>
+    <key>export_database</key>
+    <string>导出数据库</string>
     <key>export_podcasts_description</key>
     <string>将所有播客导出为 OPML 文件，您可以将其导入到其他播客应用程序中。</string>
     <key>export_podcasts_option</key>
     <string>导出播客</string>
     <key>export_podcasts_title</key>
     <string>导出</string>
+    <key>exporting_database</key>
+    <string>正在导出数据库…</string>
     <key>feature_tour_end_tour</key>
     <string>结束浏览</string>
     <key>feature_tour_new</key>
@@ -2015,6 +2019,8 @@
     <string>收集信息</string>
     <key>settings_collect_information_additional_information</key>
     <string>允许我们收集分析数据有助于我们构建更好的应用。 如果您不愿意分享共享此信息，我们也能理解。</string>
+    <key>settings_connection_status</key>
+    <string>连接状态</string>
     <key>settings_create_siri_shortcut</key>
     <string>创建 Siri 快捷方式</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2243,8 +2249,6 @@
     <string>检查网络的状态。</string>
     <key>settings_status_internet_failure_message</key>
     <string>无法连接到互联网。 尝试在不同的网络上连接（例如移动数据）。</string>
-    <key>settings_status_page</key>
-    <string>状态页</string>
     <key>settings_status_refresh_service</key>
     <string>刷新服务</string>
     <key>settings_status_refresh_service_description</key>
@@ -2269,6 +2273,10 @@
     <string>剪裁水平</string>
     <key>settings_trim_silence</key>
     <string>剪裁静音</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>启用后，“下一个”将始终使用深色主题；禁用后，将与当前主题匹配。</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>使用深色的“下一个”主题</string>
     <key>settings_up_next_limit</key>
     <string>自动将新剧集添加到“接下来播放”。 当“接下来播放”达到 %1$@，系统将停止添加新剧集。</string>
     <key>settings_up_next_limit_add_to_top</key>

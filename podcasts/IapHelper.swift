@@ -8,7 +8,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     static let shared = IapHelper()
 
     private var productIdentifiers: [Constants.IapProducts] {
-        FeatureFlag.patron.enabled ? [.monthly, .yearly, .patronMonthly, .patronYearly] : [.monthly, .yearly]
+        [.monthly, .yearly, .patronMonthly, .patronYearly]
     }
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!

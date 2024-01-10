@@ -476,7 +476,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社会 / 文化</string>
+    <string>カルチャー</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>スピリチュアル</string>
     <key>discover_browse_by_category_sports</key>
@@ -751,7 +751,7 @@
     <key>eoy_story_top_podcasts</key>
     <string>人気のポッドキャスト</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>私の2022年のトップポッドキャスト</string>
+    <string>今年再生数が多かったポッドキャストはこちら !</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>今年私が一番よく聴いたポッドキャスト ! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -818,12 +818,16 @@
     <string>エラー</string>
     <key>error_general_podcast_not_found</key>
     <string>ポッドキャストが見つかりません。 ポッドキャストの作成者に連絡してください。</string>
+    <key>export_database</key>
+    <string>データベースをエクスポート</string>
     <key>export_podcasts_description</key>
     <string>すべてのポッドキャストを OPML ファイルとしてエクスポートして、他のポッドキャストアプリにインポートできます。</string>
     <key>export_podcasts_option</key>
     <string>ポッドキャストのエクスポート</string>
     <key>export_podcasts_title</key>
     <string>エクスポート</string>
+    <key>exporting_database</key>
+    <string>データベースをエクスポート中...</string>
     <key>feature_tour_end_tour</key>
     <string>ツアーを終了</string>
     <key>feature_tour_new</key>
@@ -2014,6 +2018,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>情報を収集</string>
     <key>settings_collect_information_additional_information</key>
     <string>アナリティクスの収集を許可することで、より優れたアプリを構築できます。この情報を共有したくない場合は考慮されます。</string>
+    <key>settings_connection_status</key>
+    <string>接続状況</string>
     <key>settings_create_siri_shortcut</key>
     <string>Siri ショートカットを作成</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2242,8 +2248,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ネットワークのステータスを確認してください。</string>
     <key>settings_status_internet_failure_message</key>
     <string>インターネットに接続できません。 別のネットワーク (モバイルデータなど) に接続してみてください。</string>
-    <key>settings_status_page</key>
-    <string>ステータスページ</string>
     <key>settings_status_refresh_service</key>
     <string>サービスの再読み込み</string>
     <key>settings_status_refresh_service_description</key>
@@ -2268,6 +2272,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>カットレベル</string>
     <key>settings_trim_silence</key>
     <string>無音時間をカット</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>有効にすると、「次のエピソード待機リスト」では常にダークテーマを使用し、無効にすると現在のテーマと一致します。</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>次のエピソード待機リストのダークテーマを使用</string>
     <key>settings_up_next_limit</key>
     <string>次のエピソードに新しいエピソードを自動的に追加します。 次のエピソード数が%1$@件に達したときに新しいエピソードは追加されなくなります。</string>
     <key>settings_up_next_limit_add_to_top</key>

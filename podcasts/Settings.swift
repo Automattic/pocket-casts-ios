@@ -797,11 +797,7 @@ class Settings: NSObject {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
         }
         get {
-            guard FeatureFlag.autoplay.enabled else {
-                return false
-            }
-
-            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
         }
     }
 
@@ -884,6 +880,11 @@ class Settings: NSObject {
             return remote.boolValue
         }
 
+        static var newPlayerTransition: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.newPlayerTransition)
+            return remote.boolValue
+        }
+
         static var effectsPlayerStrategy: EffectsPlayerStrategy? {
             let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.effectsPlayerStrategy)
             return EffectsPlayerStrategy(rawValue: remote.numberValue.intValue)
@@ -891,11 +892,7 @@ class Settings: NSObject {
 
         static var plusCloudStorageLimit: Int {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.customStorageLimitGB).numberValue.intValue
-        }
-
-        static var patronEnabled: Bool {
-            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronEnabled).boolValue
-        }
+        }        
 
         static var patronCloudStorageLimit: Int {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronCloudStorageGB).numberValue.intValue
@@ -905,10 +902,6 @@ class Settings: NSObject {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
             return TimeInterval(remoteMs.numberValue.doubleValue / 1000)
-        }
-
-        static var remoteBookmarksEnabled: Bool {
-            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.bookmarksEnabled).boolValue
         }
     #endif
 }

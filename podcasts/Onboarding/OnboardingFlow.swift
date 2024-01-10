@@ -22,12 +22,8 @@ struct OnboardingFlow {
             flowController = upgradeController(in: navigationController, context: context)
 
         case .plusAccountUpgrade:
-            if FeatureFlag.patron.enabled {
-                self.source = source ?? "unknown"
-                flowController = upgradeController(in: navigationController, context: context)
-            } else {
-                flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
-            }
+            self.source = source ?? "unknown"
+            flowController = upgradeController(in: navigationController, context: context)            
 
         case .patronAccountUpgrade:
             self.source = source ?? "unknown"
@@ -120,13 +116,15 @@ struct OnboardingFlow {
         /// When the user is brought into the onboarding flow from the End Of Year stories
         case endOfYearUpsell
 
+        case promoCode = "promo_code"
+
         var analyticsDescription: String { rawValue }
 
         /// If after a successful sign in or sign up the onboarding flow
         /// should be dismissed right away
         var shouldDismiss: Bool {
             switch self {
-            case .sonosLink, .forcedLoggedOut:
+            case .sonosLink, .forcedLoggedOut, .promoCode:
                 return true
             default:
                 return false

@@ -94,7 +94,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
         // Show the 'Upgrade Account' if the user has an active subscription that isn't patron.
         // Hide the cell if we're already showing the big upgrade prompt
-        let upgradeRow = (FeatureFlag.patron.enabled && SubscriptionHelper.activeTier == .plus && !isExpiring) ? TableRow.upgradeAccount : nil
+        let upgradeRow = (SubscriptionHelper.activeTier == .plus && !isExpiring) ? TableRow.upgradeAccount : nil
 
         // Only accounts created with username/password can change email/password
         var accountOptions: [TableRow]
@@ -107,7 +107,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         if SubscriptionHelper.hasActiveSubscription() {
             var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
-            if SubscriptionHelper.activeSubscriptionType != .none {
+            if SubscriptionHelper.hasRenewingSubscription() {
                 newTableRows[0].append(.cancelSubscription)
             }
 
@@ -146,16 +146,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     }
 
     // MARK: - Actions
-
-    @IBAction func upgradeTapped(_ sender: Any) {
-        showUpgradeOptions()
-    }
-
-    func showUpgradeOptions() {
-        let newSubscription = NewSubscription(isNewAccount: false, iap_identifier: "")
-        let termsOfUseVC = TermsViewController(newSubscription: newSubscription)
-        present(SJUIUtils.popupNavController(for: termsOfUseVC), animated: true, completion: nil)
-    }
 
     @objc func newsletterOptInChanged(_ sender: UISwitch) {
         Analytics.track(.newsletterOptInChanged, properties: ["enabled": sender.isOn, "source": "profile"])

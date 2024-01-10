@@ -54,8 +54,6 @@ extension MiniPlayerViewController {
 
             playerOpenState = .animating
 
-            fullScreenPlayer.modalPresentationStyle = .overCurrentContext
-
             presentFromRootController(fullScreenPlayer, animated: true) {
                 self.playerOpenState = .open
                 self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
@@ -97,7 +95,7 @@ extension MiniPlayerViewController {
         guard !FeatureFlag.newPlayerTransition.enabled else {
             playerOpenState = .animating
 
-            fullScreenPlayer?.dismiss(animated: true) {
+            rootViewController()?.dismiss(animated: true) {
                 self.finishedWithFullScreenPlayer()
                 self.playerOpenState = .closed
                 Analytics.track(.playerDismissed)

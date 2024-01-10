@@ -476,7 +476,7 @@
     <key>discover_browse_by_category_society</key>
     <string>Общество</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Общество и культура</string>
+    <string>Культура</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Духовность</string>
     <key>discover_browse_by_category_sports</key>
@@ -751,7 +751,7 @@
     <key>eoy_story_top_podcasts</key>
     <string>Ваши любимые подкасты</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>Мои любимые подкасты в 2022 году</string>
+    <string>Мои любимые подкасты этого года!</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Мои любимые подкасты этого года! %1$@</string>
     <key>eoy_story_top_podcasts_subtitle</key>
@@ -818,12 +818,16 @@
     <string>Ошибка</string>
     <key>error_general_podcast_not_found</key>
     <string>Не удается найти подкаст. Свяжитесь с автором подкаста.</string>
+    <key>export_database</key>
+    <string>Экспортировать базу данных</string>
     <key>export_podcasts_description</key>
     <string>Экспортирует все ваши подкасты в файл OPML, который можно импортировать в другие приложения для подкастов.</string>
     <key>export_podcasts_option</key>
     <string>Экспорт подкастов</string>
     <key>export_podcasts_title</key>
     <string>ЭКСПОРТ</string>
+    <key>exporting_database</key>
+    <string>Экспорт базы данных…</string>
     <key>feature_tour_end_tour</key>
     <string>Завершить ознакомительный тур</string>
     <key>feature_tour_new</key>
@@ -2015,6 +2019,8 @@
     <string>Сбор информации</string>
     <key>settings_collect_information_additional_information</key>
     <string>Разрешая собирать аналитические данные, вы помогаете нам улучшать приложение. Мы поймём, если вы решите не предоставлять эту информацию.</string>
+    <key>settings_connection_status</key>
+    <string>Состояние подключения</string>
     <key>settings_create_siri_shortcut</key>
     <string>Создать шорткат Siri</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2243,8 +2249,6 @@
     <string>Проверьте статус своей сети.</string>
     <key>settings_status_internet_failure_message</key>
     <string>Не удаётся подключиться к Интернету. Попробуйте подключиться через другую сеть (например, мобильную).</string>
-    <key>settings_status_page</key>
-    <string>Страница состояния</string>
     <key>settings_status_refresh_service</key>
     <string>Сервис обновления</string>
     <key>settings_status_refresh_service_description</key>
@@ -2269,6 +2273,10 @@
     <string>Громкость в паузах</string>
     <key>settings_trim_silence</key>
     <string>Удалить паузы</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>При включённом параметре Up Next будет всегда использовать тёмную тему, а при выключенном — соответствовать текущей теме.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Использовать тёмную тему Up Next</string>
     <key>settings_up_next_limit</key>
     <string>Автоматически добавлять новые выпуски в список «Следующие». Новые выпуски перестанут добавляться, когда размер очереди «Следующие» достигнет %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>

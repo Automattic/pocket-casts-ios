@@ -295,12 +295,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
-        guard FeatureFlag.onboardingUpdates.enabled else {
-            let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
-            presentingController?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
-            return
-        }
-
         let controller = OnboardingFlow.shared.begin(flow: flow, source: source.rawValue, context: context)
         presentingController?.present(controller, animated: true, completion: nil)
     }
@@ -373,6 +367,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func showHeadphoneSettings() {
+        let state = NavigationManager.sharedManager.miniPlayer?.playerOpenState
+
+        // Dismiss any presented views if the player is not already open/dismissing since it will dismiss itself
+        if state != .open, state != .animating {
+            dismissPresentedViewController()
+        }
+
         switchToTab(.profile)
         if let navController = selectedViewController as? UINavigationController {
             navController.popToRootViewController(animated: false)

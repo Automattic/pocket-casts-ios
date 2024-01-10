@@ -19,7 +19,7 @@ public extension String {
         }
     }
 
-    /// This contains a list of strings that can come from the server. This methid provides a helper to quickly lookup the localized versions.
+    /// This contains a list of strings that can come from the server. This method provides a helper to quickly lookup the localized versions.
     var localized: String {
         switch lowercased() {
         case "featured":

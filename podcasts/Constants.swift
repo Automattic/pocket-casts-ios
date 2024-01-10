@@ -324,17 +324,14 @@ struct Constants {
         static let effectsPlayerStrategy = "effects_player_strategy"
         static let effectsPlayerStrategyDefault: Int = 1
 
-        static let patronEnabled = "add_patron_enabled"
-        static let patronEnabledDefault = true
-
         static let patronCloudStorageGB = "patron_custom_storage_limit_gb"
         static let patronCloudStorageGBDefault = 100
 
-        static let bookmarksEnabled = "bookmarks_enabled"
-        static let bookmarksEnabledDefault = true
-
         static let addMissingEpisodes = "add_missing_episodes"
         static let addMissingEpisodesDefault: Bool = true
+
+        static let newPlayerTransition = "new_player_transition"
+        static let newPlayerTransitionDefault: Bool = true
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
@@ -402,6 +399,8 @@ enum PlusUpgradeViewSource: String {
     case watch
     case unknown
     case endOfYear
+    case promoCode
+    case promotionFinished
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {
