@@ -1,3 +1,7 @@
+7.56
+----
+- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads.
+
 7.55
 -----
 - Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
