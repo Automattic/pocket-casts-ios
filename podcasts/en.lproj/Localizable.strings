@@ -3976,3 +3976,6 @@
 
 /* Description explaining to the user what up next dark mode means. */
 "settings_up_next_dark_mode_footer" = "When enabled the Up Next will always use the dark theme, or will match the current theme when disabled.";
+
+/* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
+"accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";

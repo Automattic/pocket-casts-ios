@@ -44,6 +44,8 @@ internal enum L10n {
   internal static var accessibilityEpisodePlayback: String { return L10n.tr("Localizable", "accessibility_episode_playback") }
   /// Tap to hide filter details
   internal static var accessibilityHideFilterDetails: String { return L10n.tr("Localizable", "accessibility_hide_filter_details") }
+  /// Tap to navigate to main podcast information page
+  internal static var accessibilityHintPlayerNavigateToPodcastLabel: String { return L10n.tr("Localizable", "accessibility_hint_player_navigate_to_podcast_label") }
   /// Double tap to star episode
   internal static var accessibilityHintStar: String { return L10n.tr("Localizable", "accessibility_hint_star") }
   /// Double tap to remove star from episode
