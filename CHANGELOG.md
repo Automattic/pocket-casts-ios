@@ -1,7 +1,6 @@
 7.56
 ----
-- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads.
------
+- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads [#1183]
 - Adds Star button to CarPlay Now Playing screen [#1332]
 
 7.55
