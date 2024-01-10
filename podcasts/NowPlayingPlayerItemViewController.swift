@@ -295,7 +295,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func podcastNameTapped() {
-        Analytics.track(.playerPodcastLinkTapped)
+        Analytics.track(.playerPodcastNameTapped)
         containerDelegate?.navigateToPodcast()
     }
 
