@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "2BB9E4CD-AE7A-42AC-AD4A-4A006E45D86B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:podcasts.xcodeproj",
+        "identifier" : "F5D46F752B4CBA52006B1D8B",
+        "name" : "PocketCastsUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

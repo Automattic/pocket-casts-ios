@@ -63,6 +63,17 @@
                ReferencedContainer = "container:podcasts.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F5D46F752B4CBA52006B1D8B"
+               BuildableName = "PocketCastsUITests.xctest"
+               BlueprintName = "PocketCastsUITests"
+               ReferencedContainer = "container:podcasts.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

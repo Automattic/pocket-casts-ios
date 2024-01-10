@@ -1591,6 +1591,8 @@
 		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
+		F5D46F792B4CBA52006B1D8B /* PocketCastsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D46F782B4CBA52006B1D8B /* PocketCastsUITests.swift */; };
+		F5D46F7B2B4CBA52006B1D8B /* PocketCastsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D46F7A2B4CBA52006B1D8B /* PocketCastsUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1698,6 +1700,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BDEFBA131E6D3C2300B9024B;
 			remoteInfo = NotificationContent;
+		};
+		F5D46F7C2B4CBA52006B1D8B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BDBD53EB17019B2A0048C8C5;
+			remoteInfo = podcasts;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -3353,6 +3362,10 @@
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F5D46F762B4CBA52006B1D8B /* PocketCastsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketCastsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5D46F782B4CBA52006B1D8B /* PocketCastsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsUITests.swift; sourceTree = "<group>"; };
+		F5D46F7A2B4CBA52006B1D8B /* PocketCastsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F5D46F822B4CBABF006B1D8B /* UITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UITests.xctestplan; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3470,6 +3483,13 @@
 			files = (
 				BDEFBA171E6D3C2300B9024B /* UserNotificationsUI.framework in Frameworks */,
 				BDEFBA151E6D3C2300B9024B /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5D46F732B4CBA52006B1D8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5737,6 +5757,7 @@
 				46AFC23527AB19CE004B026F /* Screenshot Automation Watch */,
 				45ECEF7C27E910E300C65030 /* PocketCastsTests */,
 				2F90990C2A4F88B10044FC55 /* Share Extension */,
+				F5D46F772B4CBA52006B1D8B /* PocketCastsUITests */,
 				BDBD53EE17019B2A0048C8C5 /* Frameworks */,
 				BDBD53ED17019B2A0048C8C5 /* Products */,
 				0AEDA899EF3BB3B8C0034C76 /* Pods */,
@@ -5758,6 +5779,7 @@
 				46AFC23427AB19CE004B026F /* Screenshot Automation Watch.xctest */,
 				45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */,
 				2F90990B2A4F88B00044FC55 /* Share Extension.appex */,
+				F5D46F762B4CBA52006B1D8B /* PocketCastsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -7211,6 +7233,16 @@
 			path = Chapters;
 			sourceTree = "<group>";
 		};
+		F5D46F772B4CBA52006B1D8B /* PocketCastsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				F5D46F822B4CBABF006B1D8B /* UITests.xctestplan */,
+				F5D46F782B4CBA52006B1D8B /* PocketCastsUITests.swift */,
+				F5D46F7A2B4CBA52006B1D8B /* PocketCastsUITestsLaunchTests.swift */,
+			);
+			path = PocketCastsUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -7483,6 +7515,24 @@
 			productReference = BDEFBA141E6D3C2300B9024B /* NotificationContent.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		F5D46F752B4CBA52006B1D8B /* PocketCastsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F5D46F812B4CBA53006B1D8B /* Build configuration list for PBXNativeTarget "PocketCastsUITests" */;
+			buildPhases = (
+				F5D46F722B4CBA52006B1D8B /* Sources */,
+				F5D46F732B4CBA52006B1D8B /* Frameworks */,
+				F5D46F742B4CBA52006B1D8B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F5D46F7D2B4CBA52006B1D8B /* PBXTargetDependency */,
+			);
+			name = PocketCastsUITests;
+			productName = PocketCastsUITests;
+			productReference = F5D46F762B4CBA52006B1D8B /* PocketCastsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -7490,7 +7540,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SJ;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "Shifty Jelly";
 				TargetAttributes = {
@@ -7570,6 +7620,10 @@
 						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
+					F5D46F752B4CBA52006B1D8B = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = BDBD53EB17019B2A0048C8C5;
+					};
 				};
 			};
 			buildConfigurationList = BDBD53E717019B290048C8C5 /* Build configuration list for PBXProject "podcasts" */;
@@ -7623,6 +7677,7 @@
 				46AFC23327AB19CE004B026F /* Screenshot Automation Watch */,
 				45ECEF7A27E910E300C65030 /* PocketCastsTests */,
 				2F90990A2A4F88B00044FC55 /* Share Extension */,
+				F5D46F752B4CBA52006B1D8B /* PocketCastsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -8217,6 +8272,13 @@
 				BDEED1561EB07C7D003FE87D /* Assets.xcassets in Resources */,
 				BDEFBA1D1E6D3C2300B9024B /* MainInterface.storyboard in Resources */,
 				8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5D46F742B4CBA52006B1D8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9490,6 +9552,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F5D46F722B4CBA52006B1D8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5D46F792B4CBA52006B1D8B /* PocketCastsUITests.swift in Sources */,
+				F5D46F7B2B4CBA52006B1D8B /* PocketCastsUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -9567,6 +9638,11 @@
 			isa = PBXTargetDependency;
 			target = BDEFBA131E6D3C2300B9024B /* NotificationContent */;
 			targetProxy = BDEFBA1F1E6D3C2300B9024B /* PBXContainerItemProxy */;
+		};
+		F5D46F7D2B4CBA52006B1D8B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BDBD53EB17019B2A0048C8C5 /* podcasts */;
+			targetProxy = F5D46F7C2B4CBA52006B1D8B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -11167,6 +11243,121 @@
 			};
 			name = Release;
 		};
+		F5D46F7E2B4CBA53006B1D8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PocketCastsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = podcasts;
+			};
+			name = Debug;
+		};
+		F5D46F7F2B4CBA53006B1D8B /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PocketCastsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = podcasts;
+			};
+			name = Staging;
+		};
+		F5D46F802B4CBA53006B1D8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PocketCastsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = podcasts;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -11306,6 +11497,16 @@
 				BDEFBA221E6D3C2300B9024B /* Debug */,
 				BD69A01D2266A9E400168459 /* Staging */,
 				BDEFBA231E6D3C2300B9024B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F5D46F812B4CBA53006B1D8B /* Build configuration list for PBXNativeTarget "PocketCastsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F5D46F7E2B4CBA53006B1D8B /* Debug */,
+				F5D46F7F2B4CBA53006B1D8B /* Staging */,
+				F5D46F802B4CBA53006B1D8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
