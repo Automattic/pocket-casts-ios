@@ -112,6 +112,14 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.currentEpisode()
     }
 
+    var currentPodcast: Podcast? {
+        if let episode = currentEpisode() as? Episode {
+            return episode.parentPodcast()
+        }
+
+        return nil
+    }
+
     func playing() -> Bool {
         if aboutToPlay.value { return true }
 
