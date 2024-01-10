@@ -81,6 +81,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     /// The velocity in which the player was dismissed
     var dismissVelocity: CGFloat = 0
 
+    /// The final yPosition when dismissing
+    var finalYPositionWhenDismissing: CGFloat = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.accessibilityViewIsModal = true
