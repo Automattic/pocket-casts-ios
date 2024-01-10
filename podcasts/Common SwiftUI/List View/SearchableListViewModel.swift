@@ -55,7 +55,7 @@ class SearchableListViewModel<Model: SearchableDataModel>: MultiSelectListViewMo
         return filteredItems.last == item
     }
 
-    /// Searchs the items with the given text
+    /// Search the items with the given text
     func search(with text: String) {
         let search = text.localizedLowercase.trim()
 
