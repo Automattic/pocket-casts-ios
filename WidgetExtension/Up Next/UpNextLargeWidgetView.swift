@@ -79,24 +79,30 @@ struct LargeFilterView: View {
     @Binding var episodes: [WidgetEpisode]
     @Binding var filterName: String?
 
+    @Environment(\.widgetColorScheme) var colorScheme
+    @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
+
     var body: some View {
         guard episodes.first != nil else {
             return AnyView(EmptyView())
         }
 
         return AnyView(
-            VStack(alignment: .leading, spacing: 0) {
-                VStack(spacing: 0) {
+            ZStack {
+                if showsWidgetBackground {
+                    Rectangle().fill(colorScheme.filterViewBackgroundColor)
+                }
+                VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top) {
                         if let filterName = filterName {
                             Text(filterName)
                                 .font(.callout)
                                 .fontWeight(.regular)
-                                .foregroundColor(Color.secondary)
+                                .foregroundColor(colorScheme.filterViewTextColor)
                                 .frame(height: 18)
                         }
                         Spacer()
-                        Image("logo_red_small")
+                        Image(colorScheme.filterViewIconAssetName)
                             .frame(width: 28, height: 28)
                             .unredacted()
                     }
@@ -107,22 +113,19 @@ struct LargeFilterView: View {
                             HStack {
                                 EpisodeView.createCompactWhenNecessaryView(episode: episode)
                                     .frame(minHeight: 42, maxHeight: 56)
-                                Spacer()
                             }
                         }
                     }
-                }.padding(16)
-                    .background(Rectangle().fill(Color.clear)
-                        .lightBackgroundShadow())
 
-                // TODO: check if this should be a check for 0 instead
-                if episodes.count == 1 {
-                    ZStack {
-                        Rectangle()
-                            .fill(darkBackgroundColor)
+                    Spacer()
+
+                    // TODO: check if this should be a check for 0 instead
+                    if episodes.count == 0 {
                         HungryForMoreView()
                     }
                 }
+                .padding(16)
+                .clearBackground()
             }
         )
     }

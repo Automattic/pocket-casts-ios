@@ -14,6 +14,9 @@ struct PCWidgetColorScheme {
     let topButtonTextColor: Color // foreground color?
     let bottomButtonTextColor: Color // foreground color?
     let iconAssetName: String
+    let filterViewBackgroundColor: Color
+    let filterViewTextColor: Color
+    let filterViewIconAssetName: String
 }
 
 let rgbMax = 255.0
@@ -30,7 +33,10 @@ let widgetColorSchemeBold = PCWidgetColorScheme(
     bottomTextColor: .white,
     topButtonTextColor: widgetRedLight,
     bottomButtonTextColor: .white,
-    iconAssetName: "logo_white_small_transparent"
+    iconAssetName: "logo_white_small_transparent",
+    filterViewBackgroundColor: widgetRedLight,
+    filterViewTextColor: .white,
+    filterViewIconAssetName: "logo_white_small_transparent"
 )
 
 let widgetColorSchemeContrast = PCWidgetColorScheme(
@@ -42,7 +48,10 @@ let widgetColorSchemeContrast = PCWidgetColorScheme(
     bottomTextColor: widgetBlack,
     topButtonTextColor: widgetRedDark,
     bottomButtonTextColor: .white,
-    iconAssetName: "logo_white_small_transparent"
+    iconAssetName: "logo_white_small_transparent",
+    filterViewBackgroundColor: .white,
+    filterViewTextColor: widgetBlack,
+    filterViewIconAssetName: "logo_red_small"
 )
 
 let widgetColorSchemeContrastNowPlaying = PCWidgetColorScheme(
@@ -54,7 +63,10 @@ let widgetColorSchemeContrastNowPlaying = PCWidgetColorScheme(
     bottomTextColor: widgetColorSchemeContrast.bottomTextColor,
     topButtonTextColor: widgetColorSchemeContrast.bottomButtonTextColor,
     bottomButtonTextColor: widgetColorSchemeContrast.bottomButtonTextColor,
-    iconAssetName: "logo_red_small"
+    iconAssetName: "logo_red_small",
+    filterViewBackgroundColor: .white, // not used in now playing
+    filterViewTextColor: .white, // not used in now playing,
+    filterViewIconAssetName: "logo_red_small" // not used in now playing
 )
 
 let widgetColorSchemeBoldNowPlaying = PCWidgetColorScheme(
@@ -66,7 +78,10 @@ let widgetColorSchemeBoldNowPlaying = PCWidgetColorScheme(
     bottomTextColor: widgetColorSchemeBold.topTextColor,
     topButtonTextColor: widgetColorSchemeBold.topButtonTextColor,
     bottomButtonTextColor: widgetColorSchemeBold.bottomButtonTextColor,
-    iconAssetName: "logo_white_small_transparent"
+    iconAssetName: "logo_white_small_transparent",
+    filterViewBackgroundColor: .white, // not used in now playing
+    filterViewTextColor: .white, // not used in now playing
+    filterViewIconAssetName: "logo_red_small" // not used in now playing
 )
 
 struct WidgetColorScheme: EnvironmentKey {

@@ -66,35 +66,43 @@ struct MediumFilterView: View {
     var secondEpisode: WidgetEpisode?
     var filterName: String
 
+    @Environment(\.widgetColorScheme) var colorScheme
+    @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
+
     private let logoHeight: CGFloat = 28
 
     var body: some View {
-        GeometryReader { geometry in
+        ZStack {
+            if showsWidgetBackground {
+                Rectangle().fill(colorScheme.filterViewBackgroundColor)
+            }
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top) {
                     Text(filterName)
                         .font(.callout)
                         .fontWeight(.regular)
-                        .foregroundColor(Color.secondary)
+                        .foregroundColor(colorScheme.filterViewTextColor)
                         .frame(height: 18)
                     Spacer()
-                    Image("logo_red_small")
+                    Image(colorScheme.filterViewIconAssetName)
                         .frame(width: 28, height: 28)
                         .unredacted()
                 }
                 .frame(height: 32)
-                EpisodeView.createCompactWhenNecessaryView(episode: firstEpisode)
-                    .frame(minHeight: 40, maxHeight: 56)
-                Spacer().frame(minHeight: 8, maxHeight: 10)
-                if let secondEpisode = secondEpisode {
-                    EpisodeView.createCompactWhenNecessaryView(episode: secondEpisode)
-                        .frame(minHeight: 40, maxHeight: 56)
-                } else {
-                    Spacer()
+
+                VStack(alignment: .leading, spacing: 10) {
+                    EpisodeView.createCompactWhenNecessaryView(episode: firstEpisode)
                         .frame(minHeight: 42, maxHeight: 56)
+                    if let secondEpisode = secondEpisode {
+                        EpisodeView.createCompactWhenNecessaryView(episode: secondEpisode)
+                            .frame(minHeight: 42, maxHeight: 56)
+                    } else {
+                        Spacer()
+                            .frame(minHeight: 42, maxHeight: 56)
+                    }
                 }
             }
-            .padding(geometry.size.height > 155 ? 16 : 12)
+            .padding(16)
             .clearBackground()
         }
     }

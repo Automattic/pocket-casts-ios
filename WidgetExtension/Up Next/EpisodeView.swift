@@ -16,7 +16,7 @@ struct EpisodeView: View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
                 SmallArtworkView(imageData: episode.imageData)
-                    .frame(width: 52, height: 52)
+                    .frame(maxWidth: 52, maxHeight: 52)
                 VStack(alignment: .leading) {
                     Text(episode.episodeTitle)
                         .font(.footnote)

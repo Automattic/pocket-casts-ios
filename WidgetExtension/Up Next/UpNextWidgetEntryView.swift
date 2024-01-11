@@ -39,7 +39,7 @@ struct UpNextWidgetEntryView: View {
                 Spacer()
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            .background(darkBackgroundColor) // TODO: what should this be?
+            .background(colorScheme.topBackgroundColor) // TODO: what should this be?
         }
     }
 }
