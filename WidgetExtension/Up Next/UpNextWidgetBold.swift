@@ -4,8 +4,9 @@ import WidgetKit
 struct UpNextWidgetBold: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "Up_Next_Widget_Bold", provider: UpNextProvider()) { entry in
-            UpNextWidgetEntryView(entry: entry, colorScheme: widgetColorSchemeBold)
+            UpNextWidgetEntryView(entry: entry)
                 .clearBackground()
+                .environment(\.widgetColorScheme, widgetColorSchemeBold)
         }
         .contentMarginsDisabledIfAvailable()
         .configurationDisplayName(L10n.upNext)

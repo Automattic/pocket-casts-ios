@@ -4,8 +4,9 @@ import WidgetKit
 struct NowPlayingWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "Now_Playing_Widget", provider: NowPlayingProvider()) { entry in
-            NowPlayingWidgetEntryView(entry: entry, colorScheme: widgetColorSchemeContrastNowPlaying)
+            NowPlayingWidgetEntryView(entry: entry)
                 .clearBackground()
+                .environment(\.widgetColorScheme, widgetColorSchemeContrastNowPlaying)
         }
         .contentMarginsDisabledIfAvailable()
         .configurationDisplayName(L10n.nowPlaying)

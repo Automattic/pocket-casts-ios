@@ -4964,9 +4964,9 @@
 				BD422EBC26840DAD0078B799 /* NowPlayingProvider.swift */,
 				BD422EBE26840DE20078B799 /* NowPlayingEntry.swift */,
 				4090978425236B0400CED68C /* NowPlayingWidget.swift */,
+				45CF3E2F2B47598400FF4BE7 /* NowPlayingWidgetBold.swift */,
 				BD422EC026840E140078B799 /* NowPlayingEntryView.swift */,
 				8B71828928CF651D00B98F04 /* NowPlayingLockScreenWidget.swift */,
-				45CF3E2F2B47598400FF4BE7 /* NowPlayingWidgetBold.swift */,
 			);
 			path = "Now Playing";
 			sourceTree = "<group>";
@@ -4982,9 +4982,9 @@
 				BD422ECF26841BB40078B799 /* EpisodeView.swift */,
 				BD422ED126841BF10078B799 /* HungryForMoreView.swift */,
 				4090978225236B0300CED68C /* UpNextWidget.swift */,
+				45CF3E2D2B4738F100FF4BE7 /* UpNextWidgetBold.swift */,
 				BD422ED326841C340078B799 /* UpNextStyles.swift */,
 				8B71829028CF755D00B98F04 /* UpNextLockScreenWidget.swift */,
-				45CF3E2D2B4738F100FF4BE7 /* UpNextWidgetBold.swift */,
 			);
 			path = "Up Next";
 			sourceTree = "<group>";

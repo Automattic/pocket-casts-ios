@@ -5,17 +5,16 @@ struct UpNextMediumWidgetView: View {
     @State var episodes: [WidgetEpisode]
     @State var filterName: String?
     @State var isPlaying: Bool
-    var colorScheme: PCWidgetColorScheme
 
     var body: some View {
         if let firstEpisode = episodes.first {
             if let topFilter = filterName {
                 MediumFilterView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], filterName: topFilter)
             } else {
-                MediumUpNextView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], isPlaying: isPlaying, colorScheme: colorScheme)
+                MediumUpNextView(firstEpisode: firstEpisode, secondEpisode: episodes[safe: 1], isPlaying: isPlaying)
             }
         } else {
-            HungryForMoreView(colorScheme: colorScheme)
+            HungryForMoreView()
         }
     }
 }
@@ -24,7 +23,7 @@ struct MediumUpNextView: View {
     var firstEpisode: WidgetEpisode
     var secondEpisode: WidgetEpisode?
     var isPlaying: Bool
-    var colorScheme: PCWidgetColorScheme
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
         GeometryReader { geometry in
@@ -33,7 +32,7 @@ struct MediumUpNextView: View {
                     Rectangle().fill(colorScheme.topBackgroundColor)
                         .lightBackgroundShadow()
                     HStack(alignment: .top) {
-                        EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true, colorScheme: colorScheme)
+                        EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                         Spacer()
                         Image("logo_white_small_transparent")
                             .frame(width: 28, height: 28)
@@ -46,12 +45,12 @@ struct MediumUpNextView: View {
 
                 HStack {
                     if let nextEpisode = secondEpisode {
-                        EpisodeView(episode: nextEpisode, topText: Text(CommonWidgetHelper.durationString(duration: nextEpisode.duration)), colorScheme: colorScheme)
+                        EpisodeView(episode: nextEpisode, topText: Text(CommonWidgetHelper.durationString(duration: nextEpisode.duration)))
                             .padding(16.0)
                             .frame(maxWidth: .infinity)
                     } else {
                         Spacer()
-                        HungryForMoreView(colorScheme: colorScheme)
+                        HungryForMoreView()
                         Spacer()
                     }
                 }
@@ -84,11 +83,11 @@ struct MediumFilterView: View {
                         .unredacted()
                 }
                 .frame(height: 32)
-                EpisodeView.createCompactWhenNecessaryView(episode: firstEpisode, colorScheme: widgetColorSchemeBold) // TODO: temporary hard code color scheme
+                EpisodeView.createCompactWhenNecessaryView(episode: firstEpisode)
                     .frame(minHeight: 40, maxHeight: 56)
                 Spacer().frame(minHeight: 8, maxHeight: 10)
                 if let secondEpisode = secondEpisode {
-                    EpisodeView.createCompactWhenNecessaryView(episode: secondEpisode, colorScheme: widgetColorSchemeBold) // TODO: temporary hard code color scheme
+                    EpisodeView.createCompactWhenNecessaryView(episode: secondEpisode)
                         .frame(minHeight: 40, maxHeight: 56)
                 } else {
                     Spacer()

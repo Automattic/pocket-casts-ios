@@ -5,13 +5,12 @@ struct UpNextLargeWidgetView: View {
     @State var episodes: [WidgetEpisode]
     @State var filterName: String?
     @State var isPlaying: Bool
-    var colorScheme: PCWidgetColorScheme
 
     var body: some View {
         if filterName != nil {
             LargeFilterView(episodes: $episodes, filterName: $filterName)
         } else {
-            LargeUpNextWidgetView(episodes: $episodes, isPlaying: $isPlaying, colorScheme: colorScheme)
+            LargeUpNextWidgetView(episodes: $episodes, isPlaying: $isPlaying)
         }
     }
 }
@@ -19,7 +18,7 @@ struct UpNextLargeWidgetView: View {
 struct LargeUpNextWidgetView: View {
     @Binding var episodes: [WidgetEpisode]
     @Binding var isPlaying: Bool
-    var colorScheme: PCWidgetColorScheme
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
         ZStack {
@@ -31,7 +30,7 @@ struct LargeUpNextWidgetView: View {
                                 .lightBackgroundShadow()
                                 .frame(width: .infinity, height: .infinity)
                             HStack(alignment: .top) {
-                                EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedCapitalized) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true, colorScheme: colorScheme)
+                                EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedCapitalized) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                                 Spacer()
                                 Image("logo_white_small_transparent")
                                     .frame(width: 28, height: 28)
@@ -48,7 +47,7 @@ struct LargeUpNextWidgetView: View {
                                 if episodes.count > 1 {
                                     ForEach(episodes[1 ... min(4, episodes.count - 1)], id: \.episodeUuid) { episode in
 
-                                        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)), colorScheme: colorScheme)
+                                        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
                                             .frame(height: geometry.size.height * 50 / 345)
                                             .frame(maxWidth: .infinity)
                                     }
@@ -57,7 +56,7 @@ struct LargeUpNextWidgetView: View {
                                     Spacer()
                                     HStack {
                                         Spacer()
-                                        HungryForMoreView(colorScheme: colorScheme)
+                                        HungryForMoreView()
                                         Spacer()
                                     }
                                 }
@@ -106,7 +105,7 @@ struct LargeFilterView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(episodes[0 ... min(4, episodes.count - 1)], id: \.self) { episode in
                             HStack {
-                                EpisodeView.createCompactWhenNecessaryView(episode: episode, colorScheme: widgetColorSchemeBold) // TODO: temporary hard code color scheme
+                                EpisodeView.createCompactWhenNecessaryView(episode: episode)
                                     .frame(minHeight: 42, maxHeight: 56)
                                 Spacer()
                             }
@@ -121,7 +120,7 @@ struct LargeFilterView: View {
                     ZStack {
                         Rectangle()
                             .fill(darkBackgroundColor)
-                        HungryForMoreView(colorScheme: widgetColorSchemeBold) // temporary hard code for now
+                        HungryForMoreView()
                     }
                 }
             }

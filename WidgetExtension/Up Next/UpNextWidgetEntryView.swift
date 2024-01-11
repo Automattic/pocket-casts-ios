@@ -4,14 +4,14 @@ import SwiftUI
 struct UpNextWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) var family
-    var colorScheme: PCWidgetColorScheme
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
         if let episodes = entry.episodes, episodes.count > 0 {
             if family == .systemMedium {
-                UpNextMediumWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying, colorScheme: colorScheme)
+                UpNextMediumWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
             } else {
-                UpNextLargeWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying, colorScheme: colorScheme)
+                UpNextLargeWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
             }
         } else {
             VStack(alignment: .center) {
@@ -30,16 +30,16 @@ struct UpNextWidgetEntryView: View {
 
                 Spacer()
                 if family == .systemMedium {
-                    HungryForMoreView(colorScheme: colorScheme)
+                    HungryForMoreView()
                         .offset(x: 0, y: -4)
                 } else {
-                    HungryForMoreLargeView(colorScheme: colorScheme)
+                    HungryForMoreLargeView()
                         .offset(x: 0, y: -8)
                 }
                 Spacer()
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            .background(darkBackgroundColor)
+            .background(darkBackgroundColor) // TODO: what should this be?
         }
     }
 }

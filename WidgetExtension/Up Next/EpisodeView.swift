@@ -8,7 +8,7 @@ struct EpisodeView: View {
     @State var isFirstEpisode: Bool = false
 
     @Environment(\.dynamicTypeSize) var typeSize
-    let colorScheme: PCWidgetColorScheme
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
         let textColor = isFirstEpisode ? colorScheme.topTextColor : colorScheme.bottomTextColor
@@ -49,8 +49,8 @@ struct EpisodeView: View {
     }
 
     @ViewBuilder
-    static func createCompactWhenNecessaryView(episode: WidgetEpisode, colorScheme: PCWidgetColorScheme) -> some View {
-        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)), colorScheme: widgetColorSchemeBold) // TODO: temporary hard code color scheme
+    static func createCompactWhenNecessaryView(episode: WidgetEpisode) -> some View {
+        EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
     }
 }
 

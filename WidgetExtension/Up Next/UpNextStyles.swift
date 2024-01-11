@@ -64,6 +64,17 @@ let widgetColorSchemeBoldNowPlaying = PCWidgetColorScheme(
     bottomButtonTextColor: widgetColorSchemeBold.bottomButtonTextColor
 )
 
+struct WidgetColorScheme: EnvironmentKey {
+    static var defaultValue: PCWidgetColorScheme = widgetColorSchemeBold
+}
+
+extension EnvironmentValues {
+    var widgetColorScheme: PCWidgetColorScheme {
+        get { self[WidgetColorScheme.self] }
+        set { self[WidgetColorScheme.self] = newValue }
+    }
+}
+
 struct LightBackgroundShadow: ViewModifier {
     func body(content: Content) -> some View {
         content

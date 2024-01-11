@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 struct HungryForMoreView: View {
-    let colorScheme: PCWidgetColorScheme
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
         Link(destination: URL(string: "pktc://discover")!) {
@@ -22,7 +22,7 @@ struct HungryForMoreView: View {
 }
 
 struct HungryForMoreLargeView: View {
-    let colorScheme: PCWidgetColorScheme
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
         Link(destination: URL(string: "pktc://discover")!) {

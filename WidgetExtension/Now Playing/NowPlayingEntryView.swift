@@ -7,7 +7,7 @@ struct NowPlayingWidgetEntryView: View {
 
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
-    var colorScheme: PCWidgetColorScheme = widgetColorSchemeContrastNowPlaying // testing
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
         if let playingEpisode = entry.episode {
