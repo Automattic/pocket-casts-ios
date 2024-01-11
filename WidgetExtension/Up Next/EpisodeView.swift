@@ -69,19 +69,19 @@ struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
                     .resizable()
                     .foregroundStyle(colorScheme.topButtonTextColor)
             }
-            .frame(width: 24, height: 24)
+            .frame(width: 28, height: 28)
             // TODO: Something fun - create a timeline that counts down by the minute instead of showing "now playing"
             configuration.label
                 .truncationMode(.tail)
         }
-        .padding(.trailing, 14) // matches the 8px leading built into the icon
-        .padding(.leading, 6) // 6 + 8 (from icon) = 14 in design
+        .padding(.trailing, 12) // icon has 8px padding built into it, so this should match 8 + .leading
+        .padding(.leading, 4)
         .padding(.vertical, 2) // 2 + 8 (from icon) = 10 in design (actually 9.76)
         .background(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 100)
                 .foregroundColor(colorScheme.topButtonBackgroundColor)
         )
-     }
+    }
 }
 
 struct WidgetPlayToggleStyle: ToggleStyle {

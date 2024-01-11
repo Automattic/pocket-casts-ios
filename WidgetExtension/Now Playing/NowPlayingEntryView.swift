@@ -41,12 +41,12 @@ struct NowPlayingWidgetEntryView: View {
                             if entry.isPlaying {
                                 Text(L10n.nowPlaying)
                                     .font(.caption2)
-                                    .fontWeight(.medium)
+                                    .fontWeight(.bold)
                                     .foregroundColor(colorScheme.topButtonTextColor)
                             } else {
                                 Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                                     .font(.caption2)
-                                    .fontWeight(.medium)
+                                    .fontWeight(.bold)
                                     .foregroundColor(colorScheme.topButtonTextColor)
                                     .layoutPriority(1)
                             }
