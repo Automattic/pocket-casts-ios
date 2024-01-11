@@ -348,7 +348,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let sleepController = SleepTimerViewController()
 
         if let sheetController = sleepController.sheetPresentationController {
-            sheetController.detents = [.medium()]
+            if #available(iOS 16.0, *) {
+                let hostingControllerHeight = view.bounds.height
+                let sheetDetentHeight = hostingControllerHeight * 0.6
+                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
+            } else {
+                sheetController.detents = [.medium()]
+            }
             // The Sleep Timer VC implements its own grabber UI.
             sheetController.prefersGrabberVisible = false
         }
@@ -360,7 +366,14 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let effectsController = EffectsViewController()
 
         if let sheetController = effectsController.sheetPresentationController {
-            sheetController.detents = [.medium()]
+            if #available(iOS 16.0, *) {
+                let hostingControllerHeight = view.bounds.height
+                let sheetDetentHeight = hostingControllerHeight * 0.5
+                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
+            } else {
+                sheetController.detents = [.medium()]
+            }
+
             // The Playback Effects VC implements its own grabber UI.
             sheetController.prefersGrabberVisible = false
         }

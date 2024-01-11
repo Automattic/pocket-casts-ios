@@ -145,13 +145,12 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
 
         let presentingVC = delegate.multiSelectPresentingViewController()
         if let sheetController = multiSelectActionController.sheetPresentationController {
-            // Create a custom detent height of 40% of the hosting VC as the medium detent
-            // height of half the screen is too large. We still offer it for users of smaller
-            // devices to be able to enlarge the sheet.
+            // Create a custom detent height of 45% of the hosting VC as the medium detent
+            // is too large.
             let hostingControllerHeight = presentingVC.view.bounds.height
-            let sheetDetentHeight = hostingControllerHeight * 0.4
+            let sheetDetentHeight = hostingControllerHeight * 0.45
             if #available(iOS 16.0, *) {
-                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight }), .medium()]
+                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight }), ]
             } else {
                 sheetController.detents = [.medium()]
             }

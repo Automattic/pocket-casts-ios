@@ -85,7 +85,6 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController {
     }
 }
 
-
 extension UIViewController {
 
     func presentModally(
