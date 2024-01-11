@@ -120,7 +120,12 @@ struct LargeFilterView: View {
                     Spacer()
 
                     if episodes.count == 1 {
-                        HungryForMoreView()
+                        HStack {
+                            Spacer()
+                            HungryForMoreView()
+                            Spacer()
+                        }
+                        Spacer()
                     }
                 }
                 .padding(16)
