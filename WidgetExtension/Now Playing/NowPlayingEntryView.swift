@@ -15,24 +15,23 @@ struct NowPlayingWidgetEntryView: View {
                 if showsWidgetBackground {
                     Rectangle().fill(colorScheme.bottomBackgroundColor)
                 }
-                VStack(alignment: .leading, spacing: 3) {
-                    GeometryReader { geometry in
-                        HStack(alignment: .top) {
-                            LargeArtworkView(imageData: playingEpisode.imageData)
-                            Spacer()
-                            Image(colorScheme.iconAssetName)
-                                .frame(width: 28, height: 28)
-                                .unredacted()
-                        }
-                        .padding(topPadding)
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack(alignment: .top) {
+                        LargeArtworkView(imageData: playingEpisode.imageData)
+                            .frame(width: 64, height: 64)
+                        Spacer()
+                        Image(colorScheme.iconAssetName)
+                            .frame(width: 28, height: 28)
+                            .unredacted()
                     }
+                    .padding(topPadding)
 
                     Text(playingEpisode.episodeTitle)
                         .font(.footnote)
                         .fontWeight(.semibold)
                         .foregroundColor(colorScheme.bottomTextColor)
                         .lineLimit(1)
-                        .frame(height: 38, alignment: .center)
+                        .frame(height: 12, alignment: .center)
                         .layoutPriority(1)
                         .padding(episodeTitlePadding)
 
@@ -93,6 +92,7 @@ struct NowPlayingWidgetEntryView: View {
     }
 
     private var nothingPlaying: some View {
+        // TODO: test this
         VStack(alignment: .leading, spacing: 3) {
             GeometryReader { geometry in
                 HStack(alignment: .top) {
