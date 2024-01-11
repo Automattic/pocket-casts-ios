@@ -20,21 +20,11 @@ struct NowPlayingWidgetEntryView: View {
                         HStack(alignment: .top) {
                             LargeArtworkView(imageData: playingEpisode.imageData)
                             Spacer()
-                            Image("logo_white_small_transparent")
+                            Image(colorScheme.iconAssetName)
                                 .frame(width: 28, height: 28)
                                 .unredacted()
                         }
                         .padding(topPadding)
-                        .background(
-                            VStack {
-                                if showsWidgetBackground {
-                                    Rectangle()
-                                        .fill(colorScheme.topBackgroundColor)
-                                        .frame(height: 0.8 * geometry.size.height, alignment: .top)
-                                }
-                                Spacer()
-                            }
-                        )
                     }
 
                     Text(playingEpisode.episodeTitle)

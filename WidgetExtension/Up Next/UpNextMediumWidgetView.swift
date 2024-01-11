@@ -34,7 +34,7 @@ struct MediumUpNextView: View {
                     HStack(alignment: .top) {
                         EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                         Spacer()
-                        Image("logo_white_small_transparent")
+                        Image(colorScheme.iconAssetName)
                             .frame(width: 28, height: 28)
                             .accessibility(hidden: true)
                             .unredacted()
