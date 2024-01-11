@@ -19,10 +19,10 @@ struct UpNextWidgetEntryView: View {
                     Text(L10n.widgetsNothingPlaying)
                         .font(.subheadline)
                         .fontWeight(.regular)
-                        .foregroundColor(Color.secondary)
+                        .foregroundColor(colorScheme.filterViewTextColor)
                         .lineLimit(1)
                     Spacer()
-                    Image("logo_red_small")
+                    Image(colorScheme.filterViewIconAssetName)
                         .frame(width: 28, height: 28, alignment: .topTrailing)
                         .accessibility(hidden: true)
                 }
@@ -39,7 +39,7 @@ struct UpNextWidgetEntryView: View {
                 Spacer()
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            .background(colorScheme.topBackgroundColor) // TODO: what should this be?
+            .background(colorScheme.filterViewBackgroundColor)
         }
     }
 }

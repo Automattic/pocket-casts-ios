@@ -119,8 +119,7 @@ struct LargeFilterView: View {
 
                     Spacer()
 
-                    // TODO: check if this should be a check for 0 instead
-                    if episodes.count == 0 {
+                    if episodes.count == 1 {
                         HungryForMoreView()
                     }
                 }
