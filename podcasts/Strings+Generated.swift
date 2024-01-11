@@ -1703,16 +1703,10 @@ internal enum L10n {
   internal static func plusExpirationFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_expiration_format", String(describing: p1))
   }
-  /// Cloud Storage
-  internal static var plusFeatureCloudStorage: String { return L10n.tr("Localizable", "plus_feature_cloud_storage") }
   /// The undying gratitude of everyone here at Pocket Casts
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
-  /// Standalone Watch Playback
-  internal static var plusFeatureWatchApp: String { return L10n.tr("Localizable", "plus_feature_watch_app") }
-  /// Web Player
-  internal static var plusFeatureWebPlayer: String { return L10n.tr("Localizable", "plus_feature_web_player") }
   /// PLUS FEATURES
   internal static var plusFeatures: String { return L10n.tr("Localizable", "plus_features") }
   /// %1$@ Free
@@ -1721,17 +1715,8 @@ internal enum L10n {
   }
   /// Lifetime Member
   internal static var plusLifetimeMembership: String { return L10n.tr("Localizable", "plus_lifetime_membership") }
-  /// Speed up your lectures. Burn through other content. Be your own Podcast DJ.
-  internal static var plusMarketingCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_cloud_storage_description") }
-  /// Cloud Storage
-  internal static var plusMarketingCloudStorageTitle: String { return L10n.tr("Localizable", "plus_marketing_cloud_storage_title") }
-  /// Take your podcasts to more places with our Windows, macOS and Web apps.
-  internal static var plusMarketingDesktopAppsDescription: String { return L10n.tr("Localizable", "plus_marketing_desktop_apps_description") }
   /// Desktop Apps
   internal static var plusMarketingDesktopAppsTitle: String { return L10n.tr("Localizable", "plus_marketing_desktop_apps_title") }
-  /// Time to up your podcasting game?
-  /// Get desktop apps, bring your own files and spruce things up with fresh new themes, exclusive to plus members.
-  internal static var plusMarketingFinalCallToAction: String { return L10n.tr("Localizable", "plus_marketing_final_call_to_action") }
   /// Create folders to organise your podcast collection.
   internal static var plusMarketingFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_folders_description") }
   /// Ad-free experience which gives you more of what you love and less of what you don't
@@ -1742,12 +1727,8 @@ internal enum L10n {
   internal static var plusMarketingLearnMoreButton: String { return L10n.tr("Localizable", "plus_marketing_learn_more_button") }
   /// Get personal, and get distributed, all at once. Upload your personal audio files to our cloud servers, access your account via our web player, and make the app yours.
   internal static var plusMarketingMainDescription: String { return L10n.tr("Localizable", "plus_marketing_main_description") }
-  /// Enhanced Features For Advanced Listeners
-  internal static var plusMarketingMainTitle: String { return L10n.tr("Localizable", "plus_marketing_main_title") }
   /// Get access to exclusive features and customisation options
   internal static var plusMarketingSubtitle: String { return L10n.tr("Localizable", "plus_marketing_subtitle") }
-  /// Fly your true colors. Exclusive icons and themes for the plus club only.
-  internal static var plusMarketingThemesIconsDescription: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_description") }
   /// Themes & Icons
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
   /// Everything you love about Pocket Casts, plus more
@@ -1758,10 +1739,6 @@ internal enum L10n {
   internal static var plusMarketingUpdatedDesktopAppsDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_desktop_apps_description") }
   /// Organise your podcasts in folders, and keep them in sync across all your devices.
   internal static var plusMarketingUpdatedFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_folders_description") }
-  /// Upgrade To Plus
-  internal static var plusMarketingUpgradeButton: String { return L10n.tr("Localizable", "plus_marketing_upgrade_button") }
-  /// Ditch the phone and go for a run – without missing a beat. Apple Watch stands alone.
-  internal static var plusMarketingWatchPlaybackDescription: String { return L10n.tr("Localizable", "plus_marketing_watch_playback_description") }
   /// Watch Playback
   internal static var plusMarketingWatchPlaybackTitle: String { return L10n.tr("Localizable", "plus_marketing_watch_playback_title") }
   /// %1$@ per month
