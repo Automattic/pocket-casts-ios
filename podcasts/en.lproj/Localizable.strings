@@ -1579,6 +1579,9 @@
 /* Pocket Casts Plus marketing page, title of the Watch Playback feature */
 "plus_marketing_watch_playback_title" = "Watch Playback";
 
+/* Pocket Casts Plus marketing page, title of the Folders and Bookmarks feature */
+"plus_marketing_folders_and_bookmarks_title" = "Folders & Bookmarks";
+
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
 

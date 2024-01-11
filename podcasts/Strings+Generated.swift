@@ -1717,6 +1717,8 @@ internal enum L10n {
   internal static var plusLifetimeMembership: String { return L10n.tr("Localizable", "plus_lifetime_membership") }
   /// Desktop Apps
   internal static var plusMarketingDesktopAppsTitle: String { return L10n.tr("Localizable", "plus_marketing_desktop_apps_title") }
+  /// Folders & Bookmarks
+  internal static var plusMarketingFoldersAndBookmarksTitle: String { return L10n.tr("Localizable", "plus_marketing_folders_and_bookmarks_title") }
   /// Create folders to organise your podcast collection.
   internal static var plusMarketingFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_folders_description") }
   /// Ad-free experience which gives you more of what you love and less of what you don't
