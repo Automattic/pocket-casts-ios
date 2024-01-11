@@ -92,7 +92,6 @@ struct NowPlayingWidgetEntryView: View {
     }
 
     private var nothingPlaying: some View {
-        // TODO: test this
         VStack(alignment: .leading, spacing: 3) {
             GeometryReader { geometry in
                 HStack(alignment: .top) {
