@@ -51,8 +51,37 @@ struct PlusAccountUpgradePrompt: View {
         VStack(spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    SubscriptionBadge(tier: product.identifier.subscriptionTier)
-                        .padding(.bottom, 10)
+                    HStack(alignment: .top) {
+                        SubscriptionBadge(tier: product.identifier.subscriptionTier)
+                            .padding(.bottom, 10)
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            if let freeTrial = product.freeTrialDuration {
+                                HighlightedText(L10n.plusFreeMembershipFormat(freeTrial).localizedLowercase)
+                                    .highlight(freeTrial, { _ in
+                                            .init(weight: .bold)
+                                    })
+                                    .font(style: .title2)
+                                    .foregroundColor(theme.primaryText01)
+
+                                HighlightedText(L10n.pricingTermsAfterTrial(product.price))
+                                    .highlight(product.rawPrice, { _ in
+                                            .init(weight: .bold)
+                                    })
+                                    .font(style: .body)
+                                    .foregroundColor(theme.primaryText01)
+                            } else {
+                                HighlightedText(product.price)
+                                    .highlight(product.rawPrice, { _ in
+                                            .init(weight: .bold)
+                                    })
+                                    .font(style: .title2)
+                                    .foregroundColor(theme.primaryText01)
+                            }
+
+                            Spacer()
+                        }
+                    }
 
                     productFeatures[product.identifier].map {
                         ForEach($0) { feature in
@@ -74,35 +103,6 @@ struct PlusAccountUpgradePrompt: View {
                             }.frame(maxWidth: .infinity)
                         }
                     }
-                }
-
-                Spacer()
-
-                VStack(alignment: .trailing) {
-                    if let freeTrial = product.freeTrialDuration {
-                        HighlightedText(L10n.plusFreeMembershipFormat(freeTrial).localizedLowercase)
-                            .highlight(freeTrial, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .title2)
-                            .foregroundColor(theme.primaryText01)
-
-                        HighlightedText(L10n.pricingTermsAfterTrial(product.price))
-                            .highlight(product.rawPrice, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .body)
-                            .foregroundColor(theme.primaryText01)
-                    } else {
-                        HighlightedText(product.price)
-                            .highlight(product.rawPrice, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .title2)
-                            .foregroundColor(theme.primaryText01)
-                    }
-
-                    Spacer()
                 }
             }
 
