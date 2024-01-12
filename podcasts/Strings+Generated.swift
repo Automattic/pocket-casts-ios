@@ -1715,7 +1715,7 @@ internal enum L10n {
   }
   /// Lifetime Member
   internal static var plusLifetimeMembership: String { return L10n.tr("Localizable", "plus_lifetime_membership") }
-  /// Desktop Apps
+  /// Desktop & web apps
   internal static var plusMarketingDesktopAppsTitle: String { return L10n.tr("Localizable", "plus_marketing_desktop_apps_title") }
   /// Folders & Bookmarks
   internal static var plusMarketingFoldersAndBookmarksTitle: String { return L10n.tr("Localizable", "plus_marketing_folders_and_bookmarks_title") }
@@ -1741,7 +1741,7 @@ internal enum L10n {
   internal static var plusMarketingUpdatedDesktopAppsDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_desktop_apps_description") }
   /// Organise your podcasts in folders, and keep them in sync across all your devices.
   internal static var plusMarketingUpdatedFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_folders_description") }
-  /// Watch Playback
+  /// Apple Watch & Wear OS apps
   internal static var plusMarketingWatchPlaybackTitle: String { return L10n.tr("Localizable", "plus_marketing_watch_playback_title") }
   /// %1$@ per month
   internal static func plusMonthlyFrequencyPricingFormat(_ p1: Any) -> String {
