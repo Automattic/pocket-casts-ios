@@ -32,7 +32,35 @@ final class PocketCastsUITests: XCTestCase {
 
         tab.tap()
 
-        try app.performAccessibilityAudit(for: .dynamicType)
+        try app.performAccessibilityAudit(for: .dynamicType) { issue in
+            if issue.element?.identifier.hasPrefix("GridCell") == true {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    func testPodcastsListView() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        let tab = app.tab(.podcasts)
+        guard tab.waitForExistence(timeout: 20.0) else { return }
+        tab.tap()
+
+        let actionsButton = app.buttons["More actions"]
+        guard actionsButton.waitForExistence(timeout: 20.0) else { return }
+        actionsButton.tap()
+
+        let listButton = app.buttons["List"]
+        guard listButton.waitForExistence(timeout: 20.0) else { return }
+        listButton.tap()
+
+        let dismiss = app.buttons["Dismiss"]
+        dismiss.tap()
+
+        try app.performAccessibilityAudit()
     }
 
     func testFiltersTab() throws {

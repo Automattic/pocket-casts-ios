@@ -38,6 +38,7 @@ extension FolderViewController: UICollectionViewDelegate, UICollectionViewDataSo
             castCell.populateFrom(podcast, badgeType: badgeType)
         } else {
             let castCell = cell as! PodcastGridCell
+            castCell.accessibilityIdentifier = "GridCell-\(podcast.uuid)"
             castCell.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
         }
     }

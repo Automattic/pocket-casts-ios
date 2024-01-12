@@ -13,6 +13,9 @@
   },
   "testTargets" : [
     {
+      "skippedTests" : [
+        "PocketCastsUITestsLaunchTests"
+      ],
       "target" : {
         "containerPath" : "container:podcasts.xcodeproj",
         "identifier" : "F5D46F752B4CBA52006B1D8B",

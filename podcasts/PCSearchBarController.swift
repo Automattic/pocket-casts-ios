@@ -12,6 +12,8 @@ class PCSearchBarController: UIViewController {
     @IBOutlet var roundedBackgroundView: UIView!
     @IBOutlet var searchTextField: UITextField! {
         didSet {
+            searchTextField.adjustsFontForContentSizeCategory = true
+            searchTextField.font = UIFont.font(ofSize: 15, scalingWith: .body)
             searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
     }
