@@ -1564,8 +1564,8 @@
 /* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
 "plus_marketing_updated_desktop_apps_description" = "Listen in more places with our Windows, macOS and Web apps";
 
-/* Pocket Casts Plus marketing page, title of the Desktop Apps feature */
-"plus_marketing_desktop_apps_title" = "Desktop Apps";
+/* Pocket Casts Plus marketing page, title of the Desktop and web apps feature */
+"plus_marketing_desktop_apps_title" = "Desktop & web apps";
 
 /* Pocket Casts Plus marketing page, learn more button. Note that Pocket Casts is a proper noun and shouldn't be translated */
 "plus_marketing_learn_more_button" = "Learn more about Pocket Casts Plus";
@@ -1576,8 +1576,8 @@
 /* Pocket Casts Plus marketing page, title of the Themes & Icons feature */
 "plus_marketing_themes_icons_title" = "Themes & Icons";
 
-/* Pocket Casts Plus marketing page, title of the Watch Playback feature */
-"plus_marketing_watch_playback_title" = "Watch Playback";
+/* Pocket Casts Plus marketing page, title of the Apple Watch & Wear OS apps feature */
+"plus_marketing_watch_playback_title" = "Apple Watch & Wear OS apps";
 
 /* Pocket Casts Plus marketing page, title of the Folders and Bookmarks feature */
 "plus_marketing_folders_and_bookmarks_title" = "Folders & Bookmarks";
