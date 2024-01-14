@@ -54,14 +54,16 @@ class TokenHelper {
         let semaphore = DispatchSemaphore(value: 0)
         var refreshedToken: String? = nil
         var refreshedRefreshToken: String? = nil
+        var error: Error? = nil
 
         asyncAcquireToken { result in
             switch result {
             case .success(let authenticationResponse):
                 refreshedToken = authenticationResponse?.token
                 refreshedRefreshToken = authenticationResponse?.refreshToken
-            case .failure:
+            case .failure(let resultError):
                 refreshedToken = nil
+                error = resultError
             }
             semaphore.signal()
         }
@@ -74,7 +76,13 @@ class TokenHelper {
         }
         else {
             // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
-            tokenCleanUp()
+            switch error as? APIError {
+            case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
+                tokenCleanUp()
+            default:
+                () // Do nothing so the user is not disrupted in the case of non-auth errors
+            }
+
             return nil
         }
 
@@ -131,26 +139,26 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    private class func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, APIError>) -> Void) {
+    private class func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, Error>) -> Void) {
         if let authenticationResponse = acquirePasswordToken() {
             completion(.success(authenticationResponse))
             return
         }
 
         Task {
-            if let authenticationResponse = await acquireIdentityToken() {
+            do {
+                let authenticationResponse = try await acquireIdentityToken()
                 completion(.success(authenticationResponse))
-            }
-            else {
-                completion(.failure(.UNKNOWN))
+            } catch let error {
+                completion(.failure(error))
             }
         }
     }
 
     // MARK: - SSO Identity Token
 
-    private class func acquireIdentityToken() async -> AuthenticationResponse? {
-        return try? await ApiServerHandler.shared.refreshIdentityToken()
+    private class func acquireIdentityToken() async throws -> AuthenticationResponse {
+        return try await ApiServerHandler.shared.refreshIdentityToken()
     }
 
     // MARK: Cleanup

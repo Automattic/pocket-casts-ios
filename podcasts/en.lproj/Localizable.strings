@@ -2155,6 +2155,9 @@
 /* Generic server error message for when an unexpected or unhandled issue occurred. */
 "server_error_unknown" = "Something went wrong";
 
+/* A generic message for an error fetching the token from the server. This will cause logout issues. */
+"client_error_token_deauth" = "Token authentication failed.";
+
 /* Server message thanking the user for signing up to the service. */
 "server_message_login_thanks_signing_up" = "Thanks for signing up!";
 
