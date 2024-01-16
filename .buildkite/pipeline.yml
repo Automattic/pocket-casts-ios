@@ -20,6 +20,17 @@ steps:
 
   - group: "Linters"
     steps:
+      - label: ":swift: SwiftLint"
+        command: swiftlint lint --quiet --reporter emoji
+        plugins:
+          - docker#v5.8.0:
+              image: "ghcr.io/realm/swiftlint:latest"
+        notify:
+          - github_commit_status:
+              context: "SwiftLint"
+        agents:
+          queue: "default"
+
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: lint_localized_strings_format
         plugins: *common_plugins
