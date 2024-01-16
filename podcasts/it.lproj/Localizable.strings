@@ -35,6 +35,8 @@
     <string>Disabilitato</string>
     <key>accessibility_dismiss</key>
     <string>Chiudi</string>
+    <key>accessibility_episode_playback</key>
+    <string>Riproduzione episodio</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tocca per nascondere i dettagli del filtro</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>Bloccato, funzionalità Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ percento completato</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ di %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Velocità di riproduzione: %1$@ volte</string>
     <key>accessibility_playlist_color</key>
