@@ -83,7 +83,7 @@ class DiscoverViewController: PCViewController {
         guard let index = notification.object as? Int, index == tabBarItem.tag else { return }
 
         let defaultOffset = -PCSearchBarController.defaultHeight - view.safeAreaInsets.top
-        if mainScrollView.contentOffset.y.rounded() > defaultOffset.rounded() {
+        if mainScrollView.contentOffset.y.rounded(.down) > defaultOffset.rounded(.down) {
             mainScrollView.setContentOffset(CGPoint(x: 0, y: defaultOffset), animated: true)
         } else {
             searchController.searchTextField.becomeFirstResponder()
