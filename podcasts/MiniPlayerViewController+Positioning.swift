@@ -61,6 +61,8 @@ extension MiniPlayerViewController {
                 AnalyticsHelper.nowPlayingOpened()
                 Analytics.track(.playerShown)
                 completion?()
+            } failure: {
+                self.playerOpenState = .closed
             }
 
             return
