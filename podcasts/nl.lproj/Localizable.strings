@@ -35,6 +35,8 @@
     <string>Uitschakelen</string>
     <key>accessibility_dismiss</key>
     <string>Negeren</string>
+    <key>accessibility_episode_playback</key>
+    <string>Aflevering afspelen</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tik om filtergegevens te verbergen</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>Vergrendeld, functie voor Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ procent voltooid</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ van %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Afspeelsnelheid %1$@ keer</string>
     <key>accessibility_playlist_color</key>

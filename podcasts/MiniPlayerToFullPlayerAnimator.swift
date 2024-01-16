@@ -61,7 +61,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         containerView = transitionContext.containerView
 
         guard let playerView = toViewController.view else {
-            transitionContext.completeTransition(false)
+            transitionContext.completeTransition(true)
             return
         }
 

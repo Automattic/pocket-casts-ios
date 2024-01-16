@@ -35,6 +35,8 @@
     <string>Deaktiviert</string>
     <key>accessibility_dismiss</key>
     <string>Verwerfen</string>
+    <key>accessibility_episode_playback</key>
+    <string>Wiedergabe der Folge</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tippen, um Filterdetails zu verbergen</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>Gesperrt, Patron-Feature</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ Prozent abgeschlossen</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ von %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>%1$@-fache Wiedergabegeschwindigkeit</string>
     <key>accessibility_playlist_color</key>

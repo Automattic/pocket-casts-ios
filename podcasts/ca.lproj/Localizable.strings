@@ -35,6 +35,8 @@
     <string>Desactivat</string>
     <key>accessibility_dismiss</key>
     <string>Descartar</string>
+    <key>accessibility_episode_playback</key>
+    <string>Reproducció de l'episodi</string>
     <key>accessibility_hide_filter_details</key>
     <string>Toca per amagar la informació del filtre</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>Bloquejat. És una funció Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ per cent completat</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ de %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Velocitat de reproducció  de %1$@ vegades</string>
     <key>accessibility_playlist_color</key>

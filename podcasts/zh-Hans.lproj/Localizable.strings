@@ -35,6 +35,8 @@
     <string>已禁用</string>
     <key>accessibility_dismiss</key>
     <string>忽略</string>
+    <key>accessibility_episode_playback</key>
+    <string>剧集回放</string>
     <key>accessibility_hide_filter_details</key>
     <string>轻点以隐藏过滤器详情</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>已锁定，Patron 功能</string>
     <key>accessibility_percent_complete_format</key>
     <string>完成了百分之 %1$@</string>
+    <key>accessibility_playback_progress</key>
+    <string>第 %1$@ 集，共 %2$@ 集</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>播放速度 %1$@ 倍</string>
     <key>accessibility_playlist_color</key>

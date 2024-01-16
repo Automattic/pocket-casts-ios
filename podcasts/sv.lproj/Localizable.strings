@@ -35,6 +35,8 @@
     <string>Inaktiverad</string>
     <key>accessibility_dismiss</key>
     <string>Avfärda</string>
+    <key>accessibility_episode_playback</key>
+    <string>Uppspelning av avsnitt</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tryck för att dölja filterinformation</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>Låst Patron-funktion</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ procent har slutförts</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ av %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Uppspelningshastighet %1$@ gånger</string>
     <key>accessibility_playlist_color</key>
