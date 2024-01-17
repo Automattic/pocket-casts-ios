@@ -72,11 +72,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 //        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(podcastOptionsTapped(_:)))
 //        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
 
-        rightButtons = [
-            UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(podcastOptionsTapped(_:))),
+        let meow = UIBarButtonItem(customView: SubscriptionProfileImage(viewModel: .init()).setupDefaultEnvironment().frame(width: 24, height: 24).buttonize {
+            self.navigationController?.pushViewController(ProfileViewController(), animated: true)
+        }.uiView)
 
-            UIBarButtonItem(image: UIImage(named: "profileAvatar"), style: .plain, target: self, action: #selector(meow(_:)))
+        rightButtons = [
+            meow,
+            UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(podcastOptionsTapped(_:)))
         ]
+
 
         super.viewDidLoad()
 

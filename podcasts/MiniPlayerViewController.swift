@@ -296,6 +296,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         upNextBtn.iconColor = iconColor
 
         playPauseBtn.isPlaying = PlaybackManager.shared.playing()
+
+        upNextBtn.isHidden = true
     }
 
     private func podcastForEpisode(_ episode: BaseEpisode?) -> Podcast? {
