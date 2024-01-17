@@ -5,9 +5,9 @@ import UIKit
 import Combine
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
-    enum Tab { case podcasts, filter, discover, profile }
+    enum Tab { case podcasts, filter, discover, profile, upNext }
 
-    let tabs: [Tab] = [.podcasts, .filter, .discover, .profile]
+    let tabs: [Tab] = [.podcasts, .upNext, .filter, .discover, .profile]
 
     let playPauseCommand = UIKeyCommand(title: L10n.keycommandPlayPause, action: #selector(handlePlayPauseKey), input: " ", modifierFlags: [])
 
@@ -37,9 +37,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let profileViewController = ProfileViewController()
         profileViewController.tabBarItem = profileTabBarItem
 
+        let upNext = UpNextViewController(source: .miniPlayer)
+        upNext.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "miniupnext"), tag: tabs.firstIndex(of: .upNext)!)
+
         displayEndOfYearBadgeIfNeeded()
 
-        viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
+        viewControllers = [podcastsController, upNext, filtersViewController, discoverViewController].map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
 
         // Track the initial tab opened event
@@ -688,6 +691,8 @@ private extension MainTabBarController {
         case .discover:
             event = .discoverTabOpened
         case .profile:
+            event = .profileTabOpened
+        case .upNext:
             event = .profileTabOpened
         }
 

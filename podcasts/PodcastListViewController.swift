@@ -69,8 +69,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     override func viewDidLoad() {
-        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(podcastOptionsTapped(_:)))
-        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
+//        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(podcastOptionsTapped(_:)))
+//        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
+
+        rightButtons = [
+            UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(podcastOptionsTapped(_:))),
+
+            UIBarButtonItem(image: UIImage(named: "profileAvatar"), style: .plain, target: self, action: #selector(meow(_:)))
+        ]
+
         super.viewDidLoad()
 
         updateFolderButton()
@@ -231,6 +238,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         present(hostingController, animated: true, completion: nil)
         AnalyticsHelper.folderCreated()
         Analytics.track(.podcastsListFolderButtonTapped)
+    }
+
+    @objc private func meow(_ sender: UIBarButtonItem) {
+        navigationController?.pushViewController(ProfileViewController(), animated: true)
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {

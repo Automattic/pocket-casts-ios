@@ -10,6 +10,11 @@ class PCViewController: SimpleNotificationsViewController {
         }
     }
 
+    var rightButtons: [UIBarButtonItem]? {
+        didSet {
+            refreshRightButtons()
+        }
+    }
     private var navIconsColor: UIColor?
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?
@@ -106,6 +111,8 @@ class PCViewController: SimpleNotificationsViewController {
             navigationItem.rightBarButtonItems = nil
             navigationItem.rightBarButtonItem = customRightBtn
         }
+
+        navigationItem.rightBarButtonItems = rightButtons ?? customRightBtn.map { [$0] }
     }
 
     func changeNavTint(titleColor: UIColor?, iconsColor: UIColor?, backgroundColor: UIColor? = nil) {
