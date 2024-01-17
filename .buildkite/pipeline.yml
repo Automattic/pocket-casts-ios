@@ -21,10 +21,11 @@ steps:
   - group: "Linters"
     steps:
       - label: ":swift: SwiftLint"
-        command: swiftlint lint --quiet --reporter emoji
+        command: .buildkite/commands/run-swiftlint.sh
         plugins:
           - docker#v5.8.0:
-              image: "ghcr.io/realm/swiftlint:latest"
+              image: "ghcr.io/realm/swiftlint:0.54.0"
+              mount-buildkite-agent: true # Needed for calling `buildkite-agent annotate`
         notify:
           - github_commit_status:
               context: "SwiftLint"
