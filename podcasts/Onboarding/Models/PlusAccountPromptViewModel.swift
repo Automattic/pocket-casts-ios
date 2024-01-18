@@ -61,8 +61,8 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
                     return L10n.renewSubscription
                 }
 
-                if product.freeTrialDuration != nil {
-                    return L10n.plusStartMyFreeTrial
+                if let offer = product.offer {
+                    return offer.title
                 }
 
                 return L10n.plusSubscribeTo

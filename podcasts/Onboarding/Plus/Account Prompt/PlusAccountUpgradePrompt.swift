@@ -56,9 +56,9 @@ struct PlusAccountUpgradePrompt: View {
                             .padding(.bottom, 10)
                         Spacer()
                         VStack(alignment: .trailing) {
-                            if let freeTrial = product.freeTrialDuration {
-                                HighlightedText(L10n.plusFreeMembershipFormat(freeTrial).localizedLowercase)
-                                    .highlight(freeTrial, { _ in
+                            if let offer = product.offer {
+                                HighlightedText(offer.description.localizedLowercase)
+                                    .highlight(offer.description, { _ in
                                             .init(weight: .bold)
                                     })
                                     .font(style: .title2)

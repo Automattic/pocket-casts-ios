@@ -67,8 +67,8 @@ class PlusLandingViewModel: PlusPurchaseModel {
             return L10n.loading
         }
 
-        if product.freeTrialDuration != nil {
-            return L10n.plusStartMyFreeTrial
+        if let offer = product.offer {
+            return offer.title
         } else {
             return tier.buttonLabel
         }
@@ -79,8 +79,8 @@ class PlusLandingViewModel: PlusPurchaseModel {
             return ""
         }
 
-        if let freeTrialDuration = product.freeTrialDuration {
-            return L10n.plusStartTrialDurationPrice(freeTrialDuration, product.price)
+        if let offer = product.offer {
+            return offer.comparation
         } else {
             return product.price
         }
