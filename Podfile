@@ -27,7 +27,7 @@ abstract_target 'CI' do
   platform :ios, app_ios_deployment_target.version
 
   pod 'SwiftGen', '~> 6.0'
-  pod 'SwiftLint', '~> 0.49'
+  pod 'SwiftLint', '~> 0.54'
 end
 
 post_install do |pi|
