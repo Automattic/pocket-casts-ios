@@ -129,19 +129,26 @@ class TokenHelper {
                 FileLog.shared.addMessage("TokenHelper logging user out, invalid password")
                 SyncManager.signout()
             }
-        } catch {
-            FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
-        }
 
-        return nil
+            let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response, error: nil)
+            throw errorResponse ?? .UNKNOWN
+        } catch let error {
+            FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
+            throw error
+        }
     }
 
 
     // MARK: - Email / Password Token
 
     private class func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, Error>) -> Void) {
-        if let authenticationResponse = acquirePasswordToken() {
-            completion(.success(authenticationResponse))
+        do {
+            if let authenticationResponse = try acquirePasswordToken() {
+                completion(.success(authenticationResponse))
+                return
+            }
+        } catch let error {
+            completion(.failure(error))
             return
         }
 
