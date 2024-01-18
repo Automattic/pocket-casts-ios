@@ -26,17 +26,22 @@ class PlusPricingInfoModel: ObservableObject {
         for product in products {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPriceForIdentifier(identifier: product.rawValue)
-            let trial = purchaseHandler.localizedFreeTrialDuration(product)
+            var offer: ProductOfferInfo?
+            if let duration = purchaseHandler.localizedFreeTrialDuration(product),
+               let type = purchaseHandler.offerType(product),
+               let price = purchaseHandler.localizedOfferPrice(product) {
+                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice)
+            }
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
                                               rawPrice: rawPrice,
-                                              freeTrialDuration: trial)
+                                              offer: offer)
             pricing.append(info)
         }
 
         // Sort any products with free trials to the top of the list
-        pricing.sort { $0.freeTrialDuration != nil && $1.freeTrialDuration == nil }
+        pricing.sort { $0.offer != nil && $1.offer == nil }
 
         let hasFreeTrial = purchaseHandler.getFirstFreeTrialDetails() != nil
         return PlusPricingInfo(products: pricing, hasFreeTrial: hasFreeTrial)
@@ -52,9 +57,56 @@ class PlusPricingInfoModel: ObservableObject {
         let identifier: Constants.IapProducts
         let price: String
         let rawPrice: String
-        let freeTrialDuration: String?
+        let offer: ProductOfferInfo?
 
         var id: String { identifier.rawValue }
+    }
+
+    enum ProductOfferType {
+        case freeTrial
+        case discount
+        case unknown
+    }
+
+    struct ProductOfferInfo {
+        let type: ProductOfferType
+        let duration: String
+        let price: String
+        let rawPrice: String
+
+        var title: String {
+            switch type {
+            case .freeTrial:
+                return L10n.plusStartMyFreeTrial
+            case .discount:
+                return "First year at half price!"
+            case .unknown:
+                return "Special offer"
+            }
+        }
+
+        var description: String {
+            switch type {
+            case .freeTrial:
+                return L10n.plusFreeMembershipFormat(duration)
+            case .discount:
+                return "First year at \(price)"
+            case .unknown:
+                return "Open to see it"
+            }
+        }
+
+        var comparation: String {
+            switch type {
+            case .freeTrial:
+                return L10n.plusStartTrialDurationPrice(duration, rawPrice)
+            case .discount:
+                return "First year at \(price) then \(rawPrice)"
+            case .unknown:
+                return "Open to see it"
+            }
+        }
+
     }
 
     enum PriceAvailablity {

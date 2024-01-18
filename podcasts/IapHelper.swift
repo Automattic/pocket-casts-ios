@@ -172,6 +172,22 @@ extension IapHelper {
 // MARK: - Intro Offers: Free Trials
 
 extension IapHelper {
+
+    func offerType(_ identifier: Constants.IapProducts) -> PlusPricingInfoModel.ProductOfferType? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+        switch offer.paymentMode {
+        case .freeTrial:
+            return .freeTrial
+        case .payAsYouGo:
+            return .unknown
+        case .payUpFront:
+            return .discount
+        default:
+            return .unknown
+        }
+    }
     /// Returns the localized trial duration if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string (1 week) or nil if there is no offer available
@@ -181,6 +197,19 @@ extension IapHelper {
         }
 
         return offer.subscriptionPeriod.localizedPeriodString()
+    }
+
+    func localizedOfferPrice(_ identifier: Constants.IapProducts) -> String? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.formatterBehavior = .behavior10_4
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = offer.priceLocale
+        let formattedPrice = numberFormatter.string(from: offer.price)
+        return formattedPrice ?? ""
     }
 
     /// Returns the first product with a free trial
