@@ -7,7 +7,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import StoreKit
 
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate { 
     private static let initialRefreshDelay = 2.seconds
     private static let minTimeBetweenRefreshes = 5.minutes
 
