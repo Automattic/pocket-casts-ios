@@ -206,7 +206,7 @@ extension IapHelper {
         guard
             isEligibleForTrial,
             let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
-            offer.paymentMode == .freeTrial
+            offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront || offer.paymentMode == .payAsYouGo
         else {
             return nil
         }
