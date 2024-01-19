@@ -165,7 +165,7 @@ private extension PlusPurchaseModel {
             navigationController.setViewControllers([controller], animated: true)
         }
 
-        // Dismiss the current flow        
+        // Dismiss the current flow
         presentNextBlock()
     }
 }
