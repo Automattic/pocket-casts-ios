@@ -297,6 +297,13 @@ struct Constants {
 
         enum PlanFrequency {
             case yearly, monthly
+
+            var description: String {
+                switch self {
+                case .yearly: return L10n.year
+                case .monthly: return L10n.month
+                }
+            }
         }
 
         struct ProductInfo {

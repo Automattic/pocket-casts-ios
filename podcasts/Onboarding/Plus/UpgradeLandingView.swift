@@ -73,11 +73,10 @@ struct UpgradeLandingView: View {
                                     .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
-
                                 UpgradeRoundedSegmentedControl(selected: $displayPrice)
                                     .padding(.bottom, 24)
 
-                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, currentSubscriptionInfo: viewModel.pricingInfo(for: selectedTier, frequency: displayPrice), tiers: tiers)
 
                                 if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
@@ -160,8 +159,6 @@ struct UpgradeLandingView: View {
         }, label: {
             VStack {
                 Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                    .font(style: .subheadline)
             }
             .transition(.opacity)
             .id("plus_price" + selectedTier.title)
@@ -187,6 +184,8 @@ private struct FeaturesCarousel: View {
 
     let currentPrice: Binding<Constants.PlanFrequency>
 
+    let currentSubscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
+
     let tiers: [UpgradeTier]
 
     @State var calculatedCardHeight: CGFloat?
@@ -196,7 +195,7 @@ private struct FeaturesCarousel: View {
         var cardHeights: [CGFloat] = []
 
         HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
-            UpgradeCard(tier: $0, currentPrice: currentPrice)
+            UpgradeCard(tier: $0, currentPrice: currentPrice, subscriptionInfo: currentSubscriptionInfo)
                 .overlay(
                     // Calculate the height of the card after it's been laid out
                     GeometryReader { proxy in
@@ -341,14 +340,51 @@ struct UpgradeCard: View {
 
     let currentPrice: Binding<Constants.PlanFrequency>
 
+    let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
+
     @State var calculatedCardHeight: CGFloat?
+
+    var price: AttributedString {
+        guard let subscriptionInfo else {
+            return AttributedString(L10n.loading)
+        }
+        let grayColor: Color = .black.opacity(0.64)
+
+        guard let offer = subscriptionInfo.offer else {
+            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
+            basePrice.font = .headline
+            basePrice.foregroundColor = .black
+
+            var basePeriod = AttributedString("/ \(currentPrice.wrappedValue.description)")
+            basePeriod.foregroundColor = grayColor
+            basePeriod.font = .footnote
+
+            return basePrice + basePeriod
+        }
+
+        var offerPrice = AttributedString(offer.price)
+        offerPrice.foregroundColor = .black
+        offerPrice.font = .headline
+
+        var offerPeriod = AttributedString("/\(currentPrice.wrappedValue.description)")
+        offerPeriod.foregroundColor = grayColor
+        offerPeriod.font = .footnote
+
+        var basePrice = AttributedString(" \(offer.rawPrice)/\(currentPrice.wrappedValue.description)")
+        basePrice.foregroundColor = grayColor
+        basePrice.font = .footnote
+        basePrice.strikethroughStyle = .single
+
+        return offerPrice + offerPeriod + basePrice
+    }
 
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
                 SubscriptionBadge(tier: tier.tier)
                     .padding(.bottom, 16)
-
+                Text(price)
+                    .padding(.bottom, 16)
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
                         HStack(spacing: 16) {

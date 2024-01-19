@@ -62,16 +62,20 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    func pricingInfo(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
+        guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
+            return nil
+        }
+        return pricingInfo
+    }
+
     func purchaseTitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
         guard let product = product(for: tier.plan, frequency: frequency) else {
             return L10n.loading
         }
 
-        if let offer = product.offer {
-            return offer.title
-        } else {
-            return tier.buttonLabel
-        }
+
+        return tier.buttonLabel
     }
 
     func purchaseSubtitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
