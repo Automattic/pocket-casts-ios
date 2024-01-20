@@ -355,11 +355,18 @@ struct UpgradeCard: View {
             basePrice.font = .headline
             basePrice.foregroundColor = .black
 
-            var basePeriod = AttributedString("/ \(currentPrice.wrappedValue.description)")
+            var basePeriod = AttributedString("/\(currentPrice.wrappedValue.description)")
             basePeriod.foregroundColor = grayColor
             basePeriod.font = .footnote
 
             return basePrice + basePeriod
+        }
+
+        if offer.type == .freeTrial {
+            var text = AttributedString(offer.description)
+            text.font = .headline
+            text.foregroundColor = .black
+            return text
         }
 
         var offerPrice = AttributedString(offer.price)

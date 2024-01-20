@@ -79,7 +79,7 @@ class PlusPricingInfoModel: ObservableObject {
             case .freeTrial:
                 return L10n.plusStartMyFreeTrial
             case .discount:
-                return "First year at half price!"
+                return "\(duration) at half price!"
             case .unknown:
                 return "Special offer"
             }
@@ -90,7 +90,7 @@ class PlusPricingInfoModel: ObservableObject {
             case .freeTrial:
                 return L10n.plusFreeMembershipFormat(duration)
             case .discount:
-                return "First year at \(price)"
+                return "\(duration) at \(price)"
             case .unknown:
                 return "Open to see it"
             }
