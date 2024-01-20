@@ -76,7 +76,7 @@ struct UpgradeLandingView: View {
                                 UpgradeRoundedSegmentedControl(selected: $displayPrice)
                                     .padding(.bottom, 24)
 
-                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, currentSubscriptionInfo: viewModel.pricingInfo(for: selectedTier, frequency: displayPrice), tiers: tiers)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $displayPrice, currentSubscriptionInfo: viewModel.pricingInfo(for: selectedTier, frequency: displayPrice), tiers: tiers)
 
                                 if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
@@ -182,7 +182,7 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentPrice: Binding<Constants.PlanFrequency>
+    let currentSubscriptionPeriod: Binding<Constants.PlanFrequency>
 
     let currentSubscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
 
@@ -195,7 +195,7 @@ private struct FeaturesCarousel: View {
         var cardHeights: [CGFloat] = []
 
         HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
-            UpgradeCard(tier: $0, currentPrice: currentPrice, subscriptionInfo: currentSubscriptionInfo)
+            UpgradeCard(tier: $0, currentPrice: currentSubscriptionPeriod, subscriptionInfo: currentSubscriptionInfo)
                 .overlay(
                     // Calculate the height of the card after it's been laid out
                     GeometryReader { proxy in
