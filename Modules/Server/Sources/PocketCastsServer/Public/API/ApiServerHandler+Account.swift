@@ -196,16 +196,18 @@ public extension ApiServerHandler {
             }
         #endif
 
-        switch statusCode {
-        case 400, 401:
-            // The request or token is likely broken. Trying again could work.
-            return APIError.TOKEN_DEAUTH
-        case 403:
-            // This is specifically due to permissions issues. It is unlikely a retry on this request would succeed. Not sure how this would apply to the `/token` endpoint.
-            // See https://web.archive.org/web/20190904190534/https://www.dirv.me/blog/2011/07/18/understanding-403-forbidden/index.html
-            return APIError.PERMISSION_DENIED
-        default:
-            ()
+        if ServerConfig.avoidLogoutOnError {
+            switch statusCode {
+            case 400, 401:
+                // The request or token is likely broken. Trying again could work.
+                return APIError.TOKEN_DEAUTH
+            case 403:
+                // This is specifically due to permissions issues. It is unlikely a retry on this request would succeed. Not sure how this would apply to the `/token` endpoint.
+                // See https://web.archive.org/web/20190904190534/https://www.dirv.me/blog/2011/07/18/understanding-403-forbidden/index.html
+                return APIError.PERMISSION_DENIED
+            default:
+                ()
+            }
         }
 
         return nil

@@ -75,12 +75,16 @@ class TokenHelper {
             ServerSettings.refreshToken = refreshedRefreshToken
         }
         else {
-            // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
-            switch error as? APIError {
-            case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
+            if ServerConfig.avoidLogoutOnError {
+                // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
+                switch error as? APIError {
+                case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
+                    tokenCleanUp()
+                default:
+                    () // Do nothing so the user is not disrupted in the case of non-auth errors
+                }
+            } else {
                 tokenCleanUp()
-            default:
-                () // Do nothing so the user is not disrupted in the case of non-auth errors
             }
 
             return nil
@@ -130,12 +134,18 @@ class TokenHelper {
                 SyncManager.signout()
             }
 
-            let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response, error: nil)
-            throw errorResponse ?? .UNKNOWN
+            if ServerConfig.avoidLogoutOnError {
+                let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response, error: nil)
+                throw errorResponse ?? .UNKNOWN
+            }
         } catch let error {
             FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
-            throw error
+            if ServerConfig.avoidLogoutOnError {
+                throw error
+            }
         }
+
+        return nil
     }
 
 
@@ -145,11 +155,15 @@ class TokenHelper {
         do {
             if let authenticationResponse = try acquirePasswordToken() {
                 completion(.success(authenticationResponse))
-                return
+                if ServerConfig.avoidLogoutOnError {
+                    return
+                }
             }
         } catch let error {
-            completion(.failure(error))
-            return
+            if ServerConfig.avoidLogoutOnError {
+                completion(.failure(error))
+                return
+            }
         }
 
         Task {
