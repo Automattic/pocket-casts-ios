@@ -172,7 +172,10 @@ extension IapHelper {
 // MARK: - Intro Offers: Free Trials
 
 extension IapHelper {
-
+    
+    /// Returns a offer description if one is available
+    /// - Parameter identifier: the product we want to check for an offer
+    /// - Returns: the product offer if available.
     func offerType(_ identifier: Constants.IapProducts) -> PlusPricingInfoModel.ProductOfferType? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
@@ -198,7 +201,10 @@ extension IapHelper {
 
         return offer.subscriptionPeriod.localizedPeriodString()
     }
-
+    
+    /// Returns the localized offer price if there is one
+    /// - Parameter identifier: The product to check
+    /// - Returns: A formatted string ($1) or nil if there is no offer available
     func localizedOfferPrice(_ identifier: Constants.IapProducts) -> String? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
