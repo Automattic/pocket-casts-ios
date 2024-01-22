@@ -4,6 +4,7 @@ import PocketCastsDataModel
 class PodcastsRefresh {
     func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) async {
         let body: [String: Any] = ["podcasts": podcasts.map { ["uuid": $0.uuid, "last_modified": $0.lastUpdatedAt ?? ""] }]
+        let startedDate = Date()
         let result = try? await JSONDecodableURLTask<ModifiedPodcastsEnvelope>().post(urlString: "\(ServerConstants.Urls.cache())podcasts/update", body: body)
 
         guard let result else {
@@ -18,23 +19,18 @@ class PodcastsRefresh {
             return
         }
 
-        let success = try? await withThrowingTaskGroup(of: Bool.self) { group in
+        try? await withThrowingTaskGroup(of: Void.self) { group in
             for podcast in podcastsToUpdate {
                 group.addTask {
                     await ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast)
                 }
-
-                for try await success in group {
-                    if !success {
-                        return false
-                    }
-                }
             }
 
-            return true
+            try await group.waitForAll()
         }
 
-        print("weeeeeeee \(success)")
+        let elapsed = Date().timeIntervalSince(startedDate)
+        print("$$ Request took \(elapsed)")
     }
 }
 
