@@ -3,7 +3,7 @@
 echo "--- :swift: Running SwiftLint"
 
 set +e
-SWIFTLINT_OUTPUT=$(swiftlint lint --quiet $@ --reporter relative-path)
+SWIFTLINT_OUTPUT=$(swiftlint lint --quiet "$@" --reporter relative-path)
 SWIFTLINT_EXIT_STATUS=$?
 set -e
 
