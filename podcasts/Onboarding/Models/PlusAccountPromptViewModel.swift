@@ -50,6 +50,10 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
                     return L10n.renewSubscription
                 }
 
+                if let offer = product.offer {
+                    return offer.title
+                }
+
                 // If the user has an expiring plus subscription show the 'Upgrade Account' title
                 return expiringPlus ? L10n.upgradeAccount : L10n.patronSubscribeTo
             }()

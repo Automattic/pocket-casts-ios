@@ -158,7 +158,7 @@ struct UpgradeLandingView: View {
             viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: displayPrice))
         }, label: {
             VStack {
-                Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
+                Text(selectedTier.buttonLabel)
             }
             .transition(.opacity)
             .id("plus_price" + selectedTier.title)
@@ -363,10 +363,15 @@ struct UpgradeCard: View {
         }
 
         if offer.type == .freeTrial {
-            var text = AttributedString(offer.description)
-            text.font = .headline
-            text.foregroundColor = .black
-            return text
+            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
+            basePrice.font = .headline
+            basePrice.foregroundColor = .black
+
+            var basePeriod = AttributedString("/\(currentPrice.wrappedValue.description)")
+            basePeriod.foregroundColor = grayColor
+            basePeriod.font = .footnote
+
+            return basePrice + basePeriod
         }
 
         var offerPrice = AttributedString(offer.price)
@@ -385,13 +390,30 @@ struct UpgradeCard: View {
         return offerPrice + offerPeriod + basePrice
     }
 
+    var offerDescription: String? {
+        guard let offer = subscriptionInfo?.offer else {
+            return nil
+        }
+        return offer.description
+    }
+
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
                 SubscriptionBadge(tier: tier.tier)
                     .padding(.bottom, 16)
                 Text(price)
-                    .padding(.bottom, 16)
+                    .padding(.bottom, 12)
+                if let offerDescription = offerDescription {
+                    Text(offerDescription)
+                        .foregroundColor(tier.plan == .plus ? Color.black : Color.white)
+                        .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
+                        .background(tier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
+                        .textCase(.uppercase)
+                        .font(style: .caption2, weight: .semibold)
+                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .padding(.bottom, 12)
+                }
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
                         HStack(spacing: 16) {

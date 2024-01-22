@@ -79,9 +79,9 @@ class PlusPricingInfoModel: ObservableObject {
             case .freeTrial:
                 return L10n.plusStartMyFreeTrial
             case .discount:
-                return "\(duration) at half price!"
+                return L10n.plusDiscountYearlyMembership
             case .unknown:
-                return "Special offer"
+                return ""
             }
         }
 
@@ -90,20 +90,9 @@ class PlusPricingInfoModel: ObservableObject {
             case .freeTrial:
                 return L10n.plusFreeMembershipFormat(duration)
             case .discount:
-                return "\(duration) at \(price)"
+                return L10n.plusDiscountYearlyMembership
             case .unknown:
-                return "Open to see it"
-            }
-        }
-
-        var comparation: String {
-            switch type {
-            case .freeTrial:
-                return L10n.plusStartTrialDurationPrice(duration, rawPrice)
-            case .discount:
-                return "First year at \(price) then \(rawPrice)"
-            case .unknown:
-                return "Open to see it"
+                return ""
             }
         }
 

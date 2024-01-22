@@ -1695,6 +1695,8 @@ internal enum L10n {
   internal static func plusCloudStorageLimitFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_cloud_storage_limit_format", String(describing: p1))
   }
+  /// 50%% off your first year
+  internal static var plusDiscountYearlyMembership: String { return L10n.tr("Localizable", "plus_discount_yearly_membership") }
   /// You already have a Pocket Casts Plus account
   internal static var plusErrorAlreadyRegistered: String { return L10n.tr("Localizable", "plus_error_already_registered") }
   /// Thanks for your support, but unfortunately this means you can’t take part in this promotion.
@@ -1709,7 +1711,7 @@ internal enum L10n {
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// PLUS FEATURES
   internal static var plusFeatures: String { return L10n.tr("Localizable", "plus_features") }
-  /// %1$@ Free
+  /// %1$@ Free Trial
   internal static func plusFreeMembershipFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_free_membership_format", String(describing: p1))
   }

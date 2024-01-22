@@ -69,27 +69,6 @@ class PlusLandingViewModel: PlusPurchaseModel {
         return pricingInfo
     }
 
-    func purchaseTitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
-        guard let product = product(for: tier.plan, frequency: frequency) else {
-            return L10n.loading
-        }
-
-
-        return tier.buttonLabel
-    }
-
-    func purchaseSubtitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
-        guard let product = product(for: tier.plan, frequency: frequency) else {
-            return ""
-        }
-
-        if let offer = product.offer {
-            return offer.comparation
-        } else {
-            return product.price
-        }
-    }
-
     private func product(for plan: Constants.Plan, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
         pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
     }
