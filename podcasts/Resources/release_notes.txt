@@ -1,2 +1,2 @@
-- Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
+- Allows navigation from the Player to the Podcast screen by tapping on Podcast name [#1322]
 
