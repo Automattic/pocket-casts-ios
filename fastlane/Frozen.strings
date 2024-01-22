@@ -1563,25 +1563,13 @@
 "plus_lifetime_membership" = "Lifetime Member";
 
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
-"plus_marketing_cloud_storage_description" = "Speed up your lectures. Burn through other content. Be your own Podcast DJ.";
-
-/* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
-
-/* Pocket Casts Plus marketing page, title of the Cloud Storage feature */
-"plus_marketing_cloud_storage_title" = "Cloud Storage";
-
-/* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
-"plus_marketing_desktop_apps_description" = "Take your podcasts to more places with our Windows, macOS and Web apps.";
 
 /* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
 "plus_marketing_updated_desktop_apps_description" = "Listen in more places with our Windows, macOS and Web apps";
 
-/* Pocket Casts Plus marketing page, title of the Desktop Apps feature */
-"plus_marketing_desktop_apps_title" = "Desktop Apps";
-
-/* Pocket Casts Plus marketing page, the final call to action to get people to upgrade */
-"plus_marketing_final_call_to_action" = "Time to up your podcasting game?\nGet desktop apps, bring your own files and spruce things up with fresh new themes, exclusive to plus members.";
+/* Pocket Casts Plus marketing page, title of the Desktop and web apps feature */
+"plus_marketing_desktop_apps_title" = "Desktop & web apps";
 
 /* Pocket Casts Plus marketing page, learn more button. Note that Pocket Casts is a proper noun and shouldn't be translated */
 "plus_marketing_learn_more_button" = "Learn more about Pocket Casts Plus";
@@ -1589,23 +1577,14 @@
 /* Pocket Casts Plus marketing page, the main description of Pocket Casts Plus */
 "plus_marketing_main_description" = "Get personal, and get distributed, all at once. Upload your personal audio files to our cloud servers, access your account via our web player, and make the app yours.";
 
-/* Pocket Casts Plus marketing page, the main title */
-"plus_marketing_main_title" = "Enhanced Features For Advanced Listeners";
-
-/* Pocket Casts Plus marketing page, description of the Themes & Icons feature */
-"plus_marketing_themes_icons_description" = "Fly your true colors. Exclusive icons and themes for the plus club only.";
-
 /* Pocket Casts Plus marketing page, title of the Themes & Icons feature */
 "plus_marketing_themes_icons_title" = "Themes & Icons";
 
-/* Pocket Casts Plus marketing page, description of the Watch Playback feature */
-"plus_marketing_watch_playback_description" = "Ditch the phone and go for a run – without missing a beat. Apple Watch stands alone.";
+/* Pocket Casts Plus marketing page, title of the Apple Watch & Wear OS apps feature */
+"plus_marketing_watch_playback_title" = "Apple Watch & Wear OS apps";
 
-/* Pocket Casts Plus marketing page, title of the Watch Playback feature */
-"plus_marketing_watch_playback_title" = "Watch Playback";
-
-/* Pocket Casts Plus marketing page, the text on the upgrade button */
-"plus_marketing_upgrade_button" = "Upgrade To Plus";
+/* Pocket Casts Plus marketing page, title of the Folders and Bookmarks feature */
+"plus_marketing_folders_and_bookmarks_title" = "Folders & Bookmarks";
 
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
@@ -1666,17 +1645,8 @@
 /* Message informing the user where to manage their Pocket Casts Plus subscription managed by Web. */
 "plus_subscription_web_details" = "To cancel your subscription, you’ll need to cancel via Pocketcasts.com.";
 
-/* Feature of Pocket Casts plus, Web Player. As in our web based version capable of playing podcasts */
-"plus_feature_web_player" = "Web Player";
-
-/* Feature of Pocket Casts plus, Apple Watch app. Standalone meaning it can run with your iPhone */
-"plus_feature_watch_app" = "Standalone Watch Playback";
-
 /* Feature of Pocket Casts plus, Themes and icons. Themes for changing the way the app looks, icons to change the icon shown on your home screen */
 "plus_feature_themes_icons" = "Extra Themes & App Icons";
-
-/* Feature of Pocket Casts plus, Cloud Storage. Being able to upload your files to the Pocket Casts servers */
-"plus_feature_cloud_storage" = "Cloud Storage";
 
 /* Message about our gratitude when an user subscribe to Plus */
 "plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
@@ -3980,6 +3950,9 @@
 
 /* Description explaining to the user what up next dark mode means. */
 "settings_up_next_dark_mode_footer" = "When enabled the Up Next will always use the dark theme, or will match the current theme when disabled.";
+
+/* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
+"accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
 
 /* MARK: - InfoPlist.strings */
 
