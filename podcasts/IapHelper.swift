@@ -180,12 +180,12 @@ extension IapHelper {
         switch offer.paymentMode {
         case .freeTrial:
             return .freeTrial
-        case .payAsYouGo:
-            return .unknown
         case .payUpFront:
             return .discount
-        default:
-            return .unknown
+        case .payAsYouGo:
+            return nil
+        @unknown default:
+            return nil
         }
     }
     /// Returns the localized trial duration if there is one
@@ -235,7 +235,7 @@ extension IapHelper {
         guard
             isEligibleForTrial,
             let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
-            offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront || offer.paymentMode == .payAsYouGo
+            offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
         }

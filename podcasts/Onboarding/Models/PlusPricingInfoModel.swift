@@ -65,7 +65,6 @@ class PlusPricingInfoModel: ObservableObject {
     enum ProductOfferType {
         case freeTrial
         case discount
-        case unknown
     }
 
     struct ProductOfferInfo {
@@ -80,8 +79,6 @@ class PlusPricingInfoModel: ObservableObject {
                 return L10n.plusStartMyFreeTrial
             case .discount:
                 return L10n.plusDiscountYearlyMembership
-            case .unknown:
-                return ""
             }
         }
 
@@ -91,8 +88,6 @@ class PlusPricingInfoModel: ObservableObject {
                 return L10n.plusFreeMembershipFormat(duration)
             case .discount:
                 return L10n.plusDiscountYearlyMembership
-            case .unknown:
-                return ""
             }
         }
 
