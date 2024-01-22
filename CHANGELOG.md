@@ -1,3 +1,7 @@
+7.57
+-----
+
+
 7.56
 -----
 - Allows navigation from the Player to the Podcast screen by tapping on Podcast name [#1322]
