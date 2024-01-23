@@ -20,20 +20,17 @@ steps:
 
   - group: "Linters"
     steps:
-      - label: "☢️ Danger - PR Check"
-        command: .buildkite/commands/danger-pr-check.sh
+      - label: ":swift: SwiftLint"
+        command: .buildkite/commands/run-swiftlint.sh
         plugins:
           - docker#v5.8.0:
-              image: "public.ecr.aws/docker/library/ruby:3.2.2"
-              propagate-environment: true
-              environment:
-                - "DANGER_GITHUB_API_TOKEN"
-        if: "build.pull_request.id != null"
+              image: "ghcr.io/realm/swiftlint:0.54.0"
+              mount-buildkite-agent: true # Needed for calling `buildkite-agent annotate`
+        notify:
+          - github_commit_status:
+              context: "SwiftLint"
         agents:
           queue: "default"
-        retry:
-          manual:
-            permit_on_passed: true
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: lint_localized_strings_format
