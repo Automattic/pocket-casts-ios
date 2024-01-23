@@ -14,8 +14,8 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
 
-    /// Whether or not the user is eligible for a free trial
-    private(set) var isEligibleForTrial = Constants.Values.freeTrialDefaultValue
+    /// Whether or not the user is eligible for an offer
+    private(set) var isEligibleForOffer = Constants.Values.freeTrialDefaultValue
 
     /// Prevent multiple eligibility requests from being performed
     private var isCheckingEligibility = false
@@ -239,7 +239,7 @@ extension IapHelper {
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     private func getFreeTrialOffer(_ identifier: Constants.IapProducts) -> SKProductDiscount? {
         guard
-            isEligibleForTrial,
+            isEligibleForOffer,
             let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
@@ -289,7 +289,7 @@ private extension IapHelper {
             let eligible = isEligible ?? Constants.Values.freeTrialDefaultValue
 
             FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
-            self?.isEligibleForTrial = eligible
+            self?.isEligibleForOffer = eligible
             self?.isCheckingEligibility = false
         }
     }
@@ -398,7 +398,7 @@ private extension IapHelper {
     func trackPaymentEvent(_ event: AnalyticsEvent, productId: String, error: NSError? = nil) {
         let product = getProductWithIdentifier(identifier: productId)
         var offerType = "none"
-        if isEligibleForTrial, let paymentMode = product?.introductoryPrice?.paymentMode {
+        if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {
             if paymentMode == .freeTrial {
                 offerType = "free_trial"
             } else if paymentMode == .payUpFront {
