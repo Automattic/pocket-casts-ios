@@ -244,9 +244,38 @@ public class CacheServerHandler {
         guard let data = data else { return nil }
 
         do {
-            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] { return json }
+//            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] { return json }
+//            let fullPodcast = try JSONDecoder().decode(FullPodcastResponse.self, from: data)
+//            print("$$ \(fullPodcast.podcast.title)")
         } catch {}
 
         return nil
     }
+}
+
+struct FullPodcastResponse: Decodable {
+    let podcast: FullPodcast
+}
+
+struct FullPodcast: Decodable {
+    let url: String?
+    let title: String?
+    let author: String?
+    let description: String?
+    let category: String?
+    let audio: Bool?
+    let showType: String?
+    let uuid: String?
+    let episodes: [EpisodeResponse]
+}
+
+struct EpisodeResponse: Decodable {
+    let uuid: String?
+    let title: String?
+    let url: String?
+    let fileType: String?
+    let fileSize: Int64?
+    let duration: Double?
+    let published: String?
+    let type: String?
 }
