@@ -20,9 +20,9 @@ class PodcastsRefresh {
         }
 
         try? await withThrowingTaskGroup(of: Void.self) { group in
-            for podcast in podcastsToUpdate {
+            for podcast in result.podcasts {
                 group.addTask {
-                    await ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast)
+                    await try? await JSONDecodableURLTask<FullPodcast>().post(urlString: podcast.url, body: body)
                 }
             }
 
