@@ -286,7 +286,7 @@ private extension IapHelper {
 
         isCheckingEligibility = true
         ApiServerHandler.shared.checkTrialEligibility(receiptString) { [weak self] isEligible in
-            let eligible = isEligible ?? Constants.Values.freeTrialDefaultValue
+            let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
 
             FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
             self?.isEligibleForOffer = eligible
