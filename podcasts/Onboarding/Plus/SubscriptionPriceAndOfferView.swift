@@ -66,18 +66,20 @@ struct SubscriptionPriceAndOfferView: View {
     }
 
     var body: some View {
-        Text(price(for: product))
-            .padding(.bottom, 12)
-        if let offerDescription = offerDescription(for: product) {
-            Text(offerDescription)
-                .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
-                .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
-                .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
-                .textCase(.uppercase)
-                .font(style: .caption2, weight: .semibold)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                .padding(.bottom, 12)
+        VStack(alignment: .leading, spacing: 0) {
+            Text(price(for: product))
+            if let offerDescription = offerDescription(for: product) {
+                Text(offerDescription)
+                    .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
+                    .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
+                    .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
+                    .textCase(.uppercase)
+                    .font(style: .caption2, weight: .semibold)
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .padding(.top, 12)
+            }
         }
+        .padding(.bottom, 12)
     }
 }
 
