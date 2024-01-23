@@ -67,7 +67,7 @@ struct SubscriptionPriceAndOfferView: View {
 
     var body: some View {
         Text(price(for: product))
-            .padding(.bottom, 10)
+            .padding(.bottom, 12)
         if let offerDescription = offerDescription(for: product) {
             Text(offerDescription)
                 .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
