@@ -87,11 +87,7 @@ class BookmarksUpgradeViewModel: PlusAccountPromptViewModel {
     }
 
     var upgradeLabel: String {
-        guard let offer = product(for: feature.tier)?.offer else {
-            return L10n.upgradeToPlan(feature.tier == .patron ? L10n.patron : L10n.pocketCastsPlusShort)
-        }
-
-        return offer.title
+        return L10n.plusSubscribeTo
     }
 
     func upgradeTapped() {
