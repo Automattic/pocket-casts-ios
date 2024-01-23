@@ -397,12 +397,17 @@ private extension SKProductSubscriptionPeriod {
 private extension IapHelper {
     func trackPaymentEvent(_ event: AnalyticsEvent, productId: String, error: NSError? = nil) {
         let product = getProductWithIdentifier(identifier: productId)
-        let isFreeTrial = product?.introductoryPrice?.paymentMode == .freeTrial
-        let isEligible = isEligibleForTrial
+        var offerType = "none"
+        if isEligibleForTrial, let paymentMode = product?.introductoryPrice?.paymentMode {
+            if paymentMode == .freeTrial {
+                offerType = "free_trial"
+            } else if paymentMode == .payUpFront {
+                offerType = "intro_offer"
+            }
+        }
 
         var properties: [AnyHashable: Any] = ["product": productId,
-                                              "is_free_trial_available": isFreeTrial,
-                                              "is_free_trial_eligible": isEligible]
+                                              "offer_type": offerType]
 
         if let error = error {
             properties["error_code"] = error.code
