@@ -15,7 +15,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     private var productsRequest: SKProductsRequest?
 
     /// Whether or not the user is eligible for an offer
-    private(set) var isEligibleForOffer = Constants.Values.freeTrialDefaultValue
+    private(set) var isEligibleForOffer = Constants.Values.offerEligibilityDefaultValue
 
     /// Prevent multiple eligibility requests from being performed
     private var isCheckingEligibility = false
