@@ -1,11 +1,3 @@
-//
-//  SubscriptionPriceAndOfferView.swift
-//  podcasts
-//
-//  Created by Sérgio Estêvão on 23/01/2024.
-//  Copyright © 2024 Shifty Jelly. All rights reserved.
-//
-
 import SwiftUI
 
 struct SubscriptionPriceAndOfferView: View {
