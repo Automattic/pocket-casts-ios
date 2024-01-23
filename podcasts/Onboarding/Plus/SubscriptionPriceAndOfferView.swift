@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// View to display the price of a subscription and any offer associated.
 struct SubscriptionPriceAndOfferView: View {
 
     typealias ProductInfo = PlusPricingInfoModel.PlusProductPricingInfo
