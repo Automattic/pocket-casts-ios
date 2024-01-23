@@ -344,75 +344,13 @@ struct UpgradeCard: View {
 
     @State var calculatedCardHeight: CGFloat?
 
-    var price: AttributedString {
-        guard let subscriptionInfo else {
-            return AttributedString(L10n.loading)
-        }
-        let grayColor: Color = .black.opacity(0.64)
-
-        guard let offer = subscriptionInfo.offer else {
-            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
-            basePrice.font = .headline
-            basePrice.foregroundColor = .black
-
-            var basePeriod = AttributedString("/\(currentPrice.wrappedValue.description)")
-            basePeriod.foregroundColor = grayColor
-            basePeriod.font = .footnote
-
-            return basePrice + basePeriod
-        }
-
-        if offer.type == .freeTrial {
-            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
-            basePrice.font = .headline
-            basePrice.foregroundColor = .black
-
-            var basePeriod = AttributedString("/\(currentPrice.wrappedValue.description)")
-            basePeriod.foregroundColor = grayColor
-            basePeriod.font = .footnote
-
-            return basePrice + basePeriod
-        }
-
-        var offerPrice = AttributedString(offer.price)
-        offerPrice.foregroundColor = .black
-        offerPrice.font = .headline
-
-        var offerPeriod = AttributedString("/\(currentPrice.wrappedValue.description)")
-        offerPeriod.foregroundColor = grayColor
-        offerPeriod.font = .footnote
-
-        var basePrice = AttributedString(" \(offer.rawPrice)/\(currentPrice.wrappedValue.description)")
-        basePrice.foregroundColor = grayColor
-        basePrice.font = .footnote
-        basePrice.strikethroughStyle = .single
-
-        return offerPrice + offerPeriod + basePrice
-    }
-
-    var offerDescription: String? {
-        guard let offer = subscriptionInfo?.offer else {
-            return nil
-        }
-        return offer.description
-    }
-
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
                 SubscriptionBadge(tier: tier.tier)
-                    .padding(.bottom, 16)
-                Text(price)
                     .padding(.bottom, 12)
-                if let offerDescription = offerDescription {
-                    Text(offerDescription)
-                        .foregroundColor(tier.plan == .plus ? Color.black : Color.white)
-                        .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
-                        .background(tier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
-                        .textCase(.uppercase)
-                        .font(style: .caption2, weight: .semibold)
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        .padding(.bottom, 12)
+                if let subscriptionInfo {
+                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: .black, secondaryTextColor: .black.opacity(0.64))
                 }
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
