@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "abseil",
-        "repositoryURL": "https://github.com/firebase/abseil-cpp-SwiftPM.git",
+        "repositoryURL": "https://github.com/google/abseil-cpp-binary.git",
         "state": {
           "branch": null,
-          "revision": "d302de612e3d57c6f4afaf087da18fba8eac72a7",
-          "version": "0.20220203.1"
+          "revision": "bfc0b6f81adc06ce5121eb23f628473638d67c5c",
+          "version": "1.2022062300.0"
         }
       },
       {
@@ -17,6 +17,15 @@
           "branch": null,
           "revision": "fff5b688b0434f2bdd5d9bd711a6f3b2faf2dbeb",
           "version": "5.6.11"
+        }
+      },
+      {
+        "package": "AppCheck",
+        "repositoryURL": "https://github.com/google/app-check.git",
+        "state": {
+          "branch": null,
+          "revision": "3e464dad87dad2d29bb29a97836789bf0f8f67d2",
+          "version": "10.18.1"
         }
       },
       {
@@ -38,15 +47,6 @@
         }
       },
       {
-        "package": "BoringSSL-GRPC",
-        "repositoryURL": "https://github.com/firebase/boringssl-SwiftPM.git",
-        "state": {
-          "branch": null,
-          "revision": "79db6516894a932d0ddaff3b05b9da1e4f6c4069",
-          "version": "0.9.0"
-        }
-      },
-      {
         "package": "DifferenceKit",
         "repositoryURL": "https://github.com/ra1028/DifferenceKit",
         "state": {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
           "branch": null,
-          "revision": "111d8d6ad1a1afd6c8e9561d26e55ab1e74fcb42",
-          "version": "8.15.0"
+          "revision": "b880ec8ec927a838c51c12862c6222c30d7097d7",
+          "version": "10.20.0"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
         "state": {
           "branch": null,
-          "revision": "ef819db8c58657a6ca367322e73f3b6322afe0a2",
-          "version": "8.15.0"
+          "revision": "ceec9f28dea12b7cf3dabf18b5ed7621c88fd4aa",
+          "version": "10.20.0"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "15ccdfd25ac55b9239b82809531ff26605e7556e",
-          "version": "9.1.2"
+          "revision": "a732a4b47f59e4f725a2ea10f0c77e93a7131117",
+          "version": "9.3.0"
         }
       },
       {
@@ -114,17 +114,17 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "f4abe56ce62a779e64b525eb133c8fc2a84bbc1f",
-          "version": "7.7.1"
+          "revision": "bc27fad73504f3d4af235de451f02ee22586ebd3",
+          "version": "7.12.1"
         }
       },
       {
         "package": "gRPC",
-        "repositoryURL": "https://github.com/grpc/grpc-ios.git",
+        "repositoryURL": "https://github.com/google/grpc-binary.git",
         "state": {
           "branch": null,
-          "revision": "abd2d5a4347efa0454606a788678a5d8ec223738",
-          "version": "1.44.0-grpc"
+          "revision": "a673bc2937fbe886dd1f99c401b01b6d977a9c98",
+          "version": "1.49.1"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/google/gtm-session-fetcher.git",
         "state": {
           "branch": null,
-          "revision": "eca9404a18f53727e4698211aaf2615eb93b962a",
-          "version": "1.7.1"
+          "revision": "5ccda3981422a84186387dbb763ba739178b529c",
+          "version": "2.3.0"
         }
       },
       {
@@ -143,6 +143,15 @@
           "branch": null,
           "revision": "6dee0cde8a1b223737a5159e55e6b4ec16bbbdd9",
           "version": "1.3.1"
+        }
+      },
+      {
+        "package": "InteropForGoogle",
+        "repositoryURL": "https://github.com/google/interop-ios-for-google-sdks.git",
+        "state": {
+          "branch": null,
+          "revision": "2d12673670417654f08f5f90fdd62926dc3a2648",
+          "version": "100.0.0"
         }
       },
       {
@@ -168,8 +177,8 @@
         "repositoryURL": "https://github.com/firebase/nanopb.git",
         "state": {
           "branch": null,
-          "revision": "7ee9ef9f627d85cbe1b8c4f49a3ed26eed216c77",
-          "version": "2.30908.0"
+          "revision": "819d0a2173aff699fb8c364b6fb906f7cdb1a692",
+          "version": "2.30909.0"
         }
       },
       {
@@ -177,8 +186,8 @@
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
-          "revision": "46c1e6b5ac09d8f82c991061c659f67e573d425d",
-          "version": "2.1.0"
+          "revision": "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
+          "version": "2.3.1"
         }
       },
       {
