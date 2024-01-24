@@ -7,7 +7,7 @@ import UIKit
 class IapHelper: NSObject, SKProductsRequestDelegate {
     static let shared = IapHelper()
 
-    private var productIdentifiers: [IAPProducts] {
+    private var productIdentifiers: [IAPProductID] {
         [.monthly, .yearly, .patronMonthly, .patronYearly]
     }
     private var productsArray = [SKProduct]()
@@ -95,15 +95,15 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 
     public func getPaymentFrequencyForIdentifier(identifier: String) -> String {
-        if identifier == IAPProducts.monthly.rawValue {
+        if identifier == IAPProductID.monthly.rawValue {
             return L10n.month
-        } else if identifier == IAPProducts.yearly.rawValue {
+        } else if identifier == IAPProductID.yearly.rawValue {
             return L10n.year
         }
         return ""
     }
 
-    public func getPriceWithFrequency(for identifier: IAPProducts) -> String? {
+    public func getPriceWithFrequency(for identifier: IAPProductID) -> String? {
         let price = getPriceForIdentifier(identifier: identifier.rawValue)
         guard !price.isEmpty else {
             return nil
@@ -157,7 +157,7 @@ extension IapHelper {
     /// Generates a string for a subscription price in the format of PRICE / FREQUENCY
     /// - Parameter product: The product to get the pricing string for
     /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
-    func pricingStringWithFrequency(for product: IAPProducts) -> String? {
+    func pricingStringWithFrequency(for product: IAPProductID) -> String? {
         let pricing = getPriceForIdentifier(identifier: product.rawValue)
         let frequency = getPaymentFrequencyForIdentifier(identifier: product.rawValue)
 
@@ -176,7 +176,7 @@ extension IapHelper {
     /// Returns a offer description if one is available
     /// - Parameter identifier: the product we want to check for an offer
     /// - Returns: the product offer if available.
-    func offerType(_ identifier: IAPProducts) -> PlusPricingInfoModel.ProductOfferType? {
+    func offerType(_ identifier: IAPProductID) -> PlusPricingInfoModel.ProductOfferType? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
         }
@@ -194,7 +194,7 @@ extension IapHelper {
     /// Returns the localized trial duration if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string (1 week) or nil if there is no offer available
-    func localizedFreeTrialDuration(_ identifier: IAPProducts) -> String? {
+    func localizedFreeTrialDuration(_ identifier: IAPProductID) -> String? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
         }
@@ -205,7 +205,7 @@ extension IapHelper {
     /// Returns the localized offer price if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string ($1) or nil if there is no offer available
-    func localizedOfferPrice(_ identifier: IAPProducts) -> String? {
+    func localizedOfferPrice(_ identifier: IAPProductID) -> String? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
         }
@@ -237,7 +237,7 @@ extension IapHelper {
     /// Checks if there is a free trial introductory offer for the given product
     /// - Parameter identifier: The product to check
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
-    private func getFreeTrialOffer(_ identifier: IAPProducts) -> SKProductDiscount? {
+    private func getFreeTrialOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
         guard
             isEligibleForOffer,
             let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
@@ -251,7 +251,7 @@ extension IapHelper {
 
     /// Returns the first product ID that has a free trial
     /// The priority order is set by the productIdentifiers array
-    private func getFirstFreeTrialProductId() -> IAPProducts? {
+    private func getFirstFreeTrialProductId() -> IAPProductID? {
         return productIdentifiers.first(where: { getFreeTrialOffer($0) != nil })
     }
 }

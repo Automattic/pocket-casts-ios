@@ -31,7 +31,7 @@ struct UpgradeLandingView: View {
         }
     }
 
-    private var selectedProduct: IAPProducts {
+    private var selectedProduct: IAPProductID {
         displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
 

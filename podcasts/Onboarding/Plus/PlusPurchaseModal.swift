@@ -5,7 +5,7 @@ struct PlusPurchaseModal: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var coordinator: PlusPurchaseModel
 
-    @State var selectedOption: IAPProducts
+    @State var selectedOption: IAPProductID
     @State var freeTrialDuration: String?
 
     var pricingInfo: PlusPurchaseModel.PlusPricingInfo {

@@ -8,7 +8,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .ready
 
-    private var purchasedProduct: IAPProducts?
+    private var purchasedProduct: IAPProductID?
 
     var plan: Plan = .plus
 
@@ -38,7 +38,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     // MARK: - Triggers the purchase process
-    func purchase(product: IAPProducts) {
+    func purchase(product: IAPProductID) {
         guard purchaseHandler.canMakePurchases else {
             showPurchaseDisabledAlert(product: product)
             return
@@ -55,7 +55,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         state = .purchasing
     }
 
-    func showPurchaseDisabledAlert(product: IAPProducts) {
+    func showPurchaseDisabledAlert(product: IAPProductID) {
         guard let presentingViewController = parentController ?? SceneHelper.rootViewController() else {
             return
         }
