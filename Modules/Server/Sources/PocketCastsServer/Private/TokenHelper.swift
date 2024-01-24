@@ -135,7 +135,7 @@ class TokenHelper {
             }
 
             if ServerConfig.avoidLogoutOnError {
-                let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response, error: nil)
+                let errorResponse = ApiServerHandler.extractErrorResponse(data: responseData, response: response, error: nil)
                 throw errorResponse ?? .UNKNOWN
             }
         } catch let error {
