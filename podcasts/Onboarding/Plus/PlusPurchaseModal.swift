@@ -22,11 +22,11 @@ struct PlusPurchaseModal: View {
         self.coordinator = coordinator
 
         self.products = coordinator.pricingInfo.products.filter { coordinator.plan.products.contains($0.identifier) }
-        self.showGlobalTrial = products.allSatisfy { $0.freeTrialDuration != nil }
+        self.showGlobalTrial = products.allSatisfy { $0.offer != nil }
 
         let firstProduct = products.first
         _selectedOption = State(initialValue: selectedPrice == .yearly ? coordinator.plan.yearly : coordinator.plan.monthly)
-        _freeTrialDuration = State(initialValue: firstProduct?.freeTrialDuration)
+        _freeTrialDuration = State(initialValue: firstProduct?.offer?.duration)
     }
 
     var body: some View {
@@ -49,13 +49,13 @@ struct PlusPurchaseModal: View {
                         ZStack(alignment: .center) {
                             Button(product.price) {
                                 selectedOption = product.identifier
-                                freeTrialDuration = product.freeTrialDuration
+                                freeTrialDuration = product.offer?.duration
                             }
                             .disabled(coordinator.state == .failed)
                             .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
                             .overlay(
                                 ZStack(alignment: .center) {
-                                    if !showGlobalTrial, let freeTrialDuration = product.freeTrialDuration {
+                                    if !showGlobalTrial, let freeTrialDuration = product.offer?.duration {
                                         GeometryReader { proxy in
                                             PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
                                                 .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY - (proxy.size.height * 0.12))

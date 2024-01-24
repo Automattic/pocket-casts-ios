@@ -1591,6 +1591,7 @@
 		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
+		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3353,6 +3354,7 @@
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPriceAndOfferView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -6571,6 +6573,7 @@
 				8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */,
 				C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */,
 				F5E431D52B50888500A71DB3 /* PlusLabel.swift */,
+				FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */,
 			);
 			path = Plus;
 			sourceTree = "<group>";
@@ -9270,6 +9273,7 @@
 				BD5E8D41206211E300C84B43 /* OpmlImporter.swift in Sources */,
 				BD1A340F2044F269008A5061 /* SimpleActionView.swift in Sources */,
 				BD83DE0E2068BBEB00012C06 /* MiniPlayerViewController+Positioning.swift in Sources */,
+				FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */,
 				BD0A5B28239A0368006C8777 /* ShelfLoadState.swift in Sources */,
 				BD3311A1202171EF00863A15 /* EpisodeListSearchController.swift in Sources */,
 				BDB1DC632316964E00119B81 /* HowToUploadViewController.swift in Sources */,
