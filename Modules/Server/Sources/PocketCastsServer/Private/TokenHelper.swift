@@ -155,9 +155,7 @@ class TokenHelper {
         do {
             if let authenticationResponse = try acquirePasswordToken() {
                 completion(.success(authenticationResponse))
-                if ServerConfig.avoidLogoutOnError {
-                    return
-                }
+                return
             }
         } catch let error {
             if ServerConfig.avoidLogoutOnError {
