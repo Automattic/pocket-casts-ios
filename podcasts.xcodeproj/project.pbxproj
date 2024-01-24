@@ -693,7 +693,6 @@
 		BD12931A22F809F8004608A6 /* AppIcon-Electric-Pink40x40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD12930822F809F7004608A6 /* AppIcon-Electric-Pink40x40@3x.png */; };
 		BD12931B22F809F8004608A6 /* AppIcon-Electric-Pink40x40@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BD12930922F809F7004608A6 /* AppIcon-Electric-Pink40x40@2x~ipad.png */; };
 		BD13574E27BF24B500A5D7C6 /* EditFolderPodcastsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD13574D27BF24B500A5D7C6 /* EditFolderPodcastsView.swift */; };
-		BD14A2F5252EBBD50028EE75 /* Agrume in Frameworks */ = {isa = PBXBuildFile; productRef = BD14A2F4252EBBD50028EE75 /* Agrume */; };
 		BD14BD53217074D800998296 /* UnplayedBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD14BD52217074D800998296 /* UnplayedBadge.swift */; };
 		BD14CCD61D7D2BCE00DB4547 /* SharePublishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD14CCD41D7D2BCE00DB4547 /* SharePublishViewController.swift */; };
 		BD14CCD71D7D2BCE00DB4547 /* SharePublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD14CCD51D7D2BCE00DB4547 /* SharePublishViewController.xib */; };
@@ -3440,7 +3439,6 @@
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
 				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
-				BD14A2F5252EBBD50028EE75 /* Agrume in Frameworks */,
 				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */,
 				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
@@ -7404,7 +7402,6 @@
 			);
 			name = podcasts;
 			packageProductDependencies = (
-				BD14A2F4252EBBD50028EE75 /* Agrume */,
 				BDBEE72C267C845E00BA43FB /* Lottie */,
 				BD44F74F267C850000810148 /* DifferenceKit */,
 				BDD8AABE267C858D0013494D /* Fuse */,
@@ -7596,7 +7593,6 @@
 			);
 			mainGroup = BDBD53E317019B290048C8C5;
 			packageReferences = (
-				BD14A2F3252EBBD50028EE75 /* XCRemoteSwiftPackageReference "Agrume" */,
 				BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */,
 				BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */,
@@ -11337,14 +11333,6 @@
 				minimumVersion = 8.1.1;
 			};
 		};
-		BD14A2F3252EBBD50028EE75 /* XCRemoteSwiftPackageReference "Agrume" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/shiftyjelly/Agrume";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.6.10;
-			};
-		};
 		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ra1028/DifferenceKit";
@@ -11453,11 +11441,6 @@
 		8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsDataModel;
-		};
-		BD14A2F4252EBBD50028EE75 /* Agrume */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BD14A2F3252EBBD50028EE75 /* XCRemoteSwiftPackageReference "Agrume" */;
-			productName = Agrume;
 		};
 		BD44F74F267C850000810148 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;
