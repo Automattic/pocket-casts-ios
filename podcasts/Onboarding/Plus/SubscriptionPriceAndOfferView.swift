@@ -27,6 +27,7 @@ struct SubscriptionPriceAndOfferView: View {
                     .font(style: .caption2, weight: .semibold)
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     .padding(.top, 12)
+                    .transition(.scale)
             }
         }
         .padding(.bottom, 12)
