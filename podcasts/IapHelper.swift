@@ -53,7 +53,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         request.start()
     }
 
-    func getProductWithIdentifier(identifier: String) -> SKProduct! {
+    func getProduct(for identifier: String) -> SKProduct! {
         guard productsArray.count > 0 else {
             requestProductInfo()
             return nil
@@ -71,7 +71,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     var hasLoadedProducts: Bool { productsArray.count > 0 }
 
     public func getPriceForIdentifier(identifier: String) -> String {
-        guard let product = getProductWithIdentifier(identifier: identifier) else { return "" }
+        guard let product = getProduct(for: identifier) else { return "" }
 
         let numberFormatter = NumberFormatter()
         numberFormatter.formatterBehavior = .behavior10_4
@@ -82,7 +82,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 
     public func buyProduct(identifier: String) -> Bool {
-        guard let product = getProductWithIdentifier(identifier: identifier), let _ = ServerSettings.syncingEmail() else {
+        guard let product = getProduct(for: identifier), let _ = ServerSettings.syncingEmail() else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
         }
@@ -240,7 +240,7 @@ extension IapHelper {
     private func getFreeTrialOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
         guard
             isEligibleForOffer,
-            let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
+            let offer = getProduct(for: identifier.rawValue)?.introductoryPrice,
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
@@ -396,7 +396,7 @@ private extension SKProductSubscriptionPeriod {
 
 private extension IapHelper {
     func trackPaymentEvent(_ event: AnalyticsEvent, productId: String, error: NSError? = nil) {
-        let product = getProductWithIdentifier(identifier: productId)
+        let product = getProduct(for: productId)
         var offerType = "none"
         if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {
             if paymentMode == .freeTrial {

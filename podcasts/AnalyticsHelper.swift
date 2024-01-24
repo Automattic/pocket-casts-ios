@@ -296,7 +296,7 @@ class AnalyticsHelper {
         }
 
         static func plusAddToCart(identifier: String) {
-            guard let product = IapHelper.shared.getProductWithIdentifier(identifier: identifier) else {
+            guard let product = IapHelper.shared.getProduct(for: identifier) else {
                 return
             }
 
