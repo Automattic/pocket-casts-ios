@@ -1,6 +1,6 @@
 7.57
 -----
-- Implement new introductory offer for Plus: 50% off on the first year
+- Implement new introductory offer for Plus: 50% off on the first year. [#1362] [internal]
 
 7.56
 -----
