@@ -65,11 +65,11 @@ struct SubscriptionPriceAndOfferView: View {
         offerPrice.foregroundColor = mainTextColor
         offerPrice.font = .headline
 
-        var offerPeriod = AttributedString(" /\(subscriptionPeriod)")
+        var offerPeriod = AttributedString(" /\(subscriptionPeriod)  ")
         offerPeriod.foregroundColor = secondaryTextColor
         offerPeriod.font = .footnote
 
-        var basePrice = AttributedString(" \(offer.rawPrice)/\(subscriptionPeriod)")
+        var basePrice = AttributedString("\(offer.rawPrice)/\(subscriptionPeriod)")
         basePrice.foregroundColor = secondaryTextColor
         basePrice.font = .footnote
         basePrice.strikethroughStyle = .single
