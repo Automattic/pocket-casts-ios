@@ -94,13 +94,13 @@ class IAPHelper: NSObject {
         return true
     }
 
-    public func getPaymentFrequencyForIdentifier(identifier: String) -> String {
-        if identifier == IAPProductID.monthly.rawValue {
+    public func getPaymentFrequency(for identifier: IAPProductID) -> String {
+        switch identifier {
+        case .monthly, .patronMonthly:
             return L10n.month
-        } else if identifier == IAPProductID.yearly.rawValue {
+        case .yearly, .patronYearly:
             return L10n.year
         }
-        return ""
     }
 
     public func getPriceWithFrequency(for identifier: IAPProductID) -> String? {
@@ -160,7 +160,7 @@ extension IAPHelper {
     /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
     func pricingStringWithFrequency(for product: IAPProductID) -> String? {
         let pricing = getPriceForIdentifier(identifier: product)
-        let frequency = getPaymentFrequencyForIdentifier(identifier: product.rawValue)
+        let frequency = getPaymentFrequency(for: product)
 
         guard !pricing.isEmpty, !frequency.isEmpty else {
             return nil
