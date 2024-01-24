@@ -6,8 +6,8 @@ class PlusLandingViewModel: PlusPurchaseModel {
     weak var navigationController: UINavigationController? = nil
 
     let displayedProducts: [UpgradeTier]
-    var initialProduct: Constants.ProductInfo? = nil
-    var continuePurchasing: Constants.ProductInfo? = nil
+    var initialProduct: ProductInfo? = nil
+    var continuePurchasing: ProductInfo? = nil
     let source: Source
 
     init(source: Source, config: Config? = nil, purchaseHandler: IapHelper = .shared) {
@@ -21,7 +21,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         self.loadPrices()
     }
 
-    func unlockTapped(_ product: Constants.ProductInfo) {
+    func unlockTapped(_ product: ProductInfo) {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
@@ -62,18 +62,18 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func pricingInfo(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
+    func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
             return nil
         }
         return pricingInfo
     }
 
-    private func product(for plan: Constants.Plan, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
+    private func product(for plan:Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
     }
 
-    private func loadPricesAndContinue(product: Constants.ProductInfo) {
+    private func loadPricesAndContinue(product: ProductInfo) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
@@ -94,13 +94,13 @@ class PlusLandingViewModel: PlusPurchaseModel {
 
     struct Config {
         var products: [UpgradeTier]? = nil
-        var displayProduct: Constants.ProductInfo? = nil
-        var continuePurchasing: Constants.ProductInfo? = nil
+        var displayProduct: ProductInfo? = nil
+        var continuePurchasing: ProductInfo? = nil
     }
 }
 
 private extension PlusLandingViewModel {
-    func showModal(product: Constants.ProductInfo) {
+    func showModal(product: ProductInfo) {
         guard let product = self.product(for: product.plan, frequency: product.frequency) else {
             state = .failed
             return

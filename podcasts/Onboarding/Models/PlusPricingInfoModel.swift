@@ -19,7 +19,7 @@ class PlusPricingInfoModel: ObservableObject {
     }
 
     private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
-        let products: [Constants.IapProducts] = [.yearly, .monthly, .patronYearly, .patronMonthly]
+        let products: [IapProducts] = [.yearly, .monthly, .patronYearly, .patronMonthly]
 
         var pricing: [PlusProductPricingInfo] = []
 
@@ -54,7 +54,7 @@ class PlusPricingInfoModel: ObservableObject {
     }
 
     struct PlusProductPricingInfo: Identifiable {
-        let identifier: Constants.IapProducts
+        let identifier: IapProducts
         let price: String
         let rawPrice: String
         let offer: ProductOfferInfo?

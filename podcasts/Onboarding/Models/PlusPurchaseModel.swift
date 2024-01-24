@@ -8,9 +8,9 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .ready
 
-    private var purchasedProduct: Constants.IapProducts?
+    private var purchasedProduct: IapProducts?
 
-    var plan: Constants.Plan = .plus
+    var plan: Plan = .plus
 
     override init(purchaseHandler: IapHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
@@ -38,7 +38,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     // MARK: - Triggers the purchase process
-    func purchase(product: Constants.IapProducts) {
+    func purchase(product: IapProducts) {
         guard purchaseHandler.canMakePurchases else {
             showPurchaseDisabledAlert(product: product)
             return
@@ -55,7 +55,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         state = .purchasing
     }
 
-    func showPurchaseDisabledAlert(product: Constants.IapProducts) {
+    func showPurchaseDisabledAlert(product: IapProducts) {
         guard let presentingViewController = parentController ?? SceneHelper.rootViewController() else {
             return
         }
@@ -84,7 +84,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController?, plan: Constants.Plan, selectedPrice: Constants.PlanFrequency) -> UIViewController {
+    static func make(in parentController: UIViewController?, plan: Plan, selectedPrice: PlanFrequency) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
         viewModel.plan = plan

@@ -13,7 +13,7 @@ struct UpgradeLandingView: View {
 
     @State private var purchaseButtonHeight: CGFloat = 0
     @State private var currentPage: Int = 0
-    @State private var displayPrice: Constants.PlanFrequency = .yearly
+    @State private var displayPrice: PlanFrequency = .yearly
 
     init(viewModel: PlusLandingViewModel) {
         self.viewModel = viewModel
@@ -31,7 +31,7 @@ struct UpgradeLandingView: View {
         }
     }
 
-    private var selectedProduct: Constants.IapProducts {
+    private var selectedProduct: IapProducts {
         displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
 
@@ -182,7 +182,7 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentSubscriptionPeriod: Binding<Constants.PlanFrequency>
+    let currentSubscriptionPeriod: Binding<PlanFrequency>
 
     let viewModel: PlusLandingViewModel
 
@@ -233,7 +233,7 @@ struct UpgradeTier: Identifiable {
     let tier: SubscriptionTier
     let iconName: String
     let title: String
-    let plan: Constants.Plan
+    let plan: Plan
     let header: String
     let description: String
     let buttonLabel: String
@@ -281,9 +281,9 @@ extension UpgradeTier {
 // MARK: - Segmented Control
 
 struct UpgradeRoundedSegmentedControl: View {
-    @Binding private var selected: Constants.PlanFrequency
+    @Binding private var selected: PlanFrequency
 
-    init(selected: Binding<Constants.PlanFrequency>) {
+    init(selected: Binding<PlanFrequency>) {
         self._selected = selected
     }
 
@@ -338,7 +338,7 @@ struct UpgradeCard: View {
 
     let tier: UpgradeTier
 
-    let currentPrice: Binding<Constants.PlanFrequency>
+    let currentPrice: Binding<PlanFrequency>
 
     let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
 

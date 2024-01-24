@@ -102,7 +102,7 @@ struct PlusAccountUpgradePrompt: View {
         .padding(.vertical, 10)
     }
 
-    private let productFeatures: [Constants.IapProducts: [Feature]] = [
+    private let productFeatures: [IapProducts: [Feature]] = [
         .yearly: [
             .init(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
@@ -129,7 +129,7 @@ struct PlusAccountUpgradePrompt: View {
     }
 }
 
-extension Constants.IapProducts {
+extension IapProducts {
     var subscriptionTier: SubscriptionTier {
         switch self {
         case .monthly, .yearly:
@@ -139,7 +139,7 @@ extension Constants.IapProducts {
         }
     }
 
-    var plan: Constants.Plan {
+    var plan: Plan {
         switch self {
         case .monthly, .yearly:
             return .plus
@@ -148,7 +148,7 @@ extension Constants.IapProducts {
         }
     }
 
-    var frequency: Constants.PlanFrequency {
+    var frequency: PlanFrequency {
         switch self {
         case .monthly, .patronMonthly:
             return .monthly
@@ -157,7 +157,7 @@ extension Constants.IapProducts {
         }
     }
 
-    var productInfo: Constants.ProductInfo {
+    var productInfo: ProductInfo {
         .init(plan: plan, frequency: frequency)
     }
 }
