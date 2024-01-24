@@ -8,7 +8,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     let subscription: UserInfo.Subscription? = .init()
 
     lazy var products: [PlusProductPricingInfo] = {
-        let productsToDisplay: [IapProducts] = {
+        let productsToDisplay: [IAPProducts] = {
             return subscription?.tier == .patron ? [.patronYearly] : [.yearly, .patronYearly]
         }()
 

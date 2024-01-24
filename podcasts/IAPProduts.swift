@@ -1,6 +1,6 @@
 import Foundation
 
-enum IapProducts: String {
+enum IAPProducts: String {
     case yearly = "com.pocketcasts.plus.yearly"
     case monthly = "com.pocketcasts.plus.monthly"
     case patronYearly = "com.pocketcasts.patron_yearly"
@@ -19,11 +19,11 @@ enum IapProducts: String {
 enum Plan {
     case plus, patron
 
-    var products: [IapProducts] {
+    var products: [IAPProducts] {
         return [yearly, monthly]
     }
 
-    var yearly: IapProducts {
+    var yearly: IAPProducts {
         switch self {
         case .plus:
             return .yearly
@@ -32,7 +32,7 @@ enum Plan {
         }
     }
 
-    var monthly: IapProducts {
+    var monthly: IAPProducts {
         switch self {
         case .plus:
             return .monthly
