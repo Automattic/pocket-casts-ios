@@ -197,10 +197,10 @@ struct Constants {
 
         static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
 
-        /// We show the free trial by default since if the app was just downloaded
+        /// We show the offer by default since if the app was just downloaded
         /// there is a chance it doesn't have a receipt and we won't be able to do a server check
         /// However Apple considers this user to be eligible
-        public static let freeTrialDefaultValue = true
+        public static let offerEligibilityDefaultValue = true
 
         static let bookmarkMaxTitleLength = 100
     }
@@ -297,6 +297,13 @@ struct Constants {
 
         enum PlanFrequency {
             case yearly, monthly
+
+            var description: String {
+                switch self {
+                case .yearly: return L10n.year
+                case .monthly: return L10n.month
+                }
+            }
         }
 
         struct ProductInfo {

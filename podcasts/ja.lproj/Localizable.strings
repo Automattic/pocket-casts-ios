@@ -35,6 +35,8 @@
     <string>無効</string>
     <key>accessibility_dismiss</key>
     <string>非表示</string>
+    <key>accessibility_episode_playback</key>
+    <string>エピソードの再生</string>
     <key>accessibility_hide_filter_details</key>
     <string>タップしてフィルターの詳細を非表示</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>ロック済み、Patron 機能</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@パーセント完了</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ / %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>再生速度%1$@倍</string>
     <key>accessibility_playlist_color</key>

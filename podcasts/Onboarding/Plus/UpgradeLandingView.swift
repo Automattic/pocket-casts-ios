@@ -73,11 +73,10 @@ struct UpgradeLandingView: View {
                                     .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
-
                                 UpgradeRoundedSegmentedControl(selected: $displayPrice)
                                     .padding(.bottom, 24)
 
-                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $displayPrice, viewModel: self.viewModel, tiers: tiers)
 
                                 if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
@@ -159,9 +158,7 @@ struct UpgradeLandingView: View {
             viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: displayPrice))
         }, label: {
             VStack {
-                Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                    .font(style: .subheadline)
+                Text(selectedTier.buttonLabel)
             }
             .transition(.opacity)
             .id("plus_price" + selectedTier.title)
@@ -185,7 +182,9 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentPrice: Binding<Constants.PlanFrequency>
+    let currentSubscriptionPeriod: Binding<Constants.PlanFrequency>
+
+    let viewModel: PlusLandingViewModel
 
     let tiers: [UpgradeTier]
 
@@ -196,7 +195,7 @@ private struct FeaturesCarousel: View {
         var cardHeights: [CGFloat] = []
 
         HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
-            UpgradeCard(tier: $0, currentPrice: currentPrice)
+            UpgradeCard(tier: $0, currentPrice: currentSubscriptionPeriod, subscriptionInfo: viewModel.pricingInfo(for: $0, frequency: currentSubscriptionPeriod.wrappedValue))
                 .overlay(
                     // Calculate the height of the card after it's been laid out
                     GeometryReader { proxy in
@@ -341,14 +340,18 @@ struct UpgradeCard: View {
 
     let currentPrice: Binding<Constants.PlanFrequency>
 
+    let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
+
     @State var calculatedCardHeight: CGFloat?
 
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
                 SubscriptionBadge(tier: tier.tier)
-                    .padding(.bottom, 16)
-
+                    .padding(.bottom, 12)
+                if let subscriptionInfo {
+                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: .black, secondaryTextColor: .black.opacity(0.64))
+                }
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
                         HStack(spacing: 16) {

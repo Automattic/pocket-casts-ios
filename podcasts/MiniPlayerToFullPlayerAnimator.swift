@@ -61,7 +61,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         containerView = transitionContext.containerView
 
         guard let playerView = toViewController.view else {
-            transitionContext.completeTransition(false)
+            transitionContext.completeTransition(true)
             return
         }
 
@@ -221,7 +221,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             // Miniplayer
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
         } completion: { completed in
-            self.fullPlayerArtwork.layer.opacity = 1
+            self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
 
             artwork?.removeFromSuperview()

@@ -25,7 +25,8 @@ class SceneHelper {
 
     class func rootViewController() -> UIViewController? {
         guard !FeatureFlag.newPlayerTransition.enabled else {
-            return connectedScene()?.windows.mapFirst { $0.rootViewController?.topMostPresentedViewController }
+            let appScene = connectedScene()?.windows.first(where: { $0.rootViewController is MainTabBarController })
+            return appScene?.rootViewController?.topMostPresentedViewController
         }
 
         if let scene = connectedScene() {

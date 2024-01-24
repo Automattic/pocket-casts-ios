@@ -62,28 +62,11 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func purchaseTitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
-        guard let product = product(for: tier.plan, frequency: frequency) else {
-            return L10n.loading
+    func pricingInfo(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
+        guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
+            return nil
         }
-
-        if product.freeTrialDuration != nil {
-            return L10n.plusStartMyFreeTrial
-        } else {
-            return tier.buttonLabel
-        }
-    }
-
-    func purchaseSubtitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
-        guard let product = product(for: tier.plan, frequency: frequency) else {
-            return ""
-        }
-
-        if let freeTrialDuration = product.freeTrialDuration {
-            return L10n.plusStartTrialDurationPrice(freeTrialDuration, product.price)
-        } else {
-            return product.price
-        }
+        return pricingInfo
     }
 
     private func product(for plan: Constants.Plan, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {

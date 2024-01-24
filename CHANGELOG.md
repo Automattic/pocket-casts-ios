@@ -1,3 +1,7 @@
+7.57
+-----
+- Implement new introductory offer for Plus: 50% off on the first year. [#1362] [internal]
+
 7.56
 -----
 - Allows navigation from the Player to the Podcast screen by tapping on Podcast name [#1322]

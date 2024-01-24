@@ -35,6 +35,8 @@
     <string>Отключено</string>
     <key>accessibility_dismiss</key>
     <string>Закрыть</string>
+    <key>accessibility_episode_playback</key>
+    <string>Воспроизведение выпуска</string>
     <key>accessibility_hide_filter_details</key>
     <string>Нажмите, чтобы скрыть сведения о фильтре</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>Заблокировано, функция Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>Выполнено %1$@ процентов</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ из %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Скорость воспроизведения %1$@х</string>
     <key>accessibility_playlist_color</key>

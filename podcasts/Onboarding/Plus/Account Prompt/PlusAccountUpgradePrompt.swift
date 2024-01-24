@@ -53,7 +53,7 @@ struct PlusAccountUpgradePrompt: View {
                 VStack(alignment: .leading) {
                     SubscriptionBadge(tier: product.identifier.subscriptionTier)
                         .padding(.bottom, 10)
-
+                    SubscriptionPriceAndOfferView(product: product, mainTextColor: theme.primaryText01, secondaryTextColor: theme.primaryText02)
                     productFeatures[product.identifier].map {
                         ForEach($0) { feature in
                             HStack(spacing: 10) {
@@ -74,35 +74,6 @@ struct PlusAccountUpgradePrompt: View {
                             }.frame(maxWidth: .infinity)
                         }
                     }
-                }
-
-                Spacer()
-
-                VStack(alignment: .trailing) {
-                    if let freeTrial = product.freeTrialDuration {
-                        HighlightedText(L10n.plusFreeMembershipFormat(freeTrial).localizedLowercase)
-                            .highlight(freeTrial, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .title2)
-                            .foregroundColor(theme.primaryText01)
-
-                        HighlightedText(L10n.pricingTermsAfterTrial(product.price))
-                            .highlight(product.rawPrice, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .body)
-                            .foregroundColor(theme.primaryText01)
-                    } else {
-                        HighlightedText(product.price)
-                            .highlight(product.rawPrice, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .title2)
-                            .foregroundColor(theme.primaryText01)
-                    }
-
-                    Spacer()
                 }
             }
 
@@ -137,7 +108,7 @@ struct PlusAccountUpgradePrompt: View {
             .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
             .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
-            .init(iconName: "plus-feature-themes", title: L10n.plusMarketingThemesIconsTitle)
+            .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons)
         ],
 
         .patronYearly: [

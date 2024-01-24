@@ -41,10 +41,6 @@ milestone_checker.check_milestone_due_date(days_before_due: 2)
 # `files: []` forces rubocop to scan all files, not just the ones modified in the PR
 rubocop.lint(files: [], inline_comment: true, fail_on_inline_comment: true, include_cop_names: true)
 
-swiftlint.binary_path = './Pods/SwiftLint/swiftlint'
-swiftlint.lint_all_files = true
-swiftlint.lint_files
-
 warn('PR is classed as Work in Progress') if wip_feature?
 
 warn("No reviewers have been set for this PR yet. Please request a review from **@\u2028Automattic/pocket-casts-ios**.") unless requested_reviewers?
