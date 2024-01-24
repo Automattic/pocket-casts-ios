@@ -44,7 +44,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
             return
         }
 
-        guard purchaseHandler.buyProduct(identifier: product.rawValue) else {
+        guard purchaseHandler.buyProduct(identifier: product) else {
             handlePurchaseFailed(error: nil)
             return
         }
@@ -209,7 +209,7 @@ private extension PlusPurchaseModel {
         Settings.setLoginDetailsUpdated()
         AnalyticsHelper.plusPlanPurchased()
 
-        purchaseHandler.purchaseWasSuccessful(purchasedProduct.rawValue)
+        purchaseHandler.purchaseWasSuccessful(purchasedProduct)
 
         handleNext()
     }
@@ -226,14 +226,14 @@ private extension PlusPurchaseModel {
             let error = notification.userInfo?["error"] as? NSError
         else { return }
 
-        purchaseHandler.purchaseWasCancelled(purchasedProduct.rawValue, error: error)
+        purchaseHandler.purchaseWasCancelled(purchasedProduct, error: error)
     }
 
     func handlePurchaseFailed(error: NSError?) {
         defer { state = .failed }
 
         guard let purchasedProduct else { return }
-        purchaseHandler.purchaseFailed(purchasedProduct.rawValue, error: error ?? defaultError)
+        purchaseHandler.purchaseFailed(purchasedProduct, error: error ?? defaultError)
     }
 
     private var defaultError: NSError {

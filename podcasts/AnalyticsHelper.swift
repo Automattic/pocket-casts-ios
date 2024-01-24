@@ -295,7 +295,7 @@ class AnalyticsHelper {
                               promotionName: source.promotionName())
         }
 
-        static func plusAddToCart(identifier: String) {
+        static func plusAddToCart(identifier: IAPProductID) {
             guard let product = IapHelper.shared.getProduct(for: identifier) else {
                 return
             }
@@ -318,7 +318,7 @@ class AnalyticsHelper {
             ]
 
             // Log that a free trial was used
-            if IapHelper.shared.isEligibleForOffer, let offerType = product.introductoryPrice?.paymentMode  {
+            if IapHelper.shared.isEligibleForOffer, let offerType = product.introductoryPrice?.paymentMode {
                 if offerType == .freeTrial {
                     parameters[AnalyticsParameterCoupon] = "FREE_TRIAL"
                 } else if offerType == .payAsYouGo {

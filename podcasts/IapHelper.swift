@@ -53,14 +53,14 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         request.start()
     }
 
-    func getProduct(for identifier: String) -> SKProduct! {
+    func getProduct(for identifier: IAPProductID) -> SKProduct! {
         guard productsArray.count > 0 else {
             requestProductInfo()
             return nil
         }
 
         for p in productsArray {
-            if p.productIdentifier.caseInsensitiveCompare(identifier) == .orderedSame {
+            if p.productIdentifier.caseInsensitiveCompare(identifier.rawValue) == .orderedSame {
                 return p
             }
         }
@@ -70,7 +70,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     /// Whether the products have been loaded from StoreKit
     var hasLoadedProducts: Bool { productsArray.count > 0 }
 
-    public func getPriceForIdentifier(identifier: String) -> String {
+    public func getPriceForIdentifier(identifier: IAPProductID) -> String {
         guard let product = getProduct(for: identifier) else { return "" }
 
         let numberFormatter = NumberFormatter()
@@ -81,7 +81,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         return formattedPrice ?? ""
     }
 
-    public func buyProduct(identifier: String) -> Bool {
+    public func buyProduct(identifier: IAPProductID) -> Bool {
         guard let product = getProduct(for: identifier), let _ = ServerSettings.syncingEmail() else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
@@ -104,7 +104,7 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     }
 
     public func getPriceWithFrequency(for identifier: IAPProductID) -> String? {
-        let price = getPriceForIdentifier(identifier: identifier.rawValue)
+        let price = getPriceForIdentifier(identifier: identifier)
         guard !price.isEmpty else {
             return nil
         }
@@ -158,7 +158,7 @@ extension IapHelper {
     /// - Parameter product: The product to get the pricing string for
     /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
     func pricingStringWithFrequency(for product: IAPProductID) -> String? {
-        let pricing = getPriceForIdentifier(identifier: product.rawValue)
+        let pricing = getPriceForIdentifier(identifier: product)
         let frequency = getPaymentFrequencyForIdentifier(identifier: product.rawValue)
 
         guard !pricing.isEmpty, !frequency.isEmpty else {
@@ -240,7 +240,7 @@ extension IapHelper {
     private func getFreeTrialOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
         guard
             isEligibleForOffer,
-            let offer = getProduct(for: identifier.rawValue)?.introductoryPrice,
+            let offer = getProduct(for: identifier)?.introductoryPrice,
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
@@ -298,15 +298,15 @@ private extension IapHelper {
 // MARK: - SKPaymentTransactionObserver
 
 extension IapHelper: SKPaymentTransactionObserver {
-    func purchaseWasSuccessful(_ productId: String) {
+    func purchaseWasSuccessful(_ productId: IAPProductID) {
         trackPaymentEvent(.purchaseSuccessful, productId: productId)
     }
 
-    func purchaseWasCancelled(_ productId: String, error: NSError) {
+    func purchaseWasCancelled(_ productId: IAPProductID, error: NSError) {
         trackPaymentEvent(.purchaseCancelled, productId: productId, error: error)
     }
 
-    func purchaseFailed(_ productId: String, error: NSError) {
+    func purchaseFailed(_ productId: IAPProductID, error: NSError) {
         trackPaymentEvent(.purchaseFailed, productId: productId, error: error)
     }
 
@@ -395,7 +395,7 @@ private extension SKProductSubscriptionPeriod {
 }
 
 private extension IapHelper {
-    func trackPaymentEvent(_ event: AnalyticsEvent, productId: String, error: NSError? = nil) {
+    func trackPaymentEvent(_ event: AnalyticsEvent, productId: IAPProductID, error: NSError? = nil) {
         let product = getProduct(for: productId)
         var offerType = "none"
         if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {

@@ -25,7 +25,7 @@ class PlusPricingInfoModel: ObservableObject {
 
         for product in products {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
-            let rawPrice = purchaseHandler.getPriceForIdentifier(identifier: product.rawValue)
+            let rawPrice = purchaseHandler.getPriceForIdentifier(identifier: product)
             var offer: ProductOfferInfo?
             if let duration = purchaseHandler.localizedFreeTrialDuration(product),
                let type = purchaseHandler.offerType(product),
