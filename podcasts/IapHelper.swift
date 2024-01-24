@@ -4,7 +4,7 @@ import PocketCastsUtils
 import StoreKit
 import UIKit
 
-class IapHelper: NSObject, SKProductsRequestDelegate {
+class IapHelper: NSObject {
     static let shared = IapHelper()
 
     private var productIdentifiers: [IAPProductID] {
@@ -116,9 +116,10 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
             return L10n.plusMonthlyFrequencyPricingFormat(price)
         }
     }
+}
 
-    // MARK: SKProductReuqestDelelgate
-
+// MARK: - SKProductsRequestDelegate
+extension IapHelper: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         defer { isRequestingProducts = false }
 
