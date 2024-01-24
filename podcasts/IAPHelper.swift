@@ -70,7 +70,7 @@ class IAPHelper: NSObject {
     /// Whether the products have been loaded from StoreKit
     var hasLoadedProducts: Bool { productsArray.count > 0 }
 
-    public func getPriceForIdentifier(identifier: IAPProductID) -> String {
+    public func getPrice(for identifier: IAPProductID) -> String {
         guard let product = getProduct(for: identifier) else { return "" }
 
         let numberFormatter = NumberFormatter()
@@ -104,7 +104,7 @@ class IAPHelper: NSObject {
     }
 
     public func getPriceWithFrequency(for identifier: IAPProductID) -> String? {
-        let price = getPriceForIdentifier(identifier: identifier)
+        let price = getPrice(for: identifier)
         guard !price.isEmpty else {
             return nil
         }
@@ -159,7 +159,7 @@ extension IAPHelper {
     /// - Parameter product: The product to get the pricing string for
     /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
     func pricingStringWithFrequency(for product: IAPProductID) -> String? {
-        let pricing = getPriceForIdentifier(identifier: product)
+        let pricing = getPrice(for: product)
         let frequency = getPaymentFrequency(for: product)
 
         guard !pricing.isEmpty, !frequency.isEmpty else {
