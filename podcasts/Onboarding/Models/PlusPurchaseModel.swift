@@ -12,7 +12,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
     var plan: Plan = .plus
 
-    override init(purchaseHandler: IapHelper = .shared) {
+    override init(purchaseHandler: IAPHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
         addPaymentObservers()

@@ -17,7 +17,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }()
 
-    override init(purchaseHandler: IapHelper = .shared) {
+    override init(purchaseHandler: IAPHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
         // Load prices on init

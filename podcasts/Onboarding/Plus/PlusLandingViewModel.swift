@@ -10,7 +10,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
     var continuePurchasing: ProductInfo? = nil
     let source: Source
 
-    init(source: Source, config: Config? = nil, purchaseHandler: IapHelper = .shared) {
+    init(source: Source, config: Config? = nil, purchaseHandler: IAPHelper = .shared) {
         self.displayedProducts = config?.products ?? [.plus, .patron]
         self.initialProduct = config?.displayProduct
         self.continuePurchasing = config?.continuePurchasing

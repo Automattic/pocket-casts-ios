@@ -4,8 +4,8 @@ import PocketCastsUtils
 import StoreKit
 import UIKit
 
-class IapHelper: NSObject {
-    static let shared = IapHelper()
+class IAPHelper: NSObject {
+    static let shared = IAPHelper()
 
     private var productIdentifiers: [IAPProductID] {
         [.monthly, .yearly, .patronMonthly, .patronYearly]
@@ -119,7 +119,7 @@ class IapHelper: NSObject {
 }
 
 // MARK: - SKProductsRequestDelegate
-extension IapHelper: SKProductsRequestDelegate {
+extension IAPHelper: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         defer { isRequestingProducts = false }
 
@@ -154,7 +154,7 @@ extension IapHelper: SKProductsRequestDelegate {
 
 // MARK: - Pricing String Helpers
 
-extension IapHelper {
+extension IAPHelper {
     /// Generates a string for a subscription price in the format of PRICE / FREQUENCY
     /// - Parameter product: The product to get the pricing string for
     /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
@@ -172,7 +172,7 @@ extension IapHelper {
 
 // MARK: - Intro Offers: Free Trials
 
-extension IapHelper {
+extension IAPHelper {
 
     /// Returns a offer description if one is available
     /// - Parameter identifier: the product we want to check for an offer
@@ -259,7 +259,7 @@ extension IapHelper {
 
 // MARK: - Trial Eligibility
 
-private extension IapHelper {
+private extension IAPHelper {
     /// Listens for subscription changes
     private func addSubscriptionNotifications() {
         NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
@@ -298,7 +298,7 @@ private extension IapHelper {
 
 // MARK: - SKPaymentTransactionObserver
 
-extension IapHelper: SKPaymentTransactionObserver {
+extension IAPHelper: SKPaymentTransactionObserver {
     func purchaseWasSuccessful(_ productId: IAPProductID) {
         trackPaymentEvent(.purchaseSuccessful, productId: productId)
     }
@@ -395,7 +395,7 @@ private extension SKProductSubscriptionPeriod {
     }
 }
 
-private extension IapHelper {
+private extension IAPHelper {
     func trackPaymentEvent(_ event: AnalyticsEvent, productId: IAPProductID, error: NSError? = nil) {
         let product = getProduct(for: productId)
         var offerType = "none"

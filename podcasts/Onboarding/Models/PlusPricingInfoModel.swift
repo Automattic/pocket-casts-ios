@@ -4,7 +4,7 @@ import PocketCastsServer
 /// A parent model that allows a view to present pricing information
 class PlusPricingInfoModel: ObservableObject {
     // Allow injection of the IapHelper
-    let purchaseHandler: IapHelper
+    let purchaseHandler: IAPHelper
 
     // Allow our views to get the necessary pricing information
     @Published var pricingInfo: PlusPricingInfo
@@ -12,13 +12,13 @@ class PlusPricingInfoModel: ObservableObject {
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
 
-    init(purchaseHandler: IapHelper = .shared) {
+    init(purchaseHandler: IAPHelper = .shared) {
         self.purchaseHandler = purchaseHandler
         self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
         self.priceAvailability = purchaseHandler.hasLoadedProducts ? .available : .unknown
     }
 
-    private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
+    private static func getPricingInfo(from purchaseHandler: IAPHelper) -> PlusPricingInfo {
         let products: [IAPProductID] = [.yearly, .monthly, .patronYearly, .patronMonthly]
 
         var pricing: [PlusProductPricingInfo] = []
