@@ -83,8 +83,6 @@ struct PlusAccountUpgradePrompt: View {
         .background(theme.primaryUi01)
     }
 
-    
-
     @ViewBuilder
     private func subscribeButton(for product: ProductInfo) -> some View {
         let plan = product.identifier.plan
