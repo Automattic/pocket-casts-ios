@@ -480,7 +480,7 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <key>discover_browse_by_category_society</key>
     <string>Samhälle</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Kultur</string>
+    <string>Samhälle och kultur</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualitet</string>
     <key>discover_browse_by_category_sports</key>
@@ -1468,33 +1468,16 @@ UPPDATERINGAR</string>
     <string>Tack för ditt stöd. Tyvärr innebär detta att du inte kan ta del av den här kampanjen.</string>
     <key>plus_expiration_format</key>
     <string>Löper ut %1$@</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>Molnet</string>
     <key>plus_feature_gratitude</key>
     <string>Den eviga tacksamheten hos alla här på Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra ikoner för teman och appar</string>
-    <key>plus_feature_watch_app</key>
-    <string>Fristående Uppspelning i Smartklocka</string>
-    <key>plus_feature_web_player</key>
-    <string>Webbspelare</string>
     <key>plus_features</key>
     <string>PLUS-FUNKTIONER</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ gratis</string>
     <key>plus_lifetime_membership</key>
     <string>Livstidsmedlem</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>Accelerera dina föreläsningar. Skynda dig igenom annat innehåll. Bli din egen Podcast-DJ.</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>Molnlagring</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>Lyssna på dina podcasts på vår datorappar för Windows, macOS, och webben.</string>
-    <key>plus_marketing_desktop_apps_title</key>
-    <string>Dator-appar</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>Känner du för att uppgradera ditt Podcastande?
-Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseendet med nya fräscha teman, som är exklusiva för Plus-medlemmar.</string>
     <key>plus_marketing_folders_description</key>
     <string>Skapa mappar för att organisera din podcastsamling.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1505,12 +1488,8 @@ Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseend
     <string>Läs mer om Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Gör appen din egen och bli distribuerad på en och samma gång. Ladda upp dina egna ljudfiler till vår molnserver och få tillgång till ditt konto via vår webbspelare.</string>
-    <key>plus_marketing_main_title</key>
-    <string>Förbättrade funktioner för avancerade lyssnare</string>
     <key>plus_marketing_subtitle</key>
     <string>Få tillgång till exklusiva funktioner och anpassningsalternativ</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>Välj bland exklusiva färger och ikoner som endast är tillgängliga för Plus-medlemmar.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Teman och ikoner</string>
     <key>plus_marketing_title</key>
@@ -1521,12 +1500,6 @@ Få tillgång till en datorapp, ladda upp dina egna filer, och piffa upp utseend
     <string>Lyssna på fler platser med våra Windows-, macOS- och webbappar</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Organisera dina podcasts i mappar och håll dem synkroniserade på alla dina enheter.</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>Uppgradera till Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>Strunt i att ta med dig telefonen nästa gång du är ute och springer. En Apple Watch är tillräckligt.</string>
-    <key>plus_marketing_watch_playback_title</key>
-    <string>Klockan</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ per månad</string>
     <key>plus_payment_canceled</key>

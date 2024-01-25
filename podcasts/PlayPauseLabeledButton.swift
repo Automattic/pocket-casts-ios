@@ -73,7 +73,7 @@ class PlayPauseLabeledButton: BasePlayPauseButton {
         layer.cornerRadius = frame.size.height / 2
     }
 
-    override func place(animation: AnimationView) {
+    override func place(animation: LottieAnimationView) {
         animation.translatesAutoresizingMaskIntoConstraints = false
         animation.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
