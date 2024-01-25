@@ -25,6 +25,8 @@ public class ServerPodcastManager: NSObject {
         return queue
     }()
 
+    private let urlConnection = URLConnection(session: URLSession.shared)
+
     // MARK: - Podcast add fucntions
 
     public func addFromUuid(podcastUuid: String, subscribe: Bool, completion: ((Bool) -> Void)?) {
@@ -323,7 +325,7 @@ public class ServerPodcastManager: NSObject {
         request.addValue("application/json", forHTTPHeaderField: ServerConstants.HttpHeaders.accept)
         request.setValue("application/json; charset=UTF8", forHTTPHeaderField: ServerConstants.HttpHeaders.contentType)
         do {
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let data = responseData else { return nil }
 
             if let response = response as? HTTPURLResponse, response.statusCode == ServerConstants.HttpConstants.notModified {

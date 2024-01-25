@@ -9,8 +9,13 @@ class ApiBaseTask: Operation {
 
     let dataManager: DataManager
 
-    init(dataManager: DataManager = .sharedManager) {
+    private let urlConnection: URLConnection
+    private let tokenHelper: TokenHelper
+
+    init(dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(session: URLSession.shared)) {
         self.dataManager = dataManager
+        self.urlConnection = urlConnection
+        self.tokenHelper = TokenHelper(urlConnection: urlConnection)
         super.init()
     }
 
@@ -23,7 +28,7 @@ class ApiBaseTask: Operation {
     func runTaskSynchronously() {
         if let token = KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
             apiTokenAcquired(token: token)
-        } else if let token = TokenHelper.acquireToken() {
+        } else if let token = tokenHelper.acquireToken() {
             apiTokenAcquired(token: token)
         } else {
             apiTokenAcquisitionFailed()
@@ -41,10 +46,10 @@ class ApiBaseTask: Operation {
         do {
             request.httpBody = data
 
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                if retryOnUnauthorized, let newToken = TokenHelper.acquireToken() {
+                if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
                     return performPostToServer(url: url, token: newToken, data: data, retryOnUnauthorized: false)
                 }
 
@@ -76,10 +81,10 @@ class ApiBaseTask: Operation {
         }
 
         do {
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, nil) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                if retryOnUnauthorized, let newToken = TokenHelper.acquireToken() {
+                if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
                     return performGetToServer(url: url, token: newToken, retryOnUnauthorized: false, customHeaders: customHeaders)
                 }
 
@@ -103,7 +108,7 @@ class ApiBaseTask: Operation {
         do {
             request.httpBody = data
 
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one

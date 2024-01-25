@@ -1,14 +1,21 @@
 import Foundation
 
 public class URLConnection {
-    public class func sendSynchronousRequest(with request: URLRequest) throws -> (Data?, URLResponse?) {
+
+    private let session: URLSession
+
+    init(session: URLSession) {
+        self.session = session
+    }
+
+    public func sendSynchronousRequest(with request: URLRequest) throws -> (Data?, URLResponse?) {
         var data: Data?
         var response: URLResponse?
         var error: Error?
 
         let semaphore = DispatchSemaphore(value: 0)
 
-        let dataTask = URLSession.shared.dataTask(with: request) {
+        let dataTask = session.dataTask(with: request) {
             data = $0
             response = $1
             error = $2

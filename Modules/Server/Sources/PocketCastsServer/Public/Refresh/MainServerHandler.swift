@@ -40,6 +40,8 @@ public class MainServerHandler {
         return queue
     }()
 
+    private let tokenHelper = TokenHelper.shared
+
     struct PodcastSearchQuery: BaseRequest {
         var q: String?
         var dt: String?
@@ -205,7 +207,7 @@ public class MainServerHandler {
             return
         }
 
-        TokenHelper.callSecureUrl(request: request) { response, data, error in
+        tokenHelper.callSecureUrl(request: request) { response, data, error in
             let statusCode = response?.statusCode ?? 0
 
             guard statusCode == ServerConstants.HttpConstants.ok, let data = data else {
