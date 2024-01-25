@@ -52,6 +52,9 @@ final class IAPHelperTests: XCTestCase {
 
         let helper = IAPHelper()
         SKPaymentQueue.default().add(helper)
+        defer {
+            SKPaymentQueue.default().remove(helper)
+        }
         let expectation = XCTestExpectation(description: "Fetch Products")
         NotificationCenter.default.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: nil) { notification in
             expectation.fulfill()
