@@ -408,6 +408,8 @@ internal enum L10n {
   internal static var clearUpNext: String { return L10n.tr("Localizable", "clear_up_next") }
   /// Are you sure you want to clear your Up Next queue?
   internal static var clearUpNextMessage: String { return L10n.tr("Localizable", "clear_up_next_message") }
+  /// Token authentication failed.
+  internal static var clientErrorTokenDeauth: String { return L10n.tr("Localizable", "client_error_token_deauth") }
   /// Close
   internal static var close: String { return L10n.tr("Localizable", "close") }
   /// Color

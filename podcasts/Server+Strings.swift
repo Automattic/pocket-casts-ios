@@ -46,6 +46,7 @@ public extension APIError {
         case .PROMO_CODE_EXPIRED_OR_INVALID: return L10n.serverErrorPromoCodeExpiredOrInvalid
         case .PROMO_ALREADY_REDEEMED: return L10n.serverErrorPromoAlreadyRedeemed
         case .NO_CONNECTION: return L10n.playerErrorInternetConnection
+        case .TOKEN_DEAUTH: return L10n.clientErrorTokenDeauth
         }
     }
 }

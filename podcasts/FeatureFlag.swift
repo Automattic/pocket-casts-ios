@@ -19,6 +19,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable a quicker and more responsive player transition
     case newPlayerTransition
 
+    /// Avoid logging out user on non-authorization HTTP errors
+    case errorLogoutHandling
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -37,6 +40,8 @@ enum FeatureFlag: String, CaseIterable {
             return false // To be enabled, newShowNotesEndpoint needs to be too
         case .newPlayerTransition:
             return true
+        case .errorLogoutHandling:
+            return false
         }
     }
 }
