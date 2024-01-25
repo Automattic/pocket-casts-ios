@@ -472,6 +472,7 @@
 		8B3295462A534E5A00BDFA11 /* Announcements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3295442A534CA800BDFA11 /* Announcements.swift */; };
 		8B3295492A5357A100BDFA11 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3295472A53576600BDFA11 /* WhatsNewView.swift */; };
 		8B3654172926C13000FD7216 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3654162926C13000FD7216 /* CircularProgressView.swift */; };
+		8B365E502B62E82000143DAC /* Agrume in Frameworks */ = {isa = PBXBuildFile; productRef = 8B365E4F2B62E82000143DAC /* Agrume */; };
 		8B3C7CA52A4DE36000939DED /* AutoplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */; };
 		8B44446229785287007E0AA8 /* AppleSocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44446129785287007E0AA8 /* AppleSocialLogin.swift */; };
 		8B44446429785947007E0AA8 /* SocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44446329785947007E0AA8 /* SocialLogin.swift */; };
@@ -3445,6 +3446,7 @@
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
+				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
 				1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */,
@@ -7415,6 +7417,7 @@
 				8BE36E022873552600E35313 /* PocketCastsUtils */,
 				C72CED33289DA28B0017883A /* AutomatticTracks */,
 				8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */,
+				8B365E4F2B62E82000143DAC /* Agrume */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -7601,6 +7604,7 @@
 				468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */,
 				C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11333,6 +11337,14 @@
 				minimumVersion = 8.1.1;
 			};
 		};
+		8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Automattic/Agrume";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.12;
+			};
+		};
 		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ra1028/DifferenceKit";
@@ -11400,6 +11412,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfig;
+		};
+		8B365E4F2B62E82000143DAC /* Agrume */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */;
+			productName = Agrume;
 		};
 		8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;

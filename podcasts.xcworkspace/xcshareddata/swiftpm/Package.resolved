@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "Agrume",
+        "repositoryURL": "https://github.com/Automattic/Agrume",
+        "state": {
+          "branch": null,
+          "revision": "c2090b3387729965fa0bdbc61adc2ec7af1753f9",
+          "version": "5.6.13"
+        }
+      },
+      {
         "package": "AppAuth",
         "repositoryURL": "https://github.com/openid/AppAuth-iOS.git",
         "state": {
