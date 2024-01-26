@@ -407,7 +407,7 @@ private extension IAPHelper {
             }
         }
 
-        var properties: [AnyHashable: Any] = ["product": productId,
+        var properties: [AnyHashable: Any] = ["product": productId.rawValue,
                                               "offer_type": offerType]
 
         if let error = error {
