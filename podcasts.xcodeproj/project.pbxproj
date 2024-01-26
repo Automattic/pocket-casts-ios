@@ -6325,6 +6325,7 @@
 			isa = PBXGroup;
 			children = (
 				BDD5253920477E4400AAD211 /* NSObject+AppDelegate.swift */,
+				FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */,
 				BDA9668E2189805F00DF9370 /* UITableView+MiniPlayer.swift */,
 				40A0A91024B5FE5300C29362 /* UITableView+MultiSelect.swift */,
 				BD6F1644219AB82700F34D14 /* UISearchBar+TextColor.swift */,
