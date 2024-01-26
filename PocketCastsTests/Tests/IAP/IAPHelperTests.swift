@@ -7,14 +7,17 @@ import PocketCastsServer
 final class IAPHelperTests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        // Pretend we're logged in
+        ServerSettings.setSyncingEmail(email: "test@test.com")
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        // Remove fake login
+        ServerSettings.setSyncingEmail(email: nil)
     }
 
     let configurationFile = "Pocket Casts Configuration"
+    let iapTestTimeout: TimeInterval = 1
 
     func testRequestInfo() throws {
         let session = try SKTestSession(configurationFileNamed: configurationFile)
@@ -29,7 +32,7 @@ final class IAPHelperTests: XCTestCase {
         }
         helper.requestProductInfo()
 
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: iapTestTimeout)
         XCTAssert(helper.hasLoadedProducts)
 
         let _ = helper.getProduct(for: .monthly)
@@ -42,6 +45,9 @@ final class IAPHelperTests: XCTestCase {
 
         let paymentFrequency = helper.getPaymentFrequency(for: .monthly)
         XCTAssertEqual(paymentFrequency, "month")
+
+        session.clearTransactions()
+        session.resetToDefaultState()
     }
 
     func testPurchase() throws {
@@ -61,7 +67,7 @@ final class IAPHelperTests: XCTestCase {
         }
         helper.requestProductInfo()
 
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: iapTestTimeout)
         XCTAssert(helper.hasLoadedProducts)
 
         let buyExpectation = XCTestExpectation(description: "Buy Product")
@@ -71,8 +77,10 @@ final class IAPHelperTests: XCTestCase {
         let buyResult = helper.buyProduct(identifier: .monthly)
         XCTAssert(buyResult)
 
-        wait(for: [buyExpectation], timeout: 500)
+        wait(for: [buyExpectation], timeout: iapTestTimeout)
 
+        session.clearTransactions()
+        session.resetToDefaultState()
     }
 
 }
