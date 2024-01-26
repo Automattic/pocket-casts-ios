@@ -6,7 +6,7 @@ struct PlusPurchaseModal: View {
     @ObservedObject var coordinator: PlusPurchaseModel
 
     @State var selectedOption: Constants.IapProducts
-    @State var freeTrialDuration: String?
+    @State var selectedOffer: PlusPricingInfoModel.ProductOfferInfo?
 
     var pricingInfo: PlusPurchaseModel.PlusPricingInfo {
         coordinator.pricingInfo
@@ -26,7 +26,7 @@ struct PlusPurchaseModal: View {
 
         let firstProduct = products.first
         _selectedOption = State(initialValue: selectedPrice == .yearly ? coordinator.plan.yearly : coordinator.plan.monthly)
-        _freeTrialDuration = State(initialValue: firstProduct?.offer?.duration)
+        _selectedOffer = State(initialValue: firstProduct?.offer)
     }
 
     var body: some View {
@@ -43,7 +43,7 @@ struct PlusPurchaseModal: View {
                         ZStack(alignment: .center) {
                             Button(product.price) {
                                 selectedOption = product.identifier
-                                freeTrialDuration = product.offer?.duration
+                                selectedOffer = product.offer
                             }
                             .disabled(coordinator.state == .failed)
                             .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
@@ -61,20 +61,9 @@ struct PlusPurchaseModal: View {
                     }
                 }
 
-                // Show how long the free trial is if there is one
-                if pricingInfo.hasFreeTrial {
-                    let label: String = {
-                        if let freeTrialDuration {
-                            return L10n.pricingTermsAfterTrialLong(freeTrialDuration)
-                        }
-
-                        return "\(selectedOption.renewalPrompt)\n\(L10n.plusCancelTerms)"
-                    }()
-
-                    Label(label, for: .freeTrialTerms)
-                        .foregroundColor(Color.textColor)
-                        .lineSpacing(1.2)
-                }
+                Label(pricingTermsLabel, for: .freeTrialTerms)
+                    .foregroundColor(Color.textColor)
+                    .lineSpacing(1.2)
 
                 // Show the error message if we're in the failed state
                 if coordinator.state == .failed {
@@ -95,8 +84,16 @@ struct PlusPurchaseModal: View {
             }.padding(.top, 23)
         }
         .frame(maxWidth: Config.maxWidth)
-        .padding([.leading, .trailing])        
+        .padding([.leading, .trailing])
         .background(Color.backgroundColor.ignoresSafeArea())
+    }
+
+    private var pricingTermsLabel: String {
+        guard let selectedOffer else {
+            return "\(selectedOption.renewalPrompt)\n\(L10n.plusCancelTerms)"
+        }
+
+        return selectedOffer.terms
     }
 
     private var subscribeButton: String {
@@ -104,7 +101,7 @@ struct PlusPurchaseModal: View {
             return L10n.tryAgain
         }
 
-        if freeTrialDuration != nil {
+        if selectedOffer != nil {
             return L10n.freeTrialStartAndSubscribeButton
         }
 

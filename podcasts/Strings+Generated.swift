@@ -2030,6 +2030,10 @@ internal enum L10n {
   internal static var podcastsSort: String { return L10n.tr("Localizable", "podcasts_sort") }
   /// Preview
   internal static var preview: String { return L10n.tr("Localizable", "preview") }
+  /// %1$@ for %2$@ then %3$@
+  internal static func pricingTermsAfterDiscount(_ p1: Any, _ p2: Any, _ p3: Any) -> String {
+    return L10n.tr("Localizable", "pricing_terms_after_discount", String(describing: p1), String(describing: p2), String(describing: p3))
+  }
   /// then %1$@
   internal static func pricingTermsAfterTrial(_ p1: Any) -> String {
     return L10n.tr("Localizable", "pricing_terms_after_trial", String(describing: p1))

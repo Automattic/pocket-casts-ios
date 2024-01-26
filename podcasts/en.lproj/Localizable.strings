@@ -3437,6 +3437,9 @@
 /* Pricing terms explaining that the user will be charged after their free trial ends, %1$@ is the free trial duration (1 month), \n is a new line */
 "pricing_terms_after_trial_long" = "Recurring payments will begin after your\n%1$@ free trial";
 
+/* Pricing terms explaining that the user will have a discount in the first period then will pay full price, %1$@ is the discount price, %2$@ the discount duration, %3$@ the full price*/
+"pricing_terms_after_discount" = "%1$@ for %2$@ then %3$@";
+
 /* Monthly pricing format, %1$@ is the price */
 "plus_monthly_frequency_pricing_format" = "%1$@ per month";
 

@@ -91,6 +91,15 @@ class PlusPricingInfoModel: ObservableObject {
             }
         }
 
+        var terms: String {
+            switch type {
+            case .freeTrial:
+                return L10n.pricingTermsAfterTrialLong(duration)
+            case .discount:
+                return L10n.pricingTermsAfterDiscount(price, duration, rawPrice)
+            }
+        }
+
     }
 
     enum PriceAvailablity {
