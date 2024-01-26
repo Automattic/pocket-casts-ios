@@ -39,6 +39,8 @@
     <string>Reproducció de l'episodi</string>
     <key>accessibility_hide_filter_details</key>
     <string>Toca per amagar la informació del filtre</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>Pitja per anar a la pàgina principal d'informació del podcast.</string>
     <key>accessibility_hint_star</key>
     <string>Fés doble clic per destacar l'episodi</string>
     <key>accessibility_hint_unstar</key>
@@ -1464,33 +1466,20 @@ ACTUALITZACIONS</string>
     <string>Gràcies pel teu suport, però lamentablement això significa que no pots participar en aquesta promoció.</string>
     <key>plus_expiration_format</key>
     <string>Caduca %1$@</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>Emmagatzematge al núvol</string>
     <key>plus_feature_gratitude</key>
     <string>L'etern agraïment de l'equip de Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Més temes i icones de l'aplicació</string>
-    <key>plus_feature_watch_app</key>
-    <string>Reproducció independent a l'Apple Watch</string>
-    <key>plus_feature_web_player</key>
-    <string>Reproductor web</string>
     <key>plus_features</key>
     <string>FUNCIONS PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ gratuït</string>
     <key>plus_lifetime_membership</key>
     <string>Membre vitalici</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>Accelera les teves conferències. Gaudeix d'altres continguts. Sigues el teu propi DJ de podcast.</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>Emmagatzematge al núvol</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>Amb les nostres aplicaciones per a Windows, mac OS i web, podràs escoltar els teus podcasts a més llocs.</string>
     <key>plus_marketing_desktop_apps_title</key>
-    <string>Aplicacions per a ordinador</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>Vols millorar la teva manera descoltar podcasts?
-Aconsegueix aplicacions per a ordinador, porta els teus propis fitxers i adorna-ho tot amb nous temes, exclusius per als membres Plus.</string>
+    <string>Aplicacions d'escriptori i web</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>Carpetes i marcadors</string>
     <key>plus_marketing_folders_description</key>
     <string>Crea carpetes per organitzar la teva col·lecció de podcats.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1501,12 +1490,8 @@ Aconsegueix aplicacions per a ordinador, porta els teus propis fitxers i adorna-
     <string>Més informació sobre Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Personal i organitzat, tot a la vegada. Puja els teus arxius d'àudio personals als nostres servidors al núvol, accedeix al teu compte a través del nostre reproductor web i personalitza l'aplicació.</string>
-    <key>plus_marketing_main_title</key>
-    <string>Funcions millorades per a oients avançats</string>
     <key>plus_marketing_subtitle</key>
     <string>Accedeix a funcions i opcions de personalització exclusives</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>Mostra't tal i com ets. Icones i temes exlusius només per a membres Plus.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Temes i icones</string>
     <key>plus_marketing_title</key>
@@ -1517,12 +1502,8 @@ Aconsegueix aplicacions per a ordinador, porta els teus propis fitxers i adorna-
     <string>Escolta els teus podcast a més llocs amb les nostres aplicacions per a Windows, macOS i web</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Organitza els teus podcasts en carpetes i així els podràs tenir sincronitzats en tots els teus dispositius.</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>Actualitzar a Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>Deixa el telèfon i surt a córrer, sense perdre el ritme. Apple Watch té autonomia tot sol.</string>
     <key>plus_marketing_watch_playback_title</key>
-    <string>Reproducció a l'Apple Watch</string>
+    <string>Aplicacions d'Apple Watch i de Wear OS</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ al mes</string>
     <key>plus_payment_canceled</key>

@@ -14,8 +14,8 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     private var requestedPurchase: String!
     private var productsRequest: SKProductsRequest?
 
-    /// Whether or not the user is eligible for a free trial
-    private(set) var isEligibleForTrial = Constants.Values.freeTrialDefaultValue
+    /// Whether or not the user is eligible for an offer
+    private(set) var isEligibleForOffer = Constants.Values.offerEligibilityDefaultValue
 
     /// Prevent multiple eligibility requests from being performed
     private var isCheckingEligibility = false
@@ -172,6 +172,25 @@ extension IapHelper {
 // MARK: - Intro Offers: Free Trials
 
 extension IapHelper {
+
+    /// Returns a offer description if one is available
+    /// - Parameter identifier: the product we want to check for an offer
+    /// - Returns: the product offer if available.
+    func offerType(_ identifier: Constants.IapProducts) -> PlusPricingInfoModel.ProductOfferType? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+        switch offer.paymentMode {
+        case .freeTrial:
+            return .freeTrial
+        case .payUpFront:
+            return .discount
+        case .payAsYouGo:
+            return nil
+        @unknown default:
+            return nil
+        }
+    }
     /// Returns the localized trial duration if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string (1 week) or nil if there is no offer available
@@ -181,6 +200,22 @@ extension IapHelper {
         }
 
         return offer.subscriptionPeriod.localizedPeriodString()
+    }
+
+    /// Returns the localized offer price if there is one
+    /// - Parameter identifier: The product to check
+    /// - Returns: A formatted string ($1) or nil if there is no offer available
+    func localizedOfferPrice(_ identifier: Constants.IapProducts) -> String? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.formatterBehavior = .behavior10_4
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = offer.priceLocale
+        let formattedPrice = numberFormatter.string(from: offer.price)
+        return formattedPrice ?? ""
     }
 
     /// Returns the first product with a free trial
@@ -204,9 +239,9 @@ extension IapHelper {
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     private func getFreeTrialOffer(_ identifier: Constants.IapProducts) -> SKProductDiscount? {
         guard
-            isEligibleForTrial,
+            isEligibleForOffer,
             let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
-            offer.paymentMode == .freeTrial
+            offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
         }
@@ -251,10 +286,10 @@ private extension IapHelper {
 
         isCheckingEligibility = true
         ApiServerHandler.shared.checkTrialEligibility(receiptString) { [weak self] isEligible in
-            let eligible = isEligible ?? Constants.Values.freeTrialDefaultValue
+            let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
 
             FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
-            self?.isEligibleForTrial = eligible
+            self?.isEligibleForOffer = eligible
             self?.isCheckingEligibility = false
         }
     }
@@ -362,12 +397,17 @@ private extension SKProductSubscriptionPeriod {
 private extension IapHelper {
     func trackPaymentEvent(_ event: AnalyticsEvent, productId: String, error: NSError? = nil) {
         let product = getProductWithIdentifier(identifier: productId)
-        let isFreeTrial = product?.introductoryPrice?.paymentMode == .freeTrial
-        let isEligible = isEligibleForTrial
+        var offerType = "none"
+        if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {
+            if paymentMode == .freeTrial {
+                offerType = "free_trial"
+            } else if paymentMode == .payUpFront {
+                offerType = "intro_offer"
+            }
+        }
 
         var properties: [AnyHashable: Any] = ["product": productId,
-                                              "is_free_trial_available": isFreeTrial,
-                                              "is_free_trial_eligible": isEligible]
+                                              "offer_type": offerType]
 
         if let error = error {
             properties["error_code"] = error.code

@@ -26,7 +26,7 @@ class PlayPauseButton: BasePlayPauseButton {
         circleView.layer.cornerRadius = 0.5 * circleView.bounds.width
     }
 
-    override func place(animation: AnimationView) {
+    override func place(animation: LottieAnimationView) {
         circleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(circleView)
         NSLayoutConstraint.activate([

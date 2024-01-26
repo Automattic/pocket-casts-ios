@@ -1540,6 +1540,9 @@
 /* The available cloud storage limit available to Pocket Casts Plus Subscribers. '%1$@' is a placeholder for the available storage. */
 "plus_cloud_storage_limit_format" = "%1$@ GB Cloud Storage";
 
+/* Account detail message informing the user that they have been granted 50% discount. */
+"plus_discount_yearly_membership" = "50%% off your first year";
+
 /* Error message informing the user that they have already signed up for plus with this account. */
 "plus_error_already_registered" = "You already have a Pocket Casts Plus account";
 
@@ -1553,7 +1556,7 @@
 "plus_features" = "PLUS FEATURES";
 
 /* Account detail message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
-"plus_free_membership_format" = "%1$@ Free";
+"plus_free_membership_format" = "%1$@ Free Trial";
 
 /* Account detail message informing the user that they have been granted a lifetime membership. */
 "plus_lifetime_membership" = "Lifetime Member";
@@ -2154,6 +2157,9 @@
 
 /* Generic server error message for when an unexpected or unhandled issue occurred. */
 "server_error_unknown" = "Something went wrong";
+
+/* A generic message for an error fetching the token from the server. This will cause logout issues. */
+"client_error_token_deauth" = "Token authentication failed.";
 
 /* Server message thanking the user for signing up to the service. */
 "server_message_login_thanks_signing_up" = "Thanks for signing up!";

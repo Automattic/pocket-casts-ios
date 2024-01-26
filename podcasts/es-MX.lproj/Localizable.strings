@@ -480,7 +480,7 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>discover_browse_by_category_society</key>
     <string>Sociedad</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Cultura</string>
+    <string>Sociedad y cultura</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Espiritualidad</string>
     <key>discover_browse_by_category_sports</key>
@@ -1468,33 +1468,16 @@ ACTUALIZACIONES</string>
     <string>Agradecemos tu apoyo, aunque desafortunadamente esto significa que no puedes participar en esta promoción.</string>
     <key>plus_expiration_format</key>
     <string>Caduca el %1$@</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>Almacenamiento en la nube</string>
     <key>plus_feature_gratitude</key>
     <string>El eterno agradecimiento del equipo de Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Iconos de aplicaciones y temas adicionales</string>
-    <key>plus_feature_watch_app</key>
-    <string>Reproducción en reloj autónomo</string>
-    <key>plus_feature_web_player</key>
-    <string>Reproductor web</string>
     <key>plus_features</key>
     <string>FUNCIONES PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ gratis</string>
     <key>plus_lifetime_membership</key>
     <string>Miembro vitalicio</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>Acelera tus conferencias. Aprovecha otro contenido. Sé tu propio DJ de Podcast.</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>Almacenamiento en la nube</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>Lleva tus podcasts a más lugares con nuestras aplicaciones web y para Windows y macOS.</string>
-    <key>plus_marketing_desktop_apps_title</key>
-    <string>Aplicaciones de escritorio</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>¿Es momento de mejorar tus transmisiones?
-Obtén aplicaciones de escritorio, utiliza tus propios archivos y los temas nuevos para que todo quede arreglado, exclusivo para miembros Plus.</string>
     <key>plus_marketing_folders_description</key>
     <string>Crea carpetas para organizar tu colección de podcast.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1505,12 +1488,8 @@ Obtén aplicaciones de escritorio, utiliza tus propios archivos y los temas nuev
     <string>Obten más información sobre Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Para ti y para los demás, todo a la vez. Carga tus archivos de audio personales en nuestros servidores en la nube, accede a tu cuenta a través de nuestro reproductor web y personaliza la aplicación.</string>
-    <key>plus_marketing_main_title</key>
-    <string>Funciones mejoradas para oyentes avanzados</string>
     <key>plus_marketing_subtitle</key>
     <string>Obtén acceso a funciones y opciones de personalización exclusivas</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>Muestra tus verdaderos colores. Iconos y temas exclusivos solo para el club Plus.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Temas e iconos</string>
     <key>plus_marketing_title</key>
@@ -1521,12 +1500,6 @@ Obtén aplicaciones de escritorio, utiliza tus propios archivos y los temas nuev
     <string>Escucha pódcast en más lugares con nuestras aplicaciones para Windows, macOS y web</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Organiza tus pódcast en carpetas y mantenlos sincronizados en todos tus dispositivos.</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>Actualizar a Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>Deja el teléfono y sal a correr, sin perder el ritmo. Apple Watch tiene autonomía.</string>
-    <key>plus_marketing_watch_playback_title</key>
-    <string>Reproducción en Apple Watch</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ al mes</string>
     <key>plus_payment_canceled</key>

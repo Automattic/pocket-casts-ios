@@ -318,8 +318,12 @@ class AnalyticsHelper {
             ]
 
             // Log that a free trial was used
-            if IapHelper.shared.isEligibleForTrial, product.introductoryPrice?.paymentMode == .freeTrial {
-                parameters[AnalyticsParameterCoupon] = "FREE_TRIAL"
+            if IapHelper.shared.isEligibleForOffer, let offerType = product.introductoryPrice?.paymentMode  {
+                if offerType == .freeTrial {
+                    parameters[AnalyticsParameterCoupon] = "FREE_TRIAL"
+                } else if offerType == .payAsYouGo {
+                    parameters[AnalyticsParameterCoupon] = "INTRO_OFFER"
+                }
             }
 
             logEvent(AnalyticsEventAddToCart, parameters: parameters)

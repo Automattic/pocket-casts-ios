@@ -177,7 +177,7 @@ class ImageManager {
 
         do {
             let data = try Data(contentsOf: cache.diskStorage.cacheFileURL(forKey: key))
-            let image = try UIImage(imageData: data)
+            let image = UIImage(data: data)
 
             return image
         } catch {

@@ -43,7 +43,7 @@ public extension ApiServerHandler {
 
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let responseData = data, error == nil, (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok else {
-                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data)
+                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response)
                     completion(false, errorResponse)
 
                     return
@@ -79,7 +79,7 @@ public extension ApiServerHandler {
 
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let responseData = data, error == nil, (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok else {
-                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data)
+                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response)
                     completion(false, nil, errorResponse)
 
                     return
@@ -117,7 +117,7 @@ public extension ApiServerHandler {
 
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let responseData = data, error == nil, response?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
-                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, error: error)
+                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response, error: error)
                     FileLog.shared.addMessage("Unable to obtain token, status code: \(response?.extractStatusCode() ?? -1), server error: \(errorResponse?.rawValue ?? "none")")
                     completion(nil, nil, errorResponse)
 
@@ -154,7 +154,7 @@ public extension ApiServerHandler {
         try await withUnsafeThrowingContinuation { continuation in
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let responseData = data, error == nil, response?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
-                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, error: error)
+                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response, error: error)
                     FileLog.shared.addMessage("Unable to obtain token, status code: \(response?.extractStatusCode() ?? -1), server error: \(errorResponse?.rawValue ?? "none")")
                     continuation.resume(throwing: errorResponse ?? .UNKNOWN)
                     return
@@ -181,7 +181,7 @@ public extension ApiServerHandler {
         let errorMessageId: String?
     }
 
-    class func extractErrorResponse(data: Data?, error: Error? = nil) -> APIError? {
+    class func extractErrorResponse(data: Data?, response: URLResponse?, error: Error? = nil) -> APIError? {
         if let data = data {
             do {
                 let errorJson = try JSONDecoder().decode(ErrorResponse.self, from: data)
@@ -191,11 +191,27 @@ public extension ApiServerHandler {
             }
         }
 
+        let statusCode = response?.extractStatusCode()
+
         #if !os(watchOS)
             if let err = error as NSError?, err.code == CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue {
                 return APIError.NO_CONNECTION
             }
         #endif
+
+        if ServerConfig.avoidLogoutOnError {
+            switch statusCode {
+            case 400, 401:
+                // The request or token is likely broken. Trying again could work.
+                return APIError.TOKEN_DEAUTH
+            case 403:
+                // This is specifically due to permissions issues. It is unlikely a retry on this request would succeed. Not sure how this would apply to the `/token` endpoint.
+                // See https://web.archive.org/web/20190904190534/https://www.dirv.me/blog/2011/07/18/understanding-403-forbidden/index.html
+                return APIError.PERMISSION_DENIED
+            default:
+                ()
+            }
+        }
 
         return nil
     }
