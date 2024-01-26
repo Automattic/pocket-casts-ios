@@ -1,6 +1,5 @@
 import Foundation
 import PocketCastsUtils
-import SwiftyJSON
 
 public class ServerHelper: NSObject {
     // MARK: Url Helpers
@@ -42,40 +41,9 @@ public class ServerHelper: NSObject {
 
     class func decodeRefreshResponse(from data: Data) -> PodcastRefreshResponse {
         do {
-            let json = try JSON(data: data)
-            var refreshResponse = PodcastRefreshResponse()
-            refreshResponse.status = json["status"].stringValue
-            refreshResponse.message = json["message"].stringValue
-
-            let jsonUpdates = json["result"]["podcast_updates"]
-            var refreshResult = RefreshResult()
-            var updates = [String: [RefreshEpisode]]()
-            for (uuid, jsonEpisodes): (String, JSON) in jsonUpdates {
-                var episodes = [RefreshEpisode]()
-                for jsonEpisode in jsonEpisodes.arrayValue {
-                    var episode = RefreshEpisode()
-                    episode.title = jsonEpisode["title"].stringValue
-                    episode.uuid = jsonEpisode["uuid"].stringValue
-                    episode.url = jsonEpisode["url"].stringValue
-                    episode.episodeDescription = jsonEpisode["description"].stringValue
-                    episode.detailedDescription = jsonEpisode["dd"].stringValue
-                    episode.fileType = jsonEpisode["file_type"].stringValue
-                    episode.sizeInBytes = jsonEpisode["size_in_bytes"].int64Value
-                    episode.duration = jsonEpisode["duration_in_secs"].doubleValue
-                    episode.episodeType = jsonEpisode["ep_type"].stringValue
-                    episode.seasonNumber = jsonEpisode["ep_season"].int64Value
-                    episode.episodeNumber = jsonEpisode["ep_number"].int64Value
-                    episode.publishedDate = jsonEpisode["published_at"].stringValue
-
-                    episodes.append(episode)
-                }
-                updates[uuid] = episodes
-            }
-            refreshResult.podcastUpdates = updates
-
-            refreshResponse.result = refreshResult
-
-            return refreshResponse
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try jsonDecoder.decode(PodcastRefreshResponse.self, from: data)
         } catch {
             FileLog.shared.addMessage("Unable to decode refresh response \(error.localizedDescription)")
             return PodcastRefreshResponse.failedResponse()
