@@ -36,10 +36,6 @@ struct PlusPurchaseModal: View {
                 .padding(.top, 32)
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
 
-            if showGlobalTrial, let freeTrialDuration {
-                PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan)
-            }
-
             VStack(spacing: 16) {
                 ForEach(products) { product in
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
@@ -53,9 +49,9 @@ struct PlusPurchaseModal: View {
                             .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
                             .overlay(
                                 ZStack(alignment: .center) {
-                                    if !showGlobalTrial, let freeTrialDuration = product.offer?.duration {
+                                    if let offerDescription = product.offer?.description {
                                         GeometryReader { proxy in
-                                            PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
+                                            OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption ==   product.identifier)
                                                 .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY - (proxy.size.height * 0.12))
                                         }
                                     }

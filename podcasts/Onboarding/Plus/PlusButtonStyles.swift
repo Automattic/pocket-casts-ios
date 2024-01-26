@@ -150,7 +150,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
     }
 }
 
-struct PlusFreeTrialLabel: View {
+struct OfferLabel: View {
     let text: String
     let plan: Constants.Plan
     let isSelected: Bool
@@ -166,7 +166,7 @@ struct PlusFreeTrialLabel: View {
     }
 
     var body: some View {
-        Text(L10n.freeTrialDurationFreeTrial(text.localizedUppercase))
+        Text(text.localizedUppercase)
             .font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraLarge)
             .multilineTextAlignment(.center)
             .padding([.top, .bottom], 4)
