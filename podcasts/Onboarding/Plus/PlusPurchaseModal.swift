@@ -151,6 +151,8 @@ private struct TermsView: View {
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
         .foregroundColor(.textColor)
+        .font(style: .footnote)
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
 
