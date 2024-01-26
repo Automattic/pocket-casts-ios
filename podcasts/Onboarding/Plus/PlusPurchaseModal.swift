@@ -97,7 +97,7 @@ struct PlusPurchaseModal: View {
                     coordinator.purchase(product: selectedOption)
                 }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
 
-                TermsView(text: Config.termsHTML)
+                TermsView()
             }.padding(.top, 23)
         }
         .frame(maxWidth: Config.maxWidth)
@@ -129,7 +129,6 @@ struct PlusPurchaseModal: View {
 private extension Color {
     static let backgroundColor = Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
     static let textColor = Color(hex: "#FFFFFF")
-    static let uiTextColor = UIColor(hex: "#FFFFFF")
     static let error = AppTheme.color(for: .support05)
 }
 
@@ -141,17 +140,19 @@ private struct PlusDivider: View {
 }
 
 private struct TermsView: View {
-    @State var labelSize: CGSize = .zero
-    let text: String
-
     var body: some View {
-        GeometryReader { geometry in
-            HTMLTextView(text: text,
-                         font: .font(ofSize: 14, weight: .regular, scalingWith: .footnote, maxSizeCategory: .extraExtraLarge),
-                         textColor: Color.uiTextColor,
-                         width: geometry.size.width,
-                         textViewSize: $labelSize)
-        }.frame(height: labelSize.height)
+        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
+
+        let privacyPolicy = ServerConstants.Urls.privacyPolicy
+        let termsOfUse = ServerConstants.Urls.termsOfUse
+
+        Group {
+            Text(purchaseTerms[safe: 0] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
+            Text(purchaseTerms[safe: 2] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
+        }
+        .foregroundColor(.textColor)
     }
 }
 
