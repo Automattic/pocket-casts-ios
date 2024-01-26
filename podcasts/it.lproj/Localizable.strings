@@ -480,7 +480,7 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <key>discover_browse_by_category_society</key>
     <string>Società</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Cultura</string>
+    <string>Società e cultura</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualità</string>
     <key>discover_browse_by_category_sports</key>
@@ -1468,33 +1468,16 @@ AGGIORNAMENTI</string>
     <string>Grazie per il tuo supporto, ma purtroppo questo significa che non puoi partecipare a questa promozione.</string>
     <key>plus_expiration_format</key>
     <string>Scade il giorno %1$@</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>Archiviazione su cloud</string>
     <key>plus_feature_gratitude</key>
     <string>La gratitudine di tutti qui a Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Temi aggiuntivi e icone delle app</string>
-    <key>plus_feature_watch_app</key>
-    <string>Riproduzione autonoma sullo smartwatch</string>
-    <key>plus_feature_web_player</key>
-    <string>Lettore web</string>
     <key>plus_features</key>
     <string>FUNZIONALITÀ PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ gratis</string>
     <key>plus_lifetime_membership</key>
     <string>Membro a vita</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>Velocizza le tue lezioni. Masterizza altri contenuti. Diventa il DJ dei podcast che ascolti.</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>Archiviazione su cloud</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>Con le nostre app per Windows, macOS e web, puoi usufruire dei tuoi podcast su più postazioni.</string>
-    <key>plus_marketing_desktop_apps_title</key>
-    <string>App per desktop</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>È ora di migliorare il tuo progetto di podcasting?
-Ottieni le app per desktop, inserisci i tuoi file e migliora il tutto con nuovissimi temi, esclusivi per i membri Plus.</string>
     <key>plus_marketing_folders_description</key>
     <string>Crea cartelle per organizzare la tua raccolta di podcast.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1505,12 +1488,8 @@ Ottieni le app per desktop, inserisci i tuoi file e migliora il tutto con nuovis
     <string>Scopri di più su Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Personalizza e suddividi, tutto in una volta. Carica i tuoi file audio personali sui nostri server cloud, accedi al tuo account tramite il nostro lettore web e personalizza la tua app.</string>
-    <key>plus_marketing_main_title</key>
-    <string>Funzionalità migliorate per ascoltatori esperti</string>
     <key>plus_marketing_subtitle</key>
     <string>Ottieni l'accesso a esclusive funzionalità e opzioni di personalizzazione</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>Mostra i tuoi reali colori. Icone e temi esclusivi solo per chi fa parte del club Plus.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Temi e icone</string>
     <key>plus_marketing_title</key>
@@ -1521,12 +1500,6 @@ Ottieni le app per desktop, inserisci i tuoi file e migliora il tutto con nuovis
     <string>Ascolta da più postazioni con le app per Windows, macOS e web</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Organizza i tuoi podcast in cartelle e sincronizzali su tutti i dispositivi.</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>Esegui l'aggiornamento a Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>Abbandona il telefono e vai a correre, senza perdere il ritmo. Apple Watch funziona da solo.</string>
-    <key>plus_marketing_watch_playback_title</key>
-    <string>Riproduzione su smartwatch</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ al mese</string>
     <key>plus_payment_canceled</key>

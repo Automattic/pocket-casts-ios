@@ -279,6 +279,9 @@ struct Constants {
 
         static let newPlayerTransition = "new_player_transition"
         static let newPlayerTransitionDefault: Bool = true
+
+        static let errorLogoutHandling = "error_logout_handling"
+        static let errorLogoutHandlingDefault: Bool = false
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5

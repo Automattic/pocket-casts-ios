@@ -7,7 +7,7 @@ class BasePlayPauseButton: UIButton {
     private enum PlayState { case playing, paused, notSet }
 
     private var currentState = PlayState.notSet
-    var animationView: AnimationView!
+    var animationView: LottieAnimationView!
 
     var isPlaying = false {
         didSet {
@@ -33,7 +33,7 @@ class BasePlayPauseButton: UIButton {
     var playButtonColor: UIColor = .white {
         didSet {
             let colorValues = playButtonColor.getRGBA()
-            let colorProvider = ColorValueProvider(Color(r: colorValues[0], g: colorValues[1], b: colorValues[2], a: colorValues[3]))
+            let colorProvider = ColorValueProvider(LottieColor(r: colorValues[0], g: colorValues[1], b: colorValues[2], a: colorValues[3]))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Fill 1.Color"))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Stroke 1.Color"))
         }
@@ -42,7 +42,7 @@ class BasePlayPauseButton: UIButton {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
-        animationView = AnimationView(name: animationName())
+        animationView = LottieAnimationView(name: animationName())
         animationView.isUserInteractionEnabled = false
         animationView.animationSpeed = BasePlayPauseButton.animationSpeed
     }
@@ -65,7 +65,7 @@ class BasePlayPauseButton: UIButton {
         animate(from: 0, to: 0.5, changingToState: .paused)
     }
 
-    func place(animation: AnimationView) {}
+    func place(animation: LottieAnimationView) {}
     func animationName() -> String {
         "player_play_button"
     }

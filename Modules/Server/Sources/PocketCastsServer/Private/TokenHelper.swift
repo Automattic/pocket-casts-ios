@@ -54,14 +54,16 @@ class TokenHelper {
         let semaphore = DispatchSemaphore(value: 0)
         var refreshedToken: String? = nil
         var refreshedRefreshToken: String? = nil
+        var error: Error? = nil
 
         asyncAcquireToken { result in
             switch result {
             case .success(let authenticationResponse):
                 refreshedToken = authenticationResponse?.token
                 refreshedRefreshToken = authenticationResponse?.refreshToken
-            case .failure:
+            case .failure(let resultError):
                 refreshedToken = nil
+                error = resultError
             }
             semaphore.signal()
         }
@@ -73,8 +75,18 @@ class TokenHelper {
             ServerSettings.refreshToken = refreshedRefreshToken
         }
         else {
-            // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
-            tokenCleanUp()
+            if ServerConfig.avoidLogoutOnError {
+                // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
+                switch error as? APIError {
+                case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
+                    tokenCleanUp()
+                default:
+                    () // Do nothing so the user is not disrupted in the case of non-auth errors
+                }
+            } else {
+                tokenCleanUp()
+            }
+
             return nil
         }
 
@@ -83,7 +95,7 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    class func acquirePasswordToken() -> AuthenticationResponse? {
+    private class func acquirePasswordToken() throws -> AuthenticationResponse? {
         guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
             // if the user doesn't have an email and password, then we'll check if they're using SSO
             return nil
@@ -121,8 +133,16 @@ class TokenHelper {
                 FileLog.shared.addMessage("TokenHelper logging user out, invalid password")
                 SyncManager.signout()
             }
-        } catch {
+
+            if ServerConfig.avoidLogoutOnError {
+                let errorResponse = ApiServerHandler.extractErrorResponse(data: responseData, response: response, error: nil)
+                throw errorResponse ?? .UNKNOWN
+            }
+        } catch let error {
             FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
+            if ServerConfig.avoidLogoutOnError {
+                throw error
+            }
         }
 
         return nil
@@ -131,26 +151,33 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    private class func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, APIError>) -> Void) {
-        if let authenticationResponse = acquirePasswordToken() {
-            completion(.success(authenticationResponse))
-            return
+    private class func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, Error>) -> Void) {
+        do {
+            if let authenticationResponse = try acquirePasswordToken() {
+                completion(.success(authenticationResponse))
+                return
+            }
+        } catch let error {
+            if ServerConfig.avoidLogoutOnError {
+                completion(.failure(error))
+                return
+            }
         }
 
         Task {
-            if let authenticationResponse = await acquireIdentityToken() {
+            do {
+                let authenticationResponse = try await acquireIdentityToken()
                 completion(.success(authenticationResponse))
-            }
-            else {
-                completion(.failure(.UNKNOWN))
+            } catch let error {
+                completion(.failure(error))
             }
         }
     }
 
     // MARK: - SSO Identity Token
 
-    private class func acquireIdentityToken() async -> AuthenticationResponse? {
-        return try? await ApiServerHandler.shared.refreshIdentityToken()
+    private class func acquireIdentityToken() async throws -> AuthenticationResponse {
+        return try await ApiServerHandler.shared.refreshIdentityToken()
     }
 
     // MARK: Cleanup

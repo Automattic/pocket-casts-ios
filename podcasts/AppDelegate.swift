@@ -280,6 +280,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
             Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
             Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
+            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault)
         ])
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
@@ -288,6 +289,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 self?.updateEndOfYearRemoteValue()
                 self?.updateRemoteFeatureFlags()
+                ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
             }
         }
     }
@@ -300,6 +302,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Otherwise this might lead to crashes or weird behavior
                 appDelegate()?.miniPlayer()?.closeFullScreenPlayer()
                 try FeatureFlagOverrideStore().override(FeatureFlag.newPlayerTransition, withValue: Settings.newPlayerTransition)
+            }
+
+            if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
+                ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
+                try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
             }
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
