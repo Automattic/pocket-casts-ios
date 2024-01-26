@@ -1590,7 +1590,9 @@
 		E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3665F532936CD13001C8372 /* ChaptersTests.swift */; };
 		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
+		F5BAACCB2B6446D900450E86 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
+		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
 /* End PBXBuildFile section */
 
@@ -3351,7 +3353,9 @@
 		ED026EC07A62C137A4959391 /* Pods-PocketCasts-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		EF3DD428DC2C444C2D8CEC5A /* Pods-PocketCastsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EFBF99F57846D0E1AF8DE08D /* Pods-PocketCasts-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
+		F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
+		F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelperTests.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPriceAndOfferView.swift; sourceTree = "<group>"; };
@@ -4450,6 +4454,7 @@
 				8B484EFE28D257E2001AFA97 /* DataManagerMock.swift */,
 				8B2319422902CF170001C3DE /* EndOfYearManagerMock.swift */,
 				8B484EFC28D2574D001AFA97 /* EpisodeBuilder.swift */,
+				F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -7143,6 +7148,7 @@
 			isa = PBXGroup;
 			children = (
 				C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */,
+				F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -8494,6 +8500,7 @@
 				8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */,
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
 				8B68C1D829421E3400CF25C5 /* FeatureFlagTests.swift in Sources */,
+				F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */,
 				8B317BA328906C8100A26A13 /* TestingAppDelegate.swift in Sources */,
 				C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */,
 				8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */,
@@ -8511,6 +8518,7 @@
 				8B2319412902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift in Sources */,
 				C7C0959A2ADE1AF9001E6E3B /* BookmarkAnnouncementViewModelTests.swift in Sources */,
 				8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */,
+				F5BAACCB2B6446D900450E86 /* MockURLHandler.swift in Sources */,
 				8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */,
 				8B1877E52A45DC570025D245 /* AutoplayHelperTests.swift in Sources */,
 				8B2E055028F8579700C2DBDE /* StoriesModelTests.swift in Sources */,

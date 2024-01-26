@@ -104,7 +104,7 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    private func acquirePasswordToken() throws -> AuthenticationResponse? {
+    func acquirePasswordToken() throws -> AuthenticationResponse? {
         guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
             // if the user doesn't have an email and password, then we'll check if they're using SSO
             return nil
