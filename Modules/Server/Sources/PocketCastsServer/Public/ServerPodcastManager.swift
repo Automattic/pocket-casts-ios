@@ -25,7 +25,7 @@ public class ServerPodcastManager: NSObject {
         return queue
     }()
 
-    private let urlConnection = URLConnection(session: URLSession.shared)
+    private let urlConnection = URLConnection(handler: URLSession.shared)
 
     // MARK: - Podcast add fucntions
 

@@ -12,7 +12,7 @@ class ApiBaseTask: Operation {
     private let urlConnection: URLConnection
     private let tokenHelper: TokenHelper
 
-    init(dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(session: URLSession.shared)) {
+    init(dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.dataManager = dataManager
         self.urlConnection = urlConnection
         self.tokenHelper = TokenHelper(urlConnection: urlConnection)

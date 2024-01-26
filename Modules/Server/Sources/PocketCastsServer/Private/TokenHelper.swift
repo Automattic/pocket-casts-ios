@@ -3,7 +3,7 @@ import PocketCastsUtils
 
 class TokenHelper {
 
-    static let shared = TokenHelper(urlConnection: URLConnection(session: URLSession.shared))
+    static let shared = TokenHelper(urlConnection: URLConnection(handler: URLSession.shared))
 
     private let urlConnection: URLConnection
 
