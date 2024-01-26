@@ -12,11 +12,11 @@
       },
       {
         "package": "Agrume",
-        "repositoryURL": "https://github.com/shiftyjelly/Agrume",
+        "repositoryURL": "https://github.com/Automattic/Agrume",
         "state": {
           "branch": null,
-          "revision": "fff5b688b0434f2bdd5d9bd711a6f3b2faf2dbeb",
-          "version": "5.6.11"
+          "revision": "c2090b3387729965fa0bdbc61adc2ec7af1753f9",
+          "version": "5.6.13"
         }
       },
       {
@@ -215,15 +215,6 @@
           "branch": null,
           "revision": "4f9164a0a2c9a6a7ff53a2833d54a5c79c957342",
           "version": "0.9.1"
-        }
-      },
-      {
-        "package": "SwiftyGif",
-        "repositoryURL": "https://github.com/kirualex/SwiftyGif",
-        "state": {
-          "branch": null,
-          "revision": "db0c122b671bc9760385e0355be00eede3b7bb44",
-          "version": "5.4.3"
         }
       },
       {
