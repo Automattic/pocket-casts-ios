@@ -20,7 +20,7 @@ final class IAPHelperTests: XCTestCase {
     }
 
     let configurationFile = "Pocket Casts Configuration"
-    let iapTestTimeout: TimeInterval = 10
+    let iapTestTimeout: TimeInterval = 1
 
     func testRequestInfo() throws {
         let session = try SKTestSession(configurationFileNamed: configurationFile)
@@ -49,7 +49,7 @@ final class IAPHelperTests: XCTestCase {
         let paymentFrequency = helper.getPaymentFrequency(for: .monthly)
         XCTAssertEqual(paymentFrequency, "month")
 
-        session.clearTransactions()        
+        session.clearTransactions()
     }
 
     func testPurchase() throws {
