@@ -49,8 +49,7 @@ final class IAPHelperTests: XCTestCase {
         let paymentFrequency = helper.getPaymentFrequency(for: .monthly)
         XCTAssertEqual(paymentFrequency, "month")
 
-        session.clearTransactions()
-        session.resetToDefaultState()
+        session.clearTransactions()        
     }
 
     func testPurchase() throws {
@@ -83,7 +82,6 @@ final class IAPHelperTests: XCTestCase {
         wait(for: [buyExpectation], timeout: iapTestTimeout)
 
         session.clearTransactions()
-        session.resetToDefaultState()
     }
 
 }
