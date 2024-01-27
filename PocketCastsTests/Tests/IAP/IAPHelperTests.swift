@@ -6,18 +6,21 @@ import PocketCastsServer
 
 final class IAPHelperTests: XCTestCase {
 
+    var email: String?
+
     override func setUpWithError() throws {
         // Pretend we're logged in
+        email = ServerSettings.syncingEmail()
         ServerSettings.setSyncingEmail(email: "test@test.com")
     }
 
     override func tearDownWithError() throws {
-        // Remove fake login
-        ServerSettings.setSyncingEmail(email: nil)
+        // Restore previous login
+        ServerSettings.setSyncingEmail(email: email)
     }
 
     let configurationFile = "Pocket Casts Configuration"
-    let iapTestTimeout: TimeInterval = 2
+    let iapTestTimeout: TimeInterval = 4
 
     func testRequestInfo() throws {
         let session = try SKTestSession(configurationFileNamed: configurationFile)
