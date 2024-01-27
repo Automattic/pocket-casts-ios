@@ -101,11 +101,7 @@ struct PlusPurchaseModal: View {
             return L10n.tryAgain
         }
 
-        if selectedOffer != nil {
-            return L10n.freeTrialStartAndSubscribeButton
-        }
-
-        return L10n.subscribe
+        return coordinator.plan == .plus ? L10n.plusSubscribeTo : L10n.patronSubscribeTo
     }
 
     enum Config {
