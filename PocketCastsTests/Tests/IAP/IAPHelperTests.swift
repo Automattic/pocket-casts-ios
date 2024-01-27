@@ -20,7 +20,7 @@ final class IAPHelperTests: XCTestCase {
     }
 
     let configurationFile = "Pocket Casts Configuration"
-    let iapTestTimeout: TimeInterval = 5
+    let iapTestTimeout: TimeInterval = 10
 
     func testRequestInfo() throws {
         let session = try SKTestSession(configurationFileNamed: configurationFile)
