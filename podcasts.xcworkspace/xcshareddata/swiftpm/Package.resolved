@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
         "state": {
           "branch": null,
-          "revision": "8e672c40b33aaa214f05ffe80bfe9d4b1b4fab17",
-          "version": "0.13.0"
+          "revision": "b6979ef69b4b094c8809ba83661222dcd0d7667e",
+          "version": "3.2.0"
         }
       },
       {
@@ -195,8 +195,8 @@
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {
           "branch": null,
-          "revision": "199000acd6a0a3f9c8e0bff03ef233f930993c71",
-          "version": "7.25.1"
+          "revision": "5c8abdeabf8d0dc5055879a657e31bac49bc1624",
+          "version": "8.19.0"
         }
       },
       {
