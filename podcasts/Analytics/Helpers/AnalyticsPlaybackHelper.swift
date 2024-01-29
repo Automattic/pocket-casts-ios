@@ -7,16 +7,12 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     /// Whether to ignore the next seek event
     private var ignoreNextSeek = false
 
-    private var isVideoPodcast: Bool {
-        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
-    }
-
     func play() {
-        track(.playbackPlay, properties: ["content_type": isVideoPodcast ? "video" : "audio"])
+        track(.playbackPlay)
     }
 
     func pause() {
-        track(.playbackPause, properties: ["content_type": isVideoPodcast ? "video" : "audio"])
+        track(.playbackPause)
     }
 
     func skipBack() {
