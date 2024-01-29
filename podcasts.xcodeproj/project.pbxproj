@@ -448,6 +448,7 @@
 		8B14E3B029B9159B0069B6F2 /* SearchHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B14E3AF29B9159B0069B6F2 /* SearchHistoryModel.swift */; };
 		8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B14E3B229BA43A00069B6F2 /* SearchHistoryModelTests.swift */; };
 		8B15E7222AD050EF0077F45A /* DMSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B15E7212AD050EE0077F45A /* DMSans.ttf */; };
+		8B1762772B6808F700F44450 /* JLRoutes in Frameworks */ = {isa = PBXBuildFile; productRef = 8B1762762B6808F700F44450 /* JLRoutes */; };
 		8B1877E52A45DC570025D245 /* AutoplayHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1877E42A45DC570025D245 /* AutoplayHelperTests.swift */; };
 		8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */; };
 		8B1C974828FE234B00BD5EB9 /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */; };
@@ -3456,6 +3457,7 @@
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
+				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
 				1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7444,6 +7446,7 @@
 				C72CED33289DA28B0017883A /* AutomatticTracks */,
 				8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */,
 				8B365E4F2B62E82000143DAC /* Agrume */,
+				8B1762762B6808F700F44450 /* JLRoutes */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -7631,6 +7634,7 @@
 				3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */,
 				C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */,
+				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11367,6 +11371,14 @@
 				minimumVersion = 10.20.0;
 			};
 		};
+		8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joeldev/JLRoutes";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
 		8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Agrume";
@@ -11442,6 +11454,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfig;
+		};
+		8B1762762B6808F700F44450 /* JLRoutes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */;
+			productName = JLRoutes;
 		};
 		8B365E4F2B62E82000143DAC /* Agrume */ = {
 			isa = XCSwiftPackageProductDependency;
