@@ -235,7 +235,7 @@
 		408B932D216EFD9B00B57B78 /* TextEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408B932B216EFD9B00B57B78 /* TextEntryCell.xib */; };
 		408C08872314BB50008C9667 /* WhatsNewThemeableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408C08862314BB50008C9667 /* WhatsNewThemeableImageView.swift */; };
 		408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408C088D23155B34008C9667 /* WhatsNewHelper.swift */; };
-		408F0B32227A6B540019584D /* IapHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408F0B31227A6B540019584D /* IapHelper.swift */; };
+		408F0B32227A6B540019584D /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408F0B31227A6B540019584D /* IAPHelper.swift */; };
 		408F0B36227FF41E0019584D /* ProfileProgressCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408F0B35227FF41E0019584D /* ProfileProgressCircleView.swift */; };
 		4090975025235DFA00CED68C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4090974F25235DFA00CED68C /* WidgetKit.framework */; };
 		4090975725235DFC00CED68C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4090975625235DFC00CED68C /* Assets.xcassets */; };
@@ -1592,6 +1592,9 @@
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
+		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
+		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
+		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2006,7 +2009,7 @@
 		408B932B216EFD9B00B57B78 /* TextEntryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextEntryCell.xib; sourceTree = "<group>"; };
 		408C08862314BB50008C9667 /* WhatsNewThemeableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewThemeableImageView.swift; sourceTree = "<group>"; };
 		408C088D23155B34008C9667 /* WhatsNewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewHelper.swift; sourceTree = "<group>"; };
-		408F0B31227A6B540019584D /* IapHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IapHelper.swift; sourceTree = "<group>"; };
+		408F0B31227A6B540019584D /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		408F0B35227FF41E0019584D /* ProfileProgressCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProgressCircleView.swift; sourceTree = "<group>"; };
 		4090974E25235DFA00CED68C /* WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4090974F25235DFA00CED68C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -3355,6 +3358,8 @@
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPriceAndOfferView.swift; sourceTree = "<group>"; };
+		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
+		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4189,6 +4194,7 @@
 		8B47542C28D36D5800BC89F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				FFF024CC2B62AC5F00457373 /* IAP */,
 				C7F4C6642A8EAB0A00483C37 /* Utilities */,
 				C7D8AE5A2A6056A900C9EBAF /* Common SwiftUI */,
 				E3665F552936CD33001C8372 /* Playback */,
@@ -5183,6 +5189,7 @@
 		BD618BD31702BE1200967A6B /* Managers and Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				FFC293972B6172E90059F3BB /* InAppPurchases */,
 				BD45F013243460C10029ADF2 /* Watch Communication */,
 				BD3334531FC680E20017C3A8 /* Lists */,
 				BDCA97A417CB78D3006E4242 /* Sharing */,
@@ -5210,7 +5217,6 @@
 				BDE48A352410D4BB00ECA6CA /* WatchNowPlayingHelper.swift */,
 				BD583AF321AE5F9E0048D78D /* EpisodeDateHelper.swift */,
 				BDA681AA220D03930053BEEE /* UserEpisodeManager.swift */,
-				408F0B31227A6B540019584D /* IapHelper.swift */,
 				8BAB271F2A40B3340079E5B3 /* EpisodesDataManager.swift */,
 				40D9A4B0240746C30019E469 /* SignOutHelper.swift */,
 				4036B0A325240F5D00AE08E6 /* WidgetHelper.swift */,
@@ -7214,6 +7220,23 @@
 			path = Chapters;
 			sourceTree = "<group>";
 		};
+		FFC293972B6172E90059F3BB /* InAppPurchases */ = {
+			isa = PBXGroup;
+			children = (
+				408F0B31227A6B540019584D /* IAPHelper.swift */,
+				FFC293982B6173400059F3BB /* IAPTypes.swift */,
+			);
+			name = InAppPurchases;
+			sourceTree = "<group>";
+		};
+		FFF024CC2B62AC5F00457373 /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */,
+			);
+			path = IAP;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -7668,6 +7691,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */,
 				8B317BA92890704400A26A13 /* TestingScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8517,6 +8541,7 @@
 				C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */,
 				8B484EFF28D257E2001AFA97 /* DataManagerMock.swift in Sources */,
 				8B484EF928D256F5001AFA97 /* Date+Ext.swift in Sources */,
+				FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */,
 				8B3295432A5336DA00BDFA11 /* WhatsNewTests.swift in Sources */,
 				C781EA412A6B72AE001DBFCC /* SearchableListViewModelTests.swift in Sources */,
 				8B484EF728D23F06001AFA97 /* PlaybackTimeHelperTests.swift in Sources */,
@@ -8990,6 +9015,7 @@
 				C7C4CAEE28AB0BF200CFC8CF /* TracksSubscriptionData.swift in Sources */,
 				40164A6E23E19C9A0043907B /* ProfileViewController+Promotion.swift in Sources */,
 				BDC8683223825933004C998F /* Interactor.swift in Sources */,
+				FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */,
 				8B67A26929A7D8690076886D /* PodcastCarouselView.swift in Sources */,
 				C76400552A0EDFB90092A74B /* UserInfo.swift in Sources */,
 				46C3D556275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift in Sources */,
@@ -9198,7 +9224,7 @@
 				8BDDD2AC29770479009E4DD3 /* SyncLoadingAlert.swift in Sources */,
 				46CD3C9B2715E25800F5EB8F /* SupportLogsView.swift in Sources */,
 				BD2F3BAD2366CA5600416633 /* NowPlayingPlayerItemViewController+Seek.swift in Sources */,
-				408F0B32227A6B540019584D /* IapHelper.swift in Sources */,
+				408F0B32227A6B540019584D /* IAPHelper.swift in Sources */,
 				BD2F3BA02366C01400416633 /* PlayerColorHelper.swift in Sources */,
 				40164A6B23DAAF8B0043907B /* PromotionAcknowledgementViewController.swift in Sources */,
 				C7ADDD202AD73DD000471853 /* BookmarksAnnouncement.swift in Sources */,

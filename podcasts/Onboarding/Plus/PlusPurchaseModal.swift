@@ -5,7 +5,7 @@ struct PlusPurchaseModal: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var coordinator: PlusPurchaseModel
 
-    @State var selectedOption: Constants.IapProducts
+    @State var selectedOption: IAPProductID
     @State var freeTrialDuration: String?
 
     var pricingInfo: PlusPurchaseModel.PlusPricingInfo {
@@ -18,7 +18,7 @@ struct PlusPurchaseModal: View {
 
     private var products: [PlusPricingInfoModel.PlusProductPricingInfo]
 
-    init(coordinator: PlusPurchaseModel, selectedPrice: Constants.PlanFrequency = .yearly) {
+    init(coordinator: PlusPurchaseModel, selectedPrice: PlanFrequency = .yearly) {
         self.coordinator = coordinator
 
         self.products = coordinator.pricingInfo.products.filter { coordinator.plan.products.contains($0.identifier) }

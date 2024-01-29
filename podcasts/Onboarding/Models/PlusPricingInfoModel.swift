@@ -4,7 +4,7 @@ import PocketCastsServer
 /// A parent model that allows a view to present pricing information
 class PlusPricingInfoModel: ObservableObject {
     // Allow injection of the IapHelper
-    let purchaseHandler: IapHelper
+    let purchaseHandler: IAPHelper
 
     // Allow our views to get the necessary pricing information
     @Published var pricingInfo: PlusPricingInfo
@@ -12,20 +12,20 @@ class PlusPricingInfoModel: ObservableObject {
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
 
-    init(purchaseHandler: IapHelper = .shared) {
+    init(purchaseHandler: IAPHelper = .shared) {
         self.purchaseHandler = purchaseHandler
         self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
         self.priceAvailability = purchaseHandler.hasLoadedProducts ? .available : .unknown
     }
 
-    private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
-        let products: [Constants.IapProducts] = [.yearly, .monthly, .patronYearly, .patronMonthly]
+    private static func getPricingInfo(from purchaseHandler: IAPHelper) -> PlusPricingInfo {
+        let products: [IAPProductID] = [.yearly, .monthly, .patronYearly, .patronMonthly]
 
         var pricing: [PlusProductPricingInfo] = []
 
         for product in products {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
-            let rawPrice = purchaseHandler.getPriceForIdentifier(identifier: product.rawValue)
+            let rawPrice = purchaseHandler.getPrice(for: product)
             var offer: ProductOfferInfo?
             if let duration = purchaseHandler.localizedFreeTrialDuration(product),
                let type = purchaseHandler.offerType(product),
@@ -54,7 +54,7 @@ class PlusPricingInfoModel: ObservableObject {
     }
 
     struct PlusProductPricingInfo: Identifiable {
-        let identifier: Constants.IapProducts
+        let identifier: IAPProductID
         let price: String
         let rawPrice: String
         let offer: ProductOfferInfo?

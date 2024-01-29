@@ -4,10 +4,10 @@ import PocketCastsUtils
 import StoreKit
 import UIKit
 
-class IapHelper: NSObject, SKProductsRequestDelegate {
-    static let shared = IapHelper()
+class IAPHelper: NSObject {
+    static let shared = IAPHelper()
 
-    private var productIdentifiers: [Constants.IapProducts] {
+    private var productIdentifiers: [IAPProductID] {
         [.monthly, .yearly, .patronMonthly, .patronYearly]
     }
     private var productsArray = [SKProduct]()
@@ -53,14 +53,14 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         request.start()
     }
 
-    func getProductWithIdentifier(identifier: String) -> SKProduct! {
+    func getProduct(for identifier: IAPProductID) -> SKProduct! {
         guard productsArray.count > 0 else {
             requestProductInfo()
             return nil
         }
 
         for p in productsArray {
-            if p.productIdentifier.caseInsensitiveCompare(identifier) == .orderedSame {
+            if p.productIdentifier.caseInsensitiveCompare(identifier.rawValue) == .orderedSame {
                 return p
             }
         }
@@ -70,8 +70,8 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
     /// Whether the products have been loaded from StoreKit
     var hasLoadedProducts: Bool { productsArray.count > 0 }
 
-    public func getPriceForIdentifier(identifier: String) -> String {
-        guard let product = getProductWithIdentifier(identifier: identifier) else { return "" }
+    public func getPrice(for identifier: IAPProductID) -> String {
+        guard let product = getProduct(for: identifier) else { return "" }
 
         let numberFormatter = NumberFormatter()
         numberFormatter.formatterBehavior = .behavior10_4
@@ -81,8 +81,8 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         return formattedPrice ?? ""
     }
 
-    public func buyProduct(identifier: String) -> Bool {
-        guard let product = getProductWithIdentifier(identifier: identifier), let _ = ServerSettings.syncingEmail() else {
+    public func buyProduct(identifier: IAPProductID) -> Bool {
+        guard let product = getProduct(for: identifier), let _ = ServerSettings.syncingEmail() else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
         }
@@ -94,17 +94,17 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
         return true
     }
 
-    public func getPaymentFrequencyForIdentifier(identifier: String) -> String {
-        if identifier == Constants.IapProducts.monthly.rawValue {
+    public func getPaymentFrequency(for identifier: IAPProductID) -> String {
+        switch identifier {
+        case .monthly, .patronMonthly:
             return L10n.month
-        } else if identifier == Constants.IapProducts.yearly.rawValue {
+        case .yearly, .patronYearly:
             return L10n.year
         }
-        return ""
     }
 
-    public func getPriceWithFrequency(for identifier: Constants.IapProducts) -> String? {
-        let price = getPriceForIdentifier(identifier: identifier.rawValue)
+    public func getPriceWithFrequency(for identifier: IAPProductID) -> String? {
+        let price = getPrice(for: identifier)
         guard !price.isEmpty else {
             return nil
         }
@@ -116,9 +116,10 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
             return L10n.plusMonthlyFrequencyPricingFormat(price)
         }
     }
+}
 
-    // MARK: SKProductReuqestDelelgate
-
+// MARK: - SKProductsRequestDelegate
+extension IAPHelper: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         defer { isRequestingProducts = false }
 
@@ -153,13 +154,13 @@ class IapHelper: NSObject, SKProductsRequestDelegate {
 
 // MARK: - Pricing String Helpers
 
-extension IapHelper {
+extension IAPHelper {
     /// Generates a string for a subscription price in the format of PRICE / FREQUENCY
     /// - Parameter product: The product to get the pricing string for
     /// - Returns: The formatted string or nil if the product isn't available or hasn't loaded yet
-    func pricingStringWithFrequency(for product: Constants.IapProducts) -> String? {
-        let pricing = getPriceForIdentifier(identifier: product.rawValue)
-        let frequency = getPaymentFrequencyForIdentifier(identifier: product.rawValue)
+    func pricingStringWithFrequency(for product: IAPProductID) -> String? {
+        let pricing = getPrice(for: product)
+        let frequency = getPaymentFrequency(for: product)
 
         guard !pricing.isEmpty, !frequency.isEmpty else {
             return nil
@@ -171,12 +172,12 @@ extension IapHelper {
 
 // MARK: - Intro Offers: Free Trials
 
-extension IapHelper {
+extension IAPHelper {
 
     /// Returns a offer description if one is available
     /// - Parameter identifier: the product we want to check for an offer
     /// - Returns: the product offer if available.
-    func offerType(_ identifier: Constants.IapProducts) -> PlusPricingInfoModel.ProductOfferType? {
+    func offerType(_ identifier: IAPProductID) -> PlusPricingInfoModel.ProductOfferType? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
         }
@@ -194,7 +195,7 @@ extension IapHelper {
     /// Returns the localized trial duration if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string (1 week) or nil if there is no offer available
-    func localizedFreeTrialDuration(_ identifier: Constants.IapProducts) -> String? {
+    func localizedFreeTrialDuration(_ identifier: IAPProductID) -> String? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
         }
@@ -205,7 +206,7 @@ extension IapHelper {
     /// Returns the localized offer price if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string ($1) or nil if there is no offer available
-    func localizedOfferPrice(_ identifier: Constants.IapProducts) -> String? {
+    func localizedOfferPrice(_ identifier: IAPProductID) -> String? {
         guard let offer = getFreeTrialOffer(identifier) else {
             return nil
         }
@@ -237,10 +238,10 @@ extension IapHelper {
     /// Checks if there is a free trial introductory offer for the given product
     /// - Parameter identifier: The product to check
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
-    private func getFreeTrialOffer(_ identifier: Constants.IapProducts) -> SKProductDiscount? {
+    private func getFreeTrialOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
         guard
             isEligibleForOffer,
-            let offer = getProductWithIdentifier(identifier: identifier.rawValue)?.introductoryPrice,
+            let offer = getProduct(for: identifier)?.introductoryPrice,
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
@@ -251,14 +252,14 @@ extension IapHelper {
 
     /// Returns the first product ID that has a free trial
     /// The priority order is set by the productIdentifiers array
-    private func getFirstFreeTrialProductId() -> Constants.IapProducts? {
+    private func getFirstFreeTrialProductId() -> IAPProductID? {
         return productIdentifiers.first(where: { getFreeTrialOffer($0) != nil })
     }
 }
 
 // MARK: - Trial Eligibility
 
-private extension IapHelper {
+private extension IAPHelper {
     /// Listens for subscription changes
     private func addSubscriptionNotifications() {
         NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
@@ -297,16 +298,16 @@ private extension IapHelper {
 
 // MARK: - SKPaymentTransactionObserver
 
-extension IapHelper: SKPaymentTransactionObserver {
-    func purchaseWasSuccessful(_ productId: String) {
+extension IAPHelper: SKPaymentTransactionObserver {
+    func purchaseWasSuccessful(_ productId: IAPProductID) {
         trackPaymentEvent(.purchaseSuccessful, productId: productId)
     }
 
-    func purchaseWasCancelled(_ productId: String, error: NSError) {
+    func purchaseWasCancelled(_ productId: IAPProductID, error: NSError) {
         trackPaymentEvent(.purchaseCancelled, productId: productId, error: error)
     }
 
-    func purchaseFailed(_ productId: String, error: NSError) {
+    func purchaseFailed(_ productId: IAPProductID, error: NSError) {
         trackPaymentEvent(.purchaseFailed, productId: productId, error: error)
     }
 
@@ -394,9 +395,9 @@ private extension SKProductSubscriptionPeriod {
     }
 }
 
-private extension IapHelper {
-    func trackPaymentEvent(_ event: AnalyticsEvent, productId: String, error: NSError? = nil) {
-        let product = getProductWithIdentifier(identifier: productId)
+private extension IAPHelper {
+    func trackPaymentEvent(_ event: AnalyticsEvent, productId: IAPProductID, error: NSError? = nil) {
+        let product = getProduct(for: productId)
         var offerType = "none"
         if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {
             if paymentMode == .freeTrial {
@@ -406,7 +407,7 @@ private extension IapHelper {
             }
         }
 
-        var properties: [AnyHashable: Any] = ["product": productId,
+        var properties: [AnyHashable: Any] = ["product": productId.rawValue,
                                               "offer_type": offerType]
 
         if let error = error {
