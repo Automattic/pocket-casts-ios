@@ -19,7 +19,6 @@ def kingfisher
 end
 
 def common_pods
-  pod 'JLRoutes'
   pod 'google-cast-sdk-no-bluetooth', git: 'https://github.com/shiftyjelly/google-cast.git'
   pod 'MaterialComponents/BottomSheet'
   kingfisher

@@ -1,6 +1,5 @@
 PODS:
   - google-cast-sdk-no-bluetooth (1.0.0)
-  - JLRoutes (2.1)
   - Kingfisher (7.6.2)
   - MaterialComponents/Availability (124.2.0)
   - MaterialComponents/BottomSheet (124.2.0):
@@ -36,7 +35,6 @@ PODS:
 
 DEPENDENCIES:
   - google-cast-sdk-no-bluetooth (from `https://github.com/shiftyjelly/google-cast.git`)
-  - JLRoutes
   - Kingfisher (>= 7.6.2, ~> 7.6)
   - MaterialComponents/BottomSheet
   - SwiftGen (~> 6.0)
@@ -44,7 +42,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - JLRoutes
     - Kingfisher
     - MaterialComponents
     - SwiftGen
@@ -61,12 +58,11 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   google-cast-sdk-no-bluetooth: fd144bf43bb76000a8e92b0410ae605937aa83bf
-  JLRoutes: d755245322b94227662ea3e43492fdca94e05c5b
   Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: 32ee33ded0636d0905ef6911b2b67bbaeeedafa5
 
-PODFILE CHECKSUM: 5ab2fbfd041c4568cdfad58ed2204516901808c5
+PODFILE CHECKSUM: 683dd20da0075ce6e4529973fe3486c4ab5c02a8
 
 COCOAPODS: 1.14.2
