@@ -45,7 +45,7 @@ struct OnboardingFlow {
     }
 
     private func upgradeController(in controller: UINavigationController?, context: Context?) -> UIViewController {
-        let product = context?["product"] as? Constants.ProductInfo
+        let product = context?["product"] as? ProductInfo
         return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product))
     }
 

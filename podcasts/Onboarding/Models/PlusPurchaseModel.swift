@@ -8,11 +8,11 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .ready
 
-    private var purchasedProduct: Constants.IapProducts?
+    private var purchasedProduct: IAPProductID?
 
-    var plan: Constants.Plan = .plus
+    var plan: Plan = .plus
 
-    override init(purchaseHandler: IapHelper = .shared) {
+    override init(purchaseHandler: IAPHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
         addPaymentObservers()
@@ -38,13 +38,13 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     }
 
     // MARK: - Triggers the purchase process
-    func purchase(product: Constants.IapProducts) {
+    func purchase(product: IAPProductID) {
         guard purchaseHandler.canMakePurchases else {
             showPurchaseDisabledAlert(product: product)
             return
         }
 
-        guard purchaseHandler.buyProduct(identifier: product.rawValue) else {
+        guard purchaseHandler.buyProduct(identifier: product) else {
             handlePurchaseFailed(error: nil)
             return
         }
@@ -55,7 +55,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         state = .purchasing
     }
 
-    func showPurchaseDisabledAlert(product: Constants.IapProducts) {
+    func showPurchaseDisabledAlert(product: IAPProductID) {
         guard let presentingViewController = parentController ?? SceneHelper.rootViewController() else {
             return
         }
@@ -84,7 +84,7 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController?, plan: Constants.Plan, selectedPrice: Constants.PlanFrequency) -> UIViewController {
+    static func make(in parentController: UIViewController?, plan: Plan, selectedPrice: PlanFrequency) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
         viewModel.plan = plan
@@ -209,7 +209,7 @@ private extension PlusPurchaseModel {
         Settings.setLoginDetailsUpdated()
         AnalyticsHelper.plusPlanPurchased()
 
-        purchaseHandler.purchaseWasSuccessful(purchasedProduct.rawValue)
+        purchaseHandler.purchaseWasSuccessful(purchasedProduct)
 
         handleNext()
     }
@@ -226,14 +226,14 @@ private extension PlusPurchaseModel {
             let error = notification.userInfo?["error"] as? NSError
         else { return }
 
-        purchaseHandler.purchaseWasCancelled(purchasedProduct.rawValue, error: error)
+        purchaseHandler.purchaseWasCancelled(purchasedProduct, error: error)
     }
 
     func handlePurchaseFailed(error: NSError?) {
         defer { state = .failed }
 
         guard let purchasedProduct else { return }
-        purchaseHandler.purchaseFailed(purchasedProduct.rawValue, error: error ?? defaultError)
+        purchaseHandler.purchaseFailed(purchasedProduct, error: error ?? defaultError)
     }
 
     private var defaultError: NSError {

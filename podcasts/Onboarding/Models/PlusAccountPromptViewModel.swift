@@ -8,7 +8,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     let subscription: UserInfo.Subscription? = .init()
 
     lazy var products: [PlusProductPricingInfo] = {
-        let productsToDisplay: [Constants.IapProducts] = {
+        let productsToDisplay: [IAPProductID] = {
             return subscription?.tier == .patron ? [.patronYearly] : [.yearly, .patronYearly]
         }()
 
@@ -17,7 +17,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }()
 
-    override init(purchaseHandler: IapHelper = .shared) {
+    override init(purchaseHandler: IAPHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
         // Load prices on init

@@ -78,11 +78,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupBackgroundRefresh()
 
-        SKPaymentQueue.default().add(IapHelper.shared)
+        SKPaymentQueue.default().add(IAPHelper.shared)
 
         // Request the IAP products on launch
         if SubscriptionHelper.hasActiveSubscription() == false {
-            IapHelper.shared.requestProductInfo()
+            IAPHelper.shared.requestProductInfo()
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
@@ -162,7 +162,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         badgeHelper.teardown()
         shortcutManager.stopListeningForShortcutChanges()
 
-        SKPaymentQueue.default().remove(IapHelper.shared)
+        SKPaymentQueue.default().remove(IAPHelper.shared)
         UIApplication.shared.endReceivingRemoteControlEvents()
     }
 
@@ -310,7 +310,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
-            IapHelper.shared.requestProductInfoIfNeeded()
+            IAPHelper.shared.requestProductInfoIfNeeded()
         } catch {
             FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
         }
