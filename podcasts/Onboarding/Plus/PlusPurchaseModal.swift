@@ -51,7 +51,7 @@ struct PlusPurchaseModal: View {
             basePrice.font = .headline
             basePrice.foregroundColor = mainTextColor
 
-            var basePeriod = AttributedString("/\(subscriptionPeriod)")
+            var basePeriod = AttributedString("/ \(subscriptionPeriod)")
             basePeriod.foregroundColor = secondaryTextColor
             basePeriod.font = .footnote
 
@@ -66,7 +66,7 @@ struct PlusPurchaseModal: View {
         offerPeriod.foregroundColor = secondaryTextColor
         offerPeriod.font = .footnote
 
-        var basePrice = AttributedString("\(offer.rawPrice)/\(subscriptionPeriod)")
+        var basePrice = AttributedString("\(offer.rawPrice) /\(subscriptionPeriod)")
         basePrice.foregroundColor = secondaryTextColor
         basePrice.font = .footnote
         basePrice.strikethroughStyle = .single
