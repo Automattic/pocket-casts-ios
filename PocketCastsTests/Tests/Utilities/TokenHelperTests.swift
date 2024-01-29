@@ -96,7 +96,7 @@ class TokenHelperTests: XCTestCase {
                 let response = HTTPURLResponse(url: .userUpdate, statusCode: 200, httpVersion: nil, headerFields: nil)
                 // Any data will do here, just to see if it makes it through
                 let data = "Test".data(using: .utf8)
-                return (data!, response)
+                return (data, response)
             default:
                 throw NSError()
             }

@@ -2,11 +2,11 @@ import Foundation
 import PocketCastsServer
 
 struct MockRequestHandler {
-    typealias Handler = ((URLRequest) throws -> (Data, URLResponse?))
+    typealias Handler = ((URLRequest) throws -> (Data?, URLResponse?))
 
     let handler: Handler
 
-    init(handler: @escaping ((URLRequest) throws -> (Data, URLResponse?))) {
+    init(handler: @escaping ((URLRequest) throws -> (Data?, URLResponse?))) {
         self.handler = handler
     }
 }
@@ -23,6 +23,8 @@ extension MockRequestHandler: RequestHandler {
 }
 
 extension URLConnection {
+    /// A convenient initializer to pass a block which returns data, response, and error for a given URLRequest.
+    /// - Parameter mockHandler: The handler block (URLRequest) throws -> (Data, URLResponse?)
     convenience init(mockHandler: @escaping MockRequestHandler.Handler) {
         self.init(handler: MockRequestHandler(handler: mockHandler))
     }
