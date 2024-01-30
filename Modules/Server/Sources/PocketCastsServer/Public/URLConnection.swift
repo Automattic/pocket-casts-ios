@@ -1,21 +1,39 @@
 import Foundation
 
+/// A generic request handler to send URLRequests with a completion block
+public protocol RequestHandler {
+    func send(request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void)
+}
+
+extension URLSession: RequestHandler {
+    public func send(request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let task = dataTask(with: request, completionHandler: completion)
+        task.resume()
+    }
+}
+
 public class URLConnection {
-    public class func sendSynchronousRequest(with request: URLRequest) throws -> (Data?, URLResponse?) {
+
+    private let handler: RequestHandler
+
+    public init(handler: RequestHandler) {
+        self.handler = handler
+    }
+
+    public func sendSynchronousRequest(with request: URLRequest) throws -> (Data?, URLResponse?) {
         var data: Data?
         var response: URLResponse?
         var error: Error?
 
         let semaphore = DispatchSemaphore(value: 0)
 
-        let dataTask = URLSession.shared.dataTask(with: request) {
+        handler.send(request: request) {
             data = $0
             response = $1
             error = $2
 
             semaphore.signal()
         }
-        dataTask.resume()
 
         _ = semaphore.wait(timeout: .distantFuture)
         if let error = error {
