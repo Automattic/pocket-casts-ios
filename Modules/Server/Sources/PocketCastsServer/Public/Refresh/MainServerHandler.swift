@@ -292,7 +292,7 @@ public class MainServerHandler {
 
         var jsonRequest = jsonWithStandardParams(uniqueId: uniqueId)
         jsonRequest["podcast_uuid"] = podcast.uuid
-        guard let data = try? JSONSerialization.data(withJSONObject: jsonRequest, options: []) else {
+        guard let data = try? JSONSerialization.data(withJSONObject: jsonRequest) else {
             FileLog.shared.addMessage("Failed to create refreshPodcastFeed request")
             completion(false)
 
