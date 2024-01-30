@@ -4,7 +4,8 @@ import XCTest
 
 final class ServerHelperTests: XCTestCase {
     func testDecodeRefreshResponse() {
-        let response = ServerHelper.decodeRefreshResponse(from: dataJSON())
+        let data = JSONHelper.loadJSON(withFile: "refresh-response")
+        let response = ServerHelper.decodeRefreshResponse(from: data!)
 
         XCTAssertEqual(response.status, "ok")
         XCTAssertEqual(response.message, nil)
@@ -56,70 +57,43 @@ final class ServerHelperTests: XCTestCase {
     }
 }
 
-private extension ServerHelperTests {
-    func dataJSON() -> Data {
-        """
-        {
-            "status": "ok",
-            "message": null,
-            "result": {
-                "podcast_updates": {
-                    "7622ef30-3f20-0131-77d1-723c91aeae46": [
-                        {
-                            "uuid": "d7dbe109-3436-4795-b608-5ef93a899d03",
-                            "url": "https://chrt.fm/track/GD6D57",
-                            "website_url": null,
-                            "title": "Podcast Title",
-                            "description": null,
-                            "dd": null,
-                            "duration_in_secs": 6210,
-                            "file_type": "audio/mp3",
-                            "published_at": "2024-01-26 14:42:16",
-                            "size_in_bytes": 0,
-                            "ep_type": "full",
-                            "ep_season": 0,
-                            "ep_number": 0
-                        },
-                        {
-                            "uuid": "99c63fd5-8ea5-438a-a3a9-60446af17794",
-                            "url": "https://chrt.fm/track/GD6D57/url",
-                            "website_url": null,
-                            "title": "Podcast Title 2",
-                            "description": null,
-                            "dd": null,
-                            "duration_in_secs": 2271,
-                            "file_type": "audio/mp3",
-                            "published_at": "2024-01-26 13:32:42",
-                            "size_in_bytes": 2271,
-                            "ep_type": "full",
-                            "ep_season": 0,
-                            "ep_number": 0
-                        }
-                    ],
-                    "7fd817e0-2eb5-012e-0af9-00163e1b201c": [
-                        {
-                            "uuid": "161160ef-fc5b-4165-b2a3-c52963733f0c",
-                            "url": "https://sphinx.acast.com/p/open/s/593eded1acfa040562f3480b/e/65ae84931a5c7e0017941cbc/media.mp3",
-                            "website_url": null,
-                            "title": "Episode 877",
-                            "description": null,
-                            "dd": null,
-                            "duration_in_secs": 3605,
-                            "file_type": "audio/mp3",
-                            "published_at": "2024-01-26 15:00:52",
-                            "size_in_bytes": 89228708,
-                            "ep_type": "full",
-                            "ep_season": 0,
-                            "ep_number": 0
-                        }
-                    ]
-                },
-                "news": {
-                    "app_version_name": "3.9",
-                    "app_version_code": "51"
-                }
+public class JSONHelper {
+    public static func loadJSON(
+        withFile fileName: String,
+        inBundleWithName bundle: String = "PocketCastsServer",
+        subdirectory: String = "Fixtures") -> Data? {
+        let bundle = Bundle.currentModule(name: bundle)
+
+        if let url = bundle.url(forResource: fileName, withExtension: "json", subdirectory: subdirectory) {
+            do {
+                let data = try Data(contentsOf: url)
+                return data
+            } catch {
+                debugPrint(error)
             }
+        } else {
+            debugPrint("Could not find the json file: \(fileName) in bundle: \(bundle)")
         }
-        """.data(using: .utf8)!
+        return nil
+    }
+}
+
+extension Foundation.Bundle {
+    static func currentModule(name: String) -> Bundle {
+        var thisModuleName = name + "_" + name
+        var url = Bundle.main.bundleURL
+
+        for bundle in Bundle.allBundles where bundle.bundlePath.hasSuffix(".xctest") {
+            url = bundle.bundleURL.deletingLastPathComponent()
+            thisModuleName = thisModuleName.appending("Tests")
+        }
+
+        url = url.appendingPathComponent("\(thisModuleName).bundle")
+
+        guard let bundle = Bundle(url: url) else {
+            fatalError("Foundation.Bundle.module could not load resource bundle: \(url.path)")
+        }
+
+        return bundle
     }
 }

@@ -36,7 +36,8 @@ let package = Package(
         .testTarget(
             name: "PocketCastsServerTests",
             dependencies: ["PocketCastsServer"],
-            path: "Tests"
+            path: "Tests",
+            resources: [.copy("Fixtures")]
         )
     ]
 )
