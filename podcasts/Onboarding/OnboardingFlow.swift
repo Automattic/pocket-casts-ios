@@ -1,12 +1,14 @@
 import Foundation
 
 struct OnboardingFlow {
+    typealias Context = [String: Any]
+
     static var shared = OnboardingFlow()
 
     private(set) var currentFlow: Flow = .none
     private var source: String? = nil
 
-    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil) -> UIViewController {
+    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
 
@@ -14,16 +16,25 @@ struct OnboardingFlow {
 
         let flowController: UIViewController
         switch flow {
-        case .plusUpsell:
+        case .plusUpsell, .endOfYearUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
-            flowController = PlusLandingViewModel.make(in: navigationController, from: .upsell)
+            flowController = upgradeController(in: navigationController, context: context)
 
         case .plusAccountUpgrade:
-            flowController = PlusPurchaseModel.make(in: controller)
+            self.source = source ?? "unknown"
+            flowController = upgradeController(in: navigationController, context: context)            
+
+        case .patronAccountUpgrade:
+            self.source = source ?? "unknown"
+            let config = PlusLandingViewModel.Config(products: [.patron], displayProduct: .init(plan: .patron, frequency: .yearly))
+
+            flowController = PlusLandingViewModel.make(in: navigationController,
+                                                       from: .upsell,
+                                                       config: config)
 
         case .plusAccountUpgradeNeedsLogin:
-            flowController = LoginCoordinator.make(in: navigationController, fromUpgrade: true)
+            flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
 
         case .initialOnboarding, .loggedOut: fallthrough
         default:
@@ -31,6 +42,11 @@ struct OnboardingFlow {
         }
 
         return flowController
+    }
+
+    private func upgradeController(in controller: UINavigationController?, context: Context?) -> UIViewController {
+        let product = context?["product"] as? ProductInfo
+        return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product))
     }
 
     /// Resets the internal flow state to none and clears any analytics sources
@@ -74,6 +90,9 @@ struct OnboardingFlow {
         /// From account details and plus details
         case plusAccountUpgrade = "plus_account_upgrade"
 
+        /// When the user taps the 'Upgrade Account' option from the account view to view the patron upgrade view
+        case patronAccountUpgrade = "patron_account_upgrade"
+
         /// When the user taps on an upgrade button but is logged out and needs to login
         /// They are presented with the login first, then the modal
         case plusAccountUpgradeNeedsLogin = "plus_account_upgrade_needs_login"
@@ -91,16 +110,35 @@ struct OnboardingFlow {
         /// asked to sign in again. See the `BackgroundSignOutListener`
         case forcedLoggedOut = "forced_logged_out"
 
+        /// When the user is brought into the onboarding flow from the End Of Year prompt
+        case endOfYear
+
+        /// When the user is brought into the onboarding flow from the End Of Year stories
+        case endOfYearUpsell
+
+        case promoCode = "promo_code"
+
         var analyticsDescription: String { rawValue }
 
         /// If after a successful sign in or sign up the onboarding flow
         /// should be dismissed right away
         var shouldDismiss: Bool {
             switch self {
-            case .sonosLink, .forcedLoggedOut:
+            case .sonosLink, .forcedLoggedOut, .promoCode:
                 return true
             default:
                 return false
+            }
+        }
+
+        /// If after a successful purchase the flow should be
+        /// dismissed right away
+        var shouldDismissAfterPurchase: Bool {
+            switch self {
+            case .endOfYearUpsell:
+                true
+            default:
+                false
             }
         }
     }

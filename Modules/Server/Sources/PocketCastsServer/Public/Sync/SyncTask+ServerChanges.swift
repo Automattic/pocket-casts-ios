@@ -8,6 +8,7 @@ extension SyncTask {
         var episodesToImport = [Api_SyncUserEpisode]()
         var filtersToImport = [Api_SyncUserPlaylist]()
         var foldersToImport = [Api_SyncUserFolder]()
+        var bookmarksToImport = [Api_SyncUserBookmark]()
 
         for item in response.records {
             guard let oneOf = item.record else { continue }
@@ -21,6 +22,8 @@ extension SyncTask {
                 filtersToImport.append(item.playlist)
             case .folder:
                 foldersToImport.append(item.folder)
+            case .bookmark:
+                bookmarksToImport.append(item.bookmark)
             case .device:
                 continue // we aren't expecting the server to send us devices
             }
@@ -62,6 +65,22 @@ extension SyncTask {
                 guard let strongSelf = self else { return }
 
                 strongSelf.importFilter(filterItem)
+            }
+        }
+
+        FileLog.shared.addMessage("SyncTask: Found \(bookmarksToImport.count) bookmarks to import")
+
+        for bookmark in bookmarksToImport {
+            importQueue.addOperation { [weak self] in
+                guard let strongSelf = self else { return }
+                let semaphore = DispatchSemaphore(value: 0)
+
+                Task {
+                    await strongSelf.importBookmark(bookmark)
+                    semaphore.signal()
+                }
+
+                semaphore.wait()
             }
         }
 
@@ -117,6 +136,9 @@ extension SyncTask {
         }
         if podcastItem.hasFolderUuid {
             let folderUuid = podcastItem.folderUuid.value
+
+            FileLog.shared.foldersIssue("SyncTask importItem: \(podcast.title ?? "") changing folder from \(podcast.folderUuid ?? "nil") to \(((folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid) ?? "nil")")
+
             podcast.folderUuid = (folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid
         }
         if podcastItem.hasSortPosition {
@@ -201,6 +223,7 @@ extension SyncTask {
         // if another device has deleted this folder, we need to delete it as well. No point in importing any of it's properties, so we return here as well
         if folderItem.isDeleted {
             DataManager.sharedManager.delete(folderUuid: folderUuid, markAsDeleted: false)
+            FileLog.shared.foldersIssue("SyncTask importFolder: delete folder \(folderUuid)")
 
             return
         }
@@ -307,5 +330,82 @@ extension SyncTask {
 
     func isPlayerPlaying(episode: Episode) -> Bool {
         ServerConfig.shared.playbackDelegate?.isActivelyPlaying(episodeUuid: episode.uuid) ?? false
+    }
+
+    func importBookmark(_ apiBookmark: Api_SyncUserBookmark) async {
+        let bookmarkManager = dataManager.bookmarks
+
+        // Add the bookmark if it's not in the database
+        guard let existingBookmark = bookmarkManager.bookmark(for: apiBookmark.bookmarkUuid, allowDeleted: true) else {
+            if !apiBookmark.shouldDelete {
+                // If the podcast is for a user episode then we default to nil
+                let podcastUuid = apiBookmark.podcastUuid == DataConstants.userEpisodeFakePodcastId ? nil : apiBookmark.podcastUuid
+
+                let addedUuid = bookmarkManager.add(uuid: apiBookmark.bookmarkUuid,
+                                                    episodeUuid: apiBookmark.episodeUuid,
+                                                    podcastUuid: podcastUuid,
+                                                    title: apiBookmark.title.value,
+                                                    time: Double(apiBookmark.time.value),
+                                                    dateCreated: apiBookmark.createdAt.date,
+                                                    syncStatus: .synced)
+
+                if addedUuid == nil {
+                    FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Could not add non existent bookmark. API data: \(apiBookmark.logDescription)")
+                }
+            }
+            return
+        }
+
+        // Delete the bookmark
+        // Using an if to make it more explicit
+        if apiBookmark.shouldDelete {
+            await bookmarkManager.permanentlyDelete(bookmarks: [existingBookmark]).when(false, {
+                FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Could not delete uuid: \(existingBookmark.uuid). API Data: \(apiBookmark.logDescription)")
+            })
+            return
+        }
+
+        // Update
+        guard
+            let title = apiBookmark.bookmarkTitle,
+            let time = apiBookmark.bookmarkTime,
+            let created = apiBookmark.created
+        else {
+            FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Did not update bookmark because its missing required fields. API Data: \(apiBookmark.logDescription)")
+            return
+        }
+
+        await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created, syncStatus: .synced).when(false) {
+            FileLog.shared.addMessage("SyncTask: Update Bookmark Failed. API Data: \(apiBookmark.logDescription)")
+        }
+    }
+}
+
+// MARK: - Api_SyncUserBookmark Helper Extension
+
+private extension Api_SyncUserBookmark {
+    var shouldDelete: Bool {
+        hasIsDeleted && isDeleted.value == true
+    }
+
+    var bookmarkTitle: String? {
+        hasTitle ? title.value : nil
+    }
+
+    var bookmarkTime: TimeInterval? {
+        guard hasTime else {
+            return nil
+        }
+
+        let time = TimeInterval(time.value)
+        return time.isNumeric ? time : nil
+    }
+
+    var created: Date? {
+        hasCreatedAt ? createdAt.date : nil
+    }
+
+    var logDescription: String {
+        (try? jsonString()) ?? "invalid api bookmark"
     }
 }

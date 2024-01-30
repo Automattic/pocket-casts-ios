@@ -8,6 +8,7 @@ class NavigationManager {
 
     static let folderPageKey = "folderPage"
     static let folderKey = "folder"
+    static let popToRootViewController = "popToRootViewController"
 
     static let episodePageKey = "episodePage"
     static let episodeUuidKey = "episode"
@@ -52,6 +53,7 @@ class NavigationManager {
 
     static let settingsAppearanceKey = "appearancePage"
     static let settingsProfileKey = "profilePage"
+    static let settingsHeadphoneKey = "headphoneSettings"
 
     static let endOfYearStories = "endOfYearStories"
     static let onboardingFlow = "onboardingFlow"
@@ -74,7 +76,7 @@ class NavigationManager {
 
     // MARK: - Navigation
 
-    func navigateTo(_ place: String, data: NSDictionary?) {
+    func navigateTo(_ place: String, data: NSDictionary? = nil) {
         performNavigation(place, data: data, animated: true)
     }
 
@@ -82,8 +84,8 @@ class NavigationManager {
         mainController = controller
     }
 
-    func dismissPresentedViewController() {
-        mainController?.dismissPresentedViewController()
+    func dismissPresentedViewController(completion: (() -> Void)? = nil) {
+        mainController?.dismissPresentedViewController(completion: completion)
     }
 
     private func performNavigation(_ place: String, data: NSDictionary?, animated: Bool) {
@@ -119,7 +121,7 @@ class NavigationManager {
             guard let data = data else { return }
 
             if let folder = data[NavigationManager.folderKey] as? Folder {
-                mainController?.navigateToFolder(folder)
+                mainController?.navigateToFolder(folder, popToRootViewController: (data[NavigationManager.popToRootViewController] as? Bool) ?? true)
             }
         } else if place == NavigationManager.episodePageKey {
             guard let data = data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }
@@ -146,7 +148,9 @@ class NavigationManager {
         } else if place == NavigationManager.subscriptionRequiredPageKey {
             if let data = data, let rootVC = data[NavigationManager.subscriptionUpgradeVCKey] as? UIViewController {
                 let source = (data["source"] as? PlusUpgradeViewSource) ?? .unknown
-                mainController?.showSubscriptionRequired(rootVC, source: source)
+                let context = data["context"] as? OnboardingFlow.Context
+                let flow = data["flow"] as? OnboardingFlow.Flow
+                mainController?.showSubscriptionRequired(rootVC, source: source, context: context, flow: flow ?? .plusUpsell)
             }
         } else if place == NavigationManager.showPlusMarketingPageKey {
             mainController?.showPlusMarketingPage()
@@ -162,7 +166,11 @@ class NavigationManager {
             mainController?.showSettingsAppearance()
         } else if place == NavigationManager.settingsProfileKey {
             mainController?.showProfilePage()
-        } else if place == NavigationManager.showPromotionPageKey {
+        }
+        else if place == NavigationManager.settingsHeadphoneKey {
+            mainController?.showHeadphoneSettings()
+        }
+        else if place == NavigationManager.showPromotionPageKey {
             var promoCode: String?
             if let data = data, let promoString = data[NavigationManager.promotionInfoKey] as? String {
                 promoCode = promoString
@@ -200,7 +208,7 @@ class NavigationManager {
 // MARK: - Helpers
 
 extension NavigationManager {
-    func showUpsellView(from controller: UIViewController, source: PlusUpgradeViewSource) {
-        navigateTo(Self.subscriptionRequiredPageKey, data: [Self.subscriptionUpgradeVCKey: controller, "source": source])
+    func showUpsellView(from controller: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context? = nil, flow: OnboardingFlow.Flow = .plusUpsell) {
+        navigateTo(Self.subscriptionRequiredPageKey, data: [Self.subscriptionUpgradeVCKey: controller, "source": source, "flow": flow, "context": context ?? [:]])
     }
 }

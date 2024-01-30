@@ -8,6 +8,8 @@ class DownloadsViewController: PCViewController {
     var episodes = [ArraySection<String, ListEpisode>]()
     var cellHeights: [IndexPath: CGFloat] = [:]
 
+    private let episodesDataManager = EpisodesDataManager()
+
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
@@ -172,20 +174,15 @@ class DownloadsViewController: PCViewController {
     }
 
     func reloadEpisodes() {
-        operationQueue.addOperation {
-            let query = "( (downloadTaskId IS NOT NULL OR episodeStatus = \(DownloadStatus.downloaded.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue)) OR (episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate > ?) ) ORDER BY lastDownloadAttemptDate DESC LIMIT 1000"
-            let arguments = [Date().weeksAgo(1)] as [Any]
+        operationQueue.addOperation { [weak self] in
+            guard let self else { return }
 
-            let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: arguments, episodeShortKey: { episode -> String in
-                episode.shortLastDownloadAttemptDate()
-            })
+            let newData = self.episodesDataManager.downloadedEpisodes()
 
-            DispatchQueue.main.sync { [weak self] in
-                guard let strongSelf = self else { return }
-
-                strongSelf.downloadsTable.isHidden = (newData.count == 0)
-                strongSelf.episodes = newData
-                strongSelf.downloadsTable.reloadData()
+            DispatchQueue.main.sync {
+                self.downloadsTable.isHidden = (newData.count == 0)
+                self.episodes = newData
+                self.downloadsTable.reloadData()
             }
         }
     }

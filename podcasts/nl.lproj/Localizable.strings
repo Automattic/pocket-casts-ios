@@ -35,6 +35,8 @@
     <string>Uitschakelen</string>
     <key>accessibility_dismiss</key>
     <string>Negeren</string>
+    <key>accessibility_episode_playback</key>
+    <string>Aflevering afspelen</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tik om filtergegevens te verbergen</string>
     <key>accessibility_hint_star</key>
@@ -43,8 +45,12 @@
     <string>Tik tweemaal om aflevering uit favorieten te verwijderen</string>
     <key>accessibility_more_actions</key>
     <string>Meer acties</string>
+    <key>accessibility_patron_only</key>
+    <string>Vergrendeld, functie voor Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>%1$@ procent voltooid</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ van %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Afspeelsnelheid %1$@ keer</string>
     <key>accessibility_playlist_color</key>
@@ -61,6 +67,8 @@
     <string>Tik om account te bekijken of in te stellen</string>
     <key>accessibility_sort_and_options</key>
     <string>Sorteren en opties</string>
+    <key>account</key>
+    <string>Account</string>
     <key>account_change_email</key>
     <string>E-mail wijzigen</string>
     <key>account_completion_nudge</key>
@@ -125,10 +133,24 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Welkom bij Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Welkom bij Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Bladwijzer toevoegen</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Voeg een optionele titel toe om deze bladwijzer eenvoudig te identificeren</string>
     <key>add_to_up_next</key>
     <string>Toevoegen aan Hierna</string>
     <key>after_playing</key>
     <string>Na het afspelen</string>
+    <key>announcement_autoplay_description</key>
+    <string>Als je Wachtrij Hierna leeg is en je begint naar een aflevering te luisteren, zal Automatisch afspelen afleveringen van die serie of lijst blijven afspelen.</string>
+    <key>announcement_autoplay_title</key>
+    <string>Automatisch afspelen is nu beschikbaar!</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Je kan nu tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een koptelefoon-actie.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>De bladwijzers zijn er!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Doe mee met de bètatests voor bladwijzers!</string>
     <key>app_badge</key>
     <string>App-badge</string>
     <key>app_icon_classic</key>
@@ -145,6 +167,14 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Halloween</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron chroom</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron donker</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron gloeiend</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron rond</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -215,6 +245,38 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Eerste</string>
     <key>back</key>
     <string>Terug</string>
+    <key>beta_purchase_disabled</key>
+    <string>Download Pocket Casts via de App Store om %1$@ aan te kunnen schaffen.</string>
+    <key>beta_thank_you</key>
+    <string>Bedankt dat je deelneemt aan de bètatests!</string>
+    <key>bookmark_added</key>
+    <string>Bladwijzer toegevoegd</string>
+    <key>bookmark_added_button_title</key>
+    <string>Weergave</string>
+    <key>bookmark_added_notification</key>
+    <string>Bladwijzer %1$@ toegoevoegd</string>
+    <key>bookmark_default_title</key>
+    <string>Bladwijzer</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Weet je zeker dat je deze bladwijzers wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Bladwijzers verwijderen?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>We konden geen bladwijzers vinden voor die zoekopdrachten.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Geen bladwijzers gevonden</string>
+    <key>bookmark_updated_notification</key>
+    <string>Bladwijzer %1$@ bijgewerkt</string>
+    <key>bookmarks</key>
+    <string>Bladwijzers</string>
+    <key>bookmarks_count_plural</key>
+    <string>%1$@ bladwijzers</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 bladwijzer</string>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen. Binnenkort beschikbaar voor %2$@-abonnees.</string>
+    <key>bookmarks_locked_message</key>
+    <string>Ontgrendel deze functie en nog veel meer met Pocket Casts %1$@ en sla tijdstempels op van je favoriete afleveringen.</string>
     <key>bottom</key>
     <string>Onder</string>
     <key>bulk_download_max_format</key>
@@ -249,6 +311,12 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Afspeelsnelheid</string>
     <key>carplay_up_next_queue</key>
     <string>Wachtrij Hierna</string>
+    <key>change_app_icon</key>
+    <string>App-pictogram veranderen</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Wijzig de titel die deze bladwijzer identificeert</string>
+    <key>change_bookmark_title</key>
+    <string>Titel wijzigen</string>
     <key>change_email</key>
     <string>Verander e-mailadres</string>
     <key>change_email_conf</key>
@@ -285,6 +353,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Opschonen</string>
     <key>clear</key>
     <string>Wissen</string>
+    <key>clear_search</key>
+    <string>Zoekopdracht wissen</string>
     <key>clear_up_next</key>
     <string>Hierna wissen</string>
     <key>clear_up_next_message</key>
@@ -299,6 +369,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Nieuw wachtwoord bevestigen</string>
     <key>continue</key>
     <string>Doorgaan</string>
+    <key>copy</key>
+    <string>Kopieer</string>
     <key>create_account</key>
     <string>Account aanmaken</string>
     <key>create_account_app_store_error_message</key>
@@ -359,6 +431,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alles deselecteren</string>
     <key>discover</key>
     <string>Ontdek</string>
+    <key>discover_all_episodes</key>
+    <string>Alle afleveringen</string>
+    <key>discover_all_podcasts</key>
+    <string>Alle podcasts</string>
     <key>discover_browse_by_category</key>
     <string>Door categorieën bladeren</string>
     <key>discover_browse_by_category_art</key>
@@ -369,6 +445,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Humor</string>
     <key>discover_browse_by_category_education</key>
     <string>Opleiding</string>
+    <key>discover_browse_by_category_family</key>
+    <string>Familie</string>
     <key>discover_browse_by_category_fiction</key>
     <string>Fictie</string>
     <key>discover_browse_by_category_games_and_hobbies</key>
@@ -403,6 +481,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Maatschappij</string>
     <key>discover_browse_by_category_society_and_culture</key>
     <string>Maatschappij en cultuur</string>
+    <key>discover_browse_by_category_spirituality</key>
+    <string>Spiritualiteit</string>
     <key>discover_browse_by_category_sports</key>
     <string>Sport</string>
     <key>discover_browse_by_category_sports_and_recreation</key>
@@ -415,6 +495,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Tv en film</string>
     <key>discover_change_region</key>
     <string>Regio wijzigen, huidige %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>De aflevering kan niet worden geladen</string>
     <key>discover_featured</key>
     <string>Uitgelicht</string>
     <key>discover_featured_episode</key>
@@ -423,6 +505,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Aanbevolen podcast of aflevering niet gevonden. Zorg ervoor dat je een internetverbinding hebt en probeer het opnieuw.</string>
     <key>discover_fresh_pick</key>
     <string>VERSE SELECTIE</string>
+    <key>discover_no_episodes_found</key>
+    <string>Geen afleveringen gevonden</string>
     <key>discover_no_podcasts_found</key>
     <string>Geen podcasts gevonden</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -579,22 +663,33 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alle downloads stoppen</string>
     <key>edit</key>
     <string>Bewerken</string>
+    <key>enable_it_now</key>
+    <string>Nu inschakelen</string>
     <key>eoy_card_description</key>
-    <string>Bekijk je beste podcasts, categorieën, luisterstatistieken en meer.</string>
+    <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
     <key>eoy_create_account_to_see</key>
     <string>Sla je podcasts op in de cloud, krijg je beoordeling aan het einde van het jaar en synchroniseer je voortgang met andere apparaten.</string>
     <key>eoy_description</key>
     <string>Bekijk je beste podcasts, categorieën, luisterstatistieken en meer. Deel met vrienden en geef een shoutout naar je favoriete makers!</string>
     <key>eoy_not_now</key>
     <string>Niet nu</string>
+    <key>eoy_share</key>
+    <string>Deel dit verhaal</string>
+    <key>eoy_share_this_story_message</key>
+    <string>Plaats deze afbeelding op je sociale media en noem je favoriete shows en makers</string>
+    <key>eoy_share_this_story_title</key>
+    <string>Dit verhaal delen?</string>
     <key>eoy_small_title</key>
     <string>Jaar in podcasts</string>
+    <key>eoy_start_your_free_trial</key>
+    <string>Start nu je gratis proefabonnement</string>
     <key>eoy_stories_failed</key>
     <string>Verhalen konden niet geladen worden.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>Vergeet niet om te delen met je vrienden en een shoutout te geven naar je favoriete podcastmakers</string>
     <key>eoy_story_epilogue_title</key>
-    <string>Bedankt dat je Pocket Casts onderdeel maakt van je luisterervaring in 2022</string>
+    <string>Bedankt dat je dit jaar met ons geluisterd hebt.
+We zien je in 2024!</string>
     <key>eoy_story_intro_title</key>
     <string>Laten we je luisterjaar vieren...</string>
     <key>eoy_story_listened_to</key>
@@ -604,7 +699,7 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>Je hebt dit jaar naar %1$@ geluisterd</string>
     <key>eoy_story_listened_to_categories_share_text</key>
-    <string>Ik heb in 2022 naar %1$@ verschillende categorieën geluisterd</string>
+    <string>Ik heb in 2023 naar %1$@ verschillende categorieën geluisterd</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Laten we eens kijken naar je favorieten...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -614,58 +709,97 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <key>eoy_story_listened_to_numbers</key>
     <string>Je hebt naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>Ik heb in 2022 naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
+    <string>Ik heb dit jaar naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Maar er was er één waar je steeds maar weer naar terugkeerde...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Maar er was er een die je
-bleef luisteren...</string>
+    <string>Maar er was er één waar je steeds maar weer naar terugkeerde ...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Je luisterde naar %1$@ en %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ verschillende podcasts</string>
     <key>eoy_story_listened_to_share_text</key>
-    <string>Ik heb ik 2022 %1$@ naar podcasts geluisterd</string>
+    <string>Dit jaar heb ik %1$@ naar podcasts geluisterd</string>
+    <key>eoy_story_listened_to_subtitle</key>
+    <string>We hopen dat je hebt genoten van elke minuut!</string>
+    <key>eoy_story_listened_to_title</key>
+    <string>Dit was je totale luistertijd wat betreft podcasts.</string>
     <key>eoy_story_listened_to_updated</key>
     <string>Dit jaar heb je %1$@ naar podcasts geluisterd</string>
     <key>eoy_story_longest_episode</key>
-    <string>De langste aflevering die je hebt geluisterd was %1$@ van de podcast %2$@</string>
+    <string>De langste aflevering waarnaar je hebt geluisterd was %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Deze aflevering duurde %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
-    <string>De langste aflevering waarnaar ik heb geluisterd in 2022 %1$@</string>
+    <string>De langste aflevering waarnaar ik dit jaar heb geluisterd is %1$@</string>
     <key>eoy_story_longest_episode_subtitle</key>
-    <string>De aflevering was %1$@ van %2$@</string>
+    <string>Het was '%1$@' van '%2$@'</string>
     <key>eoy_story_longest_episode_time</key>
     <string>De langste aflevering
 waar je naar hebt geluisterd was
 %1$@</string>
     <key>eoy_story_replay</key>
-    <string>Herhalen</string>
+    <string>Opnieuw afspelen</string>
     <key>eoy_story_top_categories</key>
     <string>Je beste categorieën</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Mijn meest beluisterde podcast-categorieën</string>
+    <key>eoy_story_top_categories_subtitle</key>
+    <string>Je hebt in totaal %2$@ geluisterd naar %1$@ afleveringen</string>
+    <key>eoy_story_top_categories_title</key>
+    <string>Wist je dat %1$@ je favoriete categorie was?</string>
     <key>eoy_story_top_podcast</key>
-    <string>Je beste podcast was %1$@ van %2$@</string>
+    <string>%1$@ was jouw meest beluisterde show in 2023</string>
     <key>eoy_story_top_podcast_share_text</key>
-    <string>Mijn favoriete podcast van 2022! %1$@</string>
+    <string>Mijn favoriete podcast van dit jaar! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Je hebt in totaal %2$@ geluisterd naar %1$@ podcasts</string>
     <key>eoy_story_top_podcasts</key>
     <string>Je beste podcasts</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>Mijn beste podcasts van 2022</string>
+    <string>Mijn beste podcasts van het jaar!</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Mijn beste podcasts van het jaar! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Dit is je top 5 meest geluisterd in 2023</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>En deze shows vond je ook geweldig!</string>
+    <key>eoy_subscribe_to_plus</key>
+    <string>Abonneer je op Plus en bekijk hoe jouw luistergedrag is veranderd ten opzichte van 2022, andere leuke statistieken en Premium-functies zoals bladwijzers en mappen.</string>
+    <key>eoy_theres_more</key>
+    <string>Dat is niet alles!</string>
     <key>eoy_title</key>
     <string>Jouw jaar in podcasts</string>
     <key>eoy_view_year</key>
-    <string>Mijn 2022 bekijken</string>
+    <string>Mijn 2023 bekijken</string>
+    <key>eoy_year_completion_rate</key>
+    <string>afrondingspercentage</string>
+    <key>eoy_year_completion_rate_share_text</key>
+    <string>Mijn afrondingspercentage van 2023</string>
+    <key>eoy_year_completion_rate_subtitle</key>
+    <string>Van de %1$@ afleveringen waar je aan bent begonnen, heb je er %2$@ helemaal afgekeken </string>
+    <key>eoy_year_completion_rate_title</key>
+    <string>Je afrondingspercentage dit jaar was %1$@</string>
+    <key>eoy_year_over_share_text</key>
+    <string>Mijn luistertijd in 2023, ten opzichte van 2022</string>
+    <key>eoy_year_over_year_subtitle_flat</key>
+    <string>Consistentie is de sleutel tot succes … of zoiets!</string>
+    <key>eoy_year_over_year_subtitle_went_down</key>
+    <string>Aaaah … er moet worden geleefd, toch?</string>
+    <key>eoy_year_over_year_subtitle_went_up</key>
+    <string>Klaar om dit te overtreffen in 2024?</string>
+    <key>eoy_year_over_year_title_flat</key>
+    <string>Ten opzichte van 2022 is je luistertijd redelijk hetzelfde gebleven</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>Ten opzichte van 2022 is je luistertijd veel hoger!</string>
+    <key>eoy_year_over_year_title_went_down</key>
+    <string>Ten opzichte van 2022 is je luistertijd een klein beetje omlaag gegaan</string>
+    <key>eoy_year_over_year_title_went_up</key>
+    <string>Ten opzichte van 2022 is je luistertijd met maar liefst %1$@ gestegen</string>
     <key>episode</key>
     <string>Aflevering</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ afleveringen</string>
+    <key>episode_details_title</key>
+    <string>Details</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filteren op duur</string>
     <key>episode_filter_no_episodes_msg</key>
@@ -688,12 +822,16 @@ waar je naar hebt geluisterd was
     <string>Fout</string>
     <key>error_general_podcast_not_found</key>
     <string>Kan podcast niet vinden. Neem contact op met de auteur van de podcast.</string>
+    <key>export_database</key>
+    <string>Database exporteren</string>
     <key>export_podcasts_description</key>
     <string>Exporteert al je podcasts als een OPML-bestand dat je in andere podcast-apps kunt importeren.</string>
     <key>export_podcasts_option</key>
     <string>Podcasts exporteren</string>
     <key>export_podcasts_title</key>
     <string>EXPORTEREN</string>
+    <key>exporting_database</key>
+    <string>Database exporteren ...</string>
     <key>feature_tour_end_tour</key>
     <string>Einde rondleiding</string>
     <key>feature_tour_new</key>
@@ -1043,6 +1181,8 @@ podcasts mee</string>
     <string>Afgespeeld markeren</string>
     <key>mark_unplayed_short</key>
     <string>Niet-afgespeeld markeren</string>
+    <key>maybe_later</key>
+    <string>Misschien later</string>
     <key>mini_player_close</key>
     <string>Sluit en wis Hierna</string>
     <key>minute_listened</key>
@@ -1129,6 +1269,12 @@ podcasts mee</string>
     <string>Nieuwe aflevering</string>
     <key>next_payment_format</key>
     <string>Volgende betaling: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Instellingen koptelefoon</string>
+    <key>no_bookmarks_message</key>
+    <string>Je kan tijdstempels van afleveringen opslaan in het actiemenu van de speler of door een actie te configureren met je koptelefoon.</string>
+    <key>no_bookmarks_title</key>
+    <string>Nog geen bladwijzers</string>
     <key>none</key>
     <string>Geen</string>
     <key>not_on_wifi</key>
@@ -1190,6 +1336,34 @@ UPDATES</string>
     <string>Feed alleen voor ondersteuners</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>Door je uit te schrijven voor al deze podcasts worden alle gedownloade bestanden die ze bevatten verwijderd. Weet je het zeker?</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>Geloof je in wat we doen en wil je ons steunen?</string>
+    <key>patron_description</key>
+    <string>Word een Pocket Casts Patron en help ons de best mogelijke podcast-ervaring te kunnen blijven leveren.</string>
+    <key>patron_feature_early_access</key>
+    <string>Vroegtijdige toegang tot functies</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Alles in Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Profielbadge voor ondersteuners</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Speciale app-pictogrammen voor Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Word Patron-lid en profiteer van alle Pocket Casts-functies</string>
+    <key>patron_subscribe_to</key>
+    <string>Abonneren op Patron</string>
+    <key>patron_thank_you</key>
+    <string>Bedankt voor je ondersteuning!</string>
+    <key>patron_unlock_instructions</key>
+    <string>Houd de onderstaande ontgrendelknop in om een paar cadeautjes van ons te krijgen.</string>
+    <key>patron_unlock_release</key>
+    <string>Laat los om te ontgrendelen</string>
+    <key>patron_unlock_word</key>
+    <string>ontgrendelen</string>
+    <key>patron_unlocking</key>
+    <string>Ontgrendelen</string>
     <key>pause</key>
     <string>Pauzeren</string>
     <key>phone</key>
@@ -1264,6 +1438,8 @@ UPDATES</string>
     <string>Routeselectie</string>
     <key>player_share_header</key>
     <string>LINK DELEN NAAR</string>
+    <key>player_show_notes_title</key>
+    <string>Details</string>
     <key>player_user_episode_download_error</key>
     <string>Downloadfout</string>
     <key>player_user_episode_playback_error</key>
@@ -1292,31 +1468,16 @@ UPDATES</string>
     <string>Bedankt voor je ondersteuning, maar dit wil helaas zeggen dat je niet kunt deelnemen aan deze promotie.</string>
     <key>plus_expiration_format</key>
     <string>Verloopt %1$@</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>Opslag in de cloud</string>
+    <key>plus_feature_gratitude</key>
+    <string>De eeuwige dank van iedereen bij Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra thema's en app-pictogrammen</string>
-    <key>plus_feature_watch_app</key>
-    <string>Afzonderlijk afspelen op horloge</string>
-    <key>plus_feature_web_player</key>
-    <string>Online speler</string>
     <key>plus_features</key>
     <string>FUNCTIES VAN PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ gratis</string>
     <key>plus_lifetime_membership</key>
     <string>Levenslang lid</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>Versnel je lezingen. Haast je door andere content heen. Word je eigen podcast-DJ.</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>Opslag in de cloud</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>Neem je podcasts altijd met je mee met onze apps voor Windows en macOS en de online apps.</string>
-    <key>plus_marketing_desktop_apps_title</key>
-    <string>Desktop-apps</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>Tijd om je podcasts te verbeteren?
-Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieuwe thema's, die exclusief beschikbaar zijn voor Plus-leden.</string>
     <key>plus_marketing_folders_description</key>
     <string>Maak mappen aan om je podcastverzameling te sorteren.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1327,12 +1488,8 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Bekijk meer informatie over Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Tegelijkertijd persoonlijk zijn en gedeeld worden. Upload je persoonlijke audiobestanden naar onze cloudservers, krijg toegang tot je account via onze online speler en pas de app naar je eigen voorkeuren aan.</string>
-    <key>plus_marketing_main_title</key>
-    <string>Verbeterde functies voor geavanceerde luisteraars</string>
     <key>plus_marketing_subtitle</key>
     <string>Krijg toegang tot exclusieve functies en aanpassingsmogelijkheden</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>Toon je ware aard. Exclusieve pictogrammen en thema's voor Plus-abonnees.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Thema's en pictogrammen</string>
     <key>plus_marketing_title</key>
@@ -1343,12 +1500,6 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Luister overal met onze apps voor Windows en macOS en de online apps</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Organiseer je podcasts in mappen en synchroniseer ze op al je apparaten.</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>Upgraden naar Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>Laat je telefoon achter terwijl je hardloopt zonder iets te hoeven missen. Apple Watch staat op zichzelf.</string>
-    <key>plus_marketing_watch_playback_title</key>
-    <string>Afspelen op horloge</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ per maand</string>
     <key>plus_payment_canceled</key>
@@ -1375,6 +1526,14 @@ Ontvang desktop-apps, gebruik je eigen bestanden en vernieuw ze met frisse, nieu
     <string>Voor deze functie is Pocket Casts plus vereist</string>
     <key>plus_select_payment_frequency</key>
     <string>Selecteer betaalfrequentie</string>
+    <key>plus_skip</key>
+    <string>Overslaan</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Mijn gratis proefversie starten</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Probeer %1$@, vervolgens %2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>Abonneren op Plus</string>
     <key>plus_subscription_apple</key>
     <string>Je abonnement wordt beheerd door de Apple App Store</string>
     <key>plus_subscription_apple_details</key>
@@ -1671,10 +1830,16 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Verwijderen uit Hierna</string>
     <key>remove_up_next</key>
     <string>Hierna verwijderen</string>
+    <key>renew_subscription</key>
+    <string>Verleng je abonnement</string>
     <key>retry</key>
     <string>Opnieuw proberen</string>
+    <key>save_bookmark</key>
+    <string>Bladwijzer opslaan</string>
     <key>search</key>
     <string>Zoeken</string>
+    <key>search_label</key>
+    <string>Zoek podcasts of voeg de RSS-URL toe</string>
     <key>search_podcasts</key>
     <string>Podcasts zoeken</string>
     <key>search_recent</key>
@@ -1697,6 +1862,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Alles hierboven selecteren</string>
     <key>select_all_below</key>
     <string>Alles hieronder selecteren</string>
+    <key>select_bookmarks</key>
+    <string>Bladwijzers selecteren</string>
     <key>select_episodes</key>
     <string>Afleveringen selecteren</string>
     <key>selected_count_format</key>
@@ -1821,10 +1988,16 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Nieuwe sinds de app werd geopend</string>
     <key>settings_badge_total_unplayed</key>
     <string>Totaal niet-afgespeeld</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Bevestigingsgeluid bladwijzer</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Speel een bevestigingsgeluid op je koptelefoon af nadat een bladwijzer is aangemaakt.</string>
     <key>settings_collect_information</key>
     <string>Gegevens verzamelen</string>
     <key>settings_collect_information_additional_information</key>
     <string>Wanneer we analytische gegevens mogen verzamelen, helpt dat ons met het verbeteren van de app. We begrijpen het als je deze gegevens liever niet deelt.</string>
+    <key>settings_connection_status</key>
+    <string>Verbindingsstatus</string>
     <key>settings_create_siri_shortcut</key>
     <string>Siri-snelkoppeling aanmaken</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -1899,6 +2072,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Wil je al je huidige podcasts veranderen naar %1$@ gearchiveerde afleveringen?</string>
     <key>settings_general_auto_open_player</key>
     <string>Speler automatisch openen</string>
+    <key>settings_general_autoplay</key>
+    <string>Automatisch afspelen</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Als je wachtrij Hierna leeg is, zullen we afleveringen afspelen van dezelfde podcast of uit dezelfde lijst waar je op dat moment naar aan het luisteren bent.</string>
     <key>settings_general_defaults_header</key>
     <string>STANDAARD</string>
     <key>settings_general_episode_groups</key>
@@ -1955,6 +2132,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Door op een aflevering in Hierna te tikken, wordt deze afgespeeld. Door deze ingedrukt te houden, worden opties voor de aflevering weergegeven. Schakel uit om deze om te wisselen.</string>
     <key>settings_global_settings</key>
     <string>Algemene instellingen</string>
+    <key>settings_headphone_controls</key>
+    <string>Koptelefoonbediening</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Pas de andere acties aan die via de vaakst voorkomende knoppen op koptelefoon.</string>
     <key>settings_help</key>
     <string>Hulp en feedback</string>
     <key>settings_import_export</key>
@@ -1967,6 +2148,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>IN MENU</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Inactieve afleveringen zijn afleveringen die je niet hebt afgespeeld of gedownload in de tijd die je hierboven aangeeft. Downloads worden verwijderd wanneer de aflevering gearchiveerd is.</string>
+    <key>settings_next_action</key>
+    <string>Nieuwe actie</string>
     <key>settings_not_in_filters</key>
     <string>Niet toegevoegd aan filters</string>
     <key>settings_notifications</key>
@@ -1981,6 +2164,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Afspeelsnelheid</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ per maand / %2$@ per jaar</string>
+    <key>settings_previous_action</key>
+    <string>Vorige actie</string>
     <key>settings_privacy</key>
     <string>Privacy</string>
     <key>settings_queue_position</key>
@@ -2019,6 +2204,36 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Sla de intro- en outro-muziek over als de ultieme gebruiker waarvoor je bestemd was.</string>
     <key>settings_stats</key>
     <string>Statistieken</string>
+    <key>settings_status_account_service</key>
+    <string>Accountservice</string>
+    <key>settings_status_account_service_description</key>
+    <string>De service die wordt gebruikt om afleveringvoortgang, abonnementen, filters etc op te slaan.</string>
+    <key>settings_status_description</key>
+    <string>Controleer je verbinding met belangrijke services. Dit helpt problemen met je verbinding, proxy's, VPN, adblocker en beveiligingsapps te identificeren.</string>
+    <key>settings_status_discover</key>
+    <string>Ontdekken en zoeken</string>
+    <key>settings_status_discover_description</key>
+    <string>Het gedeelte Ontdekken van de app, waaronder podcasts zoeken.</string>
+    <key>settings_status_host</key>
+    <string>Veelgebruikte Podcast-hosts</string>
+    <key>settings_status_host_description</key>
+    <string>Schrijvers van podcasts hosten afleveringbestanden in verschillende providers die niet worden beheerd door Pocket Casts.</string>
+    <key>settings_status_host_failure_message</key>
+    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je telefoon of netwerk. Je moet dit domein deblokkeren om podcasts te downloaden. Pocket Casts host niet of kiest niet waar podcasts worden gehost, dat is aan de schrijver van de show en hier hebben we geen invloed op.</string>
+    <key>settings_status_internet</key>
+    <string>Internet</string>
+    <key>settings_status_internet_description</key>
+    <string>Controleer de status van je netwerk.</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>Kan geen verbinding maken met het internet. Probeer verbinding te maken met een ander netwerk (bij. mobiele data).</string>
+    <key>settings_status_refresh_service</key>
+    <string>Service vernieuwen</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>De service die wordt gebruikt om nieuwe afleveringen te vinden.</string>
+    <key>settings_status_run</key>
+    <string>Nu uitvoeren</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je telefoon of netwerk. Je moet het domein %1$@ deblokkeren </string>
     <key>settings_storage</key>
     <string>Gebruik van opslag en data</string>
     <key>settings_storage_data_warning</key>
@@ -2035,6 +2250,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Niveau van wegfilteren</string>
     <key>settings_trim_silence</key>
     <string>Stiltes wegfilteren</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>Indien ingeschakeld gebruikt Hierna altijd het donkere thema en indien uitgeschakeld gebruikt het het huidige thema.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Donker thema voor Hierna gebruiken</string>
     <key>settings_up_next_limit</key>
     <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Nieuwe afleveringen worden niet toegevoegd wanneer Hierna de %1$@ bereikt.</string>
     <key>settings_up_next_limit_add_to_top</key>
@@ -2185,12 +2404,16 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Sorteren op</string>
     <key>sort_episodes</key>
     <string>Afleveringen sorteren</string>
+    <key>sort_option_timestamp</key>
+    <string>Tijdstempel</string>
     <key>speed</key>
     <string>Snelheid</string>
     <key>star_episode</key>
     <string>Aflevering aan favorieten toevoegen</string>
     <key>star_episode_short</key>
     <string>Ster toevoegen</string>
+    <key>start_free_trial</key>
+    <string>Gratis proefversie starten</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Je hebt %1$@ geluisterd. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2245,8 +2468,18 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Het abonnement is geannuleerd</string>
     <key>subscription_cancelled_msg</key>
     <string>Het abonnement is geannuleerd %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Verloopt over %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Bedankt voor je ondersteuning!</string>
+    <key>support_watch_help_message</key>
+    <string>Als je problemen ondervindt met de Pocket Casts horloge-app, kunnen we jouw draagbare logboeken versturen om je beter te helpen. Om dit te doen moet je Pocket Casts op je horloge openen.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Ik heb de horloge-app geopend</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Versturen zonder horloge-logboeken</string>
+    <key>support_watch_help_title</key>
+    <string>Hulp nodig met de horloge-app?</string>
     <key>supporter</key>
     <string>Ondersteuner</string>
     <key>supporter_contributions</key>
@@ -2307,6 +2540,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Stiltes wegfilteren</string>
     <key>try_again</key>
     <string>Probeer opnieuw</string>
+    <key>try_it_now</key>
+    <string>Probeer het nu</string>
     <key>unarchive</key>
     <string>Dearchiveren</string>
     <key>unknown_duration</key>
@@ -2323,6 +2558,10 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>U kunt afleveringen in de wachtrij zetten door naar rechts te swipen in afleveringrijen of door op het pictogram op een afleveringkaart te tikken.</string>
     <key>up_next_empty_title</key>
     <string>Niets in Hierna</string>
+    <key>upgrade_account</key>
+    <string>Account upgraden</string>
+    <key>upgrade_to_plan</key>
+    <string>Upgrade naar %1$@</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A-Z)</string>
     <key>volume_boost</key>

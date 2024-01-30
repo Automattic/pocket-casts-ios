@@ -8,6 +8,8 @@ class ListeningHistoryViewController: PCViewController {
     private let operationQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
 
+    private let episodesDataManager = EpisodesDataManager()
+
     @IBOutlet var listeningHistoryTable: UITableView! {
         didSet {
             registerCells()
@@ -111,26 +113,22 @@ class ListeningHistoryViewController: PCViewController {
     }
 
     func refreshEpisodes(animated: Bool) {
-        operationQueue.addOperation {
-            let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000"
+        operationQueue.addOperation { [weak self] in
+            guard let self else { return }
 
             let oldData = self.episodes
-            let newData = EpisodeTableHelper.loadSectionedEpisodes(tintColor: AppTheme.appTintColor(), query: query, arguments: nil, episodeShortKey: { episode -> String in
-                episode.shortLastPlaybackInteractionDate()
-            })
+            let newData = self.episodesDataManager.listeningHistoryEpisodes()
 
-            DispatchQueue.main.sync { [weak self] in
-                guard let strongSelf = self else { return }
-
-                strongSelf.listeningHistoryTable.isHidden = (newData.count == 0)
+            DispatchQueue.main.sync {
+                self.listeningHistoryTable.isHidden = (newData.count == 0)
                 if animated {
                     let changeSet = StagedChangeset(source: oldData, target: newData)
-                    strongSelf.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
-                        strongSelf.episodes = data
+                    self.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
+                        self.episodes = data
                     })
                 } else {
-                    strongSelf.episodes = newData
-                    strongSelf.listeningHistoryTable.reloadData()
+                    self.episodes = newData
+                    self.listeningHistoryTable.reloadData()
                 }
             }
         }

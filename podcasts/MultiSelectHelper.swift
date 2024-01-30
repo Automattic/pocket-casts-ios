@@ -6,7 +6,7 @@ import PocketCastsUtils
 class MultiSelectHelper {
     // MARK: - Action Helpers
 
-    class func performAction(_ action: MultiSelectAction, actionDelegate: MultiSelectActionDelegate) {
+    class func performAction(_ action: MultiSelectAction, actionDelegate: MultiSelectActionDelegate, view: UIView? = nil) {
         AnalyticsEpisodeHelper.shared.currentSource = actionDelegate.multiSelectViewSource
 
         switch action {
@@ -38,6 +38,9 @@ class MultiSelectHelper {
             removeFromUpNext(actionDelegate: actionDelegate)
         case .delete:
             delete(actionDelegate: actionDelegate)
+        case .share:
+            share(actionDelegate: actionDelegate, view: view)
+            return
         }
     }
 
@@ -316,6 +319,25 @@ class MultiSelectHelper {
         }
         PlaybackManager.shared.bulkRemoveQueued(uuids: selectedUuids)
         actionDelegate.multiSelectActionCompleted()
+    }
+
+    private class func share(actionDelegate: MultiSelectActionDelegate, view: UIView?) {
+        guard let episode = actionDelegate.multiSelectedBaseEpisodes().first as? Episode else {
+            return
+        }
+
+        Analytics.track(.podcastShared, properties: ["type": "episode", "source": "multi_select"])
+
+        guard let sourceView = view ?? actionDelegate.multiSelectPresentingViewController().view else {
+            return
+        }
+
+        SharingHelper.shared.shareLinkTo(episode: episode,
+                                         shareTime: 0,
+                                         fromController: actionDelegate.multiSelectPresentingViewController(),
+                                         sourceRect: sourceView.bounds,
+                                         sourceView: sourceView,
+                                         showArrow: view != nil)
     }
 
     // MARK: - Selection Helpers

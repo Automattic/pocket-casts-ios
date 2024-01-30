@@ -26,14 +26,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
 
+    var whatsNew: WhatsNew?
+
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
-        FileLog.shared.setup()
+
+        setupWhatsNew()
 
         setupSecrets()
+        addAnalyticsObservers()
         setupAnalytics()
         appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
 
@@ -48,6 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         GoogleCastManager.sharedManager.setup()
+
+        CacheServerHandler.newShowNotesEndpoint = FeatureFlag.newShowNotesEndpoint.enabled
+        CacheServerHandler.episodeFeedArtwork = FeatureFlag.episodeFeedArtwork.enabled
 
         setupRoutes()
 
@@ -71,11 +78,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupBackgroundRefresh()
 
-        SKPaymentQueue.default().add(IapHelper.shared)
+        SKPaymentQueue.default().add(IAPHelper.shared)
 
         // Request the IAP products on launch
         if SubscriptionHelper.hasActiveSubscription() == false {
-            IapHelper.shared.requestProductInfo()
+            IAPHelper.shared.requestProductInfo()
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
@@ -93,6 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func handleEnterBackground() {
         scheduleNextBackgroundRefresh()
+        FileLog.shared.forceFlush()
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
         badgeHelper.updateBadge()
@@ -154,7 +162,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         badgeHelper.teardown()
         shortcutManager.stopListeningForShortcutChanges()
 
-        SKPaymentQueue.default().remove(IapHelper.shared)
+        SKPaymentQueue.default().remove(IAPHelper.shared)
         UIApplication.shared.endReceivingRemoteControlEvents()
     }
 
@@ -267,7 +275,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.episodeSearchDebounceMs: NSNumber(value: Constants.RemoteParams.episodeSearchDebounceMsDefault),
             Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
             Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault),
-            Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault)
+            Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
+            Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
+            Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
+            Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
+            Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
+            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault)
         ])
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
@@ -275,8 +288,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 remoteConfig.activate(completion: nil)
 
                 self?.updateEndOfYearRemoteValue()
+                self?.updateRemoteFeatureFlags()
+                ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
             }
         }
+    }
+
+    private func updateRemoteFeatureFlags() {
+        #if !DEBUG
+        do {
+            if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
+                // If the player transition changes we dismiss the full screen player
+                // Otherwise this might lead to crashes or weird behavior
+                appDelegate()?.miniPlayer()?.closeFullScreenPlayer()
+                try FeatureFlagOverrideStore().override(FeatureFlag.newPlayerTransition, withValue: Settings.newPlayerTransition)
+            }
+
+            if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
+                ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
+                try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
+            }
+
+            // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
+            IAPHelper.shared.requestProductInfoIfNeeded()
+        } catch {
+            FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
+        }
+        #endif
     }
 
     private func updateEndOfYearRemoteValue() {
@@ -350,10 +388,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupSignOutListener() {
-        guard backgroundSignOutListener == nil, let rootController = SceneHelper.rootViewController() else {
+        guard backgroundSignOutListener == nil else {
             return
         }
 
-        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: rootController)
+        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
+    }
+
+    // MARK: What's New
+
+    private func setupWhatsNew() {
+        whatsNew = WhatsNew()
     }
 }

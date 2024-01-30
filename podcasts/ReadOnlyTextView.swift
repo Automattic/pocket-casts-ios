@@ -29,5 +29,10 @@ struct ReadOnlyTextView: View {
             )
         )
         .background(ThemeColor.primaryUi02(for: theme.activeTheme).color.cornerRadius(ViewConstants.cornerRadius))
+        .contextMenu {
+            Button(L10n.copy) {
+                UIPasteboard.general.string = lines.joined(separator: "\n")
+            }
+        }
     }
 }

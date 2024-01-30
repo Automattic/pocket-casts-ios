@@ -13,8 +13,8 @@ final class BackgroundSignOutListenerTests: XCTestCase {
         navigationManager = MockNavigationManager()
 
         signOutListener = BackgroundSignOutListener(notificationCenter: notificationCenter,
-                                                    presentingViewController: presentingController,
-                                                    navigationManager: navigationManager)
+                                                    navigationManager: navigationManager,
+                                                    presentingViewController: self.presentingController)
     }
 
     func testSignOutAlertShowsWhenNotUserInitiated() {

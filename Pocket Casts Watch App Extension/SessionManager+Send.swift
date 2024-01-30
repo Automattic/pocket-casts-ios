@@ -12,10 +12,11 @@ extension SessionManager {
         sendResponseless(messageType: WatchConstants.Messages.MinorSyncableUpdate.type)
     }
 
-    func play(episode: BaseEpisode) {
+    func play(episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
         if !WCSession.default.isReachable { return }
 
-        let playEpisodeRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.PlayEpisodeRequest.type, WatchConstants.Messages.PlayEpisodeRequest.episodeUuid: episode.uuid] as [String: Any]
+        let playEpisodeRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.PlayEpisodeRequest.type, WatchConstants.Messages.PlayEpisodeRequest.episodeUuid: episode.uuid,
+            WatchConstants.Messages.PlayEpisodeRequest.playlist: (try? JSONEncoder().encode(playlist)) as Any] as [String: Any]
         WCSession.default.sendMessage(playEpisodeRequest, replyHandler: nil)
     }
 

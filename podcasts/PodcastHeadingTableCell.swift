@@ -157,7 +157,30 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
 
-    func populateFrom(tintColor: UIColor?, delegate: PodcastActionsDelegate) {
+    @IBOutlet var bookmarkTabsView: UIStackView!
+    private var tabsViewController: ThemedHostingController<EpisodeBookmarksTabsView>? = nil
+
+    private func addBookmarksTabView(parentController: UIViewController) {
+        // Make sure the view reappears
+        if let tabsViewController {
+            tabsViewController.removeFromParent()
+            parentController.addChild(tabsViewController)
+            tabsViewController.didMove(toParent: parentController)
+            return
+        }
+
+        bookmarkTabsView.removeAllSubviews()
+        let controller = ThemedHostingController(rootView: EpisodeBookmarksTabsView(delegate: delegate))
+
+        bookmarkTabsView.addArrangedSubview(controller.view)
+        parentController.addChild(controller)
+        controller.didMove(toParent: parentController)
+
+        tabsViewController = controller
+        bookmarkTabsView.isHidden = false
+    }
+
+    func populateFrom(tintColor: UIColor?, delegate: PodcastActionsDelegate, parentController: UIViewController) {
         self.delegate = delegate
 
         guard let podcast = delegate.displayedPodcast() else { return }
@@ -231,6 +254,39 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
 
             layoutIfNeeded()
         }
+
+        delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
+        addRatingIfNeeded()
+
+        addBookmarksTabView(parentController: parentController)
+    }
+
+    private lazy var ratingView: UIView? = {
+        guard let viewModel = self.delegate?.podcastRatingViewModel else {
+            return nil
+        }
+
+        let view = StarRatingView(viewModel: viewModel)
+            .frame(height: 16)
+            .padding(.top, 10)
+            .themedUIView
+
+        view.backgroundColor = .clear
+        return view
+    }()
+
+    private func addRatingIfNeeded() {
+        // Only add the rating if it hasn't been added already
+        guard
+            let ratingView, ratingView.superview == nil,
+            let index = podcastCategory.flatMap({
+                extraContentStackView.arrangedSubviews.firstIndex(of: $0)
+            })
+        else {
+            return
+        }
+
+        extraContentStackView.insertArrangedSubview(ratingView, at: index+1)
     }
 
     @objc private func podcastImageLongPressed(_ sender: UILongPressGestureRecognizer) {
@@ -287,14 +343,21 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
         }
 
         contentView.removeConstraint(contentViewBottomConstraint)
-        if expanded {
-            contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 0)
-        } else {
-            contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -10)
+
+        // When bookmarks are enabled we need to align to the tabs view with different values
+        if let bookmarkTabsView {
+            if expanded {
+                contentViewBottomConstraint = NSLayoutConstraint(item: bookmarkTabsView, attribute: .top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: extraContentStackView, attribute: .bottom, multiplier: 1, constant: 16)
+            } else {
+                contentViewBottomConstraint = NSLayoutConstraint(item: bookmarkTabsView, attribute: .top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: topSectionView, attribute: .bottom, multiplier: 1, constant: -1)
+            }
         }
         contentView.addConstraint(contentViewBottomConstraint)
 
         roundedBorder.isHidden = nextEpisodeView.isHidden && scheduleView.isHidden && linkView.isHidden && authorView.isHidden
+
+        let hasRating = delegate?.podcastRatingViewModel.rating != nil
+        ratingView?.isHidden = !hasRating || !expanded
     }
 
     private func setupButtons() {

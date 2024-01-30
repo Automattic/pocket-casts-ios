@@ -1,6 +1,53 @@
 import UIKit
 
-public class SubscriptionHelper: NSObject {
+open class SubscriptionHelper: NSObject {
+    public static let shared = SubscriptionHelper()
+
+    /// Returns the users active subscription tier or .none if they don't currently have one
+    open var activeTier: SubscriptionTier {
+        // Right now we're just returning the class var to maintain compatibility. In the future this will change.
+        Self.activeTier
+    }
+
+    /// Returns the users active subscription type or .none if they don't currently have one
+    public static var activeSubscriptionType: SubscriptionType {
+        hasActiveSubscription() ? subscriptionType() : .none
+    }
+
+    /// Returns the users active subscription tier or .none if they don't currently have one
+    public static var activeTier: SubscriptionTier {
+        guard hasActiveSubscription() else {
+            return .none
+        }
+
+        let tier = subscriptionTier
+
+        // Fallback handling
+        // If the server isn't returning the subscription tier yet then the tier will be none
+        // If the user has an active subscription, and the tier is none, and their subscription type is plus
+        // Then fallback to returning plus as the tier
+        //
+        // This should be removed after the Patron server changes have been pushed to production
+        guard tier == .none, subscriptionType() == .plus else {
+            return tier
+        }
+
+        return .plus
+    }
+
+    /// The users subscription tier, or .none if there isn't one available
+    public class var subscriptionTier: SubscriptionTier {
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: ServerConstants.UserDefaults.subscriptionTier)
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.subscriptionTier).flatMap {
+                SubscriptionTier(rawValue: $0)
+            } ?? .none
+        }
+    }
+
     public class func hasActiveSubscription() -> Bool {
         let status = UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionPaid)
         return status

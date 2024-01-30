@@ -30,18 +30,6 @@ class Settings: NSObject {
         return LibraryType.threeByThree // default value
     }
 
-    // MARK: - Up Next Syncing
-
-    private static let upNextSyncingKey = "UpNextSync"
-    private static let upNextSyncDefault = false
-    class func upNextSyncingEnabled() -> Bool {
-        if let setting = DataManager.sharedManager.findSetting(name: upNextSyncingKey) {
-            return setting.boolValue(defaultValue: upNextSyncDefault)
-        }
-
-        return upNextSyncDefault
-    }
-
     // MARK: - Podcast Badge
 
     private static let badgeKey = "SJBadgeType"
@@ -341,18 +329,6 @@ class Settings: NSObject {
         UserDefaults.standard.set(adjustedTime, forKey: "CustomSleepTime")
     }
 
-    // MARK: - Chapter skipping
-
-    private static let remoteChapterSkipKey = "RemoteChapterSkip"
-    class func remoteSkipShouldSkipChapters() -> Bool {
-        UserDefaults.standard.bool(forKey: remoteChapterSkipKey)
-    }
-
-    class func setRemoteSkipShouldSkipChapters(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: remoteChapterSkipKey)
-        Settings.trackValueToggled(.settingsGeneralRemoteSkipsChaptersToggled, enabled: value)
-    }
-
     // MARK: - CarPlay/Lock Screen actions
 
     private static let mediaSessionActionsKey = "MediaSessionActions"
@@ -549,6 +525,19 @@ class Settings: NSObject {
         UserDefaults.standard.integer(forKey: whatsNewLastAcknowledgedKey)
     }
 
+
+    private static let lastWhatsNewShownKey = "LastWhatsNewShown"
+    class var lastWhatsNewShown: String? {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: lastWhatsNewShownKey)
+            UserDefaults.standard.synchronize()
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: lastWhatsNewShownKey)
+        }
+    }
+
     class func setShouldFollowSystemTheme(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
@@ -561,13 +550,17 @@ class Settings: NSObject {
 
     private static let playerActionsKey = "PlayerActions"
     class func playerActions() -> [PlayerAction] {
+        let defaultActions = PlayerAction.defaultActions.filter { $0.isAvailable }
+
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
-            return PlayerAction.allCases
+            return defaultActions
         }
 
-        let playerActions = savedInts.compactMap { PlayerAction(rawValue: $0) }
+        let playerActions = savedInts
+            .compactMap { PlayerAction(rawValue: $0) }
+            .filter { $0.isAvailable }
 
-        return playerActions
+        return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 
     class func updatePlayerActions(_ actions: [PlayerAction]) {
@@ -595,13 +588,15 @@ class Settings: NSObject {
 
     private static let multiSelectActionsKey = "MultiSelectActions"
     class func multiSelectActions() -> [MultiSelectAction] {
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .download, .archive, .share, .markAsPlayed, .star]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.multiSelectActionsKey) as? [Int32] else {
-            return [.playNext, .playLast, .download, .archive, .markAsPlayed, .star]
+            return defaultActions
         }
 
         let actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
 
-        return actions
+        // Make sure new items are shown
+        return actions + defaultActions.filter { !actions.contains($0) }
     }
 
     class func updateMultiSelectActions(_ actions: [MultiSelectAction]) {
@@ -721,33 +716,44 @@ class Settings: NSObject {
 
     // MARK: - End of Year 2022
 
-    class var showBadgeFor2022EndOfYear: Bool {
+    class var showBadgeForEndOfYear: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear)
         }
 
         get {
-            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear) as? Bool) ?? true
+            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear) as? Bool) ?? true
         }
     }
 
     class var endOfYearModalHasBeenShown: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2022HasBeenShown)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2023HasBeenShown)
         }
 
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2022HasBeenShown)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2023HasBeenShown)
         }
     }
 
-    class var hasSyncedAll2022Episodes: Bool {
+    class var hasSyncedEpisodesForPlayback2023: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
         }
 
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
+        }
+    }
+
+    /// Whether the user was plus or not by the time the sync happened
+    class var hasSyncedEpisodesForPlayback2023AsPlusUser: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
         }
     }
 
@@ -776,6 +782,79 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Embedded Artwork
+
+    static var loadEmbeddedImages: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+        }
+    }
+
+    // MARK: - Autoplay
+
+    static var autoplay: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
+        }
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+        }
+    }
+
+
+    // MARK: - Headphone Controls
+
+    static var headphonesPreviousAction: HeadphoneControlAction {
+        get {
+            Constants.UserDefaults.headphones.previousAction.unlockedValue
+        }
+
+        set {
+            Constants.UserDefaults.headphones.previousAction.save(newValue)
+        }
+    }
+
+    static var headphonesNextAction: HeadphoneControlAction {
+        get {
+            Constants.UserDefaults.headphones.nextAction.unlockedValue
+        }
+
+        set {
+            Constants.UserDefaults.headphones.nextAction.save(newValue)
+        }
+    }
+
+
+    /// Returns whether the bookmark creation sound option is enabled
+    static var isPlayBookmarkCreationSoundAvailable: Bool {
+        [Settings.headphonesNextAction, Settings.headphonesPreviousAction].contains(.addBookmark)
+    }
+
+    /// Determines if we should play the sound when a bookmark is created
+    static var shouldPlayBookmarkSound: Bool {
+        isPlayBookmarkCreationSoundAvailable && playBookmarkCreationSound
+    }
+
+    static var playBookmarkCreationSound: Bool {
+        get {
+            Constants.UserDefaults.bookmarks.creationSound.value
+        }
+
+        set {
+            Constants.UserDefaults.bookmarks.creationSound.save(newValue)
+        }
+    }
+
+    static var darkUpNextTheme: Bool {
+        get {
+            Constants.UserDefaults.appearance.darkUpNextTheme.value
+        }
+
+        set {
+            Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
@@ -796,6 +875,33 @@ class Settings: NSObject {
             return remote.boolValue
         }
 
+        static var addMissingEpisodes: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.addMissingEpisodes)
+            return remote.boolValue
+        }
+
+        static var newPlayerTransition: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.newPlayerTransition)
+            return remote.boolValue
+        }
+
+        static var effectsPlayerStrategy: EffectsPlayerStrategy? {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.effectsPlayerStrategy)
+            return EffectsPlayerStrategy(rawValue: remote.numberValue.intValue)
+        }
+
+        static var plusCloudStorageLimit: Int {
+            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.customStorageLimitGB).numberValue.intValue
+        }        
+
+        static var patronCloudStorageLimit: Int {
+            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronCloudStorageGB).numberValue.intValue
+        }
+
+        static var errorLogoutHandling: Bool {
+            return RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.errorLogoutHandling).boolValue
+        }
+
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
@@ -813,3 +919,15 @@ extension Settings {
         Analytics.track(event, properties: ["enabled": enabled])
     }
 }
+
+#if !os(watchOS)
+extension L10n {
+    static var plusCloudStorageLimit: String {
+        plusCloudStorageLimitFormat(Settings.plusCloudStorageLimit.localized())
+    }
+
+    static var patronCloudStorageLimit: String {
+        plusCloudStorageLimitFormat(Settings.patronCloudStorageLimit.localized())
+    }
+}
+#endif

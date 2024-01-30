@@ -1,4 +1,5 @@
 import MessageUI
+import SwiftUI
 import PocketCastsServer
 import UIKit
 import WebKit
@@ -12,6 +13,8 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
     private var emailHelper = EmailHelper()
     private var supportWebView: WKWebView!
+    private var databaseExport: DatabaseExport? = nil
+    private var loadingAlert: ShiftyLoadingAlert?
 
     var request: URLRequest
 
@@ -37,6 +40,8 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneTapped))
 
+        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .done, target: self, action: #selector(showOptions(_:)))
+
         AnalyticsHelper.userGuideOpened()
         Analytics.track(.settingsHelpShown)
     }
@@ -59,6 +64,26 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
     @objc private func doneTapped() {
         dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func showOptions(_ sender: UIBarButtonItem) {
+        let controller = UIAlertController()
+        controller.popoverPresentationController?.barButtonItem = sender
+
+        controller.addAction(.init(title: L10n.settingsConnectionStatus, style: .default, handler: { [weak self] _ in
+            self?.showStatusPage()
+        }))
+
+        controller.addAction(.init(title: L10n.exportDatabase, style: .default, handler: { [weak self] _ in
+            self?.export(sender)
+        }))
+
+        present(controller, animated: true)
+    }
+
+    private func showStatusPage() {
+        let hostingController = ThemedHostingController(rootView: StatusPageView())
+        navigationController?.pushViewController(hostingController, animated: true)
     }
 
     private func load() {
@@ -98,5 +123,44 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait // since this controller is presented modally it needs to tell iOS it only goes portrait
+    }
+}
+
+// MARK: - Export
+
+private extension OnlineSupportController {
+    func export(_ sender: UIBarButtonItem) {
+        databaseExport = .init()
+
+        loadingAlert = ShiftyLoadingAlert(title: L10n.exportingDatabase)
+        loadingAlert?.showAlert(self, hasProgress: false, completion: { [weak self] in
+            Task {
+                let url = await self?.databaseExport?.export()
+                self?.shareExport(url: url, sender: sender)
+            }
+        })
+    }
+
+    @MainActor
+    func shareExport(url: URL?, sender: UIBarButtonItem) {
+        loadingAlert?.hideAlert(false)
+        loadingAlert = nil
+
+        guard let url else {
+            SJUIUtils.showAlert(title: L10n.settingsExportError, message: nil, from: self)
+            return
+        }
+
+        // Share the file
+        let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        shareSheet.completionWithItemsHandler = { [weak self] _, _, _, _ in
+            // Attempt to cleanup the temporary file
+            self?.databaseExport?.cleanup(url: url)
+            self?.databaseExport = nil
+        }
+
+        shareSheet.popoverPresentationController?.barButtonItem = sender
+
+        present(shareSheet, animated: true, completion: nil)
     }
 }

@@ -29,8 +29,8 @@ class AVFileUtil: NSObject {
             }
         }
 
-        // do duration seperately as it takes longeer. the load function calls the closure
-        // only when all keys are avalaible
+        // do duration seperately as it takes longer. the load function calls the closure
+        // only when all keys are available
         asset.loadValuesAsynchronously(forKeys: ["duration"]) {
             let durationStatus = self.asset.statusOfValue(forKey: "duration", error: nil)
             if durationStatus == .loaded {

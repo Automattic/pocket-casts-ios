@@ -18,6 +18,11 @@ extension AppDelegate {
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
             Settings.setMobileDataAllowed(true)
             Settings.shouldShowInitialOnboardingFlow = true
+            Settings.autoplay = true
+
+            // Disable dark up next theme for new users
+            Settings.darkUpNextTheme = false
+
             setWhatsNewAcknowledgeToLatest()
         }
 
@@ -103,6 +108,21 @@ extension AppDelegate {
         performUpdateIfRequired(updateKey: "UpdateFileProtection") {
             Task {
                 await DownloadManager.shared.updateProtectionPermissionsForAllExistingFiles()
+            }
+        }
+
+        // With the addition of bookmarks we have added a new headphone controls setting that this is being migrated to
+        // This will check if the user has the old Remote Skips Chapters preference enabled, and will move that setting
+        // by setting both the previous and next track actions to the change chapter action.
+        performUpdateIfRequired(updateKey: "MigrateRemoteSkipsChaptersToHeadphoneControls") {
+            let key = "RemoteChapterSkip"
+
+            if UserDefaults.standard.bool(forKey: key) {
+                Settings.headphonesNextAction = .nextChapter
+                Settings.headphonesPreviousAction = .previousChapter
+
+                // Remove the setting
+                UserDefaults.standard.removeObject(forKey: key)
             }
         }
 

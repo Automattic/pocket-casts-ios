@@ -43,6 +43,8 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case videoPlayerSkipForwardLongPress = "video_player_skip_forward_long_press"
     case playbackFailed = "playback_failed"
     case watch
+    case bookmark
+    case interactiveWidget = "interactive_widget"
     case unknown
 
     var analyticsDescription: String { rawValue }
@@ -76,7 +78,7 @@ class AnalyticsCoordinator {
             Analytics.track(event, properties: mergedProperties)
         }
 
-        func getTopViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
+    func getTopViewController(base: UIViewController? = SceneHelper.rootViewController()) -> UIViewController? {
             guard UIApplication.shared.applicationState == .active else {
                 return nil
             }

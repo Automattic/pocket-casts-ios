@@ -241,19 +241,22 @@ class PlaybackQueue: NSObject {
     }
 
     func contains(episodeUuid: String) -> Bool {
-        let allEpisodes = DataManager.sharedManager.allUpNextPlaylistEpisodes()
-
-        for playlistEpisode in allEpisodes {
-            if playlistEpisode.episodeUuid == episodeUuid { return true }
-        }
-
-        return false
+        DataManager.sharedManager.upNextPlayListContains(episodeUuid: episodeUuid)
     }
 
     func allEpisodes(includeNowPlaying: Bool = true) -> [BaseEpisode] {
         if includeNowPlaying { return DataManager.sharedManager.allUpNextEpisodes() }
 
         var episodes = DataManager.sharedManager.allUpNextEpisodes()
+        if episodes.count == 0 { return episodes }
+
+        episodes.removeFirst()
+
+        return episodes
+    }
+
+    func allEpisodeUuids() -> [BaseEpisode] {
+        var episodes = DataManager.sharedManager.allUpNextEpisodeUuids()
         if episodes.count == 0 { return episodes }
 
         episodes.removeFirst()
@@ -373,9 +376,9 @@ class PlaybackQueue: NSObject {
             syncTimer = Timer.scheduledTimer(timeInterval: syncTimerDelay, target: self, selector: #selector(syncTimerFired), userInfo: nil, repeats: false)
         } else {
             DispatchQueue.main.sync { [weak self] () in
-                guard let strongSelf = self else { return }
+                guard let self else { return }
 
-                strongSelf.syncTimer = Timer.scheduledTimer(timeInterval: strongSelf.syncTimerDelay, target: strongSelf, selector: #selector(syncTimerFired), userInfo: nil, repeats: false)
+                self.syncTimer = Timer.scheduledTimer(timeInterval: self.syncTimerDelay, target: self, selector: #selector(self.syncTimerFired), userInfo: nil, repeats: false)
             }
         }
     }

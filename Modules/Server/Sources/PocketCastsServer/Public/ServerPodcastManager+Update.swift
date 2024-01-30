@@ -3,10 +3,17 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 extension ServerPodcastManager {
-    public func updatePodcastIfRequired(podcast: Podcast, completion: ((Bool) -> Void)?) {
+
+    /// Update a podcast if required.
+    /// - Parameters:
+    ///   - podcast: a `Podcast`
+    ///   - addMissingEpisodes: if set to `true` it will add missing episodes that are not the latest ones.
+    ///   Latest ones are handled by a refresh (due to auto-download/up next)
+    ///   - completion: a completion block that receives a `Bool`
+    public func updatePodcastIfRequired(podcast: Podcast, addMissingEpisodes: Bool = false, completion: ((Bool) -> Void)?) {
         CacheServerHandler.shared.loadPodcastIfModified(podcast: podcast) { [weak self] podcastInfo, lastModified in
             if let podcastInfo = podcastInfo {
-                self?.updatePodcast(podcast: podcast, lastModified: lastModified, podcastInfo: podcastInfo, completion: {
+                self?.updatePodcast(podcast: podcast, lastModified: lastModified, podcastInfo: podcastInfo, addMissingEpisodes: addMissingEpisodes, completion: {
                     FileLog.shared.addMessage("\(podcast.title ?? "") updated from cache server")
                     completion?(true)
                 })
@@ -17,16 +24,16 @@ extension ServerPodcastManager {
         }
     }
 
-    private func updatePodcast(podcast: Podcast, lastModified: String?, podcastInfo: [String: Any], completion: (() -> Void)?) {
+    private func updatePodcast(podcast: Podcast, lastModified: String?, podcastInfo: [String: Any], addMissingEpisodes: Bool, completion: (() -> Void)?) {
         subscribeQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
 
-            strongSelf.update(podcast: podcast, podcastInfo: podcastInfo, lastModified: lastModified)
+            strongSelf.update(podcast: podcast, podcastInfo: podcastInfo, lastModified: lastModified, addMissingEpisodes: addMissingEpisodes)
             completion?()
         }
     }
 
-    private func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?) {
+    private func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?, addMissingEpisodes: Bool) {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return }
 
         podcast.lastUpdatedAt = lastModified
@@ -66,6 +73,12 @@ extension ServerPodcastManager {
 
         DataManager.sharedManager.save(podcast: podcast)
 
+        var latestEpisodeWasMissing: Bool?
+
+        var missingEpisodesThatIsNotTheLatestOnes = false
+
+        var latestAvailableEpisodeUuid: String?
+
         for episodeJson in episodesJson {
             guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else { continue }
 
@@ -101,11 +114,24 @@ extension ServerPodcastManager {
                     DataManager.sharedManager.save(episode: existingEpisode)
                 }
 
+                if latestEpisodeWasMissing == true {
+                    latestAvailableEpisodeUuid = uuid
+                }
+
+                latestEpisodeWasMissing = false
+
                 continue
             }
 
-            // for subscribed podcasts, only add older episodes, newer ones are handled by a refresh
+            // For subscribed podcasts, only add older episodes, newer ones are handled by a refresh
+            // so stuff like auto-download, auto add to up next works as expected
+            // However, if this is not a new episode we force update the podcast episodes
             if podcast.isSubscribed(), episodeDate.timeIntervalSinceNow >= podcast.latestEpisodeDate?.timeIntervalSinceNow ?? TimeInterval.greatestFiniteMagnitude {
+                if latestEpisodeWasMissing == false {
+                    missingEpisodesThatIsNotTheLatestOnes = true
+                }
+
+                latestEpisodeWasMissing = true
                 continue
             }
 
@@ -154,6 +180,14 @@ extension ServerPodcastManager {
         } else {
             // for subscribed podcasts remove any non-interacted with episodes that aren't in the server JSON
             cleanupDeletedEpisodes(podcast: podcast, serverEpisodes: episodesJson)
+        }
+
+        // If there are episode missing that are not the recent ones this mean that
+        // likely this show changed the episodes dates. This might lead to some
+        // episodes never being added, so we add them here
+        if addMissingEpisodes, missingEpisodesThatIsNotTheLatestOnes, let latestAvailableEpisodeUuid {
+            FileLog.shared.addMessage("[ServerPodcastManager] Updating \(podcast.title ?? "") from episode UUID \(latestAvailableEpisodeUuid)")
+            RefreshManager.shared.refresh(podcast: podcast, from: latestAvailableEpisodeUuid)
         }
     }
 

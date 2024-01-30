@@ -51,6 +51,17 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
 
+    lazy var bookmarksItem: BookmarksPlayerTabController = {
+        let playbackManager = PlaybackManager.shared
+        let bookmarkManager = playbackManager.bookmarkManager
+        let item = BookmarksPlayerTabController(bookmarkManager: bookmarkManager,
+                                                playbackManager: playbackManager)
+
+        item.view.translatesAutoresizingMaskIntoConstraints = false
+        item.containerDelegate = self
+        return item
+    }()
+
     private lazy var upNextViewController = UpNextViewController(source: .player)
 
     @IBOutlet var closeBtn: ThemeableUIButton! {
@@ -63,7 +74,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     var showingChapters = false
     var showingNotes = false
+    var showingBookmarks = false
+
     var finalScrollViewConstraint: NSLayoutConstraint?
+
+    /// The velocity in which the player was dismissed
+    var dismissVelocity: CGFloat = 0
+
+    /// The final yPosition when dismissing
+    var finalYPositionWhenDismissing: CGFloat = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,14 +95,21 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Analytics.track(.playerShown)
+
+        if !FeatureFlag.newPlayerTransition.enabled {
+            Analytics.track(.playerShown)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        Analytics.track(.playerDismissed)
+
+        if !FeatureFlag.newPlayerTransition.enabled {
+            Analytics.track(.playerDismissed)
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -102,33 +128,46 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     @objc private func showUpNext() {
-        let navController = SJUIUtils.navController(for: upNextViewController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let navController = SJUIUtils.navController(for: upNextViewController, iconStyle: .secondaryText01, themeOverride: upNextViewController.themeOverride)
         present(navController, animated: true, completion: nil)
+    }
+
+    // MARK: - Orientation
+
+    // we implement this here to lock all views (except presented modal VCs to portrait)
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        .portrait
     }
 
     // MARK: - PlayerItemContainerDelegate
 
     func scrollToCurrentChapter() {
-        guard let chapterTabIndex = tabsView.tabs.firstIndex(of: .chapters) else { return }
-
-        tabsView.currentTab = chapterTabIndex
-        let scrollRect = CGRect(x: CGFloat(chapterTabIndex) * mainScrollView.frame.width, y: 0, width: mainScrollView.frame.width, height: mainScrollView.frame.height)
-        mainScrollView.scrollRectToVisible(scrollRect, animated: true)
+        guard scroll(to: .chapters) else {
+            return
+        }
 
         chaptersItem.scrollToCurrentlyPlayingChapter(animated: false)
     }
 
     func scrollToNowPlaying() {
-        tabsView.currentTab = 0
-        let scrollRect = CGRect(x: 0, y: 0, width: mainScrollView.frame.width, height: mainScrollView.frame.height)
-        mainScrollView.scrollRectToVisible(scrollRect, animated: true)
+        scroll(to: .nowPlaying)
+    }
+
+    func scrollToBookmarks() {
+        scroll(to: .bookmarks)
+    }
+
+    func navigateToPodcast() {
+        guard let podcast = PlaybackManager.shared.currentPodcast else {
+            return
+        }
+        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
     }
 
     // MARK: - PlayerTabDelegate
 
     func didSwitchToTab(index: Int) {
-        let scrollWidth = mainScrollView.bounds.width
-        mainScrollView.setContentOffset(CGPoint(x: CGFloat(index) * scrollWidth, y: 0), animated: true)
+        scroll(to: index)
     }
 
     private func setupObservers() {
@@ -215,5 +254,30 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @objc func handleAppWillBecomeActive() {
         didSwitchToTab(index: tabsView.currentTab)
+    }
+}
+
+private extension PlayerContainerViewController {
+    @discardableResult
+    func scroll(to tab: PlayerTabs) -> Bool {
+        guard let index = tabsView.tabs.firstIndex(of: tab) else {
+            return false
+        }
+
+        scroll(to: index)
+
+        return true
+    }
+
+    func scroll(to index: Int) {
+        if tabsView.currentTab != index {
+            tabsView.currentTab = index
+        }
+
+        let offset = CGFloat(index) * mainScrollView.frame.width
+
+        UIView.animate(withDuration: Constants.Animation.playerTabSwitch) {
+            self.mainScrollView.setContentOffset(.init(x: offset, y: 0), animated: false)
+        }
     }
 }

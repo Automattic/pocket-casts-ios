@@ -31,10 +31,15 @@ public extension ASAuthorizationAppleIDProvider.CredentialState {
 }
 #endif
 
+public enum AuthenticationScope: String {
+    case mobile
+    case sonos
+}
+
 public extension ApiServerHandler {
-    func validateLogin(identityToken: String?) async throws -> AuthenticationResponse {
+    func validateLogin(identityToken: String?, scope: AuthenticationScope = .mobile) async throws -> AuthenticationResponse {
         guard let identityToken = identityToken,
-              let request = tokenRequest(identityToken: identityToken)
+              let request = tokenRequest(identityToken: identityToken, scope: scope)
         else {
             FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Apple SSO")
             throw APIError.UNKNOWN
@@ -59,13 +64,13 @@ public extension ApiServerHandler {
             let request = tokenRequest(identityToken: identityToken, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
         else {
             FileLog.shared.addMessage("Unable to locate Apple SSO token in Keychain")
-            throw APIError.UNKNOWN
+            throw APIError.TOKEN_DEAUTH
         }
 
         return try await obtainToken(request: request, usingRefreshToken: true)
     }
 
-    private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds) -> URLRequest? {
+    private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds, scope: AuthenticationScope = .mobile) -> URLRequest? {
         guard let identityToken else {
             return nil
         }
@@ -75,6 +80,7 @@ public extension ApiServerHandler {
         var data = Api_UserTokenRequest()
         data.refreshToken = identityToken
         data.grantType = "refresh_token"
+        data.scope = scope.rawValue
 
         return ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
 

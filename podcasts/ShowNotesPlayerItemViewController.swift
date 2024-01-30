@@ -129,7 +129,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
         loadingIndicator.startAnimating()
 
-        CacheServerHandler.shared.loadShowNotes(episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
+        CacheServerHandler.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
             self?.downloadingShowNotes = false
             self?.displayShowNotes(cachedShowNotes)
         }) { [weak self] showNotes in
@@ -200,10 +200,9 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             if URLHelper.isValidScheme(url.scheme) {
-                let config = SFSafariViewController.Configuration()
-                config.entersReaderIfAvailable = false
-                safariViewController = SFSafariViewController(url: url, configuration: config)
+                safariViewController = SFSafariViewController(with: url)
                 safariViewController?.delegate = self
+
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 SceneHelper.rootViewController()?.present(safariViewController!, animated: true, completion: nil)
 

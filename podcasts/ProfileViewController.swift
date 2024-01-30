@@ -8,76 +8,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     var refreshControl: PCRefreshControl?
 
-    @IBOutlet var signedInView: ThemeableView! {
-        didSet {
-            signedInView.style = .primaryUi02
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
-            signedInView.addGestureRecognizer(tapGesture)
-        }
-    }
-
-    @IBOutlet var emailAddress: UILabel!
-    @IBOutlet var signInStatus: ThemeableLabel! {
-        didSet {
-            signInStatus.style = .primaryText02
-        }
-    }
-
-    @IBOutlet var disclosureImage: UIImageView! {
-        didSet {
-            disclosureImage.tintColor = ThemeColor.primaryIcon02()
-        }
-    }
-
-    @IBOutlet var profileStatusView: ProfileProgressCircleView! {
-        didSet {
-            profileStatusView.style = .primaryUi02
-        }
-    }
-
-    @IBOutlet var podcastCount: ThemeableLabel! {
-        didSet {
-            podcastCount.style = .contrast01
-        }
-    }
-
-    @IBOutlet var timeListened: ThemeableLabel! {
-        didSet {
-            timeListened.style = .contrast01
-        }
-    }
-
-    @IBOutlet var timeListenedUnits: ThemeableLabel! {
-        didSet {
-            timeListenedUnits.style = .contrast03
-        }
-    }
-
-    @IBOutlet var hoursSaved: ThemeableLabel! {
-        didSet {
-            hoursSaved.style = .contrast01
-        }
-    }
-
-    @IBOutlet var hoursSavedUnits: ThemeableLabel! {
-        didSet {
-            hoursSavedUnits.style = .contrast03
-        }
-    }
-
-    @IBOutlet var podcastsLabel: ThemeableLabel! {
-        didSet {
-            podcastsLabel.style = .contrast03
-            podcastsLabel.text = L10n.podcastsPlural
-        }
-    }
-
-    @IBOutlet var podcastCountView: UIView!
-    @IBOutlet var timeListenedView: UIView!
-    @IBOutlet var timeSavedView: UIView!
-
-    @IBOutlet var headerView: UIView!
-
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
     @IBOutlet var lastRefreshTime: UILabel!
@@ -89,12 +19,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             refreshBtn.buttonTapped = { [weak self] in
                 self?.refreshTapped()
             }
-        }
-    }
-
-    @IBOutlet var bgImage: UIImageView! {
-        didSet {
-            bgImage.kf.setImage(with: ServerHelper.asUrl(ServerConstants.Urls.image() + "trending/640/trending_bg.jpg"), placeholder: nil, options: [.transition(.fade(Constants.Animation.defaultAnimationTime))])
         }
     }
 
@@ -115,7 +39,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles, endOfYearPrompt }
+    private enum TableRow { case allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
@@ -124,6 +48,27 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             profileTable.applyInsetForMiniPlayer()
         }
     }
+
+    // MARK: - Profile Header
+    private lazy var headerViewModel: ProfileHeaderViewModel = {
+        let viewModel = ProfileHeaderViewModel(navigationController: navigationController)
+
+        // Listen for view size changes and update the header view cell if needed
+        viewModel.viewContentSizeChanged = { [weak self] in
+            self?.profileTable.reloadData()
+        }
+
+        return viewModel
+    }()
+
+    private lazy var headerView: UIView = {
+        let headerView = ProfileHeaderView(viewModel: headerViewModel)
+
+        let view = headerView.themedUIView
+        view.backgroundColor = .clear
+
+        return view
+    }()
 
     // MARK: - View Events
 
@@ -135,7 +80,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         navigationItem.title = L10n.profile
 
-        profileTable.tableHeaderView = headerView
         profileTable.tableFooterView = footerView
 
         updateDisplayedData()
@@ -165,7 +109,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(refreshComplete))
         addCustomObserver(ServerNotifications.syncFailed, selector: #selector(refreshComplete))
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(handleDataChangedNotification))
-        addCustomObserver(Notification.Name.userLoginDidChange, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(.userLoginDidChange, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(.serverUserWillBeSignedOut, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(.whatsNewDismissed, selector: #selector(whatsNewDismissed))
+        addCustomObserver(EndOfYear.eoyEligibilityDidChange, selector: #selector(handleDataChangedNotification))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         if promoRedeemedMessage != nil {
@@ -177,6 +124,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if EndOfYear.isEligible {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
+
+        whatsNewDismissed()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -187,7 +136,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func handleThemeChanged() {
         updateRefreshFooterColors()
-        disclosureImage.tintColor = ThemeColor.primaryIcon02()
     }
 
     private func updateRefreshFooterColors() {
@@ -211,27 +159,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         navigationController?.pushViewController(settingsController, animated: true)
     }
 
-    @objc func profileTapped() {
-        Analytics.track(.profileAccountButtonTapped)
-
-        if SyncManager.isUserLoggedIn() {
-            showAccountController()
-        } else {
-            showProfileSetupController()
-        }
-    }
-
-    func showProfileSetupController() {
-        if FeatureFlag.onboardingUpdates.enabled {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.loggedOut])
-            return
-        }
-
-        let profileIntroController = ProfileIntroViewController()
-        let navController = SJUIUtils.popupNavController(for: profileIntroController)
-        present(navController, animated: true, completion: nil)
-    }
-
     private func showAccountController() {
         let accountVC = AccountViewController()
         navigationController?.pushViewController(accountVC, animated: true)
@@ -251,6 +178,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
+            self.refreshControl?.endRefreshing(true)
             self.refreshBtn.stopAnimatingImage()
             self.updateLastRefreshDetails()
         }
@@ -265,51 +193,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateDisplayedData() {
-        if SyncManager.isUserLoggedIn(), let email = ServerSettings.syncingEmail() {
-            emailAddress.text = email
+        // Update the new header's data
+        headerViewModel.update()
 
-            let totalListeningTime = StatsManager.shared.totalListeningTimeInclusive()
-            let savedTime = StatsManager.shared.totalSkippedTimeInclusive() + StatsManager.shared.timeSavedVariableSpeedInclusive() + StatsManager.shared.timeSavedDynamicSpeedInclusive() + StatsManager.shared.totalAutoSkippedTimeInclusive()
-            updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
-
-            if SubscriptionHelper.hasActiveSubscription() {
-                profileStatusView.isSubscribed = true
-
-                var hideExpiryCountdown = true
-                if let expiryTime = SubscriptionHelper.timeToSubscriptionExpiry() {
-                    hideExpiryCountdown = expiryTime > Constants.Limits.maxSubscriptionExpirySeconds
-                    profileStatusView.secondsTillExpiry = expiryTime
-                }
-
-                if SubscriptionHelper.hasRenewingSubscription() || hideExpiryCountdown {
-                    signInStatus.text = L10n.pocketCastsPlus.uppercased()
-                    signInStatus.textColor = ThemeColor.primaryText02()
-                } else {
-                    if let expiryDate = SubscriptionHelper.subscriptionRenewalDate(), expiryDate.timeIntervalSinceNow > 0 {
-                        let time = (TimeFormatter.shared.appleStyleTillString(date: expiryDate) ?? "never").localizedUppercase
-                        signInStatus.text = L10n.plusSubscriptionExpiration(time)
-                    } else {
-                        signInStatus.text = L10n.pocketCastsPlus.uppercased()
-                    }
-                    signInStatus.textColor = AppTheme.pcPlusRed()
-                }
-            } else {
-                signInStatus.text = L10n.signedInAs
-                signInStatus.textColor = ThemeColor.primaryText02()
-                profileStatusView.isSubscribed = false
-            }
-        } else {
-            signInStatus.text = L10n.signedOut.localizedUppercase
-            signInStatus.textColor = ThemeColor.primaryText02()
-            emailAddress.text = L10n.setupAccount
-            profileStatusView.isSubscribed = false
-            let totalListeningTime = StatsManager.shared.totalListeningTime()
-            let savedTime = StatsManager.shared.totalSkippedTime() + StatsManager.shared.timeSavedVariableSpeed() + StatsManager.shared.timeSavedDynamicSpeed() + StatsManager.shared.totalAutoSkippedTime()
-            updateTimes(listenedTime: totalListeningTime, savedTime: savedTime)
-        }
-
-        signedInView.accessibilityLabel = signInStatus.text
-        signedInView.accessibilityHint = L10n.accessibilitySignIn
         updateLastRefreshDetails()
         plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
         updateFooterFrame()
@@ -334,51 +220,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             refreshBtn.buttonTitle = L10n.refreshNow
             lastRefreshTime.text = L10n.refreshPreviousRun(L10n.timeFormatNever)
             alertIcon.isHidden = false
-        }
-    }
-
-    private func updateTimes(listenedTime: TimeInterval, savedTime: TimeInterval) {
-        let pcastCount = DataManager.sharedManager.podcastCount()
-        podcastCount.text = "\(pcastCount)"
-        podcastCountView.accessibilityLabel = L10n.podcastCount(pcastCount)
-
-        updateTimeStat(valueLabel: timeListened, unitLabel: timeListenedUnits, value: listenedTime, valueType: .listened)
-        timeListenedView.accessibilityLabel = timeListened.text! + timeListenedUnits.text!
-
-        updateTimeStat(valueLabel: hoursSaved, unitLabel: hoursSavedUnits, value: savedTime, valueType: .saved)
-        timeSavedView.accessibilityLabel = hoursSaved.text! + hoursSavedUnits.text!
-    }
-
-    private func updateTimeStat(valueLabel: UILabel, unitLabel: UILabel, value: TimeInterval, valueType: StatValueType) {
-        let days = Int(safeDouble: value / 86400)
-        let hours = Int(safeDouble: value / 3600) - (days * 24)
-        let mins = Int(safeDouble: value / 60) - (hours * 60) - (days * 24 * 60)
-        let secs = Int(safeDouble: value.truncatingRemainder(dividingBy: 60))
-
-        if mins < 1, hours < 1, days < 1 {
-            valueLabel.text = "\(secs)"
-            unitLabel.text = valueType == .listened ? L10n.secondsListened : L10n.secondsSaved
-        } else if days > 0 {
-            valueLabel.text = "\(days)"
-            if days == 1 {
-                unitLabel.text = valueType == .listened ? L10n.dayListened : L10n.daySaved
-            } else {
-                unitLabel.text = valueType == .listened ? L10n.daysListened : L10n.daysSaved
-            }
-        } else if hours > 0 {
-            valueLabel.text = "\(hours)"
-            if hours == 1 {
-                unitLabel.text = valueType == .listened ? L10n.hourListened : L10n.hourSaved
-            } else {
-                unitLabel.text = valueType == .listened ? L10n.hoursListened : L10n.hoursSaved
-            }
-        } else if mins > 0 {
-            valueLabel.text = "\(mins)"
-            if mins == 1 {
-                unitLabel.text = valueType == .listened ? L10n.minuteListened : L10n.minuteSaved
-            } else {
-                unitLabel.text = valueType == .listened ? L10n.minutesListened : L10n.minutesSaved
-            }
         }
     }
 
@@ -419,6 +260,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .listeningHistory:
             cell.settingsImage.image = UIImage(named: "profile-history")
             cell.settingsLabel.text = L10n.listeningHistory
+        case .help:
+            cell.settingsImage.image = UIImage(named: "profile-help")
+            cell.settingsLabel.text = L10n.settingsHelp
         case .endOfYearPrompt:
             return EndOfYearPromptCell()
         }
@@ -454,6 +298,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .listeningHistory:
             let historyController = ListeningHistoryViewController()
             navigationController?.pushViewController(historyController, animated: true)
+        case .help:
+            let navController = SJUIUtils.navController(for: OnlineSupportController())
+            present(navController, animated: true, completion: nil)
         case .endOfYearPrompt:
             Analytics.track(.endOfYearProfileCardTapped)
             EndOfYear().showStories(in: self, from: .profile)
@@ -464,13 +311,17 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         18
     }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        headerView
+    }
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        1
+        return headerViewModel.contentSize?.height ?? UITableView.automaticDimension
     }
 
     private func tableData() -> [[ProfileViewController.TableRow]] {
         var data: [[ProfileViewController.TableRow]]
-        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
+        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory, .help]]
 
         if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
@@ -482,6 +333,29 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func updateFooterFrame() {
         let height: CGFloat = plusInfoView.isHidden ? 120 : 308
         footerView.frame = CGRect(x: footerView.frame.minX, y: footerView.frame.minY, width: footerView.frame.width, height: height)
+    }
+
+    // MARK: - What's New Autoplay flow
+
+    @objc private func whatsNewDismissed() {
+        showGeneralSettingsIfNeeded()
+        showHeadphoneControlsFromWhatsNew()
+    }
+
+    private func showGeneralSettingsIfNeeded() {
+        if AnnouncementFlow.current == .autoPlay {
+            let generalSettingsViewController = GeneralSettingsViewController()
+            navigationController?.pushViewController(generalSettingsViewController, animated: true)
+        }
+    }
+
+    // Pushes to the headphone controls if shown from the what's new
+    private func showHeadphoneControlsFromWhatsNew() {
+        guard AnnouncementFlow.current == .bookmarksProfile else { return }
+
+        let controller = HeadphoneSettingsViewController()
+        navigationController?.pushViewController(controller, animated: true)
+        AnnouncementFlow.current = .none
     }
 }
 

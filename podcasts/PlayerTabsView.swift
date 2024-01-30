@@ -9,29 +9,23 @@ enum PlayerTabs: Int {
     case nowPlaying
     case showNotes
     case chapters
+    case bookmarks
 
     var description: String {
         switch self {
         case .nowPlaying:
             return L10n.nowPlaying
         case .showNotes:
-            return L10n.showNotes
+            return L10n.playerShowNotesTitle
         case .chapters:
             return L10n.chapters
-        }
-    }
-
-    var shortDescription: String {
-        switch self {
-        case .nowPlaying:
-            return L10n.nowPlayingShortTitle
-        default:
-            return description
+        case .bookmarks:
+            return L10n.bookmarks
         }
     }
 }
 
-class PlayerTabsView: UIView {
+class PlayerTabsView: UIScrollView {
     var tabs: [PlayerTabs] = [.nowPlaying] {
         didSet {
             updateTabs()
@@ -42,64 +36,83 @@ class PlayerTabsView: UIView {
         didSet {
             animateTabChange(fromIndex: oldValue, toIndex: currentTab)
 
-            if oldValue != currentTab, let tab = PlayerTabs(rawValue: currentTab) {
-                trackTabChanged(tab: tab)
+            guard oldValue != currentTab, let tab = tabs[safe: currentTab] else {
+                return
             }
 
-            if currentTab == 1 {
+            trackTabChanged(tab: tab)
+
+            switch tab {
+            case .nowPlaying:
+                break
+            case .showNotes:
                 AnalyticsHelper.playerShowNotesOpened()
-            } else if currentTab == 2 {
+            case .chapters:
                 AnalyticsHelper.chaptersOpened()
+            case .bookmarks:
+                break
             }
-        }
-    }
-
-    var leadingEdgePullDistance: CGFloat = 0 {
-        didSet {
-            updateLine()
-        }
-    }
-
-    var trailingEdgePullDistance: CGFloat = 0 {
-        didSet {
-            updateLine()
         }
     }
 
     weak var tabDelegate: PlayerTabDelegate?
 
-    private let lineHeight: CGFloat = 2
     private let lineLayer = CAShapeLayer()
-    private let lineOffset: CGFloat = 8
 
     private lazy var tabsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 14
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .fill
+
+        stackView.spacing = TabConstants.spacing
 
         return stackView
     }()
 
+    // Fade Layers
+    private lazy var fadeLeading = {
+        FadeOutLayer(fadePosition: .leading)
+    }()
+
+    private lazy var fadeTrailing = {
+        FadeOutLayer(fadePosition: .trailing)
+    }()
+
     func setup() {
-        configureLine()
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        clipsToBounds = true
+
         updateTabs()
 
         addSubview(tabsStackView)
         tabsStackView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            tabsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tabsStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            tabsStackView.topAnchor.constraint(equalTo: topAnchor, constant: 14)
+            tabsStackView.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+            tabsStackView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
+            tabsStackView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            tabsStackView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
+            tabsStackView.heightAnchor.constraint(equalTo: frameLayoutGuide.heightAnchor)
         ])
+
+        layer.addSublayer(fadeLeading)
+        layer.addSublayer(fadeTrailing)
     }
 
     func themeDidChange() {
         updateTabs()
+
+        fadeLeading.updateColors()
+        fadeTrailing.updateColors()
     }
 
     var lastLayedOutWidth: CGFloat = 0
     override func layoutSubviews() {
         super.layoutSubviews()
+
+        updateFadeLayers()
 
         let currentWidth = bounds.width
         if lastLayedOutWidth == currentWidth { return }
@@ -111,140 +124,121 @@ class PlayerTabsView: UIView {
     private func updateTabs() {
         tabsStackView.removeAllSubviews()
 
-        let widthAvailable = bounds.width
-
-        var fontSize: CGFloat = 16
-        var spacing: CGFloat = 14
-        var totalWidthRequired = widthAvailable
-
-        // not ideal, but here we figure out if our labels will fit, and if not we shrink the font and spacing by 1 until they do
-        while totalWidthRequired >= widthAvailable {
-            totalWidthRequired = 0
-            for tab in tabs {
-                let title = fontSize <= 14 ? tab.shortDescription : tab.description
-                totalWidthRequired += title.widthOfString(usingFont: UIFont.systemFont(ofSize: fontSize, weight: .bold))
-            }
-            totalWidthRequired += spacing * CGFloat(tabs.count - 1)
-
-            if totalWidthRequired >= widthAvailable {
-                fontSize -= 1
-                spacing -= 1
-            }
-        }
-
-        tabsStackView.spacing = spacing
         for (index, tab) in tabs.enumerated() {
-            let button = UIButton(type: .custom)
-            button.isPointerInteractionEnabled = true
-            button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
-            let titleColor = index == currentTab ? ThemeColor.playerContrast01() : ThemeColor.playerContrast02()
-            button.setTitleColor(titleColor, for: .normal)
-            let title = fontSize <= 14 ? tab.shortDescription : tab.description
-            button.setTitle(title, for: .normal)
+            let button = PlayerTabButton(title: tab.description)
+            button.isSelected = index == currentTab
             button.tag = index
+            button.isPointerInteractionEnabled = true
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-
             tabsStackView.addArrangedSubview(button)
         }
 
+        // Add an empty view to make sure the sizes are calculated correctly when there is a longer first item
+        let empty = UIView()
+        empty.isUserInteractionEnabled = false
+        tabsStackView.addArrangedSubview(UIView())
+
         layoutIfNeeded()
-        updateLine()
     }
 
     @objc private func buttonTapped(_ sender: UIButton) {
-        let tabIndex = sender.tag
-
-        currentTab = tabIndex
+        currentTab = sender.tag
         tabDelegate?.didSwitchToTab(index: currentTab)
     }
 
-    private func configureLine() {
-        lineLayer.lineWidth = 1
-        let contrast01 = ThemeColor.playerContrast01().cgColor
-        lineLayer.fillColor = contrast01
-        lineLayer.strokeColor = contrast01
-
-        lineLayer.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 24, height: lineHeight)).cgPath
-        lineLayer.lineCap = CAShapeLayerLineCap.round
-
-        layer.addSublayer(lineLayer)
-    }
-
-    private func updateLine() {
-        lineLayer.path = UIBezierPath(rect: lineRectForTab(index: currentTab)).cgPath
-    }
-
-    func animateBackToNonCompressed() {
-        let currentLine = lineLayer.path
-        let newLine = lineRectForTab(index: currentTab, ignoreLeadingTrailing: true)
-
-        //  line moving animation
-        let animation = CABasicAnimation(keyPath: "path")
-        animation.fromValue = currentLine
-        animation.toValue = UIBezierPath(rect: newLine).cgPath
-
-        animation.duration = Constants.Animation.defaultAnimationTime
-        animation.fillMode = CAMediaTimingFillMode.forwards
-        animation.isRemovedOnCompletion = false
-
-        CATransaction.begin()
-        CATransaction.setCompletionBlock {
-            self.leadingEdgePullDistance = 0
-            self.trailingEdgePullDistance = 0
-            self.lineLayer.removeAllAnimations()
-        }
-        lineLayer.add(animation, forKey: "animatePath")
-        CATransaction.commit()
-    }
-
     private func animateTabChange(fromIndex: Int, toIndex: Int) {
-        let previousLine = lineRectForTab(index: fromIndex)
-        let newLine = lineRectForTab(index: toIndex)
-
-        //  line moving animation
-        let animation = CABasicAnimation(keyPath: "path")
-        animation.fromValue = UIBezierPath(rect: previousLine).cgPath
-        animation.toValue = UIBezierPath(rect: newLine).cgPath
-
-        animation.duration = Constants.Animation.defaultAnimationTime
-        animation.fillMode = CAMediaTimingFillMode.forwards
-        animation.isRemovedOnCompletion = false
+        let animationDuration = Constants.Animation.playerTabSwitch
 
         // text color animation
         if let fromTab = tabsStackView.arrangedSubviews[safe: fromIndex] as? UIButton {
-            UIView.transition(with: fromTab, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve, animations: {
-                fromTab.setTitleColor(ThemeColor.playerContrast02(), for: .normal)
-            }, completion: nil)
+            UIView.transition(with: fromTab, duration: animationDuration, options: .transitionCrossDissolve, animations: {
+                fromTab.isSelected = false
+            })
         }
 
         if let toTab = tabsStackView.arrangedSubviews[safe: toIndex] as? UIButton {
-            UIView.transition(with: toTab, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve, animations: {
-                toTab.setTitleColor(ThemeColor.playerContrast01(), for: .normal)
-            }, completion: nil)
+            UIView.transition(with: toTab, duration: animationDuration, options: .transitionCrossDissolve, animations: {
+                toTab.isSelected = true
+
+                // Scroll the button into view, but make sure it clears the fade
+                self.scrollRectToVisible(toTab.frame.insetBy(dx: -TabConstants.fadeSize, dy: 0), animated: false)
+            })
         }
+    }
+}
+
+
+private enum TabConstants {
+    static let titleFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
+    static let spacing: CGFloat = 0
+
+    static let lineHeight: CGFloat = 2
+    static let lineOffset: CGFloat = 8
+
+    static let fadeSize: CGFloat = 50
+}
+
+// MARK: - Private: Scroll Fading
+
+private extension PlayerTabsView {
+    private func updateFadeLayers() {
+        let offset = contentOffset.x
+        let size = CGSize(width: TabConstants.fadeSize, height: bounds.height)
 
         CATransaction.begin()
-        CATransaction.setCompletionBlock {
-            self.updateLine()
-            self.lineLayer.removeAllAnimations()
-        }
-        lineLayer.add(animation, forKey: "animatePath")
+        CATransaction.setDisableActions(true)
+        fadeLeading.frame = .init(origin: .init(x: offset, y: 0), size: size)
+        fadeTrailing.frame = .init(origin: .init(x: offset + bounds.width - TabConstants.fadeSize, y: 0), size: size)
         CATransaction.commit()
+
+        fadeLeading.opacity = contentOffset.x > 0 ? 1 : 0
+        fadeTrailing.opacity = (contentOffset.x + bounds.width) < contentSize.width ? 1 : 0
     }
 
-    private func lineRectForTab(index: Int, ignoreLeadingTrailing: Bool = false) -> CGRect {
-        guard let tab = tabsStackView.arrangedSubviews[safe: index] else { return CGRect.zero }
+    private class FadeOutLayer: CAGradientLayer {
+        enum FadePosition {
+            case leading, trailing
+        }
 
-        let tabRect = convert(tab.frame, from: tab.superview)
-        if !ignoreLeadingTrailing, leadingEdgePullDistance > 0 || trailingEdgePullDistance > 0 {
-            let width = tabRect.width - min(tabRect.width * 0.9, (leadingEdgePullDistance + trailingEdgePullDistance) / 3)
-            if leadingEdgePullDistance > 0 {
-                return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: width, height: lineHeight)
-            } else {
-                return CGRect(x: tabRect.minX + (tabRect.width - width), y: tabRect.maxY - lineOffset, width: width, height: lineHeight)
+        var fadePosition: FadePosition = .leading
+
+        init(fadePosition: FadePosition) {
+            self.fadePosition = fadePosition
+
+            super.init()
+
+            updateColors()
+
+            switch fadePosition {
+            case .leading:
+                startPoint = .init(x: 1, y: 0)
+                endPoint = .zero
+
+            case .trailing:
+                startPoint = .zero
+                endPoint = .init(x: 1, y: 0)
             }
-        } else {
-            return CGRect(x: tabRect.minX, y: tabRect.maxY - lineOffset, width: tabRect.width, height: lineHeight)
+        }
+
+        func updateColors() {
+            let color = PlayerColorHelper.playerBackgroundColor01()
+
+            colors = [
+                color.withAlphaComponent(0).cgColor,
+                color.cgColor
+            ]
+        }
+
+        override init(layer: Any) {
+            if let layer = layer as? Self {
+                fadePosition = layer.fadePosition
+            }
+
+            super.init(layer: layer)
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
         }
     }
 }
@@ -261,8 +255,70 @@ private extension PlayerTabsView {
             tabName = "show_notes"
         case .chapters:
             tabName = "chapters"
+        case .bookmarks:
+            tabName = "bookmarks"
         }
 
         Analytics.track(.playerTabSelected, properties: ["tab": tabName])
+    }
+}
+
+/// A button subclass that applies the tab button style
+private class PlayerTabButton: UIButton {
+    let title: String
+
+    init(title: String) {
+        self.title = title
+        super.init(frame: .zero)
+
+        configuration = .plain()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func updateConfiguration() {
+        let background: UIColor
+        let text: UIColor
+
+        var config = UIButton.Configuration.plain()
+        config.automaticallyUpdateForSelection = true
+
+        switch state {
+
+        case .selected, [.selected, .highlighted]:
+            background = ThemeColor.playerContrast05()
+            text = ThemeColor.playerContrast01()
+
+        case .highlighted:
+            background = ThemeColor.playerContrast05().withAlphaComponent(0.1)
+            text = ThemeColor.playerContrast01()
+
+        default:
+            background = .clear
+            text = ThemeColor.playerContrast02()
+        }
+
+        config.contentInsets = .init(top: 8, leading: 12, bottom: 8, trailing: 12)
+
+        config.attributedTitle = {
+            var attributedTitle = AttributedString(title)
+            attributedTitle.font = TabConstants.titleFont
+            attributedTitle.foregroundColor = text
+            return attributedTitle
+        }()
+
+        config.background = {
+            var config = UIBackgroundConfiguration.clear()
+            config.backgroundColor = .clear
+            return config
+        }()
+
+        // Background isn't animatable, so we'll default to using the layer
+        layer.backgroundColor = background.cgColor
+        layer.cornerRadius = 8
+
+        self.configuration = config
     }
 }

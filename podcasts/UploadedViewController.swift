@@ -1,8 +1,12 @@
+import Combine
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
 class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
+    private let episodesDataManager = EpisodesDataManager()
+    private var cancellables = Set<AnyCancellable>()
+
     @IBOutlet var uploadsTable: ThemeableTable! {
         didSet {
             uploadsTable.updateContentInset(multiSelectEnabled: false)
@@ -120,6 +124,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         reloadLocalFiles()
 
         Analytics.track(.uploadedFilesShown)
+
+        listenForChangedBookmarks()
     }
 
     var fileURL: URL?
@@ -225,13 +231,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func reloadLocalFiles() {
-        let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
-
-        if SubscriptionHelper.hasActiveSubscription() {
-            uploadedEpisodes = DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
-        } else {
-            uploadedEpisodes = DataManager.sharedManager.allUserEpisodesDownloaded(sortedBy: sortBy)
-        }
+        uploadedEpisodes = episodesDataManager.uploadedEpisodes()
         uploadsTable.isHidden = (uploadedEpisodes.count == 0)
 
         uploadsTable.reloadData()
@@ -369,5 +369,34 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 extension UploadedViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .files
+    }
+}
+
+private extension UploadedViewController {
+    func listenForChangedBookmarks() {
+        let manager = PlaybackManager.shared.bookmarkManager
+
+        manager.onBookmarkCreated
+            .filter { $0.podcast == nil }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.handleReloadFromNotification()
+            }
+            .store(in: &cancellables)
+
+        manager.onBookmarksDeleted
+            .filter { $0.items.first(where: { $0.podcast == nil }) != nil }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.handleReloadFromNotification()
+            }
+            .store(in: &cancellables)
+
+        PaidFeature.bookmarks.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] bookmark in
+                self?.handleReloadFromNotification()
+            }
+            .store(in: &cancellables)
     }
 }

@@ -16,7 +16,7 @@ extension Color {
         return (luminanceLighter + 0.05) / (luminanceDarker + 0.05)
     }
 
-    func luminance() -> CGFloat {
+    public func luminance() -> CGFloat {
         let ciColor = CIColor(color: UIColor(self))
 
         func adjust(colorComponent: CGFloat) -> CGFloat {

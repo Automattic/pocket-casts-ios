@@ -14,6 +14,7 @@ protocol NowPlayingActionsDelegate: AnyObject {
     func chromecastTapped()
     func markPlayedTapped()
     func archiveTapped()
+    func bookmarkTapped()
 
     func sharedRoutePicker(largeSize: Bool) -> PCRoutePickerView
 }
@@ -25,7 +26,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let actions = Settings.playerActions()
 
         // don't reload the actions unless we need to
-        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive()) { return }
+        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode) { return }
 
         // load the first 4 actions into the player, followed by an overflow icon
         playerControlsStackView.removeAllSubviews()
@@ -130,6 +131,16 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             archiveButton.accessibilityLabel = L10n.archive
 
             addToShelf(on: archiveButton)
+
+        case .addBookmark:
+            let button = UIButton(frame: CGRect.zero)
+            button.isPointerInteractionEnabled = true
+            button.imageView?.tintColor = ThemeColor.playerContrast02()
+            button.setImage(UIImage(named: action.largeIconName(episode: playingEpisode)), for: .normal)
+            button.addTarget(self, action: #selector(bookmarkTapped(_:)), for: .touchUpInside)
+            button.accessibilityLabel = L10n.addBookmark
+
+            addToShelf(on: button)
         }
 
         return true
@@ -204,9 +215,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         return routePicker
     }
 
+    func bookmarkTapped() {
+        PlaybackManager.shared.bookmark(source: .player)
+    }
+
     // MARK: - Player Actions
 
-    @objc private func overflowTapped() {
+    @objc func overflowTapped() {
         let shelfController = ShelfActionsViewController()
         shelfController.playerActionsDelegate = self
         let bottomSheet = MDCBottomSheetController(contentViewController: shelfController)
@@ -248,6 +263,18 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     @objc private func shareTapped(_ sender: UIButton) {
         shelfButtonTapped(.shareEpisode)
         shareEpisode(sender: sender)
+    }
+
+    @objc private func bookmarkTapped(_ sender: UIButton) {
+        let action = PlayerAction.addBookmark
+        shelfButtonTapped(action)
+
+        guard action.isUnlocked else {
+            action.paidFeature?.presentUpgradeController(from: self, source: "bookmarks_shelf_action")
+            return
+        }
+
+        bookmarkTapped()
     }
 
     // MARK: - Sleep Timer

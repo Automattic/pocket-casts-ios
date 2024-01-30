@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Feature request
+    url: https://github.com/Automattic/pocket-casts-ios/discussions
+    about: For feature requests, please use GitHub discussions.
+  - name: Help request
+    url: https://forums.pocketcasts.com/
+    about: Check the FAQ (https://support.pocketcasts.com/ios/) or get in touch with support at our public forum

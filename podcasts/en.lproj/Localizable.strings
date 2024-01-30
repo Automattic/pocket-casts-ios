@@ -37,6 +37,9 @@
 /* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Pocket Casts Plus subscription. */
 "accessibility_plus_only" = "Locked, Plus Feature";
 
+/* A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Patron subscription. */
+"accessibility_patron_only" = "Locked, Patron Feature";
+
 /* Accessibility label fir the profile settings icon in the app. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. */
 "accessibility_profile_settings" = "Pocket Casts Settings";
 
@@ -51,6 +54,12 @@
 
 /* A common string used throughout the app. An accessibility label to direct the user to sort and option menus. */
 "accessibility_sort_and_options" = "Sort and Options";
+
+/* Accessibility label for episode playback progress scrubber */
+"accessibility_playback_progress" = "%1$@ of %2$@";
+
+/* Accessibility label for episode playback scrubber */
+"accessibility_episode_playback" = "Episode Playback";
 
 /* Prompt to allow the user to update the email associated to their account. */
 "account_change_email" = "Change Email";
@@ -186,6 +195,18 @@
 
 /* Halloween app icon name */
 "app_icon_halloween" = "Halloween";
+
+/* The name for the Patron Chrome App Icon - Do not translate Patron */
+"app_icon_patron_chrome" = "Patron Chrome";
+
+/* The name for the Patron Round App Icon - Do not translate Patron */
+"app_icon_patron_round" = "Patron Round";
+
+/* The name for the Patron Glow App Icon - Do not translate Patron */
+"app_icon_patron_glow" = "Patron Glow";
+
+/* The name for the Patron Dark App Icon - Do not translate Patron */
+"app_icon_patron_dark" = "Patron Dark";
 
 /* App version label in the about controller. `%1$@` is a placeholder for the version number and %2$@ is a placeholder for the build number */
 "app_version" = "Version %1$@ (%2$@)";
@@ -478,8 +499,14 @@
 /* Title for the podcast category Health & Fitness */
 "discover_browse_by_category_health_and_fitness" = "Health & Fitness";
 
+/* Abbreviation for the podcast category Health & Fitness, using only "Health" */
+"discover_browse_by_category_health" = "Health";
+
 /* Title for the podcast category Kids & Family */
 "discover_browse_by_category_kids_and_family" = "Kids & Family";
+
+/* Abbreviation for the podcast category Kids & Family, using only "Family" */
+"discover_browse_by_category_family" = "Family";
 
 /* Title for the podcast category Leisure */
 "discover_browse_by_category_leisure" = "Leisure";
@@ -496,6 +523,9 @@
 /* Title for the podcast category Religion & Spirituality */
 "discover_browse_by_category_religion_and_spirituality" = "Religion & Spirituality";
 
+/* Abbreviation for the podcast category Religion & Spirituality */
+"discover_browse_by_category_spirituality" = "Spirituality";
+
 /* Title for the podcast category Science */
 "discover_browse_by_category_science" = "Science";
 
@@ -507,6 +537,9 @@
 
 /* Title for the podcast category Society & Culture */
 "discover_browse_by_category_society_and_culture" = "Society & Culture";
+
+/* Abbreviation for the podcast category Society & Culture, using only "Culture" */
+"discover_browse_by_category_society_and_culture" = "Culture";
 
 /* Title for the podcast category Sports */
 "discover_browse_by_category_sports" = "Sports";
@@ -676,7 +709,7 @@
 /* Region name for United States used in the Discover Section */
 "discover_region_united_states" = "United States";
 
-/* Region name used in the Discover Section for a genreic global setting instead of a specific region. */
+/* Region name used in the Discover Section for a generic global setting instead of a specific region. */
 "discover_region_worldwide" = "Worldwide";
 
 /* Error message when a user performs a search using a search term that's too short. */
@@ -931,7 +964,7 @@
 /* Used on the screen to create a new filter. The prompt about what they can do in order to make sure their filter returns results. */
 "filter_create_no_episodes_description_prompt" = "Choose different criteria, or save this filter if you think it will match episodes in the future.";
 
-/* Used on the screen to create a new filter. The section that shows a preview of waht podcast episodes will be included in the filter. */
+/* Used on the screen to create a new filter. The section that shows a preview of what podcast episodes will be included in the filter. */
 "filter_create_preview" = "PREVIEW";
 
 /* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
@@ -1471,10 +1504,10 @@
 /* Used in the player to describe effects you can use to change audio playback. Things like speed, volume, etc. */
 "playback_effects" = "Playback effects";
 
-/* Description for the empty state on screen where the user can review their starred (favorited) podcast epsiodes */
+/* Description for the empty state on screen where the user can review their starred (favorited) podcast episodes */
 "profile_starred_no_episodes_desc" = "You haven't starred any episodes yet.";
 
-/* Title for the empty state on screen where the user can review their starred (favorited) podcast epsiodes */
+/* Title for the empty state on screen where the user can review their starred (favorited) podcast episodes */
 "profile_starred_no_episodes_title" = "Nothing Starred";
 
 /* Used next to a setting for how fast audio will play */
@@ -1507,6 +1540,9 @@
 /* The available cloud storage limit available to Pocket Casts Plus Subscribers. '%1$@' is a placeholder for the available storage. */
 "plus_cloud_storage_limit_format" = "%1$@ GB Cloud Storage";
 
+/* Account detail message informing the user that they have been granted 50% discount. */
+"plus_discount_yearly_membership" = "50%% off your first year";
+
 /* Error message informing the user that they have already signed up for plus with this account. */
 "plus_error_already_registered" = "You already have a Pocket Casts Plus account";
 
@@ -1520,31 +1556,19 @@
 "plus_features" = "PLUS FEATURES";
 
 /* Account detail message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
-"plus_free_membership_format" = "%1$@ Free";
+"plus_free_membership_format" = "%1$@ Free Trial";
 
 /* Account detail message informing the user that they have been granted a lifetime membership. */
 "plus_lifetime_membership" = "Lifetime Member";
 
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
-"plus_marketing_cloud_storage_description" = "Speed up your lectures. Burn through other content. Be your own Podcast DJ.";
-
-/* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
-
-/* Pocket Casts Plus marketing page, title of the Cloud Storage feature */
-"plus_marketing_cloud_storage_title" = "Cloud Storage";
-
-/* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
-"plus_marketing_desktop_apps_description" = "Take your podcasts to more places with our Windows, macOS and Web apps.";
 
 /* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
 "plus_marketing_updated_desktop_apps_description" = "Listen in more places with our Windows, macOS and Web apps";
 
-/* Pocket Casts Plus marketing page, title of the Desktop Apps feature */
-"plus_marketing_desktop_apps_title" = "Desktop Apps";
-
-/* Pocket Casts Plus marketing page, the final call to action to get people to upgrade */
-"plus_marketing_final_call_to_action" = "Time to up your podcasting game?\nGet desktop apps, bring your own files and spruce things up with fresh new themes, exclusive to plus members.";
+/* Pocket Casts Plus marketing page, title of the Desktop and web apps feature */
+"plus_marketing_desktop_apps_title" = "Desktop & web apps";
 
 /* Pocket Casts Plus marketing page, learn more button. Note that Pocket Casts is a proper noun and shouldn't be translated */
 "plus_marketing_learn_more_button" = "Learn more about Pocket Casts Plus";
@@ -1552,23 +1576,14 @@
 /* Pocket Casts Plus marketing page, the main description of Pocket Casts Plus */
 "plus_marketing_main_description" = "Get personal, and get distributed, all at once. Upload your personal audio files to our cloud servers, access your account via our web player, and make the app yours.";
 
-/* Pocket Casts Plus marketing page, the main title */
-"plus_marketing_main_title" = "Enhanced Features For Advanced Listeners";
-
-/* Pocket Casts Plus marketing page, description of the Themes & Icons feature */
-"plus_marketing_themes_icons_description" = "Fly your true colors. Exclusive icons and themes for the plus club only.";
-
 /* Pocket Casts Plus marketing page, title of the Themes & Icons feature */
 "plus_marketing_themes_icons_title" = "Themes & Icons";
 
-/* Pocket Casts Plus marketing page, description of the Watch Playback feature */
-"plus_marketing_watch_playback_description" = "Ditch the phone and go for a run – without missing a beat. Apple Watch stands alone.";
+/* Pocket Casts Plus marketing page, title of the Apple Watch & Wear OS apps feature */
+"plus_marketing_watch_playback_title" = "Apple Watch & Wear OS apps";
 
-/* Pocket Casts Plus marketing page, title of the Watch Playback feature */
-"plus_marketing_watch_playback_title" = "Watch Playback";
-
-/* Pocket Casts Plus marketing page, the text on the upgrade button */
-"plus_marketing_upgrade_button" = "Upgrade To Plus";
+/* Pocket Casts Plus marketing page, title of the Folders and Bookmarks feature */
+"plus_marketing_folders_and_bookmarks_title" = "Folders & Bookmarks";
 
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
@@ -1615,6 +1630,8 @@
 /* Message informing the user when their Pocket Casts Plus subscription will expire. %1$@ is a placeholder for the expiration date. */
 "plus_subscription_expiration" = "PLUS EXPIRES IN %1$@";
 
+"subscription_expires_in" = "Expires in %1$@";
+
 /* Message informing the user that their Pocket Casts Plus subscription is managed by Google's system and needs to be managed there. */
 "plus_subscription_google" = "It looks like you subscribed to Pocket Casts Plus from an Android device";
 
@@ -1627,17 +1644,50 @@
 /* Message informing the user where to manage their Pocket Casts Plus subscription managed by Web. */
 "plus_subscription_web_details" = "To cancel your subscription, you’ll need to cancel via Pocketcasts.com.";
 
-/* Feature of Pocket Casts plus, Web Player. As in our web based version capable of playing podcasts */
-"plus_feature_web_player" = "Web Player";
-
-/* Feature of Pocket Casts plus, Apple Watch app. Standalone meaning it can run with your iPhone */
-"plus_feature_watch_app" = "Standalone Watch Playback";
-
 /* Feature of Pocket Casts plus, Themes and icons. Themes for changing the way the app looks, icons to change the icon shown on your home screen */
 "plus_feature_themes_icons" = "Extra Themes & App Icons";
 
-/* Feature of Pocket Casts plus, Cloud Storage. Being able to upload your files to the Pocket Casts servers */
-"plus_feature_cloud_storage" = "Cloud Storage";
+/* Message about our gratitude when an user subscribe to Plus */
+"plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
+
+/* Label of a button to subscribe to Patron. Do not translate "Plus". */
+"plus_subscribe_to" = "Subscribe to Plus";
+
+/* Label of a button to skip subscring to any plan */
+"plus_skip" = "Skip";
+
+/* Label of a button prompting the user to start free trial */
+"plus_start_my_free_trial" = "Start my free trial";
+
+/* Sublabel of a button informing the trial duration and the price after. Eg.: "Try 1 month, then $99.99 per year" */
+"plus_start_trial_duration_price" = "Try %1$@, then %2$@";
+
+/* Description of the Patron plan. Do not translate "Patron". */
+"patron_description" = "Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.";
+
+/* Name of the Patron plan. Do not translate "Patron". */
+"patron" = "Patron";
+
+/* Description of a Patron feature that gives user everything in Plus. */
+"patron_feature_everything_in_plus" = "Everything in Plus";
+
+/* Description of a Patron feature that gives user early access to new features. */
+"patron_feature_early_access" = "Early access to features";
+
+/* Description of a Patron feature that gives user a badge on their profile image. */
+"patron_feature_profile_badge" = "Supporters profile badge";
+
+/* Description of a Patron feature that gives users special app icons. */
+"patron_feature_profile_icons" = "Special Pocket Casts app icons";
+
+/* Label of a button to subscribe to Patron. Do not translate "Patron". */
+"patron_subscribe_to" = "Subscribe to Patron";
+
+/* Label of a title explaining why to subscribe to Patron. */
+"patron_callout" = "Believe in what we’re doing and want to show your support?";
+
+/* Label of a button that informs the user they can upgrade their account. . */
+"upgrade_account" = "Upgrade Account";
 
 /* A common string used throughout the app. Refers to the subscription program Pocket Casts Plus subscription. 'Pocket Casts' as a proper noun should not be localized. */
 "pocket_casts_plus" = "Pocket Casts Plus";
@@ -2006,6 +2056,9 @@
 /* A common string used throughout the app. Prompt to retry the recent request. */
 "retry" = "Retry";
 
+/* The label of the search button in Discover. Explaining the user can search or directly add a RSS URL. */
+"search_label" = "Search podcasts or add RSS URL";
+
 /* A common string used throughout the app. Placeholder text used in search boxes. */
 "search" = "Search";
 
@@ -2104,6 +2157,9 @@
 
 /* Generic server error message for when an unexpected or unhandled issue occurred. */
 "server_error_unknown" = "Something went wrong";
+
+/* A generic message for an error fetching the token from the server. This will cause logout issues. */
+"client_error_token_deauth" = "Token authentication failed.";
 
 /* Server message thanking the user for signing up to the service. */
 "server_message_login_thanks_signing_up" = "Thanks for signing up!";
@@ -2411,11 +2467,17 @@
 /* Setting toggle to modify how a tap is handled in the up next queue. */
 "settings_general_up_next_tap" = "Play Up Next On Tap";
 
+/* Setting toggle to modify if a new episode is played after the current one ends. In most languages we believe Autoplay is understandable and might not need a translation. */
+"settings_general_autoplay" = "Autoplay";
+
 /* Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is off. */
 "settings_general_up_next_tap_off_subtitle" = "Tapping an episode in Up Next shows the actions page. Long press plays the episode. Turn on to switch these around.";
 
 /* Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is on. */
 "settings_general_up_next_tap_on_subtitle" = "Tapping an episode in Up Next will play it. Long press shows episode options. Turn off to switch these around.";
+
+/* Subtitle explaining the toggle to modify if a new episode will be reproduced after the current one ends. */
+"settings_general_autoplay_subtitle" = "If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.";
 
 /* Title for the menu that takes you to the global up next queue settings */
 "settings_global_settings" = "Global Settings";
@@ -2576,8 +2638,59 @@
 /* Label for an input that takes the user to the privacy policy */
 "settings_read_privacy_policy" = "Read privacy policy";
 
+/* Title of the status page, to check the status of the user's connection. */
+"settings_connection_status" = "Connection Status";
+
+/* Label explaining the purpose of the Status Page */
+"settings_status_description" = "Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.";
+
+/* Button that starts the diagnostic in the Status Page */
+"settings_status_run" = "Run now";
+
+/* Title for the service being checked, in this case, the Internet connection. */
+"settings_status_internet" = "Internet";
+
+/* Description for the Internet check. */
+"settings_status_internet_description" = "Check the status of your network.";
+
+/* Failure message for the Internet check. */
+"settings_status_internet_failure_message" = "Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).";
+
+/* Title for the service being checked, in this case, the Pocket Cast's Refresh Service. */
+"settings_status_refresh_service" = "Refresh Service";
+
+/* Description for the Refresh Service check. */
+"settings_status_refresh_service_description" = "The service used to find new episodes.";
+
+/* Failure message for a service check. */
+"settings_status_service_ad_blocker_help_singular" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %1$@";
+
+/* Title for the service being checked, in this case, the Pocket Cast's Account Service. */
+"settings_status_account_service" = "Account Service";
+
+/* Description for the Account Service check. */
+"settings_status_account_service_description" = "The service used to store episode progress, subscriptions, filters, etc.";
+
+/* Title for the service being checked, in this case, the Pocket Cast's Discover & Search. */
+"settings_status_discover" = "Discover & Search";
+
+/* Description for the Discover & Search check. */
+"settings_status_discover_description" = "The discover section of the app, including podcast search.";
+
+/* Title for the service being checked, in this case, a podcast host URL. */
+"settings_status_host" = "Common Podcast Hosts";
+
+/* Description for the podcast host check. */
+"settings_status_host_description" = "Podcast authors host episode files in various hosting providers not managed by Pocket Casts.";
+
+/* Failure message for the podcast host check. */
+"settings_status_host_failure_message" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
+
 /* Title for the options for the user to configure their account. */
 "setup_account" = "Set Up Account";
+
+/* Title for the options for the user to configure their account. */
+"account" = "Account";
 
 /* A common string used throughout the app. Prompt to open the share settings for the selected item(s). */
 "share" = "Share";
@@ -3336,6 +3449,9 @@
 /* The title of the purchase promo */
 "plus_purchase_promo_title" = "Become a Plus member and unlock all Pocket Casts features";
 
+/* The title of the purchase promo for Patron. Do not translate Patron. */
+"patron_purchase_promo_title" = "Become a Patron member and unlock all Pocket Casts features";
+
 /* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
 "purchase_terms" = "By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
 
@@ -3349,13 +3465,13 @@
 "eoy_description" = "See your top podcasts, categories, listening stats, and more. Share with friends and shout out your favorite creators!";
 
 /* Label of the End of Year call to action button */
-"eoy_view_year" = "View My 2022";
+"eoy_view_year" = "View My 2023";
 
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
 
 /* End of Year card description that appears under Profile */
-"eoy_card_description" = "See your top podcasts, categories, listening stats and more.";
+"eoy_card_description" = "See your listening stats, top podcasts, and more.";
 
 /* Description that appears on the first story of the 2022 Pocket Casts wrap up (End of Year) */
 "eoy_story_intro_title" = "Let's celebrate your year of listening...";
@@ -3363,11 +3479,17 @@
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to" = "In 2022, you spent %1$@ listening to podcasts";
 
+/* Title of the listening time Story. */
+"eoy_story_listened_to_title" = "This was your total time listening to podcasts";
+
+/* Title of the listening time Story. */
+"eoy_story_listened_to_subtitle" = "We hope you loved every minute of it!";
+
 /* String telling the user how much time they listened to podcasts in 2022, %1$@ is a placeholder for the amount of time. */
 "eoy_story_listened_to_updated" = "This year, you spent %1$@ listening to podcasts";
 
 /* Text that appears when someone shares the listened to story to Twitter, for example. %1$@ is a placeholder for the amount of time. */
-"eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts in 2022";
+"eoy_story_listened_to_share_text" = "I spent %1$@ listening to podcasts this year";
 
 /* String telling the user how much podcast categories they listened to podcasts in 2022, %1$@ is a placeholder a segment of text that contains the number of categories . */
 "eoy_story_listened_to_categories" = "You listened to %1$@ different categories this year";
@@ -3382,10 +3504,10 @@
 "eoy_story_listened_to_categories_subtitle" = "Let's take a look at some of your favorites...";
 
 /* Text that appears when someone shares the listened categories to story to Twitter, for example. %1$@ is a placeholder for the number of categories. */
-"eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2022";
+"eoy_story_listened_to_categories_share_text" = "I listened to %1$@ different categories in 2023";
 
 /* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
-"eoy_story_listened_to_numbers" = "You listened to %1$@ different podcasts and %2$@ episodes";
+"eoy_story_listened_to_numbers" = "You listened to %1$@ different shows and %2$@ episodes in total";
 
 /* String telling the user how many podcasts and episodes they listened to this year, %1$@ is a placeholder for the number of podcasts and %2$@ is a placeholder for the number of episodes. */
 "eoy_story_listened_to_numbers_updated" = "You listened to %1$@ and %2$@";
@@ -3397,55 +3519,58 @@
 "eoy_story_listened_to_episodes_text" = "%1$@ episodes";
 
 /* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
-"eoy_story_listened_to_numbers_subtitle" = "But there was one that you kept coming back to...";
-
-/* Subtitle for the story containing number of podcasts and episodes played this year. Segway for the next story. */
-"eoy_story_listened_to_numbers_subtitle_updated" = "But there was one that you\nkept coming back to...";
+"eoy_story_listened_to_numbers_subtitle" = "But there was one you kept coming to...";
 
 /* Text that appear when someone share the listened numbers story to Twitter. %1$@ is a placeholder for the number of podcasts listened and %2$@ for the number of episodes. */
-"eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes in 2022";
+"eoy_story_listened_to_numbers_share_text" = "I listened to %1$@ different podcasts and %2$@ episodes this year";
 
 /* Title for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the podcast title and %2$@ is a placeholder for the author. */
-"eoy_story_top_podcast" = "Your top podcast was %1$@ by %2$@";
+"eoy_story_top_podcast" = "%1$@ was your most listened show in 2023";
 
 /* Subtitle for the story that display the most listened podcast by the user this year. %1$@ is a placeholder for the number of episodes and %2$@ is a placeholder for the listened time. */
 "eoy_story_top_podcast_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
 
 /* Text that appear when someone share the top podcast of the year story to Twitter. %1$@ is the URL to the podcast. */
-"eoy_story_top_podcast_share_text" = "My favorite podcast of 2022! %1$@";
+"eoy_story_top_podcast_share_text" = "My favorite podcast this year! %1$@";
 
 /* Title for the story showing the top podcasts for the user in the current year. */
 "eoy_story_top_podcasts" = "Your Top Podcasts";
+
+/* Title for the story showing the top podcasts for the user in the current year. */
+"eoy_story_top_podcasts_title" = "And you were big on these shows too!";
+
+/* Subtitle for the story showing the top podcasts for the user in the current year. */
+"eoy_story_top_podcasts_subtitle" = "This is your top 5 most listened to in 2023";
 
 /* Text that appear when someone share the top 5 podcasts of the year story to Twitter. %1$@ is a link to the list of the top podcasts. */
 "eoy_story_top_podcasts_share_text" = "My top podcasts of the year! %1$@";
 
 /* Title of a list of podcasts created containing the user's top 5 podcasts of 2022. */
-"eoy_story_top_podcasts_list_title" = "My top podcasts of 2022";
+"eoy_story_top_podcasts_list_title" = "My top podcasts of the year!";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode title and %2$@ is a placeholder for the podcast title. */
-"eoy_story_longest_episode" = "The longest episode you listened to was %1$@ from the podcast %2$@";
+"eoy_story_longest_episode" = "The longest episode you listened to was %1$@";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the duration of the episode. */
 "eoy_story_longest_episode_time" = "The longest episode\nyou listened to was\n%1$@";
 
 /* Title for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the title of the podcast for the longest episode. */
-"eoy_story_longest_episode_subtitle" = "The episode was %1$@ from %2$@";
+"eoy_story_longest_episode_subtitle" = "It was none other than “%1$@” from “%2$@”";
 
 /* Subtitle for the story showing the longest episode listened for the user in the current year. %1$@ is a placeholder for the episode length. */
 "eoy_story_longest_episode_duration" = "This episode was %1$@ long";
 
 /* Text that appear when someone share the longest episode they listened to story to Twitter. %1$@ is the URL to the episode. */
-"eoy_story_longest_episode_share_text" = "The longest episode I listened to in 2022 %1$@";
+"eoy_story_longest_episode_share_text" = "The longest episode I listened to this year %1$@";
 
 /* Title for the epilogue story */
-"eoy_story_epilogue_title" = "Thank you for letting Pocket Casts be a part of your listening experience in 2022";
+"eoy_story_epilogue_title" = "Thank you for listening with us this year.\nSee you in 2024!";
 
 /* Subtitle for the epilogue story */
 "eoy_story_epilogue_subtitle" = "Don't forget to share with your friends and give a shout out to your favorite podcast creators";
 
 /* Label for the replay button, which when tapped started the end of year stories from the first one. */
-"eoy_story_replay" = "Replay";
+"eoy_story_replay" = "Play again";
 
 /* Title of the top categories story. */
 "eoy_story_top_categories" = "Your Top Categories";
@@ -3453,11 +3578,71 @@
 /* Text that appear when someone share the top categories story to Twitter. */
 "eoy_story_top_categories_share_text" = "My most listened to podcast categories";
 
+/* Title of the top categories story. %1$@ being the name of the most listened category. */
+"eoy_story_top_categories_title" = "Did you know that %1$@ was your favorite category?";
+
+/* Subtitle of the top categories story. %1$@ is the total number of episodes and %2$@ is the total listened time. */
+"eoy_story_top_categories_subtitle" = "You listened to %1$@ episodes for a total of %2$@";
+
 /* Description to why the user needs to create an account to see their end of year stats. */
 "eoy_create_account_to_see" = "Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.";
 
 /* When loading the End of Year stats stories fails. */
 "eoy_stories_failed" = "Failed to load stories.";
+
+/* Label of a button to share the current story (similar to Instagram stories) */
+"eoy_share" = "Share this story";
+
+/* Title of the story when this year's listening time is way bigger than previous year. */
+"eoy_year_over_year_title_skyrocketed" = "Compared to 2022, your listening time skyrocketed!";
+
+/* Title of the story when this year's listening time is bigger than previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_went_up" = "Compared to 2022, your listening time went up a whopping %1$@%";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is bigger than last's year */
+"eoy_year_over_year_subtitle_went_up" = "Ready to top it in 2024?";
+
+/* Title of the story when this year's listening time is almost the same as the previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_flat" = "Compared to 2022, your listening time stayed pretty consistent";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is almost the same as last's year */
+"eoy_year_over_year_subtitle_flat" = "And they say consistency is the key to success... or something like that!";
+
+/* Title of the story when this year's listening time is less than the previous year. %1$@ is the percentage */
+"eoy_year_over_year_title_went_down" = "Compared to 2022, your listening time went down a little";
+
+/* Subtitle of the story that compares year listening time when this year's listening time is less than last's year */
+"eoy_year_over_year_subtitle_went_down" = "Aaaah... there’s a life to be lived, right?";
+
+/* Text for when a user shares the story comparing the 2022 and 2023 listening time. */
+"eoy_year_over_share_text" = "My 2023 listening time compared to 2022";
+
+/* Title for the completion rate. %1$@ is the percentage. */
+"eoy_year_completion_rate_title" = "Your completion rate this year was %1$@";
+
+/* Title for when sharing the completion rate story to social media. */
+"eoy_year_completion_rate_share_text" = "My 2023 completion rate";
+
+/* Title for the completion rate. %1$@ is the total of episodes listened this year, %2$@ is the total of episodes fully listened to. */
+"eoy_year_completion_rate_subtitle" = "From the %1$@ episodes you started you listened fully to a total of %2$@";
+
+/* Title of the story paywall. Telling the users that there are more stories to check. */
+"eoy_theres_more" = "There’s more!";
+
+/* Subtitle explaining the user why they should subscribe to Plus in the context of the end of year stories. */
+"eoy_subscribe_to_plus" = "Subscribe to Plus and find out how your listening compares to 2022, other fun stats, and Premium features like bookmarks and folders.";
+
+/* Subtitle explaining the user why they should subscribe to Plus in the context of the end of year stories. */
+"eoy_start_your_free_trial" = "Start your Free Trial";
+
+/* Title of an alert displayed to the user asking if they want to share the current story */
+"eoy_share_this_story_title" = "Share this story?";
+
+/* Message of an alert displayed to the user asking if they want to share the current story */
+"eoy_share_this_story_message" = "Paste this image to your socials and give a shout out to your favorite shows and creators";
+
+/* Subtitle when displaying the user episode completion rate, all in lowercase. */
+"eoy_year_completion_rate" = "completion rate";
 
 /* Title of the view displayed after a user successfully upgrades to plus */
 "welcome_plus_title" = "Thank you, now let's get you listening!";
@@ -3552,7 +3737,7 @@
 /* Sub title of a view that informs the user what will happen if they cancel their subscription */
 "cancel_confirm_subtitle" = "This will change your plan to a free account.";
 
-/* Title of a list item that informs the user the date their subscription will expire. %1$@ is the date of expiriation */
+/* Title of a list item that informs the user the date their subscription will expire. %1$@ is the date of expiration */
 "cancel_confirm_sub_expiry" = "Your current subscription will remain active until %1$@.";
 
 /* Item that appears in place of the user's missing expiration date if it's not available. */
@@ -3573,7 +3758,7 @@
 /* Button title that lets the user stop the cancellation process */
 "cancel_confirm_stay_button_title" =  "Actually, I want to stay";
 
-/* Button title that lets the user contine the cancellation process */
+/* Button title that lets the user continue the cancellation process */
 "cancel_confirm_cancel_button_title" =  "Yes, Cancel my Subscription";
 
 /* Label of a button that lets the user login/signup with Apple */
@@ -3584,3 +3769,189 @@
 
 /* Label describing the recent searches */
 "search_recent" = "Recent searches";
+
+/* Button label prompting the user to renew their subscription */
+"renew_subscription" = "Renew your Subscription";
+
+/* Button label that changes the users chosen app icon */
+"change_app_icon" = "Change App Icon";
+
+/* Title of a label that thanks the user for their purchase */
+"patron_thank_you" = "Thank you for your support!";
+
+/* Label that instructs the user to hold a button to unlock some gifts */
+"patron_unlock_instructions" = "Hold the unlock button below to receive some tokens of our appreciation.";
+
+/* The word unlock that is used to highlight the word unlock in the */
+"patron_unlock_word" = "unlock";
+
+/* A button label that indicates a feature is being unlocked */
+"patron_unlocking" = "Unlocking";
+
+/* A button label that informs the user to release a button press to finish */
+"patron_unlock_release" = "Release to Unlock";
+
+/* The string for the act of Copy (from Copy & Paste) */
+"copy" = "Copy";
+
+/* Title of an alert shown to the user */
+"support_watch_help_title" = "Looking for Watch app help?";
+
+/* Description of an alert shown to the user */
+"support_watch_help_message" = "If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.";
+
+/* Button that the user can press if they opened the Watch app */
+"support_watch_help_opened_app" = "I've opened the Watch app";
+
+/* Button that the user can press if they want to request help without the Apple Watch logs */
+"support_watch_help_send_without_log" = "Send without Watch logs";
+
+/* Title of a tab in the player that shows the episode description (show notes). */
+"player_show_notes_title" = "Details";
+
+/* The plural name of a feature called Bookmarks, used in various places in the app */
+"bookmarks" = "Bookmarks";
+
+/* Title for an action that allows a user to create a new bookmark */
+"add_bookmark" = "Add Bookmark";
+
+/* Autoplay feature announcement title */
+"announcement_autoplay_title" = "Autoplay is here!";
+
+/* Autoplay feature announcement description */
+"announcement_autoplay_description" = "If your Up Next queue is empty and you start listening to an episode, Autoplay will keep playing episodes from that show or list.";
+
+/* Button label for a feature that the user can enable */
+"enable_it_now" = "Enable it now";
+
+/* An action that the user want to postpone and maybe do later */
+"maybe_later" = "Maybe later";
+
+/* Bookmarks feature announcement title */
+"announcement_bookmarks_title" = "Bookmarks are here!";
+
+/* Bookmarks feature announcement description */
+"announcement_bookmarks_description" = "You can now save timestamps of episodes from the actions menu in the player or with a headphones action.";
+
+/* Bookmarks feature announcement title */
+"announcement_bookmarks_title_beta" = "Join us in the beta testing for bookmarks!";
+
+/* Button label for a feature that the user can enable */
+"try_it_now" = "Try It Now";
+
+/* Label for a settings menu that allows the user to customize headphone action. */
+"settings_headphone_controls" = "Headphone Controls";
+
+/* Label for a setting that allows the user to custom the customize a headphone button skip next action. */
+"settings_next_action" = "Next Action";
+
+/* Label for a setting that allows the user to custom the customize a headphone button skip back action. */
+"settings_previous_action" = "Previous Action";
+
+/* Settings section subtitle that explains what the section does . */
+"settings_headphone_controls_footer" = "Customise the actions done by the most common headphone controls.";
+
+/* Settings section subtitle that explains what the bookmark sound section does . */
+"settings_bookmark_sound_footer" = "Play a confirmation sound after creating a bookmark with your headphones.";
+
+/* Label for a setting that allows the user to enable or disable playing a tone when creating a bookmark . */
+"settings_bookmark_confirmation_sound" = "Bookmark Confirmation Sound";
+
+/* Label for displaying the number of bookmarks the user has when the bookmark count is equal to one */
+"bookmarks_count_singular" = "1 bookmark";
+
+/* Label for displaying the number of bookmarks the user has when the bookmark count is more than one */
+"bookmarks_count_plural" = "%1$@ bookmarks";
+
+/* The title of an alert message asking the user if they want to continue with deleting the selected bookmarks */
+"bookmark_delete_warning_title" = "Delete Bookmarks?";
+
+/* The body of an alert message asking the user if they want to continue with deleting the selected bookmarks */
+"bookmark_delete_warning_body" = "Are you sure you want to delete these bookmarks, there’s no way to undo it!";
+
+/* The default title to use for a bookmark */
+"bookmark_default_title" = "Bookmark";
+
+/* The title of a view where the user can edit their bookmark title */
+"change_bookmark_title" = "Change title";
+
+/* The subtitle of a view where the user can edit their bookmark title */
+"change_bookmark_subtitle" = "Change the title that identifies this bookmark";
+
+/* The subtitle of a view where the user can edit their bookmark title */
+"add_bookmark_subtitle" = "Add an optional title to identify this bookmark";
+
+/* Title of a button that allows the user to save their changes */
+"save_bookmark" = "Save Bookmark";
+
+/* Title of a menu prompt */
+"select_bookmarks" = "Select Bookmarks";
+
+/* Title of an option in a menu prompt */
+"sort_option_timestamp" = "Timestamp";
+
+/* A message that appears after the user created a bookmark and %1$@ displays the title they choose for it. */
+"bookmark_added_notification" = "Bookmark \"%1$@\" added";
+
+/* A message that appears after the user updates a bookmark and %1$@ displays the title they choose for it. */
+"bookmark_updated_notification" = "Bookmark \"%1$@\" updated";
+
+/* A message that appears to inform the user their bookmark is added */
+"bookmark_added" = "Bookmark added";
+
+/* Title of a button that allows the user to view their bookmarks */
+"bookmark_added_button_title" = "View";
+
+/* Title of a message informing the user they don't have any bookmarks yet */
+"no_bookmarks_title" = "No bookmarks yet";
+
+/* Subtitle of a message explaining how to add new bookmarks */
+"no_bookmarks_message" = "You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.";
+
+/* Title of a button that takes the user to the headphone settings */
+"no_bookmarks_button_title" = "Headphone settings";
+
+/* Title of a message when no search results appear */
+"bookmark_search_no_results_title" = "No bookmarks found";
+
+/* Body of a message when no search results appear */
+"bookmark_search_no_results_message" = "We couldn't find any bookmarks for that search.";
+
+/* Title of a button the clears the current search text */
+"clear_search" = "Clear Search";
+
+/* Title of a button the clears the current search text */
+"episode_details_title" = "Details";
+
+/* A message informing the user a feature is locked. %1$@ is the name of the tier (Plus or Patron) */
+"bookmarks_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.";
+
+/* A message informing the user a feature is locked while in early access. %1$@ and %2$@ are the names of the tier (Plus or Patron) */
+"bookmarks_early_access_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes. Available for %2$@ subscribers soon.";
+
+/* A button title that prompts the user to upgrade their plan. %1$@ is the name of the tier (Plus or Patron) */
+"upgrade_to_plan" = "Upgrade to %1$@";
+
+/* A button title that prompts the user upgrade to redeem a free trial */
+"start_free_trial" = "Start Free Trial";
+
+/* Title of a message thanking the user for being a beta tester */
+"beta_thank_you" = "Thank you for beta testing!";
+
+/* Message of an alert that informs the user purchasing is disabled in the beta. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. %1$@ is the name of the tier (Plus or Patron)*/
+"beta_purchase_disabled" = "Please download Pocket Casts from the App Store to purchase %1$@.";
+
+/* Title of a message shown when the users data is being exported */
+"exporting_database" = "Exporting Database...";
+
+/* Title of an option to export the users data */
+"export_database" = "Export Database";
+
+/* Title of a setting that lets the user use dark mode for the up next */
+"settings_up_next_dark_mode_title" = "Use Dark Up Next Theme";
+
+/* Description explaining to the user what up next dark mode means. */
+"settings_up_next_dark_mode_footer" = "When enabled the Up Next will always use the dark theme, or will match the current theme when disabled.";
+
+/* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
+"accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";

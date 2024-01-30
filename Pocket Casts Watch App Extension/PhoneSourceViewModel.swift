@@ -59,11 +59,11 @@ class PhoneSourceViewModel: PlaySourceViewModel {
         }
     }
 
-    func playPauseTapped(withEpisode episode: BaseEpisode) {
+    func playPauseTapped(withEpisode episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
         if let currentEpisode = WatchDataManager.playingEpisode(), currentEpisode.uuid == episode.uuid {
             SessionManager.shared.togglePlayPause()
         } else {
-            SessionManager.shared.play(episode: episode)
+            SessionManager.shared.play(episode: episode, playlist: playlist)
         }
     }
 
@@ -200,6 +200,10 @@ class PhoneSourceViewModel: PlaySourceViewModel {
 
     var episodesInQueue: [BaseEpisode] {
         WatchDataManager.upNextEpisodes() ?? []
+    }
+
+    var episodeUuidsInQueue: [BaseEpisode] {
+        episodesInQueue
     }
 
     func clearUpNext() {

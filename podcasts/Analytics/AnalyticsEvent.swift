@@ -224,6 +224,11 @@ enum AnalyticsEvent: String {
     case playbackEffectTrimSilenceAmountChanged
     case playbackEffectVolumeBoostToggled
 
+    // MARK: - Autoplay
+    case playbackEpisodeAutoplayed
+    case autoplayStarted
+    case autoplayFinishedLastEpisode
+
     // MARK: - Filters
 
     case filterListShown
@@ -264,6 +269,7 @@ enum AnalyticsEvent: String {
     case podcastScreenToggleSummary
     case podcastsScreenSortOrderChanged
     case podcastsScreenEpisodeGroupingChanged
+    case podcastsScreenTabTapped
 
     // MARK: - App Store Review Request
 
@@ -329,6 +335,7 @@ enum AnalyticsEvent: String {
     case playerTabSelected
     case playerShowNotesLinkTapped
     case playerChapterSelected
+    case playerPodcastNameTapped
 
     case playerPreviousChapterTapped
     case playerNextChapterTapped
@@ -393,6 +400,7 @@ enum AnalyticsEvent: String {
     case episodeDetailShowNotesLinkTapped
     case episodeDetailPodcastNameTapped
     case episodeDetailDismissed
+    case episodeDetailTabChanged
 
     // MARK: - Multi Select View
 
@@ -461,6 +469,7 @@ enum AnalyticsEvent: String {
     case settingsGeneralLegacyBluetoothToggled
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
+    case settingsGeneralAutoplayToggled
 
     // MARK: - Settings: Notifications
 
@@ -479,6 +488,7 @@ enum AnalyticsEvent: String {
     case settingsAppearanceAppIconChanged
     case settingsAppearanceRefreshAllArtworkTapped
     case settingsAppearanceUseEmbeddedArtworkToggled
+    case settingsAppearanceUseDarkUpNextToggled
 
     // MARK: - Settings: Auto Archive
 
@@ -599,6 +609,7 @@ enum AnalyticsEvent: String {
     case endOfYearStoryShare
     case endOfYearStoryShared
     case endOfYearProfileCardTapped
+    case endOfYearUpsellShown
 
     // MARK: - Welcome View
 
@@ -624,4 +635,30 @@ enum AnalyticsEvent: String {
     case searchHistoryCleared
     case searchHistoryItemTapped
     case searchHistoryItemDeleteButtonTapped
+
+    // MARK: - Ratings
+    case ratingStarsTapped
+
+    // MARK: - Patron
+    case patronWelcomeAppIconChanged
+
+    // MARK: - What's New
+    case whatsnewShown
+    case whatsnewDismissed
+    case whatsnewConfirmButtonTapped
+
+    // MARK: - Bookmarks
+    case bookmarkCreated
+    case bookmarkUpdateTitle
+    case bookmarksUpgradeButtonTapped
+    case bookmarksEmptyGoToHeadphoneSettings
+    case bookmarkPlayTapped
+    case bookmarksSortByChanged
+    case bookmarkDeleted
+
+    // MARK: - Headphone Controls
+    case settingsHeadphoneControlsShown
+    case settingsHeadphoneControlsNextChanged
+    case settingsHeadphoneControlsPreviousChanged
+    case settingsHeadphoneControlsBookmarkSoundToggled
 }

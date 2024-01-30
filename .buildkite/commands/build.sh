@@ -19,10 +19,8 @@ add_host_to_ssh_known_hosts 'github.com'
 export GIT_SSH_COMMAND="ssh -i $PRIVATE_REPO_FETCH_KEY -o IdentitiesOnly=yes"
 echo "Git SSH command is $GIT_SSH_COMMAND"
 
-# This is so Xcode use the built-in source control management, therefore using
-# the custom key we just set to fetch our private repos, otherwise it won't be
-# able to.
-sudo defaults write com.apple.dt.Xcode IDEPackageSupportUseBuiltinSCM YES
+echo "--- :swift: Installing Swift Package Manager Dependencies"
+install_swiftpm_dependencies
 
 echo "--- Setup Ruby tooling"
 

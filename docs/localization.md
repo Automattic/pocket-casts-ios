@@ -6,7 +6,7 @@ On each build any new string added to the english localization of `Localizable.s
 
 When Strings are generated, they are converted from snake case to camel case and strings with an associated format are created as functions that will accept the passed in parameters and perform a type checking.
 
-During the release process, the `en.lproj/Localizable.strings` file is then uploaded to [GlotPress](https://translate.wordpress.org/projects/apps/ios/) for translation. Before the release build is finalized, all the translations are grabbed from GlotPress and saved back to the `Localizable.strings` files.
+During the release process, the `en.lproj/Localizable.strings` file is then uploaded to [GlotPress](https://translate.wordpress.com/projects/pocket-casts/ios/) for translation. Before the release build is finalized, all the translations are grabbed from GlotPress and saved back to the `Localizable.strings` files.
 
 ## Use Snake Cased Keys
 

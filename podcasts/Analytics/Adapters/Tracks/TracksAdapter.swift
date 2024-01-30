@@ -50,7 +50,7 @@ class TracksAdapter: AnalyticsAdapter {
         tracksService.eventNamePrefix = TracksConfig.prefix
         tracksService.authenticatedUserTypeKey = TracksConfig.userKey
 
-        TracksLogging.delegate = TracksAdapterLoggingDelegate()
+        TracksLogging.delegate = TracksAdapterLoggingDelegate.shared
 
         // Setup the rest of the properties
         updateUserProperties()
@@ -66,6 +66,7 @@ class TracksAdapter: AnalyticsAdapter {
         let hasSubscription = subscriptionData.hasActiveSubscription()
         let platform = subscriptionData.subscriptionPlatform()
         let type = hasSubscription ? subscriptionData.subscriptionType() : .none
+        let tier = subscriptionData.subscriptionTier
         let frequency = hasSubscription ? subscriptionData.subscriptionFrequency() : .none
         let hasLifetime = subscriptionData.hasLifetimeGift()
 
@@ -77,6 +78,7 @@ class TracksAdapter: AnalyticsAdapter {
             "plus_has_subscription": hasSubscription,
             "plus_has_lifetime": hasLifetime,
             "plus_subscription_type": type.analyticsDescription,
+            "plus_subscription_tier": tier.analyticsDescription,
             "plus_subscription_platform": platform.analyticsDescription,
             "plus_subscription_frequency": frequency.analyticsDescription,
 
@@ -121,7 +123,8 @@ private extension TracksAdapter {
 // MARK: - TracksLoggingDelegate
 
 private class TracksAdapterLoggingDelegate: NSObject, TracksLoggingDelegate {
-    static let logger = Logger()
+    static let shared = TracksAdapterLoggingDelegate()
+    private static let logger = Logger()
 
     func logError(_ str: String) {
         Self.logger.error("\(str)")

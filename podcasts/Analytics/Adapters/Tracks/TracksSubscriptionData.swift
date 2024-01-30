@@ -1,13 +1,14 @@
 import Foundation
 import PocketCastsServer
 
-/// Abstraction to return information about the subcriptions
+/// Abstraction to return information about the subscriptions
 protocol TracksSubscriptionData {
     func hasActiveSubscription() -> Bool
     func subscriptionPlatform() -> SubscriptionPlatform
     func subscriptionType() -> SubscriptionType
     func subscriptionFrequency() -> SubscriptionFrequency
     func hasLifetimeGift() -> Bool
+    var subscriptionTier: SubscriptionTier { get }
 }
 
 /// Retrieves Pocket Casts specific data for use in tracks
@@ -22,6 +23,10 @@ struct PocketCastsTracksSubscriptionData: TracksSubscriptionData {
 
     func subscriptionType() -> SubscriptionType {
         SubscriptionHelper.subscriptionType()
+    }
+
+    var subscriptionTier: SubscriptionTier {
+        SubscriptionHelper.activeTier
     }
 
     func subscriptionFrequency() -> SubscriptionFrequency {

@@ -126,8 +126,9 @@ class ProfileProgressCircleView: ThemeableView {
 
     @objc private func updateAvatar() {
         if let email = ServerSettings.syncingEmail() {
-            let imageSize = frame.size.width - (4 * lineWidth)
-            let gravatar = "https://www.gravatar.com/avatar/\(email.md5)?d=404"
+            let gravatarSize = frame.size.width * UIScreen.main.scale
+            let imageSize = gravatarSize - (4 * lineWidth)
+            let gravatar = "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(gravatarSize)"
             let processor = RoundCornerImageProcessor(cornerRadius: imageSize)
             let options: KingfisherOptionsInfo = [
                 .processor(processor), // rounder corners

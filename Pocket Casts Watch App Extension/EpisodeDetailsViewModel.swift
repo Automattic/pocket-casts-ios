@@ -10,6 +10,8 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
     @Published var actions: [EpisodeAction] = []
     @Published var supportsPodcastNavigation = false
 
+    var playlist: AutoplayHelper.Playlist?
+
     var parentPodcast: Podcast? {
         (episode as? Episode)?.parentPodcast()
     }
@@ -31,7 +33,8 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
         .eraseToAnyPublisher()
     }
 
-    override init(episode: BaseEpisode) {
+    init(episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
+        self.playlist = playlist
         super.init(episode: episode)
 
         playbackChanged
@@ -106,7 +109,7 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
             .map { [unowned self] notification -> BaseEpisode? in
                 let currentEpisode = self.episode
                 guard let uuid = notification.object as? String, currentEpisode.uuid == uuid else { return currentEpisode }
-                return self.playSourceViewModel.fetchEpisode(uuid: currentEpisode.uuid) ?? nil
+                return self.playSourceViewModel.fetchEpisode(uuid: currentEpisode.uuid)
             }
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] fetchedEpisode in
@@ -120,7 +123,7 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
     }
 
     func playPauseTapped() {
-        playSourceViewModel.playPauseTapped(withEpisode: episode)
+        playSourceViewModel.playPauseTapped(withEpisode: episode, playlist: playlist)
     }
 
     func handleEpisodeAction(_ action: EpisodeAction, wasConfirmed: Bool = false, dismiss: () -> Void) {

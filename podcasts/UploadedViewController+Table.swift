@@ -20,6 +20,7 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EpisodeCell", for: indexPath) as! EpisodeCell
         cell.hidesArtwork = false
+        cell.playlist = .files
         cell.delegate = self
         let episode: BaseEpisode = uploadedEpisodes[indexPath.row] as BaseEpisode
         cell.populateFrom(episode: episode, tintColor: ThemeColor.primaryIcon01(), podcastUuid: episode.parentIdentifier())
@@ -62,6 +63,7 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
             let episode = uploadedEpisodes[indexPath.row]
             userEpisodeDetailVC = UserEpisodeDetailViewController(episodeUuid: episode.uuid)
+            userEpisodeDetailVC?.playlist = .files
             userEpisodeDetailVC?.delegate = self
             userEpisodeDetailVC?.animateIn()
         }

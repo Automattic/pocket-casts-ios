@@ -1,12 +1,6 @@
 import Foundation
 
 enum FeatureFlag: String, CaseIterable {
-    /// Whether we should detect and show the free trial UI
-    case freeTrialsEnabled
-
-    /// Whether the Tracks analytics are enabled
-    case tracks
-
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
@@ -16,20 +10,17 @@ enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Adds the Sign In With Apple options to the login flow
-    case signInWithApple
+    /// Enable the new show notes endpoint plus embedded episode artwork
+    case newShowNotesEndpoint
 
-    /// Displays the new onboarding view updates
-    case onboardingUpdates
+    /// Enable retrieving episode artwork from the RSS feed
+    case episodeFeedArtwork
 
-    /// New search
-    case newSearch
+    /// Enable a quicker and more responsive player transition
+    case newPlayerTransition
 
-    /// Bookmarks / Highlights
-    case bookmarks
-
-    /// Auto scrolls Discover Featured carousel
-    case discoverFeaturedAutoScroll
+    /// Avoid logging out user on non-authorization HTTP errors
+    case errorLogoutHandling
 
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -37,25 +28,19 @@ enum FeatureFlag: String, CaseIterable {
         }
 
         switch self {
-        case .freeTrialsEnabled:
-            return true
-        case .tracks:
-            return true
         case .tracksLogging:
             return false
         case .firebaseLogging:
             return false
         case .endOfYear:
             return false
-        case .signInWithApple:
+        case .newShowNotesEndpoint:
             return false
-        case .onboardingUpdates:
+        case .episodeFeedArtwork:
+            return false // To be enabled, newShowNotesEndpoint needs to be too
+        case .newPlayerTransition:
             return true
-        case .newSearch:
-            return false
-        case .bookmarks:
-            return false
-        case .discoverFeaturedAutoScroll:
+        case .errorLogoutHandling:
             return false
         }
     }
@@ -69,4 +54,6 @@ extension FeatureFlag: OverrideableFlag {
     var canOverride: Bool {
         true
     }
+
+    private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
 }

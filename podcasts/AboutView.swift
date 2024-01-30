@@ -112,7 +112,7 @@ struct AboutView: View {
     }
 
     private func openShareApp() {
-        guard let controller = UIApplication.shared.windows.first?.rootViewController?.presentedViewController else { return }
+        guard let controller = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController else { return }
 
         SharingHelper.shared.shareLinkToApp(fromController: controller)
     }

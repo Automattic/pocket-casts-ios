@@ -4,36 +4,44 @@ import PocketCastsServer
 /// A parent model that allows a view to present pricing information
 class PlusPricingInfoModel: ObservableObject {
     // Allow injection of the IapHelper
-    let purchaseHandler: IapHelper
+    let purchaseHandler: IAPHelper
 
     // Allow our views to get the necessary pricing information
-    let pricingInfo: PlusPricingInfo
+    @Published var pricingInfo: PlusPricingInfo
 
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
 
-    init(purchaseHandler: IapHelper = .shared) {
+    init(purchaseHandler: IAPHelper = .shared) {
         self.purchaseHandler = purchaseHandler
         self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
         self.priceAvailability = purchaseHandler.hasLoadedProducts ? .available : .unknown
     }
 
-    private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
-        let products: [Constants.IapProducts] = [.yearly, .monthly]
+    private static func getPricingInfo(from purchaseHandler: IAPHelper) -> PlusPricingInfo {
+        let products: [IAPProductID] = [.yearly, .monthly, .patronYearly, .patronMonthly]
+
         var pricing: [PlusProductPricingInfo] = []
 
         for product in products {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
-            let trial = purchaseHandler.localizedFreeTrialDuration(product)
+            let rawPrice = purchaseHandler.getPrice(for: product)
+            var offer: ProductOfferInfo?
+            if let duration = purchaseHandler.localizedFreeTrialDuration(product),
+               let type = purchaseHandler.offerType(product),
+               let price = purchaseHandler.localizedOfferPrice(product) {
+                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice)
+            }
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
-                                              freeTrialDuration: trial)
+                                              rawPrice: rawPrice,
+                                              offer: offer)
             pricing.append(info)
         }
 
         // Sort any products with free trials to the top of the list
-        pricing.sort { $0.freeTrialDuration != nil && $1.freeTrialDuration == nil }
+        pricing.sort { $0.offer != nil && $1.offer == nil }
 
         let hasFreeTrial = purchaseHandler.getFirstFreeTrialDetails() != nil
         return PlusPricingInfo(products: pricing, hasFreeTrial: hasFreeTrial)
@@ -46,11 +54,43 @@ class PlusPricingInfoModel: ObservableObject {
     }
 
     struct PlusProductPricingInfo: Identifiable {
-        let identifier: Constants.IapProducts
+        let identifier: IAPProductID
         let price: String
-        let freeTrialDuration: String?
+        let rawPrice: String
+        let offer: ProductOfferInfo?
 
         var id: String { identifier.rawValue }
+    }
+
+    enum ProductOfferType {
+        case freeTrial
+        case discount
+    }
+
+    struct ProductOfferInfo {
+        let type: ProductOfferType
+        let duration: String
+        let price: String
+        let rawPrice: String
+
+        var title: String {
+            switch type {
+            case .freeTrial:
+                return L10n.plusStartMyFreeTrial
+            case .discount:
+                return L10n.plusDiscountYearlyMembership
+            }
+        }
+
+        var description: String {
+            switch type {
+            case .freeTrial:
+                return L10n.plusFreeMembershipFormat(duration)
+            case .discount:
+                return L10n.plusDiscountYearlyMembership
+            }
+        }
+
     }
 
     enum PriceAvailablity {
@@ -60,10 +100,11 @@ class PlusPricingInfoModel: ObservableObject {
 
 // MARK: - Price Loading
 extension PlusPricingInfoModel {
-    func loadPrices(_ completion: @escaping () -> Void) {
+    func loadPrices(_ completion: (() -> Void)? = nil) {
         if purchaseHandler.hasLoadedProducts {
             priceAvailability = .available
-            completion()
+            pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
+            completion?()
             return
         }
 
@@ -71,15 +112,19 @@ extension PlusPricingInfoModel {
 
         let notificationCenter = NotificationCenter.default
 
-        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { _ in
+        notificationCenter.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: .main) { [weak self] _ in
+            guard let self else {
+                return
+            }
 
             self.priceAvailability = .available
-            completion()
+            self.pricingInfo = Self.getPricingInfo(from: self.purchaseHandler)
+            completion?()
         }
 
         notificationCenter.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { _ in
             self.priceAvailability = .failed
-            completion()
+            completion?()
         }
 
         purchaseHandler.requestProductInfo()

@@ -1,6 +1,122 @@
-7.35
+7.57
+-----
+- Implement new introductory offer for Plus: 50% off on the first year. [#1362] [internal]
+
+7.56
+-----
+- Allows navigation from the Player to the Podcast screen by tapping on Podcast name [#1322]
+
+7.55
+-----
+- Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
+- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads [#1183]
+- Adds Star button to CarPlay Now Playing screen [#1332]
+
+7.54
+-----
+- Adds a button to export the database and preferences from the Help & Feedback view [#1257]
+- Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
+- Adds theme support to the Up Next [#1265]
+- Now Playing scrubber is now interactive with Accessibility VoiceOver enabled [#1318]
+
+7.53
+-----
+- Moves Bookmarks out of Early Access: [#1224]
+- Shows the Bookmarks tab after Chapters [#1240]
+- Makes the player transition faster, smoother and with a new effect [#1090]
+- Attempts to fix podcast being removed from their folders [#1239]
+
+7.52
+-----
+- Enables Bookmarks for Early Access: [#1202]
+- Enables Playback 2023 [#1206]
+
+7.51
+-----
+- Improvements on battery consumption when trim silence is not enabled [#1186]
+- TestFlight: Disable new show notes endpoint and custom RSS artwork due to memory issues
+
+7.50
+-----
+- Further improves performance when opening a large Up Next queue in the Apple Watch [#1139]
+
+7.49
+-----
+- Improves performance when opening a large Up Next queue in the Apple Watch [#950]
+- Fixes the app playing automatically after putting AirPods on the case [#1132]
+- Enables Patron [#1146] [Internal]
+
+7.48
+-----
+- Fix importing podcasts route [#1091]
+- Fixes the player tab scroll indicator colors [#1120]
+- Fixes an issue where the player tabs may not render correctly [#1119]
+- Fixes the play/pause on interactive widgets not working for user files [#1123]
+
+7.47
 -----
 
+
+7.46
+-----
+- Added import support for audio and movie files [#1039]
+- Adds a new show notes endpoint [#1033]
+- Show episode artwork from the feed if "Use Embedded Artwork" is enabled [#1033]
+- Adds a new Headphone Controls section in the settings [#1027]
+- Moves the Remote Skips Chapters setting in the General section to Headphone Controls [#1027]
+
+7.45
+-----
+- Attempt to fix a crash when switching episodes [1019]
+
+7.44
+-----
+- Add a share action from the episode row [#966]
+- Speed up checking if a podcast is in UpNext, slightly improving app responsiveness [#951]
+
+7.43
+-----
+- The search bar on the podcasts tab is now visible by default [#929]
+- Fix spacing for the search bar when creating/editing a folder [#912]
+- Adds Autoplay, if user's Up Next is empty the app will keep playing episodes from the same list [#957]
+
+
+7.42
+-----
+
+
+7.41
+-----
+- Improve support section to help the user to send Apple Watch logs
+
+7.40
+-----
+- Add a Status Page so the user can check their connection to our services
+- When all chapters in a file are hidden, make them visible in the Chapters UI
+
+7.39
+-----
+- Removed the starred filter from the list of default filters
+
+7.38
+-----
+- Chapters that are hidden will no longer appear
+- Chapter titles/images now display while scrubbing in the player
+- Embedded artwork: extract embedded artwork from episodes that are being streamed (#829)
+
+7.37
+-----
+- Login: added capability to sign into Pocket Casts using Google and Apple accounts
+
+7.36
+-----
+- Updated sort order for Chinese podcast titles from Unicode-based to pinyin (#775)
+- Fixed and issue where the multi-selection header would overlap the search bar on certain devices depending on their screen size (#785)
+- Search: improved the search with a new design and added the ability to search for episodes (#796)
+
+7.35
+-----
+- Discover: Top carousel now scrolls automatically (#790)
 
 7.34
 -----

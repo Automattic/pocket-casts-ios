@@ -72,10 +72,15 @@ struct MessageSupportView: View {
                     viewModel.completion = nil
                     dismiss?()
                 }))
-            case .failure:
-                return Alert(title: Text(L10n.supportErrorTitle), message: Text(L10n.supportErrorMsg), dismissButton: .default(Text(L10n.supportOK), action: {
-                    viewModel.completion = nil
-                }))
+            case .failure(let error):
+                switch error {
+                case MessageSupportViewModel.MessageSupportFailure.watchLogMissing:
+                    return Alert(title: Text(L10n.supportWatchHelpTitle), message: Text(L10n.supportWatchHelpMessage), primaryButton: .default(Text(L10n.supportWatchHelpOpenedApp)) { viewModel.submitRequest() }, secondaryButton: .default(Text(L10n.supportWatchHelpSendWithoutLog)) { viewModel.submitRequest(ignoreUnavailableWatchLogs: true) })
+                default:
+                    return Alert(title: Text(L10n.supportErrorTitle), message: Text(L10n.supportErrorMsg), dismissButton: .default(Text(L10n.supportOK), action: {
+                        viewModel.completion = nil
+                    }))
+                }
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -88,6 +93,7 @@ struct MessageSupportView_Previews: PreviewProvider {
     struct PreviewConfig: ZDConfig {
         let apiKey = "1234567"
         let baseURL = "https://example.com"
+        let newBaseURL = "https://example.com"
         let subject = "For Previews"
         let isFeedback = true
     }

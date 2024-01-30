@@ -90,18 +90,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    var newSubscription: NewSubscription
     weak var accountUpdatedDelegate: AccountUpdatedDelegate?
-
-    init(newSubscription: NewSubscription) {
-        self.newSubscription = newSubscription
-        super.init(nibName: "NewEmailViewController", bundle: nil)
-    }
-
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -206,26 +195,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
                 if let delegate = self.delegate {
                     delegate.handleAccountCreated()
                     return
-                }
-
-                if self.newSubscription.iap_identifier.count > 0 {
-                    let confirmPaymentVC = ConfirmPaymentViewController(newSubscription: self.newSubscription)
-                    self.navigationController?.pushViewController(confirmPaymentVC, animated: true)
-                } else if self.newSubscription.promoCode != nil {
-                    let accountCreatedVC = AccountUpdatedViewController()
-                    accountCreatedVC.titleText = L10n.accountCreated
-                    accountCreatedVC.detailText = L10n.accountWelcome
-                    accountCreatedVC.imageName = AppTheme.plusCreatedImageName
-                    accountCreatedVC.hideNewsletter = false
-                    accountCreatedVC.delegate = self.accountUpdatedDelegate
-                    self.navigationController?.pushViewController(accountCreatedVC, animated: true)
-                } else { // Free account
-                    let accountCreatedVC = AccountUpdatedViewController()
-                    accountCreatedVC.titleText = L10n.accountCreated
-                    accountCreatedVC.detailText = L10n.accountWelcome
-                    accountCreatedVC.imageName = AppTheme.accountCreatedImageName
-                    accountCreatedVC.hideNewsletter = false
-                    self.navigationController?.pushViewController(accountCreatedVC, animated: true)
                 }
             }
         }

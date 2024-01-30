@@ -5,20 +5,20 @@ import PocketCastsUtils
 
 extension CarPlaySceneDelegate {
     func upNextTapped(showNowPlaying: Bool) {
-        pushEpisodeList(title: L10n.upNext, emptyTitle: L10n.upNextEmptyTitle, showArtwork: true) { () -> [BaseEpisode] in
+        pushEpisodeList(title: L10n.upNext, emptyTitle: L10n.upNextEmptyTitle, showArtwork: true, playlist: nil) { () -> [BaseEpisode] in
             PlaybackManager.shared.queue.allEpisodes(includeNowPlaying: showNowPlaying)
         }
     }
 
     func filterTapped(_ filter: EpisodeFilter) {
-        pushEpisodeList(title: filter.playlistName, emptyTitle: L10n.episodeFilterNoEpisodesTitle, showArtwork: true) { () -> [BaseEpisode] in
+        pushEpisodeList(title: filter.playlistName, emptyTitle: L10n.episodeFilterNoEpisodesTitle, showArtwork: true, playlist: .filter(uuid: filter.uuid)) { () -> [BaseEpisode] in
             let query = PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: Constants.Limits.maxCarplayItems)
             return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
         }
     }
 
     func podcastTapped(_ podcast: Podcast, emptyTitle: String = L10n.watchNoEpisodes) {
-        pushEpisodeList(title: podcast.title ?? L10n.podcastSingular, emptyTitle: emptyTitle, showArtwork: false) { () -> [BaseEpisode] in
+        pushEpisodeList(title: podcast.title ?? L10n.podcastSingular, emptyTitle: emptyTitle, showArtwork: false, playlist: .podcast(uuid: podcast.uuid)) { () -> [BaseEpisode] in
             var query = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: nil, completion: nil).createEpisodesQuery()
             query += " LIMIT \(Constants.Limits.maxCarplayItems)"
 
@@ -32,7 +32,7 @@ extension CarPlaySceneDelegate {
         }
     }
 
-    func episodeTapped(_ episode: BaseEpisode) {
+    func episodeTapped(_ episode: BaseEpisode, playlist: AutoplayHelper.Playlist? = nil) {
         AnalyticsPlaybackHelper.shared.currentSource = .carPlay
 
         defer {
@@ -51,17 +51,20 @@ extension CarPlaySceneDelegate {
 
         // Anything else, load the episode and start playing it
         PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+
+        // Store the playlist
+        AutoplayHelper.shared.playedFrom(playlist: playlist)
     }
 
     func listeningHistoryTapped() {
-        pushEpisodeList(title: L10n.listeningHistory, emptyTitle: L10n.watchNoPodcasts, showArtwork: true) { () -> [BaseEpisode] in
+        pushEpisodeList(title: L10n.listeningHistory, emptyTitle: L10n.watchNoPodcasts, showArtwork: true, playlist: nil) { () -> [BaseEpisode] in
             let query = "lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT \(Constants.Limits.maxCarplayItems)"
             return DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
         }
     }
 
     func filesTapped() {
-        pushEpisodeList(title: L10n.files, emptyTitle: L10n.fileUploadNoFilesTitle, showArtwork: true) { () -> [BaseEpisode] in
+        pushEpisodeList(title: L10n.files, emptyTitle: L10n.fileUploadNoFilesTitle, showArtwork: true, playlist: .files) { () -> [BaseEpisode] in
             let sortBy = UploadedSort(rawValue: Settings.userEpisodeSortBy()) ?? UploadedSort.newestToOldest
             return DataManager.sharedManager.allUserEpisodes(sortedBy: sortBy)
         }
@@ -74,14 +77,14 @@ extension CarPlaySceneDelegate {
         guard chapterCount > 0 else { return }
 
         var chapterItems = [CPListItem]()
-        let currentChapter = PlaybackManager.shared.currentChapter()
+        let currentChapters = PlaybackManager.shared.currentChapters()
         for i in 0 ... chapterCount {
             guard let chapter = PlaybackManager.shared.chapterAt(index: i) else { continue }
 
             let chapterLength = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
             let subtTitle = L10n.carplayChapterCount((i + 1).localized(), chapterCount.localized(), chapterLength)
             let chapterItem = CPListItem(text: chapter.title, detailText: subtTitle)
-            chapterItem.isPlaying = currentChapter?.index == chapter.index
+            chapterItem.isPlaying = currentChapters.index == chapter.index
             chapterItem.playingIndicatorLocation = .trailing
             chapterItem.handler = { [weak self] _, completion in
                 PlaybackManager.shared.skipToChapter(chapter)
@@ -136,12 +139,12 @@ extension CarPlaySceneDelegate {
         itemList.append(item)
     }
 
-    private func pushEpisodeList(title: String, emptyTitle: String, showArtwork: Bool, episodeLoader: @escaping (() -> [BaseEpisode])) {
+    private func pushEpisodeList(title: String, emptyTitle: String, showArtwork: Bool, playlist: AutoplayHelper.Playlist?, episodeLoader: @escaping (() -> [BaseEpisode])) {
         let listTemplate = CarPlayListData.template(title: title, emptyTitle: emptyTitle) { [weak self] in
             guard let self else { return nil }
 
             let episodes = episodeLoader()
-            let episodeItems = self.convertToListItems(episodes: episodes, showArtwork: showArtwork)
+            let episodeItems = self.convertToListItems(episodes: episodes, showArtwork: showArtwork, playlist: playlist)
             return [CPListSection(items: episodeItems)]
         }
 

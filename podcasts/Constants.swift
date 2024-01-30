@@ -87,8 +87,11 @@ struct Constants {
         static let watchAutoDownloadSettingsChanged = NSNotification.Name(rawValue: "SJWatchAutoDownloadSettingsChanged")
 
         // folders
+        /// This is triggered many times whenever a folder is changed
         static let folderChanged = NSNotification.Name(rawValue: "SJFolderChanged")
         static let folderDeleted = NSNotification.Name(rawValue: "SJFolderDeleted")
+        /// This is triggered just once after a folder finishes editing
+        static let folderEdited = NSNotification.Name(rawValue: "SJFolderEdited")
 
         // End of Year
         static let profileSeen = NSNotification.Name(rawValue: "profileSeen")
@@ -145,13 +148,36 @@ struct Constants {
 
         static let reviewRequestDates = "reviewRequestDates"
 
-        static let showBadgeFor2022EndOfYear = "showBadgeFor2022EndOfYear"
-        static let modal2022HasBeenShown = "modal2022HasBeenShown"
-        static let hasSyncedAll2022Episodes = "hasSyncedAll2022Episodes"
-        static let top5PodcastsListLink = "top5PodcastsListLink"
+        static let showBadgeFor2023EndOfYear = "showBadgeFor2023EndOfYear"
+        static let modal2023HasBeenShown = "modal2023HasBeenShown"
+        static let hasSyncedEpisodesForPlayback2023 = "hasSyncedEpisodesForPlayback2023"
+        static let hasSyncedEpisodesForPlayback2023AsPlusUser = "hasSyncedEpisodesForPlayback2023AsPlusUser"
+        static let top5PodcastsListLink = "top5PodcastsListLink2023_2"
         static let shouldShowInitialOnboardingFlow = "shouldShowInitialOnboardingFlow"
 
-        static let searchHistoryEntried = "SearchHistoryEntries"
+        static let autoplay = "autoplay"
+
+        static let searchHistoryEntries = "SearchHistoryEntries"
+
+        enum headphones {
+            static let previousAction = SettingValue("headphones.previousAction",
+                                                      defaultValue: HeadphoneControlAction.skipBack)
+
+            static let nextAction = SettingValue("headphones.nextAction",
+                                                      defaultValue: HeadphoneControlAction.skipForward)
+        }
+
+        enum bookmarks {
+            static let creationSound = SettingValue("bookmarks.creationSound", defaultValue: true)
+
+            static let playerSort = SettingValue("bookmarks.playerSort", defaultValue: BookmarkSortOption.newestToOldest)
+            static let podcastSort = SettingValue("bookmarks.podcastSort", defaultValue: BookmarkSortOption.newestToOldest)
+            static let episodeSort = SettingValue("bookmarks.episodeSort", defaultValue: BookmarkSortOption.newestToOldest)
+        }
+
+        enum appearance {
+            static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
+        }
     }
 
     enum Values {
@@ -171,10 +197,12 @@ struct Constants {
 
         static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
 
-        /// We show the free trial by default since if the app was just downloaded
+        /// We show the offer by default since if the app was just downloaded
         /// there is a chance it doesn't have a receipt and we won't be able to do a server check
         /// However Apple considers this user to be eligible
-        public static let freeTrialDefaultValue = true
+        public static let offerEligibilityDefaultValue = true
+
+        static let bookmarkMaxTitleLength = 100
     }
 
     enum Limits {
@@ -202,6 +230,8 @@ struct Constants {
         static let bottomCardAnimationTime = 0.2 as TimeInterval
         static let playerDragLineFadeTime = 0.6 as TimeInterval
         static let multiSelectStatusDelayTime = 0.8 as TimeInterval
+
+        static let playerTabSwitch: TimeInterval = 0.2
     }
 
     #if !os(watchOS)
@@ -222,22 +252,6 @@ struct Constants {
         static let defaultFrameSize = 1152
     }
 
-    #if !os(watchOS)
-        enum IapProducts: String {
-            case yearly = "com.pocketcasts.plus.yearly"
-            case monthly = "com.pocketcasts.plus.monthly"
-
-            var renewalPrompt: String {
-                switch self {
-                case .yearly:
-                    return L10n.accountPaymentRenewsYearly
-                case .monthly:
-                    return L10n.accountPaymentRenewsMonthly
-                }
-            }
-        }
-    #endif
-
     enum RemoteParams {
         static let periodicSaveTimeMs = "periodic_playback_save_ms"
         static let periodicSaveTimeMsDefault: Double = 60000
@@ -249,13 +263,80 @@ struct Constants {
         static let episodeSearchDebounceMsDefault: Double = 800
 
         static let customStorageLimitGB = "custom_storage_limit_gb"
-        static let customStorageLimitGBDefault: Int = 10
+        static let customStorageLimitGBDefault: Int = 20
 
         static let endOfYearRequireAccount = "end_of_year_require_account"
         static let endOfYearRequireAccountDefault: Bool = true
+
+        static let effectsPlayerStrategy = "effects_player_strategy"
+        static let effectsPlayerStrategyDefault: Int = 1
+
+        static let patronCloudStorageGB = "patron_custom_storage_limit_gb"
+        static let patronCloudStorageGBDefault = 100
+
+        static let addMissingEpisodes = "add_missing_episodes"
+        static let addMissingEpisodesDefault: Bool = true
+
+        static let newPlayerTransition = "new_player_transition"
+        static let newPlayerTransitionDefault: Bool = true
+
+        static let errorLogoutHandling = "error_logout_handling"
+        static let errorLogoutHandlingDefault: Bool = false
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5
+
+    /// The `SettingValue` provides a way to:
+    ///     - Define a UserDefaults setting
+    ///     - Specify the default value to be used if it's not set
+    ///     - Retrieve and save the value to the user defaults
+    /// Example:
+    /// let helloWorld = SettingValue("hello", defaultValue: "world")
+    /// print(helloWorld.value()) -> "world" // Default value is used
+    /// helloWorld.save("hello world")
+    /// print(helloWorld.value()) -> "hello world" // Custom value is used
+    ///
+    /// This uses Generics and the `defaultValue` to define the value type that should be set and returned.
+    /// If you want to provide a nullable value you can:
+    ///
+    /// Specify an optional and a default value by wrapping the value in an `Optional`
+    ///
+    ///     SettingValue("nullable", defaultValue: Optional("HelloWorld"))
+    ///
+    /// Specify a type and a default value of nil by using `.none`
+    ///
+    ///     SettingValue("nullable", defaultValue: String?.none)
+    ///
+    struct SettingValue<Value> {
+        let key: String
+        let defaultValue: Value
+        let defaults: Foundation.UserDefaults
+
+        init(_ key: String, defaultValue: Value, defaults: Foundation.UserDefaults = .standard) {
+            self.key = key
+            self.defaultValue = defaultValue
+            self.defaults = defaults
+        }
+
+        /// Retrieve the stored value from the UserDefaults or the `defaultValue` if there isn't a stored value
+        var value: Value {
+            guard let decodableType = Value.self as? JSONDecodable.Type else {
+                return defaults.object(forKey: key) as? Value ?? defaultValue
+            }
+
+            return defaults.jsonObject(decodableType.self, forKey: key) as? Value ?? defaultValue
+        }
+
+        /// Saves the value to the UserDefaults. Passing nil to this will delete the key
+        func save(_ value: Value) {
+            guard let decodableType = value as? JSONEncodable else {
+                defaults.set(value, forKey: key)
+                return
+            }
+
+            defaults.setJSONObject(decodableType, forKey: key)
+        }
+    }
 }
 
 enum PlusUpgradeViewSource: String {
@@ -267,6 +348,9 @@ enum PlusUpgradeViewSource: String {
     case icons
     case watch
     case unknown
+    case endOfYear
+    case promoCode
+    case promotionFinished
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {
@@ -286,4 +370,30 @@ enum PlusUpgradeViewSource: String {
             return "Upgrade to Plus for \(rawValue)"
         }
     }
+}
+
+// MARK: - HeadphoneControlAction
+
+/// Describes how the headphone/bluetooth skip next/back button actions should perform in the app
+enum HeadphoneControlAction: JSONCodable {
+    /// Skip back X seconds in the episode, where X is the Skip Back seconds settings value
+    case skipBack
+
+    /// Skip forward X seconds in the episode, where X is the Skip Forward seconds settings value
+    case skipForward
+
+    /// If the episode has chapters, then skip to the previous chapter, if not default to .skipBack behavior
+    case previousChapter
+
+    /// If the episode has chapters, then skip to the next chapter, if not default to .skipForward behavior
+    case nextChapter
+
+    /// Create a new bookmark for the currently playing episode
+    case addBookmark
+}
+
+// MARK: - Bookmark Sorting
+
+enum BookmarkSortOption: JSONCodable {
+    case newestToOldest, oldestToNewest, timestamp, episode
 }

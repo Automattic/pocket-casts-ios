@@ -5,56 +5,59 @@ struct PlusPurchaseModal: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var coordinator: PlusPurchaseModel
 
-    @State var selectedOption: Constants.IapProducts
+    @State var selectedOption: IAPProductID
     @State var freeTrialDuration: String?
 
     var pricingInfo: PlusPurchaseModel.PlusPricingInfo {
         coordinator.pricingInfo
     }
 
-
     /// Whether or not all products have free trials, in this case we'll show the free trial label
     /// above the products and not inline
     let showGlobalTrial: Bool
-    init(coordinator: PlusPurchaseModel) {
+
+    private var products: [PlusPricingInfoModel.PlusProductPricingInfo]
+
+    init(coordinator: PlusPurchaseModel, selectedPrice: PlanFrequency = .yearly) {
         self.coordinator = coordinator
-        let firstProduct = coordinator.pricingInfo.products.first
 
-        self.showGlobalTrial = coordinator.pricingInfo.products.allSatisfy { $0.freeTrialDuration != nil }
+        self.products = coordinator.pricingInfo.products.filter { coordinator.plan.products.contains($0.identifier) }
+        self.showGlobalTrial = products.allSatisfy { $0.offer != nil }
 
-        _selectedOption = State(initialValue: firstProduct?.identifier ?? .yearly)
-        _freeTrialDuration = State(initialValue: firstProduct?.freeTrialDuration)
+        let firstProduct = products.first
+        _selectedOption = State(initialValue: selectedPrice == .yearly ? coordinator.plan.yearly : coordinator.plan.monthly)
+        _freeTrialDuration = State(initialValue: firstProduct?.offer?.duration)
     }
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             ModalTopPill()
 
-            Label(L10n.plusPurchasePromoTitle, for: .title)
+            Label(coordinator.plan == .plus ? L10n.plusPurchasePromoTitle : L10n.patronPurchasePromoTitle, for: .title)
                 .foregroundColor(Color.textColor)
                 .padding(.top, 32)
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
 
             if showGlobalTrial, let freeTrialDuration {
-                PlusFreeTrialLabel(freeTrialDuration)
+                PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan)
             }
 
             VStack(spacing: 16) {
-                ForEach(pricingInfo.products) { product in
+                ForEach(products) { product in
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
                     if coordinator.state != .failed || selectedOption == product.identifier {
                         ZStack(alignment: .center) {
                             Button(product.price) {
                                 selectedOption = product.identifier
-                                freeTrialDuration = product.freeTrialDuration
+                                freeTrialDuration = product.offer?.duration
                             }
                             .disabled(coordinator.state == .failed)
-                            .buttonStyle(PlusGradientStrokeButton(isSelectable: true, isSelected: selectedOption == product.identifier))
+                            .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
                             .overlay(
                                 ZStack(alignment: .center) {
-                                    if !showGlobalTrial, let freeTrialDuration = product.freeTrialDuration {
+                                    if !showGlobalTrial, let freeTrialDuration = product.offer?.duration {
                                         GeometryReader { proxy in
-                                            PlusFreeTrialLabel(freeTrialDuration, isSelected: selectedOption == product.identifier)
+                                            PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
                                                 .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY - (proxy.size.height * 0.12))
                                         }
                                     }
@@ -92,7 +95,7 @@ struct PlusPurchaseModal: View {
                 Button(subscribeButton) {
                     guard !isLoading else { return }
                     coordinator.purchase(product: selectedOption)
-                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading)).disabled(isLoading)
+                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
 
                 TermsView(text: Config.termsHTML)
             }.padding(.top, 23)

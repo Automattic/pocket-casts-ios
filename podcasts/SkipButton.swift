@@ -27,17 +27,17 @@ class SkipButton: UIButton {
             skipLabel.textColor = tintColor
 
             let colorValues = tintColor.getRGBA()
-            let colorProvider = ColorValueProvider(Color(r: colorValues[0], g: colorValues[1], b: colorValues[2], a: colorValues[3]))
+            let colorProvider = ColorValueProvider(LottieColor(r: colorValues[0], g: colorValues[1], b: colorValues[2], a: colorValues[3]))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Fill 1.Color"))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Stroke 1.Color"))
         }
     }
 
-    private var animationView: AnimationView
+    private var animationView: LottieAnimationView
     private let skipLabel: UILabel
 
     required init?(coder aDecoder: NSCoder) {
-        animationView = AnimationView(name: "skip_button")
+        animationView = LottieAnimationView(name: "skip_button")
         skipLabel = UILabel()
 
         super.init(coder: aDecoder)

@@ -77,6 +77,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     func aboutToDisplayFullScreenPlayer() {
         guard let rootVC = rootViewController() else { return }
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            if fullScreenPlayer == nil {
+                fullScreenPlayer = PlayerContainerViewController()
+            }
+
+            return
+        }
+
         let viewSize = rootVC.view.bounds.size
         let startingYPos = fullScreenPlayer?.view.frame.minY ?? viewSize.height
         if fullScreenPlayer == nil {
@@ -86,7 +94,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         fullScreenPlayer?.view.frame = CGRect(x: 0, y: startingYPos, width: viewSize.width, height: viewSize.height)
-        fullScreenPlayer?.viewWillAppear(false)
 
         // prevent swipe to go back while the player is open
         rootNavController()?.interactivePopGestureRecognizer?.isEnabled = false
@@ -95,10 +102,22 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     func finishedWithFullScreenPlayer() {
         guard let rootVC = rootViewController() else { return }
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            rootViewController()?.setNeedsStatusBarAppearanceUpdate()
+            rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+
+            fullScreenPlayer?.view.removeFromSuperview()
+            fullScreenPlayer = nil
+
+            // update the mini player on full screen player close
+            playbackStateDidChange()
+            playbackProgressDidChange()
+            return
+        }
+
         if fullScreenPlayer?.presentedViewController != nil {
             fullScreenPlayer?.dismiss(animated: false, completion: nil)
         }
-        fullScreenPlayer?.viewWillDisappear(false)
 
         // there's a bug in iOS where because the player is added as a child controller to the tab bar, the tab bar adds it as a tab
         // that would be fine, except if we call fullScreenPlayer.removeFromParent() it removes the controller but not the tab, so here we drop it manually
@@ -111,7 +130,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         rootViewController()?.setNeedsStatusBarAppearanceUpdate()
         rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
         fullScreenPlayer?.view.removeFromSuperview()
-        fullScreenPlayer?.viewDidDisappear(false)
         fullScreenPlayer = nil
 
         // re-enable the disabled swipe back gesture
@@ -142,6 +160,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         addCustomObserver(Constants.Notifications.statusBarHeightChanged, selector: #selector(statusBarHeightDidChange))
 
         addCustomObserver(Constants.Notifications.podcastImageReCacheRequired, selector: #selector(updateRequired))
+
+        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(updateRequired))
 
         addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(upNextListChanged))
         addCustomObserver(Constants.Notifications.podcastDeleted, selector: #selector(upNextListChanged))
@@ -302,7 +322,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         upNextViewController = UpNextViewController(source: source)
         guard let upNextController = upNextViewController else { return }
 
-        let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let navWrapper = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         navWrapper.modalPresentationStyle = .formSheet
         rootViewController()?.present(navWrapper, animated: true, completion: nil)
     }

@@ -4,8 +4,20 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 
+enum EffectsPlayerStrategy: Int {
+    case normalPlay = 1
+    case playAndCatchExceptionIfNeeded = 2
+    case playAndFallbackIfNeeded = 3
+}
+
 class EffectsPlayer: PlaybackProtocol, Hashable {
     private static let targetVolumeDbGain = 15.0 as Float
+
+    /// The maximum number this player will retry to restard an audio if it fails
+    private static let maxNumberOfRetries = 3
+
+    /// The current attempt number to start the player
+    private static var attemptNumber = 1
 
     private var engine: AVAudioEngine?
     private var player: AVAudioPlayerNode?
@@ -37,7 +49,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var lastSeekTime = 0 as TimeInterval
 
     // this lock is to avoid race conditions where you're destroying the player while in the middle of setting it up (since the play method does its work asynchronously)
-    private let playerLock = NSObject()
+    private lazy var playerLock = NSLock()
 
     // MARK: - PlaybackProtocol Impl
 
@@ -63,7 +75,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self, let episode = strongSelf.episode else { return }
 
-            objc_sync_enter(strongSelf.playerLock)
+            strongSelf.playerLock.lock()
 
             strongSelf.engine = AVAudioEngine()
             strongSelf.player = AVAudioPlayerNode()
@@ -100,7 +112,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                     DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
                 }
             } catch {
-                objc_sync_exit(strongSelf.playerLock)
+                strongSelf.playerLock.unlock()
                 PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
                 return
             }
@@ -132,21 +144,30 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 strongSelf.engine?.prepare()
                 try strongSelf.engine?.start()
             } catch {
-                objc_sync_exit(strongSelf.playerLock)
+                strongSelf.playerLock.unlock()
                 PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
                 return
             }
             // there seem to be cases where the above call succeeds but the engine isn't actually started. Handle that here
             if !(strongSelf.engine?.isRunning ?? false) {
-                objc_sync_exit(strongSelf.playerLock)
+                strongSelf.playerLock.unlock()
                 FileLog.shared.addMessage("EffectsPlayer: engine reported not running, calling playbackDidFail")
                 PlaybackManager.shared.playbackDidFail(logMessage: "AVAudioEngine reported not running", userMessage: nil)
                 return
             }
 
-            strongSelf.player?.play()
+            switch Settings.effectsPlayerStrategy {
+            case .normalPlay:
+                strongSelf.normalPlay()
+            case .playAndCatchExceptionIfNeeded:
+                strongSelf.playAndCatchExceptionIfNeeded()
+            case .playAndFallbackIfNeeded:
+                strongSelf.playAndFallbackIfNeeded()
+            default:
+                strongSelf.normalPlay()
+            }
 
-            objc_sync_exit(strongSelf.playerLock)
+            strongSelf.playerLock.unlock()
 
             completion?()
 
@@ -157,6 +178,40 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             }
 
             self?.aboutToPlay.value = false
+        }
+    }
+
+    // MARK: - Play
+    /// We have three ways to start the player here. This is here to try
+    /// to fix one of our top-crashes which is related to EffectsPlayer initialization
+
+    /// Just play the player and don't deal with any exception
+    func normalPlay() {
+        player?.play()
+    }
+
+    /// Try to play. If an exception happens, just pause it.
+    func playAndCatchExceptionIfNeeded() {
+        do {
+            try SJCommonUtils.catchException {
+                self.player?.play()
+            }
+        } catch {
+            FileLog.shared.addMessage("EffectsPlayer: failed to start playback: \(error)")
+            self.playerLock.unlock()
+            PlaybackManager.shared.pause(userInitiated: false)
+        }
+    }
+
+    /// Try to play. If it fails, fallback to DefaultPlayer
+    func playAndFallbackIfNeeded() {
+        do {
+            try SJCommonUtils.catchException {
+                self.player?.play()
+            }
+        } catch {
+            self.playerLock.unlock()
+            PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil, fallbackToDefaultPlayer: true)
         }
     }
 
@@ -235,8 +290,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func endPlayback(permanent: Bool) {
-        objc_sync_enter(playerLock)
-        defer { objc_sync_exit(playerLock) }
+        playerLock.lock()
+        defer { playerLock.unlock() }
 
         shouldKeepPlaying.value = false
         aboutToPlay.value = false

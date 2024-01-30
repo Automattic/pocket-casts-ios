@@ -9,7 +9,7 @@ protocol NavigationProtocol: AnyObject {
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo)
     func navigateTo(podcast searchResult: PodcastFolderSearchResult)
 
-    func navigateToFolder(_ folder: Folder)
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool)
 
     func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?)
 
@@ -25,12 +25,13 @@ protocol NavigationProtocol: AnyObject {
     func navigateToAddCustom(_ fileURL: URL)
 
     func showSubscriptionCancelledAcknowledge()
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource)
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context?, flow: OnboardingFlow.Flow)
     func showPlusMarketingPage()
     func showSettingsAppearance()
     func showPromotionPage(promoCode: String?)
     func showPromotionFinishedAcknowledge()
     func showProfilePage()
+    func showHeadphoneSettings()
 
     func showSupporterSignIn(podcastInfo: PodcastInfo)
     func showSupporterSignIn(bundleUuid: String)
@@ -43,6 +44,6 @@ protocol NavigationProtocol: AnyObject {
     func showInSafariViewController(urlString: String)
 
     func showEndOfYearStories()
-    func dismissPresentedViewController()
+    func dismissPresentedViewController(completion: (() -> Void)?)
     func showOnboardingFlow(flow: OnboardingFlow.Flow?)
 }

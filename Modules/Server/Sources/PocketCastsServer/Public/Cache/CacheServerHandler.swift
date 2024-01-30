@@ -11,6 +11,14 @@ public class CacheServerHandler {
     private let showNotesUrlCache: URLCache
     private let colorsUrlsCache: URLCache
 
+    private lazy var episodeInfoHandler = EpisodeInfoHandler()
+
+    public static var newShowNotesEndpoint: Bool = false
+
+    public static var episodeFeedArtwork: Bool = false
+
+    private let tokenHelper = TokenHelper.shared
+
     public init() {
         showNotesUrlCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
         colorsUrlsCache = URLCache(memoryCapacity: 400.kilobytes, diskCapacity: 5.megabytes, diskPath: "colors")
@@ -18,7 +26,12 @@ public class CacheServerHandler {
 
     // MARK: - Show Notes
 
-    public func loadShowNotes(episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
+    public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
+        guard !Self.newShowNotesEndpoint else {
+            episodeInfoHandler.loadShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid, cached: cached, completion: completion)
+            return
+        }
+
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/show_notes/\(episodeUuid)")
         let request = URLRequest(url: url)
 
@@ -30,7 +43,7 @@ public class CacheServerHandler {
             didSendCachedNotes = true
         }
 
-        TokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
+        tokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
             guard let strongSelf = self else { return }
 
             if let data = data, let response = response, let showNotes = strongSelf.topLevelValue(data: data, name: "show_notes", ofType: String.self) {
@@ -46,6 +59,17 @@ public class CacheServerHandler {
                 completion?(CacheServerHandler.noShowNotesMessage)
             }
         }
+    }
+
+    // MARK: - Episode Artwork
+
+    public func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String, completion: ((String?) -> Void)?) {
+        guard Self.newShowNotesEndpoint, Self.episodeFeedArtwork else {
+            completion?(nil)
+            return
+        }
+
+        episodeInfoHandler.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid, completion: completion)
     }
 
     public func loadPodcastColors(podcastUuid: String, allowCachedVersion: Bool, completion: @escaping ((String?, String?, String?) -> Void)) {
@@ -96,7 +120,7 @@ public class CacheServerHandler {
         let url = urlForPodcast(uuid: podcastUuid)
         let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: CacheServerHandler.defaultTimeout)
 
-        TokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
+        tokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
             guard let strongSelf = self else { return }
 
             if response?.statusCode == ServerConstants.HttpConstants.ok, let data = data, let podcastInfo = strongSelf.asJson(data: data) {
@@ -117,7 +141,7 @@ public class CacheServerHandler {
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/url/\(podcastUuid)/\(episodeUuid)")
         let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: CacheServerHandler.defaultTimeout)
 
-        TokenHelper.callSecureUrl(request: request) { response, data, _ in
+        tokenHelper.callSecureUrl(request: request) { response, data, _ in
             if response?.statusCode == ServerConstants.HttpConstants.ok, let data = data, let url = String(data: data, encoding: .utf8) {
                 completion(url)
 
@@ -135,7 +159,7 @@ public class CacheServerHandler {
             request.setValue(lastUpdated, forHTTPHeaderField: ServerConstants.HttpHeaders.ifModifiedSince)
         }
 
-        TokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
+        tokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
             // podcast hasn't changed
             if response?.statusCode == ServerConstants.HttpConstants.notModified {
                 completion(nil, nil)
@@ -184,7 +208,7 @@ public class CacheServerHandler {
             return
         }
 
-        TokenHelper.callSecureUrl(request: request) { response, data, _ in
+        tokenHelper.callSecureUrl(request: request) { response, data, _ in
             guard response?.statusCode == ServerConstants.HttpConstants.ok, let data = data else {
                 completion?(nil)
                 return

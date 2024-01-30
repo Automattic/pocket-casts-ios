@@ -1,26 +1,22 @@
 import PocketCastsUtils
 import UIKit
+import CarPlay
+
 class SceneHelper {
-    class func foregroundActiveAppScene() -> UIWindowScene? {
-        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first as? UIWindowScene else {
-            return nil
-        }
-        return scene
+    class func connectedScene() -> UIWindowScene? {
+        UIApplication.shared.connectedScenes.compactMap {
+            $0 as? UIWindowScene
+        }.first
     }
 
-    class func connectedScene() -> UIWindowScene? {
-        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
-
-        for scene in scenes {
-            if scene.isKind(of: UIWindowScene.self) {
-                return scene
-            }
-        }
-        return nil
+    static var isConnectedToCarPlay: Bool {
+        UIApplication.shared.connectedScenes.contains(where: {
+            $0 is CPTemplateApplicationScene
+        })
     }
 
     class func newMainScreenWindow() -> UIWindow {
-        if let scene = foregroundActiveAppScene() {
+        if let scene = connectedScene() {
             return UIWindow(windowScene: scene)
         }
 
@@ -28,6 +24,11 @@ class SceneHelper {
     }
 
     class func rootViewController() -> UIViewController? {
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            let appScene = connectedScene()?.windows.first(where: { $0.rootViewController is MainTabBarController })
+            return appScene?.rootViewController?.topMostPresentedViewController
+        }
+
         if let scene = connectedScene() {
             for window in scene.windows {
                 if let mainTabController = window.rootViewController as? MainTabBarController {
@@ -40,5 +41,10 @@ class SceneHelper {
             return nil
         }
         return appDelegate.window?.rootViewController
+    }
+
+    /// Returns the main window for the app from the AppDelegate
+    static var mainWindow: UIWindow? {
+        (UIApplication.shared.delegate as? AppDelegate)?.window
     }
 }

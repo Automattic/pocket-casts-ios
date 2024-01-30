@@ -168,8 +168,17 @@ enum PlaylistIcon: Int32 {
          redTop, blueTop, greenTop, purpleTop, yellowTop
 }
 
-enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
-    case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive
+enum PlayerAction: Int, AnalyticsDescribable {
+    case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive, addBookmark
+
+    /// Specify default actions and their order
+    static var defaultActions: [PlayerAction] {
+        [
+            .effects, .sleepTimer, .routePicker, .starEpisode,
+            .shareEpisode, .goToPodcast, .chromecast, .markPlayed,
+            .addBookmark, .archive
+        ]
+    }
 
     func title(episode: BaseEpisode? = nil) -> String {
         switch self {
@@ -204,6 +213,9 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             } else {
                 return L10n.archive
             }
+
+        case .addBookmark:
+            return L10n.addBookmark
         }
     }
 
@@ -238,6 +250,8 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return "episode-markasplayed"
         case .archive:
             return episode is UserEpisode ? "delete-red" : "episode-archive"
+        case .addBookmark:
+            return "bookmarks-shelf-overflow-icon"
         }
     }
 
@@ -261,6 +275,8 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return "shelf_played"
         case .archive:
             return episode is UserEpisode ? "shelf_delete" : "shelf_archive"
+        case .addBookmark:
+            return "bookmarks-shelf-icon"
         }
     }
 
@@ -268,6 +284,17 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
         switch self {
         case .starEpisode, .shareEpisode:
             return episode is Episode
+        case .addBookmark:
+            return isAvailable
+        default:
+            return true
+        }
+    }
+
+    /// Determines whether the action should be available as an option
+    /// If false, the action will be hidden from the player shelf and overflow menu
+    var isAvailable: Bool {
+        switch self {
         default:
             return true
         }
@@ -293,12 +320,14 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return "mark_as_played"
         case .archive:
             return "archive"
+        case .addBookmark:
+            return "bookmark"
         }
     }
 }
 
 enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
-    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete
+    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share
 
     func title() -> String {
         switch self {
@@ -330,6 +359,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return L10n.multiSelectRemoveMarkUnplayed
         case .delete:
             return L10n.delete
+        case .share:
+            return L10n.share
         }
     }
 
@@ -363,6 +394,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "episode-remove-download"
         case .delete:
             return "episode-delete"
+        case .share:
+            return "podcast-share"
         }
     }
 
@@ -396,6 +429,18 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "remove_download"
         case .delete:
             return "delete"
+        case .share:
+            return "share"
+        }
+    }
+
+    func isVisible(with episodes: [BaseEpisode]) -> Bool {
+        switch self {
+        case .share:
+            return episodes.count == 1 && episodes.allSatisfy({ $0 is Episode })
+
+        default:
+            return true
         }
     }
 }

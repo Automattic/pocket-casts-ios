@@ -1,3 +1,4 @@
+import Combine
 import DifferenceKit
 import PocketCastsDataModel
 import PocketCastsServer
@@ -35,6 +36,9 @@ protocol PodcastActionsDelegate: AnyObject {
     func didActivateSearch()
 
     func enableMultiSelect()
+
+    var podcastRatingViewModel: PodcastRatingViewModel { get }
+    func showBookmarks()
 }
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
@@ -49,6 +53,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     var searchController: EpisodeListSearchController?
 
     var cellHeights: [IndexPath: CGFloat] = [:]
+
+    var podcastRatingViewModel = PodcastRatingViewModel()
 
     private var podcastInfo: PodcastInfo?
     var loadingPodcastInfo = false
@@ -112,6 +118,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                         self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                         self.multiSelectHeaderView.isHidden = false
                         self.view.bringSubviewToFront(self.multiSelectHeaderView)
+
+                        // Adjusts multiSelectHeaderView based on screen width
+                        self.setMultiSelectHeaderViewConstraint()
+
                     }
                 } else {
                     self.multiSelectHeaderView.isHidden = true
@@ -149,18 +159,41 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet var multiSelectHeaderView: ThemeableView!
     private let operationQueue = OperationQueue()
 
+    // Constraint to adjust multiSelectHeader based on device size
+    @IBOutlet weak var multiSelectHeaderViewConstraint: NSLayoutConstraint!
+
+    private func setMultiSelectHeaderViewConstraint() {
+        let screenWidth = UIScreen.main.bounds.width
+        var setConstant: Double
+
+        switch screenWidth {
+        /* iPod Touch (320) to iPhone SE 3rd gen (375) and
+         iPad Mini 4 (760) to iPad 6th Gen (1024) */
+        case 320...380, 760...1024:
+            setConstant = 65.0
+        /* Covers most modern devices (380+ width),
+         from iPhone 6 Plus (414) to iPhone 14 Pro Max (430) */
+        default:
+            setConstant = 90.0
+        }
+
+        self.multiSelectHeaderViewConstraint.constant = setConstant
+    }
+
     static let headerSection = 0
     static let allEpisodesSection = 1
 
     private var isSearching = false
+    private var cancellables = Set<AnyCancellable>()
 
     init(podcast: Podcast) {
         self.podcast = podcast
 
-        // show the expaned view for unsubscribed podcasts, as well as paid podcasts that have expired and you no longer have access to play/download
+        // show the expanded view for unsubscribed podcasts, as well as paid podcasts that have expired and you no longer have access to play/download
         summaryExpanded = !podcast.isSubscribed() || (podcast.isPaid && podcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue && (SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid)?.isExpired() ?? false))
 
         AnalyticsHelper.podcastOpened(uuid: podcast.uuid)
+        podcastRatingViewModel.update(uuid: podcast.uuid)
 
         super.init(nibName: "PodcastViewController", bundle: nil)
     }
@@ -175,6 +208,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
 
         if let uuid = podcastInfo.uuid {
+            podcastRatingViewModel.update(uuid: uuid)
             AnalyticsHelper.podcastOpened(uuid: uuid)
         }
 
@@ -206,34 +240,47 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addGoogleCastBtn()
         loadPodcastInfo()
         updateColors()
-        updateTopConstraintForiPhone14Pro()
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
+
+        listenForBookmarkChanges()
     }
 
-    private func updateTopConstraintForiPhone14Pro() {
-        // Retrieve the name of the device
-        var deviceName = UIDeviceHardware.platformString()
+    private func listenForBookmarkChanges() {
+        let bookmarkManager = PlaybackManager.shared.bookmarkManager
 
-        #if targetEnvironment(simulator)
-        // If we're running in the simulator, grab the model that we're simulating
-        if let simulatorIdentifier = ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] {
-            deviceName = UIDeviceHardware.platformString(forType: simulatorIdentifier)
-        }
-        #endif
+        // Refresh when a bookmark is added to our podcast
+        bookmarkManager.onBookmarkCreated
+            .filter({ [weak self] event in
+                event.podcast == self?.podcast?.uuid
+            })
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.upNextChanged()
+            })
+            .store(in: &cancellables)
 
-        if deviceName.startsWith(string: "iPhone 14 Pro") {
-            // On iPhone 14 Pro and iPhone 14 Pro Max there's a space
-            // between the nav bar and the content
-            // Here we change the table top constraint to take into account that
-            // See: https://github.com/Automattic/pocket-casts-ios/issues/327
-            episodesTableTopConstraint.constant = -5
-        }
+        // Reload when a bookmark is deleted
+        bookmarkManager.onBookmarksDeleted
+            .filter({ [weak self] event in
+                event.items.contains(where: { $0.podcast == self?.podcast?.uuid })
+            })
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.upNextChanged()
+            })
+            .store(in: &cancellables)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        // Load the ratings even if we've already started loading them to cover all other potential view states
+        // The view model will ignore extra calls
+        if let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
+            podcastRatingViewModel.update(uuid: uuid)
+        }
 
         updateColors()
     }
@@ -840,6 +887,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let hostingController = PCHostingController(rootView: chooseFolderView.environmentObject(Theme.sharedTheme))
 
         present(hostingController, animated: true, completion: nil)
+    }
+
+    func showBookmarks() {
+        guard let podcast else { return }
+
+        Analytics.track(.podcastsScreenTabTapped, properties: ["value": "bookmarks"])
+
+        let controller = BookmarksPodcastListController(podcast: podcast)
+        present(controller, animated: true)
     }
 
     // MARK: - Long press actions

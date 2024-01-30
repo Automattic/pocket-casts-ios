@@ -6,7 +6,7 @@ import PocketCastsDataModel
 class LoginCoordinator: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
-    var presentedFromUpgrade: Bool = false
+    var continuePurchasing: ProductInfo? = nil
 
     private var socialLogin: SocialLogin?
     private var socialAuthProvider: SocialAuthProvider?
@@ -62,7 +62,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     func signUpTapped() {
         socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
-        let controller = NewEmailViewController(newSubscription: NewSubscription(isNewAccount: true, iap_identifier: ""))
+        let controller = NewEmailViewController()
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -160,7 +160,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
             return
         }
 
-        let shouldDismiss = OnboardingFlow.shared.currentFlow.shouldDismiss || (SubscriptionHelper.hasActiveSubscription() && !presentedFromUpgrade)
+        let shouldDismiss = OnboardingFlow.shared.currentFlow.shouldDismiss || (SubscriptionHelper.hasActiveSubscription() && continuePurchasing == nil)
 
         if shouldDismiss {
             handleDismiss()
@@ -182,9 +182,13 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     private func handleDismiss() {
-        navigationController?.dismiss(animated: true) {
-            DispatchQueue.main.async {
-                OnboardingFlow.shared.reset()
+        if OnboardingFlow.shared.currentFlow == .promoCode {
+            navigationController?.popToRootViewController(animated: true)
+        } else {
+            navigationController?.dismiss(animated: true) {
+                DispatchQueue.main.async {
+                    OnboardingFlow.shared.reset()
+                }
             }
         }
     }
@@ -202,7 +206,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
         // Update the flow to make sure the correct analytics source is passed on
         OnboardingFlow.shared.updateAnalyticsSource(source == .login ? "login" : "account_created")
 
-        let controller = PlusLandingViewModel.make(in: navigationController, from: source, continueUpgrade: presentedFromUpgrade)
+        let controller = PlusLandingViewModel.make(in: navigationController,
+                                                   from: source,
+                                                   config: .init(continuePurchasing: continuePurchasing))
         navigationController?.setViewControllers([controller], animated: true)
     }
 }
@@ -210,9 +216,9 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, fromUpgrade: Bool = false) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil) -> UIViewController {
         let coordinator = LoginCoordinator()
-        coordinator.presentedFromUpgrade = fromUpgrade
+        coordinator.continuePurchasing = continuePurchasing
 
         let view = LoginLandingView(coordinator: coordinator)
         let controller = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())

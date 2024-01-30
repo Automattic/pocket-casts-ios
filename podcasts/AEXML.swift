@@ -360,7 +360,7 @@ open class AEXMLDocument: AEXMLElement {
 
      :param: data XML which should be parsed.
 
-     :returns: `NSError` if parsing is not successfull, otherwise `nil`.
+     :returns: `NSError` if parsing is not successful, otherwise `nil`.
      */
     open func loadXMLData(_ data: Data) throws {
         children.removeAll(keepingCapacity: false)

@@ -13,7 +13,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             showNotesWebView.leadingAnchor.constraint(equalTo: showNotesHolderView.leadingAnchor),
             showNotesWebView.trailingAnchor.constraint(equalTo: showNotesHolderView.trailingAnchor),
             showNotesWebView.bottomAnchor.constraint(equalTo: showNotesHolderView.bottomAnchor),
-            showNotesWebView.topAnchor.constraint(equalTo: showNotesHolderView.topAnchor, constant: 40)
+            showNotesWebView.topAnchor.constraint(equalTo: showNotesHolderView.topAnchor, constant: 20)
         ])
 
         showNotesWebView.allowsLinkPreview = true
@@ -32,7 +32,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
         loadingIndicator.startAnimating()
         hideErrorMessage(hide: true)
-        CacheServerHandler.shared.loadShowNotes(episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
+        CacheServerHandler.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
             self?.downloadingShowNotes = false
             self?.showNotesDidLoad(showNotes: cachedShowNotes)
         }) { [weak self] showNotes in
@@ -63,10 +63,12 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser), let url = navigationAction.request.url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
-                let config = SFSafariViewController.Configuration()
-                config.entersReaderIfAvailable = false
-                safariViewController = SFSafariViewController(url: navigationAction.request.url!, configuration: config)
+                safariViewController = navigationAction.request.url.flatMap {
+                    SFSafariViewController(with: $0)
+                }
+
                 safariViewController?.delegate = self
+
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 present(safariViewController!, animated: true, completion: nil)
 

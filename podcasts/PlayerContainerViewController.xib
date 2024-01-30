@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,9 +40,9 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DY8-o1-Oqt" customClass="PlayerTabsView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="62" y="0.0" width="278" height="60"/>
+                            <rect key="frame" x="62" y="18" width="278" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="fvZ-1o-n3k"/>
+                                <constraint firstAttribute="height" constant="40" placeholder="YES" id="fvZ-1o-n3k"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBu-bE-aeT" customClass="UpNextButton" customModule="podcasts" customModuleProvider="target">
@@ -60,12 +60,12 @@
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="n9H-5y-Rbm" secondAttribute="bottom" id="75X-MC-iuO"/>
                         <constraint firstAttribute="trailing" secondItem="HBu-bE-aeT" secondAttribute="trailing" constant="10" id="A5g-u0-D5V"/>
+                        <constraint firstItem="DY8-o1-Oqt" firstAttribute="centerY" secondItem="HBu-bE-aeT" secondAttribute="centerY" constant="2" id="Igm-ry-DNo"/>
                         <constraint firstItem="DY8-o1-Oqt" firstAttribute="leading" secondItem="n9H-5y-Rbm" secondAttribute="trailing" constant="4" id="LZm-RF-qiW"/>
                         <constraint firstItem="HBu-bE-aeT" firstAttribute="leading" secondItem="DY8-o1-Oqt" secondAttribute="trailing" constant="20" id="OYA-T1-dGq"/>
                         <constraint firstAttribute="bottom" secondItem="HBu-bE-aeT" secondAttribute="bottom" constant="2" id="QvH-py-N3Q"/>
                         <constraint firstAttribute="height" constant="60" id="c5W-M4-Gcb"/>
                         <constraint firstItem="n9H-5y-Rbm" firstAttribute="leading" secondItem="tuk-fS-Mph" secondAttribute="leading" constant="14" id="liR-iX-SIQ"/>
-                        <constraint firstAttribute="bottom" secondItem="DY8-o1-Oqt" secondAttribute="bottom" id="w1r-S2-cMD"/>
                     </constraints>
                 </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyM-S1-fQW" customClass="RegionCancellingScrollView" customModule="podcasts" customModuleProvider="target">
@@ -86,7 +86,7 @@
                 <constraint firstAttribute="trailing" secondItem="tuk-fS-Mph" secondAttribute="trailing" id="jMd-Bl-UDQ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-2230" y="-36"/>
+            <point key="canvasLocation" x="-2643" y="-62"/>
         </view>
     </objects>
     <resources>

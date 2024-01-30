@@ -54,7 +54,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
         set {} // This is intentionally a noop because this feature isn't supported on the Watch
     }
 
-    func playPauseTapped(withEpisode episode: BaseEpisode) {
+    func playPauseTapped(withEpisode episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             PlaybackManager.shared.playPause()
         } else {
@@ -204,6 +204,10 @@ class WatchSourceViewModel: PlaySourceViewModel {
         PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
     }
 
+    var episodeUuidsInQueue: [BaseEpisode] {
+        PlaybackManager.shared.allEpisodeUuidsInQueue()
+    }
+
     func clearUpNext() {
         PlaybackManager.shared.queue.clearUpNextList()
     }
@@ -235,10 +239,11 @@ class WatchSourceViewModel: PlaySourceViewModel {
     }
 
     func nowPlayingTitle(forEpisode episode: BaseEpisode) -> String? {
+        let chapters = PlaybackManager.shared.currentChapters()
         guard
-            let chapter = PlaybackManager.shared.currentChapter(),
+            let chapter = chapters.visibleChapter,
             PlaybackManager.shared.chapterCount() != 0,
-            !chapter.title.isEmpty
+            !chapters.title.isEmpty
         else {
             return episode.displayableTitle()
         }

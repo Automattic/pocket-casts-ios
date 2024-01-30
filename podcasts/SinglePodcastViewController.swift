@@ -73,7 +73,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
-            self?.podcast = discoverPodcast.first ?? nil
+            self?.podcast = discoverPodcast.first
             self?.featuredDescription = podcastList?.description
             DispatchQueue.main.async {
                 self?.populate()

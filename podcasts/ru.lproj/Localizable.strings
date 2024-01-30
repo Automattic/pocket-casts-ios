@@ -35,6 +35,8 @@
     <string>Отключено</string>
     <key>accessibility_dismiss</key>
     <string>Закрыть</string>
+    <key>accessibility_episode_playback</key>
+    <string>Воспроизведение выпуска</string>
     <key>accessibility_hide_filter_details</key>
     <string>Нажмите, чтобы скрыть сведения о фильтре</string>
     <key>accessibility_hint_star</key>
@@ -43,8 +45,12 @@
     <string>Дважды нажмите, чтобы исключить выпуск из избранного</string>
     <key>accessibility_more_actions</key>
     <string>Другие действия</string>
+    <key>accessibility_patron_only</key>
+    <string>Заблокировано, функция Patron</string>
     <key>accessibility_percent_complete_format</key>
     <string>Выполнено %1$@ процентов</string>
+    <key>accessibility_playback_progress</key>
+    <string>%1$@ из %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Скорость воспроизведения %1$@х</string>
     <key>accessibility_playlist_color</key>
@@ -61,6 +67,8 @@
     <string>Нажмите для просмотра или настройки учетной записи</string>
     <key>accessibility_sort_and_options</key>
     <string>Сортировка и опции</string>
+    <key>account</key>
+    <string>Учётная запись</string>
     <key>account_change_email</key>
     <string>Изменить адрес электронной почты</string>
     <key>account_completion_nudge</key>
@@ -125,10 +133,24 @@
     <string>Добро пожаловать в Pocket Casts!</string>
     <key>account_welcome_plus</key>
     <string>Добро пожаловать в Pocket Casts Plus!</string>
+    <key>add_bookmark</key>
+    <string>Добавить закладку</string>
+    <key>add_bookmark_subtitle</key>
+    <string>Добавьте название, чтобы отличать эту закладку от других</string>
     <key>add_to_up_next</key>
     <string>Добавить в «Следующие»</string>
     <key>after_playing</key>
     <string>После прослушивания</string>
+    <key>announcement_autoplay_description</key>
+    <string>Если в очереди «Следующие» ничего нет, после выпуска, который вы слушаете, автоматически запустится другой из этого шоу или списка.</string>
+    <key>announcement_autoplay_title</key>
+    <string>А вот и автовоспроизведение!</string>
+    <key>announcement_bookmarks_description</key>
+    <string>Теперь вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
+    <key>announcement_bookmarks_title</key>
+    <string>Закладки уже готовы!</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>Примите участие в бета-тестировании закладок!</string>
     <key>app_badge</key>
     <string>Значок приложения</string>
     <key>app_icon_classic</key>
@@ -145,6 +167,14 @@
     <string>Хэллоуин</string>
     <key>app_icon_indigo</key>
     <string>Indigo</string>
+    <key>app_icon_patron_chrome</key>
+    <string>Patron: хромированный</string>
+    <key>app_icon_patron_dark</key>
+    <string>Patron: темный</string>
+    <key>app_icon_patron_glow</key>
+    <string>Patron: сияющий</string>
+    <key>app_icon_patron_round</key>
+    <string>Patron: круглый</string>
     <key>app_icon_plus</key>
     <string>Plus</string>
     <key>app_icon_pocket_cats</key>
@@ -215,6 +245,38 @@
     <string>Первый</string>
     <key>back</key>
     <string>Назад</string>
+    <key>beta_purchase_disabled</key>
+    <string>Загрузите Pocket Casts из App Store, чтобы приобрести %1$@.</string>
+    <key>beta_thank_you</key>
+    <string>Благодарим за участие в бета-тестировании!</string>
+    <key>bookmark_added</key>
+    <string>Закладка добавлена</string>
+    <key>bookmark_added_button_title</key>
+    <string>Просмотреть</string>
+    <key>bookmark_added_notification</key>
+    <string>Закладка «%1$@» добавлена</string>
+    <key>bookmark_default_title</key>
+    <string>Закладка</string>
+    <key>bookmark_delete_warning_body</key>
+    <string>Точно удалить эти закладки? Это действие нельзя отменить.</string>
+    <key>bookmark_delete_warning_title</key>
+    <string>Удалить закладки?</string>
+    <key>bookmark_search_no_results_message</key>
+    <string>Не удалось найти закладки по этому запросу.</string>
+    <key>bookmark_search_no_results_title</key>
+    <string>Закладки не найдены</string>
+    <key>bookmark_updated_notification</key>
+    <string>Закладка «%1$@» обновлена</string>
+    <key>bookmarks</key>
+    <string>Закладки</string>
+    <key>bookmarks_count_plural</key>
+    <string>Закладки: %1$@</string>
+    <key>bookmarks_count_singular</key>
+    <string>1 закладка</string>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов. Скоро станет доступно для подписчиков %2$@.</string>
+    <key>bookmarks_locked_message</key>
+    <string>Разблокируйте эту и многие другие функции с Pocket Casts %1$@ и сохраняйте отметки времени для понравившихся вам эпизодов.</string>
     <key>bottom</key>
     <string>Низ</string>
     <key>bulk_download_max_format</key>
@@ -249,6 +311,12 @@
     <string>Скорость воспроизведения</string>
     <key>carplay_up_next_queue</key>
     <string>Очередь «Следующие»</string>
+    <key>change_app_icon</key>
+    <string>Изменить значок приложения</string>
+    <key>change_bookmark_subtitle</key>
+    <string>Измените название этой закладки</string>
+    <key>change_bookmark_title</key>
+    <string>Изменение названия</string>
     <key>change_email</key>
     <string>Изменить электронный адрес</string>
     <key>change_email_conf</key>
@@ -285,6 +353,8 @@
     <string>Очистить</string>
     <key>clear</key>
     <string>Очистить</string>
+    <key>clear_search</key>
+    <string>Очистить поле поиска</string>
     <key>clear_up_next</key>
     <string>Очистить «Следующие»</string>
     <key>clear_up_next_message</key>
@@ -299,6 +369,8 @@
     <string>Подтвердите новый пароль</string>
     <key>continue</key>
     <string>Продолжить</string>
+    <key>copy</key>
+    <string>Копирование</string>
     <key>create_account</key>
     <string>Создать учётную запись</string>
     <key>create_account_app_store_error_message</key>
@@ -359,6 +431,10 @@
     <string>ОЧИСТИТЬ ВСЕ</string>
     <key>discover</key>
     <string>Найти</string>
+    <key>discover_all_episodes</key>
+    <string>Все выпуски</string>
+    <key>discover_all_podcasts</key>
+    <string>Все подкасты</string>
     <key>discover_browse_by_category</key>
     <string>Искать в категории</string>
     <key>discover_browse_by_category_art</key>
@@ -369,6 +445,8 @@
     <string>Комедия</string>
     <key>discover_browse_by_category_education</key>
     <string>Образование</string>
+    <key>discover_browse_by_category_family</key>
+    <string>Семья</string>
     <key>discover_browse_by_category_fiction</key>
     <string>Художественная литература</string>
     <key>discover_browse_by_category_games_and_hobbies</key>
@@ -403,6 +481,8 @@
     <string>Общество</string>
     <key>discover_browse_by_category_society_and_culture</key>
     <string>Общество и культура</string>
+    <key>discover_browse_by_category_spirituality</key>
+    <string>Духовность</string>
     <key>discover_browse_by_category_sports</key>
     <string>Спорт</string>
     <key>discover_browse_by_category_sports_and_recreation</key>
@@ -415,6 +495,8 @@
     <string>ТВ и фильмы</string>
     <key>discover_change_region</key>
     <string>Измените регион, сейчас %1$@</string>
+    <key>discover_episode_fail_to_load</key>
+    <string>Не удалось загрузить выпуск</string>
     <key>discover_featured</key>
     <string>Рекомендуется</string>
     <key>discover_featured_episode</key>
@@ -423,6 +505,8 @@
     <string>Запрошенный подкаст или выпуск не найден. Проверьте интернет-соединение и повторите попытку.</string>
     <key>discover_fresh_pick</key>
     <string>НОВИНКА</string>
+    <key>discover_no_episodes_found</key>
+    <string>Выпуски не найдены</string>
     <key>discover_no_podcasts_found</key>
     <string>Подкасты не найдены</string>
     <key>discover_no_podcasts_found_msg</key>
@@ -579,22 +663,33 @@
     <string>Остановить все скачивания</string>
     <key>edit</key>
     <string>Править</string>
+    <key>enable_it_now</key>
+    <string>Включить</string>
     <key>eoy_card_description</key>
-    <string>Просмотрите свой топ подкастов и рубрик, статистику прослушивания и другие показатели.</string>
+    <string>Просмотрите свой топ подкастов, статистику прослушивания и другие показатели.</string>
     <key>eoy_create_account_to_see</key>
     <string>Сохраняйте свои подкасты в облаке, получайте отчёт за год и синхронизируйте данные о прослушивании с другими устройствами.</string>
     <key>eoy_description</key>
     <string>Просмотрите свой топ подкастов и рубрик, статистику прослушивания и другие показатели. Поделитесь ими с друзьями и поблагодарите любимых подкастеров.</string>
     <key>eoy_not_now</key>
     <string>Не сейчас</string>
+    <key>eoy_share</key>
+    <string>Поделитесь этим</string>
+    <key>eoy_share_this_story_message</key>
+    <string>Разместите это изображение в социальных сетях, чтобы рассказать о своих любимых шоу и авторах.</string>
+    <key>eoy_share_this_story_title</key>
+    <string>Поделиться этой историей?</string>
     <key>eoy_small_title</key>
     <string>Год в подкастах</string>
+    <key>eoy_start_your_free_trial</key>
+    <string>Начните пробный период</string>
     <key>eoy_stories_failed</key>
     <string>Не удалось загрузить истории.</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>Не забудьте поделиться с друзьями и рассказать о любимых подкастерах</string>
     <key>eoy_story_epilogue_title</key>
-    <string>Благодарим за использование Pocket Casts в 2022 году</string>
+    <string>Благодарим за то, что вы слушали вместе с нами в этом году.
+До встречи в 2024 году!</string>
     <key>eoy_story_intro_title</key>
     <string>Давайте отметим ваш год прослушиваний...</string>
     <key>eoy_story_listened_to</key>
@@ -604,7 +699,7 @@
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>Вы прослушали %1$@ в этом году</string>
     <key>eoy_story_listened_to_categories_share_text</key>
-    <string>Я выбрал (-а) %1$@ рубрик (-и) в 2022 году</string>
+    <string>Я выбрал(а) %1$@ рубрик(и) в 2023 году</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>Взглянем на самые популярные...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -612,60 +707,99 @@
     <key>eoy_story_listened_to_episodes_text</key>
     <string>Выпусков: %1$@</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>Вы слушали %1$@ подкастов (-а) и %2$@ выпусков (-а)</string>
+    <string>Вы слушали %1$@ шоу и %2$@ выпусков</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>Я прослушал (-а) %1$@ подкастов (-а) и %2$@ выпусков (-а) в 2022 году</string>
+    <string>Я прослушал(а) %1$@ подкастов(а) и %2$@ выпусков(а) в этом году</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>Но к одному подкасту вы всегда возвращались...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>Но был один выпуск,
-который вы прослушивали снова и снова…</string>
+    <string>Но было одно шоу, которое вы слушали снова и снова…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>Вы слушали %1$@ и %2$@</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>Различных подкастов: %1$@</string>
     <key>eoy_story_listened_to_share_text</key>
-    <string>У меня ушло %1$@ на прослушивание подкастов в 2022 году</string>
+    <string>В этом году я провел(а) %1$@, слушая подкасты</string>
+    <key>eoy_story_listened_to_subtitle</key>
+    <string>Надеемся, что вам понравилось всё с начала до конца!</string>
+    <key>eoy_story_listened_to_title</key>
+    <string>Это ваше общее время прослушивания подкастов</string>
     <key>eoy_story_listened_to_updated</key>
     <string>В этом году вы провели %1$@, слушая подкасты</string>
     <key>eoy_story_longest_episode</key>
-    <string>Самым длинным выпуском, который вы слушали, был эпизод %1$@ подкаста %2$@</string>
+    <string>Самым длинным выпуском, который вы слушали, стал %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>Этот выпуск длился %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
-    <string>Самый продолжительный выпуск, прослушанный мною в 2022 году: %1$@</string>
+    <string>Самый продолжительный выпуск, прослушанный мною в этом году: %1$@</string>
     <key>eoy_story_longest_episode_subtitle</key>
-    <string>Этот выпуск был %1$@ от %2$@</string>
+    <string>И это не что иное, как «%1$@» из подкаста «%2$@»</string>
     <key>eoy_story_longest_episode_time</key>
     <string>Самый длинный выпуск,
 прослушанный вами:
 %1$@</string>
     <key>eoy_story_replay</key>
-    <string>Повторить</string>
+    <string>Прослушать ещё раз</string>
     <key>eoy_story_top_categories</key>
     <string>Ваши любимые рубрики</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>Рубрики подкастов, которые я слушаю чаще всего</string>
+    <key>eoy_story_top_categories_subtitle</key>
+    <string>Вы прослушали %1$@ выпусков(а) общей продолжительностью %2$@</string>
+    <key>eoy_story_top_categories_title</key>
+    <string>Знаете ли вы, что вашей любимой рубрикой оказалась %1$@?</string>
     <key>eoy_story_top_podcast</key>
-    <string>Ваш любимый подкаст — %1$@ (автор: %2$@)</string>
+    <string>Шоу %1$@ набрало больше всего прослушиваний в 2023 году</string>
     <key>eoy_story_top_podcast_share_text</key>
-    <string>Мой любимый подкаст в 2022 году! %1$@</string>
+    <string>Мой любимый подкаст в этом году! %1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>Вы прослушали %1$@ выпусков (-а) общей продолжительностью %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>Ваши любимые подкасты</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>Мои любимые подкасты в 2022 году</string>
+    <string>Мои любимые подкасты этого года!</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>Мои любимые подкасты этого года! %1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>Эти 5 эпизодов вы слушали чаще всего в 2023 г.</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>А ещё вы были на высоте в этих шоу!</string>
+    <key>eoy_subscribe_to_plus</key>
+    <string>Оформите подписку Plus и узнайте, как изменились ваши слушательские привычки по сравнению с 2022 годом, посмотрите другую любопытную статистику и ознакомьтесь с такими функциями тарифного плана Premium, как закладки и папки.</string>
+    <key>eoy_theres_more</key>
+    <string>Есть и многое другое!</string>
     <key>eoy_title</key>
     <string>Ваш год в подкастах</string>
     <key>eoy_view_year</key>
-    <string>Вспомнить 2022</string>
+    <string>Моя статистика за 2023 год</string>
+    <key>eoy_year_completion_rate</key>
+    <string>процент завершения</string>
+    <key>eoy_year_completion_rate_share_text</key>
+    <string>Мои итоги 2023 года</string>
+    <key>eoy_year_completion_rate_subtitle</key>
+    <string>Из %1$@ запущенных выпусков всего вы дослушали до конца %2$@</string>
+    <key>eoy_year_completion_rate_title</key>
+    <string>Ваш процент завершения в этом году равен %1$@</string>
+    <key>eoy_year_over_share_text</key>
+    <string>Время прослушивания в 2023 году по сравнению с 2022 годом</string>
+    <key>eoy_year_over_year_subtitle_flat</key>
+    <string>Говорят, постоянство — ключ к успеху… или что-то в этом роде!</string>
+    <key>eoy_year_over_year_subtitle_went_down</key>
+    <string>И… как, вам хватает времени на всё остальное?</string>
+    <key>eoy_year_over_year_subtitle_went_up</key>
+    <string>Готовы превзойти свой рекорд в 2024 году?</string>
+    <key>eoy_year_over_year_title_flat</key>
+    <string>Вы посвятили прослушиванию примерно столько же времени, сколько и в 2022 году.</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>По сравнению с 2022 г. вы посвятили прослушиванию намного больше времени!</string>
+    <key>eoy_year_over_year_title_went_down</key>
+    <string>По сравнению с 2022 годом вы стали слушать немного меньше.</string>
+    <key>eoy_year_over_year_title_went_up</key>
+    <string>По сравнению с 2022 годом ваше время прослушивания возросло сразу на %1$@%</string>
     <key>episode</key>
     <string>Выпуск</string>
     <key>episode_count_plural_format</key>
     <string>Выпусков: %1$@</string>
+    <key>episode_details_title</key>
+    <string>Детали</string>
     <key>episode_filter_by_duration_label</key>
     <string>Фильтровать по длительности</string>
     <key>episode_filter_no_episodes_msg</key>
@@ -688,12 +822,16 @@
     <string>Ошибка</string>
     <key>error_general_podcast_not_found</key>
     <string>Не удается найти подкаст. Свяжитесь с автором подкаста.</string>
+    <key>export_database</key>
+    <string>Экспортировать базу данных</string>
     <key>export_podcasts_description</key>
     <string>Экспортирует все ваши подкасты в файл OPML, который можно импортировать в другие приложения для подкастов.</string>
     <key>export_podcasts_option</key>
     <string>Экспорт подкастов</string>
     <key>export_podcasts_title</key>
     <string>ЭКСПОРТ</string>
+    <key>exporting_database</key>
+    <string>Экспорт базы данных…</string>
     <key>feature_tour_end_tour</key>
     <string>Завершить ознакомительный тур</string>
     <key>feature_tour_new</key>
@@ -1043,6 +1181,8 @@
     <string>Отметить прослушанным</string>
     <key>mark_unplayed_short</key>
     <string>Отметить как непрослушанный</string>
+    <key>maybe_later</key>
+    <string>Возможно, позже</string>
     <key>mini_player_close</key>
     <string>Закрыть и очистить очередь</string>
     <key>minute_listened</key>
@@ -1129,6 +1269,12 @@
     <string>Следующий выпуск</string>
     <key>next_payment_format</key>
     <string>Следующий платеж: %1$@</string>
+    <key>no_bookmarks_button_title</key>
+    <string>Настройки наушников</string>
+    <key>no_bookmarks_message</key>
+    <string>Вы можете сохранять отметки времени выпусков, используя меню действий проигрывателя или настроив действие с наушниками.</string>
+    <key>no_bookmarks_title</key>
+    <string>Пока нет закладок</string>
     <key>none</key>
     <string>Пусто</string>
     <key>not_on_wifi</key>
@@ -1190,6 +1336,34 @@
     <string>Лента только для спонсоров</string>
     <key>paid_podcast_unsubscribe_msg</key>
     <string>При отмене подписки на все эти подкасты все скачанные файлы будут удалены, продолжить?</string>
+    <key>patron</key>
+    <string>Patron</string>
+    <key>patron_callout</key>
+    <string>Нравится то, что мы делаем, и хочется нас поддержать?</string>
+    <key>patron_description</key>
+    <string>Станьте пользователем Patron в Pocket Casts и помогите нам развивать лучшую платформу для подкастов.</string>
+    <key>patron_feature_early_access</key>
+    <string>Ранний доступ к новым возможностям</string>
+    <key>patron_feature_everything_in_plus</key>
+    <string>Все возможности Plus</string>
+    <key>patron_feature_profile_badge</key>
+    <string>Значок профиля для спонсоров</string>
+    <key>patron_feature_profile_icons</key>
+    <string>Специальные значки приложения Pocket Casts</string>
+    <key>patron_purchase_promo_title</key>
+    <string>Станьте пользователем Patron и получите доступ ко всем возможностям Pocket Casts</string>
+    <key>patron_subscribe_to</key>
+    <string>Подписаться на Patron</string>
+    <key>patron_thank_you</key>
+    <string>Спасибо за вашу поддержку!</string>
+    <key>patron_unlock_instructions</key>
+    <string>Удерживайте кнопку разблокировки, чтобы получить токены как знак нашей благодарности.</string>
+    <key>patron_unlock_release</key>
+    <string>Отпустите, чтобы разблокировать</string>
+    <key>patron_unlock_word</key>
+    <string>разблокировать</string>
+    <key>patron_unlocking</key>
+    <string>Разблокировка</string>
     <key>pause</key>
     <string>Пауза</string>
     <key>phone</key>
@@ -1264,6 +1438,8 @@
     <string>Селектор маршрута</string>
     <key>player_share_header</key>
     <string>ПОДЕЛИТЬСЯ ССЫЛКОЙ С</string>
+    <key>player_show_notes_title</key>
+    <string>Сведения</string>
     <key>player_user_episode_download_error</key>
     <string>Ошибка скачивания</string>
     <key>player_user_episode_playback_error</key>
@@ -1292,31 +1468,16 @@
     <string>Спасибо за вашу поддержку, но, к сожалению, это означает, что вы не можете участвовать в этой акции.</string>
     <key>plus_expiration_format</key>
     <string>Истекает %1$@</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>Облачное хранилище</string>
+    <key>plus_feature_gratitude</key>
+    <string>Бесконечная благодарность от всей команды Pocket Casts</string>
     <key>plus_feature_themes_icons</key>
     <string>Дополнительные темы и значки приложения</string>
-    <key>plus_feature_watch_app</key>
-    <string>Автономное воспроизведение в Watch</string>
-    <key>plus_feature_web_player</key>
-    <string>Веб-плеер</string>
     <key>plus_features</key>
     <string>ФУНКЦИИ PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Бесплатно %1$@</string>
     <key>plus_lifetime_membership</key>
     <string>Пожизненное членство</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>Ускорьте свои лекции. Быстро прослушивайте другое содержимое. Станьте диджеем собственного подкаста.</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>Облачное хранилище</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>С нашими приложениями для Windows, macOS и веб-клиентами вы сможете слушать свои подкасты в самых разных местах.</string>
-    <key>plus_marketing_desktop_apps_title</key>
-    <string>Приложения для настольных систем</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>Настало время заняться подкастами?
-Установите приложения для настольных компьютеров, используйте собственные файлы и добавьте свежести с помощью новых тем, которые доступны только участникам программы plus.</string>
     <key>plus_marketing_folders_description</key>
     <string>Создавайте папки для подкастов, чтобы навести порядок в своей коллекции.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1327,12 +1488,8 @@
     <string>Подробнее о Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>Личное пространство в открытом мире. Загрузите свои личные аудиофайлы на наши облачные серверы, зайдите в свою учетную запись через веб-плеер и пользуйтесь приложением.</string>
-    <key>plus_marketing_main_title</key>
-    <string>Расширенные возможности для продвинутых слушателей</string>
     <key>plus_marketing_subtitle</key>
     <string>Получите доступ к эксклюзивным функциям и опциям настройки</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>Покажите себя во всей красе. Эксклюзивные темы и значки только для членов клуба Plus.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Темы и значки</string>
     <key>plus_marketing_title</key>
@@ -1343,12 +1500,6 @@
     <string>Слушайте подкасты везде: в приложениях для Windows и macOS и веб-приложении.</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Распределите подкасты по папкам и синхронизируйте их на всех устройствах.</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>Перейти на Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>Оставьте свой телефон и отправляйтесь на пробежку, не пропустив ни одного такта. Apple Watch в автономном режиме.</string>
-    <key>plus_marketing_watch_playback_title</key>
-    <string>Воспроизведение в Watch</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ в месяц</string>
     <key>plus_payment_canceled</key>
@@ -1375,6 +1526,14 @@
     <string>Для работы этой функции требуется Pocket Casts Plus</string>
     <key>plus_select_payment_frequency</key>
     <string>Выбрать срок оплаты</string>
+    <key>plus_skip</key>
+    <string>Пропустить</string>
+    <key>plus_start_my_free_trial</key>
+    <string>Начать бесплатный пробный период</string>
+    <key>plus_start_trial_duration_price</key>
+    <string>Попробуйте в течение %1$@, затем %2$@</string>
+    <key>plus_subscribe_to</key>
+    <string>Подписаться на Plus</string>
     <key>plus_subscription_apple</key>
     <string>Ваша подписка управляется магазином Apple App Store</string>
     <key>plus_subscription_apple_details</key>
@@ -1671,10 +1830,16 @@
     <string>Удалить из следующих</string>
     <key>remove_up_next</key>
     <string>Удалить следующие</string>
+    <key>renew_subscription</key>
+    <string>Продлить подписку</string>
     <key>retry</key>
     <string>Повторить попытку</string>
+    <key>save_bookmark</key>
+    <string>Сохранить закладку</string>
     <key>search</key>
     <string>Поиск</string>
+    <key>search_label</key>
+    <string>Ищите подкасты или добавляйте URL-адрес RSS</string>
     <key>search_podcasts</key>
     <string>Поиск подкастов</string>
     <key>search_recent</key>
@@ -1697,6 +1862,8 @@
     <string>Выбрать все выше</string>
     <key>select_all_below</key>
     <string>Выбрать все ниже</string>
+    <key>select_bookmarks</key>
+    <string>Выбрать закладки</string>
     <key>select_episodes</key>
     <string>Выбрать выпуски</string>
     <key>selected_count_format</key>
@@ -1821,10 +1988,16 @@
     <string>Новые выпуски с момента открытия</string>
     <key>settings_badge_total_unplayed</key>
     <string>Всего не прослушано</string>
+    <key>settings_bookmark_confirmation_sound</key>
+    <string>Звук добавления в закладки</string>
+    <key>settings_bookmark_sound_footer</key>
+    <string>Звук подтверждения при создании закладки с помощью наушников.</string>
     <key>settings_collect_information</key>
     <string>Сбор информации</string>
     <key>settings_collect_information_additional_information</key>
     <string>Разрешая собирать аналитические данные, вы помогаете нам улучшать приложение. Мы поймём, если вы решите не предоставлять эту информацию.</string>
+    <key>settings_connection_status</key>
+    <string>Состояние подключения</string>
     <key>settings_create_siri_shortcut</key>
     <string>Создать шорткат Siri</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -1899,6 +2072,10 @@
     <string>Хотите заменить все существующие подкасты на %1$@ архивированных выпусков?</string>
     <key>settings_general_auto_open_player</key>
     <string>Открывать плеер автоматически</string>
+    <key>settings_general_autoplay</key>
+    <string>Автовоспроизведение</string>
+    <key>settings_general_autoplay_subtitle</key>
+    <string>Если в очереди «Следующие» ничего нет, запустится другой выпуск из подкаста или списка, который вы слушаете.</string>
     <key>settings_general_defaults_header</key>
     <string>ПО УМОЛЧАНИЮ</string>
     <key>settings_general_episode_groups</key>
@@ -1955,6 +2132,10 @@
     <string>При нажатии на выпуск в списке «Следующие» начнется его воспроизведение. При долгом нажатии появятся настройки выпуска. Выключите, чтобы поменять действия местами.</string>
     <key>settings_global_settings</key>
     <string>Глобальные настройки</string>
+    <key>settings_headphone_controls</key>
+    <string>Элементы управления наушников</string>
+    <key>settings_headphone_controls_footer</key>
+    <string>Настройте действия для основных элементов управления наушников.</string>
     <key>settings_help</key>
     <string>Помощь и отзывы</string>
     <key>settings_import_export</key>
@@ -1967,6 +2148,8 @@
     <string>В МЕНЮ</string>
     <key>settings_inactive_episodes_msg</key>
     <string>Неактивные выпуски — это выпуски, которые вы не прослушивали и не скачивали в течение указанного выше времени. При архивировании выпуска скачивания удаляются.</string>
+    <key>settings_next_action</key>
+    <string>Следующее действие</string>
     <key>settings_not_in_filters</key>
     <string>Не включен ни в один фильтр</string>
     <key>settings_notifications</key>
@@ -1981,6 +2164,8 @@
     <string>Скорость воспроизведения</string>
     <key>settings_plus_pricing_format</key>
     <string>%1$@ в месяц/%2$@ в год</string>
+    <key>settings_previous_action</key>
+    <string>Предыдущее действие</string>
     <key>settings_privacy</key>
     <string>Политика конфиденциальности</string>
     <key>settings_queue_position</key>
@@ -2019,6 +2204,36 @@
     <string>Пропускайте вступительную и заключительную музыку как умудренный опытом слушатель.</string>
     <key>settings_stats</key>
     <string>Статистика</string>
+    <key>settings_status_account_service</key>
+    <string>Сервис учётной записи</string>
+    <key>settings_status_account_service_description</key>
+    <string>Этот сервис используется для хранения информации о состоянии прослушивания выпусков, подписках, фильтрах и т. д.</string>
+    <key>settings_status_description</key>
+    <string>Проверьте подключение к важным службам. Это помогает диагностировать проблемы с сетью, прокси-серверами, VPN, приложениями для блокировки рекламы и безопасности.</string>
+    <key>settings_status_discover</key>
+    <string>Поиск</string>
+    <key>settings_status_discover_description</key>
+    <string>Поисковый раздел приложения, включая поиск подкастов.</string>
+    <key>settings_status_host</key>
+    <string>Распространённые хостинги подкастов</string>
+    <key>settings_status_host_description</key>
+    <string>Авторы подкастов размещают файлы выпусков у различных хостинг-провайдеров, которые не контролируются Pocket Casts.</string>
+    <key>settings_status_host_failure_message</key>
+    <string>Чаще всего это связано с тем, что на вашем телефоне или в сети настроен блокировщик рекламы. Для скачивания подкастов вам потребуется разблокировать этот домен. Обратите внимание, что Pocket Casts не размещает подкасты на своих серверах и не выбирает место их размещения. Этим занимаются авторы программ, и мы не можем это контролировать.</string>
+    <key>settings_status_internet</key>
+    <string>Интернет</string>
+    <key>settings_status_internet_description</key>
+    <string>Проверьте статус своей сети.</string>
+    <key>settings_status_internet_failure_message</key>
+    <string>Не удаётся подключиться к Интернету. Попробуйте подключиться через другую сеть (например, мобильную).</string>
+    <key>settings_status_refresh_service</key>
+    <string>Сервис обновления</string>
+    <key>settings_status_refresh_service_description</key>
+    <string>Этот сервис используется для поиска новых выпусков.</string>
+    <key>settings_status_run</key>
+    <string>Запустить сейчас</string>
+    <key>settings_status_service_ad_blocker_help_singular</key>
+    <string>Чаще всего это связано с тем, что на вашем телефоне или в сети настроен блокировщик рекламы. Вам потребуется разблокировать домен %1$@</string>
     <key>settings_storage</key>
     <string>Использование хранилища и данных</string>
     <key>settings_storage_data_warning</key>
@@ -2035,6 +2250,10 @@
     <string>Громкость в паузах</string>
     <key>settings_trim_silence</key>
     <string>Удалить паузы</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>При включённом параметре Up Next будет всегда использовать тёмную тему, а при выключенном — соответствовать текущей теме.</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>Использовать тёмную тему Up Next</string>
     <key>settings_up_next_limit</key>
     <string>Автоматически добавлять новые выпуски в список «Следующие». Новые выпуски перестанут добавляться, когда размер очереди «Следующие» достигнет %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>
@@ -2185,12 +2404,16 @@
     <string>Приоритет сортировки</string>
     <key>sort_episodes</key>
     <string>Упорядочить выпуски</string>
+    <key>sort_option_timestamp</key>
+    <string>Отметка времени</string>
     <key>speed</key>
     <string>Скорость</string>
     <key>star_episode</key>
     <string>Включить выпуск в избранное </string>
     <key>star_episode_short</key>
     <string>Отметить</string>
+    <key>start_free_trial</key>
+    <string>Запустить бесплатную пробную версию</string>
     <key>stats_accessibility_listen_history_format</key>
     <string>Вы слушали %1$@. %2$@</string>
     <key>stats_auto_skip</key>
@@ -2245,8 +2468,18 @@
     <string>Подписка аннулирована</string>
     <key>subscription_cancelled_msg</key>
     <string>Подписка завершается %1$@ </string>
+    <key>subscription_expires_in</key>
+    <string>Срок действия истекает %1$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
+    <key>support_watch_help_message</key>
+    <string>Если у вас возникли проблемы с приложением Pocket Casts для часов, мы можем отправить журналы с носимого устройства, чтобы помочь вам. Для этого откройте Pocket Casts на часах.</string>
+    <key>support_watch_help_opened_app</key>
+    <string>Я открыл (-а) приложение для часов</string>
+    <key>support_watch_help_send_without_log</key>
+    <string>Отправить без журналов часов</string>
+    <key>support_watch_help_title</key>
+    <string>Нужна помощь с приложением для часов?</string>
     <key>supporter</key>
     <string>Спонсор</string>
     <key>supporter_contributions</key>
@@ -2307,6 +2540,8 @@
     <string>Удалить паузы</string>
     <key>try_again</key>
     <string>Попробуйте еще раз.</string>
+    <key>try_it_now</key>
+    <string>Попробовать</string>
     <key>unarchive</key>
     <string>Из&amp;nbsp;архива</string>
     <key>unknown_duration</key>
@@ -2323,6 +2558,10 @@
     <string>Вы можете поместить выпуски в очередь для последующего воспроизведения, проведя пальцем вправо по строкам выпусков или коснувшись значка на карточке выпуска.</string>
     <key>up_next_empty_title</key>
     <string>Очередь пуста</string>
+    <key>upgrade_account</key>
+    <string>Перейти на платный план</string>
+    <key>upgrade_to_plan</key>
+    <string>Обновить до %1$@</string>
     <key>upload_sort_alpha</key>
     <string>По названию (A-Z)</string>
     <key>volume_boost</key>

@@ -8,9 +8,11 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
     // Keep track of our internal state, and pass this to our view
     @Published var state: PurchaseState = .ready
 
-    private var purchasedProduct: Constants.IapProducts?
+    private var purchasedProduct: IAPProductID?
 
-    override init(purchaseHandler: IapHelper = .shared) {
+    var plan: Plan = .plus
+
+    override init(purchaseHandler: IAPHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
         addPaymentObservers()
@@ -31,9 +33,18 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
         }
     }
 
+    func reset() {
+        state = .ready
+    }
+
     // MARK: - Triggers the purchase process
-    func purchase(product: Constants.IapProducts) {
-        guard purchaseHandler.buyProduct(identifier: product.rawValue) else {
+    func purchase(product: IAPProductID) {
+        guard purchaseHandler.canMakePurchases else {
+            showPurchaseDisabledAlert(product: product)
+            return
+        }
+
+        guard purchaseHandler.buyProduct(identifier: product) else {
             handlePurchaseFailed(error: nil)
             return
         }
@@ -42,6 +53,23 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
         purchasedProduct = product
         state = .purchasing
+    }
+
+    func showPurchaseDisabledAlert(product: IAPProductID) {
+        guard let presentingViewController = parentController ?? SceneHelper.rootViewController() else {
+            return
+        }
+
+        let displayName = product.subscriptionTier.displayName
+
+        let alert = UIAlertController(title: L10n.betaThankYou,
+                                      message: L10n.betaPurchaseDisabled(displayName),
+                                      preferredStyle: .alert)
+
+        alert.addAction(.init(title: L10n.ok, style: .cancel))
+
+        let controller = (presentingViewController.presentedViewController ?? presentingViewController)
+        controller.present(alert, animated: true)
     }
 
     // Our internal state
@@ -56,12 +84,13 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController?) -> UIViewController {
+    static func make(in parentController: UIViewController?, plan: Plan, selectedPrice: PlanFrequency) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
+        viewModel.plan = plan
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
-        let modal = PlusPurchaseModal(coordinator: viewModel).setupDefaultEnvironment()
+        let modal = PlusPurchaseModal(coordinator: viewModel, selectedPrice: selectedPrice).setupDefaultEnvironment()
         let controller = OnboardingModalHostingViewController(rootView: modal, backgroundColor: backgroundColor)
         controller.viewModel = viewModel
 
@@ -111,11 +140,21 @@ private extension PlusPurchaseModel {
     private func handleNext() {
         guard let parentController else { return }
 
-        let navigationController = parentController as? UINavigationController
-        let controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
+        if OnboardingFlow.shared.currentFlow.shouldDismissAfterPurchase {
+            parentController.dismiss(animated: true)
+            return
+        }
 
-        // Dismiss the current flow
-        parentController.dismiss(animated: true, completion: {
+        let navigationController = parentController as? UINavigationController
+
+        let controller: UIViewController
+        if SubscriptionHelper.activeTier == .patron {
+            controller = PatronWelcomeViewModel.make(in: navigationController)
+        } else {
+            controller = WelcomeViewModel.make(in: navigationController, displayType: .plus)
+        }
+
+        let presentNextBlock: () -> Void = {
             guard let navigationController else {
                 // Present the welcome flow
                 parentController.present(controller, animated: true)
@@ -124,7 +163,10 @@ private extension PlusPurchaseModel {
 
             // Reset the nav flow to only show the welcome controller
             navigationController.setViewControllers([controller], animated: true)
-        })
+        }
+
+        // Dismiss the current flow
+        presentNextBlock()
     }
 }
 
@@ -139,6 +181,8 @@ private extension PlusPurchaseModel {
         SubscriptionHelper.setSubscriptionPaid(1)
         SubscriptionHelper.setSubscriptionPlatform(SubscriptionPlatform.iOS.rawValue)
         SubscriptionHelper.setSubscriptionAutoRenewing(true)
+        SubscriptionHelper.setSubscriptionType(SubscriptionType.plus.rawValue)
+        SubscriptionHelper.subscriptionTier = purchasedProduct.subscriptionTier
 
         let currentDate = Date()
         var dateComponent = DateComponents()
@@ -146,11 +190,11 @@ private extension PlusPurchaseModel {
         let frequency: SubscriptionFrequency
         switch purchasedProduct {
 
-        case .yearly:
+        case .yearly, .patronYearly:
             frequency = .yearly
             dateComponent.year = 1
 
-        case .monthly:
+        case .monthly, .patronMonthly:
             dateComponent.month = 1
             frequency = .monthly
         }
@@ -165,7 +209,7 @@ private extension PlusPurchaseModel {
         Settings.setLoginDetailsUpdated()
         AnalyticsHelper.plusPlanPurchased()
 
-        purchaseHandler.purchaseWasSuccessful(purchasedProduct.rawValue)
+        purchaseHandler.purchaseWasSuccessful(purchasedProduct)
 
         handleNext()
     }
@@ -182,14 +226,14 @@ private extension PlusPurchaseModel {
             let error = notification.userInfo?["error"] as? NSError
         else { return }
 
-        purchaseHandler.purchaseWasCancelled(purchasedProduct.rawValue, error: error)
+        purchaseHandler.purchaseWasCancelled(purchasedProduct, error: error)
     }
 
     func handlePurchaseFailed(error: NSError?) {
         defer { state = .failed }
 
         guard let purchasedProduct else { return }
-        purchaseHandler.purchaseFailed(purchasedProduct.rawValue, error: error ?? defaultError)
+        purchaseHandler.purchaseFailed(purchasedProduct, error: error ?? defaultError)
     }
 
     private var defaultError: NSError {

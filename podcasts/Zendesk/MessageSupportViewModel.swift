@@ -1,4 +1,5 @@
 import Combine
+import PocketCastsUtils
 import Foundation
 
 class MessageSupportViewModel: ObservableObject {
@@ -12,6 +13,10 @@ class MessageSupportViewModel: ObservableObject {
             case .failure: return 1
             }
         }
+    }
+
+    public enum MessageSupportFailure: Error {
+        case watchLogMissing
     }
 
     // MARK: Input
@@ -38,6 +43,10 @@ class MessageSupportViewModel: ObservableObject {
 
     let attachedLogsView: SupportLogsView
     let config: ZDConfig
+
+    // MARK: Retry
+
+    private var isRetrying = false
 
     // MARK: Private vars
 
@@ -121,27 +130,43 @@ class MessageSupportViewModel: ObservableObject {
 
     // MARK: Events
 
-    open func submitRequest() {
+    open func submitRequest(ignoreUnavailableWatchLogs: Bool = false) {
         isWorking.toggle()
+
         config.customFields(forDisplay: false, optOut: UserDefaults.standard.debugOptedOut)
             .flatMap { [unowned self] customFields -> AnyPublisher<String, Error> in
-                let requestObject = ZDSupportRequest(subject: self.config.subject,
-                                                     name: self.requesterName,
-                                                     email: self.requesterEmail,
-                                                     comment: self.comment,
-                                                     customFields: customFields,
-                                                     tags: self.config.tags)
 
-                return self.supportService.submitSupportRequest(requestObject)
+                // Check if the user mentioned watch on their issue description and if there
+                // are any Apple Watch logs available.
+                let containsWatch = self.comment.localizedCaseInsensitiveContains(L10n.watch) || self.comment.lowercased().contains("watch")
+                if containsWatch && customFields.first(where: { $0.value.contains(FileLog.noWearableLogsAvailable) }) != nil && !ignoreUnavailableWatchLogs {
+                    return Fail(error: MessageSupportFailure.watchLogMissing).eraseToAnyPublisher()
+                } else {
+                    let requestObject = ZDSupportRequest(subject: self.config.subject,
+                                                         name: self.requesterName,
+                                                         email: self.requesterEmail,
+                                                         comment: self.comment,
+                                                         customFields: customFields,
+                                                         tags: self.config.tags)
+
+                    return self.supportService.submitSupportRequest(requestObject, isRetrying: isRetrying)
+                }
             }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [unowned self] completion in
                 isWorking.toggle()
                 switch completion {
                 case let .failure(error):
-                    self.completion = .failure(error: error)
+                    if self.isRetrying {
+                        self.isRetrying = false
+                        self.completion = .failure(error: error)
+                    } else {
+                        self.isRetrying = true
+                        self.submitRequest(ignoreUnavailableWatchLogs: ignoreUnavailableWatchLogs)
+                    }
                 case .finished:
                     self.completion = .success
+                    self.isRetrying = false
                 }
             }, receiveValue: { _ in })
             .store(in: &cancellables)

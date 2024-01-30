@@ -9,7 +9,6 @@ public class DataManager {
     public static let filtersTableName = "SJFilteredPlaylist"
     public static let playlistEpisodeTableName = "SJPlaylistEpisode"
     public static let upNextChangesTableName = "UpNextChanges"
-    public static let settingsTableName = "UserSetting"
     public static let folderTableName = "Folder"
 
     private let podcastManager = PodcastDataManager()
@@ -18,7 +17,6 @@ public class DataManager {
     private let filterManager = EpisodeFilterDataManager()
     private let episodeManager = EpisodeDataManager()
     private let userEpisodeManager = UserEpisodeDataManager()
-    private let settingsManager = UserSettingsManager()
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
 
@@ -29,16 +27,29 @@ public class DataManager {
 
     public static let sharedManager = DataManager()
 
-    public init() {
+    /// Creates a DataManager using a queue that is persisted to a local SQLIte file
+    public convenience init() {
         DataManager.ensureDbFolderExists()
 
         let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
-        dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
+        let dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
+
+        self.init(dbQueue: dbQueue)
+    }
+
+    /// Creates a DataManager using the given `FMDatabaseQueue`.
+    /// If `shouldCloseQueueAfterSetup` is true, `dbQueue.close()` is called after the schema is created, otherwise the queue is left open.
+    public init(dbQueue: FMDatabaseQueue, shouldCloseQueueAfterSetup: Bool = true) {
+        self.dbQueue = dbQueue
+
         dbQueue.inDatabase { db in
             DatabaseHelper.setup(db: db)
         }
-        // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
-        dbQueue.close()
+
+        if shouldCloseQueueAfterSetup {
+            // "You don't need to close it during the app lifecycle, unless you modify the schema." Since the above method can modify the schema, we do that here as recommended by the author of FMDB
+            dbQueue.close()
+        }
 
         // closing it above won't affect these calls, since they will re-open it
         podcastManager.setup(dbQueue: dbQueue)
@@ -60,6 +71,10 @@ public class DataManager {
         upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue)
     }
 
+    public func upNextPlayListContains(episodeUuid: String) -> Bool {
+        upNextManager.isEpisodePresent(uuid: episodeUuid, dbQueue: dbQueue)
+    }
+
     public func allUpNextEpisodes() -> [BaseEpisode] {
         let allUpNextEpisodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue)
         if allUpNextEpisodes.count == 0 { return [BaseEpisode]() }
@@ -68,14 +83,36 @@ public class DataManager {
         let userEpisodes = userEpisodeManager.allUpNextEpisodes(dbQueue: dbQueue)
 
         // this extra step is to make sure we return the episodes in the order they are in the up next list, which they won't be if there's both Episodes and UserEpisodes in Up Next
-        var convertedEpisodes = [BaseEpisode]()
-        for upNextEpisode in allUpNextEpisodes {
-            guard let episode: BaseEpisode = episodes.first(where: { $0.uuid == upNextEpisode.episodeUuid }) ?? userEpisodes.first(where: { $0.uuid == upNextEpisode.episodeUuid }) else { continue }
+        if userEpisodes.isEmpty {
+            return episodes
+        }
 
-            convertedEpisodes.append(episode)
+        var convertedEpisodes = [BaseEpisode]()
+        var episodeIndex = 0
+        var userEpisodeIndex = 0
+        for upNextEpisode in allUpNextEpisodes {
+            if let episode = episodes[safe: episodeIndex],
+               episode.uuid == upNextEpisode.episodeUuid {
+                convertedEpisodes.append(episode)
+                episodeIndex += 1
+                continue
+            }
+            if let userEpisode = userEpisodes[safe: userEpisodeIndex], userEpisode.uuid == upNextEpisode.episodeUuid {
+                convertedEpisodes.append(userEpisode)
+                userEpisodeIndex += 1
+            }
         }
 
         return convertedEpisodes
+    }
+
+    public func allUpNextEpisodeUuids() -> [BaseEpisode] {
+        upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue).map {
+            let episode = Episode()
+            episode.uuid = $0.episodeUuid
+            episode.hasOnlyUuid = true
+            return episode
+        }
     }
 
     public func findPlaylistEpisode(uuid: String) -> PlaylistEpisode? {
@@ -829,16 +866,6 @@ public class DataManager {
         folderManager.deleteAllFolders(dbQueue: dbQueue)
     }
 
-    // MARK: - User Settings
-
-    public func findSetting(name: String) -> UserSetting? {
-        settingsManager.loadSetting(name: name, dbQueue: dbQueue)
-    }
-
-    public func save(setting: UserSetting) {
-        settingsManager.save(setting: setting, dbQueue: dbQueue)
-    }
-
     // MARK: - Advanced
 
     public func count(query: String, values: [Any]?) -> Int {
@@ -858,7 +885,7 @@ public class DataManager {
 
     // MARK: - Path Related
 
-    private static func pathToDb() -> String {
+    public static func pathToDb() -> String {
         let folderPath = pathToDbFolder() as NSString
 
         return folderPath.appendingPathComponent("podcast_newDB.sqlite3")
@@ -925,8 +952,8 @@ public extension DataManager {
         endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
     }
 
-    func numberOfEpisodesThisYear() -> Int {
-        endOfYearManager.numberOfEpisodes(dbQueue: dbQueue)
+    func numberOfEpisodes(year: Int32) -> Int {
+        endOfYearManager.numberOfEpisodes(year: year, dbQueue: dbQueue)
     }
 
     func listeningTime() -> Double? {
@@ -949,7 +976,15 @@ public extension DataManager {
         endOfYearManager.longestEpisode(dbQueue: dbQueue)
     }
 
-    func episodesThatExist(uuids: [String]) -> [String] {
-        endOfYearManager.episodesThatExist(dbQueue: dbQueue, uuids: uuids)
+    func episodesThatExist(year: Int32, uuids: [String]) -> [String] {
+        endOfYearManager.episodesThatExist(year: year, dbQueue: dbQueue, uuids: uuids)
+    }
+
+    func yearOverYearListeningTime() -> YearOverYearListeningTime {
+        endOfYearManager.yearOverYearListeningTime(dbQueue: dbQueue)
+    }
+
+    func episodesStartedAndCompleted() -> EpisodesStartedAndCompleted {
+        endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
     }
 }

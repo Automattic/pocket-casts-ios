@@ -92,6 +92,8 @@ class SyncTask: ApiBaseTask {
 
                     // If server's folderUuid is `nil` then we don't change
                     if podcast.folderUuid?.isEmpty == false {
+                        FileLog.shared.foldersIssue("SyncTask performHomeGridRefresh: changing \(localPodcast.title ?? "") folder from \(localPodcast.folderUuid ?? "nil") to \(podcast.folderUuid ?? "nil")")
+
                         localPodcast.folderUuid = podcast.folderUuid
                     }
 
@@ -158,6 +160,13 @@ class SyncTask: ApiBaseTask {
         }
         retrieveFiltersTask.runTaskSynchronously()
 
+        // Retrieve all the bookmarks
+        RetrieveBookmarksTask { bookmarks in
+            guard let bookmarks else { return }
+
+            self.processServerBookmarks(bookmarks)
+        }.runTaskSynchronously()
+
         UserDefaults.standard.set(lastSyncDate, forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
 
         status = .successNewData
@@ -207,6 +216,10 @@ class SyncTask: ApiBaseTask {
             DataManager.sharedManager.markAllEpisodeFiltersSynced()
             DataManager.sharedManager.markAllFoldersSynced()
 
+            Task {
+                await dataManager.bookmarks.markAllBookmarksAsSynced()
+            }
+
             let response = try Api_SyncUpdateResponse(serializedData: responseData)
             processServerData(response: response)
 
@@ -231,18 +244,28 @@ class SyncTask: ApiBaseTask {
         var records = [Api_Record]()
         if let podcastChanges = changedPodcasts() {
             records += podcastChanges
+            FileLog.shared.foldersIssue("SyncTask: Number of changed podcasts: \(podcastChanges.count)")
         }
         if let episodeChanges = changedEpisodes(for: episodesToSync) {
             records += episodeChanges
+            FileLog.shared.foldersIssue("SyncTask: Number of changed episodes: \(episodeChanges.count)")
         }
         if let filterChanges = changedFilters() {
             records += filterChanges
+            FileLog.shared.foldersIssue("SyncTask: Number of changed filters: \(filterChanges.count)")
         }
         if let folderChanges = changedFolders() {
             records += folderChanges
+            FileLog.shared.foldersIssue("SyncTask: Number of changed folders: \(folderChanges.count)")
         }
         if let statsChanges = changedStats() {
             records.append(statsChanges)
+            FileLog.shared.foldersIssue("SyncTask: sending stats changes")
+        }
+
+        if let bookmarks = changedBookmarks() {
+            records += bookmarks
+            FileLog.shared.addMessage("SyncTask: Number of changed bookmarks: \(bookmarks.count)")
         }
 
         FileLog.shared.addMessage("SyncTask: sending \(records.count) changed items to the server")

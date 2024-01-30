@@ -7,6 +7,18 @@ class ApiBaseTask: Operation {
     private let isoDateFormatter = ISO8601DateFormatter()
     let apiVersion = "2"
 
+    let dataManager: DataManager
+
+    private let urlConnection: URLConnection
+    private let tokenHelper: TokenHelper
+
+    init(dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
+        self.dataManager = dataManager
+        self.urlConnection = urlConnection
+        self.tokenHelper = TokenHelper(urlConnection: urlConnection)
+        super.init()
+    }
+
     override func main() {
         autoreleasepool {
             runTaskSynchronously()
@@ -16,7 +28,7 @@ class ApiBaseTask: Operation {
     func runTaskSynchronously() {
         if let token = KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
             apiTokenAcquired(token: token)
-        } else if let token = TokenHelper.acquireToken() {
+        } else if let token = tokenHelper.acquireToken() {
             apiTokenAcquired(token: token)
         } else {
             apiTokenAcquisitionFailed()
@@ -29,14 +41,15 @@ class ApiBaseTask: Operation {
 
     private func performPostToServer(url: String, token: String, data: Data, retryOnUnauthorized: Bool = true) -> (Data?, Int) {
         let requestUrl = ServerHelper.asUrl(url)
-        var request = createRequest(url: requestUrl, method: "POST", token: token)
+        let method = "POST"
+        var request = createRequest(url: requestUrl, method: method, token: token)
         do {
             request.httpBody = data
 
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                if retryOnUnauthorized, let newToken = TokenHelper.acquireToken() {
+                if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
                     return performPostToServer(url: url, token: newToken, data: data, retryOnUnauthorized: false)
                 }
 
@@ -47,7 +60,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
+            logFailure(method: method, url: url, error: error)
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
@@ -59,7 +72,8 @@ class ApiBaseTask: Operation {
 
     func performGetToServer(url: String, token: String, retryOnUnauthorized: Bool = true, customHeaders: [String: String]? = nil) -> (Data?, HTTPURLResponse?) {
         let requestUrl = ServerHelper.asUrl(url)
-        var request = createRequest(url: requestUrl, method: "GET", token: token)
+        let method = "GET"
+        var request = createRequest(url: requestUrl, method: method, token: token)
         if let customHeaders = customHeaders {
             for header in customHeaders {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
@@ -67,10 +81,10 @@ class ApiBaseTask: Operation {
         }
 
         do {
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, nil) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                if retryOnUnauthorized, let newToken = TokenHelper.acquireToken() {
+                if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
                     return performGetToServer(url: url, token: newToken, retryOnUnauthorized: false, customHeaders: customHeaders)
                 }
 
@@ -81,7 +95,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse)
         } catch {
-            FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
+            logFailure(method: method, url: url, error: error)
         }
 
         return (nil, nil)
@@ -89,11 +103,12 @@ class ApiBaseTask: Operation {
 
     func deleteToServer(url: String, token: String?, data: Data) -> (Data?, Int) {
         let url = ServerHelper.asUrl(url)
-        var request = createRequest(url: url, method: "DELETE", token: token)
+        let method = "DELETE"
+        var request = createRequest(url: url, method: method, token: token)
         do {
             request.httpBody = data
 
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one
@@ -103,7 +118,7 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse.statusCode)
         } catch {
-            FileLog.shared.addMessage("Failed to post to server \(error.localizedDescription)")
+            logFailure(method: method, url: url.absoluteString, error: error)
         }
 
         return (nil, ServerConstants.HttpConstants.serverError)
@@ -133,4 +148,8 @@ class ApiBaseTask: Operation {
     // for subclasses that talk to the API server to override
     func apiTokenAcquired(token: String) {}
     func apiTokenAcquisitionFailed() { print("\(self) apiTokenAcquisitionFailed") }
+
+    private func logFailure(method: String, url: String, error: Error) {
+        FileLog.shared.addMessage("[\(type(of: self))] Failed to \(method) to server (\(url)) \(error)")
+    }
 }

@@ -17,6 +17,8 @@ struct EventLoggingDataProvider: EventLoggingDataSource {
 extension FileLog: EventLoggingDelegate {
     static let genericErrorMessage = "No log file uploaded: Error generating logs"
 
+    static let noWearableLogsAvailable = "No wearable logs were available"
+
     fileprivate func queueFileUpload(_ filePath: String) throws -> String {
         let logFilePath = URL(fileURLWithPath: filePath)
         let dataProvider = EventLoggingDataProvider(logUploadFile: logFilePath)
@@ -47,7 +49,7 @@ extension FileLog: EventLoggingDelegate {
                     promise(.success(nil))
                     return
                 }
-                let file = self.watchUploadLog
+                let file = LogFilePaths.watchUploadLog
                 do {
                     try wearableLog.write(toFile: file, atomically: true, encoding: String.Encoding.utf8)
                 } catch {
@@ -65,7 +67,7 @@ extension FileLog: EventLoggingDelegate {
         watchLogFileForUpload()
             .tryMap { [unowned self] filePath in
                 guard let filePath = filePath else {
-                    return "No wearable logs were available"
+                    return Self.noWearableLogsAvailable
                 }
 
                 return try self.queueFileUpload(filePath)
@@ -77,7 +79,7 @@ extension FileLog: EventLoggingDelegate {
     // MARK: - EventLoggingDelegate
 
     public var shouldUploadLogFiles: Bool {
-        FileManager.default.fileExists(atPath: debugUploadLog) || FileManager.default.fileExists(atPath: watchUploadLog)
+        FileManager.default.fileExists(atPath: LogFilePaths.debugUploadLog) || FileManager.default.fileExists(atPath: LogFilePaths.watchUploadLog)
     }
 
     public func didFinishUploadingLog(_ log: LogFile) {

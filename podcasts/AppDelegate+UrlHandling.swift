@@ -23,13 +23,12 @@ extension AppDelegate {
 
     func handleOpenUrl(url: URL, rootViewController: UIViewController) -> Bool {
         if url.isFileURL {
-            let extenstion = url.pathExtension
-            let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, extenstion as CFString, nil)
-            guard let type = uti?.takeRetainedValue() else { return false }
+            guard let type = UTType(filenameExtension: url.pathExtension) else { return false }
 
-            let supportedTypes = [kUTTypeXML, "unofficial.opml" as CFString, "public.opml" as CFString]
+            let supportedTypes: [UTType] = [.xml, UTType("public.opml"), UTType("unofficial.opml")].compactMap { $0 }
+
             let isSupported = supportedTypes.contains { supportedType in
-                UTTypeConformsTo(type, supportedType)
+                type.conforms(to: supportedType)
             }
 
             if isSupported {
@@ -40,7 +39,7 @@ extension AppDelegate {
                         PodcastManager.shared.importPodcastsFromOpml(url, progressWindow: progressDialog)
                     }
                 })
-            } else if UTTypeConformsTo(type, kUTTypeAudio) || UTTypeConformsTo(type, kUTTypeMovie) {
+            } else if type.conforms(to: .audio) || type.conforms(to: .movie) {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.uploadedPageKey, data: [NavigationManager.uploadFileKey: url])
             }
         } else {
@@ -151,7 +150,8 @@ extension AppDelegate {
             if prefix.count >= subscribeUrl.count { return true } // this request is missing a URL
 
             let feedUrl = subscribeUrl.replacingOccurrences(of: prefix, with: "")
-            let searchTerm = "http://\(feedUrl)"
+
+            let searchTerm = !feedUrl.hasPrefix("http://") && !feedUrl.hasPrefix("https://") ? "http://\(feedUrl)" : feedUrl
 
             strongSelf.progressDialog = ShiftyLoadingAlert(title: L10n.podcastLoading)
             controller.dismiss(animated: false, completion: nil)
@@ -332,6 +332,21 @@ extension AppDelegate {
                 }
             })
             return true
+        }
+
+        // Import OMPL extension
+        JLRoutes.global().addRoute("/import-file/*") { [weak self] parameters -> Bool in
+            guard let self,
+                  let rootViewController = SceneHelper.rootViewController(),
+                  let originalUrl = parameters[JLRouteURLKey] as? URL else { return false }
+
+            let fileURLString = originalUrl.absoluteString.replacingOccurrences(of: "pktc://import-file/", with: "")
+
+            guard let fileURL = URL(string: fileURLString) else {
+                return true
+            }
+
+            return self.handleOpenUrl(url: fileURL, rootViewController: rootViewController)
         }
     }
 

@@ -28,9 +28,7 @@ struct ThemeableListHeader: View {
                 .buttonStyle(PrimaryButtonStyle())
             }
         }
-        .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 12))
-        .listSectionSeparator(.hidden)
-        .listRowSeparator(.hidden)
-        .listRowBackground(AppTheme.color(for: .primaryUi02, theme: theme))
+        .padding(EdgeInsets(top: 12, leading: 8, bottom: 12, trailing: 8))
+        .background(AppTheme.color(for: .primaryUi02, theme: theme))
     }
 }

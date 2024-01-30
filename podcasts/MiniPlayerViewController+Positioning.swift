@@ -37,25 +37,53 @@ extension MiniPlayerViewController {
         })
     }
 
-    func openFullScreenPlayer() {
+    func openFullScreenPlayer(completion: (() -> Void)? = nil) {
         guard PlaybackManager.shared.currentEpisode() != nil else { return }
 
         if playerOpenState == .open || playerOpenState == .animating { return }
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            aboutToDisplayFullScreenPlayer()
+
+            fullScreenPlayer?.modalPresentationStyle = .custom
+            fullScreenPlayer?.transitioningDelegate = self
+
+            guard let fullScreenPlayer else {
+                return
+            }
+
+            playerOpenState = .animating
+
+            presentFromRootController(fullScreenPlayer, animated: true) {
+                self.playerOpenState = .open
+                self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
+                self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+                AnalyticsHelper.nowPlayingOpened()
+                Analytics.track(.playerShown)
+                completion?()
+            } failure: {
+                self.playerOpenState = .closed
+            }
+
+            return
+        }
+
         playerOpenState = .animating
         aboutToDisplayFullScreenPlayer()
         view.superview?.layoutIfNeeded()
+        fullScreenPlayer?.beginAppearanceTransition(true, animated: true)
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.94, initialSpringVelocity: 0.7, options: UIView.AnimationOptions.curveEaseIn, animations: { () in
             self.moveToHiddenTopPosition()
             self.fullScreenPlayer?.view.moveTo(y: 0)
         }) { _ in
-            self.fullScreenPlayer?.viewDidAppear(true)
+            self.fullScreenPlayer?.endAppearanceTransition()
             self.view.isHidden = true
             self.moveToHiddenTopPosition() // call this again in case the animation block wasn't called. It's ok to call this twice
             self.playerOpenState = .open
             self.rootViewController()?.setNeedsStatusBarAppearanceUpdate()
             self.rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
             AnalyticsHelper.nowPlayingOpened()
+            completion?()
         }
     }
 
@@ -66,8 +94,21 @@ extension MiniPlayerViewController {
             return
         }
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            playerOpenState = .animating
+
+            rootViewController()?.dismiss(animated: true) {
+                self.finishedWithFullScreenPlayer()
+                self.playerOpenState = .closed
+                Analytics.track(.playerDismissed)
+                completion?()
+            }
+            return
+        }
+
+        fullScreenPlayer?.beginAppearanceTransition(false, animated: true)
         playerOpenState = .animating
-        DispatchQueue.main.async { () in
+        DispatchQueue.main.async {
             guard let parentView = self.view.superview else { return }
 
             let isSomethingPlaying = PlaybackManager.shared.currentEpisode() != nil
@@ -79,6 +120,8 @@ extension MiniPlayerViewController {
                 self.fullScreenPlayer?.view.moveTo(y: parentViewHeight)
             }, completion: { _ in
                 self.moveToShownPosition() // call this again in case the animation block wasn't called. It's ok to call this twice
+                self.fullScreenPlayer?.endAppearanceTransition()
+
                 self.finishedWithFullScreenPlayer()
                 self.playerOpenState = .closed
                 completion?()
@@ -87,6 +130,10 @@ extension MiniPlayerViewController {
     }
 
     func moveToHiddenTopPosition() {
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            return
+        }
+
         guard let parentView = view.superview, let tabBar = rootViewController()?.tabBar else { return }
 
         view.transform = CGAffineTransform(translationX: 0, y: tabBar.bounds.height - parentView.bounds.height)
@@ -94,6 +141,10 @@ extension MiniPlayerViewController {
     }
 
     func moveWhileDragging(offsetFromTop: CGFloat) {
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            return
+        }
+
         view.transform = CGAffineTransform.identity
         let tabBarHeight = rootViewController()?.tabBar.bounds.height ?? 0
         view.transform = offsetFromTop < -tabBarHeight ? CGAffineTransform(translationX: 0, y: offsetFromTop + tabBarHeight) : CGAffineTransform(translationX: 0, y: 0)

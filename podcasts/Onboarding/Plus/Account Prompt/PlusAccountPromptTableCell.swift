@@ -2,28 +2,34 @@ import SwiftUI
 import UIKit
 
 class PlusAccountPromptTableCell: ThemeableCell {
-    static let reuseIdentifier: String = "PlusAccountPromptTableCell"
+//    static let reuseIdentifier: String = "PlusAccountPromptTableCell"
 
-    private let model: PlusAccountPromptViewModel = PlusAccountPromptViewModel()
+    private let model = PlusAccountPromptViewModel()
+
+    /// Listen for size changes from the view so we can adjust the table size
+    var contentSizeUpdated: ((CGSize) -> Void)? = nil
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        let view = PlusAccountUpgradePrompt(viewModel: model).setupDefaultEnvironment()
-        let controller = UIHostingController(rootView: view)
-        contentView.addSubview(controller.view)
+        let view = PlusAccountUpgradePrompt(viewModel: model, contentSizeUpdated: { [weak self] size in
+            self?.contentSizeUpdated?(size)
+        }).themedUIView
+        view.backgroundColor = .clear
+
+        contentView.addSubview(view)
 
         layoutIfNeeded()
 
-        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            controller.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            controller.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            controller.view.topAnchor.constraint(equalTo: contentView.topAnchor),
-            controller.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            view.topAnchor.constraint(equalTo: contentView.topAnchor),
+            view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
 
-        controller.view.layoutIfNeeded()
+        view.layoutIfNeeded()
     }
 
     // Update the model's parent so we can present the modal

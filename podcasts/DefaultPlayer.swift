@@ -33,7 +33,14 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var playFailedObserver: NSObjectProtocol?
     private var playStalledObserver: NSObjectProtocol?
 
+    private var episodeUuid: String?
+    private var podcastUuid: String?
+
     #if !os(watchOS)
+        private lazy var episodeArtwork: EpisodeArtwork = {
+            EpisodeArtwork()
+        }()
+
         private var peakLimiter: AudioUnit?
         private var highPassFilter: AudioUnit?
         private var sampleCount: Float64 = 0
@@ -61,6 +68,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         isWaitingForInitialPlayback = true
 
         player = AVPlayer(playerItem: playerItem)
+
+        episodeUuid = episode.uuid
+        podcastUuid = episode.parentIdentifier()
 
         configurePlayer(videoPodcast: episode.videoPodcast())
     }
@@ -226,6 +236,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         if assetTrack == nil, player?.currentItem?.status == .readyToPlay, let tracks = player?.currentItem?.asset.tracks {
+            loadEmbeddedImage()
+
             for track in tracks {
                 if track.mediaType == AVMediaType.audio {
                     assetTrack = track
@@ -452,11 +464,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         player?.rate = Float(requiredPlaybackRate)
 
-        if requiredPlaybackRate < 1.0 || requiredPlaybackRate > 1.0 {
-             player?.currentItem?.audioTimePitchAlgorithm = .timeDomain
-         } else {
-             player?.currentItem?.audioTimePitchAlgorithm = .lowQualityZeroLatency
-         }
+        player?.currentItem?.audioTimePitchAlgorithm = .timeDomain
     }
 
     private func jumpToStartingPosition() {
@@ -662,5 +670,15 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
+    }
+
+    func loadEmbeddedImage() {
+        #if !os(watchOS)
+        guard let asset = player?.currentItem?.asset, let episodeUuid, let podcastUuid else {
+            return
+        }
+
+        episodeArtwork.loadEmbeddedImage(asset: asset, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        #endif
     }
 }

@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import SafariServices
 import UIKit
+import Combine
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
     enum Tab { case podcasts, filter, discover, profile }
@@ -13,6 +14,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     private lazy var endOfYear = EndOfYear()
 
     private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile)!)
+
+
+    /// The viewDidAppear can trigger more than once per lifecycle, setting this flag on the first did appear prevents use from prompting more than once per lifecycle. But still wait until the tab bar has appeared to do so.
+    var viewDidAppearBefore: Bool = false
+
+    /// Whether we're actively presenting the what's new
+    var isShowingWhatsNew: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +59,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
 
         observersForEndOfYearStats()
+        addBookmarkCreatedToastHandler()
     }
+
+    private var cancellables = Set<AnyCancellable>()
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -61,7 +72,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkPromotionFinishedAcknowledged()
         checkWhatsNewAcknowledged()
 
-        endOfYear.showPromptBasedOnState(in: self)
+        // Show any app launch announcements/prompts only once
+        if !viewDidAppearBefore {
+            showWhatsNewIfNeeded()
+            showEndOfYearPromptIfNeeded()
+
+            viewDidAppearBefore = true
+        }
+
         showInitialOnboardingIfNeeded()
     }
 
@@ -127,9 +145,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     func showInSafariViewController(urlString: String) {
         guard let url = URL(string: urlString) else { return }
 
-        let config = SFSafariViewController.Configuration()
-        config.entersReaderIfAvailable = true
-        let safariViewController = SFSafariViewController(url: url, configuration: config)
+        let safariViewController = SFSafariViewController(with: url)
         topController().present(safariViewController, animated: true, completion: nil)
     }
 
@@ -141,10 +157,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateToFolder(_ folder: Folder) {
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool = true) {
         guard let navController = selectedViewController as? UINavigationController else { return }
 
-        navController.popToRootViewController(animated: false)
+        if popToRootViewController {
+            navController.popToRootViewController(animated: false)
+        }
+
         let folderController = FolderViewController(folder: folder)
         navController.pushViewController(folderController, animated: true)
     }
@@ -170,11 +189,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo) {
-        if let navController = selectedViewController as? UINavigationController {
+        appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: { [weak self] in
+            guard let navController = self?.selectedViewController as? UINavigationController else {
+                return
+            }
+
             navController.popToRootViewController(animated: false)
             let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: nil)
             navController.pushViewController(podcastController, animated: true)
-        }
+        })
     }
 
     func navigateTo(podcast searchResult: PodcastFolderSearchResult) {
@@ -268,17 +291,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         controller?.present(SJUIUtils.popupNavController(for: cancelledVC), animated: true, completion: nil)
     }
 
-    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource) {
+    func showSubscriptionRequired(_ upgradeRootViewController: UIViewController, source: PlusUpgradeViewSource, context: OnboardingFlow.Context? = nil, flow: OnboardingFlow.Flow = .plusUpsell) {
         // If we're already presenting a view, then present from that view if possible
         let presentingController = presentedViewController ?? view.window?.rootViewController
 
-        guard FeatureFlag.onboardingUpdates.enabled else {
-            let upgradeVC = UpgradeRequiredViewController(upgradeRootViewController: upgradeRootViewController, source: source)
-            presentingController?.present(SJUIUtils.popupNavController(for: upgradeVC), animated: true, completion: nil)
-            return
-        }
-
-        let controller = OnboardingFlow.shared.begin(flow: .plusUpsell, source: source.rawValue)
+        let controller = OnboardingFlow.shared.begin(flow: flow, source: source.rawValue, context: context)
         presentingController?.present(controller, animated: true, completion: nil)
     }
 
@@ -349,6 +366,22 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
+    func showHeadphoneSettings() {
+        let state = NavigationManager.sharedManager.miniPlayer?.playerOpenState
+
+        // Dismiss any presented views if the player is not already open/dismissing since it will dismiss itself
+        if state != .open, state != .animating {
+            dismissPresentedViewController()
+        }
+
+        switchToTab(.profile)
+        if let navController = selectedViewController as? UINavigationController {
+            navController.popToRootViewController(animated: false)
+            navController.pushViewController(SettingsViewController(), animated: false)
+            navController.pushViewController(HeadphoneSettingsViewController(), animated: true)
+        }
+    }
+
     func showSupporterSignIn(podcastInfo: PodcastInfo) {
         let supporterVC = SupporterGratitudeViewController(podcastInfo: podcastInfo)
         let controller = view.window?.rootViewController
@@ -383,8 +416,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func dismissPresentedViewController() {
-        presentedViewController?.dismiss(animated: true)
+    func dismissPresentedViewController(completion: (() -> Void)? = nil) {
+        presentedViewController?.dismiss(animated: true, completion: completion)
     }
 
     func showOnboardingFlow(flow: OnboardingFlow.Flow?) {
@@ -429,7 +462,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
-        Settings.showBadgeFor2022EndOfYear = false
+        Settings.showBadgeForEndOfYear = false
     }
 
     func observersForEndOfYearStats() {
@@ -439,6 +472,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
             self.endOfYear.resetStateIfNeeded()
+        }
+
+        // When the What's New is dismissed, check to see if we should also show the end of year prompt
+        NotificationCenter.default.addObserver(forName: .whatsNewDismissed, object: nil, queue: .main) { _ in
+            self.isShowingWhatsNew = false
+            self.showEndOfYearPromptIfNeeded()
         }
 
         NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
@@ -490,7 +529,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible && Settings.showBadgeFor2022EndOfYear {
+        if EndOfYear.isEligible && Settings.showBadgeForEndOfYear {
             profileTabBarItem.badgeValue = "●"
         }
     }
@@ -556,6 +595,80 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.sharedManager.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
         }
     }
+
+    // There are different areas of the app that relies on presenting VCs from the tab bar
+    // However, sometimes the tab bar is already displaying the player.
+    // This code simple checks if the tab bar is already presenting something and, if yes,
+    // present the VC through the presentedViewController
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        if FeatureFlag.newPlayerTransition.enabled, let presentedViewController, !presentedViewController.isBeingDismissed {
+            presentedViewController.present(viewControllerToPresent, animated: flag, completion: completion)
+            return
+        }
+
+        super.present(viewControllerToPresent, animated: flag, completion: completion)
+    }
+}
+
+// MARK: - Bookmarks
+
+private extension MainTabBarController {
+    // Shows a toast notification when a bookmark is created and we're not in the full screen player
+    func addBookmarkCreatedToastHandler() {
+        let bookmarkManager = PlaybackManager.shared.bookmarkManager
+
+        bookmarkManager.onBookmarkCreated
+            .receive(on: RunLoop.main)
+            .filter { event in
+                UIApplication.shared.applicationState == .active
+                && !SceneHelper.isConnectedToCarPlay
+                && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
+            }
+            .compactMap { event in
+                bookmarkManager.bookmark(for: event.uuid)
+            }
+            .sink { [weak self] bookmark in
+                self?.showToast(for: bookmark)
+            }
+            .store(in: &cancellables)
+    }
+
+    func showToast(for bookmark: Bookmark) {
+        let bookmarkManager = PlaybackManager.shared.bookmarkManager
+
+        let title = bookmark.title
+        let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
+
+        let action = Toast.Action(title: L10n.changeBookmarkTitle) { [weak self] in
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle in
+                guard title != updatedTitle else { return }
+
+                self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)
+            })
+
+            controller.source = .headphones
+
+            self?.presentFromRootController(controller)
+        }
+
+        Toast.show(message, actions: [action], theme: .playerTheme)
+    }
+
+    func handleBookmarkTitleUpdated(updatedTitle: String) {
+        Toast.show(L10n.bookmarkUpdatedNotification(updatedTitle), actions: [
+            .init(title: L10n.bookmarkAddedButtonTitle, action: { [weak self] in
+                self?.showBookmarksInPlayer()
+            })
+        ], theme: .playerTheme)
+    }
+
+    func showBookmarksInPlayer() {
+        dismissIfNeeded {
+            NavigationManager.sharedManager.miniPlayer?.openFullScreenPlayer {
+                NavigationManager.sharedManager.miniPlayer?.fullScreenPlayer?.scrollToBookmarks()
+            }
+        }
+    }
 }
 
 // MARK: - Analytics
@@ -579,5 +692,25 @@ private extension MainTabBarController {
         }
 
         Analytics.track(event, properties: ["initial": isInitial])
+    }
+}
+
+// MARK: - App Launch Prompts
+
+private extension MainTabBarController {
+    func showEndOfYearPromptIfNeeded() {
+        // Only show the prompt if there isn't an active announcement flow
+        guard !isShowingWhatsNew, AnnouncementFlow.current == .none else { return }
+
+        endOfYear.showPromptBasedOnState(in: self)
+    }
+
+    func showWhatsNewIfNeeded() {
+        guard let controller = view.window?.rootViewController else { return }
+
+        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
+            controller.present(whatsNewViewController, animated: true)
+            isShowingWhatsNew = true
+        }
     }
 }

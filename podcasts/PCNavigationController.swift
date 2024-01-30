@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 class PCNavigationController: UINavigationController, UIGestureRecognizerDelegate {
     private var navStyle: ThemeStyle = .secondaryUi01
@@ -60,7 +61,15 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         // it's a little dodgy, but if the full screen player is open, always use a light tab bar
-        appDelegate()?.miniPlayer()?.playerOpenState == .open ? .lightContent : topViewController?.preferredStatusBarStyle ?? AppTheme.defaultStatusBarStyle()
+        if appDelegate()?.miniPlayer()?.playerOpenState == .open {
+            return .lightContent
+
+        // when using a navigationlink the hosting controller might be generated automatically and will apply the default status bar style
+        } else if topViewController is AnyUIHostingViewController, topViewController?.preferredStatusBarStyle == .default {
+            return AppTheme.defaultStatusBarStyle()
+        } else {
+            return topViewController?.preferredStatusBarStyle ?? AppTheme.defaultStatusBarStyle()
+        }
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -90,3 +99,8 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
         gestureRecognizer is UIScreenEdgePanGestureRecognizer
     }
 }
+
+// MARK: - UIHostingController
+/// Used so we can check if a VC is a UIHostingController
+private protocol AnyUIHostingViewController: AnyObject {}
+extension UIHostingController: AnyUIHostingViewController {}

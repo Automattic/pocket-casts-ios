@@ -42,6 +42,11 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var archivedModified = 0 as Int64
     @objc public var lastArchiveInteractionDate: Date?
     @objc public var excludeFromEpisodeLimit = false
+    @objc public var hasOnlyUuid = false
+
+    public var hasBookmarks: Bool {
+        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+    }
 
     override public init() {}
 

@@ -40,17 +40,27 @@ internal enum L10n {
   internal static var accessibilityDisabled: String { return L10n.tr("Localizable", "accessibility_disabled") }
   /// Dismiss
   internal static var accessibilityDismiss: String { return L10n.tr("Localizable", "accessibility_dismiss") }
+  /// Episode Playback
+  internal static var accessibilityEpisodePlayback: String { return L10n.tr("Localizable", "accessibility_episode_playback") }
   /// Tap to hide filter details
   internal static var accessibilityHideFilterDetails: String { return L10n.tr("Localizable", "accessibility_hide_filter_details") }
+  /// Tap to navigate to main podcast information page
+  internal static var accessibilityHintPlayerNavigateToPodcastLabel: String { return L10n.tr("Localizable", "accessibility_hint_player_navigate_to_podcast_label") }
   /// Double tap to star episode
   internal static var accessibilityHintStar: String { return L10n.tr("Localizable", "accessibility_hint_star") }
   /// Double tap to remove star from episode
   internal static var accessibilityHintUnstar: String { return L10n.tr("Localizable", "accessibility_hint_unstar") }
   /// More actions
   internal static var accessibilityMoreActions: String { return L10n.tr("Localizable", "accessibility_more_actions") }
+  /// Locked, Patron Feature
+  internal static var accessibilityPatronOnly: String { return L10n.tr("Localizable", "accessibility_patron_only") }
   /// %1$@ percent completed
   internal static func accessibilityPercentCompleteFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "accessibility_percent_complete_format", String(describing: p1))
+  }
+  /// %1$@ of %2$@
+  internal static func accessibilityPlaybackProgress(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "accessibility_playback_progress", String(describing: p1), String(describing: p2))
   }
   /// Playback speed %1$@ times
   internal static func accessibilityPlayerEffectsPlaybackSpeed(_ p1: Any) -> String {
@@ -72,6 +82,8 @@ internal enum L10n {
   internal static var accessibilitySignIn: String { return L10n.tr("Localizable", "accessibility_sign_in") }
   /// Sort and Options
   internal static var accessibilitySortAndOptions: String { return L10n.tr("Localizable", "accessibility_sort_and_options") }
+  /// Account
+  internal static var account: String { return L10n.tr("Localizable", "account") }
   /// Change Email
   internal static var accountChangeEmail: String { return L10n.tr("Localizable", "account_change_email") }
   /// Almost There!
@@ -140,10 +152,24 @@ internal enum L10n {
   internal static var accountWelcome: String { return L10n.tr("Localizable", "account_welcome") }
   /// Welcome to Pocket Casts Plus!
   internal static var accountWelcomePlus: String { return L10n.tr("Localizable", "account_welcome_plus") }
+  /// Add Bookmark
+  internal static var addBookmark: String { return L10n.tr("Localizable", "add_bookmark") }
+  /// Add an optional title to identify this bookmark
+  internal static var addBookmarkSubtitle: String { return L10n.tr("Localizable", "add_bookmark_subtitle") }
   /// Add to Up Next
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next") }
   /// After Playing
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing") }
+  /// If your Up Next queue is empty and you start listening to an episode, Autoplay will keep playing episodes from that show or list.
+  internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description") }
+  /// Autoplay is here!
+  internal static var announcementAutoplayTitle: String { return L10n.tr("Localizable", "announcement_autoplay_title") }
+  /// You can now save timestamps of episodes from the actions menu in the player or with a headphones action.
+  internal static var announcementBookmarksDescription: String { return L10n.tr("Localizable", "announcement_bookmarks_description") }
+  /// Bookmarks are here!
+  internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
+  /// Join us in the beta testing for bookmarks!
+  internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
   /// Classic
@@ -160,6 +186,14 @@ internal enum L10n {
   internal static var appIconHalloween: String { return L10n.tr("Localizable", "app_icon_halloween") }
   /// Indigo
   internal static var appIconIndigo: String { return L10n.tr("Localizable", "app_icon_indigo") }
+  /// Patron Chrome
+  internal static var appIconPatronChrome: String { return L10n.tr("Localizable", "app_icon_patron_chrome") }
+  /// Patron Dark
+  internal static var appIconPatronDark: String { return L10n.tr("Localizable", "app_icon_patron_dark") }
+  /// Patron Glow
+  internal static var appIconPatronGlow: String { return L10n.tr("Localizable", "app_icon_patron_glow") }
+  /// Patron Round
+  internal static var appIconPatronRound: String { return L10n.tr("Localizable", "app_icon_patron_round") }
   /// Plus
   internal static var appIconPlus: String { return L10n.tr("Localizable", "app_icon_plus") }
   /// Pocket Cats
@@ -234,6 +268,50 @@ internal enum L10n {
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
+  /// Please download Pocket Casts from the App Store to purchase %1$@.
+  internal static func betaPurchaseDisabled(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "beta_purchase_disabled", String(describing: p1))
+  }
+  /// Thank you for beta testing!
+  internal static var betaThankYou: String { return L10n.tr("Localizable", "beta_thank_you") }
+  /// Bookmark added
+  internal static var bookmarkAdded: String { return L10n.tr("Localizable", "bookmark_added") }
+  /// View
+  internal static var bookmarkAddedButtonTitle: String { return L10n.tr("Localizable", "bookmark_added_button_title") }
+  /// Bookmark "%1$@" added
+  internal static func bookmarkAddedNotification(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmark_added_notification", String(describing: p1))
+  }
+  /// Bookmark
+  internal static var bookmarkDefaultTitle: String { return L10n.tr("Localizable", "bookmark_default_title") }
+  /// Are you sure you want to delete these bookmarks, there’s no way to undo it!
+  internal static var bookmarkDeleteWarningBody: String { return L10n.tr("Localizable", "bookmark_delete_warning_body") }
+  /// Delete Bookmarks?
+  internal static var bookmarkDeleteWarningTitle: String { return L10n.tr("Localizable", "bookmark_delete_warning_title") }
+  /// We couldn't find any bookmarks for that search.
+  internal static var bookmarkSearchNoResultsMessage: String { return L10n.tr("Localizable", "bookmark_search_no_results_message") }
+  /// No bookmarks found
+  internal static var bookmarkSearchNoResultsTitle: String { return L10n.tr("Localizable", "bookmark_search_no_results_title") }
+  /// Bookmark "%1$@" updated
+  internal static func bookmarkUpdatedNotification(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmark_updated_notification", String(describing: p1))
+  }
+  /// Bookmarks
+  internal static var bookmarks: String { return L10n.tr("Localizable", "bookmarks") }
+  /// %1$@ bookmarks
+  internal static func bookmarksCountPlural(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_count_plural", String(describing: p1))
+  }
+  /// 1 bookmark
+  internal static var bookmarksCountSingular: String { return L10n.tr("Localizable", "bookmarks_count_singular") }
+  /// Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes. Available for %2$@ subscribers soon.
+  internal static func bookmarksEarlyAccessLockedMessage(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_early_access_locked_message", String(describing: p1), String(describing: p2))
+  }
+  /// Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes.
+  internal static func bookmarksLockedMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmarks_locked_message", String(describing: p1))
+  }
   /// Bottom
   internal static var bottom: String { return L10n.tr("Localizable", "bottom") }
   /// Bulk downloads are limited to %1$@.
@@ -280,6 +358,12 @@ internal enum L10n {
   internal static var carplayPlaybackSpeed: String { return L10n.tr("Localizable", "carplay_playback_speed") }
   /// Up Next Queue
   internal static var carplayUpNextQueue: String { return L10n.tr("Localizable", "carplay_up_next_queue") }
+  /// Change App Icon
+  internal static var changeAppIcon: String { return L10n.tr("Localizable", "change_app_icon") }
+  /// Change the title that identifies this bookmark
+  internal static var changeBookmarkSubtitle: String { return L10n.tr("Localizable", "change_bookmark_subtitle") }
+  /// Change title
+  internal static var changeBookmarkTitle: String { return L10n.tr("Localizable", "change_bookmark_title") }
   /// Change Email Address
   internal static var changeEmail: String { return L10n.tr("Localizable", "change_email") }
   /// Email Address Changed
@@ -318,10 +402,14 @@ internal enum L10n {
   internal static var cleanUp: String { return L10n.tr("Localizable", "clean_up") }
   /// Clear
   internal static var clear: String { return L10n.tr("Localizable", "clear") }
+  /// Clear Search
+  internal static var clearSearch: String { return L10n.tr("Localizable", "clear_search") }
   /// Clear Up Next
   internal static var clearUpNext: String { return L10n.tr("Localizable", "clear_up_next") }
   /// Are you sure you want to clear your Up Next queue?
   internal static var clearUpNextMessage: String { return L10n.tr("Localizable", "clear_up_next_message") }
+  /// Token authentication failed.
+  internal static var clientErrorTokenDeauth: String { return L10n.tr("Localizable", "client_error_token_deauth") }
   /// Close
   internal static var close: String { return L10n.tr("Localizable", "close") }
   /// Color
@@ -332,6 +420,8 @@ internal enum L10n {
   internal static var confirmNewPasswordPrompt: String { return L10n.tr("Localizable", "confirm_new_password_prompt") }
   /// Continue
   internal static var `continue`: String { return L10n.tr("Localizable", "continue") }
+  /// Copy
+  internal static var copy: String { return L10n.tr("Localizable", "copy") }
   /// Create Account
   internal static var createAccount: String { return L10n.tr("Localizable", "create_account") }
   /// Pocket Casts is having trouble connecting to the App Store. Please check your connection and try again.
@@ -406,6 +496,8 @@ internal enum L10n {
   internal static var discoverBrowseByCategoryComedy: String { return L10n.tr("Localizable", "discover_browse_by_category_comedy") }
   /// Education
   internal static var discoverBrowseByCategoryEducation: String { return L10n.tr("Localizable", "discover_browse_by_category_education") }
+  /// Family
+  internal static var discoverBrowseByCategoryFamily: String { return L10n.tr("Localizable", "discover_browse_by_category_family") }
   /// Fiction
   internal static var discoverBrowseByCategoryFiction: String { return L10n.tr("Localizable", "discover_browse_by_category_fiction") }
   /// Games & Hobbies
@@ -438,8 +530,10 @@ internal enum L10n {
   internal static var discoverBrowseByCategoryScienceAndMedicine: String { return L10n.tr("Localizable", "discover_browse_by_category_science_and_medicine") }
   /// Society
   internal static var discoverBrowseByCategorySociety: String { return L10n.tr("Localizable", "discover_browse_by_category_society") }
-  /// Society & Culture
+  /// Culture
   internal static var discoverBrowseByCategorySocietyAndCulture: String { return L10n.tr("Localizable", "discover_browse_by_category_society_and_culture") }
+  /// Spirituality
+  internal static var discoverBrowseByCategorySpirituality: String { return L10n.tr("Localizable", "discover_browse_by_category_spirituality") }
   /// Sports
   internal static var discoverBrowseByCategorySports: String { return L10n.tr("Localizable", "discover_browse_by_category_sports") }
   /// Sports & Recreation
@@ -632,7 +726,9 @@ internal enum L10n {
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
   /// Edit
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
-  /// See your top podcasts, categories, listening stats and more.
+  /// Enable it now
+  internal static var enableItNow: String { return L10n.tr("Localizable", "enable_it_now") }
+  /// See your listening stats, top podcasts, and more.
   internal static var eoyCardDescription: String { return L10n.tr("Localizable", "eoy_card_description") }
   /// Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.
   internal static var eoyCreateAccountToSee: String { return L10n.tr("Localizable", "eoy_create_account_to_see") }
@@ -640,13 +736,22 @@ internal enum L10n {
   internal static var eoyDescription: String { return L10n.tr("Localizable", "eoy_description") }
   /// Not Now
   internal static var eoyNotNow: String { return L10n.tr("Localizable", "eoy_not_now") }
+  /// Share this story
+  internal static var eoyShare: String { return L10n.tr("Localizable", "eoy_share") }
+  /// Paste this image to your socials and give a shout out to your favorite shows and creators
+  internal static var eoyShareThisStoryMessage: String { return L10n.tr("Localizable", "eoy_share_this_story_message") }
+  /// Share this story?
+  internal static var eoyShareThisStoryTitle: String { return L10n.tr("Localizable", "eoy_share_this_story_title") }
   /// Year in Podcasts
   internal static var eoySmallTitle: String { return L10n.tr("Localizable", "eoy_small_title") }
+  /// Start your Free Trial
+  internal static var eoyStartYourFreeTrial: String { return L10n.tr("Localizable", "eoy_start_your_free_trial") }
   /// Failed to load stories.
   internal static var eoyStoriesFailed: String { return L10n.tr("Localizable", "eoy_stories_failed") }
   /// Don't forget to share with your friends and give a shout out to your favorite podcast creators
   internal static var eoyStoryEpilogueSubtitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_subtitle") }
-  /// Thank you for letting Pocket Casts be a part of your listening experience in 2022
+  /// Thank you for listening with us this year.
+  /// See you in 2024!
   internal static var eoyStoryEpilogueTitle: String { return L10n.tr("Localizable", "eoy_story_epilogue_title") }
   /// Let's celebrate your year of listening...
   internal static var eoyStoryIntroTitle: String { return L10n.tr("Localizable", "eoy_story_intro_title") }
@@ -662,7 +767,7 @@ internal enum L10n {
   internal static func eoyStoryListenedToCategoriesHighlighted(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories_highlighted", String(describing: p1))
   }
-  /// I listened to %1$@ different categories in 2022
+  /// I listened to %1$@ different categories in 2023
   internal static func eoyStoryListenedToCategoriesShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_categories_share_text", String(describing: p1))
   }
@@ -676,19 +781,16 @@ internal enum L10n {
   internal static func eoyStoryListenedToEpisodesText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_episodes_text", String(describing: p1))
   }
-  /// You listened to %1$@ different podcasts and %2$@ episodes
+  /// You listened to %1$@ different shows and %2$@ episodes in total
   internal static func eoyStoryListenedToNumbers(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers", String(describing: p1), String(describing: p2))
   }
-  /// I listened to %1$@ different podcasts and %2$@ episodes in 2022
+  /// I listened to %1$@ different podcasts and %2$@ episodes this year
   internal static func eoyStoryListenedToNumbersShareText(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers_share_text", String(describing: p1), String(describing: p2))
   }
-  /// But there was one that you kept coming back to...
+  /// But there was one you kept coming to...
   internal static var eoyStoryListenedToNumbersSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle") }
-  /// But there was one that you
-  /// kept coming back to...
-  internal static var eoyStoryListenedToNumbersSubtitleUpdated: String { return L10n.tr("Localizable", "eoy_story_listened_to_numbers_subtitle_updated") }
   /// You listened to %1$@ and %2$@
   internal static func eoyStoryListenedToNumbersUpdated(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_numbers_updated", String(describing: p1), String(describing: p2))
@@ -697,27 +799,31 @@ internal enum L10n {
   internal static func eoyStoryListenedToPodcastText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_podcast_text", String(describing: p1))
   }
-  /// I spent %1$@ listening to podcasts in 2022
+  /// I spent %1$@ listening to podcasts this year
   internal static func eoyStoryListenedToShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_share_text", String(describing: p1))
   }
+  /// We hope you loved every minute of it!
+  internal static var eoyStoryListenedToSubtitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_subtitle") }
+  /// This was your total time listening to podcasts
+  internal static var eoyStoryListenedToTitle: String { return L10n.tr("Localizable", "eoy_story_listened_to_title") }
   /// This year, you spent %1$@ listening to podcasts
   internal static func eoyStoryListenedToUpdated(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_listened_to_updated", String(describing: p1))
   }
-  /// The longest episode you listened to was %1$@ from the podcast %2$@
-  internal static func eoyStoryLongestEpisode(_ p1: Any, _ p2: Any) -> String {
-    return L10n.tr("Localizable", "eoy_story_longest_episode", String(describing: p1), String(describing: p2))
+  /// The longest episode you listened to was %1$@
+  internal static func eoyStoryLongestEpisode(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_longest_episode", String(describing: p1))
   }
   /// This episode was %1$@ long
   internal static func eoyStoryLongestEpisodeDuration(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_duration", String(describing: p1))
   }
-  /// The longest episode I listened to in 2022 %1$@
+  /// The longest episode I listened to this year %1$@
   internal static func eoyStoryLongestEpisodeShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_share_text", String(describing: p1))
   }
-  /// The episode was %1$@ from %2$@
+  /// It was none other than “%1$@” from “%2$@”
   internal static func eoyStoryLongestEpisodeSubtitle(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_subtitle", String(describing: p1), String(describing: p2))
   }
@@ -727,17 +833,25 @@ internal enum L10n {
   internal static func eoyStoryLongestEpisodeTime(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_longest_episode_time", String(describing: p1))
   }
-  /// Replay
+  /// Play again
   internal static var eoyStoryReplay: String { return L10n.tr("Localizable", "eoy_story_replay") }
   /// Your Top Categories
   internal static var eoyStoryTopCategories: String { return L10n.tr("Localizable", "eoy_story_top_categories") }
   /// My most listened to podcast categories
   internal static var eoyStoryTopCategoriesShareText: String { return L10n.tr("Localizable", "eoy_story_top_categories_share_text") }
-  /// Your top podcast was %1$@ by %2$@
-  internal static func eoyStoryTopPodcast(_ p1: Any, _ p2: Any) -> String {
-    return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1), String(describing: p2))
+  /// You listened to %1$@ episodes for a total of %2$@
+  internal static func eoyStoryTopCategoriesSubtitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_categories_subtitle", String(describing: p1), String(describing: p2))
   }
-  /// My favorite podcast of 2022! %1$@
+  /// Did you know that %1$@ was your favorite category?
+  internal static func eoyStoryTopCategoriesTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_categories_title", String(describing: p1))
+  }
+  /// %1$@ was your most listened show in 2023
+  internal static func eoyStoryTopPodcast(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_story_top_podcast", String(describing: p1))
+  }
+  /// My favorite podcast this year! %1$@
   internal static func eoyStoryTopPodcastShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcast_share_text", String(describing: p1))
   }
@@ -747,22 +861,62 @@ internal enum L10n {
   }
   /// Your Top Podcasts
   internal static var eoyStoryTopPodcasts: String { return L10n.tr("Localizable", "eoy_story_top_podcasts") }
-  /// My top podcasts of 2022
+  /// My top podcasts of the year!
   internal static var eoyStoryTopPodcastsListTitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_list_title") }
   /// My top podcasts of the year! %1$@
   internal static func eoyStoryTopPodcastsShareText(_ p1: Any) -> String {
     return L10n.tr("Localizable", "eoy_story_top_podcasts_share_text", String(describing: p1))
   }
+  /// This is your top 5 most listened to in 2023
+  internal static var eoyStoryTopPodcastsSubtitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_subtitle") }
+  /// And you were big on these shows too!
+  internal static var eoyStoryTopPodcastsTitle: String { return L10n.tr("Localizable", "eoy_story_top_podcasts_title") }
+  /// Subscribe to Plus and find out how your listening compares to 2022, other fun stats, and Premium features like bookmarks and folders.
+  internal static var eoySubscribeToPlus: String { return L10n.tr("Localizable", "eoy_subscribe_to_plus") }
+  /// There’s more!
+  internal static var eoyTheresMore: String { return L10n.tr("Localizable", "eoy_theres_more") }
   /// Your Year in Podcasts
   internal static var eoyTitle: String { return L10n.tr("Localizable", "eoy_title") }
-  /// View My 2022
+  /// View My 2023
   internal static var eoyViewYear: String { return L10n.tr("Localizable", "eoy_view_year") }
+  /// completion rate
+  internal static var eoyYearCompletionRate: String { return L10n.tr("Localizable", "eoy_year_completion_rate") }
+  /// My 2023 completion rate
+  internal static var eoyYearCompletionRateShareText: String { return L10n.tr("Localizable", "eoy_year_completion_rate_share_text") }
+  /// From the %1$@ episodes you started you listened fully to a total of %2$@
+  internal static func eoyYearCompletionRateSubtitle(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_completion_rate_subtitle", String(describing: p1), String(describing: p2))
+  }
+  /// Your completion rate this year was %1$@
+  internal static func eoyYearCompletionRateTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_completion_rate_title", String(describing: p1))
+  }
+  /// My 2023 listening time compared to 2022
+  internal static var eoyYearOverShareText: String { return L10n.tr("Localizable", "eoy_year_over_share_text") }
+  /// And they say consistency is the key to success... or something like that!
+  internal static var eoyYearOverYearSubtitleFlat: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_flat") }
+  /// Aaaah... there’s a life to be lived, right?
+  internal static var eoyYearOverYearSubtitleWentDown: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_went_down") }
+  /// Ready to top it in 2024?
+  internal static var eoyYearOverYearSubtitleWentUp: String { return L10n.tr("Localizable", "eoy_year_over_year_subtitle_went_up") }
+  /// Compared to 2022, your listening time stayed pretty consistent
+  internal static var eoyYearOverYearTitleFlat: String { return L10n.tr("Localizable", "eoy_year_over_year_title_flat") }
+  /// Compared to 2022, your listening time skyrocketed!
+  internal static var eoyYearOverYearTitleSkyrocketed: String { return L10n.tr("Localizable", "eoy_year_over_year_title_skyrocketed") }
+  /// Compared to 2022, your listening time went down a little
+  internal static var eoyYearOverYearTitleWentDown: String { return L10n.tr("Localizable", "eoy_year_over_year_title_went_down") }
+  /// Compared to 2022, your listening time went up a whopping %1$@%
+  internal static func eoyYearOverYearTitleWentUp(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "eoy_year_over_year_title_went_up", String(describing: p1))
+  }
   /// Episode
   internal static var episode: String { return L10n.tr("Localizable", "episode") }
   /// %1$@ episodes
   internal static func episodeCountPluralFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "episode_count_plural_format", String(describing: p1))
   }
+  /// Details
+  internal static var episodeDetailsTitle: String { return L10n.tr("Localizable", "episode_details_title") }
   /// Filter by duration
   internal static var episodeFilterByDurationLabel: String { return L10n.tr("Localizable", "episode_filter_by_duration_label") }
   /// Either it's time to celebrate completing this list, or edit your filter settings to get some more.
@@ -791,12 +945,16 @@ internal enum L10n {
   internal static var error: String { return L10n.tr("Localizable", "error") }
   /// Unable to find podcast. Please contact the podcast author.
   internal static var errorGeneralPodcastNotFound: String { return L10n.tr("Localizable", "error_general_podcast_not_found") }
+  /// Export Database
+  internal static var exportDatabase: String { return L10n.tr("Localizable", "export_database") }
   /// Exports all your podcasts as an OPML file, which you can import into other podcast apps.
   internal static var exportPodcastsDescription: String { return L10n.tr("Localizable", "export_podcasts_description") }
   /// Export Podcasts
   internal static var exportPodcastsOption: String { return L10n.tr("Localizable", "export_podcasts_option") }
   /// EXPORT
   internal static var exportPodcastsTitle: String { return L10n.tr("Localizable", "export_podcasts_title") }
+  /// Exporting Database...
+  internal static var exportingDatabase: String { return L10n.tr("Localizable", "exporting_database") }
   /// End Tour
   internal static var featureTourEndTour: String { return L10n.tr("Localizable", "feature_tour_end_tour") }
   /// NEW
@@ -1192,6 +1350,8 @@ internal enum L10n {
   internal static var markPlayedShort: String { return L10n.tr("Localizable", "mark_played_short") }
   /// Mark Unplayed
   internal static var markUnplayedShort: String { return L10n.tr("Localizable", "mark_unplayed_short") }
+  /// Maybe later
+  internal static var maybeLater: String { return L10n.tr("Localizable", "maybe_later") }
   /// Close And Clear Up Next
   internal static var miniPlayerClose: String { return L10n.tr("Localizable", "mini_player_close") }
   /// Minute listened
@@ -1306,6 +1466,12 @@ internal enum L10n {
   internal static func nextPaymentFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "next_payment_format", String(describing: p1))
   }
+  /// Headphone settings
+  internal static var noBookmarksButtonTitle: String { return L10n.tr("Localizable", "no_bookmarks_button_title") }
+  /// You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.
+  internal static var noBookmarksMessage: String { return L10n.tr("Localizable", "no_bookmarks_message") }
+  /// No bookmarks yet
+  internal static var noBookmarksTitle: String { return L10n.tr("Localizable", "no_bookmarks_title") }
   /// None
   internal static var `none`: String { return L10n.tr("Localizable", "none") }
   /// You're not on WiFi
@@ -1393,6 +1559,34 @@ internal enum L10n {
   }
   /// Unsubscribing from all these podcasts will delete any downloaded files they have, are you sure?
   internal static var paidPodcastUnsubscribeMsg: String { return L10n.tr("Localizable", "paid_podcast_unsubscribe_msg") }
+  /// Patron
+  internal static var patron: String { return L10n.tr("Localizable", "patron") }
+  /// Believe in what we’re doing and want to show your support?
+  internal static var patronCallout: String { return L10n.tr("Localizable", "patron_callout") }
+  /// Become a Pocket Casts Patron and help us continue to deliver the best podcasting experience available.
+  internal static var patronDescription: String { return L10n.tr("Localizable", "patron_description") }
+  /// Early access to features
+  internal static var patronFeatureEarlyAccess: String { return L10n.tr("Localizable", "patron_feature_early_access") }
+  /// Everything in Plus
+  internal static var patronFeatureEverythingInPlus: String { return L10n.tr("Localizable", "patron_feature_everything_in_plus") }
+  /// Supporters profile badge
+  internal static var patronFeatureProfileBadge: String { return L10n.tr("Localizable", "patron_feature_profile_badge") }
+  /// Special Pocket Casts app icons
+  internal static var patronFeatureProfileIcons: String { return L10n.tr("Localizable", "patron_feature_profile_icons") }
+  /// Become a Patron member and unlock all Pocket Casts features
+  internal static var patronPurchasePromoTitle: String { return L10n.tr("Localizable", "patron_purchase_promo_title") }
+  /// Subscribe to Patron
+  internal static var patronSubscribeTo: String { return L10n.tr("Localizable", "patron_subscribe_to") }
+  /// Thank you for your support!
+  internal static var patronThankYou: String { return L10n.tr("Localizable", "patron_thank_you") }
+  /// Hold the unlock button below to receive some tokens of our appreciation.
+  internal static var patronUnlockInstructions: String { return L10n.tr("Localizable", "patron_unlock_instructions") }
+  /// Release to Unlock
+  internal static var patronUnlockRelease: String { return L10n.tr("Localizable", "patron_unlock_release") }
+  /// unlock
+  internal static var patronUnlockWord: String { return L10n.tr("Localizable", "patron_unlock_word") }
+  /// Unlocking
+  internal static var patronUnlocking: String { return L10n.tr("Localizable", "patron_unlocking") }
   /// Pause
   internal static var pause: String { return L10n.tr("Localizable", "pause") }
   /// Phone
@@ -1477,6 +1671,8 @@ internal enum L10n {
   internal static var playerRouteSelection: String { return L10n.tr("Localizable", "player_route_selection") }
   /// SHARE LINK TO
   internal static var playerShareHeader: String { return L10n.tr("Localizable", "player_share_header") }
+  /// Details
+  internal static var playerShowNotesTitle: String { return L10n.tr("Localizable", "player_show_notes_title") }
   /// Download Error
   internal static var playerUserEpisodeDownloadError: String { return L10n.tr("Localizable", "player_user_episode_download_error") }
   /// Playback Error
@@ -1501,6 +1697,8 @@ internal enum L10n {
   internal static func plusCloudStorageLimitFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_cloud_storage_limit_format", String(describing: p1))
   }
+  /// 50%% off your first year
+  internal static var plusDiscountYearlyMembership: String { return L10n.tr("Localizable", "plus_discount_yearly_membership") }
   /// You already have a Pocket Casts Plus account
   internal static var plusErrorAlreadyRegistered: String { return L10n.tr("Localizable", "plus_error_already_registered") }
   /// Thanks for your support, but unfortunately this means you can’t take part in this promotion.
@@ -1509,33 +1707,22 @@ internal enum L10n {
   internal static func plusExpirationFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_expiration_format", String(describing: p1))
   }
-  /// Cloud Storage
-  internal static var plusFeatureCloudStorage: String { return L10n.tr("Localizable", "plus_feature_cloud_storage") }
+  /// The undying gratitude of everyone here at Pocket Casts
+  internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
-  /// Standalone Watch Playback
-  internal static var plusFeatureWatchApp: String { return L10n.tr("Localizable", "plus_feature_watch_app") }
-  /// Web Player
-  internal static var plusFeatureWebPlayer: String { return L10n.tr("Localizable", "plus_feature_web_player") }
   /// PLUS FEATURES
   internal static var plusFeatures: String { return L10n.tr("Localizable", "plus_features") }
-  /// %1$@ Free
+  /// %1$@ Free Trial
   internal static func plusFreeMembershipFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_free_membership_format", String(describing: p1))
   }
   /// Lifetime Member
   internal static var plusLifetimeMembership: String { return L10n.tr("Localizable", "plus_lifetime_membership") }
-  /// Speed up your lectures. Burn through other content. Be your own Podcast DJ.
-  internal static var plusMarketingCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_cloud_storage_description") }
-  /// Cloud Storage
-  internal static var plusMarketingCloudStorageTitle: String { return L10n.tr("Localizable", "plus_marketing_cloud_storage_title") }
-  /// Take your podcasts to more places with our Windows, macOS and Web apps.
-  internal static var plusMarketingDesktopAppsDescription: String { return L10n.tr("Localizable", "plus_marketing_desktop_apps_description") }
-  /// Desktop Apps
+  /// Desktop & web apps
   internal static var plusMarketingDesktopAppsTitle: String { return L10n.tr("Localizable", "plus_marketing_desktop_apps_title") }
-  /// Time to up your podcasting game?
-  /// Get desktop apps, bring your own files and spruce things up with fresh new themes, exclusive to plus members.
-  internal static var plusMarketingFinalCallToAction: String { return L10n.tr("Localizable", "plus_marketing_final_call_to_action") }
+  /// Folders & Bookmarks
+  internal static var plusMarketingFoldersAndBookmarksTitle: String { return L10n.tr("Localizable", "plus_marketing_folders_and_bookmarks_title") }
   /// Create folders to organise your podcast collection.
   internal static var plusMarketingFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_folders_description") }
   /// Ad-free experience which gives you more of what you love and less of what you don't
@@ -1546,12 +1733,8 @@ internal enum L10n {
   internal static var plusMarketingLearnMoreButton: String { return L10n.tr("Localizable", "plus_marketing_learn_more_button") }
   /// Get personal, and get distributed, all at once. Upload your personal audio files to our cloud servers, access your account via our web player, and make the app yours.
   internal static var plusMarketingMainDescription: String { return L10n.tr("Localizable", "plus_marketing_main_description") }
-  /// Enhanced Features For Advanced Listeners
-  internal static var plusMarketingMainTitle: String { return L10n.tr("Localizable", "plus_marketing_main_title") }
   /// Get access to exclusive features and customisation options
   internal static var plusMarketingSubtitle: String { return L10n.tr("Localizable", "plus_marketing_subtitle") }
-  /// Fly your true colors. Exclusive icons and themes for the plus club only.
-  internal static var plusMarketingThemesIconsDescription: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_description") }
   /// Themes & Icons
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
   /// Everything you love about Pocket Casts, plus more
@@ -1562,11 +1745,7 @@ internal enum L10n {
   internal static var plusMarketingUpdatedDesktopAppsDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_desktop_apps_description") }
   /// Organise your podcasts in folders, and keep them in sync across all your devices.
   internal static var plusMarketingUpdatedFoldersDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_folders_description") }
-  /// Upgrade To Plus
-  internal static var plusMarketingUpgradeButton: String { return L10n.tr("Localizable", "plus_marketing_upgrade_button") }
-  /// Ditch the phone and go for a run – without missing a beat. Apple Watch stands alone.
-  internal static var plusMarketingWatchPlaybackDescription: String { return L10n.tr("Localizable", "plus_marketing_watch_playback_description") }
-  /// Watch Playback
+  /// Apple Watch & Wear OS apps
   internal static var plusMarketingWatchPlaybackTitle: String { return L10n.tr("Localizable", "plus_marketing_watch_playback_title") }
   /// %1$@ per month
   internal static func plusMonthlyFrequencyPricingFormat(_ p1: Any) -> String {
@@ -1598,6 +1777,16 @@ internal enum L10n {
   internal static var plusRequiredFeature: String { return L10n.tr("Localizable", "plus_required_feature") }
   /// Select Payment Frequency
   internal static var plusSelectPaymentFrequency: String { return L10n.tr("Localizable", "plus_select_payment_frequency") }
+  /// Skip
+  internal static var plusSkip: String { return L10n.tr("Localizable", "plus_skip") }
+  /// Start my free trial
+  internal static var plusStartMyFreeTrial: String { return L10n.tr("Localizable", "plus_start_my_free_trial") }
+  /// Try %1$@, then %2$@
+  internal static func plusStartTrialDurationPrice(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "plus_start_trial_duration_price", String(describing: p1), String(describing: p2))
+  }
+  /// Subscribe to Plus
+  internal static var plusSubscribeTo: String { return L10n.tr("Localizable", "plus_subscribe_to") }
   /// Your subscription is managed by the Apple App Store
   internal static var plusSubscriptionApple: String { return L10n.tr("Localizable", "plus_subscription_apple") }
   /// To cancel your subscription, you’ll need to cancel via Settings.
@@ -1952,10 +2141,16 @@ internal enum L10n {
   internal static var removeFromUpNext: String { return L10n.tr("Localizable", "remove_from_up_next") }
   /// Remove Up Next
   internal static var removeUpNext: String { return L10n.tr("Localizable", "remove_up_next") }
+  /// Renew your Subscription
+  internal static var renewSubscription: String { return L10n.tr("Localizable", "renew_subscription") }
   /// Retry
   internal static var retry: String { return L10n.tr("Localizable", "retry") }
+  /// Save Bookmark
+  internal static var saveBookmark: String { return L10n.tr("Localizable", "save_bookmark") }
   /// Search
   internal static var search: String { return L10n.tr("Localizable", "search") }
+  /// Search podcasts or add RSS URL
+  internal static var searchLabel: String { return L10n.tr("Localizable", "search_label") }
   /// Search Podcasts
   internal static var searchPodcasts: String { return L10n.tr("Localizable", "search_podcasts") }
   /// Recent searches
@@ -1982,6 +2177,8 @@ internal enum L10n {
   internal static var selectAllAbove: String { return L10n.tr("Localizable", "select_all_above") }
   /// Select all below
   internal static var selectAllBelow: String { return L10n.tr("Localizable", "select_all_below") }
+  /// Select Bookmarks
+  internal static var selectBookmarks: String { return L10n.tr("Localizable", "select_bookmarks") }
   /// Select Episodes
   internal static var selectEpisodes: String { return L10n.tr("Localizable", "select_episodes") }
   /// %1$@ selected
@@ -2116,10 +2313,16 @@ internal enum L10n {
   internal static var settingsBadgeNewSinceOpened: String { return L10n.tr("Localizable", "settings_badge_new_since_opened") }
   /// Total Unplayed
   internal static var settingsBadgeTotalUnplayed: String { return L10n.tr("Localizable", "settings_badge_total_unplayed") }
+  /// Bookmark Confirmation Sound
+  internal static var settingsBookmarkConfirmationSound: String { return L10n.tr("Localizable", "settings_bookmark_confirmation_sound") }
+  /// Play a confirmation sound after creating a bookmark with your headphones.
+  internal static var settingsBookmarkSoundFooter: String { return L10n.tr("Localizable", "settings_bookmark_sound_footer") }
   /// Collect information
   internal static var settingsCollectInformation: String { return L10n.tr("Localizable", "settings_collect_information") }
   /// Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.
   internal static var settingsCollectInformationAdditionalInformation: String { return L10n.tr("Localizable", "settings_collect_information_additional_information") }
+  /// Connection Status
+  internal static var settingsConnectionStatus: String { return L10n.tr("Localizable", "settings_connection_status") }
   /// Create Siri Shortcut
   internal static var settingsCreateSiriShortcut: String { return L10n.tr("Localizable", "settings_create_siri_shortcut") }
   /// Create a Siri Shortcut to play the newest episode of %1$@
@@ -2204,6 +2407,10 @@ internal enum L10n {
   }
   /// Open Player Automatically
   internal static var settingsGeneralAutoOpenPlayer: String { return L10n.tr("Localizable", "settings_general_auto_open_player") }
+  /// Autoplay
+  internal static var settingsGeneralAutoplay: String { return L10n.tr("Localizable", "settings_general_autoplay") }
+  /// If your Up Next queue is empty, we'll play episodes from the same podcast or list you're currently listening to.
+  internal static var settingsGeneralAutoplaySubtitle: String { return L10n.tr("Localizable", "settings_general_autoplay_subtitle") }
   /// DEFAULTS
   internal static var settingsGeneralDefaultsHeader: String { return L10n.tr("Localizable", "settings_general_defaults_header") }
   /// Podcast Episode Grouping
@@ -2262,6 +2469,10 @@ internal enum L10n {
   internal static var settingsGeneralUpNextTapOnSubtitle: String { return L10n.tr("Localizable", "settings_general_up_next_tap_on_subtitle") }
   /// Global Settings
   internal static var settingsGlobalSettings: String { return L10n.tr("Localizable", "settings_global_settings") }
+  /// Headphone Controls
+  internal static var settingsHeadphoneControls: String { return L10n.tr("Localizable", "settings_headphone_controls") }
+  /// Customise the actions done by the most common headphone controls.
+  internal static var settingsHeadphoneControlsFooter: String { return L10n.tr("Localizable", "settings_headphone_controls_footer") }
   /// Help & Feedback
   internal static var settingsHelp: String { return L10n.tr("Localizable", "settings_help") }
   /// Import / Export
@@ -2276,6 +2487,8 @@ internal enum L10n {
   internal static var settingsInMenu: String { return L10n.tr("Localizable", "settings_in_menu") }
   /// Inactive episodes are episodes you haven't played or downloaded in the time you specify above. Downloads are removed when the episode is archived.
   internal static var settingsInactiveEpisodesMsg: String { return L10n.tr("Localizable", "settings_inactive_episodes_msg") }
+  /// Next Action
+  internal static var settingsNextAction: String { return L10n.tr("Localizable", "settings_next_action") }
   /// Not Included In Any Filters
   internal static var settingsNotInFilters: String { return L10n.tr("Localizable", "settings_not_in_filters") }
   /// Notifications
@@ -2292,6 +2505,8 @@ internal enum L10n {
   internal static func settingsPlusPricingFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "settings_plus_pricing_format", String(describing: p1), String(describing: p2))
   }
+  /// Previous Action
+  internal static var settingsPreviousAction: String { return L10n.tr("Localizable", "settings_previous_action") }
   /// Privacy
   internal static var settingsPrivacy: String { return L10n.tr("Localizable", "settings_privacy") }
   /// Position in Queue
@@ -2332,6 +2547,38 @@ internal enum L10n {
   internal static var settingsSkipMsg: String { return L10n.tr("Localizable", "settings_skip_msg") }
   /// Stats
   internal static var settingsStats: String { return L10n.tr("Localizable", "settings_stats") }
+  /// Account Service
+  internal static var settingsStatusAccountService: String { return L10n.tr("Localizable", "settings_status_account_service") }
+  /// The service used to store episode progress, subscriptions, filters, etc.
+  internal static var settingsStatusAccountServiceDescription: String { return L10n.tr("Localizable", "settings_status_account_service_description") }
+  /// Check your connection with important services. This helps diagnose issues with your network, proxies, VPN, ad-blocking and security apps.
+  internal static var settingsStatusDescription: String { return L10n.tr("Localizable", "settings_status_description") }
+  /// Discover & Search
+  internal static var settingsStatusDiscover: String { return L10n.tr("Localizable", "settings_status_discover") }
+  /// The discover section of the app, including podcast search.
+  internal static var settingsStatusDiscoverDescription: String { return L10n.tr("Localizable", "settings_status_discover_description") }
+  /// Common Podcast Hosts
+  internal static var settingsStatusHost: String { return L10n.tr("Localizable", "settings_status_host") }
+  /// Podcast authors host episode files in various hosting providers not managed by Pocket Casts.
+  internal static var settingsStatusHostDescription: String { return L10n.tr("Localizable", "settings_status_host_description") }
+  /// The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.
+  internal static var settingsStatusHostFailureMessage: String { return L10n.tr("Localizable", "settings_status_host_failure_message") }
+  /// Internet
+  internal static var settingsStatusInternet: String { return L10n.tr("Localizable", "settings_status_internet") }
+  /// Check the status of your network.
+  internal static var settingsStatusInternetDescription: String { return L10n.tr("Localizable", "settings_status_internet_description") }
+  /// Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).
+  internal static var settingsStatusInternetFailureMessage: String { return L10n.tr("Localizable", "settings_status_internet_failure_message") }
+  /// Refresh Service
+  internal static var settingsStatusRefreshService: String { return L10n.tr("Localizable", "settings_status_refresh_service") }
+  /// The service used to find new episodes.
+  internal static var settingsStatusRefreshServiceDescription: String { return L10n.tr("Localizable", "settings_status_refresh_service_description") }
+  /// Run now
+  internal static var settingsStatusRun: String { return L10n.tr("Localizable", "settings_status_run") }
+  /// The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %1$@
+  internal static func settingsStatusServiceAdBlockerHelpSingular(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "settings_status_service_ad_blocker_help_singular", String(describing: p1))
+  }
   /// Storage & Data Use
   internal static var settingsStorage: String { return L10n.tr("Localizable", "settings_storage") }
   /// Warn Before Using Data
@@ -2348,6 +2595,10 @@ internal enum L10n {
   internal static var settingsTrimLevel: String { return L10n.tr("Localizable", "settings_trim_level") }
   /// Trim Silence
   internal static var settingsTrimSilence: String { return L10n.tr("Localizable", "settings_trim_silence") }
+  /// When enabled the Up Next will always use the dark theme, or will match the current theme when disabled.
+  internal static var settingsUpNextDarkModeFooter: String { return L10n.tr("Localizable", "settings_up_next_dark_mode_footer") }
+  /// Use Dark Up Next Theme
+  internal static var settingsUpNextDarkModeTitle: String { return L10n.tr("Localizable", "settings_up_next_dark_mode_title") }
   /// Automatically add new episodes to Up Next. New episodes will stop being added when Up Next reaches %1$@.
   internal static func settingsUpNextLimit(_ p1: Any) -> String {
     return L10n.tr("Localizable", "settings_up_next_limit", String(describing: p1))
@@ -2520,12 +2771,16 @@ internal enum L10n {
   internal static var sortBy: String { return L10n.tr("Localizable", "sort_by") }
   /// Sort Episodes
   internal static var sortEpisodes: String { return L10n.tr("Localizable", "sort_episodes") }
+  /// Timestamp
+  internal static var sortOptionTimestamp: String { return L10n.tr("Localizable", "sort_option_timestamp") }
   /// Speed
   internal static var speed: String { return L10n.tr("Localizable", "speed") }
   /// Star Episode
   internal static var starEpisode: String { return L10n.tr("Localizable", "star_episode") }
   /// Star
   internal static var starEpisodeShort: String { return L10n.tr("Localizable", "star_episode_short") }
+  /// Start Free Trial
+  internal static var startFreeTrial: String { return L10n.tr("Localizable", "start_free_trial") }
   /// You've listened for %1$@. %2$@
   internal static func statsAccessibilityListenHistoryFormat(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "stats_accessibility_listen_history_format", String(describing: p1), String(describing: p2))
@@ -2586,8 +2841,20 @@ internal enum L10n {
   internal static func subscriptionCancelledMsg(_ p1: Any) -> String {
     return L10n.tr("Localizable", "subscription_cancelled_msg", String(describing: p1))
   }
+  /// Expires in %1$@
+  internal static func subscriptionExpiresIn(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "subscription_expires_in", String(describing: p1))
+  }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }
+  /// If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.
+  internal static var supportWatchHelpMessage: String { return L10n.tr("Localizable", "support_watch_help_message") }
+  /// I've opened the Watch app
+  internal static var supportWatchHelpOpenedApp: String { return L10n.tr("Localizable", "support_watch_help_opened_app") }
+  /// Send without Watch logs
+  internal static var supportWatchHelpSendWithoutLog: String { return L10n.tr("Localizable", "support_watch_help_send_without_log") }
+  /// Looking for Watch app help?
+  internal static var supportWatchHelpTitle: String { return L10n.tr("Localizable", "support_watch_help_title") }
   /// Supporter
   internal static var supporter: String { return L10n.tr("Localizable", "supporter") }
   /// Supporter Contributions
@@ -2652,6 +2919,8 @@ internal enum L10n {
   internal static var trimSilence: String { return L10n.tr("Localizable", "trim_silence") }
   /// Try Again
   internal static var tryAgain: String { return L10n.tr("Localizable", "try_again") }
+  /// Try It Now
+  internal static var tryItNow: String { return L10n.tr("Localizable", "try_it_now") }
   /// Unarchive
   internal static var unarchive: String { return L10n.tr("Localizable", "unarchive") }
   /// ? m
@@ -2668,6 +2937,12 @@ internal enum L10n {
   internal static var upNextEmptyDescription: String { return L10n.tr("Localizable", "up_next_empty_description") }
   /// Nothing in Up Next
   internal static var upNextEmptyTitle: String { return L10n.tr("Localizable", "up_next_empty_title") }
+  /// Upgrade Account
+  internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
+  /// Upgrade to %1$@
+  internal static func upgradeToPlan(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))
+  }
   /// Title (A-Z)
   internal static var uploadSortAlpha: String { return L10n.tr("Localizable", "upload_sort_alpha") }
   /// Volume Boost
