@@ -417,12 +417,6 @@ class PodcastDataManager {
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-
-    /// TODO: Documentation
-    /// - Parameters:
-    ///   - value: <#value description#>
-    ///   - podcasts: <#podcasts description#>
-    ///   - dbQueue: <#dbQueue description#>
     func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast], in dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
