@@ -155,6 +155,24 @@
         }
       },
       {
+        "package": "JLRoutes",
+        "repositoryURL": "https://github.com/joeldev/JLRoutes",
+        "state": {
+          "branch": null,
+          "revision": "d9f74895e37e0a33a40d39637ede75de3a2d6b66",
+          "version": "2.1.1"
+        }
+      },
+      {
+        "package": "Kingfisher",
+        "repositoryURL": "https://github.com/onevcat/Kingfisher",
+        "state": {
+          "branch": null,
+          "revision": "3ec0ab0bca4feb56e8b33e289c9496e89059dd08",
+          "version": "7.10.2"
+        }
+      },
+      {
         "package": "leveldb",
         "repositoryURL": "https://github.com/firebase/leveldb.git",
         "state": {
