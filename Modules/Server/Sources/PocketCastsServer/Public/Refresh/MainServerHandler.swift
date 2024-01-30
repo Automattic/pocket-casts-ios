@@ -242,7 +242,7 @@ public class MainServerHandler {
             jsonRequest["push_token"] = pushToken
         }
         jsonRequest["push_on"] = pushEnabled ? "true" : "false"
-        guard let data = try? JSONSerialization.data(withJSONObject: jsonRequest, options: []) else {
+        guard let data = try? JSONSerialization.data(withJSONObject: jsonRequest) else {
             FileLog.shared.addMessage("Failed to create refresh request")
             return nil
         }
