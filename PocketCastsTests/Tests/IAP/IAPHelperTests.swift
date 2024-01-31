@@ -83,5 +83,35 @@ final class IAPHelperTests: XCTestCase {
 
         session.clearTransactions()
     }
+}
 
+// MARK: - MockIAPHandler
+
+class MockIAPHandler: IAPHelper.ServerHandler {
+    var isLoggedInValue = true
+    var iapUnverifiedPurchaseReceiptDateValue: Date?
+    var sendPurchaseReceiptSuccess = true
+    var isEligible = true
+
+    override var isLoggedIn: Bool {
+        isLoggedInValue
+    }
+
+    override var iapUnverifiedPurchaseReceiptDate: Date? {
+        set {
+            iapUnverifiedPurchaseReceiptDateValue = newValue
+        }
+
+        get {
+            iapUnverifiedPurchaseReceiptDateValue
+        }
+    }
+
+    override func sendPurchaseReceipt(completion: @escaping (Bool) -> Void) {
+        completion(sendPurchaseReceiptSuccess)
+    }
+
+    override func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void) {
+        completion(isEligible)
+    }
 }
