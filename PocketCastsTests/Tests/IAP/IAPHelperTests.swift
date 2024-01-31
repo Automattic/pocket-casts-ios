@@ -6,17 +6,11 @@ import PocketCastsServer
 
 final class IAPHelperTests: XCTestCase {
 
-    var email: String?
 
     override func setUpWithError() throws {
-        // Pretend we're logged in
-        email = ServerSettings.syncingEmail()
-        ServerSettings.setSyncingEmail(email: "test@test.com")
     }
 
     override func tearDownWithError() throws {
-        // Restore previous login
-        ServerSettings.setSyncingEmail(email: email)
     }
 
     let configurationFile = "Pocket Casts Configuration"
