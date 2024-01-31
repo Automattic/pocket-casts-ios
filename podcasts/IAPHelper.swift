@@ -417,3 +417,27 @@ private extension IAPHelper {
         Analytics.track(event, properties: properties)
     }
 }
+// MARK: - ServerHandler
+
+extension IAPHelper {
+    /// Acts as a proxy to the `ServerSettings` static methods the IAPHelper uses, and the `ApiServerHandler` calls
+    /// This allows for these to be injected and test, but keep the functionality the same.
+    class ServerHandler {
+        var isLoggedIn: Bool {
+            SyncManager.isUserLoggedIn()
+        }
+
+        var iapUnverifiedPurchaseReceiptDate: Date? {
+            set { ServerSettings.setIapUnverifiedPurchaseReceiptDate(newValue) }
+            get { ServerSettings.iapUnverifiedPurchaseReceiptDate() }
+        }
+
+        func sendPurchaseReceipt(completion: @escaping (Bool) -> Void) {
+            ApiServerHandler.shared.sendPurchaseReceipt(completion: completion)
+        }
+
+        func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void) {
+            ApiServerHandler.shared.checkTrialEligibility(base64EncodedReceipt, completion: completion)
+        }
+    }
+}
