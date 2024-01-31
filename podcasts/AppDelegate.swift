@@ -309,6 +309,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
             }
 
+            SyncManager.shouldUseNewSync = FeatureFlag.settingsSync.enabled
+
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
             IAPHelper.shared.requestProductInfoIfNeeded()
         } catch {

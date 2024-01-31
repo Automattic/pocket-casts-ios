@@ -22,6 +22,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Avoid logging out user on non-authorization HTTP errors
     case errorLogoutHandling
 
+    /// Syncing all app and podcast settings
+    case settingsSync
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -41,6 +44,8 @@ enum FeatureFlag: String, CaseIterable {
         case .newPlayerTransition:
             return true
         case .errorLogoutHandling:
+            return false
+        case .settingsSync:
             return false
         }
     }
