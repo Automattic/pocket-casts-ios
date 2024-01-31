@@ -27,16 +27,8 @@ final class IAPHelperTests: XCTestCase {
     }
 
     func testRequestInfo() throws {
-        let expectation = XCTestExpectation(description: "Fetch Products")
-        NotificationCenter.default.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: nil) { notification in
-            expectation.fulfill()
-        }
         helper.requestProductInfo()
-
-        wait(for: [expectation], timeout: iapTestTimeout)
-        XCTAssert(helper.hasLoadedProducts)
-
-        let _ = helper.getProduct(for: .monthly)
+        wait(for: ServerNotifications.iapProductsUpdated, timeout: iapTestTimeout, description: "Fetch Products")
 
         let price = helper.getPrice(for: .monthly)
         XCTAssertEqual(price, "$3.99")
@@ -49,23 +41,15 @@ final class IAPHelperTests: XCTestCase {
     }
 
     func testPurchase() throws {
-        let expectation = XCTestExpectation(description: "Fetch Products")
-        NotificationCenter.default.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: nil) { notification in
-            expectation.fulfill()
-        }
         helper.requestProductInfo()
+        wait(for: ServerNotifications.iapProductsUpdated, timeout: iapTestTimeout, description: "Fetch Products")
 
-        wait(for: [expectation], timeout: iapTestTimeout)
         XCTAssert(helper.hasLoadedProducts)
 
-        let buyExpectation = XCTestExpectation(description: "Buy Product")
-        NotificationCenter.default.addObserver(forName: ServerNotifications.iapPurchaseCompleted, object: nil, queue: nil) { notification in
-            buyExpectation.fulfill()
-        }
         let buyResult = helper.buyProduct(identifier: .monthly)
         XCTAssert(buyResult)
 
-        wait(for: [buyExpectation], timeout: iapTestTimeout)
+        wait(for: ServerNotifications.iapPurchaseCompleted, timeout: iapTestTimeout, description: "Buy Products")
 
     }
 }
