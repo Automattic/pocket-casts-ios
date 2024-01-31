@@ -26,7 +26,11 @@ class IAPHelper: NSObject {
     /// Whether purchasing is allowed in the current environment or not
     var canMakePurchases = BuildEnvironment.current != .testFlight
 
-    override init() {
+    let serverHandler: ServerHandler
+
+    init(serverHandler: ServerHandler = .init()) {
+        self.serverHandler = serverHandler
+
         super.init()
 
         addSubscriptionNotifications()
