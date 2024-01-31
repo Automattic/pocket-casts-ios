@@ -290,7 +290,7 @@ private extension IAPHelper {
         }
 
         isCheckingEligibility = true
-        ApiServerHandler.shared.checkTrialEligibility(receiptString) { [weak self] isEligible in
+        serverHandler.checkTrialEligibility(receiptString) { [weak self] isEligible in
             let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
 
             FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
@@ -360,10 +360,11 @@ extension IAPHelper: SKPaymentTransactionObserver {
         }
 
         if hasNewPurchasedReceipt {
-            if ServerSettings.iapUnverifiedPurchaseReceiptDate() == nil {
-                ServerSettings.setIapUnverifiedPurchaseReceiptDate(Date())
+            if serverHandler.iapUnverifiedPurchaseReceiptDate == nil {
+                serverHandler.iapUnverifiedPurchaseReceiptDate = Date()
             }
-            ApiServerHandler.shared.sendPurchaseReceipt(completion: { success in
+
+            serverHandler.sendPurchaseReceipt(completion: { success in
                 if success {
                     FileLog.shared.addMessage("IAPHelper successfully validated receipt")
                 } else {
@@ -421,6 +422,7 @@ private extension IAPHelper {
         Analytics.track(event, properties: properties)
     }
 }
+
 // MARK: - ServerHandler
 
 extension IAPHelper {
