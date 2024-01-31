@@ -5,16 +5,26 @@ import StoreKitTest
 import PocketCastsServer
 
 final class IAPHelperTests: XCTestCase {
+    let configurationFile = "Pocket Casts Configuration"
+    let iapTestTimeout: TimeInterval = 5
 
+    var session: SKTestSession!
+    var helper: IAPHelper!
 
     override func setUpWithError() throws {
+        session = try SKTestSession(configurationFileNamed: configurationFile)
+        session.clearTransactions()
+        session.resetToDefaultState()
+        session.disableDialogs = true
+
+        helper = IAPHelper(serverHandler: MockIAPHandler())
+        SKPaymentQueue.default().add(helper)
     }
 
     override func tearDownWithError() throws {
+        session.clearTransactions()
+        SKPaymentQueue.default().remove(helper)
     }
-
-    let configurationFile = "Pocket Casts Configuration"
-    let iapTestTimeout: TimeInterval = 5
 
     func testRequestInfo() throws {
         let session = try SKTestSession(configurationFileNamed: configurationFile)
