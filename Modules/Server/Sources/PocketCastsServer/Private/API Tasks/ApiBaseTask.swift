@@ -2,6 +2,12 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case delete = "DELETE"
+}
+
 class ApiBaseTask: Operation {
     private let syncTimeout = 60 as TimeInterval
     private let isoDateFormatter = ISO8601DateFormatter()
@@ -41,29 +47,9 @@ class ApiBaseTask: Operation {
 
     private func performPostToServer(url: String, token: String, data: Data, retryOnUnauthorized: Bool = true) -> (Data?, Int) {
         let requestUrl = ServerHelper.asUrl(url)
-        let method = "POST"
-        var request = createRequest(url: requestUrl, method: method, token: token)
-        do {
-            request.httpBody = data
 
-            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
-            guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
-            if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
-                    return performPostToServer(url: url, token: newToken, data: data, retryOnUnauthorized: false)
-                }
-
-                // our token may have expired, remove it so next time a sync happens we'll acquire a new one
-                KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
-                return (nil, httpResponse.statusCode)
-            }
-
-            return (responseData, httpResponse.statusCode)
-        } catch {
-            logFailure(method: method, url: url, error: error)
-        }
-
-        return (nil, ServerConstants.HttpConstants.serverError)
+        let (data, response) = requestToServer(url: requestUrl, method: .post, token: token, retryOnUnauthorized: retryOnUnauthorized, data: data)
+        return (data, response?.statusCode ?? ServerConstants.HttpConstants.serverError)
     }
 
     func getToServer(url: String, token: String, customHeaders: [String: String]? = nil) -> (Data?, HTTPURLResponse?) {
@@ -72,8 +58,20 @@ class ApiBaseTask: Operation {
 
     func performGetToServer(url: String, token: String, retryOnUnauthorized: Bool = true, customHeaders: [String: String]? = nil) -> (Data?, HTTPURLResponse?) {
         let requestUrl = ServerHelper.asUrl(url)
-        let method = "GET"
-        var request = createRequest(url: requestUrl, method: method, token: token)
+
+        return requestToServer(url: requestUrl, method: .get, token: token, retryOnUnauthorized: retryOnUnauthorized, customHeaders: customHeaders)
+    }
+
+    func deleteToServer(url: String, token: String?, data: Data) -> (Data?, Int) {
+        let url = ServerHelper.asUrl(url)
+
+        let (data, response) =  requestToServer(url: url, method: .delete, token: token, data: data)
+        return (data, response?.statusCode ?? ServerConstants.HttpConstants.serverError)
+    }
+
+    func requestToServer(url: URL, method: HTTPMethod, token: String?, retryOnUnauthorized: Bool = true, customHeaders: [String: String]? = nil, data: Data? = nil) -> (Data?, HTTPURLResponse?) {
+        var request = createRequest(url: url, method: method.rawValue, token: token)
+
         if let customHeaders = customHeaders {
             for header in customHeaders {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
@@ -81,11 +79,17 @@ class ApiBaseTask: Operation {
         }
 
         do {
+            request.httpBody = data
+
             let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
-            guard let httpResponse = response as? HTTPURLResponse else { return (nil, nil) }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return (nil, HTTPURLResponse(url: url, statusCode: ServerConstants.HttpConstants.serverError, httpVersion: nil, headerFields: nil))
+            }
+
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
+
                 if retryOnUnauthorized, let newToken = tokenHelper.acquireToken() {
-                    return performGetToServer(url: url, token: newToken, retryOnUnauthorized: false, customHeaders: customHeaders)
+                    return requestToServer(url: url, method: method, token: newToken, retryOnUnauthorized: retryOnUnauthorized, customHeaders: customHeaders, data: data)
                 }
 
                 // our token may have expired, remove it so next time a sync happens we'll acquire a new one
@@ -95,33 +99,10 @@ class ApiBaseTask: Operation {
 
             return (responseData, httpResponse)
         } catch {
-            logFailure(method: method, url: url, error: error)
+            logFailure(method: method.rawValue, url: url.absoluteString, error: error)
         }
 
-        return (nil, nil)
-    }
-
-    func deleteToServer(url: String, token: String?, data: Data) -> (Data?, Int) {
-        let url = ServerHelper.asUrl(url)
-        let method = "DELETE"
-        var request = createRequest(url: url, method: method, token: token)
-        do {
-            request.httpBody = data
-
-            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
-            guard let httpResponse = response as? HTTPURLResponse else { return (nil, ServerConstants.HttpConstants.serverError) }
-            if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
-                // our token may have expired, remove it so next time a sync happens we'll acquire a new one
-                KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
-                return (nil, httpResponse.statusCode)
-            }
-
-            return (responseData, httpResponse.statusCode)
-        } catch {
-            logFailure(method: method, url: url.absoluteString, error: error)
-        }
-
-        return (nil, ServerConstants.HttpConstants.serverError)
+        return (nil, HTTPURLResponse(url: url, statusCode: ServerConstants.HttpConstants.serverError, httpVersion: nil, headerFields: nil))
     }
 
     func formatDate(_ date: Date?) -> String {
