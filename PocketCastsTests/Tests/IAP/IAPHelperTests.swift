@@ -27,12 +27,6 @@ final class IAPHelperTests: XCTestCase {
     }
 
     func testRequestInfo() throws {
-        let session = try SKTestSession(configurationFileNamed: configurationFile)
-        session.clearTransactions()
-        session.resetToDefaultState()
-        session.disableDialogs = true
-
-        let helper = IAPHelper()
         let expectation = XCTestExpectation(description: "Fetch Products")
         NotificationCenter.default.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: nil) { notification in
             expectation.fulfill()
@@ -52,21 +46,9 @@ final class IAPHelperTests: XCTestCase {
 
         let paymentFrequency = helper.getPaymentFrequency(for: .monthly)
         XCTAssertEqual(paymentFrequency, "month")
-
-        session.clearTransactions()
     }
 
     func testPurchase() throws {
-        let session = try SKTestSession(configurationFileNamed: configurationFile)
-        session.clearTransactions()
-        session.resetToDefaultState()
-        session.disableDialogs = true
-
-        let helper = IAPHelper()
-        SKPaymentQueue.default().add(helper)
-        defer {
-            SKPaymentQueue.default().remove(helper)
-        }
         let expectation = XCTestExpectation(description: "Fetch Products")
         NotificationCenter.default.addObserver(forName: ServerNotifications.iapProductsUpdated, object: nil, queue: nil) { notification in
             expectation.fulfill()
@@ -85,7 +67,6 @@ final class IAPHelperTests: XCTestCase {
 
         wait(for: [buyExpectation], timeout: iapTestTimeout)
 
-        session.clearTransactions()
     }
 }
 
