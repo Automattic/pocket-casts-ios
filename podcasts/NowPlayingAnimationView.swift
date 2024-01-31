@@ -15,10 +15,10 @@ class NowPlayingAnimationView: UIView {
         }
     }
 
-    private var animationView: AnimationView
+    private var animationView: LottieAnimationView
 
     required init?(coder aDecoder: NSCoder) {
-        animationView = AnimationView(name: "nowplaying")
+        animationView = LottieAnimationView(name: "nowplaying")
 
         super.init(coder: aDecoder)
     }

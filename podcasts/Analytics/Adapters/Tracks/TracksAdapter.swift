@@ -50,7 +50,7 @@ class TracksAdapter: AnalyticsAdapter {
         tracksService.eventNamePrefix = TracksConfig.prefix
         tracksService.authenticatedUserTypeKey = TracksConfig.userKey
 
-        TracksLogging.delegate = TracksAdapterLoggingDelegate()
+        TracksLogging.delegate = TracksAdapterLoggingDelegate.shared
 
         // Setup the rest of the properties
         updateUserProperties()
@@ -123,7 +123,8 @@ private extension TracksAdapter {
 // MARK: - TracksLoggingDelegate
 
 private class TracksAdapterLoggingDelegate: NSObject, TracksLoggingDelegate {
-    static let logger = Logger()
+    static let shared = TracksAdapterLoggingDelegate()
+    private static let logger = Logger()
 
     func logError(_ str: String) {
         Self.logger.error("\(str)")

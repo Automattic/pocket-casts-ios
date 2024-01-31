@@ -19,6 +19,13 @@ public class SyncYearListeningProgress: ObservableObject {
         // There are a few additional requests after syncing episodes, so we hang on 95%
         progress = min(syncedEpisodes / episodesToSync, 0.95)
     }
+
+    @MainActor
+    public func reset() {
+        progress = 0
+        episodesToSync = 0
+        syncedEpisodes = 0
+    }
 }
 
 class SyncYearListeningHistoryTask: ApiBaseTask {
@@ -66,7 +73,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         do {
             let response = try Api_YearHistoryResponse(serializedData: serverData)
 
-            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodesThisYear()
+            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodes(year: yearToSync)
 
             if response.count > localNumberOfEpisodes, let token {
                 print("SyncYearListeningHistory: \(Int(response.count) - localNumberOfEpisodes) episodes missing, adding them...")
@@ -95,14 +102,16 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
     }
 
     private func updateEpisodes(updates: [Api_HistoryChange]) {
+        let lock = NSLock()
+
         var podcastsToUpdate: Set<String> = []
 
         // Get the list of missing episodes in the database
         let uuids = updates.map { $0.episode }
-        let episodesThatExist = DataManager.sharedManager.episodesThatExist(uuids: uuids)
+        let episodesThatExist = DataManager.sharedManager.episodesThatExist(year: yearToSync, uuids: uuids)
         let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
-        SyncYearListeningProgress.shared.episodesToSync = Double(missingEpisodes.count)
+        SyncYearListeningProgress.shared.episodesToSync += Double(missingEpisodes.count)
 
         let dispatchGroup = DispatchGroup()
 
@@ -114,7 +123,11 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
                 ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: change.episode, podcastUuid: change.podcast)
                 DataManager.sharedManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: change.episode)
+
+                // Ensure podcastsToUpdate access is thread-safe to avoid crashes
+                lock.lock()
                 podcastsToUpdate.insert(change.podcast)
+                lock.unlock()
 
                 DispatchQueue.main.async {
                     SyncYearListeningProgress.shared.episodeSynced()
@@ -154,9 +167,14 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 class PodcastExistsHelper {
     static let shared = PodcastExistsHelper()
 
-    var checkedUuidsThatExist: [String] = []
+    private var checkedUuidsThatExist: [String] = []
+
+    private var lock = NSLock()
 
     func exists(uuid: String) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+
         if checkedUuidsThatExist.contains(uuid) {
             return true
         }
@@ -173,10 +191,26 @@ class PodcastExistsHelper {
 
 public class YearListeningHistory {
     public static func sync() -> Bool {
-        let syncYearListeningHistory = SyncYearListeningHistoryTask(year: 2022)
+        var syncResults: [Bool] = []
+        let yearsToSync: [Int32] = SubscriptionHelper.hasActiveSubscription() ? [2023, 2022] : [2023]
 
-        syncYearListeningHistory.start()
+        let dispatchGroup = DispatchGroup()
+        yearsToSync.forEach { yearToSync in
+            dispatchGroup.enter()
 
-        return syncYearListeningHistory.success
+            DispatchQueue.global(qos: .userInitiated).async {
+                let syncYearListeningHistory = SyncYearListeningHistoryTask.init(year: yearToSync)
+
+                syncYearListeningHistory.start()
+
+                syncResults.append(syncYearListeningHistory.success)
+
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.wait()
+
+        return syncResults.allSatisfy { $0 == true }
     }
 }

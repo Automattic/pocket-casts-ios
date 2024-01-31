@@ -160,14 +160,12 @@ class SyncTask: ApiBaseTask {
         }
         retrieveFiltersTask.runTaskSynchronously()
 
-        if dataManager.bookmarksEnabled {
-            // Retrieve all the bookmarks
-            RetrieveBookmarksTask { bookmarks in
-                guard let bookmarks else { return }
+        // Retrieve all the bookmarks
+        RetrieveBookmarksTask { bookmarks in
+            guard let bookmarks else { return }
 
-                self.processServerBookmarks(bookmarks)
-            }.runTaskSynchronously()
-        }
+            self.processServerBookmarks(bookmarks)
+        }.runTaskSynchronously()
 
         UserDefaults.standard.set(lastSyncDate, forKey: ServerConstants.UserDefaults.lastModifiedServerDate)
 
@@ -218,10 +216,8 @@ class SyncTask: ApiBaseTask {
             DataManager.sharedManager.markAllEpisodeFiltersSynced()
             DataManager.sharedManager.markAllFoldersSynced()
 
-            if dataManager.bookmarksEnabled {
-                Task {
-                    await dataManager.bookmarks.markAllBookmarksAsSynced()
-                }
+            Task {
+                await dataManager.bookmarks.markAllBookmarksAsSynced()
             }
 
             let response = try Api_SyncUpdateResponse(serializedData: responseData)
@@ -267,7 +263,7 @@ class SyncTask: ApiBaseTask {
             FileLog.shared.foldersIssue("SyncTask: sending stats changes")
         }
 
-        if dataManager.bookmarksEnabled, let bookmarks = changedBookmarks() {
+        if let bookmarks = changedBookmarks() {
             records += bookmarks
             FileLog.shared.addMessage("SyncTask: Number of changed bookmarks: \(bookmarks.count)")
         }

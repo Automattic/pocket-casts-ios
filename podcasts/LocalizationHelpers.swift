@@ -19,7 +19,7 @@ public extension String {
         }
     }
 
-    /// This contains a list of strings that can come from the server. This methid provides a helper to quickly lookup the localized versions.
+    /// This contains a list of strings that can come from the server. This method provides a helper to quickly lookup the localized versions.
     var localized: String {
         switch lowercased() {
         case "featured":
@@ -86,6 +86,16 @@ public extension String {
             return L10n.discoverBrowseByCategoryTrueCrime
         case "tv & film":
             return L10n.discoverBrowseByCategoryTvAndFilm
+
+        // Abbreviated categories
+        case "health":
+            return L10n.discoverBrowseByCategoryHealth
+        case "family":
+            return L10n.discoverBrowseByCategoryFamily
+        case "spirituality":
+            return L10n.discoverBrowseByCategorySpirituality
+        case "culture":
+            return L10n.discoverBrowseByCategorySocietyAndCulture
 
         // Regions
         case "australia":

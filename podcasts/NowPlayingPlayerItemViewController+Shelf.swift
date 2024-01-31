@@ -26,7 +26,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let actions = Settings.playerActions()
 
         // don't reload the actions unless we need to
-        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive()) { return }
+        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode) { return }
 
         // load the first 4 actions into the player, followed by an overflow icon
         playerControlsStackView.removeAllSubviews()
@@ -221,7 +221,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     // MARK: - Player Actions
 
-    @objc private func overflowTapped() {
+    @objc func overflowTapped() {
         let shelfController = ShelfActionsViewController()
         shelfController.playerActionsDelegate = self
         let bottomSheet = MDCBottomSheetController(contentViewController: shelfController)

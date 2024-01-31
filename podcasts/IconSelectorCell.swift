@@ -19,7 +19,7 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
 
     static var availableIcons: [IconType] {
         Self.allCases.filter {
-            $0.subscription <= (FeatureFlag.patron.enabled ? .patron : .plus)
+            $0.subscription <= .patron
         }
     }
 
@@ -312,7 +312,7 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
 
             if let delegate {
                 let context: OnboardingFlow.Context? = IconType(rawValue: indexPath.item).flatMap {
-                    ["product": Constants.ProductInfo(plan: $0.subscription == .patron ? .patron : .plus, frequency: .yearly)]
+                    ["product": ProductInfo(plan: $0.subscription == .patron ? .patron : .plus, frequency: .yearly)]
                 }
 
                 NavigationManager.sharedManager.showUpsellView(from: delegate.iconSelectorPresentingVC(), source: .icons, context: context)

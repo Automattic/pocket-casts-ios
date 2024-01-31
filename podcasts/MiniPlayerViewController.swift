@@ -77,6 +77,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     func aboutToDisplayFullScreenPlayer() {
         guard let rootVC = rootViewController() else { return }
 
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            if fullScreenPlayer == nil {
+                fullScreenPlayer = PlayerContainerViewController()
+            }
+
+            return
+        }
+
         let viewSize = rootVC.view.bounds.size
         let startingYPos = fullScreenPlayer?.view.frame.minY ?? viewSize.height
         if fullScreenPlayer == nil {
@@ -93,6 +101,19 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     func finishedWithFullScreenPlayer() {
         guard let rootVC = rootViewController() else { return }
+
+        guard !FeatureFlag.newPlayerTransition.enabled else {
+            rootViewController()?.setNeedsStatusBarAppearanceUpdate()
+            rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()
+
+            fullScreenPlayer?.view.removeFromSuperview()
+            fullScreenPlayer = nil
+
+            // update the mini player on full screen player close
+            playbackStateDidChange()
+            playbackProgressDidChange()
+            return
+        }
 
         if fullScreenPlayer?.presentedViewController != nil {
             fullScreenPlayer?.dismiss(animated: false, completion: nil)
@@ -301,7 +322,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         upNextViewController = UpNextViewController(source: source)
         guard let upNextController = upNextViewController else { return }
 
-        let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let navWrapper = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         navWrapper.modalPresentationStyle = .formSheet
         rootViewController()?.present(navWrapper, animated: true, completion: nil)
     }

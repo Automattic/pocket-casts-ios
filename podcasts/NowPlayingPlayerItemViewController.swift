@@ -45,6 +45,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var podcastName: ThemeableLabel! {
         didSet {
             podcastName.style = .playerContrast02
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
+            podcastName.addGestureRecognizer(tapGesture)
+
+            podcastName.accessibilityTraits = .button
+            podcastName.accessibilityHint = L10n.accessibilityHintPlayerNavigateToPodcastLabel
         }
     }
 
@@ -119,6 +124,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var timeSlider: TimeSlider! {
         didSet {
+            timeSlider.accessibilityLabel = L10n.accessibilityEpisodePlayback
             timeSlider.delegate = self
         }
     }
@@ -149,7 +155,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private lazy var upNextController = UpNextViewController(source: .nowPlaying)
 
     lazy var upNextViewController: UIViewController = {
-        let controller = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let controller = SJUIUtils.navController(for: upNextController, iconStyle: .secondaryText01, themeOverride: upNextController.themeOverride)
         controller.modalPresentationStyle = .pageSheet
 
         return controller
@@ -171,6 +177,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.isPointerInteractionEnabled = true
 
         routePicker.delegate = self
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Show the overflow menu
+        if AnnouncementFlow.current == .bookmarksPlayer {
+            overflowTapped()
+        }
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
@@ -277,6 +292,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @objc private func chapterNameTapped() {
         containerDelegate?.scrollToCurrentChapter()
+    }
+
+    @objc private func podcastNameTapped() {
+        Analytics.track(.playerPodcastNameTapped)
+        containerDelegate?.navigateToPodcast()
     }
 
     private func skipForwardLongPressed() {

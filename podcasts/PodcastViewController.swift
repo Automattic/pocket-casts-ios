@@ -189,7 +189,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     init(podcast: Podcast) {
         self.podcast = podcast
 
-        // show the expaned view for unsubscribed podcasts, as well as paid podcasts that have expired and you no longer have access to play/download
+        // show the expanded view for unsubscribed podcasts, as well as paid podcasts that have expired and you no longer have access to play/download
         summaryExpanded = !podcast.isSubscribed() || (podcast.isPaid && podcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue && (SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid)?.isExpired() ?? false))
 
         AnalyticsHelper.podcastOpened(uuid: podcast.uuid)
@@ -240,7 +240,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addGoogleCastBtn()
         loadPodcastInfo()
         updateColors()
-        updateTopConstraintForiPhone14Pro()
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: nil)
@@ -272,26 +271,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self?.upNextChanged()
             })
             .store(in: &cancellables)
-    }
-
-    private func updateTopConstraintForiPhone14Pro() {
-        // Retrieve the name of the device
-        var deviceName = UIDeviceHardware.platformString()
-
-        #if targetEnvironment(simulator)
-        // If we're running in the simulator, grab the model that we're simulating
-        if let simulatorIdentifier = ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] {
-            deviceName = UIDeviceHardware.platformString(forType: simulatorIdentifier)
-        }
-        #endif
-
-        if deviceName.startsWith(string: "iPhone 14 Pro") {
-            // On iPhone 14 Pro and iPhone 14 Pro Max there's a space
-            // between the nav bar and the content
-            // Here we change the table top constraint to take into account that
-            // See: https://github.com/Automattic/pocket-casts-ios/issues/327
-            episodesTableTopConstraint.constant = -5
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

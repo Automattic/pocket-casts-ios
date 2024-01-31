@@ -16,10 +16,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private var tabContainerTrailingAnchor: NSLayoutConstraint? = nil
     private var tabViewModel: EpisodeTabsViewModel? = nil
 
-    private lazy var bookmarksController: BookmarkEpisodeListController? = {
-        guard FeatureFlag.bookmarks.enabled else { return nil }
-
-        return BookmarkEpisodeListController(episode: episode)
+    private lazy var bookmarksController: BookmarkEpisodeListController = {
+        return BookmarkEpisodeListController(episode: episode, themeOverride: themeOverride)
     }()
 
     @IBOutlet var podcastImage: PodcastImageView!
@@ -218,7 +216,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         loadShowNotes()
 
-        bookmarksController?.view.isHidden = false
+        bookmarksController.view.isHidden = false
 
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(playbackEventDidFire))
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(playbackEventDidFire))
@@ -578,7 +576,7 @@ private extension EpisodeDetailViewController {
     private func addBookmarksTabIfNeeded() {
         containerScrollView.addPage(mainScrollView)
 
-        guard let bookmarksController, let bookmarksView = bookmarksController.view else {
+        guard let bookmarksView = bookmarksController.view else {
             return
         }
 
@@ -690,7 +688,7 @@ private extension EpisodeDetailViewController {
             starButton = addRightAction(image: UIImage(named: "star_empty"), accessibilityLabel: L10n.starEpisode, action: #selector(starTapped(_:)))
             updateStar()
         case .bookmarks:
-            if bookmarksController?.viewModel.numberOfItems != 0 {
+            if bookmarksController.viewModel.numberOfItems != 0 {
                 addRightAction(image: UIImage(named: "more"),
                                accessibilityLabel: L10n.accessibilityMoreActions,
                                action: #selector(showBookmarksMore(_:)))
@@ -704,7 +702,7 @@ private extension EpisodeDetailViewController {
     }
 
     @objc private func showBookmarksMore(_ sender: UIButton) {
-        bookmarksController?.viewModel.showMoreOptions()
+        bookmarksController.viewModel.showMoreOptions()
     }
 
     func adjustTabContainer() {

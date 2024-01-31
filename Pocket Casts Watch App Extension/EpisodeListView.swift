@@ -10,7 +10,6 @@ struct EpisodeListView: View {
         ForEach(episodes) { episodeViewModel in
             NavigationLink(destination: EpisodeView(viewModel: EpisodeDetailsViewModel(episode: episodeViewModel.episode, playlist: playlist), listTitle: title)) {
                 EpisodeRow(viewModel: episodeViewModel, showArtwork: showArtwork)
-                    .padding(-4)
             }
         }
     }

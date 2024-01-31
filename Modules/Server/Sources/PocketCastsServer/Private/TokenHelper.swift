@@ -2,13 +2,22 @@ import Foundation
 import PocketCastsUtils
 
 class TokenHelper {
-    class func callSecureUrl(request: URLRequest, completion: @escaping ((HTTPURLResponse?, Data?, Error?) -> Void)) {
-        DispatchQueue.global().async {
-            performCallSecureUrl(request: request, retryOnUnauthorized: true, completion: completion)
+
+    static let shared = TokenHelper(urlConnection: URLConnection(handler: URLSession.shared))
+
+    private let urlConnection: URLConnection
+
+    init(urlConnection: URLConnection) {
+        self.urlConnection = urlConnection
+    }
+
+    func callSecureUrl(request: URLRequest, completion: @escaping ((HTTPURLResponse?, Data?, Error?) -> Void)) {
+        DispatchQueue.global().async { [weak self] in
+            self?.performCallSecureUrl(request: request, retryOnUnauthorized: true, completion: completion)
         }
     }
 
-    private class func performCallSecureUrl(request: URLRequest, retryOnUnauthorized: Bool = true, completion: @escaping ((HTTPURLResponse?, Data?, Error?) -> Void)) {
+    private func performCallSecureUrl(request: URLRequest, retryOnUnauthorized: Bool = true, completion: @escaping ((HTTPURLResponse?, Data?, Error?) -> Void)) {
         var mutableRequest = request
 
         if let privateUserAgent = ServerConfig.shared.syncDelegate?.privateUserAgent() {
@@ -19,7 +28,7 @@ class TokenHelper {
             let token: String
             if let storedToken = KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
                 token = storedToken
-            } else if let newToken = TokenHelper.acquireToken() {
+            } else if let newToken = acquireToken() {
                 token = newToken
             } else {
                 completion(nil, nil, nil)
@@ -29,7 +38,7 @@ class TokenHelper {
             mutableRequest.setValue("Bearer \(token)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
         }
 
-        URLSession.shared.dataTask(with: mutableRequest) { data, response, error in
+        URLSession.shared.dataTask(with: mutableRequest) { [weak self] data, response, error in
             guard let httpResponse = response as? HTTPURLResponse else {
                 completion(nil, nil, error)
                 return
@@ -38,7 +47,7 @@ class TokenHelper {
             if httpResponse.statusCode == ServerConstants.HttpConstants.unauthorized {
                 if SyncManager.isUserLoggedIn(), retryOnUnauthorized {
                     KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
-                    performCallSecureUrl(request: request, retryOnUnauthorized: false, completion: completion)
+                    self?.performCallSecureUrl(request: request, retryOnUnauthorized: false, completion: completion)
                 } else {
                     completion(httpResponse, nil, error)
                 }
@@ -50,18 +59,20 @@ class TokenHelper {
         }.resume()
     }
 
-    class func acquireToken() -> String? {
+    func acquireToken() -> String? {
         let semaphore = DispatchSemaphore(value: 0)
         var refreshedToken: String? = nil
         var refreshedRefreshToken: String? = nil
+        var error: Error? = nil
 
         asyncAcquireToken { result in
             switch result {
             case .success(let authenticationResponse):
                 refreshedToken = authenticationResponse?.token
                 refreshedRefreshToken = authenticationResponse?.refreshToken
-            case .failure:
+            case .failure(let resultError):
                 refreshedToken = nil
+                error = resultError
             }
             semaphore.signal()
         }
@@ -73,8 +84,18 @@ class TokenHelper {
             ServerSettings.refreshToken = refreshedRefreshToken
         }
         else {
-            // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
-            tokenCleanUp()
+            if ServerConfig.avoidLogoutOnError {
+                // if the user doesn't have an email and password or SSO token, they aren't going to be able to acquire a sync token
+                switch error as? APIError {
+                case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
+                    tokenCleanUp()
+                default:
+                    () // Do nothing so the user is not disrupted in the case of non-auth errors
+                }
+            } else {
+                tokenCleanUp()
+            }
+
             return nil
         }
 
@@ -83,7 +104,7 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    class func acquirePasswordToken() -> AuthenticationResponse? {
+    func acquirePasswordToken() throws -> AuthenticationResponse? {
         guard let email = ServerSettings.syncingEmail(), let password = ServerSettings.syncingPassword() else {
             // if the user doesn't have an email and password, then we'll check if they're using SSO
             return nil
@@ -106,7 +127,7 @@ class TokenHelper {
             let data = try loginRequest.serializedData()
             request.httpBody = data
 
-            let (responseData, response) = try URLConnection.sendSynchronousRequest(with: request)
+            let (responseData, response) = try urlConnection.sendSynchronousRequest(with: request)
             guard let validData = responseData, let httpResponse = response as? HTTPURLResponse else {
                 FileLog.shared.addMessage("TokenHelper: Unable to acquire token")
                 return nil
@@ -121,8 +142,16 @@ class TokenHelper {
                 FileLog.shared.addMessage("TokenHelper logging user out, invalid password")
                 SyncManager.signout()
             }
-        } catch {
+
+            if ServerConfig.avoidLogoutOnError {
+                let errorResponse = ApiServerHandler.extractErrorResponse(data: responseData, response: response, error: nil)
+                throw errorResponse ?? .UNKNOWN
+            }
+        } catch let error {
             FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
+            if ServerConfig.avoidLogoutOnError {
+                throw error
+            }
         }
 
         return nil
@@ -131,31 +160,38 @@ class TokenHelper {
 
     // MARK: - Email / Password Token
 
-    private class func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, APIError>) -> Void) {
-        if let authenticationResponse = acquirePasswordToken() {
-            completion(.success(authenticationResponse))
-            return
+    func asyncAcquireToken(completion: @escaping (Result<AuthenticationResponse?, Error>) -> Void) {
+        do {
+            if let authenticationResponse = try acquirePasswordToken() {
+                completion(.success(authenticationResponse))
+                return
+            }
+        } catch let error {
+            if ServerConfig.avoidLogoutOnError {
+                completion(.failure(error))
+                return
+            }
         }
 
         Task {
-            if let authenticationResponse = await acquireIdentityToken() {
+            do {
+                let authenticationResponse = try await acquireIdentityToken()
                 completion(.success(authenticationResponse))
-            }
-            else {
-                completion(.failure(.UNKNOWN))
+            } catch let error {
+                completion(.failure(error))
             }
         }
     }
 
     // MARK: - SSO Identity Token
 
-    private class func acquireIdentityToken() async -> AuthenticationResponse? {
-        return try? await ApiServerHandler.shared.refreshIdentityToken()
+    private func acquireIdentityToken() async throws -> AuthenticationResponse {
+        return try await ApiServerHandler.shared.refreshIdentityToken()
     }
 
     // MARK: Cleanup
 
-    private class func tokenCleanUp() {
+    private func tokenCleanUp() {
         var logMessages = [String]()
         if ServerSettings.syncingEmail() == nil {
             logMessages.append("no email address")

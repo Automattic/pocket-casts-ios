@@ -10,10 +10,10 @@ enum EndOfYearPresentationSource: String {
 }
 
 struct EndOfYear {
-    // We'll calculate this just once
-    static var isEligible: Bool {
-        FeatureFlag.endOfYear.enabled && DataManager.sharedManager.isEligibleForEndOfYearStories()
-    }
+    static var isEligible: Bool { eligibilityChecker?.isEligible ?? false }
+
+    // Eligibility checker to manage the `isEligible` state
+    private static let eligibilityChecker: EligibilityChecker? = .init()
 
     /// Internal state machine to determine how we should react to login changes
     /// and when to show the modal vs go directly to the stories
@@ -78,13 +78,13 @@ struct EndOfYear {
         if Self.requireAccount && !SyncManager.isUserLoggedIn() {
             Self.state = .waitingForLogin
 
-            let profileIntroController = ProfileIntroViewController()
-            profileIntroController.infoLabelText = L10n.eoyCreateAccountToSee
-            let navigationController = UINavigationController(rootViewController: profileIntroController)
-            navigationController.modalPresentationStyle = .fullScreen
-            viewController.present(navigationController, animated: true)
+            let onboardingController = OnboardingFlow.shared.begin(flow: .endOfYear)
+            viewController.present(onboardingController, animated: true)
             return
         }
+
+        // Don't show the prompt if the user is has already viewed the stories.
+        Settings.endOfYearModalHasBeenShown = true
 
         let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource()).padding(storiesPadding))
         storiesViewController.view.backgroundColor = .black
@@ -100,7 +100,7 @@ struct EndOfYear {
     }
 
     func share(assets: [Any], storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
-        let presenter = SceneHelper.rootViewController()?.presentedViewController
+        let presenter = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController
 
         let fakeViewController = FakeViewController()
         fakeViewController.onDismiss = onDismiss
@@ -182,5 +182,66 @@ private class FakeViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         onDismiss?()
+    }
+}
+
+extension EndOfYear {
+    static let eoyEligibilityDidChange = NSNotification.Name(rawValue: "eoyEligibilityDidChange")
+
+    private class EligibilityChecker {
+        deinit {
+            stopListening()
+        }
+
+        var isEligible = false
+
+        private let notificationCenter: NotificationCenter
+        private var notifications: [NSObjectProtocol] = []
+
+        init?(notificationCenter: NotificationCenter = .default) {
+            guard FeatureFlag.endOfYear.enabled else { return nil }
+
+            self.notificationCenter = notificationCenter
+
+            startListening()
+            update()
+        }
+
+        private func startListening() {
+            // The notifications to update the state for
+            let notifications: [Notification.Name] = [
+                // Check after a sync succeeds or the user logs into an account
+                ServerNotifications.syncCompleted,
+                .userSignedIn,
+
+                // Check as the user is listening to episodes
+                Constants.Notifications.playbackPaused,
+                Constants.Notifications.playbackEnded,
+                Constants.Notifications.playbackTrackChanged
+            ]
+
+            self.notifications = notifications.map {
+                notificationCenter.addObserver(forName: $0, object: nil, queue: .main) { [weak self] notification in
+                    self?.update()
+                }
+            }
+        }
+
+        private func stopListening() {
+            notifications.forEach { notificationCenter.removeObserver($0) }
+            notifications.removeAll()
+        }
+
+        private func update() {
+            isEligible = DataManager.sharedManager.isEligibleForEndOfYearStories()
+
+            // Let others know this changed
+            if isEligible {
+                notificationCenter.post(name: EndOfYear.eoyEligibilityDidChange, object: nil)
+
+                // We don't need to check eligibility anymore
+                stopListening()
+            }
+        }
     }
 }
