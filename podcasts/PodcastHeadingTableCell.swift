@@ -255,7 +255,7 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
             layoutIfNeeded()
         }
 
-        delegate.podcastRatingViewModel.update(uuid: podcast.uuid)
+        delegate.podcastRatingViewModel.update(podcast: podcast)
         addRatingIfNeeded()
 
         addBookmarksTabView(parentController: parentController)
