@@ -3956,6 +3956,9 @@
 /* Error message when a user rating for a podcast couldn't be submitted */
 "rating_error" = "Ops! There was an error.";
 
+/* Title of a button that takes the user to a screen to rate a podcast */
+"rate" = "Rate";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 

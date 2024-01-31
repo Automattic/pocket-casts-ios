@@ -38,6 +38,8 @@ protocol PodcastActionsDelegate: AnyObject {
     func enableMultiSelect()
 
     var podcastRatingViewModel: PodcastRatingViewModel { get }
+    var ratingView: UIView { get }
+
     func showBookmarks()
 }
 
@@ -185,6 +187,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private var isSearching = false
     private var cancellables = Set<AnyCancellable>()
+
+    lazy var ratingView: UIView = {
+        let view = StarRatingView(viewModel: podcastRatingViewModel)
+            .padding(.top, 10)
+            .themedUIView
+
+        view.backgroundColor = .clear
+        return view
+    }()
 
     init(podcast: Podcast) {
         self.podcast = podcast

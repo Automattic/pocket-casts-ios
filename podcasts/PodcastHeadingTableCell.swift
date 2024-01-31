@@ -262,23 +262,12 @@ class PodcastHeadingTableCell: ThemeableCell, SubscribeButtonDelegate, Expandabl
     }
 
     private lazy var ratingView: UIView? = {
-        guard let viewModel = self.delegate?.podcastRatingViewModel else {
-            return nil
-        }
-
-        let view = StarRatingView(viewModel: viewModel)
-            .frame(height: 16)
-            .padding(.top, 10)
-            .themedUIView
-
-        view.backgroundColor = .clear
-        return view
+        delegate?.ratingView
     }()
 
     private func addRatingIfNeeded() {
-        // Only add the rating if it hasn't been added already
         guard
-            let ratingView, ratingView.superview == nil,
+            let ratingView = ratingView,
             let index = podcastCategory.flatMap({
                 extraContentStackView.arrangedSubviews.firstIndex(of: $0)
             })
