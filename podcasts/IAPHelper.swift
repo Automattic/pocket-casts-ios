@@ -86,7 +86,7 @@ class IAPHelper: NSObject {
     }
 
     public func buyProduct(identifier: IAPProductID) -> Bool {
-        guard let product = getProduct(for: identifier), let _ = ServerSettings.syncingEmail() else {
+        guard serverHandler.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
         }
