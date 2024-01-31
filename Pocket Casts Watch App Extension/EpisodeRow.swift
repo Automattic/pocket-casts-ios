@@ -8,6 +8,13 @@ struct EpisodeRow: View {
     private let iconSize: CGFloat = 12
     private let artworkSize: CGFloat = 26
 
+    init(viewModel: EpisodeRowViewModel, showArtwork: Bool) {
+        // https://stackoverflow.com/questions/62635914/initialize-stateobject-with-a-parameter-in-swiftui
+        _viewModel = StateObject(wrappedValue: viewModel)
+        viewModel.hydrate()
+        self.showArtwork = showArtwork
+    }
+
     var body: some View {
         Group {
             if showArtwork {
@@ -34,14 +41,13 @@ struct EpisodeRow: View {
 
             VStack(alignment: .leading) {
                 titleLabel
-                    .padding(.vertical, -3)
                 infoLabel
             }
         }
     }
 
     var textOnlyLayout: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading) {
             titleLabel
             HStack {
                 indicators

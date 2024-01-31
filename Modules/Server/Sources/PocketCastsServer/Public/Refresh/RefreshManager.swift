@@ -30,6 +30,23 @@ public class RefreshManager {
         refreshQueue.addOperation(UpNextSyncTask())
     }
 
+
+    /// Updates a podcast and all the associated information.
+    ///
+    /// Note that this will force all the episodes to be updated.
+    /// - Parameter podcast: a `Podcast` object
+    public func refresh(podcast: Podcast, from episodeUuid: String) {
+        podcast.forceRefreshEpisodeFrom = episodeUuid
+        refresh(podcasts: [podcast]) {
+            if SyncManager.isUserLoggedIn() {
+                guard let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: podcast.uuid) else { return }
+
+                DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+                podcast.forceRefreshEpisodeFrom = nil
+            }
+        }
+    }
+
     public func refreshPodcasts(forceEvenIfRefreshedRecently: Bool = false) {
         if !forceEvenIfRefreshedRecently {
             if let lastRefreshStartTime = ServerSettings.lastRefreshStartTime(), fabs(lastRefreshStartTime.timeIntervalSinceNow) < RefreshManager.minTimeBetweenRefreshes {
@@ -44,14 +61,19 @@ public class RefreshManager {
             }
         }
 
+        refresh(podcasts: DataManager.sharedManager.allPodcasts(includeUnsubscribed: false))
+    }
+
+    private func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) {
         UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
-        let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
 
         DispatchQueue.global().async {
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
                 guard let self = self else { return }
 
-                self.processPodcastRefreshResponse(refreshResponse, completion: nil)
+                self.processPodcastRefreshResponse(refreshResponse) { _ in
+                    completion?()
+                }
             }
         }
     }

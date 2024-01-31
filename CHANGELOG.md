@@ -1,6 +1,50 @@
+7.57
+-----
+- Implement new introductory offer for Plus: 50% off on the first year. [#1362] [internal]
+
+7.56
+-----
+- Allows navigation from the Player to the Podcast screen by tapping on Podcast name [#1322]
+
+7.55
+-----
+- Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
+- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads [#1183]
+- Adds Star button to CarPlay Now Playing screen [#1332]
+
+7.54
+-----
+- Adds a button to export the database and preferences from the Help & Feedback view [#1257]
+- Fixes star functionality on native Now Playing widgets (lock screen and control centre) for iOS 17.1 and later [#1195]
+- Adds theme support to the Up Next [#1265]
+- Now Playing scrubber is now interactive with Accessibility VoiceOver enabled [#1318]
+
+7.53
+-----
+- Moves Bookmarks out of Early Access: [#1224]
+- Shows the Bookmarks tab after Chapters [#1240]
+- Makes the player transition faster, smoother and with a new effect [#1090]
+- Attempts to fix podcast being removed from their folders [#1239]
+
+7.52
+-----
+- Enables Bookmarks for Early Access: [#1202]
+- Enables Playback 2023 [#1206]
+
+7.51
+-----
+- Improvements on battery consumption when trim silence is not enabled [#1186]
+- TestFlight: Disable new show notes endpoint and custom RSS artwork due to memory issues
+
+7.50
+-----
+- Further improves performance when opening a large Up Next queue in the Apple Watch [#1139]
+
 7.49
 -----
-
+- Improves performance when opening a large Up Next queue in the Apple Watch [#950]
+- Fixes the app playing automatically after putting AirPods on the case [#1132]
+- Enables Patron [#1146] [Internal]
 
 7.48
 -----

@@ -37,6 +37,9 @@ class ServerSyncManager: ServerSyncDelegate {
     // MARK: - Episode functions
 
     func episodeStarredChanged(episode: Episode) {
+        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+            PlaybackManager.shared.nowPlayingStarredChanged()
+        }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeStarredChanged, object: episode.uuid)
     }
 

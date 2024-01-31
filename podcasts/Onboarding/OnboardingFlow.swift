@@ -16,18 +16,14 @@ struct OnboardingFlow {
 
         let flowController: UIViewController
         switch flow {
-        case .plusUpsell:
+        case .plusUpsell, .endOfYearUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
             flowController = upgradeController(in: navigationController, context: context)
 
         case .plusAccountUpgrade:
-            if FeatureFlag.patron.enabled {
-                self.source = source ?? "unknown"
-                flowController = upgradeController(in: navigationController, context: context)
-            } else {
-                flowController = PlusPurchaseModel.make(in: controller, plan: .plus, selectedPrice: .yearly)
-            }
+            self.source = source ?? "unknown"
+            flowController = upgradeController(in: navigationController, context: context)            
 
         case .patronAccountUpgrade:
             self.source = source ?? "unknown"
@@ -49,7 +45,7 @@ struct OnboardingFlow {
     }
 
     private func upgradeController(in controller: UINavigationController?, context: Context?) -> UIViewController {
-        let product = context?["product"] as? Constants.ProductInfo
+        let product = context?["product"] as? ProductInfo
         return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product))
     }
 
@@ -114,16 +110,35 @@ struct OnboardingFlow {
         /// asked to sign in again. See the `BackgroundSignOutListener`
         case forcedLoggedOut = "forced_logged_out"
 
+        /// When the user is brought into the onboarding flow from the End Of Year prompt
+        case endOfYear
+
+        /// When the user is brought into the onboarding flow from the End Of Year stories
+        case endOfYearUpsell
+
+        case promoCode = "promo_code"
+
         var analyticsDescription: String { rawValue }
 
         /// If after a successful sign in or sign up the onboarding flow
         /// should be dismissed right away
         var shouldDismiss: Bool {
             switch self {
-            case .sonosLink, .forcedLoggedOut:
+            case .sonosLink, .forcedLoggedOut, .promoCode:
                 return true
             default:
                 return false
+            }
+        }
+
+        /// If after a successful purchase the flow should be
+        /// dismissed right away
+        var shouldDismissAfterPurchase: Bool {
+            switch self {
+            case .endOfYearUpsell:
+                true
+            default:
+                false
             }
         }
     }

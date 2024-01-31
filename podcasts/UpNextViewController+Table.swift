@@ -283,7 +283,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     @objc func appDidBecomeActive() {
-        // there's a weird issue with the drag handle tints dissapearing on the app coming back from being backgrounded, so reload the table in that case
+        // there's a weird issue with the drag handle tints disappearing on the app coming back from being backgrounded, so reload the table in that case
         upNextTable.reloadData()
     }
 

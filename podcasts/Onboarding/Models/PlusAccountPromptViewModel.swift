@@ -8,11 +8,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     let subscription: UserInfo.Subscription? = .init()
 
     lazy var products: [PlusProductPricingInfo] = {
-        let productsToDisplay: [Constants.IapProducts] = {
-            guard FeatureFlag.patron.enabled else {
-                return [.yearly]
-            }
-
+        let productsToDisplay: [IAPProductID] = {
             return subscription?.tier == .patron ? [.patronYearly] : [.yearly, .patronYearly]
         }()
 
@@ -21,7 +17,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         }
     }()
 
-    override init(purchaseHandler: IapHelper = .shared) {
+    override init(purchaseHandler: IAPHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
         // Load prices on init
@@ -65,10 +61,6 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
                     return L10n.renewSubscription
                 }
 
-                if product.freeTrialDuration != nil {
-                    return L10n.plusStartMyFreeTrial
-                }
-
                 return L10n.plusSubscribeTo
             }()
         }
@@ -83,15 +75,9 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     func showModal(for product: PlusProductPricingInfo? = nil) {
         guard let parentController else { return }
 
-        guard FeatureFlag.patron.enabled else {
-            let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue)
-            controller.presentModally(in: parentController)
-            return
-        }
-
         // Set the initial product to display on the upsell
         let context: OnboardingFlow.Context? = product.map {
-            ["product": Constants.ProductInfo(plan: $0.identifier.plan, frequency: .yearly)]
+            ["product": ProductInfo(plan: $0.identifier.plan, frequency: .yearly)]
         }
 
         let flow: OnboardingFlow.Flow = subscription?.isExpiring(.patron) == true ? .patronAccountUpgrade : .plusAccountUpgrade

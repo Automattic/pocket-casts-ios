@@ -204,6 +204,10 @@ class WatchSourceViewModel: PlaySourceViewModel {
         PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
     }
 
+    var episodeUuidsInQueue: [BaseEpisode] {
+        PlaybackManager.shared.allEpisodeUuidsInQueue()
+    }
+
     func clearUpNext() {
         PlaybackManager.shared.queue.clearUpNextList()
     }

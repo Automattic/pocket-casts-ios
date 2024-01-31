@@ -126,7 +126,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     }
 
     func navBarHeight(window: UIWindow) -> CGFloat {
-        fakeNavHeight.constant - UIUtil.statusBarHeight(in: window)
+        fakeNavHeight.constant - window.safeAreaInsets.top
     }
 
     func addGoogleCastBtn() {

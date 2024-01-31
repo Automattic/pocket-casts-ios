@@ -8,8 +8,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     let gridHelper = GridHelper()
     var refreshControl: PCRefreshControl?
 
-    let debounce = Debounce(delay: 1)
-
     @IBOutlet var addPodcastBtn: ThemeableButton! {
         didSet {
             addPodcastBtn.buttonTitle = L10n.podcastGridDiscoverPodcasts
@@ -64,11 +62,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     var searchController: PCSearchBarController!
 
-    var searchResultsControler: PodcastListSearchResultsController!
-    lazy var newSearchResultsController = SearchResultsViewController(source: .podcastsList)
+    lazy var searchResultsController = SearchResultsViewController(source: .podcastsList)
 
     var resultsControllerDelegate: SearchResultsDelegate {
-        FeatureFlag.newSearch.enabled ? newSearchResultsController : searchResultsControler
+        searchResultsController
     }
 
     override func viewDidLoad() {
@@ -175,9 +172,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {
-        let topOffset = view.safeAreaInsets.top
-        if let index = notification.object as? Int, index == tabBarItem.tag, podcastsCollectionView.contentOffset.y > -topOffset {
-            podcastsCollectionView.setContentOffset(CGPoint(x: 0, y: -topOffset), animated: true)
+        let topOffset = -PCSearchBarController.defaultHeight - view.safeAreaInsets.top
+        if let index = notification.object as? Int, index == tabBarItem.tag, podcastsCollectionView.contentOffset.y.rounded(.down) > topOffset.rounded(.down) {
+            podcastsCollectionView.setContentOffset(CGPoint(x: 0, y: topOffset), animated: true)
+        } else {
+            searchController.searchTextField.becomeFirstResponder()
         }
     }
 

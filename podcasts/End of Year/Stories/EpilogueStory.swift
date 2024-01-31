@@ -1,14 +1,17 @@
 import SwiftUI
+import PocketCastsServer
 import CoreHaptics
 
-struct EpilogueStory: StoryView {
+struct EpilogueStory: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @ObservedObject private var visibility = Visiblity()
     @State private var engine: CHHapticEngine?
 
-    var duration: TimeInterval = 5.seconds
-
     var identifier: String = "epilogue"
+
+    var isPlus: Bool {
+        SubscriptionHelper.hasActiveSubscription()
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -19,42 +22,96 @@ struct EpilogueStory: StoryView {
                     .accessibilityHidden(true)
             }
 
-            PodcastCoverContainer(geometry: geometry) {
-                Spacer()
+            ZStack {
+                PodcastCoverContainer(geometry: geometry) {
+                    Spacer()
 
-                StoryLabelContainer(topPadding: 0, geometry: geometry) {
-                    if visibility.isVisible {
-                        HolographicEffect(parentSize: geometry.size) {
-                            Image("heart")
-                                .renderingMode(.template)
-                        }
-                    } else {
+                    StoryLabelContainer(topPadding: 0, geometry: geometry) {
                         Image("heart")
+                            .renderingMode(.template)
+                            .overlay(
+                                LinearGradient(
+                                    stops: [
+                                        Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                                        Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                                        Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                                        Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                                        Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                                    ],
+                                    startPoint: UnitPoint(x: 0, y: -0.12),
+                                    endPoint: UnitPoint(x: 1, y: 1.39)
+                                )
+                                .scaleEffect(.init(width: 1.1, height: 1.1))
+                                .mask(
+                                    Image("heart")
+                                        .renderingMode(.template)
+                                )
+                            )
+
+                        StoryLabel(L10n.eoyStoryEpilogueTitle, for: .title, geometry: geometry)
+                        StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle, color: Color(hex: "8F97A4"), geometry: geometry)
+                    }.allowsHitTesting(false)
+
+                    Button(L10n.eoyStoryReplay) {
+                        StoriesController.shared.replay()
+                        Analytics.track(.endOfYearStoryReplayButtonTapped)
                     }
+                    .buttonStyle(StoriesButtonStyle(color: Constants.backgroundColor, icon: Image("eoy-replay-icon")))
+                    .opacity(renderForSharing ? 0 : 1)
+                    .padding(.top, 36)
 
-                    let pocketCasts = "Pocket Casts".nonBreakingSpaces()
-
-                    StoryLabel(L10n.eoyStoryEpilogueTitle, highlighting: [pocketCasts], for: .title)
-                    StoryLabel(L10n.eoyStoryEpilogueSubtitle, for: .subtitle)
-                        .opacity(0.8)
-                }.allowsHitTesting(false)
-
-                Button(L10n.eoyStoryReplay) {
-                    StoriesController.shared.replay()
-                    Analytics.track(.endOfYearStoryReplayButtonTapped)
+                    Spacer()
                 }
-                .buttonStyle(ReplayButtonStyle(color: Constants.backgroundColor))
-                .opacity(renderForSharing ? 0 : 1)
-                .padding(.top, 36)
+                .background(
+                    ZStack(alignment: .top) {
+                        Color.black
 
-                Spacer()
+                        background(geometry: geometry)
+                        .offset(x: -geometry.size.width * 0.4, y: -geometry.size.height * 0.22)
+                        .clipped()
+                    }
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+                    .onAppear(perform: prepareHaptics)
+                )
+
+                if !renderForSharing {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image("logo")
+                                .padding(.bottom, geometry.size.height * 0.06)
+                            Spacer()
+                        }
+                    }
+                }
             }
-        }.background(Constants.backgroundColor.allowsHitTesting(false).onAppear(perform: prepareHaptics))
+        }
+    }
+
+    @ViewBuilder
+    func background(geometry: GeometryProxy) -> some View {
+        if isPlus {
+            StoryGradient(geometry: geometry, plus: true)
+        } else {
+            StoryGradient(geometry: geometry)
+        }
     }
 
     func onAppear() {
         self.visibility.isVisible = true
         Analytics.track(.endOfYearStoryShown, story: identifier)
+    }
+
+    func sharingAssets() -> [Any] {
+        [
+            StoryShareableProvider.new(AnyView(self))
+        ]
+    }
+
+    func hideShareButton() -> Bool {
+        true
     }
 
     private enum Constants {
@@ -105,18 +162,68 @@ struct EpilogueStory: StoryView {
     }
 }
 
-struct ReplayButtonStyle: ButtonStyle {
+private struct GradientHolographicEffect<Content>: View where Content: View {
+    @StateObject var motion = MotionManager(options: .attitude)
+
+    var parentSize: CGSize = UIScreen.main.bounds.size
+    var mode: Mode = .background
+    let content: () -> Content
+
+    private let multiplier = 0.1
+
+    var body: some View {
+        content()
+            .foregroundColor(mode == .background ? .clear : nil)
+            .overlay(mode == .overlay ? gradientView.blendMode(.overlay) : nil)
+            .background(mode == .background ? gradientView : nil)
+            .onAppear() {
+                motion.start()
+            }.onDisappear() {
+                motion.stop()
+            }
+    }
+
+    @ViewBuilder
+    private var gradientView: some View {
+        GeometryReader { proxy in
+            LinearGradient(
+                stops: [
+                    Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),
+                    Gradient.Stop(color: Color(red: 0.68, green: 0.89, blue: 0.86), location: 0.24),
+                    Gradient.Stop(color: Color(red: 0.87, green: 0.91, blue: 0.53), location: 0.50),
+                    Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.74),
+                    Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
+                ],
+                startPoint: UnitPoint(x: 0, y: -0.12),
+                endPoint: UnitPoint(x: 1, y: 1.39)
+            )
+            .scaleEffect(.init(width: 1.1, height: 1.1))
+            .rotationEffect(Angle(degrees: (motion.roll / .pi) * 360))
+            .mask(content())
+        }.allowsHitTesting(false)
+    }
+
+    enum Mode {
+        case overlay, background
+    }
+}
+
+struct StoriesButtonStyle: ButtonStyle {
     let color: Color
+    let icon: Image?
+
     func makeBody(configuration: Self.Configuration) -> some View {
-        HStack {
-            Image("eoy-replay-icon")
+        HStack() {
+            icon?
+                .resizable()
+                .frame(width: 24, height: 24)
             configuration.label
         }
-        .font(.system(size: 15, weight: .bold))
+        .font(.custom("DM Sans", size: 14).weight(.semibold))
         .foregroundColor(color)
-        .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 15))
+        .padding(EdgeInsets(top: 16, leading: 78, bottom: 16, trailing: 78))
         .background(
-            Capsule().fill(.white)
+            RoundedRectangle(cornerRadius: 4 ).fill(.white)
         )
         .contentShape(Rectangle())
         .applyButtonEffect(isPressed: configuration.isPressed)

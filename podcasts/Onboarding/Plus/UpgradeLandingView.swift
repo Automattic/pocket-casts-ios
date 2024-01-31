@@ -13,7 +13,7 @@ struct UpgradeLandingView: View {
 
     @State private var purchaseButtonHeight: CGFloat = 0
     @State private var currentPage: Int = 0
-    @State private var displayPrice: Constants.PlanFrequency = .yearly
+    @State private var displayPrice: PlanFrequency = .yearly
 
     init(viewModel: PlusLandingViewModel) {
         self.viewModel = viewModel
@@ -31,7 +31,7 @@ struct UpgradeLandingView: View {
         }
     }
 
-    private var selectedProduct: Constants.IapProducts {
+    private var selectedProduct: IAPProductID {
         displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
 
@@ -73,11 +73,10 @@ struct UpgradeLandingView: View {
                                     .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
-
                                 UpgradeRoundedSegmentedControl(selected: $displayPrice)
                                     .padding(.bottom, 24)
 
-                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentPrice: $displayPrice, tiers: tiers)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $displayPrice, viewModel: self.viewModel, tiers: tiers)
 
                                 if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
@@ -159,9 +158,7 @@ struct UpgradeLandingView: View {
             viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: displayPrice))
         }, label: {
             VStack {
-                Text(viewModel.purchaseTitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                Text(viewModel.purchaseSubtitle(for: selectedTier, frequency: $displayPrice.wrappedValue))
-                    .font(style: .subheadline)
+                Text(selectedTier.buttonLabel)
             }
             .transition(.opacity)
             .id("plus_price" + selectedTier.title)
@@ -185,7 +182,9 @@ struct UpgradeLandingView: View {
 private struct FeaturesCarousel: View {
     let currentIndex: Binding<Int>
 
-    let currentPrice: Binding<Constants.PlanFrequency>
+    let currentSubscriptionPeriod: Binding<PlanFrequency>
+
+    let viewModel: PlusLandingViewModel
 
     let tiers: [UpgradeTier]
 
@@ -196,7 +195,7 @@ private struct FeaturesCarousel: View {
         var cardHeights: [CGFloat] = []
 
         HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
-            UpgradeCard(tier: $0, currentPrice: currentPrice)
+            UpgradeCard(tier: $0, currentPrice: currentSubscriptionPeriod, subscriptionInfo: viewModel.pricingInfo(for: $0, frequency: currentSubscriptionPeriod.wrappedValue))
                 .overlay(
                     // Calculate the height of the card after it's been laid out
                     GeometryReader { proxy in
@@ -234,7 +233,7 @@ struct UpgradeTier: Identifiable {
     let tier: SubscriptionTier
     let iconName: String
     let title: String
-    let plan: Constants.Plan
+    let plan: Plan
     let header: String
     let description: String
     let buttonLabel: String
@@ -256,7 +255,7 @@ extension UpgradeTier {
     static var plus: UpgradeTier {
         UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
-            TierFeature(iconName: "plus-feature-folders", title: L10n.folders),
+            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
@@ -269,7 +268,7 @@ extension UpgradeTier {
         UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, features: [
             TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimitFormat(50)),
+            TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
             TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
             TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
@@ -282,9 +281,9 @@ extension UpgradeTier {
 // MARK: - Segmented Control
 
 struct UpgradeRoundedSegmentedControl: View {
-    @Binding private var selected: Constants.PlanFrequency
+    @Binding private var selected: PlanFrequency
 
-    init(selected: Binding<Constants.PlanFrequency>) {
+    init(selected: Binding<PlanFrequency>) {
         self._selected = selected
     }
 
@@ -339,7 +338,9 @@ struct UpgradeCard: View {
 
     let tier: UpgradeTier
 
-    let currentPrice: Binding<Constants.PlanFrequency>
+    let currentPrice: Binding<PlanFrequency>
+
+    let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
 
     @State var calculatedCardHeight: CGFloat?
 
@@ -347,8 +348,10 @@ struct UpgradeCard: View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
                 SubscriptionBadge(tier: tier.tier)
-                    .padding(.bottom, 16)
-
+                    .padding(.bottom, 12)
+                if let subscriptionInfo {
+                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: .black, secondaryTextColor: .black.opacity(0.64))
+                }
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in
                         HStack(spacing: 16) {

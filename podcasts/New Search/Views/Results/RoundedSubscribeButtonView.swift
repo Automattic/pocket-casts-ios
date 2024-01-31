@@ -5,8 +5,8 @@ import PocketCastsServer
 struct RoundedSubscribeButtonView: View {
     @ObservedObject var model: SubscribeButtonModel
 
-    init(podcastUuid: String) {
-        self.model = SubscribeButtonModel(podcastUuid: podcastUuid)
+    init(podcastUuid: String, source: AnalyticsSource) {
+        self.model = SubscribeButtonModel(podcastUuid: podcastUuid, source: source)
     }
 
     var body: some View {
@@ -36,8 +36,8 @@ struct SubscribeButtonView: View {
 
     @ObservedObject var model: SubscribeButtonModel
 
-    init(podcastUuid: String) {
-        self.model = SubscribeButtonModel(podcastUuid: podcastUuid)
+    init(podcastUuid: String, source: AnalyticsSource) {
+        self.model = SubscribeButtonModel(podcastUuid: podcastUuid, source: source)
     }
 
     var body: some View {
@@ -71,15 +71,17 @@ class SubscribeButtonModel: ObservableObject {
     @Published var isSubscribed: Bool
 
     let podcastUuid: String
+    let source: AnalyticsSource
 
-    init(podcastUuid: String) {
+    init(podcastUuid: String, source: AnalyticsSource) {
         self.podcastUuid = podcastUuid
+        self.source = source
         isSubscribed = DataManager.sharedManager.findPodcast(uuid: podcastUuid) != nil
     }
 
     func subscribe() {
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: true, completion: nil)
-        Analytics.track(.podcastSubscribed, properties: ["source": AnalyticsSource.discover, "uuid": podcastUuid])
+        Analytics.track(.podcastSubscribed, properties: ["source": source, "uuid": podcastUuid])
     }
 
     func checkSubscriptionStatus() {

@@ -19,7 +19,7 @@ class ImageManager {
         let url = URL(fileURLWithPath: path)
         subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
         subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
-        subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork dissapear
+        subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
         return subscribedPodcastsCache
     }()
 
@@ -177,7 +177,7 @@ class ImageManager {
 
         do {
             let data = try Data(contentsOf: cache.diskStorage.cacheFileURL(forKey: key))
-            let image = try UIImage(imageData: data)
+            let image = UIImage(data: data)
 
             return image
         } catch {

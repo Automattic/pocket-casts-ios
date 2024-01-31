@@ -112,6 +112,14 @@ class PlaybackManager: ServerPlaybackDelegate {
         queue.currentEpisode()
     }
 
+    var currentPodcast: Podcast? {
+        if let episode = currentEpisode() as? Episode {
+            return episode.parentPodcast()
+        }
+
+        return nil
+    }
+
     func playing() -> Bool {
         if aboutToPlay.value { return true }
 
@@ -219,6 +227,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             self.startUpdateTimer()
             self.updateCommandCenterSkipTimes(addTarget: false)
+            self.updateExtraActions()
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarted)
 
@@ -1083,7 +1092,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return possiblePlayers // for Google Cast, only the Google Cast player is allowed
             }
 
-            if !playingOverAirplay(), !currEpisode.videoPodcast(), currEpisode.downloaded(pathFinder: DownloadManager.shared) || currEpisode.bufferedForStreaming() {
+            if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
                 possiblePlayers.append(EffectsPlayer.self)
             }
         #endif
@@ -1187,6 +1196,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func allEpisodesInQueue(includeNowPlaying: Bool) -> [BaseEpisode] {
         queue.allEpisodes(includeNowPlaying: includeNowPlaying)
+    }
+
+    func allEpisodeUuidsInQueue() -> [BaseEpisode] {
+        queue.allEpisodeUuids()
     }
 
     func upNextQueueChanged() {
@@ -1550,7 +1563,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             #if !os(watchOS)
                 markPlayedCommand.setTitle(title: L10n.markPlayedShort)
             #endif
-            markPlayedCommand.removeTarget(self)
+            markPlayedCommand.removeTarget(nil)
             markPlayedCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
@@ -1563,19 +1576,28 @@ class PlaybackManager: ServerPlaybackDelegate {
             #if !os(watchOS)
                 starCommand.setTitle(title: L10n.starEpisodeShort)
             #endif
-            starCommand.removeTarget(self)
+            starCommand.removeTarget(nil)
             starCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
                 guard let strongSelf = self, let episode = strongSelf.currentEpisode() as? Episode else { return .noActionableNowPlayingItem }
-
-                EpisodeManager.setStarred(true, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
+                EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
                 return .success
             }
-            starCommand.isEnabled = true
+            if let episode = self.currentEpisode() {
+                starCommand.isActive = episode.keepEpisode
+            } else {
+                starCommand.isActive = false
+            }
+            if self.currentEpisode() is UserEpisode {
+                starCommand.isEnabled = false
+            }
+            else {
+                starCommand.isEnabled = true
+            }
         } else {
-            markPlayedCommand.removeTarget(self)
+            markPlayedCommand.removeTarget(nil)
             markPlayedCommand.isEnabled = false
 
-            starCommand.removeTarget(self)
+            starCommand.removeTarget(nil)
             starCommand.isEnabled = false
         }
     }
@@ -1792,6 +1814,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func nowPlayingStarredChanged() {
         queue.nowPlayingEpisodeChanged()
+        guard let episode = currentEpisode() else { return }
+        MPRemoteCommandCenter.shared().likeCommand.isActive = episode.keepEpisode
     }
 
     // MARK: - Downloading a streamed episode check
@@ -1934,7 +1958,7 @@ private extension PlaybackManager {
 
 extension PlaybackManager {
     private var bookmarksEnabled: Bool {
-        FeatureFlag.bookmarks.enabled && PaidFeature.bookmarks.isUnlocked
+        PaidFeature.bookmarks.isUnlocked
     }
 
     func bookmark(source: BookmarkAnalyticsSource) {

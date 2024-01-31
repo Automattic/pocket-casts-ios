@@ -77,3 +77,47 @@ class ThemedBookmarksStyle: ThemeObserver, BookmarksStyle {
     var actionBarStyle = ThemedActionBarStyle()
     var emptyStyle = DefaultEmptyStateStyle()
 }
+
+// MARK: - Override Themed Style
+class OverrideThemedBookmarksStyle: ThemedBookmarksStyle {
+    private var overrideTheme: Theme.ThemeType
+    private lazy var overrideEmptyStyle: DefaultEmptyStateStyle = OverrideEmptyStateStyle(overrideTheme: overrideTheme)
+
+    init(overrideTheme: Theme.ThemeType) {
+        self.overrideTheme = overrideTheme
+    }
+
+    override var background: Color { Color(ThemeColor.primaryUi01(for: overrideTheme)) }
+    override var primaryText: Color { Color(ThemeColor.primaryText01(for: overrideTheme)) }
+    override var secondaryText: Color { Color(ThemeColor.primaryText02(for: overrideTheme)) }
+    override var tertiaryText: Color { Color(ThemeColor.primaryText02(for: overrideTheme)) }
+    override var divider: Color { Color(ThemeColor.primaryUi05(for: overrideTheme)) }
+    override var rowHighlight: Color { Color(ThemeColor.primaryUi02Active(for: overrideTheme)) }
+    override var rowSelected: Color { Color(ThemeColor.primaryUi02Selected(for: overrideTheme)) }
+    override var selectButtonStroke: Color { Color(ThemeColor.primaryIcon02(for: overrideTheme)) }
+    override var selectButton: Color { Color(ThemeColor.primaryInteractive01(for: overrideTheme)) }
+    override var selectCheck: Color { Color(ThemeColor.primaryInteractive02(for: overrideTheme)) }
+    override var playButtonText: Color { Color(ThemeColor.primaryText01(for: overrideTheme)) }
+    override var playButtonBackground: Color? { Color(ThemeColor.primaryUi01(for: overrideTheme)) }
+    override var playButtonStroke: Color? {
+        set { }
+        get { Color(ThemeColor.primaryText01(for: overrideTheme)) }
+    }
+    override var emptyStyle: DefaultEmptyStateStyle {
+        set { }
+        get { overrideEmptyStyle }
+    }
+}
+
+class OverrideEmptyStateStyle: DefaultEmptyStateStyle {
+    var overrideTheme: Theme.ThemeType
+
+    init(overrideTheme: Theme.ThemeType) {
+        self.overrideTheme = overrideTheme
+    }
+
+    override var background: Color { Color(ThemeColor.primaryUi01Active(for: overrideTheme)) }
+    override var title: Color { Color(ThemeColor.primaryText01(for: overrideTheme)) }
+    override var message: Color { Color(ThemeColor.primaryText02(for: overrideTheme)) }
+    override var button: Color { Color(ThemeColor.primaryInteractive01(for: overrideTheme)) }
+}
