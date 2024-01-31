@@ -29,6 +29,7 @@ struct StarRatingView: View {
         }.onTapGesture {
             viewModel.didTapRating()
         }
+        .sheet(isPresented: $viewModel.presentingGiveRatings) { RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings)) }
     }
 
     @ViewBuilder

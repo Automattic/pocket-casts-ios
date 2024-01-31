@@ -574,6 +574,8 @@
 		8BD5A50E2A1F96C200F473C6 /* AppIcon-Pride76x76~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD5A4FD2A1F96C200F473C6 /* AppIcon-Pride76x76~ipad.png */; };
 		8BD5A50F2A1F96C200F473C6 /* AppIcon-Pride60x60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD5A4FE2A1F96C200F473C6 /* AppIcon-Pride60x60@3x.png */; };
 		8BDDD2AC29770479009E4DD3 /* SyncLoadingAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDDD2AB29770479009E4DD3 /* SyncLoadingAlert.swift */; };
+		8BDE43062AC33BEE00C2D5C9 /* RatePodcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */; };
+		8BDE43082AC34A7600C2D5C9 /* RatePodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */; };
 		8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
@@ -2360,6 +2362,8 @@
 		8BD5A4FD2A1F96C200F473C6 /* AppIcon-Pride76x76~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pride76x76~ipad.png"; sourceTree = "<group>"; };
 		8BD5A4FE2A1F96C200F473C6 /* AppIcon-Pride60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pride60x60@3x.png"; sourceTree = "<group>"; };
 		8BDDD2AB29770479009E4DD3 /* SyncLoadingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncLoadingAlert.swift; sourceTree = "<group>"; };
+		8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatePodcastView.swift; sourceTree = "<group>"; };
+		8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatePodcastViewModel.swift; sourceTree = "<group>"; };
 		8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween-152@2x.png"; sourceTree = "<group>"; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
@@ -6468,6 +6472,8 @@
 			children = (
 				C752F28929D5F8F100681C33 /* StarRatingView.swift */,
 				C752F28B29D5F8FF00681C33 /* PodcastRatingViewModel.swift */,
+				8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */,
+				8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */,
 			);
 			path = Ratings;
 			sourceTree = "<group>";
@@ -8706,6 +8712,7 @@
 				8B44446729785BD0007E0AA8 /* SocialLoginFactory.swift in Sources */,
 				46305CED272AFA5F003AC87B /* UserDefaults+Helpers.swift in Sources */,
 				BD2F3BA22366C0DA00416633 /* PlayerContainerViewController+Update.swift in Sources */,
+				8BDE43082AC34A7600C2D5C9 /* RatePodcastViewModel.swift in Sources */,
 				8B2E055228F88D7300C2DBDE /* EndOfYearPromptCell.swift in Sources */,
 				4034503324BF33B6001265E2 /* ListeningHistoryViewController+MultiSelect.swift in Sources */,
 				BD40987A1B9ECA5F007F36BD /* AudioReadTask.swift in Sources */,
@@ -9049,6 +9056,7 @@
 				C7F4BAB528DA6BBB001C9785 /* BackgroundSignOutListener.swift in Sources */,
 				C713D4F72A04C90500A78468 /* ProfileHeaderView.swift in Sources */,
 				8B67A26729A7D80E0076886D /* SearchResultCell.swift in Sources */,
+				8BDE43062AC33BEE00C2D5C9 /* RatePodcastView.swift in Sources */,
 				BD03DF881CACD9AB005A127E /* DownloadedFilesViewController.swift in Sources */,
 				BDB0C5C3231F74D60071FBA2 /* PCSearchBarController+Search.swift in Sources */,
 				BD7BCF111F6A4F110006E008 /* SharingHelper.swift in Sources */,
