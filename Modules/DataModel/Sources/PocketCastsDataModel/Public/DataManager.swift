@@ -23,11 +23,6 @@ public class DataManager {
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
 
-    /// Internal feature flag the app can set because the modules don't have access
-    /// to FeatureFlag.
-    /// TODO: Remove this after the flag is enabled
-    public var bookmarksEnabled: Bool = false
-
     private let dbQueue: FMDatabaseQueue
 
     public static let sharedManager = DataManager()
@@ -881,7 +876,7 @@ public class DataManager {
 
     // MARK: - Path Related
 
-    private static func pathToDb() -> String {
+    public static func pathToDb() -> String {
         let folderPath = pathToDbFolder() as NSString
 
         return folderPath.appendingPathComponent("podcast_newDB.sqlite3")
@@ -948,8 +943,8 @@ public extension DataManager {
         endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
     }
 
-    func numberOfEpisodesThisYear() -> Int {
-        endOfYearManager.numberOfEpisodes(dbQueue: dbQueue)
+    func numberOfEpisodes(year: Int32) -> Int {
+        endOfYearManager.numberOfEpisodes(year: year, dbQueue: dbQueue)
     }
 
     func listeningTime() -> Double? {
@@ -972,7 +967,15 @@ public extension DataManager {
         endOfYearManager.longestEpisode(dbQueue: dbQueue)
     }
 
-    func episodesThatExist(uuids: [String]) -> [String] {
-        endOfYearManager.episodesThatExist(dbQueue: dbQueue, uuids: uuids)
+    func episodesThatExist(year: Int32, uuids: [String]) -> [String] {
+        endOfYearManager.episodesThatExist(year: year, dbQueue: dbQueue, uuids: uuids)
+    }
+
+    func yearOverYearListeningTime() -> YearOverYearListeningTime {
+        endOfYearManager.yearOverYearListeningTime(dbQueue: dbQueue)
+    }
+
+    func episodesStartedAndCompleted() -> EpisodesStartedAndCompleted {
+        endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
     }
 }

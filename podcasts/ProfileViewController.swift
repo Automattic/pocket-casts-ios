@@ -39,7 +39,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case allStats, downloaded, starred, listeningHistory, uploadedFiles, endOfYearPrompt }
+    private enum TableRow { case allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
@@ -112,6 +112,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(.userLoginDidChange, selector: #selector(handleDataChangedNotification))
         addCustomObserver(.serverUserWillBeSignedOut, selector: #selector(handleDataChangedNotification))
         addCustomObserver(.whatsNewDismissed, selector: #selector(whatsNewDismissed))
+        addCustomObserver(EndOfYear.eoyEligibilityDidChange, selector: #selector(handleDataChangedNotification))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         if promoRedeemedMessage != nil {
@@ -124,7 +125,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
 
-        showGeneralSettingsIfNeeded()
+        whatsNewDismissed()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -156,17 +157,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
-    }
-
-    func showProfileSetupController() {
-        if FeatureFlag.onboardingUpdates.enabled {
-            NavigationManager.sharedManager.navigateTo(NavigationManager.onboardingFlow, data: ["flow": OnboardingFlow.Flow.loggedOut])
-            return
-        }
-
-        let profileIntroController = ProfileIntroViewController()
-        let navController = SJUIUtils.popupNavController(for: profileIntroController)
-        present(navController, animated: true, completion: nil)
     }
 
     private func showAccountController() {
@@ -270,6 +260,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .listeningHistory:
             cell.settingsImage.image = UIImage(named: "profile-history")
             cell.settingsLabel.text = L10n.listeningHistory
+        case .help:
+            cell.settingsImage.image = UIImage(named: "profile-help")
+            cell.settingsLabel.text = L10n.settingsHelp
         case .endOfYearPrompt:
             return EndOfYearPromptCell()
         }
@@ -305,6 +298,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .listeningHistory:
             let historyController = ListeningHistoryViewController()
             navigationController?.pushViewController(historyController, animated: true)
+        case .help:
+            let navController = SJUIUtils.navController(for: OnlineSupportController())
+            present(navController, animated: true, completion: nil)
         case .endOfYearPrompt:
             Analytics.track(.endOfYearProfileCardTapped)
             EndOfYear().showStories(in: self, from: .profile)
@@ -325,7 +321,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func tableData() -> [[ProfileViewController.TableRow]] {
         var data: [[ProfileViewController.TableRow]]
-        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory]]
+        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory, .help]]
 
         if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
@@ -343,13 +339,23 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func whatsNewDismissed() {
         showGeneralSettingsIfNeeded()
+        showHeadphoneControlsFromWhatsNew()
     }
 
     private func showGeneralSettingsIfNeeded() {
-        if AnnouncementFlow.shared.isShowingAutoplayOption {
+        if AnnouncementFlow.current == .autoPlay {
             let generalSettingsViewController = GeneralSettingsViewController()
             navigationController?.pushViewController(generalSettingsViewController, animated: true)
         }
+    }
+
+    // Pushes to the headphone controls if shown from the what's new
+    private func showHeadphoneControlsFromWhatsNew() {
+        guard AnnouncementFlow.current == .bookmarksProfile else { return }
+
+        let controller = HeadphoneSettingsViewController()
+        navigationController?.pushViewController(controller, animated: true)
+        AnnouncementFlow.current = .none
     }
 }
 

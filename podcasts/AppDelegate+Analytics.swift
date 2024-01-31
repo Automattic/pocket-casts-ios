@@ -2,24 +2,20 @@ import PocketCastsServer
 import PocketCastsUtils
 
 extension AppDelegate {
+    private var shouldRegisterAdapters: Bool {
+        UIApplication.shared.isProtectedDataAvailable && !Settings.analyticsOptOut() && !Analytics.shared.adaptersRegistered
+    }
+
     func setupAnalytics() {
-        guard FeatureFlag.tracks.enabled, !Settings.analyticsOptOut() else {
+        // Only setup if protected data is available, the user hasn't opted out, and we aren't already registered
+        guard shouldRegisterAdapters else {
             return
         }
 
-        addAnalyticsObservers()
-
-        // Check if we're able to write to protected data
-        if UIApplication.shared.isProtectedDataAvailable {
-            setupAdapters()
-        }
-    }
-
-    private func setupAdapters() {
         Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()])
     }
 
-    private func addAnalyticsObservers() {
+    func addAnalyticsObservers() {
         // Signed out events
         NotificationCenter.default.addObserver(forName: .serverUserWillBeSignedOut, object: nil, queue: .main) { notification in
             guard let userInfo = notification.userInfo, let userIniated = userInfo["user_initiated"] as? Bool else {
@@ -29,9 +25,8 @@ extension AppDelegate {
             Analytics.track(.userSignedOut, properties: ["user_initiated": userIniated])
         }
 
-        // Setup adapters if needed after protected data becomes available
         NotificationCenter.default.addObserver(forName: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil, queue: .main) { [weak self] _ in
-            self?.setupAdapters()
+            self?.setupAnalytics()
         }
     }
 

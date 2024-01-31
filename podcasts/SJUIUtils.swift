@@ -18,7 +18,7 @@ class SJUIUtils {
         PCNavigationController(rootViewController: controller, navStyle: navStyle, titleStyle: titleStyle, iconStyle: iconStyle, themeOverride: themeOverride)
     }
 
-    class func popupNavController(for controller: UIViewController, navStyle: ThemeStyle = .secondaryText01, titleStyle: ThemeStyle = .secondaryText01, iconStyle: ThemeStyle = .primaryIcon01, themeOverride: Theme.ThemeType? = nil) -> PCNavigationController {
+    class func popupNavController(for controller: UIViewController, navStyle: ThemeStyle = .secondaryUi01, titleStyle: ThemeStyle = .secondaryText01, iconStyle: ThemeStyle = .primaryIcon01, themeOverride: Theme.ThemeType? = nil) -> PCNavigationController {
         let navController = PCNavigationController(rootViewController: controller, navStyle: navStyle, titleStyle: titleStyle, iconStyle: iconStyle, themeOverride: themeOverride)
         navController.modalPresentationStyle = .fullScreen
         return navController

@@ -19,11 +19,10 @@ class DiscoverViewController: PCViewController {
 
     var searchController: PCSearchBarController!
 
-    var searchResultsController: DiscoverPodcastSearchResultsController!
-    lazy var newSearchResultsController = SearchResultsViewController(source: .discover)
+    lazy var searchResultsController = SearchResultsViewController(source: .discover)
 
     var resultsControllerDelegate: SearchResultsDelegate {
-        FeatureFlag.newSearch.enabled ? newSearchResultsController : searchResultsController
+        searchResultsController
     }
 
     private var loadingContent = false
@@ -84,7 +83,7 @@ class DiscoverViewController: PCViewController {
         guard let index = notification.object as? Int, index == tabBarItem.tag else { return }
 
         let defaultOffset = -PCSearchBarController.defaultHeight - view.safeAreaInsets.top
-        if mainScrollView.contentOffset.y > defaultOffset {
+        if mainScrollView.contentOffset.y.rounded(.down) > defaultOffset.rounded(.down) {
             mainScrollView.setContentOffset(CGPoint(x: 0, y: defaultOffset), animated: true)
         } else {
             searchController.searchTextField.becomeFirstResponder()

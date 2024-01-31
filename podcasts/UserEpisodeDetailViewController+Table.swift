@@ -156,11 +156,7 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
     }
 
     private func tableData() -> [TableRow] {
-        var data: [TableRow] = [.upNext, .markAsPlayed, .editDetails, .delete]
-
-        if FeatureFlag.bookmarks.enabled {
-            data.insert(.bookmarks, at: 2)
-        }
+        var data: [TableRow] = [.upNext, .markAsPlayed, .bookmarks, .editDetails, .delete]
 
         if episode.queued() || episode.downloading() || episode.waitingForWifi() {
             data.insert(.cancelDownload, at: 3)

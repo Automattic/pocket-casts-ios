@@ -207,7 +207,7 @@ struct HorizontalCarousel<Content: View, T: Identifiable>: View {
     }
 }
 
-/// Uses a lightweight view to calcuate the size and origin of the expected view
+/// Uses a lightweight view to calculate the size and origin of the expected view
 /// and once it overlaps with the visible frame we load the content
 ///
 /// This allows the carousel to lazily load the content but without using a LazyHStack which causes problems

@@ -716,33 +716,44 @@ class Settings: NSObject {
 
     // MARK: - End of Year 2022
 
-    class var showBadgeFor2022EndOfYear: Bool {
+    class var showBadgeForEndOfYear: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear)
         }
 
         get {
-            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2022EndOfYear) as? Bool) ?? true
+            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear) as? Bool) ?? true
         }
     }
 
     class var endOfYearModalHasBeenShown: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2022HasBeenShown)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2023HasBeenShown)
         }
 
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2022HasBeenShown)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2023HasBeenShown)
         }
     }
 
-    class var hasSyncedAll2022Episodes: Bool {
+    class var hasSyncedEpisodesForPlayback2023: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
         }
 
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedAll2022Episodes)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
+        }
+    }
+
+    /// Whether the user was plus or not by the time the sync happened
+    class var hasSyncedEpisodesForPlayback2023AsPlusUser: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
         }
     }
 
@@ -786,11 +797,7 @@ class Settings: NSObject {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
         }
         get {
-            guard FeatureFlag.autoplay.enabled else {
-                return false
-            }
-
-            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
         }
     }
 
@@ -838,6 +845,16 @@ class Settings: NSObject {
         }
     }
 
+    static var darkUpNextTheme: Bool {
+        get {
+            Constants.UserDefaults.appearance.darkUpNextTheme.value
+        }
+
+        set {
+            Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
@@ -858,6 +875,16 @@ class Settings: NSObject {
             return remote.boolValue
         }
 
+        static var addMissingEpisodes: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.addMissingEpisodes)
+            return remote.boolValue
+        }
+
+        static var newPlayerTransition: Bool {
+            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.newPlayerTransition)
+            return remote.boolValue
+        }
+
         static var effectsPlayerStrategy: EffectsPlayerStrategy? {
             let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.effectsPlayerStrategy)
             return EffectsPlayerStrategy(rawValue: remote.numberValue.intValue)
@@ -865,14 +892,14 @@ class Settings: NSObject {
 
         static var plusCloudStorageLimit: Int {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.customStorageLimitGB).numberValue.intValue
-        }
-
-        static var patronEnabled: Bool {
-            RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronEnabled).boolValue
-        }
+        }        
 
         static var patronCloudStorageLimit: Int {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronCloudStorageGB).numberValue.intValue
+        }
+
+        static var errorLogoutHandling: Bool {
+            return RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.errorLogoutHandling).boolValue
         }
 
         private class func remoteMsToTime(key: String) -> TimeInterval {

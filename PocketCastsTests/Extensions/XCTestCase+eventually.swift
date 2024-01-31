@@ -15,7 +15,7 @@ extension XCTestCase {
     /// expected to take more than the default 0.01 second.
     ///
     /// - Parameters:
-    ///   - timeout: amout of time in seconds to wait before executing the
+    ///   - timeout: amount of time in seconds to wait before executing the
     ///              closure.
     ///   - closure: a closure to execute when `timeout` seconds has passed
     func eventually(timeout: TimeInterval = 0.01, closure: @escaping () -> Void) {

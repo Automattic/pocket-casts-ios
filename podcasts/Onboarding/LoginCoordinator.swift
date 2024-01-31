@@ -6,7 +6,7 @@ import PocketCastsDataModel
 class LoginCoordinator: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
-    var continuePurchasing: Constants.ProductInfo? = nil
+    var continuePurchasing: ProductInfo? = nil
 
     private var socialLogin: SocialLogin?
     private var socialAuthProvider: SocialAuthProvider?
@@ -62,7 +62,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
     func signUpTapped() {
         socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
-        let controller = NewEmailViewController(newSubscription: NewSubscription(isNewAccount: true, iap_identifier: ""))
+        let controller = NewEmailViewController()
         controller.delegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -182,9 +182,13 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
     }
 
     private func handleDismiss() {
-        navigationController?.dismiss(animated: true) {
-            DispatchQueue.main.async {
-                OnboardingFlow.shared.reset()
+        if OnboardingFlow.shared.currentFlow == .promoCode {
+            navigationController?.popToRootViewController(animated: true)
+        } else {
+            navigationController?.dismiss(animated: true) {
+                DispatchQueue.main.async {
+                    OnboardingFlow.shared.reset()
+                }
             }
         }
     }
@@ -212,7 +216,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: Constants.ProductInfo? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil) -> UIViewController {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
 

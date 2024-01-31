@@ -35,6 +35,8 @@
     <string>已停用</string>
     <key>accessibility_dismiss</key>
     <string>忽略</string>
+    <key>accessibility_episode_playback</key>
+    <string>單集播放</string>
     <key>accessibility_hide_filter_details</key>
     <string>點選即可隱藏篩選器詳細資訊</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>已鎖定，此為 Patron 功能</string>
     <key>accessibility_percent_complete_format</key>
     <string>完成了百分之 %1$@</string>
+    <key>accessibility_playback_progress</key>
+    <string>第 %1$@ 集，共 %2$@ 集</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>%1$@ 倍速播放</string>
     <key>accessibility_playlist_color</key>
@@ -141,6 +145,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>如果「接下來播放」佇列是空的，而你開始聆聽某一單集，自動播放功能會繼續播放同一個節目或清單的單集。</string>
     <key>announcement_autoplay_title</key>
     <string>我們推出自動播放功能了！</string>
+    <key>announcement_bookmarks_description</key>
+    <string>現在，你可以透過播放器的動作選單，或設定耳機動作來儲存單集的時間戳記。</string>
+    <key>announcement_bookmarks_title</key>
+    <string>書籤登場！</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>加入我們的書籤 Beta 測試！</string>
     <key>app_badge</key>
     <string>應用程式徽章</string>
     <key>app_icon_classic</key>
@@ -263,7 +273,9 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>%1$@ 個書籤</string>
     <key>bookmarks_count_singular</key>
     <string>1 個書籤</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>利用 Pocket Casts %1$@ 解鎖此功能與其他許多功能，並儲存你所愛單集的時間戳記。 即將為 %2$@ 訂閱者推出。</string>
+    <key>bookmarks_locked_message</key>
     <string>利用 Pocket Casts %1$@ 解鎖此功能與其他許多功能，並儲存你所愛單集的時間戳記。</string>
     <key>bottom</key>
     <string>底部</string>
@@ -433,6 +445,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>喜劇</string>
     <key>discover_browse_by_category_education</key>
     <string>教育</string>
+    <key>discover_browse_by_category_family</key>
+    <string>家庭</string>
     <key>discover_browse_by_category_fiction</key>
     <string>小說</string>
     <key>discover_browse_by_category_games_and_hobbies</key>
@@ -467,6 +481,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>社會</string>
     <key>discover_browse_by_category_society_and_culture</key>
     <string>社會與文化</string>
+    <key>discover_browse_by_category_spirituality</key>
+    <string>心靈</string>
     <key>discover_browse_by_category_sports</key>
     <string>運動</string>
     <key>discover_browse_by_category_sports_and_recreation</key>
@@ -650,21 +666,30 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>enable_it_now</key>
     <string>立即啟用</string>
     <key>eoy_card_description</key>
-    <string>查看你最熱門的 Podcast、分類、收聽統計等資料。</string>
+    <string>看看你的收聽統計和最愛 Podcast 等資料吧。</string>
     <key>eoy_create_account_to_see</key>
     <string>將你的 Podcast 儲存在雲端、獲得年末回顧，並與其他裝置同步進度。</string>
     <key>eoy_description</key>
     <string>查看你最愛的 Podcast、類別、收聽統計等資料。 與朋友分享，並向你最喜愛的創作者表達敬意！</string>
     <key>eoy_not_now</key>
     <string>現在不要</string>
+    <key>eoy_share</key>
+    <string>分享這個故事</string>
+    <key>eoy_share_this_story_message</key>
+    <string>將這張圖片貼到你的社群媒體，向你最愛的節目和創作者致意</string>
+    <key>eoy_share_this_story_title</key>
+    <string>要分享這則限時動態嗎？</string>
     <key>eoy_small_title</key>
     <string>Podcast 年度回顧</string>
+    <key>eoy_start_your_free_trial</key>
+    <string>開始免費試用</string>
     <key>eoy_stories_failed</key>
     <string>無法載入故事。</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>別忘了與朋友分享，以及向最愛的 Podcast 創作者致意</string>
     <key>eoy_story_epilogue_title</key>
-    <string>感謝你在 2022 年使用 Pocket Casts 收聽</string>
+    <string>謝謝你今年與我們一同收聽。
+我們 2024 年見！</string>
     <key>eoy_story_intro_title</key>
     <string>來慶祝你收聽節目的一年...</string>
     <key>eoy_story_listened_to</key>
@@ -674,7 +699,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>你今年收聽了 %1$@</string>
     <key>eoy_story_listened_to_categories_share_text</key>
-    <string>我在 2022 年收聽了 %1$@ 個不同分類</string>
+    <string>我在 2023 年收聽了 %1$@ 個不同的類別</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>來看看你的最愛...</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -682,56 +707,93 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ 集</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>你收聽了 %1$@ 個不同 Podcast 和 %2$@ 集</string>
+    <string>你一共收聽了 %1$@ 個不同節目和 %2$@ 集內容</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>我在 2022 年收聽了 %1$@ 個不同 Podcast 節目和 %2$@ 集內容</string>
+    <string>我今年收聽了 %1$@ 個不同 Podcast 節目和 %2$@ 集內容</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>但有個節目你持續收聽...</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>但是你
-持續收聽的是…</string>
+    <string>但有個節目你已成為忠實聽眾了...</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>你收聽了「%1$@」和「%2$@」</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ 個不同的 Podcast</string>
     <key>eoy_story_listened_to_share_text</key>
-    <string>我在 2022 年花了 %1$@ 收聽 Podcast</string>
+    <string>我今年花了 %1$@ 收聽 Podcast</string>
+    <key>eoy_story_listened_to_subtitle</key>
+    <string>希望你每分每秒都享受！</string>
+    <key>eoy_story_listened_to_title</key>
+    <string>這是你收聽 Podcast 的總時間</string>
     <key>eoy_story_listened_to_updated</key>
     <string>你今年花了 %1$@ 收聽 Podcast</string>
     <key>eoy_story_longest_episode</key>
-    <string>你所收聽時間最長的一集為 Podcast %2$@ 的 %1$@</string>
+    <string>你收聽時間最長的一集為「%1$@」</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>這集長達 %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
-    <string>我在 2022 年所收聽最長的一集 %1$@</string>
+    <string>我今年收聽時間最長的一集是「%1$@」</string>
     <key>eoy_story_longest_episode_subtitle</key>
-    <string>這一集是「%2$@」的「%1$@」</string>
+    <string>就是「%2$@」的「%1$@」</string>
     <key>eoy_story_longest_episode_time</key>
     <string>你收聽過
 最長的一集是
 %1$@</string>
     <key>eoy_story_replay</key>
-    <string>重播</string>
+    <string>再次播放</string>
     <key>eoy_story_top_categories</key>
     <string>你最愛的類別</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>我最常收聽的 Podcast 分類</string>
+    <key>eoy_story_top_categories_subtitle</key>
+    <string>你收聽了 %1$@ 集，總共 %2$@</string>
+    <key>eoy_story_top_categories_title</key>
+    <string>你知道「%1$@」是你的最愛類別嗎？</string>
     <key>eoy_story_top_podcast</key>
-    <string>你最愛的 Podcast 為 %2$@ 的 %1$@</string>
+    <string>「%1$@」是你在 2023 年最常收聽的節目</string>
     <key>eoy_story_top_podcast_share_text</key>
-    <string>2022 年我最愛的 Podcast！%1$@</string>
+    <string>我今年最愛的 Podcast！%1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>你收聽了 %1$@ 集，總共 %2$@</string>
     <key>eoy_story_top_podcasts</key>
     <string>你最愛的 Podcast</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>2022 年我最愛的 Podcast</string>
+    <string>本年度我最愛的 Podcast！</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>本年度我最愛的 Podcast！%1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>這是你在 2023 年最常收聽的前 5 名節目</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>你也是這些節目的忠實粉絲！</string>
+    <key>eoy_subscribe_to_plus</key>
+    <string>訂閱 Plus，了解你的收聽狀況與 2022 年相比如何、其他有趣的統計資料，以及書籤和資料夾等進階版功能。</string>
+    <key>eoy_theres_more</key>
+    <string>還有更多有趣內容！</string>
     <key>eoy_title</key>
     <string>你的 Podcast 年度回顧</string>
     <key>eoy_view_year</key>
-    <string>檢視我的 2022 年</string>
+    <string>檢視我的 2023 年</string>
+    <key>eoy_year_completion_rate</key>
+    <string>完成率</string>
+    <key>eoy_year_completion_rate_share_text</key>
+    <string>我的 2023 年完成率</string>
+    <key>eoy_year_completion_rate_subtitle</key>
+    <string>從你開始收聽的 %1$@ 集起，你完整收聽了 %2$@ 集</string>
+    <key>eoy_year_completion_rate_title</key>
+    <string>你今年的完成率為 %1$@</string>
+    <key>eoy_year_over_share_text</key>
+    <string>我在 2023 年與 2022 年的收聽時間比較</string>
+    <key>eoy_year_over_year_subtitle_flat</key>
+    <string>大家都說，成功的關鍵在於持之以恆...大概是這樣吧！</string>
+    <key>eoy_year_over_year_subtitle_went_down</key>
+    <string>啊啊啊...人就是要享受生活，對吧？</string>
+    <key>eoy_year_over_year_subtitle_went_up</key>
+    <string>想要在 2024 年更進一步嗎？</string>
+    <key>eoy_year_over_year_title_flat</key>
+    <string>比起 2022 年，你的收聽時間大致保持不變</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>比起 2022 年，你的收聽時間可說是一飛沖天！</string>
+    <key>eoy_year_over_year_title_went_down</key>
+    <string>比起 2022 年，你的收聽時間稍微下降了</string>
+    <key>eoy_year_over_year_title_went_up</key>
+    <string>比起 2022 年，你的收聽時間大幅上升了 %1$@%</string>
     <key>episode</key>
     <string>單集</string>
     <key>episode_count_plural_format</key>
@@ -760,12 +822,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>錯誤</string>
     <key>error_general_podcast_not_found</key>
     <string>找不到 Podcast 節目。請聯絡 Podcast 作者。</string>
+    <key>export_database</key>
+    <string>匯出資料庫</string>
     <key>export_podcasts_description</key>
     <string>將所有 Podcast 以 OPML 檔案匯出，這樣就能匯入其他 Podcast 應用程式。</string>
     <key>export_podcasts_option</key>
     <string>匯出 Podcast</string>
     <key>export_podcasts_title</key>
     <string>匯出</string>
+    <key>exporting_database</key>
+    <string>正在匯出資料庫...</string>
     <key>feature_tour_end_tour</key>
     <string>結束導覽</string>
     <key>feature_tour_new</key>
@@ -1402,33 +1468,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>感謝你的支持，但很抱歉你無法使用此優惠。</string>
     <key>plus_expiration_format</key>
     <string>於 %1$@ 到期</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>雲端儲存空間</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 所有使用者向你表達誠摯的謝意</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主題和應用程式圖示</string>
-    <key>plus_feature_watch_app</key>
-    <string>手錶獨立播放</string>
-    <key>plus_feature_web_player</key>
-    <string>網頁播放器</string>
     <key>plus_features</key>
     <string>Plus 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ 免費</string>
     <key>plus_lifetime_membership</key>
     <string>終身會員</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>加速課程進度。探索其他內容。成為你自己的 Podcast DJ。</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>雲端儲存空間</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>透過我們的 Windows、macOS 和網頁應用程式，隨時隨地都能聆聽 Podcast 節目 。</string>
-    <key>plus_marketing_desktop_apps_title</key>
-    <string>桌上型電腦應用程式</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>是時候升級 Podcast 了吧？
-取得桌上型電腦應用程式、上傳自己的檔案，然後用 Plus 會員專屬的全新佈景主題妝點一番。</string>
     <key>plus_marketing_folders_description</key>
     <string>你可以建立資料夾來整理你的 Podcast 收藏。</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1439,12 +1488,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>深入了解 Pocket Casts Plus</string>
     <key>plus_marketing_main_description</key>
     <string>個人化設定，讓節目獲得更多聽眾，雙效合一。將你的音訊檔案上傳到雲端伺服器、透過網頁播放器存取帳號，還可讓 App 更合你所需。</string>
-    <key>plus_marketing_main_title</key>
-    <string>進階聽眾的進階功能</string>
     <key>plus_marketing_subtitle</key>
     <string>使用獨家功能和自訂選項</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>展現你最真實的色彩。僅供 Plus 社群使用的獨家圖示和主題。</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>主題和圖示</string>
     <key>plus_marketing_title</key>
@@ -1455,12 +1500,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>使用我們的 Windows、macOS 和網頁應用程式，在更多地方收聽</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>在資料夾中整理你的 Podcast，並在所有裝置間同步。</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>升級為 Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>拋開手機出門跑步，也不用擔心錯失任何精彩內容。Apple Watch 可獨立播放 Podcast。</string>
-    <key>plus_marketing_watch_playback_title</key>
-    <string>手錶播放</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>每月 %1$@ </string>
     <key>plus_payment_canceled</key>
@@ -1957,6 +1996,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>收集資訊</string>
     <key>settings_collect_information_additional_information</key>
     <string>允許我們收集分析有助於我們打造更好的應用程式。如果你不願意分享這些資訊，我們也能理解。</string>
+    <key>settings_connection_status</key>
+    <string>連線狀態</string>
     <key>settings_create_siri_shortcut</key>
     <string>建立 Siri 捷徑</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2185,8 +2226,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>請檢查你的網路狀態。</string>
     <key>settings_status_internet_failure_message</key>
     <string>無法連線到網際網路。 請嘗試連線不同網路 (例如行動數據)。</string>
-    <key>settings_status_page</key>
-    <string>狀態頁面</string>
     <key>settings_status_refresh_service</key>
     <string>重新整理服務</string>
     <key>settings_status_refresh_service_description</key>
@@ -2211,6 +2250,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>剪輯程度</string>
     <key>settings_trim_silence</key>
     <string>無聲剪輯</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>啟用後，「接下來播放」將永遠使用深色系佈景主題；若停用，系統則將採用與屆時設定相符的主題。</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>使用暗色系「接下來播放」佈景主題</string>
     <key>settings_up_next_limit</key>
     <string>自動新增單集到「接下來播放」。「接下來播放」達到 %1$@ 集時，將停止新增新單集。</string>
     <key>settings_up_next_limit_add_to_top</key>
@@ -2497,6 +2540,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>修剪無聲</string>
     <key>try_again</key>
     <string>再試一次</string>
+    <key>try_it_now</key>
+    <string>立即試試</string>
     <key>unarchive</key>
     <string>取消封存</string>
     <key>unknown_duration</key>

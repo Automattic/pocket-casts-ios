@@ -7,7 +7,54 @@
 
   ],
   "settings" : {
-
+    "_failTransactionsEnabled" : false,
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
   },
   "subscriptionGroups" : [
     {
@@ -26,13 +73,13 @@
           ],
           "displayPrice" : "39.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 2,
           "internalID" : "C9B37131",
           "introductoryOffer" : {
-            "displayPrice" : "0.99",
+            "displayPrice" : "19.99",
             "internalID" : "20314E17",
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1M"
+            "paymentMode" : "payUpFront",
+            "subscriptionPeriod" : "P1Y"
           },
           "localizations" : [
             {
@@ -56,7 +103,7 @@
           ],
           "displayPrice" : "3.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 2,
           "internalID" : "267218F7",
           "introductoryOffer" : null,
           "localizations" : [
@@ -83,7 +130,11 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "FB9E06A9",
-          "introductoryOffer" : null,
+          "introductoryOffer" : {
+            "internalID" : "3848A746",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1M"
+          },
           "localizations" : [
             {
               "description" : "",
@@ -91,7 +142,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.pocketcasts.yearly.patron",
+          "productID" : "com.pocketcasts.patron_yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Patron Yearly",
           "subscriptionGroupID" : "D129D5D3",
@@ -116,7 +167,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.pocketcasts.monthly.patron",
+          "productID" : "com.pocketcasts.patron_monthly",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Patron Monthly",
           "subscriptionGroupID" : "D129D5D3",
@@ -126,7 +177,7 @@
     }
   ],
   "version" : {
-    "major" : 2,
+    "major" : 3,
     "minor" : 0
   }
 }

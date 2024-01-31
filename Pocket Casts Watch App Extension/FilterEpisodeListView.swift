@@ -61,11 +61,10 @@ struct FilterEpisodeListView: View {
                     Spacer()
                 }
             } else {
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-                        header
+                List {
+                    Section(content: {
                         content()
-                    }
+                    }, header: { header.textCase(.none) } )
                 }
             }
         }

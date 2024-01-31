@@ -78,6 +78,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     var finalScrollViewConstraint: NSLayoutConstraint?
 
+    /// The velocity in which the player was dismissed
+    var dismissVelocity: CGFloat = 0
+
+    /// The final yPosition when dismissing
+    var finalYPositionWhenDismissing: CGFloat = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.accessibilityViewIsModal = true
@@ -89,14 +95,21 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Analytics.track(.playerShown)
+
+        if !FeatureFlag.newPlayerTransition.enabled {
+            Analytics.track(.playerShown)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        Analytics.track(.playerDismissed)
+
+        if !FeatureFlag.newPlayerTransition.enabled {
+            Analytics.track(.playerDismissed)
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -115,8 +128,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     @objc private func showUpNext() {
-        let navController = SJUIUtils.navController(for: upNextViewController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
+        let navController = SJUIUtils.navController(for: upNextViewController, iconStyle: .secondaryText01, themeOverride: upNextViewController.themeOverride)
         present(navController, animated: true, completion: nil)
+    }
+
+    // MARK: - Orientation
+
+    // we implement this here to lock all views (except presented modal VCs to portrait)
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        .portrait
     }
 
     // MARK: - PlayerItemContainerDelegate
@@ -135,6 +155,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     func scrollToBookmarks() {
         scroll(to: .bookmarks)
+    }
+
+    func navigateToPodcast() {
+        guard let podcast = PlaybackManager.shared.currentPodcast else {
+            return
+        }
+        NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
     }
 
     // MARK: - PlayerTabDelegate

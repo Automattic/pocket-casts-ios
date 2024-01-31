@@ -13,6 +13,7 @@ struct EndOfYearCard: View {
             HStack {
                 VStack(alignment: .leading, spacing: Constants.textSpace) {
                     Text(L10n.eoyTitle)
+                        .minimumScaleFactor(0.7)
                         .font(style: .title2, weight: .semibold, maxSizeCategory: .extraExtraLarge)
                         .foregroundColor(.white)
 
@@ -22,12 +23,24 @@ struct EndOfYearCard: View {
                 }
                 .padding()
                 Spacer()
-                Image("2022_small")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: Constants.eoyImageSize.width * imageScale,
-                           height: Constants.eoyImageSize.height * imageScale)
-                    .padding(.trailing, Constants.eoyImageTrailingPadding)
+                Rectangle()
+                    .frame(width: 150, height: 1)
+                    .opacity(0)
+            }
+            .background {
+                ZStack(alignment: .trailing) {
+                    HStack {
+                        Spacer()
+
+                        Image("23_small")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: Constants.eoyImageSize.width * imageScale,
+                                   height: Constants.eoyImageSize.height * imageScale)
+                            .padding(.trailing, Constants.eoyImageTrailingPadding)
+                            .offset(x: 40)
+                    }
+                }
             }
             .background(theme.activeTheme.isDark ? Constants.darkThemeBackgroundColor : Constants.lightThemeBackgroundColor)
             .cornerRadius(Constants.cornerRadius)
@@ -38,7 +51,7 @@ struct EndOfYearCard: View {
     private struct Constants {
         static let textSpace: CGFloat = 8
 
-        static let eoyImageSize: CGSize = .init(width: 150, height: 150)
+        static let eoyImageSize: CGSize = .init(width: 180, height: 180)
         static let eoyImageTrailingPadding: CGFloat = 20
 
         static let lightThemeBackgroundColor: Color = UIColor(hex: "#1A1A1A").color

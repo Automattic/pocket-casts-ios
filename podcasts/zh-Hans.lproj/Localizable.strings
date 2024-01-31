@@ -35,6 +35,8 @@
     <string>已禁用</string>
     <key>accessibility_dismiss</key>
     <string>忽略</string>
+    <key>accessibility_episode_playback</key>
+    <string>剧集回放</string>
     <key>accessibility_hide_filter_details</key>
     <string>轻点以隐藏过滤器详情</string>
     <key>accessibility_hint_star</key>
@@ -47,6 +49,8 @@
     <string>已锁定，Patron 功能</string>
     <key>accessibility_percent_complete_format</key>
     <string>完成了百分之 %1$@</string>
+    <key>accessibility_playback_progress</key>
+    <string>第 %1$@ 集，共 %2$@ 集</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>播放速度 %1$@ 倍</string>
     <key>accessibility_playlist_color</key>
@@ -141,6 +145,12 @@
     <string>如果您的“接下来播放”队列为空，在您开始听节目时，自动播放会继续播放该节目或列表中的剧集。</string>
     <key>announcement_autoplay_title</key>
     <string>自动播放功能现已推出！</string>
+    <key>announcement_bookmarks_description</key>
+    <string>您现在可以使用播放器的操作菜单或耳机操作程序来保存剧集的时间戳。</string>
+    <key>announcement_bookmarks_title</key>
+    <string>书签在这里！</string>
+    <key>announcement_bookmarks_title_beta</key>
+    <string>加入我们的 Beta 测试，试用书签功能！</string>
     <key>app_badge</key>
     <string>应用程序徽章</string>
     <key>app_icon_classic</key>
@@ -263,7 +273,9 @@
     <string>%1$@ 个书签</string>
     <key>bookmarks_count_singular</key>
     <string>1 个书签</string>
-    <key>boomarks_locked_message</key>
+    <key>bookmarks_early_access_locked_message</key>
+    <string>通过 Pocket Casts %1$@ 解锁此功能及其他更多功能，并保存收藏剧集的时间戳。 即将面向 %2$@ 订阅者推出。</string>
+    <key>bookmarks_locked_message</key>
     <string>通过 Pocket Casts %1$@ 解锁此功能及其他更多功能，并保存收藏剧集的时间戳。</string>
     <key>bottom</key>
     <string>底部</string>
@@ -433,6 +445,8 @@
     <string>喜剧</string>
     <key>discover_browse_by_category_education</key>
     <string>教育</string>
+    <key>discover_browse_by_category_family</key>
+    <string>家庭</string>
     <key>discover_browse_by_category_fiction</key>
     <string>小说</string>
     <key>discover_browse_by_category_games_and_hobbies</key>
@@ -467,6 +481,8 @@
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
     <string>社会与文化</string>
+    <key>discover_browse_by_category_spirituality</key>
+    <string>精神生活</string>
     <key>discover_browse_by_category_sports</key>
     <string>体育</string>
     <key>discover_browse_by_category_sports_and_recreation</key>
@@ -650,21 +666,30 @@
     <key>enable_it_now</key>
     <string>立即启用</string>
     <key>eoy_card_description</key>
-    <string>查看您的热门播客、分类、收听统计数据等。</string>
+    <string>查看您的收听统计数据、热门播客等。</string>
     <key>eoy_create_account_to_see</key>
     <string>将您的博客保存到云端，获得年终回顾，并与其他设备同步您的进度。</string>
     <key>eoy_description</key>
     <string>查看您的热门播客、分类、收听统计数据等。 分享给朋友，告诉他们您最喜欢的创作者！</string>
     <key>eoy_not_now</key>
     <string>不用了</string>
+    <key>eoy_share</key>
+    <string>分享此故事</string>
+    <key>eoy_share_this_story_message</key>
+    <string>将此图片粘贴到您的社交平台上，与大家分享您最喜欢的节目和创作者</string>
+    <key>eoy_share_this_story_title</key>
+    <string>分享此故事？</string>
     <key>eoy_small_title</key>
     <string>年度播客盘点</string>
+    <key>eoy_start_your_free_trial</key>
+    <string>开始免费试用</string>
     <key>eoy_stories_failed</key>
     <string>无法加载故事。</string>
     <key>eoy_story_epilogue_subtitle</key>
     <string>不要忘记分享给朋友，告诉他们您最喜欢的播客创作者</string>
     <key>eoy_story_epilogue_title</key>
-    <string>感谢您在 2022 年收听 Pocket Casts</string>
+    <string>感谢您今年收听我们的播客。
+2024 年再见！</string>
     <key>eoy_story_intro_title</key>
     <string>庆祝您的聆听之年…</string>
     <key>eoy_story_listened_to</key>
@@ -674,7 +699,7 @@
     <key>eoy_story_listened_to_categories_highlighted</key>
     <string>您今年收听了 %1$@ 种分类</string>
     <key>eoy_story_listened_to_categories_share_text</key>
-    <string>我在 2022 年收听了 %1$@ 种不同的分类</string>
+    <string>我在 2023 年收听了 %1$@ 种不同的分类</string>
     <key>eoy_story_listened_to_categories_subtitle</key>
     <string>我们来看看您最喜欢的内容…</string>
     <key>eoy_story_listened_to_categories_text</key>
@@ -682,56 +707,93 @@
     <key>eoy_story_listened_to_episodes_text</key>
     <string>%1$@ 集</string>
     <key>eoy_story_listened_to_numbers</key>
-    <string>您收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
+    <string>您总共收听了 %1$@ 个不同的节目和 %2$@ 部剧集</string>
     <key>eoy_story_listened_to_numbers_share_text</key>
-    <string>我在 2022 年收听了 %1$@ 个不同的播客和 %2$@ 部剧集</string>
+    <string>我今年收听了 %1$@ 个不同的播客和 %2$@ 集节目</string>
     <key>eoy_story_listened_to_numbers_subtitle</key>
-    <string>但还有一个您经常回顾的播客…</string>
-    <key>eoy_story_listened_to_numbers_subtitle_updated</key>
-    <string>不过，有一个
-您经常回听的...</string>
+    <string>但还有一个您经常收听的播客…</string>
     <key>eoy_story_listened_to_numbers_updated</key>
     <string>您收听了 %1$@ 个播客和 %2$@ 集</string>
     <key>eoy_story_listened_to_podcast_text</key>
     <string>%1$@ 个不同的播客</string>
     <key>eoy_story_listened_to_share_text</key>
-    <string>2022 年，我收听播客的时间为 %1$@</string>
+    <string>我今年收听播客的时间为 %1$@</string>
+    <key>eoy_story_listened_to_subtitle</key>
+    <string>希望您能享受其中的每分每秒！</string>
+    <key>eoy_story_listened_to_title</key>
+    <string>这是您收听播客的总时长</string>
     <key>eoy_story_listened_to_updated</key>
     <string>您今年收听播客的时间为 %1$@</string>
     <key>eoy_story_longest_episode</key>
-    <string>您收听的最长剧集为 %2$@ 播客的 %1$@</string>
+    <string>您收听的最长一集为 %1$@</string>
     <key>eoy_story_longest_episode_duration</key>
     <string>本剧集时长为 %1$@</string>
     <key>eoy_story_longest_episode_share_text</key>
-    <string>2022 年我收听时间最长的剧集 %1$@</string>
+    <string>我今年收听的最长一集 %1$@</string>
     <key>eoy_story_longest_episode_subtitle</key>
-    <string>该剧集是来自 %2$@ 的 %1$@</string>
+    <string>不是其他，正是“%2$@”的“%1$@”</string>
     <key>eoy_story_longest_episode_time</key>
     <string>您收听过的
 最长的剧集是
 %1$@</string>
     <key>eoy_story_replay</key>
-    <string>重播</string>
+    <string>再次播放</string>
     <key>eoy_story_top_categories</key>
     <string>您的热门分类</string>
     <key>eoy_story_top_categories_share_text</key>
     <string>我收听最多的播客分类</string>
+    <key>eoy_story_top_categories_subtitle</key>
+    <string>您收听了 %1$@ 集节目，总时长为 %2$@</string>
+    <key>eoy_story_top_categories_title</key>
+    <string>您是否知道 %1$@ 是您最喜欢的分类？</string>
     <key>eoy_story_top_podcast</key>
-    <string>您的热门播客为 %2$@ 的 %1$@</string>
+    <string>%1$@ 是您在 2023 年收听率最高的节目</string>
     <key>eoy_story_top_podcast_share_text</key>
-    <string>2022 年我最喜欢的播客！%1$@</string>
+    <string>我今年最喜欢的播客！%1$@</string>
     <key>eoy_story_top_podcast_subtitle</key>
     <string>您收听了 %1$@ 部剧集，总共有 %2$@ 部剧集</string>
     <key>eoy_story_top_podcasts</key>
     <string>您的热门播客</string>
     <key>eoy_story_top_podcasts_list_title</key>
-    <string>我的 2022 年热门播客</string>
+    <string>我的年度热门播客！</string>
     <key>eoy_story_top_podcasts_share_text</key>
     <string>我的年度热门播客！%1$@</string>
+    <key>eoy_story_top_podcasts_subtitle</key>
+    <string>这是您在 2023 年收听率最高的 5 个节目</string>
+    <key>eoy_story_top_podcasts_title</key>
+    <string>您也非常喜欢这些节目！</string>
+    <key>eoy_subscribe_to_plus</key>
+    <string>订阅 Plus，了解您的收听情况与 2022 年的收听情况相比如何、其他有趣的统计信息，以及书签和文件夹等高级套餐功能。</string>
+    <key>eoy_theres_more</key>
+    <string>更多精彩有待进一步探索！</string>
     <key>eoy_title</key>
     <string>您的年度播客盘点</string>
     <key>eoy_view_year</key>
-    <string>查看我的 2022 年度盘点</string>
+    <string>查看我的 2023</string>
+    <key>eoy_year_completion_rate</key>
+    <string>完成率</string>
+    <key>eoy_year_completion_rate_share_text</key>
+    <string>我在 2023 年的完成率</string>
+    <key>eoy_year_completion_rate_subtitle</key>
+    <string>从最初收听的 %1$@ 集开始，您总共完整收听的时长为 %2$@</string>
+    <key>eoy_year_completion_rate_title</key>
+    <string>您今年的完成率为 %1$@</string>
+    <key>eoy_year_over_share_text</key>
+    <string>我的 2023 年收听时长与 2022 年的比较情况</string>
+    <key>eoy_year_over_year_subtitle_flat</key>
+    <string>人们常说，一致性是成功的关键…或诸如此类的话！</string>
+    <key>eoy_year_over_year_subtitle_went_down</key>
+    <string>啊哈…生活还得继续，不是吗？</string>
+    <key>eoy_year_over_year_subtitle_went_up</key>
+    <string>准备在 2024 年进一步提升？</string>
+    <key>eoy_year_over_year_title_flat</key>
+    <string>相比于 2022 年，您的收听时长保持一致</string>
+    <key>eoy_year_over_year_title_skyrocketed</key>
+    <string>相比于 2022 年，您的收听时长飙升！</string>
+    <key>eoy_year_over_year_title_went_down</key>
+    <string>相比于 2022 年，您的收听时长略微减少</string>
+    <key>eoy_year_over_year_title_went_up</key>
+    <string>相比于 2022 年，您的收听时长激增 %1$@%</string>
     <key>episode</key>
     <string>剧集</string>
     <key>episode_count_plural_format</key>
@@ -760,12 +822,16 @@
     <string>错误</string>
     <key>error_general_podcast_not_found</key>
     <string>无法找到播客。 请联系播客作者。</string>
+    <key>export_database</key>
+    <string>导出数据库</string>
     <key>export_podcasts_description</key>
     <string>将所有播客导出为 OPML 文件，您可以将其导入到其他播客应用程序中。</string>
     <key>export_podcasts_option</key>
     <string>导出播客</string>
     <key>export_podcasts_title</key>
     <string>导出</string>
+    <key>exporting_database</key>
+    <string>正在导出数据库…</string>
     <key>feature_tour_end_tour</key>
     <string>结束浏览</string>
     <key>feature_tour_new</key>
@@ -1402,33 +1468,16 @@
     <string>感谢您的支持，但遗憾的是，您无法参加本次促销活动。</string>
     <key>plus_expiration_format</key>
     <string>到期日期：%1$@</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>云存储</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 的每个人都对您感激不尽</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主题和应用程序图标</string>
-    <key>plus_feature_watch_app</key>
-    <string>独立观看播放</string>
-    <key>plus_feature_web_player</key>
-    <string>Web 播放器</string>
     <key>plus_features</key>
     <string>PLUS 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ 免费</string>
     <key>plus_lifetime_membership</key>
     <string>终身会员</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>加快您的讲座速度。 刻录其他内容。 成为您自己的播客 DJ。</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>云存储</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>借助我们的 Windows、macOS 和 Web 应用程序，将播客传播到更多位置。</string>
-    <key>plus_marketing_desktop_apps_title</key>
-    <string>桌面应用程序</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>是时候开始玩播客游戏了？
-获取桌面应用程序，自带文件，并通过全新的主题加快内容，这是 Plus 会员专享福利。</string>
     <key>plus_marketing_folders_description</key>
     <string>创建文件夹以整理您的播客集。</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1439,12 +1488,8 @@
     <string>了解有关 Pocket Casts Plus 的更多信息</string>
     <key>plus_marketing_main_description</key>
     <string>同时进行个性化设计并分发。 将您的个人音频文件上传到我们的云服务器，通过我们的 Web 播放器访问您的账户，并将应用程序设置为您的应用程序。</string>
-    <key>plus_marketing_main_title</key>
-    <string>高级侦听器的增强功能</string>
     <key>plus_marketing_subtitle</key>
     <string>使用专享功能和定制选项</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>选择您的真实颜色。 仅面向 Plus 俱乐部的专属图标和主题。</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>主题和图标</string>
     <key>plus_marketing_title</key>
@@ -1455,12 +1500,6 @@
     <string>借助我们的 Windows、macOS 和 Web 应用等更多位置收听播客</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>将播客整理到文件夹中，让它们在所有设备中保持同步。</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>升级到 Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>丢下手机，开始跑步 – 不会错过任何一个节拍。 唯独 Apple Watch。</string>
-    <key>plus_marketing_watch_playback_title</key>
-    <string>观看播放</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@/月</string>
     <key>plus_payment_canceled</key>
@@ -1957,6 +1996,8 @@
     <string>收集信息</string>
     <key>settings_collect_information_additional_information</key>
     <string>允许我们收集分析数据有助于我们构建更好的应用。 如果您不愿意分享共享此信息，我们也能理解。</string>
+    <key>settings_connection_status</key>
+    <string>连接状态</string>
     <key>settings_create_siri_shortcut</key>
     <string>创建 Siri 快捷方式</string>
     <key>settings_create_siri_shortcut_msg</key>
@@ -2185,8 +2226,6 @@
     <string>检查网络的状态。</string>
     <key>settings_status_internet_failure_message</key>
     <string>无法连接到互联网。 尝试在不同的网络上连接（例如移动数据）。</string>
-    <key>settings_status_page</key>
-    <string>状态页</string>
     <key>settings_status_refresh_service</key>
     <string>刷新服务</string>
     <key>settings_status_refresh_service_description</key>
@@ -2211,6 +2250,10 @@
     <string>剪裁水平</string>
     <key>settings_trim_silence</key>
     <string>剪裁静音</string>
+    <key>settings_up_next_dark_mode_footer</key>
+    <string>启用后，“下一个”将始终使用深色主题；禁用后，将与当前主题匹配。</string>
+    <key>settings_up_next_dark_mode_title</key>
+    <string>使用深色的“下一个”主题</string>
     <key>settings_up_next_limit</key>
     <string>自动将新剧集添加到“接下来播放”。 当“接下来播放”达到 %1$@，系统将停止添加新剧集。</string>
     <key>settings_up_next_limit_add_to_top</key>
@@ -2497,6 +2540,8 @@
     <string>剪裁静音</string>
     <key>try_again</key>
     <string>重试</string>
+    <key>try_it_now</key>
+    <string>立即试用</string>
     <key>unarchive</key>
     <string>取消存档</string>
     <key>unknown_duration</key>

@@ -53,7 +53,7 @@ struct PlusAccountUpgradePrompt: View {
                 VStack(alignment: .leading) {
                     SubscriptionBadge(tier: product.identifier.subscriptionTier)
                         .padding(.bottom, 10)
-
+                    SubscriptionPriceAndOfferView(product: product, mainTextColor: theme.primaryText01, secondaryTextColor: theme.primaryText02)
                     productFeatures[product.identifier].map {
                         ForEach($0) { feature in
                             HStack(spacing: 10) {
@@ -74,35 +74,6 @@ struct PlusAccountUpgradePrompt: View {
                             }.frame(maxWidth: .infinity)
                         }
                     }
-                }
-
-                Spacer()
-
-                VStack(alignment: .trailing) {
-                    if let freeTrial = product.freeTrialDuration {
-                        HighlightedText(L10n.plusFreeMembershipFormat(freeTrial).localizedLowercase)
-                            .highlight(freeTrial, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .title2)
-                            .foregroundColor(theme.primaryText01)
-
-                        HighlightedText(L10n.pricingTermsAfterTrial(product.price))
-                            .highlight(product.rawPrice, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .body)
-                            .foregroundColor(theme.primaryText01)
-                    } else {
-                        HighlightedText(product.price)
-                            .highlight(product.rawPrice, { _ in
-                                    .init(weight: .bold)
-                            })
-                            .font(style: .title2)
-                            .foregroundColor(theme.primaryText01)
-                    }
-
-                    Spacer()
                 }
             }
 
@@ -131,13 +102,13 @@ struct PlusAccountUpgradePrompt: View {
         .padding(.vertical, 10)
     }
 
-    private let productFeatures: [Constants.IapProducts: [Feature]] = [
+    private let productFeatures: [IAPProductID: [Feature]] = [
         .yearly: [
             .init(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
-            .init(iconName: "plus-feature-folders", title: L10n.folders),
+            .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
             .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
-            .init(iconName: "plus-feature-themes", title: L10n.plusMarketingThemesIconsTitle)
+            .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons)
         ],
 
         .patronYearly: [
@@ -158,7 +129,7 @@ struct PlusAccountUpgradePrompt: View {
     }
 }
 
-extension Constants.IapProducts {
+extension IAPProductID {
     var subscriptionTier: SubscriptionTier {
         switch self {
         case .monthly, .yearly:
@@ -168,7 +139,7 @@ extension Constants.IapProducts {
         }
     }
 
-    var plan: Constants.Plan {
+    var plan: Plan {
         switch self {
         case .monthly, .yearly:
             return .plus
@@ -177,7 +148,7 @@ extension Constants.IapProducts {
         }
     }
 
-    var frequency: Constants.PlanFrequency {
+    var frequency: PlanFrequency {
         switch self {
         case .monthly, .patronMonthly:
             return .monthly
@@ -186,7 +157,7 @@ extension Constants.IapProducts {
         }
     }
 
-    var productInfo: Constants.ProductInfo {
+    var productInfo: ProductInfo {
         .init(plan: plan, frequency: frequency)
     }
 }

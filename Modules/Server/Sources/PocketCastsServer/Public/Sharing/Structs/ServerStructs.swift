@@ -88,7 +88,7 @@ public struct SharedPodcast: Decodable {
     }
 }
 
-public struct PodcastRefreshResponse {
+public struct PodcastRefreshResponse: Decodable {
     public var status: String?
     public var message: String?
     public var result: RefreshResult?
@@ -105,7 +105,7 @@ public struct PodcastRefreshResponse {
     }
 }
 
-public struct RefreshResult {
+public struct RefreshResult: Decodable {
     public var podcastUpdates: [String: [RefreshEpisode]]?
 }
 
@@ -122,6 +122,21 @@ public struct RefreshEpisode: Decodable {
     public var seasonNumber: Int64?
     public var episodeNumber: Int64?
     public var publishedDate: String?
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case uuid
+        case url
+        case episodeDescription = "description"
+        case detailedDescription = "dd"
+        case fileType
+        case sizeInBytes
+        case duration = "durationInSecs"
+        case episodeType = "epType"
+        case seasonNumber = "epSeason"
+        case episodeNumber = "epNumber"
+        case publishedDate = "publishedAt"
+    }
 }
 
 public struct PodcastSearchResponse: Decodable {

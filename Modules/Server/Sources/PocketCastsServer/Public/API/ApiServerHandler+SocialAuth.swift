@@ -64,7 +64,7 @@ public extension ApiServerHandler {
             let request = tokenRequest(identityToken: identityToken, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
         else {
             FileLog.shared.addMessage("Unable to locate Apple SSO token in Keychain")
-            throw APIError.UNKNOWN
+            throw APIError.TOKEN_DEAUTH
         }
 
         return try await obtainToken(request: request, usingRefreshToken: true)

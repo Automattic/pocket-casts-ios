@@ -295,8 +295,6 @@ enum PlayerAction: Int, AnalyticsDescribable {
     /// If false, the action will be hidden from the player shelf and overflow menu
     var isAvailable: Bool {
         switch self {
-        case .addBookmark:
-            return FeatureFlag.bookmarks.enabled
         default:
             return true
         }
