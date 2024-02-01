@@ -3941,6 +3941,24 @@
 /* Message of an alert that informs the user purchasing is disabled in the beta. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. %1$@ is the name of the tier (Plus or Patron)*/
 "beta_purchase_disabled" = "Please download Pocket Casts from the App Store to purchase %1$@.";
 
+/* Title displayed when an user want to rate a podcast but hasn't listened enough to it */
+"rating_listen_to_this_podcast_title" = "Please listen to this podcast first";
+
+/* Message displayed when an user want to rate a podcast but hasn't listened enough to it */
+"rating_listen_to_this_podcast_message" = "Only listeners of this podcast can give it a rating. Have a listen to a few episodes and then come back to give your rating. We look forward to hearing what you think!";
+
+/* Title displayed when an user want to rate a podcast. %1$@ is the podcast title. */
+"rating_title" = "Rate %1$@";
+
+/* Confirmation message that a user rating for a podcast was submitted */
+"rating_submitted" = "Your rating was submitted!";
+
+/* Error message when a user rating for a podcast couldn't be submitted */
+"rating_error" = "Ops! There was an error.";
+
+/* Title of a button that takes the user to a screen to rate a podcast */
+"rate" = "Rate";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 

@@ -13,6 +13,10 @@ class HapticsHelper {
         triggerSuccessHaptic()
     }
 
+    class func triggerStarHaptic() {
+        triggerImpactOccurredHaptic(style: .light)
+    }
+
     class func triggerPlayPauseHaptic() {
         triggerImpactOccurredHaptic(style: .light)
     }

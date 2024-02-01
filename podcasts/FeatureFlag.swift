@@ -22,26 +22,35 @@ enum FeatureFlag: String, CaseIterable {
     /// Avoid logging out user on non-authorization HTTP errors
     case errorLogoutHandling
 
+    /// Enable the ability to rate podcasts
+    case giveRatings
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
         }
 
+        return `default`
+    }
+
+    var `default`: Bool {
         switch self {
         case .tracksLogging:
-            return false
+            false
         case .firebaseLogging:
-            return false
+            false
         case .endOfYear:
-            return false
+            false
         case .newShowNotesEndpoint:
-            return false
+            false
         case .episodeFeedArtwork:
-            return false // To be enabled, newShowNotesEndpoint needs to be too
+            false // To be enabled, newShowNotesEndpoint needs to be too
         case .newPlayerTransition:
-            return true
+            true
         case .errorLogoutHandling:
-            return false
+            false
+        case .giveRatings:
+            false
         }
     }
 }
