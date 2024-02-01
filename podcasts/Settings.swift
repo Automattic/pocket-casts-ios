@@ -892,7 +892,7 @@ class Settings: NSObject {
 
         static var plusCloudStorageLimit: Int {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.customStorageLimitGB).numberValue.intValue
-        }        
+        }
 
         static var patronCloudStorageLimit: Int {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.patronCloudStorageGB).numberValue.intValue
