@@ -62,6 +62,8 @@ struct UpgradeCard: View {
 
     let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
 
+    let showPurchaseButton: Bool
+
     @State var calculatedCardHeight: CGFloat?
 
     var body: some View {
@@ -92,6 +94,9 @@ struct UpgradeCard: View {
                         .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
                         .tint(.black)
                         .opacity(0.64)
+                    if showPurchaseButton {
+                        purchaseButton
+                    }
                 }
                 .padding(.bottom, 0)
             }
@@ -121,5 +126,32 @@ struct UpgradeCard: View {
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
         .foregroundColor(.black)
+    }
+
+    @ViewBuilder
+    var purchaseButton: some View {
+        let hasError = Binding<Bool>(
+            get: { self.viewModel.state == .failed },
+            set: { _ in }
+        )
+        let isLoading = (viewModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
+        Button(action: {
+            viewModel.unlockTapped(.init(plan: tier.plan, frequency: currentPrice.wrappedValue))
+        }, label: {
+            VStack {
+                Text(tier.buttonLabel)
+            }
+            .transition(.opacity)
+            .id("plus_price" + tier.title)
+        })
+        .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: tier.plan))
+        .alert(isPresented: hasError) {
+            Alert(
+                title: Text(L10n.plusPurchaseFailed),
+                dismissButton: .default(Text(L10n.ok)) {
+                    viewModel.reset()
+                }
+            )
+        }
     }
 }

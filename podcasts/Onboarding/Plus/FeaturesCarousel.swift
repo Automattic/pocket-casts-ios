@@ -9,6 +9,8 @@ struct FeaturesCarousel: View {
 
     let tiers: [UpgradeTier]
 
+    let showInlinePurchaseButton: Bool
+    
     @State var calculatedCardHeight: CGFloat?
 
     var body: some View {
@@ -16,7 +18,7 @@ struct FeaturesCarousel: View {
         var cardHeights: [CGFloat] = []
 
         HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
-            UpgradeCard(tier: $0, currentPrice: currentSubscriptionPeriod, subscriptionInfo: viewModel.pricingInfo(for: $0, frequency: currentSubscriptionPeriod.wrappedValue))
+            UpgradeCard(tier: $0, currentPrice: currentSubscriptionPeriod, subscriptionInfo: viewModel.pricingInfo(for: $0, frequency: currentSubscriptionPeriod.wrappedValue), showPurchaseButton: showInlinePurchaseButton)
                 .overlay(
                     // Calculate the height of the card after it's been laid out
                     GeometryReader { proxy in

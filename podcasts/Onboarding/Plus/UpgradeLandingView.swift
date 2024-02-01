@@ -76,7 +76,7 @@ struct UpgradeLandingView: View {
                                 UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
                                     .padding(.bottom, 24)
 
-                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: false)
 
                                 if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
