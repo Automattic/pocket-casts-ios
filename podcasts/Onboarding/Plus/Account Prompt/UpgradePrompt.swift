@@ -38,61 +38,18 @@ struct UpgradePrompt: View {
     }
 
     var body: some View {
-        GeometryReader { reader in
-            VStack(spacing: 0) {
+        ContentSizeGeometryReader(content: { proxy in
+            VStack(spacing: 10) {
                 Spacer()
-
-                PlusLabel(selectedTier.header, for: .title2)
-                    .transition(.opacity)
-                    .id("plus_title" + selectedTier.header)
-                    .minimumScaleFactor(0.5)
-                    .lineLimit(2)
-                    .padding(.bottom, 16)
-                    .padding(.horizontal, 32)
                 UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
-                    .padding(.bottom, 24)
-
-                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers)
-
+                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: true).environmentObject(self.viewModel)
                 if !tiers.isEmpty {
                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                         .foregroundColor(.white)
-                        .padding(.top, 27)
                 }
-
                 Spacer()
-
-                purchaseButton
             }
-        }
-    }
-
-    @ViewBuilder
-    var purchaseButton: some View {
-        let hasError = Binding<Bool>(
-            get: { self.viewModel.state == .failed },
-            set: { _ in }
-        )
-        let isLoading = (viewModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
-        Button(action: {
-            viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: currentSubscriptionPeriod))
-        }, label: {
-            VStack {
-                Text(selectedTier.buttonLabel)
-            }
-            .transition(.opacity)
-            .id("plus_price" + selectedTier.title)
-        })
-        .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: selectedTier.plan))
-        .padding(.horizontal, 20)
-        .alert(isPresented: hasError) {
-            Alert(
-                title: Text(L10n.plusPurchaseFailed),
-                dismissButton: .default(Text(L10n.ok)) {
-                    viewModel.reset()
-                }
-            )
-        }
+        }, contentSizeUpdated: contentSizeUpdated)
     }
 }
 
