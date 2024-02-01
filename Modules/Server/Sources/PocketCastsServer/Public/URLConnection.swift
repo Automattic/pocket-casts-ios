@@ -41,4 +41,8 @@ public class URLConnection {
         }
         return (data, response)
     }
+
+    public func send(request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        handler.send(request: request, completion: completion)
+    }
 }
