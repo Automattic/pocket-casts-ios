@@ -5,7 +5,7 @@ import StoreKit
 import UIKit
 
 class IAPHelper: NSObject {
-    static let shared = IAPHelper()
+    static let shared = IAPHelper(settings: SettingsProxy(), networking: ApiServerHandler.shared)
 
     private var productIdentifiers: [IAPProductID] {
         [.monthly, .yearly, .patronMonthly, .patronYearly]
@@ -24,12 +24,14 @@ class IAPHelper: NSObject {
     private var isRequestingProducts = false
 
     /// Whether purchasing is allowed in the current environment or not
-    var canMakePurchases = BuildEnvironment.current != .testFlight
+    private (set) var canMakePurchases = BuildEnvironment.current != .testFlight
 
-    let serverHandler: ServerHandler
+    private var settings: Settings
+    private var networking: Networking
 
-    init(serverHandler: ServerHandler = .init()) {
-        self.serverHandler = serverHandler
+    init(settings: Settings, networking: Networking) {
+        self.settings = settings
+        self.networking = networking
 
         super.init()
 
@@ -86,7 +88,7 @@ class IAPHelper: NSObject {
     }
 
     public func buyProduct(identifier: IAPProductID) -> Bool {
-        guard serverHandler.isLoggedIn, let product = getProduct(for: identifier) else {
+        guard settings.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
         }
@@ -290,7 +292,7 @@ private extension IAPHelper {
         }
 
         isCheckingEligibility = true
-        serverHandler.checkTrialEligibility(receiptString) { [weak self] isEligible in
+        networking.checkTrialEligibility(receiptString) { [weak self] isEligible in
             let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
 
             FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
@@ -360,11 +362,11 @@ extension IAPHelper: SKPaymentTransactionObserver {
         }
 
         if hasNewPurchasedReceipt {
-            if serverHandler.iapUnverifiedPurchaseReceiptDate == nil {
-                serverHandler.iapUnverifiedPurchaseReceiptDate = Date()
+            if settings.iapUnverifiedPurchaseReceiptDate == nil {
+                settings.iapUnverifiedPurchaseReceiptDate = Date()
             }
 
-            serverHandler.sendPurchaseReceipt(completion: { success in
+            networking.sendPurchaseReceipt(completion: { success in
                 if success {
                     FileLog.shared.addMessage("IAPHelper successfully validated receipt")
                 } else {
@@ -423,12 +425,29 @@ private extension IAPHelper {
     }
 }
 
-// MARK: - ServerHandler
+// MARK: - Dependencies: Settings / Networking
 
 extension IAPHelper {
-    /// Acts as a proxy to the `ServerSettings` static methods the IAPHelper uses, and the `ApiServerHandler` calls
-    /// This allows for these to be injected and test, but keep the functionality the same.
-    class ServerHandler {
+    // Defines the settings the IAPHelper needs to read / write
+    protocol Settings {
+        var isLoggedIn: Bool { get }
+        var iapUnverifiedPurchaseReceiptDate: Date? { get set }
+    }
+
+    /// Defines the non-storekit network methods the IAPHelper uses
+    protocol Networking {
+        func sendPurchaseReceipt(completion: @escaping (Bool) -> Void)
+        func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void)
+    }
+}
+
+extension ApiServerHandler: IAPHelper.Networking { 
+    /* Already implements the methods 😎 */
+}
+
+private extension IAPHelper {
+    /// Acts as a proxy to the `ServerSettings` static methods the IAPHelper uses
+    class SettingsProxy: Settings {
         var isLoggedIn: Bool {
             SyncManager.isUserLoggedIn()
         }
@@ -436,14 +455,6 @@ extension IAPHelper {
         var iapUnverifiedPurchaseReceiptDate: Date? {
             set { ServerSettings.setIapUnverifiedPurchaseReceiptDate(newValue) }
             get { ServerSettings.iapUnverifiedPurchaseReceiptDate() }
-        }
-
-        func sendPurchaseReceipt(completion: @escaping (Bool) -> Void) {
-            ApiServerHandler.shared.sendPurchaseReceipt(completion: completion)
-        }
-
-        func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void) {
-            ApiServerHandler.shared.checkTrialEligibility(base64EncodedReceipt, completion: completion)
         }
     }
 }
