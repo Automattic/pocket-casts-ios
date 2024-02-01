@@ -8,16 +8,19 @@ final class IAPHelperTests: XCTestCase {
     let configurationFile = "Pocket Casts Configuration"
     let iapTestTimeout: TimeInterval = 5
 
-    var session: SKTestSession!
-    var helper: IAPHelper!
+    private var session: SKTestSession!
+    private var helper: IAPHelper!
+    private var handler: MockIAPHandler!
 
     override func setUpWithError() throws {
         session = try SKTestSession(configurationFileNamed: configurationFile)
         session.clearTransactions()
         session.resetToDefaultState()
         session.disableDialogs = true
+        
+        handler = MockIAPHandler()
+        helper = IAPHelper(settings: handler, networking: handler)
 
-        helper = IAPHelper(serverHandler: MockIAPHandler())
         SKPaymentQueue.default().add(helper)
     }
 
@@ -57,17 +60,17 @@ final class IAPHelperTests: XCTestCase {
 
 // MARK: - MockIAPHandler
 
-class MockIAPHandler: IAPHelper.ServerHandler {
+private class MockIAPHandler: IAPHelper.Settings, IAPHelper.Networking {
     var isLoggedInValue = true
     var iapUnverifiedPurchaseReceiptDateValue: Date?
     var sendPurchaseReceiptSuccess = true
     var isEligible = true
 
-    override var isLoggedIn: Bool {
+    var isLoggedIn: Bool {
         isLoggedInValue
     }
 
-    override var iapUnverifiedPurchaseReceiptDate: Date? {
+    var iapUnverifiedPurchaseReceiptDate: Date? {
         set {
             iapUnverifiedPurchaseReceiptDateValue = newValue
         }
@@ -77,11 +80,11 @@ class MockIAPHandler: IAPHelper.ServerHandler {
         }
     }
 
-    override func sendPurchaseReceipt(completion: @escaping (Bool) -> Void) {
+    func sendPurchaseReceipt(completion: @escaping (Bool) -> Void) {
         completion(sendPurchaseReceiptSuccess)
     }
 
-    override func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void) {
+    func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void) {
         completion(isEligible)
     }
 }
