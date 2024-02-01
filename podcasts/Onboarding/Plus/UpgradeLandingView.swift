@@ -13,7 +13,7 @@ struct UpgradeLandingView: View {
 
     @State private var purchaseButtonHeight: CGFloat = 0
     @State private var currentPage: Int = 0
-    @State private var displayPrice: PlanFrequency = .yearly
+    @State private var currentSubscriptionPeriod: PlanFrequency = .yearly
 
     init(viewModel: PlusLandingViewModel) {
         self.viewModel = viewModel
@@ -26,13 +26,13 @@ struct UpgradeLandingView: View {
         if let displayProduct {
             let index = tiers.firstIndex(where: { $0.plan == displayProduct.plan }) ?? 0
 
-            _displayPrice = State(initialValue: displayProduct.frequency)
+            _currentSubscriptionPeriod = State(initialValue: displayProduct.frequency)
             _currentPage = State(initialValue: index)
         }
     }
 
     private var selectedProduct: IAPProductID {
-        displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
+        currentSubscriptionPeriod == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
 
     /// If this device has a small screen
@@ -73,10 +73,10 @@ struct UpgradeLandingView: View {
                                     .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
-                                UpgradeRoundedSegmentedControl(selected: $displayPrice)
+                                UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
                                     .padding(.bottom, 24)
 
-                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $displayPrice, viewModel: self.viewModel, tiers: tiers)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers)
 
                                 if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
@@ -155,7 +155,7 @@ struct UpgradeLandingView: View {
         )
         let isLoading = (viewModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
         Button(action: {
-            viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: displayPrice))
+            viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: currentSubscriptionPeriod))
         }, label: {
             VStack {
                 Text(selectedTier.buttonLabel)
