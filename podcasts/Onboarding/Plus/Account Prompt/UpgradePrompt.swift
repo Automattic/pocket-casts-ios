@@ -3,7 +3,7 @@ import PocketCastsServer
 
 struct UpgradePrompt: View {
     @ObservedObject var viewModel: PlusLandingViewModel
-    
+
     /// Allows UIKit to listen for content size changes
     var contentSizeUpdated: ((CGSize) -> Void)? = nil
 
@@ -19,7 +19,7 @@ struct UpgradePrompt: View {
     init(viewModel: PlusLandingViewModel, contentSizeUpdated: ((CGSize) -> Void)? = nil) {
         self.viewModel = viewModel
         self.contentSizeUpdated = contentSizeUpdated
-        
+
         tiers = viewModel.displayedProducts
 
         // Switch to the previously selected options if available
@@ -39,31 +39,31 @@ struct UpgradePrompt: View {
 
     var body: some View {
         GeometryReader { reader in
-                VStack(spacing: 0) {
-                    Spacer()
+            VStack(spacing: 0) {
+                Spacer()
 
-                    PlusLabel(selectedTier.header, for: .title2)
-                        .transition(.opacity)
-                        .id("plus_title" + selectedTier.header)
-                        .minimumScaleFactor(0.5)
-                        .lineLimit(2)
-                        .padding(.bottom, 16)
-                        .padding(.horizontal, 32)
-                    UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
-                        .padding(.bottom, 24)
+                PlusLabel(selectedTier.header, for: .title2)
+                    .transition(.opacity)
+                    .id("plus_title" + selectedTier.header)
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(2)
+                    .padding(.bottom, 16)
+                    .padding(.horizontal, 32)
+                UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
+                    .padding(.bottom, 24)
 
-                    FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers)
+                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers)
 
-                    if !tiers.isEmpty {
-                        PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
-                            .foregroundColor(.white)
-                            .padding(.top, 27)
-                    }
+                if !tiers.isEmpty {
+                    PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
+                        .foregroundColor(.white)
+                        .padding(.top, 27)
+                }
 
-                    Spacer()
+                Spacer()
 
-                    purchaseButton
-                }                                
+                purchaseButton
+            }
         }
     }
 
