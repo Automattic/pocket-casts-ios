@@ -26,10 +26,10 @@ class IAPHelper: NSObject {
     /// Whether purchasing is allowed in the current environment or not
     private (set) var canMakePurchases = BuildEnvironment.current != .testFlight
 
-    private var settings: Settings
-    private var networking: Networking
+    private var settings: IAPHelperSettings
+    private var networking: IAPHelperNetworking
 
-    init(settings: Settings, networking: Networking) {
+    init(settings: IAPHelperSettings, networking: IAPHelperNetworking) {
         self.settings = settings
         self.networking = networking
 
@@ -426,28 +426,25 @@ private extension IAPHelper {
 }
 
 // MARK: - Dependencies: Settings / Networking
-
-extension IAPHelper {
-    // Defines the settings the IAPHelper needs to read / write
-    protocol Settings {
-        var isLoggedIn: Bool { get }
-        var iapUnverifiedPurchaseReceiptDate: Date? { get set }
-    }
-
-    /// Defines the non-storekit network methods the IAPHelper uses
-    protocol Networking {
-        func sendPurchaseReceipt(completion: @escaping (Bool) -> Void)
-        func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void)
-    }
+// Defines the settings the IAPHelper needs to read / write
+protocol IAPHelperSettings {
+    var isLoggedIn: Bool { get }
+    var iapUnverifiedPurchaseReceiptDate: Date? { get set }
 }
 
-extension ApiServerHandler: IAPHelper.Networking { 
+/// Defines the non-storekit network methods the IAPHelper uses
+protocol IAPHelperNetworking {
+    func sendPurchaseReceipt(completion: @escaping (Bool) -> Void)
+    func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void)
+}
+
+extension ApiServerHandler: IAPHelperNetworking {
     /* Already implements the methods 😎 */
 }
 
 private extension IAPHelper {
     /// Acts as a proxy to the `ServerSettings` static methods the IAPHelper uses
-    class SettingsProxy: Settings {
+    class SettingsProxy: IAPHelperSettings {
         var isLoggedIn: Bool {
             SyncManager.isUserLoggedIn()
         }

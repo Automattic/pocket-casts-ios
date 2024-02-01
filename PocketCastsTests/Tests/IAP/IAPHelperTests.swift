@@ -60,7 +60,7 @@ final class IAPHelperTests: XCTestCase {
 
 // MARK: - MockIAPHandler
 
-private class MockIAPHandler: IAPHelper.Settings, IAPHelper.Networking {
+private class MockIAPHandler: IAPHelperSettings, IAPHelperNetworking {
     var isLoggedInValue = true
     var iapUnverifiedPurchaseReceiptDateValue: Date?
     var sendPurchaseReceiptSuccess = true
