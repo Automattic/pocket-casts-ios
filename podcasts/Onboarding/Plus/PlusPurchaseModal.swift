@@ -140,7 +140,7 @@ struct PlusPurchaseModal: View {
             return "\(selectedOption.renewalPrompt)\n\(L10n.plusCancelTerms)"
         }
 
-        return selectedOffer.terms
+        return "\(selectedOffer.terms)\n\(L10n.plusCancelTerms)"
     }
 
     private var subscribeButton: String {
