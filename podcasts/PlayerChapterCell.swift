@@ -81,9 +81,17 @@ class PlayerChapterCell: UITableViewCell {
         isPlayingView.backgroundColor = ThemeColor.playerContrast06()
         progressUpdated(animated: false)
 
+        setUpSelectedChapterButton()
+
         if !FeatureFlag.deselectChapters.enabled {
             hideSelectedChapterButton()
         }
+    }
+
+    private func setUpSelectedChapterButton() {
+        selectedChapterButton.onImage = UIImage(named: "checkbox-selected")
+        selectedChapterButton.offImage = UIImage(named: "checkbox-unselected")
+        selectedChapterButton.tintColor = ThemeColor.primaryInteractive01()
     }
 
     private func hideSelectedChapterButton() {
