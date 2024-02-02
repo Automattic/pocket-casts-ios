@@ -130,6 +130,7 @@ struct PlusPurchaseModal: View {
                 TermsView()
             }.padding(.top, 23)
         }
+        .frame(maxWidth: Config.maxWidth)
         .padding([.leading, .trailing])
         .background(Color.backgroundColor.ignoresSafeArea())
     }
@@ -150,10 +151,16 @@ struct PlusPurchaseModal: View {
         return coordinator.plan == .plus ? L10n.plusSubscribeTo : L10n.patronSubscribeTo
     }
 
+    enum Config {
+        static let backgroundColorHex = "#282829"
+        static let maxWidth: CGFloat = 600
+        static let termsHTML = L10n.purchaseTerms("<a href=\"\(ServerConstants.Urls.privacyPolicy)\">", "</a><br/>", "<a href=\"\(ServerConstants.Urls.termsOfUse)\">", "</a>")
+    }
 }
 
 // MARK: - Config
 private extension Color {
+    static let backgroundColor = Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
     static let textColor = Color(hex: "#FFFFFF")
     static let error = AppTheme.color(for: .support05)
 }
