@@ -16,24 +16,20 @@ struct SubscriptionPriceAndOfferView: View {
         self.secondaryTextColor = secondaryTextColor
     }
 
-    let rows = [GridItem(.adaptive(minimum: 150, maximum: 300))]
-
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            LazyVGrid(columns: rows, alignment: .leading, spacing: 0) {
-                SubscriptionBadge(tier: product.identifier.subscriptionTier)
-                if let offerDescription = offerDescription(for: product) {
-                    Text(offerDescription + offerDescription + offerDescription)
-                        .lineLimit(1)
-                        .fixedSize(horizontal: true, vertical: false)
-                        .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
-                        .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
-                        .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
-                        .textCase(.uppercase)
-                        .font(style: .caption2, weight: .semibold)
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        .transition(.scale)
-                }
+        VStack(alignment: .leading, spacing: 10) {
+            SubscriptionBadge(tier: product.identifier.subscriptionTier)
+            if let offerDescription = offerDescription(for: product) {
+                Text(offerDescription)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
+                    .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
+                    .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
+                    .textCase(.uppercase)
+                    .font(style: .caption2, weight: .semibold)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .transition(.scale)
             }
             Text(price(for: product))
 
