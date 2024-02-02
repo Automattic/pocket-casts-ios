@@ -17,7 +17,7 @@ final class IAPHelperTests: XCTestCase {
         session.clearTransactions()
         session.resetToDefaultState()
         session.disableDialogs = true
-        
+
         handler = MockIAPHandler()
         helper = IAPHelper(settings: handler, networking: handler)
 
