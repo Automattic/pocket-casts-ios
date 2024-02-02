@@ -136,10 +136,10 @@ struct PlusPurchaseModal: View {
 
     private var pricingTermsLabel: String {
         guard let selectedOffer else {
-            return "\(selectedOption.renewalPrompt)\n\(L10n.plusCancelTerms)"
+            return selectedOption.renewalPrompt
         }
 
-        return "\(selectedOffer.terms)\n\(L10n.plusCancelTerms)"
+        return selectedOffer.terms
     }
 
     private var subscribeButton: String {

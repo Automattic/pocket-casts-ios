@@ -2030,7 +2030,7 @@ internal enum L10n {
   internal static var podcastsSort: String { return L10n.tr("Localizable", "podcasts_sort") }
   /// Preview
   internal static var preview: String { return L10n.tr("Localizable", "preview") }
-  /// %1$@ for %2$@ then %3$@
+  /// Recurring payments at %1$@ after %2$@ ( %3$@ )
   internal static func pricingTermsAfterDiscount(_ p1: Any, _ p2: Any, _ p3: Any) -> String {
     return L10n.tr("Localizable", "pricing_terms_after_discount", String(describing: p1), String(describing: p2), String(describing: p3))
   }
@@ -2038,10 +2038,9 @@ internal enum L10n {
   internal static func pricingTermsAfterTrial(_ p1: Any) -> String {
     return L10n.tr("Localizable", "pricing_terms_after_trial", String(describing: p1))
   }
-  /// Recurring payments will begin after your
-  /// %1$@ free trial
-  internal static func pricingTermsAfterTrialLong(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "pricing_terms_after_trial_long", String(describing: p1))
+  /// Recurring payments will begin after your %1$@ free trial ( %2$@ )
+  internal static func pricingTermsAfterTrialLong(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "pricing_terms_after_trial_long", String(describing: p1), String(describing: p2))
   }
   /// Profile
   internal static var profile: String { return L10n.tr("Localizable", "profile") }
