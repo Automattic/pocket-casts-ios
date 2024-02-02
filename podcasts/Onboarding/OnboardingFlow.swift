@@ -23,7 +23,7 @@ struct OnboardingFlow {
 
         case .plusAccountUpgrade:
             self.source = source ?? "unknown"
-            flowController = upgradeController(in: navigationController, context: context)            
+            flowController = upgradeController(in: navigationController, context: context)
 
         case .patronAccountUpgrade:
             self.source = source ?? "unknown"
