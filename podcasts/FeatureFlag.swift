@@ -25,6 +25,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable the ability to rate podcasts
     case giveRatings
 
+    /// Enable selecting/deselecting episode chapters
+    case deselectChapters
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -50,6 +53,8 @@ enum FeatureFlag: String, CaseIterable {
         case .errorLogoutHandling:
             false
         case .giveRatings:
+            false
+        case .deselectChapters:
             false
         }
     }
