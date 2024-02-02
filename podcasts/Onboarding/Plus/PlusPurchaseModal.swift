@@ -31,8 +31,8 @@ struct PlusPurchaseModal: View {
 
     private func price(for subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo) -> AttributedString {
         let subscriptionPeriod = subscriptionInfo.identifier.productInfo.frequency.description
-        let mainTextColor = Color.white
-        let secondaryTextColor = Color.gray
+        let mainTextColor = theme.primaryText01
+        let secondaryTextColor = theme.primaryText02
         guard let offer = subscriptionInfo.offer else {
             var basePrice =  AttributedString(subscriptionInfo.rawPrice)
             basePrice.font = .headline
@@ -77,10 +77,9 @@ struct PlusPurchaseModal: View {
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             Label(coordinator.plan == .plus ? L10n.plusPurchasePromoTitle : L10n.patronPurchasePromoTitle, for: .title)
-                .foregroundColor(Color.textColor)
+                .foregroundColor(theme.primaryText01)
                 .padding(.top, 32)
                 .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
-
             VStack(spacing: 16) {
                 ForEach(products) { product in
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
@@ -93,7 +92,7 @@ struct PlusPurchaseModal: View {
                                 Text(price(for: product))
                             }
                             .disabled(coordinator.state == .failed)
-                            .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
+                            .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier, unselectedColor: theme.primaryText02))
                             .overlay(
                                 ZStack(alignment: .center) {
                                     if let offerDescription = product.offer?.description {
@@ -109,7 +108,7 @@ struct PlusPurchaseModal: View {
                 }
 
                 Label(pricingTermsLabel, for: .freeTrialTerms)
-                    .foregroundColor(Color.textColor)
+                    .foregroundColor(theme.primaryText01)
                     .lineSpacing(1.2)
 
                 // Show the error message if we're in the failed state
@@ -127,12 +126,13 @@ struct PlusPurchaseModal: View {
                     coordinator.purchase(product: selectedOption)
                 }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
 
-                TermsView()
+                TermsView(textColor: theme.primaryText01)
+                Spacer()
             }.padding(.top, 23)
         }
         .frame(maxWidth: Config.maxWidth)
         .padding([.leading, .trailing])
-        .background(Color.backgroundColor.ignoresSafeArea())
+        .background(theme.primaryUi01.ignoresSafeArea())
     }
 
     private var pricingTermsLabel: String {
@@ -173,6 +173,8 @@ private struct PlusDivider: View {
 }
 
 private struct TermsView: View {
+    var textColor: Color = .textColor
+
     var body: some View {
         let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
 
@@ -185,7 +187,7 @@ private struct TermsView: View {
             Text(purchaseTerms[safe: 2] ?? "") +
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
-        .foregroundColor(.textColor)
+        .foregroundColor(textColor)
         .font(style: .footnote)
         .fixedSize(horizontal: false, vertical: true)
     }

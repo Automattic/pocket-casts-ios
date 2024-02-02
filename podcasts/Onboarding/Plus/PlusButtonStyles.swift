@@ -101,14 +101,17 @@ struct PlusGradientStrokeButton: ButtonStyle {
         plan == .plus ? Color.plusGradient : Color.patronGradient
     }
 
+    let unselectedColor: Color
+
     private var selectedImageName: String {
         plan == .plus ? "icon-plus-button-selected" : "icon-patron-button-selected"
     }
 
-    init(isSelectable: Bool = false, plan: Plan, isSelected: Bool = true) {
+    init(isSelectable: Bool = false, plan: Plan, isSelected: Bool = true, unselectedColor: Color = Color.plusButtonUnselectedColor) {
         self.isSelectable = isSelectable
         self.plan = plan
         self.isSelected = isSelected
+        self.unselectedColor = unselectedColor
     }
 
     func makeBody(configuration: Configuration) -> some View {
@@ -118,7 +121,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
             .padding()
 
             // Overlay the gradient, or just set the color if not selected
-            .foregroundColor(isSelected ? foregroundColor : Color.plusButtonUnselectedColor)
+            .foregroundColor(isSelected ? foregroundColor : unselectedColor)
             .gradientOverlay(isSelected ? overlay : nil)
 
             // Stroke Overlay + Image if needed
@@ -135,7 +138,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
 
                         RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(overlay, lineWidth: ViewConstants.buttonStrokeWidth)
                     } else {
-                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(Color.plusButtonUnselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius).stroke(unselectedColor, lineWidth: ViewConstants.buttonStrokeWidth)
                     }
                 }
             )
