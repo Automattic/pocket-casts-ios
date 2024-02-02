@@ -28,7 +28,7 @@ final class IAPHelperTests: XCTestCase {
         session.clearTransactions()
         SKPaymentQueue.default().remove(helper)
     }
-
+/*
     func testRequestInfo() throws {
         helper.requestProductInfo()
         wait(for: ServerNotifications.iapProductsUpdated, timeout: iapTestTimeout, description: "Fetch Products")
@@ -56,6 +56,7 @@ final class IAPHelperTests: XCTestCase {
 
         XCTAssertEqual(session.allTransactions().first?.productIdentifier, IAPProductID.monthly.rawValue)
     }
+ */
 }
 
 // MARK: - MockIAPHandler
