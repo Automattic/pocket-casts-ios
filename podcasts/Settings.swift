@@ -131,17 +131,24 @@ class Settings: NSObject {
     private static let primaryRowActionKey = "SJRowAction"
     private static var cachedPrimaryRowAction: PrimaryRowAction? // we cache this because it's used in lists
     class func primaryRowAction() -> PrimaryRowAction {
-        if let action = cachedPrimaryRowAction { return action }
-
-        let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
-        let primaryAction = PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
-        cachedPrimaryRowAction = primaryAction
-
-        return primaryAction
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.rowAction
+        } else {
+            if let action = cachedPrimaryRowAction { return action }
+            let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
+            return PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
+        }
     }
 
     class func setPrimaryRowAction(_ action: PrimaryRowAction) {
-        UserDefaults.standard.set(action.rawValue, forKey: primaryRowActionKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.rowAction = action
+        } else {
+            UserDefaults.standard.set(
+                action.rawValue,
+                forKey: primaryRowActionKey
+            )
+        }
         cachedPrimaryRowAction = action
 
         trackValueChanged(.settingsGeneralRowActionChanged, value: action)

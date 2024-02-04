@@ -1,5 +1,7 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsServer
+
 enum LibraryType: Int, AnalyticsDescribable {
     case fourByFour = 1, threeByThree = 2, list = 3
 
@@ -131,9 +133,7 @@ enum AppBadge: Int, AnalyticsDescribable {
     }
 }
 
-enum PrimaryRowAction: Int32, AnalyticsDescribable {
-    case stream = 0, download = 1
-
+extension PrimaryRowAction: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {
         case .stream:

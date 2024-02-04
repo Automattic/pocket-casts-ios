@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -124,7 +125,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralOpenInBrowser
-            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.openLinks
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+            }
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(openLinksInBrowserToggled(_:)), for: .valueChanged)
@@ -431,7 +437,11 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func openLinksInBrowserToggled(_ sender: UISwitch) {
-        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.openLinks = sender.isOn
+        } else {
+            UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+        }
         Settings.trackValueToggled(.settingsGeneralOpenLinksInBrowserToggled, enabled: sender.isOn)
     }
 
