@@ -43,14 +43,15 @@ class PlusPricingInfoModel: ObservableObject {
         // Sort any products with free trials to the top of the list
         pricing.sort { $0.offer != nil && $1.offer == nil }
 
-        let hasFreeTrial = purchaseHandler.getFirstFreeTrialDetails() != nil
-        return PlusPricingInfo(products: pricing, hasFreeTrial: hasFreeTrial)
+        return PlusPricingInfo(products: pricing)
     }
 
     // A simple struct to keep track of the product and pricing information the view needs
     struct PlusPricingInfo {
         let products: [PlusProductPricingInfo]
-        let hasFreeTrial: Bool
+        var hasOffer: Bool {
+            return products.contains(where: { $0.offer != nil } )
+        }
     }
 
     struct PlusProductPricingInfo: Identifiable {

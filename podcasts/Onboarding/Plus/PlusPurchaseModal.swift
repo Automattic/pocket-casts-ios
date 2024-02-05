@@ -79,7 +79,7 @@ struct PlusPurchaseModal: View {
             Label(coordinator.plan == .plus ? L10n.plusPurchasePromoTitle : L10n.patronPurchasePromoTitle, for: .title)
                 .foregroundColor(Color.textColor)
                 .padding(.top, 32)
-                .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
+                .padding(.bottom, pricingInfo.hasOffer ? 15 : 0)
 
             VStack(spacing: 16) {
                 ForEach(products) { product in
