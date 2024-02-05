@@ -281,7 +281,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
             Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
             Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
-            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault)
+            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault),
+            Constants.RemoteParams.slumberStudiosPromoCode: NSString(string: Constants.RemoteParams.slumberStudiosPromoCodeDefault)
         ])
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
@@ -311,6 +312,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             SyncManager.shouldUseNewSync = FeatureFlag.settingsSync.enabled
+
+            try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
             IAPHelper.shared.requestProductInfoIfNeeded()

@@ -902,6 +902,10 @@ class Settings: NSObject {
             return RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.errorLogoutHandling).boolValue
         }
 
+    static var slumberPromoCode: String? {
+        return RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.slumberStudiosPromoCode).stringValue
+    }
+
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
