@@ -172,7 +172,7 @@ struct OfferLabel: View {
             .padding([.top, .bottom], 4)
             .padding([.leading, .trailing], 13)
             .background(
-                color.cornerRadius(4)
+                color.cornerRadius(800)
             )
             .foregroundColor(Color.plusButtonFilledTextColor)
             .grayscale(isSelected ? 0 : 1)

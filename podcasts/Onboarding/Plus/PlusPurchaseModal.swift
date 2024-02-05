@@ -99,7 +99,7 @@ struct PlusPurchaseModal: View {
                                     if let offerDescription = product.offer?.description {
                                         GeometryReader { proxy in
                                             OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption ==   product.identifier)
-                                                .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY - (proxy.size.height * 0.12))
+                                                .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY)
                                         }
                                     }
                                 }
