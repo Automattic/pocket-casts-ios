@@ -60,7 +60,7 @@ enum FeatureFlag: String, CaseIterable {
         case .settingsSync:
             false
         case .slumber:
-            true
+            false
         }
     }
 }
