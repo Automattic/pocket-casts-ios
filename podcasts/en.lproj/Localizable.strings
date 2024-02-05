@@ -1650,6 +1650,9 @@
 /* Message about our gratitude when an user subscribe to Plus */
 "plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
 
+/* Message about the exclusive content from Slumber Studios. Please don't translate "Slumber Studios". */
+"plus_feature_slumber" = "1 year of exclusive content from Slumber Studios";
+
 /* Label of a button to subscribe to Patron. Do not translate "Plus". */
 "plus_subscribe_to" = "Subscribe to Plus";
 
