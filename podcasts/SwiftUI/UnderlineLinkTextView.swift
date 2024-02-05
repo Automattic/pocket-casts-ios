@@ -10,7 +10,7 @@ struct UnderlineLinkTextView: View {
     var body: some View {
         let links = matches(for: "(?:__|[*#])|\\[(.*?)\\]\\(.*?\\)", in: text)
         var reimainingText = text
-        var textView = Text("")
+        var textView = links.count > 0 ? Text("") : Text(text)
         for (key, link) in links.enumerated() {
             let explode = reimainingText.components(separatedBy: link)
             textView = textView + Text(.init(explode.first ?? "")) + Text(.init(link)).underline() + (key == links.count-1 ? Text(.init(explode[safe: 1] ?? "")) : Text(""))
@@ -36,6 +36,7 @@ struct UnderlineLinkTextView: View {
 
 #Preview {
     VStack {
+        UnderlineLinkTextView("Hello World!")
         UnderlineLinkTextView("Hel[lo, Wor](https://pocketcasts.com)ld!")
         UnderlineLinkTextView("[Hello](https://pocketcasts.com), World!")
         UnderlineLinkTextView("Hello, [World](https://pocketcasts.com)!")
