@@ -903,7 +903,7 @@ class Settings: NSObject {
         }
 
     static var slumberPromoCode: String? {
-        return RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.slumberStudiosPromoCode).stringValue
+        RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.slumberStudiosPromoCode).stringValue
     }
 
         private class func remoteMsToTime(key: String) -> TimeInterval {
