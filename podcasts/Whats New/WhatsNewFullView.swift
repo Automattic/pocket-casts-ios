@@ -37,10 +37,7 @@ struct WhatsNewFullView: View {
                 Button(announcement.buttonTitle) {
                     track(.whatsnewConfirmButtonTapped)
 
-                    // Trigger the action after we've dismissed the What's New
-                    dismiss(completion: {
-                        announcement.action()
-                    })
+                    announcement.action()
                 }
                 .buttonStyle(RoundedButtonStyle(theme: theme))
                 .padding(.top, 40)
