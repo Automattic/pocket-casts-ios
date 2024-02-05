@@ -8,6 +8,16 @@ struct WhatsNewFullView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            HStack {
+                Button(L10n.cancel) {
+                    dismiss()
+                }
+                .frame(minHeight: 44)
+
+                Spacer()
+            }
+            .padding(.horizontal, 15)
+
             Spacer()
 
             announcement.header()
