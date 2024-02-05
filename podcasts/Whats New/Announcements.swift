@@ -43,7 +43,7 @@ struct Announcements {
         // Slumber Studios partnership
         .init(
             version: "7.57",
-            header: AnyView(BookmarksWhatsNewHeader()),
+            header: AnyView(SlumberWhatsNewHeader()),
             title: L10n.announcementSlumberTitle,
             message: (SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberPlusDescription("**\(Settings.slumberPromoCode ?? "")**") : L10n.announcementSlumberNonPlusDescription).replacingOccurrences(of: L10n.announcementSlumberPlusDescriptionLearnMore, with: "[\(L10n.announcementSlumberPlusDescriptionLearnMore)](https://slumberstudios.com)"),
             buttonTitle: SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberRedeem : L10n.plusSubscribeTo,
