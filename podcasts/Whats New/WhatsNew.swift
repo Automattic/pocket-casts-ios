@@ -52,8 +52,15 @@ class WhatsNew {
         }
 
         guard !announcement.fullModal else {
-            let whatsNewViewController = ThemedHostingController(rootView: EmptyView())
-            whatsNewViewController.modalPresentationStyle = .formSheet
+            let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement))
+            if let sheet = whatsNewViewController.sheetPresentationController {
+                sheet.detents = [.large()]
+                sheet.largestUndimmedDetentIdentifier = .medium
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.prefersGrabberVisible = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            }
             return whatsNewViewController
         }
 
