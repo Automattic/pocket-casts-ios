@@ -26,7 +26,8 @@ struct WhatsNewFullView: View {
                     .foregroundStyle(theme.primaryText01)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
-                Text(announcement.message)
+                    .padding(.bottom, 10)
+                UnderlineLinkTextView(announcement.message)
                     .font(style: .body)
                     .foregroundStyle(theme.primaryText01)
                     .multilineTextAlignment(.center)
@@ -43,14 +44,7 @@ struct WhatsNewFullView: View {
                 }
                 .buttonStyle(RoundedButtonStyle(theme: theme))
                 .padding(.top, 40)
-
-                Button(L10n.maybeLater) {
-                    dismiss()
-                    track(.whatsnewDismissed)
-                }
-                .buttonStyle(SimpleTextButtonStyle(theme: theme, size: 16, textColor: .primaryInteractive01, style: .subheadline, weight: .medium))
-                .padding(.bottom, 5)
-                .padding(.top, -5)
+                .padding(.bottom, 15)
             }
             .padding(.horizontal, 24)
         }
