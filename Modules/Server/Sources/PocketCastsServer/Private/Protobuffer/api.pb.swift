@@ -291,6 +291,8 @@ struct Api_NamedSettingsRequest {
 
   var m: String = String()
 
+  /// Devices which are always online should use settings.
+  /// The time the settings was changed will be assumed to be NOW.
   var settings: Api_NamedSettings {
     get {return _settings ?? Api_NamedSettings()}
     set {_settings = newValue}
@@ -300,11 +302,551 @@ struct Api_NamedSettingsRequest {
   /// Clears the value of `settings`. Subsequent reads from it will return its default value.
   mutating func clearSettings() {self._settings = nil}
 
+  /// Devices which can be offline and sync their settings value later should use changed_settings.
+  /// The time the setting was changed should be included.
+  /// This helps resolve syncing changes of the same setting from multiple devices.
+  var changedSettings: Api_ChangeableSettings {
+    get {return _changedSettings ?? Api_ChangeableSettings()}
+    set {_changedSettings = newValue}
+  }
+  /// Returns true if `changedSettings` has been explicitly set.
+  var hasChangedSettings: Bool {return self._changedSettings != nil}
+  /// Clears the value of `changedSettings`. Subsequent reads from it will return its default value.
+  mutating func clearChangedSettings() {self._changedSettings = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _settings: Api_NamedSettings? = nil
+  fileprivate var _changedSettings: Api_ChangeableSettings? = nil
+}
+
+struct Api_ChangeableSettings {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var gridLayout: Api_Int32Setting {
+    get {return _storage._gridLayout ?? Api_Int32Setting()}
+    set {_uniqueStorage()._gridLayout = newValue}
+  }
+  /// Returns true if `gridLayout` has been explicitly set.
+  var hasGridLayout: Bool {return _storage._gridLayout != nil}
+  /// Clears the value of `gridLayout`. Subsequent reads from it will return its default value.
+  mutating func clearGridLayout() {_uniqueStorage()._gridLayout = nil}
+
+  var gridOrder: Api_Int32Setting {
+    get {return _storage._gridOrder ?? Api_Int32Setting()}
+    set {_uniqueStorage()._gridOrder = newValue}
+  }
+  /// Returns true if `gridOrder` has been explicitly set.
+  var hasGridOrder: Bool {return _storage._gridOrder != nil}
+  /// Clears the value of `gridOrder`. Subsequent reads from it will return its default value.
+  mutating func clearGridOrder() {_uniqueStorage()._gridOrder = nil}
+
+  var showPlayed: Api_Int32Setting {
+    get {return _storage._showPlayed ?? Api_Int32Setting()}
+    set {_uniqueStorage()._showPlayed = newValue}
+  }
+  /// Returns true if `showPlayed` has been explicitly set.
+  var hasShowPlayed: Bool {return _storage._showPlayed != nil}
+  /// Clears the value of `showPlayed`. Subsequent reads from it will return its default value.
+  mutating func clearShowPlayed() {_uniqueStorage()._showPlayed = nil}
+
+  var theme: Api_Int32Setting {
+    get {return _storage._theme ?? Api_Int32Setting()}
+    set {_uniqueStorage()._theme = newValue}
+  }
+  /// Returns true if `theme` has been explicitly set.
+  var hasTheme: Bool {return _storage._theme != nil}
+  /// Clears the value of `theme`. Subsequent reads from it will return its default value.
+  mutating func clearTheme() {_uniqueStorage()._theme = nil}
+
+  var skipForward: Api_Int32Setting {
+    get {return _storage._skipForward ?? Api_Int32Setting()}
+    set {_uniqueStorage()._skipForward = newValue}
+  }
+  /// Returns true if `skipForward` has been explicitly set.
+  var hasSkipForward: Bool {return _storage._skipForward != nil}
+  /// Clears the value of `skipForward`. Subsequent reads from it will return its default value.
+  mutating func clearSkipForward() {_uniqueStorage()._skipForward = nil}
+
+  var skipBack: Api_Int32Setting {
+    get {return _storage._skipBack ?? Api_Int32Setting()}
+    set {_uniqueStorage()._skipBack = newValue}
+  }
+  /// Returns true if `skipBack` has been explicitly set.
+  var hasSkipBack: Bool {return _storage._skipBack != nil}
+  /// Clears the value of `skipBack`. Subsequent reads from it will return its default value.
+  mutating func clearSkipBack() {_uniqueStorage()._skipBack = nil}
+
+  var webVersion: Api_Int32Setting {
+    get {return _storage._webVersion ?? Api_Int32Setting()}
+    set {_uniqueStorage()._webVersion = newValue}
+  }
+  /// Returns true if `webVersion` has been explicitly set.
+  var hasWebVersion: Bool {return _storage._webVersion != nil}
+  /// Clears the value of `webVersion`. Subsequent reads from it will return its default value.
+  mutating func clearWebVersion() {_uniqueStorage()._webVersion = nil}
+
+  var language: Api_StringSetting {
+    get {return _storage._language ?? Api_StringSetting()}
+    set {_uniqueStorage()._language = newValue}
+  }
+  /// Returns true if `language` has been explicitly set.
+  var hasLanguage: Bool {return _storage._language != nil}
+  /// Clears the value of `language`. Subsequent reads from it will return its default value.
+  mutating func clearLanguage() {_uniqueStorage()._language = nil}
+
+  var recommendationsOn: Api_BoolSetting {
+    get {return _storage._recommendationsOn ?? Api_BoolSetting()}
+    set {_uniqueStorage()._recommendationsOn = newValue}
+  }
+  /// Returns true if `recommendationsOn` has been explicitly set.
+  var hasRecommendationsOn: Bool {return _storage._recommendationsOn != nil}
+  /// Clears the value of `recommendationsOn`. Subsequent reads from it will return its default value.
+  mutating func clearRecommendationsOn() {_uniqueStorage()._recommendationsOn = nil}
+
+  /// unused and replaced by row_action BoolSetting stream_by_default = 10;
+  var useEmbeddedArtwork: Api_BoolSetting {
+    get {return _storage._useEmbeddedArtwork ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useEmbeddedArtwork = newValue}
+  }
+  /// Returns true if `useEmbeddedArtwork` has been explicitly set.
+  var hasUseEmbeddedArtwork: Bool {return _storage._useEmbeddedArtwork != nil}
+  /// Clears the value of `useEmbeddedArtwork`. Subsequent reads from it will return its default value.
+  mutating func clearUseEmbeddedArtwork() {_uniqueStorage()._useEmbeddedArtwork = nil}
+
+  var playbackSpeed: Api_DoubleSetting {
+    get {return _storage._playbackSpeed ?? Api_DoubleSetting()}
+    set {_uniqueStorage()._playbackSpeed = newValue}
+  }
+  /// Returns true if `playbackSpeed` has been explicitly set.
+  var hasPlaybackSpeed: Bool {return _storage._playbackSpeed != nil}
+  /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
+  mutating func clearPlaybackSpeed() {_uniqueStorage()._playbackSpeed = nil}
+
+  /// unused and replaced by trim_silence BoolSetting silence_removal = 13;
+  var volumeBoost: Api_BoolSetting {
+    get {return _storage._volumeBoost ?? Api_BoolSetting()}
+    set {_uniqueStorage()._volumeBoost = newValue}
+  }
+  /// Returns true if `volumeBoost` has been explicitly set.
+  var hasVolumeBoost: Bool {return _storage._volumeBoost != nil}
+  /// Clears the value of `volumeBoost`. Subsequent reads from it will return its default value.
+  mutating func clearVolumeBoost() {_uniqueStorage()._volumeBoost = nil}
+
+  var badges: Api_Int32Setting {
+    get {return _storage._badges ?? Api_Int32Setting()}
+    set {_uniqueStorage()._badges = newValue}
+  }
+  /// Returns true if `badges` has been explicitly set.
+  var hasBadges: Bool {return _storage._badges != nil}
+  /// Clears the value of `badges`. Subsequent reads from it will return its default value.
+  mutating func clearBadges() {_uniqueStorage()._badges = nil}
+
+  var freeGiftAcknowledgement: Api_BoolSetting {
+    get {return _storage._freeGiftAcknowledgement ?? Api_BoolSetting()}
+    set {_uniqueStorage()._freeGiftAcknowledgement = newValue}
+  }
+  /// Returns true if `freeGiftAcknowledgement` has been explicitly set.
+  var hasFreeGiftAcknowledgement: Bool {return _storage._freeGiftAcknowledgement != nil}
+  /// Clears the value of `freeGiftAcknowledgement`. Subsequent reads from it will return its default value.
+  mutating func clearFreeGiftAcknowledgement() {_uniqueStorage()._freeGiftAcknowledgement = nil}
+
+  var marketingOptIn: Api_BoolSetting {
+    get {return _storage._marketingOptIn ?? Api_BoolSetting()}
+    set {_uniqueStorage()._marketingOptIn = newValue}
+  }
+  /// Returns true if `marketingOptIn` has been explicitly set.
+  var hasMarketingOptIn: Bool {return _storage._marketingOptIn != nil}
+  /// Clears the value of `marketingOptIn`. Subsequent reads from it will return its default value.
+  mutating func clearMarketingOptIn() {_uniqueStorage()._marketingOptIn = nil}
+
+  var autoArchivePlayedEpisodes: Api_BoolSetting {
+    get {return _storage._autoArchivePlayedEpisodes ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoArchivePlayedEpisodes = newValue}
+  }
+  /// Returns true if `autoArchivePlayedEpisodes` has been explicitly set.
+  var hasAutoArchivePlayedEpisodes: Bool {return _storage._autoArchivePlayedEpisodes != nil}
+  /// Clears the value of `autoArchivePlayedEpisodes`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchivePlayedEpisodes() {_uniqueStorage()._autoArchivePlayedEpisodes = nil}
+
+  var autoArchiveIncludesStarred: Api_BoolSetting {
+    get {return _storage._autoArchiveIncludesStarred ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoArchiveIncludesStarred = newValue}
+  }
+  /// Returns true if `autoArchiveIncludesStarred` has been explicitly set.
+  var hasAutoArchiveIncludesStarred: Bool {return _storage._autoArchiveIncludesStarred != nil}
+  /// Clears the value of `autoArchiveIncludesStarred`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveIncludesStarred() {_uniqueStorage()._autoArchiveIncludesStarred = nil}
+
+  var region: Api_StringSetting {
+    get {return _storage._region ?? Api_StringSetting()}
+    set {_uniqueStorage()._region = newValue}
+  }
+  /// Returns true if `region` has been explicitly set.
+  var hasRegion: Bool {return _storage._region != nil}
+  /// Clears the value of `region`. Subsequent reads from it will return its default value.
+  mutating func clearRegion() {_uniqueStorage()._region = nil}
+
+  var rowAction: Api_Int32Setting {
+    get {return _storage._rowAction ?? Api_Int32Setting()}
+    set {_uniqueStorage()._rowAction = newValue}
+  }
+  /// Returns true if `rowAction` has been explicitly set.
+  var hasRowAction: Bool {return _storage._rowAction != nil}
+  /// Clears the value of `rowAction`. Subsequent reads from it will return its default value.
+  mutating func clearRowAction() {_uniqueStorage()._rowAction = nil}
+
+  var upNextSwipe: Api_Int32Setting {
+    get {return _storage._upNextSwipe ?? Api_Int32Setting()}
+    set {_uniqueStorage()._upNextSwipe = newValue}
+  }
+  /// Returns true if `upNextSwipe` has been explicitly set.
+  var hasUpNextSwipe: Bool {return _storage._upNextSwipe != nil}
+  /// Clears the value of `upNextSwipe`. Subsequent reads from it will return its default value.
+  mutating func clearUpNextSwipe() {_uniqueStorage()._upNextSwipe = nil}
+
+  var episodeGrouping: Api_Int32Setting {
+    get {return _storage._episodeGrouping ?? Api_Int32Setting()}
+    set {_uniqueStorage()._episodeGrouping = newValue}
+  }
+  /// Returns true if `episodeGrouping` has been explicitly set.
+  var hasEpisodeGrouping: Bool {return _storage._episodeGrouping != nil}
+  /// Clears the value of `episodeGrouping`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodeGrouping() {_uniqueStorage()._episodeGrouping = nil}
+
+  var showArchived: Api_BoolSetting {
+    get {return _storage._showArchived ?? Api_BoolSetting()}
+    set {_uniqueStorage()._showArchived = newValue}
+  }
+  /// Returns true if `showArchived` has been explicitly set.
+  var hasShowArchived: Bool {return _storage._showArchived != nil}
+  /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
+  mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
+
+  var openLinks: Api_BoolSetting {
+    get {return _storage._openLinks ?? Api_BoolSetting()}
+    set {_uniqueStorage()._openLinks = newValue}
+  }
+  /// Returns true if `openLinks` has been explicitly set.
+  var hasOpenLinks: Bool {return _storage._openLinks != nil}
+  /// Clears the value of `openLinks`. Subsequent reads from it will return its default value.
+  mutating func clearOpenLinks() {_uniqueStorage()._openLinks = nil}
+
+  var mediaActions: Api_BoolSetting {
+    get {return _storage._mediaActions ?? Api_BoolSetting()}
+    set {_uniqueStorage()._mediaActions = newValue}
+  }
+  /// Returns true if `mediaActions` has been explicitly set.
+  var hasMediaActions: Bool {return _storage._mediaActions != nil}
+  /// Clears the value of `mediaActions`. Subsequent reads from it will return its default value.
+  mutating func clearMediaActions() {_uniqueStorage()._mediaActions = nil}
+
+  var mediaActionsOrder: Api_StringSetting {
+    get {return _storage._mediaActionsOrder ?? Api_StringSetting()}
+    set {_uniqueStorage()._mediaActionsOrder = newValue}
+  }
+  /// Returns true if `mediaActionsOrder` has been explicitly set.
+  var hasMediaActionsOrder: Bool {return _storage._mediaActionsOrder != nil}
+  /// Clears the value of `mediaActionsOrder`. Subsequent reads from it will return its default value.
+  mutating func clearMediaActionsOrder() {_uniqueStorage()._mediaActionsOrder = nil}
+
+  var keepScreenAwake: Api_BoolSetting {
+    get {return _storage._keepScreenAwake ?? Api_BoolSetting()}
+    set {_uniqueStorage()._keepScreenAwake = newValue}
+  }
+  /// Returns true if `keepScreenAwake` has been explicitly set.
+  var hasKeepScreenAwake: Bool {return _storage._keepScreenAwake != nil}
+  /// Clears the value of `keepScreenAwake`. Subsequent reads from it will return its default value.
+  mutating func clearKeepScreenAwake() {_uniqueStorage()._keepScreenAwake = nil}
+
+  var openPlayer: Api_BoolSetting {
+    get {return _storage._openPlayer ?? Api_BoolSetting()}
+    set {_uniqueStorage()._openPlayer = newValue}
+  }
+  /// Returns true if `openPlayer` has been explicitly set.
+  var hasOpenPlayer: Bool {return _storage._openPlayer != nil}
+  /// Clears the value of `openPlayer`. Subsequent reads from it will return its default value.
+  mutating func clearOpenPlayer() {_uniqueStorage()._openPlayer = nil}
+
+  var intelligentResumption: Api_BoolSetting {
+    get {return _storage._intelligentResumption ?? Api_BoolSetting()}
+    set {_uniqueStorage()._intelligentResumption = newValue}
+  }
+  /// Returns true if `intelligentResumption` has been explicitly set.
+  var hasIntelligentResumption: Bool {return _storage._intelligentResumption != nil}
+  /// Clears the value of `intelligentResumption`. Subsequent reads from it will return its default value.
+  mutating func clearIntelligentResumption() {_uniqueStorage()._intelligentResumption = nil}
+
+  var playUpNextOnTap: Api_BoolSetting {
+    get {return _storage._playUpNextOnTap ?? Api_BoolSetting()}
+    set {_uniqueStorage()._playUpNextOnTap = newValue}
+  }
+  /// Returns true if `playUpNextOnTap` has been explicitly set.
+  var hasPlayUpNextOnTap: Bool {return _storage._playUpNextOnTap != nil}
+  /// Clears the value of `playUpNextOnTap`. Subsequent reads from it will return its default value.
+  mutating func clearPlayUpNextOnTap() {_uniqueStorage()._playUpNextOnTap = nil}
+
+  var remoteSkipChapters: Api_BoolSetting {
+    get {return _storage._remoteSkipChapters ?? Api_BoolSetting()}
+    set {_uniqueStorage()._remoteSkipChapters = newValue}
+  }
+  /// Returns true if `remoteSkipChapters` has been explicitly set.
+  var hasRemoteSkipChapters: Bool {return _storage._remoteSkipChapters != nil}
+  /// Clears the value of `remoteSkipChapters`. Subsequent reads from it will return its default value.
+  mutating func clearRemoteSkipChapters() {_uniqueStorage()._remoteSkipChapters = nil}
+
+  var playbackActions: Api_BoolSetting {
+    get {return _storage._playbackActions ?? Api_BoolSetting()}
+    set {_uniqueStorage()._playbackActions = newValue}
+  }
+  /// Returns true if `playbackActions` has been explicitly set.
+  var hasPlaybackActions: Bool {return _storage._playbackActions != nil}
+  /// Clears the value of `playbackActions`. Subsequent reads from it will return its default value.
+  mutating func clearPlaybackActions() {_uniqueStorage()._playbackActions = nil}
+
+  var legacyBluetooth: Api_BoolSetting {
+    get {return _storage._legacyBluetooth ?? Api_BoolSetting()}
+    set {_uniqueStorage()._legacyBluetooth = newValue}
+  }
+  /// Returns true if `legacyBluetooth` has been explicitly set.
+  var hasLegacyBluetooth: Bool {return _storage._legacyBluetooth != nil}
+  /// Clears the value of `legacyBluetooth`. Subsequent reads from it will return its default value.
+  mutating func clearLegacyBluetooth() {_uniqueStorage()._legacyBluetooth = nil}
+
+  var multiSelectGesture: Api_BoolSetting {
+    get {return _storage._multiSelectGesture ?? Api_BoolSetting()}
+    set {_uniqueStorage()._multiSelectGesture = newValue}
+  }
+  /// Returns true if `multiSelectGesture` has been explicitly set.
+  var hasMultiSelectGesture: Bool {return _storage._multiSelectGesture != nil}
+  /// Clears the value of `multiSelectGesture`. Subsequent reads from it will return its default value.
+  mutating func clearMultiSelectGesture() {_uniqueStorage()._multiSelectGesture = nil}
+
+  var chapterTitles: Api_BoolSetting {
+    get {return _storage._chapterTitles ?? Api_BoolSetting()}
+    set {_uniqueStorage()._chapterTitles = newValue}
+  }
+  /// Returns true if `chapterTitles` has been explicitly set.
+  var hasChapterTitles: Bool {return _storage._chapterTitles != nil}
+  /// Clears the value of `chapterTitles`. Subsequent reads from it will return its default value.
+  mutating func clearChapterTitles() {_uniqueStorage()._chapterTitles = nil}
+
+  var notifications: Api_BoolSetting {
+    get {return _storage._notifications ?? Api_BoolSetting()}
+    set {_uniqueStorage()._notifications = newValue}
+  }
+  /// Returns true if `notifications` has been explicitly set.
+  var hasNotifications: Bool {return _storage._notifications != nil}
+  /// Clears the value of `notifications`. Subsequent reads from it will return its default value.
+  mutating func clearNotifications() {_uniqueStorage()._notifications = nil}
+
+  var notificationActions: Api_StringSetting {
+    get {return _storage._notificationActions ?? Api_StringSetting()}
+    set {_uniqueStorage()._notificationActions = newValue}
+  }
+  /// Returns true if `notificationActions` has been explicitly set.
+  var hasNotificationActions: Bool {return _storage._notificationActions != nil}
+  /// Clears the value of `notificationActions`. Subsequent reads from it will return its default value.
+  mutating func clearNotificationActions() {_uniqueStorage()._notificationActions = nil}
+
+  var playOverNotifications: Api_Int32Setting {
+    get {return _storage._playOverNotifications ?? Api_Int32Setting()}
+    set {_uniqueStorage()._playOverNotifications = newValue}
+  }
+  /// Returns true if `playOverNotifications` has been explicitly set.
+  var hasPlayOverNotifications: Bool {return _storage._playOverNotifications != nil}
+  /// Clears the value of `playOverNotifications`. Subsequent reads from it will return its default value.
+  mutating func clearPlayOverNotifications() {_uniqueStorage()._playOverNotifications = nil}
+
+  var hideNotificationOnPause: Api_BoolSetting {
+    get {return _storage._hideNotificationOnPause ?? Api_BoolSetting()}
+    set {_uniqueStorage()._hideNotificationOnPause = newValue}
+  }
+  /// Returns true if `hideNotificationOnPause` has been explicitly set.
+  var hasHideNotificationOnPause: Bool {return _storage._hideNotificationOnPause != nil}
+  /// Clears the value of `hideNotificationOnPause`. Subsequent reads from it will return its default value.
+  mutating func clearHideNotificationOnPause() {_uniqueStorage()._hideNotificationOnPause = nil}
+
+  var appBadge: Api_Int32Setting {
+    get {return _storage._appBadge ?? Api_Int32Setting()}
+    set {_uniqueStorage()._appBadge = newValue}
+  }
+  /// Returns true if `appBadge` has been explicitly set.
+  var hasAppBadge: Bool {return _storage._appBadge != nil}
+  /// Clears the value of `appBadge`. Subsequent reads from it will return its default value.
+  mutating func clearAppBadge() {_uniqueStorage()._appBadge = nil}
+
+  var appBadgeFilter: Api_StringSetting {
+    get {return _storage._appBadgeFilter ?? Api_StringSetting()}
+    set {_uniqueStorage()._appBadgeFilter = newValue}
+  }
+  /// Returns true if `appBadgeFilter` has been explicitly set.
+  var hasAppBadgeFilter: Bool {return _storage._appBadgeFilter != nil}
+  /// Clears the value of `appBadgeFilter`. Subsequent reads from it will return its default value.
+  mutating func clearAppBadgeFilter() {_uniqueStorage()._appBadgeFilter = nil}
+
+  var autoArchivePlayed: Api_Int32Setting {
+    get {return _storage._autoArchivePlayed ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoArchivePlayed = newValue}
+  }
+  /// Returns true if `autoArchivePlayed` has been explicitly set.
+  var hasAutoArchivePlayed: Bool {return _storage._autoArchivePlayed != nil}
+  /// Clears the value of `autoArchivePlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchivePlayed() {_uniqueStorage()._autoArchivePlayed = nil}
+
+  var autoArchiveInactive: Api_Int32Setting {
+    get {return _storage._autoArchiveInactive ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoArchiveInactive = newValue}
+  }
+  /// Returns true if `autoArchiveInactive` has been explicitly set.
+  var hasAutoArchiveInactive: Bool {return _storage._autoArchiveInactive != nil}
+  /// Clears the value of `autoArchiveInactive`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveInactive() {_uniqueStorage()._autoArchiveInactive = nil}
+
+  var autoUpNextLimit: Api_Int32Setting {
+    get {return _storage._autoUpNextLimit ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoUpNextLimit = newValue}
+  }
+  /// Returns true if `autoUpNextLimit` has been explicitly set.
+  var hasAutoUpNextLimit: Bool {return _storage._autoUpNextLimit != nil}
+  /// Clears the value of `autoUpNextLimit`. Subsequent reads from it will return its default value.
+  mutating func clearAutoUpNextLimit() {_uniqueStorage()._autoUpNextLimit = nil}
+
+  var autoUpNextLimitReached: Api_Int32Setting {
+    get {return _storage._autoUpNextLimitReached ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoUpNextLimitReached = newValue}
+  }
+  /// Returns true if `autoUpNextLimitReached` has been explicitly set.
+  var hasAutoUpNextLimitReached: Bool {return _storage._autoUpNextLimitReached != nil}
+  /// Clears the value of `autoUpNextLimitReached`. Subsequent reads from it will return its default value.
+  mutating func clearAutoUpNextLimitReached() {_uniqueStorage()._autoUpNextLimitReached = nil}
+
+  var warnDataUsage: Api_BoolSetting {
+    get {return _storage._warnDataUsage ?? Api_BoolSetting()}
+    set {_uniqueStorage()._warnDataUsage = newValue}
+  }
+  /// Returns true if `warnDataUsage` has been explicitly set.
+  var hasWarnDataUsage: Bool {return _storage._warnDataUsage != nil}
+  /// Clears the value of `warnDataUsage`. Subsequent reads from it will return its default value.
+  mutating func clearWarnDataUsage() {_uniqueStorage()._warnDataUsage = nil}
+
+  var filesAutoUpNext: Api_BoolSetting {
+    get {return _storage._filesAutoUpNext ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAutoUpNext = newValue}
+  }
+  /// Returns true if `filesAutoUpNext` has been explicitly set.
+  var hasFilesAutoUpNext: Bool {return _storage._filesAutoUpNext != nil}
+  /// Clears the value of `filesAutoUpNext`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAutoUpNext() {_uniqueStorage()._filesAutoUpNext = nil}
+
+  var filesAfterPlayingDeleteLocal: Api_BoolSetting {
+    get {return _storage._filesAfterPlayingDeleteLocal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteLocal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteLocal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteLocal: Bool {return _storage._filesAfterPlayingDeleteLocal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteLocal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteLocal() {_uniqueStorage()._filesAfterPlayingDeleteLocal = nil}
+
+  var filesAfterPlayingDeleteCloud: Api_BoolSetting {
+    get {return _storage._filesAfterPlayingDeleteCloud ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteCloud = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteCloud` has been explicitly set.
+  var hasFilesAfterPlayingDeleteCloud: Bool {return _storage._filesAfterPlayingDeleteCloud != nil}
+  /// Clears the value of `filesAfterPlayingDeleteCloud`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteCloud() {_uniqueStorage()._filesAfterPlayingDeleteCloud = nil}
+
+  var privacyAnalytics: Api_BoolSetting {
+    get {return _storage._privacyAnalytics ?? Api_BoolSetting()}
+    set {_uniqueStorage()._privacyAnalytics = newValue}
+  }
+  /// Returns true if `privacyAnalytics` has been explicitly set.
+  var hasPrivacyAnalytics: Bool {return _storage._privacyAnalytics != nil}
+  /// Clears the value of `privacyAnalytics`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyAnalytics() {_uniqueStorage()._privacyAnalytics = nil}
+
+  var privacyCrashReports: Api_BoolSetting {
+    get {return _storage._privacyCrashReports ?? Api_BoolSetting()}
+    set {_uniqueStorage()._privacyCrashReports = newValue}
+  }
+  /// Returns true if `privacyCrashReports` has been explicitly set.
+  var hasPrivacyCrashReports: Bool {return _storage._privacyCrashReports != nil}
+  /// Clears the value of `privacyCrashReports`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyCrashReports() {_uniqueStorage()._privacyCrashReports = nil}
+
+  var privacyLinkAccount: Api_BoolSetting {
+    get {return _storage._privacyLinkAccount ?? Api_BoolSetting()}
+    set {_uniqueStorage()._privacyLinkAccount = newValue}
+  }
+  /// Returns true if `privacyLinkAccount` has been explicitly set.
+  var hasPrivacyLinkAccount: Bool {return _storage._privacyLinkAccount != nil}
+  /// Clears the value of `privacyLinkAccount`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyLinkAccount() {_uniqueStorage()._privacyLinkAccount = nil}
+
+  var playerShelf: Api_StringSetting {
+    get {return _storage._playerShelf ?? Api_StringSetting()}
+    set {_uniqueStorage()._playerShelf = newValue}
+  }
+  /// Returns true if `playerShelf` has been explicitly set.
+  var hasPlayerShelf: Bool {return _storage._playerShelf != nil}
+  /// Clears the value of `playerShelf`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerShelf() {_uniqueStorage()._playerShelf = nil}
+
+  var autoSubscribeToPlayed: Api_BoolSetting {
+    get {return _storage._autoSubscribeToPlayed ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoSubscribeToPlayed = newValue}
+  }
+  /// Returns true if `autoSubscribeToPlayed` has been explicitly set.
+  var hasAutoSubscribeToPlayed: Bool {return _storage._autoSubscribeToPlayed != nil}
+  /// Clears the value of `autoSubscribeToPlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoSubscribeToPlayed() {_uniqueStorage()._autoSubscribeToPlayed = nil}
+
+  var autoShowPlayed: Api_BoolSetting {
+    get {return _storage._autoShowPlayed ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoShowPlayed = newValue}
+  }
+  /// Returns true if `autoShowPlayed` has been explicitly set.
+  var hasAutoShowPlayed: Bool {return _storage._autoShowPlayed != nil}
+  /// Clears the value of `autoShowPlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoShowPlayed() {_uniqueStorage()._autoShowPlayed = nil}
+
+  var autoPlayEnabled: Api_BoolSetting {
+    get {return _storage._autoPlayEnabled ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoPlayEnabled = newValue}
+  }
+  /// Returns true if `autoPlayEnabled` has been explicitly set.
+  var hasAutoPlayEnabled: Bool {return _storage._autoPlayEnabled != nil}
+  /// Clears the value of `autoPlayEnabled`. Subsequent reads from it will return its default value.
+  mutating func clearAutoPlayEnabled() {_uniqueStorage()._autoPlayEnabled = nil}
+
+  var autoPlayLastListUuid: Api_StringSetting {
+    get {return _storage._autoPlayLastListUuid ?? Api_StringSetting()}
+    set {_uniqueStorage()._autoPlayLastListUuid = newValue}
+  }
+  /// Returns true if `autoPlayLastListUuid` has been explicitly set.
+  var hasAutoPlayLastListUuid: Bool {return _storage._autoPlayLastListUuid != nil}
+  /// Clears the value of `autoPlayLastListUuid`. Subsequent reads from it will return its default value.
+  mutating func clearAutoPlayLastListUuid() {_uniqueStorage()._autoPlayLastListUuid = nil}
+
+  var trimSilence: Api_Int32Setting {
+    get {return _storage._trimSilence ?? Api_Int32Setting()}
+    set {_uniqueStorage()._trimSilence = newValue}
+  }
+  /// Returns true if `trimSilence` has been explicitly set.
+  var hasTrimSilence: Bool {return _storage._trimSilence != nil}
+  /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
+  mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 struct Api_NamedSettings {
@@ -393,15 +935,7 @@ struct Api_NamedSettings {
   /// Clears the value of `recommendationsOn`. Subsequent reads from it will return its default value.
   mutating func clearRecommendationsOn() {_uniqueStorage()._recommendationsOn = nil}
 
-  var streamByDefault: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._streamByDefault ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
-    set {_uniqueStorage()._streamByDefault = newValue}
-  }
-  /// Returns true if `streamByDefault` has been explicitly set.
-  var hasStreamByDefault: Bool {return _storage._streamByDefault != nil}
-  /// Clears the value of `streamByDefault`. Subsequent reads from it will return its default value.
-  mutating func clearStreamByDefault() {_uniqueStorage()._streamByDefault = nil}
-
+  /// unused and replaced by row_action google.protobuf.BoolValue stream_by_default = 10;
   var useEmbeddedArtwork: SwiftProtobuf.Google_Protobuf_BoolValue {
     get {return _storage._useEmbeddedArtwork ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._useEmbeddedArtwork = newValue}
@@ -420,15 +954,7 @@ struct Api_NamedSettings {
   /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackSpeed() {_uniqueStorage()._playbackSpeed = nil}
 
-  var silenceRemoval: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._silenceRemoval ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
-    set {_uniqueStorage()._silenceRemoval = newValue}
-  }
-  /// Returns true if `silenceRemoval` has been explicitly set.
-  var hasSilenceRemoval: Bool {return _storage._silenceRemoval != nil}
-  /// Clears the value of `silenceRemoval`. Subsequent reads from it will return its default value.
-  mutating func clearSilenceRemoval() {_uniqueStorage()._silenceRemoval = nil}
-
+  /// unused and replaced by trim_silence google.protobuf.BoolValue silence_removal = 13;
   var volumeBoost: SwiftProtobuf.Google_Protobuf_BoolValue {
     get {return _storage._volumeBoost ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._volumeBoost = newValue}
@@ -491,6 +1017,357 @@ struct Api_NamedSettings {
   var hasRegion: Bool {return _storage._region != nil}
   /// Clears the value of `region`. Subsequent reads from it will return its default value.
   mutating func clearRegion() {_uniqueStorage()._region = nil}
+
+  var rowAction: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._rowAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._rowAction = newValue}
+  }
+  /// Returns true if `rowAction` has been explicitly set.
+  var hasRowAction: Bool {return _storage._rowAction != nil}
+  /// Clears the value of `rowAction`. Subsequent reads from it will return its default value.
+  mutating func clearRowAction() {_uniqueStorage()._rowAction = nil}
+
+  var upNextSwipe: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._upNextSwipe ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._upNextSwipe = newValue}
+  }
+  /// Returns true if `upNextSwipe` has been explicitly set.
+  var hasUpNextSwipe: Bool {return _storage._upNextSwipe != nil}
+  /// Clears the value of `upNextSwipe`. Subsequent reads from it will return its default value.
+  mutating func clearUpNextSwipe() {_uniqueStorage()._upNextSwipe = nil}
+
+  var episodeGrouping: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._episodeGrouping ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._episodeGrouping = newValue}
+  }
+  /// Returns true if `episodeGrouping` has been explicitly set.
+  var hasEpisodeGrouping: Bool {return _storage._episodeGrouping != nil}
+  /// Clears the value of `episodeGrouping`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodeGrouping() {_uniqueStorage()._episodeGrouping = nil}
+
+  var showArchived: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._showArchived ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._showArchived = newValue}
+  }
+  /// Returns true if `showArchived` has been explicitly set.
+  var hasShowArchived: Bool {return _storage._showArchived != nil}
+  /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
+  mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
+
+  var openLinks: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._openLinks ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._openLinks = newValue}
+  }
+  /// Returns true if `openLinks` has been explicitly set.
+  var hasOpenLinks: Bool {return _storage._openLinks != nil}
+  /// Clears the value of `openLinks`. Subsequent reads from it will return its default value.
+  mutating func clearOpenLinks() {_uniqueStorage()._openLinks = nil}
+
+  var mediaActions: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._mediaActions ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._mediaActions = newValue}
+  }
+  /// Returns true if `mediaActions` has been explicitly set.
+  var hasMediaActions: Bool {return _storage._mediaActions != nil}
+  /// Clears the value of `mediaActions`. Subsequent reads from it will return its default value.
+  mutating func clearMediaActions() {_uniqueStorage()._mediaActions = nil}
+
+  var mediaActionsOrder: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._mediaActionsOrder ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._mediaActionsOrder = newValue}
+  }
+  /// Returns true if `mediaActionsOrder` has been explicitly set.
+  var hasMediaActionsOrder: Bool {return _storage._mediaActionsOrder != nil}
+  /// Clears the value of `mediaActionsOrder`. Subsequent reads from it will return its default value.
+  mutating func clearMediaActionsOrder() {_uniqueStorage()._mediaActionsOrder = nil}
+
+  var keepScreenAwake: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._keepScreenAwake ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._keepScreenAwake = newValue}
+  }
+  /// Returns true if `keepScreenAwake` has been explicitly set.
+  var hasKeepScreenAwake: Bool {return _storage._keepScreenAwake != nil}
+  /// Clears the value of `keepScreenAwake`. Subsequent reads from it will return its default value.
+  mutating func clearKeepScreenAwake() {_uniqueStorage()._keepScreenAwake = nil}
+
+  var openPlayer: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._openPlayer ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._openPlayer = newValue}
+  }
+  /// Returns true if `openPlayer` has been explicitly set.
+  var hasOpenPlayer: Bool {return _storage._openPlayer != nil}
+  /// Clears the value of `openPlayer`. Subsequent reads from it will return its default value.
+  mutating func clearOpenPlayer() {_uniqueStorage()._openPlayer = nil}
+
+  var intelligentResumption: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._intelligentResumption ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._intelligentResumption = newValue}
+  }
+  /// Returns true if `intelligentResumption` has been explicitly set.
+  var hasIntelligentResumption: Bool {return _storage._intelligentResumption != nil}
+  /// Clears the value of `intelligentResumption`. Subsequent reads from it will return its default value.
+  mutating func clearIntelligentResumption() {_uniqueStorage()._intelligentResumption = nil}
+
+  var playUpNextOnTap: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._playUpNextOnTap ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._playUpNextOnTap = newValue}
+  }
+  /// Returns true if `playUpNextOnTap` has been explicitly set.
+  var hasPlayUpNextOnTap: Bool {return _storage._playUpNextOnTap != nil}
+  /// Clears the value of `playUpNextOnTap`. Subsequent reads from it will return its default value.
+  mutating func clearPlayUpNextOnTap() {_uniqueStorage()._playUpNextOnTap = nil}
+
+  var remoteSkipChapters: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._remoteSkipChapters ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._remoteSkipChapters = newValue}
+  }
+  /// Returns true if `remoteSkipChapters` has been explicitly set.
+  var hasRemoteSkipChapters: Bool {return _storage._remoteSkipChapters != nil}
+  /// Clears the value of `remoteSkipChapters`. Subsequent reads from it will return its default value.
+  mutating func clearRemoteSkipChapters() {_uniqueStorage()._remoteSkipChapters = nil}
+
+  var playbackActions: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._playbackActions ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._playbackActions = newValue}
+  }
+  /// Returns true if `playbackActions` has been explicitly set.
+  var hasPlaybackActions: Bool {return _storage._playbackActions != nil}
+  /// Clears the value of `playbackActions`. Subsequent reads from it will return its default value.
+  mutating func clearPlaybackActions() {_uniqueStorage()._playbackActions = nil}
+
+  var legacyBluetooth: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._legacyBluetooth ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._legacyBluetooth = newValue}
+  }
+  /// Returns true if `legacyBluetooth` has been explicitly set.
+  var hasLegacyBluetooth: Bool {return _storage._legacyBluetooth != nil}
+  /// Clears the value of `legacyBluetooth`. Subsequent reads from it will return its default value.
+  mutating func clearLegacyBluetooth() {_uniqueStorage()._legacyBluetooth = nil}
+
+  var multiSelectGesture: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._multiSelectGesture ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._multiSelectGesture = newValue}
+  }
+  /// Returns true if `multiSelectGesture` has been explicitly set.
+  var hasMultiSelectGesture: Bool {return _storage._multiSelectGesture != nil}
+  /// Clears the value of `multiSelectGesture`. Subsequent reads from it will return its default value.
+  mutating func clearMultiSelectGesture() {_uniqueStorage()._multiSelectGesture = nil}
+
+  var chapterTitles: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._chapterTitles ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._chapterTitles = newValue}
+  }
+  /// Returns true if `chapterTitles` has been explicitly set.
+  var hasChapterTitles: Bool {return _storage._chapterTitles != nil}
+  /// Clears the value of `chapterTitles`. Subsequent reads from it will return its default value.
+  mutating func clearChapterTitles() {_uniqueStorage()._chapterTitles = nil}
+
+  var notifications: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._notifications ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._notifications = newValue}
+  }
+  /// Returns true if `notifications` has been explicitly set.
+  var hasNotifications: Bool {return _storage._notifications != nil}
+  /// Clears the value of `notifications`. Subsequent reads from it will return its default value.
+  mutating func clearNotifications() {_uniqueStorage()._notifications = nil}
+
+  var notificationActions: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._notificationActions ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._notificationActions = newValue}
+  }
+  /// Returns true if `notificationActions` has been explicitly set.
+  var hasNotificationActions: Bool {return _storage._notificationActions != nil}
+  /// Clears the value of `notificationActions`. Subsequent reads from it will return its default value.
+  mutating func clearNotificationActions() {_uniqueStorage()._notificationActions = nil}
+
+  var playOverNotifications: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._playOverNotifications ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._playOverNotifications = newValue}
+  }
+  /// Returns true if `playOverNotifications` has been explicitly set.
+  var hasPlayOverNotifications: Bool {return _storage._playOverNotifications != nil}
+  /// Clears the value of `playOverNotifications`. Subsequent reads from it will return its default value.
+  mutating func clearPlayOverNotifications() {_uniqueStorage()._playOverNotifications = nil}
+
+  var hideNotificationOnPause: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._hideNotificationOnPause ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._hideNotificationOnPause = newValue}
+  }
+  /// Returns true if `hideNotificationOnPause` has been explicitly set.
+  var hasHideNotificationOnPause: Bool {return _storage._hideNotificationOnPause != nil}
+  /// Clears the value of `hideNotificationOnPause`. Subsequent reads from it will return its default value.
+  mutating func clearHideNotificationOnPause() {_uniqueStorage()._hideNotificationOnPause = nil}
+
+  var appBadge: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._appBadge ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._appBadge = newValue}
+  }
+  /// Returns true if `appBadge` has been explicitly set.
+  var hasAppBadge: Bool {return _storage._appBadge != nil}
+  /// Clears the value of `appBadge`. Subsequent reads from it will return its default value.
+  mutating func clearAppBadge() {_uniqueStorage()._appBadge = nil}
+
+  var appBadgeFilter: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._appBadgeFilter ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._appBadgeFilter = newValue}
+  }
+  /// Returns true if `appBadgeFilter` has been explicitly set.
+  var hasAppBadgeFilter: Bool {return _storage._appBadgeFilter != nil}
+  /// Clears the value of `appBadgeFilter`. Subsequent reads from it will return its default value.
+  mutating func clearAppBadgeFilter() {_uniqueStorage()._appBadgeFilter = nil}
+
+  var autoArchivePlayed: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._autoArchivePlayed ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._autoArchivePlayed = newValue}
+  }
+  /// Returns true if `autoArchivePlayed` has been explicitly set.
+  var hasAutoArchivePlayed: Bool {return _storage._autoArchivePlayed != nil}
+  /// Clears the value of `autoArchivePlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchivePlayed() {_uniqueStorage()._autoArchivePlayed = nil}
+
+  var autoArchiveInactive: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._autoArchiveInactive ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._autoArchiveInactive = newValue}
+  }
+  /// Returns true if `autoArchiveInactive` has been explicitly set.
+  var hasAutoArchiveInactive: Bool {return _storage._autoArchiveInactive != nil}
+  /// Clears the value of `autoArchiveInactive`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveInactive() {_uniqueStorage()._autoArchiveInactive = nil}
+
+  var autoUpNextLimit: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._autoUpNextLimit ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._autoUpNextLimit = newValue}
+  }
+  /// Returns true if `autoUpNextLimit` has been explicitly set.
+  var hasAutoUpNextLimit: Bool {return _storage._autoUpNextLimit != nil}
+  /// Clears the value of `autoUpNextLimit`. Subsequent reads from it will return its default value.
+  mutating func clearAutoUpNextLimit() {_uniqueStorage()._autoUpNextLimit = nil}
+
+  var autoUpNextLimitReached: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._autoUpNextLimitReached ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._autoUpNextLimitReached = newValue}
+  }
+  /// Returns true if `autoUpNextLimitReached` has been explicitly set.
+  var hasAutoUpNextLimitReached: Bool {return _storage._autoUpNextLimitReached != nil}
+  /// Clears the value of `autoUpNextLimitReached`. Subsequent reads from it will return its default value.
+  mutating func clearAutoUpNextLimitReached() {_uniqueStorage()._autoUpNextLimitReached = nil}
+
+  var warnDataUsage: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._warnDataUsage ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._warnDataUsage = newValue}
+  }
+  /// Returns true if `warnDataUsage` has been explicitly set.
+  var hasWarnDataUsage: Bool {return _storage._warnDataUsage != nil}
+  /// Clears the value of `warnDataUsage`. Subsequent reads from it will return its default value.
+  mutating func clearWarnDataUsage() {_uniqueStorage()._warnDataUsage = nil}
+
+  var filesAutoUpNext: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._filesAutoUpNext ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._filesAutoUpNext = newValue}
+  }
+  /// Returns true if `filesAutoUpNext` has been explicitly set.
+  var hasFilesAutoUpNext: Bool {return _storage._filesAutoUpNext != nil}
+  /// Clears the value of `filesAutoUpNext`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAutoUpNext() {_uniqueStorage()._filesAutoUpNext = nil}
+
+  var filesAfterPlayingDeleteLocal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._filesAfterPlayingDeleteLocal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteLocal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteLocal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteLocal: Bool {return _storage._filesAfterPlayingDeleteLocal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteLocal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteLocal() {_uniqueStorage()._filesAfterPlayingDeleteLocal = nil}
+
+  var filesAfterPlayingDeleteCloud: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._filesAfterPlayingDeleteCloud ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteCloud = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteCloud` has been explicitly set.
+  var hasFilesAfterPlayingDeleteCloud: Bool {return _storage._filesAfterPlayingDeleteCloud != nil}
+  /// Clears the value of `filesAfterPlayingDeleteCloud`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteCloud() {_uniqueStorage()._filesAfterPlayingDeleteCloud = nil}
+
+  var privacyAnalytics: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._privacyAnalytics ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._privacyAnalytics = newValue}
+  }
+  /// Returns true if `privacyAnalytics` has been explicitly set.
+  var hasPrivacyAnalytics: Bool {return _storage._privacyAnalytics != nil}
+  /// Clears the value of `privacyAnalytics`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyAnalytics() {_uniqueStorage()._privacyAnalytics = nil}
+
+  var privacyCrashReports: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._privacyCrashReports ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._privacyCrashReports = newValue}
+  }
+  /// Returns true if `privacyCrashReports` has been explicitly set.
+  var hasPrivacyCrashReports: Bool {return _storage._privacyCrashReports != nil}
+  /// Clears the value of `privacyCrashReports`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyCrashReports() {_uniqueStorage()._privacyCrashReports = nil}
+
+  var privacyLinkAccount: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._privacyLinkAccount ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._privacyLinkAccount = newValue}
+  }
+  /// Returns true if `privacyLinkAccount` has been explicitly set.
+  var hasPrivacyLinkAccount: Bool {return _storage._privacyLinkAccount != nil}
+  /// Clears the value of `privacyLinkAccount`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyLinkAccount() {_uniqueStorage()._privacyLinkAccount = nil}
+
+  var playerShelf: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._playerShelf ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._playerShelf = newValue}
+  }
+  /// Returns true if `playerShelf` has been explicitly set.
+  var hasPlayerShelf: Bool {return _storage._playerShelf != nil}
+  /// Clears the value of `playerShelf`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerShelf() {_uniqueStorage()._playerShelf = nil}
+
+  var autoSubscribeToPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._autoSubscribeToPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._autoSubscribeToPlayed = newValue}
+  }
+  /// Returns true if `autoSubscribeToPlayed` has been explicitly set.
+  var hasAutoSubscribeToPlayed: Bool {return _storage._autoSubscribeToPlayed != nil}
+  /// Clears the value of `autoSubscribeToPlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoSubscribeToPlayed() {_uniqueStorage()._autoSubscribeToPlayed = nil}
+
+  var autoShowPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._autoShowPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._autoShowPlayed = newValue}
+  }
+  /// Returns true if `autoShowPlayed` has been explicitly set.
+  var hasAutoShowPlayed: Bool {return _storage._autoShowPlayed != nil}
+  /// Clears the value of `autoShowPlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoShowPlayed() {_uniqueStorage()._autoShowPlayed = nil}
+
+  var autoPlayEnabled: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._autoPlayEnabled ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._autoPlayEnabled = newValue}
+  }
+  /// Returns true if `autoPlayEnabled` has been explicitly set.
+  var hasAutoPlayEnabled: Bool {return _storage._autoPlayEnabled != nil}
+  /// Clears the value of `autoPlayEnabled`. Subsequent reads from it will return its default value.
+  mutating func clearAutoPlayEnabled() {_uniqueStorage()._autoPlayEnabled = nil}
+
+  var autoPlayLastListUuid: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._autoPlayLastListUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._autoPlayLastListUuid = newValue}
+  }
+  /// Returns true if `autoPlayLastListUuid` has been explicitly set.
+  var hasAutoPlayLastListUuid: Bool {return _storage._autoPlayLastListUuid != nil}
+  /// Clears the value of `autoPlayLastListUuid`. Subsequent reads from it will return its default value.
+  mutating func clearAutoPlayLastListUuid() {_uniqueStorage()._autoPlayLastListUuid = nil}
+
+  var trimSilence: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._trimSilence ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._trimSilence = newValue}
+  }
+  /// Returns true if `trimSilence` has been explicitly set.
+  var hasTrimSilence: Bool {return _storage._trimSilence != nil}
+  /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
+  mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -585,15 +1462,7 @@ struct Api_NamedSettingsResponse {
   /// Clears the value of `recommendationsOn`. Subsequent reads from it will return its default value.
   mutating func clearRecommendationsOn() {_uniqueStorage()._recommendationsOn = nil}
 
-  var streamByDefault: Api_BoolSetting {
-    get {return _storage._streamByDefault ?? Api_BoolSetting()}
-    set {_uniqueStorage()._streamByDefault = newValue}
-  }
-  /// Returns true if `streamByDefault` has been explicitly set.
-  var hasStreamByDefault: Bool {return _storage._streamByDefault != nil}
-  /// Clears the value of `streamByDefault`. Subsequent reads from it will return its default value.
-  mutating func clearStreamByDefault() {_uniqueStorage()._streamByDefault = nil}
-
+  /// unused and replaced by row_action BoolSetting stream_by_default = 10;
   var useEmbeddedArtwork: Api_BoolSetting {
     get {return _storage._useEmbeddedArtwork ?? Api_BoolSetting()}
     set {_uniqueStorage()._useEmbeddedArtwork = newValue}
@@ -612,15 +1481,7 @@ struct Api_NamedSettingsResponse {
   /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackSpeed() {_uniqueStorage()._playbackSpeed = nil}
 
-  var silenceRemoval: Api_BoolSetting {
-    get {return _storage._silenceRemoval ?? Api_BoolSetting()}
-    set {_uniqueStorage()._silenceRemoval = newValue}
-  }
-  /// Returns true if `silenceRemoval` has been explicitly set.
-  var hasSilenceRemoval: Bool {return _storage._silenceRemoval != nil}
-  /// Clears the value of `silenceRemoval`. Subsequent reads from it will return its default value.
-  mutating func clearSilenceRemoval() {_uniqueStorage()._silenceRemoval = nil}
-
+  /// unused and replaced by trim_silence google.protobuf.BoolValue silence_removal = 13;
   var volumeBoost: Api_BoolSetting {
     get {return _storage._volumeBoost ?? Api_BoolSetting()}
     set {_uniqueStorage()._volumeBoost = newValue}
@@ -684,6 +1545,357 @@ struct Api_NamedSettingsResponse {
   /// Clears the value of `region`. Subsequent reads from it will return its default value.
   mutating func clearRegion() {_uniqueStorage()._region = nil}
 
+  var rowAction: Api_Int32Setting {
+    get {return _storage._rowAction ?? Api_Int32Setting()}
+    set {_uniqueStorage()._rowAction = newValue}
+  }
+  /// Returns true if `rowAction` has been explicitly set.
+  var hasRowAction: Bool {return _storage._rowAction != nil}
+  /// Clears the value of `rowAction`. Subsequent reads from it will return its default value.
+  mutating func clearRowAction() {_uniqueStorage()._rowAction = nil}
+
+  var upNextSwipe: Api_Int32Setting {
+    get {return _storage._upNextSwipe ?? Api_Int32Setting()}
+    set {_uniqueStorage()._upNextSwipe = newValue}
+  }
+  /// Returns true if `upNextSwipe` has been explicitly set.
+  var hasUpNextSwipe: Bool {return _storage._upNextSwipe != nil}
+  /// Clears the value of `upNextSwipe`. Subsequent reads from it will return its default value.
+  mutating func clearUpNextSwipe() {_uniqueStorage()._upNextSwipe = nil}
+
+  var episodeGrouping: Api_Int32Setting {
+    get {return _storage._episodeGrouping ?? Api_Int32Setting()}
+    set {_uniqueStorage()._episodeGrouping = newValue}
+  }
+  /// Returns true if `episodeGrouping` has been explicitly set.
+  var hasEpisodeGrouping: Bool {return _storage._episodeGrouping != nil}
+  /// Clears the value of `episodeGrouping`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodeGrouping() {_uniqueStorage()._episodeGrouping = nil}
+
+  var showArchived: Api_BoolSetting {
+    get {return _storage._showArchived ?? Api_BoolSetting()}
+    set {_uniqueStorage()._showArchived = newValue}
+  }
+  /// Returns true if `showArchived` has been explicitly set.
+  var hasShowArchived: Bool {return _storage._showArchived != nil}
+  /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
+  mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
+
+  var openLinks: Api_BoolSetting {
+    get {return _storage._openLinks ?? Api_BoolSetting()}
+    set {_uniqueStorage()._openLinks = newValue}
+  }
+  /// Returns true if `openLinks` has been explicitly set.
+  var hasOpenLinks: Bool {return _storage._openLinks != nil}
+  /// Clears the value of `openLinks`. Subsequent reads from it will return its default value.
+  mutating func clearOpenLinks() {_uniqueStorage()._openLinks = nil}
+
+  var mediaActions: Api_BoolSetting {
+    get {return _storage._mediaActions ?? Api_BoolSetting()}
+    set {_uniqueStorage()._mediaActions = newValue}
+  }
+  /// Returns true if `mediaActions` has been explicitly set.
+  var hasMediaActions: Bool {return _storage._mediaActions != nil}
+  /// Clears the value of `mediaActions`. Subsequent reads from it will return its default value.
+  mutating func clearMediaActions() {_uniqueStorage()._mediaActions = nil}
+
+  var mediaActionsOrder: Api_StringSetting {
+    get {return _storage._mediaActionsOrder ?? Api_StringSetting()}
+    set {_uniqueStorage()._mediaActionsOrder = newValue}
+  }
+  /// Returns true if `mediaActionsOrder` has been explicitly set.
+  var hasMediaActionsOrder: Bool {return _storage._mediaActionsOrder != nil}
+  /// Clears the value of `mediaActionsOrder`. Subsequent reads from it will return its default value.
+  mutating func clearMediaActionsOrder() {_uniqueStorage()._mediaActionsOrder = nil}
+
+  var keepScreenAwake: Api_BoolSetting {
+    get {return _storage._keepScreenAwake ?? Api_BoolSetting()}
+    set {_uniqueStorage()._keepScreenAwake = newValue}
+  }
+  /// Returns true if `keepScreenAwake` has been explicitly set.
+  var hasKeepScreenAwake: Bool {return _storage._keepScreenAwake != nil}
+  /// Clears the value of `keepScreenAwake`. Subsequent reads from it will return its default value.
+  mutating func clearKeepScreenAwake() {_uniqueStorage()._keepScreenAwake = nil}
+
+  var openPlayer: Api_BoolSetting {
+    get {return _storage._openPlayer ?? Api_BoolSetting()}
+    set {_uniqueStorage()._openPlayer = newValue}
+  }
+  /// Returns true if `openPlayer` has been explicitly set.
+  var hasOpenPlayer: Bool {return _storage._openPlayer != nil}
+  /// Clears the value of `openPlayer`. Subsequent reads from it will return its default value.
+  mutating func clearOpenPlayer() {_uniqueStorage()._openPlayer = nil}
+
+  var intelligentResumption: Api_BoolSetting {
+    get {return _storage._intelligentResumption ?? Api_BoolSetting()}
+    set {_uniqueStorage()._intelligentResumption = newValue}
+  }
+  /// Returns true if `intelligentResumption` has been explicitly set.
+  var hasIntelligentResumption: Bool {return _storage._intelligentResumption != nil}
+  /// Clears the value of `intelligentResumption`. Subsequent reads from it will return its default value.
+  mutating func clearIntelligentResumption() {_uniqueStorage()._intelligentResumption = nil}
+
+  var playUpNextOnTap: Api_BoolSetting {
+    get {return _storage._playUpNextOnTap ?? Api_BoolSetting()}
+    set {_uniqueStorage()._playUpNextOnTap = newValue}
+  }
+  /// Returns true if `playUpNextOnTap` has been explicitly set.
+  var hasPlayUpNextOnTap: Bool {return _storage._playUpNextOnTap != nil}
+  /// Clears the value of `playUpNextOnTap`. Subsequent reads from it will return its default value.
+  mutating func clearPlayUpNextOnTap() {_uniqueStorage()._playUpNextOnTap = nil}
+
+  var remoteSkipChapters: Api_BoolSetting {
+    get {return _storage._remoteSkipChapters ?? Api_BoolSetting()}
+    set {_uniqueStorage()._remoteSkipChapters = newValue}
+  }
+  /// Returns true if `remoteSkipChapters` has been explicitly set.
+  var hasRemoteSkipChapters: Bool {return _storage._remoteSkipChapters != nil}
+  /// Clears the value of `remoteSkipChapters`. Subsequent reads from it will return its default value.
+  mutating func clearRemoteSkipChapters() {_uniqueStorage()._remoteSkipChapters = nil}
+
+  var playbackActions: Api_BoolSetting {
+    get {return _storage._playbackActions ?? Api_BoolSetting()}
+    set {_uniqueStorage()._playbackActions = newValue}
+  }
+  /// Returns true if `playbackActions` has been explicitly set.
+  var hasPlaybackActions: Bool {return _storage._playbackActions != nil}
+  /// Clears the value of `playbackActions`. Subsequent reads from it will return its default value.
+  mutating func clearPlaybackActions() {_uniqueStorage()._playbackActions = nil}
+
+  var legacyBluetooth: Api_BoolSetting {
+    get {return _storage._legacyBluetooth ?? Api_BoolSetting()}
+    set {_uniqueStorage()._legacyBluetooth = newValue}
+  }
+  /// Returns true if `legacyBluetooth` has been explicitly set.
+  var hasLegacyBluetooth: Bool {return _storage._legacyBluetooth != nil}
+  /// Clears the value of `legacyBluetooth`. Subsequent reads from it will return its default value.
+  mutating func clearLegacyBluetooth() {_uniqueStorage()._legacyBluetooth = nil}
+
+  var multiSelectGesture: Api_BoolSetting {
+    get {return _storage._multiSelectGesture ?? Api_BoolSetting()}
+    set {_uniqueStorage()._multiSelectGesture = newValue}
+  }
+  /// Returns true if `multiSelectGesture` has been explicitly set.
+  var hasMultiSelectGesture: Bool {return _storage._multiSelectGesture != nil}
+  /// Clears the value of `multiSelectGesture`. Subsequent reads from it will return its default value.
+  mutating func clearMultiSelectGesture() {_uniqueStorage()._multiSelectGesture = nil}
+
+  var chapterTitles: Api_BoolSetting {
+    get {return _storage._chapterTitles ?? Api_BoolSetting()}
+    set {_uniqueStorage()._chapterTitles = newValue}
+  }
+  /// Returns true if `chapterTitles` has been explicitly set.
+  var hasChapterTitles: Bool {return _storage._chapterTitles != nil}
+  /// Clears the value of `chapterTitles`. Subsequent reads from it will return its default value.
+  mutating func clearChapterTitles() {_uniqueStorage()._chapterTitles = nil}
+
+  var notifications: Api_BoolSetting {
+    get {return _storage._notifications ?? Api_BoolSetting()}
+    set {_uniqueStorage()._notifications = newValue}
+  }
+  /// Returns true if `notifications` has been explicitly set.
+  var hasNotifications: Bool {return _storage._notifications != nil}
+  /// Clears the value of `notifications`. Subsequent reads from it will return its default value.
+  mutating func clearNotifications() {_uniqueStorage()._notifications = nil}
+
+  var notificationActions: Api_StringSetting {
+    get {return _storage._notificationActions ?? Api_StringSetting()}
+    set {_uniqueStorage()._notificationActions = newValue}
+  }
+  /// Returns true if `notificationActions` has been explicitly set.
+  var hasNotificationActions: Bool {return _storage._notificationActions != nil}
+  /// Clears the value of `notificationActions`. Subsequent reads from it will return its default value.
+  mutating func clearNotificationActions() {_uniqueStorage()._notificationActions = nil}
+
+  var playOverNotifications: Api_Int32Setting {
+    get {return _storage._playOverNotifications ?? Api_Int32Setting()}
+    set {_uniqueStorage()._playOverNotifications = newValue}
+  }
+  /// Returns true if `playOverNotifications` has been explicitly set.
+  var hasPlayOverNotifications: Bool {return _storage._playOverNotifications != nil}
+  /// Clears the value of `playOverNotifications`. Subsequent reads from it will return its default value.
+  mutating func clearPlayOverNotifications() {_uniqueStorage()._playOverNotifications = nil}
+
+  var hideNotificationOnPause: Api_BoolSetting {
+    get {return _storage._hideNotificationOnPause ?? Api_BoolSetting()}
+    set {_uniqueStorage()._hideNotificationOnPause = newValue}
+  }
+  /// Returns true if `hideNotificationOnPause` has been explicitly set.
+  var hasHideNotificationOnPause: Bool {return _storage._hideNotificationOnPause != nil}
+  /// Clears the value of `hideNotificationOnPause`. Subsequent reads from it will return its default value.
+  mutating func clearHideNotificationOnPause() {_uniqueStorage()._hideNotificationOnPause = nil}
+
+  var appBadge: Api_Int32Setting {
+    get {return _storage._appBadge ?? Api_Int32Setting()}
+    set {_uniqueStorage()._appBadge = newValue}
+  }
+  /// Returns true if `appBadge` has been explicitly set.
+  var hasAppBadge: Bool {return _storage._appBadge != nil}
+  /// Clears the value of `appBadge`. Subsequent reads from it will return its default value.
+  mutating func clearAppBadge() {_uniqueStorage()._appBadge = nil}
+
+  var appBadgeFilter: Api_StringSetting {
+    get {return _storage._appBadgeFilter ?? Api_StringSetting()}
+    set {_uniqueStorage()._appBadgeFilter = newValue}
+  }
+  /// Returns true if `appBadgeFilter` has been explicitly set.
+  var hasAppBadgeFilter: Bool {return _storage._appBadgeFilter != nil}
+  /// Clears the value of `appBadgeFilter`. Subsequent reads from it will return its default value.
+  mutating func clearAppBadgeFilter() {_uniqueStorage()._appBadgeFilter = nil}
+
+  var autoArchivePlayed: Api_Int32Setting {
+    get {return _storage._autoArchivePlayed ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoArchivePlayed = newValue}
+  }
+  /// Returns true if `autoArchivePlayed` has been explicitly set.
+  var hasAutoArchivePlayed: Bool {return _storage._autoArchivePlayed != nil}
+  /// Clears the value of `autoArchivePlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchivePlayed() {_uniqueStorage()._autoArchivePlayed = nil}
+
+  var autoArchiveInactive: Api_Int32Setting {
+    get {return _storage._autoArchiveInactive ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoArchiveInactive = newValue}
+  }
+  /// Returns true if `autoArchiveInactive` has been explicitly set.
+  var hasAutoArchiveInactive: Bool {return _storage._autoArchiveInactive != nil}
+  /// Clears the value of `autoArchiveInactive`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveInactive() {_uniqueStorage()._autoArchiveInactive = nil}
+
+  var autoUpNextLimit: Api_Int32Setting {
+    get {return _storage._autoUpNextLimit ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoUpNextLimit = newValue}
+  }
+  /// Returns true if `autoUpNextLimit` has been explicitly set.
+  var hasAutoUpNextLimit: Bool {return _storage._autoUpNextLimit != nil}
+  /// Clears the value of `autoUpNextLimit`. Subsequent reads from it will return its default value.
+  mutating func clearAutoUpNextLimit() {_uniqueStorage()._autoUpNextLimit = nil}
+
+  var autoUpNextLimitReached: Api_Int32Setting {
+    get {return _storage._autoUpNextLimitReached ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoUpNextLimitReached = newValue}
+  }
+  /// Returns true if `autoUpNextLimitReached` has been explicitly set.
+  var hasAutoUpNextLimitReached: Bool {return _storage._autoUpNextLimitReached != nil}
+  /// Clears the value of `autoUpNextLimitReached`. Subsequent reads from it will return its default value.
+  mutating func clearAutoUpNextLimitReached() {_uniqueStorage()._autoUpNextLimitReached = nil}
+
+  var warnDataUsage: Api_BoolSetting {
+    get {return _storage._warnDataUsage ?? Api_BoolSetting()}
+    set {_uniqueStorage()._warnDataUsage = newValue}
+  }
+  /// Returns true if `warnDataUsage` has been explicitly set.
+  var hasWarnDataUsage: Bool {return _storage._warnDataUsage != nil}
+  /// Clears the value of `warnDataUsage`. Subsequent reads from it will return its default value.
+  mutating func clearWarnDataUsage() {_uniqueStorage()._warnDataUsage = nil}
+
+  var filesAutoUpNext: Api_BoolSetting {
+    get {return _storage._filesAutoUpNext ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAutoUpNext = newValue}
+  }
+  /// Returns true if `filesAutoUpNext` has been explicitly set.
+  var hasFilesAutoUpNext: Bool {return _storage._filesAutoUpNext != nil}
+  /// Clears the value of `filesAutoUpNext`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAutoUpNext() {_uniqueStorage()._filesAutoUpNext = nil}
+
+  var filesAfterPlayingDeleteLocal: Api_BoolSetting {
+    get {return _storage._filesAfterPlayingDeleteLocal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteLocal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteLocal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteLocal: Bool {return _storage._filesAfterPlayingDeleteLocal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteLocal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteLocal() {_uniqueStorage()._filesAfterPlayingDeleteLocal = nil}
+
+  var filesAfterPlayingDeleteCloud: Api_BoolSetting {
+    get {return _storage._filesAfterPlayingDeleteCloud ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteCloud = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteCloud` has been explicitly set.
+  var hasFilesAfterPlayingDeleteCloud: Bool {return _storage._filesAfterPlayingDeleteCloud != nil}
+  /// Clears the value of `filesAfterPlayingDeleteCloud`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteCloud() {_uniqueStorage()._filesAfterPlayingDeleteCloud = nil}
+
+  var privacyAnalytics: Api_BoolSetting {
+    get {return _storage._privacyAnalytics ?? Api_BoolSetting()}
+    set {_uniqueStorage()._privacyAnalytics = newValue}
+  }
+  /// Returns true if `privacyAnalytics` has been explicitly set.
+  var hasPrivacyAnalytics: Bool {return _storage._privacyAnalytics != nil}
+  /// Clears the value of `privacyAnalytics`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyAnalytics() {_uniqueStorage()._privacyAnalytics = nil}
+
+  var privacyCrashReports: Api_BoolSetting {
+    get {return _storage._privacyCrashReports ?? Api_BoolSetting()}
+    set {_uniqueStorage()._privacyCrashReports = newValue}
+  }
+  /// Returns true if `privacyCrashReports` has been explicitly set.
+  var hasPrivacyCrashReports: Bool {return _storage._privacyCrashReports != nil}
+  /// Clears the value of `privacyCrashReports`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyCrashReports() {_uniqueStorage()._privacyCrashReports = nil}
+
+  var privacyLinkAccount: Api_BoolSetting {
+    get {return _storage._privacyLinkAccount ?? Api_BoolSetting()}
+    set {_uniqueStorage()._privacyLinkAccount = newValue}
+  }
+  /// Returns true if `privacyLinkAccount` has been explicitly set.
+  var hasPrivacyLinkAccount: Bool {return _storage._privacyLinkAccount != nil}
+  /// Clears the value of `privacyLinkAccount`. Subsequent reads from it will return its default value.
+  mutating func clearPrivacyLinkAccount() {_uniqueStorage()._privacyLinkAccount = nil}
+
+  var playerShelf: Api_StringSetting {
+    get {return _storage._playerShelf ?? Api_StringSetting()}
+    set {_uniqueStorage()._playerShelf = newValue}
+  }
+  /// Returns true if `playerShelf` has been explicitly set.
+  var hasPlayerShelf: Bool {return _storage._playerShelf != nil}
+  /// Clears the value of `playerShelf`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerShelf() {_uniqueStorage()._playerShelf = nil}
+
+  var autoSubscribeToPlayed: Api_BoolSetting {
+    get {return _storage._autoSubscribeToPlayed ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoSubscribeToPlayed = newValue}
+  }
+  /// Returns true if `autoSubscribeToPlayed` has been explicitly set.
+  var hasAutoSubscribeToPlayed: Bool {return _storage._autoSubscribeToPlayed != nil}
+  /// Clears the value of `autoSubscribeToPlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoSubscribeToPlayed() {_uniqueStorage()._autoSubscribeToPlayed = nil}
+
+  var autoShowPlayed: Api_BoolSetting {
+    get {return _storage._autoShowPlayed ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoShowPlayed = newValue}
+  }
+  /// Returns true if `autoShowPlayed` has been explicitly set.
+  var hasAutoShowPlayed: Bool {return _storage._autoShowPlayed != nil}
+  /// Clears the value of `autoShowPlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoShowPlayed() {_uniqueStorage()._autoShowPlayed = nil}
+
+  var autoPlayEnabled: Api_BoolSetting {
+    get {return _storage._autoPlayEnabled ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoPlayEnabled = newValue}
+  }
+  /// Returns true if `autoPlayEnabled` has been explicitly set.
+  var hasAutoPlayEnabled: Bool {return _storage._autoPlayEnabled != nil}
+  /// Clears the value of `autoPlayEnabled`. Subsequent reads from it will return its default value.
+  mutating func clearAutoPlayEnabled() {_uniqueStorage()._autoPlayEnabled = nil}
+
+  var autoPlayLastListUuid: Api_StringSetting {
+    get {return _storage._autoPlayLastListUuid ?? Api_StringSetting()}
+    set {_uniqueStorage()._autoPlayLastListUuid = newValue}
+  }
+  /// Returns true if `autoPlayLastListUuid` has been explicitly set.
+  var hasAutoPlayLastListUuid: Bool {return _storage._autoPlayLastListUuid != nil}
+  /// Clears the value of `autoPlayLastListUuid`. Subsequent reads from it will return its default value.
+  mutating func clearAutoPlayLastListUuid() {_uniqueStorage()._autoPlayLastListUuid = nil}
+
+  var trimSilence: Api_Int32Setting {
+    get {return _storage._trimSilence ?? Api_Int32Setting()}
+    set {_uniqueStorage()._trimSilence = newValue}
+  }
+  /// Returns true if `trimSilence` has been explicitly set.
+  var hasTrimSilence: Bool {return _storage._trimSilence != nil}
+  /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
+  mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -714,12 +1926,22 @@ struct Api_Int32Setting {
   /// Clears the value of `changed`. Subsequent reads from it will return its default value.
   mutating func clearChanged() {self._changed = nil}
 
+  var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_modifiedAt = newValue}
+  }
+  /// Returns true if `modifiedAt` has been explicitly set.
+  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
+  mutating func clearModifiedAt() {self._modifiedAt = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _value: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
   fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
 struct Api_BoolSetting {
@@ -745,12 +1967,22 @@ struct Api_BoolSetting {
   /// Clears the value of `changed`. Subsequent reads from it will return its default value.
   mutating func clearChanged() {self._changed = nil}
 
+  var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_modifiedAt = newValue}
+  }
+  /// Returns true if `modifiedAt` has been explicitly set.
+  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
+  mutating func clearModifiedAt() {self._modifiedAt = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _value: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
   fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
 struct Api_StringSetting {
@@ -776,12 +2008,22 @@ struct Api_StringSetting {
   /// Clears the value of `changed`. Subsequent reads from it will return its default value.
   mutating func clearChanged() {self._changed = nil}
 
+  var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_modifiedAt = newValue}
+  }
+  /// Returns true if `modifiedAt` has been explicitly set.
+  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
+  mutating func clearModifiedAt() {self._modifiedAt = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _value: SwiftProtobuf.Google_Protobuf_StringValue? = nil
   fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
 struct Api_DoubleSetting {
@@ -807,12 +2049,22 @@ struct Api_DoubleSetting {
   /// Clears the value of `changed`. Subsequent reads from it will return its default value.
   mutating func clearChanged() {self._changed = nil}
 
+  var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_modifiedAt = newValue}
+  }
+  /// Returns true if `modifiedAt` has been explicitly set.
+  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
+  mutating func clearModifiedAt() {self._modifiedAt = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _value: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
   fileprivate var _changed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+  fileprivate var _modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
 struct Api_ApiPodcastResponse {
@@ -948,6 +2200,15 @@ struct Api_UserPodcastResponse {
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {_uniqueStorage()._dateAdded = nil}
 
+  var settings: Api_PodcastSettings {
+    get {return _storage._settings ?? Api_PodcastSettings()}
+    set {_uniqueStorage()._settings = newValue}
+  }
+  /// Returns true if `settings` has been explicitly set.
+  var hasSettings: Bool {return _storage._settings != nil}
+  /// Clears the value of `settings`. Subsequent reads from it will return its default value.
+  mutating func clearSettings() {_uniqueStorage()._settings = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1005,6 +2266,8 @@ struct Api_UuidRequest {
   var m: String = String()
 
   var uuid: String = String()
+
+  var includeBookmarks: Bool = false
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1343,6 +2606,8 @@ struct Api_EpisodeWithPodcast {
   var uuid: String = String()
 
   var podcast: String = String()
+
+  var includeBookmarks: Bool = false
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2968,6 +4233,15 @@ struct Api_SyncUserPodcast {
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {self._dateAdded = nil}
 
+  var settings: Api_PodcastSettings {
+    get {return _settings ?? Api_PodcastSettings()}
+    set {_settings = newValue}
+  }
+  /// Returns true if `settings` has been explicitly set.
+  var hasSettings: Bool {return self._settings != nil}
+  /// Clears the value of `settings`. Subsequent reads from it will return its default value.
+  mutating func clearSettings() {self._settings = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -2980,6 +4254,118 @@ struct Api_SyncUserPodcast {
   fileprivate var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
   fileprivate var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
   fileprivate var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _settings: Api_PodcastSettings? = nil
+}
+
+struct Api_PodcastSettings {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var notification: Api_BoolSetting {
+    get {return _storage._notification ?? Api_BoolSetting()}
+    set {_uniqueStorage()._notification = newValue}
+  }
+  /// Returns true if `notification` has been explicitly set.
+  var hasNotification: Bool {return _storage._notification != nil}
+  /// Clears the value of `notification`. Subsequent reads from it will return its default value.
+  mutating func clearNotification() {_uniqueStorage()._notification = nil}
+
+  var addToUpNext: Api_BoolSetting {
+    get {return _storage._addToUpNext ?? Api_BoolSetting()}
+    set {_uniqueStorage()._addToUpNext = newValue}
+  }
+  /// Returns true if `addToUpNext` has been explicitly set.
+  var hasAddToUpNext: Bool {return _storage._addToUpNext != nil}
+  /// Clears the value of `addToUpNext`. Subsequent reads from it will return its default value.
+  mutating func clearAddToUpNext() {_uniqueStorage()._addToUpNext = nil}
+
+  var addToUpNextPosition: Api_Int32Setting {
+    get {return _storage._addToUpNextPosition ?? Api_Int32Setting()}
+    set {_uniqueStorage()._addToUpNextPosition = newValue}
+  }
+  /// Returns true if `addToUpNextPosition` has been explicitly set.
+  var hasAddToUpNextPosition: Bool {return _storage._addToUpNextPosition != nil}
+  /// Clears the value of `addToUpNextPosition`. Subsequent reads from it will return its default value.
+  mutating func clearAddToUpNextPosition() {_uniqueStorage()._addToUpNextPosition = nil}
+
+  var autoArchive: Api_BoolSetting {
+    get {return _storage._autoArchive ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoArchive = newValue}
+  }
+  /// Returns true if `autoArchive` has been explicitly set.
+  var hasAutoArchive: Bool {return _storage._autoArchive != nil}
+  /// Clears the value of `autoArchive`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchive() {_uniqueStorage()._autoArchive = nil}
+
+  var playbackEffects: Api_BoolSetting {
+    get {return _storage._playbackEffects ?? Api_BoolSetting()}
+    set {_uniqueStorage()._playbackEffects = newValue}
+  }
+  /// Returns true if `playbackEffects` has been explicitly set.
+  var hasPlaybackEffects: Bool {return _storage._playbackEffects != nil}
+  /// Clears the value of `playbackEffects`. Subsequent reads from it will return its default value.
+  mutating func clearPlaybackEffects() {_uniqueStorage()._playbackEffects = nil}
+
+  var playbackSpeed: Api_DoubleSetting {
+    get {return _storage._playbackSpeed ?? Api_DoubleSetting()}
+    set {_uniqueStorage()._playbackSpeed = newValue}
+  }
+  /// Returns true if `playbackSpeed` has been explicitly set.
+  var hasPlaybackSpeed: Bool {return _storage._playbackSpeed != nil}
+  /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
+  mutating func clearPlaybackSpeed() {_uniqueStorage()._playbackSpeed = nil}
+
+  var trimSilence: Api_Int32Setting {
+    get {return _storage._trimSilence ?? Api_Int32Setting()}
+    set {_uniqueStorage()._trimSilence = newValue}
+  }
+  /// Returns true if `trimSilence` has been explicitly set.
+  var hasTrimSilence: Bool {return _storage._trimSilence != nil}
+  /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
+  mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
+
+  var volumeBoost: Api_BoolSetting {
+    get {return _storage._volumeBoost ?? Api_BoolSetting()}
+    set {_uniqueStorage()._volumeBoost = newValue}
+  }
+  /// Returns true if `volumeBoost` has been explicitly set.
+  var hasVolumeBoost: Bool {return _storage._volumeBoost != nil}
+  /// Clears the value of `volumeBoost`. Subsequent reads from it will return its default value.
+  mutating func clearVolumeBoost() {_uniqueStorage()._volumeBoost = nil}
+
+  var autoStartFrom: Api_Int32Setting {
+    get {return _storage._autoStartFrom ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoStartFrom = newValue}
+  }
+  /// Returns true if `autoStartFrom` has been explicitly set.
+  var hasAutoStartFrom: Bool {return _storage._autoStartFrom != nil}
+  /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
+  mutating func clearAutoStartFrom() {_uniqueStorage()._autoStartFrom = nil}
+
+  var autoSkipLast: Api_Int32Setting {
+    get {return _storage._autoSkipLast ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoSkipLast = newValue}
+  }
+  /// Returns true if `autoSkipLast` has been explicitly set.
+  var hasAutoSkipLast: Bool {return _storage._autoSkipLast != nil}
+  /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
+  mutating func clearAutoSkipLast() {_uniqueStorage()._autoSkipLast = nil}
+
+  var episodesSortOrder: Api_Int32Setting {
+    get {return _storage._episodesSortOrder ?? Api_Int32Setting()}
+    set {_uniqueStorage()._episodesSortOrder = newValue}
+  }
+  /// Returns true if `episodesSortOrder` has been explicitly set.
+  var hasEpisodesSortOrder: Bool {return _storage._episodesSortOrder != nil}
+  /// Clears the value of `episodesSortOrder`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodesSortOrder() {_uniqueStorage()._episodesSortOrder = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 struct Api_SyncUserEpisode {
@@ -4852,6 +6238,18 @@ struct Api_BookmarkRequest {
   fileprivate var _title: SwiftProtobuf.Google_Protobuf_StringValue? = nil
 }
 
+struct Api_BookmarksRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var bookmarks: [String] = []
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 struct Api_BookmarkResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -4913,6 +6311,7 @@ extension Api_UserPlaylistEpisodesRequest: @unchecked Sendable {}
 extension Api_UserPlaylistListRequest: @unchecked Sendable {}
 extension Api_UserPodcastListRequest: @unchecked Sendable {}
 extension Api_NamedSettingsRequest: @unchecked Sendable {}
+extension Api_ChangeableSettings: @unchecked Sendable {}
 extension Api_NamedSettings: @unchecked Sendable {}
 extension Api_NamedSettingsResponse: @unchecked Sendable {}
 extension Api_Int32Setting: @unchecked Sendable {}
@@ -4990,6 +6389,7 @@ extension Api_SyncUpdateResponse: @unchecked Sendable {}
 extension Api_Record: @unchecked Sendable {}
 extension Api_Record.OneOf_Record: @unchecked Sendable {}
 extension Api_SyncUserPodcast: @unchecked Sendable {}
+extension Api_PodcastSettings: @unchecked Sendable {}
 extension Api_SyncUserEpisode: @unchecked Sendable {}
 extension Api_SyncUserDevice: @unchecked Sendable {}
 extension Api_SyncUserPlaylist: @unchecked Sendable {}
@@ -5018,6 +6418,7 @@ extension Api_TokenErrorResponse: @unchecked Sendable {}
 extension Api_VerifyEmailRequest: @unchecked Sendable {}
 extension Api_AuthorizeCallbackRequest: @unchecked Sendable {}
 extension Api_BookmarkRequest: @unchecked Sendable {}
+extension Api_BookmarksRequest: @unchecked Sendable {}
 extension Api_BookmarkResponse: @unchecked Sendable {}
 extension Api_BookmarksResponse: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
@@ -5696,6 +7097,7 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     1: .same(proto: "v"),
     2: .same(proto: "m"),
     3: .same(proto: "settings"),
+    4: .standard(proto: "changed_settings"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -5707,6 +7109,7 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
       case 1: try { try decoder.decodeSingularStringField(value: &self.v) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.m) }()
       case 3: try { try decoder.decodeSingularMessageField(value: &self._settings) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._changedSettings) }()
       default: break
       }
     }
@@ -5726,6 +7129,9 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     try { if let v = self._settings {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
     } }()
+    try { if let v = self._changedSettings {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -5733,13 +7139,14 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if lhs.v != rhs.v {return false}
     if lhs.m != rhs.m {return false}
     if lhs._settings != rhs._settings {return false}
+    if lhs._changedSettings != rhs._changedSettings {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
-extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".NamedSettings"
+extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ChangeableSettings"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "grid_layout"),
     2: .standard(proto: "grid_order"),
@@ -5750,10 +7157,8 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     7: .standard(proto: "web_version"),
     8: .same(proto: "language"),
     9: .standard(proto: "recommendations_on"),
-    10: .standard(proto: "stream_by_default"),
     11: .standard(proto: "use_embedded_artwork"),
     12: .standard(proto: "playback_speed"),
-    13: .standard(proto: "silence_removal"),
     14: .standard(proto: "volume_boost"),
     15: .same(proto: "badges"),
     16: .standard(proto: "free_gift_acknowledgement"),
@@ -5761,29 +7166,105 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     18: .standard(proto: "auto_archive_played_episodes"),
     19: .standard(proto: "auto_archive_includes_starred"),
     20: .same(proto: "region"),
+    21: .standard(proto: "row_action"),
+    22: .standard(proto: "up_next_swipe"),
+    23: .standard(proto: "episode_grouping"),
+    24: .standard(proto: "show_archived"),
+    25: .standard(proto: "open_links"),
+    26: .standard(proto: "media_actions"),
+    27: .standard(proto: "media_actions_order"),
+    28: .standard(proto: "keep_screen_awake"),
+    29: .standard(proto: "open_player"),
+    30: .standard(proto: "intelligent_resumption"),
+    31: .standard(proto: "play_up_next_on_tap"),
+    32: .standard(proto: "remote_skip_chapters"),
+    33: .standard(proto: "playback_actions"),
+    34: .standard(proto: "legacy_bluetooth"),
+    35: .standard(proto: "multi_select_gesture"),
+    36: .standard(proto: "chapter_titles"),
+    37: .same(proto: "notifications"),
+    38: .standard(proto: "notification_actions"),
+    39: .standard(proto: "play_over_notifications"),
+    40: .standard(proto: "hide_notification_on_pause"),
+    41: .standard(proto: "app_badge"),
+    42: .standard(proto: "app_badge_filter"),
+    43: .standard(proto: "auto_archive_played"),
+    44: .standard(proto: "auto_archive_inactive"),
+    45: .standard(proto: "auto_up_next_limit"),
+    46: .standard(proto: "auto_up_next_limit_reached"),
+    47: .standard(proto: "warn_data_usage"),
+    48: .standard(proto: "files_auto_up_next"),
+    49: .standard(proto: "files_after_playing_delete_local"),
+    50: .standard(proto: "files_after_playing_delete_cloud"),
+    51: .standard(proto: "privacy_analytics"),
+    52: .standard(proto: "privacy_crash_reports"),
+    53: .standard(proto: "privacy_link_account"),
+    54: .standard(proto: "player_shelf"),
+    55: .standard(proto: "auto_subscribe_to_played"),
+    56: .standard(proto: "auto_show_played"),
+    57: .standard(proto: "auto_play_enabled"),
+    58: .standard(proto: "auto_play_last_list_uuid"),
+    59: .standard(proto: "trim_silence"),
   ]
 
   fileprivate class _StorageClass {
-    var _gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _gridOrder: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _showPlayed: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _theme: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _skipForward: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _skipBack: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _webVersion: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _language: SwiftProtobuf.Google_Protobuf_StringValue? = nil
-    var _recommendationsOn: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _streamByDefault: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _useEmbeddedArtwork: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _playbackSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
-    var _silenceRemoval: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _volumeBoost: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _badges: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
-    var _freeGiftAcknowledgement: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _marketingOptIn: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _autoArchivePlayedEpisodes: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _autoArchiveIncludesStarred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
-    var _region: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _gridLayout: Api_Int32Setting? = nil
+    var _gridOrder: Api_Int32Setting? = nil
+    var _showPlayed: Api_Int32Setting? = nil
+    var _theme: Api_Int32Setting? = nil
+    var _skipForward: Api_Int32Setting? = nil
+    var _skipBack: Api_Int32Setting? = nil
+    var _webVersion: Api_Int32Setting? = nil
+    var _language: Api_StringSetting? = nil
+    var _recommendationsOn: Api_BoolSetting? = nil
+    var _useEmbeddedArtwork: Api_BoolSetting? = nil
+    var _playbackSpeed: Api_DoubleSetting? = nil
+    var _volumeBoost: Api_BoolSetting? = nil
+    var _badges: Api_Int32Setting? = nil
+    var _freeGiftAcknowledgement: Api_BoolSetting? = nil
+    var _marketingOptIn: Api_BoolSetting? = nil
+    var _autoArchivePlayedEpisodes: Api_BoolSetting? = nil
+    var _autoArchiveIncludesStarred: Api_BoolSetting? = nil
+    var _region: Api_StringSetting? = nil
+    var _rowAction: Api_Int32Setting? = nil
+    var _upNextSwipe: Api_Int32Setting? = nil
+    var _episodeGrouping: Api_Int32Setting? = nil
+    var _showArchived: Api_BoolSetting? = nil
+    var _openLinks: Api_BoolSetting? = nil
+    var _mediaActions: Api_BoolSetting? = nil
+    var _mediaActionsOrder: Api_StringSetting? = nil
+    var _keepScreenAwake: Api_BoolSetting? = nil
+    var _openPlayer: Api_BoolSetting? = nil
+    var _intelligentResumption: Api_BoolSetting? = nil
+    var _playUpNextOnTap: Api_BoolSetting? = nil
+    var _remoteSkipChapters: Api_BoolSetting? = nil
+    var _playbackActions: Api_BoolSetting? = nil
+    var _legacyBluetooth: Api_BoolSetting? = nil
+    var _multiSelectGesture: Api_BoolSetting? = nil
+    var _chapterTitles: Api_BoolSetting? = nil
+    var _notifications: Api_BoolSetting? = nil
+    var _notificationActions: Api_StringSetting? = nil
+    var _playOverNotifications: Api_Int32Setting? = nil
+    var _hideNotificationOnPause: Api_BoolSetting? = nil
+    var _appBadge: Api_Int32Setting? = nil
+    var _appBadgeFilter: Api_StringSetting? = nil
+    var _autoArchivePlayed: Api_Int32Setting? = nil
+    var _autoArchiveInactive: Api_Int32Setting? = nil
+    var _autoUpNextLimit: Api_Int32Setting? = nil
+    var _autoUpNextLimitReached: Api_Int32Setting? = nil
+    var _warnDataUsage: Api_BoolSetting? = nil
+    var _filesAutoUpNext: Api_BoolSetting? = nil
+    var _filesAfterPlayingDeleteLocal: Api_BoolSetting? = nil
+    var _filesAfterPlayingDeleteCloud: Api_BoolSetting? = nil
+    var _privacyAnalytics: Api_BoolSetting? = nil
+    var _privacyCrashReports: Api_BoolSetting? = nil
+    var _privacyLinkAccount: Api_BoolSetting? = nil
+    var _playerShelf: Api_StringSetting? = nil
+    var _autoSubscribeToPlayed: Api_BoolSetting? = nil
+    var _autoShowPlayed: Api_BoolSetting? = nil
+    var _autoPlayEnabled: Api_BoolSetting? = nil
+    var _autoPlayLastListUuid: Api_StringSetting? = nil
+    var _trimSilence: Api_Int32Setting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -5799,10 +7280,8 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       _webVersion = source._webVersion
       _language = source._language
       _recommendationsOn = source._recommendationsOn
-      _streamByDefault = source._streamByDefault
       _useEmbeddedArtwork = source._useEmbeddedArtwork
       _playbackSpeed = source._playbackSpeed
-      _silenceRemoval = source._silenceRemoval
       _volumeBoost = source._volumeBoost
       _badges = source._badges
       _freeGiftAcknowledgement = source._freeGiftAcknowledgement
@@ -5810,6 +7289,45 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       _autoArchivePlayedEpisodes = source._autoArchivePlayedEpisodes
       _autoArchiveIncludesStarred = source._autoArchiveIncludesStarred
       _region = source._region
+      _rowAction = source._rowAction
+      _upNextSwipe = source._upNextSwipe
+      _episodeGrouping = source._episodeGrouping
+      _showArchived = source._showArchived
+      _openLinks = source._openLinks
+      _mediaActions = source._mediaActions
+      _mediaActionsOrder = source._mediaActionsOrder
+      _keepScreenAwake = source._keepScreenAwake
+      _openPlayer = source._openPlayer
+      _intelligentResumption = source._intelligentResumption
+      _playUpNextOnTap = source._playUpNextOnTap
+      _remoteSkipChapters = source._remoteSkipChapters
+      _playbackActions = source._playbackActions
+      _legacyBluetooth = source._legacyBluetooth
+      _multiSelectGesture = source._multiSelectGesture
+      _chapterTitles = source._chapterTitles
+      _notifications = source._notifications
+      _notificationActions = source._notificationActions
+      _playOverNotifications = source._playOverNotifications
+      _hideNotificationOnPause = source._hideNotificationOnPause
+      _appBadge = source._appBadge
+      _appBadgeFilter = source._appBadgeFilter
+      _autoArchivePlayed = source._autoArchivePlayed
+      _autoArchiveInactive = source._autoArchiveInactive
+      _autoUpNextLimit = source._autoUpNextLimit
+      _autoUpNextLimitReached = source._autoUpNextLimitReached
+      _warnDataUsage = source._warnDataUsage
+      _filesAutoUpNext = source._filesAutoUpNext
+      _filesAfterPlayingDeleteLocal = source._filesAfterPlayingDeleteLocal
+      _filesAfterPlayingDeleteCloud = source._filesAfterPlayingDeleteCloud
+      _privacyAnalytics = source._privacyAnalytics
+      _privacyCrashReports = source._privacyCrashReports
+      _privacyLinkAccount = source._privacyLinkAccount
+      _playerShelf = source._playerShelf
+      _autoSubscribeToPlayed = source._autoSubscribeToPlayed
+      _autoShowPlayed = source._autoShowPlayed
+      _autoPlayEnabled = source._autoPlayEnabled
+      _autoPlayLastListUuid = source._autoPlayLastListUuid
+      _trimSilence = source._trimSilence
     }
   }
 
@@ -5837,10 +7355,8 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         case 7: try { try decoder.decodeSingularMessageField(value: &_storage._webVersion) }()
         case 8: try { try decoder.decodeSingularMessageField(value: &_storage._language) }()
         case 9: try { try decoder.decodeSingularMessageField(value: &_storage._recommendationsOn) }()
-        case 10: try { try decoder.decodeSingularMessageField(value: &_storage._streamByDefault) }()
         case 11: try { try decoder.decodeSingularMessageField(value: &_storage._useEmbeddedArtwork) }()
         case 12: try { try decoder.decodeSingularMessageField(value: &_storage._playbackSpeed) }()
-        case 13: try { try decoder.decodeSingularMessageField(value: &_storage._silenceRemoval) }()
         case 14: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoost) }()
         case 15: try { try decoder.decodeSingularMessageField(value: &_storage._badges) }()
         case 16: try { try decoder.decodeSingularMessageField(value: &_storage._freeGiftAcknowledgement) }()
@@ -5848,6 +7364,45 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         case 18: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayedEpisodes) }()
         case 19: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveIncludesStarred) }()
         case 20: try { try decoder.decodeSingularMessageField(value: &_storage._region) }()
+        case 21: try { try decoder.decodeSingularMessageField(value: &_storage._rowAction) }()
+        case 22: try { try decoder.decodeSingularMessageField(value: &_storage._upNextSwipe) }()
+        case 23: try { try decoder.decodeSingularMessageField(value: &_storage._episodeGrouping) }()
+        case 24: try { try decoder.decodeSingularMessageField(value: &_storage._showArchived) }()
+        case 25: try { try decoder.decodeSingularMessageField(value: &_storage._openLinks) }()
+        case 26: try { try decoder.decodeSingularMessageField(value: &_storage._mediaActions) }()
+        case 27: try { try decoder.decodeSingularMessageField(value: &_storage._mediaActionsOrder) }()
+        case 28: try { try decoder.decodeSingularMessageField(value: &_storage._keepScreenAwake) }()
+        case 29: try { try decoder.decodeSingularMessageField(value: &_storage._openPlayer) }()
+        case 30: try { try decoder.decodeSingularMessageField(value: &_storage._intelligentResumption) }()
+        case 31: try { try decoder.decodeSingularMessageField(value: &_storage._playUpNextOnTap) }()
+        case 32: try { try decoder.decodeSingularMessageField(value: &_storage._remoteSkipChapters) }()
+        case 33: try { try decoder.decodeSingularMessageField(value: &_storage._playbackActions) }()
+        case 34: try { try decoder.decodeSingularMessageField(value: &_storage._legacyBluetooth) }()
+        case 35: try { try decoder.decodeSingularMessageField(value: &_storage._multiSelectGesture) }()
+        case 36: try { try decoder.decodeSingularMessageField(value: &_storage._chapterTitles) }()
+        case 37: try { try decoder.decodeSingularMessageField(value: &_storage._notifications) }()
+        case 38: try { try decoder.decodeSingularMessageField(value: &_storage._notificationActions) }()
+        case 39: try { try decoder.decodeSingularMessageField(value: &_storage._playOverNotifications) }()
+        case 40: try { try decoder.decodeSingularMessageField(value: &_storage._hideNotificationOnPause) }()
+        case 41: try { try decoder.decodeSingularMessageField(value: &_storage._appBadge) }()
+        case 42: try { try decoder.decodeSingularMessageField(value: &_storage._appBadgeFilter) }()
+        case 43: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayed) }()
+        case 44: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveInactive) }()
+        case 45: try { try decoder.decodeSingularMessageField(value: &_storage._autoUpNextLimit) }()
+        case 46: try { try decoder.decodeSingularMessageField(value: &_storage._autoUpNextLimitReached) }()
+        case 47: try { try decoder.decodeSingularMessageField(value: &_storage._warnDataUsage) }()
+        case 48: try { try decoder.decodeSingularMessageField(value: &_storage._filesAutoUpNext) }()
+        case 49: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteLocal) }()
+        case 50: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteCloud) }()
+        case 51: try { try decoder.decodeSingularMessageField(value: &_storage._privacyAnalytics) }()
+        case 52: try { try decoder.decodeSingularMessageField(value: &_storage._privacyCrashReports) }()
+        case 53: try { try decoder.decodeSingularMessageField(value: &_storage._privacyLinkAccount) }()
+        case 54: try { try decoder.decodeSingularMessageField(value: &_storage._playerShelf) }()
+        case 55: try { try decoder.decodeSingularMessageField(value: &_storage._autoSubscribeToPlayed) }()
+        case 56: try { try decoder.decodeSingularMessageField(value: &_storage._autoShowPlayed) }()
+        case 57: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayEnabled) }()
+        case 58: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayLastListUuid) }()
+        case 59: try { try decoder.decodeSingularMessageField(value: &_storage._trimSilence) }()
         default: break
         }
       }
@@ -5887,17 +7442,11 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       try { if let v = _storage._recommendationsOn {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
       } }()
-      try { if let v = _storage._streamByDefault {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
-      } }()
       try { if let v = _storage._useEmbeddedArtwork {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
       } }()
       try { if let v = _storage._playbackSpeed {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
-      } }()
-      try { if let v = _storage._silenceRemoval {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 13)
       } }()
       try { if let v = _storage._volumeBoost {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
@@ -5920,6 +7469,639 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       try { if let v = _storage._region {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 20)
       } }()
+      try { if let v = _storage._rowAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 21)
+      } }()
+      try { if let v = _storage._upNextSwipe {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 22)
+      } }()
+      try { if let v = _storage._episodeGrouping {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 23)
+      } }()
+      try { if let v = _storage._showArchived {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 24)
+      } }()
+      try { if let v = _storage._openLinks {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 25)
+      } }()
+      try { if let v = _storage._mediaActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 26)
+      } }()
+      try { if let v = _storage._mediaActionsOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 27)
+      } }()
+      try { if let v = _storage._keepScreenAwake {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 28)
+      } }()
+      try { if let v = _storage._openPlayer {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 29)
+      } }()
+      try { if let v = _storage._intelligentResumption {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 30)
+      } }()
+      try { if let v = _storage._playUpNextOnTap {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 31)
+      } }()
+      try { if let v = _storage._remoteSkipChapters {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 32)
+      } }()
+      try { if let v = _storage._playbackActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 33)
+      } }()
+      try { if let v = _storage._legacyBluetooth {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 34)
+      } }()
+      try { if let v = _storage._multiSelectGesture {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 35)
+      } }()
+      try { if let v = _storage._chapterTitles {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 36)
+      } }()
+      try { if let v = _storage._notifications {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 37)
+      } }()
+      try { if let v = _storage._notificationActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 38)
+      } }()
+      try { if let v = _storage._playOverNotifications {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 39)
+      } }()
+      try { if let v = _storage._hideNotificationOnPause {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 40)
+      } }()
+      try { if let v = _storage._appBadge {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 41)
+      } }()
+      try { if let v = _storage._appBadgeFilter {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 42)
+      } }()
+      try { if let v = _storage._autoArchivePlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 43)
+      } }()
+      try { if let v = _storage._autoArchiveInactive {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 44)
+      } }()
+      try { if let v = _storage._autoUpNextLimit {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 45)
+      } }()
+      try { if let v = _storage._autoUpNextLimitReached {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 46)
+      } }()
+      try { if let v = _storage._warnDataUsage {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 47)
+      } }()
+      try { if let v = _storage._filesAutoUpNext {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 48)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteLocal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 49)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteCloud {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 50)
+      } }()
+      try { if let v = _storage._privacyAnalytics {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
+      } }()
+      try { if let v = _storage._privacyCrashReports {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 52)
+      } }()
+      try { if let v = _storage._privacyLinkAccount {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
+      } }()
+      try { if let v = _storage._playerShelf {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 54)
+      } }()
+      try { if let v = _storage._autoSubscribeToPlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 55)
+      } }()
+      try { if let v = _storage._autoShowPlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 56)
+      } }()
+      try { if let v = _storage._autoPlayEnabled {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 57)
+      } }()
+      try { if let v = _storage._autoPlayLastListUuid {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 58)
+      } }()
+      try { if let v = _storage._trimSilence {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 59)
+      } }()
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_ChangeableSettings, rhs: Api_ChangeableSettings) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._gridLayout != rhs_storage._gridLayout {return false}
+        if _storage._gridOrder != rhs_storage._gridOrder {return false}
+        if _storage._showPlayed != rhs_storage._showPlayed {return false}
+        if _storage._theme != rhs_storage._theme {return false}
+        if _storage._skipForward != rhs_storage._skipForward {return false}
+        if _storage._skipBack != rhs_storage._skipBack {return false}
+        if _storage._webVersion != rhs_storage._webVersion {return false}
+        if _storage._language != rhs_storage._language {return false}
+        if _storage._recommendationsOn != rhs_storage._recommendationsOn {return false}
+        if _storage._useEmbeddedArtwork != rhs_storage._useEmbeddedArtwork {return false}
+        if _storage._playbackSpeed != rhs_storage._playbackSpeed {return false}
+        if _storage._volumeBoost != rhs_storage._volumeBoost {return false}
+        if _storage._badges != rhs_storage._badges {return false}
+        if _storage._freeGiftAcknowledgement != rhs_storage._freeGiftAcknowledgement {return false}
+        if _storage._marketingOptIn != rhs_storage._marketingOptIn {return false}
+        if _storage._autoArchivePlayedEpisodes != rhs_storage._autoArchivePlayedEpisodes {return false}
+        if _storage._autoArchiveIncludesStarred != rhs_storage._autoArchiveIncludesStarred {return false}
+        if _storage._region != rhs_storage._region {return false}
+        if _storage._rowAction != rhs_storage._rowAction {return false}
+        if _storage._upNextSwipe != rhs_storage._upNextSwipe {return false}
+        if _storage._episodeGrouping != rhs_storage._episodeGrouping {return false}
+        if _storage._showArchived != rhs_storage._showArchived {return false}
+        if _storage._openLinks != rhs_storage._openLinks {return false}
+        if _storage._mediaActions != rhs_storage._mediaActions {return false}
+        if _storage._mediaActionsOrder != rhs_storage._mediaActionsOrder {return false}
+        if _storage._keepScreenAwake != rhs_storage._keepScreenAwake {return false}
+        if _storage._openPlayer != rhs_storage._openPlayer {return false}
+        if _storage._intelligentResumption != rhs_storage._intelligentResumption {return false}
+        if _storage._playUpNextOnTap != rhs_storage._playUpNextOnTap {return false}
+        if _storage._remoteSkipChapters != rhs_storage._remoteSkipChapters {return false}
+        if _storage._playbackActions != rhs_storage._playbackActions {return false}
+        if _storage._legacyBluetooth != rhs_storage._legacyBluetooth {return false}
+        if _storage._multiSelectGesture != rhs_storage._multiSelectGesture {return false}
+        if _storage._chapterTitles != rhs_storage._chapterTitles {return false}
+        if _storage._notifications != rhs_storage._notifications {return false}
+        if _storage._notificationActions != rhs_storage._notificationActions {return false}
+        if _storage._playOverNotifications != rhs_storage._playOverNotifications {return false}
+        if _storage._hideNotificationOnPause != rhs_storage._hideNotificationOnPause {return false}
+        if _storage._appBadge != rhs_storage._appBadge {return false}
+        if _storage._appBadgeFilter != rhs_storage._appBadgeFilter {return false}
+        if _storage._autoArchivePlayed != rhs_storage._autoArchivePlayed {return false}
+        if _storage._autoArchiveInactive != rhs_storage._autoArchiveInactive {return false}
+        if _storage._autoUpNextLimit != rhs_storage._autoUpNextLimit {return false}
+        if _storage._autoUpNextLimitReached != rhs_storage._autoUpNextLimitReached {return false}
+        if _storage._warnDataUsage != rhs_storage._warnDataUsage {return false}
+        if _storage._filesAutoUpNext != rhs_storage._filesAutoUpNext {return false}
+        if _storage._filesAfterPlayingDeleteLocal != rhs_storage._filesAfterPlayingDeleteLocal {return false}
+        if _storage._filesAfterPlayingDeleteCloud != rhs_storage._filesAfterPlayingDeleteCloud {return false}
+        if _storage._privacyAnalytics != rhs_storage._privacyAnalytics {return false}
+        if _storage._privacyCrashReports != rhs_storage._privacyCrashReports {return false}
+        if _storage._privacyLinkAccount != rhs_storage._privacyLinkAccount {return false}
+        if _storage._playerShelf != rhs_storage._playerShelf {return false}
+        if _storage._autoSubscribeToPlayed != rhs_storage._autoSubscribeToPlayed {return false}
+        if _storage._autoShowPlayed != rhs_storage._autoShowPlayed {return false}
+        if _storage._autoPlayEnabled != rhs_storage._autoPlayEnabled {return false}
+        if _storage._autoPlayLastListUuid != rhs_storage._autoPlayLastListUuid {return false}
+        if _storage._trimSilence != rhs_storage._trimSilence {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".NamedSettings"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "grid_layout"),
+    2: .standard(proto: "grid_order"),
+    3: .standard(proto: "show_played"),
+    4: .same(proto: "theme"),
+    5: .standard(proto: "skip_forward"),
+    6: .standard(proto: "skip_back"),
+    7: .standard(proto: "web_version"),
+    8: .same(proto: "language"),
+    9: .standard(proto: "recommendations_on"),
+    11: .standard(proto: "use_embedded_artwork"),
+    12: .standard(proto: "playback_speed"),
+    14: .standard(proto: "volume_boost"),
+    15: .same(proto: "badges"),
+    16: .standard(proto: "free_gift_acknowledgement"),
+    17: .standard(proto: "marketing_opt_in"),
+    18: .standard(proto: "auto_archive_played_episodes"),
+    19: .standard(proto: "auto_archive_includes_starred"),
+    20: .same(proto: "region"),
+    21: .standard(proto: "row_action"),
+    22: .standard(proto: "up_next_swipe"),
+    23: .standard(proto: "episode_grouping"),
+    24: .standard(proto: "show_archived"),
+    25: .standard(proto: "open_links"),
+    26: .standard(proto: "media_actions"),
+    27: .standard(proto: "media_actions_order"),
+    28: .standard(proto: "keep_screen_awake"),
+    29: .standard(proto: "open_player"),
+    30: .standard(proto: "intelligent_resumption"),
+    31: .standard(proto: "play_up_next_on_tap"),
+    32: .standard(proto: "remote_skip_chapters"),
+    33: .standard(proto: "playback_actions"),
+    34: .standard(proto: "legacy_bluetooth"),
+    35: .standard(proto: "multi_select_gesture"),
+    36: .standard(proto: "chapter_titles"),
+    37: .same(proto: "notifications"),
+    38: .standard(proto: "notification_actions"),
+    39: .standard(proto: "play_over_notifications"),
+    40: .standard(proto: "hide_notification_on_pause"),
+    41: .standard(proto: "app_badge"),
+    42: .standard(proto: "app_badge_filter"),
+    43: .standard(proto: "auto_archive_played"),
+    44: .standard(proto: "auto_archive_inactive"),
+    45: .standard(proto: "auto_up_next_limit"),
+    46: .standard(proto: "auto_up_next_limit_reached"),
+    47: .standard(proto: "warn_data_usage"),
+    48: .standard(proto: "files_auto_up_next"),
+    49: .standard(proto: "files_after_playing_delete_local"),
+    50: .standard(proto: "files_after_playing_delete_cloud"),
+    51: .standard(proto: "privacy_analytics"),
+    52: .standard(proto: "privacy_crash_reports"),
+    53: .standard(proto: "privacy_link_account"),
+    54: .standard(proto: "player_shelf"),
+    55: .standard(proto: "auto_subscribe_to_played"),
+    56: .standard(proto: "auto_show_played"),
+    57: .standard(proto: "auto_play_enabled"),
+    58: .standard(proto: "auto_play_last_list_uuid"),
+    59: .standard(proto: "trim_silence"),
+  ]
+
+  fileprivate class _StorageClass {
+    var _gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _gridOrder: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _showPlayed: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _theme: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _skipForward: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _skipBack: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _webVersion: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _language: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _recommendationsOn: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _useEmbeddedArtwork: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _playbackSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue? = nil
+    var _volumeBoost: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _badges: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _freeGiftAcknowledgement: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _marketingOptIn: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoArchivePlayedEpisodes: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoArchiveIncludesStarred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _region: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _rowAction: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _upNextSwipe: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _episodeGrouping: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _showArchived: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _openLinks: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _mediaActions: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _mediaActionsOrder: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _keepScreenAwake: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _openPlayer: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _intelligentResumption: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _playUpNextOnTap: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _remoteSkipChapters: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _playbackActions: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _legacyBluetooth: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _multiSelectGesture: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _chapterTitles: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _notifications: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _notificationActions: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _playOverNotifications: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _hideNotificationOnPause: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _appBadge: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _appBadgeFilter: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _autoArchivePlayed: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _autoArchiveInactive: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _autoUpNextLimit: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _autoUpNextLimitReached: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _warnDataUsage: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _filesAutoUpNext: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _filesAfterPlayingDeleteLocal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _filesAfterPlayingDeleteCloud: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _privacyAnalytics: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _privacyCrashReports: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _privacyLinkAccount: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _playerShelf: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _autoSubscribeToPlayed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoShowPlayed: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoPlayEnabled: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoPlayLastListUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _trimSilence: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+
+    static let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _gridLayout = source._gridLayout
+      _gridOrder = source._gridOrder
+      _showPlayed = source._showPlayed
+      _theme = source._theme
+      _skipForward = source._skipForward
+      _skipBack = source._skipBack
+      _webVersion = source._webVersion
+      _language = source._language
+      _recommendationsOn = source._recommendationsOn
+      _useEmbeddedArtwork = source._useEmbeddedArtwork
+      _playbackSpeed = source._playbackSpeed
+      _volumeBoost = source._volumeBoost
+      _badges = source._badges
+      _freeGiftAcknowledgement = source._freeGiftAcknowledgement
+      _marketingOptIn = source._marketingOptIn
+      _autoArchivePlayedEpisodes = source._autoArchivePlayedEpisodes
+      _autoArchiveIncludesStarred = source._autoArchiveIncludesStarred
+      _region = source._region
+      _rowAction = source._rowAction
+      _upNextSwipe = source._upNextSwipe
+      _episodeGrouping = source._episodeGrouping
+      _showArchived = source._showArchived
+      _openLinks = source._openLinks
+      _mediaActions = source._mediaActions
+      _mediaActionsOrder = source._mediaActionsOrder
+      _keepScreenAwake = source._keepScreenAwake
+      _openPlayer = source._openPlayer
+      _intelligentResumption = source._intelligentResumption
+      _playUpNextOnTap = source._playUpNextOnTap
+      _remoteSkipChapters = source._remoteSkipChapters
+      _playbackActions = source._playbackActions
+      _legacyBluetooth = source._legacyBluetooth
+      _multiSelectGesture = source._multiSelectGesture
+      _chapterTitles = source._chapterTitles
+      _notifications = source._notifications
+      _notificationActions = source._notificationActions
+      _playOverNotifications = source._playOverNotifications
+      _hideNotificationOnPause = source._hideNotificationOnPause
+      _appBadge = source._appBadge
+      _appBadgeFilter = source._appBadgeFilter
+      _autoArchivePlayed = source._autoArchivePlayed
+      _autoArchiveInactive = source._autoArchiveInactive
+      _autoUpNextLimit = source._autoUpNextLimit
+      _autoUpNextLimitReached = source._autoUpNextLimitReached
+      _warnDataUsage = source._warnDataUsage
+      _filesAutoUpNext = source._filesAutoUpNext
+      _filesAfterPlayingDeleteLocal = source._filesAfterPlayingDeleteLocal
+      _filesAfterPlayingDeleteCloud = source._filesAfterPlayingDeleteCloud
+      _privacyAnalytics = source._privacyAnalytics
+      _privacyCrashReports = source._privacyCrashReports
+      _privacyLinkAccount = source._privacyLinkAccount
+      _playerShelf = source._playerShelf
+      _autoSubscribeToPlayed = source._autoSubscribeToPlayed
+      _autoShowPlayed = source._autoShowPlayed
+      _autoPlayEnabled = source._autoPlayEnabled
+      _autoPlayLastListUuid = source._autoPlayLastListUuid
+      _trimSilence = source._trimSilence
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        // The use of inline closures is to circumvent an issue where the compiler
+        // allocates stack space for every case branch when no optimizations are
+        // enabled. https://github.com/apple/swift-protobuf/issues/1034
+        switch fieldNumber {
+        case 1: try { try decoder.decodeSingularMessageField(value: &_storage._gridLayout) }()
+        case 2: try { try decoder.decodeSingularMessageField(value: &_storage._gridOrder) }()
+        case 3: try { try decoder.decodeSingularMessageField(value: &_storage._showPlayed) }()
+        case 4: try { try decoder.decodeSingularMessageField(value: &_storage._theme) }()
+        case 5: try { try decoder.decodeSingularMessageField(value: &_storage._skipForward) }()
+        case 6: try { try decoder.decodeSingularMessageField(value: &_storage._skipBack) }()
+        case 7: try { try decoder.decodeSingularMessageField(value: &_storage._webVersion) }()
+        case 8: try { try decoder.decodeSingularMessageField(value: &_storage._language) }()
+        case 9: try { try decoder.decodeSingularMessageField(value: &_storage._recommendationsOn) }()
+        case 11: try { try decoder.decodeSingularMessageField(value: &_storage._useEmbeddedArtwork) }()
+        case 12: try { try decoder.decodeSingularMessageField(value: &_storage._playbackSpeed) }()
+        case 14: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoost) }()
+        case 15: try { try decoder.decodeSingularMessageField(value: &_storage._badges) }()
+        case 16: try { try decoder.decodeSingularMessageField(value: &_storage._freeGiftAcknowledgement) }()
+        case 17: try { try decoder.decodeSingularMessageField(value: &_storage._marketingOptIn) }()
+        case 18: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayedEpisodes) }()
+        case 19: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveIncludesStarred) }()
+        case 20: try { try decoder.decodeSingularMessageField(value: &_storage._region) }()
+        case 21: try { try decoder.decodeSingularMessageField(value: &_storage._rowAction) }()
+        case 22: try { try decoder.decodeSingularMessageField(value: &_storage._upNextSwipe) }()
+        case 23: try { try decoder.decodeSingularMessageField(value: &_storage._episodeGrouping) }()
+        case 24: try { try decoder.decodeSingularMessageField(value: &_storage._showArchived) }()
+        case 25: try { try decoder.decodeSingularMessageField(value: &_storage._openLinks) }()
+        case 26: try { try decoder.decodeSingularMessageField(value: &_storage._mediaActions) }()
+        case 27: try { try decoder.decodeSingularMessageField(value: &_storage._mediaActionsOrder) }()
+        case 28: try { try decoder.decodeSingularMessageField(value: &_storage._keepScreenAwake) }()
+        case 29: try { try decoder.decodeSingularMessageField(value: &_storage._openPlayer) }()
+        case 30: try { try decoder.decodeSingularMessageField(value: &_storage._intelligentResumption) }()
+        case 31: try { try decoder.decodeSingularMessageField(value: &_storage._playUpNextOnTap) }()
+        case 32: try { try decoder.decodeSingularMessageField(value: &_storage._remoteSkipChapters) }()
+        case 33: try { try decoder.decodeSingularMessageField(value: &_storage._playbackActions) }()
+        case 34: try { try decoder.decodeSingularMessageField(value: &_storage._legacyBluetooth) }()
+        case 35: try { try decoder.decodeSingularMessageField(value: &_storage._multiSelectGesture) }()
+        case 36: try { try decoder.decodeSingularMessageField(value: &_storage._chapterTitles) }()
+        case 37: try { try decoder.decodeSingularMessageField(value: &_storage._notifications) }()
+        case 38: try { try decoder.decodeSingularMessageField(value: &_storage._notificationActions) }()
+        case 39: try { try decoder.decodeSingularMessageField(value: &_storage._playOverNotifications) }()
+        case 40: try { try decoder.decodeSingularMessageField(value: &_storage._hideNotificationOnPause) }()
+        case 41: try { try decoder.decodeSingularMessageField(value: &_storage._appBadge) }()
+        case 42: try { try decoder.decodeSingularMessageField(value: &_storage._appBadgeFilter) }()
+        case 43: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayed) }()
+        case 44: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveInactive) }()
+        case 45: try { try decoder.decodeSingularMessageField(value: &_storage._autoUpNextLimit) }()
+        case 46: try { try decoder.decodeSingularMessageField(value: &_storage._autoUpNextLimitReached) }()
+        case 47: try { try decoder.decodeSingularMessageField(value: &_storage._warnDataUsage) }()
+        case 48: try { try decoder.decodeSingularMessageField(value: &_storage._filesAutoUpNext) }()
+        case 49: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteLocal) }()
+        case 50: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteCloud) }()
+        case 51: try { try decoder.decodeSingularMessageField(value: &_storage._privacyAnalytics) }()
+        case 52: try { try decoder.decodeSingularMessageField(value: &_storage._privacyCrashReports) }()
+        case 53: try { try decoder.decodeSingularMessageField(value: &_storage._privacyLinkAccount) }()
+        case 54: try { try decoder.decodeSingularMessageField(value: &_storage._playerShelf) }()
+        case 55: try { try decoder.decodeSingularMessageField(value: &_storage._autoSubscribeToPlayed) }()
+        case 56: try { try decoder.decodeSingularMessageField(value: &_storage._autoShowPlayed) }()
+        case 57: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayEnabled) }()
+        case 58: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayLastListUuid) }()
+        case 59: try { try decoder.decodeSingularMessageField(value: &_storage._trimSilence) }()
+        default: break
+        }
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every if/case branch local when no optimizations
+      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+      // https://github.com/apple/swift-protobuf/issues/1182
+      try { if let v = _storage._gridLayout {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      } }()
+      try { if let v = _storage._gridOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      } }()
+      try { if let v = _storage._showPlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+      } }()
+      try { if let v = _storage._theme {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      } }()
+      try { if let v = _storage._skipForward {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+      } }()
+      try { if let v = _storage._skipBack {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+      } }()
+      try { if let v = _storage._webVersion {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+      } }()
+      try { if let v = _storage._language {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+      } }()
+      try { if let v = _storage._recommendationsOn {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
+      } }()
+      try { if let v = _storage._useEmbeddedArtwork {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
+      } }()
+      try { if let v = _storage._playbackSpeed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
+      } }()
+      try { if let v = _storage._volumeBoost {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
+      } }()
+      try { if let v = _storage._badges {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 15)
+      } }()
+      try { if let v = _storage._freeGiftAcknowledgement {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 16)
+      } }()
+      try { if let v = _storage._marketingOptIn {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 17)
+      } }()
+      try { if let v = _storage._autoArchivePlayedEpisodes {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 18)
+      } }()
+      try { if let v = _storage._autoArchiveIncludesStarred {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 19)
+      } }()
+      try { if let v = _storage._region {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 20)
+      } }()
+      try { if let v = _storage._rowAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 21)
+      } }()
+      try { if let v = _storage._upNextSwipe {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 22)
+      } }()
+      try { if let v = _storage._episodeGrouping {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 23)
+      } }()
+      try { if let v = _storage._showArchived {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 24)
+      } }()
+      try { if let v = _storage._openLinks {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 25)
+      } }()
+      try { if let v = _storage._mediaActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 26)
+      } }()
+      try { if let v = _storage._mediaActionsOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 27)
+      } }()
+      try { if let v = _storage._keepScreenAwake {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 28)
+      } }()
+      try { if let v = _storage._openPlayer {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 29)
+      } }()
+      try { if let v = _storage._intelligentResumption {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 30)
+      } }()
+      try { if let v = _storage._playUpNextOnTap {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 31)
+      } }()
+      try { if let v = _storage._remoteSkipChapters {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 32)
+      } }()
+      try { if let v = _storage._playbackActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 33)
+      } }()
+      try { if let v = _storage._legacyBluetooth {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 34)
+      } }()
+      try { if let v = _storage._multiSelectGesture {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 35)
+      } }()
+      try { if let v = _storage._chapterTitles {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 36)
+      } }()
+      try { if let v = _storage._notifications {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 37)
+      } }()
+      try { if let v = _storage._notificationActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 38)
+      } }()
+      try { if let v = _storage._playOverNotifications {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 39)
+      } }()
+      try { if let v = _storage._hideNotificationOnPause {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 40)
+      } }()
+      try { if let v = _storage._appBadge {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 41)
+      } }()
+      try { if let v = _storage._appBadgeFilter {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 42)
+      } }()
+      try { if let v = _storage._autoArchivePlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 43)
+      } }()
+      try { if let v = _storage._autoArchiveInactive {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 44)
+      } }()
+      try { if let v = _storage._autoUpNextLimit {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 45)
+      } }()
+      try { if let v = _storage._autoUpNextLimitReached {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 46)
+      } }()
+      try { if let v = _storage._warnDataUsage {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 47)
+      } }()
+      try { if let v = _storage._filesAutoUpNext {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 48)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteLocal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 49)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteCloud {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 50)
+      } }()
+      try { if let v = _storage._privacyAnalytics {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
+      } }()
+      try { if let v = _storage._privacyCrashReports {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 52)
+      } }()
+      try { if let v = _storage._privacyLinkAccount {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
+      } }()
+      try { if let v = _storage._playerShelf {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 54)
+      } }()
+      try { if let v = _storage._autoSubscribeToPlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 55)
+      } }()
+      try { if let v = _storage._autoShowPlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 56)
+      } }()
+      try { if let v = _storage._autoPlayEnabled {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 57)
+      } }()
+      try { if let v = _storage._autoPlayLastListUuid {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 58)
+      } }()
+      try { if let v = _storage._trimSilence {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 59)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -5938,10 +8120,8 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         if _storage._webVersion != rhs_storage._webVersion {return false}
         if _storage._language != rhs_storage._language {return false}
         if _storage._recommendationsOn != rhs_storage._recommendationsOn {return false}
-        if _storage._streamByDefault != rhs_storage._streamByDefault {return false}
         if _storage._useEmbeddedArtwork != rhs_storage._useEmbeddedArtwork {return false}
         if _storage._playbackSpeed != rhs_storage._playbackSpeed {return false}
-        if _storage._silenceRemoval != rhs_storage._silenceRemoval {return false}
         if _storage._volumeBoost != rhs_storage._volumeBoost {return false}
         if _storage._badges != rhs_storage._badges {return false}
         if _storage._freeGiftAcknowledgement != rhs_storage._freeGiftAcknowledgement {return false}
@@ -5949,6 +8129,45 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         if _storage._autoArchivePlayedEpisodes != rhs_storage._autoArchivePlayedEpisodes {return false}
         if _storage._autoArchiveIncludesStarred != rhs_storage._autoArchiveIncludesStarred {return false}
         if _storage._region != rhs_storage._region {return false}
+        if _storage._rowAction != rhs_storage._rowAction {return false}
+        if _storage._upNextSwipe != rhs_storage._upNextSwipe {return false}
+        if _storage._episodeGrouping != rhs_storage._episodeGrouping {return false}
+        if _storage._showArchived != rhs_storage._showArchived {return false}
+        if _storage._openLinks != rhs_storage._openLinks {return false}
+        if _storage._mediaActions != rhs_storage._mediaActions {return false}
+        if _storage._mediaActionsOrder != rhs_storage._mediaActionsOrder {return false}
+        if _storage._keepScreenAwake != rhs_storage._keepScreenAwake {return false}
+        if _storage._openPlayer != rhs_storage._openPlayer {return false}
+        if _storage._intelligentResumption != rhs_storage._intelligentResumption {return false}
+        if _storage._playUpNextOnTap != rhs_storage._playUpNextOnTap {return false}
+        if _storage._remoteSkipChapters != rhs_storage._remoteSkipChapters {return false}
+        if _storage._playbackActions != rhs_storage._playbackActions {return false}
+        if _storage._legacyBluetooth != rhs_storage._legacyBluetooth {return false}
+        if _storage._multiSelectGesture != rhs_storage._multiSelectGesture {return false}
+        if _storage._chapterTitles != rhs_storage._chapterTitles {return false}
+        if _storage._notifications != rhs_storage._notifications {return false}
+        if _storage._notificationActions != rhs_storage._notificationActions {return false}
+        if _storage._playOverNotifications != rhs_storage._playOverNotifications {return false}
+        if _storage._hideNotificationOnPause != rhs_storage._hideNotificationOnPause {return false}
+        if _storage._appBadge != rhs_storage._appBadge {return false}
+        if _storage._appBadgeFilter != rhs_storage._appBadgeFilter {return false}
+        if _storage._autoArchivePlayed != rhs_storage._autoArchivePlayed {return false}
+        if _storage._autoArchiveInactive != rhs_storage._autoArchiveInactive {return false}
+        if _storage._autoUpNextLimit != rhs_storage._autoUpNextLimit {return false}
+        if _storage._autoUpNextLimitReached != rhs_storage._autoUpNextLimitReached {return false}
+        if _storage._warnDataUsage != rhs_storage._warnDataUsage {return false}
+        if _storage._filesAutoUpNext != rhs_storage._filesAutoUpNext {return false}
+        if _storage._filesAfterPlayingDeleteLocal != rhs_storage._filesAfterPlayingDeleteLocal {return false}
+        if _storage._filesAfterPlayingDeleteCloud != rhs_storage._filesAfterPlayingDeleteCloud {return false}
+        if _storage._privacyAnalytics != rhs_storage._privacyAnalytics {return false}
+        if _storage._privacyCrashReports != rhs_storage._privacyCrashReports {return false}
+        if _storage._privacyLinkAccount != rhs_storage._privacyLinkAccount {return false}
+        if _storage._playerShelf != rhs_storage._playerShelf {return false}
+        if _storage._autoSubscribeToPlayed != rhs_storage._autoSubscribeToPlayed {return false}
+        if _storage._autoShowPlayed != rhs_storage._autoShowPlayed {return false}
+        if _storage._autoPlayEnabled != rhs_storage._autoPlayEnabled {return false}
+        if _storage._autoPlayLastListUuid != rhs_storage._autoPlayLastListUuid {return false}
+        if _storage._trimSilence != rhs_storage._trimSilence {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -5970,10 +8189,8 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     7: .standard(proto: "web_version"),
     8: .same(proto: "language"),
     9: .standard(proto: "recommendations_on"),
-    10: .standard(proto: "stream_by_default"),
     11: .standard(proto: "use_embedded_artwork"),
     12: .standard(proto: "playback_speed"),
-    13: .standard(proto: "silence_removal"),
     14: .standard(proto: "volume_boost"),
     15: .same(proto: "badges"),
     16: .standard(proto: "free_gift_acknowledgement"),
@@ -5981,6 +8198,45 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     18: .standard(proto: "auto_archive_played_episodes"),
     19: .standard(proto: "auto_archive_includes_starred"),
     20: .same(proto: "region"),
+    21: .standard(proto: "row_action"),
+    22: .standard(proto: "up_next_swipe"),
+    23: .standard(proto: "episode_grouping"),
+    24: .standard(proto: "show_archived"),
+    25: .standard(proto: "open_links"),
+    26: .standard(proto: "media_actions"),
+    27: .standard(proto: "media_actions_order"),
+    28: .standard(proto: "keep_screen_awake"),
+    29: .standard(proto: "open_player"),
+    30: .standard(proto: "intelligent_resumption"),
+    31: .standard(proto: "play_up_next_on_tap"),
+    32: .standard(proto: "remote_skip_chapters"),
+    33: .standard(proto: "playback_actions"),
+    34: .standard(proto: "legacy_bluetooth"),
+    35: .standard(proto: "multi_select_gesture"),
+    36: .standard(proto: "chapter_titles"),
+    37: .same(proto: "notifications"),
+    38: .standard(proto: "notification_actions"),
+    39: .standard(proto: "play_over_notifications"),
+    40: .standard(proto: "hide_notification_on_pause"),
+    41: .standard(proto: "app_badge"),
+    42: .standard(proto: "app_badge_filter"),
+    43: .standard(proto: "auto_archive_played"),
+    44: .standard(proto: "auto_archive_inactive"),
+    45: .standard(proto: "auto_up_next_limit"),
+    46: .standard(proto: "auto_up_next_limit_reached"),
+    47: .standard(proto: "warn_data_usage"),
+    48: .standard(proto: "files_auto_up_next"),
+    49: .standard(proto: "files_after_playing_delete_local"),
+    50: .standard(proto: "files_after_playing_delete_cloud"),
+    51: .standard(proto: "privacy_analytics"),
+    52: .standard(proto: "privacy_crash_reports"),
+    53: .standard(proto: "privacy_link_account"),
+    54: .standard(proto: "player_shelf"),
+    55: .standard(proto: "auto_subscribe_to_played"),
+    56: .standard(proto: "auto_show_played"),
+    57: .standard(proto: "auto_play_enabled"),
+    58: .standard(proto: "auto_play_last_list_uuid"),
+    59: .standard(proto: "trim_silence"),
   ]
 
   fileprivate class _StorageClass {
@@ -5993,10 +8249,8 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     var _webVersion: Api_Int32Setting? = nil
     var _language: Api_StringSetting? = nil
     var _recommendationsOn: Api_BoolSetting? = nil
-    var _streamByDefault: Api_BoolSetting? = nil
     var _useEmbeddedArtwork: Api_BoolSetting? = nil
     var _playbackSpeed: Api_DoubleSetting? = nil
-    var _silenceRemoval: Api_BoolSetting? = nil
     var _volumeBoost: Api_BoolSetting? = nil
     var _badges: Api_Int32Setting? = nil
     var _freeGiftAcknowledgement: Api_BoolSetting? = nil
@@ -6004,6 +8258,45 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     var _autoArchivePlayedEpisodes: Api_BoolSetting? = nil
     var _autoArchiveIncludesStarred: Api_BoolSetting? = nil
     var _region: Api_StringSetting? = nil
+    var _rowAction: Api_Int32Setting? = nil
+    var _upNextSwipe: Api_Int32Setting? = nil
+    var _episodeGrouping: Api_Int32Setting? = nil
+    var _showArchived: Api_BoolSetting? = nil
+    var _openLinks: Api_BoolSetting? = nil
+    var _mediaActions: Api_BoolSetting? = nil
+    var _mediaActionsOrder: Api_StringSetting? = nil
+    var _keepScreenAwake: Api_BoolSetting? = nil
+    var _openPlayer: Api_BoolSetting? = nil
+    var _intelligentResumption: Api_BoolSetting? = nil
+    var _playUpNextOnTap: Api_BoolSetting? = nil
+    var _remoteSkipChapters: Api_BoolSetting? = nil
+    var _playbackActions: Api_BoolSetting? = nil
+    var _legacyBluetooth: Api_BoolSetting? = nil
+    var _multiSelectGesture: Api_BoolSetting? = nil
+    var _chapterTitles: Api_BoolSetting? = nil
+    var _notifications: Api_BoolSetting? = nil
+    var _notificationActions: Api_StringSetting? = nil
+    var _playOverNotifications: Api_Int32Setting? = nil
+    var _hideNotificationOnPause: Api_BoolSetting? = nil
+    var _appBadge: Api_Int32Setting? = nil
+    var _appBadgeFilter: Api_StringSetting? = nil
+    var _autoArchivePlayed: Api_Int32Setting? = nil
+    var _autoArchiveInactive: Api_Int32Setting? = nil
+    var _autoUpNextLimit: Api_Int32Setting? = nil
+    var _autoUpNextLimitReached: Api_Int32Setting? = nil
+    var _warnDataUsage: Api_BoolSetting? = nil
+    var _filesAutoUpNext: Api_BoolSetting? = nil
+    var _filesAfterPlayingDeleteLocal: Api_BoolSetting? = nil
+    var _filesAfterPlayingDeleteCloud: Api_BoolSetting? = nil
+    var _privacyAnalytics: Api_BoolSetting? = nil
+    var _privacyCrashReports: Api_BoolSetting? = nil
+    var _privacyLinkAccount: Api_BoolSetting? = nil
+    var _playerShelf: Api_StringSetting? = nil
+    var _autoSubscribeToPlayed: Api_BoolSetting? = nil
+    var _autoShowPlayed: Api_BoolSetting? = nil
+    var _autoPlayEnabled: Api_BoolSetting? = nil
+    var _autoPlayLastListUuid: Api_StringSetting? = nil
+    var _trimSilence: Api_Int32Setting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -6019,10 +8312,8 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       _webVersion = source._webVersion
       _language = source._language
       _recommendationsOn = source._recommendationsOn
-      _streamByDefault = source._streamByDefault
       _useEmbeddedArtwork = source._useEmbeddedArtwork
       _playbackSpeed = source._playbackSpeed
-      _silenceRemoval = source._silenceRemoval
       _volumeBoost = source._volumeBoost
       _badges = source._badges
       _freeGiftAcknowledgement = source._freeGiftAcknowledgement
@@ -6030,6 +8321,45 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       _autoArchivePlayedEpisodes = source._autoArchivePlayedEpisodes
       _autoArchiveIncludesStarred = source._autoArchiveIncludesStarred
       _region = source._region
+      _rowAction = source._rowAction
+      _upNextSwipe = source._upNextSwipe
+      _episodeGrouping = source._episodeGrouping
+      _showArchived = source._showArchived
+      _openLinks = source._openLinks
+      _mediaActions = source._mediaActions
+      _mediaActionsOrder = source._mediaActionsOrder
+      _keepScreenAwake = source._keepScreenAwake
+      _openPlayer = source._openPlayer
+      _intelligentResumption = source._intelligentResumption
+      _playUpNextOnTap = source._playUpNextOnTap
+      _remoteSkipChapters = source._remoteSkipChapters
+      _playbackActions = source._playbackActions
+      _legacyBluetooth = source._legacyBluetooth
+      _multiSelectGesture = source._multiSelectGesture
+      _chapterTitles = source._chapterTitles
+      _notifications = source._notifications
+      _notificationActions = source._notificationActions
+      _playOverNotifications = source._playOverNotifications
+      _hideNotificationOnPause = source._hideNotificationOnPause
+      _appBadge = source._appBadge
+      _appBadgeFilter = source._appBadgeFilter
+      _autoArchivePlayed = source._autoArchivePlayed
+      _autoArchiveInactive = source._autoArchiveInactive
+      _autoUpNextLimit = source._autoUpNextLimit
+      _autoUpNextLimitReached = source._autoUpNextLimitReached
+      _warnDataUsage = source._warnDataUsage
+      _filesAutoUpNext = source._filesAutoUpNext
+      _filesAfterPlayingDeleteLocal = source._filesAfterPlayingDeleteLocal
+      _filesAfterPlayingDeleteCloud = source._filesAfterPlayingDeleteCloud
+      _privacyAnalytics = source._privacyAnalytics
+      _privacyCrashReports = source._privacyCrashReports
+      _privacyLinkAccount = source._privacyLinkAccount
+      _playerShelf = source._playerShelf
+      _autoSubscribeToPlayed = source._autoSubscribeToPlayed
+      _autoShowPlayed = source._autoShowPlayed
+      _autoPlayEnabled = source._autoPlayEnabled
+      _autoPlayLastListUuid = source._autoPlayLastListUuid
+      _trimSilence = source._trimSilence
     }
   }
 
@@ -6057,10 +8387,8 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         case 7: try { try decoder.decodeSingularMessageField(value: &_storage._webVersion) }()
         case 8: try { try decoder.decodeSingularMessageField(value: &_storage._language) }()
         case 9: try { try decoder.decodeSingularMessageField(value: &_storage._recommendationsOn) }()
-        case 10: try { try decoder.decodeSingularMessageField(value: &_storage._streamByDefault) }()
         case 11: try { try decoder.decodeSingularMessageField(value: &_storage._useEmbeddedArtwork) }()
         case 12: try { try decoder.decodeSingularMessageField(value: &_storage._playbackSpeed) }()
-        case 13: try { try decoder.decodeSingularMessageField(value: &_storage._silenceRemoval) }()
         case 14: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoost) }()
         case 15: try { try decoder.decodeSingularMessageField(value: &_storage._badges) }()
         case 16: try { try decoder.decodeSingularMessageField(value: &_storage._freeGiftAcknowledgement) }()
@@ -6068,6 +8396,45 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         case 18: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayedEpisodes) }()
         case 19: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveIncludesStarred) }()
         case 20: try { try decoder.decodeSingularMessageField(value: &_storage._region) }()
+        case 21: try { try decoder.decodeSingularMessageField(value: &_storage._rowAction) }()
+        case 22: try { try decoder.decodeSingularMessageField(value: &_storage._upNextSwipe) }()
+        case 23: try { try decoder.decodeSingularMessageField(value: &_storage._episodeGrouping) }()
+        case 24: try { try decoder.decodeSingularMessageField(value: &_storage._showArchived) }()
+        case 25: try { try decoder.decodeSingularMessageField(value: &_storage._openLinks) }()
+        case 26: try { try decoder.decodeSingularMessageField(value: &_storage._mediaActions) }()
+        case 27: try { try decoder.decodeSingularMessageField(value: &_storage._mediaActionsOrder) }()
+        case 28: try { try decoder.decodeSingularMessageField(value: &_storage._keepScreenAwake) }()
+        case 29: try { try decoder.decodeSingularMessageField(value: &_storage._openPlayer) }()
+        case 30: try { try decoder.decodeSingularMessageField(value: &_storage._intelligentResumption) }()
+        case 31: try { try decoder.decodeSingularMessageField(value: &_storage._playUpNextOnTap) }()
+        case 32: try { try decoder.decodeSingularMessageField(value: &_storage._remoteSkipChapters) }()
+        case 33: try { try decoder.decodeSingularMessageField(value: &_storage._playbackActions) }()
+        case 34: try { try decoder.decodeSingularMessageField(value: &_storage._legacyBluetooth) }()
+        case 35: try { try decoder.decodeSingularMessageField(value: &_storage._multiSelectGesture) }()
+        case 36: try { try decoder.decodeSingularMessageField(value: &_storage._chapterTitles) }()
+        case 37: try { try decoder.decodeSingularMessageField(value: &_storage._notifications) }()
+        case 38: try { try decoder.decodeSingularMessageField(value: &_storage._notificationActions) }()
+        case 39: try { try decoder.decodeSingularMessageField(value: &_storage._playOverNotifications) }()
+        case 40: try { try decoder.decodeSingularMessageField(value: &_storage._hideNotificationOnPause) }()
+        case 41: try { try decoder.decodeSingularMessageField(value: &_storage._appBadge) }()
+        case 42: try { try decoder.decodeSingularMessageField(value: &_storage._appBadgeFilter) }()
+        case 43: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayed) }()
+        case 44: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveInactive) }()
+        case 45: try { try decoder.decodeSingularMessageField(value: &_storage._autoUpNextLimit) }()
+        case 46: try { try decoder.decodeSingularMessageField(value: &_storage._autoUpNextLimitReached) }()
+        case 47: try { try decoder.decodeSingularMessageField(value: &_storage._warnDataUsage) }()
+        case 48: try { try decoder.decodeSingularMessageField(value: &_storage._filesAutoUpNext) }()
+        case 49: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteLocal) }()
+        case 50: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteCloud) }()
+        case 51: try { try decoder.decodeSingularMessageField(value: &_storage._privacyAnalytics) }()
+        case 52: try { try decoder.decodeSingularMessageField(value: &_storage._privacyCrashReports) }()
+        case 53: try { try decoder.decodeSingularMessageField(value: &_storage._privacyLinkAccount) }()
+        case 54: try { try decoder.decodeSingularMessageField(value: &_storage._playerShelf) }()
+        case 55: try { try decoder.decodeSingularMessageField(value: &_storage._autoSubscribeToPlayed) }()
+        case 56: try { try decoder.decodeSingularMessageField(value: &_storage._autoShowPlayed) }()
+        case 57: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayEnabled) }()
+        case 58: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayLastListUuid) }()
+        case 59: try { try decoder.decodeSingularMessageField(value: &_storage._trimSilence) }()
         default: break
         }
       }
@@ -6107,17 +8474,11 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       try { if let v = _storage._recommendationsOn {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
       } }()
-      try { if let v = _storage._streamByDefault {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
-      } }()
       try { if let v = _storage._useEmbeddedArtwork {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
       } }()
       try { if let v = _storage._playbackSpeed {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
-      } }()
-      try { if let v = _storage._silenceRemoval {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 13)
       } }()
       try { if let v = _storage._volumeBoost {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
@@ -6140,6 +8501,123 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       try { if let v = _storage._region {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 20)
       } }()
+      try { if let v = _storage._rowAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 21)
+      } }()
+      try { if let v = _storage._upNextSwipe {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 22)
+      } }()
+      try { if let v = _storage._episodeGrouping {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 23)
+      } }()
+      try { if let v = _storage._showArchived {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 24)
+      } }()
+      try { if let v = _storage._openLinks {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 25)
+      } }()
+      try { if let v = _storage._mediaActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 26)
+      } }()
+      try { if let v = _storage._mediaActionsOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 27)
+      } }()
+      try { if let v = _storage._keepScreenAwake {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 28)
+      } }()
+      try { if let v = _storage._openPlayer {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 29)
+      } }()
+      try { if let v = _storage._intelligentResumption {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 30)
+      } }()
+      try { if let v = _storage._playUpNextOnTap {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 31)
+      } }()
+      try { if let v = _storage._remoteSkipChapters {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 32)
+      } }()
+      try { if let v = _storage._playbackActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 33)
+      } }()
+      try { if let v = _storage._legacyBluetooth {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 34)
+      } }()
+      try { if let v = _storage._multiSelectGesture {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 35)
+      } }()
+      try { if let v = _storage._chapterTitles {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 36)
+      } }()
+      try { if let v = _storage._notifications {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 37)
+      } }()
+      try { if let v = _storage._notificationActions {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 38)
+      } }()
+      try { if let v = _storage._playOverNotifications {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 39)
+      } }()
+      try { if let v = _storage._hideNotificationOnPause {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 40)
+      } }()
+      try { if let v = _storage._appBadge {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 41)
+      } }()
+      try { if let v = _storage._appBadgeFilter {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 42)
+      } }()
+      try { if let v = _storage._autoArchivePlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 43)
+      } }()
+      try { if let v = _storage._autoArchiveInactive {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 44)
+      } }()
+      try { if let v = _storage._autoUpNextLimit {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 45)
+      } }()
+      try { if let v = _storage._autoUpNextLimitReached {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 46)
+      } }()
+      try { if let v = _storage._warnDataUsage {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 47)
+      } }()
+      try { if let v = _storage._filesAutoUpNext {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 48)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteLocal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 49)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteCloud {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 50)
+      } }()
+      try { if let v = _storage._privacyAnalytics {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
+      } }()
+      try { if let v = _storage._privacyCrashReports {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 52)
+      } }()
+      try { if let v = _storage._privacyLinkAccount {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
+      } }()
+      try { if let v = _storage._playerShelf {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 54)
+      } }()
+      try { if let v = _storage._autoSubscribeToPlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 55)
+      } }()
+      try { if let v = _storage._autoShowPlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 56)
+      } }()
+      try { if let v = _storage._autoPlayEnabled {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 57)
+      } }()
+      try { if let v = _storage._autoPlayLastListUuid {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 58)
+      } }()
+      try { if let v = _storage._trimSilence {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 59)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -6158,10 +8636,8 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         if _storage._webVersion != rhs_storage._webVersion {return false}
         if _storage._language != rhs_storage._language {return false}
         if _storage._recommendationsOn != rhs_storage._recommendationsOn {return false}
-        if _storage._streamByDefault != rhs_storage._streamByDefault {return false}
         if _storage._useEmbeddedArtwork != rhs_storage._useEmbeddedArtwork {return false}
         if _storage._playbackSpeed != rhs_storage._playbackSpeed {return false}
-        if _storage._silenceRemoval != rhs_storage._silenceRemoval {return false}
         if _storage._volumeBoost != rhs_storage._volumeBoost {return false}
         if _storage._badges != rhs_storage._badges {return false}
         if _storage._freeGiftAcknowledgement != rhs_storage._freeGiftAcknowledgement {return false}
@@ -6169,6 +8645,45 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         if _storage._autoArchivePlayedEpisodes != rhs_storage._autoArchivePlayedEpisodes {return false}
         if _storage._autoArchiveIncludesStarred != rhs_storage._autoArchiveIncludesStarred {return false}
         if _storage._region != rhs_storage._region {return false}
+        if _storage._rowAction != rhs_storage._rowAction {return false}
+        if _storage._upNextSwipe != rhs_storage._upNextSwipe {return false}
+        if _storage._episodeGrouping != rhs_storage._episodeGrouping {return false}
+        if _storage._showArchived != rhs_storage._showArchived {return false}
+        if _storage._openLinks != rhs_storage._openLinks {return false}
+        if _storage._mediaActions != rhs_storage._mediaActions {return false}
+        if _storage._mediaActionsOrder != rhs_storage._mediaActionsOrder {return false}
+        if _storage._keepScreenAwake != rhs_storage._keepScreenAwake {return false}
+        if _storage._openPlayer != rhs_storage._openPlayer {return false}
+        if _storage._intelligentResumption != rhs_storage._intelligentResumption {return false}
+        if _storage._playUpNextOnTap != rhs_storage._playUpNextOnTap {return false}
+        if _storage._remoteSkipChapters != rhs_storage._remoteSkipChapters {return false}
+        if _storage._playbackActions != rhs_storage._playbackActions {return false}
+        if _storage._legacyBluetooth != rhs_storage._legacyBluetooth {return false}
+        if _storage._multiSelectGesture != rhs_storage._multiSelectGesture {return false}
+        if _storage._chapterTitles != rhs_storage._chapterTitles {return false}
+        if _storage._notifications != rhs_storage._notifications {return false}
+        if _storage._notificationActions != rhs_storage._notificationActions {return false}
+        if _storage._playOverNotifications != rhs_storage._playOverNotifications {return false}
+        if _storage._hideNotificationOnPause != rhs_storage._hideNotificationOnPause {return false}
+        if _storage._appBadge != rhs_storage._appBadge {return false}
+        if _storage._appBadgeFilter != rhs_storage._appBadgeFilter {return false}
+        if _storage._autoArchivePlayed != rhs_storage._autoArchivePlayed {return false}
+        if _storage._autoArchiveInactive != rhs_storage._autoArchiveInactive {return false}
+        if _storage._autoUpNextLimit != rhs_storage._autoUpNextLimit {return false}
+        if _storage._autoUpNextLimitReached != rhs_storage._autoUpNextLimitReached {return false}
+        if _storage._warnDataUsage != rhs_storage._warnDataUsage {return false}
+        if _storage._filesAutoUpNext != rhs_storage._filesAutoUpNext {return false}
+        if _storage._filesAfterPlayingDeleteLocal != rhs_storage._filesAfterPlayingDeleteLocal {return false}
+        if _storage._filesAfterPlayingDeleteCloud != rhs_storage._filesAfterPlayingDeleteCloud {return false}
+        if _storage._privacyAnalytics != rhs_storage._privacyAnalytics {return false}
+        if _storage._privacyCrashReports != rhs_storage._privacyCrashReports {return false}
+        if _storage._privacyLinkAccount != rhs_storage._privacyLinkAccount {return false}
+        if _storage._playerShelf != rhs_storage._playerShelf {return false}
+        if _storage._autoSubscribeToPlayed != rhs_storage._autoSubscribeToPlayed {return false}
+        if _storage._autoShowPlayed != rhs_storage._autoShowPlayed {return false}
+        if _storage._autoPlayEnabled != rhs_storage._autoPlayEnabled {return false}
+        if _storage._autoPlayLastListUuid != rhs_storage._autoPlayLastListUuid {return false}
+        if _storage._trimSilence != rhs_storage._trimSilence {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -6183,6 +8698,7 @@ extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
     2: .same(proto: "changed"),
+    3: .standard(proto: "modified_at"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6193,6 +8709,7 @@ extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularMessageField(value: &self._value) }()
       case 2: try { try decoder.decodeSingularMessageField(value: &self._changed) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._modifiedAt) }()
       default: break
       }
     }
@@ -6209,12 +8726,16 @@ extension Api_Int32Setting: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     try { if let v = self._changed {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
     } }()
+    try { if let v = self._modifiedAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_Int32Setting, rhs: Api_Int32Setting) -> Bool {
     if lhs._value != rhs._value {return false}
     if lhs._changed != rhs._changed {return false}
+    if lhs._modifiedAt != rhs._modifiedAt {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -6225,6 +8746,7 @@ extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
     2: .same(proto: "changed"),
+    3: .standard(proto: "modified_at"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6235,6 +8757,7 @@ extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularMessageField(value: &self._value) }()
       case 2: try { try decoder.decodeSingularMessageField(value: &self._changed) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._modifiedAt) }()
       default: break
       }
     }
@@ -6251,12 +8774,16 @@ extension Api_BoolSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     try { if let v = self._changed {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
     } }()
+    try { if let v = self._modifiedAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_BoolSetting, rhs: Api_BoolSetting) -> Bool {
     if lhs._value != rhs._value {return false}
     if lhs._changed != rhs._changed {return false}
+    if lhs._modifiedAt != rhs._modifiedAt {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -6267,6 +8794,7 @@ extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
     2: .same(proto: "changed"),
+    3: .standard(proto: "modified_at"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6277,6 +8805,7 @@ extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularMessageField(value: &self._value) }()
       case 2: try { try decoder.decodeSingularMessageField(value: &self._changed) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._modifiedAt) }()
       default: break
       }
     }
@@ -6293,12 +8822,16 @@ extension Api_StringSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     try { if let v = self._changed {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
     } }()
+    try { if let v = self._modifiedAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_StringSetting, rhs: Api_StringSetting) -> Bool {
     if lhs._value != rhs._value {return false}
     if lhs._changed != rhs._changed {return false}
+    if lhs._modifiedAt != rhs._modifiedAt {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -6309,6 +8842,7 @@ extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
     2: .same(proto: "changed"),
+    3: .standard(proto: "modified_at"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6319,6 +8853,7 @@ extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularMessageField(value: &self._value) }()
       case 2: try { try decoder.decodeSingularMessageField(value: &self._changed) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._modifiedAt) }()
       default: break
       }
     }
@@ -6335,12 +8870,16 @@ extension Api_DoubleSetting: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     try { if let v = self._changed {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
     } }()
+    try { if let v = self._modifiedAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_DoubleSetting, rhs: Api_DoubleSetting) -> Bool {
     if lhs._value != rhs._value {return false}
     if lhs._changed != rhs._changed {return false}
+    if lhs._modifiedAt != rhs._modifiedAt {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -6453,6 +8992,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     14: .standard(proto: "folder_uuid"),
     15: .standard(proto: "sort_position"),
     16: .standard(proto: "date_added"),
+    17: .same(proto: "settings"),
   ]
 
   fileprivate class _StorageClass {
@@ -6472,6 +9012,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     var _folderUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
     var _sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _settings: Api_PodcastSettings? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -6494,6 +9035,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       _folderUuid = source._folderUuid
       _sortPosition = source._sortPosition
       _dateAdded = source._dateAdded
+      _settings = source._settings
     }
   }
 
@@ -6528,6 +9070,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         case 14: try { try decoder.decodeSingularMessageField(value: &_storage._folderUuid) }()
         case 15: try { try decoder.decodeSingularMessageField(value: &_storage._sortPosition) }()
         case 16: try { try decoder.decodeSingularMessageField(value: &_storage._dateAdded) }()
+        case 17: try { try decoder.decodeSingularMessageField(value: &_storage._settings) }()
         default: break
         }
       }
@@ -6588,6 +9131,9 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       try { if let v = _storage._dateAdded {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 16)
       } }()
+      try { if let v = _storage._settings {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 17)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -6613,6 +9159,7 @@ extension Api_UserPodcastResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
         if _storage._folderUuid != rhs_storage._folderUuid {return false}
         if _storage._sortPosition != rhs_storage._sortPosition {return false}
         if _storage._dateAdded != rhs_storage._dateAdded {return false}
+        if _storage._settings != rhs_storage._settings {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -6736,6 +9283,7 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     1: .same(proto: "v"),
     2: .same(proto: "m"),
     3: .same(proto: "uuid"),
+    4: .standard(proto: "include_bookmarks"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -6747,6 +9295,7 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
       case 1: try { try decoder.decodeSingularStringField(value: &self.v) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.m) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
+      case 4: try { try decoder.decodeSingularBoolField(value: &self.includeBookmarks) }()
       default: break
       }
     }
@@ -6762,6 +9311,9 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     if !self.uuid.isEmpty {
       try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 3)
     }
+    if self.includeBookmarks != false {
+      try visitor.visitSingularBoolField(value: self.includeBookmarks, fieldNumber: 4)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -6769,6 +9321,7 @@ extension Api_UuidRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     if lhs.v != rhs.v {return false}
     if lhs.m != rhs.m {return false}
     if lhs.uuid != rhs.uuid {return false}
+    if lhs.includeBookmarks != rhs.includeBookmarks {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -7454,6 +10007,7 @@ extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageI
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "podcast"),
+    3: .standard(proto: "include_bookmarks"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7464,6 +10018,7 @@ extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.podcast) }()
+      case 3: try { try decoder.decodeSingularBoolField(value: &self.includeBookmarks) }()
       default: break
       }
     }
@@ -7476,12 +10031,16 @@ extension Api_EpisodeWithPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     if !self.podcast.isEmpty {
       try visitor.visitSingularStringField(value: self.podcast, fieldNumber: 2)
     }
+    if self.includeBookmarks != false {
+      try visitor.visitSingularBoolField(value: self.includeBookmarks, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_EpisodeWithPodcast, rhs: Api_EpisodeWithPodcast) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs.podcast != rhs.podcast {return false}
+    if lhs.includeBookmarks != rhs.includeBookmarks {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -10602,6 +13161,7 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     7: .standard(proto: "folder_uuid"),
     8: .standard(proto: "sort_position"),
     9: .standard(proto: "date_added"),
+    10: .same(proto: "settings"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -10619,6 +13179,7 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       case 7: try { try decoder.decodeSingularMessageField(value: &self._folderUuid) }()
       case 8: try { try decoder.decodeSingularMessageField(value: &self._sortPosition) }()
       case 9: try { try decoder.decodeSingularMessageField(value: &self._dateAdded) }()
+      case 10: try { try decoder.decodeSingularMessageField(value: &self._settings) }()
       default: break
       }
     }
@@ -10656,6 +13217,9 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     try { if let v = self._dateAdded {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
     } }()
+    try { if let v = self._settings {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -10669,6 +13233,155 @@ extension Api_SyncUserPodcast: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs._folderUuid != rhs._folderUuid {return false}
     if lhs._sortPosition != rhs._sortPosition {return false}
     if lhs._dateAdded != rhs._dateAdded {return false}
+    if lhs._settings != rhs._settings {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PodcastSettings"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "notification"),
+    2: .standard(proto: "add_to_up_next"),
+    3: .standard(proto: "add_to_up_next_position"),
+    4: .standard(proto: "auto_archive"),
+    5: .standard(proto: "playback_effects"),
+    6: .standard(proto: "playback_speed"),
+    7: .standard(proto: "trim_silence"),
+    8: .standard(proto: "volume_boost"),
+    9: .standard(proto: "auto_start_from"),
+    10: .standard(proto: "auto_skip_last"),
+    11: .standard(proto: "episodes_sort_order"),
+  ]
+
+  fileprivate class _StorageClass {
+    var _notification: Api_BoolSetting? = nil
+    var _addToUpNext: Api_BoolSetting? = nil
+    var _addToUpNextPosition: Api_Int32Setting? = nil
+    var _autoArchive: Api_BoolSetting? = nil
+    var _playbackEffects: Api_BoolSetting? = nil
+    var _playbackSpeed: Api_DoubleSetting? = nil
+    var _trimSilence: Api_Int32Setting? = nil
+    var _volumeBoost: Api_BoolSetting? = nil
+    var _autoStartFrom: Api_Int32Setting? = nil
+    var _autoSkipLast: Api_Int32Setting? = nil
+    var _episodesSortOrder: Api_Int32Setting? = nil
+
+    static let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _notification = source._notification
+      _addToUpNext = source._addToUpNext
+      _addToUpNextPosition = source._addToUpNextPosition
+      _autoArchive = source._autoArchive
+      _playbackEffects = source._playbackEffects
+      _playbackSpeed = source._playbackSpeed
+      _trimSilence = source._trimSilence
+      _volumeBoost = source._volumeBoost
+      _autoStartFrom = source._autoStartFrom
+      _autoSkipLast = source._autoSkipLast
+      _episodesSortOrder = source._episodesSortOrder
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        // The use of inline closures is to circumvent an issue where the compiler
+        // allocates stack space for every case branch when no optimizations are
+        // enabled. https://github.com/apple/swift-protobuf/issues/1034
+        switch fieldNumber {
+        case 1: try { try decoder.decodeSingularMessageField(value: &_storage._notification) }()
+        case 2: try { try decoder.decodeSingularMessageField(value: &_storage._addToUpNext) }()
+        case 3: try { try decoder.decodeSingularMessageField(value: &_storage._addToUpNextPosition) }()
+        case 4: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchive) }()
+        case 5: try { try decoder.decodeSingularMessageField(value: &_storage._playbackEffects) }()
+        case 6: try { try decoder.decodeSingularMessageField(value: &_storage._playbackSpeed) }()
+        case 7: try { try decoder.decodeSingularMessageField(value: &_storage._trimSilence) }()
+        case 8: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoost) }()
+        case 9: try { try decoder.decodeSingularMessageField(value: &_storage._autoStartFrom) }()
+        case 10: try { try decoder.decodeSingularMessageField(value: &_storage._autoSkipLast) }()
+        case 11: try { try decoder.decodeSingularMessageField(value: &_storage._episodesSortOrder) }()
+        default: break
+        }
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every if/case branch local when no optimizations
+      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+      // https://github.com/apple/swift-protobuf/issues/1182
+      try { if let v = _storage._notification {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      } }()
+      try { if let v = _storage._addToUpNext {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      } }()
+      try { if let v = _storage._addToUpNextPosition {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+      } }()
+      try { if let v = _storage._autoArchive {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      } }()
+      try { if let v = _storage._playbackEffects {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+      } }()
+      try { if let v = _storage._playbackSpeed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+      } }()
+      try { if let v = _storage._trimSilence {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+      } }()
+      try { if let v = _storage._volumeBoost {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+      } }()
+      try { if let v = _storage._autoStartFrom {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
+      } }()
+      try { if let v = _storage._autoSkipLast {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
+      } }()
+      try { if let v = _storage._episodesSortOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
+      } }()
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_PodcastSettings, rhs: Api_PodcastSettings) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._notification != rhs_storage._notification {return false}
+        if _storage._addToUpNext != rhs_storage._addToUpNext {return false}
+        if _storage._addToUpNextPosition != rhs_storage._addToUpNextPosition {return false}
+        if _storage._autoArchive != rhs_storage._autoArchive {return false}
+        if _storage._playbackEffects != rhs_storage._playbackEffects {return false}
+        if _storage._playbackSpeed != rhs_storage._playbackSpeed {return false}
+        if _storage._trimSilence != rhs_storage._trimSilence {return false}
+        if _storage._volumeBoost != rhs_storage._volumeBoost {return false}
+        if _storage._autoStartFrom != rhs_storage._autoStartFrom {return false}
+        if _storage._autoSkipLast != rhs_storage._autoSkipLast {return false}
+        if _storage._episodesSortOrder != rhs_storage._episodesSortOrder {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -13135,6 +15848,38 @@ extension Api_BookmarkRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs.episodeUuid != rhs.episodeUuid {return false}
     if lhs._time != rhs._time {return false}
     if lhs._title != rhs._title {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_BookmarksRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".BookmarksRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "bookmarks"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedStringField(value: &self.bookmarks) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.bookmarks.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.bookmarks, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_BookmarksRequest, rhs: Api_BookmarksRequest) -> Bool {
+    if lhs.bookmarks != rhs.bookmarks {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
