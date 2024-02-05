@@ -1,4 +1,6 @@
 import SwiftUI
+import SafariServices
+import PocketCastsServer
 
 struct SlumberWhatsNewHeader: View {
     var body: some View {
@@ -16,7 +18,7 @@ struct SlumberWhatsNewHeader: View {
     }
 }
 
-class SlumberUpgradeViewModel: PlusAccountPromptViewModel {
+class SlumberUpgradeRedeemViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature = .slumber
     let upgradeSource: String = "slumber"
 
@@ -24,8 +26,16 @@ class SlumberUpgradeViewModel: PlusAccountPromptViewModel {
         return L10n.plusSubscribeTo
     }
 
-    func showUpgrade() {
-        upgradeTapped()
+    func showRedeemOrUpgrade() {
+        SubscriptionHelper.hasActiveSubscription() ? showRedeem() : upgradeTapped()
+    }
+
+    private func showRedeem() {
+        guard let parentController = SceneHelper.rootViewController(), let url = URL(string: "https://slumberstudios.com/pocketcasts/") else { return }
+
+        let safariController = SFSafariViewController(with: url)
+        safariController.modalPresentationStyle = .formSheet
+        parentController.present(safariController, animated: true)
     }
 
     override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {

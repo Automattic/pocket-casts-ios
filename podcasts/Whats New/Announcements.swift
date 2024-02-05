@@ -48,8 +48,8 @@ struct Announcements {
             message: (SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberPlusDescription("**\(Settings.slumberPromoCode ?? "")**") : L10n.announcementSlumberNonPlusDescription).replacingOccurrences(of: L10n.announcementSlumberPlusDescriptionLearnMore, with: "[\(L10n.announcementSlumberPlusDescriptionLearnMore)](https://slumberstudios.com)"),
             buttonTitle: SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberRedeem : L10n.plusSubscribeTo,
             action: {
-                let promptViewModel = SlumberUpgradeViewModel()
-                promptViewModel.showUpgrade()
+                let promptViewModel = SlumberUpgradeRedeemViewModel()
+                promptViewModel.showRedeemOrUpgrade()
             },
             isEnabled: FeatureFlag.slumber.enabled,
             fullModal: true
