@@ -28,6 +28,8 @@ public class SyncManager {
         return lastRefreshStartDate.compare(lastRefreshEndDate) == .orderedDescending
     }
 
+    public static var shouldUseNewSettingsSync = false
+
     /// Signs the user out
     /// - Parameter userInitiated: Whether the user initiated the sign out or not
     public class func signout(userInitiated: Bool = false) {
