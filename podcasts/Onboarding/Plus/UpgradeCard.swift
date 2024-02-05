@@ -69,10 +69,11 @@ struct UpgradeCard: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
-                SubscriptionBadge(tier: tier.tier)
-                    .padding(.bottom, 12)
                 if let subscriptionInfo {
                     SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: .black, secondaryTextColor: .black.opacity(0.64))
+                } else {
+                    SubscriptionBadge(tier: tier.tier)
+                        .padding(.bottom, 12)
                 }
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(tier.features, id: \.self) { feature in

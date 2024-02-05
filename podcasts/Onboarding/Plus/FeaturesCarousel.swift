@@ -10,7 +10,7 @@ struct FeaturesCarousel: View {
     let tiers: [UpgradeTier]
 
     let showInlinePurchaseButton: Bool
-    
+
     @State var calculatedCardHeight: CGFloat?
 
     var body: some View {
