@@ -12,13 +12,16 @@ class PlusAccountPromptTableCell: ThemeableCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-//        let view = UpgradePrompt(viewModel: PlusLandingViewModel(source: .upsell)) { [weak self] size in
-//            self?.contentSizeUpdated?(size)
-//        }.themedUIView
-
-        let view = PlusAccountUpgradePrompt(viewModel: model, contentSizeUpdated: { [weak self] size in
-            self?.contentSizeUpdated?(size)
-        }).themedUIView
+        let view: UIView
+        if FeatureFlag.newAccountUpgradePromptFlow.enabled {
+            view = UpgradePrompt(viewModel: PlusLandingViewModel(source: .upsell)) { [weak self] size in
+                self?.contentSizeUpdated?(size)
+            }.themedUIView
+        } else {
+            view = PlusAccountUpgradePrompt(viewModel: model, contentSizeUpdated: { [weak self] size in
+                self?.contentSizeUpdated?(size)
+            }).themedUIView
+        }
         view.backgroundColor = .clear
 
         contentView.addSubview(view)
