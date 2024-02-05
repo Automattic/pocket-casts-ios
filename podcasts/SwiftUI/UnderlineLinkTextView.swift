@@ -1,4 +1,5 @@
 import SwiftUI
+import SafariServices
 
 struct UnderlineLinkTextView: View {
     let text: String
@@ -16,7 +17,12 @@ struct UnderlineLinkTextView: View {
             textView = textView + Text(.init(explode.first ?? "")) + Text(.init(link)).underline() + (key == links.count-1 ? Text(.init(explode[safe: 1] ?? "")) : Text(""))
             reimainingText = explode[safe: 1] ?? ""
         }
-        return textView
+        return textView.environment(\.openURL, OpenURLAction { url in
+            let safariViewController = SFSafariViewController(with: url)
+            safariViewController.modalPresentationStyle = .formSheet
+            SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
+            return .handled
+        })
     }
 
     func matches(for regex: String, in text: String) -> [String] {
