@@ -44,9 +44,9 @@ struct Announcements {
         .init(
             version: "7.57",
             header: AnyView(BookmarksWhatsNewHeader()),
-            title: L10n.announcementBookmarksTitle,
-            message: L10n.announcementBookmarksDescription,
-            buttonTitle: bookmarksViewModel.upgradeOrEnableButtonTitle,
+            title: L10n.announcementSlumberTitle,
+            message: SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberPlusDescription("**\(Settings.slumberPromoCode ?? "")**") : L10n.announcementSlumberNonPlusDescription,
+            buttonTitle: SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberRedeem : L10n.plusSubscribeTo,
             action: {
 
             },
