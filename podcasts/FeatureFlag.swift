@@ -25,6 +25,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable the ability to rate podcasts
     case giveRatings
 
+    /// Syncing all app and podcast settings
+    case settingsSync
+
     /// Enable the new flow for Account upgrade prompt where it start IAP flow directly from account cell
     case newAccountUpgradePromptFlow
 
@@ -53,6 +56,8 @@ enum FeatureFlag: String, CaseIterable {
         case .errorLogoutHandling:
             false
         case .giveRatings:
+            false
+        case .settingsSync:
             false
         case .newAccountUpgradePromptFlow:
             false
