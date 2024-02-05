@@ -232,22 +232,6 @@ extension IAPHelper {
         return date?.formatted(date: .numeric, time: .omitted)
     }
 
-    /// Returns the first product with a free trial
-    /// The priority order is set by the productIdentifiers array
-    /// - Returns: The product enum with a free trial or nil if there is no free trial
-    typealias FreeTrialDetails = (duration: String, pricing: String)
-    func getFirstFreeTrialDetails() -> FreeTrialDetails? {
-        guard
-            let product = getFirstFreeTrialProductId(),
-            let duration = localizedFreeTrialDuration(product),
-            let pricing = pricingStringWithFrequency(for: product)
-        else {
-            return nil
-        }
-
-        return (duration, pricing)
-    }
-
     /// Checks if there is a free trial introductory offer for the given product
     /// - Parameter identifier: The product to check
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
