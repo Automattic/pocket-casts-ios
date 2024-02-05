@@ -18,6 +18,22 @@ struct SlumberWhatsNewHeader: View {
     }
 }
 
+class SlumberAnnouncementViewModel {
+    private lazy var upgradeOrRedeemViewModel = SlumberUpgradeRedeemViewModel()
+
+    var buttonTitle: String {
+        SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberRedeem : L10n.plusSubscribeTo
+    }
+
+    var message: String {
+        (SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberPlusDescription("**\(Settings.slumberPromoCode ?? "")**") : L10n.announcementSlumberNonPlusDescription).replacingOccurrences(of: L10n.announcementSlumberPlusDescriptionLearnMore, with: "[\(L10n.announcementSlumberPlusDescriptionLearnMore)](https://slumberstudios.com)")
+    }
+
+    func showRedeemOrUpgrade() {
+        upgradeOrRedeemViewModel.showRedeemOrUpgrade()
+    }
+}
+
 class SlumberUpgradeRedeemViewModel: PlusAccountPromptViewModel {
     let feature: PaidFeature = .slumber
     let upgradeSource: String = "slumber"
