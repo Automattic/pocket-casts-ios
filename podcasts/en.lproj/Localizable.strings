@@ -3976,3 +3976,15 @@
 
 /* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
 "accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
+
+/* Slumber Studios partnership feature announcement title */
+"announcement_slumber_title" = "Dream big";
+
+/* Slumber Studios partnership announcement description for subscribed users */
+"announcement_slumber_plus_description" = "As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
+
+/* Slumber Studios partnership announcement description for non-subscribed users */
+"announcement_slumber_non_plus_description" = "Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
+
+/* Button label for a feature the user can redeem using a code */
+"announcement_slumber_redeem" = "Redeem your code";

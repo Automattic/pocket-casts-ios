@@ -170,6 +170,16 @@ internal enum L10n {
   internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
   /// Join us in the beta testing for bookmarks!
   internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
+  /// Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.
+  internal static var announcementSlumberNonPlusDescription: String { return L10n.tr("Localizable", "announcement_slumber_non_plus_description") }
+  /// As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.
+  internal static func announcementSlumberPlusDescription(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "announcement_slumber_plus_description", String(describing: p1))
+  }
+  /// Redeem your code
+  internal static var announcementSlumberRedeem: String { return L10n.tr("Localizable", "announcement_slumber_redeem") }
+  /// Dream big
+  internal static var announcementSlumberTitle: String { return L10n.tr("Localizable", "announcement_slumber_title") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
   /// Classic
