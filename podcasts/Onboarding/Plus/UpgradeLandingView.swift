@@ -278,7 +278,7 @@ extension UpgradeTier {
     }
 
     static var slumberOrUndyingGratitude: TierFeature {
-        FeatureFlag.slumber.enabled ? TierFeature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber) : TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+        FeatureFlag.slumber.enabled ? TierFeature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
     }
 }
 
@@ -429,5 +429,11 @@ extension ViewHeightKey: ViewModifier {
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
         UpgradeLandingView(viewModel: PlusLandingViewModel(source: .login))
+    }
+}
+
+extension String {
+    var slumberStudiosWithUrl: String {
+        self.replacingOccurrences(of: "Slumber Studios", with: "[Slumber Studios](https://slumberstudios.com)")
     }
 }
