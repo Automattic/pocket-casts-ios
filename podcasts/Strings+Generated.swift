@@ -176,6 +176,8 @@ internal enum L10n {
   internal static func announcementSlumberPlusDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "announcement_slumber_plus_description", String(describing: p1))
   }
+  /// Learn more
+  internal static var announcementSlumberPlusDescriptionLearnMore: String { return L10n.tr("Localizable", "announcement_slumber_plus_description_learn_more") }
   /// Redeem your code
   internal static var announcementSlumberRedeem: String { return L10n.tr("Localizable", "announcement_slumber_redeem") }
   /// Dream big
