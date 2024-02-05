@@ -365,9 +365,10 @@ struct UpgradeCard: View {
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundColor(.black)
                                 .frame(width: 16, height: 16)
-                            Text(feature.title)
+                            UnderlineLinkTextView(feature.title)
                                 .font(size: 14, style: .subheadline, weight: .medium)
                                 .foregroundColor(.black)
+                                .tint(.black)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
