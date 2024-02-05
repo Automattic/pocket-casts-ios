@@ -6,7 +6,7 @@ struct PlusPurchaseModal: View {
     @ObservedObject var coordinator: PlusPurchaseModel
 
     @State var selectedOption: IAPProductID
-    @State var freeTrialDuration: String?
+    @State var selectedOffer: PlusPricingInfoModel.ProductOfferInfo?
 
     var pricingInfo: PlusPurchaseModel.PlusPricingInfo {
         coordinator.pricingInfo
@@ -26,39 +26,80 @@ struct PlusPurchaseModal: View {
 
         let firstProduct = products.first
         _selectedOption = State(initialValue: selectedPrice == .yearly ? coordinator.plan.yearly : coordinator.plan.monthly)
-        _freeTrialDuration = State(initialValue: firstProduct?.offer?.duration)
+        _selectedOffer = State(initialValue: firstProduct?.offer)
+    }
+
+    private func price(for subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo) -> AttributedString {
+        let subscriptionPeriod = subscriptionInfo.identifier.productInfo.frequency.description
+        let mainTextColor = Color.white
+        let secondaryTextColor = Color.gray
+        guard let offer = subscriptionInfo.offer else {
+            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
+            basePrice.font = .headline
+            basePrice.foregroundColor = mainTextColor
+
+            var basePeriod = AttributedString("/ \(subscriptionPeriod)")
+            basePeriod.foregroundColor = secondaryTextColor
+            basePeriod.font = .footnote
+
+            return basePrice + basePeriod
+        }
+
+
+        if offer.type == .freeTrial {
+            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
+            basePrice.font = .headline
+            basePrice.foregroundColor = mainTextColor
+
+            var basePeriod = AttributedString("/ \(subscriptionPeriod)")
+            basePeriod.foregroundColor = secondaryTextColor
+            basePeriod.font = .footnote
+
+            return basePrice + basePeriod
+        }
+
+        var offerPrice = AttributedString(offer.price)
+        offerPrice.foregroundColor = mainTextColor
+        offerPrice.font = .headline
+
+        var offerPeriod = AttributedString(" /\(subscriptionPeriod)  ")
+        offerPeriod.foregroundColor = secondaryTextColor
+        offerPeriod.font = .footnote
+
+        var basePrice = AttributedString("\(offer.rawPrice) /\(subscriptionPeriod)")
+        basePrice.foregroundColor = secondaryTextColor
+        basePrice.font = .footnote
+        basePrice.strikethroughStyle = .single
+
+        return offerPrice + offerPeriod + basePrice
     }
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ModalTopPill()
-
             Label(coordinator.plan == .plus ? L10n.plusPurchasePromoTitle : L10n.patronPurchasePromoTitle, for: .title)
                 .foregroundColor(Color.textColor)
                 .padding(.top, 32)
-                .padding(.bottom, pricingInfo.hasFreeTrial ? 15 : 0)
-
-            if showGlobalTrial, let freeTrialDuration {
-                PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan)
-            }
+                .padding(.bottom, pricingInfo.hasOffer ? 15 : 0)
 
             VStack(spacing: 16) {
                 ForEach(products) { product in
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
                     if coordinator.state != .failed || selectedOption == product.identifier {
                         ZStack(alignment: .center) {
-                            Button(product.price) {
+                            Button() {
                                 selectedOption = product.identifier
-                                freeTrialDuration = product.offer?.duration
+                                selectedOffer = product.offer
+                            } label: {
+                                Text(price(for: product))
                             }
                             .disabled(coordinator.state == .failed)
                             .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))
                             .overlay(
                                 ZStack(alignment: .center) {
-                                    if !showGlobalTrial, let freeTrialDuration = product.offer?.duration {
+                                    if let offerDescription = product.offer?.description {
                                         GeometryReader { proxy in
-                                            PlusFreeTrialLabel(freeTrialDuration, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
-                                                .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY - (proxy.size.height * 0.12))
+                                            OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption ==   product.identifier)
+                                                .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY)
                                         }
                                     }
                                 }
@@ -67,20 +108,9 @@ struct PlusPurchaseModal: View {
                     }
                 }
 
-                // Show how long the free trial is if there is one
-                if pricingInfo.hasFreeTrial {
-                    let label: String = {
-                        if let freeTrialDuration {
-                            return L10n.pricingTermsAfterTrialLong(freeTrialDuration)
-                        }
-
-                        return "\(selectedOption.renewalPrompt)\n\(L10n.plusCancelTerms)"
-                    }()
-
-                    Label(label, for: .freeTrialTerms)
-                        .foregroundColor(Color.textColor)
-                        .lineSpacing(1.2)
-                }
+                Label(pricingTermsLabel, for: .freeTrialTerms)
+                    .foregroundColor(Color.textColor)
+                    .lineSpacing(1.2)
 
                 // Show the error message if we're in the failed state
                 if coordinator.state == .failed {
@@ -97,13 +127,19 @@ struct PlusPurchaseModal: View {
                     coordinator.purchase(product: selectedOption)
                 }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
 
-                TermsView(text: Config.termsHTML)
+                TermsView()
             }.padding(.top, 23)
         }
-        .frame(maxWidth: Config.maxWidth)
         .padding([.leading, .trailing])
-        .padding(.bottom, 60)
         .background(Color.backgroundColor.ignoresSafeArea())
+    }
+
+    private var pricingTermsLabel: String {
+        guard let selectedOffer else {
+            return "\(selectedOption.renewalPrompt)\n\(L10n.plusCancelTerms)"
+        }
+
+        return selectedOffer.terms
     }
 
     private var subscribeButton: String {
@@ -111,25 +147,19 @@ struct PlusPurchaseModal: View {
             return L10n.tryAgain
         }
 
-        if freeTrialDuration != nil {
-            return L10n.freeTrialStartAndSubscribeButton
-        }
-
-        return L10n.subscribe
+        return coordinator.plan == .plus ? L10n.plusSubscribeTo : L10n.patronSubscribeTo
     }
 
     enum Config {
         static let backgroundColorHex = "#282829"
-        static let maxWidth: CGFloat = 600
-        static let termsHTML = L10n.purchaseTerms("<a href=\"\(ServerConstants.Urls.privacyPolicy)\">", "</a><br/>", "<a href=\"\(ServerConstants.Urls.termsOfUse)\">", "</a>")
     }
+
 }
 
 // MARK: - Config
 private extension Color {
     static let backgroundColor = Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
     static let textColor = Color(hex: "#FFFFFF")
-    static let uiTextColor = UIColor(hex: "#FFFFFF")
     static let error = AppTheme.color(for: .support05)
 }
 
@@ -141,17 +171,21 @@ private struct PlusDivider: View {
 }
 
 private struct TermsView: View {
-    @State var labelSize: CGSize = .zero
-    let text: String
-
     var body: some View {
-        GeometryReader { geometry in
-            HTMLTextView(text: text,
-                         font: .font(ofSize: 14, weight: .regular, scalingWith: .footnote, maxSizeCategory: .extraExtraLarge),
-                         textColor: Color.uiTextColor,
-                         width: geometry.size.width,
-                         textViewSize: $labelSize)
-        }.frame(height: labelSize.height)
+        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
+
+        let privacyPolicy = ServerConstants.Urls.privacyPolicy
+        let termsOfUse = ServerConstants.Urls.termsOfUse
+
+        Group {
+            Text(purchaseTerms[safe: 0] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
+            Text(purchaseTerms[safe: 2] ?? "") +
+            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
+        }
+        .foregroundColor(.textColor)
+        .font(style: .footnote)
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
 

@@ -3434,8 +3434,11 @@
 /* Title for a button that allows the user to subscrbe with a free trial */
 "free_trial_start_and_subscribe_button" = "Start Free Trial & Subscribe";
 
-/* Pricing terms explaining that the user will be charged after their free trial ends, %1$@ is the free trial duration (1 month), \n is a new line */
-"pricing_terms_after_trial_long" = "Recurring payments will begin after your\n%1$@ free trial";
+/* Pricing terms explaining that the user will be charged after their free trial ends, %1$@ is the free trial duration (1 month), %2$@ is the start date of payments */
+"pricing_terms_after_trial_long" = "Recurring payments will begin after your %1$@ free trial (%2$@)";
+
+/* Pricing terms explaining that the user will have a discount in the first period then will pay full price, %1$@ is the full price, %2$@ the discount duration, %3$@ the date the user will pay full price */
+"pricing_terms_after_discount" = "Recurring payments at %1$@ after %2$@ (%3$@)";
 
 /* Monthly pricing format, %1$@ is the price */
 "plus_monthly_frequency_pricing_format" = "%1$@ per month";
@@ -3453,7 +3456,7 @@
 "patron_purchase_promo_title" = "Become a Patron member and unlock all Pocket Casts features";
 
 /* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
-"purchase_terms" = "By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
+"purchase_terms" = "By continuing, you agree to our %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
 
 /* Title for the End of Year feature */
 "eoy_title" = "Your Year in Podcasts";

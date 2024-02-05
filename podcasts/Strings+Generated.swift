@@ -2030,14 +2030,17 @@ internal enum L10n {
   internal static var podcastsSort: String { return L10n.tr("Localizable", "podcasts_sort") }
   /// Preview
   internal static var preview: String { return L10n.tr("Localizable", "preview") }
+  /// Recurring payments at %1$@ after %2$@ (%3$@)
+  internal static func pricingTermsAfterDiscount(_ p1: Any, _ p2: Any, _ p3: Any) -> String {
+    return L10n.tr("Localizable", "pricing_terms_after_discount", String(describing: p1), String(describing: p2), String(describing: p3))
+  }
   /// then %1$@
   internal static func pricingTermsAfterTrial(_ p1: Any) -> String {
     return L10n.tr("Localizable", "pricing_terms_after_trial", String(describing: p1))
   }
-  /// Recurring payments will begin after your
-  /// %1$@ free trial
-  internal static func pricingTermsAfterTrialLong(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "pricing_terms_after_trial_long", String(describing: p1))
+  /// Recurring payments will begin after your %1$@ free trial (%2$@)
+  internal static func pricingTermsAfterTrialLong(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "pricing_terms_after_trial_long", String(describing: p1), String(describing: p2))
   }
   /// Profile
   internal static var profile: String { return L10n.tr("Localizable", "profile") }
@@ -2071,7 +2074,7 @@ internal enum L10n {
   internal static var profileStarredNoEpisodesDesc: String { return L10n.tr("Localizable", "profile_starred_no_episodes_desc") }
   /// Nothing Starred
   internal static var profileStarredNoEpisodesTitle: String { return L10n.tr("Localizable", "profile_starred_no_episodes_title") }
-  /// By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@
+  /// By continuing, you agree to our %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@
   internal static func purchaseTerms(_ p1: Any, _ p2: Any, _ p3: Any, _ p4: Any) -> String {
     return L10n.tr("Localizable", "purchase_terms", String(describing: p1), String(describing: p2), String(describing: p3), String(describing: p4))
   }

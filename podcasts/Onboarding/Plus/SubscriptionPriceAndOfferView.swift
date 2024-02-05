@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 /// View to display the price of a subscription and any offer associated.
 struct SubscriptionPriceAndOfferView: View {
 
@@ -16,19 +17,22 @@ struct SubscriptionPriceAndOfferView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(price(for: product))
+        VStack(alignment: .leading, spacing: 10) {
+            SubscriptionBadge(tier: product.identifier.subscriptionTier)
             if let offerDescription = offerDescription(for: product) {
                 Text(offerDescription)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
                     .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
                     .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
                     .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
                     .textCase(.uppercase)
                     .font(style: .caption2, weight: .semibold)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                    .padding(.top, 12)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .transition(.scale)
             }
+            Text(price(for: product))
+
         }
         .padding(.bottom, 12)
     }
@@ -54,7 +58,7 @@ struct SubscriptionPriceAndOfferView: View {
             basePrice.font = .headline
             basePrice.foregroundColor = mainTextColor
 
-            var basePeriod = AttributedString("/\(subscriptionPeriod)")
+            var basePeriod = AttributedString("/ \(subscriptionPeriod)")
             basePeriod.foregroundColor = secondaryTextColor
             basePeriod.font = .footnote
 
@@ -69,7 +73,7 @@ struct SubscriptionPriceAndOfferView: View {
         offerPeriod.foregroundColor = secondaryTextColor
         offerPeriod.font = .footnote
 
-        var basePrice = AttributedString("\(offer.rawPrice)/\(subscriptionPeriod)")
+        var basePrice = AttributedString("\(offer.rawPrice)/ \(subscriptionPeriod)")
         basePrice.foregroundColor = secondaryTextColor
         basePrice.font = .footnote
         basePrice.strikethroughStyle = .single
