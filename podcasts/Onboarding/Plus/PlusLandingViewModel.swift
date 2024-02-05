@@ -69,7 +69,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         return pricingInfo
     }
 
-    private func product(for plan:Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+    private func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
     }
 

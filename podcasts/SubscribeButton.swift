@@ -20,7 +20,7 @@ class SubscribeButton: ThemeableView {
         }
     }
 
-    var delegate: SubscribeButtonDelegate?
+    weak var delegate: SubscribeButtonDelegate?
     var onSubscribe: (() -> Void)?
     var isSelected = false
     var isHighlighted = false

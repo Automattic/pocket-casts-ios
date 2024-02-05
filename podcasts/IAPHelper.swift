@@ -5,7 +5,7 @@ import StoreKit
 import UIKit
 
 class IAPHelper: NSObject {
-    static let shared = IAPHelper()
+    static let shared = IAPHelper(settings: SettingsProxy(), networking: ApiServerHandler.shared)
 
     private var productIdentifiers: [IAPProductID] {
         [.monthly, .yearly, .patronMonthly, .patronYearly]
@@ -24,9 +24,15 @@ class IAPHelper: NSObject {
     private var isRequestingProducts = false
 
     /// Whether purchasing is allowed in the current environment or not
-    var canMakePurchases = BuildEnvironment.current != .testFlight
+    private (set) var canMakePurchases = BuildEnvironment.current != .testFlight
 
-    override init() {
+    private var settings: IAPHelperSettings
+    private var networking: IAPHelperNetworking
+
+    init(settings: IAPHelperSettings, networking: IAPHelperNetworking) {
+        self.settings = settings
+        self.networking = networking
+
         super.init()
 
         addSubscriptionNotifications()
@@ -82,7 +88,7 @@ class IAPHelper: NSObject {
     }
 
     public func buyProduct(identifier: IAPProductID) -> Bool {
-        guard let product = getProduct(for: identifier), let _ = ServerSettings.syncingEmail() else {
+        guard settings.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
         }
@@ -283,7 +289,7 @@ private extension IAPHelper {
         }
 
         isCheckingEligibility = true
-        ApiServerHandler.shared.checkTrialEligibility(receiptString) { [weak self] isEligible in
+        networking.checkTrialEligibility(receiptString) { [weak self] isEligible in
             let eligible = isEligible ?? Constants.Values.offerEligibilityDefaultValue
 
             FileLog.shared.addMessage("Refreshed Trial Eligibility: \(eligible ? "Yes" : "No")")
@@ -353,10 +359,11 @@ extension IAPHelper: SKPaymentTransactionObserver {
         }
 
         if hasNewPurchasedReceipt {
-            if ServerSettings.iapUnverifiedPurchaseReceiptDate() == nil {
-                ServerSettings.setIapUnverifiedPurchaseReceiptDate(Date())
+            if settings.iapUnverifiedPurchaseReceiptDate == nil {
+                settings.iapUnverifiedPurchaseReceiptDate = Date()
             }
-            ApiServerHandler.shared.sendPurchaseReceipt(completion: { success in
+
+            networking.sendPurchaseReceipt(completion: { success in
                 if success {
                     FileLog.shared.addMessage("IAPHelper successfully validated receipt")
                 } else {
@@ -434,5 +441,36 @@ private extension IAPHelper {
         }
 
         Analytics.track(event, properties: properties)
+    }
+}
+
+// MARK: - Dependencies: Settings / Networking
+// Defines the settings the IAPHelper needs to read / write
+protocol IAPHelperSettings {
+    var isLoggedIn: Bool { get }
+    var iapUnverifiedPurchaseReceiptDate: Date? { get set }
+}
+
+/// Defines the non-storekit network methods the IAPHelper uses
+protocol IAPHelperNetworking {
+    func sendPurchaseReceipt(completion: @escaping (Bool) -> Void)
+    func checkTrialEligibility(_ base64EncodedReceipt: String, completion: @escaping (_ isEligible: Bool?) -> Void)
+}
+
+extension ApiServerHandler: IAPHelperNetworking {
+    /* Already implements the methods 😎 */
+}
+
+private extension IAPHelper {
+    /// Acts as a proxy to the `ServerSettings` static methods the IAPHelper uses
+    class SettingsProxy: IAPHelperSettings {
+        var isLoggedIn: Bool {
+            SyncManager.isUserLoggedIn()
+        }
+
+        var iapUnverifiedPurchaseReceiptDate: Date? {
+            set { ServerSettings.setIapUnverifiedPurchaseReceiptDate(newValue) }
+            get { ServerSettings.iapUnverifiedPurchaseReceiptDate() }
+        }
     }
 }

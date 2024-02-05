@@ -21,14 +21,53 @@ struct StarRatingView: View {
     }
 
     var body: some View {
+        if FeatureFlag.giveRatings.enabled {
+            starsAndRate
+        } else {
+            onlyStars
+        }
+    }
+
+    /// A view that returns stars and the "Rate" button
+    var starsAndRate: some View {
+        VStack(spacing: 0) {
+            HStack(alignment: .center) {
+                ratingView(rating: viewModel.rating)
+                    .frame(height: 16)
+                    .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
+
+                Spacer()
+
+                Text(L10n.rate)
+                    .font(.system(.callout))
+                    .foregroundStyle(theme.primaryText01)
+                    .buttonize {
+                        viewModel.didTapRating()
+                    }
+            }
+            .sheet(isPresented: $viewModel.presentingGiveRatings) {
+                if let podcast = viewModel.podcast {
+                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, podcast: podcast))
+                }
+            }
+
+            Rectangle()
+                .foregroundStyle(theme.primaryUi05)
+                .frame(height: 1)
+                .padding(.top, 12)
+                .padding(.bottom, 0)
+        }
+    }
+
+    // A view that returns only the stars
+    var onlyStars: some View {
         HStack(alignment: .center) {
             ratingView(rating: viewModel.rating)
                 .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
 
             Spacer()
-        }.onTapGesture {
-            viewModel.didTapRating()
         }
+        .frame(height: 15)
     }
 
     @ViewBuilder
@@ -46,18 +85,20 @@ struct StarRatingView: View {
         // Get the float value
         let half = rating.truncatingRemainder(dividingBy: 1)
 
-        HStack(spacing: 0) {
+        HStack(spacing: 3) {
             ForEach(0..<Constants.maxStars, id: \.self) { index in
                 image(for: index, stars: stars, half: half)
+                    .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(theme.filter03)
             }
         }.foregroundColor(AppTheme.color(for: .filter03, theme: theme))
     }
 
     @ViewBuilder
     private func labelView(total: Int?) -> some View {
-        Text(total?.abbreviated ?? "")
+        Text("(\(total?.abbreviated ?? ""))")
             .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
             .font(size: 14, style: .footnote)
             .padding(.top, 1)
@@ -81,9 +122,9 @@ struct StarRatingView: View {
         static let maxStars = 5
 
         // Star Images
-        static let filled = Image(systemName: "star.fill")
-        static let empty = Image(systemName: "star")
-        static let half = Image(systemName: "star.fill.left")
+        static let filled = Image("star-full")
+        static let empty = Image("star")
+        static let half = Image("star-half")
 
         static let minTimeBeforeAnimating: TimeInterval = 0.2
         static let animationDuration: TimeInterval = 0.1

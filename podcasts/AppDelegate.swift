@@ -53,6 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         GoogleCastManager.sharedManager.setup()
 
+        SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
         CacheServerHandler.newShowNotesEndpoint = FeatureFlag.newShowNotesEndpoint.enabled
         CacheServerHandler.episodeFeedArtwork = FeatureFlag.episodeFeedArtwork.enabled
 
@@ -308,6 +309,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
                 try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
             }
+
+            SyncManager.shouldUseNewSync = FeatureFlag.settingsSync.enabled
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
             IAPHelper.shared.requestProductInfoIfNeeded()

@@ -2098,6 +2098,20 @@ internal enum L10n {
   internal static func queueTotalTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "queue_total_time_remaining", String(describing: p1))
   }
+  /// Rate
+  internal static var rate: String { return L10n.tr("Localizable", "rate") }
+  /// Ops! There was an error.
+  internal static var ratingError: String { return L10n.tr("Localizable", "rating_error") }
+  /// Only listeners of this podcast can give it a rating. Have a listen to a few episodes and then come back to give your rating. We look forward to hearing what you think!
+  internal static var ratingListenToThisPodcastMessage: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_message") }
+  /// Please listen to this podcast first
+  internal static var ratingListenToThisPodcastTitle: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_title") }
+  /// Your rating was submitted!
+  internal static var ratingSubmitted: String { return L10n.tr("Localizable", "rating_submitted") }
+  /// Rate %1$@
+  internal static func ratingTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "rating_title", String(describing: p1))
+  }
   /// FINDING NEW PODCAST EPISODES
   internal static var refreshControlFetchingEpisodes: String { return L10n.tr("Localizable", "refresh_control_fetching_episodes") }
   /// PULL TO REFRESH
