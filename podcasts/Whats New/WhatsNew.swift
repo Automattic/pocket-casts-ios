@@ -12,6 +12,7 @@ class WhatsNew {
         let action: () -> Void
         let displayTier: SubscriptionTier
         let isEnabled: () -> Bool
+        let fullModal: Bool
 
         init(version: String,
              header: @autoclosure @escaping () -> AnyView,
@@ -19,7 +20,8 @@ class WhatsNew {
              buttonTitle: String,
              action: @escaping () -> Void,
              displayTier: SubscriptionTier = .none,
-             isEnabled: @autoclosure @escaping () -> Bool) {
+             isEnabled: @autoclosure @escaping () -> Bool,
+             fullModal: Bool = false) {
             self.version = version
             self.header = header
             self.title = title
@@ -28,6 +30,7 @@ class WhatsNew {
             self.action = action
             self.displayTier = displayTier
             self.isEnabled = isEnabled
+            self.fullModal = fullModal
         }
     }
 
@@ -46,6 +49,12 @@ class WhatsNew {
     func viewControllerToShow() -> UIViewController? {
         guard let announcement = visibleAnnouncement else {
             return nil
+        }
+
+        guard !announcement.fullModal else {
+            let whatsNewViewController = ThemedHostingController(rootView: EmptyView())
+            whatsNewViewController.modalPresentationStyle = .formSheet
+            return whatsNewViewController
         }
 
         let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView(announcement: announcement))

@@ -38,6 +38,20 @@ struct Announcements {
             },
             displayTier: bookmarksViewModel.displayTier,
             isEnabled: bookmarksViewModel.isReleaseAnnouncementEnabled
+        ),
+
+        // Slumber Studios partnership
+        .init(
+            version: "7.57",
+            header: AnyView(BookmarksWhatsNewHeader()),
+            title: L10n.announcementBookmarksTitle,
+            message: L10n.announcementBookmarksDescription,
+            buttonTitle: bookmarksViewModel.upgradeOrEnableButtonTitle,
+            action: {
+
+            },
+            isEnabled: true,
+            fullModal: true
         )
     ]
 }
