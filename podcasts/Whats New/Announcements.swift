@@ -51,7 +51,7 @@ struct Announcements {
                 let promptViewModel = SlumberUpgradeViewModel()
                 promptViewModel.showUpgrade()
             },
-            isEnabled: true,
+            isEnabled: FeatureFlag.slumber.enabled,
             fullModal: true
         )
     ]
