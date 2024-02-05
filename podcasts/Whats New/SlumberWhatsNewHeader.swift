@@ -16,6 +16,25 @@ struct SlumberWhatsNewHeader: View {
     }
 }
 
+class SlumberUpgradeViewModel: PlusAccountPromptViewModel {
+    let feature: PaidFeature = .slumber
+    let upgradeSource: String = "slumber"
+
+    var upgradeLabel: String {
+        return L10n.plusSubscribeTo
+    }
+
+    func showUpgrade() {
+        upgradeTapped()
+    }
+
+    override func showModal(for product: PlusPricingInfoModel.PlusProductPricingInfo? = nil) {
+        guard let parentController = SceneHelper.rootViewController() else { return }
+
+        feature.presentUpgradeController(from: parentController, source: upgradeSource)
+    }
+}
+
 #Preview {
     SlumberWhatsNewHeader()
 }
