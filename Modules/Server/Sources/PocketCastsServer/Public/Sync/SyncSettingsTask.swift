@@ -19,10 +19,13 @@ extension AppSettings {
 
 class SyncSettingsTask: ApiBaseTask {
 
-    let shouldUseNewSync: Bool
+    private let shouldUseNewSync: Bool
+    private let appSettings: SettingsStore<AppSettings>
 
-    init(shouldUseNewSync: Bool) {
+    init(shouldUseNewSync: Bool, appSettings: SettingsStore<AppSettings> = SettingsStore.appSettings, dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.shouldUseNewSync = shouldUseNewSync
+        self.appSettings = appSettings
+        super.init(dataManager: dataManager, urlConnection: urlConnection)
     }
 
     override func apiTokenAcquired(token: String) {
@@ -32,7 +35,7 @@ class SyncSettingsTask: ApiBaseTask {
             settingsRequest.m = "iPhone"
 
             if shouldUseNewSync {
-                settingsRequest.changedSettings.update(with: SettingsStore.appSettings.settings)
+                settingsRequest.changedSettings.update(with: appSettings.settings)
             } else {
                 if ServerSettings.skipBackNeedsSyncing() {
                     settingsRequest.settings.skipBack.value = Int32(ServerSettings.skipBackTime())
@@ -69,7 +72,7 @@ class SyncSettingsTask: ApiBaseTask {
             let settings = try Api_NamedSettingsResponse(serializedData: serverData)
 
             if shouldUseNewSync {
-                SettingsStore.appSettings.settings.update(with: settings)
+                appSettings.settings.update(with: settings)
             } else {
                 if settings.skipForward.changed.value {
                     let skipForwardTime = Int(settings.skipForward.value.value)
