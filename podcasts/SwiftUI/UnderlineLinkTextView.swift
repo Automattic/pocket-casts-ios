@@ -9,7 +9,8 @@ struct UnderlineLinkTextView: View {
     }
 
     var body: some View {
-        let links = matches(for: "(?:__|[*#])|\\[(.*?)\\]\\(.*?\\)", in: text)
+        // Extract links and add underline to all of them
+        let links = text.matches(for: "(?:__|[*#])|\\[(.*?)\\]\\(.*?\\)")
         var reimainingText = text
         var textView = links.count > 0 ? Text("") : Text(text)
         for (key, link) in links.enumerated() {
@@ -17,6 +18,8 @@ struct UnderlineLinkTextView: View {
             textView = textView + Text(.init(explode.first ?? "")) + Text(.init(link)).underline() + (key == links.count-1 ? Text(.init(explode[safe: 1] ?? "")) : Text(""))
             reimainingText = explode[safe: 1] ?? ""
         }
+
+        // Open the link inside the app
         return textView.environment(\.openURL, OpenURLAction { url in
             let safariViewController = SFSafariViewController(with: url)
             safariViewController.modalPresentationStyle = .formSheet
@@ -24,14 +27,16 @@ struct UnderlineLinkTextView: View {
             return .handled
         })
     }
+}
 
-    func matches(for regex: String, in text: String) -> [String] {
+private extension String {
+    func matches(for regex: String) -> [String] {
         do {
             let regex = try NSRegularExpression(pattern: regex)
-            let results = regex.matches(in: text,
-                                        range: NSRange(text.startIndex..., in: text))
+            let results = regex.matches(in: self,
+                                        range: NSRange(self.startIndex..., in: self))
             return results.map {
-                String(text[Range($0.range, in: text)!])
+                String(self[Range($0.range, in: self)!])
             }
         } catch let error {
             print("invalid regex: \(error.localizedDescription)")
