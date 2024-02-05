@@ -3991,3 +3991,6 @@
 
 /* Button label for a feature the user can redeem using a code */
 "announcement_slumber_redeem" = "Redeem your code";
+
+/* Message shown when the code is copied to clipboard */
+"announcement_slumber_code_copied" = "Code copied to clipboard";

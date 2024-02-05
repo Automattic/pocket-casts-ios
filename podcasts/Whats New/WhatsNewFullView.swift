@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 struct WhatsNewFullView: View {
     @EnvironmentObject var theme: Theme
@@ -33,6 +34,14 @@ struct WhatsNewFullView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
                     .fixedSize(horizontal: false, vertical: true)
+                    .onTapGesture {
+                        guard SubscriptionHelper.hasActiveSubscription() else {
+                            return
+                        }
+
+                        UIPasteboard.general.string = Settings.slumberPromoCode
+                        Toast.show(L10n.announcementSlumberCodeCopied)
+                    }
 
                 Button(announcement.buttonTitle) {
                     track(.whatsnewConfirmButtonTapped)
