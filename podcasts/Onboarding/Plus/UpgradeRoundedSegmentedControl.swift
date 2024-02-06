@@ -28,7 +28,7 @@ struct UpgradeRoundedSegmentedControl: View {
             .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .monthly, theme: theme))
             .padding(4)
         }
-        .background(theme.primaryUi03)
+        .background(theme.primaryUi05)
         .cornerRadius(24)
     }
 }
@@ -47,7 +47,7 @@ struct UpgradeSegmentedControlButtonStyle: ButtonStyle {
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
             .background(
-                isSelected ? theme.primaryUi01 : configuration.isPressed ? theme.primaryUi01 : theme.primaryUi03
+                isSelected ? theme.primaryUi01 : configuration.isPressed ? theme.primaryUi01 : theme.primaryUi05
             )
             .font(style: .subheadline, weight: .medium)
             .foregroundColor(isSelected ? theme.primaryText01 : theme.primaryText02)
