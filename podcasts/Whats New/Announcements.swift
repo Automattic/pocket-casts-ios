@@ -47,9 +47,7 @@ struct Announcements {
             title: "",
             message: "",
             buttonTitle: "",
-            action: {
-
-            },
+            action: {},
             isEnabled: FeatureFlag.slumber.enabled,
             fullModal: true,
             customBody: AnyView(SlumberCustomBody())
