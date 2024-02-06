@@ -170,6 +170,20 @@ internal enum L10n {
   internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
   /// Join us in the beta testing for bookmarks!
   internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
+  /// Code copied to clipboard
+  internal static var announcementSlumberCodeCopied: String { return L10n.tr("Localizable", "announcement_slumber_code_copied") }
+  /// Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.
+  internal static var announcementSlumberNonPlusDescription: String { return L10n.tr("Localizable", "announcement_slumber_non_plus_description") }
+  /// As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.
+  internal static func announcementSlumberPlusDescription(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "announcement_slumber_plus_description", String(describing: p1))
+  }
+  /// Learn more
+  internal static var announcementSlumberPlusDescriptionLearnMore: String { return L10n.tr("Localizable", "announcement_slumber_plus_description_learn_more") }
+  /// Redeem your code
+  internal static var announcementSlumberRedeem: String { return L10n.tr("Localizable", "announcement_slumber_redeem") }
+  /// Dream big
+  internal static var announcementSlumberTitle: String { return L10n.tr("Localizable", "announcement_slumber_title") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
   /// Classic
@@ -1709,6 +1723,8 @@ internal enum L10n {
   }
   /// The undying gratitude of everyone here at Pocket Casts
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
+  /// 1 year of exclusive content from Slumber Studios
+  internal static var plusFeatureSlumber: String { return L10n.tr("Localizable", "plus_feature_slumber") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// PLUS FEATURES
@@ -2094,6 +2110,20 @@ internal enum L10n {
   /// %1$@ total time remaining
   internal static func queueTotalTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "queue_total_time_remaining", String(describing: p1))
+  }
+  /// Rate
+  internal static var rate: String { return L10n.tr("Localizable", "rate") }
+  /// Ops! There was an error.
+  internal static var ratingError: String { return L10n.tr("Localizable", "rating_error") }
+  /// Only listeners of this podcast can give it a rating. Have a listen to a few episodes and then come back to give your rating. We look forward to hearing what you think!
+  internal static var ratingListenToThisPodcastMessage: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_message") }
+  /// Please listen to this podcast first
+  internal static var ratingListenToThisPodcastTitle: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_title") }
+  /// Your rating was submitted!
+  internal static var ratingSubmitted: String { return L10n.tr("Localizable", "rating_submitted") }
+  /// Rate %1$@
+  internal static func ratingTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "rating_title", String(describing: p1))
   }
   /// FINDING NEW PODCAST EPISODES
   internal static var refreshControlFetchingEpisodes: String { return L10n.tr("Localizable", "refresh_control_fetching_episodes") }

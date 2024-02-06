@@ -15,7 +15,6 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.0"),
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.0.0"),
         .package(path: "../DataModel/"),
         .package(path: "../Utils/")
@@ -26,8 +25,7 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 .product(name: "PocketCastsDataModel", package: "DataModel"),
-                .product(name: "PocketCastsUtils", package: "Utils"),
-                "SwiftyJSON"
+                .product(name: "PocketCastsUtils", package: "Utils")
             ],
             path: "Sources",
             linkerSettings: [
@@ -38,7 +36,8 @@ let package = Package(
         .testTarget(
             name: "PocketCastsServerTests",
             dependencies: ["PocketCastsServer"],
-            path: "Tests"
+            path: "Tests",
+            resources: [.copy("Fixtures")]
         )
     ]
 )

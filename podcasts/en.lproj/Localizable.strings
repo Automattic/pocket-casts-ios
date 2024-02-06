@@ -1650,6 +1650,9 @@
 /* Message about our gratitude when an user subscribe to Plus */
 "plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
 
+/* Message about the exclusive content from Slumber Studios. Please don't translate "Slumber Studios". */
+"plus_feature_slumber" = "1 year of exclusive content from Slumber Studios";
+
 /* Label of a button to subscribe to Patron. Do not translate "Plus". */
 "plus_subscribe_to" = "Subscribe to Plus";
 
@@ -3941,6 +3944,24 @@
 /* Message of an alert that informs the user purchasing is disabled in the beta. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. %1$@ is the name of the tier (Plus or Patron)*/
 "beta_purchase_disabled" = "Please download Pocket Casts from the App Store to purchase %1$@.";
 
+/* Title displayed when an user want to rate a podcast but hasn't listened enough to it */
+"rating_listen_to_this_podcast_title" = "Please listen to this podcast first";
+
+/* Message displayed when an user want to rate a podcast but hasn't listened enough to it */
+"rating_listen_to_this_podcast_message" = "Only listeners of this podcast can give it a rating. Have a listen to a few episodes and then come back to give your rating. We look forward to hearing what you think!";
+
+/* Title displayed when an user want to rate a podcast. %1$@ is the podcast title. */
+"rating_title" = "Rate %1$@";
+
+/* Confirmation message that a user rating for a podcast was submitted */
+"rating_submitted" = "Your rating was submitted!";
+
+/* Error message when a user rating for a podcast couldn't be submitted */
+"rating_error" = "Ops! There was an error.";
+
+/* Title of a button that takes the user to a screen to rate a podcast */
+"rate" = "Rate";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 
@@ -3955,3 +3976,21 @@
 
 /* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
 "accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
+
+/* Slumber Studios partnership feature announcement title */
+"announcement_slumber_title" = "Dream big";
+
+/* Slumber Studios partnership announcement description for subscribed users */
+"announcement_slumber_plus_description" = "As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
+
+/* Should match the "Learn more" translation on announcement_slumber_plus_description and announcement_slumber_non_plus_description */
+"announcement_slumber_plus_description_learn_more" = "Learn more";
+
+/* Slumber Studios partnership announcement description for non-subscribed users */
+"announcement_slumber_non_plus_description" = "Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
+
+/* Button label for a feature the user can redeem using a code */
+"announcement_slumber_redeem" = "Redeem your code";
+
+/* Message shown when the code is copied to clipboard */
+"announcement_slumber_code_copied" = "Code copied to clipboard";

@@ -273,6 +273,10 @@ public class DataManager {
         podcastManager.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: autoAddToUpNext, dbQueue: dbQueue)
     }
 
+    public func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast]) {
+        podcastManager.updateAutoAddToUpNext(to: value, for: podcasts, in: dbQueue)
+    }
+
     public func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting) {
         podcastManager.setDownloadSettingForAllPodcasts(setting: setting, dbQueue: dbQueue)
     }

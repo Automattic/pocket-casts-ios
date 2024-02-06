@@ -4,7 +4,6 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
-import SwiftyJSON
 
 public extension ApiServerHandler {
     func validateLogin(username: String, password: String, scope: String) async throws -> AuthenticationResponse {
@@ -178,11 +177,15 @@ public extension ApiServerHandler {
         }
     }
 
+    private struct ErrorResponse: Decodable {
+        let errorMessageId: String?
+    }
+
     class func extractErrorResponse(data: Data?, response: URLResponse?, error: Error? = nil) -> APIError? {
         if let data = data {
             do {
-                let errorJson = try JSON(data: data)
-                return APIError(rawValue: errorJson["errorMessageId"].stringValue) ?? APIError.UNKNOWN
+                let errorJson = try JSONDecoder().decode(ErrorResponse.self, from: data)
+                return APIError(rawValue: errorJson.errorMessageId ?? "unknown")
             } catch {
                 FileLog.shared.addMessage("Unable to decode error response \(error.localizedDescription)")
             }

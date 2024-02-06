@@ -38,7 +38,7 @@ class TokenHelper {
             mutableRequest.setValue("Bearer \(token)", forHTTPHeaderField: ServerConstants.HttpHeaders.authorization)
         }
 
-        URLSession.shared.dataTask(with: mutableRequest) { [weak self] data, response, error in
+        urlConnection.send(request: mutableRequest) { [weak self] data, response, error in
             guard let httpResponse = response as? HTTPURLResponse else {
                 completion(nil, nil, error)
                 return
@@ -56,7 +56,7 @@ class TokenHelper {
             }
 
             completion(httpResponse, data, error)
-        }.resume()
+        }
     }
 
     func acquireToken() -> String? {

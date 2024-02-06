@@ -1,7 +1,6 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
-import SwiftyJSON
 #if os(watchOS)
     import WatchKit
 #else
@@ -237,15 +236,15 @@ public class MainServerHandler {
         let pushEnabled = ServerConfig.shared.syncDelegate?.isPushEnabled() ?? false
 
         var jsonRequest = jsonWithStandardParams(uniqueId: uniqueId)
-        jsonRequest["push_sound"].string = "11" // for legacy reasons, this is always the push sound we send, since it's no longer configurable
-        jsonRequest["podcasts"].string = podcasts.map(\.uuid).joined(separator: ",")
-        jsonRequest["last_episodes"].string = podcasts.map { $0.forceRefreshEpisodeFrom ?? $0.latestEpisodeUuid ?? "" }.joined(separator: ",")
-        jsonRequest["push_messages_on"].string = podcasts.map { (pushEnabled && $0.pushEnabled) ? "1" : "0" }.joined()
+        jsonRequest["push_sound"] = "11" // for legacy reasons, this is always the push sound we send, since it's no longer configurable
+        jsonRequest["podcasts"] = podcasts.map(\.uuid).joined(separator: ",")
+        jsonRequest["last_episodes"] = podcasts.map { $0.forceRefreshEpisodeFrom ?? $0.latestEpisodeUuid ?? "" }.joined(separator: ",")
+        jsonRequest["push_messages_on"] = podcasts.map { (pushEnabled && $0.pushEnabled) ? "1" : "0" }.joined()
         if let pushToken = ServerSettings.pushToken() {
-            jsonRequest["push_token"].string = pushToken
+            jsonRequest["push_token"] = pushToken
         }
-        jsonRequest["push_on"].string = pushEnabled ? "true" : "false"
-        guard let data = try? jsonRequest.rawData() else {
+        jsonRequest["push_on"] = pushEnabled ? "true" : "false"
+        guard let data = try? JSONSerialization.data(withJSONObject: jsonRequest) else {
             FileLog.shared.addMessage("Failed to create refresh request")
             return nil
         }
@@ -294,8 +293,8 @@ public class MainServerHandler {
         }
 
         var jsonRequest = jsonWithStandardParams(uniqueId: uniqueId)
-        jsonRequest["podcast_uuid"].string = podcast.uuid
-        guard let data = try? jsonRequest.rawData() else {
+        jsonRequest["podcast_uuid"] = podcast.uuid
+        guard let data = try? JSONSerialization.data(withJSONObject: jsonRequest) else {
             FileLog.shared.addMessage("Failed to create refreshPodcastFeed request")
             completion(false)
 
@@ -353,22 +352,22 @@ public class MainServerHandler {
         }.resume()
     }
 
-    private func jsonWithStandardParams(uniqueId: String) -> JSON {
-        var json = JSON()
+    private func jsonWithStandardParams(uniqueId: String) -> [String: Any] {
+        var json: [String: Any] = [:]
         let locale = Locale.current
-        json["l"].string = locale.languageCode
-        json["c"].string = locale.regionCode
+        json["l"] = locale.languageCode
+        json["c"] = locale.regionCode
 
         #if os(watchOS)
-            json["m"].string = WKInterfaceDevice.current().systemVersion
+            json["m"] = WKInterfaceDevice.current().systemVersion
         #else
-            json["m"].string = UIDevice.current.systemVersion
+            json["m"] = UIDevice.current.systemVersion
         #endif
 
-        json["dt"].string = MainServerHandler.deviceType
-        json["v"].string = MainServerHandler.parserVersion
-        json["device"].string = uniqueId
-        json["av"].string = ServerConfig.shared.syncDelegate?.appVersion()
+        json["dt"] = MainServerHandler.deviceType
+        json["v"] = MainServerHandler.parserVersion
+        json["device"] = uniqueId
+        json["av"] = ServerConfig.shared.syncDelegate?.appVersion()
 
         return json
     }

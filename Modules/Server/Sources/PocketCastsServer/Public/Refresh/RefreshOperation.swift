@@ -61,7 +61,8 @@ class RefreshOperation: Operation {
                 apiQueue.addOperation(syncTask)
 
                 apiQueue.addOperation(SyncHistoryTask())
-                apiQueue.addOperation(SyncSettingsTask())
+
+                apiQueue.addOperation(SyncSettingsTask(shouldUseNewSync: SyncManager.shouldUseNewSettingsSync))
 
                 #if !os(watchOS)
                     ServerSettings.iapUnverifiedPurchaseReceiptDate() == nil ? apiQueue.addOperation(SubscriptionStatusTask()) : apiQueue.addOperation(PurchaseReceiptTask())

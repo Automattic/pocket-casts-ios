@@ -85,7 +85,7 @@ public class ApiServerHandler {
     }
 
     public func syncSettings() {
-        let syncSettingsTask = SyncSettingsTask()
+        let syncSettingsTask = SyncSettingsTask(shouldUseNewSync: SyncManager.shouldUseNewSettingsSync)
         apiQueue.addOperation(syncSettingsTask)
     }
 
