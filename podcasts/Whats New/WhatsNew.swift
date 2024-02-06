@@ -52,7 +52,8 @@ class WhatsNew {
         }
 
         guard !announcement.fullModal else {
-            let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement))
+            // This view is very Slumber-specific for now, we'd like it to be generic
+            let whatsNewViewController = ThemedHostingController(rootView: SlumberAnnouncement(announcement: announcement))
             if let sheet = whatsNewViewController.sheetPresentationController {
                 sheet.detents = [.large()]
                 sheet.largestUndimmedDetentIdentifier = .medium
