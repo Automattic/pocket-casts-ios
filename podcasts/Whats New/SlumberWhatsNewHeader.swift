@@ -3,16 +3,29 @@ import SafariServices
 import PocketCastsServer
 
 struct SlumberWhatsNewHeader: View {
+    @State var distance: CGFloat = 0
+
     var body: some View {
         HStack {
             Group {
                 PodcastCover(podcastUuid: "82e37e80-755d-0138-eddc-0acc26574db2")
+                    .offset(y: distance)
+                    .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: distance)
                 PodcastCover(podcastUuid: "9478cc80-7c42-0138-edfe-0acc26574db2")
+                    .offset(y: distance)
+                    .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true).delay(0.4), value: distance)
                 PodcastCover(podcastUuid: "37082d70-e945-0137-b6eb-0acc26574db2")
+                    .offset(y: distance)
+                    .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true).delay(0.8), value: distance)
                 PodcastCover(podcastUuid: "62200ab0-b7ec-0139-f606-0acc26574db2")
+                    .offset(y: distance)
+                    .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true).delay(1.2), value: distance)
 
             }
                 .frame(width: 120, height: 120)
+        }
+        .onAppear {
+            distance = 30
         }
             .environment(\.renderForSharing, false)
     }
