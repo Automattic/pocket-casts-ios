@@ -44,7 +44,7 @@ struct PlusPurchaseModal: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            Label(coordinator.plan == .plus ? L10n.plusPurchasePromoTitle : L10n.patronPurchasePromoTitle, for: .title)
+            Label(coordinator.plan == .plus ? L10n.plusSubscribeTo : L10n.patronSubscribeTo, for: .title)
                 .foregroundColor(Color.textColor)
                 .padding(.top, 32)
                 .padding(.bottom, pricingInfo.hasOffer ? 15 : 0)
