@@ -31,6 +31,33 @@ struct SlumberWhatsNewHeader: View {
     }
 }
 
+struct SlumberCustomBody: View {
+    @EnvironmentObject var theme: Theme
+
+    var body: some View {
+        Text("Title")
+            .font(style: .title, weight: .bold)
+            .foregroundStyle(theme.primaryText01)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.bottom, 10)
+        UnderlineLinkTextView("Message")
+            .font(style: .body)
+            .foregroundStyle(theme.primaryText01)
+            .multilineTextAlignment(.center)
+            .padding(.bottom)
+            .fixedSize(horizontal: false, vertical: true)
+            .onTapGesture {
+                guard SubscriptionHelper.hasActiveSubscription() else {
+                    return
+                }
+
+                UIPasteboard.general.string = Settings.slumberPromoCode
+                Toast.show(L10n.announcementSlumberCodeCopied)
+            }
+    }
+}
+
 class SlumberAnnouncementViewModel {
     private lazy var upgradeOrRedeemViewModel = SlumberUpgradeRedeemViewModel()
 

@@ -32,26 +32,22 @@ struct WhatsNewFullView: View {
                     .padding(.bottom, 5)
                 }
 
-                Text(announcement.title)
-                    .font(style: .title, weight: .bold)
-                    .foregroundStyle(theme.primaryText01)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.bottom, 10)
-                UnderlineLinkTextView(announcement.message)
-                    .font(style: .body)
-                    .foregroundStyle(theme.primaryText01)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .onTapGesture {
-                        guard SubscriptionHelper.hasActiveSubscription() else {
-                            return
-                        }
-
-                        UIPasteboard.general.string = Settings.slumberPromoCode
-                        Toast.show(L10n.announcementSlumberCodeCopied)
-                    }
+                if let customBody = announcement.customBody() {
+                    customBody
+                } else {
+                    Text(announcement.title)
+                        .font(style: .title, weight: .bold)
+                        .foregroundStyle(theme.primaryText01)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.bottom, 10)
+                    UnderlineLinkTextView(announcement.message)
+                        .font(style: .body)
+                        .foregroundStyle(theme.primaryText01)
+                        .multilineTextAlignment(.center)
+                        .padding(.bottom)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
 
                 Button(announcement.buttonTitle) {
                     track(.whatsnewConfirmButtonTapped)

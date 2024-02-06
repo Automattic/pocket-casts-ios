@@ -52,7 +52,8 @@ struct Announcements {
                 slumberViewModel.showRedeemOrUpgrade()
             },
             isEnabled: FeatureFlag.slumber.enabled,
-            fullModal: true
+            fullModal: true,
+            customBody: AnyView(SlumberCustomBody())
         )
     ]
 }
