@@ -13,6 +13,7 @@ struct WhatsNewFullView: View {
                     dismiss()
                 }
                 .frame(minHeight: 44)
+                .tint(theme.primaryInteractive01)
 
                 Spacer()
             }
@@ -44,6 +45,7 @@ struct WhatsNewFullView: View {
                     UnderlineLinkTextView(announcement.message)
                         .font(style: .body)
                         .foregroundStyle(theme.primaryText01)
+                        .tint(theme.primaryInteractive01)
                         .multilineTextAlignment(.center)
                         .padding(.bottom)
                         .fixedSize(horizontal: false, vertical: true)
@@ -81,6 +83,6 @@ struct WhatsNewFullView: View {
 struct WhatsNewFullView_Previews: PreviewProvider {
     static var previews: some View {
         WhatsNewFullView(announcement: Announcements().announcements.last!)
-            .environmentObject(Theme(previewTheme: .light))
+            .previewWithAllThemes()
     }
 }

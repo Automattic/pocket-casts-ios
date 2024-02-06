@@ -46,6 +46,7 @@ struct SlumberCustomBody: View {
         UnderlineLinkTextView(viewModel.message)
             .font(style: .body)
             .foregroundStyle(theme.primaryText01)
+            .tint(theme.primaryInteractive01)
             .multilineTextAlignment(.center)
             .padding(.bottom)
             .fixedSize(horizontal: false, vertical: true)
