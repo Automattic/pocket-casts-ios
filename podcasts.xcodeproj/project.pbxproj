@@ -554,7 +554,7 @@
 		8BC060112AB35D1200A4FEC6 /* View+if.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC0600F2AB35D0D00A4FEC6 /* View+if.swift */; };
 		8BC7FF55290FF92400017779 /* StoriesProgressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7FF54290FF92400017779 /* StoriesProgressModel.swift */; };
 		8BC862672B714782000627B9 /* UnderlineLinkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC862662B714782000627B9 /* UnderlineLinkTextView.swift */; };
-		8BC862692B71690A000627B9 /* WhatsNewFullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC862682B71690A000627B9 /* WhatsNewFullView.swift */; };
+		8BC862692B71690A000627B9 /* SlumberAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC862682B71690A000627B9 /* SlumberAnnouncement.swift */; };
 		8BC8626B2B718042000627B9 /* SlumberWhatsNewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC8626A2B718042000627B9 /* SlumberWhatsNewHeader.swift */; };
 		8BCB22B228F47F44001A0315 /* EndOfYearModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */; };
 		8BCB22B428F48282001A0315 /* EndOfYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB22B328F48282001A0315 /* EndOfYear.swift */; };
@@ -2346,7 +2346,7 @@
 		8BC0600F2AB35D0D00A4FEC6 /* View+if.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+if.swift"; sourceTree = "<group>"; };
 		8BC7FF54290FF92400017779 /* StoriesProgressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesProgressModel.swift; sourceTree = "<group>"; };
 		8BC862662B714782000627B9 /* UnderlineLinkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineLinkTextView.swift; sourceTree = "<group>"; };
-		8BC862682B71690A000627B9 /* WhatsNewFullView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewFullView.swift; sourceTree = "<group>"; };
+		8BC862682B71690A000627B9 /* SlumberAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlumberAnnouncement.swift; sourceTree = "<group>"; };
 		8BC8626A2B718042000627B9 /* SlumberWhatsNewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlumberWhatsNewHeader.swift; sourceTree = "<group>"; };
 		8BCB22B128F47F44001A0315 /* EndOfYearModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYearModal.swift; sourceTree = "<group>"; };
 		8BCB22B328F48282001A0315 /* EndOfYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear.swift; sourceTree = "<group>"; };
@@ -4189,7 +4189,7 @@
 				8B3295442A534CA800BDFA11 /* Announcements.swift */,
 				8B32953F2A5333C900BDFA11 /* WhatsNew.swift */,
 				8B3295472A53576600BDFA11 /* WhatsNewView.swift */,
-				8BC862682B71690A000627B9 /* WhatsNewFullView.swift */,
+				8BC862682B71690A000627B9 /* SlumberAnnouncement.swift */,
 				8B633D2E2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift */,
 				8BC8626A2B718042000627B9 /* SlumberWhatsNewHeader.swift */,
 				C7ADDD1F2AD73DD000471853 /* BookmarksAnnouncement.swift */,
@@ -8916,7 +8916,7 @@
 				C713D4FB2A04C90500A78468 /* SubscriptionBadge.swift in Sources */,
 				C7811D8C2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */,
 				46737E6A272B2EEC00739C3E /* ReadOnlyTextView.swift in Sources */,
-				8BC862692B71690A000627B9 /* WhatsNewFullView.swift in Sources */,
+				8BC862692B71690A000627B9 /* SlumberAnnouncement.swift in Sources */,
 				4011B93B2164546E00661A7D /* FilterEditOptionsViewController.swift in Sources */,
 				4051A5762281A9DD00C13C12 /* AccountActionCell.swift in Sources */,
 				BDC63BBC21A5051B00C31887 /* LayerAutoSizingView.swift in Sources */,

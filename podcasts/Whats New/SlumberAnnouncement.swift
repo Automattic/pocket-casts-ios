@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 
-struct WhatsNewFullView: View {
+struct SlumberAnnouncement: View {
     @EnvironmentObject var theme: Theme
 
     @State var announcement: WhatsNew.Announcement
@@ -91,7 +91,7 @@ struct WhatsNewFullView: View {
 
 struct WhatsNewFullView_Previews: PreviewProvider {
     static var previews: some View {
-        WhatsNewFullView(announcement: Announcements().announcements.last!)
+        SlumberAnnouncement(announcement: Announcements().announcements.last!)
             .environmentObject(Theme(previewTheme: .light))
     }
 }
