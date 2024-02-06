@@ -13,6 +13,7 @@ class WhatsNew {
         let displayTier: SubscriptionTier
         let isEnabled: () -> Bool
         let fullModal: Bool
+        let customBody: () -> AnyView?
 
         init(version: String,
              header: @autoclosure @escaping () -> AnyView,
@@ -21,7 +22,8 @@ class WhatsNew {
              action: @escaping () -> Void,
              displayTier: SubscriptionTier = .none,
              isEnabled: @autoclosure @escaping () -> Bool,
-             fullModal: Bool = false) {
+             fullModal: Bool = false,
+             customBody: @autoclosure @escaping () -> AnyView? = nil) {
             self.version = version
             self.header = header
             self.title = title
@@ -31,6 +33,7 @@ class WhatsNew {
             self.displayTier = displayTier
             self.isEnabled = isEnabled
             self.fullModal = fullModal
+            self.customBody = customBody
         }
     }
 
