@@ -4,7 +4,7 @@ import PocketCastsServer
 struct WhatsNewFullView: View {
     @EnvironmentObject var theme: Theme
 
-    let announcement: WhatsNew.Announcement
+    @State var announcement: WhatsNew.Announcement
 
     var body: some View {
         VStack(spacing: 0) {
@@ -69,6 +69,12 @@ struct WhatsNewFullView: View {
             track(.whatsnewShown)
             Settings.lastWhatsNewShown = announcement.version
         }
+        .onReceive(NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged), perform: { _ in
+            // Re-render if the user purchases
+            if let slumberAnnouncement = WhatsNew().announcements.first(where: { $0.version == "7.57" }) {
+                announcement = slumberAnnouncement
+            }
+        })
     }
 
     private func dismiss(completion: (() -> Void)? = nil) {
