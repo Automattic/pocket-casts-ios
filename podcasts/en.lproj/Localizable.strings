@@ -1650,6 +1650,9 @@
 /* Message about our gratitude when an user subscribe to Plus */
 "plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
 
+/* Message about the exclusive content from Slumber Studios. Please don't translate "Slumber Studios". */
+"plus_feature_slumber" = "1 year of exclusive content from Slumber Studios";
+
 /* Label of a button to subscribe to Patron. Do not translate "Plus". */
 "plus_subscribe_to" = "Subscribe to Plus";
 
@@ -3979,3 +3982,21 @@
 
 /* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
 "accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
+
+/* Slumber Studios partnership feature announcement title */
+"announcement_slumber_title" = "Dream big";
+
+/* Slumber Studios partnership announcement description for subscribed users */
+"announcement_slumber_plus_description" = "As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
+
+/* Should match the "Learn more" translation on announcement_slumber_plus_description and announcement_slumber_non_plus_description */
+"announcement_slumber_plus_description_learn_more" = "Learn more";
+
+/* Slumber Studios partnership announcement description for non-subscribed users */
+"announcement_slumber_non_plus_description" = "Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
+
+/* Button label for a feature the user can redeem using a code */
+"announcement_slumber_redeem" = "Redeem your code";
+
+/* Message shown when the code is copied to clipboard */
+"announcement_slumber_code_copied" = "Code copied to clipboard";
