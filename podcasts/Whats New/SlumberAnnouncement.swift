@@ -67,7 +67,6 @@ struct SlumberAnnouncement: View {
         .background(theme.primaryUi01)
         .onAppear {
             track(.whatsnewShown)
-            Settings.lastWhatsNewShown = announcement.version
         }
         .onReceive(NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged), perform: { _ in
             // Re-render if the user purchases

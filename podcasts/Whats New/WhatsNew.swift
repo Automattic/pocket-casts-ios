@@ -53,16 +53,12 @@ class WhatsNew {
 
         guard !announcement.fullModal else {
             // This view is very Slumber-specific for now, we'd like it to be generic
-            let whatsNewViewController = ThemedHostingController(rootView: SlumberAnnouncement(announcement: announcement))
-            if let sheet = whatsNewViewController.sheetPresentationController {
-                sheet.detents = [.large()]
-                sheet.largestUndimmedDetentIdentifier = .medium
-                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                sheet.prefersEdgeAttachedInCompactHeight = true
-                sheet.prefersGrabberVisible = true
-                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-            }
-            return whatsNewViewController
+            let whatsNewViewController = ThemedHostingController(rootView: SlumberAnnouncement(announcement: announcement)
+                .onAppear {
+                    Settings.lastWhatsNewShown = announcement.version
+                })
+
+            return whatsNewViewController.usingSheetPresentationController()
         }
 
         let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView(announcement: announcement))
@@ -91,6 +87,21 @@ class WhatsNew {
                 $0.version != lastWhatsNewShown &&
                 $0.version.inRange(of: previousOpenedVersion, upper: currentVersion)
             })
+    }
+}
+
+extension UIViewController {
+    func usingSheetPresentationController() -> Self {
+        if let sheet = sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.prefersGrabberVisible = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+        }
+
+        return self
     }
 }
 
