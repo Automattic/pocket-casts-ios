@@ -3,7 +3,7 @@ import PocketCastsUtils
 import UIKit
 
 class AccountViewController: UIViewController, ChangeEmailDelegate {
-    enum TableRow { case upgradeView, changeEmail, changePassword, upgradeAccount, newsletter, cancelSubscription, logout, deleteAccount, privacyPolicy, termsOfUse, supporterContributions }
+    enum TableRow { case upgradeView, changeEmail, changePassword, upgradeAccount, newsletter, cancelSubscription, logout, deleteAccount, privacyPolicy, termsOfUse, supporterContributions, slumber }
     var tableData: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
     static let newsletterCellId = "NewsletterCellId"
@@ -113,6 +113,10 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
 
             if !SubscriptionHelper.hasRenewingSubscription() && !SubscriptionHelper.hasLifetimeGift() && isExpiring {
                 newTableRows[0].insert(.upgradeView, at: 0)
+            }
+
+            if FeatureFlag.slumber.enabled {
+                newTableRows.insert([.slumber], at: 1)
             }
 
             updateTableRows(newRows: newTableRows)
