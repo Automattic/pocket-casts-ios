@@ -70,7 +70,7 @@ struct SlumberAnnouncement: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged), perform: { _ in
             // Re-render if the user purchases
-            if let slumberAnnouncement = WhatsNew().announcements.first(where: { $0.version == "7.57" }) {
+            if let slumberAnnouncement = WhatsNew.slumberAnnouncement {
                 announcement = slumberAnnouncement
             }
         })
