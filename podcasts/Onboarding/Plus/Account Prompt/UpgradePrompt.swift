@@ -3,7 +3,7 @@ import PocketCastsServer
 
 struct UpgradePrompt: View {
     @ObservedObject var viewModel: PlusLandingViewModel
-
+    @EnvironmentObject var theme: Theme
     /// Allows UIKit to listen for content size changes
     var contentSizeUpdated: ((CGSize) -> Void)? = nil
 
@@ -45,7 +45,7 @@ struct UpgradePrompt: View {
                 FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: true).environmentObject(self.viewModel)
                 if !tiers.isEmpty {
                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
-                        .foregroundColor(.white)
+                        .foregroundColor(theme.primaryText01)
                 }
                 Spacer()
             }

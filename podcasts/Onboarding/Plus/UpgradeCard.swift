@@ -55,6 +55,8 @@ extension UpgradeTier {
 
 struct UpgradeCard: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
+    
+    @EnvironmentObject var theme: Theme
 
     let tier: UpgradeTier
 
@@ -70,7 +72,7 @@ struct UpgradeCard: View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
                 if let subscriptionInfo {
-                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: .black, secondaryTextColor: .black.opacity(0.64))
+                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: theme.primaryText01, secondaryTextColor: theme.primaryText02)
                 } else {
                     SubscriptionBadge(tier: tier.tier)
                         .padding(.bottom, 12)
@@ -82,18 +84,18 @@ struct UpgradeCard: View {
                                 .renderingMode(.template)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.black)
+                                .foregroundColor(theme.primaryText01)
                                 .frame(width: 16, height: 16)
                             Text(feature.title)
                                 .font(size: 14, style: .subheadline, weight: .medium)
-                                .foregroundColor(.black)
+                                .foregroundColor(theme.primaryText01)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
 
                     termsAndConditions
                         .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
-                        .tint(.black)
+                        .tint(theme.primaryText01)
                         .opacity(0.64)
                     if showPurchaseButton {
                         purchaseButton
@@ -104,13 +106,13 @@ struct UpgradeCard: View {
             .padding(24)
 
         }
-        .background(.white)
+        .background(theme.primaryUi01)
         .cornerRadius(24)
-        .shadow(color: .black.opacity(0.01), radius: 10, x: 0, y: 24)
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 14)
-        .shadow(color: .black.opacity(0.09), radius: 6, x: 0, y: 6)
-        .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
-        .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 0)
+        .shadow(color: theme.primaryText01.opacity(0.01), radius: 10, x: 0, y: 24)
+        .shadow(color: theme.primaryText01.opacity(0.05), radius: 8, x: 0, y: 14)
+        .shadow(color: theme.primaryText01.opacity(0.09), radius: 6, x: 0, y: 6)
+        .shadow(color: theme.primaryText01.opacity(0.1), radius: 3, x: 0, y: 2)
+        .shadow(color: theme.primaryText01.opacity(0.1), radius: 0, x: 0, y: 0)
     }
 
     @ViewBuilder
@@ -126,7 +128,7 @@ struct UpgradeCard: View {
             Text(purchaseTerms[safe: 2] ?? "") +
             Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
         }
-        .foregroundColor(.black)
+        .foregroundColor(theme.primaryText01)
     }
 
     @ViewBuilder

@@ -136,6 +136,6 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
         UpgradeLandingView(viewModel: viewModel)
-            .setupDefaultEnvironment()
+            .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
     }
 }
