@@ -105,6 +105,12 @@ extension UIViewController {
     }
 }
 
+extension WhatsNew {
+    static var slumberAnnouncement: Announcement? {
+        WhatsNew().announcements.first(where: { $0.version == "7.57" })
+    }
+}
+
 private extension String {
     /// Given a semver string, ie.: "7.42", "7.43.0.1", "7.43.1"
     /// returns it in the format of MAJOR.MINOR
