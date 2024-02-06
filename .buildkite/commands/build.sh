@@ -32,5 +32,15 @@ install_gems # see bash-cache Automattic's Buildkite plugin
 echo "--- Install Pods"
 install_cocoapods # see bash-cache Automattic's Buildkite plugin
 
-echo "--- Build & Test"
-bundle exec fastlane test
+# If a build configuration is provided, we'll add build that config without testing
+if [ $# -eq 1 ]; then
+  echo "--- :closed_lock_with_key: Installing Secrets"
+  bundle exec fastlane run configure_apply
+
+  echo "--- Build $1 without test"
+  bundle exec fastlane build configuration:$1
+else
+  echo "--- Build & Test"
+  bundle exec fastlane test
+fi
+

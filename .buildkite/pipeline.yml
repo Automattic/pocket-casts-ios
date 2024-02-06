@@ -18,6 +18,12 @@ steps:
     env: *common_env
     plugins: *common_plugins
 
+  - label: Build Release
+    command: .buildkite/commands/build.sh "Release"
+    agents: *common_agents
+    env: *common_env
+    plugins: *common_plugins
+
   - group: "Linters"
     steps:
       - label: ":swift: SwiftLint"
