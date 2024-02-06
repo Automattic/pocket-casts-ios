@@ -52,8 +52,7 @@ class WhatsNew {
         }
 
         guard !announcement.fullModal else {
-            // This view is very Slumber-specific for now, we'd like it to be generic
-            let whatsNewViewController = ThemedHostingController(rootView: SlumberAnnouncement(announcement: announcement)
+            let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement)
                 .onAppear {
                     Settings.lastWhatsNewShown = announcement.version
                 })
