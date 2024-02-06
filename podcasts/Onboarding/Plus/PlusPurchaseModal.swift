@@ -29,49 +29,17 @@ struct PlusPurchaseModal: View {
         _selectedOffer = State(initialValue: firstProduct?.offer)
     }
 
-    private func price(for subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo) -> AttributedString {
-        let subscriptionPeriod = subscriptionInfo.identifier.productInfo.frequency.description
-        let mainTextColor = Color.white
-        let secondaryTextColor = Color.gray
-        guard let offer = subscriptionInfo.offer else {
-            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
-            basePrice.font = .headline
-            basePrice.foregroundColor = mainTextColor
-
-            var basePeriod = AttributedString("/ \(subscriptionPeriod)")
-            basePeriod.foregroundColor = secondaryTextColor
-            basePeriod.font = .footnote
-
-            return basePrice + basePeriod
+    private func price(for subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo) -> String {
+        var price = subscriptionInfo.price
+        if let offer = subscriptionInfo.offer {
+            let period = subscriptionInfo.identifier.productInfo.frequency.description
+            if offer.type == .freeTrial {
+                price =  L10n.subscriptionFrequencyPricingFormat(subscriptionInfo.rawPrice, period)
+            } else {
+                price = L10n.subscriptionFrequencyPricingFormat(offer.price, period)
+            }
         }
-
-
-        if offer.type == .freeTrial {
-            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
-            basePrice.font = .headline
-            basePrice.foregroundColor = mainTextColor
-
-            var basePeriod = AttributedString("/ \(subscriptionPeriod)")
-            basePeriod.foregroundColor = secondaryTextColor
-            basePeriod.font = .footnote
-
-            return basePrice + basePeriod
-        }
-
-        var offerPrice = AttributedString(offer.price)
-        offerPrice.foregroundColor = mainTextColor
-        offerPrice.font = .headline
-
-        var offerPeriod = AttributedString(" /\(subscriptionPeriod)  ")
-        offerPeriod.foregroundColor = secondaryTextColor
-        offerPeriod.font = .footnote
-
-        var basePrice = AttributedString("\(offer.rawPrice) /\(subscriptionPeriod)")
-        basePrice.foregroundColor = secondaryTextColor
-        basePrice.font = .footnote
-        basePrice.strikethroughStyle = .single
-
-        return offerPrice + offerPeriod + basePrice
+        return price
     }
 
     var body: some View {
@@ -86,11 +54,9 @@ struct PlusPurchaseModal: View {
                     // Hide any unselected items if we're in the failed state, this saves space for the error message
                     if coordinator.state != .failed || selectedOption == product.identifier {
                         ZStack(alignment: .center) {
-                            Button() {
+                            Button(price(for: product)) {
                                 selectedOption = product.identifier
                                 selectedOffer = product.offer
-                            } label: {
-                                Text(price(for: product))
                             }
                             .disabled(coordinator.state == .failed)
                             .buttonStyle(PlusGradientStrokeButton(isSelectable: true, plan: coordinator.plan, isSelected: selectedOption == product.identifier))

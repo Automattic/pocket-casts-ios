@@ -3440,6 +3440,9 @@
 /* Pricing terms explaining that the user will have a discount in the first period then will pay full price, %1$@ is the full price, %2$@ the discount duration, %3$@ the date the user will pay full price */
 "pricing_terms_after_discount" = "Recurring payments at %1$@ after %2$@ (%3$@)";
 
+/* Subscription pricing format, %1$@ is the price, %2$@ is the subscription period */
+"subscription_frequency_pricing_format" = "%1$@ per %2$@";
+
 /* Monthly pricing format, %1$@ is the price */
 "plus_monthly_frequency_pricing_format" = "%1$@ per month";
 

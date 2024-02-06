@@ -2862,6 +2862,10 @@ internal enum L10n {
   internal static func subscriptionExpiresIn(_ p1: Any) -> String {
     return L10n.tr("Localizable", "subscription_expires_in", String(describing: p1))
   }
+  /// %1$@ per %2$@
+  internal static func subscriptionFrequencyPricingFormat(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "subscription_frequency_pricing_format", String(describing: p1), String(describing: p2))
+  }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }
   /// If you're having issues with the Pocket Casts Watch app we can send your wearable logs to better assist you. In order to do so, please open Pocket Casts on your Watch.
