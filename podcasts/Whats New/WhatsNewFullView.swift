@@ -4,7 +4,7 @@ import PocketCastsServer
 struct WhatsNewFullView: View {
     @EnvironmentObject var theme: Theme
 
-    @State var announcement: WhatsNew.Announcement
+    var announcement: WhatsNew.Announcement
 
     var body: some View {
         VStack(spacing: 0) {
@@ -47,16 +47,16 @@ struct WhatsNewFullView: View {
                         .multilineTextAlignment(.center)
                         .padding(.bottom)
                         .fixedSize(horizontal: false, vertical: true)
-                }
 
-                Button(announcement.buttonTitle) {
-                    track(.whatsnewConfirmButtonTapped)
+                    Button(announcement.buttonTitle) {
+                        track(.whatsnewConfirmButtonTapped)
 
-                    announcement.action()
+                        announcement.action()
+                    }
+                    .buttonStyle(RoundedButtonStyle(theme: theme))
+                    .padding(.top, 40)
+                    .padding(.bottom, 15)
                 }
-                .buttonStyle(RoundedButtonStyle(theme: theme))
-                .padding(.top, 40)
-                .padding(.bottom, 15)
             }
             .padding(.horizontal, 24)
         }
@@ -64,12 +64,6 @@ struct WhatsNewFullView: View {
         .onAppear {
             track(.whatsnewShown)
         }
-        .onReceive(NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged), perform: { _ in
-            // Re-render if the user purchases
-            if let slumberAnnouncement = WhatsNew.slumberAnnouncement {
-                announcement = slumberAnnouncement
-            }
-        })
     }
 
     private func dismiss(completion: (() -> Void)? = nil) {

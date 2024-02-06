@@ -34,14 +34,16 @@ struct SlumberWhatsNewHeader: View {
 struct SlumberCustomBody: View {
     @EnvironmentObject var theme: Theme
 
+    @ObservedObject private var viewModel = SlumberAnnouncementViewModel()
+
     var body: some View {
-        Text("Title")
+        Text(L10n.announcementSlumberTitle)
             .font(style: .title, weight: .bold)
             .foregroundStyle(theme.primaryText01)
             .multilineTextAlignment(.center)
             .fixedSize(horizontal: false, vertical: true)
             .padding(.bottom, 10)
-        UnderlineLinkTextView("Message")
+        UnderlineLinkTextView(viewModel.message)
             .font(style: .body)
             .foregroundStyle(theme.primaryText01)
             .multilineTextAlignment(.center)
@@ -55,18 +57,40 @@ struct SlumberCustomBody: View {
                 UIPasteboard.general.string = Settings.slumberPromoCode
                 Toast.show(L10n.announcementSlumberCodeCopied)
             }
+
+        Button(viewModel.buttonTitle) {
+            Analytics.track(.whatsnewConfirmButtonTapped)
+
+            viewModel.showRedeemOrUpgrade()
+        }
+        .buttonStyle(RoundedButtonStyle(theme: theme))
+        .padding(.top, 40)
+        .padding(.bottom, 15)
+        .onReceive(NotificationCenter.default.publisher(for: ServerNotifications.subscriptionStatusChanged), perform: { _ in
+            viewModel.update()
+        })
     }
 }
 
-class SlumberAnnouncementViewModel {
+class SlumberAnnouncementViewModel: ObservableObject {
     private lazy var upgradeOrRedeemViewModel = SlumberUpgradeRedeemViewModel()
 
-    var buttonTitle: String {
-        SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberRedeem : L10n.plusSubscribeTo
+    @Published var buttonTitle: String = ""
+
+    @Published var message: String = ""
+
+    init() {
+        setUpCopies()
     }
 
-    var message: String {
-        (SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberPlusDescription("**\(Settings.slumberPromoCode ?? "")**") : L10n.announcementSlumberNonPlusDescription).replacingOccurrences(of: L10n.announcementSlumberPlusDescriptionLearnMore, with: "[\(L10n.announcementSlumberPlusDescriptionLearnMore)](https://slumberstudios.com)")
+    private func setUpCopies() {
+        buttonTitle = SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberRedeem : L10n.plusSubscribeTo
+
+        message = (SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberPlusDescription("**\(Settings.slumberPromoCode ?? "")**") : L10n.announcementSlumberNonPlusDescription).replacingOccurrences(of: L10n.announcementSlumberPlusDescriptionLearnMore, with: "[\(L10n.announcementSlumberPlusDescriptionLearnMore)](https://slumberstudios.com)")
+    }
+
+    func update() {
+        setUpCopies()
     }
 
     func showRedeemOrUpgrade() {

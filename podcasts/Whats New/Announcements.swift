@@ -5,7 +5,6 @@ import PocketCastsUtils
 
 struct Announcements {
     private static let bookmarksViewModel = BookmarkAnnouncementViewModel()
-    private static let slumberViewModel = SlumberAnnouncementViewModel()
 
     // Order is important.
     // In the case a user migrates to, let's say, 7.10 to 7.15 and
@@ -45,11 +44,11 @@ struct Announcements {
         .init(
             version: "7.57",
             header: AnyView(SlumberWhatsNewHeader()),
-            title: L10n.announcementSlumberTitle,
-            message: slumberViewModel.message,
-            buttonTitle: slumberViewModel.buttonTitle,
+            title: "",
+            message: "",
+            buttonTitle: "",
             action: {
-                slumberViewModel.showRedeemOrUpgrade()
+
             },
             isEnabled: FeatureFlag.slumber.enabled,
             fullModal: true,
