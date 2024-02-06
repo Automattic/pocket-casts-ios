@@ -90,6 +90,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         case upsell
         case login
         case accountCreated
+        case accountScreen
     }
 
     struct Config {

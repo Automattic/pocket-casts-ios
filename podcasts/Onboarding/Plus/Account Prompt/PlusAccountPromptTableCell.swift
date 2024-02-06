@@ -14,7 +14,7 @@ class PlusAccountPromptTableCell: ThemeableCell {
 
         let view: UIView
         if FeatureFlag.newAccountUpgradePromptFlow.enabled {
-            view = UpgradePrompt(viewModel: PlusLandingViewModel(source: .upsell)) { [weak self] size in
+            view = UpgradePrompt(viewModel: PlusLandingViewModel(source: .accountScreen)) { [weak self] size in
                 self?.contentSizeUpdated?(size)
             }.themedUIView
         } else {
