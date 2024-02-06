@@ -206,7 +206,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             Analytics.track(.accountDetailsShowTOS)
         case .slumber:
             if let announcement = WhatsNew.slumberAnnouncement {
-                let whatsNewViewController = ThemedHostingController(rootView: SlumberAnnouncement(announcement: announcement))
+                let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement))
                 presentFromRootController(whatsNewViewController)
             }
         }
