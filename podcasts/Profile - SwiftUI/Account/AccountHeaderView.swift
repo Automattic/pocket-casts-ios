@@ -128,7 +128,7 @@ struct AccountHeaderView: View {
 
         enum padding {
             static let top = 30.0
-            static let bottom = 20.0
+            static let bottom = 16.0
             static let horizontal = 16.0
 
             static let labelsTop = 5.0

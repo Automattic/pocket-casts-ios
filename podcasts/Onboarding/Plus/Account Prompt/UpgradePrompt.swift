@@ -39,10 +39,11 @@ struct UpgradePrompt: View {
 
     var body: some View {
         ContentSizeGeometryReader(content: { proxy in
-            VStack(spacing: 10) {
-                Spacer()
+            VStack(spacing: 0) {
                 UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
+                    .padding([.top, .bottom], 16)
                 FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: true).environmentObject(self.viewModel)
+                    .padding([.bottom], 16)
                 if !tiers.isEmpty {
                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
                         .foregroundColor(theme.primaryText01)
