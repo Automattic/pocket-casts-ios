@@ -63,6 +63,17 @@ enum FeatureFlag: String, CaseIterable {
             false
         }
     }
+
+    /// Remote Feature Flag
+    /// This should match a Firebase Remote Config Parameter name (key)
+    var remoteKey: String? {
+        switch self {
+        case .deselectChapters:
+            "deselect_chapters"
+        default:
+            nil
+        }
+    }
 }
 
 extension FeatureFlag: OverrideableFlag {
