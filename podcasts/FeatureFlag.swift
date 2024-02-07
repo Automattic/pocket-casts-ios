@@ -57,11 +57,9 @@ enum FeatureFlag: String, CaseIterable {
             false
         case .giveRatings:
             false
-<<<<<<< HEAD
         case .deselectChapters:
-=======
+            false
         case .settingsSync:
->>>>>>> trunk
             false
         }
     }
