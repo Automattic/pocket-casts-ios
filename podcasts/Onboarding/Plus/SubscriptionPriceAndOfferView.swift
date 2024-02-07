@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 /// View to display the price of a subscription and any offer associated.
 struct SubscriptionPriceAndOfferView: View {
 
@@ -28,7 +27,7 @@ struct SubscriptionPriceAndOfferView: View {
                     .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
                     .textCase(.uppercase)
                     .font(style: .caption2, weight: .semibold)
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .clipShape(.capsule)
                     .transition(.scale)
             }
             Text(price(for: product))
