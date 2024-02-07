@@ -126,6 +126,12 @@ extension AppDelegate {
             }
         }
 
+        if FeatureFlag.settingsSync.enabled {
+            performUpdateIfRequired(updateKey: "MigrateToSyncedSettings") {
+                SettingsStore.appSettings.importUserDefaults()
+            }
+        }
+
         defaults.synchronize()
     }
 
