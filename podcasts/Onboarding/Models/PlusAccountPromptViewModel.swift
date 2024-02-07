@@ -77,7 +77,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 
         let context: OnboardingFlow.Context? = ["product": ProductInfo(plan: product.identifier.plan, frequency: .yearly)]
         let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue, context: context)
-        
+
         if let sheetPresentationController = controller.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
             sheetPresentationController.detents = UIScreen.isSmallScreen ? [.large()] : [.medium()]
