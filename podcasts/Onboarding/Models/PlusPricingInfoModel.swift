@@ -98,9 +98,9 @@ class PlusPricingInfoModel: ObservableObject {
         var terms: String {
             switch type {
             case .freeTrial:
-                return L10n.pricingTermsAfterTrialLong(duration, dateAfterOffer )
+                return L10n.pricingTermsAfterTrialLong(duration, dateAfterOffer.nonBreakingSpaces())
             case .discount:
-                return L10n.pricingTermsAfterDiscount(rawPrice, duration, dateAfterOffer )
+                return L10n.pricingTermsAfterDiscount(rawPrice, duration, dateAfterOffer.nonBreakingSpaces())
             }
         }
 
