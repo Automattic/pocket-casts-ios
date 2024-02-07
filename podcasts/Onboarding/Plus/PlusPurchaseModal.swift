@@ -147,9 +147,9 @@ private struct TermsView: View {
 
         Group {
             Text(purchaseTerms[safe: 0] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
+            Text(.init("[\(purchaseTerms[safe: 1]?.nonBreakingSpaces() ?? "")](\(privacyPolicy))")).underline() +
             Text(purchaseTerms[safe: 2] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
+            Text(.init("[\(purchaseTerms[safe: 3]?.nonBreakingSpaces() ?? "")](\(termsOfUse))")).underline()
         }
         .multilineTextAlignment(.center)
         .foregroundStyle(Color.textColor)
