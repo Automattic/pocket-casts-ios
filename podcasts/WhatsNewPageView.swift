@@ -91,11 +91,11 @@ class WhatsNewPageView: ThemeableView {
                     let button = WhatsNewLinkButton(url: url)
                     button.setTitle(Bundle.main.localizedString(forKey: text, value: text, table: nil), for: .normal)
                     button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 18)
-                    button.titleLabel?.textAlignment = .left
+                    button.titleLabel?.textAlignment = .natural
                     button.buttonStyle = .primaryUi01
                     button.textStyle = .primaryInteractive01
                     button.contentMode = .center
-                    button.contentHorizontalAlignment = .left
+                    button.contentHorizontalAlignment = .leading
                     button.titleLabel?.adjustsFontSizeToFitWidth = true
                     button.translatesAutoresizingMaskIntoConstraints = false
                     stackView.addArrangedSubview(button)
@@ -108,10 +108,10 @@ class WhatsNewPageView: ThemeableView {
                     button.delegate = whatsNewLinkDelegate
                     button.setTitle(Bundle.main.localizedString(forKey: text, value: text, table: nil), for: .normal)
                     button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 18)
-                    button.titleLabel?.textAlignment = .left
+                    button.titleLabel?.textAlignment = .natural
                     button.buttonStyle = .primaryUi01
                     button.textStyle = .primaryInteractive01
-                    button.contentHorizontalAlignment = .left
+                    button.contentHorizontalAlignment = .leading
                     button.titleLabel?.adjustsFontSizeToFitWidth = true
                     button.translatesAutoresizingMaskIntoConstraints = false
                     stackView.addArrangedSubview(button)

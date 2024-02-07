@@ -1,6 +1,11 @@
+7.58
+-----
+
+
 7.57
 -----
 - Implement new introductory offer for Plus: 50% off on the first year. [#1362] [internal]
+- Fixes an issue where the auto add to top/bottom would be reset. [#788]
 
 7.56
 -----

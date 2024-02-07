@@ -7,7 +7,7 @@
     <a href="https://buildkite.com/automattic/pocket-casts-ios"><img src="https://badge.buildkite.com/6c995de3d1584006341cc4dfda1312619f375385f5c0319dfe.svg?branch=trunk" /></a>
     <a href="https://github.com/Automattic/pocket-casts-ios/blob/trunk/LICENSE.md"><img src="https://img.shields.io/badge/license-MPL-black" /></a>
     <img src="https://img.shields.io/badge/platform-ios%20%7C%20watchos-lightgrey" />
-    <img src="https://img.shields.io/badge/Xcode-v15.0%2B-informational" />
+    <img src="https://img.shields.io/badge/Xcode-v15.2%2B-informational" />
 </p>
 
 <p align="center">

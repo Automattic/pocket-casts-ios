@@ -58,3 +58,7 @@ extension SubscriptionTier: Comparable {
         return lhsIndex < rhsIndex
     }
 }
+
+public enum PrimaryRowAction: Int32, Codable {
+    case stream = 0, download = 1
+}

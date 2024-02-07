@@ -28,6 +28,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable selecting/deselecting episode chapters
     case deselectChapters
 
+    /// Syncing all app and podcast settings
+    case settingsSync
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -54,7 +57,11 @@ enum FeatureFlag: String, CaseIterable {
             false
         case .giveRatings:
             false
+<<<<<<< HEAD
         case .deselectChapters:
+=======
+        case .settingsSync:
+>>>>>>> trunk
             false
         }
     }
