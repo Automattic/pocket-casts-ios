@@ -129,7 +129,7 @@ platform :ios do
   ENV['FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT'] = '120'
 
   desc 'Run the unit tests'
-  lane :test do |options|
+  lane :test do
     run_tests(
       scheme: SCHEME
     )
@@ -139,11 +139,11 @@ platform :ios do
   lane :build do |options|
     configure_code_signing
 
-    CONFIGURATION = options[:configuration]
-    if CONFIGURATION
+    configuration = options[:configuration]
+    if configuration
       build_app(
         scheme: SCHEME,
-        configuration: CONFIGURATION,
+        configuration: configuration,
         include_bitcode: false,
         export_method: 'app-store'
       )
