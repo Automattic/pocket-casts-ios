@@ -29,6 +29,7 @@ struct PlusPurchaseModal: View {
         _selectedOffer = State(initialValue: firstProduct?.offer)
     }
 
+    private func price(for subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo) -> String {
         guard let offer = subscriptionInfo.offer else {
             return subscriptionInfo.price
         }
