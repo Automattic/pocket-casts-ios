@@ -28,6 +28,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Syncing all app and podcast settings
     case settingsSync
 
+    /// Show the modal about the partnership with Slumber Studios
+    case slumber
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -55,6 +58,8 @@ enum FeatureFlag: String, CaseIterable {
         case .giveRatings:
             false
         case .settingsSync:
+            false
+        case .slumber:
             false
         }
     }
