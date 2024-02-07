@@ -26,10 +26,12 @@ extension ApiSetting {
 
 extension ModifiedDate {
     /// Updates the ApiSetting ModifiedDate instance with values from an ApiSetting
-    /// - Parameter setting: An `ApiSetting` instance which contains a value and (optional) modified date to set on this `ModifiedDate`
+    /// - Parameter setting: An `ApiSetting` instance which contains a value and (optional) modified date to used to determine whether the value should be overridden
     mutating func update<S: ApiSetting>(setting: S) where Value == S.ReturnValue.T {
-        let referenceDate = Date(timeIntervalSinceReferenceDate: 0)
+        let referenceDate = Date(timeIntervalSince1970: 0)
         if setting.modifiedAt.date > modifiedAt ?? referenceDate {
+            // The `modifiedAt` date is not set here so that we can tell when settings are _actually_ changed on device
+            // Then we include only those values in sending to the server.
             self = ModifiedDate(wrappedValue: setting.value.value)
         }
     }

@@ -5,15 +5,17 @@ import SwiftProtobuf
 class SyncSettingsTaskTests: XCTestCase {
 
     private let userDefaultsSuiteName = "PocketCastsTests-SyncSettingsTaskTests"
+    private let defaultsKey = "app_settings"
+    private let token = "1234"
 
     override func setUp() {
         super.setUp()
         UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
     }
-
+    
+    /// Tests sending a request with updates from `SettingsStore`
     func testRequest() throws {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
-        let defaultsKey = "app_settings"
 
         XCTAssertNil(defaults.data(forKey: defaultsKey), "User Defaults data should not exist yet for \(defaultsKey)")
 
@@ -40,14 +42,14 @@ class SyncSettingsTaskTests: XCTestCase {
             return (Data(), response)
         })
 
-        task.apiTokenAcquired(token: "1234")
+        task.apiTokenAcquired(token: token)
 
         wait(for: [expectation])
     }
-
+    
+    /// Tests sending a response with updates from `SettingsStore`
     func testResponse() throws {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
-        let defaultsKey = "app_settings"
 
         XCTAssertNil(defaults.data(forKey: defaultsKey), "User Defaults data should not exist yet for \(defaultsKey)")
 
@@ -72,11 +74,11 @@ class SyncSettingsTaskTests: XCTestCase {
             return (data, response)
         })
 
-        task.apiTokenAcquired(token: "1234")
+        task.apiTokenAcquired(token: token)
 
         wait(for: [expectation])
 
         XCTAssertEqual(store.openLinks, changedValue, "Value should be changed")
-
+        XCTAssertNil(store.$openLinks.modifiedAt, "Modified date should be nil")
     }
 }
