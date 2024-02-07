@@ -235,7 +235,7 @@ extension IAPHelper {
 
         let date = offer.subscriptionPeriod.offerEndDate
 
-        return date?.formatted(date: .numeric, time: .omitted)
+        return date?.formatted(date: .long, time: .omitted)
     }
 
     /// Checks if there is a free trial introductory offer for the given product
