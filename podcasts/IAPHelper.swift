@@ -235,7 +235,7 @@ extension IAPHelper {
 
         let date = offer.subscriptionPeriod.offerEndDate
 
-        return date?.formatted(date: .numeric, time: .omitted)
+        return date?.formatted(date: .long, time: .omitted)
     }
 
     /// Checks if there is a free trial introductory offer for the given product
@@ -397,7 +397,6 @@ private extension SKProductSubscriptionPeriod {
 
         return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
     }
-    
     /// Return the date when the offer price ends if an offer is available and is time bound
     var offerEndDate: Date? {
         let calendarUnit: Calendar.Component

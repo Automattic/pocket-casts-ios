@@ -30,16 +30,18 @@ struct PlusPurchaseModal: View {
     }
 
     private func price(for subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo) -> String {
-        var price = subscriptionInfo.price
-        if let offer = subscriptionInfo.offer {
-            let period = subscriptionInfo.identifier.productInfo.frequency.description
-            if offer.type == .freeTrial {
-                price =  L10n.subscriptionFrequencyPricingFormat(subscriptionInfo.rawPrice, period)
-            } else {
-                price = L10n.subscriptionFrequencyPricingFormat(offer.price, period)
-            }
+        guard let offer = subscriptionInfo.offer else {
+            return subscriptionInfo.price
         }
-        return price
+
+        let period = subscriptionInfo.identifier.productInfo.frequency.description
+
+        switch offer.type {
+        case .freeTrial:
+            return L10n.subscriptionFrequencyPricingFormat(subscriptionInfo.rawPrice, period)
+        case .discount:
+            return L10n.subscriptionFrequencyPricingFormat(offer.price, period)
+        }
     }
 
     var body: some View {
@@ -64,7 +66,7 @@ struct PlusPurchaseModal: View {
                                 ZStack(alignment: .center) {
                                     if let offerDescription = product.offer?.description {
                                         GeometryReader { proxy in
-                                            OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption ==   product.identifier)
+                                            OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
                                                 .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY)
                                         }
                                     }
@@ -145,12 +147,14 @@ private struct TermsView: View {
 
         Group {
             Text(purchaseTerms[safe: 0] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
+            Text(.init("[\(purchaseTerms[safe: 1]?.nonBreakingSpaces() ?? "")](\(privacyPolicy))")).underline() +
             Text(purchaseTerms[safe: 2] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
+            Text(.init("[\(purchaseTerms[safe: 3]?.nonBreakingSpaces() ?? "")](\(termsOfUse))")).underline()
         }
-        .foregroundColor(.textColor)
-        .font(style: .footnote)
+        .multilineTextAlignment(.center)
+        .foregroundStyle(Color.textColor)
+        .tint(.textColor)
+        .font(size: 14, style: .subheadline)
         .fixedSize(horizontal: false, vertical: true)
     }
 }

@@ -52,7 +52,7 @@ class PlusPricingInfoModel: ObservableObject {
     struct PlusPricingInfo {
         let products: [PlusProductPricingInfo]
         var hasOffer: Bool {
-            return products.contains(where: { $0.offer != nil } )
+           products.contains(where: { $0.offer != nil } )
         }
     }
 
@@ -98,9 +98,9 @@ class PlusPricingInfoModel: ObservableObject {
         var terms: String {
             switch type {
             case .freeTrial:
-                return L10n.pricingTermsAfterTrialLong(duration, dateAfterOffer )
+                return L10n.pricingTermsAfterTrialLong(duration, dateAfterOffer.nonBreakingSpaces())
             case .discount:
-                return L10n.pricingTermsAfterDiscount(rawPrice, duration, dateAfterOffer )
+                return L10n.pricingTermsAfterDiscount(rawPrice, duration, dateAfterOffer.nonBreakingSpaces())
             }
         }
 
