@@ -75,7 +75,9 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
     func showModal(for product: PlusProductPricingInfo? = nil) {
         guard let parentController, let product else { return }
 
-        let controller = PlusPurchaseModel.make(in: parentController, plan: product.identifier.plan, selectedPrice: .yearly)
+        let context: OnboardingFlow.Context? = ["product": ProductInfo(plan: product.identifier.plan, frequency: .yearly)]
+        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue, context: context)
+        
         if let sheetPresentationController = controller.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
             sheetPresentationController.detents = UIScreen.isSmallScreen ? [.large()] : [.medium()]
