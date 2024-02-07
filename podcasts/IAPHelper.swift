@@ -397,7 +397,6 @@ private extension SKProductSubscriptionPeriod {
 
         return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
     }
-    
     /// Return the date when the offer price ends if an offer is available and is time bound
     var offerEndDate: Date? {
         let calendarUnit: Calendar.Component
