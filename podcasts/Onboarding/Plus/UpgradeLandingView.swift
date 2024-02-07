@@ -259,7 +259,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+            slumberOrUndyingGratitude
         ],
                     background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
@@ -275,6 +275,10 @@ extension UpgradeTier {
 
         ],
         background: RadialGradient(colors: [Color(hex: "503ACC").opacity(0.8), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
+    }
+
+    static var slumberOrUndyingGratitude: TierFeature {
+        FeatureFlag.slumber.enabled ? TierFeature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
     }
 }
 
@@ -361,9 +365,10 @@ struct UpgradeCard: View {
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundColor(.black)
                                 .frame(width: 16, height: 16)
-                            Text(feature.title)
+                            UnderlineLinkTextView(feature.title)
                                 .font(size: 14, style: .subheadline, weight: .medium)
                                 .foregroundColor(.black)
+                                .tint(.black)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
@@ -424,5 +429,11 @@ extension ViewHeightKey: ViewModifier {
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
         UpgradeLandingView(viewModel: PlusLandingViewModel(source: .login))
+    }
+}
+
+extension String {
+    var slumberStudiosWithUrl: String {
+        self.replacingOccurrences(of: "Slumber Studios", with: "[Slumber Studios](https://slumberstudios.com)")
     }
 }
