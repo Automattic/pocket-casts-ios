@@ -52,7 +52,7 @@ class PlusPricingInfoModel: ObservableObject {
     struct PlusPricingInfo {
         let products: [PlusProductPricingInfo]
         var hasOffer: Bool {
-            return products.contains(where: { $0.offer != nil } )
+           products.contains(where: { $0.offer != nil } )
         }
     }
 
