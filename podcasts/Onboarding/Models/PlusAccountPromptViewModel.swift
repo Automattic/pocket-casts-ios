@@ -78,8 +78,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
         let controller = PlusPurchaseModel.make(in: parentController, plan: product.identifier.plan, selectedPrice: .yearly)
         if let sheetPresentationController = controller.sheetPresentationController {
             sheetPresentationController.prefersGrabberVisible = true
-            let detents: [UISheetPresentationController.Detent] = UIScreen.isSmallScreen ? [.large()] : [.medium()]
-            sheetPresentationController.detents = detents
+            sheetPresentationController.detents = UIScreen.isSmallScreen ? [.large()] : [.medium()]
         }
         parentController.presentFromRootController(controller, animated: true)
     }
