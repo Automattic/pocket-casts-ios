@@ -15,7 +15,7 @@ class ModifiedDateTests: XCTestCase {
         XCTAssertNil(test.$name.modifiedAt, "Initial Modified Date should be nil")
         XCTAssertEqual(test.name, initialName, "Initial Value should be \(initialName)")
     }
-    
+
     /// Tests the `modifiedAt` update when changing value
     func testModifiedDate() throws {
         var test = TestType(name: initialName)
