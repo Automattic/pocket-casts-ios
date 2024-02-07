@@ -146,14 +146,6 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.counterView.isHidden = true
             cell.showsDisclosureIndicator = false
             return cell
-        case .slumber:
-            let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
-            cell.cellLabel.text = "Slumber Studios"
-            cell.cellImage.image = UIImage(named: "plus-feature-slumber")
-            cell.iconStyle = .primaryInteractive01
-            cell.counterView.isHidden = true
-            cell.showsDisclosureIndicator = false
-            return cell
         }
     }
 
@@ -204,11 +196,6 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .termsOfUse:
             NavigationManager.sharedManager.navigateTo(NavigationManager.showTermsOfUsePageKey, data: nil)
             Analytics.track(.accountDetailsShowTOS)
-        case .slumber:
-            if let announcement = WhatsNew.slumberAnnouncement {
-                let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement))
-                presentFromRootController(whatsNewViewController)
-            }
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
