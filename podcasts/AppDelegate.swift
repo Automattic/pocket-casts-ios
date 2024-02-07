@@ -296,7 +296,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func updateRemoteFeatureFlags() {
-        #if !DEBUG
+        guard !BuildEnvironment.current.hasDebugFlag else { return }
         do {
             if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
                 // If the player transition changes we dismiss the full screen player
@@ -317,7 +317,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
         }
-        #endif
     }
 
     private func updateEndOfYearRemoteValue() {
