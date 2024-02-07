@@ -29,17 +29,18 @@ struct PlusPurchaseModal: View {
         _selectedOffer = State(initialValue: firstProduct?.offer)
     }
 
-    private func price(for subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo) -> String {
-        var price = subscriptionInfo.price
-        if let offer = subscriptionInfo.offer {
-            let period = subscriptionInfo.identifier.productInfo.frequency.description
-            if offer.type == .freeTrial {
-                price =  L10n.subscriptionFrequencyPricingFormat(subscriptionInfo.rawPrice, period)
-            } else {
-                price = L10n.subscriptionFrequencyPricingFormat(offer.price, period)
-            }
+        guard let offer = subscriptionInfo.offer else {
+            return subscriptionInfo.price
         }
-        return price
+
+        let period = subscriptionInfo.identifier.productInfo.frequency.description
+
+        switch offer.type {
+        case .freeTrial:
+            return L10n.subscriptionFrequencyPricingFormat(subscriptionInfo.rawPrice, period)
+        case .discount:
+            return L10n.subscriptionFrequencyPricingFormat(offer.price, period)
+        }
     }
 
     var body: some View {
