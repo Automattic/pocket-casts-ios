@@ -64,7 +64,7 @@ struct PlusPurchaseModal: View {
                                 ZStack(alignment: .center) {
                                     if let offerDescription = product.offer?.description {
                                         GeometryReader { proxy in
-                                            OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption ==   product.identifier)
+                                            OfferLabel(offerDescription, plan: coordinator.plan, isSelected: selectedOption == product.identifier)
                                                 .position(x: proxy.size.width * 0.5, y: proxy.frame(in: .local).minY)
                                         }
                                     }
