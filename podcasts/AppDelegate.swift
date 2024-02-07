@@ -296,7 +296,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func updateRemoteFeatureFlags() {
-        guard !BuildEnvironment.current.hasDebugFlag else { return }
+        guard BuildEnvironment.current != .debug else { return }
         do {
             if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
                 // If the player transition changes we dismiss the full screen player
