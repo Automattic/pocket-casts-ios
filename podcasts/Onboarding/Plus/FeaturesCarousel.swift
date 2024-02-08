@@ -36,6 +36,7 @@ struct FeaturesCarousel: View {
                         }
                     }
                 )
+                .frame(height: calculatedCardHeight, alignment: .top)
         }
         .carouselPeekAmount(.constant(tiers.count > 1 ? ViewConstants.peekAmount : 0))
         .carouselItemSpacing(ViewConstants.spacing)
