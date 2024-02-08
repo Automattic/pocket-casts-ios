@@ -206,9 +206,13 @@ class Settings: NSObject {
 
     // MARK: - Primary Up Next Swipe Action
 
-    private static let primaryUpNextSwipeActionKey = "SJUpNextSwipe"
+    static let primaryUpNextSwipeActionKey = "SJUpNextSwipe"
     private static var cachedPrimaryUpNextSwipeAction: PrimaryUpNextSwipeAction? // we cache this because it's used in lists
     class func primaryUpNextSwipeAction() -> PrimaryUpNextSwipeAction {
+        guard FeatureFlag.settingsSync.enabled == false else {
+            return SettingsStore.appSettings.upNextSwipe
+        }
+
         if let action = cachedPrimaryUpNextSwipeAction { return action }
 
         let storedValue = UserDefaults.standard.integer(forKey: primaryUpNextSwipeActionKey)
@@ -219,6 +223,9 @@ class Settings: NSObject {
     }
 
     class func setPrimaryUpNextSwipeAction(_ action: PrimaryUpNextSwipeAction) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.upNextSwipe = action
+        }
         UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
         cachedPrimaryUpNextSwipeAction = action
 

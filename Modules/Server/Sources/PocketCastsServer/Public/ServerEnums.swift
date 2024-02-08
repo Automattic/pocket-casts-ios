@@ -62,3 +62,7 @@ extension SubscriptionTier: Comparable {
 public enum PrimaryRowAction: Int32, Codable {
     case stream = 0, download = 1
 }
+
+public enum PrimaryUpNextSwipeAction: Int32, Codable {
+    case playNext = 0, playLast = 1
+}

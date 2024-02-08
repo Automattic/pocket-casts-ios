@@ -14,6 +14,7 @@ extension Api_ChangeableSettings {
         intelligentResumption.update(settings.$intelligentResumption)
         episodeGrouping.update(settings.$episodeGrouping)
         showArchived.update(settings.$showArchived)
+        upNextSwipe.update(settings.$upNextSwipe)
     }
 }
 
@@ -28,6 +29,7 @@ extension AppSettings {
         $intelligentResumption.update(setting: settings.intelligentResumption)
         $episodeGrouping.update(setting: settings.episodeGrouping)
         $showArchived.update(setting: settings.showArchived)
+        $upNextSwipe.update(setting: settings.upNextSwipe)
     }
 }
 
