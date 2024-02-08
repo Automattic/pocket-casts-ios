@@ -65,6 +65,8 @@ struct NowPlayingLockscreenWidgetEntryView: View {
                         .foregroundColor(Color.secondary)
                 }
             }
-        }.widgetURL(URL(string: widgetURL))
+        }
+        .widgetURL(URL(string: widgetURL))
+        .clearBackground()
     }
 }
