@@ -33,6 +33,7 @@ struct SubscriptionPriceAndOfferView: View {
             Text(price(for: product))
 
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.bottom, 12)
     }
 
