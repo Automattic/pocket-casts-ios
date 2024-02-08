@@ -40,7 +40,8 @@ struct FeaturesCarousel: View {
         .carouselPeekAmount(.constant(tiers.count > 1 ? ViewConstants.peekAmount : 0))
         .carouselItemSpacing(ViewConstants.spacing)
         .carouselScrollEnabled(tiers.count > 1)
-        .frame(height: calculatedCardHeight)
+        // Prevent the view from snapping on smaller screens if the height changes
+        .frame(height: UIScreen.isSmallScreen ? nil : calculatedCardHeight, alignment: .top)
         .padding(.leading, 30)
     }
 
