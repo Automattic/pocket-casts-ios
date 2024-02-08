@@ -11,5 +11,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$skipBack , value: Int32(ServerSettings.skipBackTime()))
         self.update(\.$keepScreenAwake , value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying))
         self.update(\.$openPlayer , value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically))
+        self.update(\.$intelligentResumption, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption))
     }
 }

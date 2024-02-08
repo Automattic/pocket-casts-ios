@@ -15,6 +15,7 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var keepScreenAwake: Bool
     @ModifiedDate public var openPlayer: Bool
+    @ModifiedDate public var intelligentResumption: Bool
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
@@ -22,7 +23,8 @@ public struct AppSettings: JSONCodable {
                            skipForward: 45,
                            skipBack: 10,
                            keepScreenAwake: false,
-                           openPlayer: false
+                           openPlayer: false,
+                           intelligentResumption: true
         )
     }
 }

@@ -160,7 +160,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralSmartPlayback
-            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.intelligentResumption
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+            }
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: .valueChanged)
@@ -479,6 +484,9 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func intelligentPlaybackResumptionToggled(_ sender: UISwitch) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.intelligentResumption = sender.isOn
+        }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
         Settings.trackValueToggled(.settingsGeneralIntelligentPlaybackToggled, enabled: sender.isOn)
     }
