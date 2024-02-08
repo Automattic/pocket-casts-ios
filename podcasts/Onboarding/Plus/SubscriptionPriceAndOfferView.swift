@@ -34,7 +34,6 @@ struct SubscriptionPriceAndOfferView: View {
             }
 
             Text(price(for: product))
-                .minimumScaleFactor(0.8)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.bottom, 12)
@@ -43,8 +42,8 @@ struct SubscriptionPriceAndOfferView: View {
     private func price(for subscriptionInfo: ProductInfo) -> AttributedString {
         let subscriptionPeriod = subscriptionInfo.identifier.productInfo.frequency.description
 
-        let priceFont = UIFont.font(with: .headline, maxSizeCategory: .accessibilityLarge)
-        let periodFont = UIFont.font(with: .footnote, maxSizeCategory: .accessibilityLarge)
+        let priceFont = UIFont.font(with: .headline, maxSizeCategory: .extraExtraExtraLarge)
+        let periodFont = UIFont.font(with: .footnote, maxSizeCategory: .extraExtraExtraLarge)
 
         // Only show the offer price for the intro discount
         guard let offer = subscriptionInfo.offer, offer.type == .discount else {
