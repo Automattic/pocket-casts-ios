@@ -1878,7 +1878,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if !os(watchOS)
             DispatchQueue.main.async {
                 if self.playing() {
-                    let keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+                    let keepScreenOn: Bool
+                    if FeatureFlag.settingsSync.enabled {
+                        keepScreenOn = SettingsStore.appSettings.keepScreenAwake
+                    } else {
+                        keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+                    }
                     UIApplication.shared.isIdleTimerDisabled = keepScreenOn
                 } else {
                     UIApplication.shared.isIdleTimerDisabled = false

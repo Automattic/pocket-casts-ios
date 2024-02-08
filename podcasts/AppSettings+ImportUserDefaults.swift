@@ -9,5 +9,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$rowAction, value: Int32(UserDefaults.standard.integer(forKey: "SJRowAction")))
         self.update(\.$skipForward, value: Int32(ServerSettings.skipForwardTime()))
         self.update(\.$skipBack , value: Int32(ServerSettings.skipBackTime()))
+        self.update(\.$keepScreenAwake , value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying))
     }
 }

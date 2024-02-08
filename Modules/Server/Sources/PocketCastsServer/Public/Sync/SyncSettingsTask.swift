@@ -9,6 +9,7 @@ extension Api_ChangeableSettings {
         rowAction.update(settings.$rowAction)
         skipForward.update(settings.$skipForward)
         skipBack.update(settings.$skipBack)
+        keepScreenAwake.update(settings.$keepScreenAwake)
     }
 }
 
@@ -18,6 +19,7 @@ extension AppSettings {
         $rowAction.update(setting: settings.rowAction)
         $skipForward.update(setting: settings.skipForward)
         $skipBack.update(setting: settings.skipBack)
+        $keepScreenAwake.update(setting: settings.keepScreenAwake)
     }
 }
 
