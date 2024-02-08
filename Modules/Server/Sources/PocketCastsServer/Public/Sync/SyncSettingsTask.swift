@@ -10,6 +10,7 @@ extension Api_ChangeableSettings {
         skipForward.update(settings.$skipForward)
         skipBack.update(settings.$skipBack)
         keepScreenAwake.update(settings.$keepScreenAwake)
+        openPlayer.update(settings.$openPlayer)
     }
 }
 
@@ -20,6 +21,7 @@ extension AppSettings {
         $skipForward.update(setting: settings.skipForward)
         $skipBack.update(setting: settings.skipBack)
         $keepScreenAwake.update(setting: settings.keepScreenAwake)
+        $openPlayer.update(setting: settings.openPlayer)
     }
 }
 

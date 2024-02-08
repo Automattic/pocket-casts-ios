@@ -14,13 +14,15 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var skipBack: Int32
 
     @ModifiedDate public var keepScreenAwake: Bool
-    
+    @ModifiedDate public var openPlayer: Bool
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,
                            skipForward: 45,
                            skipBack: 10,
-                           keepScreenAwake: false
+                           keepScreenAwake: false,
+                           openPlayer: false
         )
     }
 }
