@@ -12,5 +12,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$keepScreenAwake , value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying))
         self.update(\.$openPlayer , value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically))
         self.update(\.$intelligentResumption, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption))
+        self.update(\.$episodeGrouping, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastGroupingDefaultKey)))
     }
 }

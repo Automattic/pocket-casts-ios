@@ -9,6 +9,7 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var rowAction: PrimaryRowAction
 
+    @ModifiedDate public var episodeGrouping: PodcastGrouping
 
     @ModifiedDate public var skipForward: Int32
     @ModifiedDate public var skipBack: Int32
@@ -20,6 +21,7 @@ public struct AppSettings: JSONCodable {
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,
+                           episodeGrouping: .none,
                            skipForward: 45,
                            skipBack: 10,
                            keepScreenAwake: false,

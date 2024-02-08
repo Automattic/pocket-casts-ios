@@ -12,6 +12,7 @@ extension Api_ChangeableSettings {
         keepScreenAwake.update(settings.$keepScreenAwake)
         openPlayer.update(settings.$openPlayer)
         intelligentResumption.update(settings.$intelligentResumption)
+        episodeGrouping.update(settings.$episodeGrouping)
     }
 }
 
@@ -24,6 +25,7 @@ extension AppSettings {
         $keepScreenAwake.update(setting: settings.keepScreenAwake)
         $openPlayer.update(setting: settings.openPlayer)
         $intelligentResumption.update(setting: settings.intelligentResumption)
+        $episodeGrouping.update(setting: settings.episodeGrouping)
     }
 }
 

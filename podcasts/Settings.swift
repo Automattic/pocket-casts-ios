@@ -171,9 +171,13 @@ class Settings: NSObject {
 
     // MARK: - Podcast Grouping Default
 
-    private static let podcastGroupingDefaultKey = "SJDefaultPodcastGrouping"
+    static let podcastGroupingDefaultKey = "SJDefaultPodcastGrouping"
     private static var cachedPodcastGrouping: PodcastGrouping?
     class func defaultPodcastGrouping() -> PodcastGrouping {
+        guard FeatureFlag.settingsSync.enabled == false else {
+            return SettingsStore.appSettings.episodeGrouping
+        }
+
         if let grouping = cachedPodcastGrouping { return grouping }
 
         let storedValue = UserDefaults.standard.integer(forKey: podcastGroupingDefaultKey)
@@ -184,6 +188,9 @@ class Settings: NSObject {
     }
 
     class func setDefaultPodcastGrouping(_ grouping: PodcastGrouping) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.episodeGrouping = grouping
+        }
         UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
         cachedPodcastGrouping = grouping
 
