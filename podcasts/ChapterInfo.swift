@@ -13,6 +13,7 @@ class ChapterInfo: Equatable {
     var index = 0
     var duration: TimeInterval = 0
     var isHidden = false
+    var shouldPlay = true
 
     static func == (lhs: ChapterInfo, rhs: ChapterInfo) -> Bool {
         lhs.title == rhs.title && lhs.startTime.seconds == rhs.startTime.seconds && lhs.duration == rhs.duration

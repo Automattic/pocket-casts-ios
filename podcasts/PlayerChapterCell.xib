@@ -55,6 +55,9 @@
                         </constraints>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="checkmark.square.fill" catalog="system"/>
+                        <connections>
+                            <action selector="toggleChapterTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="rtX-4d-m7x"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tO-zw-yY4">
                         <rect key="frame" x="48" y="10.5" width="10" height="14.5"/>
@@ -157,8 +160,8 @@
                 <outlet property="linkView" destination="gi5-rn-or5" id="xbh-8k-0Hn"/>
                 <outlet property="nowPlayingAnimation" destination="Bke-e5-Ifv" id="Oz5-C3-Qyn"/>
                 <outlet property="progressViewWidth" destination="jBd-mB-N0I" id="5ys-L1-3e9"/>
-                <outlet property="selectedChapterButton" destination="cRZ-kP-W2l" id="8vL-OD-HLz"/>
                 <outlet property="seperatorView" destination="Bm9-Ke-jXY" id="aaK-b3-02B"/>
+                <outlet property="toggleChapterButton" destination="cRZ-kP-W2l" id="8vL-OD-HLz"/>
             </connections>
             <point key="canvasLocation" x="-432" y="-254.57271364317842"/>
         </tableViewCell>
