@@ -40,42 +40,33 @@ struct SubscriptionPriceAndOfferView: View {
     private func price(for subscriptionInfo: ProductInfo) -> AttributedString {
         let subscriptionPeriod = subscriptionInfo.identifier.productInfo.frequency.description
 
-        guard let offer = subscriptionInfo.offer else {
+        let priceFont = UIFont.font(with: .headline, maxSizeCategory: .accessibilityExtraLarge)
+        let periodFont = UIFont.font(with: .footnote, maxSizeCategory: .accessibilityExtraLarge)
+
+        // Only show the offer price for the intro discount
+        guard let offer = subscriptionInfo.offer, offer.type == .discount else {
             var basePrice =  AttributedString(subscriptionInfo.rawPrice)
-            basePrice.font = .headline
+            basePrice.font = priceFont
             basePrice.foregroundColor = mainTextColor
 
             var basePeriod = AttributedString("/ \(subscriptionPeriod)")
             basePeriod.foregroundColor = secondaryTextColor
-            basePeriod.font = .footnote
-
-            return basePrice + basePeriod
-        }
-
-
-        if offer.type == .freeTrial {
-            var basePrice =  AttributedString(subscriptionInfo.rawPrice)
-            basePrice.font = .headline
-            basePrice.foregroundColor = mainTextColor
-
-            var basePeriod = AttributedString("/ \(subscriptionPeriod)")
-            basePeriod.foregroundColor = secondaryTextColor
-            basePeriod.font = .footnote
+            basePeriod.font = periodFont
 
             return basePrice + basePeriod
         }
 
         var offerPrice = AttributedString(offer.price)
         offerPrice.foregroundColor = mainTextColor
-        offerPrice.font = .headline
+        offerPrice.font = priceFont
 
         var offerPeriod = AttributedString(" /\(subscriptionPeriod)  ")
         offerPeriod.foregroundColor = secondaryTextColor
-        offerPeriod.font = .footnote
+        offerPeriod.font = periodFont
 
         var basePrice = AttributedString("\(offer.rawPrice)/ \(subscriptionPeriod)")
         basePrice.foregroundColor = secondaryTextColor
-        basePrice.font = .footnote
+        basePrice.font = periodFont
         basePrice.strikethroughStyle = .single
 
         return offerPrice + offerPeriod + basePrice
