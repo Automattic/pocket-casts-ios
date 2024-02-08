@@ -68,21 +68,20 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 
     enum Source: String {
         case unknown
-        case accountDetails = "account_details"
+        case profile = "profile"
         case plusDetails = "plus_details"
     }
 
     func showModal(for product: PlusProductPricingInfo? = nil) {
-        guard let parentController else { return }
+        guard let parentController, let product else { return }
 
-        // Set the initial product to display on the upsell
-        let context: OnboardingFlow.Context? = product.map {
-            ["product": ProductInfo(plan: $0.identifier.plan, frequency: .yearly)]
+        let context: OnboardingFlow.Context? = ["product": ProductInfo(plan: product.identifier.plan, frequency: .yearly)]
+        let controller = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: parentController, source: source.rawValue, context: context)
+
+        if let sheetPresentationController = controller.sheetPresentationController {
+            sheetPresentationController.prefersGrabberVisible = true
+            sheetPresentationController.detents = UIScreen.isSmallScreen ? [.large()] : [.medium()]
         }
-
-        let flow: OnboardingFlow.Flow = subscription?.isExpiring(.patron) == true ? .patronAccountUpgrade : .plusAccountUpgrade
-        let controller = OnboardingFlow.shared.begin(flow: flow, in: parentController, source: source.rawValue, context: context)
-
         parentController.presentFromRootController(controller, animated: true)
     }
 

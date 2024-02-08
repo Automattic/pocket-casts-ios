@@ -25,7 +25,7 @@ class DateHeadingView: UIView {
 
         titleLabel = ThemeableLabel(frame: CGRect(x: 20, y: 10, width: bounds.width - 20, height: 30))
         titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.bold)
-        titleLabel?.textAlignment = .left
+        titleLabel?.textAlignment = .natural
         titleLabel?.text = title
         titleLabel?.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel!)

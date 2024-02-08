@@ -224,21 +224,18 @@ extension IAPHelper {
         let formattedPrice = numberFormatter.string(from: offer.price)
         return formattedPrice ?? ""
     }
-
-    /// Returns the first product with a free trial
-    /// The priority order is set by the productIdentifiers array
-    /// - Returns: The product enum with a free trial or nil if there is no free trial
-    typealias FreeTrialDetails = (duration: String, pricing: String)
-    func getFirstFreeTrialDetails() -> FreeTrialDetails? {
-        guard
-            let product = getFirstFreeTrialProductId(),
-            let duration = localizedFreeTrialDuration(product),
-            let pricing = pricingStringWithFrequency(for: product)
-        else {
+    
+    /// Return the offer localized string for the end date of a product offer
+    /// - Parameter identifier: the product id that we want to check the offer
+    /// - Returns: the localized string for the end date of a product offer
+    func offerEndDate(_ identifier: IAPProductID) -> String? {
+        guard let offer = getFreeTrialOffer(identifier) else {
             return nil
         }
 
-        return (duration, pricing)
+        let date = offer.subscriptionPeriod.offerEndDate
+
+        return date?.formatted(date: .long, time: .omitted)
     }
 
     /// Checks if there is a free trial introductory offer for the given product
@@ -399,6 +396,27 @@ private extension SKProductSubscriptionPeriod {
         }
 
         return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
+    }
+    /// Return the date when the offer price ends if an offer is available and is time bound
+    var offerEndDate: Date? {
+        let calendarUnit: Calendar.Component
+        switch unit {
+        case .day:
+            calendarUnit = .day
+        case .week:
+            calendarUnit = .weekOfMonth
+        case .month:
+            calendarUnit = .month
+        case .year:
+            calendarUnit = .year
+        @unknown default:
+            return nil
+        }
+        var components = DateComponents()
+        components.calendar = Calendar.current
+        components.setValue(self.numberOfUnits, for: calendarUnit)
+
+        return Calendar.current.date(byAdding: components, to: Date.now, wrappingComponents: true)
     }
 }
 
