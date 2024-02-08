@@ -1600,6 +1600,8 @@
 		F5BAACCB2B6446D900450E86 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */; };
 		F53DC8A62B72D1AB00B197A6 /* AppSettings+SyncUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53DC8A52B72D1AB00B197A6 /* AppSettings+SyncUserDefaults.swift */; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
+		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
+		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
 		F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
@@ -1739,6 +1741,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */,
 				C7BF5E4E29083E2100733C1E /* PocketCastsServer in Embed Frameworks */,
 				8BF0BBD6289199D2006BBECF /* PocketCastsDataModel in Embed Frameworks */,
 			);
@@ -3433,6 +3436,7 @@
 				3FB8643028896539003A86BE /* BuildkiteTestCollector in Frameworks */,
 				3AAC732D703CDCF4C0F06E10 /* libPods-PocketCastsTests.a in Frameworks */,
 				8BF0BBD4289199D2006BBECF /* PocketCastsDataModel in Frameworks */,
+				F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7176,6 +7180,7 @@
 			children = (
 				C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */,
 				F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */,
+				F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -7366,6 +7371,7 @@
 				8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */,
 				3FB8642F28896539003A86BE /* BuildkiteTestCollector */,
 				C7BF5E4C29083E2100733C1E /* PocketCastsServer */,
+				F55449412B758E8300F68AE9 /* PocketCastsUtils */,
 			);
 			productName = PocketCastsTests;
 			productReference = 45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */;
@@ -8542,6 +8548,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */,
 				8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */,
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
 				8B68C1D829421E3400CF25C5 /* FeatureFlagTests.swift in Sources */,
@@ -11589,6 +11596,10 @@
 		C7BF5E4C29083E2100733C1E /* PocketCastsServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsServer;
+		};
+		F55449412B758E8300F68AE9 /* PocketCastsUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsUtils;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
