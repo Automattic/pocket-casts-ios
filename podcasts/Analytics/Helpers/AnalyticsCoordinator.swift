@@ -54,6 +54,10 @@ class AnalyticsCoordinator {
     /// Sometimes the playback source can't be inferred, just inform it here
     var currentSource: AnalyticsSource?
 
+    private var currentEpisodeIsVideo: Bool {
+        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+    }
+
     #if !os(watchOS)
         var currentAnalyticsSource: AnalyticsSource {
             if let currentSource = currentSource {
@@ -73,7 +77,7 @@ class AnalyticsCoordinator {
                 return
             }
 
-            let defaultProperties: [String: Any] = ["source": currentAnalyticsSource]
+            let defaultProperties: [String: Any] = ["source": currentAnalyticsSource, "content_type": currentEpisodeIsVideo ? "video" : "audio"]
             let mergedProperties = defaultProperties.merging(properties ?? [:]) { current, _ in current }
             Analytics.track(event, properties: mergedProperties)
         }

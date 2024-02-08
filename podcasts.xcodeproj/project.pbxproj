@@ -7433,6 +7433,7 @@
 			buildPhases = (
 				DF03311AC9ED8455DC9169CD /* [CP] Check Pods Manifest.lock */,
 				BDBD53E817019B2A0048C8C5 /* Sources */,
+				3C5194112B716756006632DE /* ShellScript */,
 				BDBD53E917019B2A0048C8C5 /* Frameworks */,
 				BDBD53EA17019B2A0048C8C5 /* Resources */,
 				BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */,
@@ -8280,6 +8281,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3C5194112B716756006632DE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "[ $CI ] && exit 0\n./Pods/SwiftLint/swiftlint --lenient\n";
+		};
 		3F407FBC28EC30B800818E41 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;

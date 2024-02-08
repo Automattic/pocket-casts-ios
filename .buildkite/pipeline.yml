@@ -21,7 +21,7 @@ steps:
   - group: "Linters"
     steps:
       - label: ":swift: SwiftLint"
-        command: .buildkite/commands/run-swiftlint.sh
+        command: .buildkite/commands/run-swiftlint.sh --strict
         plugins:
           - docker#v5.8.0:
               image: "ghcr.io/realm/swiftlint:0.54.0"
