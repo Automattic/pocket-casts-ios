@@ -365,12 +365,19 @@ class Settings: NSObject {
 
     // MARK: - CarPlay/Lock Screen actions
 
-    private static let mediaSessionActionsKey = "MediaSessionActions"
+    static let mediaSessionActionsKey = "MediaSessionActions"
     class func extraMediaSessionActionsEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.playbackActions
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
+        }
     }
 
     class func setExtraMediaSessionActionsEnabled(_ enabled: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.playbackActions = enabled
+        }
         UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.extraMediaSessionActionsChanged)

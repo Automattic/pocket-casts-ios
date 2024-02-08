@@ -16,6 +16,7 @@ extension Api_ChangeableSettings {
         showArchived.update(settings.$showArchived)
         upNextSwipe.update(settings.$upNextSwipe)
         playUpNextOnTap.update(settings.$playUpNextOnTap)
+        playbackActions.update(settings.$playbackActions)
     }
 }
 
@@ -32,6 +33,7 @@ extension AppSettings {
         $showArchived.update(setting: settings.showArchived)
         $upNextSwipe.update(setting: settings.upNextSwipe)
         $playUpNextOnTap.update(setting: settings.playUpNextOnTap)
+        $playbackActions.update(setting: settings.playbackActions)
     }
 }
 
