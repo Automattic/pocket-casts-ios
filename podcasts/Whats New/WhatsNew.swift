@@ -12,6 +12,8 @@ class WhatsNew {
         let action: () -> Void
         let displayTier: SubscriptionTier
         let isEnabled: () -> Bool
+        let fullModal: Bool
+        let customBody: () -> AnyView?
 
         init(version: String,
              header: @autoclosure @escaping () -> AnyView,
@@ -19,7 +21,9 @@ class WhatsNew {
              buttonTitle: String,
              action: @escaping () -> Void,
              displayTier: SubscriptionTier = .none,
-             isEnabled: @autoclosure @escaping () -> Bool) {
+             isEnabled: @autoclosure @escaping () -> Bool,
+             fullModal: Bool = false,
+             customBody: @autoclosure @escaping () -> AnyView? = nil) {
             self.version = version
             self.header = header
             self.title = title
@@ -28,6 +32,8 @@ class WhatsNew {
             self.action = action
             self.displayTier = displayTier
             self.isEnabled = isEnabled
+            self.fullModal = fullModal
+            self.customBody = customBody
         }
     }
 
@@ -46,6 +52,15 @@ class WhatsNew {
     func viewControllerToShow() -> UIViewController? {
         guard let announcement = visibleAnnouncement else {
             return nil
+        }
+
+        guard !announcement.fullModal else {
+            let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement)
+                .onAppear {
+                    Settings.lastWhatsNewShown = announcement.version
+                })
+
+            return whatsNewViewController.usingSheetPresentationController()
         }
 
         let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView(announcement: announcement))
@@ -74,6 +89,27 @@ class WhatsNew {
                 $0.version != lastWhatsNewShown &&
                 $0.version.inRange(of: previousOpenedVersion, upper: currentVersion)
             })
+    }
+}
+
+extension UIViewController {
+    func usingSheetPresentationController() -> Self {
+        if let sheet = sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.prefersGrabberVisible = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+        }
+
+        return self
+    }
+}
+
+extension WhatsNew {
+    static var slumberAnnouncement: Announcement? {
+        WhatsNew().announcements.first(where: { $0.version == "7.57" })
     }
 }
 
