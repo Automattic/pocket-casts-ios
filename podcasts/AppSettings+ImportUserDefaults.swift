@@ -15,5 +15,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$episodeGrouping, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastGroupingDefaultKey)))
         self.update(\.$showArchived, value: UserDefaults.standard.bool(forKey: Settings.defaultArchiveBehaviour))
         self.update(\.$upNextSwipe, value: Int32(UserDefaults.standard.integer(forKey: Settings.primaryUpNextSwipeActionKey)))
+        self.update(\.$playUpNextOnTap, value: UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey))
     }
 }

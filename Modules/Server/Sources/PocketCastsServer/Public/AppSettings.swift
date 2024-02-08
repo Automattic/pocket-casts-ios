@@ -20,6 +20,8 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var openPlayer: Bool
     @ModifiedDate public var intelligentResumption: Bool
 
+    @ModifiedDate public var playUpNextOnTap: Bool
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,
@@ -30,7 +32,8 @@ public struct AppSettings: JSONCodable {
                            skipBack: 10,
                            keepScreenAwake: false,
                            openPlayer: false,
-                           intelligentResumption: true
+                           intelligentResumption: true,
+                           playUpNextOnTap: false
         )
     }
 }

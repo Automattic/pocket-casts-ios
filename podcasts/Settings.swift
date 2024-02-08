@@ -234,12 +234,18 @@ class Settings: NSObject {
 
     // MARK: - Play Up Next On Tap
 
-    private static let playUpNextOnTapKey = "SJPlayUpNextOnTap"
+    static let playUpNextOnTapKey = "SJPlayUpNextOnTap"
     class func playUpNextOnTap() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
+        guard FeatureFlag.settingsSync.enabled == false else {
+            return SettingsStore.appSettings.playUpNextOnTap
+        }
+        return UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
     }
 
     class func setPlayUpNextOnTap(_ isOn: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.playUpNextOnTap = isOn
+        }
         UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
     }
 

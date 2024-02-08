@@ -15,6 +15,7 @@ extension Api_ChangeableSettings {
         episodeGrouping.update(settings.$episodeGrouping)
         showArchived.update(settings.$showArchived)
         upNextSwipe.update(settings.$upNextSwipe)
+        playUpNextOnTap.update(settings.$playUpNextOnTap)
     }
 }
 
@@ -30,6 +31,7 @@ extension AppSettings {
         $episodeGrouping.update(setting: settings.episodeGrouping)
         $showArchived.update(setting: settings.showArchived)
         $upNextSwipe.update(setting: settings.upNextSwipe)
+        $playUpNextOnTap.update(setting: settings.playUpNextOnTap)
     }
 }
 
