@@ -22,6 +22,7 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var playUpNextOnTap: Bool
     @ModifiedDate public var playbackActions: Bool
+    @ModifiedDate public var legacyBluetooth: Bool
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
@@ -35,7 +36,8 @@ public struct AppSettings: JSONCodable {
                            openPlayer: false,
                            intelligentResumption: true,
                            playUpNextOnTap: false,
-                           playbackActions: false
+                           playbackActions: false,
+                           legacyBluetooth: false
         )
     }
 }

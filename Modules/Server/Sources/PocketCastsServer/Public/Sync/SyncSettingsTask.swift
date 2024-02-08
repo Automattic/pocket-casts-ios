@@ -17,6 +17,7 @@ extension Api_ChangeableSettings {
         upNextSwipe.update(settings.$upNextSwipe)
         playUpNextOnTap.update(settings.$playUpNextOnTap)
         playbackActions.update(settings.$playbackActions)
+        legacyBluetooth.update(settings.$legacyBluetooth)
     }
 }
 
@@ -34,6 +35,7 @@ extension AppSettings {
         $upNextSwipe.update(setting: settings.upNextSwipe)
         $playUpNextOnTap.update(setting: settings.playUpNextOnTap)
         $playbackActions.update(setting: settings.playbackActions)
+        $legacyBluetooth.update(setting: settings.legacyBluetooth)
     }
 }
 

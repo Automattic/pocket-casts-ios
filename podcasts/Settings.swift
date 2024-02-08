@@ -387,12 +387,19 @@ class Settings: NSObject {
 
     // MARK: - Legacy Bluetooth Support
 
-    private static let legacyBtSupportKey = "LegacyBtSupport"
+    static let legacyBtSupportKey = "LegacyBtSupport"
     class func legacyBluetoothModeEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.legacyBluetooth
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
+        }
     }
 
     class func setLegacyBluetoothModeEnabled(_ enabled: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.legacyBluetooth = enabled
+        }
         UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
         Settings.trackValueToggled(.settingsGeneralLegacyBluetoothToggled, enabled: enabled)
     }
