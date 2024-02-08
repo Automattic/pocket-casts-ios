@@ -224,7 +224,7 @@ extension IAPHelper {
         let formattedPrice = numberFormatter.string(from: offer.price)
         return formattedPrice ?? ""
     }
-    
+
     /// Return the offer localized string for the end date of a product offer
     /// - Parameter identifier: the product id that we want to check the offer
     /// - Returns: the localized string for the end date of a product offer

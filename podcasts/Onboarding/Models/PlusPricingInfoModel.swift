@@ -30,8 +30,7 @@ class PlusPricingInfoModel: ObservableObject {
             if let duration = purchaseHandler.localizedFreeTrialDuration(product),
                let type = purchaseHandler.offerType(product),
                let price = purchaseHandler.localizedOfferPrice(product),
-               let offerEndDate = purchaseHandler.offerEndDate(product)
-            {
+               let offerEndDate = purchaseHandler.offerEndDate(product) {
                 offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, dateAfterOffer: offerEndDate)
             }
 

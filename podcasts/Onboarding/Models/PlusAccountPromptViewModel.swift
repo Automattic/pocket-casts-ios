@@ -68,7 +68,7 @@ class PlusAccountPromptViewModel: PlusPricingInfoModel {
 
     enum Source: String {
         case unknown
-        case accountDetails = "account_details"
+        case profile = "profile"
         case plusDetails = "plus_details"
     }
 

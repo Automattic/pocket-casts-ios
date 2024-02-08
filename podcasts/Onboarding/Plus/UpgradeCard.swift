@@ -55,7 +55,7 @@ extension UpgradeTier {
 
 struct UpgradeCard: View {
     @EnvironmentObject var viewModel: PlusLandingViewModel
-    
+
     @EnvironmentObject var theme: Theme
 
     let tier: UpgradeTier
