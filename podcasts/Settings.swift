@@ -856,10 +856,17 @@ class Settings: NSObject {
 
     static var autoplay: Bool {
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.autoPlayEnabled = newValue
+            }
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
         }
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.autoPlayEnabled
+            } else {
+                return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+            }
         }
     }
 
