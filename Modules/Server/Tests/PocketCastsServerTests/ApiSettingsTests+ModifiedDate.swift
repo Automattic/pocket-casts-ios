@@ -13,7 +13,7 @@ class APISettingsTests: XCTestCase {
         XCTAssertEqual(settings.value.value, initialValue, "Initial value should be correct")
         XCTAssertEqual(settings.modifiedAt.timeIntervalSince1970, Date(timeIntervalSince1970: 0).timeIntervalSince1970, "Initial Timestamp should be epoch")
     }
-    
+
     /// Tests that the value changes when a setting is updated
     func testChangedValue() {
         var settings = Api_BoolSetting()
@@ -28,7 +28,7 @@ class APISettingsTests: XCTestCase {
         XCTAssertNotEqual(settings.value.value, changedValue, "Settings value should not be changed by the initial value, since it wasn't modified")
         XCTAssertEqual(settings.modifiedAt.timeIntervalSince1970, Date(timeIntervalSince1970: 0).timeIntervalSince1970, "Initial Timestamp should be epoch")
     }
-    
+
     /// Tests that the value changes when a setting is updated twice
     func testDoubleChangeValue() {
         var settings = Api_BoolSetting()
