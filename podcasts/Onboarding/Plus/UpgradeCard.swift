@@ -66,8 +66,6 @@ struct UpgradeCard: View {
 
     let showPurchaseButton: Bool
 
-    @State var calculatedCardHeight: CGFloat?
-
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 0) {
