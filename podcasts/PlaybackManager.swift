@@ -716,9 +716,15 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // persist changes
         if effects.isGlobal {
-            UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
-            UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
-            UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.trimSilence = effects.trimSilence
+                SettingsStore.appSettings.volumeBoost = effects.volumeBoost
+                SettingsStore.appSettings.playbackSpeed = effects.playbackSpeed
+            } else {
+                UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
+                UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
+                UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
+            }
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
             if FeatureFlag.settingsSync.enabled {
                 podcast.settings.trimSilence = effects.trimSilence
