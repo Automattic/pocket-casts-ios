@@ -19,6 +19,9 @@ struct SubscriptionPriceAndOfferView: View {
         VStack(alignment: .leading, spacing: 10) {
             OfferStack {
                 SubscriptionBadge(tier: product.identifier.subscriptionTier)
+                    // Prevent the badge from changing position after swiping
+                    .transition(.identity.animation(.none))
+                    .id("sub_badge_" + product.identifier.rawValue)
 
                 if let offerDescription = offerDescription(for: product) {
                     Text(offerDescription)
