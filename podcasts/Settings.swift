@@ -406,8 +406,12 @@ class Settings: NSObject {
 
     // MARK: - Publish Chapter Titles
 
-    private static let publishChapterTitlesKey = "PublishChapterTitles"
+    static let publishChapterTitlesKey = "PublishChapterTitles"
     class func publishChapterTitlesEnabled() -> Bool {
+        guard FeatureFlag.settingsSync.enabled == false else {
+            return SettingsStore.appSettings.chapterTitles
+        }
+
         if let isEnabled = UserDefaults.standard.value(forKey: Settings.publishChapterTitlesKey) as? Bool {
             return isEnabled
         }
@@ -416,6 +420,9 @@ class Settings: NSObject {
     }
 
     class func setPublishChapterTitlesEnabled(_ enabled: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.chapterTitles = enabled
+        }
         UserDefaults.standard.set(enabled, forKey: Settings.publishChapterTitlesKey)
     }
 

@@ -24,6 +24,7 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var playbackActions: Bool
     @ModifiedDate public var legacyBluetooth: Bool
     @ModifiedDate public var multiSelectGesture: Bool
+    @ModifiedDate public var chapterTitles: Bool
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
@@ -39,7 +40,8 @@ public struct AppSettings: JSONCodable {
                            playUpNextOnTap: false,
                            playbackActions: false,
                            legacyBluetooth: false,
-                           multiSelectGesture: true
+                           multiSelectGesture: true,
+                           chapterTitles: true
         )
     }
 }

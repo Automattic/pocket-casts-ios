@@ -19,6 +19,7 @@ extension Api_ChangeableSettings {
         playbackActions.update(settings.$playbackActions)
         legacyBluetooth.update(settings.$legacyBluetooth)
         multiSelectGesture.update(settings.$multiSelectGesture)
+        chapterTitles.update(settings.$chapterTitles)
     }
 }
 
@@ -38,6 +39,7 @@ extension AppSettings {
         $playbackActions.update(setting: settings.playbackActions)
         $legacyBluetooth.update(setting: settings.legacyBluetooth)
         $multiSelectGesture.update(setting: settings.multiSelectGesture)
+        $chapterTitles.update(setting: settings.chapterTitles)
     }
 }
 
