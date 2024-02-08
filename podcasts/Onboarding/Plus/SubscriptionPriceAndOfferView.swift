@@ -17,21 +17,21 @@ struct SubscriptionPriceAndOfferView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            SubscriptionBadge(tier: product.identifier.subscriptionTier)
-            if let offerDescription = offerDescription(for: product) {
-                Text(offerDescription)
-                    .lineLimit(1)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
-                    .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
-                    .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
-                    .textCase(.uppercase)
-                    .font(style: .caption2, weight: .semibold)
-                    .clipShape(.capsule)
-                    .transition(.scale)
-            }
-            Text(price(for: product))
+            OfferStack {
+                SubscriptionBadge(tier: product.identifier.subscriptionTier)
 
+                if let offerDescription = offerDescription(for: product) {
+                    Text(offerDescription)
+                        .foregroundColor(product.identifier.plan == .plus ? Color.black : Color.white)
+                        .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
+                        .background(product.identifier.plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor)
+                        .textCase(.uppercase)
+                        .font(style: .caption2, weight: .semibold)
+                        .clipShape(.capsule)
+                }
+            }
+
+            Text(price(for: product))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.bottom, 12)
