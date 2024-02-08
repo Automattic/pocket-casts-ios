@@ -13,6 +13,7 @@ extension Api_ChangeableSettings {
         openPlayer.update(settings.$openPlayer)
         intelligentResumption.update(settings.$intelligentResumption)
         episodeGrouping.update(settings.$episodeGrouping)
+        showArchived.update(settings.$showArchived)
     }
 }
 
@@ -26,6 +27,7 @@ extension AppSettings {
         $openPlayer.update(setting: settings.openPlayer)
         $intelligentResumption.update(setting: settings.intelligentResumption)
         $episodeGrouping.update(setting: settings.episodeGrouping)
+        $showArchived.update(setting: settings.showArchived)
     }
 }
 

@@ -115,12 +115,19 @@ class Settings: NSObject {
 
     // MARK: - Default Archive Hiding
 
-    private static let defaultArchiveBehaviour = "SJDefaultArchive"
+    static let defaultArchiveBehaviour = "SJDefaultArchive"
     class func showArchivedDefault() -> Bool {
-        UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.showArchived
+        } else {
+            return UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
+        }
     }
 
     class func setShowArchivedDefault(_ showArchived: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.showArchived = showArchived
+        }
         UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
 
         trackValueChanged(.settingsGeneralArchivedEpisodesChanged, value: showArchived ? "show" : "hide")
