@@ -862,6 +862,38 @@ class Settings: NSObject {
         }
     }
 
+    static var skipBackTime: Int {
+        get {
+            if FeatureFlag.settingsSync.enabled {
+                return Int(SettingsStore.appSettings.skipBack)
+            } else {
+                return ServerSettings.skipBackTime()
+            }
+        }
+        set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.skipBack = Int32(newValue)
+            }
+            ServerSettings.setSkipBackTime(newValue)
+        }
+    }
+
+    static var skipForwardTime: Int {
+        get {
+            if FeatureFlag.settingsSync.enabled {
+                return Int(SettingsStore.appSettings.skipForward)
+            } else {
+                return ServerSettings.skipForwardTime()
+            }
+        }
+        set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.skipForward = Int32(newValue)
+            }
+            ServerSettings.setSkipForwardTime(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)

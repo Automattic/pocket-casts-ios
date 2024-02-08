@@ -6,8 +6,16 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var rowAction: PrimaryRowAction
 
+
+    @ModifiedDate public var skipForward: Int32
+    @ModifiedDate public var skipBack: Int32
+
     static var defaults: AppSettings {
-        return AppSettings(openLinks: true, rowAction: .download)
+        return AppSettings(openLinks: false,
+                           rowAction: .stream,
+                           skipForward: 45,
+                           skipBack: 10
+        )
     }
 }
 

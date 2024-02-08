@@ -59,7 +59,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: timeStepperCellId, for: indexPath) as! TimeStepperCell
             let cellLabelText = L10n.skipForward
             cell.cellLabel.text = cellLabelText
-            let jumpFwdAmount = ServerSettings.skipForwardTime()
+            let jumpFwdAmount = Settings.skipForwardTime
             cell.cellSecondaryLabel.text = L10n.timeShorthand(jumpFwdAmount)
             cell.timeStepper.currentValue = TimeInterval(jumpFwdAmount)
             cell.timeStepper.tintColor = ThemeColor.primaryInteractive01()
@@ -71,7 +71,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.onValueChanged = { [weak self] value in
                 let newValue = Int(value)
-                ServerSettings.setSkipForwardTime(newValue)
+                Settings.skipForwardTime = newValue
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
                 cell.configureAccessibilityLabel(text: cellLabelText, time: newValue)
 
@@ -87,7 +87,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: timeStepperCellId, for: indexPath) as! TimeStepperCell
             let cellLabelText = L10n.skipBack
             cell.cellLabel.text = L10n.skipBack
-            let skipBackAmount = ServerSettings.skipBackTime()
+            let skipBackAmount = Settings.skipBackTime
             cell.cellSecondaryLabel.text = L10n.timeShorthand(skipBackAmount)
             cell.timeStepper.currentValue = TimeInterval(skipBackAmount)
             cell.timeStepper.tintColor = ThemeColor.primaryInteractive01()
@@ -99,7 +99,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.onValueChanged = { [weak self] value in
                 let newValue = Int(value)
-                ServerSettings.setSkipBackTime(newValue)
+                Settings.skipBackTime = newValue
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
                 cell.configureAccessibilityLabel(text: cellLabelText, time: newValue)
 

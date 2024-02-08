@@ -7,6 +7,8 @@ extension Api_ChangeableSettings {
     mutating func update(with settings: AppSettings) {
         openLinks.update(settings.$openLinks)
         rowAction.update(settings.$rowAction)
+        skipForward.update(settings.$skipForward)
+        skipBack.update(settings.$skipBack)
     }
 }
 
@@ -14,6 +16,8 @@ extension AppSettings {
     mutating func update(with settings: Api_NamedSettingsResponse) {
         $openLinks.update(setting: settings.openLinks)
         $rowAction.update(setting: settings.rowAction)
+        $skipForward.update(setting: settings.skipForward)
+        $skipBack.update(setting: settings.skipBack)
     }
 }
 
