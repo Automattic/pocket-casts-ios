@@ -89,6 +89,29 @@ struct SubscriptionPriceAndOfferView: View {
     }
 }
 
+/// Switches between an HStack and VStack on iOS 16, and defaults to a VStack below
+private struct OfferStack<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
+        if #available(iOS 16.0, *) {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 10) {
+                    content()
+                }
+
+                VStack(alignment: .leading, spacing: 10) {
+                    content()
+                }
+            }
+        } else {
+            VStack(alignment: .leading, spacing: 10) {
+                content()
+            }
+        }
+    }
+}
+
 #Preview {
     SubscriptionPriceAndOfferView(product: PlusPricingInfoModel.PlusProductPricingInfo(identifier: .monthly, price: "9.99", rawPrice: "9.99", offer: nil), mainTextColor: .black, secondaryTextColor: .gray)
 }
