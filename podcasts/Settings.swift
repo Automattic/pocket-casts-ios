@@ -620,12 +620,19 @@ class Settings: NSObject {
 
     // MARK: Multi Select Gesture
 
-    private static let multiSelectGestureKey = "MultiSelectGestureEnabled"
+    static let multiSelectGestureKey = "MultiSelectGestureEnabled"
     class func multiSelectGestureEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: multiSelectGestureKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.multiSelectGesture
+        } else {
+            return UserDefaults.standard.bool(forKey: multiSelectGestureKey)
+        }
     }
 
     class func setMultiSelectGestureEnabled(_ enabled: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.multiSelectGesture = enabled
+        }
         UserDefaults.standard.set(enabled, forKey: multiSelectGestureKey)
 
         guard userInitiated else { return }

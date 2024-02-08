@@ -18,5 +18,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$playUpNextOnTap, value: UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey))
         self.update(\.$playbackActions, value: UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey))
         self.update(\.$legacyBluetooth, value: UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey))
+        self.update(\.$multiSelectGesture, value: UserDefaults.standard.bool(forKey: Settings.multiSelectGestureKey))
     }
 }
