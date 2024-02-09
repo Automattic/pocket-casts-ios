@@ -338,8 +338,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episodeUuid = currentEpisode()?.uuid else { return }
 
         if chapterManager.haveTriedToParseChaptersFor(episodeUuid: episodeUuid), chapterManager.updateCurrentChapter(time: currentTime()) {
-            fireChapterChangeNotification()
-            updateNowPlayingInfo()
+            if currentChapters().visibleChapter?.shouldPlay == false {
+                skipToNextChapter()
+            } else {
+                fireChapterChangeNotification()
+                updateNowPlayingInfo()
+            }
         }
     }
 
