@@ -24,9 +24,9 @@ class AppSettingsImportUserDefaultsTests: XCTestCase {
     private func setupDefaults() throws -> UserDefaults {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
 
-        // Set up initial values to update from
+        // Set up new values to update from
         defaults.set(newOpenLinks, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
-        defaults.set(newRowAction.rawValue, forKey: "SJRowAction")
+        defaults.set(newRowAction.rawValue, forKey: Settings.primaryRowActionKey)
 
         return defaults
     }
