@@ -11,10 +11,9 @@ struct AccountHeaderView: View {
             VStack(spacing: 0) {
                 SubscriptionProfileImage(viewModel: viewModel)
                     .frame(width: Constants.imageSize, height: Constants.imageSize)
-
                 ProfileInfoLabels(profile: viewModel.profile, alignment: .center, spacing: Constants.spacing)
                     .padding(.top, Constants.padding.labelsTop)
-
+                Spacer()
                 // Subscription badge
                 viewModel.subscription.map {
                     SubscriptionBadge(tier: $0.tier)
@@ -131,7 +130,7 @@ struct AccountHeaderView: View {
             static let bottom = 16.0
             static let horizontal = 16.0
 
-            static let labelsTop = 5.0
+            static let labelsTop = 10.0
             static let badgeBottom = 10.0
         }
     }
