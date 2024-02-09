@@ -125,7 +125,7 @@ struct AccountHeaderView: View {
             static let bottom = 16.0
             static let horizontal = 16.0
 
-            static let vertical = 10.0
+            static let vertical = 14.0
         }
     }
 }
