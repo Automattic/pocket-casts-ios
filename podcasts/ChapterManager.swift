@@ -29,7 +29,7 @@ class ChapterManager {
         let previousChapter: ChapterInfo?
 
         if let index = visibleChapters.firstIndex(of: visibleChapter) {
-            previousChapter = visibleChapters[safe: index.advanced(by: -1)]
+            previousChapter = visibleChapters.enumerated().filter { $0.offset < index && $0.element.shouldPlay }.map { $0.element }.last
         } else {
             previousChapter = nil
         }
