@@ -14,10 +14,8 @@ class ChapterManager {
 
     var currentChapters = Chapters()
 
-    init() {}
-
-    init(chapters: [ChapterInfo]) {
-        self.chapters = chapters
+    init(chapterParser: PodcastChapterParser = PodcastChapterParser()) {
+        self.chapterParser = chapterParser
     }
 
     func visibleChapterCount() -> Int {
