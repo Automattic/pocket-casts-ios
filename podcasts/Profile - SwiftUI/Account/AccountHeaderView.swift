@@ -13,11 +13,10 @@ struct AccountHeaderView: View {
                     .frame(width: Constants.imageSize, height: Constants.imageSize)
                 ProfileInfoLabels(profile: viewModel.profile, alignment: .center, spacing: Constants.spacing)
                     .padding(.top, Constants.padding.labelsTop)
-                Spacer()
                 // Subscription badge
                 viewModel.subscription.map {
                     SubscriptionBadge(tier: $0.tier)
-                        .padding(.bottom, Constants.padding.badgeBottom)
+                        .padding([.bottom, .top], Constants.padding.badgeBottom)
                 }
                 let (title, label) = subscriptionLabels
                 if label == nil, FeatureFlag.newAccountUpgradePromptFlow.enabled {
@@ -25,9 +24,8 @@ struct AccountHeaderView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .foregroundColor(theme.primaryText02)
                         .font(size: 12, style: .footnote, weight: .semibold)
-                    Spacer()
+                        .padding([.bottom, .top], Constants.padding.badgeBottom)
                 } else {
-                    Spacer()
                     // Subscription details labels
                     HStack {
                         Text(title)
@@ -131,7 +129,7 @@ struct AccountHeaderView: View {
             static let horizontal = 16.0
 
             static let labelsTop = 10.0
-            static let badgeBottom = 10.0
+            static let badgeBottom = 12.0
         }
     }
 }
