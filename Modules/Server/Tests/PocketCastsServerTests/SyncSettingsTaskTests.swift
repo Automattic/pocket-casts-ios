@@ -12,14 +12,14 @@ class SyncSettingsTaskTests: XCTestCase {
         super.setUp()
         UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
     }
-    
+
     /// Tests sending a request with updates from `SettingsStore`
     func testRequest() throws {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
 
         XCTAssertNil(defaults.data(forKey: defaultsKey), "User Defaults data should not exist yet for \(defaultsKey)")
 
-        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings(openLinks: false, rowAction: .stream))
+        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings.defaults)
         let changedValue = true
         let changedDate = Date()
         store.openLinks = changedValue
@@ -46,14 +46,14 @@ class SyncSettingsTaskTests: XCTestCase {
 
         wait(for: [expectation])
     }
-    
+
     /// Tests sending a response with updates from `SettingsStore`
     func testResponse() throws {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
 
         XCTAssertNil(defaults.data(forKey: defaultsKey), "User Defaults data should not exist yet for \(defaultsKey)")
 
-        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings(openLinks: false, rowAction: .stream))
+        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings.defaults)
         let changedValue = true
         let changedDate = Date()
 
