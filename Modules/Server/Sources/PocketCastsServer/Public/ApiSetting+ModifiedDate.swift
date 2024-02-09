@@ -41,7 +41,7 @@ extension ModifiedDate where Value: RawRepresentable {
     enum ApiUpdateError: Error {
         case representableNotFound(value: Any, representable: Value.Type)
     }
-    
+
     /// Updates the ModifiedDate instance with values from an ApiSetting
     /// - Parameter setting: An `ApiSetting` instance which contains a value and (optional) modified date to set on this `ModifiedDate`
     mutating private func uncaughtUpdate<S: ApiSetting>(setting: S) throws where Value.RawValue == S.ReturnValue.T {
