@@ -309,7 +309,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func skipToNextChapter(startPlaybackAfterSkip: Bool = false) {
-        guard let nextChapter = chapterManager.nextVisibleChapter() else { return }
+        guard let nextChapter = chapterManager.nextVisiblePlayableChapter() else { return }
 
         seekTo(time: ceil(nextChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
@@ -1651,7 +1651,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 let skipChapters = Settings.headphonesNextAction == .nextChapter
 
                 // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if skipChapters, let nextChapter = self.chapterManager.nextVisibleChapter() {
+                if skipChapters, let nextChapter = self.chapterManager.nextVisiblePlayableChapter() {
                     let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipForwardTime())
                     if Int(interval) == ServerSettings.skipForwardTime() {
                         FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
@@ -1937,7 +1937,7 @@ private extension PlaybackManager {
             skipFromRemote(isBack: true)
 
         case .nextChapter:
-            guard let chapter = chapterManager.nextVisibleChapter() else { fallthrough }
+            guard let chapter = chapterManager.nextVisiblePlayableChapter() else { fallthrough }
             FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
             seekTo(time: ceil(chapter.startTime.seconds))
 

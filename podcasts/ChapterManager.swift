@@ -36,7 +36,7 @@ class ChapterManager {
         return previousChapter
     }
 
-    func nextVisibleChapter() -> ChapterInfo? {
+    func nextVisiblePlayableChapter() -> ChapterInfo? {
         guard let visibleChapter = currentChapters.visibleChapter else {
             return nil
         }
@@ -48,6 +48,10 @@ class ChapterManager {
             nextChapter = nil
         }
         return nextChapter
+    }
+
+    var lastChapter: ChapterInfo? {
+        visibleChapters.last
     }
 
     func chapterAt(index: Int) -> ChapterInfo? {
