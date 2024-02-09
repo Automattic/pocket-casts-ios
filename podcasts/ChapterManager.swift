@@ -14,6 +14,12 @@ class ChapterManager {
 
     var currentChapters = Chapters()
 
+    init() {}
+
+    init(chapters: [ChapterInfo]) {
+        self.chapters = chapters
+    }
+
     func visibleChapterCount() -> Int {
         visibleChapters.count
     }
