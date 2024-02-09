@@ -43,6 +43,26 @@ class ChapterManagerTests: XCTestCase {
         XCTAssertEqual(nextVisiblePlayableChapter, chapterInfo(startTime: 201, duration: 300, shouldPlay: true))
     }
 
+    /// Update the current chapter given a TimeInterval
+    func testReturnPreviousVisiblePlayableChapter() {
+        let parserMock = PodcastChapterParserMock()
+        parserMock.chapters = [
+            chapterInfo(startTime: 0, duration: 100, shouldPlay: true),
+            chapterInfo(startTime: 101, duration: 200, shouldPlay: false),
+            chapterInfo(startTime: 201, duration: 300, shouldPlay: true),
+            chapterInfo(startTime: 301, duration: 400, shouldPlay: false),
+            chapterInfo(startTime: 401, duration: 500, shouldPlay: true),
+            chapterInfo(startTime: 501, duration: 600, shouldPlay: false)
+        ]
+        let chapterManager = ChapterManager(chapterParser: parserMock)
+        chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
+        chapterManager.updateCurrentChapter(time: 450)
+
+        let nextVisiblePlayableChapter = chapterManager.previousVisibleChapter()
+
+        XCTAssertEqual(nextVisiblePlayableChapter, chapterInfo(startTime: 201, duration: 300, shouldPlay: true))
+    }
+
     func chapterInfo(startTime: TimeInterval, duration: TimeInterval, shouldPlay: Bool) -> ChapterInfo {
         let chapterInfo = ChapterInfo()
         chapterInfo.shouldPlay = shouldPlay
