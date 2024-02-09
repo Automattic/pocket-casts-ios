@@ -12,7 +12,7 @@ class SyncSettingsTaskTests: XCTestCase {
         super.setUp()
         UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
     }
-    
+
     /// Tests sending a request with updates from `SettingsStore`
     func testRequest() throws {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
@@ -46,7 +46,7 @@ class SyncSettingsTaskTests: XCTestCase {
 
         wait(for: [expectation])
     }
-    
+
     /// Tests sending a response with updates from `SettingsStore`
     func testResponse() throws {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
