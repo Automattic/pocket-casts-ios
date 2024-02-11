@@ -96,9 +96,9 @@ extension EpisodeDetailViewController {
             downloadBtn.accessibilityLabel = L10n.cancelDownload
         } else {
             downloadBtn.setImage(UIImage(named: "episode-download"), for: .normal)
-            let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
-            downloadBtn.setTitle(sizeAsStr == "" ? L10n.download : sizeAsStr, for: .normal)
-            downloadBtn.accessibilityLabel = L10n.download
+            let buttonTitle = episode.sizeInBytes == 0 ? L10n.download : SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
+            downloadBtn.setTitle(buttonTitle, for: .normal)
+            downloadBtn.accessibilityLabel = (episode.sizeInBytes != 0) ? L10n.download : nil
         }
 
         upNextBtn.setTitle(L10n.upNext, for: .normal)
