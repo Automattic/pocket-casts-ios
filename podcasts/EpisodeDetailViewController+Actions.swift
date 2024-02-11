@@ -98,7 +98,7 @@ extension EpisodeDetailViewController {
             downloadBtn.setImage(UIImage(named: "episode-download"), for: .normal)
             let buttonTitle = episode.sizeInBytes == 0 ? L10n.download : SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
             downloadBtn.setTitle(buttonTitle, for: .normal)
-            downloadBtn.accessibilityLabel = (episode.sizeInBytes != 0) ? L10n.download : nil
+            downloadBtn.accessibilityLabel = L10n.download
         }
 
         upNextBtn.setTitle(L10n.upNext, for: .normal)
