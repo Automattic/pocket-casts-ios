@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 public class Podcast: NSObject, Identifiable {
     @objc public var id = 0 as Int64
@@ -51,6 +52,8 @@ public class Podcast: NSObject, Identifiable {
     @objc public var refreshAvailable = false
     @objc public var folderUuid: String?
 
+    public var settings: PodcastSettings = PodcastSettings.defaults
+
     // transient not saved to database
     public var cachedUnreadCount = 0
 
@@ -93,3 +96,8 @@ public class Podcast: NSObject, Identifiable {
         return podcast
     }
 }
+
+public enum TrimSilenceAmount: Int32, Codable {
+    case off = 0, low = 3, medium = 5, high = 10
+}
+
