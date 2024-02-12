@@ -31,6 +31,7 @@ public class UserEpisode: NSObject, BaseEpisode {
     @objc public var imageColorModified = 0 as Int64
     @objc public var hasCustomImage = false
     @objc public var hasOnlyUuid = false
+    @objc public var selectedChapters: String?
 
     // UserEpisode's are never archived or starred
     public var archived = false
