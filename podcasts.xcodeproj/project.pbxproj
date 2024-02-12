@@ -1608,6 +1608,10 @@
 		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
+		FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */; };
+		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
+		FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */; };
+		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
 		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
@@ -3383,6 +3387,10 @@
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPriceAndOfferView.swift; sourceTree = "<group>"; };
 		FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Sizes.swift"; sourceTree = "<group>"; };
+		FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeRoundedSegmentedControl.swift; sourceTree = "<group>"; };
+		FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCard.swift; sourceTree = "<group>"; };
+		FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompt.swift; sourceTree = "<group>"; };
+		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
 		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -6607,9 +6615,12 @@
 				C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */,
 				C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */,
 				8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */,
+				FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */,
+				FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */,
 				C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */,
 				F5E431D52B50888500A71DB3 /* PlusLabel.swift */,
 				FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */,
+				FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */,
 			);
 			path = Plus;
 			sourceTree = "<group>";
@@ -7122,6 +7133,7 @@
 			children = (
 				C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */,
 				C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */,
+				FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */,
 			);
 			path = "Account Prompt";
 			sourceTree = "<group>";
@@ -8966,6 +8978,7 @@
 				408C08872314BB50008C9667 /* WhatsNewThemeableImageView.swift in Sources */,
 				409C793A223899A500386495 /* AllArchivedPlaceholder.swift in Sources */,
 				FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */,
+				FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */,
 				4047E1782419B2F800B79177 /* ServerSyncManager.swift in Sources */,
 				BD9FF6241B8EF81A009F075E /* CategoryCell.swift in Sources */,
 				403946E72285231100F55162 /* AddCustomViewController+ImagePicker.swift in Sources */,
@@ -9022,6 +9035,7 @@
 				BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */,
 				463538AB26E814B300BA9D35 /* DataModel+Strings.swift in Sources */,
 				8B2E055428F891F900C2DBDE /* EndOfYearCard.swift in Sources */,
+				FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */,
 				BDDF8AA8240CEBF9009BA263 /* DownloadsViewController+Swipe.swift in Sources */,
 				BDF0507C1FBA65ED00194D68 /* ListeningHistoryViewController.swift in Sources */,
 				BD6C3EFF2378EC5900C01403 /* NowPlayingPlayerItemViewController+Shelf.swift in Sources */,
@@ -9279,6 +9293,7 @@
 				BD6CABC927D18C0700C6D396 /* UnplayedSashOverlayView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
 				BD9F2FD627549BA300070958 /* AboutView.swift in Sources */,
+				FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */,
 				BDCCBC8824BC444F009B4D1D /* CustomTimeStepper.swift in Sources */,
 				BDFB53CB2362B9080001806E /* UpNextViewController.swift in Sources */,
 				C7B3C60C2919DCC800054145 /* ActionView.swift in Sources */,
@@ -9293,6 +9308,7 @@
 				BDCF60EC22EFEDDC0051EDB3 /* ThemeableTable.swift in Sources */,
 				C7D8AE632A60818600C9EBAF /* ActionBarStyles.swift in Sources */,
 				8B633D2F2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift in Sources */,
+				FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */,
 				C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */,
 				40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */,
 				BDCF3C8224283C78005B6933 /* UploadedViewController+Swipe.swift in Sources */,

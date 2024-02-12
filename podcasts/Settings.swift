@@ -135,7 +135,7 @@ class Settings: NSObject {
 
     // MARK: - Primary Row Action
 
-    private static let primaryRowActionKey = "SJRowAction"
+    static let primaryRowActionKey = "SJRowAction"
     private static var cachedPrimaryRowAction: PrimaryRowAction? // we cache this because it's used in lists
     class func primaryRowAction() -> PrimaryRowAction {
         if FeatureFlag.settingsSync.enabled {
