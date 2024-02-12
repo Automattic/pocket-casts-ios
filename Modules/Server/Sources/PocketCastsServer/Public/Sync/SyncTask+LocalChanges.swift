@@ -215,6 +215,10 @@ private extension Api_SyncUserBookmark {
 private extension Podcast {
     var apiSettings: Api_PodcastSettings {
         var settings = Api_PodcastSettings()
+        settings.playbackEffects.update(self.settings.$customEffects)
+        settings.playbackSpeed.update(self.settings.$playbackSpeed)
+        settings.trimSilence.update(self.settings.$trimSilence)
+        settings.volumeBoost.update(self.settings.$boostVolume)
         return settings
     }
 }

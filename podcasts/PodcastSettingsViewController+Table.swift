@@ -93,7 +93,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         case .playbackEffects:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = PlayerAction.effects.title()
-            let imageName = podcast.overrideGlobalEffects ? "podcast-effects-on" : "podcast-effects-off"
+            let imageName = podcast.isEffectsOverridden ? "podcast-effects-on" : "podcast-effects-off"
             cell.setImage(imageName: imageName, tintColor: podcast.iconTintColor())
             cell.cellSecondaryLabel.text = nil
 

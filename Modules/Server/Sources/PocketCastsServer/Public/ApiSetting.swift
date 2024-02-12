@@ -16,6 +16,8 @@ protocol ApiReturnValue {
 
 extension Api_BoolSetting: ApiSetting {}
 extension Api_Int32Setting: ApiSetting {}
+extension Api_DoubleSetting: ApiSetting {}
 
 extension Google_Protobuf_BoolValue: ApiReturnValue { }
 extension Google_Protobuf_Int32Value: ApiReturnValue { }
+extension Google_Protobuf_DoubleValue: ApiReturnValue { }

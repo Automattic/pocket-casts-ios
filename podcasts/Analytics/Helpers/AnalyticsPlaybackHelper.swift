@@ -1,4 +1,5 @@
 import PocketCastsUtils
+import PocketCastsDataModel
 
 /// Helper used to track playback
 class AnalyticsPlaybackHelper: AnalyticsCoordinator {
