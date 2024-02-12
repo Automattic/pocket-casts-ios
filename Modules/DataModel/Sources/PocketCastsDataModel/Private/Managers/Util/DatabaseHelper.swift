@@ -656,15 +656,15 @@ class DatabaseHelper {
             }
         }
 
-        if schemaVersion < 43 {
-            do {
-                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN deselectedChapters TEXT;", values: nil)
-                schemaVersion = 43
-            } catch {
-                failedAt(43)
-                return
-            }
-        }
+//        if schemaVersion < 43 {
+//            do {
+//                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN deselectedChapters TEXT;", values: nil)
+//                schemaVersion = 43
+//            } catch {
+//                failedAt(43)
+//                return
+//            }
+//        }
 
         db.commit()
     }
