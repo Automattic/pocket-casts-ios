@@ -16,6 +16,10 @@ extension BaseEpisode {
     }
 
     public func deselect(chapterIndex index: Int) {
+        guard deselectedChaptersList.firstIndex(of: "\(index)") == nil else {
+            return
+        }
+
         let chapters = deselectedChaptersList + ["\(index)"]
         deselectedChapters = chapters.joined(separator: ",")
     }
