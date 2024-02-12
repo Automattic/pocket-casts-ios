@@ -101,3 +101,8 @@ public enum TrimSilenceAmount: Int32, Codable {
     case off = 0, low = 3, medium = 5, high = 10
 }
 
+extension Podcast {
+    public override var debugDescription: String {
+        "Podcast: \(uuid) - \(title ?? "missing title")"
+    }
+}
