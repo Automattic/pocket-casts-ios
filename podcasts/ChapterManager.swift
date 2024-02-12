@@ -81,13 +81,13 @@ class ChapterManager {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             chapterParser.parseLocalFile(episode.pathToDownloadedFile(pathFinder: DownloadManager.shared), episodeDuration: duration) { [weak self] parsedChapters in
                 if self?.lastEpisodeUuid == episode.uuid {
-                    self?.handleChaptersLoaded(parsedChapters)
+                    self?.handleChaptersLoaded(parsedChapters, for: episode)
                 }
             }
         } else if let url = EpisodeManager.urlForEpisode(episode) {
             chapterParser.parseRemoteFile(url.absoluteString, episodeDuration: duration) { [weak self] parsedChapters in
                 if self?.lastEpisodeUuid == episode.uuid {
-                    self?.handleChaptersLoaded(parsedChapters)
+                    self?.handleChaptersLoaded(parsedChapters, for: episode)
                 }
             }
         }
@@ -105,8 +105,13 @@ class ChapterManager {
         Chapters(chapters: chapters.filter { $0.startTime.seconds <= time && ($0.startTime.seconds + $0.duration) > time })
     }
 
-    private func handleChaptersLoaded(_ chapters: [ChapterInfo]) {
+    private func handleChaptersLoaded(_ chapters: [ChapterInfo], for episode: BaseEpisode) {
         self.chapters = chapters
+
+        episode.deselectedChapters?
+            .split(separator: ",")
+            .compactMap { Int($0) }
+            .forEach { self.chapters[safe: $0]?.shouldPlay = false }
 
         updateCurrentChapter(time: PlaybackManager.shared.currentTime())
 
