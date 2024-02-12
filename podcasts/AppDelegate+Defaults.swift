@@ -129,25 +129,11 @@ extension AppDelegate {
         if FeatureFlag.settingsSync.enabled {
             performUpdateIfRequired(updateKey: "MigrateToSyncedSettings") {
                 SettingsStore.appSettings.importUserDefaults()
-                updatePodcastSettings()
+                DataManager.sharedManager.importPodcastSettings()
             }
         }
 
         defaults.synchronize()
-    }
-
-    private func updatePodcastSettings() {
-        let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: true)
-
-        podcasts.forEach { podcast in
-            podcast.settings.$autoStartFrom = ModifiedDate<Int32>(wrappedValue: podcast.startFrom)
-            podcast.settings.$autoSkipLast = ModifiedDate<Int32>(wrappedValue: podcast.skipLast)
-            podcast.settings.$playbackSpeed = ModifiedDate<Double>(wrappedValue: podcast.playbackSpeed)
-            podcast.settings.$trimSilence = ModifiedDate<TrimSilenceAmount>(wrappedValue: TrimSilenceAmount(rawValue: podcast.trimSilenceAmount)!)
-            podcast.settings.$boostVolume = ModifiedDate<Bool>(wrappedValue: podcast.boostVolume)
-
-            DataManager.sharedManager.save(podcast: podcast)
-        }
     }
 
     private func performUpdateIfRequired(updateKey: String, update: () -> Void) {

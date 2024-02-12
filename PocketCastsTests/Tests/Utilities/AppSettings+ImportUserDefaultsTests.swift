@@ -1,44 +1,31 @@
 import XCTest
 import Foundation
 import PocketCastsUtils
-@testable import PocketCastsServer
 @testable import podcasts
+import PocketCastsDataModel
 
 class AppSettingsImportUserDefaultsTests: XCTestCase {
-    private let userDefaultsSuiteName = "PocketCastsServer-AppSettingsSyncUserDefaultsTests"
-    private let defaultsKey = "app_settings"
+    private let newBoostVolume = true
+    private let newTrimSilence = TrimSilenceAmount.medium
 
-    // Initial values for testing
-    private let initialOpenLinks = false
-    private let newOpenLinks = true
-    private let initialRowAction = PrimaryRowAction.stream
-    private let newRowAction = PrimaryRowAction.download
+    let dataManager = DataManagerMock()
 
     override func setUp() {
         super.setUp()
-        UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
+        let podcast = Podcast()
+        podcast.boostVolume = newBoostVolume
+        podcast.trimSilenceAmount = newTrimSilence.rawValue
+        dataManager.podcastsToReturn = [podcast]
     }
 
-    /// Set up UserDefaults instance with initial preset values.
-    /// - Returns: An unwrapped `UserDefaults` instance with initial values set
-    private func setupDefaults() throws -> UserDefaults {
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
-
-        // Set up new values to update from
-        defaults.set(newOpenLinks, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
-        defaults.set(newRowAction.rawValue, forKey: Settings.primaryRowActionKey)
-
-        return defaults
-    }
-
-    /// Tests migrating from values stored in `NSUserDefaults` to `SettingsStore<AppSettings>`
+    /// Tests migrating from values stored in `SJPodcast` properties to `SJPodcast.settings`
     func testValueMigration() throws {
-        let defaults = try setupDefaults()
-        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings.defaults)
+        dataManager.importPodcastSettings()
 
-        store.importUserDefaults(defaults)
+        let podcasts = dataManager.allPodcasts(includeUnsubscribed: true)
+        let podcast = try XCTUnwrap(podcasts.first)
 
-        XCTAssertEqual(store.openLinks, newOpenLinks, "Value of openLinks should change after update")
-        XCTAssertEqual(store.rowAction, newRowAction, "Value of rowAction should change after update")
+        XCTAssertEqual(newBoostVolume, podcast.settings.boostVolume, "Value of boostVolume should change after import")
+        XCTAssertEqual(newTrimSilence.rawValue, podcast.settings.trimSilence.rawValue, "Value of trimSilence should change after import")
     }
 }
