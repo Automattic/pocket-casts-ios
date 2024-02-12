@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 
 public struct ImportOpmlResponse: Decodable {
     public var status: String? = nil
@@ -220,6 +221,7 @@ public struct PodcastSyncInfo {
     var dateAdded: Date?
     var sortPosition: Int32?
     var folderUuid: String?
+    var settings: PodcastSettings?
 }
 
 public struct FolderSyncInfo {

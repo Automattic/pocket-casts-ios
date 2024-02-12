@@ -17,6 +17,7 @@ extension SyncTask {
             podcastRecord.isDeleted.value = !podcast.isSubscribed()
             podcastRecord.subscribed.value = podcast.isSubscribed()
             podcastRecord.sortPosition.value = podcast.sortOrder
+            podcastRecord.settings = podcast.apiSettings
 
             // There's a bug on the watch app that resets all users folders
             // Since the watch don't use folders at all, it shouldn't sync
@@ -206,6 +207,15 @@ private extension Api_SyncUserBookmark {
 
         self.title.value = bookmark.title
         self.titleModified = .init(date: bookmark.titleModified ?? bookmark.created)
+    }
+}
+
+// MARK: Settings Sync
+
+private extension Podcast {
+    var apiSettings: Api_PodcastSettings {
+        var settings = Api_PodcastSettings()
+        return settings
     }
 }
 
