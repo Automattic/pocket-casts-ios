@@ -12,9 +12,17 @@ class PlusAccountPromptTableCell: ThemeableCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        let view = PlusAccountUpgradePrompt(viewModel: model, contentSizeUpdated: { [weak self] size in
-            self?.contentSizeUpdated?(size)
-        }).themedUIView
+        let view: UIView
+        if FeatureFlag.newAccountUpgradePromptFlow.enabled {
+            let _ = OnboardingFlow.shared.begin(flow: .plusAccountUpgrade, in: model.parentController, source: PlusAccountPromptViewModel.Source.profile.rawValue, context: nil)
+            view = UpgradePrompt(viewModel: PlusLandingViewModel(source: .accountScreen)) { [weak self] size in
+                self?.contentSizeUpdated?(size)
+            }.themedUIView
+        } else {
+            view = PlusAccountUpgradePrompt(viewModel: model, contentSizeUpdated: { [weak self] size in
+                self?.contentSizeUpdated?(size)
+            }).themedUIView
+        }
         view.backgroundColor = .clear
 
         contentView.addSubview(view)
