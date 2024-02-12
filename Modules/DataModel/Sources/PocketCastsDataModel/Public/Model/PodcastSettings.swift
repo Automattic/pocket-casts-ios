@@ -3,6 +3,9 @@ import PocketCastsUtils
 public struct PodcastSettings: JSONCodable, Equatable {
     @ModifiedDate public var customEffects: Bool = false
 
+    @ModifiedDate public var autoStartFrom: Int32 = 0
+    @ModifiedDate public var autoSkipLast: Int32 = 0
+
     // Playback Effects
     @ModifiedDate public var trimSilence: TrimSilenceAmount
     @ModifiedDate public var boostVolume: Bool

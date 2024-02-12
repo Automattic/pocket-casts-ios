@@ -216,6 +216,8 @@ private extension Podcast {
     var apiSettings: Api_PodcastSettings {
         var settings = Api_PodcastSettings()
         settings.playbackEffects.update(self.settings.$customEffects)
+        settings.autoStartFrom.update(self.settings.$autoStartFrom)
+        settings.autoSkipLast.update(self.settings.$autoSkipLast)
         settings.playbackSpeed.update(self.settings.$playbackSpeed)
         settings.trimSilence.update(self.settings.$trimSilence)
         settings.volumeBoost.update(self.settings.$boostVolume)

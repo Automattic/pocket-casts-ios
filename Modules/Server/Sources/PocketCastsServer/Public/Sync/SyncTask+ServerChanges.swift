@@ -416,6 +416,8 @@ private extension Api_SyncUserBookmark {
 extension Podcast {
     func processSettings(_ settings: Api_PodcastSettings) {
         self.settings.$customEffects.update(setting: settings.playbackEffects)
+        self.settings.$autoStartFrom.update(setting: settings.autoStartFrom)
+        self.settings.$autoSkipLast.update(setting: settings.autoSkipLast)
         self.settings.$trimSilence.update(setting: settings.trimSilence)
         self.settings.$playbackSpeed.update(setting: settings.playbackSpeed)
         self.settings.$boostVolume.update(setting: settings.volumeBoost)

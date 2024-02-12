@@ -176,6 +176,8 @@ private extension BookmarkDataManager {
 private extension SyncTask {
     func processSettings(_ settings: PodcastSettings, to podcast: Podcast) {
         podcast.settings.$customEffects = settings.$customEffects
+        podcast.settings.$autoStartFrom = settings.$autoStartFrom
+        podcast.settings.$autoSkipLast = settings.$autoSkipLast
         podcast.settings.$trimSilence = settings.$trimSilence
         podcast.settings.$playbackSpeed = settings.$playbackSpeed
         podcast.settings.$boostVolume = settings.$boostVolume
