@@ -114,15 +114,12 @@ class PlayerChapterCell: UITableViewCell {
         toggleChapterButton.currentlyOn.toggle()
 
         if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
-            var deselectedChapters = (currentEpisode.deselectedChapters?.split(separator: ",") ?? [])
-
-            if chapter?.shouldPlay == true, let elementIndex = deselectedChapters.firstIndex(of: "\(index)") {
-                deselectedChapters.remove(at: elementIndex)
+            if chapter?.shouldPlay == true {
+                currentEpisode.select(chapterIndex: index)
             } else {
-                deselectedChapters.append("\(index)")
+                currentEpisode.deselect(chapterIndex: index)
             }
 
-            currentEpisode.deselectedChapters = deselectedChapters.joined(separator: ",")
             DataManager.sharedManager.save(episode: currentEpisode)
         }
     }
