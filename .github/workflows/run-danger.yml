@@ -2,7 +2,7 @@ name: ☢️ Danger
 
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review, synchronize, edited, review_requested, review_request_removed, labeled, unlabeled, milestoned, demilestoned]
+    types: [opened, reopened, ready_for_review, synchronize, edited, labeled, unlabeled, milestoned, demilestoned]
 
 jobs:
   dangermattic:

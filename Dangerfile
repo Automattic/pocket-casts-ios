@@ -29,5 +29,3 @@ labels_checker.check(
 milestone_checker.check_milestone_due_date(days_before_due: 2)
 
 warn('PR is classed as Work in Progress') if github_utils.wip_feature?
-
-warn("No reviewers have been set for this PR yet. Please request a review from **@\u2060Automattic/pocket-casts-ios**.") unless github_utils.requested_reviewers?
