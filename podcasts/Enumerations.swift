@@ -144,9 +144,7 @@ extension PrimaryRowAction: AnalyticsDescribable {
     }
 }
 
-enum PrimaryUpNextSwipeAction: Int32, AnalyticsDescribable {
-    case playNext = 0, playLast = 1
-
+extension PrimaryUpNextSwipeAction: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {
         case .playNext:

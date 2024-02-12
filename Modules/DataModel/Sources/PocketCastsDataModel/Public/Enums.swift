@@ -24,7 +24,7 @@ public enum UploadStatus: Int32 {
     case notUploaded = 1, queued = 2, uploading = 3, uploadFailed = 4, uploaded = 5, waitingForWifi = 6, missing = 7, deleteFromCloudPending = 8, deleteFromCloudAndLocalPending = 9
 }
 
-public enum PodcastGrouping: Int32, CaseIterable {
+public enum PodcastGrouping: Int32, CaseIterable, Codable {
     case none = 0, downloaded = 1, unplayed = 2, season = 3, starred = 4
 }
 

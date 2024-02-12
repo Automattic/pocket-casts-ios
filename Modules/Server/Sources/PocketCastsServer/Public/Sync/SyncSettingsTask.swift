@@ -7,6 +7,20 @@ extension Api_ChangeableSettings {
     mutating func update(with settings: AppSettings) {
         openLinks.update(settings.$openLinks)
         rowAction.update(settings.$rowAction)
+        skipForward.update(settings.$skipForward)
+        skipBack.update(settings.$skipBack)
+        keepScreenAwake.update(settings.$keepScreenAwake)
+        openPlayer.update(settings.$openPlayer)
+        intelligentResumption.update(settings.$intelligentResumption)
+        episodeGrouping.update(settings.$episodeGrouping)
+        showArchived.update(settings.$showArchived)
+        upNextSwipe.update(settings.$upNextSwipe)
+        playUpNextOnTap.update(settings.$playUpNextOnTap)
+        playbackActions.update(settings.$playbackActions)
+        legacyBluetooth.update(settings.$legacyBluetooth)
+        multiSelectGesture.update(settings.$multiSelectGesture)
+        chapterTitles.update(settings.$chapterTitles)
+        autoPlayEnabled.update(settings.$autoPlayEnabled)
     }
 }
 
@@ -14,6 +28,20 @@ extension AppSettings {
     mutating func update(with settings: Api_NamedSettingsResponse) {
         $openLinks.update(setting: settings.openLinks)
         $rowAction.update(setting: settings.rowAction)
+        $skipForward.update(setting: settings.skipForward)
+        $skipBack.update(setting: settings.skipBack)
+        $keepScreenAwake.update(setting: settings.keepScreenAwake)
+        $openPlayer.update(setting: settings.openPlayer)
+        $intelligentResumption.update(setting: settings.intelligentResumption)
+        $episodeGrouping.update(setting: settings.episodeGrouping)
+        $showArchived.update(setting: settings.showArchived)
+        $upNextSwipe.update(setting: settings.upNextSwipe)
+        $playUpNextOnTap.update(setting: settings.playUpNextOnTap)
+        $playbackActions.update(setting: settings.playbackActions)
+        $legacyBluetooth.update(setting: settings.legacyBluetooth)
+        $multiSelectGesture.update(setting: settings.multiSelectGesture)
+        $chapterTitles.update(setting: settings.chapterTitles)
+        $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
     }
 }
 
