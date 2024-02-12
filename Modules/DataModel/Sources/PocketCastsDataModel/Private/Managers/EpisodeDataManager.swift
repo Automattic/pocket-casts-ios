@@ -39,7 +39,8 @@ class EpisodeDataManager {
         "archivedModified",
         "lastArchiveInteractionDate",
         "excludeFromEpisodeLimit",
-        "starredModified"
+        "starredModified",
+        "selectedChapters"
     ]
 
     // MARK: - Query
@@ -891,6 +892,7 @@ class EpisodeDataManager {
         values.append(episode.lastArchiveInteractionDate ?? Date(timeIntervalSince1970: 0))
         values.append(episode.excludeFromEpisodeLimit)
         values.append(episode.starredModified)
+        values.append(DBUtils.nullIfNil(value: episode.selectedChapters))
 
         if includeIdForWhere {
             values.append(episode.id)
