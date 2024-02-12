@@ -28,7 +28,7 @@ import Foundation
     var playedUpTo: Double { get set }
     var duration: Double { get set }
 
-    var selectedChapters: String? { get set }
+    var deselectedChapters: String? { get set }
 
     func displayableTitle() -> String
     func parentIdentifier() -> String

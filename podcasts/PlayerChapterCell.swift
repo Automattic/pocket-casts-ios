@@ -114,7 +114,7 @@ class PlayerChapterCell: UITableViewCell {
         toggleChapterButton.currentlyOn.toggle()
 
         if let currentEpisode = PlaybackManager.shared.currentEpisode() {
-            currentEpisode.selectedChapters = "1,2"
+            currentEpisode.deselectedChapters = "1,2"
             DataManager.sharedManager.save(episode: currentEpisode)
         }
     }
