@@ -12,6 +12,7 @@ struct FeaturesCarousel: View {
     let showInlinePurchaseButton: Bool
 
     @State var calculatedCardHeight: CGFloat?
+    @State var calculatedCardMaxHeight: CGFloat?
 
     var body: some View {
         // Store the calculated card heights
@@ -30,17 +31,23 @@ struct FeaturesCarousel: View {
                             if cardHeights.count == tiers.count {
                                 calculatedCardHeight = cardHeights.max()
 
+                                if (calculatedCardHeight ?? 0) > (calculatedCardMaxHeight ?? 0) {
+                                    calculatedCardMaxHeight = calculatedCardHeight
+                                }
+
                                 // Reset the card heights so any view changes won't use old data
                                 cardHeights = []
                             }
                         }
                     }
                 )
+                .frame(maxHeight: calculatedCardHeight, alignment: .top)
         }
         .carouselPeekAmount(.constant(tiers.count > 1 ? ViewConstants.peekAmount : 0))
         .carouselItemSpacing(ViewConstants.spacing)
         .carouselScrollEnabled(tiers.count > 1)
-        .frame(height: calculatedCardHeight)
+        // Maintain the largest height
+        .frame(height: calculatedCardMaxHeight, alignment: .top)
         .padding(.leading, 30)
     }
 
