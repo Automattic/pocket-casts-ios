@@ -25,3 +25,29 @@ public final class SettingsStore<Value: JSONCodable> {
         }
     }
 }
+
+extension SettingsStore {
+    /// Access any property from `settings` without direct access to settings.
+    /// Avoids having to type `appSettings.settings` and allows for future ObservableObject / publisher adoption in this method
+    subscript<T>(modifiedDate keyPath: WritableKeyPath<Value, ModifiedDate<T>>) -> ModifiedDate<T> {
+        get {
+            settings[keyPath: keyPath]
+        }
+        set {
+            settings[keyPath: keyPath] = newValue
+        }
+    }
+
+    public func update<T: RawRepresentable>(_ keyPath: WritableKeyPath<Value, ModifiedDate<T>>, value: T.RawValue) {
+        if let representable = T(rawValue: value) {
+            self.update(keyPath, value: representable)
+        }
+    }
+
+    public func update<T: Equatable & Codable>(_ modifiedKeyPath: WritableKeyPath<Value, ModifiedDate<T>>, value: T) {
+        let openLinksValue = value
+        if openLinksValue != self[dynamicMember: modifiedKeyPath].wrappedValue {
+            self[modifiedDate: modifiedKeyPath].projectedValue = ModifiedDate(wrappedValue: openLinksValue)
+        }
+    }
+}
