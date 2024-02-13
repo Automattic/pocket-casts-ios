@@ -1596,10 +1596,23 @@
 		E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3665F532936CD13001C8372 /* ChaptersTests.swift */; };
 		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
+		F53DC8A62B72D1AB00B197A6 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53DC8A52B72D1AB00B197A6 /* AppSettings+ImportUserDefaults.swift */; };
+		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
 		F5BAACCB2B6446D900450E86 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */; };
+		F53DC8A62B72D1AB00B197A6 /* AppSettings+SyncUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53DC8A52B72D1AB00B197A6 /* AppSettings+SyncUserDefaults.swift */; };
+		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
+		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
+		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
+		F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
 		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
+		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
+		FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */; };
+		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
+		FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */; };
+		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
 		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
@@ -1733,6 +1746,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */,
 				C7BF5E4E29083E2100733C1E /* PocketCastsServer in Embed Frameworks */,
 				8BF0BBD6289199D2006BBECF /* PocketCastsDataModel in Embed Frameworks */,
 			);
@@ -3362,12 +3376,23 @@
 		ED026EC07A62C137A4959391 /* Pods-PocketCasts-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		EF3DD428DC2C444C2D8CEC5A /* Pods-PocketCastsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EFBF99F57846D0E1AF8DE08D /* Pods-PocketCasts-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
+		F53DC8A52B72D1AB00B197A6 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
+		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
 		F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
+		F53DC8A52B72D1AB00B197A6 /* AppSettings+SyncUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+SyncUserDefaults.swift"; sourceTree = "<group>"; };
+		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
+		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
+		F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaultsTests.swift"; sourceTree = "<group>"; };
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
 		F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelperTests.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPriceAndOfferView.swift; sourceTree = "<group>"; };
+		FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Sizes.swift"; sourceTree = "<group>"; };
+		FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeRoundedSegmentedControl.swift; sourceTree = "<group>"; };
+		FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCard.swift; sourceTree = "<group>"; };
+		FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompt.swift; sourceTree = "<group>"; };
+		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
 		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3421,6 +3446,7 @@
 				3FB8643028896539003A86BE /* BuildkiteTestCollector in Frameworks */,
 				3AAC732D703CDCF4C0F06E10 /* libPods-PocketCastsTests.a in Frameworks */,
 				8BF0BBD4289199D2006BBECF /* PocketCastsDataModel in Frameworks */,
+				F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4461,12 +4487,12 @@
 		8BF0BBD72891AFA8006BBECF /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				F5D3A0D82B70950100EED067 /* MockURLHandler.swift */,
 				8BF0BBDA2891B038006BBECF /* FolderBuilder.swift */,
 				8BF0BBD82891AFB5006BBECF /* PodcastBuilder.swift */,
 				8B484EFE28D257E2001AFA97 /* DataManagerMock.swift */,
 				8B2319422902CF170001C3DE /* EndOfYearManagerMock.swift */,
 				8B484EFC28D2574D001AFA97 /* EpisodeBuilder.swift */,
-				F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -5209,6 +5235,7 @@
 				BD2E8ED21FB18A7C005E4B7C /* PodcastManager.swift */,
 				BD5E8D3C2061E0FB00C84B43 /* PodcastManager+Cleanup.swift */,
 				402772D621B6105D00769811 /* PodcastManager+Delete.swift */,
+				F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */,
 				BDE740992060CE1B00FB22C7 /* EpisodeManager.swift */,
 				BD001B882174260B00504DD3 /* FilterManager.swift */,
 				BD5E8D40206211E300C84B43 /* OpmlImporter.swift */,
@@ -6320,6 +6347,7 @@
 			isa = PBXGroup;
 			children = (
 				BDD5253920477E4400AAD211 /* NSObject+AppDelegate.swift */,
+				FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */,
 				BDA9668E2189805F00DF9370 /* UITableView+MiniPlayer.swift */,
 				40A0A91024B5FE5300C29362 /* UITableView+MultiSelect.swift */,
 				BD6F1644219AB82700F34D14 /* UISearchBar+TextColor.swift */,
@@ -6589,9 +6617,12 @@
 				C73215FA291EA13400AB1FE5 /* PlusPurchaseModal.swift */,
 				C7AF7B902925E5CD002F0025 /* PlusHostingViewController.swift */,
 				8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */,
+				FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */,
+				FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */,
 				C70A444E2A097C3C00F4D77E /* Theme+Plus.swift */,
 				F5E431D52B50888500A71DB3 /* PlusLabel.swift */,
 				FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */,
+				FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */,
 			);
 			path = Plus;
 			sourceTree = "<group>";
@@ -7104,6 +7135,7 @@
 			children = (
 				C7080C5C2923070200D7A432 /* PlusAccountUpgradePrompt.swift */,
 				C7DA8D292923DC6800C1B08B /* PlusAccountPromptTableCell.swift */,
+				FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */,
 			);
 			path = "Account Prompt";
 			sourceTree = "<group>";
@@ -7162,6 +7194,7 @@
 			children = (
 				C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */,
 				F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */,
+				F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -7353,6 +7386,7 @@
 				8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */,
 				3FB8642F28896539003A86BE /* BuildkiteTestCollector */,
 				C7BF5E4C29083E2100733C1E /* PocketCastsServer */,
+				F55449412B758E8300F68AE9 /* PocketCastsUtils */,
 			);
 			productName = PocketCastsTests;
 			productReference = 45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */;
@@ -7421,6 +7455,7 @@
 			buildPhases = (
 				DF03311AC9ED8455DC9169CD /* [CP] Check Pods Manifest.lock */,
 				BDBD53E817019B2A0048C8C5 /* Sources */,
+				3C5194112B716756006632DE /* ShellScript */,
 				BDBD53E917019B2A0048C8C5 /* Frameworks */,
 				BDBD53EA17019B2A0048C8C5 /* Resources */,
 				BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */,
@@ -8268,6 +8303,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3C5194112B716756006632DE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "[ $CI ] && exit 0\n./Pods/SwiftLint/swiftlint --lenient\n";
+		};
 		3F407FBC28EC30B800818E41 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -8511,6 +8563,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */,
 				8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */,
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
 				8B68C1D829421E3400CF25C5 /* FeatureFlagTests.swift in Sources */,
@@ -8533,13 +8586,13 @@
 				8B2319412902C8FE0001C3DE /* EndOfYearStoriesBuilderTests.swift in Sources */,
 				C7C0959A2ADE1AF9001E6E3B /* BookmarkAnnouncementViewModelTests.swift in Sources */,
 				8B14E3B329BA43A00069B6F2 /* SearchHistoryModelTests.swift in Sources */,
-				F5BAACCB2B6446D900450E86 /* MockURLHandler.swift in Sources */,
 				8BF0BBD92891AFB5006BBECF /* PodcastBuilder.swift in Sources */,
 				8B1877E52A45DC570025D245 /* AutoplayHelperTests.swift in Sources */,
 				8B2E055028F8579700C2DBDE /* StoriesModelTests.swift in Sources */,
 				C7F4BAB728DA8666001C9785 /* BackgroundSignOutListenerTests.swift in Sources */,
 				8B484EFF28D257E2001AFA97 /* DataManagerMock.swift in Sources */,
 				8B484EF928D256F5001AFA97 /* Date+Ext.swift in Sources */,
+				F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */,
 				FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */,
 				8B3295432A5336DA00BDFA11 /* WhatsNewTests.swift in Sources */,
 				C781EA412A6B72AE001DBFCC /* SearchableListViewModelTests.swift in Sources */,
@@ -8610,6 +8663,7 @@
 				40AA12732488AE1F006B9D48 /* MultiSelectFooterView.swift in Sources */,
 				BDF15A461B54E21B000EC323 /* PlaybackEffects.swift in Sources */,
 				8B630A332AFBF49400D65D25 /* PlayPauseAnimatableModifier.swift in Sources */,
+				F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */,
 				BDED930B251DC515000BF622 /* CarPlaySceneDelegate+Interaction.swift in Sources */,
 				BD21D4A522DED77900D5888B /* ThemeableButton.swift in Sources */,
 				BDD5CA042303FC45005E133C /* ThemeableTextView.swift in Sources */,
@@ -8927,6 +8981,8 @@
 				BDD84CE327CC8EDE001C078B /* ChoosePodcastFolderView.swift in Sources */,
 				408C08872314BB50008C9667 /* WhatsNewThemeableImageView.swift in Sources */,
 				409C793A223899A500386495 /* AllArchivedPlaceholder.swift in Sources */,
+				FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */,
+				FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */,
 				4047E1782419B2F800B79177 /* ServerSyncManager.swift in Sources */,
 				BD9FF6241B8EF81A009F075E /* CategoryCell.swift in Sources */,
 				403946E72285231100F55162 /* AddCustomViewController+ImagePicker.swift in Sources */,
@@ -8983,6 +9039,7 @@
 				BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */,
 				463538AB26E814B300BA9D35 /* DataModel+Strings.swift in Sources */,
 				8B2E055428F891F900C2DBDE /* EndOfYearCard.swift in Sources */,
+				FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */,
 				BDDF8AA8240CEBF9009BA263 /* DownloadsViewController+Swipe.swift in Sources */,
 				BDF0507C1FBA65ED00194D68 /* ListeningHistoryViewController.swift in Sources */,
 				BD6C3EFF2378EC5900C01403 /* NowPlayingPlayerItemViewController+Shelf.swift in Sources */,
@@ -9240,6 +9297,7 @@
 				BD6CABC927D18C0700C6D396 /* UnplayedSashOverlayView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
 				BD9F2FD627549BA300070958 /* AboutView.swift in Sources */,
+				FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */,
 				BDCCBC8824BC444F009B4D1D /* CustomTimeStepper.swift in Sources */,
 				BDFB53CB2362B9080001806E /* UpNextViewController.swift in Sources */,
 				C7B3C60C2919DCC800054145 /* ActionView.swift in Sources */,
@@ -9254,6 +9312,7 @@
 				BDCF60EC22EFEDDC0051EDB3 /* ThemeableTable.swift in Sources */,
 				C7D8AE632A60818600C9EBAF /* ActionBarStyles.swift in Sources */,
 				8B633D2F2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift in Sources */,
+				FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */,
 				C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */,
 				40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */,
 				BDCF3C8224283C78005B6933 /* UploadedViewController+Swipe.swift in Sources */,
@@ -11355,7 +11414,7 @@
 			repositoryURL = "https://github.com/Automattic/Automattic-Tracks-iOS";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.13.0;
+				minimumVersion = 3.2.0;
 			};
 		};
 		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
@@ -11557,6 +11616,10 @@
 		C7BF5E4C29083E2100733C1E /* PocketCastsServer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsServer;
+		};
+		F55449412B758E8300F68AE9 /* PocketCastsUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsUtils;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

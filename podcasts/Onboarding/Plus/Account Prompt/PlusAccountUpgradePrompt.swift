@@ -51,8 +51,6 @@ struct PlusAccountUpgradePrompt: View {
         VStack(spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    SubscriptionBadge(tier: product.identifier.subscriptionTier)
-                        .padding(.bottom, 10)
                     SubscriptionPriceAndOfferView(product: product, mainTextColor: theme.primaryText01, secondaryTextColor: theme.primaryText02)
                     productFeatures[product.identifier].map {
                         ForEach($0) { feature in

@@ -166,7 +166,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
             guard let episode else { return }
 
             AnalyticsEpisodeHelper.shared.currentSource = .carPlay
-            
+
             EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
         }
 
