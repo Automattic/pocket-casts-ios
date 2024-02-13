@@ -73,6 +73,7 @@ class ServerSyncManager: ServerSyncDelegate {
         Analytics.shared.refreshRegistered()
         DispatchQueue.main.async {
             PlaybackManager.shared.effectsChangedExternally()
+            Theme.sharedTheme.toggleTheme()
         }
     }
 

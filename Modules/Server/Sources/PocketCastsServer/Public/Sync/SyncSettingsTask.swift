@@ -37,6 +37,7 @@ extension Api_ChangeableSettings {
         autoArchiveInactive.update(settings.$autoArchiveInactive)
         autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
         useEmbeddedArtwork.update(settings.$useEmbeddedArtwork)
+        theme.update(settings.$theme)
     }
 }
 
@@ -74,6 +75,7 @@ extension AppSettings {
         $autoArchiveInactive.update(setting: settings.autoArchiveInactive)
         $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
         $useEmbeddedArtwork.update(setting: settings.useEmbeddedArtwork)
+        $theme.update(setting: settings.theme)
     }
 }
 
