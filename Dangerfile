@@ -17,8 +17,11 @@ view_changes_checker.check
 
 pr_size_checker.check_diff_size(max_size: 500)
 
-# skip remaining checks if we have a Draft PR
-return if github.pr_draft?
+# skip remaining checks if the PR is still a Draft
+if github.pr_draft?
+  message('This PR is still a Draft: some checks will be skipped.')
+  return
+end
 
 labels_checker.check(
   do_not_merge_labels: ['Do Not Merge'],
