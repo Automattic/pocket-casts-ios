@@ -18,7 +18,7 @@ class PlayerChapterCell: UITableViewCell {
     @IBOutlet var seperatorView: UIView!
     @IBOutlet var progressViewWidth: NSLayoutConstraint!
     @IBOutlet var isPlayingView: UIView!
-    @IBOutlet weak var selectedChapterButton: BouncyButton!
+    @IBOutlet weak var toggleChapterButton: BouncyButton!
     @IBOutlet weak var chapterButtonWidth: NSLayoutConstraint!
 
     private var onLinkTapped: ((URL) -> Void)?
@@ -83,19 +83,21 @@ class PlayerChapterCell: UITableViewCell {
 
         setUpSelectedChapterButton()
 
+        toggleChapterButton.currentlyOn = chapter.shouldPlay
+
         if !FeatureFlag.deselectChapters.enabled {
             hideSelectedChapterButton()
         }
     }
 
     private func setUpSelectedChapterButton() {
-        selectedChapterButton.onImage = UIImage(named: "checkbox-selected")
-        selectedChapterButton.offImage = UIImage(named: "checkbox-unselected")
-        selectedChapterButton.tintColor = ThemeColor.primaryInteractive01()
+        toggleChapterButton.onImage = UIImage(named: "checkbox-selected")
+        toggleChapterButton.offImage = UIImage(named: "checkbox-unselected")
+        toggleChapterButton.tintColor = ThemeColor.primaryInteractive01()
     }
 
     private func hideSelectedChapterButton() {
-        selectedChapterButton.isHidden = true
+        toggleChapterButton.isHidden = true
         chapterButtonWidth.constant = 20
     }
 
@@ -103,6 +105,12 @@ class PlayerChapterCell: UITableViewCell {
         guard let link = chapter?.url, let url = URL(string: link), let linkTapped = onLinkTapped else { return }
 
         linkTapped(url)
+    }
+
+
+    @IBAction func toggleChapterTapped(_ sender: Any) {
+        chapter?.shouldPlay.toggle()
+        toggleChapterButton.currentlyOn.toggle()
     }
 
     @objc func progressUpdated(animated: Bool = true) {

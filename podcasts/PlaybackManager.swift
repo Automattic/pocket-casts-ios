@@ -309,13 +309,26 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func skipToNextChapter(startPlaybackAfterSkip: Bool = false) {
-        guard let nextChapter = chapterManager.nextVisibleChapter() else { return }
+        guard let nextChapter = chapterManager.nextVisiblePlayableChapter() else {
+            // If there are no more chapters to play, we skip to the end of the last chapter
+            // We do that because for some episodes the last chapter might not necessarily
+            // be the end of the episode. So we don't make this assumption here and respect
+            // whatever the producer set.
+            skipToEndOfLastChapter()
+            return
+        }
 
         seekTo(time: ceil(nextChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
 
     func skipToChapter(_ chapter: ChapterInfo, startPlaybackAfterSkip: Bool = false) {
         seekTo(time: ceil(chapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
+    }
+
+    func skipToEndOfLastChapter() {
+        if let lastChapter = chapterManager.lastChapter {
+            seekTo(time: ceil(lastChapter.startTime.seconds) + lastChapter.duration)
+        }
     }
 
     func chapterCount() -> Int {
@@ -338,8 +351,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episodeUuid = currentEpisode()?.uuid else { return }
 
         if chapterManager.haveTriedToParseChaptersFor(episodeUuid: episodeUuid), chapterManager.updateCurrentChapter(time: currentTime()) {
-            fireChapterChangeNotification()
-            updateNowPlayingInfo()
+            if currentChapters().visibleChapter?.shouldPlay == false {
+                skipToNextChapter()
+            } else {
+                fireChapterChangeNotification()
+                updateNowPlayingInfo()
+            }
         }
     }
 
@@ -1647,7 +1664,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 let skipChapters = Settings.headphonesNextAction == .nextChapter
 
                 // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if skipChapters, let nextChapter = self.chapterManager.nextVisibleChapter() {
+                if skipChapters, let nextChapter = self.chapterManager.nextVisiblePlayableChapter() {
                     let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(Settings.skipForwardTime)
                     if Int(interval) == Settings.skipForwardTime {
                         FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
@@ -1938,7 +1955,7 @@ private extension PlaybackManager {
             skipFromRemote(isBack: true)
 
         case .nextChapter:
-            guard let chapter = chapterManager.nextVisibleChapter() else { fallthrough }
+            guard let chapter = chapterManager.nextVisiblePlayableChapter() else { fallthrough }
             FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
             seekTo(time: ceil(chapter.startTime.seconds))
 
