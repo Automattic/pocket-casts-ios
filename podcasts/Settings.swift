@@ -985,11 +985,19 @@ class Settings: NSObject {
 
     static var darkUpNextTheme: Bool {
         get {
-            Constants.UserDefaults.appearance.darkUpNextTheme.value
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.useDarkUpNextTheme
+            } else {
+                return Constants.UserDefaults.appearance.darkUpNextTheme.value
+            }
         }
 
         set {
-            Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useDarkUpNextTheme = newValue
+            } else {
+                Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
+            }
         }
     }
 

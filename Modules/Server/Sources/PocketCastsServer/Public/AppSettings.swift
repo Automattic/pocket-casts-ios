@@ -56,7 +56,11 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var theme: ThemeType = .light
     @ModifiedDate public var lightThemePreference: ThemeType = .light
     @ModifiedDate public var darkThemePreference: ThemeType = .dark
+
     @ModifiedDate public var useEmbeddedArtwork: Bool = false
+
+    @ModifiedDate public var useDarkUpNextTheme: Bool = true
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,

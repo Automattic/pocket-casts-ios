@@ -50,5 +50,6 @@ extension SettingsStore<AppSettings> {
         if let oldTheme = ThemeType.Old(rawValue: UserDefaults.standard.integer(forKey: Theme.preferredDarkThemeKey)) {
             self.update(\.$darkThemePreference, value: ThemeType(old: oldTheme))
         }
+        self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
     }
 }

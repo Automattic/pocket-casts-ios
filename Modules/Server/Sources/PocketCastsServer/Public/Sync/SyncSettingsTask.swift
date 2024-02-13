@@ -41,6 +41,7 @@ extension Api_ChangeableSettings {
         useSystemTheme.update(settings.$useSystemTheme)
         lightThemePreference.update(settings.$lightThemePreference)
         darkThemePreference.update(settings.$darkThemePreference)
+        useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
     }
 }
 
@@ -82,6 +83,7 @@ extension AppSettings {
         $useSystemTheme.update(setting: settings.useSystemTheme)
         $lightThemePreference.update(setting: settings.lightThemePreference)
         $darkThemePreference.update(setting: settings.darkThemePreference)
+        $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
     }
 }
 
