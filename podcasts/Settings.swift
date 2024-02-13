@@ -885,7 +885,18 @@ class Settings: NSObject {
 
     static var loadEmbeddedImages: Bool {
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.useEmbeddedArtwork
+            } else {
+                return UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+            }
+        }
+        set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useEmbeddedArtwork = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.loadEmbeddedImages)
+            Settings.trackValueToggled(.settingsAppearanceUseEmbeddedArtworkToggled, enabled: newValue)
         }
     }
 

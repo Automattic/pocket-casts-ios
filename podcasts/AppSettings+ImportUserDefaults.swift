@@ -41,5 +41,6 @@ extension SettingsStore<AppSettings> {
             self.update(\.$autoArchiveInactive, value: inactive.rawValue)
         }
         self.update(\.$autoArchiveIncludesStarred, value: UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey))
+        self.update(\.$useEmbeddedArtwork, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages))
     }
 }

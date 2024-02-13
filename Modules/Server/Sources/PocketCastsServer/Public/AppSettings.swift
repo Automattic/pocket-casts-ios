@@ -4,7 +4,7 @@ import PocketCastsDataModel
 /// Model type for synced & stored App Settings
 public struct AppSettings: JSONCodable {
 
-    // MARK: General
+    // MARK: - General
     @ModifiedDate public var openLinks: Bool
 
     @ModifiedDate public var rowAction: PrimaryRowAction
@@ -50,6 +50,9 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var marketingOptIn: Bool = false
     @ModifiedDate public var freeGiftAcknowledgement: Bool = false
 
+    // MARK: - Appearance
+
+    @ModifiedDate public var useEmbeddedArtwork: Bool = false
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,
