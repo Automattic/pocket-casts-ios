@@ -7,7 +7,7 @@ rubocop.lint(files: [], force_exclusion: true, inline_comment: true, fail_on_inl
 
 manifest_pr_checker.check_all_manifest_lock_updated
 
-# skip remaining checks if we're during the release process
+# skip remaining checks if we're in a release-process PR
 if github.pr_labels.include?('Releases')
   message('This PR has the `Releases` label: some checks will be skipped.')
   return
