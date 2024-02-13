@@ -52,6 +52,7 @@ public struct AppSettings: JSONCodable {
 
     // MARK: - Appearance
 
+    @ModifiedDate public var useSystemTheme: Bool = true
     @ModifiedDate public var theme: ThemeType = .light
     @ModifiedDate public var useEmbeddedArtwork: Bool = false
     static var defaults: AppSettings {

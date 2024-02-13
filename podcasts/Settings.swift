@@ -624,11 +624,18 @@ class Settings: NSObject {
     }
 
     class func setShouldFollowSystemTheme(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.useSystemTheme = value
+        }
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
 
     class func shouldFollowSystemTheme() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.useSystemTheme
+        } else {
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        }
     }
 
     // MARK: Player Actions

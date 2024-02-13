@@ -43,5 +43,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$autoArchiveIncludesStarred, value: UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey))
         self.update(\.$useEmbeddedArtwork, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages))
         self.update(\.$theme, value: Int32(UserDefaults.standard.integer(forKey: Theme.themeKey)))
+        self.update(\.$useSystemTheme, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey))
     }
 }

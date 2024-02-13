@@ -38,6 +38,7 @@ extension Api_ChangeableSettings {
         autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
         useEmbeddedArtwork.update(settings.$useEmbeddedArtwork)
         theme.update(settings.$theme)
+        useSystemTheme.update(settings.$useSystemTheme)
     }
 }
 
@@ -76,6 +77,7 @@ extension AppSettings {
         $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
         $useEmbeddedArtwork.update(setting: settings.useEmbeddedArtwork)
         $theme.update(setting: settings.theme)
+        $useSystemTheme.update(setting: settings.useSystemTheme)
     }
 }
 
