@@ -107,8 +107,8 @@ extension ThemeType: AnalyticsDescribable {
 
 class Theme: ObservableObject {
     static let themeKey = "theme"
-    private static let preferredDarkThemeKey = "preferredDarkTheme"
-    private static let preferredLightThemeKey = "preferredLightTheme"
+    static let preferredDarkThemeKey = "preferredDarkTheme"
+    static let preferredLightThemeKey = "preferredLightTheme"
     static let sharedTheme = Theme()
 
     typealias ThemeType = PocketCastsServer.ThemeType
@@ -169,6 +169,10 @@ class Theme: ObservableObject {
     }
 
     class func preferredDarkTheme() -> ThemeType {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.darkThemePreference
+        }
+
         let savedType = UserDefaults.standard.integer(forKey: preferredDarkThemeKey)
 
         guard let oldTheme = ThemeType.Old(rawValue: savedType) else { return .dark }
@@ -179,7 +183,13 @@ class Theme: ObservableObject {
     }
 
     class func setPreferredDarkTheme(_ preferredType: ThemeType, systemIsDark: Bool, userInitiated: Bool = false) {
-        UserDefaults.standard.setValue(preferredType.rawValue, forKey: preferredDarkThemeKey)
+
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.darkThemePreference = preferredType
+        } else {
+            UserDefaults.standard.setValue(preferredType.rawValue, forKey: preferredDarkThemeKey)
+        }
+        UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredDarkThemeKey)
 
         // change the active theme if it needs to change
         if Settings.shouldFollowSystemTheme(), systemIsDark {
@@ -191,6 +201,11 @@ class Theme: ObservableObject {
     }
 
     class func preferredLightTheme() -> ThemeType {
+
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.lightThemePreference
+        }
+
         let savedType = UserDefaults.standard.integer(forKey: preferredLightThemeKey)
 
         guard let oldTheme = ThemeType.Old(rawValue: savedType) else { return .dark }
@@ -201,7 +216,13 @@ class Theme: ObservableObject {
     }
 
     class func setPreferredLightTheme(_ preferredType: ThemeType, systemIsDark: Bool) {
-        UserDefaults.standard.setValue(preferredType.rawValue, forKey: preferredLightThemeKey)
+
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.lightThemePreference = preferredType
+        } else {
+            UserDefaults.standard.setValue(preferredType.rawValue, forKey: preferredLightThemeKey)
+        }
+        UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredLightThemeKey)
 
         // change the active theme if it needs to change
         if Settings.shouldFollowSystemTheme() {
