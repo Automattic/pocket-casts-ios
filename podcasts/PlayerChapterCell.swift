@@ -18,6 +18,8 @@ class PlayerChapterCell: UITableViewCell {
     @IBOutlet var seperatorView: UIView!
     @IBOutlet var progressViewWidth: NSLayoutConstraint!
     @IBOutlet var isPlayingView: UIView!
+    @IBOutlet weak var selectedChapterButton: BouncyButton!
+    @IBOutlet weak var chapterButtonWidth: NSLayoutConstraint!
 
     private var onLinkTapped: ((URL) -> Void)?
     private var chapter: ChapterInfo?
@@ -78,6 +80,23 @@ class PlayerChapterCell: UITableViewCell {
         self.chapter = chapter
         isPlayingView.backgroundColor = ThemeColor.playerContrast06()
         progressUpdated(animated: false)
+
+        setUpSelectedChapterButton()
+
+        if !FeatureFlag.deselectChapters.enabled {
+            hideSelectedChapterButton()
+        }
+    }
+
+    private func setUpSelectedChapterButton() {
+        selectedChapterButton.onImage = UIImage(named: "checkbox-selected")
+        selectedChapterButton.offImage = UIImage(named: "checkbox-unselected")
+        selectedChapterButton.tintColor = ThemeColor.primaryInteractive01()
+    }
+
+    private func hideSelectedChapterButton() {
+        selectedChapterButton.isHidden = true
+        chapterButtonWidth.constant = 20
     }
 
     @IBAction func linkTapped(_ sender: Any) {

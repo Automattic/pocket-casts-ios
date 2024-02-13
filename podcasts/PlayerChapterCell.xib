@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -47,14 +47,23 @@
                             <constraint firstAttribute="height" constant="1" id="Aqu-XA-Xqc"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRZ-kP-W2l" customClass="BouncyButton" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="1" width="48" height="48"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="48" id="KR8-bY-GvK"/>
+                            <constraint firstAttribute="height" constant="48" id="d8Z-LB-pZH"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="checkmark.square.fill" catalog="system"/>
+                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tO-zw-yY4">
-                        <rect key="frame" x="20" y="10.5" width="10" height="14.5"/>
+                        <rect key="frame" x="48" y="10.5" width="10" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bke-e5-Ifv" customClass="NowPlayingAnimationView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="11" y="13" width="24" height="24"/>
+                        <rect key="frame" x="39" y="13" width="24" height="24"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="MKf-8M-z5M"/>
@@ -62,7 +71,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Chapter Name Is Really Really Really long" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTd-fM-Gsz">
-                        <rect key="frame" x="40" y="8.5" width="191" height="33.5"/>
+                        <rect key="frame" x="68" y="8.5" width="163" height="33.5"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -116,7 +125,7 @@
                 </subviews>
                 <color key="backgroundColor" red="0.070588235294117646" green="0.070588235294117646" blue="0.070588235294117646" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstItem="7tO-zw-yY4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="0zr-JU-0cg"/>
+                    <constraint firstItem="cRZ-kP-W2l" firstAttribute="trailing" secondItem="7tO-zw-yY4" secondAttribute="trailing" constant="-10" id="8Us-Sx-oqi"/>
                     <constraint firstItem="Bm9-Ke-jXY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="92a-z4-FGz"/>
                     <constraint firstAttribute="trailing" secondItem="Bm9-Ke-jXY" secondAttribute="trailing" constant="20" id="A0f-dS-oKL"/>
                     <constraint firstAttribute="bottom" secondItem="Gii-fb-Tnl" secondAttribute="bottom" id="FVM-4m-0ce"/>
@@ -130,13 +139,16 @@
                     <constraint firstItem="MTd-fM-Gsz" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="aa5-sB-1eb"/>
                     <constraint firstItem="MnS-7T-IZe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="cYL-kp-IIF"/>
                     <constraint firstItem="MTd-fM-Gsz" firstAttribute="firstBaseline" secondItem="7tO-zw-yY4" secondAttribute="firstBaseline" id="dLa-wd-uSE"/>
+                    <constraint firstItem="cRZ-kP-W2l" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iz0-K5-Vuu"/>
                     <constraint firstAttribute="trailing" secondItem="MnS-7T-IZe" secondAttribute="trailing" constant="8" id="jmT-vE-W1y"/>
                     <constraint firstAttribute="bottom" secondItem="MnS-7T-IZe" secondAttribute="bottom" id="nzm-06-L0A"/>
                     <constraint firstAttribute="bottom" secondItem="Bm9-Ke-jXY" secondAttribute="bottom" id="qCv-CY-gTs"/>
+                    <constraint firstItem="cRZ-kP-W2l" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="vhq-hy-GvK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="chapterButtonWidth" destination="KR8-bY-GvK" id="q0E-BT-hM7"/>
                 <outlet property="chapterLength" destination="IbE-k6-vdl" id="0d6-30-7rh"/>
                 <outlet property="chapterName" destination="MTd-fM-Gsz" id="jOW-Js-kdG"/>
                 <outlet property="chapterNumber" destination="7tO-zw-yY4" id="Cee-Z7-UcQ"/>
@@ -145,6 +157,7 @@
                 <outlet property="linkView" destination="gi5-rn-or5" id="xbh-8k-0Hn"/>
                 <outlet property="nowPlayingAnimation" destination="Bke-e5-Ifv" id="Oz5-C3-Qyn"/>
                 <outlet property="progressViewWidth" destination="jBd-mB-N0I" id="5ys-L1-3e9"/>
+                <outlet property="selectedChapterButton" destination="cRZ-kP-W2l" id="8vL-OD-HLz"/>
                 <outlet property="seperatorView" destination="Bm9-Ke-jXY" id="aaK-b3-02B"/>
             </connections>
             <point key="canvasLocation" x="-432" y="-254.57271364317842"/>
@@ -152,5 +165,6 @@
     </objects>
     <resources>
         <image name="chapter-link-white" width="24" height="24"/>
+        <image name="checkmark.square.fill" catalog="system" width="128" height="114"/>
     </resources>
 </document>
