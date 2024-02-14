@@ -1,5 +1,6 @@
 import AVFoundation
 import Foundation
+import PocketCastsUtils
 
 class ChapterInfo: Equatable {
     var title = ""
