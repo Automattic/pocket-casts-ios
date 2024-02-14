@@ -8,20 +8,28 @@ import UIKit
 class Settings: NSObject {
     // MARK: - Library Type
 
-    private static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
+    static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
     private static var cachedlibrarySortType: LibraryType?
     class func setLibraryType(_ type: LibraryType) {
-        UserDefaults.standard.set(type.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.gridLayout = type
+        }
+        UserDefaults.standard.set(type.old.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
         cachedlibrarySortType = type
     }
 
     class func libraryType() -> LibraryType {
+
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.gridLayout
+        }
+
         if let type = cachedlibrarySortType {
             return type
         }
 
         let storedValue = UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)
-        if let type = LibraryType(rawValue: storedValue) {
+        if let type = LibraryType(oldValue: storedValue) {
             cachedlibrarySortType = type
 
             return type

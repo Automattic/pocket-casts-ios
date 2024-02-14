@@ -28,6 +28,7 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var autoPlayEnabled: Bool
 
     @ModifiedDate public var gridOrder: LibrarySort = .dateAddedNewestToOldest
+    @ModifiedDate public var gridLayout: LibraryType = .fourByFour
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,

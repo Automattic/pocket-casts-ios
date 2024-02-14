@@ -22,6 +22,7 @@ extension Api_ChangeableSettings {
         chapterTitles.update(settings.$chapterTitles)
         autoPlayEnabled.update(settings.$autoPlayEnabled)
         gridOrder.update(settings.$gridOrder)
+        gridLayout.update(settings.$gridLayout)
     }
 }
 
@@ -44,6 +45,7 @@ extension AppSettings {
         $chapterTitles.update(setting: settings.chapterTitles)
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
         $gridOrder.update(setting: settings.gridOrder)
+        $gridLayout.update(setting: settings.gridLayout)
     }
 }
 

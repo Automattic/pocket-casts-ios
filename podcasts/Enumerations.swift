@@ -2,8 +2,39 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 
-enum LibraryType: Int, AnalyticsDescribable {
-    case fourByFour = 1, threeByThree = 2, list = 3
+extension LibraryType: AnalyticsDescribable {
+    enum Old: Int {
+        case fourByFour = 1, threeByThree = 2, list = 3
+    }
+
+    init?(oldValue: Int) {
+        guard let old = Old(rawValue: oldValue) else {
+            return nil
+        }
+        self.init(old: old)
+    }
+
+    init(old: Old) {
+        switch old {
+        case .fourByFour:
+            self = .fourByFour
+        case .threeByThree:
+            self = .threeByThree
+        case .list:
+            self = .list
+        }
+    }
+
+    var old: Old {
+        switch self {
+        case .fourByFour:
+            return .fourByFour
+        case .threeByThree:
+            return .threeByThree
+        case .list:
+            return .list
+        }
+    }
 
     var analyticsDescription: String {
         switch self {
