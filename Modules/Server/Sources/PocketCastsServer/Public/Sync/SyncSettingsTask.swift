@@ -36,6 +36,7 @@ extension Api_ChangeableSettings {
         autoArchivePlayed.update(settings.$autoArchivePlayed)
         autoArchiveInactive.update(settings.$autoArchiveInactive)
         autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
+        gridOrder.update(settings.$gridOrder)
     }
 }
 
@@ -72,6 +73,7 @@ extension AppSettings {
         $autoArchivePlayed.update(setting: settings.autoArchivePlayed)
         $autoArchiveInactive.update(setting: settings.autoArchiveInactive)
         $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
+        $gridOrder.update(setting: settings.gridOrder)
     }
 }
 

@@ -55,6 +55,10 @@ public struct EpisodeBasicData {
     public var starred: Bool?
 }
 
+public enum LibrarySort: Int32, CaseIterable, Codable {
+    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3
+}
+
 public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
     case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
 }
