@@ -66,13 +66,10 @@ class PlayerChapterCell: UITableViewCell {
         chapterName.text = chapter.title
         chapterLength.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
         chapterNumber.text = "\(chapter.index + 1)"
-        linkView.alpha = playState == .played ? 0.5 : 1
         linkView.isHidden = (chapter.url == nil)
 
         nowPlayingAnimation.animating = false
-        chapterName.textColor = playState == .played ? ThemeColor.playerContrast02() : ThemeColor.playerContrast01()
-        chapterNumber.textColor = chapterName.textColor
-        chapterLength.textColor = chapterName.textColor
+        setColors(dim: playState == .played)
         if playState == .currentlyPlaying || playState == .currentlyPaused {
             isPlayingView.isHidden = false
         } else {
@@ -106,6 +103,7 @@ class PlayerChapterCell: UITableViewCell {
     private func showSelectedChapterButton() {
         toggleChapterButton.isHidden = false
         chapterButtonWidth.constant = 48
+        setColors(dim: chapter?.isPlayable() == false)
     }
 
     @IBAction func linkTapped(_ sender: Any) {
@@ -118,6 +116,8 @@ class PlayerChapterCell: UITableViewCell {
     @IBAction func toggleChapterTapped(_ sender: Any) {
         chapter?.shouldPlay.toggle()
         toggleChapterButton.currentlyOn.toggle()
+
+        setColors(dim: chapter?.isPlayable() == false)
 
         if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
             if chapter?.shouldPlay == true {
@@ -149,5 +149,12 @@ class PlayerChapterCell: UITableViewCell {
                 self.layoutIfNeeded()
             }
         } else { layoutIfNeeded() }
+    }
+
+    private func setColors(dim shouldDim: Bool) {
+        linkView.alpha = shouldDim ? 0.5 : 1
+        chapterName.textColor = shouldDim ? ThemeColor.playerContrast02() : ThemeColor.playerContrast01()
+        chapterNumber.textColor = chapterName.textColor
+        chapterLength.textColor = chapterName.textColor
     }
 }
