@@ -14,7 +14,6 @@ class ChaptersHeader: UIView {
 
     private lazy var chaptersLabel: UILabel = {
         let label = UILabel()
-        label.text = L10n.numberOfChapters(PlaybackManager.shared.chapterCount(onlyPlayable: true))
         label.textColor = .white
         label.font = .preferredFont(forTextStyle: .footnote)
         return label
@@ -22,7 +21,7 @@ class ChaptersHeader: UIView {
 
     private lazy var toggleButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Skip chapters", for: .normal)
+        button.setTitle(L10n.skipChapters, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .footnote)
         button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
@@ -34,12 +33,17 @@ class ChaptersHeader: UIView {
         super.init(frame: frame)
 
         configure()
+        updateChapterLabel()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
 
         configure()
+    }
+
+    func update() {
+        updateChapterLabel()
     }
 
     private func configure() {
@@ -49,8 +53,24 @@ class ChaptersHeader: UIView {
         container.anchorToAllSidesOf(view: self)
     }
 
-    @objc func toggleChapterSelection() {
+    @objc private func toggleChapterSelection() {
+        updateButtonLabel()
         delegate?.toggleTapped()
+    }
+
+    private func updateChapterLabel() {
+        let chapterCount = PlaybackManager.shared.chapterCount(onlyPlayable: true)
+        let hiddenChapterCount = PlaybackManager.shared.chapterCount(onlyPlayable: false) - chapterCount
+        var label = chapterCount > 1 ? L10n.numberOfChapters(chapterCount) : L10n.singleChapter
+        if hiddenChapterCount > 0 {
+            label += " • \(L10n.numberOfHiddenChapters(hiddenChapterCount))"
+        }
+        chaptersLabel.text = label
+    }
+
+    private func updateButtonLabel() {
+        let buttonTitle = toggleButton.title(for: .normal) == L10n.skipChapters ? L10n.done : L10n.skipChapters
+        toggleButton.setTitle(buttonTitle, for: .normal)
     }
 }
 

@@ -78,5 +78,6 @@ extension ChaptersViewController: ChaptersHeaderDelegate {
     func toggleTapped() {
         isTogglingChapters.toggle()
         chaptersTable.reloadSections([0], with: .automatic)
+        header.update()
     }
 }
