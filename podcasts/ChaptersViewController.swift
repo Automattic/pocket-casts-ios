@@ -10,6 +10,7 @@ class ChaptersViewController: PlayerItemViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        chaptersTable.sectionHeaderTopPadding = 0
     }
 
     override func willBeAddedToPlayer() {
