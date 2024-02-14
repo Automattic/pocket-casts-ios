@@ -29,7 +29,7 @@ public enum RefreshFetchResult: UInt {
     case failed = 2
 }
 
-public enum AutoAddLimitReachedAction: Int32 {
+public enum AutoAddLimitReachedAction: Int32, Codable {
     case stopAdding = 0, addToTopOnly = 1
 }
 

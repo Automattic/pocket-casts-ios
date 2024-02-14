@@ -35,6 +35,9 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var warnDataUsage: Bool = false
 
+    @ModifiedDate public var autoUpNextLimit: Int32 = 100
+    @ModifiedDate public var autoUpNextLimitReached: AutoAddLimitReachedAction = .stopAdding
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,

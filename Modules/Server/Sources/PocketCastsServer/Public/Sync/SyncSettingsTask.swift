@@ -25,6 +25,8 @@ extension Api_ChangeableSettings {
         trimSilence.update(settings.$trimSilence)
         playbackSpeed.update(settings.$playbackSpeed)
         warnDataUsage.update(settings.$warnDataUsage)
+        autoUpNextLimit.update(settings.$autoUpNextLimit)
+        autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
     }
 }
 
@@ -50,6 +52,8 @@ extension AppSettings {
         $trimSilence.update(setting: settings.trimSilence)
         $playbackSpeed.update(setting: settings.playbackSpeed)
         $warnDataUsage.update(setting: settings.warnDataUsage)
+        $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
+        $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
     }
 }
 
