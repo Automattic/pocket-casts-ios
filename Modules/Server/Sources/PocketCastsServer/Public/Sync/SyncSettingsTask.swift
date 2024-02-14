@@ -23,6 +23,7 @@ extension Api_ChangeableSettings {
         autoPlayEnabled.update(settings.$autoPlayEnabled)
         gridOrder.update(settings.$gridOrder)
         gridLayout.update(settings.$gridLayout)
+        badges.update(settings.$badges)
     }
 }
 
@@ -46,6 +47,7 @@ extension AppSettings {
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
         $gridOrder.update(setting: settings.gridOrder)
         $gridLayout.update(setting: settings.gridLayout)
+        $badges.update(setting: settings.badges)
     }
 }
 

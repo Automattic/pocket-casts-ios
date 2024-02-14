@@ -63,3 +63,6 @@ public enum LibraryType: Int32, Codable {
     case fourByFour = 0, threeByThree = 1, list = 2
 }
 
+public enum BadgeType: Int32, Codable {
+    case off = 0, latestEpisode, allUnplayed
+}

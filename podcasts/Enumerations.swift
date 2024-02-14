@@ -48,9 +48,7 @@ extension LibraryType: AnalyticsDescribable {
     }
 }
 
-enum BadgeType: Int, AnalyticsDescribable {
-    case off = 0, latestEpisode, allUnplayed
-
+extension BadgeType: AnalyticsDescribable {
     var description: String {
         switch self {
         case .off:

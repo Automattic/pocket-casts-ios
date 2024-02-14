@@ -23,5 +23,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$autoPlayEnabled, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay))
         self.update(\.$gridOrder, value: Int32(ServerSettings.homeGridSortOrder()))
         self.update(\.$gridLayout, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)))
+        self.update(\.$badges, value: Int32(UserDefaults.standard.integer(forKey: Settings.badgeKey)))
     }
 }
