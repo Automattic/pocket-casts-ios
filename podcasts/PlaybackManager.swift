@@ -331,12 +331,16 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func chapterCount() -> Int {
-        chapterManager.visibleChapterCount()
+    func chapterCount(onlyPlayable: Bool = false) -> Int {
+        onlyPlayable ? chapterManager.playableChapterCount() : chapterManager.visibleChapterCount()
     }
 
     func chapterAt(index: Int) -> ChapterInfo? {
         chapterManager.chapterAt(index: index)
+    }
+
+    func playableChapterAt(index: Int) -> ChapterInfo? {
+        chapterManager.playableChapterAt(index: index)
     }
 
     func currentChapters() -> Chapters {

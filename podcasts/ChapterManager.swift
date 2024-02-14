@@ -22,6 +22,10 @@ class ChapterManager {
         visibleChapters.count
     }
 
+    func playableChapterCount() -> Int {
+        visibleChapters.filter { $0.shouldPlay }.count
+    }
+
     func haveTriedToParseChaptersFor(episodeUuid: String?) -> Bool {
         lastEpisodeUuid == episodeUuid
     }
@@ -60,6 +64,10 @@ class ChapterManager {
 
     func chapterAt(index: Int) -> ChapterInfo? {
         visibleChapters[safe: index]
+    }
+
+    func playableChapterAt(index: Int) -> ChapterInfo? {
+        visibleChapters.filter({ $0.shouldPlay })[safe: index]
     }
 
     @discardableResult

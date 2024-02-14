@@ -13,13 +13,13 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        PlaybackManager.shared.chapterCount()
+        PlaybackManager.shared.chapterCount(onlyPlayable: !isTogglingChapters)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let chapterCell = tableView.dequeueReusableCell(withIdentifier: ChaptersViewController.chapterCell, for: indexPath) as! PlayerChapterCell
 
-        if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
+        if let chapter = isTogglingChapters ? PlaybackManager.shared.chapterAt(index: indexPath.row) : PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
             var state = PlayerChapterCell.ChapterPlayState.played
             let currentChapters = PlaybackManager.shared.currentChapters()
 
@@ -95,6 +95,6 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
     @objc func toggleChapterSelection(sender: UIButton) {
         isTogglingChapters.toggle()
-        chaptersTable.reloadData()
+        chaptersTable.reloadSections([0], with: .automatic)
     }
 }
