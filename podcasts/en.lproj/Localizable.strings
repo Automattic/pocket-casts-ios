@@ -3981,7 +3981,7 @@
 "number_of_chapters" = "%1$@ chapters";
 
 /* Singular indication of number of chapters */
-"number_of_chapters" = "1 chapter";
+"single_chapter" = "1 chapter";
 
 /* Indicates the number of hidden chapters in a podcast episode. %1$@ is the number of hidden chapters. */
 "number_of_hidden_chapters" = "%1$@ hidden";

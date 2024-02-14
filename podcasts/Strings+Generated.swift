@@ -1486,8 +1486,10 @@ internal enum L10n {
   }
   /// Playing
   internal static var nowPlayingShortTitle: String { return L10n.tr("Localizable", "now_playing_short_title") }
-  /// 1 chapter
-  internal static var numberOfChapters: String { return L10n.tr("Localizable", "number_of_chapters") }
+  /// %1$@ chapters
+  internal static func numberOfChapters(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "number_of_chapters", String(describing: p1))
+  }
   /// %1$@ hidden
   internal static func numberOfHiddenChapters(_ p1: Any) -> String {
     return L10n.tr("Localizable", "number_of_hidden_chapters", String(describing: p1))
@@ -2699,6 +2701,8 @@ internal enum L10n {
   internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as") }
   /// Not Signed In
   internal static var signedOut: String { return L10n.tr("Localizable", "signed_out") }
+  /// 1 chapter
+  internal static var singleChapter: String { return L10n.tr("Localizable", "single_chapter") }
   /// Set sleep timer to %1$@
   internal static func siriShortcutExtendSleepTimer(_ p1: Any) -> String {
     return L10n.tr("Localizable", "siri_shortcut_extend_sleep_timer", String(describing: p1))
