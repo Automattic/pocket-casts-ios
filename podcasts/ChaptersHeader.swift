@@ -25,6 +25,7 @@ class ChaptersHeader: UIView {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .footnote)
         button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
+        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
         return button
     }()
 
