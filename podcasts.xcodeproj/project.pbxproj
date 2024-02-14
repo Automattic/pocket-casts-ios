@@ -595,6 +595,7 @@
 		8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
+		8BEE86FE2B7D02480073784A /* ChaptersHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */; };
 		8BF0BBD228918B49006BBECF /* HomeGridDataHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0BBD128918B49006BBECF /* HomeGridDataHelperTests.swift */; };
 		8BF0BBD4289199D2006BBECF /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */; };
 		8BF0BBD6289199D2006BBECF /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -2374,6 +2375,7 @@
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
 		8BE85CA82876260600AEB5FF /* acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = acknowledgements.html; sourceTree = "<group>"; };
 		8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAndMoreView.swift; sourceTree = "<group>"; };
+		8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersHeader.swift; sourceTree = "<group>"; };
 		8BF0BBD128918B49006BBECF /* HomeGridDataHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGridDataHelperTests.swift; sourceTree = "<group>"; };
 		8BF0BBD82891AFB5006BBECF /* PodcastBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastBuilder.swift; sourceTree = "<group>"; };
 		8BF0BBDA2891B038006BBECF /* FolderBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderBuilder.swift; sourceTree = "<group>"; };
@@ -6174,6 +6176,7 @@
 				BDAA3CEE2122754700649F81 /* PlayerChapterCell.xib */,
 				BDE954E7236684E300CEB6DA /* ChaptersViewController.swift */,
 				BDE954EB2366898900CEB6DA /* ChaptersViewController+Table.swift */,
+				8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */,
 				BDE954E8236684E300CEB6DA /* ChaptersViewController.xib */,
 			);
 			name = Chapters;
@@ -8982,6 +8985,7 @@
 				BD874EFB1C9A637200F5B2A5 /* NotificationsViewController.swift in Sources */,
 				BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */,
 				463538AB26E814B300BA9D35 /* DataModel+Strings.swift in Sources */,
+				8BEE86FE2B7D02480073784A /* ChaptersHeader.swift in Sources */,
 				8B2E055428F891F900C2DBDE /* EndOfYearCard.swift in Sources */,
 				BDDF8AA8240CEBF9009BA263 /* DownloadsViewController+Swipe.swift in Sources */,
 				BDF0507C1FBA65ED00194D68 /* ListeningHistoryViewController.swift in Sources */,

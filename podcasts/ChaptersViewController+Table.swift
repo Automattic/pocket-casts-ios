@@ -70,30 +70,12 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let header = UIStackView()
-        header.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
-        header.isLayoutMarginsRelativeArrangement = true
-        header.axis = .horizontal
-        header.backgroundColor = .black
-        let label = UILabel()
-        label.text = "X chapters"
-        label.textColor = .white
-        label.font = .preferredFont(forTextStyle: .footnote)
-        let button = UIButton()
-        button.setTitle("Skip chapters", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .footnote)
-        button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
-        header.addArrangedSubview(label)
-        header.addArrangedSubview(button)
-        view.addSubview(header)
-        view.anchorToAllSidesOf(view: header)
-
         return header
     }
+}
 
-    @objc func toggleChapterSelection(sender: UIButton) {
+extension ChaptersViewController: ChaptersHeaderDelegate {
+    func toggleTapped() {
         isTogglingChapters.toggle()
         chaptersTable.reloadSections([0], with: .automatic)
     }
