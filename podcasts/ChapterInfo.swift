@@ -15,6 +15,10 @@ class ChapterInfo: Equatable {
     var isHidden = false
     var shouldPlay = true
 
+    func isPlayable() -> Bool {
+        FeatureFlag.deselectChapters.enabled ? shouldPlay : true
+    }
+
     static func == (lhs: ChapterInfo, rhs: ChapterInfo) -> Bool {
         lhs.title == rhs.title && lhs.startTime.seconds == rhs.startTime.seconds && lhs.duration == rhs.duration
     }

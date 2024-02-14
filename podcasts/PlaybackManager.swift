@@ -355,7 +355,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episodeUuid = currentEpisode()?.uuid else { return }
 
         if chapterManager.haveTriedToParseChaptersFor(episodeUuid: episodeUuid), chapterManager.updateCurrentChapter(time: currentTime()) {
-            if currentChapters().visibleChapter?.shouldPlay == false {
+            if currentChapters().visibleChapter?.isPlayable() == false {
                 skipToNextChapter()
             } else {
                 fireChapterChangeNotification()
