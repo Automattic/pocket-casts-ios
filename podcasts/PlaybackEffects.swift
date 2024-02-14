@@ -43,7 +43,11 @@ class PlaybackEffects {
     var isGlobal: Bool = true
 
     class func effectsFor(podcast: Podcast) -> PlaybackEffects {
-        if !podcast.overrideGlobalEffects { return globalEffects() }
+        if FeatureFlag.settingsSync.enabled {
+            if !podcast.settings.customEffects { return globalEffects() }
+        } else {
+            if !podcast.overrideGlobalEffects { return globalEffects() }
+        }
 
         let effects = PlaybackEffects()
 
