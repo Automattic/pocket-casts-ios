@@ -57,11 +57,11 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        38
+        FeatureFlag.deselectChapters.enabled ? 38 : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        UITableView.automaticDimension
+        FeatureFlag.deselectChapters.enabled ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
