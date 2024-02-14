@@ -1,4 +1,5 @@
 @testable import podcasts
+import PocketCastsUtils
 
 class FeatureFlagMock {
     private var previousValues: [FeatureFlag: Bool] = [:]

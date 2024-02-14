@@ -3,6 +3,7 @@ import PocketCastsServer
 import SafariServices
 import UIKit
 import Combine
+import PocketCastsUtils
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
     enum Tab { case podcasts, filter, discover, profile }

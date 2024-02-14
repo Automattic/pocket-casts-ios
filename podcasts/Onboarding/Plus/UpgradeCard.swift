@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 struct UpgradeTier: Identifiable {
     let tier: SubscriptionTier
