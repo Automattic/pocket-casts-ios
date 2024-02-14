@@ -29,7 +29,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 state = .future
             }
 
-            chapterCell.populateFrom(chapter: chapter, playState: state) { url in
+            chapterCell.populateFrom(chapter: chapter, playState: state, isChapterToggleEnabled: isTogglingChapters) { url in
                 if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 } else {
@@ -45,6 +45,11 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+        guard !isTogglingChapters else {
+            (tableView.cellForRow(at: indexPath) as? PlayerChapterCell)?.toggleChapterTapped(self)
+            return
+        }
 
         if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
             if chapter.index == PlaybackManager.shared.currentChapters().index {
@@ -79,11 +84,17 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         button.setTitle("Skip chapters", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .footnote)
+        button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
         header.addArrangedSubview(label)
         header.addArrangedSubview(button)
         view.addSubview(header)
         view.anchorToAllSidesOf(view: header)
 
         return header
+    }
+
+    @objc func toggleChapterSelection(sender: UIButton) {
+        isTogglingChapters.toggle()
+        chaptersTable.reloadData()
     }
 }

@@ -1,6 +1,8 @@
 import UIKit
 
 class ChaptersViewController: PlayerItemViewController {
+    var isTogglingChapters = false
+
     @IBOutlet var chaptersTable: UITableView! {
         didSet {
             registerCells()

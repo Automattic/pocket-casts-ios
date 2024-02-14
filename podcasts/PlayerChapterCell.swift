@@ -32,6 +32,8 @@ class PlayerChapterCell: UITableViewCell {
     private var circleCenter: CGPoint!
     var chapterPlayedTime: Int!
 
+    private var isChapterToggleEnabled: Bool = false
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -58,8 +60,9 @@ class PlayerChapterCell: UITableViewCell {
         }
     }
 
-    func populateFrom(chapter: ChapterInfo, playState: ChapterPlayState, linkTapped: @escaping ((URL) -> Void)) {
+    func populateFrom(chapter: ChapterInfo, playState: ChapterPlayState, isChapterToggleEnabled: Bool, linkTapped: @escaping ((URL) -> Void)) {
         self.playState = playState
+        self.isChapterToggleEnabled = isChapterToggleEnabled
         chapterName.text = chapter.title
         chapterLength.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
         chapterNumber.text = "\(chapter.index + 1)"
@@ -86,9 +89,7 @@ class PlayerChapterCell: UITableViewCell {
 
         toggleChapterButton.currentlyOn = chapter.shouldPlay
 
-        if !FeatureFlag.deselectChapters.enabled {
-            hideSelectedChapterButton()
-        }
+        isChapterToggleEnabled ? showSelectedChapterButton() : hideSelectedChapterButton()
     }
 
     private func setUpSelectedChapterButton() {
@@ -100,6 +101,11 @@ class PlayerChapterCell: UITableViewCell {
     private func hideSelectedChapterButton() {
         toggleChapterButton.isHidden = true
         chapterButtonWidth.constant = 20
+    }
+
+    private func showSelectedChapterButton() {
+        toggleChapterButton.isHidden = false
+        chapterButtonWidth.constant = 48
     }
 
     @IBAction func linkTapped(_ sender: Any) {
