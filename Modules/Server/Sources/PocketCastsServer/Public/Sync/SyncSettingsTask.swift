@@ -37,6 +37,7 @@ extension Api_ChangeableSettings {
         autoArchiveInactive.update(settings.$autoArchiveInactive)
         autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
         gridOrder.update(settings.$gridOrder)
+        gridLayout.update(settings.$gridLayout)
     }
 }
 
@@ -74,6 +75,7 @@ extension AppSettings {
         $autoArchiveInactive.update(setting: settings.autoArchiveInactive)
         $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
         $gridOrder.update(setting: settings.gridOrder)
+        $gridLayout.update(setting: settings.gridLayout)
     }
 }
 
