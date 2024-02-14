@@ -42,11 +42,15 @@ class Settings: NSObject {
 
     // MARK: - Podcast Badge
 
-    private static let badgeKey = "SJBadgeType"
+    static let badgeKey = "SJBadgeType"
     class func podcastBadgeType() -> BadgeType {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.badges
+        }
+
         let storedBadgeType = UserDefaults.standard.integer(forKey: Settings.badgeKey)
 
-        if let type = BadgeType(rawValue: storedBadgeType) {
+        if let type = BadgeType(rawValue: Int32(storedBadgeType)) {
             return type
         }
 
@@ -54,6 +58,9 @@ class Settings: NSObject {
     }
 
     class func setPodcastBadgeType(_ badgeType: BadgeType) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.badges = badgeType
+        }
         UserDefaults.standard.set(badgeType.rawValue, forKey: Settings.badgeKey)
     }
 

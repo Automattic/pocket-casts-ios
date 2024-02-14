@@ -38,6 +38,7 @@ extension Api_ChangeableSettings {
         autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
         gridOrder.update(settings.$gridOrder)
         gridLayout.update(settings.$gridLayout)
+        badges.update(settings.$badges)
     }
 }
 
@@ -76,6 +77,7 @@ extension AppSettings {
         $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
         $gridOrder.update(setting: settings.gridOrder)
         $gridLayout.update(setting: settings.gridLayout)
+        $badges.update(setting: settings.badges)
     }
 }
 
