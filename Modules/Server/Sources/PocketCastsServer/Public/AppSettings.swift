@@ -27,6 +27,8 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    @ModifiedDate public var gridOrder: LibrarySort = .dateAddedNewestToOldest
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,

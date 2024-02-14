@@ -164,8 +164,12 @@ class Settings: NSObject {
     // MARK: - Podcast Sort Order
 
     class func homeFolderSortOrder() -> LibrarySort {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.gridOrder
+        }
+
         let sortInt = ServerSettings.homeGridSortOrder()
-        if let librarySort = LibrarySort(rawValue: sortInt) {
+        if let librarySort = LibrarySort(oldValue: sortInt) {
             return librarySort
         }
 
@@ -173,7 +177,10 @@ class Settings: NSObject {
     }
 
     class func setHomeFolderSortOrder(order: LibrarySort) {
-        ServerSettings.setHomeGridSortOrder(order.rawValue, syncChange: true)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.gridOrder = order
+        }
+        ServerSettings.setHomeGridSortOrder(order.old.rawValue, syncChange: true)
     }
 
     // MARK: - Podcast Grouping Default
