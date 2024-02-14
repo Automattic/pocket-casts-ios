@@ -1,5 +1,6 @@
 import Foundation
 import SafariServices
+import PocketCastsUtils
 
 extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     private static let chapterCell = "ChapterCell"

@@ -3,17 +3,17 @@ import Foundation
 // Protocol allows easier unit testing, so we can implement mock
 // feature flags to use in test cases.
 //
-protocol OverrideableFlag: CustomStringConvertible {
+public protocol OverrideableFlag: CustomStringConvertible {
     var enabled: Bool { get }
     var canOverride: Bool { get }
 }
 
 /// Used to override values for feature flags at runtime in debug builds
 ///
-struct FeatureFlagOverrideStore {
+public struct FeatureFlagOverrideStore {
     private let store: UserDefaults
 
-    init(store: UserDefaults = UserDefaults.standard) {
+    public init(store: UserDefaults = UserDefaults.standard) {
         self.store = store
     }
 
@@ -29,7 +29,7 @@ struct FeatureFlagOverrideStore {
 
     /// Removes any existing overridden value and stores the new value
     ///
-    func override(_ featureFlag: OverrideableFlag, withValue value: Bool) throws {
+    public func override(_ featureFlag: OverrideableFlag, withValue value: Bool) throws {
         guard featureFlag.canOverride == true else {
             throw FeatureFlagError.cannotBeOverridden
         }

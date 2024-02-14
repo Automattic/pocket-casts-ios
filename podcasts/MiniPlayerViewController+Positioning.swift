@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 extension MiniPlayerViewController {
     func hideMiniPlayer(_ animated: Bool) {
