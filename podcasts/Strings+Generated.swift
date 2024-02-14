@@ -1486,6 +1486,12 @@ internal enum L10n {
   }
   /// Playing
   internal static var nowPlayingShortTitle: String { return L10n.tr("Localizable", "now_playing_short_title") }
+  /// 1 chapter
+  internal static var numberOfChapters: String { return L10n.tr("Localizable", "number_of_chapters") }
+  /// %1$@ hidden
+  internal static func numberOfHiddenChapters(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "number_of_hidden_chapters", String(describing: p1))
+  }
   /// Off
   internal static var off: String { return L10n.tr("Localizable", "off") }
   /// OK
@@ -2745,6 +2751,8 @@ internal enum L10n {
   internal static var siriShortcutToPodcast: String { return L10n.tr("Localizable", "siri_shortcut_to_podcast") }
   /// Skip Back
   internal static var skipBack: String { return L10n.tr("Localizable", "skip_back") }
+  /// Skip chapters
+  internal static var skipChapters: String { return L10n.tr("Localizable", "skip_chapters") }
   /// Skip Forward
   internal static var skipForward: String { return L10n.tr("Localizable", "skip_forward") }
   /// Sleep Timer
