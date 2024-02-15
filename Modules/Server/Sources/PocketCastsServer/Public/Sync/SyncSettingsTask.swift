@@ -22,6 +22,7 @@ extension Api_ChangeableSettings {
         chapterTitles.update(settings.$chapterTitles)
         autoPlayEnabled.update(settings.$autoPlayEnabled)
         marketingOptIn.update(settings.$marketingOptIn)
+        freeGiftAcknowledgement.update(settings.$freeGiftAcknowledgement)
     }
 }
 
@@ -44,6 +45,7 @@ extension AppSettings {
         $chapterTitles.update(setting: settings.chapterTitles)
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
         $marketingOptIn.update(setting: settings.marketingOptIn)
+        $freeGiftAcknowledgement.update(setting: settings.freeGiftAcknowledgement)
     }
 }
 

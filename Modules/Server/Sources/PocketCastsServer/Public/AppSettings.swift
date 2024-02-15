@@ -28,6 +28,7 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var autoPlayEnabled: Bool
 
     @ModifiedDate public var marketingOptIn: Bool = false
+    @ModifiedDate public var freeGiftAcknowledgement: Bool = false
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,

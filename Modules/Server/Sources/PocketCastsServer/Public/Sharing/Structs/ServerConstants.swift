@@ -115,7 +115,7 @@ public enum ServerConstants {
         static let subscriptionAutoRenewing = "SJSubscriptionAutorenewing"
         static let subscriptionPlatform = "SJSubscriptionPlatform"
         static let subscriptionGiftDays = "SJSubscriptionGiftDays"
-        static let subscriptionGiftAcknowledgement = "SJSubscriptionGiftAcknowledgement"
+        public static let subscriptionGiftAcknowledgement = "SJSubscriptionGiftAcknowledgement"
         public static let subscriptionFrequency = "SJSubscriptionFrequency"
         static let subscriptionPodcasts = "SJSubscriptionPodcasts"
         static let subscriptionType = "SJSubscriptionType"
