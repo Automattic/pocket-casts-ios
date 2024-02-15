@@ -42,11 +42,22 @@ class WhatsNew {
     let previousOpenedVersion: String?
     let lastWhatsNewShown: String?
 
-    init(announcements: [Announcement] = Announcements().announcements, previousOpenedVersion: String? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion), currentVersion: String = Settings.appVersion(), lastWhatsNewShown: String? = Settings.lastWhatsNewShown) {
+    init(announcements: [Announcement] = Announcements().announcements,
+         previousOpenedVersion: String? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion),
+         currentVersion: String = Settings.appVersion(),
+         lastWhatsNewShown: String? = Settings.lastWhatsNewShown) {
         self.announcements = announcements
         self.previousOpenedVersion = previousOpenedVersion?.majorMinor
         self.currentVersion = currentVersion.majorMinor
         self.lastWhatsNewShown = lastWhatsNewShown
+    }
+
+    func forcefullyShowWhatsNewOnNextLaunch(version: String) {
+        Settings.forcefullyShownWhatsNewVersion = version
+    }
+
+    func resetForcefullyShownWhatsNew() {
+        Settings.forcefullyShownWhatsNewVersion = nil
     }
 
     func viewControllerToShow() -> UIViewController? {
@@ -73,6 +84,14 @@ class WhatsNew {
 
     /// Returns the announcement to be displayed if one is available
     var visibleAnnouncement: Announcement? {
+        if let forcedVersion = Settings.forcefullyShownWhatsNewVersion {
+            defer {
+                resetForcefullyShownWhatsNew()
+            }
+
+            return announcements.last(where: { $0.isEnabled() && $0.version == forcedVersion })
+        }
+
         // Don't show any announcements if this is the first run of the app,
         // or if we've already checked the what's new for this version
         guard let previousOpenedVersion, previousOpenedVersion != currentVersion else {

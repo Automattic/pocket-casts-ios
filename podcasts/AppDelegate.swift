@@ -285,7 +285,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.slumberStudiosPromoCode: NSString(string: Constants.RemoteParams.slumberStudiosPromoCodeDefault)
         ])
 
-        remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
+        remoteConfig.fetch(withExpirationDuration: 2.hours) { [weak self] status, _ in
             if status == .success {
                 remoteConfig.activate(completion: nil)
 
@@ -313,7 +313,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
 
-            try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
+            try updateSlumberRemoteValue()
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
             IAPHelper.shared.requestProductInfoIfNeeded()
@@ -323,6 +323,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
     }
 
+    private func updateSlumberRemoteValue() throws {
+        let wasEnabled = FeatureFlag.slumber.enabled
+        try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
+
+        guard wasEnabled == false, FeatureFlag.slumber.enabled == true else {
+            return
+        }
+
+        // TODO: Make sure this logic works correctly
+        let isEligible = whatsNew?.currentVersion == Announcements.slumberVersion
+
+        if isEligible && whatsNew?.lastWhatsNewShown != Announcements.slumberVersion {
+            whatsNew?.forcefullyShowWhatsNewOnNextLaunch(version: Announcements.slumberVersion)
+        }
+    }
     private func updateEndOfYearRemoteValue() {
         // Update if EOY requires an account to be seen
         EndOfYear.requireAccount = Settings.endOfYearRequireAccount

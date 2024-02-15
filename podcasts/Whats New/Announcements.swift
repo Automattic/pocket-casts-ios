@@ -42,7 +42,7 @@ struct Announcements {
 
         // Slumber Studios partnership
         .init(
-            version: "7.57",
+            version: slumberVersion,
             header: AnyView(SlumberWhatsNewHeader()),
             title: "",
             message: "",
@@ -53,6 +53,10 @@ struct Announcements {
             customBody: AnyView(SlumberCustomBody())
         )
     ]
+}
+
+extension Announcements {
+    static let slumberVersion: String = "7.57"
 }
 
 // MARK: - AnnouncementFlow

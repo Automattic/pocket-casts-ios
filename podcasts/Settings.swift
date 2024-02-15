@@ -538,6 +538,17 @@ class Settings: NSObject {
         }
     }
 
+    class var forcefullyShownWhatsNewVersion: String? {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "ForceShowWhatsNew")
+            UserDefaults.standard.synchronize()
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: "ForceShowWhatsNew")
+        }
+    }
+
     class func setShouldFollowSystemTheme(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
