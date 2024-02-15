@@ -130,10 +130,6 @@ public class Episode: NSObject, BaseEpisode {
         podcastUuid
     }
 
-    public func jumpToOnStart() -> TimeInterval {
-        TimeInterval(parentPodcast()?.startFrom ?? 0)
-    }
-
     // MARK: - Meta
 
     @objc public func videoPodcast() -> Bool {

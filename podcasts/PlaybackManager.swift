@@ -718,6 +718,12 @@ class PlaybackManager: ServerPlaybackDelegate {
             UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
             UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
+            if FeatureFlag.settingsSync.enabled {
+                podcast.settings.trimSilence = effects.trimSilence
+                podcast.settings.playbackSpeed = effects.playbackSpeed
+                podcast.settings.boostVolume = effects.volumeBoost
+                podcast.syncStatus = SyncStatus.notSynced.rawValue
+            }
             podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
@@ -1880,13 +1886,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func startFromTimeForCurrentEpisode() -> TimeInterval {
         guard let episode = currentEpisode() as? Episode, let parentPodcast = episode.parentPodcast() else { return 0 }
 
-        return TimeInterval(parentPodcast.startFrom)
+        return TimeInterval(parentPodcast.autoStartFrom)
     }
 
     private func skipLastTimeForCurrentEpisode() -> TimeInterval {
         guard let episode = currentEpisode() as? Episode, let parentPodcast = episode.parentPodcast() else { return 0 }
 
-        return TimeInterval(parentPodcast.skipLast)
+        return TimeInterval(parentPodcast.autoSkipLast)
     }
 
     // MARK: - Keep Screen on

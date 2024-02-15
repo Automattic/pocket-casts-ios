@@ -70,6 +70,9 @@ class ServerSyncManager: ServerSyncDelegate {
         PodcastManager.shared.checkForPendingAndAutoDownloads()
         UserEpisodeManager.checkForPendingUploads()
         UserEpisodeManager.checkForPendingCloudDeletes()
+        DispatchQueue.main.async {
+            PlaybackManager.shared.effectsChangedExternally()
+        }
     }
 
     func cleanupCloudOnlyFiles() {

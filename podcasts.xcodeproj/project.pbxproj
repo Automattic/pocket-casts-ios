@@ -1596,13 +1596,12 @@
 		E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3665F532936CD13001C8372 /* ChaptersTests.swift */; };
 		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
-		F53DC8A62B72D1AB00B197A6 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53DC8A52B72D1AB00B197A6 /* AppSettings+ImportUserDefaults.swift */; };
-		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
-		F5BAACCB2B6446D900450E86 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */; };
-		F53DC8A62B72D1AB00B197A6 /* AppSettings+SyncUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53DC8A52B72D1AB00B197A6 /* AppSettings+SyncUserDefaults.swift */; };
-		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
+		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
+		F58AFA132B797CF200FC1724 /* Podcast+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58AFA122B797CF200FC1724 /* Podcast+Settings.swift */; };
+		F58AFA142B797CF200FC1724 /* Podcast+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58AFA122B797CF200FC1724 /* Podcast+Settings.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
 		F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
@@ -3376,11 +3375,9 @@
 		ED026EC07A62C137A4959391 /* Pods-PocketCasts-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		EF3DD428DC2C444C2D8CEC5A /* Pods-PocketCastsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EFBF99F57846D0E1AF8DE08D /* Pods-PocketCasts-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
-		F53DC8A52B72D1AB00B197A6 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
-		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
-		F5BAACCA2B6446D900450E86 /* MockURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
-		F53DC8A52B72D1AB00B197A6 /* AppSettings+SyncUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+SyncUserDefaults.swift"; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
+		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
+		F58AFA122B797CF200FC1724 /* Podcast+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Podcast+Settings.swift"; sourceTree = "<group>"; };
 		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
 		F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaultsTests.swift"; sourceTree = "<group>"; };
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
@@ -5160,6 +5157,7 @@
 			isa = PBXGroup;
 			children = (
 				BD56102C200DA4BC002F2D53 /* Podcast+Formatting.swift */,
+				F58AFA122B797CF200FC1724 /* Podcast+Settings.swift */,
 				BD561030200DADA0002F2D53 /* Episode+Formatting.swift */,
 				40FE395E229CF424004526CD /* UserEpisode+Formatting.swift */,
 				BDA681AC220D185A0053BEEE /* BaseEpisode+Formatting.swift */,
@@ -5236,6 +5234,7 @@
 				BD5E8D3C2061E0FB00C84B43 /* PodcastManager+Cleanup.swift */,
 				402772D621B6105D00769811 /* PodcastManager+Delete.swift */,
 				F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */,
+				F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */,
 				BDE740992060CE1B00FB22C7 /* EpisodeManager.swift */,
 				BD001B882174260B00504DD3 /* FilterManager.swift */,
 				BD5E8D40206211E300C84B43 /* OpmlImporter.swift */,
@@ -8842,6 +8841,7 @@
 				BD47E7FA1DD57F7B00C18EE7 /* ShowNotesFormatter.swift in Sources */,
 				8B67A26329A7D6B60076886D /* SearchHistoryCell.swift in Sources */,
 				BD9A2B521C851577003BA898 /* NavigationManager.swift in Sources */,
+				F58AFA132B797CF200FC1724 /* Podcast+Settings.swift in Sources */,
 				BDEC9AB32051118900088D76 /* PCViewController.swift in Sources */,
 				BD3C19301C27B4EC00B7847D /* PodcastListCell.swift in Sources */,
 				BD5AE6831FE0E9A20009B8A1 /* PodcastViewController+TableData.swift in Sources */,
@@ -9177,6 +9177,7 @@
 				BDA7A0A624C6BBA600ADA8AA /* SecondaryLabel.swift in Sources */,
 				BDDA72D61C9BA7E2003A3BEB /* Theme.swift in Sources */,
 				BDA75074213684FC00AD859C /* NowPlayingAnimationView.swift in Sources */,
+				F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */,
 				8B3654172926C13000FD7216 /* CircularProgressView.swift in Sources */,
 				BD74F15327F28F6F00222785 /* HomeGridItem.swift in Sources */,
 				8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */,
@@ -9500,6 +9501,7 @@
 				C7AF578C289C60C80089E435 /* FeatureFlag.swift in Sources */,
 				C7CE415A28CBCFC200AD063E /* Analytics.swift in Sources */,
 				C7CE415C28CBD01F00AD063E /* String+Analytics.swift in Sources */,
+				F58AFA142B797CF200FC1724 /* Podcast+Settings.swift in Sources */,
 				46C7BB8827DA60E000CD6AE3 /* DownloadListView.swift in Sources */,
 				8B3C7CA52A4DE36000939DED /* AutoplayHelper.swift in Sources */,
 				BDD301951EFB9A4F004A9972 /* WatchDataManager.swift in Sources */,
