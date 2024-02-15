@@ -592,7 +592,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func play(podcast: Podcast, startingAtEpisode: Episode) {
-        let orderDirection = (Int(podcast.episodeSortOrder) == PodcastEpisodeSortOrder.newestToOldest.rawValue) ? "DESC" : "ASC"
+        let episodeSortOrder = podcast.podcastSortOrder
+
+        let orderDirection = (episodeSortOrder == PodcastEpisodeSortOrder.newestToOldest) ? "DESC" : "ASC"
         let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcastUuid == ? AND archived = 0 AND (playingStatus == \(PlayingStatus.notPlayed.rawValue) OR playingStatus == \(PlayingStatus.inProgress.rawValue)) ORDER BY publishedDate \(orderDirection), addedDate \(orderDirection)", arguments: [podcast.uuid])
 
         if episodes.count > 0 {

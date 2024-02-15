@@ -421,5 +421,7 @@ extension Podcast {
         self.settings.$trimSilence.update(setting: settings.trimSilence)
         self.settings.$playbackSpeed.update(setting: settings.playbackSpeed)
         self.settings.$boostVolume.update(setting: settings.volumeBoost)
+        self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
+        self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
     }
 }

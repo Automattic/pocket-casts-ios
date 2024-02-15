@@ -55,9 +55,7 @@ enum PodcastLicensing: Int32 {
     case keepEpisodesAfterExpiry = 0, deleteEpisodesAfterExpiry = 1
 }
 
-enum PodcastEpisodeSortOrder: Int32, CaseIterable, AnalyticsDescribable {
-    case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
-
+extension PodcastEpisodeSortOrder: AnalyticsDescribable {
     var description: String {
         switch self {
         case .newestToOldest:

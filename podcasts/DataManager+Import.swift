@@ -11,6 +11,12 @@ extension DataManager {
             podcast.settings.$playbackSpeed = ModifiedDate<Double>(wrappedValue: podcast.playbackSpeed)
             podcast.settings.$trimSilence = ModifiedDate<TrimSilenceAmount>(wrappedValue: TrimSilenceAmount(rawValue: podcast.trimSilenceAmount)!)
             podcast.settings.$boostVolume = ModifiedDate<Bool>(wrappedValue: podcast.boostVolume)
+            if let episodeSortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) {
+                podcast.settings.$episodesSortOrder = ModifiedDate<PodcastEpisodeSortOrder>(wrappedValue: episodeSortOrder)
+			}
+            if let grouping = PodcastGrouping(rawValue: podcast.episodeGrouping) {
+                podcast.settings.$episodeGrouping = ModifiedDate<PodcastGrouping>(wrappedValue: grouping)
+            }
 
             save(podcast: podcast)
         }

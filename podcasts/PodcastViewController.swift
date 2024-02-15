@@ -475,10 +475,16 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 let episodeCount = episodes?.count ?? 0
                 if episodeCount > 0, episodeLimit > 0, podcast.overrideGlobalArchive {
                     var indexToInsertAt = -1
-                    if PodcastEpisodeSortOrder.newestToOldest.rawValue == Int(podcast.episodeSortOrder) {
+
+                    let episodeSortOrder = podcast.podcastSortOrder
+
+                    switch episodeSortOrder {
+                    case .newestToOldest:
                         indexToInsertAt = episodeLimit <= episodeCount ? episodeLimit : episodeCount
-                    } else if PodcastEpisodeSortOrder.oldestToNewest.rawValue == Int(podcast.episodeSortOrder) {
+                    case .oldestToNewest:
                         indexToInsertAt = episodeCount > episodeLimit ? episodeCount - episodeLimit : episodeCount - 1
+                    default:
+                        ()
                     }
 
                     if indexToInsertAt >= 0 {

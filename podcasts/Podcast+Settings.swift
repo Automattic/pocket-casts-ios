@@ -49,4 +49,14 @@ extension Podcast {
             skipLast = newValue
         }
     }
+
+    var podcastSortOrder: PodcastEpisodeSortOrder? {
+        get {
+            if FeatureFlag.settingsSync.enabled {
+                return settings.episodesSortOrder
+            } else {
+                return PodcastEpisodeSortOrder(rawValue: episodeSortOrder)
+            }
+        }
+    }
 }
