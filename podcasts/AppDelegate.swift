@@ -271,7 +271,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // we user remote config for varies parameters in the app we want to be able to set remotely. Here we set the defaults, then fetch new ones
         let remoteConfig = RemoteConfig.remoteConfig()
-        remoteConfig.setDefaults([
+        var remoteConfigDefaults = [
             Constants.RemoteParams.periodicSaveTimeMs: NSNumber(value: Constants.RemoteParams.periodicSaveTimeMsDefault),
             Constants.RemoteParams.episodeSearchDebounceMs: NSNumber(value: Constants.RemoteParams.episodeSearchDebounceMsDefault),
             Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
@@ -282,7 +282,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
             Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
             Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault)
-        ])
+        ]
+        FeatureFlag.allCases.filter { $0.remoteKey != nil }.forEach { flag in
+            remoteConfigDefaults[flag.remoteKey!] = NSNumber(value: flag.default)
+        }
+        remoteConfig.setDefaults(remoteConfigDefaults)
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
             if status == .success {
@@ -311,6 +315,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
+
+            try FeatureFlag.allCases.forEach { flag in
+                if let remoteKey = flag.remoteKey {
+                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey).boolValue
+                    try FeatureFlagOverrideStore().override(flag, withValue: remoteValue)
+                }
+            }
 
             // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
             IAPHelper.shared.requestProductInfoIfNeeded()

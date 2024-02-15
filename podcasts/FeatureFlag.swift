@@ -25,6 +25,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable the ability to rate podcasts
     case giveRatings
 
+    /// Enable selecting/deselecting episode chapters
+    case deselectChapters
+
     /// Syncing all app and podcast settings
     case settingsSync
 
@@ -57,10 +60,23 @@ enum FeatureFlag: String, CaseIterable {
             false
         case .giveRatings:
             false
+        case .deselectChapters:
+            false
         case .settingsSync:
             false
         case .newAccountUpgradePromptFlow:
             false
+        }
+    }
+
+    /// Remote Feature Flag
+    /// This should match a Firebase Remote Config Parameter name (key)
+    var remoteKey: String? {
+        switch self {
+        case .deselectChapters:
+            "deselect_chapters"
+        default:
+            nil
         }
     }
 }
