@@ -120,7 +120,7 @@ public enum ServerConstants {
         static let subscriptionPodcasts = "SJSubscriptionPodcasts"
         static let subscriptionType = "SJSubscriptionType"
         static let subscriptionTier = "SJSubscriptionTier"
-        static let marketingOptInKey = "SJMarketingOptIn"
+        public static let marketingOptInKey = "SJMarketingOptIn"
         static let marketingOptInNeedsSyncKey = "SJMarketingOptInNeedsSync"
         static let subscriptionGiftAcknowledgementNeedsSyncKey = "SJGiftAcknowledgementNeedsSync"
         static let filesLastModifiedKey = "UserFilesLastModified"
