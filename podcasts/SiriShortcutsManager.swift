@@ -444,7 +444,9 @@ class SiriShortcutsManager: CustomObserver {
             return INPlayMediaIntentResponseCode.failureUnknownMediaType
         }
 
-        let sortStr = PodcastEpisodeSortOrder.newestToOldest.rawValue == podcast.episodeSortOrder ? "DESC" : "ASC"
+        let episodeSortOrder = podcast.podcastSortOrder
+
+        let sortStr = PodcastEpisodeSortOrder.newestToOldest == episodeSortOrder ? "DESC" : "ASC"
         let query = "podcast_id = \(podcast.id) AND playingStatus <> \(PlayingStatus.completed.rawValue) AND archived = 0 ORDER BY publishedDate \(sortStr), addedDate \(sortStr) LIMIT 1"
         if let topEpisode = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil).first {
             AnalyticsPlaybackHelper.shared.currentSource = analyticsSource
