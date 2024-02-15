@@ -75,7 +75,7 @@ class WhatsNew {
     var visibleAnnouncement: Announcement? {
         // Don't show any announcements if this is the first run of the app,
         // or if we've already checked the what's new for this version
-        guard let previousOpenedVersion, previousOpenedVersion != currentVersion else {
+        guard let previousOpenedVersion, lastWhatsNewShown != currentVersion else {
             return nil
         }
 
@@ -87,7 +87,7 @@ class WhatsNew {
             .last(where: {
                 $0.isEnabled() &&
                 $0.version != lastWhatsNewShown &&
-                $0.version.inRange(of: previousOpenedVersion, upper: currentVersion)
+                $0.version.inRange(of: lastWhatsNewShown ?? "0", upper: currentVersion)
             })
     }
 }

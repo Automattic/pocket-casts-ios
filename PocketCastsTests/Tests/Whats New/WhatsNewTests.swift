@@ -10,7 +10,8 @@ class WhatsNewtests: XCTestCase {
         let whatsNew = WhatsNew(
             announcements: [announcement(version: "7.40")],
             previousOpenedVersion: "7.39",
-            currentVersion: "7.40"
+            currentVersion: "7.40",
+            lastWhatsNewShown: nil
         )
 
         XCTAssertNotNil(whatsNew.viewControllerToShow())
@@ -33,7 +34,8 @@ class WhatsNewtests: XCTestCase {
         let whatsNew = WhatsNew(
             announcements: [announcement(version: "7.41")],
             previousOpenedVersion: "7.37",
-            currentVersion: "7.42"
+            currentVersion: "7.42",
+            lastWhatsNewShown: nil
         )
 
         XCTAssertNotNil(whatsNew.viewControllerToShow())
@@ -79,7 +81,8 @@ class WhatsNewtests: XCTestCase {
         let whatsNew = WhatsNew(
             announcements: [announcement(version: "7.42")],
             previousOpenedVersion: "7.41",
-            currentVersion: "7.42.1"
+            currentVersion: "7.42.1",
+            lastWhatsNewShown: "7.40"
         )
 
         XCTAssertNotNil(whatsNew.viewControllerToShow())
@@ -133,10 +136,29 @@ class WhatsNewtests: XCTestCase {
                 lastAnnouncement
             ],
             previousOpenedVersion: "7.00",
-            currentVersion: "7.40"
+            currentVersion: "7.40",
+            lastWhatsNewShown: nil
         )
 
         XCTAssertEqual(whatsNew.visibleAnnouncement?.version, lastAnnouncement.version)
+    }
+
+    // Do not show an announcement that has been shown before
+    func testDontShowAnAnnouncementTwice() {
+        let lastAnnouncement = announcement(version: "7.12")
+
+        let whatsNew = WhatsNew(
+            announcements: [
+                announcement(version: "7.10"),
+                announcement(version: "7.40"),
+                lastAnnouncement
+            ],
+            previousOpenedVersion: "7.00",
+            currentVersion: "7.40",
+            lastWhatsNewShown: "7.40"
+        )
+
+        XCTAssertNil(whatsNew.visibleAnnouncement)
     }
 
     private func announcement(version: String, isEnabled: Bool = true) -> WhatsNew.Announcement {
