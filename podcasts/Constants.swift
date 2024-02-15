@@ -133,7 +133,7 @@ struct Constants {
         static let watchAutoDownloadUpNextCount = "SJWatchAutoDownloadCountUpNext"
         static let watchAutoDeleteUpNext = "SJWatchAutoDeleteUpNext"
 
-        static let analyticsOptOut = "SJAnalyticsOptOut"
+        public static let analyticsOptOut = "SJAnalyticsOptOut"
 
         static let supportName = "PCSupportRequestName"
         static let supportEmail = "PCSupportRequestEmail"

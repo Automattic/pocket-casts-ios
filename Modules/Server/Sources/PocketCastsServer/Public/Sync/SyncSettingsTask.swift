@@ -21,6 +21,7 @@ extension Api_ChangeableSettings {
         multiSelectGesture.update(settings.$multiSelectGesture)
         chapterTitles.update(settings.$chapterTitles)
         autoPlayEnabled.update(settings.$autoPlayEnabled)
+        privacyAnalytics.update(settings.$privacyAnalytics)
         marketingOptIn.update(settings.$marketingOptIn)
         freeGiftAcknowledgement.update(settings.$freeGiftAcknowledgement)
     }
@@ -44,6 +45,7 @@ extension AppSettings {
         $multiSelectGesture.update(setting: settings.multiSelectGesture)
         $chapterTitles.update(setting: settings.chapterTitles)
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
+        $privacyAnalytics.update(setting: settings.privacyAnalytics)
         $marketingOptIn.update(setting: settings.marketingOptIn)
         $freeGiftAcknowledgement.update(setting: settings.freeGiftAcknowledgement)
     }

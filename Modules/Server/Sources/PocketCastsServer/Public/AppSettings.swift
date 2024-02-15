@@ -27,6 +27,7 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    @ModifiedDate public var privacyAnalytics: Bool = true
     @ModifiedDate public var marketingOptIn: Bool = false
     @ModifiedDate public var freeGiftAcknowledgement: Bool = false
 
