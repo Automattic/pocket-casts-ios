@@ -140,6 +140,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
         clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
+
+        refreshSections()
     }
 
     override func viewDidAppear(_ animated: Bool) {
