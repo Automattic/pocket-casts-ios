@@ -63,7 +63,9 @@ extension Analytics {
         if Settings.analyticsOptOut() {
             Analytics.unregister()
         } else {
+            #if !os(watchOS)
             (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+            #endif
         }
     }
 }
