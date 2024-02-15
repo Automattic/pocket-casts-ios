@@ -12,6 +12,7 @@ public struct PodcastSettings: JSONCodable, Equatable {
     @ModifiedDate public var playbackSpeed: Double
 
     @ModifiedDate public var episodesSortOrder: PodcastEpisodeSortOrder = .shortestToLongest
+    @ModifiedDate public var episodeGrouping: PodcastGrouping = .none
 
     public static var defaults: Self {
         return PodcastSettings(trimSilence: .off, boostVolume: false, playbackSpeed: 1)

@@ -222,6 +222,7 @@ private extension Podcast {
         settings.trimSilence.update(self.settings.$trimSilence)
         settings.volumeBoost.update(self.settings.$boostVolume)
         settings.episodesSortOrder.update(self.settings.$episodesSortOrder)
+        settings.episodeGrouping.update(self.settings.$episodeGrouping)
         return settings
     }
 }
