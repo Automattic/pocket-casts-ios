@@ -52,7 +52,13 @@ class PodcastManager: NSObject {
                 }
             }
 
-            DataManager.sharedManager.savePushSetting(podcast: podcast, pushEnabled: enabled)
+            if FeatureFlag.settingsSync.enabled {
+                podcast.settings.notification = enabled
+                podcast.syncStatus = SyncStatus.notSynced.rawValue
+                DataManager.sharedManager.save(podcast: podcast)
+            } else {
+                DataManager.sharedManager.savePushSetting(podcast: podcast, pushEnabled: enabled)
+            }
         }
     #endif
 

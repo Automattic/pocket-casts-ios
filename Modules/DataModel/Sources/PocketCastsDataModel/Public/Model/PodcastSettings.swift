@@ -11,6 +11,8 @@ public struct PodcastSettings: JSONCodable, Equatable {
     @ModifiedDate public var boostVolume: Bool
     @ModifiedDate public var playbackSpeed: Double
 
+    @ModifiedDate public var notification: Bool = false
+
     // Auto Archive
     @ModifiedDate public var autoArchive: Bool = false
     @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed = .afterPlaying
