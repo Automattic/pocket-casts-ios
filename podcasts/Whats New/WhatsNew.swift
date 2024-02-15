@@ -75,7 +75,15 @@ class WhatsNew {
     var visibleAnnouncement: Announcement? {
         // Don't show any announcements if this is the first run of the app,
         // or if we've already checked the what's new for this version
-        guard let previousOpenedVersion, previousOpenedVersion != currentVersion else {
+        guard let previousOpenedVersion else {
+            // Set the lastWhatsNewShown so it doesn't run after the app is reopened
+            Settings.lastWhatsNewShown = currentVersion
+            return nil
+        }
+
+        // Don't show the announcement for the current version if it was
+        // already displayed
+        guard lastWhatsNewShown != currentVersion else {
             return nil
         }
 
@@ -130,6 +138,6 @@ private extension String {
 
     /// Returns whether the version is above the `lower` and equal to or below the `upper` bounds
     func inRange(of lower: String, upper: String) -> Bool {
-        self > lower && self <= upper
+        self >= lower && self <= upper
     }
 }
