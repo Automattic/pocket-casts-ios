@@ -76,6 +76,8 @@ class WhatsNew {
         // Don't show any announcements if this is the first run of the app,
         // or if we've already checked the what's new for this version
         guard let previousOpenedVersion else {
+            // Set the lastWhatsNewShown so it doesn't run after the app is reopened
+            Settings.lastWhatsNewShown = currentVersion
             return nil
         }
 
