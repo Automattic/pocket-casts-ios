@@ -69,7 +69,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         return pricingInfo
     }
 
-    private func product(for plan:Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+    private func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
     }
 
@@ -90,6 +90,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         case upsell
         case login
         case accountCreated
+        case accountScreen
     }
 
     struct Config {
@@ -136,6 +137,6 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
         UpgradeLandingView(viewModel: viewModel)
-            .setupDefaultEnvironment()
+            .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
     }
 }

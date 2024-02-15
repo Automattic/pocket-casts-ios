@@ -46,10 +46,10 @@ extension NowPlayingPlayerItemViewController {
             episodeImage.alpha = 1.0
         }
 
-        let skipBackAmount = ServerSettings.skipBackTime()
+        let skipBackAmount = Settings.skipBackTime
         skipBackBtn.skipAmount = skipBackAmount
 
-        let skipFwdAmount = ServerSettings.skipForwardTime()
+        let skipFwdAmount = Settings.skipForwardTime
         skipFwdBtn.skipAmount = skipFwdAmount
 
         updatePlayPauseButton(isPlaying: PlaybackManager.shared.playing())

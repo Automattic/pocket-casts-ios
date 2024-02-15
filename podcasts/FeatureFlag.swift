@@ -28,6 +28,12 @@ enum FeatureFlag: String, CaseIterable {
     /// Enable selecting/deselecting episode chapters
     case deselectChapters
 
+    /// Syncing all app and podcast settings
+    case settingsSync
+
+    /// Enable the new flow for Account upgrade prompt where it start IAP flow directly from account cell
+    case newAccountUpgradePromptFlow
+
     var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -56,6 +62,21 @@ enum FeatureFlag: String, CaseIterable {
             false
         case .deselectChapters:
             false
+        case .settingsSync:
+            false
+        case .newAccountUpgradePromptFlow:
+            false
+        }
+    }
+
+    /// Remote Feature Flag
+    /// This should match a Firebase Remote Config Parameter name (key)
+    var remoteKey: String? {
+        switch self {
+        case .deselectChapters:
+            "deselect_chapters"
+        default:
+            nil
         }
     }
 }

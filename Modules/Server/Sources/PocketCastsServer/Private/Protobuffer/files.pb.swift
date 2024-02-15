@@ -108,6 +108,11 @@ struct Files_File {
     set {_uniqueStorage()._imageStatus = newValue}
   }
 
+  var bookmarks: [Api_BookmarkResponse] {
+    get {return _storage._bookmarks}
+    set {_uniqueStorage()._bookmarks = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -450,6 +455,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     13: .same(proto: "hasCustomImage"),
     14: .same(proto: "modifiedAt"),
     15: .same(proto: "imageStatus"),
+    16: .same(proto: "bookmarks"),
   ]
 
   fileprivate class _StorageClass {
@@ -468,6 +474,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     var _hasCustomImage_p: Bool = false
     var _modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
     var _imageStatus: Int32 = 0
+    var _bookmarks: [Api_BookmarkResponse] = []
 
     static let defaultInstance = _StorageClass()
 
@@ -489,6 +496,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
       _hasCustomImage_p = source._hasCustomImage_p
       _modifiedAt = source._modifiedAt
       _imageStatus = source._imageStatus
+      _bookmarks = source._bookmarks
     }
   }
 
@@ -522,6 +530,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
         case 13: try { try decoder.decodeSingularBoolField(value: &_storage._hasCustomImage_p) }()
         case 14: try { try decoder.decodeSingularMessageField(value: &_storage._modifiedAt) }()
         case 15: try { try decoder.decodeSingularInt32Field(value: &_storage._imageStatus) }()
+        case 16: try { try decoder.decodeRepeatedMessageField(value: &_storage._bookmarks) }()
         default: break
         }
       }
@@ -579,6 +588,9 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
       if _storage._imageStatus != 0 {
         try visitor.visitSingularInt32Field(value: _storage._imageStatus, fieldNumber: 15)
       }
+      if !_storage._bookmarks.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._bookmarks, fieldNumber: 16)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -603,6 +615,7 @@ extension Files_File: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
         if _storage._hasCustomImage_p != rhs_storage._hasCustomImage_p {return false}
         if _storage._modifiedAt != rhs_storage._modifiedAt {return false}
         if _storage._imageStatus != rhs_storage._imageStatus {return false}
+        if _storage._bookmarks != rhs_storage._bookmarks {return false}
         return true
       }
       if !storagesAreEqual {return false}

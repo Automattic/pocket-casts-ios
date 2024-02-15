@@ -51,7 +51,6 @@ import Foundation
     func played() -> Bool
     func unplayed() -> Bool
     func playbackError() -> Bool
-    func jumpToOnStart() -> TimeInterval
 
     // MARK: - Meta Data
 

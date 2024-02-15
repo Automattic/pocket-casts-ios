@@ -30,13 +30,13 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
   - SwiftGen (6.5.1)
-  - SwiftLint (0.49.1)
+  - SwiftLint (0.54.0)
 
 DEPENDENCIES:
   - google-cast-sdk-no-bluetooth (from `https://github.com/shiftyjelly/google-cast.git`)
   - MaterialComponents/BottomSheet
   - SwiftGen (~> 6.0)
-  - SwiftLint (~> 0.49)
+  - SwiftLint (~> 0.54)
 
 SPEC REPOS:
   trunk:
@@ -57,8 +57,8 @@ SPEC CHECKSUMS:
   google-cast-sdk-no-bluetooth: fd144bf43bb76000a8e92b0410ae605937aa83bf
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
-  SwiftLint: 32ee33ded0636d0905ef6911b2b67bbaeeedafa5
+  SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 447e34c7b0e913fcf63c0caf29bc68092851ecea
+PODFILE CHECKSUM: d8c7a4679aeeca6d66129939e0d110dc1ea89e37
 
 COCOAPODS: 1.14.2

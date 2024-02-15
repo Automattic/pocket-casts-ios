@@ -8,33 +8,32 @@ struct AccountHeaderView: View {
 
     var body: some View {
         container { proxy in
-            SubscriptionProfileImage(viewModel: viewModel)
-                .frame(width: Constants.imageSize, height: Constants.imageSize)
-
-            ProfileInfoLabels(profile: viewModel.profile, alignment: .center, spacing: Constants.spacing)
-                .padding(.top, Constants.padding.labelsTop)
-
-            VStack {
+            VStack(spacing: Constants.padding.vertical) {
+                SubscriptionProfileImage(viewModel: viewModel)
+                    .frame(width: Constants.imageSize, height: Constants.imageSize)
+                ProfileInfoLabels(profile: viewModel.profile, alignment: .center, spacing: Constants.spacing)
                 // Subscription badge
                 viewModel.subscription.map {
                     SubscriptionBadge(tier: $0.tier)
-                        .padding(.bottom, Constants.padding.badgeBottom)
                 }
-
-                // Subscription details labels
-                HStack {
-                    let (title, label) = subscriptionLabels
-
+                let (title, label) = subscriptionLabels
+                if label == nil, FeatureFlag.newAccountUpgradePromptFlow.enabled {
                     Text(title)
                         .fixedSize(horizontal: false, vertical: true)
-
-                    Spacer()
-
-                    label
-                        .fixedSize(horizontal: false, vertical: true)
+                        .foregroundColor(theme.primaryText02)
+                        .font(size: 12, style: .footnote, weight: .semibold)
+                } else {
+                    // Subscription details labels
+                    HStack {
+                        Text(title)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                        label
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .foregroundColor(theme.primaryText01)
+                    .font(size: 14, style: .subheadline, weight: .medium)
                 }
-                .foregroundColor(theme.primaryText01)
-                .font(size: 14, style: .subheadline, weight: .medium)
             }
         }
     }
@@ -45,6 +44,7 @@ struct AccountHeaderView: View {
             // Show the free account status and the total listening time the user has
             return (
                 L10n.accountDetailsFreeAccount,
+                FeatureFlag.newAccountUpgradePromptFlow.enabled ? nil :
                 viewModel.stats.listeningTime.seconds.localizedTimeDescription.map {
                     Text(L10n.accountDetailsListenedFor($0))
                 }
@@ -122,11 +122,10 @@ struct AccountHeaderView: View {
 
         enum padding {
             static let top = 30.0
-            static let bottom = 20.0
+            static let bottom = 16.0
             static let horizontal = 16.0
 
-            static let labelsTop = 5.0
-            static let badgeBottom = 10.0
+            static let vertical = 14.0
         }
     }
 }
