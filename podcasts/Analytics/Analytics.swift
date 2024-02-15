@@ -58,6 +58,14 @@ extension Analytics {
             Analytics.track(.analyticsOptIn)
         #endif
     }
+
+    func refreshRegistered() {
+        if Settings.analyticsOptOut() {
+            Analytics.unregister()
+        } else {
+            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+        }
+    }
 }
 
 // MARK: - Protocols
