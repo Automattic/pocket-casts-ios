@@ -50,20 +50,40 @@ public struct AutoAddCandidatesDataManager {
 
         dbQueue.inDatabase { db in
             do {
-                let query = """
-                SELECT
-                    -- Get the Podcast Auto Add Setting
-                    podcast.autoAddToUpNext AS \(Constants.autoAddSettingColumnName),
 
-                    -- Get the episode UUID
-                    queue.id AS \(Constants.idColumnName),
-                    queue.episode_uuid AS \(Constants.episodeColumnName)
-                FROM
-                    \(Constants.tableName) AS queue
-                    JOIN \(DataManager.podcastTableName) AS podcast ON podcast.uuid = queue.podcast_uuid
-                -- Process the oldest items first
-                ORDER BY queue.id ASC
-                """
+                let query: String
+
+                if FeatureFlag.settingsSync.enabled {
+                    query = """
+                    SELECT
+                        -- Get the Podcast Auto Add Setting
+                        podcast.settings AS \(Constants.settingsColumnName),
+
+                        -- Get the episode UUID
+                        queue.id AS \(Constants.idColumnName),
+                        queue.episode_uuid AS \(Constants.episodeColumnName)
+                    FROM
+                        \(Constants.tableName) AS queue
+                        JOIN \(DataManager.podcastTableName) AS podcast ON podcast.uuid = queue.podcast_uuid
+                    -- Process the oldest items first
+                    ORDER BY queue.id ASC
+                    """
+                } else {
+                    query = """
+                    SELECT
+                        -- Get the Podcast Auto Add Setting
+                        podcast.autoAddToUpNext AS \(Constants.autoAddSettingColumnName),
+
+                        -- Get the episode UUID
+                        queue.id AS \(Constants.idColumnName),
+                        queue.episode_uuid AS \(Constants.episodeColumnName)
+                    FROM
+                        \(Constants.tableName) AS queue
+                        JOIN \(DataManager.podcastTableName) AS podcast ON podcast.uuid = queue.podcast_uuid
+                    -- Process the oldest items first
+                    ORDER BY queue.id ASC
+                    """
+                }
 
                 let resultSet = try db.executeQuery(query, values: nil)
 
@@ -95,7 +115,15 @@ public struct AutoAddCandidatesDataManager {
         public let episodeUuid: String
 
         init?(from resultSet: FMResultSet) {
-            let setting = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
+            
+            let setting: Int32
+            if FeatureFlag.settingsSync.enabled {
+                let settingsString = resultSet.string(forColumn: Constants.settingsColumnName)
+                let settings: PodcastSettings? = DBUtils.convertData(value: settingsString?.data(using: .utf8))
+                setting = settings?.autoUpNextSetting.rawValue ?? AutoAddToUpNextSetting.off.rawValue
+            } else {
+                setting = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
+            }
 
             guard
                 let idObj = resultSet.object(forColumn: Constants.idColumnName) as? NSNumber,
@@ -116,6 +144,7 @@ public struct AutoAddCandidatesDataManager {
     private enum Constants {
         static let tableName = "AutoAddCandidates"
         static let autoAddSettingColumnName = "auto_add_setting"
+        static let settingsColumnName = "settings"
         static let episodeColumnName = "episode_uuid"
         static let idColumnName = "id"
     }

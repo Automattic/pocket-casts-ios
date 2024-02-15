@@ -58,3 +58,8 @@ public struct EpisodeBasicData {
 public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
     case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
 }
+
+public enum UpNextPosition: Int32, Codable {
+    case bottom = 0
+    case top = 1
+}

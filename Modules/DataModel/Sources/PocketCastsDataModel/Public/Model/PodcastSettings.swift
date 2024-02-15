@@ -11,6 +11,9 @@ public struct PodcastSettings: JSONCodable, Equatable {
     @ModifiedDate public var boostVolume: Bool
     @ModifiedDate public var playbackSpeed: Double
 
+    @ModifiedDate public var addToUpNext: Bool = false
+    @ModifiedDate public var addToUpNextPosition: UpNextPosition = .bottom
+
     @ModifiedDate public var episodesSortOrder: PodcastEpisodeSortOrder = .shortestToLongest
     @ModifiedDate public var episodeGrouping: PodcastGrouping = .none
 
