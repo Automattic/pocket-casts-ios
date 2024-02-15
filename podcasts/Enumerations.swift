@@ -164,8 +164,7 @@ enum PlaylistIcon: Int32 {
          redTop, blueTop, greenTop, purpleTop, yellowTop
 }
 
-enum PlayerAction: Int, AnalyticsDescribable {
-    case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive, addBookmark
+extension PlayerAction: AnalyticsDescribable {
 
     /// Specify default actions and their order
     static var defaultActions: [PlayerAction] {

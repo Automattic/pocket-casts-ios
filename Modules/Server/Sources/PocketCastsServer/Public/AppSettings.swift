@@ -27,6 +27,8 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    @ModifiedDate public var playerShelf: [ActionOption] = []
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,
@@ -49,5 +51,5 @@ public struct AppSettings: JSONCodable {
 }
 
 extension SettingsStore<AppSettings> {
-    public static let appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
+    public static internal(set) var appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
 }
