@@ -15,6 +15,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     enum sections: Int { case nowPlayingSection = 0, upNextSection }
 
+    var tableData = [sections]()
+
     var themeOverride: Theme.ThemeType? = nil
 
     var isMultiSelectEnabled = false {
@@ -34,7 +36,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.track(.upNextMultiSelectEntered)
                 }
 
-                self.upNextTable.reloadData()
+                reloadTable()
             }
         }
     }
@@ -143,7 +145,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // fix issues with the now playing cell not animating by reloading it on appear
-        upNextTable.reloadData()
+        reloadTable()
 
         AnalyticsHelper.upNextOpened()
     }
@@ -183,7 +185,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     private func performClearAll() {
         PlaybackManager.shared.queue.clearUpNextList()
-        upNextTable.reloadData()
+        reloadTable()
         track(.upNextQueueCleared)
     }
 
