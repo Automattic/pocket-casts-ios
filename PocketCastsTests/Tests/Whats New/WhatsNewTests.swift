@@ -161,7 +161,7 @@ class WhatsNewtests: XCTestCase {
         XCTAssertNil(whatsNew.visibleAnnouncement)
     }
 
-    // Do not show an announcement that has been shown before
+    // Shown an announcement if it was later enabled
     func testShowAnnouncementAfterItWasEnabled() {
         let whatsNew = WhatsNew(
             announcements: [
