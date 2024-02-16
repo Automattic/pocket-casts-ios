@@ -4,6 +4,8 @@ import PocketCastsServer
 class ChaptersHeader: UIView {
     weak var delegate: ChaptersHeaderDelegate?
 
+    var isTogglingChapters = false
+
     private lazy var container: UIStackView = {
         let container = UIStackView()
         container.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
@@ -86,7 +88,7 @@ class ChaptersHeader: UIView {
     }
 
     private func updateButtonLabel() {
-        let buttonTitle = toggleButton.title(for: .normal) == L10n.skipChapters ? L10n.done : L10n.skipChapters
+        let buttonTitle = isTogglingChapters ? L10n.done : L10n.skipChapters
         toggleButton.setTitle(buttonTitle, for: .normal)
     }
 

@@ -83,6 +83,7 @@ extension ChaptersViewController: ChaptersHeaderDelegate {
 
         isTogglingChapters.toggle()
         chaptersTable.reloadSections([0], with: .automatic)
+        header.isTogglingChapters = isTogglingChapters
         header.update()
     }
 }
