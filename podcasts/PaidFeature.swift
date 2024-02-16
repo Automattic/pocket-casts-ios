@@ -7,6 +7,7 @@ import SwiftUI
 
 extension PaidFeature {
     static var bookmarks: PaidFeature = .plusFeature
+    static var deselectChapters: PaidFeature = .patronFeature
 }
 
 /// A `PaidFeature` represents a feature that is unlocked with a subscription tier, and is considered to be unlocked if the tier
