@@ -61,6 +61,7 @@ class ChaptersHeader: UIView {
     func update() {
         updateChapterLabel()
         updateButtonLabel()
+        updateButtonIcon()
     }
 
     private func configure() {
@@ -87,6 +88,10 @@ class ChaptersHeader: UIView {
     private func updateButtonLabel() {
         let buttonTitle = isTogglingChapters ? L10n.done : L10n.skipChapters
         toggleButton.setTitle(buttonTitle, for: .normal)
+    }
+
+    private func updateButtonIcon() {
+        toggleButton.configuration?.image = lockIcon
     }
 }
 
