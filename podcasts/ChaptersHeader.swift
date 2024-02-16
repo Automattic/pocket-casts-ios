@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsServer
 
 class ChaptersHeader: UIView {
     weak var delegate: ChaptersHeaderDelegate?
@@ -24,9 +25,9 @@ class ChaptersHeader: UIView {
         button.setTitle(L10n.skipChapters, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
-        button.setImage(lockIcon, for: .normal)
         button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
         button.configuration?.imagePadding = 8
+        button.configuration?.image = lockIcon
         button.configuration?.titleTextAttributesTransformer =
            UIConfigurationTextAttributesTransformer { incoming in
              var outgoing = incoming
@@ -65,6 +66,9 @@ class ChaptersHeader: UIView {
         container.addArrangedSubview(toggleButton)
         addSubview(container)
         container.anchorToAllSidesOf(view: self)
+        NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
+            self?.updateButtonIcon()
+        }
     }
 
     @objc private func toggleChapterSelection() {
@@ -81,9 +85,13 @@ class ChaptersHeader: UIView {
         chaptersLabel.text = label
     }
 
-    func updateButtonLabel() {
+    private func updateButtonLabel() {
         let buttonTitle = toggleButton.title(for: .normal) == L10n.skipChapters ? L10n.done : L10n.skipChapters
         toggleButton.setTitle(buttonTitle, for: .normal)
+    }
+
+    private func updateButtonIcon() {
+        toggleButton.configuration?.image = nil
     }
 }
 
