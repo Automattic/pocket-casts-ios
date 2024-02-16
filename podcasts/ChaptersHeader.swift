@@ -57,6 +57,7 @@ class ChaptersHeader: UIView {
 
     func update() {
         updateChapterLabel()
+        updateButtonLabel()
     }
 
     private func configure() {
@@ -67,7 +68,6 @@ class ChaptersHeader: UIView {
     }
 
     @objc private func toggleChapterSelection() {
-        updateButtonLabel()
         delegate?.toggleTapped()
     }
 
@@ -81,7 +81,7 @@ class ChaptersHeader: UIView {
         chaptersLabel.text = label
     }
 
-    private func updateButtonLabel() {
+    func updateButtonLabel() {
         let buttonTitle = toggleButton.title(for: .normal) == L10n.skipChapters ? L10n.done : L10n.skipChapters
         toggleButton.setTitle(buttonTitle, for: .normal)
     }
