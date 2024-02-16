@@ -7,18 +7,34 @@ final class SettingsTests: XCTestCase {
 
     private let userDefaultsSuiteName = "PocketCasts-SettingsTests"
 
+    private var overriddenFlags = [FeatureFlag: Bool]()
+
     override func setUp() {
         super.setUp()
         UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
     }
 
-    func testPlayerActions() throws {
-        let originalSettingsSync = FeatureFlag.settingsSync.enabled
-        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: true)
+    private func override(flag: FeatureFlag, value: Bool) throws {
+        overriddenFlags[flag] = flag.enabled
+        try FeatureFlagOverrideStore().override(flag, withValue: value)
+    }
+
+    private func reset(flag: FeatureFlag) throws {
+        if let oldValue = overriddenFlags[flag] {
+            try FeatureFlagOverrideStore().override(flag, withValue: oldValue)
+        }
+    }
+
+    private func setupSettingsStore() throws {
         let userDefaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
         SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings.defaults)
-        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
+    }
+
+    func testPlayerActions() throws {
         let unknownString = "test"
+        try override(flag: .settingsSync, value: true)
+        try setupSettingsStore()
+        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
 
         SettingsStore.appSettings.playerShelf = [.known(.markPlayed), .unknown(unknownString)]
         Settings.updatePlayerActions([.addBookmark, .markPlayed])
@@ -34,14 +50,14 @@ final class SettingsTests: XCTestCase {
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should exclude unknown actions and include defaults")
         XCTAssertEqual([.known(.addBookmark), .known(.markPlayed), .unknown(unknownString)], SettingsStore.appSettings.playerShelf, "Player shelf should include unknowns at end")
-        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: originalSettingsSync)
+
+        try reset(flag: .settingsSync)
     }
 
     func testOldPlayerActions() throws {
-        let originalSettingsSync = FeatureFlag.settingsSync.enabled
-        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: false)
-        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
+        try override(flag: .settingsSync, value: false)
 
+        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
         Settings.updatePlayerActions([.addBookmark, .markPlayed])
 
         XCTAssertEqual([.addBookmark,
@@ -54,19 +70,21 @@ final class SettingsTests: XCTestCase {
                         .goToPodcast,
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
-        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: originalSettingsSync)
+
+        try reset(flag: .settingsSync)
     }
 
     func testImportOldPlayerActions() throws {
-        let originalSettingsSync = FeatureFlag.settingsSync.enabled
+        // Start with disabled settingsSync
+        try override(flag: .settingsSync, value: false)
 
-        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: false)
         Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable })
         Settings.updatePlayerActions([.addBookmark, .markPlayed]) // This update is tested in testOldPlayerActions
+
+        // Enable settingsSync to flip `Settings` to use the new value
         try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: true)
 
-        let userDefaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
-        SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings.defaults)
+        try setupSettingsStore()
         SettingsStore.appSettings.importUserDefaults()
 
         XCTAssertEqual([.addBookmark,
@@ -79,6 +97,7 @@ final class SettingsTests: XCTestCase {
                         .goToPodcast,
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
-        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: originalSettingsSync)
+
+        try reset(flag: .settingsSync)
     }
 }
