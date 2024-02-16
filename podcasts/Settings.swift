@@ -645,7 +645,7 @@ class Settings: NSObject {
             }
             SettingsStore.appSettings.playerShelf = actions.map({ .known($0) }) + unknowns
         } else {
-            let actionInts = actions.map(\.rawValue)
+            let actionInts = actions.map(\.intValue)
             UserDefaults.standard.set(actionInts, forKey: Settings.playerActionsKey)
         }
 

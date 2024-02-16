@@ -101,33 +101,6 @@ public enum PlayerAction: String, Codable, Equatable {
     case markPlayed = "played"
     case archive = "archive"
     case addBookmark = "bookmark"
-
-    public init?(int: Int) {
-        switch int {
-        case 1:
-            self = .effects
-        case 2:
-            self = .sleepTimer
-        case 3:
-            self = .routePicker
-        case 4:
-            self = .starEpisode
-        case 5:
-            self = .shareEpisode
-        case 6:
-            self = .goToPodcast
-        case 7:
-            self = .chromecast
-        case 8:
-            self = .markPlayed
-        case 9:
-            self = .archive
-        case 10:
-            self = .addBookmark
-        default:
-            return nil
-        }
-    }
 }
 
 extension Array: RawRepresentable where Element: RawRepresentable<String> {

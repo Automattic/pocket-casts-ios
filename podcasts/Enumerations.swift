@@ -175,6 +175,58 @@ extension PlayerAction: AnalyticsDescribable {
         ]
     }
 
+    public init?(int: Int) {
+        switch int {
+        case 1:
+            self = .effects
+        case 2:
+            self = .sleepTimer
+        case 3:
+            self = .routePicker
+        case 4:
+            self = .starEpisode
+        case 5:
+            self = .shareEpisode
+        case 6:
+            self = .goToPodcast
+        case 7:
+            self = .chromecast
+        case 8:
+            self = .markPlayed
+        case 9:
+            self = .archive
+        case 10:
+            self = .addBookmark
+        default:
+            return nil
+        }
+    }
+
+    var intValue: Int {
+        switch self {
+        case .effects:
+            return 1
+        case .sleepTimer:
+            return 2
+        case .routePicker:
+            return 3
+        case .starEpisode:
+            return 4
+        case .shareEpisode:
+            return 5
+        case .goToPodcast:
+            return 6
+        case .chromecast:
+            return 7
+        case .markPlayed:
+            return 8
+        case .archive:
+            return 9
+        case .addBookmark:
+            return 10
+        }
+    }
+
     func title(episode: BaseEpisode? = nil) -> String {
         switch self {
         case .effects:
