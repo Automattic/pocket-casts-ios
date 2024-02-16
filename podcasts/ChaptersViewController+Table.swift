@@ -29,11 +29,11 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 state = .future
             }
 
-            chapterCell.populateFrom(chapter: chapter, playState: state, isChapterToggleEnabled: isTogglingChapters) { url in
+            chapterCell.populateFrom(chapter: chapter, playState: state, isChapterToggleEnabled: isTogglingChapters) { [weak self] url in
                 if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 } else {
-                    self.present(SFSafariViewController(with: url), animated: true)
+                    self?.present(SFSafariViewController(with: url), animated: true)
                 }
             }
 
