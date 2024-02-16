@@ -1,5 +1,6 @@
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 extension SettingsStore<AppSettings> {
     /// Updates the values in AppSettings with
@@ -21,5 +22,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$multiSelectGesture, value: UserDefaults.standard.bool(forKey: Settings.multiSelectGestureKey))
         self.update(\.$chapterTitles, value: UserDefaults.standard.bool(forKey: Settings.publishChapterTitlesKey))
         self.update(\.$autoPlayEnabled, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay))
+        self.update(\.$playerShelf, value: (UserDefaults.standard.playerActions ?? PlayerAction.defaultActions).map { ActionOption.known($0) })
     }
 }

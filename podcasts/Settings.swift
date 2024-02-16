@@ -603,7 +603,7 @@ class Settings: NSObject {
 
     // MARK: Player Actions
 
-    private static let playerActionsKey = "PlayerActions"
+    fileprivate static let playerActionsKey = "PlayerActions"
     class func playerActions() -> [PlayerAction] {
         let defaultActions = PlayerAction.defaultActions.filter { $0.isAvailable }
 
@@ -621,14 +621,7 @@ class Settings: NSObject {
                 }
                 .filter { $0.isAvailable }
         } else {
-            guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
-                return defaultActions
-            }
-
-            playerActions = savedInts
-                .compactMap { PlayerAction(int: $0) }
-                .filter { $0.isAvailable }
-
+            playerActions = UserDefaults.standard.playerActions ?? defaultActions
         }
         return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
@@ -1059,3 +1052,15 @@ extension L10n {
     }
 }
 #endif
+
+extension UserDefaults {
+    var playerActions: [PlayerAction]? {
+        guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
+            return nil
+        }
+
+        return savedInts
+            .compactMap { PlayerAction(int: $0) }
+            .filter { $0.isAvailable }
+    }
+}
