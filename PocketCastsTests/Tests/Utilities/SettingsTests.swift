@@ -56,4 +56,29 @@ final class SettingsTests: XCTestCase {
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
         try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: originalSettingsSync)
     }
+
+    func testImportOldPlayerActions() throws {
+        let originalSettingsSync = FeatureFlag.settingsSync.enabled
+
+        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: false)
+        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable })
+        Settings.updatePlayerActions([.addBookmark, .markPlayed]) // This update is tested in testOldPlayerActions
+        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: true)
+
+        let userDefaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
+        SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings.defaults)
+        SettingsStore.appSettings.importUserDefaults()
+
+        XCTAssertEqual([.addBookmark,
+                        .markPlayed,
+                        .effects,
+                        .sleepTimer,
+                        .routePicker,
+                        .starEpisode,
+                        .shareEpisode,
+                        .goToPodcast,
+                        .chromecast,
+                        .archive], Settings.playerActions(), "Player actions should include changes from update")
+        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: originalSettingsSync)
+    }
 }
