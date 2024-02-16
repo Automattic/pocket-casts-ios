@@ -1,6 +1,7 @@
 import XCTest
 @testable import podcasts
 @testable import PocketCastsServer
+import PocketCastsDataModel
 
 final class SettingsTests: XCTestCase {
 
@@ -9,12 +10,12 @@ final class SettingsTests: XCTestCase {
     override func setUp() {
         super.setUp()
         UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
-        let userDefaults = UserDefaults(suiteName: userDefaultsSuiteName)
     }
 
     func testPlayerActions() throws {
         let userDefaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
         SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings.defaults)
+        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
         let unknownString = "test"
 
         SettingsStore.appSettings.playerShelf = [.known(.markPlayed), .unknown(unknownString)]
