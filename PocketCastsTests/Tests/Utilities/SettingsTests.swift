@@ -36,4 +36,24 @@ final class SettingsTests: XCTestCase {
         XCTAssertEqual([.known(.addBookmark), .known(.markPlayed), .unknown(unknownString)], SettingsStore.appSettings.playerShelf, "Player shelf should include unknowns at end")
         try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: originalSettingsSync)
     }
+
+    func testOldPlayerActions() throws {
+        let originalSettingsSync = FeatureFlag.settingsSync.enabled
+        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: false)
+        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
+
+        Settings.updatePlayerActions([.addBookmark, .markPlayed])
+
+        XCTAssertEqual([.addBookmark,
+                        .markPlayed,
+                        .effects,
+                        .sleepTimer,
+                        .routePicker,
+                        .starEpisode,
+                        .shareEpisode,
+                        .goToPodcast,
+                        .chromecast,
+                        .archive], Settings.playerActions(), "Player actions should include changes from update")
+        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: originalSettingsSync)
+    }
 }
