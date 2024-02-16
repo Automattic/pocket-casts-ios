@@ -66,3 +66,11 @@ public enum PrimaryRowAction: Int32, Codable {
 public enum PrimaryUpNextSwipeAction: Int32, Codable {
     case playNext = 0, playLast = 1
 }
+
+public enum HeadphoneControl: Int32, Codable {
+    case addBookmark
+    case skipBack
+    case skipForward
+    case nextChapter
+    case previousChapter
+}

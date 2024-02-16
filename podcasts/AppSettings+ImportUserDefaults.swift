@@ -21,5 +21,7 @@ extension SettingsStore<AppSettings> {
         self.update(\.$multiSelectGesture, value: UserDefaults.standard.bool(forKey: Settings.multiSelectGestureKey))
         self.update(\.$chapterTitles, value: UserDefaults.standard.bool(forKey: Settings.publishChapterTitlesKey))
         self.update(\.$autoPlayEnabled, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay))
+        self.update(\.$headphoneControlsNextAction, value: HeadphoneControl(action: Constants.UserDefaults.headphones.nextAction.unlockedValue))
+        self.update(\.$headphoneControlsPreviousAction, value: HeadphoneControl(action: Constants.UserDefaults.headphones.previousAction.unlockedValue))
     }
 }

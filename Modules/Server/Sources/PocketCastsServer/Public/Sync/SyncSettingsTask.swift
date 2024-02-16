@@ -21,6 +21,8 @@ extension Api_ChangeableSettings {
         multiSelectGesture.update(settings.$multiSelectGesture)
         chapterTitles.update(settings.$chapterTitles)
         autoPlayEnabled.update(settings.$autoPlayEnabled)
+        headphoneControlsNextAction.update(settings.$headphoneControlsNextAction)
+        headphoneControlsPreviousAction.update(settings.$headphoneControlsPreviousAction)
     }
 }
 
@@ -42,6 +44,8 @@ extension AppSettings {
         $multiSelectGesture.update(setting: settings.multiSelectGesture)
         $chapterTitles.update(setting: settings.chapterTitles)
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
+        $headphoneControlsNextAction.update(setting: settings.headphoneControlsNextAction)
+        $headphoneControlsPreviousAction.update(setting: settings.headphoneControlsPreviousAction)
     }
 }
 
