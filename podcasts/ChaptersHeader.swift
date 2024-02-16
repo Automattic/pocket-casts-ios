@@ -68,9 +68,6 @@ class ChaptersHeader: UIView {
         container.addArrangedSubview(toggleButton)
         addSubview(container)
         container.anchorToAllSidesOf(view: self)
-        NotificationCenter.default.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
-            self?.updateButtonIcon()
-        }
     }
 
     @objc private func toggleChapterSelection() {
@@ -90,10 +87,6 @@ class ChaptersHeader: UIView {
     private func updateButtonLabel() {
         let buttonTitle = isTogglingChapters ? L10n.done : L10n.skipChapters
         toggleButton.setTitle(buttonTitle, for: .normal)
-    }
-
-    private func updateButtonIcon() {
-        toggleButton.configuration?.image = nil
     }
 }
 
