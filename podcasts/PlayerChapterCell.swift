@@ -1,4 +1,5 @@
 import PocketCastsUtils
+import PocketCastsDataModel
 import UIKit
 
 class PlayerChapterCell: UITableViewCell {
@@ -111,6 +112,16 @@ class PlayerChapterCell: UITableViewCell {
     @IBAction func toggleChapterTapped(_ sender: Any) {
         chapter?.shouldPlay.toggle()
         toggleChapterButton.currentlyOn.toggle()
+
+        if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
+            if chapter?.shouldPlay == true {
+                currentEpisode.select(chapterIndex: index)
+            } else {
+                currentEpisode.deselect(chapterIndex: index)
+            }
+
+            DataManager.sharedManager.save(episode: currentEpisode)
+        }
     }
 
     @objc func progressUpdated(animated: Bool = true) {
