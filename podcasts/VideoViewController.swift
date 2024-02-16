@@ -117,10 +117,10 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
         view.backgroundColor = .black
 
-        let skipBackAmount = ServerSettings.skipBackTime()
+        let skipBackAmount = Settings.skipBackTime
         skipBackBtn.skipAmount = skipBackAmount
 
-        let skipFwdAmount = ServerSettings.skipForwardTime()
+        let skipFwdAmount = Settings.skipForwardTime
         skipForwardBtn.skipAmount = skipFwdAmount
     }
 

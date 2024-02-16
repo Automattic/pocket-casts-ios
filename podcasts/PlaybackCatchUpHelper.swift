@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import PocketCastsServer
 
 struct PlaybackCatchUpHelper {
     func adjustStartTimeIfNeeded(for episode: BaseEpisode) -> TimeInterval {
@@ -9,7 +10,13 @@ struct PlaybackCatchUpHelper {
             return episode.playedUpTo
         #else
             // if it's a different episode, or not still at the time it was at when it was last paused, just play from where it's up to
-            if !UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption) || episode.uuid != lastPausedEpisodeUuid() || episode.playedUpTo != lastPausedAt() { return episode.playedUpTo }
+            let intelligentPlaybackResumption: Bool
+            if FeatureFlag.settingsSync.enabled {
+                intelligentPlaybackResumption = SettingsStore.appSettings.intelligentResumption
+            } else {
+                intelligentPlaybackResumption = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+            }
+            if !intelligentPlaybackResumption || episode.uuid != lastPausedEpisodeUuid() || episode.playedUpTo != lastPausedAt() { return episode.playedUpTo }
 
             guard let lastPauseTime = lastPauseTime() else { return episode.playedUpTo }
 

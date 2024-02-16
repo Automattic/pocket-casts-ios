@@ -1,9 +1,8 @@
 import PocketCastsDataModel
+import PocketCastsServer
 import UIKit
 
-enum TrimSilenceAmount: Int, AnalyticsDescribable {
-    case off = 0, low = 3, medium = 5, high = 10
-
+extension TrimSilenceAmount: AnalyticsDescribable {
     var description: String {
         switch self {
         case .off:
@@ -44,14 +43,25 @@ class PlaybackEffects {
     var isGlobal: Bool = true
 
     class func effectsFor(podcast: Podcast) -> PlaybackEffects {
-        if !podcast.overrideGlobalEffects { return globalEffects() }
+        if FeatureFlag.settingsSync.enabled {
+            if !podcast.settings.customEffects { return globalEffects() }
+        } else {
+            if !podcast.overrideGlobalEffects { return globalEffects() }
+        }
 
         let effects = PlaybackEffects()
 
         effects.isGlobal = false
-        effects.trimSilence = convertToTrimSilenceAmount(Int(podcast.trimSilenceAmount))
-        effects.volumeBoost = podcast.boostVolume
-        effects.playbackSpeed = podcast.playbackSpeed
+
+        if FeatureFlag.settingsSync.enabled {
+            effects.trimSilence = podcast.settings.trimSilence
+            effects.volumeBoost = podcast.settings.boostVolume
+            effects.playbackSpeed = podcast.settings.playbackSpeed
+        } else {
+            effects.trimSilence = convertToTrimSilenceAmount(podcast.trimSilenceAmount)
+            effects.volumeBoost = podcast.boostVolume
+            effects.playbackSpeed = podcast.playbackSpeed
+        }
 
         return effects
     }
@@ -60,7 +70,7 @@ class PlaybackEffects {
         let effects = PlaybackEffects()
         effects.isGlobal = true
         let removeSilenceAmount = UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence)
-        effects.trimSilence = convertToTrimSilenceAmount(removeSilenceAmount)
+        effects.trimSilence = convertToTrimSilenceAmount(Int32(removeSilenceAmount))
         effects.volumeBoost = UserDefaults.standard.bool(forKey: Constants.UserDefaults.globalVolumeBoost)
 
         let savedSpeed = UserDefaults.standard.double(forKey: Constants.UserDefaults.globalPlaybackSpeed)
@@ -98,7 +108,7 @@ class PlaybackEffects {
         playbackSpeed = currentSpeed
     }
 
-    private class func convertToTrimSilenceAmount(_ value: Int) -> TrimSilenceAmount {
+    private class func convertToTrimSilenceAmount(_ value: Int32) -> TrimSilenceAmount {
         if let amount = TrimSilenceAmount(rawValue: value) {
             return amount
         }

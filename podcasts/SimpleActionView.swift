@@ -63,6 +63,7 @@ class SimpleActionView: UIView {
             secondaryLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
             secondaryLabel.numberOfLines = 2
             secondaryLabel.text = secondaryText
+            // swiftlint:disable:next inverse_text_alignment
             secondaryLabel.textAlignment = .right
             secondaryLabel.textColor = ThemeColor.primaryText02(for: themeOverride)
             secondaryLabel.translatesAutoresizingMaskIntoConstraints = false

@@ -451,8 +451,8 @@ class WatchManager: NSObject, WCSessionDelegate {
             nowPlayingInfo[WatchConstants.Keys.nowPlayingSpeed] = effects.playbackSpeed
         }
 
-        nowPlayingInfo[WatchConstants.Keys.nowPlayingSkipBackAmount] = ServerSettings.skipBackTime()
-        nowPlayingInfo[WatchConstants.Keys.nowPlayingSkipForwardAmount] = ServerSettings.skipForwardTime()
+        nowPlayingInfo[WatchConstants.Keys.nowPlayingSkipBackAmount] = Settings.skipBackTime
+        nowPlayingInfo[WatchConstants.Keys.nowPlayingSkipForwardAmount] = Settings.skipForwardTime
 
         return nowPlayingInfo
     }

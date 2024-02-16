@@ -58,7 +58,8 @@ class PodcastDataManager {
         "fullSyncLastSyncAt",
         "showArchived",
         "refreshAvailable",
-        "folderUuid"
+        "folderUuid",
+        "settings"
     ]
 
     func setup(dbQueue: FMDatabaseQueue) {
@@ -417,6 +418,25 @@ class PodcastDataManager {
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
     }
 
+    func updateAutoAddToUpNext(to value: AutoAddToUpNextSetting, for podcasts: [Podcast], in dbQueue: FMDatabaseQueue) {
+        dbQueue.inDatabase { db in
+            do {
+                let uuids = podcasts.map { $0.uuid }
+
+                let query = """
+                UPDATE \(DataManager.podcastTableName)
+                SET autoAddToUpNext = ?
+                AND uuid IN (\(DataHelper.convertArrayToInString(uuids)))
+                """
+                try db.executeUpdate(query, values: [value.rawValue])
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
+            }
+        }
+
+        cachePodcasts(dbQueue: dbQueue)
+    }
+
     func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: FMDatabaseQueue) {
         setOnAllPodcasts(value: setting.rawValue, propertyName: "autoDownloadSetting", subscribedOnly: true, dbQueue: dbQueue)
     }
@@ -564,6 +584,12 @@ class PodcastDataManager {
         values.append(podcast.showArchived)
         values.append(podcast.refreshAvailable)
         values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
+
+        if let settingsData = podcast.settings.jsonData {
+            values.append(String(data: settingsData, encoding: .utf8) as Any)
+        } else {
+            FileLog.shared.addMessage("PodcastDataManager.createValuesFromPodcast: Failed to decode Podcast settings")
+        }
 
         if includeIdForWhere {
             values.append(podcast.id)

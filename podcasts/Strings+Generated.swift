@@ -170,6 +170,20 @@ internal enum L10n {
   internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
   /// Join us in the beta testing for bookmarks!
   internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
+  /// Code copied to clipboard
+  internal static var announcementSlumberCodeCopied: String { return L10n.tr("Localizable", "announcement_slumber_code_copied") }
+  /// Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.
+  internal static var announcementSlumberNonPlusDescription: String { return L10n.tr("Localizable", "announcement_slumber_non_plus_description") }
+  /// As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.
+  internal static func announcementSlumberPlusDescription(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "announcement_slumber_plus_description", String(describing: p1))
+  }
+  /// Learn more
+  internal static var announcementSlumberPlusDescriptionLearnMore: String { return L10n.tr("Localizable", "announcement_slumber_plus_description_learn_more") }
+  /// Redeem your code
+  internal static var announcementSlumberRedeem: String { return L10n.tr("Localizable", "announcement_slumber_redeem") }
+  /// Dream big
+  internal static var announcementSlumberTitle: String { return L10n.tr("Localizable", "announcement_slumber_title") }
   /// App Badge
   internal static var appBadge: String { return L10n.tr("Localizable", "app_badge") }
   /// Classic
@@ -1717,6 +1731,8 @@ internal enum L10n {
   }
   /// The undying gratitude of everyone here at Pocket Casts
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
+  /// 1 year of exclusive content from Slumber Studios
+  internal static var plusFeatureSlumber: String { return L10n.tr("Localizable", "plus_feature_slumber") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// PLUS FEATURES
@@ -2038,14 +2054,17 @@ internal enum L10n {
   internal static var podcastsSort: String { return L10n.tr("Localizable", "podcasts_sort") }
   /// Preview
   internal static var preview: String { return L10n.tr("Localizable", "preview") }
+  /// Recurring payments at %1$@ after %2$@ (%3$@)
+  internal static func pricingTermsAfterDiscount(_ p1: Any, _ p2: Any, _ p3: Any) -> String {
+    return L10n.tr("Localizable", "pricing_terms_after_discount", String(describing: p1), String(describing: p2), String(describing: p3))
+  }
   /// then %1$@
   internal static func pricingTermsAfterTrial(_ p1: Any) -> String {
     return L10n.tr("Localizable", "pricing_terms_after_trial", String(describing: p1))
   }
-  /// Recurring payments will begin after your
-  /// %1$@ free trial
-  internal static func pricingTermsAfterTrialLong(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "pricing_terms_after_trial_long", String(describing: p1))
+  /// Recurring payments will begin after your %1$@ free trial (%2$@)
+  internal static func pricingTermsAfterTrialLong(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "pricing_terms_after_trial_long", String(describing: p1), String(describing: p2))
   }
   /// Profile
   internal static var profile: String { return L10n.tr("Localizable", "profile") }
@@ -2079,7 +2098,7 @@ internal enum L10n {
   internal static var profileStarredNoEpisodesDesc: String { return L10n.tr("Localizable", "profile_starred_no_episodes_desc") }
   /// Nothing Starred
   internal static var profileStarredNoEpisodesTitle: String { return L10n.tr("Localizable", "profile_starred_no_episodes_title") }
-  /// By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@
+  /// By continuing, you agree to our %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@
   internal static func purchaseTerms(_ p1: Any, _ p2: Any, _ p3: Any, _ p4: Any) -> String {
     return L10n.tr("Localizable", "purchase_terms", String(describing: p1), String(describing: p2), String(describing: p3), String(describing: p4))
   }
@@ -2870,6 +2889,10 @@ internal enum L10n {
   /// Expires in %1$@
   internal static func subscriptionExpiresIn(_ p1: Any) -> String {
     return L10n.tr("Localizable", "subscription_expires_in", String(describing: p1))
+  }
+  /// %1$@ per %2$@
+  internal static func subscriptionFrequencyPricingFormat(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "subscription_frequency_pricing_format", String(describing: p1), String(describing: p2))
   }
   /// Thanks for your support!
   internal static var subscriptionsThankYou: String { return L10n.tr("Localizable", "subscriptions_thank_you") }

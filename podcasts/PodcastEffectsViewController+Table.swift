@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsServer
 
 extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelegate {
     private static let disclosureCellId = "DisclosureCell"
@@ -14,7 +15,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        podcast.overrideGlobalEffects ? 2 : 1
+        return podcast.isEffectsOverridden ? 2 : 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -29,7 +30,11 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastEffectsViewController.switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel?.text = L10n.settingsCustom
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
-            cell.cellSwitch.isOn = podcast.overrideGlobalEffects
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = podcast.settings.customEffects
+            } else {
+                cell.cellSwitch.isOn = podcast.overrideGlobalEffects
+            }
             cell.setNoImage()
 
             cell.cellSwitch.removeTarget(self, action: #selector(overrideEffectsToggled(_:)), for: UIControl.Event.valueChanged)
@@ -39,7 +44,11 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         case .playbackSpeed:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastEffectsViewController.timeStepperCellId, for: indexPath) as! TimeStepperCell
             cell.cellLabel?.text = L10n.settingsPlaySpeed
-            cell.cellSecondaryLabel.text = L10n.playbackSpeed(podcast.playbackSpeed.localized())
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSecondaryLabel.text = L10n.playbackSpeed(podcast.settings.playbackSpeed.localized())
+            } else {
+                cell.cellSecondaryLabel.text = L10n.playbackSpeed(podcast.playbackSpeed.localized())
+            }
             cell.configureWithImage(imageName: "player_speed", tintColor: podcast.iconTintColor())
 
             cell.timeStepper.tintColor = podcast.iconTintColor()
@@ -47,7 +56,11 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             cell.timeStepper.maximumValue = 3
             cell.timeStepper.smallIncrements = 0.1
             cell.timeStepper.smallIncrementThreshold = TimeInterval.greatestFiniteMagnitude
-            cell.timeStepper.currentValue = podcast.playbackSpeed
+            if FeatureFlag.settingsSync.enabled {
+                cell.timeStepper.currentValue = podcast.settings.playbackSpeed
+            } else {
+                cell.timeStepper.currentValue = podcast.playbackSpeed
+            }
 
             cell.onValueChanged = { [weak self] value in
                 self?.playbackSpeedChanged(value)
@@ -59,7 +72,11 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             cell.cellLabel?.text = L10n.settingsTrimSilence
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "player_trim")
-            cell.cellSwitch.isOn = podcast.trimSilenceAmount > 0
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = podcast.settings.trimSilence != .off
+            } else {
+                cell.cellSwitch.isOn = podcast.trimSilenceAmount > 0
+            }
 
             cell.cellSwitch.removeTarget(self, action: #selector(trimSilenceToggled(_:)), for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(trimSilenceToggled(_:)), for: UIControl.Event.valueChanged)
@@ -70,7 +87,13 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             cell.cellLabel?.text = L10n.settingsTrimLevel
             cell.setImage(imageName: nil)
 
-            let trimAmount = TrimSilenceAmount(rawValue: Int(podcast.trimSilenceAmount)) ?? .low
+            let trimAmount: TrimSilenceAmount
+
+            if FeatureFlag.settingsSync.enabled {
+                trimAmount = podcast.settings.trimSilence// ?? .low
+            } else {
+                trimAmount = TrimSilenceAmount(rawValue: Int32(podcast.trimSilenceAmount)) ?? .low
+            }
             cell.cellSecondaryLabel.text = trimAmount.description
 
             return cell
@@ -79,7 +102,11 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             cell.cellLabel?.text = L10n.settingsVolumeBoost
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
             cell.setImage(imageName: "player_volumeboost")
-            cell.cellSwitch.isOn = podcast.boostVolume
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = podcast.settings.boostVolume
+            } else {
+                cell.cellSwitch.isOn = podcast.boostVolume
+            }
 
             cell.cellSwitch.removeTarget(self, action: #selector(boostVolumeToggled(_:)), for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(boostVolumeToggled(_:)), for: UIControl.Event.valueChanged)
@@ -104,10 +131,14 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     private func addTrimLevelAction(level: TrimSilenceAmount, to: OptionsPicker) {
-        let selectedAmount = TrimSilenceAmount(rawValue: Int(podcast.trimSilenceAmount)) ?? .low
+        let selectedAmount = TrimSilenceAmount(rawValue: Int32(podcast.trimSilenceAmount)) ?? .low
         let action = OptionAction(label: level.description, selected: selectedAmount == level) { [weak self] in
             guard let self = self else { return }
 
+            if FeatureFlag.settingsSync.enabled {
+                self.podcast.settings.trimSilence = level
+                self.podcast.syncStatus = SyncStatus.notSynced.rawValue
+            }
             self.podcast.trimSilenceAmount = Int32(level.rawValue)
             DataManager.sharedManager.save(podcast: self.podcast)
 
@@ -127,7 +158,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     // MARK: - Table Footer Text
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        podcast.overrideGlobalEffects ? nil : L10n.settingsCustomMsg
+        podcast.isEffectsOverridden ? nil : L10n.settingsCustomMsg
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -139,6 +170,10 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     private func playbackSpeedChanged(_ speed: TimeInterval) {
         // round it to the nearest 0.1, so we end up with 1.5 not 1.53667346262
         let roundedSpeed = round(speed * 10.0) / 10.0
+        if FeatureFlag.settingsSync.enabled {
+            podcast.settings.playbackSpeed = roundedSpeed
+            podcast.syncStatus = SyncStatus.notSynced.rawValue
+        }
         podcast.playbackSpeed = roundedSpeed
         saveUpdates()
 
@@ -149,12 +184,21 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     @objc private func trimSilenceToggled(_ sender: UISwitch) {
+        if FeatureFlag.settingsSync.enabled {
+            let defaultAmount = TrimSilenceAmount(rawValue: Int32(PlaybackEffects.defaultRemoveSilenceAmount))
+            podcast.settings.trimSilence = sender.isOn ? (defaultAmount ?? .off) : .off
+            podcast.syncStatus = SyncStatus.notSynced.rawValue
+        }
         podcast.trimSilenceAmount = sender.isOn ? Int32(PlaybackEffects.defaultRemoveSilenceAmount) : 0
         saveUpdates()
         AnalyticsPlaybackHelper.shared.trimSilenceToggled(enabled: sender.isOn)
     }
 
     @objc private func boostVolumeToggled(_ sender: UISwitch) {
+        if FeatureFlag.settingsSync.enabled {
+            podcast.settings.boostVolume = sender.isOn
+            podcast.syncStatus = SyncStatus.notSynced.rawValue
+        }
         podcast.boostVolume = sender.isOn
         saveUpdates()
 
@@ -162,14 +206,16 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     @objc private func overrideEffectsToggled(_ sender: UISwitch) {
-        podcast.overrideGlobalEffects = sender.isOn
+        podcast.isEffectsOverridden = sender.isOn
+        podcast.syncStatus = SyncStatus.notSynced.rawValue
         saveUpdates()
 
         Analytics.track(.podcastSettingsCustomPlaybackEffectsToggled, properties: ["enabled": sender.isOn])
     }
 
     private func tableData() -> [[TableRow]] {
-        if podcast.overrideGlobalEffects, podcast.trimSilenceAmount > 0 {
+        let hasTrimSilence = FeatureFlag.settingsSync.enabled ? podcast.settings.trimSilence != .off : podcast.trimSilenceAmount > 0
+        if podcast.isEffectsOverridden && hasTrimSilence {
             return [[.customForPodcast], [.playbackSpeed, .trimSilence, .trimSilenceAmount, .volumeBoost]]
         }
 
