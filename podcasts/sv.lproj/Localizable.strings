@@ -39,6 +39,8 @@
     <string>Uppspelning av avsnitt</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tryck för att dölja filterinformation</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>Tryck för att gå till huvudsidan för podcastinformation</string>
     <key>accessibility_hint_star</key>
     <string>Dubbeltryck för att stjärnmärka avsnitt</string>
     <key>accessibility_hint_unstar</key>
@@ -151,6 +153,18 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Bokmärkena är här!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Var med och betatesta bokmärken!</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>Kod kopierad till urklipp</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Prenumerera på Plus och få en 1-årig prenumeration på innehåll från Slumber Studios, podcasts utformade för ljuva drömmar. Läs mer.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Som en del av din Plus-prenumeration får du en 1-årig prenumeration på innehåll från Slumber Studios med koden %1$@. Läs mer.</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>Läs mer</string>
+    <key>announcement_slumber_redeem</key>
+    <string>Lös in din kod</string>
+    <key>announcement_slumber_title</key>
+    <string>Dröm stort</string>
     <key>app_badge</key>
     <string>Appmärke</string>
     <key>app_icon_classic</key>
@@ -359,6 +373,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Rensa Nästa</string>
     <key>clear_up_next_message</key>
     <string>Är du säker på att du vill rensa din Nästa-kö?</string>
+    <key>client_error_token_deauth</key>
+    <string>Tokenautentiseringen misslyckades.</string>
     <key>close</key>
     <string>Stäng</string>
     <key>color</key>
@@ -480,7 +496,7 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <key>discover_browse_by_category_society</key>
     <string>Samhälle</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Samhälle och kultur</string>
+    <string>Kultur</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualitet</string>
     <key>discover_browse_by_category_sports</key>
@@ -1462,6 +1478,8 @@ UPPDATERINGAR</string>
     <string>Kan avslutas när som helst</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB molnlagring</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>50 %% rabatt på ditt första år</string>
     <key>plus_error_already_registered</key>
     <string>Du har redan ett Pocket Casts Plus-konto</string>
     <key>plus_error_already_registered_details</key>
@@ -1470,14 +1488,20 @@ UPPDATERINGAR</string>
     <string>Löper ut %1$@</string>
     <key>plus_feature_gratitude</key>
     <string>Den eviga tacksamheten hos alla här på Pocket Casts</string>
+    <key>plus_feature_slumber</key>
+    <string>1 års exklusivt innehåll från Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra ikoner för teman och appar</string>
     <key>plus_features</key>
     <string>PLUS-FUNKTIONER</string>
     <key>plus_free_membership_format</key>
-    <string>%1$@ gratis</string>
+    <string>%1$@ gratis provperiod</string>
     <key>plus_lifetime_membership</key>
     <string>Livstidsmedlem</string>
+    <key>plus_marketing_desktop_apps_title</key>
+    <string>Dator- och webbappar</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>Mappar och bokmärken</string>
     <key>plus_marketing_folders_description</key>
     <string>Skapa mappar för att organisera din podcastsamling.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1500,6 +1524,8 @@ UPPDATERINGAR</string>
     <string>Lyssna på fler platser med våra Windows-, macOS- och webbappar</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Organisera dina podcasts i mappar och håll dem synkroniserade på alla dina enheter.</string>
+    <key>plus_marketing_watch_playback_title</key>
+    <string>Apple Watch- och Wear OS-appar</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ per månad</string>
     <key>plus_payment_canceled</key>
@@ -1786,6 +1812,18 @@ gratis provperiod på %1$@</string>
     <string>%1$@ återstår</string>
     <key>queue_total_time_remaining</key>
     <string>%1$@ återstår</string>
+    <key>rate</key>
+    <string>Omdöme</string>
+    <key>rating_error</key>
+    <string>Hoppsan. Det uppstod ett fel.</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>Det är bara lyssnare på den här podcasten som kan ge den ett betyg. Lyssna på ett par avsnitt och återkom sedan med ditt betyg. Vi ser fram emot att få höra vad du tycker.</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>Lyssna på den här podcasten först</string>
+    <key>rating_submitted</key>
+    <string>Ditt betyg har skickats.</string>
+    <key>rating_title</key>
+    <string>Betygsätt %1$@</string>
     <key>refresh_control_fetching_episodes</key>
     <string>HÄMTAR NYA PODCASTAVSNITT</string>
     <key>refresh_control_pull_to_refresh</key>
