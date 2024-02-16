@@ -20,14 +20,26 @@ class ChaptersHeader: UIView {
     }()
 
     private lazy var toggleButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(configuration: .plain())
         button.setTitle(L10n.skipChapters, for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .footnote)
         button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
+        button.setImage(lockIcon, for: .normal)
+        button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+        button.configuration?.imagePadding = 8
+        button.configuration?.titleTextAttributesTransformer =
+           UIConfigurationTextAttributesTransformer { incoming in
+             var outgoing = incoming
+             outgoing.font = .preferredFont(forTextStyle: .footnote)
+             return outgoing
+         }
         button.heightAnchor.constraint(equalToConstant: 44).isActive = true
         return button
     }()
+
+    private var lockIcon: UIImage? {
+        PaidFeature.deselectChapters.isUnlocked ? nil : (PaidFeature.deselectChapters.tier == .patron ? UIImage(named: "patron-heart") : UIImage(named: "plusGold"))
+    }
 
     // MARK: - Config
     override init(frame: CGRect) {
