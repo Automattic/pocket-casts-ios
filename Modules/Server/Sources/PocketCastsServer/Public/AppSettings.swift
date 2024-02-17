@@ -33,6 +33,8 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var trimSilence: TrimSilenceAmount
     @ModifiedDate public var playbackSpeed: Double
 
+    @ModifiedDate public var warnDataUsage: Bool = false
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,

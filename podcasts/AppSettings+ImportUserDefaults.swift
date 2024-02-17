@@ -24,5 +24,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$volumeBoost, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.globalVolumeBoost))
         self.update(\.$trimSilence, value: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence)))
         self.update(\.$playbackSpeed, value: UserDefaults.standard.double(forKey: Constants.UserDefaults.globalPlaybackSpeed))
+        self.update(\.$warnDataUsage, value: !UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey))
     }
 }
