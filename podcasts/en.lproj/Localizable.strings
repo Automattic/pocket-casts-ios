@@ -3983,6 +3983,18 @@
 /* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
 "accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
 
+/* Label that toggles the option for the user to choose which chapters of the podcast they want to skip (to not be played) */
+"skip_chapters" = "Skip chapters";
+
+/* Indicates the number of chapters in a podcast episode. %1$@ is the number of chapters. */
+"number_of_chapters" = "%1$@ chapters";
+
+/* Singular indication of number of chapters */
+"single_chapter" = "1 chapter";
+
+/* Indicates the number of hidden chapters in a podcast episode. %1$@ is the number of hidden chapters. */
+"number_of_hidden_chapters" = "%1$@ hidden";
+
 /* Slumber Studios partnership feature announcement title */
 "announcement_slumber_title" = "Dream big";
 
