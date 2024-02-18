@@ -33,6 +33,10 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var trimSilence: TrimSilenceAmount
     @ModifiedDate public var playbackSpeed: Double
 
+    @ModifiedDate public var filesAutoUpNext: Bool = false
+    @ModifiedDate public var filesAfterPlayingDeleteLocal: Bool = false
+    @ModifiedDate public var filesAfterPlayingDeleteCloud: Bool = false
+
     @ModifiedDate public var warnDataUsage: Bool = false
 
     static var defaults: AppSettings {

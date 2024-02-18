@@ -25,6 +25,9 @@ extension Api_ChangeableSettings {
         trimSilence.update(settings.$trimSilence)
         playbackSpeed.update(settings.$playbackSpeed)
         warnDataUsage.update(settings.$warnDataUsage)
+        filesAutoUpNext.update(settings.$filesAutoUpNext)
+        filesAfterPlayingDeleteLocal.update(settings.$filesAfterPlayingDeleteLocal)
+        filesAfterPlayingDeleteCloud.update(settings.$filesAfterPlayingDeleteCloud)
     }
 }
 
@@ -50,6 +53,9 @@ extension AppSettings {
         $trimSilence.update(setting: settings.trimSilence)
         $playbackSpeed.update(setting: settings.playbackSpeed)
         $warnDataUsage.update(setting: settings.warnDataUsage)
+        $filesAutoUpNext.update(setting: settings.filesAutoUpNext)
+        $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocal)
+        $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloud)
     }
 }
 
