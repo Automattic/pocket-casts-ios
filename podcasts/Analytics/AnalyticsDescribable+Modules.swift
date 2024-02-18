@@ -99,16 +99,7 @@ extension AutoAddToUpNextSetting: AnalyticsDescribable {
     }
 }
 
-enum AutoArchiveAfterTime: TimeInterval, AnalyticsDescribable {
-    case never = -1
-    case afterPlaying = 0
-    case after1Day = 86400
-    case after2Days = 172_800
-    case after1Week = 604_800
-    case after2Weeks = 1_209_600
-    case after30Days = 2_592_000
-    case after90Days = 7_776_000
-
+extension AutoArchiveAfterTime: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {
         case .never:
@@ -127,82 +118,6 @@ enum AutoArchiveAfterTime: TimeInterval, AnalyticsDescribable {
             return "after_30_days"
         case .after90Days:
             return "after_3_months"
-        }
-    }
-}
-
-extension AutoArchiveAfterPlayed {
-    init?(time: AutoArchiveAfterTime) {
-        switch time {
-        case .never:
-            self = .never
-        case .afterPlaying:
-            self = .afterPlaying
-        case .after1Day:
-            self = .after24Hours
-        case .after2Days:
-            self = .after2Days
-        case .after1Week:
-            self = .after1Week
-        case .after2Weeks, .after30Days, .after90Days:
-            return nil
-        }
-    }
-
-    var time: AutoArchiveAfterTime {
-        switch self {
-            case .never:
-                return .never
-            case .afterPlaying:
-                return .afterPlaying
-            case .after24Hours:
-                return .after1Day
-            case .after2Days:
-                return .after2Days
-            case .after1Week:
-                return .after1Week
-        }
-    }
-}
-
-extension AutoArchiveAfterInactive {
-    init?(time: AutoArchiveAfterTime) {
-        switch time {
-        case .never:
-            self = .never
-        case .after1Day:
-            self = .after24Hours
-        case .after2Days:
-            self = .after2Days
-        case .after1Week:
-            self = .after1Week
-        case .after2Weeks:
-            self = .after2Weeks
-        case .after30Days:
-            self = .after30Days
-        case .after90Days:
-            self = .after3Months
-        case .afterPlaying:
-            return nil
-        }
-    }
-
-    var time: AutoArchiveAfterTime {
-        switch self {
-            case .never:
-                return .never
-            case .after24Hours:
-                return .after1Day
-            case .after2Days:
-                return .after2Days
-            case .after1Week:
-                return .after1Week
-            case .after2Weeks:
-                return .after2Weeks
-            case .after30Days:
-                return .after30Days
-            case .after3Months:
-                return .after90Days
         }
     }
 }
