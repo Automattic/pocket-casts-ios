@@ -231,7 +231,7 @@ class WatchSyncManager {
             }
 
             if let autoArchivePlayedAfter = podcastSetting[WatchConstants.Keys.podcastAutoArchivePlayedAfter] as? TimeInterval {
-                podcast.autoArchivePlayedAfter = autoArchivePlayedAfter
+                podcast.autoArchivePlayedAfterTime = autoArchivePlayedAfter
             }
             DataManager.sharedManager.save(podcast: podcast)
         }

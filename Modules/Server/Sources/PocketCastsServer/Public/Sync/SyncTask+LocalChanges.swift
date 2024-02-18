@@ -223,6 +223,9 @@ private extension Podcast {
         settings.volumeBoost.update(self.settings.$boostVolume)
         settings.episodesSortOrder.update(self.settings.$episodesSortOrder)
         settings.episodeGrouping.update(self.settings.$episodeGrouping)
+        settings.autoArchivePlayed.update(self.settings.$autoArchivePlayed)
+        settings.autoArchiveInactive.update(self.settings.$autoArchiveInactive)
+        settings.autoArchiveEpisodeLimit.update(self.settings.$autoArchiveEpisodeLimit)
         return settings
     }
 }

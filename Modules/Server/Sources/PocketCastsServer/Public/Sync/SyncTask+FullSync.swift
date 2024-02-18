@@ -181,5 +181,8 @@ private extension SyncTask {
         podcast.settings.$trimSilence = settings.$trimSilence
         podcast.settings.$playbackSpeed = settings.$playbackSpeed
         podcast.settings.$boostVolume = settings.$boostVolume
+        podcast.settings.$autoArchivePlayed = settings.$autoArchivePlayed
+        podcast.settings.$autoArchiveInactive = settings.$autoArchiveInactive
+        podcast.settings.$autoArchiveEpisodeLimit = settings.$autoArchiveEpisodeLimit
     }
 }
