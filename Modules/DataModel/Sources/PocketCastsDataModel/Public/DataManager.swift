@@ -886,7 +886,7 @@ public class DataManager {
         return folderPath.appendingPathComponent("podcast_newDB.sqlite3")
     }
 
-    private static func pathToDbFolder() -> String {
+    static func pathToDbFolder() -> String {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
         let mainFolder = documentsPath?.appendingPathComponent("Pocket Casts")
 
