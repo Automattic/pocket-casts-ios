@@ -4,6 +4,7 @@ import PocketCastsDataModel
 #endif
 import PocketCastsServer
 import UIKit
+import SwiftUI
 
 class Settings: NSObject {
     // MARK: - Library Type
@@ -960,6 +961,51 @@ class Settings: NSObject {
                 SettingsStore.appSettings.skipForward = Int32(newValue)
             }
             ServerSettings.setSkipForwardTime(newValue)
+        }
+    }
+
+    static var playerBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.playerBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.playerBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
+    static var episodeBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.episodeBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.episodeBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
+    static var podcastBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.podcastBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.podcastBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
         }
     }
 

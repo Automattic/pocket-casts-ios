@@ -1,5 +1,6 @@
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 extension SettingsStore<AppSettings> {
     /// Updates the values in AppSettings with
@@ -25,5 +26,8 @@ extension SettingsStore<AppSettings> {
         self.update(\.$trimSilence, value: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence)))
         self.update(\.$playbackSpeed, value: UserDefaults.standard.double(forKey: Constants.UserDefaults.globalPlaybackSpeed))
         self.update(\.$warnDataUsage, value: !UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey))
+        self.update(\.$playerBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.playerSort.value))
+        self.update(\.$podcastBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.podcastSort.value))
+        self.update(\.$episodeBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.episodeSort.value))
     }
 }
