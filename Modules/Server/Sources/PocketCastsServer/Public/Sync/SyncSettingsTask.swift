@@ -27,6 +27,7 @@ extension Api_ChangeableSettings {
         warnDataUsage.update(settings.$warnDataUsage)
         autoArchivePlayed.update(settings.$autoArchivePlayed)
         autoArchiveInactive.update(settings.$autoArchiveInactive)
+        autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
     }
 }
 
@@ -54,6 +55,7 @@ extension AppSettings {
         $warnDataUsage.update(setting: settings.warnDataUsage)
         $autoArchivePlayed.update(setting: settings.autoArchivePlayed)
         $autoArchiveInactive.update(setting: settings.autoArchiveInactive)
+        $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
     }
 }
 

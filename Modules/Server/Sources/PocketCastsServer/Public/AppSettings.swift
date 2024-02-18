@@ -29,6 +29,7 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed = .afterPlaying
     @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive = .never
+    @ModifiedDate public var autoArchiveIncludesStarred: Bool = false
 
     // MARK: Playback Effects
 

@@ -332,12 +332,19 @@ class Settings: NSObject {
         }
     }
 
-    private static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
+    static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
     class func archiveStarredEpisodes() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchiveIncludesStarred
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
+        }
     }
 
     class func setArchiveStarredEpisodes(_ archive: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchiveIncludesStarred = archive
+        }
         UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
 
         guard userInitiated else { return }

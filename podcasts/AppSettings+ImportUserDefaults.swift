@@ -32,5 +32,6 @@ extension SettingsStore<AppSettings> {
         if let time = AutoArchiveAfterTime(rawValue: UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)), let inactive = AutoArchiveAfterInactive(time: time) {
             self.update(\.$autoArchiveInactive, value: inactive.rawValue)
         }
+        self.update(\.$autoArchiveIncludesStarred, value: UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey))
     }
 }
