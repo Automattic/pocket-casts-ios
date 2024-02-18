@@ -290,12 +290,19 @@ class Settings: NSObject {
 
     // MARK: - Auto Archiving
 
-    private static let autoArchivePlayedAfterKey = "AutoArchivePlayedAfer"
+    static let autoArchivePlayedAfterKey = "AutoArchivePlayedAfer"
     class func autoArchivePlayedAfter() -> TimeInterval {
-        UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchivePlayed.time.rawValue
+        } else {
+            return UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
+        }
     }
 
     class func setAutoArchivePlayedAfter(_ after: TimeInterval, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchivePlayed = AutoArchiveAfterPlayed(time: AutoArchiveAfterTime(rawValue: after)!)!
+        }
         UserDefaults.standard.set(after, forKey: Settings.autoArchivePlayedAfterKey)
 
         guard userInitiated else { return }
@@ -304,12 +311,19 @@ class Settings: NSObject {
         }
     }
 
-    private static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
+    static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
     class func autoArchiveInactiveAfter() -> TimeInterval {
-        UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchiveInactive.time.rawValue
+        } else {
+            return UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
+        }
     }
 
     class func setAutoArchiveInactiveAfter(_ after: TimeInterval, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchiveInactive = AutoArchiveAfterInactive(time: AutoArchiveAfterTime(rawValue: after)!)!
+        }
         UserDefaults.standard.set(after, forKey: Settings.autoArchiveInactiveAfterKey)
 
         guard userInitiated else { return }

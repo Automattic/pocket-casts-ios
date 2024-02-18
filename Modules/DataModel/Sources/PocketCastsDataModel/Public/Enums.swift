@@ -58,3 +58,21 @@ public struct EpisodeBasicData {
 public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
     case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
 }
+
+public enum AutoArchiveAfterPlayed: Int32, Codable {
+    case never = 0
+    case afterPlaying = 1
+    case after24Hours = 2
+    case after2Days = 3
+    case after1Week = 4
+}
+
+public enum AutoArchiveAfterInactive: Int32, Codable {
+    case never = 0
+    case after24Hours = 1
+    case after2Days = 2
+    case after1Week = 3
+    case after2Weeks = 4
+    case after30Days = 5
+    case after3Months = 6
+}

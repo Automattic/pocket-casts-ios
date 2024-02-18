@@ -25,6 +25,8 @@ extension Api_ChangeableSettings {
         trimSilence.update(settings.$trimSilence)
         playbackSpeed.update(settings.$playbackSpeed)
         warnDataUsage.update(settings.$warnDataUsage)
+        autoArchivePlayed.update(settings.$autoArchivePlayed)
+        autoArchiveInactive.update(settings.$autoArchiveInactive)
     }
 }
 
@@ -50,6 +52,8 @@ extension AppSettings {
         $trimSilence.update(setting: settings.trimSilence)
         $playbackSpeed.update(setting: settings.playbackSpeed)
         $warnDataUsage.update(setting: settings.warnDataUsage)
+        $autoArchivePlayed.update(setting: settings.autoArchivePlayed)
+        $autoArchiveInactive.update(setting: settings.autoArchiveInactive)
     }
 }
 

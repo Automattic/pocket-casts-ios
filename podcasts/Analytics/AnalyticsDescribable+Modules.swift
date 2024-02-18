@@ -131,6 +131,82 @@ enum AutoArchiveAfterTime: TimeInterval, AnalyticsDescribable {
     }
 }
 
+extension AutoArchiveAfterPlayed {
+    init?(time: AutoArchiveAfterTime) {
+        switch time {
+        case .never:
+            self = .never
+        case .afterPlaying:
+            self = .afterPlaying
+        case .after1Day:
+            self = .after24Hours
+        case .after2Days:
+            self = .after2Days
+        case .after1Week:
+            self = .after1Week
+        case .after2Weeks, .after30Days, .after90Days:
+            return nil
+        }
+    }
+
+    var time: AutoArchiveAfterTime {
+        switch self {
+            case .never:
+                return .never
+            case .afterPlaying:
+                return .afterPlaying
+            case .after24Hours:
+                return .after1Day
+            case .after2Days:
+                return .after2Days
+            case .after1Week:
+                return .after1Week
+        }
+    }
+}
+
+extension AutoArchiveAfterInactive {
+    init?(time: AutoArchiveAfterTime) {
+        switch time {
+        case .never:
+            self = .never
+        case .after1Day:
+            self = .after24Hours
+        case .after2Days:
+            self = .after2Days
+        case .after1Week:
+            self = .after1Week
+        case .after2Weeks:
+            self = .after2Weeks
+        case .after30Days:
+            self = .after30Days
+        case .after90Days:
+            self = .after3Months
+        case .afterPlaying:
+            return nil
+        }
+    }
+
+    var time: AutoArchiveAfterTime {
+        switch self {
+            case .never:
+                return .never
+            case .after24Hours:
+                return .after1Day
+            case .after2Days:
+                return .after2Days
+            case .after1Week:
+                return .after1Week
+            case .after2Weeks:
+                return .after2Weeks
+            case .after30Days:
+                return .after30Days
+            case .after3Months:
+                return .after90Days
+        }
+    }
+}
+
 extension PodcastGrouping: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {
