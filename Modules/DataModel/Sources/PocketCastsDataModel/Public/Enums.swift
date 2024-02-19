@@ -181,3 +181,10 @@ extension AutoArchiveAfterInactive {
         }
     }
 }
+
+public enum TrimSilence: Int32, Codable {
+    case off = 0
+    case mild = 1
+    case medium = 2
+    case madMax = 3
+}
