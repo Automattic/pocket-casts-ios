@@ -96,6 +96,7 @@ extension SyncTask {
                 podcast.autoArchiveEpisodeLimit = 0
                 podcast.subscribed = 0
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
+                podcast.processSettings(podcastItem.settings)
 
                 DataManager.sharedManager.save(podcast: podcast)
             }
@@ -148,6 +149,8 @@ extension SyncTask {
         if checkIsDeleted, podcastItem.hasIsDeleted {
             podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
         }
+
+        podcast.processSettings(podcastItem.settings)
     }
 
     private func importEpisode(_ episodeItem: Api_SyncUserEpisode) {
@@ -407,5 +410,18 @@ private extension Api_SyncUserBookmark {
 
     var logDescription: String {
         (try? jsonString()) ?? "invalid api bookmark"
+    }
+}
+
+extension Podcast {
+    func processSettings(_ settings: Api_PodcastSettings) {
+        self.settings.$customEffects.update(setting: settings.playbackEffects)
+        self.settings.$autoStartFrom.update(setting: settings.autoStartFrom)
+        self.settings.$autoSkipLast.update(setting: settings.autoSkipLast)
+        self.settings.$trimSilence.update(setting: settings.trimSilence)
+        self.settings.$playbackSpeed.update(setting: settings.playbackSpeed)
+        self.settings.$boostVolume.update(setting: settings.volumeBoost)
+        self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
+        self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
     }
 }

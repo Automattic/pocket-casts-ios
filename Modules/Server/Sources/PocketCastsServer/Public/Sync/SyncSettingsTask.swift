@@ -3,12 +3,65 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
+extension Api_ChangeableSettings {
+    mutating func update(with settings: AppSettings) {
+        openLinks.update(settings.$openLinks)
+        rowAction.update(settings.$rowAction)
+        skipForward.update(settings.$skipForward)
+        skipBack.update(settings.$skipBack)
+        keepScreenAwake.update(settings.$keepScreenAwake)
+        openPlayer.update(settings.$openPlayer)
+        intelligentResumption.update(settings.$intelligentResumption)
+        episodeGrouping.update(settings.$episodeGrouping)
+        showArchived.update(settings.$showArchived)
+        upNextSwipe.update(settings.$upNextSwipe)
+        playUpNextOnTap.update(settings.$playUpNextOnTap)
+        playbackActions.update(settings.$playbackActions)
+        legacyBluetooth.update(settings.$legacyBluetooth)
+        multiSelectGesture.update(settings.$multiSelectGesture)
+        chapterTitles.update(settings.$chapterTitles)
+        autoPlayEnabled.update(settings.$autoPlayEnabled)
+        volumeBoost.update(settings.$volumeBoost)
+        trimSilence.update(settings.$trimSilence)
+        playbackSpeed.update(settings.$playbackSpeed)
+        warnDataUsage.update(settings.$warnDataUsage)
+    }
+}
+
+extension AppSettings {
+    mutating func update(with settings: Api_NamedSettingsResponse) {
+        $openLinks.update(setting: settings.openLinks)
+        $rowAction.update(setting: settings.rowAction)
+        $skipForward.update(setting: settings.skipForward)
+        $skipBack.update(setting: settings.skipBack)
+        $keepScreenAwake.update(setting: settings.keepScreenAwake)
+        $openPlayer.update(setting: settings.openPlayer)
+        $intelligentResumption.update(setting: settings.intelligentResumption)
+        $episodeGrouping.update(setting: settings.episodeGrouping)
+        $showArchived.update(setting: settings.showArchived)
+        $upNextSwipe.update(setting: settings.upNextSwipe)
+        $playUpNextOnTap.update(setting: settings.playUpNextOnTap)
+        $playbackActions.update(setting: settings.playbackActions)
+        $legacyBluetooth.update(setting: settings.legacyBluetooth)
+        $multiSelectGesture.update(setting: settings.multiSelectGesture)
+        $chapterTitles.update(setting: settings.chapterTitles)
+        $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
+        $volumeBoost.update(setting: settings.volumeBoost)
+        $trimSilence.update(setting: settings.trimSilence)
+        $playbackSpeed.update(setting: settings.playbackSpeed)
+        $warnDataUsage.update(setting: settings.warnDataUsage)
+    }
+}
+
 class SyncSettingsTask: ApiBaseTask {
 
-    let shouldUseNewSync: Bool
+    private let shouldUseNewSync: Bool
+    private let appSettings: SettingsStore<AppSettings>
 
-    init(shouldUseNewSync: Bool) {
+    init(shouldUseNewSync: Bool, appSettings: SettingsStore<AppSettings> = SettingsStore.appSettings, dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.shouldUseNewSync = shouldUseNewSync
+        self.appSettings = appSettings
+        super.init(dataManager: dataManager, urlConnection: urlConnection)
     }
 
     override func apiTokenAcquired(token: String) {
@@ -18,7 +71,7 @@ class SyncSettingsTask: ApiBaseTask {
             settingsRequest.m = "iPhone"
 
             if shouldUseNewSync {
-                //New sync logic will go here in future PRs
+                settingsRequest.changedSettings.update(with: appSettings.settings)
             } else {
                 if ServerSettings.skipBackNeedsSyncing() {
                     settingsRequest.settings.skipBack.value = Int32(ServerSettings.skipBackTime())
@@ -55,7 +108,7 @@ class SyncSettingsTask: ApiBaseTask {
             let settings = try Api_NamedSettingsResponse(serializedData: serverData)
 
             if shouldUseNewSync {
-                // New sync logic will got here in future PRs
+                appSettings.settings.update(with: settings)
             } else {
                 if settings.skipForward.changed.value {
                     let skipForwardTime = Int(settings.skipForward.value.value)

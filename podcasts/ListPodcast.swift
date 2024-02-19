@@ -33,6 +33,7 @@ class ListPodcast: ListItem {
             podcast.autoArchiveInactiveAfter == rhs.podcast.autoArchiveInactiveAfter &&
             podcast.autoArchivePlayedAfter == rhs.podcast.autoArchivePlayedAfter &&
             podcast.subscribed == rhs.podcast.subscribed &&
-            podcast.episodeGrouping == rhs.podcast.episodeGrouping
+            podcast.episodeGrouping == rhs.podcast.episodeGrouping &&
+            podcast.settings == rhs.podcast.settings
     }
 }

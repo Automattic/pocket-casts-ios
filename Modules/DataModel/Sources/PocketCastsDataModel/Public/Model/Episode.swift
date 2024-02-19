@@ -43,6 +43,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var lastArchiveInteractionDate: Date?
     @objc public var excludeFromEpisodeLimit = false
     @objc public var hasOnlyUuid = false
+    @objc public var deselectedChapters: String?
 
     public var hasBookmarks: Bool {
         DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
@@ -128,10 +129,6 @@ public class Episode: NSObject, BaseEpisode {
 
     public func parentIdentifier() -> String {
         podcastUuid
-    }
-
-    public func jumpToOnStart() -> TimeInterval {
-        TimeInterval(parentPodcast()?.startFrom ?? 0)
     }
 
     // MARK: - Meta

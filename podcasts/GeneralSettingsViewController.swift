@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -58,7 +59,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: timeStepperCellId, for: indexPath) as! TimeStepperCell
             let cellLabelText = L10n.skipForward
             cell.cellLabel.text = cellLabelText
-            let jumpFwdAmount = ServerSettings.skipForwardTime()
+            let jumpFwdAmount = Settings.skipForwardTime
             cell.cellSecondaryLabel.text = L10n.timeShorthand(jumpFwdAmount)
             cell.timeStepper.currentValue = TimeInterval(jumpFwdAmount)
             cell.timeStepper.tintColor = ThemeColor.primaryInteractive01()
@@ -70,7 +71,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.onValueChanged = { [weak self] value in
                 let newValue = Int(value)
-                ServerSettings.setSkipForwardTime(newValue)
+                Settings.skipForwardTime = newValue
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
                 cell.configureAccessibilityLabel(text: cellLabelText, time: newValue)
 
@@ -86,7 +87,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: timeStepperCellId, for: indexPath) as! TimeStepperCell
             let cellLabelText = L10n.skipBack
             cell.cellLabel.text = L10n.skipBack
-            let skipBackAmount = ServerSettings.skipBackTime()
+            let skipBackAmount = Settings.skipBackTime
             cell.cellSecondaryLabel.text = L10n.timeShorthand(skipBackAmount)
             cell.timeStepper.currentValue = TimeInterval(skipBackAmount)
             cell.timeStepper.tintColor = ThemeColor.primaryInteractive01()
@@ -98,7 +99,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.onValueChanged = { [weak self] value in
                 let newValue = Int(value)
-                ServerSettings.setSkipBackTime(newValue)
+                Settings.skipBackTime = newValue
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
                 cell.configureAccessibilityLabel(text: cellLabelText, time: newValue)
 
@@ -114,7 +115,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralKeepScreenAwake
-            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.keepScreenAwake
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+            }
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(screenLockToggled(_:)), for: .valueChanged)
@@ -124,7 +130,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralOpenInBrowser
-            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.openLinks
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+            }
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(openLinksInBrowserToggled(_:)), for: .valueChanged)
@@ -134,7 +145,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralAutoOpenPlayer
-            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
+
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.openPlayer
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
+            }
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(openPlayerToggled(_:)), for: .valueChanged)
@@ -144,7 +160,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
             cell.cellLabel.text = L10n.settingsGeneralSmartPlayback
-            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+
+            if FeatureFlag.settingsSync.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.intelligentResumption
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+            }
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: .valueChanged)
@@ -425,13 +446,20 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func screenLockToggled(_ sender: UISwitch) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.keepScreenAwake = sender.isOn
+        }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
         PlaybackManager.shared.updateIdleTimer()
         Settings.trackValueToggled(.settingsGeneralKeepScreenAwakeToggled, enabled: sender.isOn)
     }
 
     @objc private func openLinksInBrowserToggled(_ sender: UISwitch) {
-        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.openLinks = sender.isOn
+        } else {
+            UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+        }
         Settings.trackValueToggled(.settingsGeneralOpenLinksInBrowserToggled, enabled: sender.isOn)
     }
 
@@ -448,11 +476,17 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func openPlayerToggled(_ sender: UISwitch) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.openPlayer = sender.isOn
+        }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openPlayerAutomatically)
         Settings.trackValueToggled(.settingsGeneralOpenPlayerAutomaticallyToggled, enabled: sender.isOn)
     }
 
     @objc private func intelligentPlaybackResumptionToggled(_ sender: UISwitch) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.intelligentResumption = sender.isOn
+        }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
         Settings.trackValueToggled(.settingsGeneralIntelligentPlaybackToggled, enabled: sender.isOn)
     }

@@ -14,8 +14,16 @@ class ChapterManager {
 
     var currentChapters = Chapters()
 
+    init(chapterParser: PodcastChapterParser = PodcastChapterParser()) {
+        self.chapterParser = chapterParser
+    }
+
     func visibleChapterCount() -> Int {
         visibleChapters.count
+    }
+
+    func playableChapterCount() -> Int {
+        visibleChapters.filter { $0.isPlayable() }.count
     }
 
     func haveTriedToParseChaptersFor(episodeUuid: String?) -> Bool {
@@ -29,29 +37,37 @@ class ChapterManager {
         let previousChapter: ChapterInfo?
 
         if let index = visibleChapters.firstIndex(of: visibleChapter) {
-            previousChapter = visibleChapters[safe: index.advanced(by: -1)]
+            previousChapter = visibleChapters.enumerated().filter { $0.offset < index && $0.element.isPlayable() }.map { $0.element }.last
         } else {
             previousChapter = nil
         }
         return previousChapter
     }
 
-    func nextVisibleChapter() -> ChapterInfo? {
+    func nextVisiblePlayableChapter() -> ChapterInfo? {
         guard let visibleChapter = currentChapters.visibleChapter else {
             return nil
         }
         let nextChapter: ChapterInfo?
 
         if let index = visibleChapters.firstIndex(of: visibleChapter) {
-            nextChapter = visibleChapters[safe: index.advanced(by: 1)]
+            nextChapter = visibleChapters.enumerated().first { $0.offset > index && $0.element.isPlayable() }.map { $0.element }
         } else {
             nextChapter = nil
         }
         return nextChapter
     }
 
+    var lastChapter: ChapterInfo? {
+        visibleChapters.last
+    }
+
     func chapterAt(index: Int) -> ChapterInfo? {
         visibleChapters[safe: index]
+    }
+
+    func playableChapterAt(index: Int) -> ChapterInfo? {
+        visibleChapters.filter({ $0.isPlayable() })[safe: index]
     }
 
     @discardableResult
@@ -73,13 +89,13 @@ class ChapterManager {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             chapterParser.parseLocalFile(episode.pathToDownloadedFile(pathFinder: DownloadManager.shared), episodeDuration: duration) { [weak self] parsedChapters in
                 if self?.lastEpisodeUuid == episode.uuid {
-                    self?.handleChaptersLoaded(parsedChapters)
+                    self?.handleChaptersLoaded(parsedChapters, for: episode)
                 }
             }
         } else if let url = EpisodeManager.urlForEpisode(episode) {
             chapterParser.parseRemoteFile(url.absoluteString, episodeDuration: duration) { [weak self] parsedChapters in
                 if self?.lastEpisodeUuid == episode.uuid {
-                    self?.handleChaptersLoaded(parsedChapters)
+                    self?.handleChaptersLoaded(parsedChapters, for: episode)
                 }
             }
         }
@@ -94,12 +110,16 @@ class ChapterManager {
     }
 
     func chaptersForTime(_ time: TimeInterval) -> Chapters {
-
         Chapters(chapters: chapters.filter { $0.startTime.seconds <= time && ($0.startTime.seconds + $0.duration) > time })
     }
 
-    private func handleChaptersLoaded(_ chapters: [ChapterInfo]) {
+    private func handleChaptersLoaded(_ chapters: [ChapterInfo], for episode: BaseEpisode) {
         self.chapters = chapters
+
+        episode.deselectedChapters?
+            .split(separator: ",")
+            .compactMap { Int($0) }
+            .forEach { self.chapters[safe: $0]?.shouldPlay = false }
 
         updateCurrentChapter(time: PlaybackManager.shared.currentTime())
 

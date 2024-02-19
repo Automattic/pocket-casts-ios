@@ -90,6 +90,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         case upsell
         case login
         case accountCreated
+        case accountScreen
     }
 
     struct Config {
@@ -136,6 +137,6 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
         UpgradeLandingView(viewModel: viewModel)
-            .setupDefaultEnvironment()
+            .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
     }
 }

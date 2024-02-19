@@ -58,7 +58,8 @@ class PodcastDataManager {
         "fullSyncLastSyncAt",
         "showArchived",
         "refreshAvailable",
-        "folderUuid"
+        "folderUuid",
+        "settings"
     ]
 
     func setup(dbQueue: FMDatabaseQueue) {
@@ -583,6 +584,12 @@ class PodcastDataManager {
         values.append(podcast.showArchived)
         values.append(podcast.refreshAvailable)
         values.append(DBUtils.nullIfNil(value: podcast.folderUuid))
+
+        if let settingsData = podcast.settings.jsonData {
+            values.append(String(data: settingsData, encoding: .utf8) as Any)
+        } else {
+            FileLog.shared.addMessage("PodcastDataManager.createValuesFromPodcast: Failed to decode Podcast settings")
+        }
 
         if includeIdForWhere {
             values.append(podcast.id)

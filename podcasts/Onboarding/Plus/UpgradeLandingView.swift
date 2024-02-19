@@ -13,7 +13,7 @@ struct UpgradeLandingView: View {
 
     @State private var purchaseButtonHeight: CGFloat = 0
     @State private var currentPage: Int = 0
-    @State private var displayPrice: PlanFrequency = .yearly
+    @State private var currentSubscriptionPeriod: PlanFrequency = .yearly
 
     init(viewModel: PlusLandingViewModel) {
         self.viewModel = viewModel
@@ -26,13 +26,13 @@ struct UpgradeLandingView: View {
         if let displayProduct {
             let index = tiers.firstIndex(where: { $0.plan == displayProduct.plan }) ?? 0
 
-            _displayPrice = State(initialValue: displayProduct.frequency)
+            _currentSubscriptionPeriod = State(initialValue: displayProduct.frequency)
             _currentPage = State(initialValue: index)
         }
     }
 
     private var selectedProduct: IAPProductID {
-        displayPrice == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
+        currentSubscriptionPeriod == .yearly ? selectedTier.plan.yearly : selectedTier.plan.monthly
     }
 
     /// If this device has a small screen
@@ -73,10 +73,10 @@ struct UpgradeLandingView: View {
                                     .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
-                                UpgradeRoundedSegmentedControl(selected: $displayPrice)
+                                UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
                                     .padding(.bottom, 24)
 
-                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $displayPrice, viewModel: self.viewModel, tiers: tiers)
+                                FeaturesCarousel(currentIndex: $currentPage.animation(), currentSubscriptionPeriod: $currentSubscriptionPeriod, viewModel: self.viewModel, tiers: tiers, showInlinePurchaseButton: false)
 
                                 if tiers.count > 1 && !isSmallScreen && !contentIsScrollable {
                                     PageIndicatorView(numberOfItems: tiers.count, currentPage: currentPage)
@@ -155,7 +155,7 @@ struct UpgradeLandingView: View {
         )
         let isLoading = (viewModel.state == .purchasing) || (viewModel.priceAvailability == .loading)
         Button(action: {
-            viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: displayPrice))
+            viewModel.unlockTapped(.init(plan: selectedTier.plan, frequency: currentSubscriptionPeriod))
         }, label: {
             VStack {
                 Text(selectedTier.buttonLabel)
@@ -174,238 +174,6 @@ struct UpgradeLandingView: View {
                 }
             )
         }
-    }
-}
-
-// MARK: - Feature Carousel
-
-private struct FeaturesCarousel: View {
-    let currentIndex: Binding<Int>
-
-    let currentSubscriptionPeriod: Binding<PlanFrequency>
-
-    let viewModel: PlusLandingViewModel
-
-    let tiers: [UpgradeTier]
-
-    @State var calculatedCardHeight: CGFloat?
-
-    var body: some View {
-        // Store the calculated card heights
-        var cardHeights: [CGFloat] = []
-
-        HorizontalCarousel(currentIndex: currentIndex, items: tiers) {
-            UpgradeCard(tier: $0, currentPrice: currentSubscriptionPeriod, subscriptionInfo: viewModel.pricingInfo(for: $0, frequency: currentSubscriptionPeriod.wrappedValue))
-                .overlay(
-                    // Calculate the height of the card after it's been laid out
-                    GeometryReader { proxy in
-                        Action {
-                            // Add the calculated height to the array
-                            cardHeights.append(proxy.size.height)
-
-                            // Determine the max height only once we've calculated all the heights
-                            if cardHeights.count == tiers.count {
-                                calculatedCardHeight = cardHeights.max()
-
-                                // Reset the card heights so any view changes won't use old data
-                                cardHeights = []
-                            }
-                        }
-                    }
-                )
-        }
-        .carouselPeekAmount(.constant(tiers.count > 1 ? ViewConstants.peekAmount : 0))
-        .carouselItemSpacing(ViewConstants.spacing)
-        .carouselScrollEnabled(tiers.count > 1)
-        .frame(height: calculatedCardHeight)
-        .padding(.leading, 30)
-    }
-
-    private enum ViewConstants {
-        static let peekAmount: Double = 20
-        static let spacing: Double = 30
-    }
-}
-
-// MARK: - Available plans
-
-struct UpgradeTier: Identifiable {
-    let tier: SubscriptionTier
-    let iconName: String
-    let title: String
-    let plan: Plan
-    let header: String
-    let description: String
-    let buttonLabel: String
-    let buttonForegroundColor: Color
-    let features: [TierFeature]
-    let background: RadialGradient
-
-    var id: String {
-        tier.rawValue
-    }
-
-    struct TierFeature: Hashable {
-        let iconName: String
-        let title: String
-    }
-}
-
-extension UpgradeTier {
-    static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
-            TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
-            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
-            TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
-            TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            slumberOrUndyingGratitude
-        ],
-                    background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
-    }
-
-    static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, features: [
-            TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
-            TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
-            TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
-            TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
-            TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
-
-        ],
-        background: RadialGradient(colors: [Color(hex: "503ACC").opacity(0.8), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
-    }
-
-    static var slumberOrUndyingGratitude: TierFeature {
-        FeatureFlag.slumber.enabled ? TierFeature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
-    }
-}
-
-// MARK: - Segmented Control
-
-struct UpgradeRoundedSegmentedControl: View {
-    @Binding private var selected: PlanFrequency
-
-    init(selected: Binding<PlanFrequency>) {
-        self._selected = selected
-    }
-
-    var body: some View {
-        HStack(spacing: 0) {
-            Button(L10n.yearly) {
-                withAnimation {
-                    selected = .yearly
-                }
-            }
-            .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .yearly))
-            .padding(4)
-
-            Button(L10n.monthly) {
-                withAnimation {
-                    selected = .monthly
-                }
-            }
-            .buttonStyle(UpgradeSegmentedControlButtonStyle(isSelected: selected == .monthly))
-            .padding(4)
-        }
-        .background(.white.opacity(0.16))
-        .cornerRadius(24)
-    }
-}
-
-struct UpgradeSegmentedControlButtonStyle: ButtonStyle {
-    let isSelected: Bool
-
-    init(isSelected: Bool = true) {
-        self.isSelected = isSelected
-    }
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(
-                isSelected ? .white : configuration.isPressed ? .white.opacity(0.1) : .clear
-            )
-            .font(style: .subheadline, weight: .medium)
-            .foregroundColor(isSelected ? .black : .white)
-            .cornerRadius(100)
-            .contentShape(Rectangle())
-    }
-}
-
-// MARK: - Upgrade card
-
-struct UpgradeCard: View {
-    @EnvironmentObject var viewModel: PlusLandingViewModel
-
-    let tier: UpgradeTier
-
-    let currentPrice: Binding<PlanFrequency>
-
-    let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
-
-    @State var calculatedCardHeight: CGFloat?
-
-    var body: some View {
-        VStack {
-            VStack(alignment: .leading, spacing: 0) {
-                SubscriptionBadge(tier: tier.tier)
-                    .padding(.bottom, 12)
-                if let subscriptionInfo {
-                    SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: .black, secondaryTextColor: .black.opacity(0.64))
-                }
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(tier.features, id: \.self) { feature in
-                        HStack(spacing: 16) {
-                            Image(feature.iconName)
-                                .renderingMode(.template)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.black)
-                                .frame(width: 16, height: 16)
-                            UnderlineLinkTextView(feature.title)
-                                .font(size: 14, style: .subheadline, weight: .medium)
-                                .foregroundColor(.black)
-                                .tint(.black)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                    }
-
-                    termsAndConditions
-                        .font(style: .footnote).fixedSize(horizontal: false, vertical: true)
-                        .tint(.black)
-                        .opacity(0.64)
-                }
-                .padding(.bottom, 0)
-            }
-            .padding(24)
-
-        }
-        .background(.white)
-        .cornerRadius(24)
-        .shadow(color: .black.opacity(0.01), radius: 10, x: 0, y: 24)
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 14)
-        .shadow(color: .black.opacity(0.09), radius: 6, x: 0, y: 6)
-        .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
-        .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: 0)
-    }
-
-    @ViewBuilder
-    var termsAndConditions: some View {
-        let purchaseTerms = L10n.purchaseTerms("$", "$", "$", "$").components(separatedBy: "$")
-
-        let privacyPolicy = ServerConstants.Urls.privacyPolicy
-        let termsOfUse = ServerConstants.Urls.termsOfUse
-
-        Group {
-            Text(purchaseTerms[safe: 0] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 1] ?? "")](\(privacyPolicy))")).underline() +
-            Text(purchaseTerms[safe: 2] ?? "") +
-            Text(.init("[\(purchaseTerms[safe: 3] ?? "")](\(termsOfUse))")).underline()
-        }
-        .foregroundColor(.black)
     }
 }
 

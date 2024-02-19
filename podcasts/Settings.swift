@@ -61,12 +61,19 @@ class Settings: NSObject {
 
     // MARK: - Mobile Data
 
-    private static let allowCellularDownloadKey = "SJUserCellular"
+    static let allowCellularDownloadKey = "SJUserCellular"
     class func mobileDataAllowed() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
+        if FeatureFlag.settingsSync.enabled {
+            return !SettingsStore.appSettings.warnDataUsage
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
+        }
     }
 
     class func setMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.warnDataUsage = !allow
+        }
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularDownloadKey)
 
         guard userInitiated else { return }
@@ -115,12 +122,19 @@ class Settings: NSObject {
 
     // MARK: - Default Archive Hiding
 
-    private static let defaultArchiveBehaviour = "SJDefaultArchive"
+    static let defaultArchiveBehaviour = "SJDefaultArchive"
     class func showArchivedDefault() -> Bool {
-        UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.showArchived
+        } else {
+            return UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
+        }
     }
 
     class func setShowArchivedDefault(_ showArchived: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.showArchived = showArchived
+        }
         UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
 
         trackValueChanged(.settingsGeneralArchivedEpisodesChanged, value: showArchived ? "show" : "hide")
@@ -128,20 +142,27 @@ class Settings: NSObject {
 
     // MARK: - Primary Row Action
 
-    private static let primaryRowActionKey = "SJRowAction"
+    static let primaryRowActionKey = "SJRowAction"
     private static var cachedPrimaryRowAction: PrimaryRowAction? // we cache this because it's used in lists
     class func primaryRowAction() -> PrimaryRowAction {
-        if let action = cachedPrimaryRowAction { return action }
-
-        let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
-        let primaryAction = PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
-        cachedPrimaryRowAction = primaryAction
-
-        return primaryAction
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.rowAction
+        } else {
+            if let action = cachedPrimaryRowAction { return action }
+            let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
+            return PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
+        }
     }
 
     class func setPrimaryRowAction(_ action: PrimaryRowAction) {
-        UserDefaults.standard.set(action.rawValue, forKey: primaryRowActionKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.rowAction = action
+        } else {
+            UserDefaults.standard.set(
+                action.rawValue,
+                forKey: primaryRowActionKey
+            )
+        }
         cachedPrimaryRowAction = action
 
         trackValueChanged(.settingsGeneralRowActionChanged, value: action)
@@ -164,9 +185,13 @@ class Settings: NSObject {
 
     // MARK: - Podcast Grouping Default
 
-    private static let podcastGroupingDefaultKey = "SJDefaultPodcastGrouping"
+    static let podcastGroupingDefaultKey = "SJDefaultPodcastGrouping"
     private static var cachedPodcastGrouping: PodcastGrouping?
     class func defaultPodcastGrouping() -> PodcastGrouping {
+        guard FeatureFlag.settingsSync.enabled == false else {
+            return SettingsStore.appSettings.episodeGrouping
+        }
+
         if let grouping = cachedPodcastGrouping { return grouping }
 
         let storedValue = UserDefaults.standard.integer(forKey: podcastGroupingDefaultKey)
@@ -177,6 +202,9 @@ class Settings: NSObject {
     }
 
     class func setDefaultPodcastGrouping(_ grouping: PodcastGrouping) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.episodeGrouping = grouping
+        }
         UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
         cachedPodcastGrouping = grouping
 
@@ -185,9 +213,13 @@ class Settings: NSObject {
 
     // MARK: - Primary Up Next Swipe Action
 
-    private static let primaryUpNextSwipeActionKey = "SJUpNextSwipe"
+    static let primaryUpNextSwipeActionKey = "SJUpNextSwipe"
     private static var cachedPrimaryUpNextSwipeAction: PrimaryUpNextSwipeAction? // we cache this because it's used in lists
     class func primaryUpNextSwipeAction() -> PrimaryUpNextSwipeAction {
+        guard FeatureFlag.settingsSync.enabled == false else {
+            return SettingsStore.appSettings.upNextSwipe
+        }
+
         if let action = cachedPrimaryUpNextSwipeAction { return action }
 
         let storedValue = UserDefaults.standard.integer(forKey: primaryUpNextSwipeActionKey)
@@ -198,6 +230,9 @@ class Settings: NSObject {
     }
 
     class func setPrimaryUpNextSwipeAction(_ action: PrimaryUpNextSwipeAction) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.upNextSwipe = action
+        }
         UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
         cachedPrimaryUpNextSwipeAction = action
 
@@ -206,12 +241,18 @@ class Settings: NSObject {
 
     // MARK: - Play Up Next On Tap
 
-    private static let playUpNextOnTapKey = "SJPlayUpNextOnTap"
+    static let playUpNextOnTapKey = "SJPlayUpNextOnTap"
     class func playUpNextOnTap() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
+        guard FeatureFlag.settingsSync.enabled == false else {
+            return SettingsStore.appSettings.playUpNextOnTap
+        }
+        return UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
     }
 
     class func setPlayUpNextOnTap(_ isOn: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.playUpNextOnTap = isOn
+        }
         UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
     }
 
@@ -331,12 +372,19 @@ class Settings: NSObject {
 
     // MARK: - CarPlay/Lock Screen actions
 
-    private static let mediaSessionActionsKey = "MediaSessionActions"
+    static let mediaSessionActionsKey = "MediaSessionActions"
     class func extraMediaSessionActionsEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.playbackActions
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
+        }
     }
 
     class func setExtraMediaSessionActionsEnabled(_ enabled: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.playbackActions = enabled
+        }
         UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.extraMediaSessionActionsChanged)
@@ -346,20 +394,31 @@ class Settings: NSObject {
 
     // MARK: - Legacy Bluetooth Support
 
-    private static let legacyBtSupportKey = "LegacyBtSupport"
+    static let legacyBtSupportKey = "LegacyBtSupport"
     class func legacyBluetoothModeEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.legacyBluetooth
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
+        }
     }
 
     class func setLegacyBluetoothModeEnabled(_ enabled: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.legacyBluetooth = enabled
+        }
         UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
         Settings.trackValueToggled(.settingsGeneralLegacyBluetoothToggled, enabled: enabled)
     }
 
     // MARK: - Publish Chapter Titles
 
-    private static let publishChapterTitlesKey = "PublishChapterTitles"
+    static let publishChapterTitlesKey = "PublishChapterTitles"
     class func publishChapterTitlesEnabled() -> Bool {
+        guard FeatureFlag.settingsSync.enabled == false else {
+            return SettingsStore.appSettings.chapterTitles
+        }
+
         if let isEnabled = UserDefaults.standard.value(forKey: Settings.publishChapterTitlesKey) as? Bool {
             return isEnabled
         }
@@ -368,6 +427,9 @@ class Settings: NSObject {
     }
 
     class func setPublishChapterTitlesEnabled(_ enabled: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.chapterTitles = enabled
+        }
         UserDefaults.standard.set(enabled, forKey: Settings.publishChapterTitlesKey)
     }
 
@@ -572,12 +634,19 @@ class Settings: NSObject {
 
     // MARK: Multi Select Gesture
 
-    private static let multiSelectGestureKey = "MultiSelectGestureEnabled"
+    static let multiSelectGestureKey = "MultiSelectGestureEnabled"
     class func multiSelectGestureEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: multiSelectGestureKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.multiSelectGesture
+        } else {
+            return UserDefaults.standard.bool(forKey: multiSelectGestureKey)
+        }
     }
 
     class func setMultiSelectGestureEnabled(_ enabled: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.multiSelectGesture = enabled
+        }
         UserDefaults.standard.set(enabled, forKey: multiSelectGestureKey)
 
         guard userInitiated else { return }
@@ -794,10 +863,17 @@ class Settings: NSObject {
 
     static var autoplay: Bool {
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.autoPlayEnabled = newValue
+            }
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
         }
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.autoPlayEnabled
+            } else {
+                return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
+            }
         }
     }
 
@@ -852,6 +928,38 @@ class Settings: NSObject {
 
         set {
             Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
+        }
+    }
+
+    static var skipBackTime: Int {
+        get {
+            if FeatureFlag.settingsSync.enabled {
+                return Int(SettingsStore.appSettings.skipBack)
+            } else {
+                return ServerSettings.skipBackTime()
+            }
+        }
+        set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.skipBack = Int32(newValue)
+            }
+            ServerSettings.setSkipBackTime(newValue)
+        }
+    }
+
+    static var skipForwardTime: Int {
+        get {
+            if FeatureFlag.settingsSync.enabled {
+                return Int(SettingsStore.appSettings.skipForward)
+            } else {
+                return ServerSettings.skipForwardTime()
+            }
+        }
+        set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.skipForward = Int32(newValue)
+            }
+            ServerSettings.setSkipForwardTime(newValue)
         }
     }
 

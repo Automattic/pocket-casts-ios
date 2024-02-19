@@ -166,7 +166,11 @@ private extension PlusPurchaseModel {
         }
 
         // Dismiss the current flow
-        presentNextBlock()
+        if parentController.presentedViewController != nil {
+            parentController.dismiss(animated: true, completion: presentNextBlock)
+        } else {
+            presentNextBlock()
+        }
     }
 }
 
