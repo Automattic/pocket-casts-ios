@@ -5,10 +5,6 @@ struct PodcastsSearchEnvelope: Decodable {
     let status: String
     let message: String?
     let result: PodcastsSearchEnvelopeResult
-
-    static var failedResult: PodcastsSearchEnvelope {
-        return PodcastsSearchEnvelope(status: "failed", message: "", result: .empty)
-    }
 }
 
 struct PodcastsSearchEnvelopeResult: Decodable {
@@ -20,10 +16,6 @@ struct PodcastsSearchEnvelopeResult: Decodable {
 
     /// The poll uuid if the result is still being processed on the server
     let pollUuid: String?
-
-    static var empty: PodcastsSearchEnvelopeResult {
-        return PodcastsSearchEnvelopeResult(podcast: nil, searchResults: [], pollUuid: nil)
-    }
 }
 
 public struct PodcastFolderSearchResult: Codable, Hashable {
@@ -81,7 +73,7 @@ public class PodcastSearchTask {
     }
 
     public func search(term: String) async throws -> [PodcastFolderSearchResult] {
-        var envelope: PodcastsSearchEnvelope = .failedResult
+        var envelope: PodcastsSearchEnvelope?
         var retry = true
         var pollCount = 0
         while retry {
@@ -89,7 +81,7 @@ public class PodcastSearchTask {
             // Check if status of search is poll, if it's polled we will repeat the call after x amount of secs.
             pollCount += 1
             let backOffTime = pollBackoffTime(pollCount: pollCount)
-            guard envelope.status == "poll", backOffTime > 0 else {
+            guard envelope?.status == "poll", backOffTime > 0 else {
                 retry = false
                 continue
             }
@@ -97,10 +89,10 @@ public class PodcastSearchTask {
             try await Task.sleep(nanoseconds: backOffTime)
         }
 
-        if let podcast = envelope.result.podcast {
+        if let podcast = envelope?.result.podcast {
             return [podcast]
         } else {
-            return envelope.result.searchResults ?? []
+            return envelope?.result.searchResults ?? []
         }
     }
 
