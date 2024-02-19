@@ -61,12 +61,19 @@ class Settings: NSObject {
 
     // MARK: - Mobile Data
 
-    private static let allowCellularDownloadKey = "SJUserCellular"
+    static let allowCellularDownloadKey = "SJUserCellular"
     class func mobileDataAllowed() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
+        if FeatureFlag.settingsSync.enabled {
+            return !SettingsStore.appSettings.warnDataUsage
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
+        }
     }
 
     class func setMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.warnDataUsage = !allow
+        }
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularDownloadKey)
 
         guard userInitiated else { return }

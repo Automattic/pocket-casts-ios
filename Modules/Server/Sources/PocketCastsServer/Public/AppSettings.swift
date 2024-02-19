@@ -27,6 +27,14 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    // MARK: Playback Effects
+
+    @ModifiedDate public var volumeBoost: Bool
+    @ModifiedDate public var trimSilence: TrimSilenceAmount
+    @ModifiedDate public var playbackSpeed: Double
+
+    @ModifiedDate public var warnDataUsage: Bool = false
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,
@@ -43,7 +51,10 @@ public struct AppSettings: JSONCodable {
                            legacyBluetooth: false,
                            multiSelectGesture: true,
                            chapterTitles: true,
-                           autoPlayEnabled: true
+                           autoPlayEnabled: true,
+                           volumeBoost: false,
+                           trimSilence: .off,
+                           playbackSpeed: 0
         )
     }
 }

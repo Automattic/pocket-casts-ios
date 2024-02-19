@@ -21,6 +21,10 @@ extension Api_ChangeableSettings {
         multiSelectGesture.update(settings.$multiSelectGesture)
         chapterTitles.update(settings.$chapterTitles)
         autoPlayEnabled.update(settings.$autoPlayEnabled)
+        volumeBoost.update(settings.$volumeBoost)
+        trimSilence.update(settings.$trimSilence)
+        playbackSpeed.update(settings.$playbackSpeed)
+        warnDataUsage.update(settings.$warnDataUsage)
     }
 }
 
@@ -42,6 +46,10 @@ extension AppSettings {
         $multiSelectGesture.update(setting: settings.multiSelectGesture)
         $chapterTitles.update(setting: settings.chapterTitles)
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
+        $volumeBoost.update(setting: settings.volumeBoost)
+        $trimSilence.update(setting: settings.trimSilence)
+        $playbackSpeed.update(setting: settings.playbackSpeed)
+        $warnDataUsage.update(setting: settings.warnDataUsage)
     }
 }
 
