@@ -25,6 +25,9 @@ extension Api_ChangeableSettings {
         trimSilence.update(settings.$trimSilence)
         playbackSpeed.update(settings.$playbackSpeed)
         warnDataUsage.update(settings.$warnDataUsage)
+        playerBookmarksSortType.update(settings.$playerBookmarksSortType)
+        episodeBookmarksSortType.update(settings.$episodeBookmarksSortType)
+        podcastBookmarksSortType.update(settings.$podcastBookmarksSortType)
     }
 }
 
@@ -50,6 +53,9 @@ extension AppSettings {
         $trimSilence.update(setting: settings.trimSilence)
         $playbackSpeed.update(setting: settings.playbackSpeed)
         $warnDataUsage.update(setting: settings.warnDataUsage)
+        $playerBookmarksSortType.update(setting: settings.playerBookmarksSortType)
+        $episodeBookmarksSortType.update(setting: settings.episodeBookmarksSortType)
+        $podcastBookmarksSortType.update(setting: settings.podcastBookmarksSortType)
     }
 }
 

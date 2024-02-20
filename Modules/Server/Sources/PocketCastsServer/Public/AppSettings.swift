@@ -33,6 +33,10 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var trimSilence: TrimSilenceAmount
     @ModifiedDate public var playbackSpeed: Double
 
+    @ModifiedDate public var playerBookmarksSortType: BookmarksSort = .newestToOldest
+    @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
+    @ModifiedDate public var podcastBookmarksSortType: BookmarksSort = .newestToOldest
+
     @ModifiedDate public var warnDataUsage: Bool = false
 
     static var defaults: AppSettings {
