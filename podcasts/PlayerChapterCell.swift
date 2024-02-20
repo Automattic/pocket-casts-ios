@@ -90,9 +90,9 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     private func setUpSelectedChapterButton() {
-        toggleChapterButton.onImage = UIImage(named: "checkbox-selected")
-        toggleChapterButton.offImage = UIImage(named: "checkbox-unselected")
-        toggleChapterButton.tintColor = ThemeColor.primaryInteractive01()
+        toggleChapterButton.onImage = UIImage(named: "rounded-selected")
+        toggleChapterButton.offImage = UIImage(named: "rounded-deselected")
+        toggleChapterButton.tintColor = .white
     }
 
     private func hideSelectedChapterButton() {
