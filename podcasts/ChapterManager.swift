@@ -12,6 +12,8 @@ class ChapterManager {
 
     private var lastEpisodeUuid = ""
 
+    var numberOfChaptersSkipped = 0
+
     var currentChapters = Chapters()
 
     init(chapterParser: PodcastChapterParser = PodcastChapterParser()) {
@@ -77,7 +79,10 @@ class ChapterManager {
         let chapters = chaptersForTime(time)
         let hasChanged = currentChapters != chapters
 
-        if hasChanged { currentChapters = chapters }
+        if hasChanged {
+            numberOfChaptersSkipped = abs(chapters.index - currentChapters.index)
+            currentChapters = chapters
+        }
 
         return hasChanged
     }
