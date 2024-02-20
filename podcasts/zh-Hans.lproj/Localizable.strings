@@ -39,6 +39,8 @@
     <string>剧集回放</string>
     <key>accessibility_hide_filter_details</key>
     <string>轻点以隐藏过滤器详情</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>轻触以导航至主要播客信息页面</string>
     <key>accessibility_hint_star</key>
     <string>轻点两次以为剧集加星标</string>
     <key>accessibility_hint_unstar</key>
@@ -480,7 +482,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社会与文化</string>
+    <string>文化</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>精神生活</string>
     <key>discover_browse_by_category_sports</key>
@@ -1474,10 +1476,12 @@
     <string>其他主题和应用程序图标</string>
     <key>plus_features</key>
     <string>PLUS 功能</string>
-    <key>plus_free_membership_format</key>
-    <string>%1$@ 免费</string>
     <key>plus_lifetime_membership</key>
     <string>终身会员</string>
+    <key>plus_marketing_desktop_apps_title</key>
+    <string>桌面和 Web 应用程序</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>文件夹和书签</string>
     <key>plus_marketing_folders_description</key>
     <string>创建文件夹以整理您的播客集。</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1500,6 +1504,8 @@
     <string>借助我们的 Windows、macOS 和 Web 应用等更多位置收听播客</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>将播客整理到文件夹中，让它们在所有设备中保持同步。</string>
+    <key>plus_marketing_watch_playback_title</key>
+    <string>Apple Watch &amp; Wear OS 应用程序</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@/月</string>
     <key>plus_payment_canceled</key>
@@ -1786,6 +1792,8 @@
     <string>剩余 %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>总剩余时间为 %1$@</string>
+    <key>rate</key>
+    <string>评分</string>
     <key>refresh_control_fetching_episodes</key>
     <string>查找新的播客剧集</string>
     <key>refresh_control_pull_to_refresh</key>

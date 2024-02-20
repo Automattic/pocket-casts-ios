@@ -281,7 +281,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
             Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
             Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
-            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault)
+            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault),
+            Constants.RemoteParams.slumberStudiosPromoCode: NSString(string: Constants.RemoteParams.slumberStudiosPromoCodeDefault)
         ]
         FeatureFlag.allCases.filter { $0.remoteKey != nil }.forEach { flag in
             remoteConfigDefaults[flag.remoteKey!] = NSNumber(value: flag.default)
@@ -315,6 +316,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
+
+            try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 
             try FeatureFlag.allCases.forEach { flag in
                 if let remoteKey = flag.remoteKey {

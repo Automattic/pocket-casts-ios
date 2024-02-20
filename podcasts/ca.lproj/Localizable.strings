@@ -153,6 +153,18 @@
     <string>Els marcadors són aquí!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Uneix-te a nosaltres a la prova beta dels marcadors!</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>Codi copiat al portapapers</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Subscriu-te a Plus i gaudeix d'una subscripció d'un any al contingut de Slumber Studios, podcasts dissenyats per als somnis més dolços. Més informació.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Com a part de la teva subscripció Plus, gaudeix d'una subscripció d'un any al contingut de Slumber Studios utilitzant el codi %1$@. Més informació.</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>Més informació</string>
+    <key>announcement_slumber_redeem</key>
+    <string>Bescanvia el teu codi</string>
+    <key>announcement_slumber_title</key>
+    <string>Gran somni</string>
     <key>app_badge</key>
     <string>Insígnia de l'aplicació</string>
     <key>app_icon_classic</key>
@@ -361,6 +373,8 @@
     <string>Esborrar la llista 'Tot seguit'</string>
     <key>clear_up_next_message</key>
     <string>Estàs segur que vols esborrar la teva llista de 'Tot seguit'?</string>
+    <key>client_error_token_deauth</key>
+    <string>Ha fallat l'autenticació.</string>
     <key>close</key>
     <string>Tancar</string>
     <key>color</key>
@@ -1460,6 +1474,8 @@ ACTUALITZACIONS</string>
     <string>Es pot cancel·lar en qualsevol moment</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB d'emmagatzematge al núvol</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>50%% de descompte el primer any.</string>
     <key>plus_error_already_registered</key>
     <string>Ja tens un compte de Pocket Casts Plus</string>
     <key>plus_error_already_registered_details</key>
@@ -1468,12 +1484,14 @@ ACTUALITZACIONS</string>
     <string>Caduca %1$@</string>
     <key>plus_feature_gratitude</key>
     <string>L'etern agraïment de l'equip de Pocket Casts</string>
+    <key>plus_feature_slumber</key>
+    <string>1 any de contingut exclusiu de Slumber Studios.</string>
     <key>plus_feature_themes_icons</key>
     <string>Més temes i icones de l'aplicació</string>
     <key>plus_features</key>
     <string>FUNCIONS PLUS</string>
     <key>plus_free_membership_format</key>
-    <string>%1$@ gratuït</string>
+    <string>Prova gratuïta de %1$@</string>
     <key>plus_lifetime_membership</key>
     <string>Membre vitalici</string>
     <key>plus_marketing_desktop_apps_title</key>
@@ -1788,6 +1806,18 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>%1$@ queden</string>
     <key>queue_total_time_remaining</key>
     <string>Queda en total: %1$@</string>
+    <key>rate</key>
+    <string>Puntuació</string>
+    <key>rating_error</key>
+    <string>Ep! Hi ha hagut un error.</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>Només els oients d'aquest podcast poden donar-li una puntuació. Escolta uns quants episodis i després torna per donar la teva puntuació. Estem desitjant saber què penses!</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>Per favor, escolta aquest podcast primer.</string>
+    <key>rating_submitted</key>
+    <string>La teva puntuació s'ha enviat!</string>
+    <key>rating_title</key>
+    <string>Puntuació  %1$@</string>
     <key>refresh_control_fetching_episodes</key>
     <string>CERCANT NOUS EPISODIS DELS PODCASTS</string>
     <key>refresh_control_pull_to_refresh</key>

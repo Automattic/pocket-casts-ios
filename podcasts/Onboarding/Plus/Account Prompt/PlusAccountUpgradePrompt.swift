@@ -62,10 +62,11 @@ struct PlusAccountUpgradePrompt: View {
                                     .frame(width: 16)
                                     .foregroundColor(theme.primaryText01)
 
-                                Text(feature.title)
+                                UnderlineLinkTextView(feature.title)
                                     .fixedSize(horizontal: false, vertical: true)
                                     .font(size: 14, style: .subheadline, weight: .medium)
                                     .foregroundColor(theme.primaryText01)
+                                    .tint(theme.primaryText01)
                                     .frame(maxWidth: .infinity, alignment: .leading)
 
                                 Spacer()
@@ -107,15 +108,17 @@ struct PlusAccountUpgradePrompt: View {
             .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons)
-        ],
+        ] + (FeatureFlag.slumber.enabled ?
+        [Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl)] : []),
 
         .patronYearly: [
             .init(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             .init(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             .init(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
             .init(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
-            .init(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons)
-        ]
+            .init(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
+        ] + (FeatureFlag.slumber.enabled ?
+        [Feature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)] : [])
     ]
 
     // MARK: - Model

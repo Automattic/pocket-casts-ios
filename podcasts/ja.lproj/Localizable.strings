@@ -39,6 +39,8 @@
     <string>エピソードの再生</string>
     <key>accessibility_hide_filter_details</key>
     <string>タップしてフィルターの詳細を非表示</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>タップしてメインのポッドキャスト情報ページに移動します</string>
     <key>accessibility_hint_star</key>
     <string>ダブルタップしてエピソードに星を付ける</string>
     <key>accessibility_hint_unstar</key>
@@ -151,6 +153,18 @@
     <string>ブックマークはこちら !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>ブックマークのベータテストに参加してください !</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>コードをクリップボードにコピーしました</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Plus を購読すると、夢の実現に役立つポッドキャスト、Slumber Studios のコンテンツを1年間購読できます。 さらに詳しく。</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Plus 購読の一環として、Slumber Studios のコンテンツを1年間購読できます。コード %1$@ をお使いください。 さらに詳しく。</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>さらに詳しく</string>
+    <key>announcement_slumber_redeem</key>
+    <string>コードを引き換える</string>
+    <key>announcement_slumber_title</key>
+    <string>夢は大きく</string>
     <key>app_badge</key>
     <string>アプリバッジ</string>
     <key>app_icon_classic</key>
@@ -359,6 +373,8 @@
     <string>次のエピソードをクリア</string>
     <key>clear_up_next_message</key>
     <string>次のエピソード待機リストをクリアしてもよろしいですか ?</string>
+    <key>client_error_token_deauth</key>
+    <string>トークンを認証できませんでした。</string>
     <key>close</key>
     <string>閉じる</string>
     <key>color</key>
@@ -480,7 +496,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社会 / 文化</string>
+    <string>カルチャー</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>スピリチュアル</string>
     <key>discover_browse_by_category_sports</key>
@@ -1462,6 +1478,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>いつでもキャンセルできます</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@GB のクラウドストレージ</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>初年度は50%% オフ</string>
     <key>plus_error_already_registered</key>
     <string>お客様はすでに Pocket Casts Plus アカウントを保有しています</string>
     <key>plus_error_already_registered_details</key>
@@ -1470,14 +1488,20 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@に期限切れ</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts をお使いの皆さまに感謝の気持ちを込めて</string>
+    <key>plus_feature_slumber</key>
+    <string>Slumber Studios の限定コンテンツを1年間聴取可能</string>
     <key>plus_feature_themes_icons</key>
     <string>追加のテーマとアプリアイコン</string>
     <key>plus_features</key>
     <string>Plus の機能</string>
     <key>plus_free_membership_format</key>
-    <string>%1$@無料</string>
+    <string>%1$@ の無料お試し</string>
     <key>plus_lifetime_membership</key>
     <string>無期限メンバー</string>
+    <key>plus_marketing_desktop_apps_title</key>
+    <string>デスクトップアプリとウェブアプリ</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>フォルダーとブックマーク</string>
     <key>plus_marketing_folders_description</key>
     <string>フォルダーを作成してポッドキャストのコレクションを整理できます。</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1500,6 +1524,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Pocket Casts の Windows 版、macOS 版、ウェブ版アプリでさらに多くの場所で聞きましょう</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>ポッドキャストをフォルダーに整理し、すべてのデバイス間で同期させます。</string>
+    <key>plus_marketing_watch_playback_title</key>
+    <string>Apple Watch アプリと Wear OS アプリ</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@/ 月</string>
     <key>plus_payment_canceled</key>
@@ -1785,6 +1811,18 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>残り時間: %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>合計残り時間: %1$@</string>
+    <key>rate</key>
+    <string>評価する</string>
+    <key>rating_error</key>
+    <string>エラー。 エラーが発生しました。</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>このポッドキャストを評価できるのは、リスナーのみです。 いくつかエピソードを聴いた後、こちらで評価してください。 ご意見をお待ちしています。</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>まずこちらのポッドキャストをお聴きください</string>
+    <key>rating_submitted</key>
+    <string>評価を送信しました。</string>
+    <key>rating_title</key>
+    <string>%1$@ を評価</string>
     <key>refresh_control_fetching_episodes</key>
     <string>新しいポッドキャストエピソードを検索しています</string>
     <key>refresh_control_pull_to_refresh</key>
