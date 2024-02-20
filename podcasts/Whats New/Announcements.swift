@@ -38,6 +38,19 @@ struct Announcements {
             },
             displayTier: bookmarksViewModel.displayTier,
             isEnabled: bookmarksViewModel.isReleaseAnnouncementEnabled
+        ),
+
+        // Slumber Studios partnership
+        .init(
+            version: "7.57",
+            header: AnyView(SlumberWhatsNewHeader()),
+            title: "",
+            message: "",
+            buttonTitle: "",
+            action: {},
+            isEnabled: FeatureFlag.slumber.enabled,
+            fullModal: true,
+            customBody: AnyView(SlumberCustomBody())
         )
     ]
 }

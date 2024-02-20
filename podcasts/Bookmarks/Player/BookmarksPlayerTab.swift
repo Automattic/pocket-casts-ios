@@ -14,7 +14,7 @@ struct BookmarksPlayerTab: View {
 
 struct BookmarksPlayerTab_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksPlayerTab(viewModel: .init(bookmarkManager: .init(), sortOption: .init("", defaultValue: .newestToOldest)))
+        BookmarksPlayerTab(viewModel: .init(bookmarkManager: .init(), sortOption: Binding.constant(BookmarkSortOption.newestToOldest)))
             .setupDefaultEnvironment()
     }
 }

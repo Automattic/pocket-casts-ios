@@ -4,6 +4,7 @@ import PocketCastsDataModel
 #endif
 import PocketCastsServer
 import UIKit
+import SwiftUI
 
 class Settings: NSObject {
     // MARK: - Library Type
@@ -61,12 +62,19 @@ class Settings: NSObject {
 
     // MARK: - Mobile Data
 
-    private static let allowCellularDownloadKey = "SJUserCellular"
+    static let allowCellularDownloadKey = "SJUserCellular"
     class func mobileDataAllowed() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
+        if FeatureFlag.settingsSync.enabled {
+            return !SettingsStore.appSettings.warnDataUsage
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
+        }
     }
 
     class func setMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.warnDataUsage = !allow
+        }
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularDownloadKey)
 
         guard userInitiated else { return }
@@ -970,6 +978,51 @@ class Settings: NSObject {
         }
     }
 
+    static var playerBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.playerBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.playerBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
+    static var episodeBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.episodeBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.episodeBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
+    static var podcastBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.podcastBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.podcastBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
@@ -1016,6 +1069,10 @@ class Settings: NSObject {
         static var errorLogoutHandling: Bool {
             return RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.errorLogoutHandling).boolValue
         }
+
+    static var slumberPromoCode: String? {
+        RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.slumberStudiosPromoCode).stringValue
+    }
 
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
