@@ -28,7 +28,7 @@ public class ServerPodcastManager: NSObject {
     private let urlConnection = URLConnection(handler: URLSession.shared)
 
     // MARK: - Podcast add functions
-    
+
     /// This tries to add the podcast with UUID up to 3 times.
     /// If The poll mechanism is to be used in cases when the podcast was just added to server and the first call might fail because the server didn't have time to update
     /// The call will try a maximum of three time with each call having an exponetial backoff period of base 2 seconds for each try
