@@ -93,6 +93,7 @@ class PlayerChapterCell: UITableViewCell {
         toggleChapterButton.onImage = UIImage(named: "rounded-selected")
         toggleChapterButton.offImage = UIImage(named: "rounded-deselected")
         toggleChapterButton.tintColor = .white
+        toggleChapterButton.isUserInteractionEnabled = false
     }
 
     private func hideSelectedChapterButton() {
