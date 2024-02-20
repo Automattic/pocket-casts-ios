@@ -281,3 +281,9 @@ private extension PlayerContainerViewController {
         }
     }
 }
+
+extension PlayerContainerViewController: AnalyticsSourceProvider {
+    var analyticsSource: AnalyticsSource {
+        .player
+    }
+}
