@@ -224,6 +224,8 @@ enum AnalyticsEvent: String {
     case playbackEffectTrimSilenceAmountChanged
     case playbackEffectVolumeBoostToggled
 
+    case playbackChapterSkipped
+
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed
     case autoplayStarted
@@ -661,4 +663,11 @@ enum AnalyticsEvent: String {
     case settingsHeadphoneControlsNextChanged
     case settingsHeadphoneControlsPreviousChanged
     case settingsHeadphoneControlsBookmarkSoundToggled
+
+    // MARK: - Skipping Chapters
+    case deselectChaptersToggledOn
+    case deselectChaptersToggledOff
+    case deselectChaptersChapterSelected
+    case deselectChaptersChapterDeselected
+
 }
