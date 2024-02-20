@@ -367,6 +367,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             } else {
                 fireChapterChangeNotification()
                 updateNowPlayingInfo()
+                trackChapterSkippedIfNeeded()
             }
         }
     }
@@ -2067,5 +2068,13 @@ extension PlaybackManager {
         // Start the play process
         PlaybackActionHelper.play(episode: episode, podcastUuid: bookmark.podcastUuid)
         #endif
+    }
+
+    // MARK: - Analytics
+
+    private func trackChapterSkippedIfNeeded() {
+        if chapterManager.numberOfChaptersSkipped > 1 {
+            analyticsPlaybackHelper.chapterSkipped()
+        }
     }
 }
