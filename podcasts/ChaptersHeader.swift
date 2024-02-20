@@ -1,7 +1,10 @@
 import UIKit
+import PocketCastsServer
 
 class ChaptersHeader: UIView {
     weak var delegate: ChaptersHeaderDelegate?
+
+    var isTogglingChapters = false
 
     private lazy var container: UIStackView = {
         let container = UIStackView()
@@ -20,14 +23,26 @@ class ChaptersHeader: UIView {
     }()
 
     private lazy var toggleButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(configuration: .plain())
         button.setTitle(L10n.skipChapters, for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .footnote)
         button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
+        button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+        button.configuration?.imagePadding = 8
+        button.configuration?.image = lockIcon
+        button.configuration?.titleTextAttributesTransformer =
+           UIConfigurationTextAttributesTransformer { incoming in
+             var outgoing = incoming
+             outgoing.font = .preferredFont(forTextStyle: .footnote)
+             return outgoing
+         }
         button.heightAnchor.constraint(equalToConstant: 44).isActive = true
         return button
     }()
+
+    private var lockIcon: UIImage? {
+        PaidFeature.deselectChapters.isUnlocked ? nil : (PaidFeature.deselectChapters.tier == .patron ? UIImage(named: "patron-heart") : UIImage(named: "plusGold"))
+    }
 
     // MARK: - Config
     override init(frame: CGRect) {
@@ -45,6 +60,8 @@ class ChaptersHeader: UIView {
 
     func update() {
         updateChapterLabel()
+        updateButtonLabel()
+        updateButtonIcon()
     }
 
     private func configure() {
@@ -55,7 +72,6 @@ class ChaptersHeader: UIView {
     }
 
     @objc private func toggleChapterSelection() {
-        updateButtonLabel()
         delegate?.toggleTapped()
     }
 
@@ -70,8 +86,12 @@ class ChaptersHeader: UIView {
     }
 
     private func updateButtonLabel() {
-        let buttonTitle = toggleButton.title(for: .normal) == L10n.skipChapters ? L10n.done : L10n.skipChapters
+        let buttonTitle = isTogglingChapters ? L10n.done : L10n.skipChapters
         toggleButton.setTitle(buttonTitle, for: .normal)
+    }
+
+    private func updateButtonIcon() {
+        toggleButton.configuration?.image = lockIcon
     }
 }
 

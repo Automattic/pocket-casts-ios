@@ -37,7 +37,14 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var trimSilence: TrimSilenceAmount
     @ModifiedDate public var playbackSpeed: Double
 
+    @ModifiedDate public var playerBookmarksSortType: BookmarksSort = .newestToOldest
+    @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
+    @ModifiedDate public var podcastBookmarksSortType: BookmarksSort = .newestToOldest
+
     @ModifiedDate public var warnDataUsage: Bool = false
+
+    @ModifiedDate public var headphoneControlsNextAction: HeadphoneControl = .skipForward
+    @ModifiedDate public var headphoneControlsPreviousAction: HeadphoneControl = .skipBack
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
@@ -64,5 +71,5 @@ public struct AppSettings: JSONCodable {
 }
 
 extension SettingsStore<AppSettings> {
-    public static let appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
+    public static internal(set) var appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
 }

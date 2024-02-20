@@ -59,6 +59,12 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
     case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
 }
 
+public enum BookmarksSort: Int32, Codable {
+    case newestToOldest = 0
+    case oldestToNewest = 1
+    case timestamp = 2
+}
+
 public enum AutoArchiveAfterPlayed: Int32, Codable {
     case never = 0
     case afterPlaying = 1

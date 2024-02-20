@@ -4,6 +4,7 @@ import PocketCastsDataModel
 #endif
 import PocketCastsServer
 import UIKit
+import SwiftUI
 import PocketCastsUtils
 
 class Settings: NSObject {
@@ -904,20 +905,34 @@ class Settings: NSObject {
 
     static var headphonesPreviousAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.previousAction.unlockedValue
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.headphoneControlsPreviousAction.action
+            } else {
+                return Constants.UserDefaults.headphones.previousAction.unlockedValue
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.headphoneControlsPreviousAction = HeadphoneControl(action: newValue)
+            }
             Constants.UserDefaults.headphones.previousAction.save(newValue)
         }
     }
 
     static var headphonesNextAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.nextAction.unlockedValue
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.headphoneControlsNextAction.action
+            } else {
+                return Constants.UserDefaults.headphones.nextAction.unlockedValue
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.headphoneControlsNextAction = HeadphoneControl(action: newValue)
+            }
             Constants.UserDefaults.headphones.nextAction.save(newValue)
         }
     }
@@ -985,6 +1000,51 @@ class Settings: NSObject {
         }
     }
 
+    static var playerBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.playerBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.playerBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
+    static var episodeBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.episodeBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.episodeBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
+    static var podcastBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.podcastBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.podcastBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
@@ -1032,6 +1092,10 @@ class Settings: NSObject {
             return RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.errorLogoutHandling).boolValue
         }
 
+    static var slumberPromoCode: String? {
+        RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.slumberStudiosPromoCode).stringValue
+    }
+
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
@@ -1061,3 +1125,35 @@ extension L10n {
     }
 }
 #endif
+
+extension HeadphoneControl {
+    init(action: HeadphoneControlAction) {
+        switch action {
+        case .addBookmark:
+            self = .addBookmark
+        case .nextChapter:
+            self = .nextChapter
+        case .previousChapter:
+            self = .previousChapter
+        case .skipBack:
+            self = .skipBack
+        case .skipForward:
+            self = .skipForward
+        }
+    }
+
+    var action: HeadphoneControlAction {
+        switch self {
+        case .addBookmark:
+            return .addBookmark
+        case .nextChapter:
+            return .nextChapter
+        case .previousChapter:
+            return .previousChapter
+        case .skipBack:
+            return .skipBack
+        case .skipForward:
+            return .skipForward
+        }
+    }
+}

@@ -39,6 +39,8 @@
     <string>單集播放</string>
     <key>accessibility_hide_filter_details</key>
     <string>點選即可隱藏篩選器詳細資訊</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>點選即可導覽至 Podcast 的主資訊頁面</string>
     <key>accessibility_hint_star</key>
     <string>點選兩下即可為單集加上星號</string>
     <key>accessibility_hint_unstar</key>
@@ -151,6 +153,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>書籤登場！</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>加入我們的書籤 Beta 測試！</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>代碼已複製到剪貼簿</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>訂閱 Plus 並享有 1 年份的 Slumber Studios 訂閱內容，這是為進入甜美夢鄉而生的 Podcast。 深入了解。</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>使用代碼「%1$@」即可享有 1 年份的 Slumber Studios 訂閱內容，這是 Plus 訂閱方案的一部分。 深入了解。</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>深入了解</string>
+    <key>announcement_slumber_redeem</key>
+    <string>兌換代碼</string>
+    <key>announcement_slumber_title</key>
+    <string>大膽作夢</string>
     <key>app_badge</key>
     <string>應用程式徽章</string>
     <key>app_icon_classic</key>
@@ -359,6 +373,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>清除「接下來播放」</string>
     <key>clear_up_next_message</key>
     <string>你確定要清除「接下來播放」佇列嗎？</string>
+    <key>client_error_token_deauth</key>
+    <string>代碼驗證失敗。</string>
     <key>close</key>
     <string>關閉</string>
     <key>color</key>
@@ -480,7 +496,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>discover_browse_by_category_society</key>
     <string>社會</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社會與文化</string>
+    <string>文化</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>心靈</string>
     <key>discover_browse_by_category_sports</key>
@@ -1462,6 +1478,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>可以隨時取消</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB 雲端儲存空間</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>首年享 50%% 優惠</string>
     <key>plus_error_already_registered</key>
     <string>你已經有 Pocket Casts Plus 帳號了</string>
     <key>plus_error_already_registered_details</key>
@@ -1470,14 +1488,20 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>於 %1$@ 到期</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 所有使用者向你表達誠摯的謝意</string>
+    <key>plus_feature_slumber</key>
+    <string>1 年份的 Slumber Studios 獨家內容</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主題和應用程式圖示</string>
     <key>plus_features</key>
     <string>Plus 功能</string>
     <key>plus_free_membership_format</key>
-    <string>%1$@ 免費</string>
+    <string>%1$@免費試用</string>
     <key>plus_lifetime_membership</key>
     <string>終身會員</string>
+    <key>plus_marketing_desktop_apps_title</key>
+    <string>桌面和網頁應用程式</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>資料夾和書籤</string>
     <key>plus_marketing_folders_description</key>
     <string>你可以建立資料夾來整理你的 Podcast 收藏。</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1500,6 +1524,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>使用我們的 Windows、macOS 和網頁應用程式，在更多地方收聽</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>在資料夾中整理你的 Podcast，並在所有裝置間同步。</string>
+    <key>plus_marketing_watch_playback_title</key>
+    <string>Apple Watch 和穿戴式裝置 OS</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>每月 %1$@ </string>
     <key>plus_payment_canceled</key>
@@ -1786,6 +1812,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>剩餘 %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>總計剩餘時間：%1$@</string>
+    <key>rate</key>
+    <string>稅率</string>
+    <key>rating_error</key>
+    <string>糟糕！ 發生錯誤。</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>僅有此 Podcast 的聽眾才能給予評分。 先聆聽一些單集，再回來給予評分。 希望聽到你的看法！</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>請先聆聽此 Podcast</string>
+    <key>rating_submitted</key>
+    <string>評分已提交！</string>
+    <key>rating_title</key>
+    <string>對「%1$@」評分</string>
     <key>refresh_control_fetching_episodes</key>
     <string>正在尋找新的 Podcast 單集</string>
     <key>refresh_control_pull_to_refresh</key>

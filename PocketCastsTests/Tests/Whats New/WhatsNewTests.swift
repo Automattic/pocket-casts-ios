@@ -10,7 +10,8 @@ class WhatsNewtests: XCTestCase {
         let whatsNew = WhatsNew(
             announcements: [announcement(version: "7.40")],
             previousOpenedVersion: "7.39",
-            currentVersion: "7.40"
+            currentVersion: "7.40",
+            lastWhatsNewShown: nil
         )
 
         XCTAssertNotNil(whatsNew.viewControllerToShow())
@@ -33,7 +34,8 @@ class WhatsNewtests: XCTestCase {
         let whatsNew = WhatsNew(
             announcements: [announcement(version: "7.41")],
             previousOpenedVersion: "7.37",
-            currentVersion: "7.42"
+            currentVersion: "7.42",
+            lastWhatsNewShown: nil
         )
 
         XCTAssertNotNil(whatsNew.viewControllerToShow())
@@ -67,7 +69,8 @@ class WhatsNewtests: XCTestCase {
         let whatsNew = WhatsNew(
             announcements: [announcement(version: "7.41")],
             previousOpenedVersion: "7.41",
-            currentVersion: "7.41"
+            currentVersion: "7.41",
+            lastWhatsNewShown: "7.41"
         )
 
         XCTAssertNil(whatsNew.viewControllerToShow())
@@ -79,7 +82,8 @@ class WhatsNewtests: XCTestCase {
         let whatsNew = WhatsNew(
             announcements: [announcement(version: "7.42")],
             previousOpenedVersion: "7.41",
-            currentVersion: "7.42.1"
+            currentVersion: "7.42.1",
+            lastWhatsNewShown: "7.40"
         )
 
         XCTAssertNotNil(whatsNew.viewControllerToShow())
@@ -91,7 +95,8 @@ class WhatsNewtests: XCTestCase {
         let whatsNew = WhatsNew(
             announcements: [announcement(version: "7.42")],
             previousOpenedVersion: "7.42",
-            currentVersion: "7.42.1"
+            currentVersion: "7.42.1",
+            lastWhatsNewShown: "7.42"
         )
 
         XCTAssertNil(whatsNew.viewControllerToShow())
@@ -133,10 +138,56 @@ class WhatsNewtests: XCTestCase {
                 lastAnnouncement
             ],
             previousOpenedVersion: "7.00",
-            currentVersion: "7.40"
+            currentVersion: "7.40",
+            lastWhatsNewShown: nil
         )
 
         XCTAssertEqual(whatsNew.visibleAnnouncement?.version, lastAnnouncement.version)
+    }
+
+    // Do not show an announcement that has been shown before
+    func testDontShowAnAnnouncementTwice() {
+        let whatsNew = WhatsNew(
+            announcements: [
+                announcement(version: "7.10"),
+                announcement(version: "7.40"),
+                announcement(version: "7.12")
+            ],
+            previousOpenedVersion: "7.00",
+            currentVersion: "7.40",
+            lastWhatsNewShown: "7.40"
+        )
+
+        XCTAssertNil(whatsNew.visibleAnnouncement)
+    }
+
+    // Shown an announcement if it was later enabled
+    func testShowAnnouncementAfterItWasEnabled() {
+        let whatsNew = WhatsNew(
+            announcements: [
+                announcement(version: "7.10"),
+                announcement(version: "7.40", isEnabled: false),
+                announcement(version: "7.12")
+            ],
+            previousOpenedVersion: "7.40",
+            currentVersion: "7.40",
+            lastWhatsNewShown: "7.12"
+        )
+
+        XCTAssertNil(whatsNew.visibleAnnouncement)
+
+        let whatsNewWithAnnouncementEnabled = WhatsNew(
+            announcements: [
+                announcement(version: "7.10"),
+                announcement(version: "7.40", isEnabled: true),
+                announcement(version: "7.12")
+            ],
+            previousOpenedVersion: "7.40",
+            currentVersion: "7.40",
+            lastWhatsNewShown: "7.12"
+        )
+
+        XCTAssertEqual(whatsNewWithAnnouncementEnabled.visibleAnnouncement?.version, "7.40")
     }
 
     private func announcement(version: String, isEnabled: Bool = true) -> WhatsNew.Announcement {

@@ -27,7 +27,32 @@ public class ServerPodcastManager: NSObject {
 
     private let urlConnection = URLConnection(handler: URLSession.shared)
 
-    // MARK: - Podcast add fucntions
+    // MARK: - Podcast add functions
+
+    /// This tries to add the podcast with UUID up to 3 times if the call fails first time.
+    /// The retry mechanism is to be used in cases when the podcast was just added to server and the first call might fail because the server didn't have time to update.
+    /// The call will be done a maximum of three times, with each call having an exponetial backoff period of base 2 seconds for each try.
+    /// - Parameters:
+    ///   - podcastUuid: the uuid of the podcast to caache
+    ///   - subscribe: if we should subscribe to the podcast after adding
+    ///   - tries: the number of tries already done
+    ///   - completion: the code to execute on completion
+    public func addFromUuidWithRetries(podcastUuid: String, subscribe: Bool, tries: UInt = 0, completion: ((Bool) -> Void)?) {
+        var pollbackCounter = tries
+        addFromUuid(podcastUuid: podcastUuid, subscribe: subscribe) { [weak self] success in
+            if success {
+                completion?(success)
+                return
+            }
+            pollbackCounter += 1
+            if pollbackCounter < 3 {
+                Thread.sleep(forTimeInterval: pow(2, Double(pollbackCounter)))
+                self?.addFromUuidWithRetries(podcastUuid: podcastUuid, subscribe: subscribe, tries: pollbackCounter, completion: completion)
+                return
+            }
+            completion?(false)
+        }
+    }
 
     public func addFromUuid(podcastUuid: String, subscribe: Bool, completion: ((Bool) -> Void)?) {
         CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { [weak self] podcastInfo, lastModified in
