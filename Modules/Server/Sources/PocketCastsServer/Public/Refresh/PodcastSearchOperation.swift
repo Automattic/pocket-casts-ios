@@ -57,10 +57,8 @@ class PodcastSearchOperation: Operation {
         dispatchGroup.enter()
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
-                shouldRetry = false
-                self.completion(PodcastSearchResponse.failedResponse())
+                shouldRetry = true
                 self.dispatchGroup.leave()
-
                 return
             }
 
