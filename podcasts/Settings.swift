@@ -883,20 +883,34 @@ class Settings: NSObject {
 
     static var headphonesPreviousAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.previousAction.unlockedValue
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.headphoneControlsPreviousAction.action
+            } else {
+                return Constants.UserDefaults.headphones.previousAction.unlockedValue
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.headphoneControlsPreviousAction = HeadphoneControl(action: newValue)
+            }
             Constants.UserDefaults.headphones.previousAction.save(newValue)
         }
     }
 
     static var headphonesNextAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.nextAction.unlockedValue
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.headphoneControlsNextAction.action
+            } else {
+                return Constants.UserDefaults.headphones.nextAction.unlockedValue
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.headphoneControlsNextAction = HeadphoneControl(action: newValue)
+            }
             Constants.UserDefaults.headphones.nextAction.save(newValue)
         }
     }
@@ -1089,3 +1103,35 @@ extension L10n {
     }
 }
 #endif
+
+extension HeadphoneControl {
+    init(action: HeadphoneControlAction) {
+        switch action {
+        case .addBookmark:
+            self = .addBookmark
+        case .nextChapter:
+            self = .nextChapter
+        case .previousChapter:
+            self = .previousChapter
+        case .skipBack:
+            self = .skipBack
+        case .skipForward:
+            self = .skipForward
+        }
+    }
+
+    var action: HeadphoneControlAction {
+        switch self {
+        case .addBookmark:
+            return .addBookmark
+        case .nextChapter:
+            return .nextChapter
+        case .previousChapter:
+            return .previousChapter
+        case .skipBack:
+            return .skipBack
+        case .skipForward:
+            return .skipForward
+        }
+    }
+}

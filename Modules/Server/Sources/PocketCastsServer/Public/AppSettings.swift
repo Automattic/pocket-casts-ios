@@ -39,6 +39,9 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var warnDataUsage: Bool = false
 
+    @ModifiedDate public var headphoneControlsNextAction: HeadphoneControl = .skipForward
+    @ModifiedDate public var headphoneControlsPreviousAction: HeadphoneControl = .skipBack
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,
@@ -64,5 +67,5 @@ public struct AppSettings: JSONCodable {
 }
 
 extension SettingsStore<AppSettings> {
-    public static let appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
+    public static internal(set) var appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
 }

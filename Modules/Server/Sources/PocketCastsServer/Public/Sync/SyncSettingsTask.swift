@@ -28,6 +28,8 @@ extension Api_ChangeableSettings {
         playerBookmarksSortType.update(settings.$playerBookmarksSortType)
         episodeBookmarksSortType.update(settings.$episodeBookmarksSortType)
         podcastBookmarksSortType.update(settings.$podcastBookmarksSortType)
+        headphoneControlsNextAction.update(settings.$headphoneControlsNextAction)
+        headphoneControlsPreviousAction.update(settings.$headphoneControlsPreviousAction)
     }
 }
 
@@ -56,6 +58,8 @@ extension AppSettings {
         $playerBookmarksSortType.update(setting: settings.playerBookmarksSortType)
         $episodeBookmarksSortType.update(setting: settings.episodeBookmarksSortType)
         $podcastBookmarksSortType.update(setting: settings.podcastBookmarksSortType)
+        $headphoneControlsNextAction.update(setting: settings.headphoneControlsNextAction)
+        $headphoneControlsPreviousAction.update(setting: settings.headphoneControlsPreviousAction)
     }
 }
 
