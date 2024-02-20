@@ -13,7 +13,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        podcast.overrideGlobalArchive ? PodcastArchiveViewController.tableData.count : 1
+        podcast.isAutoArchiveOverridden ? PodcastArchiveViewController.tableData.count : 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -28,7 +28,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsCustom
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
-            cell.cellSwitch.isOn = podcast.overrideGlobalArchive
+            cell.cellSwitch.isOn = podcast.isAutoArchiveOverridden
 
             cell.cellSwitch.removeTarget(self, action: #selector(overrideArchiveToggled(_:)), for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(overrideArchiveToggled(_:)), for: UIControl.Event.valueChanged)
@@ -38,7 +38,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsArchivePlayedEpisodes
 
-            let playedValue = podcast.overrideGlobalArchive ? podcast.autoArchivePlayedAfterTime : Settings.autoArchivePlayedAfter()
+            let playedValue = podcast.isAutoArchiveOverridden ? podcast.autoArchivePlayedAfterTime : Settings.autoArchivePlayedAfter()
             cell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(playedValue)
 
             return cell
@@ -46,7 +46,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastArchiveViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsArchiveInactiveEpisodes
 
-            let inactiveValue = podcast.overrideGlobalArchive ? podcast.autoArchiveInactiveAfterTime : Settings.autoArchiveInactiveAfter()
+            let inactiveValue = podcast.isAutoArchiveOverridden ? podcast.autoArchiveInactiveAfterTime : Settings.autoArchiveInactiveAfter()
             cell.cellSecondaryLabel.text = ArchiveHelper.archiveTimeToText(inactiveValue)
 
             return cell
@@ -110,7 +110,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
         let firstRow = PodcastArchiveViewController.tableData[section][0]
 
         if firstRow == .customForPodcast {
-            return podcast.overrideGlobalArchive ? nil : L10n.settingsCustomAutoArchiveMsg
+            return podcast.isAutoArchiveOverridden ? nil : L10n.settingsCustomAutoArchiveMsg
         } else if firstRow == .playedEpisodes {
             return L10n.settingsInactiveEpisodesMsg
         } else if firstRow == .episodeLimit {
@@ -127,7 +127,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     // MARK: - Settings changes
 
     @objc private func overrideArchiveToggled(_ sender: UISwitch) {
-        podcast.overrideGlobalArchive = sender.isOn
+        podcast.isAutoArchiveOverridden = sender.isOn
 
         if sender.isOn {
             podcast.autoArchivePlayedAfterTime = Settings.autoArchivePlayedAfter()

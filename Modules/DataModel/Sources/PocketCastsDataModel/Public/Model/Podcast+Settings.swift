@@ -117,4 +117,21 @@ extension Podcast {
             autoArchiveEpisodeLimit = newValue
         }
     }
+
+    public var isAutoArchiveOverridden: Bool {
+        get {
+            if FeatureFlag.settingsSync.enabled {
+                return settings.autoArchive
+            } else {
+                return overrideGlobalArchive
+            }
+        }
+        set {
+            if FeatureFlag.settingsSync.enabled {
+                settings.autoArchive = newValue
+                syncStatus = SyncStatus.notSynced.rawValue
+            }
+            overrideGlobalArchive = newValue
+        }
+    }
 }

@@ -179,7 +179,7 @@ struct SupportConfig: ZDConfig {
         let allPodcasts = DataManager.sharedManager.allPodcastsOrderedByTitle()
             .map { podcast -> String in
                 let podcastTitle = podcast.title ?? ""
-                return "\(podcastTitle) (\(podcast.uuid)) override global archive? \(podcast.overrideGlobalArchive) with limit \(podcast.autoArchiveEpisodeLimitCount)"
+                return "\(podcastTitle) (\(podcast.uuid)) override global archive? \(podcast.isAutoArchiveOverridden) with limit \(podcast.autoArchiveEpisodeLimitCount)"
             }
             .joined(separator: "\n")
 

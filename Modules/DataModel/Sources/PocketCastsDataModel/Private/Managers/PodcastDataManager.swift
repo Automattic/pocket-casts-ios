@@ -256,7 +256,7 @@ class PodcastDataManager {
         var podcastsOverrideArchive = [Podcast]()
         cachedPodcastsQueue.sync {
             for podcast in cachedPodcasts {
-                if podcast.isSubscribed(), podcast.overrideGlobalArchive {
+                if podcast.isSubscribed(), podcast.isAutoArchiveOverridden {
                     podcastsOverrideArchive.append(podcast)
                 }
             }

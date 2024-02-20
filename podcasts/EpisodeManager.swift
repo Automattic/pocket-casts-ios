@@ -382,7 +382,7 @@ class EpisodeManager: NSObject {
 
     class func shouldArchiveOnCompletion(episode: BaseEpisode) -> Bool {
         if let episode = episode as? Episode {
-            if let podcast = episode.parentPodcast(), podcast.overrideGlobalArchive {
+            if let podcast = episode.parentPodcast(), podcast.isAutoArchiveOverridden {
                 return podcast.autoArchivePlayedAfterTime == 0 && (Settings.archiveStarredEpisodes() || !episode.keepEpisode)
             }
 
