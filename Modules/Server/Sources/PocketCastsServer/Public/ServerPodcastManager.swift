@@ -29,9 +29,9 @@ public class ServerPodcastManager: NSObject {
 
     // MARK: - Podcast add functions
 
-    /// This tries to add the podcast with UUID up to 3 times.
-    /// If The poll mechanism is to be used in cases when the podcast was just added to server and the first call might fail because the server didn't have time to update
-    /// The call will try a maximum of three time with each call having an exponetial backoff period of base 2 seconds for each try
+    /// This tries to add the podcast with UUID up to 3 times if the call fails first time.
+    /// The retry mechanism is to be used in cases when the podcast was just added to server and the first call might fail because the server didn't have time to update.
+    /// The call will be done a maximum of three times, with each call having an exponetial backoff period of base 2 seconds for each try.
     /// - Parameters:
     ///   - podcastUuid: the uuid of the podcast to caache
     ///   - subscribe: if we should subscribe to the podcast after adding
@@ -39,7 +39,7 @@ public class ServerPodcastManager: NSObject {
     ///   - completion: the code to execute on completion
     public func addFromUuidWithRetries(podcastUuid: String, subscribe: Bool, tries: UInt = 0, completion: ((Bool) -> Void)?) {
         var pollbackCounter = tries
-        addFromUuid(podcastUuid: podcastUuid, subscribe: subscribe) { [weak self]success in
+        addFromUuid(podcastUuid: podcastUuid, subscribe: subscribe) { [weak self] success in
             if success {
                 completion?(success)
                 return
@@ -50,7 +50,7 @@ public class ServerPodcastManager: NSObject {
                 self?.addFromUuidWithRetries(podcastUuid: podcastUuid, subscribe: subscribe, tries: pollbackCounter, completion: completion)
                 return
             }
-            completion?(success)
+            completion?(false)
         }
     }
 
