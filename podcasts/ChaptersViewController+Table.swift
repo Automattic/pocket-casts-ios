@@ -29,11 +29,11 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 state = .future
             }
 
-            chapterCell.populateFrom(chapter: chapter, playState: state, isChapterToggleEnabled: isTogglingChapters) { url in
+            chapterCell.populateFrom(chapter: chapter, playState: state, isChapterToggleEnabled: isTogglingChapters) { [weak self] url in
                 if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 } else {
-                    self.present(SFSafariViewController(with: url), animated: true)
+                    self?.present(SFSafariViewController(with: url), animated: true)
                 }
             }
 
@@ -62,7 +62,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        FeatureFlag.deselectChapters.enabled ? 38 : CGFloat.leastNonzeroMagnitude
+        FeatureFlag.deselectChapters.enabled ? 44 : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -76,8 +76,14 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 
 extension ChaptersViewController: ChaptersHeaderDelegate {
     func toggleTapped() {
+        guard PaidFeature.deselectChapters.isUnlocked else {
+            PaidFeature.deselectChapters.presentUpgradeController(from: self, source: "deselect_chapters")
+            return
+        }
+
         isTogglingChapters.toggle()
         chaptersTable.reloadSections([0], with: .automatic)
+        header.isTogglingChapters = isTogglingChapters
         header.update()
     }
 }
