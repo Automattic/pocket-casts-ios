@@ -57,7 +57,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             return
         }
 
-        if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
+        if let chapter = PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
             if chapter.index == PlaybackManager.shared.currentChapters().index {
                 containerDelegate?.scrollToNowPlaying()
             } else {
