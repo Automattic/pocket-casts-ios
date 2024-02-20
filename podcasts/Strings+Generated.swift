@@ -2212,6 +2212,8 @@ internal enum L10n {
   internal static var secondsSaved: String { return L10n.tr("Localizable", "seconds_saved") }
   /// Select
   internal static var select: String { return L10n.tr("Localizable", "select") }
+  /// Please select at least one chapter
+  internal static var selectAChapter: String { return L10n.tr("Localizable", "select_a_chapter") }
   /// Select All
   internal static var selectAll: String { return L10n.tr("Localizable", "select_all") }
   /// Select all above
