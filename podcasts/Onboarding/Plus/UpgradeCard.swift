@@ -32,7 +32,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+            slumberOrUndyingGratitude
         ],
                     background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
@@ -44,10 +44,14 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
             TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
-            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+            slumberOrUndyingGratitude
 
         ],
         background: RadialGradient(colors: [Color(hex: "503ACC").opacity(0.8), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
+    }
+
+    static var slumberOrUndyingGratitude: TierFeature {
+        FeatureFlag.slumber.enabled ? TierFeature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
     }
 }
 

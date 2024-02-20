@@ -177,7 +177,6 @@ struct UpgradeLandingView: View {
     }
 }
 
-
 // MARK: - View Height
 
 private struct ViewHeightKey: PreferenceKey {
@@ -198,5 +197,11 @@ extension ViewHeightKey: ViewModifier {
 struct UpgradeLandingView_Previews: PreviewProvider {
     static var previews: some View {
         UpgradeLandingView(viewModel: PlusLandingViewModel(source: .login))
+    }
+}
+
+extension String {
+    var slumberStudiosWithUrl: String {
+        self.replacingOccurrences(of: "Slumber Studios", with: "[Slumber Studios](https://slumberstudios.com)")
     }
 }

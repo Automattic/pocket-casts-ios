@@ -39,6 +39,8 @@
     <string>Lecture de l’épisode</string>
     <key>accessibility_hide_filter_details</key>
     <string>Appuyer pour masquer les détails du filtre</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>Appuyer pour accéder à la page principale d’informations du podcast</string>
     <key>accessibility_hint_star</key>
     <string>Appuyer deux fois pour ajouter l’épisode aux favoris</string>
     <key>accessibility_hint_unstar</key>
@@ -151,6 +153,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Les favoris sont là !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Rejoignez-nous pour le bêta-test des favoris !</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>Code copié dans le presse-papiers</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Abonnez-vous à Plus et profitez d’un abonnement d’un an au contenu de Slumber Studios, des podcasts conçus pour vous emmener dans les bras de Morphée. Lire la suite.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Dans le cadre votre abonnement Plus, profitez d’un abonnement d’un an au contenu de Slumber Studios grâce au code %1$@. Lire la suite.</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>Lire la suite</string>
+    <key>announcement_slumber_redeem</key>
+    <string>Échanger votre code</string>
+    <key>announcement_slumber_title</key>
+    <string>Faites de grands rêves</string>
     <key>app_badge</key>
     <string>Badge de l’application</string>
     <key>app_icon_classic</key>
@@ -359,6 +373,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Supprimer la file d'attente</string>
     <key>clear_up_next_message</key>
     <string>Êtes-vous sûr de vouloir supprimer votre file d’attente ?</string>
+    <key>client_error_token_deauth</key>
+    <string>Échec du jeton d’authentification.</string>
     <key>close</key>
     <string>Fermer</string>
     <key>color</key>
@@ -480,7 +496,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>discover_browse_by_category_society</key>
     <string>Société</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Société et culture</string>
+    <string>Culture</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualité</string>
     <key>discover_browse_by_category_sports</key>
@@ -1462,6 +1478,8 @@ MISES À JOUR</string>
     <string>Annulation possible à tout moment.</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ Go de stockage Cloud</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>-50 %% sur votre première année</string>
     <key>plus_error_already_registered</key>
     <string>Vous avez déjà un compte Pocket Casts Plus</string>
     <key>plus_error_already_registered_details</key>
@@ -1470,14 +1488,20 @@ MISES À JOUR</string>
     <string>Expire le %1$@</string>
     <key>plus_feature_gratitude</key>
     <string>L’infinie gratitude de tous les membres de Pocket Casts</string>
+    <key>plus_feature_slumber</key>
+    <string>1 an de contenu exclusif de Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
     <string>Thèmes et icônes d’applications supplémentaires</string>
     <key>plus_features</key>
     <string>FONCTIONNALITÉS EXCLUSIVES PLUS</string>
     <key>plus_free_membership_format</key>
-    <string>Période de gratuité : %1$@</string>
+    <string>%1$@ d’essai gratuit</string>
     <key>plus_lifetime_membership</key>
     <string>Membre à vie</string>
+    <key>plus_marketing_desktop_apps_title</key>
+    <string>Applications Web et de bureau</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>Dossiers et favoris</string>
     <key>plus_marketing_folders_description</key>
     <string>Créez des dossiers pour organiser votre collection de podcasts.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1500,6 +1524,8 @@ MISES À JOUR</string>
     <string>Écoutez vos podcasts partout grâce à nos applications Windows, macOS et Web</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Organisez vos podcasts dans des dossiers et synchronisez-les sur tous vos appareils.</string>
+    <key>plus_marketing_watch_playback_title</key>
+    <string>Applications Apple Watch et Wear OS</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ par mois</string>
     <key>plus_payment_canceled</key>
@@ -1786,6 +1812,18 @@ essai gratuit de %1$@</string>
     <string>Temps restant : %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>Temps total restant : %1$@</string>
+    <key>rate</key>
+    <string>Évaluer</string>
+    <key>rating_error</key>
+    <string>Oups ! Une erreur est survenue.</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>Seuls les auditeurs de ce podcast peuvent l’évaluer. Écoutez quelques épisodes et revenez l’évaluer. Nous sommes impatients de connaître votre avis !</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>Veuillez écouter ce podcast avant</string>
+    <key>rating_submitted</key>
+    <string>Votre évaluation a été envoyée !</string>
+    <key>rating_title</key>
+    <string>Évaluer %1$@</string>
     <key>refresh_control_fetching_episodes</key>
     <string>RECHERCHE DE NOUVEAUX ÉPISODES DE PODCAST</string>
     <key>refresh_control_pull_to_refresh</key>

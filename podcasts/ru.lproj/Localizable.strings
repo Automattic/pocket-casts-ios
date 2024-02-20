@@ -39,6 +39,8 @@
     <string>Воспроизведение выпуска</string>
     <key>accessibility_hide_filter_details</key>
     <string>Нажмите, чтобы скрыть сведения о фильтре</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>Нажмите, чтобы перейти на главную страницу с информацией о подкасте</string>
     <key>accessibility_hint_star</key>
     <string>Дважды нажмите, чтобы включить выпуск в избранное</string>
     <key>accessibility_hint_unstar</key>
@@ -151,6 +153,18 @@
     <string>Закладки уже готовы!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Примите участие в бета-тестировании закладок!</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>Код скопирован в буфер обмена</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Подпишитесь на Plus и получите в качестве бонуса годовую подписку на контент Slumber Studios — подкасты, которые подарят вам самые сладкие сны. Подробнее.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Примените код %1$@ и получайте удовольствие, пользуясь годовой подпиской на контент Slumber Studios в качестве бонуса за подписку на Plus. Подробнее.</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>Подробнее</string>
+    <key>announcement_slumber_redeem</key>
+    <string>Использовать код</string>
+    <key>announcement_slumber_title</key>
+    <string>Мечтайте о большем</string>
     <key>app_badge</key>
     <string>Значок приложения</string>
     <key>app_icon_classic</key>
@@ -359,6 +373,8 @@
     <string>Очистить «Следующие»</string>
     <key>clear_up_next_message</key>
     <string>Вы уверены, что нужно очистить очередь «Следующие»?</string>
+    <key>client_error_token_deauth</key>
+    <string>Сбой токена аутентификации</string>
     <key>close</key>
     <string>Закрыть</string>
     <key>color</key>
@@ -480,7 +496,7 @@
     <key>discover_browse_by_category_society</key>
     <string>Общество</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Общество и культура</string>
+    <string>Культура</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Духовность</string>
     <key>discover_browse_by_category_sports</key>
@@ -1462,6 +1478,8 @@
     <string>Можно отменить в любое время</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>Облачное хранилище %1$@ ГБ</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>Скидка 50%% на первый год</string>
     <key>plus_error_already_registered</key>
     <string>У вас уже есть учетная запись Pocket Casts Plus</string>
     <key>plus_error_already_registered_details</key>
@@ -1470,14 +1488,20 @@
     <string>Истекает %1$@</string>
     <key>plus_feature_gratitude</key>
     <string>Бесконечная благодарность от всей команды Pocket Casts</string>
+    <key>plus_feature_slumber</key>
+    <string>Эксклюзивный контент от Slumber Studios на 1 год</string>
     <key>plus_feature_themes_icons</key>
     <string>Дополнительные темы и значки приложения</string>
     <key>plus_features</key>
     <string>ФУНКЦИИ PLUS</string>
     <key>plus_free_membership_format</key>
-    <string>Бесплатно %1$@</string>
+    <string>Пробный период в течение %1$@</string>
     <key>plus_lifetime_membership</key>
     <string>Пожизненное членство</string>
+    <key>plus_marketing_desktop_apps_title</key>
+    <string>Приложения для ПК и веб-приложения</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>Папки и закладки</string>
     <key>plus_marketing_folders_description</key>
     <string>Создавайте папки для подкастов, чтобы навести порядок в своей коллекции.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1500,6 +1524,8 @@
     <string>Слушайте подкасты везде: в приложениях для Windows и macOS и веб-приложении.</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Распределите подкасты по папкам и синхронизируйте их на всех устройствах.</string>
+    <key>plus_marketing_watch_playback_title</key>
+    <string>Приложения для Apple Watch и Wear OS</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ в месяц</string>
     <key>plus_payment_canceled</key>
@@ -1786,6 +1812,18 @@
     <string>Осталось %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>Оставшееся время %1$@</string>
+    <key>rate</key>
+    <string>Оценить</string>
+    <key>rating_error</key>
+    <string>Ой! Произошла ошибка.</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>Только слушатели этого подкаста могут ставить оценки. Прослушайте несколько эпизодов и после этого поставьте оценку. Ждём ваших отзывов!</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>Сначала прослушайте подкаст</string>
+    <key>rating_submitted</key>
+    <string>Ваша оценка учтена!</string>
+    <key>rating_title</key>
+    <string>Оценить %1$@</string>
     <key>refresh_control_fetching_episodes</key>
     <string>ПОИСК НОВЫХ ВЫПУСКОВ ПОДКАСТА</string>
     <key>refresh_control_pull_to_refresh</key>
