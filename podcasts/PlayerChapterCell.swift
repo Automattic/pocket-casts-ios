@@ -66,7 +66,7 @@ class PlayerChapterCell: UITableViewCell {
         chapterName.text = chapter.title
         chapterLength.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
         chapterNumber.text = "\(chapter.index + 1)"
-        linkView.isHidden = (chapter.url == nil)
+        linkView.isHidden = (chapter.url == nil || isChapterToggleEnabled)
 
         nowPlayingAnimation.animating = false
         setColors(dim: playState == .played)
