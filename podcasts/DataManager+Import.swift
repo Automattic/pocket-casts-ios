@@ -17,6 +17,7 @@ extension DataManager {
             if let grouping = PodcastGrouping(rawValue: podcast.episodeGrouping) {
                 podcast.settings.$episodeGrouping = ModifiedDate<PodcastGrouping>(wrappedValue: grouping)
             }
+            podcast.settings.$autoArchive = ModifiedDate<Bool>(wrappedValue: podcast.overrideGlobalArchive)
             if let archiveTime = AutoArchiveAfterTime(rawValue: podcast.autoArchivePlayedAfter), let archivePlayed = AutoArchiveAfterPlayed(time: archiveTime) {
                 podcast.settings.$autoArchivePlayed = ModifiedDate<AutoArchiveAfterPlayed>(wrappedValue: archivePlayed)
             }
