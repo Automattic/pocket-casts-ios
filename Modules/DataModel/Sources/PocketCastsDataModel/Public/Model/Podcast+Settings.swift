@@ -72,8 +72,9 @@ extension Podcast {
         set {
             if FeatureFlag.settingsSync.enabled {
                 if FeatureFlag.settingsSync.enabled {
-                    if let time = AutoArchiveAfterTime(rawValue: newValue), let inactive = AutoArchiveAfterPlayed(time: time) {
-                        settings.autoArchivePlayed = inactive
+                    if let time = AutoArchiveAfterTime(rawValue: newValue), let played = AutoArchiveAfterPlayed(time: time) {
+                        settings.autoArchivePlayed = played
+                        syncStatus = SyncStatus.notSynced.rawValue
                     }
                 }
             }
@@ -93,6 +94,7 @@ extension Podcast {
             if FeatureFlag.settingsSync.enabled {
                 if let time = AutoArchiveAfterTime(rawValue: newValue), let inactive = AutoArchiveAfterInactive(time: time) {
                     settings.autoArchiveInactive = inactive
+                    syncStatus = SyncStatus.notSynced.rawValue
                 }
             }
             autoArchiveInactiveAfter = newValue
@@ -110,6 +112,7 @@ extension Podcast {
         set {
             if FeatureFlag.settingsSync.enabled {
                 settings.autoArchiveEpisodeLimit = newValue
+                syncStatus = SyncStatus.notSynced.rawValue
             }
             autoArchiveEpisodeLimit = newValue
         }
