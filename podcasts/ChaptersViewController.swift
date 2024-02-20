@@ -17,6 +17,8 @@ class ChaptersViewController: PlayerItemViewController {
         return header
     }()
 
+    lazy var playbackManager: PlaybackManager = PlaybackManager.shared
+
     override func viewDidLoad() {
         super.viewDidLoad()
         chaptersTable.sectionHeaderTopPadding = 0
