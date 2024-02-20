@@ -123,8 +123,10 @@ class PlayerChapterCell: UITableViewCell {
         if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
             if chapter?.shouldPlay == true {
                 currentEpisode.select(chapterIndex: index)
+                track(.deselectChaptersChapterSelected)
             } else {
                 currentEpisode.deselect(chapterIndex: index)
+                track(.deselectChaptersChapterDeselected)
             }
 
             DataManager.sharedManager.save(episode: currentEpisode)
@@ -157,5 +159,9 @@ class PlayerChapterCell: UITableViewCell {
         chapterName.textColor = shouldDim ? ThemeColor.playerContrast02() : ThemeColor.playerContrast01()
         chapterNumber.textColor = chapterName.textColor
         chapterLength.textColor = chapterName.textColor
+    }
+
+    private func track(_ event: AnalyticsEvent) {
+        Analytics.track(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
     }
 }
