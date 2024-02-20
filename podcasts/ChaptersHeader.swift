@@ -77,12 +77,7 @@ class ChaptersHeader: UIView {
         addSubview(container)
         container.anchorToAllSidesOf(view: self)
         container.addSubview(divider)
-        NSLayoutConstraint.activate([
-            divider.heightAnchor.constraint(equalToConstant: 1),
-            divider.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            divider.bottomAnchor.constraint(equalTo: container.bottomAnchor)
-        ])
+        setUpConstraints()
     }
 
     @objc private func toggleChapterSelection() {
@@ -106,6 +101,15 @@ class ChaptersHeader: UIView {
 
     private func updateButtonIcon() {
         toggleButton.configuration?.image = lockIcon
+    }
+
+    private func setUpConstraints() {
+        NSLayoutConstraint.activate([
+            divider.heightAnchor.constraint(equalToConstant: 1),
+            divider.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            divider.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
     }
 }
 
