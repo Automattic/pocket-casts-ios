@@ -166,7 +166,7 @@ extension AppDelegate {
 
                         return
                     }
-                    ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: false) { success in
+                    ServerPodcastManager.shared.addFromUuidWithRetries(podcastUuid: uuid, subscribe: false) { success in
                         DispatchQueue.main.async {
                             self?.hideProgressDialog()
 
