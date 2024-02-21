@@ -46,6 +46,10 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var headphoneControlsNextAction: HeadphoneControl = .skipForward
     @ModifiedDate public var headphoneControlsPreviousAction: HeadphoneControl = .skipBack
 
+    @ModifiedDate public var privacyAnalytics: Bool = true
+    @ModifiedDate public var marketingOptIn: Bool = false
+    @ModifiedDate public var freeGiftAcknowledgement: Bool = false
+
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,
