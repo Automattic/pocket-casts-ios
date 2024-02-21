@@ -373,6 +373,19 @@ class PodcastDataManager {
     }
 
     func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32, dbQueue: FMDatabaseQueue) {
+        if FeatureFlag.settingsSync.enabled {
+            if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
+                if let setting = AutoAddToUpNextSetting(rawValue: autoAddToUpNext) {
+                    podcast.setAutoAddToUpNext(setting: setting)
+                    podcast.syncStatus = SyncStatus.notSynced.rawValue
+                    save(podcast: podcast, dbQueue: dbQueue)
+                } else {
+                    FileLog.shared.addMessage("Podcast Data: Failed to create AutoAddToUpNextSetting type for saving")
+                }
+            } else {
+                FileLog.shared.addMessage("Podcast Data: Couldn't find podcast for saving AutoAddToUpNext with UUID: \(podcastUuid)")
+            }
+        }
         saveSingleValue(name: "autoAddToUpNext", value: autoAddToUpNext, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
@@ -415,6 +428,18 @@ class PodcastDataManager {
     }
 
     func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32, dbQueue: FMDatabaseQueue) {
+        if FeatureFlag.settingsSync.enabled {
+            if let setting = AutoAddToUpNextSetting(rawValue: autoAddToUpNext) {
+                let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+                // Could be replaced with SQLite JSON operation in iOS 16+
+                podcasts.forEach { podcast in
+                    podcast.setAutoAddToUpNext(setting: setting)
+                    save(podcast: podcast, dbQueue: dbQueue)
+                }
+            } else {
+                FileLog.shared.addMessage("Podcast Data: Failed to create AutoAddToUpNextSetting type for saving to all podcasts")
+            }
+        }
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
     }
 
@@ -423,6 +448,13 @@ class PodcastDataManager {
             do {
                 let uuids = podcasts.map { $0.uuid }
 
+                if FeatureFlag.settingsSync.enabled {
+                    // Could be replaced with SQLite JSON operation in iOS 16+
+                    podcasts.forEach { podcast in
+                        podcast.settings.autoUpNextSetting = value
+                        save(podcast: podcast, dbQueue: dbQueue)
+                    }
+                }
                 let query = """
                 UPDATE \(DataManager.podcastTableName)
                 SET autoAddToUpNext = ?

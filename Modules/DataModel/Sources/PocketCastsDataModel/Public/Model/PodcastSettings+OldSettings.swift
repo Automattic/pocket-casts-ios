@@ -1,16 +1,28 @@
-import PocketCastsDataModel
-
 extension PodcastSettings {
     var autoUpNextSetting: AutoAddToUpNextSetting {
-        if addToUpNext {
-            switch addToUpNextPosition {
-            case .top:
-                return .addFirst
-            case .bottom:
-                return .addLast
+        get {
+            if addToUpNext {
+                switch addToUpNextPosition {
+                case .top:
+                    return .addFirst
+                case .bottom:
+                    return .addLast
+                }
+            } else {
+                return .off
             }
-        } else {
-            return .off
+        }
+        set {
+            switch newValue {
+            case .addFirst:
+                addToUpNext = true
+                addToUpNextPosition = .top
+            case .addLast:
+                addToUpNext = true
+                addToUpNextPosition = .bottom
+            case .off:
+                addToUpNext = false
+            }
         }
     }
 }
