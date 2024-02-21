@@ -282,6 +282,9 @@ struct Constants {
 
         static let errorLogoutHandling = "error_logout_handling"
         static let errorLogoutHandlingDefault: Bool = false
+
+        static let slumberStudiosPromoCode = "slumber_studios_promo_code"
+        static let slumberStudiosPromoCodeDefault = ""
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5

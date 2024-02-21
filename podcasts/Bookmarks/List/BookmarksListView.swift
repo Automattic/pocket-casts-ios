@@ -205,7 +205,7 @@ enum BookmarkListConstants {
 
 struct BookmarksListView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksListView(viewModel: .init(bookmarkManager: .init(), sortOption: .init("", defaultValue: .newestToOldest)), style: BookmarksPlayerTabStyle())
+        BookmarksListView(viewModel: .init(bookmarkManager: .init(), sortOption: Binding.constant(BookmarkSortOption.newestToOldest)), style: BookmarksPlayerTabStyle())
             .setupDefaultEnvironment()
     }
 }

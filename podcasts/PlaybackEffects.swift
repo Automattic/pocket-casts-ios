@@ -70,11 +70,19 @@ class PlaybackEffects {
     class func globalEffects() -> PlaybackEffects {
         let effects = PlaybackEffects()
         effects.isGlobal = true
-        let removeSilenceAmount = UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence)
-        effects.trimSilence = convertToTrimSilenceAmount(Int32(removeSilenceAmount))
-        effects.volumeBoost = UserDefaults.standard.bool(forKey: Constants.UserDefaults.globalVolumeBoost)
+        let savedSpeed: Double
+        if FeatureFlag.settingsSync.enabled {
+            effects.trimSilence = SettingsStore.appSettings.trimSilence
+            effects.volumeBoost = SettingsStore.appSettings.volumeBoost
+            savedSpeed = SettingsStore.appSettings.playbackSpeed
+        } else {
+            let removeSilenceAmount = UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence)
+            effects.trimSilence = convertToTrimSilenceAmount(Int32(removeSilenceAmount))
+            effects.volumeBoost = UserDefaults.standard.bool(forKey: Constants.UserDefaults.globalVolumeBoost)
 
-        let savedSpeed = UserDefaults.standard.double(forKey: Constants.UserDefaults.globalPlaybackSpeed)
+            savedSpeed = UserDefaults.standard.double(forKey: Constants.UserDefaults.globalPlaybackSpeed)
+        }
+
         var roundedSpeed = round(savedSpeed * 10.0) / 10.0
         if roundedSpeed < 0.5 {
             roundedSpeed = 1.0

@@ -27,6 +27,21 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    // MARK: Playback Effects
+
+    @ModifiedDate public var volumeBoost: Bool
+    @ModifiedDate public var trimSilence: TrimSilenceAmount
+    @ModifiedDate public var playbackSpeed: Double
+
+    @ModifiedDate public var playerBookmarksSortType: BookmarksSort = .newestToOldest
+    @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
+    @ModifiedDate public var podcastBookmarksSortType: BookmarksSort = .newestToOldest
+
+    @ModifiedDate public var warnDataUsage: Bool = false
+
+    @ModifiedDate public var headphoneControlsNextAction: HeadphoneControl = .skipForward
+    @ModifiedDate public var headphoneControlsPreviousAction: HeadphoneControl = .skipBack
+
     @ModifiedDate public var privacyAnalytics: Bool = true
     @ModifiedDate public var marketingOptIn: Bool = false
     @ModifiedDate public var freeGiftAcknowledgement: Bool = false
@@ -47,11 +62,14 @@ public struct AppSettings: JSONCodable {
                            legacyBluetooth: false,
                            multiSelectGesture: true,
                            chapterTitles: true,
-                           autoPlayEnabled: true
+                           autoPlayEnabled: true,
+                           volumeBoost: false,
+                           trimSilence: .off,
+                           playbackSpeed: 0
         )
     }
 }
 
 extension SettingsStore<AppSettings> {
-    public static let appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
+    public static internal(set) var appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
 }
