@@ -2,6 +2,7 @@ import XCTest
 @testable import podcasts
 @testable import PocketCastsServer
 import PocketCastsDataModel
+import PocketCastsUtils
 
 final class SettingsTests: XCTestCase {
 
