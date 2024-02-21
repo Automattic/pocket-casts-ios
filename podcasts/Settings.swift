@@ -5,6 +5,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 import SwiftUI
+import PocketCastsUtils
 
 class Settings: NSObject {
     // MARK: - Library Type
@@ -777,11 +778,18 @@ class Settings: NSObject {
     // MARK: - Tracks
 
     class func setAnalytics(optOut: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.privacyAnalytics = !optOut
+        }
         UserDefaults.standard.set(optOut, forKey: Constants.UserDefaults.analyticsOptOut)
     }
 
     class func analyticsOptOut() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
+        if FeatureFlag.settingsSync.enabled {
+            return !SettingsStore.appSettings.privacyAnalytics
+        } else {
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
+        }
     }
 
     // MARK: - End of Year 2022

@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class PodcastEpisodeListViewModel: ObservableObject {
     static func createEpisodesQuery(forPodcast podcast: Podcast?) -> String {

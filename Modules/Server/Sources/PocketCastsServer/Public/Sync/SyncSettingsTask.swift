@@ -30,6 +30,9 @@ extension Api_ChangeableSettings {
         podcastBookmarksSortType.update(settings.$podcastBookmarksSortType)
         headphoneControlsNextAction.update(settings.$headphoneControlsNextAction)
         headphoneControlsPreviousAction.update(settings.$headphoneControlsPreviousAction)
+        privacyAnalytics.update(settings.$privacyAnalytics)
+        marketingOptIn.update(settings.$marketingOptIn)
+        freeGiftAcknowledgement.update(settings.$freeGiftAcknowledgement)
     }
 }
 
@@ -60,6 +63,9 @@ extension AppSettings {
         $podcastBookmarksSortType.update(setting: settings.podcastBookmarksSortType)
         $headphoneControlsNextAction.update(setting: settings.headphoneControlsNextAction)
         $headphoneControlsPreviousAction.update(setting: settings.headphoneControlsPreviousAction)
+        $privacyAnalytics.update(setting: settings.privacyAnalytics)
+        $marketingOptIn.update(setting: settings.marketingOptIn)
+        $freeGiftAcknowledgement.update(setting: settings.freeGiftAcknowledgement)
     }
 }
 

@@ -4,6 +4,7 @@
 
 import Foundation
 import os
+import PocketCastsUtils
 
 class AnalyticsHelper {
     /// Whether the user has opted out of analytics or not
