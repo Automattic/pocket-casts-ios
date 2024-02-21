@@ -36,7 +36,7 @@ DEPENDENCIES:
   - google-cast-sdk-no-bluetooth (from `https://github.com/shiftyjelly/google-cast.git`)
   - MaterialComponents/BottomSheet
   - SwiftGen (~> 6.0)
-  - SwiftLint (~> 0.54)
+  - SwiftLint (= 0.54.0)
 
 SPEC REPOS:
   trunk:
@@ -59,6 +59,6 @@ SPEC CHECKSUMS:
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: d8c7a4679aeeca6d66129939e0d110dc1ea89e37
+PODFILE CHECKSUM: 3684ae19bba230706573b5e5a79c326e10a35991
 
 COCOAPODS: 1.14.2
