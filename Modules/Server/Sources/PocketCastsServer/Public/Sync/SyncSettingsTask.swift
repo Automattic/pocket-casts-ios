@@ -33,6 +33,9 @@ extension Api_ChangeableSettings {
         privacyAnalytics.update(settings.$privacyAnalytics)
         marketingOptIn.update(settings.$marketingOptIn)
         freeGiftAcknowledgement.update(settings.$freeGiftAcknowledgement)
+        autoArchivePlayed.update(settings.$autoArchivePlayed)
+        autoArchiveInactive.update(settings.$autoArchiveInactive)
+        autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
     }
 }
 
@@ -66,6 +69,9 @@ extension AppSettings {
         $privacyAnalytics.update(setting: settings.privacyAnalytics)
         $marketingOptIn.update(setting: settings.marketingOptIn)
         $freeGiftAcknowledgement.update(setting: settings.freeGiftAcknowledgement)
+        $autoArchivePlayed.update(setting: settings.autoArchivePlayed)
+        $autoArchiveInactive.update(setting: settings.autoArchiveInactive)
+        $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
     }
 }
 

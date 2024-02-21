@@ -34,5 +34,12 @@ extension SettingsStore<AppSettings> {
         self.update(\.$privacyAnalytics, value: !UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut))
         self.update(\.$marketingOptIn, value: UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.marketingOptInKey))
         self.update(\.$freeGiftAcknowledgement, value: UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement))
+        if let time = AutoArchiveAfterTime(rawValue: UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)), let played = AutoArchiveAfterPlayed(time: time) {
+            self.update(\.$autoArchivePlayed, value: played.rawValue)
+        }
+        if let time = AutoArchiveAfterTime(rawValue: UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)), let inactive = AutoArchiveAfterInactive(time: time) {
+            self.update(\.$autoArchiveInactive, value: inactive.rawValue)
+        }
+        self.update(\.$autoArchiveIncludesStarred, value: UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey))
     }
 }

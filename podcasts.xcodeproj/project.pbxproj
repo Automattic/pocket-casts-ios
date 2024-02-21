@@ -4241,7 +4241,6 @@
 				45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */,
 				C79E1E3F28887549008524CB /* PlusUpgradeViewSourceTests.swift */,
 				C7F4BAB628DA8666001C9785 /* BackgroundSignOutListenerTests.swift */,
-				8B68C1D729421E3400CF25C5 /* FeatureFlagTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -5156,7 +5155,6 @@
 			isa = PBXGroup;
 			children = (
 				BD56102C200DA4BC002F2D53 /* Podcast+Formatting.swift */,
-				F58AFA122B797CF200FC1724 /* Podcast+Settings.swift */,
 				BD561030200DADA0002F2D53 /* Episode+Formatting.swift */,
 				40FE395E229CF424004526CD /* UserEpisode+Formatting.swift */,
 				BDA681AC220D185A0053BEEE /* BaseEpisode+Formatting.swift */,
@@ -8563,7 +8561,6 @@
 				F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */,
 				8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */,
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
-				8B68C1D829421E3400CF25C5 /* FeatureFlagTests.swift in Sources */,
 				8B413D162B76B3A500FAB502 /* ChapterManagerTests.swift in Sources */,
 				F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */,
 				8B317BA328906C8100A26A13 /* TestingAppDelegate.swift in Sources */,
@@ -8839,7 +8836,6 @@
 				BD47E7FA1DD57F7B00C18EE7 /* ShowNotesFormatter.swift in Sources */,
 				8B67A26329A7D6B60076886D /* SearchHistoryCell.swift in Sources */,
 				BD9A2B521C851577003BA898 /* NavigationManager.swift in Sources */,
-				F58AFA132B797CF200FC1724 /* Podcast+Settings.swift in Sources */,
 				BDEC9AB32051118900088D76 /* PCViewController.swift in Sources */,
 				BD3C19301C27B4EC00B7847D /* PodcastListCell.swift in Sources */,
 				BD5AE6831FE0E9A20009B8A1 /* PodcastViewController+TableData.swift in Sources */,
@@ -9499,7 +9495,6 @@
 				BDE48A262410D27300ECA6CA /* Podcast+Formatting.swift in Sources */,
 				C7CE415A28CBCFC200AD063E /* Analytics.swift in Sources */,
 				C7CE415C28CBD01F00AD063E /* String+Analytics.swift in Sources */,
-				F58AFA142B797CF200FC1724 /* Podcast+Settings.swift in Sources */,
 				46C7BB8827DA60E000CD6AE3 /* DownloadListView.swift in Sources */,
 				8B3C7CA52A4DE36000939DED /* AutoplayHelper.swift in Sources */,
 				BDD301951EFB9A4F004A9972 /* WatchDataManager.swift in Sources */,
