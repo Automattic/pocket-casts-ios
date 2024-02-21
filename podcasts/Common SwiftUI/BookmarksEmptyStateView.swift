@@ -17,8 +17,8 @@ struct BookmarksEmptyStateView<Style: EmptyStateViewStyle>: View {
                     viewModel.openHeadphoneSettings()
                     return
                 }
-
-                action()
+   
+                action()  
             })
         ], style: style)
     }
