@@ -2778,6 +2778,10 @@ internal enum L10n {
   internal static var skipBack: String { return L10n.tr("Localizable", "skip_back") }
   /// Skip chapters
   internal static var skipChapters: String { return L10n.tr("Localizable", "skip_chapters") }
+  /// Skip chapters and more with Pocket Casts Patron
+  internal static var skipChaptersPatronPrompt: String { return L10n.tr("Localizable", "skip_chapters_patron_prompt") }
+  /// Skip chapters and more with Pocket Casts Plus
+  internal static var skipChaptersPlusPrompt: String { return L10n.tr("Localizable", "skip_chapters_plus_prompt") }
   /// Skip Forward
   internal static var skipForward: String { return L10n.tr("Localizable", "skip_forward") }
   /// Sleep Timer
