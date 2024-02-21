@@ -133,7 +133,7 @@ struct Constants {
         static let watchAutoDownloadUpNextCount = "SJWatchAutoDownloadCountUpNext"
         static let watchAutoDeleteUpNext = "SJWatchAutoDeleteUpNext"
 
-        static let analyticsOptOut = "SJAnalyticsOptOut"
+        public static let analyticsOptOut = "SJAnalyticsOptOut"
 
         static let supportName = "PCSupportRequestName"
         static let supportEmail = "PCSupportRequestEmail"
@@ -282,6 +282,9 @@ struct Constants {
 
         static let errorLogoutHandling = "error_logout_handling"
         static let errorLogoutHandlingDefault: Bool = false
+
+        static let slumberStudiosPromoCode = "slumber_studios_promo_code"
+        static let slumberStudiosPromoCodeDefault = ""
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5

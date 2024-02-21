@@ -440,3 +440,27 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
         }
     }
 }
+
+extension BookmarksSort {
+    var option: BookmarkSortOption {
+        switch self {
+        case .newestToOldest:
+            return .newestToOldest
+        case .oldestToNewest:
+            return .oldestToNewest
+        case .timestamp:
+            return .timestamp
+        }
+    }
+
+    init(option: BookmarkSortOption) {
+        switch option {
+        case .newestToOldest:
+            self = .newestToOldest
+        case .oldestToNewest:
+            self = .oldestToNewest
+        case .timestamp, .episode:
+            self = .timestamp
+        }
+    }
+}

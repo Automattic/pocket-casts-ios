@@ -31,6 +31,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Syncing all app and podcast settings
     case settingsSync
 
+    /// Show the modal about the partnership with Slumber Studios
+    case slumber
+
     /// Enable the new flow for Account upgrade prompt where it start IAP flow directly from account cell
     case newAccountUpgradePromptFlow
 
@@ -63,6 +66,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .deselectChapters:
             false
         case .settingsSync:
+            false
+        case .slumber:
             false
         case .newAccountUpgradePromptFlow:
             false

@@ -1,5 +1,6 @@
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 extension SettingsStore<AppSettings> {
     /// Updates the values in AppSettings with
@@ -25,6 +26,14 @@ extension SettingsStore<AppSettings> {
         self.update(\.$trimSilence, value: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence)))
         self.update(\.$playbackSpeed, value: UserDefaults.standard.double(forKey: Constants.UserDefaults.globalPlaybackSpeed))
         self.update(\.$warnDataUsage, value: !UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey))
+        self.update(\.$playerBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.playerSort.value))
+        self.update(\.$podcastBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.podcastSort.value))
+        self.update(\.$episodeBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.episodeSort.value))
+        self.update(\.$headphoneControlsNextAction, value: HeadphoneControl(action: Constants.UserDefaults.headphones.nextAction.unlockedValue))
+        self.update(\.$headphoneControlsPreviousAction, value: HeadphoneControl(action: Constants.UserDefaults.headphones.previousAction.unlockedValue))
+        self.update(\.$privacyAnalytics, value: !UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut))
+        self.update(\.$marketingOptIn, value: UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.marketingOptInKey))
+        self.update(\.$freeGiftAcknowledgement, value: UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement))
         self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
         self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
     }

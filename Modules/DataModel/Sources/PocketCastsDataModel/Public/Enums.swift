@@ -59,6 +59,12 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
     case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
 }
 
+public enum BookmarksSort: Int32, Codable {
+    case newestToOldest = 0
+    case oldestToNewest = 1
+    case timestamp = 2
+}
+
 public enum UpNextPosition: Int32, Codable {
     case bottom = 0
     case top = 1
