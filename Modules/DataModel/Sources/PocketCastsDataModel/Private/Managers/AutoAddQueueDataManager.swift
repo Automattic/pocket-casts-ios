@@ -115,7 +115,7 @@ public struct AutoAddCandidatesDataManager {
         public let episodeUuid: String
 
         init?(from resultSet: FMResultSet) {
-            
+
             let setting: Int32
             if FeatureFlag.settingsSync.enabled {
                 let settingsString = resultSet.string(forColumn: Constants.settingsColumnName)
