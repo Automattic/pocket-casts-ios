@@ -117,7 +117,7 @@ private extension PlusLandingViewModel {
 }
 
 extension PlusLandingViewModel {
-    static func make(in navigationController: UINavigationController? = nil, from source: Source, config: PlusLandingViewModel.Config? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, from source: Source, config: PlusLandingViewModel.Config? = nil, customTitle: String? = nil) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, config: config)
 
         let view = Self.view(with: viewModel)
@@ -130,6 +130,7 @@ extension PlusLandingViewModel {
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
         viewModel.parentController = navController
+        viewModel.customTitle = customTitle
 
         return (navigationController == nil) ? navController : controller
     }
