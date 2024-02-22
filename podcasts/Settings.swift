@@ -10,20 +10,28 @@ import PocketCastsUtils
 class Settings: NSObject {
     // MARK: - Library Type
 
-    private static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
+    static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
     private static var cachedlibrarySortType: LibraryType?
     class func setLibraryType(_ type: LibraryType) {
-        UserDefaults.standard.set(type.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.gridLayout = type
+        }
+        UserDefaults.standard.set(type.old.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
         cachedlibrarySortType = type
     }
 
     class func libraryType() -> LibraryType {
+
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.gridLayout
+        }
+
         if let type = cachedlibrarySortType {
             return type
         }
 
         let storedValue = UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)
-        if let type = LibraryType(rawValue: storedValue) {
+        if let type = LibraryType(oldValue: storedValue) {
             cachedlibrarySortType = type
 
             return type
@@ -34,11 +42,15 @@ class Settings: NSObject {
 
     // MARK: - Podcast Badge
 
-    private static let badgeKey = "SJBadgeType"
+    static let badgeKey = "SJBadgeType"
     class func podcastBadgeType() -> BadgeType {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.badges
+        }
+
         let storedBadgeType = UserDefaults.standard.integer(forKey: Settings.badgeKey)
 
-        if let type = BadgeType(rawValue: storedBadgeType) {
+        if let type = BadgeType(rawValue: Int32(storedBadgeType)) {
             return type
         }
 
@@ -46,6 +58,9 @@ class Settings: NSObject {
     }
 
     class func setPodcastBadgeType(_ badgeType: BadgeType) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.badges = badgeType
+        }
         UserDefaults.standard.set(badgeType.rawValue, forKey: Settings.badgeKey)
     }
 
@@ -173,8 +188,12 @@ class Settings: NSObject {
     // MARK: - Podcast Sort Order
 
     class func homeFolderSortOrder() -> LibrarySort {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.gridOrder
+        }
+
         let sortInt = ServerSettings.homeGridSortOrder()
-        if let librarySort = LibrarySort(rawValue: sortInt) {
+        if let librarySort = LibrarySort(oldValue: sortInt) {
             return librarySort
         }
 
@@ -182,7 +201,10 @@ class Settings: NSObject {
     }
 
     class func setHomeFolderSortOrder(order: LibrarySort) {
-        ServerSettings.setHomeGridSortOrder(order.rawValue, syncChange: true)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.gridOrder = order
+        }
+        ServerSettings.setHomeGridSortOrder(order.old.rawValue, syncChange: true)
     }
 
     // MARK: - Podcast Grouping Default

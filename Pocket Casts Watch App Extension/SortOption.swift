@@ -14,7 +14,7 @@ extension PodcastEpisodeSortOrder: SortOption {
 
 extension LibrarySort: SortOption {
     static var pickerTitle: String = L10n.podcastsSort
-    var id: Int { rawValue }
+    public var id: Int { Int(rawValue) }
 
     static var allCases: [LibrarySort] {
         [.dateAddedNewestToOldest, .titleAtoZ, .episodeDateNewestToOldest] // custom not available on watch
