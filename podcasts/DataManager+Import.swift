@@ -18,6 +18,10 @@ extension DataManager {
                 podcast.settings.$episodeGrouping = ModifiedDate<PodcastGrouping>(wrappedValue: grouping)
             }
 
+            if let setting = AutoAddToUpNextSetting(rawValue: podcast.autoAddToUpNext) {
+                podcast.settings.autoUpNextSetting = setting
+            }
+
             save(podcast: podcast)
         }
     }

@@ -1,5 +1,5 @@
 extension PodcastSettings {
-    var autoUpNextSetting: AutoAddToUpNextSetting {
+    public var autoUpNextSetting: AutoAddToUpNextSetting {
         get {
             if addToUpNext {
                 switch addToUpNextPosition {
