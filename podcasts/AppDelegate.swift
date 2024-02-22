@@ -324,10 +324,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey).boolValue
                     try FeatureFlagOverrideStore().override(flag, withValue: remoteValue)
                 }
-            }
-
-            // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
-            IAPHelper.shared.requestProductInfoIfNeeded()
+            }            
         } catch {
             FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
         }
