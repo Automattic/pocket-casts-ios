@@ -57,6 +57,47 @@ class PodcastsRefresh {
         } catch {
             debugLog("Failed", error)
         }
+
+        debugLog("$$ Episode Requests Took: \(Date().timeIntervalSince(parseStartDate))")
+        debugLog("$$ Total Time: \(Date().timeIntervalSince(startedDate))")
+    }
+
+    // Tries to replicate the  some of the logic used in the RefreshOperation.performRefresh call
+    func save(podcasts: [FullPodcast]) async throws {
+        let total = podcasts.map { $0.episodes.count }.reduce(0, +)
+        if #available(watchOS 8.0, *) {
+            debugLog("$$ There are a total of: \(total.formatted()) episodes")
+        }
+
+        DataManager.sharedManager.inDatabase { database in
+            let localPodcasts = try? DataManager.sharedManager.podcasts(uuids: podcasts.compactMap { $0.uuid }, in: database)
+
+            for podcast in podcasts {
+                // Reduce memory footprint while processing
+                autoreleasepool {
+                    guard
+                        let podcastUuid = podcast.uuid,
+                        let localPodcast = localPodcasts?.first(where: { $0.uuid == podcastUuid }),
+                        let localEpisodes = try? DataManager.sharedManager.episodes(for: podcastUuid,
+                                                                                    in: database).map({ $0.uuid })
+                    else {
+                        return
+                    }
+
+                    for incomingEpisode in podcast.episodes {
+                        guard let uuid = incomingEpisode.uuid, localEpisodes.contains(uuid) == false else {
+                            continue
+                        }
+
+                        let newEpisode = Episode()
+                        newEpisode.podcast_id = localPodcast.id
+                        newEpisode.podcastUuid = localPodcast.uuid
+                        newEpisode.playingStatus = PlayingStatus.notPlayed.rawValue
+                        newEpisode.episodeStatus = DownloadStatus.notDownloaded.rawValue
+                        newEpisode.addedDate = Date()
+                        newEpisode.populate(fromEpisode: incomingEpisode)
+                        DataManager.sharedManager.save(episode: newEpisode, in: database)
+                    }
                 }
             }
 
