@@ -1,23 +1,12 @@
 import XCTest
 import FMDB
-import PocketCastsUtils
+@testable import PocketCastsUtils
 import SQLite3
 @testable import PocketCastsDataModel
 
 final class AutoAddCandidatesDataManagerTests: XCTestCase {
 
-    private var overriddenFlags = [FeatureFlag: Bool]()
-
-    private func override(flag: FeatureFlag, value: Bool) throws {
-        overriddenFlags[flag] = flag.enabled
-        try FeatureFlagOverrideStore().override(flag, withValue: value)
-    }
-
-    private func reset(flag: FeatureFlag) throws {
-        if let oldValue = overriddenFlags[flag] {
-            try FeatureFlagOverrideStore().override(flag, withValue: oldValue)
-        }
-    }
+    private let featureFlagMock = FeatureFlagMock()
 
     private func setupDatabase() throws -> DataManager {
         let dbPath = (DataManager.pathToDbFolder() as NSString).appendingPathComponent("podcast_testDB.sqlite3")
@@ -31,7 +20,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
 
     /// Tests new query and autoAddToUpNext property for UpNext candidates
     func testSyncableUpNextSetting() throws {
-        try override(flag: .settingsSync, value: true)
+        featureFlagMock.set(.settingsSync, value: true)
 
         let dataManager = try setupDatabase()
         let newUpNextSetting = AutoAddToUpNextSetting.addFirst
@@ -56,12 +45,12 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         XCTAssertNotNil(matchingCandidate, "Episode should appear in Up Next candidates")
         XCTAssertEqual(matchingCandidate?.autoAddToUpNextSetting, newUpNextSetting)
 
-        try reset(flag: .settingsSync)
+        featureFlagMock.reset()
     }
 
     /// Tests old query and autoAddToUpNext property for UpNext candidates
     func testOldUpNextSetting() throws {
-        try override(flag: .settingsSync, value: false)
+        featureFlagMock.set(.settingsSync, value: false)
 
         let dataManager = try setupDatabase()
         let newUpNextSetting = AutoAddToUpNextSetting.addFirst
@@ -86,7 +75,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         XCTAssertNotNil(matchingCandidate, "Episode should appear in Up Next candidates")
         XCTAssertEqual(matchingCandidate?.autoAddToUpNextSetting, newUpNextSetting)
 
-        try reset(flag: .settingsSync)
+        featureFlagMock.reset()
     }
 
 
