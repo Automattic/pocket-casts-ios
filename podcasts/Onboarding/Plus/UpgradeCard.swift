@@ -44,7 +44,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
             TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
-            slumberOrUndyingGratitude
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
 
         ],
         background: RadialGradient(colors: [Color(hex: "503ACC").opacity(0.8), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
