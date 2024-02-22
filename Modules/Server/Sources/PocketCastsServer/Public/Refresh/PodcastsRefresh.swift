@@ -19,10 +19,44 @@ class PodcastsRefresh {
             return
         }
 
-        try? await withThrowingTaskGroup(of: Void.self) { group in
-            for podcast in result.podcasts {
-                group.addTask {
-                    await try? await JSONDecodableURLTask<FullPodcast>().post(urlString: podcast.url, body: body)
+        // The URLSession has a max number of concurrent operations
+        // Limit the number of requests we're making to that number to prevent bogging the system down
+        let task = JSONDecodableURLTask<FullPodcastResponse>()
+        let maxConcurrentTasks = URLSession.shared.configuration.httpMaximumConnectionsPerHost
+        let podcasts = result.podcasts
+
+        let parseStartDate = Date()
+        do {
+            let fullPodcasts = try await withThrowingTaskGroup(of: FullPodcast?.self) { group in
+                for index in 0..<maxConcurrentTasks {
+                    group.addTask {
+                        try await task.get(urlString: podcasts[index].url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)?.podcast
+                    }
+                }
+
+                var nextIndex = maxConcurrentTasks
+                var result: [FullPodcast] = []
+
+                for try await jsonResult in group {
+                    if nextIndex < podcasts.count {
+                        group.addTask { [nextIndex] in
+                            try await task.get(urlString: podcasts[nextIndex].url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)?.podcast
+                        }
+                    }
+
+                    nextIndex += 1
+                    if let jsonResult {
+                        result.append(jsonResult)
+                    }
+                }
+
+                return result
+            }
+
+            try await save(podcasts: fullPodcasts)
+        } catch {
+            debugLog("Failed", error)
+        }
                 }
             }
 

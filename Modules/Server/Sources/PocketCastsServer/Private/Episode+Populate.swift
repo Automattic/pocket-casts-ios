@@ -16,4 +16,15 @@ public extension Episode {
         episodeNumber = updateEpisode.episodeNumber ?? 0
         publishedDate = JsonUtil.convert(jsonDate: updateEpisode.publishedDate)
     }
+
+    internal func populate(fromEpisode updateEpisode: EpisodeResponse) {
+        title = updateEpisode.title
+        uuid = updateEpisode.uuid ?? ""
+        downloadUrl = updateEpisode.url
+        fileType = updateEpisode.fileType
+        sizeInBytes = updateEpisode.fileSize ?? 0
+        duration = updateEpisode.duration ?? 0
+        episodeType = updateEpisode.type
+        publishedDate = JsonUtil.convert(jsonDate: updateEpisode.published)
+    }
 }
