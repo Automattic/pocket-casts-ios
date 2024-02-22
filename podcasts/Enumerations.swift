@@ -2,8 +2,39 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 
-enum LibraryType: Int, AnalyticsDescribable {
-    case fourByFour = 1, threeByThree = 2, list = 3
+extension LibraryType: AnalyticsDescribable {
+    enum Old: Int {
+        case fourByFour = 1, threeByThree = 2, list = 3
+    }
+
+    init?(oldValue: Int) {
+        guard let old = Old(rawValue: oldValue) else {
+            return nil
+        }
+        self.init(old: old)
+    }
+
+    init(old: Old) {
+        switch old {
+        case .fourByFour:
+            self = .fourByFour
+        case .threeByThree:
+            self = .threeByThree
+        case .list:
+            self = .list
+        }
+    }
+
+    var old: Old {
+        switch self {
+        case .fourByFour:
+            return .fourByFour
+        case .threeByThree:
+            return .threeByThree
+        case .list:
+            return .list
+        }
+    }
 
     var analyticsDescription: String {
         switch self {
@@ -17,9 +48,7 @@ enum LibraryType: Int, AnalyticsDescribable {
     }
 }
 
-enum BadgeType: Int, AnalyticsDescribable {
-    case off = 0, latestEpisode, allUnplayed
-
+extension BadgeType: AnalyticsDescribable {
     var description: String {
         switch self {
         case .off:
@@ -84,8 +113,43 @@ extension PodcastEpisodeSortOrder: AnalyticsDescribable {
     }
 }
 
-enum LibrarySort: Int, CaseIterable, AnalyticsDescribable {
-    case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+extension LibrarySort: AnalyticsDescribable {
+    enum Old: Int {
+        case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+    }
+
+    init?(oldValue: Int) {
+        guard let old = Old(rawValue: oldValue) else {
+            return nil
+        }
+        self.init(old: old)
+    }
+
+    init(old: Old) {
+        switch old {
+        case .dateAddedNewestToOldest:
+            self = .dateAddedNewestToOldest
+        case .titleAtoZ:
+            self = .titleAtoZ
+        case .episodeDateNewestToOldest:
+            self = .episodeDateNewestToOldest
+        case .custom:
+            self = .custom
+        }
+    }
+
+    var old: Old {
+        switch self {
+        case .dateAddedNewestToOldest:
+            return .dateAddedNewestToOldest
+        case .titleAtoZ:
+            return .titleAtoZ
+        case .episodeDateNewestToOldest:
+            return .episodeDateNewestToOldest
+        case .custom:
+            return .custom
+        }
+    }
 
     var description: String {
         switch self {

@@ -41,6 +41,9 @@ extension SettingsStore<AppSettings> {
             self.update(\.$autoArchiveInactive, value: inactive.rawValue)
         }
         self.update(\.$autoArchiveIncludesStarred, value: UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey))
+        self.update(\.$gridOrder, value: Int32(ServerSettings.homeGridSortOrder()))
+        self.update(\.$gridLayout, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)))
+        self.update(\.$badges, value: Int32(UserDefaults.standard.integer(forKey: Settings.badgeKey)))
         self.update(\.$useEmbeddedArtwork, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages))
         self.update(\.$theme, value: Int32(UserDefaults.standard.integer(forKey: Theme.themeKey)))
         self.update(\.$useSystemTheme, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey))
