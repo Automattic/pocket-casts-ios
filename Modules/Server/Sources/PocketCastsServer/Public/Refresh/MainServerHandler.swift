@@ -208,7 +208,7 @@ public class MainServerHandler {
         let startedDate = Date()
         TokenHelper.callSecureUrl(request: request) { response, data, error in
             let elapsed = Date().timeIntervalSince(startedDate)
-            print("$$ Request took \(elapsed)")
+            debugLog("$$ Request took \(elapsed)")
 
             let statusCode = response?.statusCode ?? 0
 

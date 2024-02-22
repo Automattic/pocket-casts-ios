@@ -72,13 +72,12 @@ public class RefreshManager {
         let startedDate = Date()
 
         if useNewSync {
-
             Task {
                 let podcastsRefresh = PodcastsRefresh()
                 await podcastsRefresh.refresh(podcasts: podcasts)
 
                 let elapsed = Date().timeIntervalSince(startedDate)
-                print("$$ Took \(elapsed)")
+                debugLog("$$ Took \(elapsed)")
 
                 processPodcastRefreshResponse(PodcastRefreshResponse(status: "ok", result: RefreshResult(podcastUpdates: [:]))) { _ in
                     completion?()
@@ -86,13 +85,14 @@ public class RefreshManager {
             }
 
         } else {
+            debugLog("Starting old refresh")
 
             DispatchQueue.global().async {
                 MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
                     guard let self = self else { return }
 
                     let elapsed = Date().timeIntervalSince(startedDate)
-                    print("$$ Took \(elapsed)")
+                    debugLog("$$ Took \(elapsed)")
                     self.processPodcastRefreshResponse(refreshResponse) { _ in
                         completion?()
                     }
