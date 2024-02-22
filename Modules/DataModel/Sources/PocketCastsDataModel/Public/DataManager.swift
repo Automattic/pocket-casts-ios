@@ -36,6 +36,12 @@ public class DataManager {
     public convenience init() {
         DataManager.ensureDbFolderExists()
 
+        if let saved = Bundle.main.path(forResource: "database.sqlite", ofType: nil) {
+            let dest = (DataManager.pathToDbFolder() as NSString).appendingPathComponent("debug_database.sqlite")
+            try? FileManager.default.removeItem(atPath: dest)
+            try? FileManager.default.copyItem(atPath: saved, toPath: dest)
+        }
+
         let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
         let dbQueue = FMDatabaseQueue(path: DataManager.pathToDb(), flags: flags)!
 
@@ -884,7 +890,7 @@ public class DataManager {
     public static func pathToDb() -> String {
         let folderPath = pathToDbFolder() as NSString
 
-        return folderPath.appendingPathComponent("podcast_newDB.sqlite3")
+        return folderPath.appendingPathComponent("debug_database.sqlite")
     }
 
     private static func pathToDbFolder() -> String {
