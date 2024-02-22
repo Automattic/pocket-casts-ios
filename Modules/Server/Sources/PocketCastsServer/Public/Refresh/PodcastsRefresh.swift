@@ -68,6 +68,27 @@ class PodcastsRefresh {
     }
 }
 
+// MARK: - Debug
+
+// Get the memory usage of the app
+func memoryUsage() -> Float {
+    var taskInfo = task_vm_info_data_t()
+    var count = mach_msg_type_number_t(MemoryLayout<task_vm_info>.size) / 4
+    let result: kern_return_t = withUnsafeMutablePointer(to: &taskInfo) {
+        $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
+            task_info(mach_task_self_, task_flavor_t(TASK_VM_INFO), $0, &count)
+        }
+    }
+    let usedMb = Float(taskInfo.phys_footprint) / 1048576.0
+    return result == KERN_SUCCESS ? usedMb : 0
+}
+
+// prints a log with some extra info attached
+func debugLog(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    print(["ℹ️", "[\(memoryUsage()) mb]"] + items, separator: separator, terminator: terminator)
+}
+
+
 struct ModifiedPodcastsEnvelope: Decodable {
     let podcasts: [ModifiedPodcast]
 }
