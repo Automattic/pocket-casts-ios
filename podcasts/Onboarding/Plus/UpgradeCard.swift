@@ -91,7 +91,7 @@ struct UpgradeCard: View {
                             UnderlineLinkTextView(feature.title)
                                 .font(size: 14, style: .subheadline, weight: .medium)
                                 .foregroundColor(theme.primaryText01)
-                                .tint(.black)
+                                .tint(theme.primaryText01)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
