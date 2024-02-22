@@ -296,9 +296,9 @@ public class ServerSettings {
     private static let autoAddLimitKey = "AutoAddToUpNextLimit"
     public class func autoAddToUpNextLimit() -> Int {
         if FeatureFlag.settingsSync.enabled {
-            return Int(SettingsStore.appSettings.autoUpNextLimit)
+            Int(SettingsStore.appSettings.autoUpNextLimit)
         } else {
-            return UserDefaults.standard.integer(forKey: autoAddLimitKey)
+            UserDefaults.standard.integer(forKey: autoAddLimitKey)
         }
     }
 

@@ -8,8 +8,17 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
 
     private let featureFlagMock = FeatureFlagMock()
 
+    enum TestError: Error {
+        case dbFolderPathFailure
+    }
+
     private func setupDatabase() throws -> DataManager {
-        let dbPath = (DataManager.pathToDbFolder() as NSString).appendingPathComponent("podcast_testDB.sqlite3")
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
+        guard let dbFolderPath = documentsPath?.appendingPathComponent("Pocket Casts") as? NSString else {
+            throw TestError.dbFolderPathFailure
+        }
+
+        let dbPath = dbFolderPath.appendingPathComponent("podcast_testDB.sqlite3")
         if FileManager.default.fileExists(atPath: dbPath) {
             try FileManager.default.removeItem(atPath: dbPath)
         }
@@ -77,6 +86,4 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
 
         featureFlagMock.reset()
     }
-
-
 }
