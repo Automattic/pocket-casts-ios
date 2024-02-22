@@ -102,24 +102,27 @@ struct PlusAccountUpgradePrompt: View {
     }
 
     private let productFeatures: [IAPProductID: [Feature]] = [
-        .yearly: [
+        .yearly: ([
             .init(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
-            .init(iconName: "rounded-selected", title: L10n.skipChapters),
+            PaidFeature.deselectChapters.tier == .plus ? .init(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
-            .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons)
-        ] + (FeatureFlag.slumber.enabled ?
-        [Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl)] : []),
+            .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons),
+            FeatureFlag.slumber.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : nil
+        ]
+            .compactMap { $0 }),
 
         .patronYearly: [
             .init(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             .init(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
+            PaidFeature.deselectChapters.tier == .patron ? .init(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             .init(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
             .init(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             .init(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
-        ] + (FeatureFlag.slumber.enabled ?
-        [Feature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)] : [])
+            FeatureFlag.slumber.enabled ? Feature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude) : nil
+        ]
+            .compactMap { $0 }
     ]
 
     // MARK: - Model
