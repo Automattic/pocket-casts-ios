@@ -2,7 +2,7 @@
 common_params:
   # Common plugin settings to use with the `plugins` key.
   - &common_plugins
-    - automattic/a8c-ci-toolkit#iangmaia/run-swiftlint
+    - automattic/a8c-ci-toolkit#3.1.0
   # Common environment values to use with the `env` key.
   - &common_env
     # If you update the image to a newer Xcode version, don't forget to also update the badge in the README.md file accordingly for consistency
