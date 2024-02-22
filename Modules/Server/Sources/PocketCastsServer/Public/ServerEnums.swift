@@ -75,6 +75,7 @@ public enum HeadphoneControl: Int32, Codable {
     case previousChapter = 4
 }
 
+/// Android uses different numberic values for these, thus the specific numbers specified here. See `Old` for the original values we used.
 public enum ThemeType: Int32, CaseIterable, Codable {
     case light = 0
     case dark = 1
@@ -136,7 +137,8 @@ public enum ThemeType: Int32, CaseIterable, Codable {
             return .contrastDark
         }
     }
-
+    
+    /// This Old enum provides the original Int values so we can restore and continue to save the original values.
     public enum Old: Int {
         case light = 0, dark, extraDark, electric, classic, indigo, radioactive, rosé, contrastLight, contrastDark
     }

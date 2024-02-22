@@ -186,8 +186,6 @@ class Theme: ObservableObject {
 
         if FeatureFlag.settingsSync.enabled {
             SettingsStore.appSettings.darkThemePreference = preferredType
-        } else {
-            UserDefaults.standard.setValue(preferredType.rawValue, forKey: preferredDarkThemeKey)
         }
         UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredDarkThemeKey)
 
@@ -219,8 +217,6 @@ class Theme: ObservableObject {
 
         if FeatureFlag.settingsSync.enabled {
             SettingsStore.appSettings.lightThemePreference = preferredType
-        } else {
-            UserDefaults.standard.setValue(preferredType.rawValue, forKey: preferredLightThemeKey)
         }
         UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredLightThemeKey)
 

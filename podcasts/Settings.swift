@@ -632,9 +632,9 @@ class Settings: NSObject {
 
     class func shouldFollowSystemTheme() -> Bool {
         if FeatureFlag.settingsSync.enabled {
-            return SettingsStore.appSettings.useSystemTheme
+            SettingsStore.appSettings.useSystemTheme
         } else {
-            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
         }
     }
 
@@ -893,9 +893,9 @@ class Settings: NSObject {
     static var loadEmbeddedImages: Bool {
         get {
             if FeatureFlag.settingsSync.enabled {
-                return SettingsStore.appSettings.useEmbeddedArtwork
+                SettingsStore.appSettings.useEmbeddedArtwork
             } else {
-                return UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+                UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
             }
         }
         set {
@@ -986,18 +986,17 @@ class Settings: NSObject {
     static var darkUpNextTheme: Bool {
         get {
             if FeatureFlag.settingsSync.enabled {
-                return SettingsStore.appSettings.useDarkUpNextTheme
+                SettingsStore.appSettings.useDarkUpNextTheme
             } else {
-                return Constants.UserDefaults.appearance.darkUpNextTheme.value
+                Constants.UserDefaults.appearance.darkUpNextTheme.value
             }
         }
 
         set {
             if FeatureFlag.settingsSync.enabled {
                 SettingsStore.appSettings.useDarkUpNextTheme = newValue
-            } else {
-                Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
             }
+            Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
         }
     }
 
