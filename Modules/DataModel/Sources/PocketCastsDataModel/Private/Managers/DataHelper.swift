@@ -11,11 +11,6 @@ class DataHelper {
         return inString
     }
 
-
-
-
-    
-
     class func run(query: String, values: [Any]?, methodName: String, onQueue: FMDatabaseQueue) {
         onQueue.inTransaction { db, _ in
             do {
