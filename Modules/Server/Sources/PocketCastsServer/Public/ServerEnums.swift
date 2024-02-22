@@ -137,7 +137,7 @@ public enum ThemeType: Int32, CaseIterable, Codable {
             return .contrastDark
         }
     }
-    
+
     /// This Old enum provides the original Int values so we can restore and continue to save the original values.
     public enum Old: Int {
         case light = 0, dark, extraDark, electric, classic, indigo, radioactive, rosé, contrastLight, contrastDark
