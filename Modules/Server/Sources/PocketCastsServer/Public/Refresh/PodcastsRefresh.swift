@@ -1,21 +1,26 @@
 import Foundation
+import FMDB
 import PocketCastsDataModel
 
-class PodcastsRefresh {
-    func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) async {
+public class PodcastsRefresh {
+    public func refresh(podcasts: [Podcast], completion: (() -> Void)? = nil) async {
         let body: [String: Any] = ["podcasts": podcasts.map { ["uuid": $0.uuid, "last_modified": $0.lastUpdatedAt ?? ""] }]
+
         let startedDate = Date()
         let result = try? await JSONDecodableURLTask<ModifiedPodcastsEnvelope>().post(urlString: "\(ServerConstants.Urls.cache())podcasts/update", body: body)
+
+        debugLog("$$ Getting the list of URLs took: \(Date().timeIntervalSince(startedDate))")
 
         guard let result else {
             return
         }
+        debugLog("$$ Need to update: \(result.podcasts.count) podcasts")
 
         let uuidsToUpdate = result.podcasts.map { $0.uuid }
         let podcastsToUpdate = podcasts.filter { uuidsToUpdate.contains($0.uuid) }
 
         guard !podcastsToUpdate.isEmpty else {
-            print("nothing to update")
+            debugLog("nothing to update")
             return
         }
 
@@ -100,12 +105,14 @@ class PodcastsRefresh {
                     }
                 }
             }
-
-            try await group.waitForAll()
         }
 
-        let elapsed = Date().timeIntervalSince(startedDate)
-        print("$$ Request took \(elapsed)")
+        DataManager.sharedManager.allPodcasts(includeUnsubscribed: false).forEach {
+            ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: $0, setDefaults: false)
+        }
+
+        ServerConfig.shared.syncDelegate?.checkForUnusedPodcasts()
+        ServerConfig.shared.syncDelegate?.cleanupAllUnusedEpisodeBuffers()
     }
 }
 
