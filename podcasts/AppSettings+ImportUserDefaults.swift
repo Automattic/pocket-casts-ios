@@ -44,6 +44,9 @@ extension SettingsStore<AppSettings> {
             self.update(\.$autoArchiveInactive, value: inactive.rawValue)
         }
         self.update(\.$autoArchiveIncludesStarred, value: UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey))
+        if let lastPlaylist = AutoplayHelper().userDefaultsPlaylist {
+            self.update(\.$autoPlayLastListUuid, value: AutoPlaySource(playlist: lastPlaylist))
+		}
         self.update(\.$gridOrder, value: Int32(ServerSettings.homeGridSortOrder()))
         self.update(\.$gridLayout, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)))
         self.update(\.$badges, value: Int32(UserDefaults.standard.integer(forKey: Settings.badgeKey)))

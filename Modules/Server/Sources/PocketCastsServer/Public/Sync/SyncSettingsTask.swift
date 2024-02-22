@@ -53,6 +53,7 @@ extension Api_ChangeableSettings {
         useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
         autoUpNextLimit.update(settings.$autoUpNextLimit)
         autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
+        autoPlayLastListUuid.update(settings.$autoPlayLastListUuid)
     }
 }
 
@@ -107,6 +108,7 @@ extension AppSettings {
         $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
         $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
         oldSettings.printDiff(from: self)
+        $autoPlayLastListUuid.update(setting: settings.autoPlayLastListUuid)
     }
 }
 

@@ -74,6 +74,7 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var useEmbeddedArtwork: Bool = false
 
     @ModifiedDate public var useDarkUpNextTheme: Bool = true
+    @ModifiedDate public var autoPlayLastListUuid: AutoPlaySource = .uuid("")
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
