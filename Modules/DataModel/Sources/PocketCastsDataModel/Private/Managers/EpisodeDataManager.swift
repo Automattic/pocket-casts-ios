@@ -194,6 +194,20 @@ class EpisodeDataManager {
         }
     }
 
+    func save(episode: Episode, db: FMDatabase) {
+            do {
+                if episode.id == 0 {
+                    episode.id = DBUtils.generateUniqueId()
+                    try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
+                } else {
+                    let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
+                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
+            }
+    }
+
     func bulkSave(episodes: [Episode], dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {

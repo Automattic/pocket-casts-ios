@@ -584,3 +584,22 @@ class PodcastDataManager {
         return PodcastSorter.titleSort(title1: title1, title2: title2)
     }
 }
+
+extension PodcastDataManager {
+    public func podcasts(uuids: [String], in db: FMDatabase) throws -> [Podcast] {
+        let query = """
+        SELECT * from \(DataManager.podcastTableName)
+        WHERE uuid IN (\(uuids.map({ "'\($0)'"}).joined(separator: ",")))
+        ORDER BY sortOrder ASC
+        """
+        let resultSet = try db.executeQuery(query, values: nil)
+        defer { resultSet.close() }
+
+        var podcasts = [Podcast]()
+        while resultSet.next() {
+            podcasts.append(.from(resultSet: resultSet))
+        }
+
+        return podcasts
+    }
+}

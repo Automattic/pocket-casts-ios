@@ -990,3 +990,39 @@ public extension DataManager {
         endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
     }
 }
+
+// MARK: - Concept to reduce the DB locked by allowing us to pass in the DB directly
+
+public extension DataManager {
+    func inDatabase(_ block: (FMDatabase) -> Void) {
+        dbQueue.inDatabase(block)
+    }
+
+    func podcasts(uuids: [String], in db: FMDatabase) throws -> [Podcast] {
+        try podcastManager.podcasts(uuids: uuids, in: db)
+    }
+
+    func episodes(for podcastUUID: String, in db: FMDatabase) throws -> [Episode] {
+        let query = """
+        SELECT * from \(DataManager.episodeTableName)
+        WHERE podcastUuid = ?
+        """
+        let resultSet = try db.executeQuery(query, values: [podcastUUID])
+        defer { resultSet.close() }
+
+        var result: [Episode] = []
+        while resultSet.next() {
+            result.append(.from(resultSet: resultSet))
+        }
+
+        return result
+    }
+
+    func save(episode: BaseEpisode, in db: FMDatabase) {
+        if let episode = episode as? Episode {
+            episodeManager.save(episode: episode, db: db)
+        } else if let episode = episode as? UserEpisode {
+//            userEpisodeManager.save(episode: episode, dbQueue: dbQueue)
+        }
+    }
+}
