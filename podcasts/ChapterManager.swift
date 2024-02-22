@@ -80,7 +80,6 @@ class ChapterManager {
         let hasChanged = currentChapters != chapters
 
         if hasChanged {
-            numberOfChaptersSkipped = abs(chapters.index - currentChapters.index)
             currentChapters = chapters
         }
 

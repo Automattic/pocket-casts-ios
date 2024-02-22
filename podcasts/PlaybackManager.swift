@@ -305,6 +305,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     func skipToPreviousChapter(startPlaybackAfterSkip: Bool = false) {
         guard let previousChapter = chapterManager.previousVisibleChapter() else { return }
 
+        if abs(currentChapters().index - previousChapter.index) > 1 {
+            trackChapterSkipped()
+        }
+
         seekTo(time: ceil(previousChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
 
@@ -316,6 +320,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             // whatever the producer set.
             skipToEndOfLastChapter()
             return
+        }
+
+        if abs(currentChapters().index - nextChapter.index) > 1 {
+            trackChapterSkipped()
         }
 
         seekTo(time: ceil(nextChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
@@ -364,10 +372,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         if chapterManager.haveTriedToParseChaptersFor(episodeUuid: episodeUuid), chapterManager.updateCurrentChapter(time: currentTime()) {
             if currentChapters().visibleChapter?.isPlayable() == false {
                 skipToNextChapter()
+                trackChapterSkipped()
             } else {
                 fireChapterChangeNotification()
                 updateNowPlayingInfo()
-                trackChapterSkippedIfNeeded()
             }
         }
     }
@@ -2072,9 +2080,7 @@ extension PlaybackManager {
 
     // MARK: - Analytics
 
-    private func trackChapterSkippedIfNeeded() {
-        if chapterManager.numberOfChaptersSkipped > 1 {
-            analyticsPlaybackHelper.chapterSkipped()
-        }
+    private func trackChapterSkipped() {
+        analyticsPlaybackHelper.chapterSkipped()
     }
 }
