@@ -233,7 +233,10 @@ class Theme: ObservableObject {
     }
 
     func toggleTheme() {
-        activeTheme = toggledThemed()
+        let newTheme = toggledThemed()
+        if activeTheme != newTheme {
+            activeTheme = toggledThemed()
+        }
     }
 
     func toggleDarkLightThemeAnimated(topLevelView: UIView, originView: UIView) {
