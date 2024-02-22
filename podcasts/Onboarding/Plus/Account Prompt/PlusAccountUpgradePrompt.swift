@@ -105,6 +105,7 @@ struct PlusAccountUpgradePrompt: View {
         .yearly: [
             .init(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             .init(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
+            .init(iconName: "rounded-selected", title: L10n.skipChapters),
             .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
             .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons)
