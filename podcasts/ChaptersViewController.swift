@@ -4,6 +4,8 @@ import PocketCastsServer
 class ChaptersViewController: PlayerItemViewController {
     var isTogglingChapters = false
 
+    var numberOfDeselectedChapters = 0
+
     @IBOutlet var chaptersTable: UITableView! {
         didSet {
             registerCells()

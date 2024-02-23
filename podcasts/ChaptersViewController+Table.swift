@@ -93,5 +93,13 @@ extension ChaptersViewController: ChaptersHeaderDelegate {
         header.isTogglingChapters = isTogglingChapters
         header.update()
         playbackManager.playableChaptersUpdated()
+
+        if isTogglingChapters {
+            numberOfDeselectedChapters = playbackManager.chapterCount(onlyPlayable: true)
+            Analytics.track(.deselectChaptersToggledOn)
+        } else {
+            numberOfDeselectedChapters -= playbackManager.chapterCount(onlyPlayable: true)
+            Analytics.track(.deselectChaptersToggledOff, properties: ["number_of_deselected_chapters": numberOfDeselectedChapters])
+        }
     }
 }
