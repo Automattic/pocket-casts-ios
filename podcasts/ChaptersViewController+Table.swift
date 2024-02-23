@@ -84,7 +84,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 extension ChaptersViewController: ChaptersHeaderDelegate {
     func toggleTapped() {
         guard PaidFeature.deselectChapters.isUnlocked else {
-            PaidFeature.deselectChapters.presentUpgradeController(from: self, source: "deselect_chapters")
+            PaidFeature.deselectChapters.presentUpgradeController(from: self, source: "deselect_chapters", customTitle: PaidFeature.deselectChapters.tier == .plus ? L10n.skipChaptersPlusPrompt : L10n.skipChaptersPatronPrompt)
             return
         }
 
