@@ -39,6 +39,9 @@ extension Api_ChangeableSettings {
         gridOrder.update(settings.$gridOrder)
         gridLayout.update(settings.$gridLayout)
         badges.update(settings.$badges)
+        filesAutoUpNext.update(settings.$filesAutoUpNext)
+        filesAfterPlayingDeleteLocal.update(settings.$filesAfterPlayingDeleteLocal)
+        filesAfterPlayingDeleteCloud.update(settings.$filesAfterPlayingDeleteCloud)
         playerShelf.update(settings.$playerShelf)
     }
 }
@@ -79,6 +82,9 @@ extension AppSettings {
         $gridOrder.update(setting: settings.gridOrder)
         $gridLayout.update(setting: settings.gridLayout)
         $badges.update(setting: settings.badges)
+        $filesAutoUpNext.update(setting: settings.filesAutoUpNext)
+        $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocal)
+        $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloud)
         $playerShelf.update(setting: settings.playerShelf)
     }
 }

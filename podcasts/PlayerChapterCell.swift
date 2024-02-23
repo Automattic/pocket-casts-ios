@@ -66,7 +66,7 @@ class PlayerChapterCell: UITableViewCell {
         chapterName.text = chapter.title
         chapterLength.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
         chapterNumber.text = "\(chapter.index + 1)"
-        linkView.isHidden = (chapter.url == nil)
+        linkView.isHidden = (chapter.url == nil || isChapterToggleEnabled)
 
         nowPlayingAnimation.animating = false
         setColors(dim: playState == .played)
@@ -90,9 +90,10 @@ class PlayerChapterCell: UITableViewCell {
     }
 
     private func setUpSelectedChapterButton() {
-        toggleChapterButton.onImage = UIImage(named: "checkbox-selected")
-        toggleChapterButton.offImage = UIImage(named: "checkbox-unselected")
-        toggleChapterButton.tintColor = ThemeColor.primaryInteractive01()
+        toggleChapterButton.onImage = UIImage(named: "rounded-selected")
+        toggleChapterButton.offImage = UIImage(named: "rounded-deselected")
+        toggleChapterButton.tintColor = .white
+        toggleChapterButton.isUserInteractionEnabled = false
     }
 
     private func hideSelectedChapterButton() {
@@ -122,8 +123,10 @@ class PlayerChapterCell: UITableViewCell {
         if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
             if chapter?.shouldPlay == true {
                 currentEpisode.select(chapterIndex: index)
+                track(.deselectChaptersChapterSelected)
             } else {
                 currentEpisode.deselect(chapterIndex: index)
+                track(.deselectChaptersChapterDeselected)
             }
 
             DataManager.sharedManager.save(episode: currentEpisode)
@@ -156,5 +159,9 @@ class PlayerChapterCell: UITableViewCell {
         chapterName.textColor = shouldDim ? ThemeColor.playerContrast02() : ThemeColor.playerContrast01()
         chapterNumber.textColor = chapterName.textColor
         chapterLength.textColor = chapterName.textColor
+    }
+
+    private func track(_ event: AnalyticsEvent) {
+        Analytics.track(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
     }
 }

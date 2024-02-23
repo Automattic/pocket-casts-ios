@@ -48,11 +48,17 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         tableView.deselectRow(at: indexPath, animated: true)
 
         guard !isTogglingChapters else {
+            // Ensure at least one chapter is selected
+            if PlaybackManager.shared.chapterAt(index: indexPath.row)?.isPlayable() == true, PlaybackManager.shared.chapterCount(onlyPlayable: true) == 1 {
+                Toast.show(L10n.selectAChapter)
+                return
+            }
+
             (tableView.cellForRow(at: indexPath) as? PlayerChapterCell)?.toggleChapterTapped(self)
             return
         }
 
-        if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
+        if let chapter = PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
             if chapter.index == PlaybackManager.shared.currentChapters().index {
                 containerDelegate?.scrollToNowPlaying()
             } else {
@@ -78,7 +84,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
 extension ChaptersViewController: ChaptersHeaderDelegate {
     func toggleTapped() {
         guard PaidFeature.deselectChapters.isUnlocked else {
-            PaidFeature.deselectChapters.presentUpgradeController(from: self, source: "deselect_chapters")
+            PaidFeature.deselectChapters.presentUpgradeController(from: self, source: "deselect_chapters", customTitle: PaidFeature.deselectChapters.tier == .plus ? L10n.skipChaptersPlusPrompt : L10n.skipChaptersPatronPrompt)
             return
         }
 
@@ -86,5 +92,14 @@ extension ChaptersViewController: ChaptersHeaderDelegate {
         chaptersTable.reloadSections([0], with: .automatic)
         header.isTogglingChapters = isTogglingChapters
         header.update()
+        playbackManager.playableChaptersUpdated()
+
+        if isTogglingChapters {
+            numberOfDeselectedChapters = playbackManager.chapterCount(onlyPlayable: true)
+            Analytics.track(.deselectChaptersToggledOn)
+        } else {
+            numberOfDeselectedChapters -= playbackManager.chapterCount(onlyPlayable: true)
+            Analytics.track(.deselectChaptersToggledOff, properties: ["number_of_deselected_chapters": numberOfDeselectedChapters])
+        }
     }
 }
