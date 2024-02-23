@@ -368,10 +368,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         if let sheetController = effectsController.sheetPresentationController {
             if #available(iOS 16.0, *) {
                 let hostingControllerHeight = view.bounds.height
-                let sheetDetentHeight = hostingControllerHeight * 0.5
+                let sheetDetentHeight = hostingControllerHeight * 0.7
                 sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
             } else {
-                sheetController.detents = [.medium()]
+                sheetController.detents = UIScreen.isSmallScreen ? [.large()] : [.medium()]
             }
 
             // The Playback Effects VC implements its own grabber UI.
