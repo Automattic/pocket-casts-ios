@@ -170,6 +170,12 @@ internal enum L10n {
   internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
   /// Join us in the beta testing for bookmarks!
   internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
+  /// Subscribe to Plus now so you can select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersFree: String { return L10n.tr("Localizable", "announcement_deselect_chapters_free") }
+  /// As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersPatron: String { return L10n.tr("Localizable", "announcement_deselect_chapters_patron") }
+  /// As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersPlus: String { return L10n.tr("Localizable", "announcement_deselect_chapters_plus") }
   /// Code copied to clipboard
   internal static var announcementSlumberCodeCopied: String { return L10n.tr("Localizable", "announcement_slumber_code_copied") }
   /// Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.

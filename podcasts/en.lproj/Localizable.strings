@@ -4021,3 +4021,13 @@
 
 /* Message shown when the code is copied to clipboard */
 "announcement_slumber_code_copied" = "Code copied to clipboard";
+
+/* Announcement of Skip Chapters for Patron users */
+"announcement_deselect_chapters_patron" = "As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.";
+
+/* Announcement of Skip Chapters for Plus users */
+"announcement_deselect_chapters_plus" = "As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.";
+
+/* Announcement of Skip Chapters for free users */
+"announcement_deselect_chapters_free" = "Subscribe to Plus now so you can select and skip chapters in any episode that supports them.";
+
