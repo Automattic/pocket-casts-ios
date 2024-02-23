@@ -54,18 +54,37 @@ struct Announcements {
         ),
 
         // Deselect Chapters
+//        .init(
+//            version: "7.59",
+//            header: AnyView(Image("deselect_chapters")),
+//            title: L10n.skipChapters,
+//            message: L10n.announcementDeselectChaptersPatron,
+//            buttonTitle: L10n.gotIt,
+//            action: {
+//                SceneHelper.rootViewController()?.dismiss(animated: true)
+//            },
+//            isEnabled: FeatureFlag.deselectChapters.enabled
+//                       && PaidFeature.deselectChapters.tier == .patron
+//                       && SubscriptionHelper.activeTier == .patron,
+//            fullModal: true
+//        ),
+
         .init(
             version: "7.59",
             header: AnyView(Image("deselect_chapters")),
             title: L10n.skipChapters,
-            message: L10n.announcementDeselectChaptersPatron,
-            buttonTitle: L10n.gotIt,
+            message: SubscriptionHelper.hasActiveSubscription() ? L10n.announcementDeselectChaptersPlus : L10n.announcementDeselectChaptersFree,
+            buttonTitle: SubscriptionHelper.hasActiveSubscription() ? L10n.gotIt : L10n.upgradeToPlus,
             action: {
-                SceneHelper.rootViewController()?.dismiss(animated: true)
+                SceneHelper.rootViewController()?.dismiss(animated: true) {
+                    if !SubscriptionHelper.hasActiveSubscription(), let rootViewController = SceneHelper.rootViewController() {
+                        PaidFeature.deselectChapters.presentUpgradeController(from: rootViewController, source: "deselect_chapters_whats_new")
+                    }
+                }
             },
             isEnabled: FeatureFlag.deselectChapters.enabled
-                       && PaidFeature.deselectChapters.tier == .patron
-                       && SubscriptionHelper.activeTier == .patron,
+                       && PaidFeature.deselectChapters.tier == .plus
+                       && SubscriptionHelper.activeTier < .patron,
             fullModal: true
         )
     ]
