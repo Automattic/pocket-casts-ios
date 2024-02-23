@@ -45,7 +45,9 @@ extension SettingsStore<AppSettings> {
         self.update(\.$gridLayout, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)))
         self.update(\.$badges, value: Int32(UserDefaults.standard.integer(forKey: Settings.badgeKey)))
         self.update(\.$useEmbeddedArtwork, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages))
-        self.update(\.$theme, value: Int32(UserDefaults.standard.integer(forKey: Theme.themeKey)))
+        if let oldTheme = ThemeType.Old(rawValue: UserDefaults.standard.integer(forKey: Theme.themeKey)) {
+            self.update(\.$theme, value: ThemeType(old: oldTheme))
+        }
         self.update(\.$useSystemTheme, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey))
         if let oldTheme = ThemeType.Old(rawValue: UserDefaults.standard.integer(forKey: Theme.preferredLightThemeKey)) {
             self.update(\.$lightThemePreference, value: ThemeType(old: oldTheme))
