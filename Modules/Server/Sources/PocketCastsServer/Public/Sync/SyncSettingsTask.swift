@@ -42,6 +42,7 @@ extension Api_ChangeableSettings {
         filesAutoUpNext.update(settings.$filesAutoUpNext)
         filesAfterPlayingDeleteLocal.update(settings.$filesAfterPlayingDeleteLocal)
         filesAfterPlayingDeleteCloud.update(settings.$filesAfterPlayingDeleteCloud)
+        playerShelf.update(settings.$playerShelf)
     }
 }
 
@@ -84,6 +85,7 @@ extension AppSettings {
         $filesAutoUpNext.update(setting: settings.filesAutoUpNext)
         $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocal)
         $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloud)
+        $playerShelf.update(setting: settings.playerShelf)
     }
 }
 

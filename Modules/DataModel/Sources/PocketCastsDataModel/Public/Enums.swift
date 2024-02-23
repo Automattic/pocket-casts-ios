@@ -181,3 +181,61 @@ extension AutoArchiveAfterInactive {
         }
     }
 }
+
+/// A value representing a type with a `known` and `unknown` value.
+/// The `known` value is of type`Present` and `unknown` of type `Absent`
+public enum Option<Present, Absent> {
+    case known(Present)
+    case unknown(Absent)
+}
+
+/// Conformance to RawRepresentable by first checking for the Present `known` type and then falling back to setting the raw value as `unknown`
+extension Option: RawRepresentable where Present: RawRepresentable<Absent> {
+    public init?(rawValue: Absent) {
+        if let known = Present(rawValue: rawValue) {
+            self = .known(known)
+        } else {
+            self = .unknown(rawValue)
+        }
+    }
+
+    public var rawValue: Absent {
+        switch self {
+        case .known(let present):
+            return present.rawValue
+        case .unknown(let absent):
+            return absent
+        }
+    }
+}
+
+public typealias ActionOption = Option<PlayerAction, String>
+
+extension ActionOption: Codable, Equatable {}
+
+public enum PlayerAction: String, Codable, Equatable {
+    case effects = "effects"
+    case sleepTimer = "sleep"
+    case routePicker = "airplay"
+    case starEpisode = "star"
+    case shareEpisode = "share"
+    case goToPodcast = "podcast"
+    case chromecast = "case"
+    case markPlayed = "played"
+    case archive = "archive"
+    case addBookmark = "bookmark"
+}
+
+extension Array: RawRepresentable where Element: RawRepresentable<String> {
+    public typealias RawValue = String
+
+    public init?(rawValue: String) {
+        self = rawValue.split(separator: ",").compactMap { item in
+            Element(rawValue: String(item))
+        }
+    }
+
+    public var rawValue: String {
+        map(\.rawValue).joined(separator: ",")
+    }
+}

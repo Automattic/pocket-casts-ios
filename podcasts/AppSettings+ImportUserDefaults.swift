@@ -47,5 +47,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$filesAutoUpNext, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeAutoAddToUpNextKey))
         self.update(\.$filesAfterPlayingDeleteLocal, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeRemoveFileAfterPlayingKey))
         self.update(\.$filesAfterPlayingDeleteCloud, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeRemoveFromCloudAfterPlayingKey))
+        self.update(\.$playerShelf, value: (UserDefaults.standard.playerActions ?? PlayerAction.defaultActions).map { ActionOption.known($0) })
     }
 }
