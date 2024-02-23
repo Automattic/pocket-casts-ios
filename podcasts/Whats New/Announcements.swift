@@ -51,6 +51,22 @@ struct Announcements {
             isEnabled: FeatureFlag.slumber.enabled,
             fullModal: true,
             customBody: AnyView(SlumberCustomBody())
+        ),
+
+        // Deselect Chapters
+        .init(
+            version: "7.59",
+            header: AnyView(Image("deselect_chapters")),
+            title: L10n.skipChapters,
+            message: L10n.announcementDeselectChaptersPatron,
+            buttonTitle: L10n.gotIt,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: FeatureFlag.deselectChapters.enabled
+                       && PaidFeature.deselectChapters.tier == .patron
+                       && SubscriptionHelper.activeTier == .patron,
+            fullModal: true
         )
     ]
 }
