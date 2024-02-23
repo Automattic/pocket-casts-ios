@@ -41,6 +41,10 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
     @ModifiedDate public var podcastBookmarksSortType: BookmarksSort = .newestToOldest
 
+    @ModifiedDate public var filesAutoUpNext: Bool = false
+    @ModifiedDate public var filesAfterPlayingDeleteLocal: Bool = false
+    @ModifiedDate public var filesAfterPlayingDeleteCloud: Bool = false
+
     @ModifiedDate public var warnDataUsage: Bool = false
 
     @ModifiedDate public var headphoneControlsNextAction: HeadphoneControl = .skipForward

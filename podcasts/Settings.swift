@@ -499,32 +499,53 @@ class Settings: NSObject {
         trackValueToggled(.settingsFilesAutoUploadToCloudToggled, enabled: value)
     }
 
-    private static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
+    static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
     class func userEpisodeAutoAddToUpNext() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAutoUpNext
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
+        }
     }
 
     class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAutoUpNext = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
         trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
     }
 
-    private static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
+    static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
     class func userEpisodeRemoveFileAfterPlaying() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAfterPlayingDeleteLocal
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
+        }
     }
 
     class func setUserEpisodeRemoveFileAfterPlaying(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.filesAfterPlayingDeleteLocal = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFileAfterPlayingKey)
         trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: value)
     }
 
-    private static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
+    static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
     class func userEpisodeRemoveFromCloudAfterPlaying() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAfterPlayingDeleteCloud
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
+        }
     }
 
     class func setUserEpisodeRemoveFromCloudAfterPlayingKey(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.filesAfterPlayingDeleteCloud = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
         trackValueToggled(.settingsFilesDeleteCloudFileAfterPlayingToggled, enabled: value)
     }
