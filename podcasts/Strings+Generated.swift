@@ -1248,6 +1248,8 @@ internal enum L10n {
   }
   /// Go to Podcast
   internal static var goToPodcast: String { return L10n.tr("Localizable", "go_to_podcast") }
+  /// Got it
+  internal static var gotIt: String { return L10n.tr("Localizable", "got_it") }
   /// Group Episodes
   internal static var groupEpisodes: String { return L10n.tr("Localizable", "group_episodes") }
   /// Clear All

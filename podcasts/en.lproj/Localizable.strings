@@ -4031,3 +4031,5 @@
 /* Announcement of Skip Chapters for free users */
 "announcement_deselect_chapters_free" = "Subscribe to Plus now so you can select and skip chapters in any episode that supports them.";
 
+/* Used in a button meaning that the user undestood the message. */
+"got_it" = "Got it";
