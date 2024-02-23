@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 struct PaidStoryWallView: View {
     @StateObject private var model = PlusPricingInfoModel()
@@ -14,7 +15,7 @@ struct PaidStoryWallView: View {
                 }
                 .padding(.bottom, geometry.size.height * 0.06)
 
-                Button(model.pricingInfo.hasFreeTrial ? L10n.eoyStartYourFreeTrial : L10n.upgradeToPlan(L10n.pocketCastsPlusShort)) {
+                Button(L10n.upgradeToPlan(L10n.pocketCastsPlusShort)) {
                     guard let storiesViewController = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController else {
                         return
                     }

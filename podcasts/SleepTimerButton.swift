@@ -21,12 +21,12 @@ class SleepTimerButton: UIButton {
         }
     }
 
-    private var animationView: AnimationView
+    private var animationView: LottieAnimationView
 
     override var tintColor: UIColor! {
         didSet {
             let colorValues = tintColor.getRGBA()
-            let colorProvider = ColorValueProvider(Color(r: colorValues[0], g: colorValues[1], b: colorValues[2], a: colorValues[3] * 2))
+            let colorProvider = ColorValueProvider(LottieColor(r: colorValues[0], g: colorValues[1], b: colorValues[2], a: colorValues[3] * 2))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Fill 1.Color"))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Fill 2.Color"))
             animationView.setValueProvider(colorProvider, keypath: AnimationKeypath(keypath: "**.Fill 3.Color"))
@@ -34,7 +34,7 @@ class SleepTimerButton: UIButton {
     }
 
     override init(frame: CGRect) {
-        animationView = AnimationView(name: "sleep_button")
+        animationView = LottieAnimationView(name: "sleep_button")
         animationView.isUserInteractionEnabled = false
         animationView.animationSpeed = 1.0
         animationView.currentProgress = 0.5
@@ -45,7 +45,7 @@ class SleepTimerButton: UIButton {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        animationView = AnimationView(name: "sleep_button")
+        animationView = LottieAnimationView(name: "sleep_button")
         animationView.isUserInteractionEnabled = false
         animationView.animationSpeed = 1.0
         animationView.currentProgress = 0.5

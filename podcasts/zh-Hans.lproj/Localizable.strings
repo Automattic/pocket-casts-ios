@@ -35,8 +35,12 @@
     <string>已禁用</string>
     <key>accessibility_dismiss</key>
     <string>忽略</string>
+    <key>accessibility_episode_playback</key>
+    <string>剧集回放</string>
     <key>accessibility_hide_filter_details</key>
     <string>轻点以隐藏过滤器详情</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>轻触以导航至主要播客信息页面</string>
     <key>accessibility_hint_star</key>
     <string>轻点两次以为剧集加星标</string>
     <key>accessibility_hint_unstar</key>
@@ -47,6 +51,8 @@
     <string>已锁定，Patron 功能</string>
     <key>accessibility_percent_complete_format</key>
     <string>完成了百分之 %1$@</string>
+    <key>accessibility_playback_progress</key>
+    <string>第 %1$@ 集，共 %2$@ 集</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>播放速度 %1$@ 倍</string>
     <key>accessibility_playlist_color</key>
@@ -147,6 +153,18 @@
     <string>书签在这里！</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>加入我们的 Beta 测试，试用书签功能！</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>代码已复制到剪贴板</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>订阅 Plus 并享受为期一年的 Slumber Studios 内容订阅，为实现最甜蜜的梦想而打造的播客。 了解更多。</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>订阅 Plus 后，使用代码 %1$@ 即可享受为期一年的 Slumber Studios 内容订阅。 了解更多。</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>了解更多</string>
+    <key>announcement_slumber_redeem</key>
+    <string>兑换您的代码</string>
+    <key>announcement_slumber_title</key>
+    <string>怀揣远大梦想</string>
     <key>app_badge</key>
     <string>应用程序徽章</string>
     <key>app_icon_classic</key>
@@ -355,6 +373,8 @@
     <string>清除“接下来播放”</string>
     <key>clear_up_next_message</key>
     <string>是否确定要清除您的“接下来播放”队列？</string>
+    <key>client_error_token_deauth</key>
+    <string>令牌身份验证失败。</string>
     <key>close</key>
     <string>关闭</string>
     <key>color</key>
@@ -476,7 +496,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>文化</string>
+    <string>社会与文化</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>精神生活</string>
     <key>discover_browse_by_category_sports</key>
@@ -1458,39 +1478,30 @@
     <string>可随时取消</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB 云存储</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>首年享 50%% 优惠</string>
     <key>plus_error_already_registered</key>
     <string>您已有一个 Pocket Casts Plus 账户</string>
     <key>plus_error_already_registered_details</key>
     <string>感谢您的支持，但遗憾的是，您无法参加本次促销活动。</string>
     <key>plus_expiration_format</key>
     <string>到期日期：%1$@</string>
-    <key>plus_feature_cloud_storage</key>
-    <string>云存储</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 的每个人都对您感激不尽</string>
+    <key>plus_feature_slumber</key>
+    <string>由 Slumber Studios 提供的一年独家内容</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主题和应用程序图标</string>
-    <key>plus_feature_watch_app</key>
-    <string>独立观看播放</string>
-    <key>plus_feature_web_player</key>
-    <string>Web 播放器</string>
     <key>plus_features</key>
     <string>PLUS 功能</string>
     <key>plus_free_membership_format</key>
-    <string>%1$@ 免费</string>
+    <string>%1$@ 免费试用</string>
     <key>plus_lifetime_membership</key>
     <string>终身会员</string>
-    <key>plus_marketing_cloud_storage_description</key>
-    <string>加快您的讲座速度。 刻录其他内容。 成为您自己的播客 DJ。</string>
-    <key>plus_marketing_cloud_storage_title</key>
-    <string>云存储</string>
-    <key>plus_marketing_desktop_apps_description</key>
-    <string>借助我们的 Windows、macOS 和 Web 应用程序，将播客传播到更多位置。</string>
     <key>plus_marketing_desktop_apps_title</key>
-    <string>桌面应用程序</string>
-    <key>plus_marketing_final_call_to_action</key>
-    <string>是时候开始玩播客游戏了？
-获取桌面应用程序，自带文件，并通过全新的主题加快内容，这是 Plus 会员专享福利。</string>
+    <string>桌面和 Web 应用程序</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>文件夹和书签</string>
     <key>plus_marketing_folders_description</key>
     <string>创建文件夹以整理您的播客集。</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1501,12 +1512,8 @@
     <string>了解有关 Pocket Casts Plus 的更多信息</string>
     <key>plus_marketing_main_description</key>
     <string>同时进行个性化设计并分发。 将您的个人音频文件上传到我们的云服务器，通过我们的 Web 播放器访问您的账户，并将应用程序设置为您的应用程序。</string>
-    <key>plus_marketing_main_title</key>
-    <string>高级侦听器的增强功能</string>
     <key>plus_marketing_subtitle</key>
     <string>使用专享功能和定制选项</string>
-    <key>plus_marketing_themes_icons_description</key>
-    <string>选择您的真实颜色。 仅面向 Plus 俱乐部的专属图标和主题。</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>主题和图标</string>
     <key>plus_marketing_title</key>
@@ -1517,12 +1524,8 @@
     <string>借助我们的 Windows、macOS 和 Web 应用等更多位置收听播客</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>将播客整理到文件夹中，让它们在所有设备中保持同步。</string>
-    <key>plus_marketing_upgrade_button</key>
-    <string>升级到 Plus</string>
-    <key>plus_marketing_watch_playback_description</key>
-    <string>丢下手机，开始跑步 – 不会错过任何一个节拍。 唯独 Apple Watch。</string>
     <key>plus_marketing_watch_playback_title</key>
-    <string>观看播放</string>
+    <string>Apple Watch &amp; Wear OS 应用程序</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@/月</string>
     <key>plus_payment_canceled</key>
@@ -1766,9 +1769,6 @@
     <string>预览</string>
     <key>pricing_terms_after_trial</key>
     <string>之后 %1$@</string>
-    <key>pricing_terms_after_trial_long</key>
-    <string>定期付款将在您免费试用
-%1$@后开始</string>
     <key>profile</key>
     <string>个人资料</string>
     <key>profile_help_support</key>
@@ -1795,8 +1795,6 @@
     <string>您尚未对任何剧集进行评分。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>未对任何内容进行评分</string>
-    <key>purchase_terms</key>
-    <string>继续即表示，您同意%1$@隐私政策%2$@和%3$@条款和条件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>清除 %1$@ 集</string>
     <key>queue_clear_queue</key>
@@ -1809,6 +1807,18 @@
     <string>剩余 %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>总剩余时间为 %1$@</string>
+    <key>rate</key>
+    <string>评分</string>
+    <key>rating_error</key>
+    <string>糟糕！ 出现错误。</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>只有听众能为此播客评分。 请先收听几集，然后再来评分。 我们期待了解您的所思所想！</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>请先收听此播客</string>
+    <key>rating_submitted</key>
+    <string>您的评分已提交！</string>
+    <key>rating_title</key>
+    <string>为 %1$@ 评分</string>
     <key>refresh_control_fetching_episodes</key>
     <string>查找新的播客剧集</string>
     <key>refresh_control_pull_to_refresh</key>

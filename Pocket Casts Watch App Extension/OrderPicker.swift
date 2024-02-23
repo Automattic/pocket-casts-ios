@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct OrderPickerView<T>: View where T: SortOption {
     @Environment(\.presentationMode) var presentationMode

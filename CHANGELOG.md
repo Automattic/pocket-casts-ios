@@ -1,12 +1,25 @@
+7.59
+-----
+
+
+7.58
+-----
+- Fixes an issue where adding a new podcast could fail at the first try. [#1457]
+
+7.57
+-----
+- Implement new introductory offer for Plus: 50% off on the first year. [#1362] [internal]
+- Fixes an issue where the auto add to top/bottom would be reset. [#788]
+
 7.56
-----
-- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads [#1183]
-- Adds Star button to CarPlay Now Playing screen [#1332]
+-----
 - Allows navigation from the Player to the Podcast screen by tapping on Podcast name [#1322]
 
 7.55
 -----
 - Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
+- Fix rows layouts on WatchOS 10 for podcast episode list, file list, filters and downloads [#1183]
+- Adds Star button to CarPlay Now Playing screen [#1332]
 
 7.54
 -----

@@ -10,17 +10,17 @@ extension UIViewController {
             return presentedViewController.topMostPresentedViewController
         }
 
-        if self is UINavigationController {
-            return navigationController?.visibleViewController?.topMostPresentedViewController
+        if let navigationController = self as? UINavigationController {
+            return navigationController.visibleViewController?.topMostPresentedViewController
         }
 
         return self
     }
 
     /// Presents the given view controller from the root view controller, or the currently presented view controller if there is one.
-    func presentFromRootController(_ controller: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
+    func presentFromRootController(_ controller: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil, failure: (() -> Void)? = nil) {
         guard let presentingController = presentedViewController ?? SceneHelper.rootViewController() else {
-            completion?()
+            failure?()
             return
         }
 

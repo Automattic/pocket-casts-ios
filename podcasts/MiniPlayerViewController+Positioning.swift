@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 extension MiniPlayerViewController {
     func hideMiniPlayer(_ animated: Bool) {
@@ -61,6 +62,8 @@ extension MiniPlayerViewController {
                 AnalyticsHelper.nowPlayingOpened()
                 Analytics.track(.playerShown)
                 completion?()
+            } failure: {
+                self.playerOpenState = .closed
             }
 
             return

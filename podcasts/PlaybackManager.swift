@@ -276,7 +276,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func skipBack() {
-        let skipBackAmount = TimeInterval(ServerSettings.skipBackTime())
+        let skipBackAmount = TimeInterval(Settings.skipBackTime)
         skipBack(amount: skipBackAmount)
     }
 
@@ -289,7 +289,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func skipForward() {
-        let skipForwardAmount = TimeInterval(ServerSettings.skipForwardTime())
+        let skipForwardAmount = TimeInterval(Settings.skipForwardTime)
         skipForward(amount: skipForwardAmount)
     }
 
@@ -309,7 +309,14 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func skipToNextChapter(startPlaybackAfterSkip: Bool = false) {
-        guard let nextChapter = chapterManager.nextVisibleChapter() else { return }
+        guard let nextChapter = chapterManager.nextVisiblePlayableChapter() else {
+            // If there are no more chapters to play, we skip to the end of the last chapter
+            // We do that because for some episodes the last chapter might not necessarily
+            // be the end of the episode. So we don't make this assumption here and respect
+            // whatever the producer set.
+            skipToEndOfLastChapter()
+            return
+        }
 
         seekTo(time: ceil(nextChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
@@ -318,12 +325,22 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekTo(time: ceil(chapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
 
-    func chapterCount() -> Int {
-        chapterManager.visibleChapterCount()
+    func skipToEndOfLastChapter() {
+        if let lastChapter = chapterManager.lastChapter {
+            seekTo(time: ceil(lastChapter.startTime.seconds) + lastChapter.duration)
+        }
+    }
+
+    func chapterCount(onlyPlayable: Bool = false) -> Int {
+        onlyPlayable ? chapterManager.playableChapterCount() : chapterManager.visibleChapterCount()
     }
 
     func chapterAt(index: Int) -> ChapterInfo? {
         chapterManager.chapterAt(index: index)
+    }
+
+    func playableChapterAt(index: Int) -> ChapterInfo? {
+        chapterManager.playableChapterAt(index: index)
     }
 
     func currentChapters() -> Chapters {
@@ -338,8 +355,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episodeUuid = currentEpisode()?.uuid else { return }
 
         if chapterManager.haveTriedToParseChaptersFor(episodeUuid: episodeUuid), chapterManager.updateCurrentChapter(time: currentTime()) {
-            fireChapterChangeNotification()
-            updateNowPlayingInfo()
+            if currentChapters().visibleChapter?.isPlayable() == false {
+                skipToNextChapter()
+            } else {
+                fireChapterChangeNotification()
+                updateNowPlayingInfo()
+            }
         }
     }
 
@@ -575,7 +596,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func play(podcast: Podcast, startingAtEpisode: Episode) {
-        let orderDirection = (Int(podcast.episodeSortOrder) == PodcastEpisodeSortOrder.newestToOldest.rawValue) ? "DESC" : "ASC"
+        let episodeSortOrder = podcast.podcastSortOrder
+
+        let orderDirection = (episodeSortOrder == PodcastEpisodeSortOrder.newestToOldest) ? "DESC" : "ASC"
         let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcastUuid == ? AND archived = 0 AND (playingStatus == \(PlayingStatus.notPlayed.rawValue) OR playingStatus == \(PlayingStatus.inProgress.rawValue)) ORDER BY publishedDate \(orderDirection), addedDate \(orderDirection)", arguments: [podcast.uuid])
 
         if episodes.count > 0 {
@@ -697,10 +720,22 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // persist changes
         if effects.isGlobal {
-            UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
-            UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
-            UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.trimSilence = effects.trimSilence
+                SettingsStore.appSettings.volumeBoost = effects.volumeBoost
+                SettingsStore.appSettings.playbackSpeed = effects.playbackSpeed
+            } else {
+                UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
+                UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
+                UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
+            }
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
+            if FeatureFlag.settingsSync.enabled {
+                podcast.settings.trimSilence = effects.trimSilence
+                podcast.settings.playbackSpeed = effects.playbackSpeed
+                podcast.settings.boostVolume = effects.volumeBoost
+                podcast.syncStatus = SyncStatus.notSynced.rawValue
+            }
             podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
@@ -1611,15 +1646,15 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func updateCommandCenterSkipTimes(addTarget: Bool) {
         let commandCenter = MPRemoteCommandCenter.shared()
 
-        let skipBackAmount = TimeInterval(ServerSettings.skipBackTime())
+        let skipBackAmount = TimeInterval(Settings.skipBackTime)
         if addTarget {
             setInterval(commandCenter.skipBackwardCommand, interval: skipBackAmount) { event -> MPRemoteCommandHandlerStatus in
                 let skipChapters = Settings.headphonesPreviousAction == .previousChapter
 
                 // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
                 if skipChapters, let previousChapter = self.chapterManager.previousVisibleChapter() {
-                    let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipBackTime())
-                    if Int(interval) == ServerSettings.skipBackTime() {
+                    let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(Settings.skipBackTime)
+                    if Int(interval) == Settings.skipBackTime {
                         FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
                         self.seekTo(time: ceil(previousChapter.startTime.seconds))
 
@@ -1641,15 +1676,15 @@ class PlaybackManager: ServerPlaybackDelegate {
             setInterval(commandCenter.skipBackwardCommand, interval: skipBackAmount, handler: nil)
         }
 
-        let skipFwdAmount = TimeInterval(ServerSettings.skipForwardTime())
+        let skipFwdAmount = TimeInterval(Settings.skipForwardTime)
         if addTarget {
             setInterval(commandCenter.skipForwardCommand, interval: skipFwdAmount) { event -> MPRemoteCommandHandlerStatus in
                 let skipChapters = Settings.headphonesNextAction == .nextChapter
 
                 // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if skipChapters, let nextChapter = self.chapterManager.nextVisibleChapter() {
-                    let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipForwardTime())
-                    if Int(interval) == ServerSettings.skipForwardTime() {
+                if skipChapters, let nextChapter = self.chapterManager.nextVisiblePlayableChapter() {
+                    let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(Settings.skipForwardTime)
+                    if Int(interval) == Settings.skipForwardTime {
                         FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
                         self.seekTo(time: ceil(nextChapter.startTime.seconds))
 
@@ -1863,13 +1898,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     private func startFromTimeForCurrentEpisode() -> TimeInterval {
         guard let episode = currentEpisode() as? Episode, let parentPodcast = episode.parentPodcast() else { return 0 }
 
-        return TimeInterval(parentPodcast.startFrom)
+        return TimeInterval(parentPodcast.autoStartFrom)
     }
 
     private func skipLastTimeForCurrentEpisode() -> TimeInterval {
         guard let episode = currentEpisode() as? Episode, let parentPodcast = episode.parentPodcast() else { return 0 }
 
-        return TimeInterval(parentPodcast.skipLast)
+        return TimeInterval(parentPodcast.autoSkipLast)
     }
 
     // MARK: - Keep Screen on
@@ -1878,7 +1913,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if !os(watchOS)
             DispatchQueue.main.async {
                 if self.playing() {
-                    let keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+                    let keepScreenOn: Bool
+                    if FeatureFlag.settingsSync.enabled {
+                        keepScreenOn = SettingsStore.appSettings.keepScreenAwake
+                    } else {
+                        keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+                    }
                     UIApplication.shared.isIdleTimerDisabled = keepScreenOn
                 } else {
                     UIApplication.shared.isIdleTimerDisabled = false
@@ -1933,7 +1973,7 @@ private extension PlaybackManager {
             skipFromRemote(isBack: true)
 
         case .nextChapter:
-            guard let chapter = chapterManager.nextVisibleChapter() else { fallthrough }
+            guard let chapter = chapterManager.nextVisiblePlayableChapter() else { fallthrough }
             FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
             seekTo(time: ceil(chapter.startTime.seconds))
 

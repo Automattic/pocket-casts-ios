@@ -28,6 +28,8 @@ import Foundation
     var playedUpTo: Double { get set }
     var duration: Double { get set }
 
+    var deselectedChapters: String? { get set }
+
     func displayableTitle() -> String
     func parentIdentifier() -> String
 
@@ -49,7 +51,6 @@ import Foundation
     func played() -> Bool
     func unplayed() -> Bool
     func playbackError() -> Bool
-    func jumpToOnStart() -> TimeInterval
 
     // MARK: - Meta Data
 

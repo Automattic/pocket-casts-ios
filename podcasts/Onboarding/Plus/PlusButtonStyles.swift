@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PlusOpaqueButtonStyle: ButtonStyle {
     let isLoading: Bool
-    let plan: Constants.Plan
+    let plan: Plan
 
     private var background: Color {
         plan == .plus ? Color.plusBackgroundColor2 : Color.patronBackgroundColor
@@ -12,7 +12,7 @@ struct PlusOpaqueButtonStyle: ButtonStyle {
         plan == .plus ? .plusButtonFilledTextColor : Color.patronButtonFilledTextColor
     }
 
-    init(isLoading: Bool = false, plan: Constants.Plan) {
+    init(isLoading: Bool = false, plan: Plan) {
         self.isLoading = isLoading
         self.plan = plan
     }
@@ -46,7 +46,7 @@ struct PlusOpaqueButtonStyle: ButtonStyle {
 
 struct PlusGradientFilledButtonStyle: ButtonStyle {
     let isLoading: Bool
-    let plan: Constants.Plan
+    let plan: Plan
 
     private var background: any View {
         plan == .plus ? Color.plusGradient : Color.patronBackgroundColor
@@ -56,7 +56,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
         plan == .plus ? .plusButtonFilledTextColor : Color.patronButtonFilledTextColor
     }
 
-    init(isLoading: Bool = false, plan: Constants.Plan) {
+    init(isLoading: Bool = false, plan: Plan) {
         self.isLoading = isLoading
         self.plan = plan
     }
@@ -91,7 +91,7 @@ struct PlusGradientFilledButtonStyle: ButtonStyle {
 struct PlusGradientStrokeButton: ButtonStyle {
     let isSelectable: Bool
     let isSelected: Bool
-    let plan: Constants.Plan
+    let plan: Plan
 
     private var foregroundColor: Color {
         plan == .plus ? Color.plusGradientColor1 : Color.patronGradientColor1
@@ -105,7 +105,7 @@ struct PlusGradientStrokeButton: ButtonStyle {
         plan == .plus ? "icon-plus-button-selected" : "icon-patron-button-selected"
     }
 
-    init(isSelectable: Bool = false, plan: Constants.Plan, isSelected: Bool = true) {
+    init(isSelectable: Bool = false, plan: Plan, isSelected: Bool = true) {
         self.isSelectable = isSelectable
         self.plan = plan
         self.isSelected = isSelected
@@ -150,29 +150,29 @@ struct PlusGradientStrokeButton: ButtonStyle {
     }
 }
 
-struct PlusFreeTrialLabel: View {
+struct OfferLabel: View {
     let text: String
-    let plan: Constants.Plan
+    let plan: Plan
     let isSelected: Bool
 
     private var color: LinearGradient {
         plan == .plus ? Color.plusGradient : Color.patronGradient
     }
 
-    init(_ text: String, plan: Constants.Plan, isSelected: Bool = true) {
+    init(_ text: String, plan: Plan, isSelected: Bool = true) {
         self.text = text
         self.plan = plan
         self.isSelected = isSelected
     }
 
     var body: some View {
-        Text(L10n.freeTrialDurationFreeTrial(text.localizedUppercase))
+        Text(text.localizedUppercase)
             .font(size: 12, style: .caption, weight: .semibold, maxSizeCategory: .extraExtraLarge)
             .multilineTextAlignment(.center)
             .padding([.top, .bottom], 4)
             .padding([.leading, .trailing], 13)
             .background(
-                color.cornerRadius(4)
+                color.clipShape(.capsule)
             )
             .foregroundColor(Color.plusButtonFilledTextColor)
             .grayscale(isSelected ? 0 : 1)

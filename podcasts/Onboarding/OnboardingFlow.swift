@@ -23,7 +23,11 @@ struct OnboardingFlow {
 
         case .plusAccountUpgrade:
             self.source = source ?? "unknown"
-            flowController = upgradeController(in: navigationController, context: context)            
+            let product = context?["product"] as? ProductInfo
+
+            flowController = PlusPurchaseModel.make(in: controller,
+                                                    plan: product?.plan ?? .plus,
+                                                    selectedPrice: product?.frequency ?? .yearly)
 
         case .patronAccountUpgrade:
             self.source = source ?? "unknown"
@@ -45,7 +49,7 @@ struct OnboardingFlow {
     }
 
     private func upgradeController(in controller: UINavigationController?, context: Context?) -> UIViewController {
-        let product = context?["product"] as? Constants.ProductInfo
+        let product = context?["product"] as? ProductInfo
         return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product))
     }
 

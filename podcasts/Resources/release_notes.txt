@@ -1,2 +1,2 @@
-- Only show 'Cancel Subscription' button on Account Profile if the user has an active, renewing subscription [#1032]
+- Fixes an issue where adding a new podcast could fail at the first try. [#1457]
 

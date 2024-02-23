@@ -1540,6 +1540,9 @@
 /* The available cloud storage limit available to Pocket Casts Plus Subscribers. '%1$@' is a placeholder for the available storage. */
 "plus_cloud_storage_limit_format" = "%1$@ GB Cloud Storage";
 
+/* Account detail message informing the user that they have been granted 50% discount. */
+"plus_discount_yearly_membership" = "50%% off your first year";
+
 /* Error message informing the user that they have already signed up for plus with this account. */
 "plus_error_already_registered" = "You already have a Pocket Casts Plus account";
 
@@ -1553,31 +1556,19 @@
 "plus_features" = "PLUS FEATURES";
 
 /* Account detail message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
-"plus_free_membership_format" = "%1$@ Free";
+"plus_free_membership_format" = "%1$@ Free Trial";
 
 /* Account detail message informing the user that they have been granted a lifetime membership. */
 "plus_lifetime_membership" = "Lifetime Member";
 
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
-"plus_marketing_cloud_storage_description" = "Speed up your lectures. Burn through other content. Be your own Podcast DJ.";
-
-/* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
-
-/* Pocket Casts Plus marketing page, title of the Cloud Storage feature */
-"plus_marketing_cloud_storage_title" = "Cloud Storage";
-
-/* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
-"plus_marketing_desktop_apps_description" = "Take your podcasts to more places with our Windows, macOS and Web apps.";
 
 /* Pocket Casts Plus marketing page, description of the Desktop Apps feature */
 "plus_marketing_updated_desktop_apps_description" = "Listen in more places with our Windows, macOS and Web apps";
 
-/* Pocket Casts Plus marketing page, title of the Desktop Apps feature */
-"plus_marketing_desktop_apps_title" = "Desktop Apps";
-
-/* Pocket Casts Plus marketing page, the final call to action to get people to upgrade */
-"plus_marketing_final_call_to_action" = "Time to up your podcasting game?\nGet desktop apps, bring your own files and spruce things up with fresh new themes, exclusive to plus members.";
+/* Pocket Casts Plus marketing page, title of the Desktop and web apps feature */
+"plus_marketing_desktop_apps_title" = "Desktop & web apps";
 
 /* Pocket Casts Plus marketing page, learn more button. Note that Pocket Casts is a proper noun and shouldn't be translated */
 "plus_marketing_learn_more_button" = "Learn more about Pocket Casts Plus";
@@ -1585,23 +1576,14 @@
 /* Pocket Casts Plus marketing page, the main description of Pocket Casts Plus */
 "plus_marketing_main_description" = "Get personal, and get distributed, all at once. Upload your personal audio files to our cloud servers, access your account via our web player, and make the app yours.";
 
-/* Pocket Casts Plus marketing page, the main title */
-"plus_marketing_main_title" = "Enhanced Features For Advanced Listeners";
-
-/* Pocket Casts Plus marketing page, description of the Themes & Icons feature */
-"plus_marketing_themes_icons_description" = "Fly your true colors. Exclusive icons and themes for the plus club only.";
-
 /* Pocket Casts Plus marketing page, title of the Themes & Icons feature */
 "plus_marketing_themes_icons_title" = "Themes & Icons";
 
-/* Pocket Casts Plus marketing page, description of the Watch Playback feature */
-"plus_marketing_watch_playback_description" = "Ditch the phone and go for a run – without missing a beat. Apple Watch stands alone.";
+/* Pocket Casts Plus marketing page, title of the Apple Watch & Wear OS apps feature */
+"plus_marketing_watch_playback_title" = "Apple Watch & Wear OS apps";
 
-/* Pocket Casts Plus marketing page, title of the Watch Playback feature */
-"plus_marketing_watch_playback_title" = "Watch Playback";
-
-/* Pocket Casts Plus marketing page, the text on the upgrade button */
-"plus_marketing_upgrade_button" = "Upgrade To Plus";
+/* Pocket Casts Plus marketing page, title of the Folders and Bookmarks feature */
+"plus_marketing_folders_and_bookmarks_title" = "Folders & Bookmarks";
 
 /* Pocket Casts Plus marketing page, description of the Folders feature */
 "plus_marketing_folders_description" = "Create folders to organise your podcast collection.";
@@ -1662,20 +1644,14 @@
 /* Message informing the user where to manage their Pocket Casts Plus subscription managed by Web. */
 "plus_subscription_web_details" = "To cancel your subscription, you’ll need to cancel via Pocketcasts.com.";
 
-/* Feature of Pocket Casts plus, Web Player. As in our web based version capable of playing podcasts */
-"plus_feature_web_player" = "Web Player";
-
-/* Feature of Pocket Casts plus, Apple Watch app. Standalone meaning it can run with your iPhone */
-"plus_feature_watch_app" = "Standalone Watch Playback";
-
 /* Feature of Pocket Casts plus, Themes and icons. Themes for changing the way the app looks, icons to change the icon shown on your home screen */
 "plus_feature_themes_icons" = "Extra Themes & App Icons";
 
-/* Feature of Pocket Casts plus, Cloud Storage. Being able to upload your files to the Pocket Casts servers */
-"plus_feature_cloud_storage" = "Cloud Storage";
-
 /* Message about our gratitude when an user subscribe to Plus */
 "plus_feature_gratitude" = "The undying gratitude of everyone here at Pocket Casts";
+
+/* Message about the exclusive content from Slumber Studios. Please don't translate "Slumber Studios". */
+"plus_feature_slumber" = "1 year of exclusive content from Slumber Studios";
 
 /* Label of a button to subscribe to Patron. Do not translate "Plus". */
 "plus_subscribe_to" = "Subscribe to Plus";
@@ -2184,6 +2160,9 @@
 
 /* Generic server error message for when an unexpected or unhandled issue occurred. */
 "server_error_unknown" = "Something went wrong";
+
+/* A generic message for an error fetching the token from the server. This will cause logout issues. */
+"client_error_token_deauth" = "Token authentication failed.";
 
 /* Server message thanking the user for signing up to the service. */
 "server_message_login_thanks_signing_up" = "Thanks for signing up!";
@@ -3458,8 +3437,14 @@
 /* Title for a button that allows the user to subscrbe with a free trial */
 "free_trial_start_and_subscribe_button" = "Start Free Trial & Subscribe";
 
-/* Pricing terms explaining that the user will be charged after their free trial ends, %1$@ is the free trial duration (1 month), \n is a new line */
-"pricing_terms_after_trial_long" = "Recurring payments will begin after your\n%1$@ free trial";
+/* Pricing terms explaining that the user will be charged after their free trial ends, %1$@ is the free trial duration (1 month), %2$@ is the start date of payments */
+"pricing_terms_after_trial_long" = "Recurring payments will begin after your %1$@ free trial (%2$@)";
+
+/* Pricing terms explaining that the user will have a discount in the first period then will pay full price, %1$@ is the full price, %2$@ the discount duration, %3$@ the date the user will pay full price */
+"pricing_terms_after_discount" = "Recurring payments at %1$@ after %2$@ (%3$@)";
+
+/* Subscription pricing format, %1$@ is the price, %2$@ is the subscription period */
+"subscription_frequency_pricing_format" = "%1$@ per %2$@";
 
 /* Monthly pricing format, %1$@ is the price */
 "plus_monthly_frequency_pricing_format" = "%1$@ per month";
@@ -3477,7 +3462,7 @@
 "patron_purchase_promo_title" = "Become a Patron member and unlock all Pocket Casts features";
 
 /* The purchase agreement terms, the %1$@, %3$@ are the opening of a HTML link tag (<a href="">), %2$@ and %4$@ are closing tags (</a>) */
-"purchase_terms" = "By continuing, you agree to %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
+"purchase_terms" = "By continuing, you agree to our %1$@Privacy Policy%2$@ and %3$@Terms and Conditions%4$@";
 
 /* Title for the End of Year feature */
 "eoy_title" = "Your Year in Podcasts";
@@ -3965,6 +3950,24 @@
 /* Message of an alert that informs the user purchasing is disabled in the beta. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app. %1$@ is the name of the tier (Plus or Patron)*/
 "beta_purchase_disabled" = "Please download Pocket Casts from the App Store to purchase %1$@.";
 
+/* Title displayed when an user want to rate a podcast but hasn't listened enough to it */
+"rating_listen_to_this_podcast_title" = "Please listen to this podcast first";
+
+/* Message displayed when an user want to rate a podcast but hasn't listened enough to it */
+"rating_listen_to_this_podcast_message" = "Only listeners of this podcast can give it a rating. Have a listen to a few episodes and then come back to give your rating. We look forward to hearing what you think!";
+
+/* Title displayed when an user want to rate a podcast. %1$@ is the podcast title. */
+"rating_title" = "Rate %1$@";
+
+/* Confirmation message that a user rating for a podcast was submitted */
+"rating_submitted" = "Your rating was submitted!";
+
+/* Error message when a user rating for a podcast couldn't be submitted */
+"rating_error" = "Ops! There was an error.";
+
+/* Title of a button that takes the user to a screen to rate a podcast */
+"rate" = "Rate";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 
@@ -3979,3 +3982,33 @@
 
 /* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
 "accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
+
+/* Label that toggles the option for the user to choose which chapters of the podcast they want to skip (to not be played) */
+"skip_chapters" = "Skip chapters";
+
+/* Indicates the number of chapters in a podcast episode. %1$@ is the number of chapters. */
+"number_of_chapters" = "%1$@ chapters";
+
+/* Singular indication of number of chapters */
+"single_chapter" = "1 chapter";
+
+/* Indicates the number of hidden chapters in a podcast episode. %1$@ is the number of hidden chapters. */
+"number_of_hidden_chapters" = "%1$@ hidden";
+
+/* Slumber Studios partnership feature announcement title */
+"announcement_slumber_title" = "Dream big";
+
+/* Slumber Studios partnership announcement description for subscribed users */
+"announcement_slumber_plus_description" = "As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
+
+/* Should match the "Learn more" translation on announcement_slumber_plus_description and announcement_slumber_non_plus_description */
+"announcement_slumber_plus_description_learn_more" = "Learn more";
+
+/* Slumber Studios partnership announcement description for non-subscribed users */
+"announcement_slumber_non_plus_description" = "Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
+
+/* Button label for a feature the user can redeem using a code */
+"announcement_slumber_redeem" = "Redeem your code";
+
+/* Message shown when the code is copied to clipboard */
+"announcement_slumber_code_copied" = "Code copied to clipboard";

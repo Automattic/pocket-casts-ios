@@ -6,11 +6,11 @@ class PlusLandingViewModel: PlusPurchaseModel {
     weak var navigationController: UINavigationController? = nil
 
     let displayedProducts: [UpgradeTier]
-    var initialProduct: Constants.ProductInfo? = nil
-    var continuePurchasing: Constants.ProductInfo? = nil
+    var initialProduct: ProductInfo? = nil
+    var continuePurchasing: ProductInfo? = nil
     let source: Source
 
-    init(source: Source, config: Config? = nil, purchaseHandler: IapHelper = .shared) {
+    init(source: Source, config: Config? = nil, purchaseHandler: IAPHelper = .shared) {
         self.displayedProducts = config?.products ?? [.plus, .patron]
         self.initialProduct = config?.displayProduct
         self.continuePurchasing = config?.continuePurchasing
@@ -21,7 +21,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         self.loadPrices()
     }
 
-    func unlockTapped(_ product: Constants.ProductInfo) {
+    func unlockTapped(_ product: ProductInfo) {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
@@ -62,35 +62,18 @@ class PlusLandingViewModel: PlusPurchaseModel {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func purchaseTitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
-        guard let product = product(for: tier.plan, frequency: frequency) else {
-            return L10n.loading
+    func pricingInfo(for tier: UpgradeTier, frequency: PlanFrequency) -> PlusProductPricingInfo? {
+        guard let pricingInfo = product(for: tier.plan, frequency: frequency) else {
+            return nil
         }
-
-        if product.freeTrialDuration != nil {
-            return L10n.plusStartMyFreeTrial
-        } else {
-            return tier.buttonLabel
-        }
+        return pricingInfo
     }
 
-    func purchaseSubtitle(for tier: UpgradeTier, frequency: Constants.PlanFrequency) -> String {
-        guard let product = product(for: tier.plan, frequency: frequency) else {
-            return ""
-        }
-
-        if let freeTrialDuration = product.freeTrialDuration {
-            return L10n.plusStartTrialDurationPrice(freeTrialDuration, product.price)
-        } else {
-            return product.price
-        }
-    }
-
-    private func product(for plan: Constants.Plan, frequency: Constants.PlanFrequency) -> PlusProductPricingInfo? {
+    private func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
         pricingInfo.products.first(where: { $0.identifier == (frequency == .yearly ? plan.yearly : plan.monthly) })
     }
 
-    private func loadPricesAndContinue(product: Constants.ProductInfo) {
+    private func loadPricesAndContinue(product: ProductInfo) {
         loadPrices {
             switch self.priceAvailability {
             case .available:
@@ -107,17 +90,18 @@ class PlusLandingViewModel: PlusPurchaseModel {
         case upsell
         case login
         case accountCreated
+        case accountScreen
     }
 
     struct Config {
         var products: [UpgradeTier]? = nil
-        var displayProduct: Constants.ProductInfo? = nil
-        var continuePurchasing: Constants.ProductInfo? = nil
+        var displayProduct: ProductInfo? = nil
+        var continuePurchasing: ProductInfo? = nil
     }
 }
 
 private extension PlusLandingViewModel {
-    func showModal(product: Constants.ProductInfo) {
+    func showModal(product: ProductInfo) {
         guard let product = self.product(for: product.plan, frequency: product.frequency) else {
             state = .failed
             return
@@ -153,6 +137,6 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
         UpgradeLandingView(viewModel: viewModel)
-            .setupDefaultEnvironment()
+            .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
     }
 }

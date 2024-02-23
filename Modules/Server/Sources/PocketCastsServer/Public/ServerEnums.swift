@@ -58,3 +58,19 @@ extension SubscriptionTier: Comparable {
         return lhsIndex < rhsIndex
     }
 }
+
+public enum PrimaryRowAction: Int32, Codable {
+    case stream = 0, download = 1
+}
+
+public enum PrimaryUpNextSwipeAction: Int32, Codable {
+    case playNext = 0, playLast = 1
+}
+
+public enum HeadphoneControl: Int32, Codable {
+    case addBookmark = 0
+    case skipBack = 1
+    case skipForward = 2
+    case nextChapter = 3
+    case previousChapter = 4
+}

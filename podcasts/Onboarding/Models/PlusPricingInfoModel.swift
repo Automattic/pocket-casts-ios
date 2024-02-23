@@ -4,7 +4,7 @@ import PocketCastsServer
 /// A parent model that allows a view to present pricing information
 class PlusPricingInfoModel: ObservableObject {
     // Allow injection of the IapHelper
-    let purchaseHandler: IapHelper
+    let purchaseHandler: IAPHelper
 
     // Allow our views to get the necessary pricing information
     @Published var pricingInfo: PlusPricingInfo
@@ -12,49 +12,97 @@ class PlusPricingInfoModel: ObservableObject {
     /// Determines whether prices are available
     @Published var priceAvailability: PriceAvailablity
 
-    init(purchaseHandler: IapHelper = .shared) {
+    init(purchaseHandler: IAPHelper = .shared) {
         self.purchaseHandler = purchaseHandler
         self.pricingInfo = Self.getPricingInfo(from: purchaseHandler)
         self.priceAvailability = purchaseHandler.hasLoadedProducts ? .available : .unknown
     }
 
-    private static func getPricingInfo(from purchaseHandler: IapHelper) -> PlusPricingInfo {
-        let products: [Constants.IapProducts] = [.yearly, .monthly, .patronYearly, .patronMonthly]
+    private static func getPricingInfo(from purchaseHandler: IAPHelper) -> PlusPricingInfo {
+        let products: [IAPProductID] = [.yearly, .monthly, .patronYearly, .patronMonthly]
 
         var pricing: [PlusProductPricingInfo] = []
 
         for product in products {
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
-            let rawPrice = purchaseHandler.getPriceForIdentifier(identifier: product.rawValue)
-            let trial = purchaseHandler.localizedFreeTrialDuration(product)
+            let rawPrice = purchaseHandler.getPrice(for: product)
+            var offer: ProductOfferInfo?
+            if let duration = purchaseHandler.localizedFreeTrialDuration(product),
+               let type = purchaseHandler.offerType(product),
+               let price = purchaseHandler.localizedOfferPrice(product),
+               let offerEndDate = purchaseHandler.offerEndDate(product) {
+                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, dateAfterOffer: offerEndDate)
+            }
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
                                               rawPrice: rawPrice,
-                                              freeTrialDuration: trial)
+                                              offer: offer)
             pricing.append(info)
         }
 
         // Sort any products with free trials to the top of the list
-        pricing.sort { $0.freeTrialDuration != nil && $1.freeTrialDuration == nil }
+        pricing.sort { $0.offer != nil && $1.offer == nil }
 
-        let hasFreeTrial = purchaseHandler.getFirstFreeTrialDetails() != nil
-        return PlusPricingInfo(products: pricing, hasFreeTrial: hasFreeTrial)
+        return PlusPricingInfo(products: pricing)
     }
 
     // A simple struct to keep track of the product and pricing information the view needs
     struct PlusPricingInfo {
         let products: [PlusProductPricingInfo]
-        let hasFreeTrial: Bool
+        var hasOffer: Bool {
+           products.contains(where: { $0.offer != nil } )
+        }
     }
 
     struct PlusProductPricingInfo: Identifiable {
-        let identifier: Constants.IapProducts
+        let identifier: IAPProductID
         let price: String
         let rawPrice: String
-        let freeTrialDuration: String?
+        let offer: ProductOfferInfo?
 
         var id: String { identifier.rawValue }
+    }
+
+    enum ProductOfferType {
+        case freeTrial
+        case discount
+    }
+
+    struct ProductOfferInfo {
+        let type: ProductOfferType
+        let duration: String
+        let price: String
+        let rawPrice: String
+        let dateAfterOffer: String
+
+        var title: String {
+            switch type {
+            case .freeTrial:
+                return L10n.plusStartMyFreeTrial
+            case .discount:
+                return L10n.plusDiscountYearlyMembership
+            }
+        }
+
+        var description: String {
+            switch type {
+            case .freeTrial:
+                return L10n.plusFreeMembershipFormat(duration)
+            case .discount:
+                return L10n.plusDiscountYearlyMembership
+            }
+        }
+
+        var terms: String {
+            switch type {
+            case .freeTrial:
+                return L10n.pricingTermsAfterTrialLong(duration, dateAfterOffer.nonBreakingSpaces())
+            case .discount:
+                return L10n.pricingTermsAfterDiscount(rawPrice, duration, dateAfterOffer.nonBreakingSpaces())
+            }
+        }
+
     }
 
     enum PriceAvailablity {

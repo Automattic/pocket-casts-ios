@@ -133,7 +133,7 @@ struct Constants {
         static let watchAutoDownloadUpNextCount = "SJWatchAutoDownloadCountUpNext"
         static let watchAutoDeleteUpNext = "SJWatchAutoDeleteUpNext"
 
-        static let analyticsOptOut = "SJAnalyticsOptOut"
+        public static let analyticsOptOut = "SJAnalyticsOptOut"
 
         static let supportName = "PCSupportRequestName"
         static let supportEmail = "PCSupportRequestEmail"
@@ -197,10 +197,10 @@ struct Constants {
 
         static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
 
-        /// We show the free trial by default since if the app was just downloaded
+        /// We show the offer by default since if the app was just downloaded
         /// there is a chance it doesn't have a receipt and we won't be able to do a server check
         /// However Apple considers this user to be eligible
-        public static let freeTrialDefaultValue = true
+        public static let offerEligibilityDefaultValue = true
 
         static let bookmarkMaxTitleLength = 100
     }
@@ -252,59 +252,6 @@ struct Constants {
         static let defaultFrameSize = 1152
     }
 
-    #if !os(watchOS)
-        enum IapProducts: String {
-            case yearly = "com.pocketcasts.plus.yearly"
-            case monthly = "com.pocketcasts.plus.monthly"
-            case patronYearly = "com.pocketcasts.patron_yearly"
-            case patronMonthly = "com.pocketcasts.patron_monthly"
-
-            var renewalPrompt: String {
-                switch self {
-                case .yearly, .patronYearly:
-                    return L10n.accountPaymentRenewsYearly
-                case .monthly, .patronMonthly:
-                    return L10n.accountPaymentRenewsMonthly
-                }
-            }
-        }
-
-        enum Plan {
-            case plus, patron
-
-            var products: [Constants.IapProducts] {
-                return [yearly, monthly]
-            }
-
-            var yearly: Constants.IapProducts {
-                switch self {
-                case .plus:
-                    return .yearly
-                case .patron:
-                    return .patronYearly
-                }
-            }
-
-            var monthly: Constants.IapProducts {
-                switch self {
-                case .plus:
-                    return .monthly
-                case .patron:
-                    return .patronMonthly
-                }
-            }
-        }
-
-        enum PlanFrequency {
-            case yearly, monthly
-        }
-
-        struct ProductInfo {
-            let plan: Plan
-            let frequency: PlanFrequency
-        }
-    #endif
-
     enum RemoteParams {
         static let periodicSaveTimeMs = "periodic_playback_save_ms"
         static let periodicSaveTimeMsDefault: Double = 60000
@@ -332,6 +279,12 @@ struct Constants {
 
         static let newPlayerTransition = "new_player_transition"
         static let newPlayerTransitionDefault: Bool = true
+
+        static let errorLogoutHandling = "error_logout_handling"
+        static let errorLogoutHandlingDefault: Bool = false
+
+        static let slumberStudiosPromoCode = "slumber_studios_promo_code"
+        static let slumberStudiosPromoCodeDefault = ""
     }
 
     static let defaultDebounceTime: TimeInterval = 0.5

@@ -6,7 +6,7 @@ import PocketCastsDataModel
 class LoginCoordinator: NSObject, OnboardingModel {
     weak var navigationController: UINavigationController? = nil
     let headerImages: [LoginHeaderImage]
-    var continuePurchasing: Constants.ProductInfo? = nil
+    var continuePurchasing: ProductInfo? = nil
 
     private var socialLogin: SocialLogin?
     private var socialAuthProvider: SocialAuthProvider?
@@ -216,7 +216,7 @@ extension LoginCoordinator: SyncSigninDelegate, CreateAccountDelegate {
 // MARK: - Helpers
 
 extension LoginCoordinator {
-    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: Constants.ProductInfo? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, continuePurchasing: ProductInfo? = nil) -> UIViewController {
         let coordinator = LoginCoordinator()
         coordinator.continuePurchasing = continuePurchasing
 

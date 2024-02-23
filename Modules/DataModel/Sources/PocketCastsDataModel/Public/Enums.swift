@@ -24,7 +24,7 @@ public enum UploadStatus: Int32 {
     case notUploaded = 1, queued = 2, uploading = 3, uploadFailed = 4, uploaded = 5, waitingForWifi = 6, missing = 7, deleteFromCloudPending = 8, deleteFromCloudAndLocalPending = 9
 }
 
-public enum PodcastGrouping: Int32, CaseIterable {
+public enum PodcastGrouping: Int32, CaseIterable, Codable {
     case none = 0, downloaded = 1, unplayed = 2, season = 3, starred = 4
 }
 
@@ -53,4 +53,131 @@ public struct EpisodeBasicData {
     public var playedUpTo: Int?
     public var isArchived: Bool?
     public var starred: Bool?
+}
+
+public enum LibrarySort: Int32, CaseIterable, Codable {
+    case dateAddedNewestToOldest = 0, titleAtoZ = 1, episodeDateNewestToOldest = 2, custom = 3
+}
+
+public enum LibraryType: Int32, Codable {
+    case fourByFour = 0, threeByThree = 1, list = 2
+}
+
+public enum BadgeType: Int32, Codable {
+    case off = 0, latestEpisode, allUnplayed
+}
+
+public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
+    case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
+}
+
+public enum BookmarksSort: Int32, Codable {
+    case newestToOldest = 0
+    case oldestToNewest = 1
+    case timestamp = 2
+}
+
+public enum AutoArchiveAfterPlayed: Int32, Codable {
+    case never = 0
+    case afterPlaying = 1
+    case after24Hours = 2
+    case after2Days = 3
+    case after1Week = 4
+}
+
+public enum AutoArchiveAfterInactive: Int32, Codable {
+    case never = 0
+    case after24Hours = 1
+    case after2Days = 2
+    case after1Week = 3
+    case after2Weeks = 4
+    case after30Days = 5
+    case after3Months = 6
+}
+
+public enum AutoArchiveAfterTime: TimeInterval {
+    case never = -1
+    case afterPlaying = 0
+    case after1Day = 86400
+    case after2Days = 172_800
+    case after1Week = 604_800
+    case after2Weeks = 1_209_600
+    case after30Days = 2_592_000
+    case after90Days = 7_776_000
+}
+
+extension AutoArchiveAfterPlayed {
+    public init?(time: AutoArchiveAfterTime) {
+        switch time {
+        case .never:
+            self = .never
+        case .afterPlaying:
+            self = .afterPlaying
+        case .after1Day:
+            self = .after24Hours
+        case .after2Days:
+            self = .after2Days
+        case .after1Week:
+            self = .after1Week
+        case .after2Weeks, .after30Days, .after90Days:
+            return nil
+        }
+    }
+
+    public var time: AutoArchiveAfterTime {
+        switch self {
+            case .never:
+                return .never
+            case .afterPlaying:
+                return .afterPlaying
+            case .after24Hours:
+                return .after1Day
+            case .after2Days:
+                return .after2Days
+            case .after1Week:
+                return .after1Week
+        }
+    }
+}
+
+extension AutoArchiveAfterInactive {
+    public init?(time: AutoArchiveAfterTime) {
+        switch time {
+        case .never:
+            self = .never
+        case .after1Day:
+            self = .after24Hours
+        case .after2Days:
+            self = .after2Days
+        case .after1Week:
+            self = .after1Week
+        case .after2Weeks:
+            self = .after2Weeks
+        case .after30Days:
+            self = .after30Days
+        case .after90Days:
+            self = .after3Months
+        case .afterPlaying:
+            return nil
+        }
+    }
+
+    public var time: AutoArchiveAfterTime {
+        switch self {
+            case .never:
+                return .never
+            case .after24Hours:
+                return .after1Day
+            case .after2Days:
+                return .after2Days
+            case .after1Week:
+                return .after1Week
+            case .after2Weeks:
+                return .after2Weeks
+            case .after30Days:
+                return .after30Days
+            case .after3Months:
+                return .after90Days
+        }
+    }
 }
