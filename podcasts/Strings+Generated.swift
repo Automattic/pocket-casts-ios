@@ -3006,6 +3006,8 @@ internal enum L10n {
   internal static func upgradeToPlan(_ p1: Any) -> String {
     return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))
   }
+  /// Upgrade to Plus
+  internal static var upgradeToPlus: String { return L10n.tr("Localizable", "upgrade_to_plus") }
   /// Title (A-Z)
   internal static var uploadSortAlpha: String { return L10n.tr("Localizable", "upload_sort_alpha") }
   /// Volume Boost
