@@ -45,7 +45,7 @@ extension UpgradeTier {
             TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
             TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
             TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
-            slumberOrUndyingGratitude
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
 
         ],
         background: RadialGradient(colors: [Color(hex: "503ACC").opacity(0.8), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
@@ -89,9 +89,10 @@ struct UpgradeCard: View {
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundColor(theme.primaryText01)
                                 .frame(width: 16, height: 16)
-                            Text(feature.title)
+                            UnderlineLinkTextView(feature.title)
                                 .font(size: 14, style: .subheadline, weight: .medium)
                                 .foregroundColor(theme.primaryText01)
+                                .tint(theme.primaryText01)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
