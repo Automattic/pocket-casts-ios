@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 struct Announcements {
     private static let bookmarksViewModel = BookmarkAnnouncementViewModel()
+    private static let chaptersViewModel = DeselectChaptersAnnouncementViewModel()
 
     // Order is important.
     // In the case a user migrates to, let's say, 7.10 to 7.15 and
@@ -63,30 +64,22 @@ struct Announcements {
 //            action: {
 //                SceneHelper.rootViewController()?.dismiss(animated: true)
 //            },
-//            isEnabled: FeatureFlag.deselectChapters.enabled
-//                       && PaidFeature.deselectChapters.tier == .patron
-//                       && SubscriptionHelper.activeTier == .patron,
+//            isEnabled: chaptersViewModel.isPatronAnnouncementEnabled,
 //            fullModal: true
 //        ),
-
-        .init(
-            version: "7.59",
-            header: AnyView(Image("deselect_chapters")),
-            title: L10n.skipChapters,
-            message: SubscriptionHelper.hasActiveSubscription() ? L10n.announcementDeselectChaptersPlus : L10n.announcementDeselectChaptersFree,
-            buttonTitle: SubscriptionHelper.hasActiveSubscription() ? L10n.gotIt : L10n.upgradeToPlus,
-            action: {
-                SceneHelper.rootViewController()?.dismiss(animated: true) {
-                    if !SubscriptionHelper.hasActiveSubscription(), let rootViewController = SceneHelper.rootViewController() {
-                        PaidFeature.deselectChapters.presentUpgradeController(from: rootViewController, source: "deselect_chapters_whats_new")
-                    }
-                }
-            },
-            isEnabled: FeatureFlag.deselectChapters.enabled
-                       && PaidFeature.deselectChapters.tier == .plus
-                       && SubscriptionHelper.activeTier < .patron,
-            fullModal: true
-        )
+//
+//        .init(
+//            version: "7.59",
+//            header: AnyView(Image("deselect_chapters")),
+//            title: L10n.skipChapters,
+//            message: chaptersViewModel.plusFreeMessage,
+//            buttonTitle: chaptersViewModel.plusFreeButtonTitle,
+//            action: {
+//                chaptersViewModel.buttonAction()
+//            },
+//            isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
+//            fullModal: true
+//        )
     ]
 }
 
