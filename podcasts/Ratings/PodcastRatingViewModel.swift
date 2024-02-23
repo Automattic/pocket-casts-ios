@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class PodcastRatingViewModel: ObservableObject {
     @Published var rating: PodcastRating? = nil

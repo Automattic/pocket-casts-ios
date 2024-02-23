@@ -4,24 +4,34 @@ import PocketCastsDataModel
 #endif
 import PocketCastsServer
 import UIKit
+import SwiftUI
+import PocketCastsUtils
 
 class Settings: NSObject {
     // MARK: - Library Type
 
-    private static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
+    static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
     private static var cachedlibrarySortType: LibraryType?
     class func setLibraryType(_ type: LibraryType) {
-        UserDefaults.standard.set(type.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.gridLayout = type
+        }
+        UserDefaults.standard.set(type.old.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
         cachedlibrarySortType = type
     }
 
     class func libraryType() -> LibraryType {
+
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.gridLayout
+        }
+
         if let type = cachedlibrarySortType {
             return type
         }
 
         let storedValue = UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)
-        if let type = LibraryType(rawValue: storedValue) {
+        if let type = LibraryType(oldValue: storedValue) {
             cachedlibrarySortType = type
 
             return type
@@ -32,11 +42,15 @@ class Settings: NSObject {
 
     // MARK: - Podcast Badge
 
-    private static let badgeKey = "SJBadgeType"
+    static let badgeKey = "SJBadgeType"
     class func podcastBadgeType() -> BadgeType {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.badges
+        }
+
         let storedBadgeType = UserDefaults.standard.integer(forKey: Settings.badgeKey)
 
-        if let type = BadgeType(rawValue: storedBadgeType) {
+        if let type = BadgeType(rawValue: Int32(storedBadgeType)) {
             return type
         }
 
@@ -44,6 +58,9 @@ class Settings: NSObject {
     }
 
     class func setPodcastBadgeType(_ badgeType: BadgeType) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.badges = badgeType
+        }
         UserDefaults.standard.set(badgeType.rawValue, forKey: Settings.badgeKey)
     }
 
@@ -171,8 +188,12 @@ class Settings: NSObject {
     // MARK: - Podcast Sort Order
 
     class func homeFolderSortOrder() -> LibrarySort {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.gridOrder
+        }
+
         let sortInt = ServerSettings.homeGridSortOrder()
-        if let librarySort = LibrarySort(rawValue: sortInt) {
+        if let librarySort = LibrarySort(oldValue: sortInt) {
             return librarySort
         }
 
@@ -180,7 +201,10 @@ class Settings: NSObject {
     }
 
     class func setHomeFolderSortOrder(order: LibrarySort) {
-        ServerSettings.setHomeGridSortOrder(order.rawValue, syncChange: true)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.gridOrder = order
+        }
+        ServerSettings.setHomeGridSortOrder(order.old.rawValue, syncChange: true)
     }
 
     // MARK: - Podcast Grouping Default
@@ -289,12 +313,19 @@ class Settings: NSObject {
 
     // MARK: - Auto Archiving
 
-    private static let autoArchivePlayedAfterKey = "AutoArchivePlayedAfer"
+    static let autoArchivePlayedAfterKey = "AutoArchivePlayedAfer"
     class func autoArchivePlayedAfter() -> TimeInterval {
-        UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchivePlayed.time.rawValue
+        } else {
+            return UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
+        }
     }
 
     class func setAutoArchivePlayedAfter(_ after: TimeInterval, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchivePlayed = AutoArchiveAfterPlayed(time: AutoArchiveAfterTime(rawValue: after)!)!
+        }
         UserDefaults.standard.set(after, forKey: Settings.autoArchivePlayedAfterKey)
 
         guard userInitiated else { return }
@@ -303,12 +334,19 @@ class Settings: NSObject {
         }
     }
 
-    private static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
+    static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
     class func autoArchiveInactiveAfter() -> TimeInterval {
-        UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchiveInactive.time.rawValue
+        } else {
+            return UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
+        }
     }
 
     class func setAutoArchiveInactiveAfter(_ after: TimeInterval, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchiveInactive = AutoArchiveAfterInactive(time: AutoArchiveAfterTime(rawValue: after)!)!
+        }
         UserDefaults.standard.set(after, forKey: Settings.autoArchiveInactiveAfterKey)
 
         guard userInitiated else { return }
@@ -317,12 +355,19 @@ class Settings: NSObject {
         }
     }
 
-    private static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
+    static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
     class func archiveStarredEpisodes() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchiveIncludesStarred
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
+        }
     }
 
     class func setArchiveStarredEpisodes(_ archive: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchiveIncludesStarred = archive
+        }
         UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
 
         guard userInitiated else { return }
@@ -797,11 +842,18 @@ class Settings: NSObject {
     // MARK: - Tracks
 
     class func setAnalytics(optOut: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.privacyAnalytics = !optOut
+        }
         UserDefaults.standard.set(optOut, forKey: Constants.UserDefaults.analyticsOptOut)
     }
 
     class func analyticsOptOut() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
+        if FeatureFlag.settingsSync.enabled {
+            return !SettingsStore.appSettings.privacyAnalytics
+        } else {
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
+        }
     }
 
     // MARK: - End of Year 2022
@@ -903,20 +955,34 @@ class Settings: NSObject {
 
     static var headphonesPreviousAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.previousAction.unlockedValue
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.headphoneControlsPreviousAction.action
+            } else {
+                return Constants.UserDefaults.headphones.previousAction.unlockedValue
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.headphoneControlsPreviousAction = HeadphoneControl(action: newValue)
+            }
             Constants.UserDefaults.headphones.previousAction.save(newValue)
         }
     }
 
     static var headphonesNextAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.nextAction.unlockedValue
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.headphoneControlsNextAction.action
+            } else {
+                return Constants.UserDefaults.headphones.nextAction.unlockedValue
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.headphoneControlsNextAction = HeadphoneControl(action: newValue)
+            }
             Constants.UserDefaults.headphones.nextAction.save(newValue)
         }
     }
@@ -984,6 +1050,51 @@ class Settings: NSObject {
         }
     }
 
+    static var playerBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.playerBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.playerBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
+    static var episodeBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.episodeBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.episodeBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
+    static var podcastBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.podcastBookmarksSortType.option
+            } else {
+                return Constants.UserDefaults.bookmarks.playerSort.value
+            }
+        } set: { newValue in
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.podcastBookmarksSortType = BookmarksSort(option: newValue)
+            }
+            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
@@ -1031,6 +1142,10 @@ class Settings: NSObject {
             return RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.errorLogoutHandling).boolValue
         }
 
+    static var slumberPromoCode: String? {
+        RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.slumberStudiosPromoCode).stringValue
+    }
+
         private class func remoteMsToTime(key: String) -> TimeInterval {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
@@ -1060,3 +1175,35 @@ extension L10n {
     }
 }
 #endif
+
+extension HeadphoneControl {
+    init(action: HeadphoneControlAction) {
+        switch action {
+        case .addBookmark:
+            self = .addBookmark
+        case .nextChapter:
+            self = .nextChapter
+        case .previousChapter:
+            self = .previousChapter
+        case .skipBack:
+            self = .skipBack
+        case .skipForward:
+            self = .skipForward
+        }
+    }
+
+    var action: HeadphoneControlAction {
+        switch self {
+        case .addBookmark:
+            return .addBookmark
+        case .nextChapter:
+            return .nextChapter
+        case .previousChapter:
+            return .previousChapter
+        case .skipBack:
+            return .skipBack
+        case .skipForward:
+            return .skipForward
+        }
+    }
+}

@@ -96,6 +96,7 @@ extension SyncTask {
                 podcast.autoArchiveEpisodeLimit = 0
                 podcast.subscribed = 0
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
+                podcast.settings = PodcastSettings.defaults
                 podcast.processSettings(podcastItem.settings)
 
                 DataManager.sharedManager.save(podcast: podcast)
@@ -423,5 +424,9 @@ extension Podcast {
         self.settings.$boostVolume.update(setting: settings.volumeBoost)
         self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
         self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
+        self.settings.$autoArchive.update(setting: settings.autoArchive)
+        self.settings.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
+        self.settings.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)
+        self.settings.$autoArchiveEpisodeLimit.update(setting: settings.autoArchiveEpisodeLimit)
     }
 }

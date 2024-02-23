@@ -1,5 +1,6 @@
 import AVFoundation
 import Foundation
+import PocketCastsUtils
 
 class ChapterInfo: Equatable {
     var title = ""
@@ -19,7 +20,7 @@ class ChapterInfo: Equatable {
     var shouldPlay = true
 
     func isPlayable() -> Bool {
-        FeatureFlag.deselectChapters.enabled ? shouldPlay : true
+        FeatureFlag.deselectChapters.enabled && PaidFeature.deselectChapters.isUnlocked ? shouldPlay : true
     }
 
     static func == (lhs: ChapterInfo, rhs: ChapterInfo) -> Bool {

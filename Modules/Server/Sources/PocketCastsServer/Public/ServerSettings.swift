@@ -129,12 +129,19 @@ public class ServerSettings {
     // MARK: Marketing Opt In
 
     public class func setMarketingOptIn(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.marketingOptIn = value
+        }
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.marketingOptInKey)
         UserDefaults.standard.set(true, forKey: ServerConstants.UserDefaults.marketingOptInNeedsSyncKey)
     }
 
     public class func marketingOptIn() -> Bool {
-        UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.marketingOptInKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.marketingOptIn
+        } else {
+            return UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.marketingOptInKey)
+        }
     }
 
     public class func marketingOptInNeedsSyncing() -> Bool {

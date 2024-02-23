@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 class MiniPlayerViewController: SimpleNotificationsViewController {
     enum PlayerOpenState {

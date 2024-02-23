@@ -12,6 +12,8 @@ class WhatsNew {
         let action: () -> Void
         let displayTier: SubscriptionTier
         let isEnabled: () -> Bool
+        let fullModal: Bool
+        let customBody: () -> AnyView?
 
         init(version: String,
              header: @autoclosure @escaping () -> AnyView,
@@ -19,7 +21,9 @@ class WhatsNew {
              buttonTitle: String,
              action: @escaping () -> Void,
              displayTier: SubscriptionTier = .none,
-             isEnabled: @autoclosure @escaping () -> Bool) {
+             isEnabled: @autoclosure @escaping () -> Bool,
+             fullModal: Bool = false,
+             customBody: @autoclosure @escaping () -> AnyView? = nil) {
             self.version = version
             self.header = header
             self.title = title
@@ -28,6 +32,8 @@ class WhatsNew {
             self.action = action
             self.displayTier = displayTier
             self.isEnabled = isEnabled
+            self.fullModal = fullModal
+            self.customBody = customBody
         }
     }
 
@@ -48,6 +54,15 @@ class WhatsNew {
             return nil
         }
 
+        guard !announcement.fullModal else {
+            let whatsNewViewController = ThemedHostingController(rootView: WhatsNewFullView(announcement: announcement)
+                .onAppear {
+                    Settings.lastWhatsNewShown = announcement.version
+                })
+
+            return whatsNewViewController.usingSheetPresentationController()
+        }
+
         let whatsNewViewController = ThemedHostingController(rootView: WhatsNewView(announcement: announcement))
         whatsNewViewController.modalPresentationStyle = .overCurrentContext
         whatsNewViewController.modalTransitionStyle = .crossDissolve
@@ -60,7 +75,15 @@ class WhatsNew {
     var visibleAnnouncement: Announcement? {
         // Don't show any announcements if this is the first run of the app,
         // or if we've already checked the what's new for this version
-        guard let previousOpenedVersion, previousOpenedVersion != currentVersion else {
+        guard let previousOpenedVersion else {
+            // Set the lastWhatsNewShown so it doesn't run after the app is reopened
+            Settings.lastWhatsNewShown = currentVersion
+            return nil
+        }
+
+        // Don't show the announcement for the current version if it was
+        // already displayed
+        guard lastWhatsNewShown != currentVersion else {
             return nil
         }
 
@@ -74,6 +97,27 @@ class WhatsNew {
                 $0.version != lastWhatsNewShown &&
                 $0.version.inRange(of: previousOpenedVersion, upper: currentVersion)
             })
+    }
+}
+
+extension UIViewController {
+    func usingSheetPresentationController() -> Self {
+        if let sheet = sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.prefersGrabberVisible = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+        }
+
+        return self
+    }
+}
+
+extension WhatsNew {
+    static var slumberAnnouncement: Announcement? {
+        WhatsNew().announcements.first(where: { $0.version == "7.57" })
     }
 }
 
@@ -94,6 +138,6 @@ private extension String {
 
     /// Returns whether the version is above the `lower` and equal to or below the `upper` bounds
     func inRange(of lower: String, upper: String) -> Bool {
-        self > lower && self <= upper
+        self >= lower && self <= upper
     }
 }

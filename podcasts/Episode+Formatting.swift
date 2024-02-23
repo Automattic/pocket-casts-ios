@@ -7,8 +7,8 @@ extension Episode {
     }
 
     func shouldArchiveOnCompletion() -> Bool {
-        if let podcast = parentPodcast(), podcast.overrideGlobalArchive {
-            return podcast.autoArchivePlayedAfter == 0 && (Settings.archiveStarredEpisodes() || !keepEpisode)
+        if let podcast = parentPodcast(), podcast.isAutoArchiveOverridden {
+            return podcast.autoArchivePlayedAfterTime == 0 && (Settings.archiveStarredEpisodes() || !keepEpisode)
         }
 
         return Settings.autoArchivePlayedAfter() == 0 && (Settings.archiveStarredEpisodes() || !keepEpisode)

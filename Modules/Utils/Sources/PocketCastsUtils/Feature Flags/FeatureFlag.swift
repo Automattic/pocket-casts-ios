@@ -1,6 +1,6 @@
 import Foundation
 
-enum FeatureFlag: String, CaseIterable {
+public enum FeatureFlag: String, CaseIterable {
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
@@ -31,10 +31,13 @@ enum FeatureFlag: String, CaseIterable {
     /// Syncing all app and podcast settings
     case settingsSync
 
+    /// Show the modal about the partnership with Slumber Studios
+    case slumber
+
     /// Enable the new flow for Account upgrade prompt where it start IAP flow directly from account cell
     case newAccountUpgradePromptFlow
 
-    var enabled: Bool {
+    public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
         }
@@ -42,7 +45,7 @@ enum FeatureFlag: String, CaseIterable {
         return `default`
     }
 
-    var `default`: Bool {
+    public var `default`: Bool {
         switch self {
         case .tracksLogging:
             false
@@ -64,6 +67,8 @@ enum FeatureFlag: String, CaseIterable {
             false
         case .settingsSync:
             false
+        case .slumber:
+            false
         case .newAccountUpgradePromptFlow:
             false
         }
@@ -71,7 +76,7 @@ enum FeatureFlag: String, CaseIterable {
 
     /// Remote Feature Flag
     /// This should match a Firebase Remote Config Parameter name (key)
-    var remoteKey: String? {
+    public var remoteKey: String? {
         switch self {
         case .deselectChapters:
             "deselect_chapters"
@@ -82,11 +87,11 @@ enum FeatureFlag: String, CaseIterable {
 }
 
 extension FeatureFlag: OverrideableFlag {
-    var description: String {
+    public var description: String {
         rawValue
     }
 
-    var canOverride: Bool {
+    public var canOverride: Bool {
         true
     }
 
