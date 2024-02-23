@@ -57,7 +57,7 @@ public struct AutoAddCandidatesDataManager {
                     query = """
                     SELECT
                         -- Get the Podcast Auto Add Setting
-                        podcast.settings AS \(Constants.settingsColumnName),
+                        json_extract(podcast.settings, '$.addToUpNextPosition.value') AS \(Constants.autoAddSettingColumnName),
 
                         -- Get the episode UUID
                         queue.id AS \(Constants.idColumnName),
@@ -118,9 +118,16 @@ public struct AutoAddCandidatesDataManager {
 
             let setting: Int32
             if FeatureFlag.settingsSync.enabled {
-                let settingsString = resultSet.string(forColumn: Constants.settingsColumnName)
-                let settings: PodcastSettings? = DBUtils.convertData(value: settingsString?.data(using: .utf8))
-                setting = settings?.autoUpNextSetting.rawValue ?? AutoAddToUpNextSetting.off.rawValue
+                let value = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
+                let position = UpNextPosition(rawValue: value)
+                switch position {
+                case .top:
+                    setting = AutoAddToUpNextSetting.addFirst.rawValue
+                case .bottom:
+                    setting = AutoAddToUpNextSetting.addLast.rawValue
+                default:
+                    setting = AutoAddToUpNextSetting.off.rawValue
+                }
             } else {
                 setting = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
             }

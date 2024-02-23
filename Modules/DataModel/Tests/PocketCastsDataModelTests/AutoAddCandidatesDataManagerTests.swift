@@ -18,6 +18,10 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
             throw TestError.dbFolderPathFailure
         }
 
+        if !FileManager.default.fileExists(atPath: dbFolderPath as String) {
+            try FileManager.default.createDirectory(atPath: dbFolderPath as String, withIntermediateDirectories: true)
+        }
+
         let dbPath = dbFolderPath.appendingPathComponent("podcast_testDB.sqlite3")
         if FileManager.default.fileExists(atPath: dbPath) {
             try FileManager.default.removeItem(atPath: dbPath)
@@ -83,6 +87,72 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         let matchingCandidate = candidates.first(where: { $0.episodeUuid == episode.uuid })
         XCTAssertNotNil(matchingCandidate, "Episode should appear in Up Next candidates")
         XCTAssertEqual(matchingCandidate?.autoAddToUpNextSetting, newUpNextSetting)
+
+        featureFlagMock.reset()
+    }
+
+    func testOldQueryPerformance() throws {
+        featureFlagMock.set(.settingsSync, value: false)
+
+        let dataManager = try setupDatabase()
+        let newUpNextSetting = AutoAddToUpNextSetting.addFirst
+
+        let podcastCount = 500
+        let episodeCount = 50
+        (0...podcastCount).forEach { _ in
+            let podcast = Podcast()
+            podcast.uuid = UUID().uuidString
+            podcast.addedDate = Date()
+            podcast.setAutoAddToUpNext(setting: newUpNextSetting)
+
+            dataManager.save(podcast: podcast)
+            (0...episodeCount).forEach { _ in
+                let episode = Episode()
+                episode.uuid = UUID().uuidString
+                episode.addedDate = Date()
+                episode.podcastUuid = podcast.uuid
+
+                dataManager.save(episode: episode)
+                dataManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: episode.uuid)
+            }
+        }
+
+        self.measure {
+            let candidates = dataManager.autoAddCandidates.candidates()
+        }
+
+        featureFlagMock.reset()
+    }
+
+    func testNewQueryPerformance() throws {
+        featureFlagMock.set(.settingsSync, value: true)
+
+        let dataManager = try setupDatabase()
+        let newUpNextSetting = AutoAddToUpNextSetting.addFirst
+
+        let podcastCount = 500
+        let episodeCount = 50
+        (0...podcastCount).forEach { _ in
+            let podcast = Podcast()
+            podcast.uuid = UUID().uuidString
+            podcast.addedDate = Date()
+            podcast.setAutoAddToUpNext(setting: newUpNextSetting)
+
+            dataManager.save(podcast: podcast)
+            (0...episodeCount).forEach { _ in
+                let episode = Episode()
+                episode.uuid = UUID().uuidString
+                episode.addedDate = Date()
+                episode.podcastUuid = podcast.uuid
+
+                dataManager.save(episode: episode)
+                dataManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: episode.uuid)
+            }
+        }
+
+        self.measure {
+            let candidates = dataManager.autoAddCandidates.candidates()
+        }
 
         featureFlagMock.reset()
     }
