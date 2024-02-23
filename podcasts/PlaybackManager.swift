@@ -351,6 +351,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         chapterManager.chaptersForTime(time)
     }
 
+    func playableChaptersUpdated() {
+        // Check if current chapter still needs to be played
+        if currentChapters().visibleChapter?.isPlayable() == false {
+            skipToNextChapter()
+        }
+    }
+
     private func checkForChapterChange() {
         guard let episodeUuid = currentEpisode()?.uuid else { return }
 
