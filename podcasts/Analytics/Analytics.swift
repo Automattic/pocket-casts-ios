@@ -58,6 +58,16 @@ extension Analytics {
             Analytics.track(.analyticsOptIn)
         #endif
     }
+
+    func refreshRegistered() {
+        if Settings.analyticsOptOut() {
+            Analytics.unregister()
+        } else {
+            #if !os(watchOS)
+            (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
+            #endif
+        }
+    }
 }
 
 // MARK: - Protocols

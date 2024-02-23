@@ -1,5 +1,6 @@
 import Combine
 import PocketCastsDataModel
+import SwiftUI
 
 class BookmarkEpisodeListViewModel: BookmarkListViewModel {
     var episode: BaseEpisode? = nil {
@@ -8,7 +9,7 @@ class BookmarkEpisodeListViewModel: BookmarkListViewModel {
         }
     }
 
-    convenience init(episode: BaseEpisode, bookmarkManager: BookmarkManager, sortOption: SortSetting) {
+    convenience init(episode: BaseEpisode, bookmarkManager: BookmarkManager, sortOption: Binding<BookmarkSortOption>) {
         self.init(bookmarkManager: bookmarkManager, sortOption: sortOption)
 
         self.episode = episode

@@ -331,12 +331,16 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    func chapterCount() -> Int {
-        chapterManager.visibleChapterCount()
+    func chapterCount(onlyPlayable: Bool = false) -> Int {
+        onlyPlayable ? chapterManager.playableChapterCount() : chapterManager.visibleChapterCount()
     }
 
     func chapterAt(index: Int) -> ChapterInfo? {
         chapterManager.chapterAt(index: index)
+    }
+
+    func playableChapterAt(index: Int) -> ChapterInfo? {
+        chapterManager.playableChapterAt(index: index)
     }
 
     func currentChapters() -> Chapters {
@@ -351,7 +355,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episodeUuid = currentEpisode()?.uuid else { return }
 
         if chapterManager.haveTriedToParseChaptersFor(episodeUuid: episodeUuid), chapterManager.updateCurrentChapter(time: currentTime()) {
-            if currentChapters().visibleChapter?.shouldPlay == false {
+            if currentChapters().visibleChapter?.isPlayable() == false {
                 skipToNextChapter()
             } else {
                 fireChapterChangeNotification()
@@ -716,9 +720,15 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // persist changes
         if effects.isGlobal {
-            UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
-            UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
-            UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.trimSilence = effects.trimSilence
+                SettingsStore.appSettings.volumeBoost = effects.volumeBoost
+                SettingsStore.appSettings.playbackSpeed = effects.playbackSpeed
+            } else {
+                UserDefaults.standard.set(effects.trimSilence.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
+                UserDefaults.standard.set(effects.volumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
+                UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
+            }
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
             if FeatureFlag.settingsSync.enabled {
                 podcast.settings.trimSilence = effects.trimSilence

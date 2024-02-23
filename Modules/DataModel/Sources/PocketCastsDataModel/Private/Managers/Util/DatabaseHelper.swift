@@ -658,6 +658,7 @@ class DatabaseHelper {
 
         if schemaVersion < 43 {
             do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN deselectedChapters TEXT;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN settings TEXT NOT NULL DEFAULT '';", values: nil)
                 schemaVersion = 43
             } catch {

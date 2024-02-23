@@ -1,5 +1,6 @@
 import AVFoundation
 import Foundation
+import PocketCastsUtils
 
 class ChapterInfo: Equatable {
     var title = ""
@@ -13,7 +14,14 @@ class ChapterInfo: Equatable {
     var index = 0
     var duration: TimeInterval = 0
     var isHidden = false
+
+    /// Should only be used for sync purposes, if reading for playback
+    /// use `isPlayable()` instead
     var shouldPlay = true
+
+    func isPlayable() -> Bool {
+        FeatureFlag.deselectChapters.enabled && PaidFeature.deselectChapters.isUnlocked ? shouldPlay : true
+    }
 
     static func == (lhs: ChapterInfo, rhs: ChapterInfo) -> Bool {
         lhs.title == rhs.title && lhs.startTime.seconds == rhs.startTime.seconds && lhs.duration == rhs.duration

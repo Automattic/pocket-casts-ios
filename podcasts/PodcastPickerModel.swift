@@ -15,7 +15,7 @@ class PodcastPickerModel: ObservableObject {
 
     @Published var sortType: LibrarySort = .titleAtoZ {
         didSet {
-            UserDefaults.standard.set(sortType.rawValue, forKey: Constants.UserDefaults.lastPickerSort)
+            UserDefaults.standard.set(sortType.old.rawValue, forKey: Constants.UserDefaults.lastPickerSort)
             loadPodcasts()
         }
     }
@@ -37,7 +37,7 @@ class PodcastPickerModel: ObservableObject {
     func setup() {
         let savedSortTypeInt = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastPickerSort)
         if savedSortTypeInt != 0 {
-            sortType = LibrarySort(rawValue: savedSortTypeInt) ?? .titleAtoZ
+            sortType = LibrarySort(oldValue: savedSortTypeInt) ?? .titleAtoZ
         }
 
         loadPodcasts()

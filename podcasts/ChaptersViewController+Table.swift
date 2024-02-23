@@ -1,5 +1,6 @@
 import Foundation
 import SafariServices
+import PocketCastsUtils
 
 extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     private static let chapterCell = "ChapterCell"
@@ -13,13 +14,13 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        PlaybackManager.shared.chapterCount()
+        PlaybackManager.shared.chapterCount(onlyPlayable: !isTogglingChapters)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let chapterCell = tableView.dequeueReusableCell(withIdentifier: ChaptersViewController.chapterCell, for: indexPath) as! PlayerChapterCell
 
-        if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
+        if let chapter = isTogglingChapters ? PlaybackManager.shared.chapterAt(index: indexPath.row) : PlaybackManager.shared.playableChapterAt(index: indexPath.row) {
             var state = PlayerChapterCell.ChapterPlayState.played
             let currentChapters = PlaybackManager.shared.currentChapters()
 
@@ -29,11 +30,11 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 state = .future
             }
 
-            chapterCell.populateFrom(chapter: chapter, playState: state) { url in
+            chapterCell.populateFrom(chapter: chapter, playState: state, isChapterToggleEnabled: isTogglingChapters) { [weak self] url in
                 if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 } else {
-                    self.present(SFSafariViewController(with: url), animated: true)
+                    self?.present(SFSafariViewController(with: url), animated: true)
                 }
             }
 
@@ -46,6 +47,11 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
+        guard !isTogglingChapters else {
+            (tableView.cellForRow(at: indexPath) as? PlayerChapterCell)?.toggleChapterTapped(self)
+            return
+        }
+
         if let chapter = PlaybackManager.shared.chapterAt(index: indexPath.row) {
             if chapter.index == PlaybackManager.shared.currentChapters().index {
                 containerDelegate?.scrollToNowPlaying()
@@ -56,7 +62,29 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
         }
     }
 
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        FeatureFlag.deselectChapters.enabled ? 44 : CGFloat.leastNonzeroMagnitude
+    }
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        CGFloat.leastNonzeroMagnitude
+        FeatureFlag.deselectChapters.enabled ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return header
+    }
+}
+
+extension ChaptersViewController: ChaptersHeaderDelegate {
+    func toggleTapped() {
+        guard PaidFeature.deselectChapters.isUnlocked else {
+            PaidFeature.deselectChapters.presentUpgradeController(from: self, source: "deselect_chapters")
+            return
+        }
+
+        isTogglingChapters.toggle()
+        chaptersTable.reloadSections([0], with: .automatic)
+        header.isTogglingChapters = isTogglingChapters
+        header.update()
     }
 }

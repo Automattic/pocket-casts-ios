@@ -27,6 +27,33 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed = .afterPlaying
+    @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive = .never
+    @ModifiedDate public var autoArchiveIncludesStarred: Bool = false
+
+    // MARK: Playback Effects
+
+    @ModifiedDate public var volumeBoost: Bool
+    @ModifiedDate public var trimSilence: TrimSilenceAmount
+    @ModifiedDate public var playbackSpeed: Double
+
+    @ModifiedDate public var playerBookmarksSortType: BookmarksSort = .newestToOldest
+    @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
+    @ModifiedDate public var podcastBookmarksSortType: BookmarksSort = .newestToOldest
+
+    @ModifiedDate public var warnDataUsage: Bool = false
+
+    @ModifiedDate public var headphoneControlsNextAction: HeadphoneControl = .skipForward
+    @ModifiedDate public var headphoneControlsPreviousAction: HeadphoneControl = .skipBack
+
+    @ModifiedDate public var privacyAnalytics: Bool = true
+    @ModifiedDate public var marketingOptIn: Bool = false
+    @ModifiedDate public var freeGiftAcknowledgement: Bool = false
+
+    @ModifiedDate public var gridOrder: LibrarySort = .dateAddedNewestToOldest
+    @ModifiedDate public var gridLayout: LibraryType = .fourByFour
+    @ModifiedDate public var badges: BadgeType = .off
+
     @ModifiedDate public var playerShelf: [ActionOption] = []
 
     static var defaults: AppSettings {
@@ -45,7 +72,10 @@ public struct AppSettings: JSONCodable {
                            legacyBluetooth: false,
                            multiSelectGesture: true,
                            chapterTitles: true,
-                           autoPlayEnabled: true
+                           autoPlayEnabled: true,
+                           volumeBoost: false,
+                           trimSilence: .off,
+                           playbackSpeed: 0
         )
     }
 }

@@ -1,6 +1,10 @@
-7.58
+7.59
 -----
 
+
+7.58
+-----
+- Fixes an issue where adding a new podcast could fail at the first try. [#1457]
 
 7.57
 -----
