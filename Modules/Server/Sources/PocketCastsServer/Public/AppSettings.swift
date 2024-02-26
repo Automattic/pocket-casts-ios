@@ -4,7 +4,7 @@ import PocketCastsDataModel
 /// Model type for synced & stored App Settings
 public struct AppSettings: JSONCodable {
 
-    // MARK: General
+    // MARK: - General
     @ModifiedDate public var openLinks: Bool
 
     @ModifiedDate public var rowAction: PrimaryRowAction
@@ -27,6 +27,10 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed = .afterPlaying
+    @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive = .never
+    @ModifiedDate public var autoArchiveIncludesStarred: Bool = false
+
     // MARK: Playback Effects
 
     @ModifiedDate public var volumeBoost: Bool
@@ -36,6 +40,10 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var playerBookmarksSortType: BookmarksSort = .newestToOldest
     @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
     @ModifiedDate public var podcastBookmarksSortType: BookmarksSort = .newestToOldest
+
+    @ModifiedDate public var filesAutoUpNext: Bool = false
+    @ModifiedDate public var filesAfterPlayingDeleteLocal: Bool = false
+    @ModifiedDate public var filesAfterPlayingDeleteCloud: Bool = false
 
     @ModifiedDate public var warnDataUsage: Bool = false
 
@@ -48,6 +56,23 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var privacyAnalytics: Bool = true
     @ModifiedDate public var marketingOptIn: Bool = false
     @ModifiedDate public var freeGiftAcknowledgement: Bool = false
+
+    @ModifiedDate public var gridOrder: LibrarySort = .dateAddedNewestToOldest
+    @ModifiedDate public var gridLayout: LibraryType = .fourByFour
+    @ModifiedDate public var badges: BadgeType = .off
+
+    @ModifiedDate public var playerShelf: [ActionOption] = []
+
+    // MARK: - Appearance
+
+    @ModifiedDate public var useSystemTheme: Bool = true
+    @ModifiedDate public var theme: ThemeType = .light
+    @ModifiedDate public var lightThemePreference: ThemeType = .light
+    @ModifiedDate public var darkThemePreference: ThemeType = .dark
+
+    @ModifiedDate public var useEmbeddedArtwork: Bool = false
+
+    @ModifiedDate public var useDarkUpNextTheme: Bool = true
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,

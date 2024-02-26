@@ -34,6 +34,32 @@ extension SettingsStore<AppSettings> {
         self.update(\.$privacyAnalytics, value: !UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut))
         self.update(\.$marketingOptIn, value: UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.marketingOptInKey))
         self.update(\.$freeGiftAcknowledgement, value: UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionGiftAcknowledgement))
+        if let time = AutoArchiveAfterTime(rawValue: UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)), let played = AutoArchiveAfterPlayed(time: time) {
+            self.update(\.$autoArchivePlayed, value: played.rawValue)
+        }
+        if let time = AutoArchiveAfterTime(rawValue: UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)), let inactive = AutoArchiveAfterInactive(time: time) {
+            self.update(\.$autoArchiveInactive, value: inactive.rawValue)
+        }
+        self.update(\.$autoArchiveIncludesStarred, value: UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey))
+        self.update(\.$gridOrder, value: Int32(ServerSettings.homeGridSortOrder()))
+        self.update(\.$gridLayout, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)))
+        self.update(\.$badges, value: Int32(UserDefaults.standard.integer(forKey: Settings.badgeKey)))
+        self.update(\.$filesAutoUpNext, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeAutoAddToUpNextKey))
+        self.update(\.$filesAfterPlayingDeleteLocal, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeRemoveFileAfterPlayingKey))
+        self.update(\.$filesAfterPlayingDeleteCloud, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeRemoveFromCloudAfterPlayingKey))
+        self.update(\.$playerShelf, value: (UserDefaults.standard.playerActions ?? PlayerAction.defaultActions).map { ActionOption.known($0) })
+        self.update(\.$useEmbeddedArtwork, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages))
+        if let oldTheme = ThemeType.Old(rawValue: UserDefaults.standard.integer(forKey: Theme.themeKey)) {
+            self.update(\.$theme, value: ThemeType(old: oldTheme))
+        }
+        self.update(\.$useSystemTheme, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey))
+        if let oldTheme = ThemeType.Old(rawValue: UserDefaults.standard.integer(forKey: Theme.preferredLightThemeKey)) {
+            self.update(\.$lightThemePreference, value: ThemeType(old: oldTheme))
+        }
+        if let oldTheme = ThemeType.Old(rawValue: UserDefaults.standard.integer(forKey: Theme.preferredDarkThemeKey)) {
+            self.update(\.$darkThemePreference, value: ThemeType(old: oldTheme))
+        }
+        self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
         self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
         self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
     }

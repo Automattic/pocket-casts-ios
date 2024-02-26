@@ -155,9 +155,9 @@ extension EpisodeDetailViewController {
             setMessage(title: L10n.downloadFailed, details: episode.downloadErrorDetails ?? L10n.podcastDetailsDownloadError, imageName: "option-alert")
         } else if episode.waitingForWifi() {
             setMessage(title: L10n.waitForWifi, details: L10n.podcastDetailsDownloadWifiQueue, imageName: "waiting-wifi")
-        } else if !episode.archived, episode.excludeFromEpisodeLimit, podcast.autoArchiveEpisodeLimit > 0 {
+        } else if !episode.archived, episode.excludeFromEpisodeLimit, podcast.autoArchiveEpisodeLimitCount > 0 {
             setMessage(title: L10n.podcastDetailsManualUnarchiveTitle,
-                       details: L10n.podcastDetailsManualUnarchiveMsg(podcast.autoArchiveEpisodeLimit.localized()),
+                       details: L10n.podcastDetailsManualUnarchiveMsg(podcast.autoArchiveEpisodeLimitCount.localized()),
                        imageName: "episode-archive")
         } else if buttonBottomOffsetConstraint.constant != 20 {
             messageView.isHidden = true

@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsDataModel
 
 extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
     var searchControllerView: UIView? {

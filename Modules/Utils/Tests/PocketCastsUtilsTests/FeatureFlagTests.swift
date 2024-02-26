@@ -1,8 +1,6 @@
 import XCTest
 @testable import PocketCastsUtils
 
-@testable import podcasts
-
 class FeatureFlagTests: XCTestCase {
     var store: FeatureFlagOverrideStore!
 
