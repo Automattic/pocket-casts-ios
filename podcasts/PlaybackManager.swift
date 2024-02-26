@@ -1905,7 +1905,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Private helpers
 
     private func checkIfStreamBufferRequired(episode: BaseEpisode, effects: PlaybackEffects) {
-        if effects.trimSilence.isEnabled(), !episode.downloaded(pathFinder: DownloadManager.shared) {
+        let downloadEpisode = effects.trimSilence.isEnabled() || FeatureFlag.cachePlayingEpisode.enabled
+        if downloadEpisode, !episode.downloaded(pathFinder: DownloadManager.shared) {
             // the user is streaming and has turned on remove silence, kick off a download so we can fulfill that request
             DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .playerDownloadedForStreaming)
         }

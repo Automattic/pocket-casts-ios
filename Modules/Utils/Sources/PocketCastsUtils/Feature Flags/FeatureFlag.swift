@@ -37,6 +37,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new flow for Account upgrade prompt where it start IAP flow directly from account cell
     case newAccountUpgradePromptFlow
 
+    case cachePlayingEpisode
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -71,6 +73,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .newAccountUpgradePromptFlow:
             false
+        case .cachePlayingEpisode:
+            true
         }
     }
 
@@ -82,6 +86,8 @@ public enum FeatureFlag: String, CaseIterable {
             "deselect_chapters"
         case .newAccountUpgradePromptFlow:
             "new_account_upgrade_prompt_flow"
+        case .cachePlayingEpisode:
+            "cache_playing_episode"
         default:
             nil
         }
