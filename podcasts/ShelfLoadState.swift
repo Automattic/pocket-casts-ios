@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 
 struct ShelfLoadState {
     private var lastShelfActionsLoaded: [PlayerAction]?
