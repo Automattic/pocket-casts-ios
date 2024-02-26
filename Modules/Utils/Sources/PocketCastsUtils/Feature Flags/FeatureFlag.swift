@@ -84,6 +84,8 @@ public enum FeatureFlag: String, CaseIterable {
         switch self {
         case .deselectChapters:
             "deselect_chapters"
+        case .newAccountUpgradePromptFlow:
+            "new_account_upgrade_prompt_flow"
         case .cachePlayingEpisode:
             "cache_playing_episode"
         default:

@@ -470,10 +470,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             var needsNoSearchResultsMessage = false
             let searching = self.searchController?.searchTextField?.text?.count ?? 0 > 0
             if podcast.podcastGrouping() == .none {
-                let episodeLimit = Int(podcast.autoArchiveEpisodeLimit)
+                let episodeLimit = Int(podcast.autoArchiveEpisodeLimitCount)
                 var episodes = newData[safe: 1]?.elements
                 let episodeCount = episodes?.count ?? 0
-                if episodeCount > 0, episodeLimit > 0, podcast.overrideGlobalArchive {
+                if episodeCount > 0, episodeLimit > 0, podcast.isAutoArchiveOverridden {
                     var indexToInsertAt = -1
 
                     let episodeSortOrder = podcast.podcastSortOrder

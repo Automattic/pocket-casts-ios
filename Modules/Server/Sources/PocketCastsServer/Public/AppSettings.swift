@@ -27,6 +27,10 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed = .afterPlaying
+    @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive = .never
+    @ModifiedDate public var autoArchiveIncludesStarred: Bool = false
+
     // MARK: Playback Effects
 
     @ModifiedDate public var volumeBoost: Bool
@@ -37,6 +41,10 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
     @ModifiedDate public var podcastBookmarksSortType: BookmarksSort = .newestToOldest
 
+    @ModifiedDate public var filesAutoUpNext: Bool = false
+    @ModifiedDate public var filesAfterPlayingDeleteLocal: Bool = false
+    @ModifiedDate public var filesAfterPlayingDeleteCloud: Bool = false
+
     @ModifiedDate public var warnDataUsage: Bool = false
 
     @ModifiedDate public var headphoneControlsNextAction: HeadphoneControl = .skipForward
@@ -45,6 +53,12 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var privacyAnalytics: Bool = true
     @ModifiedDate public var marketingOptIn: Bool = false
     @ModifiedDate public var freeGiftAcknowledgement: Bool = false
+
+    @ModifiedDate public var gridOrder: LibrarySort = .dateAddedNewestToOldest
+    @ModifiedDate public var gridLayout: LibraryType = .fourByFour
+    @ModifiedDate public var badges: BadgeType = .off
+
+    @ModifiedDate public var playerShelf: [ActionOption] = []
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,

@@ -38,6 +38,17 @@ class IAPHelper: NSObject {
         addSubscriptionNotifications()
     }
 
+    func setup(hasSubscription: Bool) {
+        SKPaymentQueue.default().add(self)
+        if !hasSubscription {
+            IAPHelper.shared.requestProductInfo()
+        }
+    }
+
+    func tearDown() {
+        SKPaymentQueue.default().remove(self)
+    }
+
     /// Requests the product info if we're not checking already, and the products we have already are different
     func requestProductInfoIfNeeded() {
         let isMissingProducts = productsArray.isEmpty || productsArray.map { $0.productIdentifier } == productIdentifiers.map { $0.rawValue }

@@ -33,6 +33,16 @@ extension Api_ChangeableSettings {
         privacyAnalytics.update(settings.$privacyAnalytics)
         marketingOptIn.update(settings.$marketingOptIn)
         freeGiftAcknowledgement.update(settings.$freeGiftAcknowledgement)
+        autoArchivePlayed.update(settings.$autoArchivePlayed)
+        autoArchiveInactive.update(settings.$autoArchiveInactive)
+        autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
+        gridOrder.update(settings.$gridOrder)
+        gridLayout.update(settings.$gridLayout)
+        badges.update(settings.$badges)
+        filesAutoUpNext.update(settings.$filesAutoUpNext)
+        filesAfterPlayingDeleteLocal.update(settings.$filesAfterPlayingDeleteLocal)
+        filesAfterPlayingDeleteCloud.update(settings.$filesAfterPlayingDeleteCloud)
+        playerShelf.update(settings.$playerShelf)
     }
 }
 
@@ -66,6 +76,16 @@ extension AppSettings {
         $privacyAnalytics.update(setting: settings.privacyAnalytics)
         $marketingOptIn.update(setting: settings.marketingOptIn)
         $freeGiftAcknowledgement.update(setting: settings.freeGiftAcknowledgement)
+        $autoArchivePlayed.update(setting: settings.autoArchivePlayed)
+        $autoArchiveInactive.update(setting: settings.autoArchiveInactive)
+        $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
+        $gridOrder.update(setting: settings.gridOrder)
+        $gridLayout.update(setting: settings.gridLayout)
+        $badges.update(setting: settings.badges)
+        $filesAutoUpNext.update(setting: settings.filesAutoUpNext)
+        $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocal)
+        $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloud)
+        $playerShelf.update(setting: settings.playerShelf)
     }
 }
 
