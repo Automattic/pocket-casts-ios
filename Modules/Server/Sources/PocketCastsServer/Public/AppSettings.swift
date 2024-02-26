@@ -4,7 +4,7 @@ import PocketCastsDataModel
 /// Model type for synced & stored App Settings
 public struct AppSettings: JSONCodable {
 
-    // MARK: General
+    // MARK: - General
     @ModifiedDate public var openLinks: Bool
 
     @ModifiedDate public var rowAction: PrimaryRowAction
@@ -59,6 +59,17 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var badges: BadgeType = .off
 
     @ModifiedDate public var playerShelf: [ActionOption] = []
+
+    // MARK: - Appearance
+
+    @ModifiedDate public var useSystemTheme: Bool = true
+    @ModifiedDate public var theme: ThemeType = .light
+    @ModifiedDate public var lightThemePreference: ThemeType = .light
+    @ModifiedDate public var darkThemePreference: ThemeType = .dark
+
+    @ModifiedDate public var useEmbeddedArtwork: Bool = false
+
+    @ModifiedDate public var useDarkUpNextTheme: Bool = true
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,

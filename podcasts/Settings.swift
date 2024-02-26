@@ -667,11 +667,18 @@ class Settings: NSObject {
     }
 
     class func setShouldFollowSystemTheme(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.useSystemTheme = value
+        }
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
 
     class func shouldFollowSystemTheme() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.useSystemTheme
+        } else {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        }
     }
 
     // MARK: Player Actions
@@ -948,7 +955,18 @@ class Settings: NSObject {
 
     static var loadEmbeddedImages: Bool {
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useEmbeddedArtwork
+            } else {
+                UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+            }
+        }
+        set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useEmbeddedArtwork = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.loadEmbeddedImages)
+            Settings.trackValueToggled(.settingsAppearanceUseEmbeddedArtworkToggled, enabled: newValue)
         }
     }
 
@@ -1030,10 +1048,17 @@ class Settings: NSObject {
 
     static var darkUpNextTheme: Bool {
         get {
-            Constants.UserDefaults.appearance.darkUpNextTheme.value
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useDarkUpNextTheme
+            } else {
+                Constants.UserDefaults.appearance.darkUpNextTheme.value
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useDarkUpNextTheme = newValue
+            }
             Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
         }
     }

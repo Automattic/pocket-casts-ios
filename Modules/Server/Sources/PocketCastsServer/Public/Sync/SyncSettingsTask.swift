@@ -43,6 +43,12 @@ extension Api_ChangeableSettings {
         filesAfterPlayingDeleteLocal.update(settings.$filesAfterPlayingDeleteLocal)
         filesAfterPlayingDeleteCloud.update(settings.$filesAfterPlayingDeleteCloud)
         playerShelf.update(settings.$playerShelf)
+        useEmbeddedArtwork.update(settings.$useEmbeddedArtwork)
+        theme.update(settings.$theme)
+        useSystemTheme.update(settings.$useSystemTheme)
+        lightThemePreference.update(settings.$lightThemePreference)
+        darkThemePreference.update(settings.$darkThemePreference)
+        useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
     }
 }
 
@@ -86,6 +92,12 @@ extension AppSettings {
         $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocal)
         $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloud)
         $playerShelf.update(setting: settings.playerShelf)
+        $useEmbeddedArtwork.update(setting: settings.useEmbeddedArtwork)
+        $theme.update(setting: settings.theme)
+        $useSystemTheme.update(setting: settings.useSystemTheme)
+        $lightThemePreference.update(setting: settings.lightThemePreference)
+        $darkThemePreference.update(setting: settings.darkThemePreference)
+        $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
     }
 }
 

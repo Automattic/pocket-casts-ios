@@ -142,7 +142,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         case .embeddedArtwork:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.appearanceEmbeddedArtwork
-            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+            cell.cellSwitch.isOn = Settings.loadEmbeddedImages
 
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(loadEmbeddedArtToggled(_:)), for: UIControl.Event.valueChanged)
@@ -262,8 +262,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     }
 
     @objc private func loadEmbeddedArtToggled(_ sender: UISwitch) {
-        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.loadEmbeddedImages)
-        Settings.trackValueToggled(.settingsAppearanceUseEmbeddedArtworkToggled, enabled: sender.isOn)
+        Settings.loadEmbeddedImages = sender.isOn
     }
 
     private func updateTableAndData() {
