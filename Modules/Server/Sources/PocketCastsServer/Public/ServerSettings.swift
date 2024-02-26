@@ -295,21 +295,35 @@ public class ServerSettings {
 
     private static let autoAddLimitKey = "AutoAddToUpNextLimit"
     public class func autoAddToUpNextLimit() -> Int {
-        UserDefaults.standard.integer(forKey: autoAddLimitKey)
+        if FeatureFlag.settingsSync.enabled {
+            Int(SettingsStore.appSettings.autoUpNextLimit)
+        } else {
+            UserDefaults.standard.integer(forKey: autoAddLimitKey)
+        }
     }
 
     public class func setAutoAddToUpNextLimit(_ limit: Int) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoUpNextLimit = Int32(limit)
+        }
         UserDefaults.standard.setValue(limit, forKey: autoAddLimitKey)
     }
 
     private static let onAutoAddLimitReachedKey = "AutoAddLimitReachedKey"
     public class func onAutoAddLimitReached() -> AutoAddLimitReachedAction {
-        let storedValue = UserDefaults.standard.integer(forKey: onAutoAddLimitReachedKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoUpNextLimitReached
+        } else {
+            let storedValue = UserDefaults.standard.integer(forKey: onAutoAddLimitReachedKey)
 
-        return AutoAddLimitReachedAction(rawValue: Int32(storedValue)) ?? .stopAdding
+            return AutoAddLimitReachedAction(rawValue: Int32(storedValue)) ?? .stopAdding
+        }
     }
 
     public class func setOnAutoAddLimitReached(action: AutoAddLimitReachedAction) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoUpNextLimitReached = action
+        }
         UserDefaults.standard.setValue(action.rawValue, forKey: onAutoAddLimitReachedKey)
     }
 

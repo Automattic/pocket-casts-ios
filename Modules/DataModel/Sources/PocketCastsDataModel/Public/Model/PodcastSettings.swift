@@ -17,6 +17,9 @@ public struct PodcastSettings: JSONCodable, Equatable {
     @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive = .never
     @ModifiedDate public var autoArchiveEpisodeLimit: Int32 = 0
 
+    @ModifiedDate public var addToUpNext: Bool = false
+    @ModifiedDate public var addToUpNextPosition: UpNextPosition = .bottom
+
     @ModifiedDate public var episodesSortOrder: PodcastEpisodeSortOrder = .shortestToLongest
     @ModifiedDate public var episodeGrouping: PodcastGrouping = .none
 

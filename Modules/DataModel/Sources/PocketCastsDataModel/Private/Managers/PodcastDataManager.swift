@@ -373,6 +373,19 @@ class PodcastDataManager {
     }
 
     func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32, dbQueue: FMDatabaseQueue) {
+        if FeatureFlag.settingsSync.enabled {
+            if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
+                if let setting = AutoAddToUpNextSetting(rawValue: autoAddToUpNext) {
+                    podcast.setAutoAddToUpNext(setting: setting)
+                    podcast.syncStatus = SyncStatus.notSynced.rawValue
+                    save(podcast: podcast, dbQueue: dbQueue)
+                } else {
+                    FileLog.shared.addMessage("Podcast Data: Failed to create AutoAddToUpNextSetting type for saving")
+                }
+            } else {
+                FileLog.shared.addMessage("Podcast Data: Couldn't find podcast for saving AutoAddToUpNext with UUID: \(podcastUuid)")
+            }
+        }
         saveSingleValue(name: "autoAddToUpNext", value: autoAddToUpNext, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
@@ -416,6 +429,9 @@ class PodcastDataManager {
     }
 
     func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32, dbQueue: FMDatabaseQueue) {
+        if FeatureFlag.settingsSync.enabled {
+            setOnAllPodcasts(value: autoAddToUpNext, settingName: "addToUpNext", subscribedOnly: true, dbQueue: dbQueue)
+        }
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
     }
 
@@ -423,6 +439,15 @@ class PodcastDataManager {
         dbQueue.inDatabase { db in
             do {
                 let uuids = podcasts.map { $0.uuid }
+
+                if FeatureFlag.settingsSync.enabled {
+                    let query = """
+                    SELECT json_patch('setting', '{\"addToUpNext\": {\"value\": \(value)}}')
+                    WHERE uuid IN (\(DataHelper.convertArrayToInString(uuids)))
+                    FROM \(DataManager.podcastTableName)"
+                    """
+                    try db.executeUpdate(query, values: [value.rawValue])
+                }
 
                 let query = """
                 UPDATE \(DataManager.podcastTableName)
@@ -440,6 +465,23 @@ class PodcastDataManager {
 
     func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: FMDatabaseQueue) {
         setOnAllPodcasts(value: setting.rawValue, propertyName: "autoDownloadSetting", subscribedOnly: true, dbQueue: dbQueue)
+    }
+
+    func setOnAllPodcasts(value: Any, settingName: String, subscribedOnly: Bool, dbQueue: FMDatabaseQueue) {
+        dbQueue.inDatabase { db in
+            do {
+                var query = "SELECT json_patch('setting', '{\"\(settingName)\": {\"value\": \(value)}}')"
+                if subscribedOnly {
+                    query += " WHERE subscribed = 1"
+                }
+                query += "FROM \(DataManager.podcastTableName)"
+                try db.executeUpdate(query, values: [value])
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
+            }
+        }
+
+        cachePodcasts(dbQueue: dbQueue)
     }
 
     func setOnAllPodcasts(value: Any, propertyName: String, subscribedOnly: Bool, dbQueue: FMDatabaseQueue) {

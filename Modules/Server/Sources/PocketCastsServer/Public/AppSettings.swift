@@ -47,6 +47,9 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var warnDataUsage: Bool = false
 
+    @ModifiedDate public var autoUpNextLimit: Int32 = 100
+    @ModifiedDate public var autoUpNextLimitReached: AutoAddLimitReachedAction = .stopAdding
+
     @ModifiedDate public var headphoneControlsNextAction: HeadphoneControl = .skipForward
     @ModifiedDate public var headphoneControlsPreviousAction: HeadphoneControl = .skipBack
 

@@ -239,3 +239,8 @@ extension Array: RawRepresentable where Element: RawRepresentable<String> {
         map(\.rawValue).joined(separator: ",")
     }
 }
+
+public enum UpNextPosition: Int32, Codable {
+    case bottom = 0
+    case top = 1
+}

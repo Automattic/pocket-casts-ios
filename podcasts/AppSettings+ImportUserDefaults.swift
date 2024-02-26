@@ -60,5 +60,7 @@ extension SettingsStore<AppSettings> {
             self.update(\.$darkThemePreference, value: ThemeType(old: oldTheme))
         }
         self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
+        self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
+        self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
     }
 }

@@ -49,6 +49,8 @@ extension Api_ChangeableSettings {
         lightThemePreference.update(settings.$lightThemePreference)
         darkThemePreference.update(settings.$darkThemePreference)
         useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
+        autoUpNextLimit.update(settings.$autoUpNextLimit)
+        autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
     }
 }
 
@@ -98,6 +100,8 @@ extension AppSettings {
         $lightThemePreference.update(setting: settings.lightThemePreference)
         $darkThemePreference.update(setting: settings.darkThemePreference)
         $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
+        $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
+        $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
     }
 }
 
