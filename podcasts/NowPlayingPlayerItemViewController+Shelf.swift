@@ -219,28 +219,31 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     // MARK: - Player Actions
-
-    @objc func overflowTapped() {
-        let shelfController = ShelfActionsViewController()
-        shelfController.playerActionsDelegate = self
-
-        if let sheetController = shelfController.sheetPresentationController {
+    private func presentUsingSheet(_ viewController: UIViewController, forceLarge: Bool = false) {
+        if let sheetController = viewController.sheetPresentationController {
             if #available(iOS 16.0, *) {
                 // We create a custom detent height of a bit more than half the hosting VC to try and
                 // ensure that all of the shelf content is visible in the sheet. We offer a large detent
                 // as a fallback so that the user can pull the sheet up if any content is ever cut off.
-                let hostingControllerHeight = view.bounds.height
-                let sheetDetentHeight = hostingControllerHeight * 0.675
-                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight }), .large()]
+                let maxWidth = sheetController.containerView?.bounds.width ?? .greatestFiniteMagnitude
+                let sheetDetentHeight = sheetController.presentedViewController.view.sizeThatFits(CGSizeMake(maxWidth, .greatestFiniteMagnitude)).height
+                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
             } else {
-                sheetController.detents = [.large()]
+                sheetController.detents = forceLarge || UIScreen.isSmallScreen ? [.large()] : [.medium()]
             }
 
             // The Shelf Actions VC implements its own grabber UI.
             sheetController.prefersGrabberVisible = false
         }
 
-        present(shelfController, animated: true, completion: nil)
+        present(viewController, animated: true, completion: nil)
+    }
+
+    @objc func overflowTapped() {
+        let shelfController = ShelfActionsViewController()
+        shelfController.playerActionsDelegate = self
+
+        presentUsingSheet(shelfController, forceLarge: true)
     }
 
     @objc private func sleepBtnTapped(_ sender: UIButton) {
@@ -347,38 +350,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func showSleepPanel() {
         let sleepController = SleepTimerViewController()
 
-        if let sheetController = sleepController.sheetPresentationController {
-            if #available(iOS 16.0, *) {
-                let hostingControllerHeight = view.bounds.height
-                let sheetDetentHeight = hostingControllerHeight * 0.6
-                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
-            } else {
-                sheetController.detents = [.medium()]
-            }
-            // The Sleep Timer VC implements its own grabber UI.
-            sheetController.prefersGrabberVisible = false
-        }
-
-        present(sleepController, animated: true, completion: nil)
+        presentUsingSheet(sleepController)
     }
 
     private func showEffectsPanel() {
         let effectsController = EffectsViewController()
 
-        if let sheetController = effectsController.sheetPresentationController {
-            if #available(iOS 16.0, *) {
-                let hostingControllerHeight = view.bounds.height
-                let sheetDetentHeight = hostingControllerHeight * 0.7
-                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
-            } else {
-                sheetController.detents = UIScreen.isSmallScreen ? [.large()] : [.medium()]
-            }
-
-            // The Playback Effects VC implements its own grabber UI.
-            sheetController.prefersGrabberVisible = false
-        }
-
-        present(effectsController, animated: true, completion: nil)
+        presentUsingSheet(effectsController)
     }
 
     private func performStarAction(starBtn: UIButton? = nil) {
