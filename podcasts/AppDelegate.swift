@@ -5,7 +5,6 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
-import StoreKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -79,12 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupBackgroundRefresh()
 
-        SKPaymentQueue.default().add(IAPHelper.shared)
-
-        // Request the IAP products on launch
-        if SubscriptionHelper.hasActiveSubscription() == false {
-            IAPHelper.shared.requestProductInfo()
-        }
+        IAPHelper.shared.setup(hasSubscription: SubscriptionHelper.hasActiveSubscription())
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)
@@ -163,7 +157,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         badgeHelper.teardown()
         shortcutManager.stopListeningForShortcutChanges()
 
-        SKPaymentQueue.default().remove(IAPHelper.shared)
+        IAPHelper.shared.tearDown()
         UIApplication.shared.endReceivingRemoteControlEvents()
     }
 
