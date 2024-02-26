@@ -62,4 +62,8 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     func volumeBoostToggled(enabled: Bool) {
         track(.playbackEffectVolumeBoostToggled, properties: ["enabled": enabled])
     }
+
+    func chapterSkipped() {
+        track(.playbackChapterSkipped)
+    }
 }

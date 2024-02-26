@@ -499,32 +499,53 @@ class Settings: NSObject {
         trackValueToggled(.settingsFilesAutoUploadToCloudToggled, enabled: value)
     }
 
-    private static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
+    static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
     class func userEpisodeAutoAddToUpNext() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAutoUpNext
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
+        }
     }
 
     class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAutoUpNext = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
         trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
     }
 
-    private static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
+    static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
     class func userEpisodeRemoveFileAfterPlaying() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAfterPlayingDeleteLocal
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
+        }
     }
 
     class func setUserEpisodeRemoveFileAfterPlaying(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.filesAfterPlayingDeleteLocal = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFileAfterPlayingKey)
         trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: value)
     }
 
-    private static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
+    static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
     class func userEpisodeRemoveFromCloudAfterPlaying() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAfterPlayingDeleteCloud
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
+        }
     }
 
     class func setUserEpisodeRemoveFromCloudAfterPlayingKey(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.filesAfterPlayingDeleteCloud = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
         trackValueToggled(.settingsFilesDeleteCloudFileAfterPlayingToggled, enabled: value)
     }
@@ -655,24 +676,44 @@ class Settings: NSObject {
 
     // MARK: Player Actions
 
-    private static let playerActionsKey = "PlayerActions"
+    fileprivate static let playerActionsKey = "PlayerActions"
     class func playerActions() -> [PlayerAction] {
         let defaultActions = PlayerAction.defaultActions.filter { $0.isAvailable }
 
-        guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
-            return defaultActions
+        let playerActions: [PlayerAction]
+
+        if FeatureFlag.settingsSync.enabled {
+            playerActions = SettingsStore.appSettings.playerShelf
+                .compactMap { action in
+                    switch action {
+                    case .known(let present):
+                        return present
+                    case .unknown:
+                        return nil
+                    }
+                }
+                .filter { $0.isAvailable }
+        } else {
+            playerActions = UserDefaults.standard.playerActions ?? defaultActions
         }
-
-        let playerActions = savedInts
-            .compactMap { PlayerAction(rawValue: $0) }
-            .filter { $0.isAvailable }
-
         return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 
     class func updatePlayerActions(_ actions: [PlayerAction]) {
-        let actionInts = actions.map(\.rawValue)
-        UserDefaults.standard.set(actionInts, forKey: Settings.playerActionsKey)
+        if FeatureFlag.settingsSync.enabled {
+            let unknowns = SettingsStore.appSettings.playerShelf.compactMap { action -> ActionOption? in
+                switch action {
+                case .known:
+                    return nil
+                case .unknown(let absent):
+                    return .unknown(absent)
+                }
+            }
+            SettingsStore.appSettings.playerShelf = actions.map({ .known($0) }) + unknowns
+        } else {
+            let actionInts = actions.map(\.intValue)
+            UserDefaults.standard.set(actionInts, forKey: Settings.playerActionsKey)
+        }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playerActionsUpdated)
     }
@@ -1184,5 +1225,17 @@ extension HeadphoneControl {
         case .skipForward:
             return .skipForward
         }
+	}
+}
+
+extension UserDefaults {
+    var playerActions: [PlayerAction]? {
+        guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
+            return nil
+        }
+
+        return savedInts
+            .compactMap { PlayerAction(int: $0) }
+            .filter { $0.isAvailable }
     }
 }

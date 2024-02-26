@@ -8,7 +8,7 @@ struct OnboardingFlow {
     private(set) var currentFlow: Flow = .none
     private var source: String? = nil
 
-    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil) -> UIViewController {
+    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil, customTitle: String? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
 
@@ -19,7 +19,7 @@ struct OnboardingFlow {
         case .plusUpsell, .endOfYearUpsell:
             // Only the upsell flow needs an unknown source
             self.source = source ?? "unknown"
-            flowController = upgradeController(in: navigationController, context: context)
+            flowController = upgradeController(in: navigationController, context: context, customTitle: customTitle)
 
         case .plusAccountUpgrade:
             self.source = source ?? "unknown"
@@ -27,7 +27,8 @@ struct OnboardingFlow {
 
             flowController = PlusPurchaseModel.make(in: controller,
                                                     plan: product?.plan ?? .plus,
-                                                    selectedPrice: product?.frequency ?? .yearly)
+                                                    selectedPrice: product?.frequency ?? .yearly,
+                                                    customTitle: customTitle)
 
         case .patronAccountUpgrade:
             self.source = source ?? "unknown"
@@ -35,7 +36,8 @@ struct OnboardingFlow {
 
             flowController = PlusLandingViewModel.make(in: navigationController,
                                                        from: .upsell,
-                                                       config: config)
+                                                       config: config,
+                                                       customTitle: customTitle)
 
         case .plusAccountUpgradeNeedsLogin:
             flowController = LoginCoordinator.make(in: navigationController, continuePurchasing: .init(plan: .plus, frequency: .yearly))
@@ -48,9 +50,9 @@ struct OnboardingFlow {
         return flowController
     }
 
-    private func upgradeController(in controller: UINavigationController?, context: Context?) -> UIViewController {
+    private func upgradeController(in controller: UINavigationController?, context: Context?, customTitle: String? = nil) -> UIViewController {
         let product = context?["product"] as? ProductInfo
-        return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product))
+        return PlusLandingViewModel.make(in: controller, from: .upsell, config: .init(displayProduct: product), customTitle: customTitle)
     }
 
     /// Resets the internal flow state to none and clears any analytics sources

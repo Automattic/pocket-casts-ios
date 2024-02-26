@@ -47,6 +47,76 @@ final class SettingsTests: XCTestCase {
 
         XCTAssertEqual(newNextAction, Settings.headphonesNextAction, "Next action should be imported from old defaults")
         XCTAssertEqual(newPreviousAction, Settings.headphonesPreviousAction, "Previous action should be imported from old defaults")
+        try reset(flag: .settingsSync)
+    }
+
+    func testPlayerActions() throws {
+        let unknownString = "test"
+        try override(flag: .settingsSync, value: true)
+        try setupSettingsStore()
+        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
+
+        SettingsStore.appSettings.playerShelf = [.known(.markPlayed), .unknown(unknownString)]
+        Settings.updatePlayerActions([.addBookmark, .markPlayed])
+
+        XCTAssertEqual([.addBookmark,
+                        .markPlayed,
+                        .effects,
+                        .sleepTimer,
+                        .routePicker,
+                        .starEpisode,
+                        .shareEpisode,
+                        .goToPodcast,
+                        .chromecast,
+                        .archive], Settings.playerActions(), "Player actions should exclude unknown actions and include defaults")
+        XCTAssertEqual([.known(.addBookmark), .known(.markPlayed), .unknown(unknownString)], SettingsStore.appSettings.playerShelf, "Player shelf should include unknowns at end")
+
+        try reset(flag: .settingsSync)
+    }
+
+    func testOldPlayerActions() throws {
+        try override(flag: .settingsSync, value: false)
+
+        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
+        Settings.updatePlayerActions([.addBookmark, .markPlayed])
+
+        XCTAssertEqual([.addBookmark,
+                        .markPlayed,
+                        .effects,
+                        .sleepTimer,
+                        .routePicker,
+                        .starEpisode,
+                        .shareEpisode,
+                        .goToPodcast,
+                        .chromecast,
+                        .archive], Settings.playerActions(), "Player actions should include changes from update")
+
+        try reset(flag: .settingsSync)
+    }
+
+    func testImportOldPlayerActions() throws {
+        // Start with disabled settingsSync
+        try override(flag: .settingsSync, value: false)
+
+        Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable })
+        Settings.updatePlayerActions([.addBookmark, .markPlayed]) // This update is tested in testOldPlayerActions
+
+        // Enable settingsSync to flip `Settings` to use the new value
+        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: true)
+
+        try setupSettingsStore()
+        SettingsStore.appSettings.importUserDefaults()
+
+        XCTAssertEqual([.addBookmark,
+                        .markPlayed,
+                        .effects,
+                        .sleepTimer,
+                        .routePicker,
+                        .starEpisode,
+                        .shareEpisode,
+                        .goToPodcast,
+                        .chromecast,
+                        .archive], Settings.playerActions(), "Player actions should include changes from update")
 
         try reset(flag: .settingsSync)
     }
