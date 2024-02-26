@@ -4,7 +4,7 @@ class ShelfActionsViewController: UIViewController {
     @IBOutlet var actionsTable: UITableView! {
         didSet {
             registerCells()
-            actionsTable.isScrollEnabled = false
+            actionsTable.isScrollEnabled = true
             actionsTable.backgroundView = nil
 
             actionsTable.separatorColor = AppTheme.tableDividerColor(for: .dark)
