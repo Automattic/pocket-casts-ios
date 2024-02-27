@@ -175,6 +175,7 @@ private extension BookmarkDataManager {
 
 private extension SyncTask {
     func processSettings(_ settings: PodcastSettings, to podcast: Podcast) {
+        let oldSettings = podcast.settings
         podcast.settings.$customEffects = settings.$customEffects
         podcast.settings.$autoStartFrom = settings.$autoStartFrom
         podcast.settings.$autoSkipLast = settings.$autoSkipLast
@@ -185,5 +186,6 @@ private extension SyncTask {
         podcast.settings.$autoArchivePlayed = settings.$autoArchivePlayed
         podcast.settings.$autoArchiveInactive = settings.$autoArchiveInactive
         podcast.settings.$autoArchiveEpisodeLimit = settings.$autoArchiveEpisodeLimit
+        oldSettings.printDiff(from: podcast.settings)
     }
 }

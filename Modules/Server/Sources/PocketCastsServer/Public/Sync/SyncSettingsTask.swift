@@ -5,6 +5,7 @@ import SwiftProtobuf
 
 extension Api_ChangeableSettings {
     mutating func update(with settings: AppSettings) {
+        let oldSettings = self
         openLinks.update(settings.$openLinks)
         rowAction.update(settings.$rowAction)
         skipForward.update(settings.$skipForward)
@@ -56,6 +57,7 @@ extension Api_ChangeableSettings {
 
 extension AppSettings {
     mutating func update(with settings: Api_NamedSettingsResponse) {
+        let oldSettings = self
         $openLinks.update(setting: settings.openLinks)
         $rowAction.update(setting: settings.rowAction)
         $skipForward.update(setting: settings.skipForward)
@@ -102,6 +104,7 @@ extension AppSettings {
         $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
         $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
         $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
+        oldSettings.printDiff(from: self)
     }
 }
 
@@ -124,6 +127,7 @@ class SyncSettingsTask: ApiBaseTask {
 
             if shouldUseNewSync {
                 settingsRequest.changedSettings.update(with: appSettings.settings)
+                FileLog.shared.addMessage("Syncing new settings: \(try! settingsRequest.changedSettings.jsonString())")
             } else {
                 if ServerSettings.skipBackNeedsSyncing() {
                     settingsRequest.settings.skipBack.value = Int32(ServerSettings.skipBackTime())

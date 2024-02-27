@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 import SwiftProtobuf
 
 extension SyncTask {
@@ -28,6 +29,8 @@ extension SyncTask {
             if let addedDate = podcast.addedDate {
                 podcastRecord.dateAdded = Google_Protobuf_Timestamp(date: addedDate)
             }
+
+            FileLog.shared.addMessage("Syncing new settings for \(podcastRecord.uuid): \(try! podcastRecord.settings.jsonString())")
 
             var apiRecord = Api_Record()
             apiRecord.podcast = podcastRecord
