@@ -3981,13 +3981,13 @@
 "announcement_slumber_title" = "Dream big";
 
 /* Slumber Studios partnership announcement description for subscribed users */
-"announcement_slumber_plus_description" = "As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
+"announcement_slumber_plus_description" = "As part of your Yearly Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
 
 /* Should match the "Learn more" translation on announcement_slumber_plus_description and announcement_slumber_non_plus_description */
 "announcement_slumber_plus_description_learn_more" = "Learn more";
 
 /* Slumber Studios partnership announcement description for non-subscribed users */
-"announcement_slumber_non_plus_description" = "Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
+"announcement_slumber_non_plus_description" = "Subscribe to Plus Yearly and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
 
 /* Button label for a feature the user can redeem using a code */
 "announcement_slumber_redeem" = "Redeem your code";

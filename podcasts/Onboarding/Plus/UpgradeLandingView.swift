@@ -238,7 +238,8 @@ struct UpgradeTier: Identifiable {
     let description: String
     let buttonLabel: String
     let buttonForegroundColor: Color
-    let features: [TierFeature]
+    let monthlyFeatures: [TierFeature]
+    let yearlyFeatures: [TierFeature]
     let background: RadialGradient
 
     var id: String {
@@ -253,7 +254,15 @@ struct UpgradeTier: Identifiable {
 
 extension UpgradeTier {
     static var plus: UpgradeTier {
-        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, features: [
+        UpgradeTier(tier: .plus, iconName: "plusGold", title: "Plus", plan: .plus, header: L10n.plusMarketingTitle, description: L10n.accountDetailsPlusTitle, buttonLabel: L10n.plusSubscribeTo, buttonForegroundColor: Color.plusButtonFilledTextColor, monthlyFeatures: [
+            TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
+            TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
+            TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
+            TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
+            TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+        ],
+        yearlyFeatures: [
             TierFeature(iconName: "plus-feature-desktop", title: L10n.plusMarketingDesktopAppsTitle),
             TierFeature(iconName: "plus-feature-folders", title: L10n.plusMarketingFoldersAndBookmarksTitle),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
@@ -265,7 +274,15 @@ extension UpgradeTier {
     }
 
     static var patron: UpgradeTier {
-        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, features: [
+        UpgradeTier(tier: .patron, iconName: "patron-heart", title: "Patron", plan: .patron, header: L10n.patronCallout, description: L10n.patronDescription, buttonLabel: L10n.patronSubscribeTo, buttonForegroundColor: .white, monthlyFeatures: [
+            TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
+            TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
+            TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
+            TierFeature(iconName: "patron-badge", title: L10n.patronFeatureProfileBadge),
+            TierFeature(iconName: "patron-icons", title: L10n.patronFeatureProfileIcons),
+            TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+        ],
+        yearlyFeatures: [
             TierFeature(iconName: "patron-everything", title: L10n.patronFeatureEverythingInPlus),
             TierFeature(iconName: "patron-early-access", title: L10n.patronFeatureEarlyAccess),
             TierFeature(iconName: "plus-feature-cloud", title: L10n.patronCloudStorageLimit),
@@ -357,7 +374,7 @@ struct UpgradeCard: View {
                     SubscriptionPriceAndOfferView(product: subscriptionInfo, mainTextColor: .black, secondaryTextColor: .black.opacity(0.64))
                 }
                 VStack(alignment: .leading, spacing: 12) {
-                    ForEach(tier.features, id: \.self) { feature in
+                    ForEach(currentPrice.wrappedValue == .monthly ? tier.monthlyFeatures : tier.yearlyFeatures, id: \.self) { feature in
                         HStack(spacing: 16) {
                             Image(feature.iconName)
                                 .renderingMode(.template)
