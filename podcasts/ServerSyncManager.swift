@@ -70,8 +70,8 @@ class ServerSyncManager: ServerSyncDelegate {
         PodcastManager.shared.checkForPendingAndAutoDownloads()
         UserEpisodeManager.checkForPendingUploads()
         UserEpisodeManager.checkForPendingCloudDeletes()
-        Analytics.shared.refreshRegistered()
         DispatchQueue.main.async {
+            Analytics.shared.refreshRegistered()
             PlaybackManager.shared.effectsChangedExternally()
             Theme.sharedTheme.toggleTheme()
         }
