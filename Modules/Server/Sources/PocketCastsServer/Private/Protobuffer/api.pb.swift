@@ -959,6 +959,69 @@ struct Api_ChangeableSettings {
   /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
 
+  var backgroundRefresh: Api_BoolSetting {
+    get {return _storage._backgroundRefresh ?? Api_BoolSetting()}
+    set {_uniqueStorage()._backgroundRefresh = newValue}
+  }
+  /// Returns true if `backgroundRefresh` has been explicitly set.
+  var hasBackgroundRefresh: Bool {return _storage._backgroundRefresh != nil}
+  /// Clears the value of `backgroundRefresh`. Subsequent reads from it will return its default value.
+  mutating func clearBackgroundRefresh() {_uniqueStorage()._backgroundRefresh = nil}
+
+  var autoDownloadUnmeteredOnly: Api_BoolSetting {
+    get {return _storage._autoDownloadUnmeteredOnly ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoDownloadUnmeteredOnly = newValue}
+  }
+  /// Returns true if `autoDownloadUnmeteredOnly` has been explicitly set.
+  var hasAutoDownloadUnmeteredOnly: Bool {return _storage._autoDownloadUnmeteredOnly != nil}
+  /// Clears the value of `autoDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadUnmeteredOnly() {_uniqueStorage()._autoDownloadUnmeteredOnly = nil}
+
+  var autoDownloadOnlyWhenCharging: Api_BoolSetting {
+    get {return _storage._autoDownloadOnlyWhenCharging ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoDownloadOnlyWhenCharging = newValue}
+  }
+  /// Returns true if `autoDownloadOnlyWhenCharging` has been explicitly set.
+  var hasAutoDownloadOnlyWhenCharging: Bool {return _storage._autoDownloadOnlyWhenCharging != nil}
+  /// Clears the value of `autoDownloadOnlyWhenCharging`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadOnlyWhenCharging() {_uniqueStorage()._autoDownloadOnlyWhenCharging = nil}
+
+  var autoDownloadUpNext: Api_BoolSetting {
+    get {return _storage._autoDownloadUpNext ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoDownloadUpNext = newValue}
+  }
+  /// Returns true if `autoDownloadUpNext` has been explicitly set.
+  var hasAutoDownloadUpNext: Bool {return _storage._autoDownloadUpNext != nil}
+  /// Clears the value of `autoDownloadUpNext`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadUpNext() {_uniqueStorage()._autoDownloadUpNext = nil}
+
+  var cloudAutoUpload: Api_BoolSetting {
+    get {return _storage._cloudAutoUpload ?? Api_BoolSetting()}
+    set {_uniqueStorage()._cloudAutoUpload = newValue}
+  }
+  /// Returns true if `cloudAutoUpload` has been explicitly set.
+  var hasCloudAutoUpload: Bool {return _storage._cloudAutoUpload != nil}
+  /// Clears the value of `cloudAutoUpload`. Subsequent reads from it will return its default value.
+  mutating func clearCloudAutoUpload() {_uniqueStorage()._cloudAutoUpload = nil}
+
+  var cloudAutoDownload: Api_BoolSetting {
+    get {return _storage._cloudAutoDownload ?? Api_BoolSetting()}
+    set {_uniqueStorage()._cloudAutoDownload = newValue}
+  }
+  /// Returns true if `cloudAutoDownload` has been explicitly set.
+  var hasCloudAutoDownload: Bool {return _storage._cloudAutoDownload != nil}
+  /// Clears the value of `cloudAutoDownload`. Subsequent reads from it will return its default value.
+  mutating func clearCloudAutoDownload() {_uniqueStorage()._cloudAutoDownload = nil}
+
+  var cloudDownloadUnmeteredOnly: Api_BoolSetting {
+    get {return _storage._cloudDownloadUnmeteredOnly ?? Api_BoolSetting()}
+    set {_uniqueStorage()._cloudDownloadUnmeteredOnly = newValue}
+  }
+  /// Returns true if `cloudDownloadUnmeteredOnly` has been explicitly set.
+  var hasCloudDownloadUnmeteredOnly: Bool {return _storage._cloudDownloadUnmeteredOnly != nil}
+  /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
+  mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1603,6 +1666,69 @@ struct Api_NamedSettings {
   /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
 
+  var backgroundRefresh: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._backgroundRefresh ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._backgroundRefresh = newValue}
+  }
+  /// Returns true if `backgroundRefresh` has been explicitly set.
+  var hasBackgroundRefresh: Bool {return _storage._backgroundRefresh != nil}
+  /// Clears the value of `backgroundRefresh`. Subsequent reads from it will return its default value.
+  mutating func clearBackgroundRefresh() {_uniqueStorage()._backgroundRefresh = nil}
+
+  var autoDownloadUnmeteredOnly: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._autoDownloadUnmeteredOnly ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._autoDownloadUnmeteredOnly = newValue}
+  }
+  /// Returns true if `autoDownloadUnmeteredOnly` has been explicitly set.
+  var hasAutoDownloadUnmeteredOnly: Bool {return _storage._autoDownloadUnmeteredOnly != nil}
+  /// Clears the value of `autoDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadUnmeteredOnly() {_uniqueStorage()._autoDownloadUnmeteredOnly = nil}
+
+  var autoDownloadOnlyWhenCharging: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._autoDownloadOnlyWhenCharging ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._autoDownloadOnlyWhenCharging = newValue}
+  }
+  /// Returns true if `autoDownloadOnlyWhenCharging` has been explicitly set.
+  var hasAutoDownloadOnlyWhenCharging: Bool {return _storage._autoDownloadOnlyWhenCharging != nil}
+  /// Clears the value of `autoDownloadOnlyWhenCharging`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadOnlyWhenCharging() {_uniqueStorage()._autoDownloadOnlyWhenCharging = nil}
+
+  var autoDownloadUpNext: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._autoDownloadUpNext ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._autoDownloadUpNext = newValue}
+  }
+  /// Returns true if `autoDownloadUpNext` has been explicitly set.
+  var hasAutoDownloadUpNext: Bool {return _storage._autoDownloadUpNext != nil}
+  /// Clears the value of `autoDownloadUpNext`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadUpNext() {_uniqueStorage()._autoDownloadUpNext = nil}
+
+  var cloudAutoUpload: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._cloudAutoUpload ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._cloudAutoUpload = newValue}
+  }
+  /// Returns true if `cloudAutoUpload` has been explicitly set.
+  var hasCloudAutoUpload: Bool {return _storage._cloudAutoUpload != nil}
+  /// Clears the value of `cloudAutoUpload`. Subsequent reads from it will return its default value.
+  mutating func clearCloudAutoUpload() {_uniqueStorage()._cloudAutoUpload = nil}
+
+  var cloudAutoDownload: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._cloudAutoDownload ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._cloudAutoDownload = newValue}
+  }
+  /// Returns true if `cloudAutoDownload` has been explicitly set.
+  var hasCloudAutoDownload: Bool {return _storage._cloudAutoDownload != nil}
+  /// Clears the value of `cloudAutoDownload`. Subsequent reads from it will return its default value.
+  mutating func clearCloudAutoDownload() {_uniqueStorage()._cloudAutoDownload = nil}
+
+  var cloudDownloadUnmeteredOnly: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._cloudDownloadUnmeteredOnly ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._cloudDownloadUnmeteredOnly = newValue}
+  }
+  /// Returns true if `cloudDownloadUnmeteredOnly` has been explicitly set.
+  var hasCloudDownloadUnmeteredOnly: Bool {return _storage._cloudDownloadUnmeteredOnly != nil}
+  /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
+  mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -2246,6 +2372,69 @@ struct Api_NamedSettingsResponse {
   var hasFilesSortOrder: Bool {return _storage._filesSortOrder != nil}
   /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
+
+  var backgroundRefresh: Api_BoolSetting {
+    get {return _storage._backgroundRefresh ?? Api_BoolSetting()}
+    set {_uniqueStorage()._backgroundRefresh = newValue}
+  }
+  /// Returns true if `backgroundRefresh` has been explicitly set.
+  var hasBackgroundRefresh: Bool {return _storage._backgroundRefresh != nil}
+  /// Clears the value of `backgroundRefresh`. Subsequent reads from it will return its default value.
+  mutating func clearBackgroundRefresh() {_uniqueStorage()._backgroundRefresh = nil}
+
+  var autoDownloadUnmeteredOnly: Api_BoolSetting {
+    get {return _storage._autoDownloadUnmeteredOnly ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoDownloadUnmeteredOnly = newValue}
+  }
+  /// Returns true if `autoDownloadUnmeteredOnly` has been explicitly set.
+  var hasAutoDownloadUnmeteredOnly: Bool {return _storage._autoDownloadUnmeteredOnly != nil}
+  /// Clears the value of `autoDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadUnmeteredOnly() {_uniqueStorage()._autoDownloadUnmeteredOnly = nil}
+
+  var autoDownloadOnlyWhenCharging: Api_BoolSetting {
+    get {return _storage._autoDownloadOnlyWhenCharging ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoDownloadOnlyWhenCharging = newValue}
+  }
+  /// Returns true if `autoDownloadOnlyWhenCharging` has been explicitly set.
+  var hasAutoDownloadOnlyWhenCharging: Bool {return _storage._autoDownloadOnlyWhenCharging != nil}
+  /// Clears the value of `autoDownloadOnlyWhenCharging`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadOnlyWhenCharging() {_uniqueStorage()._autoDownloadOnlyWhenCharging = nil}
+
+  var autoDownloadUpNext: Api_BoolSetting {
+    get {return _storage._autoDownloadUpNext ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoDownloadUpNext = newValue}
+  }
+  /// Returns true if `autoDownloadUpNext` has been explicitly set.
+  var hasAutoDownloadUpNext: Bool {return _storage._autoDownloadUpNext != nil}
+  /// Clears the value of `autoDownloadUpNext`. Subsequent reads from it will return its default value.
+  mutating func clearAutoDownloadUpNext() {_uniqueStorage()._autoDownloadUpNext = nil}
+
+  var cloudAutoUpload: Api_BoolSetting {
+    get {return _storage._cloudAutoUpload ?? Api_BoolSetting()}
+    set {_uniqueStorage()._cloudAutoUpload = newValue}
+  }
+  /// Returns true if `cloudAutoUpload` has been explicitly set.
+  var hasCloudAutoUpload: Bool {return _storage._cloudAutoUpload != nil}
+  /// Clears the value of `cloudAutoUpload`. Subsequent reads from it will return its default value.
+  mutating func clearCloudAutoUpload() {_uniqueStorage()._cloudAutoUpload = nil}
+
+  var cloudAutoDownload: Api_BoolSetting {
+    get {return _storage._cloudAutoDownload ?? Api_BoolSetting()}
+    set {_uniqueStorage()._cloudAutoDownload = newValue}
+  }
+  /// Returns true if `cloudAutoDownload` has been explicitly set.
+  var hasCloudAutoDownload: Bool {return _storage._cloudAutoDownload != nil}
+  /// Clears the value of `cloudAutoDownload`. Subsequent reads from it will return its default value.
+  mutating func clearCloudAutoDownload() {_uniqueStorage()._cloudAutoDownload = nil}
+
+  var cloudDownloadUnmeteredOnly: Api_BoolSetting {
+    get {return _storage._cloudDownloadUnmeteredOnly ?? Api_BoolSetting()}
+    set {_uniqueStorage()._cloudDownloadUnmeteredOnly = newValue}
+  }
+  /// Returns true if `cloudDownloadUnmeteredOnly` has been explicitly set.
+  var hasCloudDownloadUnmeteredOnly: Bool {return _storage._cloudDownloadUnmeteredOnly != nil}
+  /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
+  mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -3378,6 +3567,8 @@ struct Api_EpisodeSyncResponse {
   var duration: Int32 = 0
 
   var bookmarks: [Api_BookmarkResponse] = []
+
+  var deselectedChapters: String = String()
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -4863,6 +5054,17 @@ struct Api_SyncUserEpisode {
   /// Clears the value of `starredModified`. Subsequent reads from it will return its default value.
   mutating func clearStarredModified() {self._starredModified = nil}
 
+  var deselectedChapters: String = String()
+
+  var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_deselectedChaptersModified = newValue}
+  }
+  /// Returns true if `deselectedChaptersModified` has been explicitly set.
+  var hasDeselectedChaptersModified: Bool {return self._deselectedChaptersModified != nil}
+  /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChaptersModified() {self._deselectedChaptersModified = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -4877,6 +5079,7 @@ struct Api_SyncUserEpisode {
   fileprivate var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
   fileprivate var _starred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
   fileprivate var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+  fileprivate var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
 }
 
 struct Api_SyncUserDevice {
@@ -7614,6 +7817,13 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     70: .standard(proto: "use_dark_up_next_theme"),
     71: .standard(proto: "use_dynamic_colors_for_widget"),
     72: .standard(proto: "files_sort_order"),
+    73: .standard(proto: "background_refresh"),
+    74: .standard(proto: "auto_download_unmetered_only"),
+    75: .standard(proto: "auto_download_only_when_charging"),
+    76: .standard(proto: "auto_download_up_next"),
+    77: .standard(proto: "cloud_auto_upload"),
+    78: .standard(proto: "cloud_auto_download"),
+    79: .standard(proto: "cloud_download_unmetered_only"),
   ]
 
   fileprivate class _StorageClass {
@@ -7687,6 +7897,13 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     var _useDarkUpNextTheme: Api_BoolSetting? = nil
     var _useDynamicColorsForWidget: Api_BoolSetting? = nil
     var _filesSortOrder: Api_Int32Setting? = nil
+    var _backgroundRefresh: Api_BoolSetting? = nil
+    var _autoDownloadUnmeteredOnly: Api_BoolSetting? = nil
+    var _autoDownloadOnlyWhenCharging: Api_BoolSetting? = nil
+    var _autoDownloadUpNext: Api_BoolSetting? = nil
+    var _cloudAutoUpload: Api_BoolSetting? = nil
+    var _cloudAutoDownload: Api_BoolSetting? = nil
+    var _cloudDownloadUnmeteredOnly: Api_BoolSetting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -7763,6 +7980,13 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       _useDarkUpNextTheme = source._useDarkUpNextTheme
       _useDynamicColorsForWidget = source._useDynamicColorsForWidget
       _filesSortOrder = source._filesSortOrder
+      _backgroundRefresh = source._backgroundRefresh
+      _autoDownloadUnmeteredOnly = source._autoDownloadUnmeteredOnly
+      _autoDownloadOnlyWhenCharging = source._autoDownloadOnlyWhenCharging
+      _autoDownloadUpNext = source._autoDownloadUpNext
+      _cloudAutoUpload = source._cloudAutoUpload
+      _cloudAutoDownload = source._cloudAutoDownload
+      _cloudDownloadUnmeteredOnly = source._cloudDownloadUnmeteredOnly
     }
   }
 
@@ -7851,6 +8075,13 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         case 70: try { try decoder.decodeSingularMessageField(value: &_storage._useDarkUpNextTheme) }()
         case 71: try { try decoder.decodeSingularMessageField(value: &_storage._useDynamicColorsForWidget) }()
         case 72: try { try decoder.decodeSingularMessageField(value: &_storage._filesSortOrder) }()
+        case 73: try { try decoder.decodeSingularMessageField(value: &_storage._backgroundRefresh) }()
+        case 74: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadUnmeteredOnly) }()
+        case 75: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadOnlyWhenCharging) }()
+        case 76: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadUpNext) }()
+        case 77: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoUpload) }()
+        case 78: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoDownload) }()
+        case 79: try { try decoder.decodeSingularMessageField(value: &_storage._cloudDownloadUnmeteredOnly) }()
         default: break
         }
       }
@@ -8073,6 +8304,27 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       try { if let v = _storage._filesSortOrder {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 72)
       } }()
+      try { if let v = _storage._backgroundRefresh {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 73)
+      } }()
+      try { if let v = _storage._autoDownloadUnmeteredOnly {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 74)
+      } }()
+      try { if let v = _storage._autoDownloadOnlyWhenCharging {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 75)
+      } }()
+      try { if let v = _storage._autoDownloadUpNext {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 76)
+      } }()
+      try { if let v = _storage._cloudAutoUpload {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 77)
+      } }()
+      try { if let v = _storage._cloudAutoDownload {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 78)
+      } }()
+      try { if let v = _storage._cloudDownloadUnmeteredOnly {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 79)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -8152,6 +8404,13 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         if _storage._useDarkUpNextTheme != rhs_storage._useDarkUpNextTheme {return false}
         if _storage._useDynamicColorsForWidget != rhs_storage._useDynamicColorsForWidget {return false}
         if _storage._filesSortOrder != rhs_storage._filesSortOrder {return false}
+        if _storage._backgroundRefresh != rhs_storage._backgroundRefresh {return false}
+        if _storage._autoDownloadUnmeteredOnly != rhs_storage._autoDownloadUnmeteredOnly {return false}
+        if _storage._autoDownloadOnlyWhenCharging != rhs_storage._autoDownloadOnlyWhenCharging {return false}
+        if _storage._autoDownloadUpNext != rhs_storage._autoDownloadUpNext {return false}
+        if _storage._cloudAutoUpload != rhs_storage._cloudAutoUpload {return false}
+        if _storage._cloudAutoDownload != rhs_storage._cloudAutoDownload {return false}
+        if _storage._cloudDownloadUnmeteredOnly != rhs_storage._cloudDownloadUnmeteredOnly {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -8234,6 +8493,13 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     70: .standard(proto: "use_dark_up_next_theme"),
     71: .standard(proto: "use_dynamic_colors_for_widget"),
     72: .standard(proto: "files_sort_order"),
+    73: .standard(proto: "background_refresh"),
+    74: .standard(proto: "auto_download_unmetered_only"),
+    75: .standard(proto: "auto_download_only_when_charging"),
+    76: .standard(proto: "auto_download_up_next"),
+    77: .standard(proto: "cloud_auto_upload"),
+    78: .standard(proto: "cloud_auto_download"),
+    79: .standard(proto: "cloud_download_unmetered_only"),
   ]
 
   fileprivate class _StorageClass {
@@ -8307,6 +8573,13 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     var _useDarkUpNextTheme: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _useDynamicColorsForWidget: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _filesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _backgroundRefresh: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoDownloadUnmeteredOnly: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoDownloadOnlyWhenCharging: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoDownloadUpNext: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _cloudAutoUpload: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _cloudAutoDownload: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _cloudDownloadUnmeteredOnly: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -8383,6 +8656,13 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       _useDarkUpNextTheme = source._useDarkUpNextTheme
       _useDynamicColorsForWidget = source._useDynamicColorsForWidget
       _filesSortOrder = source._filesSortOrder
+      _backgroundRefresh = source._backgroundRefresh
+      _autoDownloadUnmeteredOnly = source._autoDownloadUnmeteredOnly
+      _autoDownloadOnlyWhenCharging = source._autoDownloadOnlyWhenCharging
+      _autoDownloadUpNext = source._autoDownloadUpNext
+      _cloudAutoUpload = source._cloudAutoUpload
+      _cloudAutoDownload = source._cloudAutoDownload
+      _cloudDownloadUnmeteredOnly = source._cloudDownloadUnmeteredOnly
     }
   }
 
@@ -8471,6 +8751,13 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         case 70: try { try decoder.decodeSingularMessageField(value: &_storage._useDarkUpNextTheme) }()
         case 71: try { try decoder.decodeSingularMessageField(value: &_storage._useDynamicColorsForWidget) }()
         case 72: try { try decoder.decodeSingularMessageField(value: &_storage._filesSortOrder) }()
+        case 73: try { try decoder.decodeSingularMessageField(value: &_storage._backgroundRefresh) }()
+        case 74: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadUnmeteredOnly) }()
+        case 75: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadOnlyWhenCharging) }()
+        case 76: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadUpNext) }()
+        case 77: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoUpload) }()
+        case 78: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoDownload) }()
+        case 79: try { try decoder.decodeSingularMessageField(value: &_storage._cloudDownloadUnmeteredOnly) }()
         default: break
         }
       }
@@ -8693,6 +8980,27 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       try { if let v = _storage._filesSortOrder {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 72)
       } }()
+      try { if let v = _storage._backgroundRefresh {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 73)
+      } }()
+      try { if let v = _storage._autoDownloadUnmeteredOnly {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 74)
+      } }()
+      try { if let v = _storage._autoDownloadOnlyWhenCharging {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 75)
+      } }()
+      try { if let v = _storage._autoDownloadUpNext {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 76)
+      } }()
+      try { if let v = _storage._cloudAutoUpload {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 77)
+      } }()
+      try { if let v = _storage._cloudAutoDownload {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 78)
+      } }()
+      try { if let v = _storage._cloudDownloadUnmeteredOnly {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 79)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -8772,6 +9080,13 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         if _storage._useDarkUpNextTheme != rhs_storage._useDarkUpNextTheme {return false}
         if _storage._useDynamicColorsForWidget != rhs_storage._useDynamicColorsForWidget {return false}
         if _storage._filesSortOrder != rhs_storage._filesSortOrder {return false}
+        if _storage._backgroundRefresh != rhs_storage._backgroundRefresh {return false}
+        if _storage._autoDownloadUnmeteredOnly != rhs_storage._autoDownloadUnmeteredOnly {return false}
+        if _storage._autoDownloadOnlyWhenCharging != rhs_storage._autoDownloadOnlyWhenCharging {return false}
+        if _storage._autoDownloadUpNext != rhs_storage._autoDownloadUpNext {return false}
+        if _storage._cloudAutoUpload != rhs_storage._cloudAutoUpload {return false}
+        if _storage._cloudAutoDownload != rhs_storage._cloudAutoDownload {return false}
+        if _storage._cloudDownloadUnmeteredOnly != rhs_storage._cloudDownloadUnmeteredOnly {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -8854,6 +9169,13 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     70: .standard(proto: "use_dark_up_next_theme"),
     71: .standard(proto: "use_dynamic_colors_for_widget"),
     72: .standard(proto: "files_sort_order"),
+    73: .standard(proto: "background_refresh"),
+    74: .standard(proto: "auto_download_unmetered_only"),
+    75: .standard(proto: "auto_download_only_when_charging"),
+    76: .standard(proto: "auto_download_up_next"),
+    77: .standard(proto: "cloud_auto_upload"),
+    78: .standard(proto: "cloud_auto_download"),
+    79: .standard(proto: "cloud_download_unmetered_only"),
   ]
 
   fileprivate class _StorageClass {
@@ -8927,6 +9249,13 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     var _useDarkUpNextTheme: Api_BoolSetting? = nil
     var _useDynamicColorsForWidget: Api_BoolSetting? = nil
     var _filesSortOrder: Api_Int32Setting? = nil
+    var _backgroundRefresh: Api_BoolSetting? = nil
+    var _autoDownloadUnmeteredOnly: Api_BoolSetting? = nil
+    var _autoDownloadOnlyWhenCharging: Api_BoolSetting? = nil
+    var _autoDownloadUpNext: Api_BoolSetting? = nil
+    var _cloudAutoUpload: Api_BoolSetting? = nil
+    var _cloudAutoDownload: Api_BoolSetting? = nil
+    var _cloudDownloadUnmeteredOnly: Api_BoolSetting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -9003,6 +9332,13 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       _useDarkUpNextTheme = source._useDarkUpNextTheme
       _useDynamicColorsForWidget = source._useDynamicColorsForWidget
       _filesSortOrder = source._filesSortOrder
+      _backgroundRefresh = source._backgroundRefresh
+      _autoDownloadUnmeteredOnly = source._autoDownloadUnmeteredOnly
+      _autoDownloadOnlyWhenCharging = source._autoDownloadOnlyWhenCharging
+      _autoDownloadUpNext = source._autoDownloadUpNext
+      _cloudAutoUpload = source._cloudAutoUpload
+      _cloudAutoDownload = source._cloudAutoDownload
+      _cloudDownloadUnmeteredOnly = source._cloudDownloadUnmeteredOnly
     }
   }
 
@@ -9091,6 +9427,13 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         case 70: try { try decoder.decodeSingularMessageField(value: &_storage._useDarkUpNextTheme) }()
         case 71: try { try decoder.decodeSingularMessageField(value: &_storage._useDynamicColorsForWidget) }()
         case 72: try { try decoder.decodeSingularMessageField(value: &_storage._filesSortOrder) }()
+        case 73: try { try decoder.decodeSingularMessageField(value: &_storage._backgroundRefresh) }()
+        case 74: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadUnmeteredOnly) }()
+        case 75: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadOnlyWhenCharging) }()
+        case 76: try { try decoder.decodeSingularMessageField(value: &_storage._autoDownloadUpNext) }()
+        case 77: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoUpload) }()
+        case 78: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoDownload) }()
+        case 79: try { try decoder.decodeSingularMessageField(value: &_storage._cloudDownloadUnmeteredOnly) }()
         default: break
         }
       }
@@ -9313,6 +9656,27 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       try { if let v = _storage._filesSortOrder {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 72)
       } }()
+      try { if let v = _storage._backgroundRefresh {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 73)
+      } }()
+      try { if let v = _storage._autoDownloadUnmeteredOnly {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 74)
+      } }()
+      try { if let v = _storage._autoDownloadOnlyWhenCharging {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 75)
+      } }()
+      try { if let v = _storage._autoDownloadUpNext {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 76)
+      } }()
+      try { if let v = _storage._cloudAutoUpload {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 77)
+      } }()
+      try { if let v = _storage._cloudAutoDownload {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 78)
+      } }()
+      try { if let v = _storage._cloudDownloadUnmeteredOnly {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 79)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -9392,6 +9756,13 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         if _storage._useDarkUpNextTheme != rhs_storage._useDarkUpNextTheme {return false}
         if _storage._useDynamicColorsForWidget != rhs_storage._useDynamicColorsForWidget {return false}
         if _storage._filesSortOrder != rhs_storage._filesSortOrder {return false}
+        if _storage._backgroundRefresh != rhs_storage._backgroundRefresh {return false}
+        if _storage._autoDownloadUnmeteredOnly != rhs_storage._autoDownloadUnmeteredOnly {return false}
+        if _storage._autoDownloadOnlyWhenCharging != rhs_storage._autoDownloadOnlyWhenCharging {return false}
+        if _storage._autoDownloadUpNext != rhs_storage._autoDownloadUpNext {return false}
+        if _storage._cloudAutoUpload != rhs_storage._cloudAutoUpload {return false}
+        if _storage._cloudAutoDownload != rhs_storage._cloudAutoDownload {return false}
+        if _storage._cloudDownloadUnmeteredOnly != rhs_storage._cloudDownloadUnmeteredOnly {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -11613,6 +11984,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     5: .same(proto: "starred"),
     6: .same(proto: "duration"),
     7: .same(proto: "bookmarks"),
+    8: .standard(proto: "deselected_chapters"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -11628,6 +12000,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       case 5: try { try decoder.decodeSingularBoolField(value: &self.starred) }()
       case 6: try { try decoder.decodeSingularInt32Field(value: &self.duration) }()
       case 7: try { try decoder.decodeRepeatedMessageField(value: &self.bookmarks) }()
+      case 8: try { try decoder.decodeSingularStringField(value: &self.deselectedChapters) }()
       default: break
       }
     }
@@ -11655,6 +12028,9 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     if !self.bookmarks.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.bookmarks, fieldNumber: 7)
     }
+    if !self.deselectedChapters.isEmpty {
+      try visitor.visitSingularStringField(value: self.deselectedChapters, fieldNumber: 8)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -11666,6 +12042,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     if lhs.starred != rhs.starred {return false}
     if lhs.duration != rhs.duration {return false}
     if lhs.bookmarks != rhs.bookmarks {return false}
+    if lhs.deselectedChapters != rhs.deselectedChapters {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -14150,6 +14527,8 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     10: .standard(proto: "played_up_to_modified"),
     11: .same(proto: "starred"),
     12: .standard(proto: "starred_modified"),
+    13: .standard(proto: "deselected_chapters"),
+    14: .standard(proto: "deselected_chapters_modified"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -14170,6 +14549,8 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       case 10: try { try decoder.decodeSingularMessageField(value: &self._playedUpToModified) }()
       case 11: try { try decoder.decodeSingularMessageField(value: &self._starred) }()
       case 12: try { try decoder.decodeSingularMessageField(value: &self._starredModified) }()
+      case 13: try { try decoder.decodeSingularStringField(value: &self.deselectedChapters) }()
+      case 14: try { try decoder.decodeSingularMessageField(value: &self._deselectedChaptersModified) }()
       default: break
       }
     }
@@ -14216,6 +14597,12 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     try { if let v = self._starredModified {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
     } }()
+    if !self.deselectedChapters.isEmpty {
+      try visitor.visitSingularStringField(value: self.deselectedChapters, fieldNumber: 13)
+    }
+    try { if let v = self._deselectedChaptersModified {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -14232,6 +14619,8 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs._playedUpToModified != rhs._playedUpToModified {return false}
     if lhs._starred != rhs._starred {return false}
     if lhs._starredModified != rhs._starredModified {return false}
+    if lhs.deselectedChapters != rhs.deselectedChapters {return false}
+    if lhs._deselectedChaptersModified != rhs._deselectedChaptersModified {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
