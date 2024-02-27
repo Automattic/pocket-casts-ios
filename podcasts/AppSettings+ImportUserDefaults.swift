@@ -23,7 +23,9 @@ extension SettingsStore<AppSettings> {
         self.update(\.$chapterTitles, value: UserDefaults.standard.bool(forKey: Settings.publishChapterTitlesKey))
         self.update(\.$autoPlayEnabled, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay))
         self.update(\.$volumeBoost, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.globalVolumeBoost))
-        self.update(\.$trimSilence, value: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence)))
+        if let trimSilenceAmount = TrimSilenceAmount(rawValue: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence))) {
+            self.update(\.$trimSilence, value: TrimSilence(amount: trimSilenceAmount).rawValue)
+        }
         self.update(\.$playbackSpeed, value: UserDefaults.standard.double(forKey: Constants.UserDefaults.globalPlaybackSpeed))
         self.update(\.$warnDataUsage, value: !UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey))
         self.update(\.$playerBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.playerSort.value))

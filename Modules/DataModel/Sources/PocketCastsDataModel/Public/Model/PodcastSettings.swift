@@ -7,7 +7,7 @@ public struct PodcastSettings: JSONCodable, Equatable {
     @ModifiedDate public var autoSkipLast: Int32 = 0
 
     // Playback Effects
-    @ModifiedDate public var trimSilence: TrimSilenceAmount
+    @ModifiedDate public var trimSilence: TrimSilence
     @ModifiedDate public var boostVolume: Bool
     @ModifiedDate public var playbackSpeed: Double
 
