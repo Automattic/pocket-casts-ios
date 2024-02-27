@@ -66,6 +66,10 @@ extension SyncTask {
                 episodeRecord.isDeleted.value = episode.archived
                 episodeRecord.isDeletedModified.value = episode.archivedModified
             }
+            if let deselectedChapters = episode.deselectedChapters {
+                episodeRecord.deselectedChapters = deselectedChapters
+                episodeRecord.deselectedChaptersModified.value = episode.deselectedChaptersModified
+            }
 
             var apiRecord = Api_Record()
             apiRecord.episode = episodeRecord
