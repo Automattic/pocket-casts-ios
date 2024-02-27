@@ -496,6 +496,7 @@
 		8B5AB48E2901A8BD0018C637 /* StoriesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB48D2901A8BD0018C637 /* StoriesController.swift */; };
 		8B5F9A6728EFBB9800DE1C12 /* AppIcon-Halloween@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */; };
 		8B5F9A6828EFBB9800DE1C12 /* AppIcon-Halloween@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */; };
+		8B5FB8212B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5FB8202B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift */; };
 		8B630A332AFBF49400D65D25 /* PlayPauseAnimatableModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B630A322AFBF49400D65D25 /* PlayPauseAnimatableModifier.swift */; };
 		8B633D2F2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B633D2E2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift */; };
 		8B67A26329A7D6B60076886D /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B67A26229A7D6B60076886D /* SearchHistoryCell.swift */; };
@@ -503,7 +504,6 @@
 		8B67A26929A7D8690076886D /* PodcastCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B67A26829A7D8690076886D /* PodcastCarouselView.swift */; };
 		8B67A26B29A7D8820076886D /* ThemeableListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B67A26A29A7D8820076886D /* ThemeableListHeader.swift */; };
 		8B68C1CF2942134300CF25C5 /* BetaMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B68C1CE2942134300CF25C5 /* BetaMenu.swift */; };
-		8B68C1D829421E3400CF25C5 /* FeatureFlagTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B68C1D729421E3400CF25C5 /* FeatureFlagTests.swift */; };
 		8B6A2C8D29CA4F78002601F5 /* SearchListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6A2C8C29CA4F78002601F5 /* SearchListView.swift */; };
 		8B6B68E528F744520032BFFF /* StoriesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B68E428F744520032BFFF /* StoriesDataSource.swift */; };
 		8B6B68E728F74A010032BFFF /* StoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B68E628F74A010032BFFF /* StoriesModel.swift */; };
@@ -1594,8 +1594,6 @@
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
 		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
 		F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */; };
-		F58AFA132B797CF200FC1724 /* Podcast+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58AFA122B797CF200FC1724 /* Podcast+Settings.swift */; };
-		F58AFA142B797CF200FC1724 /* Podcast+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58AFA122B797CF200FC1724 /* Podcast+Settings.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
 		F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
@@ -2303,6 +2301,7 @@
 		8B5AB48D2901A8BD0018C637 /* StoriesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesController.swift; sourceTree = "<group>"; };
 		8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@2x.png"; sourceTree = "<group>"; };
 		8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@3x.png"; sourceTree = "<group>"; };
+		8B5FB8202B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeselectChaptersAnnouncementViewModel.swift; sourceTree = "<group>"; };
 		8B630A322AFBF49400D65D25 /* PlayPauseAnimatableModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPauseAnimatableModifier.swift; sourceTree = "<group>"; };
 		8B633D2E2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoplayWhatsNewHeader.swift; sourceTree = "<group>"; };
 		8B67A26229A7D6B60076886D /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
@@ -2310,7 +2309,6 @@
 		8B67A26829A7D8690076886D /* PodcastCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCarouselView.swift; sourceTree = "<group>"; };
 		8B67A26A29A7D8820076886D /* ThemeableListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableListHeader.swift; sourceTree = "<group>"; };
 		8B68C1CE2942134300CF25C5 /* BetaMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetaMenu.swift; sourceTree = "<group>"; };
-		8B68C1D729421E3400CF25C5 /* FeatureFlagTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlagTests.swift; sourceTree = "<group>"; };
 		8B6A2C8C29CA4F78002601F5 /* SearchListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListView.swift; sourceTree = "<group>"; };
 		8B6B68E428F744520032BFFF /* StoriesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesDataSource.swift; sourceTree = "<group>"; };
 		8B6B68E628F74A010032BFFF /* StoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesModel.swift; sourceTree = "<group>"; };
@@ -3374,7 +3372,6 @@
 		F5405CA32B7EFCF70055A0E6 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
-		F58AFA122B797CF200FC1724 /* Podcast+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Podcast+Settings.swift"; sourceTree = "<group>"; };
 		F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
 		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
 		F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaultsTests.swift"; sourceTree = "<group>"; };
@@ -4210,6 +4207,7 @@
 				8B633D2E2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift */,
 				8BC8626A2B718042000627B9 /* SlumberViews.swift */,
 				C7ADDD1F2AD73DD000471853 /* BookmarksAnnouncement.swift */,
+				8B5FB8202B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift */,
 			);
 			path = "Whats New";
 			sourceTree = "<group>";
@@ -9190,6 +9188,7 @@
 				8BD256D22A5C7090006648BE /* SharingHelper+swipeButton.swift in Sources */,
 				BDCD1E82244D636D00B83602 /* LenticularFilter.swift in Sources */,
 				8B9DEFD829071AD200075EAB /* MDCSwiftUIWrapper.swift in Sources */,
+				8B5FB8212B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift in Sources */,
 				4006E31423AC453700174DEB /* ExpandedCollectionViewController+CollectionView.swift in Sources */,
 				8B0EEDE029003E8D00075772 /* ListeningTimeStory.swift in Sources */,
 				BD27B8C92756FA20007A0EA7 /* ModalCloseButton.swift in Sources */,
