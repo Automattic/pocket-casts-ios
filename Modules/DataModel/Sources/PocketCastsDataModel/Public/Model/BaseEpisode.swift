@@ -29,6 +29,7 @@ import Foundation
     var duration: Double { get set }
 
     var deselectedChapters: String? { get set }
+    var deselectedChaptersModified: Int64 { get set }
 
     func displayableTitle() -> String
     func parentIdentifier() -> String
