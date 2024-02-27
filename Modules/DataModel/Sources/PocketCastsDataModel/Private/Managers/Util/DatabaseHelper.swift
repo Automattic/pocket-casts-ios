@@ -667,6 +667,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 44 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN deselectedChaptersModified INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 44
+            } catch {
+                failedAt(44)
+                return
+            }
+        }
+
         db.commit()
     }
 }
