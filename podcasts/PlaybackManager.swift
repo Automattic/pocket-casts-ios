@@ -1425,6 +1425,14 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
     }
 
+    func forceUpdateChapterInfo() {
+        queue.nowPlayingEpisodeChanged()
+
+        guard let episode = currentEpisode(), episode.mayContainChapters() else { return }
+
+        chapterManager.parseChapters(episode: episode, duration: duration())
+    }
+
     private func updateChapterInfo() {
         guard let episode = currentEpisode(), episode.mayContainChapters(), !chapterManager.haveTriedToParseChaptersFor(episodeUuid: episode.uuid) else { return }
 
