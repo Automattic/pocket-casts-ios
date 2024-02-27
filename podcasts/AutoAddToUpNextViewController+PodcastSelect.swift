@@ -10,7 +10,7 @@ extension AutoAddToUpNextViewController: PodcastSelectionDelegate {
         if selected {
             // Checks for existing AutoAddToUpNextSetting value before assigning a default value
             let podcasts = allPodcasts.filter {
-                $0.isSubscribed() && $0.autoAddToUpNext == AutoAddToUpNextSetting.off.rawValue
+                $0.isSubscribed() && $0.autoAddToUpNextSetting() == AutoAddToUpNextSetting.off
             }
 
             DataManager.sharedManager.updateAutoAddToUpNext(to: .addLast, for: podcasts)

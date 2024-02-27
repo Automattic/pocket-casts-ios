@@ -496,7 +496,7 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <key>discover_browse_by_category_society</key>
     <string>Maatschappij</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Cultuur</string>
+    <string>Maatschappij en cultuur</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualiteit</string>
     <key>discover_browse_by_category_sports</key>
@@ -1769,9 +1769,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Voorbeeld</string>
     <key>pricing_terms_after_trial</key>
     <string>daarna %1$@</string>
-    <key>pricing_terms_after_trial_long</key>
-    <string>Herhaaldelijke betalingen beginnen na je
-%1$@ gratis proefversie</string>
     <key>profile</key>
     <string>Profiel</string>
     <key>profile_help_support</key>
@@ -1798,8 +1795,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Je hebt nog geen aflevering aan favorieten toegevoegd.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Geen favorieten</string>
-    <key>purchase_terms</key>
-    <string>Door verder te gaan, ga je akkoord met ons %1$@Privacybeleid%2$@ en onze %3$@Algemene voorwaarden%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ afleveringen wissen</string>
     <key>queue_clear_queue</key>

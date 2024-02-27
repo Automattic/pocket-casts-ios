@@ -221,6 +221,8 @@ private extension Podcast {
         settings.playbackSpeed.update(self.settings.$playbackSpeed)
         settings.trimSilence.update(self.settings.$trimSilence)
         settings.volumeBoost.update(self.settings.$boostVolume)
+        settings.addToUpNext.update(self.settings.$addToUpNext)
+        settings.addToUpNextPosition.update(self.settings.$addToUpNextPosition)
         settings.episodesSortOrder.update(self.settings.$episodesSortOrder)
         settings.episodeGrouping.update(self.settings.$episodeGrouping)
         settings.autoArchive.update(self.settings.$autoArchive)

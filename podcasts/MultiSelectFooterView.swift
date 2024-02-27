@@ -1,4 +1,3 @@
-import MaterialComponents.MaterialBottomSheet
 import UIKit
 
 class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
@@ -135,14 +134,32 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
 
         let actions = getActionsFunc()
 
-        let bottomSheet = MDCBottomSheetController(contentViewController: MultiSelectActionController(actions: actions, delegate: self, actionDelegate: delegate, numSelectedEpisodes: delegate.multiSelectedBaseEpisodes().count, setActionsFunc: setActionsFunc, themeOverride: themeOverride))
-        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
-        bottomSheet.isScrimAccessibilityElement = true
-        bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
-        delegate.multiSelectPresentingViewController().present(bottomSheet, animated: true, completion: nil)
+        let multiSelectActionController = MultiSelectActionController(
+            actions: actions,
+            delegate: self,
+            actionDelegate: delegate,
+            numSelectedEpisodes: delegate.multiSelectedBaseEpisodes().count,
+            setActionsFunc: setActionsFunc,
+            themeOverride: themeOverride
+        )
+
+        let presentingVC = delegate.multiSelectPresentingViewController()
+        if let sheetController = multiSelectActionController.sheetPresentationController {
+            // Create a custom detent height of 45% of the hosting VC as the medium detent
+            // is too large.
+            let hostingControllerHeight = presentingVC.view.bounds.height
+            let sheetDetentHeight = hostingControllerHeight * 0.45
+            if #available(iOS 16.0, *) {
+                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight }), ]
+            } else {
+                sheetController.detents = [.medium()]
+            }
+
+            // The Multiselect Actions VC implements its own grabber UI.
+            sheetController.prefersGrabberVisible = false
+        }
+
+        presentingVC.present(multiSelectActionController, animated: true, completion: nil)
     }
 
     @IBAction func rightActionTapped(_ sender: Any) {

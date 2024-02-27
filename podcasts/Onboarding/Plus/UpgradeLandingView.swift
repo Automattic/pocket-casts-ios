@@ -66,7 +66,7 @@ struct UpgradeLandingView: View {
                             VStack(spacing: 0) {
                                 Spacer()
 
-                                PlusLabel(selectedTier.header, for: .title2)
+                                PlusLabel(title, for: .title2)
                                     .transition(.opacity)
                                     .id("plus_title" + selectedTier.header)
                                     .minimumScaleFactor(0.5)
@@ -174,6 +174,14 @@ struct UpgradeLandingView: View {
                 }
             )
         }
+    }
+
+    private var title: String {
+        if selectedTier.id == tiers.first?.id {
+            return viewModel.customTitle ?? selectedTier.header
+        }
+
+        return selectedTier.header
     }
 }
 

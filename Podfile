@@ -10,7 +10,12 @@ app_ios_deployment_target = Gem::Version.new('15.0')
 
 def common_pods
   pod 'google-cast-sdk-no-bluetooth', git: 'https://github.com/shiftyjelly/google-cast.git'
-  pod 'MaterialComponents/BottomSheet'
+end
+
+def swiftlint_version
+  require 'yaml'
+
+  YAML.load_file('.swiftlint.yml')['swiftlint_version']
 end
 
 target 'podcasts' do
@@ -27,7 +32,7 @@ abstract_target 'CI' do
   platform :ios, app_ios_deployment_target.version
 
   pod 'SwiftGen', '~> 6.0'
-  pod 'SwiftLint', '~> 0.54'
+  pod 'SwiftLint', swiftlint_version
 end
 
 post_install do |pi|

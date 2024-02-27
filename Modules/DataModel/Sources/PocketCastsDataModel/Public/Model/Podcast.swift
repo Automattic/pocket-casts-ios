@@ -66,7 +66,36 @@ public class Podcast: NSObject, Identifiable {
     }
 
     public func autoAddToUpNextOn() -> Bool {
-        autoAddToUpNext == AutoAddToUpNextSetting.addLast.rawValue || autoAddToUpNext == AutoAddToUpNextSetting.addFirst.rawValue
+        if FeatureFlag.settingsSync.enabled {
+            return settings.addToUpNext
+        } else {
+            return autoAddToUpNext == AutoAddToUpNextSetting.addLast.rawValue || autoAddToUpNext == AutoAddToUpNextSetting.addFirst.rawValue
+        }
+    }
+
+    public func autoAddToUpNextSetting() -> AutoAddToUpNextSetting? {
+        if FeatureFlag.settingsSync.enabled {
+            if settings.addToUpNext {
+                switch settings.addToUpNextPosition {
+                case .top:
+                    return .addFirst
+                case .bottom:
+                    return .addLast
+                }
+            } else {
+                return .off
+            }
+        } else {
+            return AutoAddToUpNextSetting(rawValue: autoAddToUpNext)
+        }
+    }
+
+    public func setAutoAddToUpNext(setting: AutoAddToUpNextSetting) {
+        if FeatureFlag.settingsSync.enabled {
+            settings.addToUpNext = setting != .off
+            settings.addToUpNextPosition = setting == .addFirst ? .top : .bottom
+        }
+        autoAddToUpNext = setting.rawValue
     }
 
     public func latestEpisode() -> Episode? {

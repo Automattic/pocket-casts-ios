@@ -27,6 +27,10 @@ extension DataManager {
                 podcast.settings.$autoArchiveInactive = ModifiedDate<AutoArchiveAfterInactive>(wrappedValue: archiveInactive)
             }
 
+            if let setting = AutoAddToUpNextSetting(rawValue: podcast.autoAddToUpNext) {
+                podcast.settings.autoUpNextSetting = setting
+            }
+
             save(podcast: podcast)
         }
     }

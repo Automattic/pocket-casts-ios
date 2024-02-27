@@ -39,6 +39,18 @@ extension Api_ChangeableSettings {
         gridOrder.update(settings.$gridOrder)
         gridLayout.update(settings.$gridLayout)
         badges.update(settings.$badges)
+        filesAutoUpNext.update(settings.$filesAutoUpNext)
+        filesAfterPlayingDeleteLocal.update(settings.$filesAfterPlayingDeleteLocal)
+        filesAfterPlayingDeleteCloud.update(settings.$filesAfterPlayingDeleteCloud)
+        playerShelf.update(settings.$playerShelf)
+        useEmbeddedArtwork.update(settings.$useEmbeddedArtwork)
+        theme.update(settings.$theme)
+        useSystemTheme.update(settings.$useSystemTheme)
+        lightThemePreference.update(settings.$lightThemePreference)
+        darkThemePreference.update(settings.$darkThemePreference)
+        useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
+        autoUpNextLimit.update(settings.$autoUpNextLimit)
+        autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
     }
 }
 
@@ -78,6 +90,18 @@ extension AppSettings {
         $gridOrder.update(setting: settings.gridOrder)
         $gridLayout.update(setting: settings.gridLayout)
         $badges.update(setting: settings.badges)
+        $filesAutoUpNext.update(setting: settings.filesAutoUpNext)
+        $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocal)
+        $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloud)
+        $playerShelf.update(setting: settings.playerShelf)
+        $useEmbeddedArtwork.update(setting: settings.useEmbeddedArtwork)
+        $theme.update(setting: settings.theme)
+        $useSystemTheme.update(setting: settings.useSystemTheme)
+        $lightThemePreference.update(setting: settings.lightThemePreference)
+        $darkThemePreference.update(setting: settings.darkThemePreference)
+        $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
+        $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
+        $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
     }
 }
 

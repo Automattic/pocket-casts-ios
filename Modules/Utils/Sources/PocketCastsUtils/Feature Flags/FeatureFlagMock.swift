@@ -1,7 +1,4 @@
-@testable import podcasts
-import PocketCastsUtils
-
-class FeatureFlagMock {
+internal class FeatureFlagMock {
     private var previousValues: [FeatureFlag: Bool] = [:]
 
     func set(_ featureFlag: FeatureFlag, value: Bool) {

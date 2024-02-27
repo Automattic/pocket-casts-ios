@@ -156,6 +156,7 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.translatesAutoresizingMaskIntoConstraints = false
 
         updateColors()
         updateControls()

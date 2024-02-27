@@ -40,6 +40,13 @@ class ChaptersHeader: UIView {
         return button
     }()
 
+    private lazy var divider: UIView = {
+        let divider = UIView()
+        divider.backgroundColor = .white.withAlphaComponent(0.15)
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        return divider
+    }()
+
     private var lockIcon: UIImage? {
         PaidFeature.deselectChapters.isUnlocked ? nil : (PaidFeature.deselectChapters.tier == .patron ? UIImage(named: "patron-heart") : UIImage(named: "plusGold"))
     }
@@ -69,6 +76,8 @@ class ChaptersHeader: UIView {
         container.addArrangedSubview(toggleButton)
         addSubview(container)
         container.anchorToAllSidesOf(view: self)
+        container.addSubview(divider)
+        setUpConstraints()
     }
 
     @objc private func toggleChapterSelection() {
@@ -92,6 +101,15 @@ class ChaptersHeader: UIView {
 
     private func updateButtonIcon() {
         toggleButton.configuration?.image = lockIcon
+    }
+
+    private func setUpConstraints() {
+        NSLayoutConstraint.activate([
+            divider.heightAnchor.constraint(equalToConstant: 1),
+            divider.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            divider.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
     }
 }
 
