@@ -53,6 +53,7 @@ public struct EpisodeBasicData {
     public var playedUpTo: Int?
     public var isArchived: Bool?
     public var starred: Bool?
+    public var deselectedChapters: String?
 }
 
 public enum LibrarySort: Int32, CaseIterable, Codable {
