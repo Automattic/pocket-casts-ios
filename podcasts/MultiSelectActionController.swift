@@ -1,8 +1,7 @@
-import MaterialComponents.MaterialBottomSheet
 import PocketCastsDataModel
 import UIKit
 
-protocol MultiSelectActionOrderDelegate {
+protocol MultiSelectActionOrderDelegate: AnyObject {
     func actionOrderChanged()
 }
 
@@ -94,7 +93,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         rearrangeLabel.isHidden = true
         doneButton.isHidden = true
         updateColors()
-        setPreferredSize(animated: false)
+        enableScrollingIfViewTooSmall()
 
         Analytics.track(.multiSelectViewOverflowMenuShown, properties: ["source": actionDelegate.multiSelectViewSource])
     }
@@ -230,7 +229,10 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         rearrangeLabel.isHidden = false
         dragHandle.isHidden = true
 
-        setPreferredSize(animated: true)
+        if let sheetController = sheetPresentationController {
+            sheetController.animateChanges { sheetController.detents = [.large()] }
+            enableScrollingIfViewTooSmall()
+        }
 
         Analytics.track(.multiSelectViewOverflowMenuRearrangeStarted, properties: ["source": actionDelegate.multiSelectViewSource])
     }
@@ -243,26 +245,13 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         Analytics.track(.multiSelectViewOverflowMenuRearrangeFinished, properties: ["source": actionDelegate.multiSelectViewSource])
     }
 
-    private func setPreferredSize(animated: Bool) {
-        let newSize: CGSize
-        if actionsTable.isEditing {
-            newSize = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
-            if newSize.height > UIScreen.main.bounds.height {
-                actionsTable.isScrollEnabled = true
-                actionsTable.bounces = false
-            }
-        } else {
-            let baseSize = view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-            let adjustedSize = CGSize(width: baseSize.width, height: baseSize.height + (CGFloat(orderedActions.count - MultiSelectActionController.numShortcuts) * MultiSelectActionController.rowHeight))
-            newSize = adjustedSize
-        }
+    private func enableScrollingIfViewTooSmall() {
+        guard actionsTable.isEditing else { return }
 
-        if animated {
-            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
-                self.preferredContentSize = newSize
-            }
-        } else {
-            preferredContentSize = newSize
+        let newSize = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+        if newSize.height > UIScreen.main.bounds.height {
+            actionsTable.isScrollEnabled = true
+            actionsTable.bounces = false
         }
     }
 

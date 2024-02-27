@@ -1,46 +1,15 @@
 PODS:
   - google-cast-sdk-no-bluetooth (1.0.0)
-  - MaterialComponents/Availability (124.2.0)
-  - MaterialComponents/BottomSheet (124.2.0):
-    - MaterialComponents/Elevation
-    - MaterialComponents/private/KeyboardWatcher
-    - MaterialComponents/private/Math
-    - MaterialComponents/ShadowElevations
-    - MaterialComponents/ShadowLayer
-    - MaterialComponents/ShapeLibrary
-    - MaterialComponents/Shapes
-  - MaterialComponents/Elevation (124.2.0):
-    - MaterialComponents/Availability
-    - MaterialComponents/private/Color
-    - MaterialComponents/private/Math
-  - MaterialComponents/private/Application (124.2.0)
-  - MaterialComponents/private/Color (124.2.0):
-    - MaterialComponents/Availability
-  - MaterialComponents/private/KeyboardWatcher (124.2.0):
-    - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (124.2.0)
-  - MaterialComponents/ShadowElevations (124.2.0)
-  - MaterialComponents/ShadowLayer (124.2.0):
-    - MaterialComponents/ShadowElevations
-  - MaterialComponents/ShapeLibrary (124.2.0):
-    - MaterialComponents/private/Math
-    - MaterialComponents/Shapes
-  - MaterialComponents/Shapes (124.2.0):
-    - MaterialComponents/private/Color
-    - MaterialComponents/private/Math
-    - MaterialComponents/ShadowLayer
   - SwiftGen (6.5.1)
   - SwiftLint (0.54.0)
 
 DEPENDENCIES:
   - google-cast-sdk-no-bluetooth (from `https://github.com/shiftyjelly/google-cast.git`)
-  - MaterialComponents/BottomSheet
   - SwiftGen (~> 6.0)
   - SwiftLint (= 0.54.0)
 
 SPEC REPOS:
   trunk:
-    - MaterialComponents
     - SwiftGen
     - SwiftLint
 
@@ -55,10 +24,9 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   google-cast-sdk-no-bluetooth: fd144bf43bb76000a8e92b0410ae605937aa83bf
-  MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 3684ae19bba230706573b5e5a79c326e10a35991
+PODFILE CHECKSUM: 6826d8ab52dfb9f37c5a54fc266e3f8b941c2f83
 
 COCOAPODS: 1.14.2

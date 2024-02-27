@@ -91,7 +91,7 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
     }
 }
 
-class OnboardingModalHostingViewController<Content>: MDCSwiftUIWrapper<Content> where Content: View {
+class OnboardingModalHostingViewController<Content>: BottomSheetSwiftUIWrapper<Content> where Content: View {
     var viewModel: OnboardingModel?
 
     override func viewDidAppear(_ animated: Bool) {

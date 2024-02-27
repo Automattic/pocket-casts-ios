@@ -10,7 +10,6 @@ app_ios_deployment_target = Gem::Version.new('15.0')
 
 def common_pods
   pod 'google-cast-sdk-no-bluetooth', git: 'https://github.com/shiftyjelly/google-cast.git'
-  pod 'MaterialComponents/BottomSheet'
 end
 
 def swiftlint_version
