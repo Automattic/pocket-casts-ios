@@ -51,7 +51,7 @@ struct SlumberCustomBody: View {
             .padding(.bottom)
             .fixedSize(horizontal: false, vertical: true)
             .onTapGesture {
-                guard SubscriptionHelper.hasActiveSubscription() else {
+                guard viewModel.isEligible() else {
                     return
                 }
 
@@ -85,9 +85,9 @@ class SlumberAnnouncementViewModel: ObservableObject {
     }
 
     private func setUpCopies() {
-        buttonTitle = SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberRedeem : L10n.plusSubscribeTo
+        buttonTitle = isEligible() ? L10n.announcementSlumberRedeem : L10n.plusSubscribeTo
 
-        message = (SubscriptionHelper.hasActiveSubscription() ? L10n.announcementSlumberPlusDescription("**\(Settings.slumberPromoCode ?? "")**") : L10n.announcementSlumberNonPlusDescription).replacingOccurrences(of: L10n.announcementSlumberPlusDescriptionLearnMore, with: "[\(L10n.announcementSlumberPlusDescriptionLearnMore)](https://slumberstudios.com)")
+        message = (isEligible() ? L10n.announcementSlumberPlusDescription("**\(Settings.slumberPromoCode ?? "")**") : L10n.announcementSlumberNonPlusDescription).replacingOccurrences(of: L10n.announcementSlumberPlusDescriptionLearnMore, with: "[\(L10n.announcementSlumberPlusDescriptionLearnMore)](https://slumberstudios.com)")
     }
 
     func update() {
@@ -96,6 +96,10 @@ class SlumberAnnouncementViewModel: ObservableObject {
 
     func showRedeemOrUpgrade() {
         upgradeOrRedeemViewModel.showRedeemOrUpgrade()
+    }
+
+    func isEligible() -> Bool {
+        SubscriptionHelper.subscriptionFrequencyValue() == .yearly || SubscriptionHelper.hasLifetimeGift()
     }
 }
 
@@ -108,7 +112,11 @@ class SlumberUpgradeRedeemViewModel: PlusAccountPromptViewModel {
     }
 
     func showRedeemOrUpgrade() {
-        SubscriptionHelper.hasActiveSubscription() ? showRedeem() : upgradeTapped()
+        isEligible() ? showRedeem() : upgradeTapped()
+    }
+
+    func isEligible() -> Bool {
+        SubscriptionHelper.subscriptionFrequencyValue() == .yearly || SubscriptionHelper.hasLifetimeGift()
     }
 
     private func showRedeem() {
