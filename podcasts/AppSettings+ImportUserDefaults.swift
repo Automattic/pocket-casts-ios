@@ -65,4 +65,15 @@ extension SettingsStore<AppSettings> {
         self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
         self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
     }
+    
+    /// Imports a value of a given key from UserDefaults, only if that value exists
+    /// - Parameters:
+    ///   - modifiedKeyPath: The SettingsStore keyPath to update
+    ///   - key: The key to check UserDefaults for
+    ///   - from: The UserDefaults instance to check
+    func importValue<T: Equatable & Codable>(_ modifiedKeyPath: WritableKeyPath<Value, ModifiedDate<T>>, forKey key: String, from: UserDefaults) {
+        if let value = UserDefaults.standard.value(forKey: key) as? T {
+            self.update(modifiedKeyPath, value: value)
+        }
+    }
 }
