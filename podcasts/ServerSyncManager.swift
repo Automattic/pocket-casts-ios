@@ -71,7 +71,9 @@ class ServerSyncManager: ServerSyncDelegate {
         UserEpisodeManager.checkForPendingUploads()
         UserEpisodeManager.checkForPendingCloudDeletes()
         DispatchQueue.main.async {
+            Analytics.shared.refreshRegistered()
             PlaybackManager.shared.effectsChangedExternally()
+            Theme.sharedTheme.toggleTheme()
         }
     }
 

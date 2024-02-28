@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/openid/AppAuth-iOS.git",
         "state": {
           "branch": null,
-          "revision": "3d36a58a2b736f7bc499453e996a704929b25080",
-          "version": "1.6.0"
+          "revision": "71cde449f13d453227e687458144bde372d30fc7",
+          "version": "1.6.2"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/ra1028/DifferenceKit",
         "state": {
           "branch": null,
-          "revision": "62745d7780deef4a023a792a1f8f763ec7bf9705",
-          "version": "1.2.0"
+          "revision": "073b9671ce2b9b5b96398611427a1f929927e428",
+          "version": "1.3.0"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
           "branch": null,
-          "revision": "b880ec8ec927a838c51c12862c6222c30d7097d7",
-          "version": "10.20.0"
+          "revision": "f91c8167141d0279726c6f6d9d4a47c026785cbc",
+          "version": "10.21.0"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/ccgus/fmdb.git",
         "state": {
           "branch": null,
-          "revision": "e6e1c0eff4f115c46a850db9dc92fb41a01a8b55",
-          "version": "2.7.8"
+          "revision": "61e51fde7f7aab6554f30ab061cc588b28a97d04",
+          "version": "2.7.7"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
         "state": {
           "branch": null,
-          "revision": "ceec9f28dea12b7cf3dabf18b5ed7621c88fd4aa",
-          "version": "10.20.0"
+          "revision": "cb8617fab75d181270a1d8f763f26b15c73e2e1e",
+          "version": "10.21.0"
         }
       },
       {
@@ -168,8 +168,8 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher",
         "state": {
           "branch": null,
-          "revision": "3ec0ab0bca4feb56e8b33e289c9496e89059dd08",
-          "version": "7.10.2"
+          "revision": "5b92f029fab2cce44386d28588098b5be0824ef5",
+          "version": "7.11.0"
         }
       },
       {
@@ -177,8 +177,8 @@
         "repositoryURL": "https://github.com/firebase/leveldb.git",
         "state": {
           "branch": null,
-          "revision": "0706abcc6b0bd9cedfbb015ba840e4a780b5159b",
-          "version": "1.22.2"
+          "revision": "9d108e9112aa1d65ce508facf804674546116d9c",
+          "version": "1.22.3"
         }
       },
       {
@@ -186,8 +186,8 @@
         "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
         "state": {
           "branch": null,
-          "revision": "f522990668c2f9132323a2e68d924c7dcb9130b4",
-          "version": "4.4.0"
+          "revision": "7fe8b6f697ae7db4bf0df270119592cb5d502848",
+          "version": "4.4.1"
         }
       },
       {
@@ -204,8 +204,8 @@
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
-          "revision": "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
-          "version": "2.3.1"
+          "revision": "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+          "version": "2.4.0"
         }
       },
       {
@@ -213,8 +213,8 @@
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {
           "branch": null,
-          "revision": "5c8abdeabf8d0dc5055879a657e31bac49bc1624",
-          "version": "8.19.0"
+          "revision": "b847a202a517a90763e8fd0656d8028aeee7b78d",
+          "version": "8.20.0"
         }
       },
       {
@@ -249,8 +249,8 @@
         "repositoryURL": "https://github.com/buildkite/test-collector-swift",
         "state": {
           "branch": null,
-          "revision": "87afcecfb58dd017d6e835ec8e88e9eaa18095ba",
-          "version": "0.1.1"
+          "revision": "6e46839e1a4507ee047acd0896e29b9b278d9e3a",
+          "version": "0.4.0"
         }
       },
       {
@@ -258,8 +258,8 @@
         "repositoryURL": "https://github.com/squarefrog/UIDeviceIdentifier",
         "state": {
           "branch": null,
-          "revision": "5815e06b9ab916af6e2729b637efcdced887d8b9",
-          "version": "2.1.0"
+          "revision": "4699794b08bb79a4d77785edaba6ea739e298e4b",
+          "version": "2.3.0"
         }
       }
     ]

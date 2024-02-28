@@ -772,7 +772,7 @@ class EpisodeDataManager {
                         values.append(DBUtils.currentUTCTimeInMillis())
                     }
 
-                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimit, podcastAutoArchiveLimit > 0 {
+                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimitCount, podcastAutoArchiveLimit > 0 {
                         fields.append("excludeFromEpisodeLimit")
                         values.append(true)
                     }

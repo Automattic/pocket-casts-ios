@@ -10,20 +10,28 @@ import PocketCastsUtils
 class Settings: NSObject {
     // MARK: - Library Type
 
-    private static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
+    static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
     private static var cachedlibrarySortType: LibraryType?
     class func setLibraryType(_ type: LibraryType) {
-        UserDefaults.standard.set(type.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.gridLayout = type
+        }
+        UserDefaults.standard.set(type.old.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
         cachedlibrarySortType = type
     }
 
     class func libraryType() -> LibraryType {
+
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.gridLayout
+        }
+
         if let type = cachedlibrarySortType {
             return type
         }
 
         let storedValue = UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)
-        if let type = LibraryType(rawValue: storedValue) {
+        if let type = LibraryType(oldValue: storedValue) {
             cachedlibrarySortType = type
 
             return type
@@ -34,11 +42,15 @@ class Settings: NSObject {
 
     // MARK: - Podcast Badge
 
-    private static let badgeKey = "SJBadgeType"
+    static let badgeKey = "SJBadgeType"
     class func podcastBadgeType() -> BadgeType {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.badges
+        }
+
         let storedBadgeType = UserDefaults.standard.integer(forKey: Settings.badgeKey)
 
-        if let type = BadgeType(rawValue: storedBadgeType) {
+        if let type = BadgeType(rawValue: Int32(storedBadgeType)) {
             return type
         }
 
@@ -46,17 +58,27 @@ class Settings: NSObject {
     }
 
     class func setPodcastBadgeType(_ badgeType: BadgeType) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.badges = badgeType
+        }
         UserDefaults.standard.set(badgeType.rawValue, forKey: Settings.badgeKey)
     }
 
     // MARK: - Up Next Auto Download
 
-    private static let autoDownloadUpNext = "SJAutoDownloadUpNext"
+    static let autoDownloadUpNext = "SJAutoDownloadUpNext"
     class func downloadUpNextEpisodes() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoDownloadUpNext
+        } else {
+            UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
+        }
     }
 
     class func setDownloadUpNextEpisodes(_ download: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoDownloadUpNext = download
+        }
         UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
         trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: download)
     }
@@ -84,12 +106,19 @@ class Settings: NSObject {
 
     // MARK: - Auto Download Mobile Data
 
-    private static let allowCellularAutoDownloadKey = "SJUserCellularAutoDownload"
+    static let allowCellularAutoDownloadKey = "SJUserCellularAutoDownload"
     class func autoDownloadMobileDataAllowed() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
+        if FeatureFlag.settingsSync.enabled {
+            !SettingsStore.appSettings.autoDownloadUnmeteredOnly
+        } else {
+            UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
+        }
     }
 
     class func setAutoDownloadMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoDownloadUnmeteredOnly = !allow
+        }
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularAutoDownloadKey)
 
         guard userInitiated else { return }
@@ -173,8 +202,12 @@ class Settings: NSObject {
     // MARK: - Podcast Sort Order
 
     class func homeFolderSortOrder() -> LibrarySort {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.gridOrder
+        }
+
         let sortInt = ServerSettings.homeGridSortOrder()
-        if let librarySort = LibrarySort(rawValue: sortInt) {
+        if let librarySort = LibrarySort(oldValue: sortInt) {
             return librarySort
         }
 
@@ -182,7 +215,10 @@ class Settings: NSObject {
     }
 
     class func setHomeFolderSortOrder(order: LibrarySort) {
-        ServerSettings.setHomeGridSortOrder(order.rawValue, syncChange: true)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.gridOrder = order
+        }
+        ServerSettings.setHomeGridSortOrder(order.old.rawValue, syncChange: true)
     }
 
     // MARK: - Podcast Grouping Default
@@ -291,12 +327,19 @@ class Settings: NSObject {
 
     // MARK: - Auto Archiving
 
-    private static let autoArchivePlayedAfterKey = "AutoArchivePlayedAfer"
+    static let autoArchivePlayedAfterKey = "AutoArchivePlayedAfer"
     class func autoArchivePlayedAfter() -> TimeInterval {
-        UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchivePlayed.time.rawValue
+        } else {
+            return UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
+        }
     }
 
     class func setAutoArchivePlayedAfter(_ after: TimeInterval, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchivePlayed = AutoArchiveAfterPlayed(time: AutoArchiveAfterTime(rawValue: after)!)!
+        }
         UserDefaults.standard.set(after, forKey: Settings.autoArchivePlayedAfterKey)
 
         guard userInitiated else { return }
@@ -305,12 +348,19 @@ class Settings: NSObject {
         }
     }
 
-    private static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
+    static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
     class func autoArchiveInactiveAfter() -> TimeInterval {
-        UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchiveInactive.time.rawValue
+        } else {
+            return UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
+        }
     }
 
     class func setAutoArchiveInactiveAfter(_ after: TimeInterval, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchiveInactive = AutoArchiveAfterInactive(time: AutoArchiveAfterTime(rawValue: after)!)!
+        }
         UserDefaults.standard.set(after, forKey: Settings.autoArchiveInactiveAfterKey)
 
         guard userInitiated else { return }
@@ -319,12 +369,19 @@ class Settings: NSObject {
         }
     }
 
-    private static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
+    static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
     class func archiveStarredEpisodes() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.autoArchiveIncludesStarred
+        } else {
+            return UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
+        }
     }
 
     class func setArchiveStarredEpisodes(_ archive: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoArchiveIncludesStarred = archive
+        }
         UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
 
         guard userInitiated else { return }
@@ -446,42 +503,70 @@ class Settings: NSObject {
         UserDefaults.standard.set(value, forKey: userEpisodeSortByKey)
     }
 
-    private static let userEpisodeAutoUploadKey = "UserEpisodeAutoUpload"
+    static let userEpisodeAutoUploadKey = "UserEpisodeAutoUpload"
     class func userFilesAutoUpload() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeAutoUploadKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.cloudAutoUpload
+        } else {
+            UserDefaults.standard.bool(forKey: userEpisodeAutoUploadKey)
+        }
     }
 
     class func setUserEpisodeAutoUpload(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.cloudAutoUpload = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoUploadKey)
         trackValueToggled(.settingsFilesAutoUploadToCloudToggled, enabled: value)
     }
 
-    private static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
+    static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
     class func userEpisodeAutoAddToUpNext() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAutoUpNext
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
+        }
     }
 
     class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAutoUpNext = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
         trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
     }
 
-    private static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
+    static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
     class func userEpisodeRemoveFileAfterPlaying() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAfterPlayingDeleteLocal
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
+        }
     }
 
     class func setUserEpisodeRemoveFileAfterPlaying(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.filesAfterPlayingDeleteLocal = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFileAfterPlayingKey)
         trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: value)
     }
 
-    private static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
+    static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
     class func userEpisodeRemoveFromCloudAfterPlaying() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
+        if FeatureFlag.settingsSync.enabled {
+            return SettingsStore.appSettings.filesAfterPlayingDeleteCloud
+        } else {
+            return UserDefaults.standard.bool(forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
+        }
     }
 
     class func setUserEpisodeRemoveFromCloudAfterPlayingKey(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.filesAfterPlayingDeleteCloud = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
         trackValueToggled(.settingsFilesDeleteCloudFileAfterPlayingToggled, enabled: value)
     }
@@ -603,33 +688,60 @@ class Settings: NSObject {
     }
 
     class func setShouldFollowSystemTheme(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.useSystemTheme = value
+        }
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
 
     class func shouldFollowSystemTheme() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.useSystemTheme
+        } else {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
+        }
     }
 
     // MARK: Player Actions
 
-    private static let playerActionsKey = "PlayerActions"
+    fileprivate static let playerActionsKey = "PlayerActions"
     class func playerActions() -> [PlayerAction] {
         let defaultActions = PlayerAction.defaultActions.filter { $0.isAvailable }
 
-        guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
-            return defaultActions
+        let playerActions: [PlayerAction]
+
+        if FeatureFlag.settingsSync.enabled {
+            playerActions = SettingsStore.appSettings.playerShelf
+                .compactMap { action in
+                    switch action {
+                    case .known(let present):
+                        return present
+                    case .unknown:
+                        return nil
+                    }
+                }
+                .filter { $0.isAvailable }
+        } else {
+            playerActions = UserDefaults.standard.playerActions ?? defaultActions
         }
-
-        let playerActions = savedInts
-            .compactMap { PlayerAction(rawValue: $0) }
-            .filter { $0.isAvailable }
-
         return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 
     class func updatePlayerActions(_ actions: [PlayerAction]) {
-        let actionInts = actions.map(\.rawValue)
-        UserDefaults.standard.set(actionInts, forKey: Settings.playerActionsKey)
+        if FeatureFlag.settingsSync.enabled {
+            let unknowns = SettingsStore.appSettings.playerShelf.compactMap { action -> ActionOption? in
+                switch action {
+                case .known:
+                    return nil
+                case .unknown(let absent):
+                    return .unknown(absent)
+                }
+            }
+            SettingsStore.appSettings.playerShelf = actions.map({ .known($0) }) + unknowns
+        } else {
+            let actionInts = actions.map(\.intValue)
+            UserDefaults.standard.set(actionInts, forKey: Settings.playerActionsKey)
+        }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playerActionsUpdated)
     }
@@ -778,11 +890,18 @@ class Settings: NSObject {
     // MARK: - Tracks
 
     class func setAnalytics(optOut: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.privacyAnalytics = !optOut
+        }
         UserDefaults.standard.set(optOut, forKey: Constants.UserDefaults.analyticsOptOut)
     }
 
     class func analyticsOptOut() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
+        if FeatureFlag.settingsSync.enabled {
+            return !SettingsStore.appSettings.privacyAnalytics
+        } else {
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
+        }
     }
 
     // MARK: - End of Year 2022
@@ -857,7 +976,18 @@ class Settings: NSObject {
 
     static var loadEmbeddedImages: Bool {
         get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useEmbeddedArtwork
+            } else {
+                UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
+            }
+        }
+        set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useEmbeddedArtwork = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.loadEmbeddedImages)
+            Settings.trackValueToggled(.settingsAppearanceUseEmbeddedArtworkToggled, enabled: newValue)
         }
     }
 
@@ -884,20 +1014,34 @@ class Settings: NSObject {
 
     static var headphonesPreviousAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.previousAction.unlockedValue
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.headphoneControlsPreviousAction.action
+            } else {
+                return Constants.UserDefaults.headphones.previousAction.unlockedValue
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.headphoneControlsPreviousAction = HeadphoneControl(action: newValue)
+            }
             Constants.UserDefaults.headphones.previousAction.save(newValue)
         }
     }
 
     static var headphonesNextAction: HeadphoneControlAction {
         get {
-            Constants.UserDefaults.headphones.nextAction.unlockedValue
+            if FeatureFlag.settingsSync.enabled {
+                return SettingsStore.appSettings.headphoneControlsNextAction.action
+            } else {
+                return Constants.UserDefaults.headphones.nextAction.unlockedValue
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.headphoneControlsNextAction = HeadphoneControl(action: newValue)
+            }
             Constants.UserDefaults.headphones.nextAction.save(newValue)
         }
     }
@@ -925,10 +1069,17 @@ class Settings: NSObject {
 
     static var darkUpNextTheme: Bool {
         get {
-            Constants.UserDefaults.appearance.darkUpNextTheme.value
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useDarkUpNextTheme
+            } else {
+                Constants.UserDefaults.appearance.darkUpNextTheme.value
+            }
         }
 
         set {
+            if FeatureFlag.settingsSync.enabled {
+                SettingsStore.appSettings.useDarkUpNextTheme = newValue
+            }
             Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
         }
     }
@@ -1090,3 +1241,47 @@ extension L10n {
     }
 }
 #endif
+
+extension HeadphoneControl {
+    init(action: HeadphoneControlAction) {
+        switch action {
+        case .addBookmark:
+            self = .addBookmark
+        case .nextChapter:
+            self = .nextChapter
+        case .previousChapter:
+            self = .previousChapter
+        case .skipBack:
+            self = .skipBack
+        case .skipForward:
+            self = .skipForward
+        }
+    }
+
+    var action: HeadphoneControlAction {
+        switch self {
+        case .addBookmark:
+            return .addBookmark
+        case .nextChapter:
+            return .nextChapter
+        case .previousChapter:
+            return .previousChapter
+        case .skipBack:
+            return .skipBack
+        case .skipForward:
+            return .skipForward
+        }
+    }
+}
+
+extension UserDefaults {
+    var playerActions: [PlayerAction]? {
+        guard let savedInts = UserDefaults.standard.object(forKey: Settings.playerActionsKey) as? [Int] else {
+            return nil
+        }
+
+        return savedInts
+            .compactMap { PlayerAction(int: $0) }
+            .filter { $0.isAvailable }
+    }
+}

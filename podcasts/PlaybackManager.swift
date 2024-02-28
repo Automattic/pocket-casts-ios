@@ -305,6 +305,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     func skipToPreviousChapter(startPlaybackAfterSkip: Bool = false) {
         guard let previousChapter = chapterManager.previousVisibleChapter() else { return }
 
+        if abs(currentChapters().index - previousChapter.index) > 1 {
+            trackChapterSkipped()
+        }
+
         seekTo(time: ceil(previousChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
     }
 
@@ -316,6 +320,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             // whatever the producer set.
             skipToEndOfLastChapter()
             return
+        }
+
+        if abs(currentChapters().index - nextChapter.index) > 1 {
+            trackChapterSkipped()
         }
 
         seekTo(time: ceil(nextChapter.startTime.seconds), startPlaybackAfterSeek: startPlaybackAfterSkip)
@@ -351,12 +359,20 @@ class PlaybackManager: ServerPlaybackDelegate {
         chapterManager.chaptersForTime(time)
     }
 
+    func playableChaptersUpdated() {
+        // Check if current chapter still needs to be played
+        if currentChapters().visibleChapter?.isPlayable() == false {
+            skipToNextChapter()
+        }
+    }
+
     private func checkForChapterChange() {
         guard let episodeUuid = currentEpisode()?.uuid else { return }
 
         if chapterManager.haveTriedToParseChaptersFor(episodeUuid: episodeUuid), chapterManager.updateCurrentChapter(time: currentTime()) {
             if currentChapters().visibleChapter?.isPlayable() == false {
                 skipToNextChapter()
+                trackChapterSkipped()
             } else {
                 fireChapterChangeNotification()
                 updateNowPlayingInfo()
@@ -731,7 +747,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
             if FeatureFlag.settingsSync.enabled {
-                podcast.settings.trimSilence = effects.trimSilence
+                podcast.settings.trimSilence = TrimSilence(amount: effects.trimSilence)
                 podcast.settings.playbackSpeed = effects.playbackSpeed
                 podcast.settings.boostVolume = effects.volumeBoost
                 podcast.syncStatus = SyncStatus.notSynced.rawValue
@@ -1889,7 +1905,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Private helpers
 
     private func checkIfStreamBufferRequired(episode: BaseEpisode, effects: PlaybackEffects) {
-        if effects.trimSilence.isEnabled(), !episode.downloaded(pathFinder: DownloadManager.shared) {
+        let downloadEpisode = effects.trimSilence.isEnabled() || FeatureFlag.cachePlayingEpisode.enabled
+        if downloadEpisode, !episode.downloaded(pathFinder: DownloadManager.shared) {
             // the user is streaming and has turned on remove silence, kick off a download so we can fulfill that request
             DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .playerDownloadedForStreaming)
         }
@@ -2060,5 +2077,11 @@ extension PlaybackManager {
         // Start the play process
         PlaybackActionHelper.play(episode: episode, podcastUuid: bookmark.podcastUuid)
         #endif
+    }
+
+    // MARK: - Analytics
+
+    private func trackChapterSkipped() {
+        analyticsPlaybackHelper.chapterSkipped()
     }
 }

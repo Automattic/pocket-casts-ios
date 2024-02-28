@@ -78,7 +78,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.cellLabel.text = L10n.settingsQueuePosition
             cell.setImage(imageName: nil)
 
-            let upNextOrder = Int(podcast.autoAddToUpNext)
+            let upNextOrder = podcast.autoAddToUpNextSetting()?.rawValue
             cell.cellSecondaryLabel.text = (upNextOrder == AutoAddToUpNextSetting.addLast.rawValue) ? L10n.bottom : L10n.top
 
             return cell
@@ -325,7 +325,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     private func setUpNext(_ setting: AutoAddToUpNextSetting) {
-        podcast.autoAddToUpNext = setting.rawValue
+        podcast.setAutoAddToUpNext(setting: setting)
+        podcast.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(podcast: podcast)
         settingsTable.reloadData()
 
@@ -349,9 +350,9 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
     @objc private func addToUpNextChanged(_ sender: UISwitch) {
         if sender.isOn {
-            podcast.autoAddToUpNext = AutoAddToUpNextSetting.addLast.rawValue
+            podcast.setAutoAddToUpNext(setting: .addLast)
         } else {
-            podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
+            podcast.setAutoAddToUpNext(setting: .off)
         }
 
         settingsTable.reloadData()

@@ -55,7 +55,7 @@ class PlaybackEffects {
         effects.isGlobal = false
 
         if FeatureFlag.settingsSync.enabled {
-            effects.trimSilence = podcast.settings.trimSilence
+            effects.trimSilence = podcast.settings.trimSilence.amount
             effects.volumeBoost = podcast.settings.boostVolume
             effects.playbackSpeed = podcast.settings.playbackSpeed
         } else {

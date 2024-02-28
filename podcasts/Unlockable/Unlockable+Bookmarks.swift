@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 
 /// Defines the feature in this file that can be unlocked
 private let UnlockableFeature = PaidFeature.bookmarks
