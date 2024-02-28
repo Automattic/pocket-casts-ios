@@ -64,5 +64,21 @@ extension SettingsStore<AppSettings> {
         self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
         self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
         self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
+        importValue(\.$autoDownloadUpNext, forKey: Settings.autoDownloadUpNext, from: userDefaults)
+        importValue(\.$autoDownloadUnmeteredOnly, forKey: Settings.allowCellularAutoDownloadKey, from: userDefaults)
+        importValue(\.$cloudAutoDownload, forKey: ServerSettings.userEpisodeAutoDownloadKey, from: userDefaults)
+        importValue(\.$cloudDownloadUnmeteredOnly, forKey: ServerSettings.userEpisodeOnlyOnWifiKey, from: userDefaults)
+        importValue(\.$cloudAutoUpload, forKey: Settings.userEpisodeAutoUploadKey, from: userDefaults)
+    }
+
+    /// Imports a value of a given key from UserDefaults, only if that value exists
+    /// - Parameters:
+    ///   - modifiedKeyPath: The SettingsStore keyPath to update
+    ///   - key: The key to check UserDefaults for
+    ///   - from: The UserDefaults instance to check
+    func importValue<T: Equatable & Codable>(_ modifiedKeyPath: WritableKeyPath<Value, ModifiedDate<T>>, forKey key: String, from: UserDefaults) {
+        if let value = UserDefaults.standard.value(forKey: key) as? T {
+            self.update(modifiedKeyPath, value: value)
+        }
     }
 }
