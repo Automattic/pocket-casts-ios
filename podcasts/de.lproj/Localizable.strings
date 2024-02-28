@@ -1303,6 +1303,10 @@ Podcasts mit</string>
     <string>Aktuelle Wiedergabe: %1$@</string>
     <key>now_playing_short_title</key>
     <string>Wiedergabe</string>
+    <key>number_of_chapters</key>
+    <string>%1$@ Kapitel</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@ versteckt</string>
     <key>off</key>
     <string>Aus</string>
     <key>ok</key>
@@ -1767,8 +1771,12 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Podcasts sortieren</string>
     <key>preview</key>
     <string>Vorschau</string>
+    <key>pricing_terms_after_discount</key>
+    <string>Wiederkehrende Zahlungen in Höhe von %1$@ nach %2$@ (%3$@)</string>
     <key>pricing_terms_after_trial</key>
     <string>dann %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Wiederkehrende Zahlungen beginnen nach Ablauf deines Gratis-Test (Dauer: %1$@) am %2$@</string>
     <key>profile</key>
     <string>Profil</string>
     <key>profile_help_support</key>
@@ -1795,6 +1803,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Du hast noch keine Folgen mit Stern markiert.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Nichts mit Stern markiert</string>
+    <key>purchase_terms</key>
+    <string>Indem du fortfährst, erklärst du dich mit unserer %1$@Datenschutzerklärung%2$@ und den %3$@Geschäftsbedingungen%4$@ einverstanden</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ Folgen löschen</string>
     <key>queue_clear_queue</key>
@@ -2357,6 +2367,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>ANGEMELDET ALS</string>
     <key>signed_out</key>
     <string>Nicht angemeldet</string>
+    <key>single_chapter</key>
+    <string>1 Kapitel</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>Schlummerfunktion einstellen auf %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2411,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Tastaturkürzel für Podcast erstellen</string>
     <key>skip_back</key>
     <string>Zurück</string>
+    <key>skip_chapters</key>
+    <string>Kapitel überspringen</string>
     <key>skip_forward</key>
     <string>Vor</string>
     <key>sleep_timer</key>
@@ -2503,6 +2517,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Abonnement gekündigt zum %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Läuft ab in: %1$@</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ für %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Danke für deine Unterstützung!</string>
     <key>support_watch_help_message</key>
