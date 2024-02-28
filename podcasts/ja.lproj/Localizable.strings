@@ -1303,6 +1303,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@を再生中</string>
     <key>now_playing_short_title</key>
     <string>再生中</string>
+    <key>number_of_chapters</key>
+    <string>%1$@個のチャプター</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@個が非表示</string>
     <key>off</key>
     <string>オフ</string>
     <key>ok</key>
@@ -1767,8 +1771,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ポッドキャストを並び替え</string>
     <key>preview</key>
     <string>プレビュー</string>
+    <key>pricing_terms_after_discount</key>
+    <string>%2$@ (%3$@) 経過後に %1$@ の定期支払いが発生します</string>
     <key>pricing_terms_after_trial</key>
     <string>以降 %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>%1$@ のお試し期間 (%2$@) 後に定期支払いが発生します</string>
     <key>profile</key>
     <string>プロフィール</string>
     <key>profile_help_support</key>
@@ -1795,6 +1803,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>星を付けているエピソードがありません。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>星付きのエピソードがありません</string>
+    <key>purchase_terms</key>
+    <string>続行すると、%1$@プライバシーポリシー%2$@と%3$@利用規約%4$@に同意したことになります。</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@件のエピソードをクリア</string>
     <key>queue_clear_queue</key>
@@ -2357,6 +2367,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ログインアカウント:</string>
     <key>signed_out</key>
     <string>ログインしていません</string>
+    <key>single_chapter</key>
+    <string>1個のチャプター</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>スリープタイマーを %1$@ に設定</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2411,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ポッドキャストのショートカットを作成</string>
     <key>skip_back</key>
     <string>巻き戻し</string>
+    <key>skip_chapters</key>
+    <string>チャプターをスキップ</string>
     <key>skip_forward</key>
     <string>早送り</string>
     <key>sleep_timer</key>
@@ -2503,6 +2517,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@にサブスクリプションをキャンセル済み </string>
     <key>subscription_expires_in</key>
     <string>%1$@に期限切れ</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ / %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
     <key>support_watch_help_message</key>

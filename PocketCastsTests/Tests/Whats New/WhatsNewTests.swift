@@ -190,6 +190,36 @@ class WhatsNewtests: XCTestCase {
         XCTAssertEqual(whatsNewWithAnnouncementEnabled.visibleAnnouncement?.version, "7.40")
     }
 
+    // Shown an announcement if it was later enabled, even if the user migrated
+    // to a upper version. Ensuring the What's New is always displayed if needs.
+    func testShowAnnouncementAfterItWasEnabledInAUpperVersion() {
+        let whatsNew = WhatsNew(
+            announcements: [
+                announcement(version: "7.10"),
+                announcement(version: "7.40", isEnabled: false),
+                announcement(version: "7.12")
+            ],
+            previousOpenedVersion: "7.40",
+            currentVersion: "7.40",
+            lastWhatsNewShown: "7.12"
+        )
+
+        XCTAssertNil(whatsNew.visibleAnnouncement)
+
+        let whatsNewWithAnnouncementEnabled = WhatsNew(
+            announcements: [
+                announcement(version: "7.10"),
+                announcement(version: "7.40", isEnabled: true),
+                announcement(version: "7.12")
+            ],
+            previousOpenedVersion: "7.41",
+            currentVersion: "7.41",
+            lastWhatsNewShown: "7.12"
+        )
+
+        XCTAssertEqual(whatsNewWithAnnouncementEnabled.visibleAnnouncement?.version, "7.40")
+    }
+
     private func announcement(version: String, isEnabled: Bool = true) -> WhatsNew.Announcement {
         return .init(version: version, header: AnyView(EmptyView()), title: "", message: "", buttonTitle: "", action: {}, isEnabled: isEnabled)
     }
