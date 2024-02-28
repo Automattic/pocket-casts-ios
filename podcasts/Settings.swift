@@ -5,6 +5,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 import SwiftUI
+import PocketCastsUtils
 
 class Settings: NSObject {
     // MARK: - Library Type
