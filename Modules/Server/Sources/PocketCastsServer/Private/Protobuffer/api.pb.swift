@@ -842,6 +842,123 @@ struct Api_ChangeableSettings {
   /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
   mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
 
+  var showArtworkOnLockScreen: Api_BoolSetting {
+    get {return _storage._showArtworkOnLockScreen ?? Api_BoolSetting()}
+    set {_uniqueStorage()._showArtworkOnLockScreen = newValue}
+  }
+  /// Returns true if `showArtworkOnLockScreen` has been explicitly set.
+  var hasShowArtworkOnLockScreen: Bool {return _storage._showArtworkOnLockScreen != nil}
+  /// Clears the value of `showArtworkOnLockScreen`. Subsequent reads from it will return its default value.
+  mutating func clearShowArtworkOnLockScreen() {_uniqueStorage()._showArtworkOnLockScreen = nil}
+
+  var headphoneControlsNextAction: Api_Int32Setting {
+    get {return _storage._headphoneControlsNextAction ?? Api_Int32Setting()}
+    set {_uniqueStorage()._headphoneControlsNextAction = newValue}
+  }
+  /// Returns true if `headphoneControlsNextAction` has been explicitly set.
+  var hasHeadphoneControlsNextAction: Bool {return _storage._headphoneControlsNextAction != nil}
+  /// Clears the value of `headphoneControlsNextAction`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsNextAction() {_uniqueStorage()._headphoneControlsNextAction = nil}
+
+  var headphoneControlsPreviousAction: Api_Int32Setting {
+    get {return _storage._headphoneControlsPreviousAction ?? Api_Int32Setting()}
+    set {_uniqueStorage()._headphoneControlsPreviousAction = newValue}
+  }
+  /// Returns true if `headphoneControlsPreviousAction` has been explicitly set.
+  var hasHeadphoneControlsPreviousAction: Bool {return _storage._headphoneControlsPreviousAction != nil}
+  /// Clears the value of `headphoneControlsPreviousAction`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsPreviousAction() {_uniqueStorage()._headphoneControlsPreviousAction = nil}
+
+  var headphoneControlsPlayBookmarkConfirmationSound: Api_BoolSetting {
+    get {return _storage._headphoneControlsPlayBookmarkConfirmationSound ?? Api_BoolSetting()}
+    set {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = newValue}
+  }
+  /// Returns true if `headphoneControlsPlayBookmarkConfirmationSound` has been explicitly set.
+  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {return _storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
+  /// Clears the value of `headphoneControlsPlayBookmarkConfirmationSound`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsPlayBookmarkConfirmationSound() {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = nil}
+
+  var darkThemePreference: Api_Int32Setting {
+    get {return _storage._darkThemePreference ?? Api_Int32Setting()}
+    set {_uniqueStorage()._darkThemePreference = newValue}
+  }
+  /// Returns true if `darkThemePreference` has been explicitly set.
+  var hasDarkThemePreference: Bool {return _storage._darkThemePreference != nil}
+  /// Clears the value of `darkThemePreference`. Subsequent reads from it will return its default value.
+  mutating func clearDarkThemePreference() {_uniqueStorage()._darkThemePreference = nil}
+
+  var lightThemePreference: Api_Int32Setting {
+    get {return _storage._lightThemePreference ?? Api_Int32Setting()}
+    set {_uniqueStorage()._lightThemePreference = newValue}
+  }
+  /// Returns true if `lightThemePreference` has been explicitly set.
+  var hasLightThemePreference: Bool {return _storage._lightThemePreference != nil}
+  /// Clears the value of `lightThemePreference`. Subsequent reads from it will return its default value.
+  mutating func clearLightThemePreference() {_uniqueStorage()._lightThemePreference = nil}
+
+  var useSystemTheme: Api_BoolSetting {
+    get {return _storage._useSystemTheme ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useSystemTheme = newValue}
+  }
+  /// Returns true if `useSystemTheme` has been explicitly set.
+  var hasUseSystemTheme: Bool {return _storage._useSystemTheme != nil}
+  /// Clears the value of `useSystemTheme`. Subsequent reads from it will return its default value.
+  mutating func clearUseSystemTheme() {_uniqueStorage()._useSystemTheme = nil}
+
+  var episodeBookmarksSortType: Api_Int32Setting {
+    get {return _storage._episodeBookmarksSortType ?? Api_Int32Setting()}
+    set {_uniqueStorage()._episodeBookmarksSortType = newValue}
+  }
+  /// Returns true if `episodeBookmarksSortType` has been explicitly set.
+  var hasEpisodeBookmarksSortType: Bool {return _storage._episodeBookmarksSortType != nil}
+  /// Clears the value of `episodeBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodeBookmarksSortType() {_uniqueStorage()._episodeBookmarksSortType = nil}
+
+  var playerBookmarksSortType: Api_Int32Setting {
+    get {return _storage._playerBookmarksSortType ?? Api_Int32Setting()}
+    set {_uniqueStorage()._playerBookmarksSortType = newValue}
+  }
+  /// Returns true if `playerBookmarksSortType` has been explicitly set.
+  var hasPlayerBookmarksSortType: Bool {return _storage._playerBookmarksSortType != nil}
+  /// Clears the value of `playerBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerBookmarksSortType() {_uniqueStorage()._playerBookmarksSortType = nil}
+
+  var podcastBookmarksSortType: Api_Int32Setting {
+    get {return _storage._podcastBookmarksSortType ?? Api_Int32Setting()}
+    set {_uniqueStorage()._podcastBookmarksSortType = newValue}
+  }
+  /// Returns true if `podcastBookmarksSortType` has been explicitly set.
+  var hasPodcastBookmarksSortType: Bool {return _storage._podcastBookmarksSortType != nil}
+  /// Clears the value of `podcastBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearPodcastBookmarksSortType() {_uniqueStorage()._podcastBookmarksSortType = nil}
+
+  var useDarkUpNextTheme: Api_BoolSetting {
+    get {return _storage._useDarkUpNextTheme ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useDarkUpNextTheme = newValue}
+  }
+  /// Returns true if `useDarkUpNextTheme` has been explicitly set.
+  var hasUseDarkUpNextTheme: Bool {return _storage._useDarkUpNextTheme != nil}
+  /// Clears the value of `useDarkUpNextTheme`. Subsequent reads from it will return its default value.
+  mutating func clearUseDarkUpNextTheme() {_uniqueStorage()._useDarkUpNextTheme = nil}
+
+  var useDynamicColorsForWidget: Api_BoolSetting {
+    get {return _storage._useDynamicColorsForWidget ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useDynamicColorsForWidget = newValue}
+  }
+  /// Returns true if `useDynamicColorsForWidget` has been explicitly set.
+  var hasUseDynamicColorsForWidget: Bool {return _storage._useDynamicColorsForWidget != nil}
+  /// Clears the value of `useDynamicColorsForWidget`. Subsequent reads from it will return its default value.
+  mutating func clearUseDynamicColorsForWidget() {_uniqueStorage()._useDynamicColorsForWidget = nil}
+
+  var filesSortOrder: Api_Int32Setting {
+    get {return _storage._filesSortOrder ?? Api_Int32Setting()}
+    set {_uniqueStorage()._filesSortOrder = newValue}
+  }
+  /// Returns true if `filesSortOrder` has been explicitly set.
+  var hasFilesSortOrder: Bool {return _storage._filesSortOrder != nil}
+  /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
+  mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1369,6 +1486,123 @@ struct Api_NamedSettings {
   /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
   mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
 
+  var showArtworkOnLockScreen: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._showArtworkOnLockScreen ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._showArtworkOnLockScreen = newValue}
+  }
+  /// Returns true if `showArtworkOnLockScreen` has been explicitly set.
+  var hasShowArtworkOnLockScreen: Bool {return _storage._showArtworkOnLockScreen != nil}
+  /// Clears the value of `showArtworkOnLockScreen`. Subsequent reads from it will return its default value.
+  mutating func clearShowArtworkOnLockScreen() {_uniqueStorage()._showArtworkOnLockScreen = nil}
+
+  var headphoneControlsNextAction: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._headphoneControlsNextAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._headphoneControlsNextAction = newValue}
+  }
+  /// Returns true if `headphoneControlsNextAction` has been explicitly set.
+  var hasHeadphoneControlsNextAction: Bool {return _storage._headphoneControlsNextAction != nil}
+  /// Clears the value of `headphoneControlsNextAction`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsNextAction() {_uniqueStorage()._headphoneControlsNextAction = nil}
+
+  var headphoneControlsPreviousAction: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._headphoneControlsPreviousAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._headphoneControlsPreviousAction = newValue}
+  }
+  /// Returns true if `headphoneControlsPreviousAction` has been explicitly set.
+  var hasHeadphoneControlsPreviousAction: Bool {return _storage._headphoneControlsPreviousAction != nil}
+  /// Clears the value of `headphoneControlsPreviousAction`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsPreviousAction() {_uniqueStorage()._headphoneControlsPreviousAction = nil}
+
+  var headphoneControlsPlayBookmarkConfirmationSound: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._headphoneControlsPlayBookmarkConfirmationSound ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = newValue}
+  }
+  /// Returns true if `headphoneControlsPlayBookmarkConfirmationSound` has been explicitly set.
+  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {return _storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
+  /// Clears the value of `headphoneControlsPlayBookmarkConfirmationSound`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsPlayBookmarkConfirmationSound() {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = nil}
+
+  var darkThemePreference: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._darkThemePreference ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._darkThemePreference = newValue}
+  }
+  /// Returns true if `darkThemePreference` has been explicitly set.
+  var hasDarkThemePreference: Bool {return _storage._darkThemePreference != nil}
+  /// Clears the value of `darkThemePreference`. Subsequent reads from it will return its default value.
+  mutating func clearDarkThemePreference() {_uniqueStorage()._darkThemePreference = nil}
+
+  var lightThemePreference: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._lightThemePreference ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._lightThemePreference = newValue}
+  }
+  /// Returns true if `lightThemePreference` has been explicitly set.
+  var hasLightThemePreference: Bool {return _storage._lightThemePreference != nil}
+  /// Clears the value of `lightThemePreference`. Subsequent reads from it will return its default value.
+  mutating func clearLightThemePreference() {_uniqueStorage()._lightThemePreference = nil}
+
+  var useSystemTheme: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._useSystemTheme ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._useSystemTheme = newValue}
+  }
+  /// Returns true if `useSystemTheme` has been explicitly set.
+  var hasUseSystemTheme: Bool {return _storage._useSystemTheme != nil}
+  /// Clears the value of `useSystemTheme`. Subsequent reads from it will return its default value.
+  mutating func clearUseSystemTheme() {_uniqueStorage()._useSystemTheme = nil}
+
+  var episodeBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._episodeBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._episodeBookmarksSortType = newValue}
+  }
+  /// Returns true if `episodeBookmarksSortType` has been explicitly set.
+  var hasEpisodeBookmarksSortType: Bool {return _storage._episodeBookmarksSortType != nil}
+  /// Clears the value of `episodeBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodeBookmarksSortType() {_uniqueStorage()._episodeBookmarksSortType = nil}
+
+  var playerBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._playerBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._playerBookmarksSortType = newValue}
+  }
+  /// Returns true if `playerBookmarksSortType` has been explicitly set.
+  var hasPlayerBookmarksSortType: Bool {return _storage._playerBookmarksSortType != nil}
+  /// Clears the value of `playerBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerBookmarksSortType() {_uniqueStorage()._playerBookmarksSortType = nil}
+
+  var podcastBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._podcastBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._podcastBookmarksSortType = newValue}
+  }
+  /// Returns true if `podcastBookmarksSortType` has been explicitly set.
+  var hasPodcastBookmarksSortType: Bool {return _storage._podcastBookmarksSortType != nil}
+  /// Clears the value of `podcastBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearPodcastBookmarksSortType() {_uniqueStorage()._podcastBookmarksSortType = nil}
+
+  var useDarkUpNextTheme: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._useDarkUpNextTheme ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._useDarkUpNextTheme = newValue}
+  }
+  /// Returns true if `useDarkUpNextTheme` has been explicitly set.
+  var hasUseDarkUpNextTheme: Bool {return _storage._useDarkUpNextTheme != nil}
+  /// Clears the value of `useDarkUpNextTheme`. Subsequent reads from it will return its default value.
+  mutating func clearUseDarkUpNextTheme() {_uniqueStorage()._useDarkUpNextTheme = nil}
+
+  var useDynamicColorsForWidget: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._useDynamicColorsForWidget ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._useDynamicColorsForWidget = newValue}
+  }
+  /// Returns true if `useDynamicColorsForWidget` has been explicitly set.
+  var hasUseDynamicColorsForWidget: Bool {return _storage._useDynamicColorsForWidget != nil}
+  /// Clears the value of `useDynamicColorsForWidget`. Subsequent reads from it will return its default value.
+  mutating func clearUseDynamicColorsForWidget() {_uniqueStorage()._useDynamicColorsForWidget = nil}
+
+  var filesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._filesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._filesSortOrder = newValue}
+  }
+  /// Returns true if `filesSortOrder` has been explicitly set.
+  var hasFilesSortOrder: Bool {return _storage._filesSortOrder != nil}
+  /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
+  mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1895,6 +2129,123 @@ struct Api_NamedSettingsResponse {
   var hasTrimSilence: Bool {return _storage._trimSilence != nil}
   /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
   mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
+
+  var showArtworkOnLockScreen: Api_BoolSetting {
+    get {return _storage._showArtworkOnLockScreen ?? Api_BoolSetting()}
+    set {_uniqueStorage()._showArtworkOnLockScreen = newValue}
+  }
+  /// Returns true if `showArtworkOnLockScreen` has been explicitly set.
+  var hasShowArtworkOnLockScreen: Bool {return _storage._showArtworkOnLockScreen != nil}
+  /// Clears the value of `showArtworkOnLockScreen`. Subsequent reads from it will return its default value.
+  mutating func clearShowArtworkOnLockScreen() {_uniqueStorage()._showArtworkOnLockScreen = nil}
+
+  var headphoneControlsNextAction: Api_Int32Setting {
+    get {return _storage._headphoneControlsNextAction ?? Api_Int32Setting()}
+    set {_uniqueStorage()._headphoneControlsNextAction = newValue}
+  }
+  /// Returns true if `headphoneControlsNextAction` has been explicitly set.
+  var hasHeadphoneControlsNextAction: Bool {return _storage._headphoneControlsNextAction != nil}
+  /// Clears the value of `headphoneControlsNextAction`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsNextAction() {_uniqueStorage()._headphoneControlsNextAction = nil}
+
+  var headphoneControlsPreviousAction: Api_Int32Setting {
+    get {return _storage._headphoneControlsPreviousAction ?? Api_Int32Setting()}
+    set {_uniqueStorage()._headphoneControlsPreviousAction = newValue}
+  }
+  /// Returns true if `headphoneControlsPreviousAction` has been explicitly set.
+  var hasHeadphoneControlsPreviousAction: Bool {return _storage._headphoneControlsPreviousAction != nil}
+  /// Clears the value of `headphoneControlsPreviousAction`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsPreviousAction() {_uniqueStorage()._headphoneControlsPreviousAction = nil}
+
+  var headphoneControlsPlayBookmarkConfirmationSound: Api_BoolSetting {
+    get {return _storage._headphoneControlsPlayBookmarkConfirmationSound ?? Api_BoolSetting()}
+    set {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = newValue}
+  }
+  /// Returns true if `headphoneControlsPlayBookmarkConfirmationSound` has been explicitly set.
+  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {return _storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
+  /// Clears the value of `headphoneControlsPlayBookmarkConfirmationSound`. Subsequent reads from it will return its default value.
+  mutating func clearHeadphoneControlsPlayBookmarkConfirmationSound() {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = nil}
+
+  var darkThemePreference: Api_Int32Setting {
+    get {return _storage._darkThemePreference ?? Api_Int32Setting()}
+    set {_uniqueStorage()._darkThemePreference = newValue}
+  }
+  /// Returns true if `darkThemePreference` has been explicitly set.
+  var hasDarkThemePreference: Bool {return _storage._darkThemePreference != nil}
+  /// Clears the value of `darkThemePreference`. Subsequent reads from it will return its default value.
+  mutating func clearDarkThemePreference() {_uniqueStorage()._darkThemePreference = nil}
+
+  var lightThemePreference: Api_Int32Setting {
+    get {return _storage._lightThemePreference ?? Api_Int32Setting()}
+    set {_uniqueStorage()._lightThemePreference = newValue}
+  }
+  /// Returns true if `lightThemePreference` has been explicitly set.
+  var hasLightThemePreference: Bool {return _storage._lightThemePreference != nil}
+  /// Clears the value of `lightThemePreference`. Subsequent reads from it will return its default value.
+  mutating func clearLightThemePreference() {_uniqueStorage()._lightThemePreference = nil}
+
+  var useSystemTheme: Api_BoolSetting {
+    get {return _storage._useSystemTheme ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useSystemTheme = newValue}
+  }
+  /// Returns true if `useSystemTheme` has been explicitly set.
+  var hasUseSystemTheme: Bool {return _storage._useSystemTheme != nil}
+  /// Clears the value of `useSystemTheme`. Subsequent reads from it will return its default value.
+  mutating func clearUseSystemTheme() {_uniqueStorage()._useSystemTheme = nil}
+
+  var episodeBookmarksSortType: Api_Int32Setting {
+    get {return _storage._episodeBookmarksSortType ?? Api_Int32Setting()}
+    set {_uniqueStorage()._episodeBookmarksSortType = newValue}
+  }
+  /// Returns true if `episodeBookmarksSortType` has been explicitly set.
+  var hasEpisodeBookmarksSortType: Bool {return _storage._episodeBookmarksSortType != nil}
+  /// Clears the value of `episodeBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodeBookmarksSortType() {_uniqueStorage()._episodeBookmarksSortType = nil}
+
+  var playerBookmarksSortType: Api_Int32Setting {
+    get {return _storage._playerBookmarksSortType ?? Api_Int32Setting()}
+    set {_uniqueStorage()._playerBookmarksSortType = newValue}
+  }
+  /// Returns true if `playerBookmarksSortType` has been explicitly set.
+  var hasPlayerBookmarksSortType: Bool {return _storage._playerBookmarksSortType != nil}
+  /// Clears the value of `playerBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerBookmarksSortType() {_uniqueStorage()._playerBookmarksSortType = nil}
+
+  var podcastBookmarksSortType: Api_Int32Setting {
+    get {return _storage._podcastBookmarksSortType ?? Api_Int32Setting()}
+    set {_uniqueStorage()._podcastBookmarksSortType = newValue}
+  }
+  /// Returns true if `podcastBookmarksSortType` has been explicitly set.
+  var hasPodcastBookmarksSortType: Bool {return _storage._podcastBookmarksSortType != nil}
+  /// Clears the value of `podcastBookmarksSortType`. Subsequent reads from it will return its default value.
+  mutating func clearPodcastBookmarksSortType() {_uniqueStorage()._podcastBookmarksSortType = nil}
+
+  var useDarkUpNextTheme: Api_BoolSetting {
+    get {return _storage._useDarkUpNextTheme ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useDarkUpNextTheme = newValue}
+  }
+  /// Returns true if `useDarkUpNextTheme` has been explicitly set.
+  var hasUseDarkUpNextTheme: Bool {return _storage._useDarkUpNextTheme != nil}
+  /// Clears the value of `useDarkUpNextTheme`. Subsequent reads from it will return its default value.
+  mutating func clearUseDarkUpNextTheme() {_uniqueStorage()._useDarkUpNextTheme = nil}
+
+  var useDynamicColorsForWidget: Api_BoolSetting {
+    get {return _storage._useDynamicColorsForWidget ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useDynamicColorsForWidget = newValue}
+  }
+  /// Returns true if `useDynamicColorsForWidget` has been explicitly set.
+  var hasUseDynamicColorsForWidget: Bool {return _storage._useDynamicColorsForWidget != nil}
+  /// Clears the value of `useDynamicColorsForWidget`. Subsequent reads from it will return its default value.
+  mutating func clearUseDynamicColorsForWidget() {_uniqueStorage()._useDynamicColorsForWidget = nil}
+
+  var filesSortOrder: Api_Int32Setting {
+    get {return _storage._filesSortOrder ?? Api_Int32Setting()}
+    set {_uniqueStorage()._filesSortOrder = newValue}
+  }
+  /// Returns true if `filesSortOrder` has been explicitly set.
+  var hasFilesSortOrder: Bool {return _storage._filesSortOrder != nil}
+  /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
+  mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -4360,6 +4711,51 @@ struct Api_PodcastSettings {
   var hasEpisodesSortOrder: Bool {return _storage._episodesSortOrder != nil}
   /// Clears the value of `episodesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearEpisodesSortOrder() {_uniqueStorage()._episodesSortOrder = nil}
+
+  var autoArchivePlayed: Api_Int32Setting {
+    get {return _storage._autoArchivePlayed ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoArchivePlayed = newValue}
+  }
+  /// Returns true if `autoArchivePlayed` has been explicitly set.
+  var hasAutoArchivePlayed: Bool {return _storage._autoArchivePlayed != nil}
+  /// Clears the value of `autoArchivePlayed`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchivePlayed() {_uniqueStorage()._autoArchivePlayed = nil}
+
+  var autoArchiveInactive: Api_Int32Setting {
+    get {return _storage._autoArchiveInactive ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoArchiveInactive = newValue}
+  }
+  /// Returns true if `autoArchiveInactive` has been explicitly set.
+  var hasAutoArchiveInactive: Bool {return _storage._autoArchiveInactive != nil}
+  /// Clears the value of `autoArchiveInactive`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveInactive() {_uniqueStorage()._autoArchiveInactive = nil}
+
+  var autoArchiveEpisodeLimit: Api_Int32Setting {
+    get {return _storage._autoArchiveEpisodeLimit ?? Api_Int32Setting()}
+    set {_uniqueStorage()._autoArchiveEpisodeLimit = newValue}
+  }
+  /// Returns true if `autoArchiveEpisodeLimit` has been explicitly set.
+  var hasAutoArchiveEpisodeLimit: Bool {return _storage._autoArchiveEpisodeLimit != nil}
+  /// Clears the value of `autoArchiveEpisodeLimit`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveEpisodeLimit() {_uniqueStorage()._autoArchiveEpisodeLimit = nil}
+
+  var episodeGrouping: Api_Int32Setting {
+    get {return _storage._episodeGrouping ?? Api_Int32Setting()}
+    set {_uniqueStorage()._episodeGrouping = newValue}
+  }
+  /// Returns true if `episodeGrouping` has been explicitly set.
+  var hasEpisodeGrouping: Bool {return _storage._episodeGrouping != nil}
+  /// Clears the value of `episodeGrouping`. Subsequent reads from it will return its default value.
+  mutating func clearEpisodeGrouping() {_uniqueStorage()._episodeGrouping = nil}
+
+  var showArchived: Api_BoolSetting {
+    get {return _storage._showArchived ?? Api_BoolSetting()}
+    set {_uniqueStorage()._showArchived = newValue}
+  }
+  /// Returns true if `showArchived` has been explicitly set.
+  var hasShowArchived: Bool {return _storage._showArchived != nil}
+  /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
+  mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -7205,6 +7601,19 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     57: .standard(proto: "auto_play_enabled"),
     58: .standard(proto: "auto_play_last_list_uuid"),
     59: .standard(proto: "trim_silence"),
+    60: .standard(proto: "show_artwork_on_lock_screen"),
+    61: .standard(proto: "headphone_controls_next_action"),
+    62: .standard(proto: "headphone_controls_previous_action"),
+    63: .standard(proto: "headphone_controls_play_bookmark_confirmation_sound"),
+    64: .standard(proto: "dark_theme_preference"),
+    65: .standard(proto: "light_theme_preference"),
+    66: .standard(proto: "use_system_theme"),
+    67: .standard(proto: "episode_bookmarks_sort_type"),
+    68: .standard(proto: "player_bookmarks_sort_type"),
+    69: .standard(proto: "podcast_bookmarks_sort_type"),
+    70: .standard(proto: "use_dark_up_next_theme"),
+    71: .standard(proto: "use_dynamic_colors_for_widget"),
+    72: .standard(proto: "files_sort_order"),
   ]
 
   fileprivate class _StorageClass {
@@ -7265,6 +7674,19 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     var _autoPlayEnabled: Api_BoolSetting? = nil
     var _autoPlayLastListUuid: Api_StringSetting? = nil
     var _trimSilence: Api_Int32Setting? = nil
+    var _showArtworkOnLockScreen: Api_BoolSetting? = nil
+    var _headphoneControlsNextAction: Api_Int32Setting? = nil
+    var _headphoneControlsPreviousAction: Api_Int32Setting? = nil
+    var _headphoneControlsPlayBookmarkConfirmationSound: Api_BoolSetting? = nil
+    var _darkThemePreference: Api_Int32Setting? = nil
+    var _lightThemePreference: Api_Int32Setting? = nil
+    var _useSystemTheme: Api_BoolSetting? = nil
+    var _episodeBookmarksSortType: Api_Int32Setting? = nil
+    var _playerBookmarksSortType: Api_Int32Setting? = nil
+    var _podcastBookmarksSortType: Api_Int32Setting? = nil
+    var _useDarkUpNextTheme: Api_BoolSetting? = nil
+    var _useDynamicColorsForWidget: Api_BoolSetting? = nil
+    var _filesSortOrder: Api_Int32Setting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -7328,6 +7750,19 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       _autoPlayEnabled = source._autoPlayEnabled
       _autoPlayLastListUuid = source._autoPlayLastListUuid
       _trimSilence = source._trimSilence
+      _showArtworkOnLockScreen = source._showArtworkOnLockScreen
+      _headphoneControlsNextAction = source._headphoneControlsNextAction
+      _headphoneControlsPreviousAction = source._headphoneControlsPreviousAction
+      _headphoneControlsPlayBookmarkConfirmationSound = source._headphoneControlsPlayBookmarkConfirmationSound
+      _darkThemePreference = source._darkThemePreference
+      _lightThemePreference = source._lightThemePreference
+      _useSystemTheme = source._useSystemTheme
+      _episodeBookmarksSortType = source._episodeBookmarksSortType
+      _playerBookmarksSortType = source._playerBookmarksSortType
+      _podcastBookmarksSortType = source._podcastBookmarksSortType
+      _useDarkUpNextTheme = source._useDarkUpNextTheme
+      _useDynamicColorsForWidget = source._useDynamicColorsForWidget
+      _filesSortOrder = source._filesSortOrder
     }
   }
 
@@ -7403,6 +7838,19 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         case 57: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayEnabled) }()
         case 58: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayLastListUuid) }()
         case 59: try { try decoder.decodeSingularMessageField(value: &_storage._trimSilence) }()
+        case 60: try { try decoder.decodeSingularMessageField(value: &_storage._showArtworkOnLockScreen) }()
+        case 61: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsNextAction) }()
+        case 62: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsPreviousAction) }()
+        case 63: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsPlayBookmarkConfirmationSound) }()
+        case 64: try { try decoder.decodeSingularMessageField(value: &_storage._darkThemePreference) }()
+        case 65: try { try decoder.decodeSingularMessageField(value: &_storage._lightThemePreference) }()
+        case 66: try { try decoder.decodeSingularMessageField(value: &_storage._useSystemTheme) }()
+        case 67: try { try decoder.decodeSingularMessageField(value: &_storage._episodeBookmarksSortType) }()
+        case 68: try { try decoder.decodeSingularMessageField(value: &_storage._playerBookmarksSortType) }()
+        case 69: try { try decoder.decodeSingularMessageField(value: &_storage._podcastBookmarksSortType) }()
+        case 70: try { try decoder.decodeSingularMessageField(value: &_storage._useDarkUpNextTheme) }()
+        case 71: try { try decoder.decodeSingularMessageField(value: &_storage._useDynamicColorsForWidget) }()
+        case 72: try { try decoder.decodeSingularMessageField(value: &_storage._filesSortOrder) }()
         default: break
         }
       }
@@ -7586,6 +8034,45 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       try { if let v = _storage._trimSilence {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 59)
       } }()
+      try { if let v = _storage._showArtworkOnLockScreen {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 60)
+      } }()
+      try { if let v = _storage._headphoneControlsNextAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 61)
+      } }()
+      try { if let v = _storage._headphoneControlsPreviousAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 62)
+      } }()
+      try { if let v = _storage._headphoneControlsPlayBookmarkConfirmationSound {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 63)
+      } }()
+      try { if let v = _storage._darkThemePreference {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 64)
+      } }()
+      try { if let v = _storage._lightThemePreference {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 65)
+      } }()
+      try { if let v = _storage._useSystemTheme {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 66)
+      } }()
+      try { if let v = _storage._episodeBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 67)
+      } }()
+      try { if let v = _storage._playerBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 68)
+      } }()
+      try { if let v = _storage._podcastBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 69)
+      } }()
+      try { if let v = _storage._useDarkUpNextTheme {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 70)
+      } }()
+      try { if let v = _storage._useDynamicColorsForWidget {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 71)
+      } }()
+      try { if let v = _storage._filesSortOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 72)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -7652,6 +8139,19 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         if _storage._autoPlayEnabled != rhs_storage._autoPlayEnabled {return false}
         if _storage._autoPlayLastListUuid != rhs_storage._autoPlayLastListUuid {return false}
         if _storage._trimSilence != rhs_storage._trimSilence {return false}
+        if _storage._showArtworkOnLockScreen != rhs_storage._showArtworkOnLockScreen {return false}
+        if _storage._headphoneControlsNextAction != rhs_storage._headphoneControlsNextAction {return false}
+        if _storage._headphoneControlsPreviousAction != rhs_storage._headphoneControlsPreviousAction {return false}
+        if _storage._headphoneControlsPlayBookmarkConfirmationSound != rhs_storage._headphoneControlsPlayBookmarkConfirmationSound {return false}
+        if _storage._darkThemePreference != rhs_storage._darkThemePreference {return false}
+        if _storage._lightThemePreference != rhs_storage._lightThemePreference {return false}
+        if _storage._useSystemTheme != rhs_storage._useSystemTheme {return false}
+        if _storage._episodeBookmarksSortType != rhs_storage._episodeBookmarksSortType {return false}
+        if _storage._playerBookmarksSortType != rhs_storage._playerBookmarksSortType {return false}
+        if _storage._podcastBookmarksSortType != rhs_storage._podcastBookmarksSortType {return false}
+        if _storage._useDarkUpNextTheme != rhs_storage._useDarkUpNextTheme {return false}
+        if _storage._useDynamicColorsForWidget != rhs_storage._useDynamicColorsForWidget {return false}
+        if _storage._filesSortOrder != rhs_storage._filesSortOrder {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -7721,6 +8221,19 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     57: .standard(proto: "auto_play_enabled"),
     58: .standard(proto: "auto_play_last_list_uuid"),
     59: .standard(proto: "trim_silence"),
+    60: .standard(proto: "show_artwork_on_lock_screen"),
+    61: .standard(proto: "headphone_controls_next_action"),
+    62: .standard(proto: "headphone_controls_previous_action"),
+    63: .standard(proto: "headphone_controls_play_bookmark_confirmation_sound"),
+    64: .standard(proto: "dark_theme_preference"),
+    65: .standard(proto: "light_theme_preference"),
+    66: .standard(proto: "use_system_theme"),
+    67: .standard(proto: "episode_bookmarks_sort_type"),
+    68: .standard(proto: "player_bookmarks_sort_type"),
+    69: .standard(proto: "podcast_bookmarks_sort_type"),
+    70: .standard(proto: "use_dark_up_next_theme"),
+    71: .standard(proto: "use_dynamic_colors_for_widget"),
+    72: .standard(proto: "files_sort_order"),
   ]
 
   fileprivate class _StorageClass {
@@ -7781,6 +8294,19 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     var _autoPlayEnabled: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _autoPlayLastListUuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
     var _trimSilence: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _showArtworkOnLockScreen: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _headphoneControlsNextAction: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _headphoneControlsPreviousAction: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _headphoneControlsPlayBookmarkConfirmationSound: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _darkThemePreference: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _lightThemePreference: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _useSystemTheme: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _episodeBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _playerBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _podcastBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _useDarkUpNextTheme: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _useDynamicColorsForWidget: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _filesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -7844,6 +8370,19 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       _autoPlayEnabled = source._autoPlayEnabled
       _autoPlayLastListUuid = source._autoPlayLastListUuid
       _trimSilence = source._trimSilence
+      _showArtworkOnLockScreen = source._showArtworkOnLockScreen
+      _headphoneControlsNextAction = source._headphoneControlsNextAction
+      _headphoneControlsPreviousAction = source._headphoneControlsPreviousAction
+      _headphoneControlsPlayBookmarkConfirmationSound = source._headphoneControlsPlayBookmarkConfirmationSound
+      _darkThemePreference = source._darkThemePreference
+      _lightThemePreference = source._lightThemePreference
+      _useSystemTheme = source._useSystemTheme
+      _episodeBookmarksSortType = source._episodeBookmarksSortType
+      _playerBookmarksSortType = source._playerBookmarksSortType
+      _podcastBookmarksSortType = source._podcastBookmarksSortType
+      _useDarkUpNextTheme = source._useDarkUpNextTheme
+      _useDynamicColorsForWidget = source._useDynamicColorsForWidget
+      _filesSortOrder = source._filesSortOrder
     }
   }
 
@@ -7919,6 +8458,19 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         case 57: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayEnabled) }()
         case 58: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayLastListUuid) }()
         case 59: try { try decoder.decodeSingularMessageField(value: &_storage._trimSilence) }()
+        case 60: try { try decoder.decodeSingularMessageField(value: &_storage._showArtworkOnLockScreen) }()
+        case 61: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsNextAction) }()
+        case 62: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsPreviousAction) }()
+        case 63: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsPlayBookmarkConfirmationSound) }()
+        case 64: try { try decoder.decodeSingularMessageField(value: &_storage._darkThemePreference) }()
+        case 65: try { try decoder.decodeSingularMessageField(value: &_storage._lightThemePreference) }()
+        case 66: try { try decoder.decodeSingularMessageField(value: &_storage._useSystemTheme) }()
+        case 67: try { try decoder.decodeSingularMessageField(value: &_storage._episodeBookmarksSortType) }()
+        case 68: try { try decoder.decodeSingularMessageField(value: &_storage._playerBookmarksSortType) }()
+        case 69: try { try decoder.decodeSingularMessageField(value: &_storage._podcastBookmarksSortType) }()
+        case 70: try { try decoder.decodeSingularMessageField(value: &_storage._useDarkUpNextTheme) }()
+        case 71: try { try decoder.decodeSingularMessageField(value: &_storage._useDynamicColorsForWidget) }()
+        case 72: try { try decoder.decodeSingularMessageField(value: &_storage._filesSortOrder) }()
         default: break
         }
       }
@@ -8102,6 +8654,45 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       try { if let v = _storage._trimSilence {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 59)
       } }()
+      try { if let v = _storage._showArtworkOnLockScreen {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 60)
+      } }()
+      try { if let v = _storage._headphoneControlsNextAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 61)
+      } }()
+      try { if let v = _storage._headphoneControlsPreviousAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 62)
+      } }()
+      try { if let v = _storage._headphoneControlsPlayBookmarkConfirmationSound {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 63)
+      } }()
+      try { if let v = _storage._darkThemePreference {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 64)
+      } }()
+      try { if let v = _storage._lightThemePreference {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 65)
+      } }()
+      try { if let v = _storage._useSystemTheme {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 66)
+      } }()
+      try { if let v = _storage._episodeBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 67)
+      } }()
+      try { if let v = _storage._playerBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 68)
+      } }()
+      try { if let v = _storage._podcastBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 69)
+      } }()
+      try { if let v = _storage._useDarkUpNextTheme {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 70)
+      } }()
+      try { if let v = _storage._useDynamicColorsForWidget {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 71)
+      } }()
+      try { if let v = _storage._filesSortOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 72)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -8168,6 +8759,19 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         if _storage._autoPlayEnabled != rhs_storage._autoPlayEnabled {return false}
         if _storage._autoPlayLastListUuid != rhs_storage._autoPlayLastListUuid {return false}
         if _storage._trimSilence != rhs_storage._trimSilence {return false}
+        if _storage._showArtworkOnLockScreen != rhs_storage._showArtworkOnLockScreen {return false}
+        if _storage._headphoneControlsNextAction != rhs_storage._headphoneControlsNextAction {return false}
+        if _storage._headphoneControlsPreviousAction != rhs_storage._headphoneControlsPreviousAction {return false}
+        if _storage._headphoneControlsPlayBookmarkConfirmationSound != rhs_storage._headphoneControlsPlayBookmarkConfirmationSound {return false}
+        if _storage._darkThemePreference != rhs_storage._darkThemePreference {return false}
+        if _storage._lightThemePreference != rhs_storage._lightThemePreference {return false}
+        if _storage._useSystemTheme != rhs_storage._useSystemTheme {return false}
+        if _storage._episodeBookmarksSortType != rhs_storage._episodeBookmarksSortType {return false}
+        if _storage._playerBookmarksSortType != rhs_storage._playerBookmarksSortType {return false}
+        if _storage._podcastBookmarksSortType != rhs_storage._podcastBookmarksSortType {return false}
+        if _storage._useDarkUpNextTheme != rhs_storage._useDarkUpNextTheme {return false}
+        if _storage._useDynamicColorsForWidget != rhs_storage._useDynamicColorsForWidget {return false}
+        if _storage._filesSortOrder != rhs_storage._filesSortOrder {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -8237,6 +8841,19 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     57: .standard(proto: "auto_play_enabled"),
     58: .standard(proto: "auto_play_last_list_uuid"),
     59: .standard(proto: "trim_silence"),
+    60: .standard(proto: "show_artwork_on_lock_screen"),
+    61: .standard(proto: "headphone_controls_next_action"),
+    62: .standard(proto: "headphone_controls_previous_action"),
+    63: .standard(proto: "headphone_controls_play_bookmark_confirmation_sound"),
+    64: .standard(proto: "dark_theme_preference"),
+    65: .standard(proto: "light_theme_preference"),
+    66: .standard(proto: "use_system_theme"),
+    67: .standard(proto: "episode_bookmarks_sort_type"),
+    68: .standard(proto: "player_bookmarks_sort_type"),
+    69: .standard(proto: "podcast_bookmarks_sort_type"),
+    70: .standard(proto: "use_dark_up_next_theme"),
+    71: .standard(proto: "use_dynamic_colors_for_widget"),
+    72: .standard(proto: "files_sort_order"),
   ]
 
   fileprivate class _StorageClass {
@@ -8297,6 +8914,19 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     var _autoPlayEnabled: Api_BoolSetting? = nil
     var _autoPlayLastListUuid: Api_StringSetting? = nil
     var _trimSilence: Api_Int32Setting? = nil
+    var _showArtworkOnLockScreen: Api_BoolSetting? = nil
+    var _headphoneControlsNextAction: Api_Int32Setting? = nil
+    var _headphoneControlsPreviousAction: Api_Int32Setting? = nil
+    var _headphoneControlsPlayBookmarkConfirmationSound: Api_BoolSetting? = nil
+    var _darkThemePreference: Api_Int32Setting? = nil
+    var _lightThemePreference: Api_Int32Setting? = nil
+    var _useSystemTheme: Api_BoolSetting? = nil
+    var _episodeBookmarksSortType: Api_Int32Setting? = nil
+    var _playerBookmarksSortType: Api_Int32Setting? = nil
+    var _podcastBookmarksSortType: Api_Int32Setting? = nil
+    var _useDarkUpNextTheme: Api_BoolSetting? = nil
+    var _useDynamicColorsForWidget: Api_BoolSetting? = nil
+    var _filesSortOrder: Api_Int32Setting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -8360,6 +8990,19 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       _autoPlayEnabled = source._autoPlayEnabled
       _autoPlayLastListUuid = source._autoPlayLastListUuid
       _trimSilence = source._trimSilence
+      _showArtworkOnLockScreen = source._showArtworkOnLockScreen
+      _headphoneControlsNextAction = source._headphoneControlsNextAction
+      _headphoneControlsPreviousAction = source._headphoneControlsPreviousAction
+      _headphoneControlsPlayBookmarkConfirmationSound = source._headphoneControlsPlayBookmarkConfirmationSound
+      _darkThemePreference = source._darkThemePreference
+      _lightThemePreference = source._lightThemePreference
+      _useSystemTheme = source._useSystemTheme
+      _episodeBookmarksSortType = source._episodeBookmarksSortType
+      _playerBookmarksSortType = source._playerBookmarksSortType
+      _podcastBookmarksSortType = source._podcastBookmarksSortType
+      _useDarkUpNextTheme = source._useDarkUpNextTheme
+      _useDynamicColorsForWidget = source._useDynamicColorsForWidget
+      _filesSortOrder = source._filesSortOrder
     }
   }
 
@@ -8435,6 +9078,19 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         case 57: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayEnabled) }()
         case 58: try { try decoder.decodeSingularMessageField(value: &_storage._autoPlayLastListUuid) }()
         case 59: try { try decoder.decodeSingularMessageField(value: &_storage._trimSilence) }()
+        case 60: try { try decoder.decodeSingularMessageField(value: &_storage._showArtworkOnLockScreen) }()
+        case 61: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsNextAction) }()
+        case 62: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsPreviousAction) }()
+        case 63: try { try decoder.decodeSingularMessageField(value: &_storage._headphoneControlsPlayBookmarkConfirmationSound) }()
+        case 64: try { try decoder.decodeSingularMessageField(value: &_storage._darkThemePreference) }()
+        case 65: try { try decoder.decodeSingularMessageField(value: &_storage._lightThemePreference) }()
+        case 66: try { try decoder.decodeSingularMessageField(value: &_storage._useSystemTheme) }()
+        case 67: try { try decoder.decodeSingularMessageField(value: &_storage._episodeBookmarksSortType) }()
+        case 68: try { try decoder.decodeSingularMessageField(value: &_storage._playerBookmarksSortType) }()
+        case 69: try { try decoder.decodeSingularMessageField(value: &_storage._podcastBookmarksSortType) }()
+        case 70: try { try decoder.decodeSingularMessageField(value: &_storage._useDarkUpNextTheme) }()
+        case 71: try { try decoder.decodeSingularMessageField(value: &_storage._useDynamicColorsForWidget) }()
+        case 72: try { try decoder.decodeSingularMessageField(value: &_storage._filesSortOrder) }()
         default: break
         }
       }
@@ -8618,6 +9274,45 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       try { if let v = _storage._trimSilence {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 59)
       } }()
+      try { if let v = _storage._showArtworkOnLockScreen {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 60)
+      } }()
+      try { if let v = _storage._headphoneControlsNextAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 61)
+      } }()
+      try { if let v = _storage._headphoneControlsPreviousAction {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 62)
+      } }()
+      try { if let v = _storage._headphoneControlsPlayBookmarkConfirmationSound {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 63)
+      } }()
+      try { if let v = _storage._darkThemePreference {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 64)
+      } }()
+      try { if let v = _storage._lightThemePreference {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 65)
+      } }()
+      try { if let v = _storage._useSystemTheme {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 66)
+      } }()
+      try { if let v = _storage._episodeBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 67)
+      } }()
+      try { if let v = _storage._playerBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 68)
+      } }()
+      try { if let v = _storage._podcastBookmarksSortType {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 69)
+      } }()
+      try { if let v = _storage._useDarkUpNextTheme {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 70)
+      } }()
+      try { if let v = _storage._useDynamicColorsForWidget {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 71)
+      } }()
+      try { if let v = _storage._filesSortOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 72)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -8684,6 +9379,19 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         if _storage._autoPlayEnabled != rhs_storage._autoPlayEnabled {return false}
         if _storage._autoPlayLastListUuid != rhs_storage._autoPlayLastListUuid {return false}
         if _storage._trimSilence != rhs_storage._trimSilence {return false}
+        if _storage._showArtworkOnLockScreen != rhs_storage._showArtworkOnLockScreen {return false}
+        if _storage._headphoneControlsNextAction != rhs_storage._headphoneControlsNextAction {return false}
+        if _storage._headphoneControlsPreviousAction != rhs_storage._headphoneControlsPreviousAction {return false}
+        if _storage._headphoneControlsPlayBookmarkConfirmationSound != rhs_storage._headphoneControlsPlayBookmarkConfirmationSound {return false}
+        if _storage._darkThemePreference != rhs_storage._darkThemePreference {return false}
+        if _storage._lightThemePreference != rhs_storage._lightThemePreference {return false}
+        if _storage._useSystemTheme != rhs_storage._useSystemTheme {return false}
+        if _storage._episodeBookmarksSortType != rhs_storage._episodeBookmarksSortType {return false}
+        if _storage._playerBookmarksSortType != rhs_storage._playerBookmarksSortType {return false}
+        if _storage._podcastBookmarksSortType != rhs_storage._podcastBookmarksSortType {return false}
+        if _storage._useDarkUpNextTheme != rhs_storage._useDarkUpNextTheme {return false}
+        if _storage._useDynamicColorsForWidget != rhs_storage._useDynamicColorsForWidget {return false}
+        if _storage._filesSortOrder != rhs_storage._filesSortOrder {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -13253,6 +13961,11 @@ extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     9: .standard(proto: "auto_start_from"),
     10: .standard(proto: "auto_skip_last"),
     11: .standard(proto: "episodes_sort_order"),
+    12: .standard(proto: "auto_archive_played"),
+    13: .standard(proto: "auto_archive_inactive"),
+    14: .standard(proto: "auto_archive_episode_limit"),
+    15: .standard(proto: "episode_grouping"),
+    16: .standard(proto: "show_archived"),
   ]
 
   fileprivate class _StorageClass {
@@ -13267,6 +13980,11 @@ extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     var _autoStartFrom: Api_Int32Setting? = nil
     var _autoSkipLast: Api_Int32Setting? = nil
     var _episodesSortOrder: Api_Int32Setting? = nil
+    var _autoArchivePlayed: Api_Int32Setting? = nil
+    var _autoArchiveInactive: Api_Int32Setting? = nil
+    var _autoArchiveEpisodeLimit: Api_Int32Setting? = nil
+    var _episodeGrouping: Api_Int32Setting? = nil
+    var _showArchived: Api_BoolSetting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -13284,6 +14002,11 @@ extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       _autoStartFrom = source._autoStartFrom
       _autoSkipLast = source._autoSkipLast
       _episodesSortOrder = source._episodesSortOrder
+      _autoArchivePlayed = source._autoArchivePlayed
+      _autoArchiveInactive = source._autoArchiveInactive
+      _autoArchiveEpisodeLimit = source._autoArchiveEpisodeLimit
+      _episodeGrouping = source._episodeGrouping
+      _showArchived = source._showArchived
     }
   }
 
@@ -13313,6 +14036,11 @@ extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         case 9: try { try decoder.decodeSingularMessageField(value: &_storage._autoStartFrom) }()
         case 10: try { try decoder.decodeSingularMessageField(value: &_storage._autoSkipLast) }()
         case 11: try { try decoder.decodeSingularMessageField(value: &_storage._episodesSortOrder) }()
+        case 12: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayed) }()
+        case 13: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveInactive) }()
+        case 14: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveEpisodeLimit) }()
+        case 15: try { try decoder.decodeSingularMessageField(value: &_storage._episodeGrouping) }()
+        case 16: try { try decoder.decodeSingularMessageField(value: &_storage._showArchived) }()
         default: break
         }
       }
@@ -13358,6 +14086,21 @@ extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       try { if let v = _storage._episodesSortOrder {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
       } }()
+      try { if let v = _storage._autoArchivePlayed {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
+      } }()
+      try { if let v = _storage._autoArchiveInactive {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 13)
+      } }()
+      try { if let v = _storage._autoArchiveEpisodeLimit {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
+      } }()
+      try { if let v = _storage._episodeGrouping {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 15)
+      } }()
+      try { if let v = _storage._showArchived {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 16)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -13378,6 +14121,11 @@ extension Api_PodcastSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         if _storage._autoStartFrom != rhs_storage._autoStartFrom {return false}
         if _storage._autoSkipLast != rhs_storage._autoSkipLast {return false}
         if _storage._episodesSortOrder != rhs_storage._episodesSortOrder {return false}
+        if _storage._autoArchivePlayed != rhs_storage._autoArchivePlayed {return false}
+        if _storage._autoArchiveInactive != rhs_storage._autoArchiveInactive {return false}
+        if _storage._autoArchiveEpisodeLimit != rhs_storage._autoArchiveEpisodeLimit {return false}
+        if _storage._episodeGrouping != rhs_storage._episodeGrouping {return false}
+        if _storage._showArchived != rhs_storage._showArchived {return false}
         return true
       }
       if !storagesAreEqual {return false}

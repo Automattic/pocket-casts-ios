@@ -1,6 +1,11 @@
 import UIKit
+import PocketCastsServer
 
 class ChaptersViewController: PlayerItemViewController {
+    var isTogglingChapters = false
+
+    var numberOfDeselectedChapters = 0
+
     @IBOutlet var chaptersTable: UITableView! {
         didSet {
             registerCells()
@@ -8,8 +13,17 @@ class ChaptersViewController: PlayerItemViewController {
         }
     }
 
+    private(set) lazy var header: ChaptersHeader = {
+        let header = ChaptersHeader()
+        header.delegate = self
+        return header
+    }()
+
+    lazy var playbackManager: PlaybackManager = PlaybackManager.shared
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        chaptersTable.sectionHeaderTopPadding = 0
     }
 
     override func willBeAddedToPlayer() {
@@ -40,11 +54,21 @@ class ChaptersViewController: PlayerItemViewController {
         addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update))
         addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(update))
         addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update))
+        addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(enableOrDisableChapterSelection))
     }
 
     @objc private func update() {
         chaptersTable.reloadData()
         updateColors()
+    }
+
+    @objc private func enableOrDisableChapterSelection() {
+        DispatchQueue.main.async { [weak self] in
+            self?.isTogglingChapters = PaidFeature.deselectChapters.isUnlocked ? true : false
+            self?.header.isTogglingChapters = self?.isTogglingChapters ?? false
+            self?.header.update()
+            self?.chaptersTable.reloadSections([0], with: .automatic)
+        }
     }
 
     private func updateColors() {

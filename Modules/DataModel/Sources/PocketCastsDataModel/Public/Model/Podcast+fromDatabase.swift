@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 import FMDB
 
 extension Podcast {
@@ -54,6 +55,24 @@ extension Podcast {
         podcast.refreshAvailable = rs.bool(forColumn: "refreshAvailable")
         podcast.folderUuid = rs.string(forColumn: "folderUuid")
 
+        if let settingsString = rs.string(forColumn: "settings") {
+            podcast.settings = DBUtils.convertData(value: settingsString.data(using: .utf8)) ?? podcast.settings
+        } else {
+            FileLog.shared.addMessage("Podcast fromResultSet: Nil settings column")
+        }
+
         return podcast
     }
 }
+
+extension DBUtils {
+    static func convertData<T: JSONCodable>(value: Data?) -> T? {
+        if let value {
+            return T.encodedObject(T.self, from: value)
+        } else {
+            return nil
+        }
+    }
+}
+
+extension ModifiedDate: JSONCodable {}

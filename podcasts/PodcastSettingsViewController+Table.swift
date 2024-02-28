@@ -78,7 +78,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.cellLabel.text = L10n.settingsQueuePosition
             cell.setImage(imageName: nil)
 
-            let upNextOrder = Int(podcast.autoAddToUpNext)
+            let upNextOrder = podcast.autoAddToUpNextSetting()?.rawValue
             cell.cellSecondaryLabel.text = (upNextOrder == AutoAddToUpNextSetting.addLast.rawValue) ? L10n.bottom : L10n.top
 
             return cell
@@ -93,7 +93,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         case .playbackEffects:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = PlayerAction.effects.title()
-            let imageName = podcast.overrideGlobalEffects ? "podcast-effects-on" : "podcast-effects-off"
+            let imageName = podcast.isEffectsOverridden ? "podcast-effects-on" : "podcast-effects-off"
             cell.setImage(imageName: imageName, tintColor: podcast.iconTintColor())
             cell.cellSecondaryLabel.text = nil
 
@@ -113,10 +113,10 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.onValueChanged = { [weak self] value in
                 guard let podcast = self?.podcast else { return }
 
-                podcast.startFrom = Int32(value)
+                podcast.autoStartFrom = Int32(value)
                 podcast.syncStatus = SyncStatus.notSynced.rawValue
                 DataManager.sharedManager.save(podcast: podcast)
-                cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.startFrom))
+                cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.autoStartFrom))
 
                 self?.debounce.call {
                     Analytics.track(.podcastSettingsSkipFirstChanged, properties: ["value": value])
@@ -133,16 +133,16 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.timeStepper.maximumValue = 40.minutes
             cell.timeStepper.bigIncrements = 5.seconds
             cell.timeStepper.smallIncrements = 5.seconds
-            cell.timeStepper.currentValue = TimeInterval(podcast.skipLast)
+            cell.timeStepper.currentValue = TimeInterval(podcast.autoSkipLast)
             cell.configureWithImage(imageName: "settings-skipoutros", tintColor: podcast.iconTintColor())
 
             cell.onValueChanged = { [weak self] value in
                 guard let podcast = self?.podcast else { return }
 
-                podcast.skipLast = Int32(value)
+                podcast.autoSkipLast = Int32(value)
                 podcast.syncStatus = SyncStatus.notSynced.rawValue
                 DataManager.sharedManager.save(podcast: podcast)
-                cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.skipLast))
+                cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.autoSkipLast))
 
                 self?.debounce.call {
                     Analytics.track(.podcastSettingsSkipLastChanged, properties: ["value": value])
@@ -325,7 +325,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     private func setUpNext(_ setting: AutoAddToUpNextSetting) {
-        podcast.autoAddToUpNext = setting.rawValue
+        podcast.setAutoAddToUpNext(setting: setting)
+        podcast.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(podcast: podcast)
         settingsTable.reloadData()
 
@@ -349,9 +350,9 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
     @objc private func addToUpNextChanged(_ sender: UISwitch) {
         if sender.isOn {
-            podcast.autoAddToUpNext = AutoAddToUpNextSetting.addLast.rawValue
+            podcast.setAutoAddToUpNext(setting: .addLast)
         } else {
-            podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
+            podcast.setAutoAddToUpNext(setting: .off)
         }
 
         settingsTable.reloadData()

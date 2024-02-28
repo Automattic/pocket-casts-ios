@@ -12,6 +12,8 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
     var plan: Plan = .plus
 
+    var customTitle: String?
+
     override init(purchaseHandler: IAPHelper = .shared) {
         super.init(purchaseHandler: purchaseHandler)
 
@@ -84,10 +86,11 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 }
 
 extension PlusPurchaseModel {
-    static func make(in parentController: UIViewController?, plan: Plan, selectedPrice: PlanFrequency) -> UIViewController {
+    static func make(in parentController: UIViewController?, plan: Plan, selectedPrice: PlanFrequency, customTitle: String? = nil) -> UIViewController {
         let viewModel = PlusPurchaseModel()
         viewModel.parentController = parentController
         viewModel.plan = plan
+        viewModel.customTitle = customTitle
 
         let backgroundColor = UIColor(hex: PlusPurchaseModal.Config.backgroundColorHex)
         let modal = PlusPurchaseModal(coordinator: viewModel, selectedPrice: selectedPrice).setupDefaultEnvironment()
@@ -166,7 +169,11 @@ private extension PlusPurchaseModel {
         }
 
         // Dismiss the current flow
-        presentNextBlock()
+        if parentController.presentedViewController != nil {
+            parentController.dismiss(animated: true, completion: presentNextBlock)
+        } else {
+            presentNextBlock()
+        }
     }
 }
 

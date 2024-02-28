@@ -1,13 +1,16 @@
 import Combine
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class PodcastEpisodeListViewModel: ObservableObject {
     static func createEpisodesQuery(forPodcast podcast: Podcast?) -> String {
         guard let podcast = podcast else { return "" }
 
+        let episodeSortOrder = podcast.podcastSortOrder
+
         let sortStr: String
-        let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? PodcastEpisodeSortOrder.newestToOldest
+        let sortOrder = episodeSortOrder ?? PodcastEpisodeSortOrder.newestToOldest
         switch sortOrder {
         case .newestToOldest:
             sortStr = "ORDER BY publishedDate DESC, addedDate DESC"
@@ -26,7 +29,9 @@ class PodcastEpisodeListViewModel: ObservableObject {
     @Published var episodes: [EpisodeRowViewModel] = []
 
     var sortOption: PodcastEpisodeSortOrder {
-        PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? .newestToOldest
+        let episodeSortOrder = podcast.podcastSortOrder
+
+        return episodeSortOrder ?? .newestToOldest
     }
 
     private var updatePodcast: AnyPublisher<Notification, Never> {
@@ -60,6 +65,10 @@ class PodcastEpisodeListViewModel: ObservableObject {
     }
 
     func didChangeSortOrder(option: PodcastEpisodeSortOrder) {
+        if FeatureFlag.settingsSync.enabled {
+            podcast.settings.episodesSortOrder = option
+            podcast.syncStatus = SyncStatus.notSynced.rawValue
+        }
         podcast.episodeSortOrder = option.rawValue
         DataManager.sharedManager.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)

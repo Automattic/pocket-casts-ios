@@ -1,4 +1,4 @@
-import MaterialComponents.MaterialBottomSheet
+import UIKit
 
 extension ProfileViewController: PromotionRedeemedDelegate {
     func showPromotionViewController(promoCode: String?) {
@@ -10,12 +10,15 @@ extension ProfileViewController: PromotionRedeemedDelegate {
 
     func showPromotionRedeemedAcknowledgement() {
         let promoAcknowledgementVC = PromotionAcknowledgementViewController(serverMessage: promoRedeemedMessage)
-        let bottomSheet = MDCBottomSheetController(contentViewController: promoAcknowledgementVC)
-        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
-        present(bottomSheet, animated: true, completion: nil)
+
+        if let bottomSheet = promoAcknowledgementVC.sheetPresentationController {
+            bottomSheet.detents = [.medium()]
+            bottomSheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            // The Promo Acknowledgement VC implements its own grabber UI.
+            bottomSheet.prefersGrabberVisible = false
+        }
+
+        present(promoAcknowledgementVC, animated: true, completion: nil)
     }
 
     func promotionRedeemed(message: String) {

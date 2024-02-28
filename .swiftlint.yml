@@ -1,9 +1,3 @@
+swiftlint_version: 0.54.0
 parent_config: https://raw.githubusercontent.com/Automattic/swiftlint-config/0f8ab6388bd8d15a04391825ab125f80cfb90704/.swiftlint.yml
 remote_timeout: 10.0
-
-disabled_rules:
-  # FIXME: The following three rules have been disabled so that CI doesn't fail
-  # the build because of them. They ought to be addressed ASAP.
-  - inverse_text_alignment
-  - natural_content_alignment
-  - natural_text_alignment

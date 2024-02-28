@@ -2,7 +2,7 @@
 common_params:
   # Common plugin settings to use with the `plugins` key.
   - &common_plugins
-    - automattic/a8c-ci-toolkit#2.15.1
+    - automattic/a8c-ci-toolkit#3.1.0
   # Common environment values to use with the `env` key.
   - &common_env
     # If you update the image to a newer Xcode version, don't forget to also update the badge in the README.md file accordingly for consistency
@@ -21,11 +21,8 @@ steps:
   - group: "Linters"
     steps:
       - label: ":swift: SwiftLint"
-        command: .buildkite/commands/run-swiftlint.sh
-        plugins:
-          - docker#v5.8.0:
-              image: "ghcr.io/realm/swiftlint:0.54.0"
-              mount-buildkite-agent: true # Needed for calling `buildkite-agent annotate`
+        command: run_swiftlint --strict
+        plugins: *common_plugins
         notify:
           - github_commit_status:
               context: "SwiftLint"

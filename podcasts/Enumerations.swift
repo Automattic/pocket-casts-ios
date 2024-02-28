@@ -1,7 +1,40 @@
 import Foundation
 import PocketCastsDataModel
-enum LibraryType: Int, AnalyticsDescribable {
-    case fourByFour = 1, threeByThree = 2, list = 3
+import PocketCastsServer
+
+extension LibraryType: AnalyticsDescribable {
+    enum Old: Int {
+        case fourByFour = 1, threeByThree = 2, list = 3
+    }
+
+    init?(oldValue: Int) {
+        guard let old = Old(rawValue: oldValue) else {
+            return nil
+        }
+        self.init(old: old)
+    }
+
+    init(old: Old) {
+        switch old {
+        case .fourByFour:
+            self = .fourByFour
+        case .threeByThree:
+            self = .threeByThree
+        case .list:
+            self = .list
+        }
+    }
+
+    var old: Old {
+        switch self {
+        case .fourByFour:
+            return .fourByFour
+        case .threeByThree:
+            return .threeByThree
+        case .list:
+            return .list
+        }
+    }
 
     var analyticsDescription: String {
         switch self {
@@ -15,9 +48,7 @@ enum LibraryType: Int, AnalyticsDescribable {
     }
 }
 
-enum BadgeType: Int, AnalyticsDescribable {
-    case off = 0, latestEpisode, allUnplayed
-
+extension BadgeType: AnalyticsDescribable {
     var description: String {
         switch self {
         case .off:
@@ -53,9 +84,7 @@ enum PodcastLicensing: Int32 {
     case keepEpisodesAfterExpiry = 0, deleteEpisodesAfterExpiry = 1
 }
 
-enum PodcastEpisodeSortOrder: Int32, CaseIterable, AnalyticsDescribable {
-    case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
-
+extension PodcastEpisodeSortOrder: AnalyticsDescribable {
     var description: String {
         switch self {
         case .newestToOldest:
@@ -84,8 +113,43 @@ enum PodcastEpisodeSortOrder: Int32, CaseIterable, AnalyticsDescribable {
     }
 }
 
-enum LibrarySort: Int, CaseIterable, AnalyticsDescribable {
-    case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+extension LibrarySort: AnalyticsDescribable {
+    enum Old: Int {
+        case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
+    }
+
+    init?(oldValue: Int) {
+        guard let old = Old(rawValue: oldValue) else {
+            return nil
+        }
+        self.init(old: old)
+    }
+
+    init(old: Old) {
+        switch old {
+        case .dateAddedNewestToOldest:
+            self = .dateAddedNewestToOldest
+        case .titleAtoZ:
+            self = .titleAtoZ
+        case .episodeDateNewestToOldest:
+            self = .episodeDateNewestToOldest
+        case .custom:
+            self = .custom
+        }
+    }
+
+    var old: Old {
+        switch self {
+        case .dateAddedNewestToOldest:
+            return .dateAddedNewestToOldest
+        case .titleAtoZ:
+            return .titleAtoZ
+        case .episodeDateNewestToOldest:
+            return .episodeDateNewestToOldest
+        case .custom:
+            return .custom
+        }
+    }
 
     var description: String {
         switch self {
@@ -131,9 +195,7 @@ enum AppBadge: Int, AnalyticsDescribable {
     }
 }
 
-enum PrimaryRowAction: Int32, AnalyticsDescribable {
-    case stream = 0, download = 1
-
+extension PrimaryRowAction: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {
         case .stream:
@@ -144,9 +206,7 @@ enum PrimaryRowAction: Int32, AnalyticsDescribable {
     }
 }
 
-enum PrimaryUpNextSwipeAction: Int32, AnalyticsDescribable {
-    case playNext = 0, playLast = 1
-
+extension PrimaryUpNextSwipeAction: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {
         case .playNext:
@@ -168,8 +228,7 @@ enum PlaylistIcon: Int32 {
          redTop, blueTop, greenTop, purpleTop, yellowTop
 }
 
-enum PlayerAction: Int, AnalyticsDescribable {
-    case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive, addBookmark
+extension PlayerAction: AnalyticsDescribable {
 
     /// Specify default actions and their order
     static var defaultActions: [PlayerAction] {
@@ -178,6 +237,58 @@ enum PlayerAction: Int, AnalyticsDescribable {
             .shareEpisode, .goToPodcast, .chromecast, .markPlayed,
             .addBookmark, .archive
         ]
+    }
+
+    public init?(int: Int) {
+        switch int {
+        case 1:
+            self = .effects
+        case 2:
+            self = .sleepTimer
+        case 3:
+            self = .routePicker
+        case 4:
+            self = .starEpisode
+        case 5:
+            self = .shareEpisode
+        case 6:
+            self = .goToPodcast
+        case 7:
+            self = .chromecast
+        case 8:
+            self = .markPlayed
+        case 9:
+            self = .archive
+        case 10:
+            self = .addBookmark
+        default:
+            return nil
+        }
+    }
+
+    var intValue: Int {
+        switch self {
+        case .effects:
+            return 1
+        case .sleepTimer:
+            return 2
+        case .routePicker:
+            return 3
+        case .starEpisode:
+            return 4
+        case .shareEpisode:
+            return 5
+        case .goToPodcast:
+            return 6
+        case .chromecast:
+            return 7
+        case .markPlayed:
+            return 8
+        case .archive:
+            return 9
+        case .addBookmark:
+            return 10
+        }
     }
 
     func title(episode: BaseEpisode? = nil) -> String {
@@ -441,6 +552,30 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
 
         default:
             return true
+        }
+    }
+}
+
+extension BookmarksSort {
+    var option: BookmarkSortOption {
+        switch self {
+        case .newestToOldest:
+            return .newestToOldest
+        case .oldestToNewest:
+            return .oldestToNewest
+        case .timestamp:
+            return .timestamp
+        }
+    }
+
+    init(option: BookmarkSortOption) {
+        switch option {
+        case .newestToOldest:
+            self = .newestToOldest
+        case .oldestToNewest:
+            self = .oldestToNewest
+        case .timestamp, .episode:
+            self = .timestamp
         }
     }
 }

@@ -1,7 +1,6 @@
 import AVKit
 import PocketCastsServer
-import Foundation
-import MaterialComponents.MaterialBottomSheet
+import UIKit
 import PocketCastsDataModel
 
 protocol NowPlayingActionsDelegate: AnyObject {
@@ -220,14 +219,31 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     // MARK: - Player Actions
+    private func presentUsingSheet(_ viewController: UIViewController, forceLarge: Bool = false) {
+        if let sheetController = viewController.sheetPresentationController {
+            if #available(iOS 16.0, *) {
+                // We create a custom detent height of a bit more than half the hosting VC to try and
+                // ensure that all of the shelf content is visible in the sheet. We offer a large detent
+                // as a fallback so that the user can pull the sheet up if any content is ever cut off.
+                let maxWidth = sheetController.containerView?.bounds.width ?? .greatestFiniteMagnitude
+                let sheetDetentHeight = sheetController.presentedViewController.view.sizeThatFits(CGSizeMake(maxWidth, .greatestFiniteMagnitude)).height
+                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight })]
+            } else {
+                sheetController.detents = forceLarge || UIScreen.isSmallScreen ? [.large()] : [.medium()]
+            }
+
+            // The Shelf Actions VC implements its own grabber UI.
+            sheetController.prefersGrabberVisible = false
+        }
+
+        present(viewController, animated: true, completion: nil)
+    }
 
     @objc func overflowTapped() {
         let shelfController = ShelfActionsViewController()
         shelfController.playerActionsDelegate = self
-        let bottomSheet = MDCBottomSheetController(contentViewController: shelfController)
-        roundCorners(bottomSheet: bottomSheet)
 
-        present(bottomSheet, animated: true, completion: nil)
+        presentUsingSheet(shelfController, forceLarge: true)
     }
 
     @objc private func sleepBtnTapped(_ sender: UIButton) {
@@ -333,16 +349,14 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     private func showSleepPanel() {
         let sleepController = SleepTimerViewController()
-        let bottomSheet = MDCBottomSheetController(contentViewController: sleepController)
-        roundCorners(bottomSheet: bottomSheet)
-        present(bottomSheet, animated: true, completion: nil)
+
+        presentUsingSheet(sleepController)
     }
 
     private func showEffectsPanel() {
         let effectsController = EffectsViewController()
-        let bottomSheet = MDCBottomSheetController(contentViewController: effectsController)
-        roundCorners(bottomSheet: bottomSheet)
-        present(bottomSheet, animated: true, completion: nil)
+
+        presentUsingSheet(effectsController)
     }
 
     private func performStarAction(starBtn: UIButton? = nil) {
@@ -412,13 +426,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             view.widthAnchor.constraint(equalToConstant: 32),
             view.heightAnchor.constraint(equalToConstant: 32)
         ])
-    }
-
-    private func roundCorners(bottomSheet: MDCBottomSheetController) {
-        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
     }
 }
 

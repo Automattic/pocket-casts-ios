@@ -90,6 +90,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         case upsell
         case login
         case accountCreated
+        case accountScreen
     }
 
     struct Config {
@@ -116,7 +117,7 @@ private extension PlusLandingViewModel {
 }
 
 extension PlusLandingViewModel {
-    static func make(in navigationController: UINavigationController? = nil, from source: Source, config: PlusLandingViewModel.Config? = nil) -> UIViewController {
+    static func make(in navigationController: UINavigationController? = nil, from source: Source, config: PlusLandingViewModel.Config? = nil, customTitle: String? = nil) -> UIViewController {
         let viewModel = PlusLandingViewModel(source: source, config: config)
 
         let view = Self.view(with: viewModel)
@@ -129,6 +130,7 @@ extension PlusLandingViewModel {
         let navController = navigationController ?? UINavigationController(rootViewController: controller)
         viewModel.navigationController = navController
         viewModel.parentController = navController
+        viewModel.customTitle = customTitle
 
         return (navigationController == nil) ? navController : controller
     }
@@ -136,6 +138,6 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
         UpgradeLandingView(viewModel: viewModel)
-            .setupDefaultEnvironment()
+            .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
     }
 }

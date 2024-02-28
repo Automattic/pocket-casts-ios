@@ -39,7 +39,8 @@ class EpisodeDataManager {
         "archivedModified",
         "lastArchiveInteractionDate",
         "excludeFromEpisodeLimit",
-        "starredModified"
+        "starredModified",
+        "deselectedChapters"
     ]
 
     // MARK: - Query
@@ -771,7 +772,7 @@ class EpisodeDataManager {
                         values.append(DBUtils.currentUTCTimeInMillis())
                     }
 
-                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimit, podcastAutoArchiveLimit > 0 {
+                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimitCount, podcastAutoArchiveLimit > 0 {
                         fields.append("excludeFromEpisodeLimit")
                         values.append(true)
                     }
@@ -891,6 +892,7 @@ class EpisodeDataManager {
         values.append(episode.lastArchiveInteractionDate ?? Date(timeIntervalSince1970: 0))
         values.append(episode.excludeFromEpisodeLimit)
         values.append(episode.starredModified)
+        values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
 
         if includeIdForWhere {
             values.append(episode.id)
