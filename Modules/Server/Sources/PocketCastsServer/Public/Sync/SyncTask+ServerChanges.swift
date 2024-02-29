@@ -431,6 +431,6 @@ extension Podcast {
         self.settings.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
         self.settings.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)
         self.settings.$autoArchiveEpisodeLimit.update(setting: settings.autoArchiveEpisodeLimit)
-        oldSettings.printDiff(from: self.settings)
+        oldSettings.printDiff(from: self.settings, withIdentifier: self.uuid)
     }
 }
