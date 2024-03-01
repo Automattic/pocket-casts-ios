@@ -155,10 +155,6 @@
     <string>Примите участие в бета-тестировании закладок!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Код скопирован в буфер обмена</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Подпишитесь на Plus и получите в качестве бонуса годовую подписку на контент Slumber Studios — подкасты, которые подарят вам самые сладкие сны. Подробнее.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Примените код %1$@ и получайте удовольствие, пользуясь годовой подпиской на контент Slumber Studios в качестве бонуса за подписку на Plus. Подробнее.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Подробнее</string>
     <key>announcement_slumber_redeem</key>

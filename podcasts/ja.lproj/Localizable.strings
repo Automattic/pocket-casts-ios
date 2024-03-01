@@ -155,10 +155,6 @@
     <string>ブックマークのベータテストに参加してください !</string>
     <key>announcement_slumber_code_copied</key>
     <string>コードをクリップボードにコピーしました</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Plus を購読すると、夢の実現に役立つポッドキャスト、Slumber Studios のコンテンツを1年間購読できます。 さらに詳しく。</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Plus 購読の一環として、Slumber Studios のコンテンツを1年間購読できます。コード %1$@ をお使いください。 さらに詳しく。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>さらに詳しく</string>
     <key>announcement_slumber_redeem</key>

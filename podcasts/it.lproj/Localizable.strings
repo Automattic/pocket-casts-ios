@@ -155,10 +155,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Unisciti a noi per il beta test della funzionalità dei segnalibri.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Codice copiato negli appunti</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Abbonati a Plus e goditi per un anno i contenuti di Slumber Studios, podcast pensati per i sogni più dolci. Scopri di più.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Come parte del tuo abbonamento Plus puoi approfittare di un abbonamento di 1 anno ai contenuti di Slumber Studios utilizzando il codice %1$@. Scopri di più.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Scopri di più</string>
     <key>announcement_slumber_redeem</key>
