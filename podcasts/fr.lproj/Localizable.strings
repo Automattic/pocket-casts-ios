@@ -155,10 +155,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Rejoignez-nous pour le bêta-test des favoris !</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code copié dans le presse-papiers</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Abonnez-vous à Plus et profitez d’un abonnement d’un an au contenu de Slumber Studios, des podcasts conçus pour vous emmener dans les bras de Morphée. Lire la suite.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Dans le cadre votre abonnement Plus, profitez d’un abonnement d’un an au contenu de Slumber Studios grâce au code %1$@. Lire la suite.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Lire la suite</string>
     <key>announcement_slumber_redeem</key>

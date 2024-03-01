@@ -155,10 +155,6 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Sei beim Testen der Beta-Version der Lesezeichen dabei!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code in Zwischenablage kopiert</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Abonniere Plus und erhalte ein 1-Jahres-Abonnement für Slumber Studios-Inhalte, die Podcasts für süße Träume. Weitere Informationen.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Im Rahmen deines Plus-Abonnements erhältst du mit dem Code %1$@ ein 1-Jahres-Abonnement für Slumber Studios-Inhalte. Weitere Informationen.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Weitere Informationen</string>
     <key>announcement_slumber_redeem</key>

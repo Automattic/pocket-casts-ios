@@ -155,10 +155,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Var med och betatesta bokmärken!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Kod kopierad till urklipp</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Prenumerera på Plus och få en 1-årig prenumeration på innehåll från Slumber Studios, podcasts utformade för ljuva drömmar. Läs mer.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Som en del av din Plus-prenumeration får du en 1-årig prenumeration på innehåll från Slumber Studios med koden %1$@. Läs mer.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Läs mer</string>
     <key>announcement_slumber_redeem</key>

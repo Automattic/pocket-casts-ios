@@ -155,10 +155,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>加入我們的書籤 Beta 測試！</string>
     <key>announcement_slumber_code_copied</key>
     <string>代碼已複製到剪貼簿</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>訂閱 Plus 並享有 1 年份的 Slumber Studios 訂閱內容，這是為進入甜美夢鄉而生的 Podcast。 深入了解。</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>使用代碼「%1$@」即可享有 1 年份的 Slumber Studios 訂閱內容，這是 Plus 訂閱方案的一部分。 深入了解。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>深入了解</string>
     <key>announcement_slumber_redeem</key>

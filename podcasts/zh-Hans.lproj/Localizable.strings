@@ -155,10 +155,6 @@
     <string>加入我们的 Beta 测试，试用书签功能！</string>
     <key>announcement_slumber_code_copied</key>
     <string>代码已复制到剪贴板</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>订阅 Plus 并享受为期一年的 Slumber Studios 内容订阅，为实现最甜蜜的梦想而打造的播客。 了解更多。</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>订阅 Plus 后，使用代码 %1$@ 即可享受为期一年的 Slumber Studios 内容订阅。 了解更多。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>了解更多</string>
     <key>announcement_slumber_redeem</key>

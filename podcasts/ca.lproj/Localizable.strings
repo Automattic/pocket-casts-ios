@@ -155,10 +155,6 @@
     <string>Uneix-te a nosaltres a la prova beta dels marcadors!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Codi copiat al portapapers</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Subscriu-te a Plus i gaudeix d'una subscripció d'un any al contingut de Slumber Studios, podcasts dissenyats per als somnis més dolços. Més informació.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Com a part de la teva subscripció Plus, gaudeix d'una subscripció d'un any al contingut de Slumber Studios utilitzant el codi %1$@. Més informació.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Més informació</string>
     <key>announcement_slumber_redeem</key>
