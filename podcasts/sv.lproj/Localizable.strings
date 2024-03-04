@@ -155,10 +155,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Var med och betatesta bokmärken!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Kod kopierad till urklipp</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Prenumerera på Plus och få en 1-årig prenumeration på innehåll från Slumber Studios, podcasts utformade för ljuva drömmar. Läs mer.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Som en del av din Plus-prenumeration får du en 1-årig prenumeration på innehåll från Slumber Studios med koden %1$@. Läs mer.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Läs mer</string>
     <key>announcement_slumber_redeem</key>
@@ -1303,6 +1299,10 @@ podcasts med dig</string>
     <string>Spelar nu upp %1$@</string>
     <key>now_playing_short_title</key>
     <string>Spelar</string>
+    <key>number_of_chapters</key>
+    <string>%1$@ kapitel</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@ dolda</string>
     <key>off</key>
     <string>Av</string>
     <key>ok</key>
@@ -1767,8 +1767,12 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Sortera podcasts</string>
     <key>preview</key>
     <string>Förhandsgranska</string>
+    <key>pricing_terms_after_discount</key>
+    <string>Återkommande betalning på %1$@ efter %2$@ (%3$@)</string>
     <key>pricing_terms_after_trial</key>
     <string>därefter %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Återkommande betalning börjar efter din kostnadsfria provperiod på %1$@ (%2$@)</string>
     <key>profile</key>
     <string>Profil</string>
     <key>profile_help_support</key>
@@ -1795,6 +1799,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Du har inte stjärnmärkt några avsnitt.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Inget stjärnmärkt</string>
+    <key>purchase_terms</key>
+    <string>Genom att fortsätta samtycker du till vår %1$@integritetspolicy%2$@ och våra %3$@användarvillkor%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Rensa %1$@ avsnitt</string>
     <key>queue_clear_queue</key>
@@ -2357,6 +2363,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>INLOGGAD SOM</string>
     <key>signed_out</key>
     <string>Ej inloggad</string>
+    <key>single_chapter</key>
+    <string>1 kapitel</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>Ställ in Sovtimer på %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2407,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Skapa genväg till podcast</string>
     <key>skip_back</key>
     <string>Hoppa tillbaka</string>
+    <key>skip_chapters</key>
+    <string>Hoppa över kapitel</string>
     <key>skip_forward</key>
     <string>Hoppa framåt</string>
     <key>sleep_timer</key>
@@ -2503,6 +2513,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Prenumeration avbruten %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Löper ut om %1$@</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Tack för ditt stöd!</string>
     <key>support_watch_help_message</key>

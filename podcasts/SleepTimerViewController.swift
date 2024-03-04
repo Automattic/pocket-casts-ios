@@ -145,7 +145,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.translatesAutoresizingMaskIntoConstraints = false
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(dismissIfNeeded), name: UIApplication.didBecomeActiveNotification, object: nil)
     }

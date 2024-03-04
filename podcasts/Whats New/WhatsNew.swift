@@ -95,7 +95,7 @@ class WhatsNew {
             .last(where: {
                 $0.isEnabled() &&
                 $0.version != lastWhatsNewShown &&
-                $0.version.inRange(of: previousOpenedVersion, upper: currentVersion)
+                $0.version.inRange(of: lastWhatsNewShown ?? previousOpenedVersion, upper: currentVersion)
             })
     }
 }

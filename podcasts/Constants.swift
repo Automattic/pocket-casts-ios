@@ -283,7 +283,7 @@ struct Constants {
         static let errorLogoutHandling = "error_logout_handling"
         static let errorLogoutHandlingDefault: Bool = false
 
-        static let slumberStudiosPromoCode = "slumber_studios_promo_code"
+        static let slumberStudiosPromoCode = "slumber_studios_yearly_promo_code"
         static let slumberStudiosPromoCodeDefault = ""
     }
 

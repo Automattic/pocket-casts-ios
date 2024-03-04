@@ -182,6 +182,13 @@ extension AutoArchiveAfterInactive {
     }
 }
 
+public enum TrimSilence: Int32, Codable {
+    case off = 0
+    case mild = 1
+    case medium = 2
+    case madMax = 3
+}
+
 /// A value representing a type with a `known` and `unknown` value.
 /// The `known` value is of type`Present` and `unknown` of type `Absent`
 public enum Option<Present, Absent> {

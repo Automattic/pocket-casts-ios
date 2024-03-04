@@ -155,10 +155,6 @@
     <string>Примите участие в бета-тестировании закладок!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Код скопирован в буфер обмена</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Подпишитесь на Plus и получите в качестве бонуса годовую подписку на контент Slumber Studios — подкасты, которые подарят вам самые сладкие сны. Подробнее.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Примените код %1$@ и получайте удовольствие, пользуясь годовой подпиской на контент Slumber Studios в качестве бонуса за подписку на Plus. Подробнее.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Подробнее</string>
     <key>announcement_slumber_redeem</key>
@@ -1303,6 +1299,10 @@
     <string>Сейчас воспроизводится %1$@</string>
     <key>now_playing_short_title</key>
     <string>Воспроизведение</string>
+    <key>number_of_chapters</key>
+    <string>Глав: %1$@</string>
+    <key>number_of_hidden_chapters</key>
+    <string>Скрыто: %1$@</string>
     <key>off</key>
     <string>Выкл.</string>
     <key>ok</key>
@@ -1767,8 +1767,12 @@
     <string>Упорядочить подкасты</string>
     <key>preview</key>
     <string>Предварительный просмотр</string>
+    <key>pricing_terms_after_discount</key>
+    <string>Регулярные платежи: %1$@ после %2$@ (%3$@)</string>
     <key>pricing_terms_after_trial</key>
     <string>затем %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Регулярные платежи начнутся после пробного периода продолжительностью %1$@ (с %2$@)</string>
     <key>profile</key>
     <string>Профиль</string>
     <key>profile_help_support</key>
@@ -1795,6 +1799,8 @@
     <string>Вы не добавили в избранное ни одного выпуска.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Ничего не добавлено в избранное</string>
+    <key>purchase_terms</key>
+    <string>Продолжая, вы принимаете нашу %1$@Политику конфиденциальности%2$@ и %3$@Условия предоставления услуг%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Убрать выпуски (%1$@)</string>
     <key>queue_clear_queue</key>
@@ -2357,6 +2363,8 @@
     <string>ВЫПОЛНЕН ВХОД КАК</string>
     <key>signed_out</key>
     <string>Вход не выполнен</string>
+    <key>single_chapter</key>
+    <string>1 глава</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>Установить таймер спящего режима на %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2407,8 @@
     <string>Создание комбинации клавиш для подкаста</string>
     <key>skip_back</key>
     <string>Перейти назад</string>
+    <key>skip_chapters</key>
+    <string>Пропустить главы</string>
     <key>skip_forward</key>
     <string>Перейти дальше</string>
     <key>sleep_timer</key>
@@ -2503,6 +2513,8 @@
     <string>Подписка завершается %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Срок действия истекает %1$@</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ за %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Спасибо за вашу поддержку!</string>
     <key>support_watch_help_message</key>

@@ -155,10 +155,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Doe mee met de bètatests voor bladwijzers!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code gekopieerd naar klembord</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Abonneer je op Plus en geniet 1 jaar lang van een abonnement op Slumber Studios-content, podcasts ontworpen voor de zoetste dromen. Meer informatie.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Als onderdeel van je Plus-abonnement kan je 1 jaar lang genieten van een abonnement op Slumber Studios-content met code %1$@. Meer informatie.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Meer informatie</string>
     <key>announcement_slumber_redeem</key>
@@ -1303,6 +1299,10 @@ podcasts mee</string>
     <string>%1$@ wordt nu afgespeeld</string>
     <key>now_playing_short_title</key>
     <string>Wordt afgespeeld</string>
+    <key>number_of_chapters</key>
+    <string>%1$@ hoofdstukken</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@ verborgen</string>
     <key>off</key>
     <string>Uit</string>
     <key>ok</key>
@@ -1767,8 +1767,12 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Podcasts sorteren</string>
     <key>preview</key>
     <string>Voorbeeld</string>
+    <key>pricing_terms_after_discount</key>
+    <string>Herhaaldelijke betalingen van %1$@ na %2$@ (%3$@)</string>
     <key>pricing_terms_after_trial</key>
     <string>daarna %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Herhaaldelijke betalingen beginnen na je proefperiode van %1$@ (%2$@)</string>
     <key>profile</key>
     <string>Profiel</string>
     <key>profile_help_support</key>
@@ -1795,6 +1799,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Je hebt nog geen aflevering aan favorieten toegevoegd.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Geen favorieten</string>
+    <key>purchase_terms</key>
+    <string>Door verder te gaan, ga je akkoord met ons %1$@Privacybeleid%2$@ en onze %3$@Algemene voorwaarden%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@ afleveringen wissen</string>
     <key>queue_clear_queue</key>
@@ -2357,6 +2363,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>AANGEMELD ALS</string>
     <key>signed_out</key>
     <string>Niet aangemeld</string>
+    <key>single_chapter</key>
+    <string>1 hoofdstuk</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>Slaaptimer instellen op %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2407,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Snelkoppeling naar podcast maken</string>
     <key>skip_back</key>
     <string>Terugspoelen</string>
+    <key>skip_chapters</key>
+    <string>Hoofdstukken overslaan</string>
     <key>skip_forward</key>
     <string>Doorspoelen</string>
     <key>sleep_timer</key>
@@ -2503,6 +2513,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Het abonnement is geannuleerd %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Verloopt over %1$@</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Bedankt voor je ondersteuning!</string>
     <key>support_watch_help_message</key>

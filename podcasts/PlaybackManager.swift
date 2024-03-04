@@ -747,7 +747,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
             if FeatureFlag.settingsSync.enabled {
-                podcast.settings.trimSilence = effects.trimSilence
+                podcast.settings.trimSilence = TrimSilence(amount: effects.trimSilence)
                 podcast.settings.playbackSpeed = effects.playbackSpeed
                 podcast.settings.boostVolume = effects.volumeBoost
                 podcast.syncStatus = SyncStatus.notSynced.rawValue

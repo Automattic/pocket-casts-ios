@@ -66,12 +66,19 @@ class Settings: NSObject {
 
     // MARK: - Up Next Auto Download
 
-    private static let autoDownloadUpNext = "SJAutoDownloadUpNext"
+    static let autoDownloadUpNext = "SJAutoDownloadUpNext"
     class func downloadUpNextEpisodes() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoDownloadUpNext
+        } else {
+            UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
+        }
     }
 
     class func setDownloadUpNextEpisodes(_ download: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoDownloadUpNext = download
+        }
         UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
         trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: download)
     }
@@ -99,12 +106,19 @@ class Settings: NSObject {
 
     // MARK: - Auto Download Mobile Data
 
-    private static let allowCellularAutoDownloadKey = "SJUserCellularAutoDownload"
+    static let allowCellularAutoDownloadKey = "SJUserCellularAutoDownload"
     class func autoDownloadMobileDataAllowed() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
+        if FeatureFlag.settingsSync.enabled {
+            !SettingsStore.appSettings.autoDownloadUnmeteredOnly
+        } else {
+            UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
+        }
     }
 
     class func setAutoDownloadMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.autoDownloadUnmeteredOnly = !allow
+        }
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularAutoDownloadKey)
 
         guard userInitiated else { return }
@@ -489,12 +503,19 @@ class Settings: NSObject {
         UserDefaults.standard.set(value, forKey: userEpisodeSortByKey)
     }
 
-    private static let userEpisodeAutoUploadKey = "UserEpisodeAutoUpload"
+    static let userEpisodeAutoUploadKey = "UserEpisodeAutoUpload"
     class func userFilesAutoUpload() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeAutoUploadKey)
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.cloudAutoUpload
+        } else {
+            UserDefaults.standard.bool(forKey: userEpisodeAutoUploadKey)
+        }
     }
 
     class func setUserEpisodeAutoUpload(_ value: Bool) {
+        if FeatureFlag.settingsSync.enabled {
+            SettingsStore.appSettings.cloudAutoUpload = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoUploadKey)
         trackValueToggled(.settingsFilesAutoUploadToCloudToggled, enabled: value)
     }
@@ -1250,7 +1271,7 @@ extension HeadphoneControl {
         case .skipForward:
             return .skipForward
         }
-	}
+    }
 }
 
 extension UserDefaults {

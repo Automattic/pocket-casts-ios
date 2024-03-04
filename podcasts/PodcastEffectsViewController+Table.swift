@@ -91,7 +91,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             let trimAmount: TrimSilenceAmount
 
             if FeatureFlag.settingsSync.enabled {
-                trimAmount = podcast.settings.trimSilence// ?? .low
+                trimAmount = podcast.settings.trimSilence.amount
             } else {
                 trimAmount = TrimSilenceAmount(rawValue: Int32(podcast.trimSilenceAmount)) ?? .low
             }
@@ -137,7 +137,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             guard let self = self else { return }
 
             if FeatureFlag.settingsSync.enabled {
-                self.podcast.settings.trimSilence = level
+                self.podcast.settings.trimSilence = TrimSilence(amount: level)
                 self.podcast.syncStatus = SyncStatus.notSynced.rawValue
             }
             self.podcast.trimSilenceAmount = Int32(level.rawValue)
@@ -187,7 +187,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     @objc private func trimSilenceToggled(_ sender: UISwitch) {
         if FeatureFlag.settingsSync.enabled {
             let defaultAmount = TrimSilenceAmount(rawValue: Int32(PlaybackEffects.defaultRemoveSilenceAmount))
-            podcast.settings.trimSilence = sender.isOn ? (defaultAmount ?? .off) : .off
+            podcast.settings.trimSilence = TrimSilence(amount: sender.isOn ? (defaultAmount ?? .off) : .off)
             podcast.syncStatus = SyncStatus.notSynced.rawValue
         }
         podcast.trimSilenceAmount = sender.isOn ? Int32(PlaybackEffects.defaultRemoveSilenceAmount) : 0

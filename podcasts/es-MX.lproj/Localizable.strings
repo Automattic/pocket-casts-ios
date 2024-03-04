@@ -155,10 +155,6 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>¡Únete a nosotros en las pruebas beta de marcadores!</string>
     <key>announcement_slumber_code_copied</key>
     <string>El código se ha copiado en el portapapeles</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>Suscríbete a Plus y disfruta de un año de suscripción al contenido de Slumber Studios, podcasts diseñados para regalarte los más dulces sueños. Más información.</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>Como parte de tu suscripción a Plus, utiliza el código %1$@ y disfrutarás de un año de suscripción al contenido de Slumber Studios. Más información.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Más información</string>
     <key>announcement_slumber_redeem</key>
@@ -1303,6 +1299,10 @@ pódcast contigo</string>
     <string>%1$@ ahora en reproducción</string>
     <key>now_playing_short_title</key>
     <string>Reproduciendo</string>
+    <key>number_of_chapters</key>
+    <string>%1$@ capítulos</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@ ocultos</string>
     <key>off</key>
     <string>Desactivado</string>
     <key>ok</key>
@@ -1767,8 +1767,12 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Ordenar podcasts</string>
     <key>preview</key>
     <string>Vista previa</string>
+    <key>pricing_terms_after_discount</key>
+    <string>Pagos recurrentes en %1$@ tras %2$@ (%3$@)</string>
     <key>pricing_terms_after_trial</key>
     <string>luego %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Los pagos recurrentes comenzarán una vez terminada tu prueba gratuita de %1$@ (%2$@)</string>
     <key>profile</key>
     <string>Perfil</string>
     <key>profile_help_support</key>
@@ -1795,6 +1799,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Aún no has destacado ningún episodio.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Nada destacado</string>
+    <key>purchase_terms</key>
+    <string>Si continúas, aceptas nuestra %1$@Política de privacidad%2$@ y los %3$@términos y condiciones%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Borrar %1$@ episodios</string>
     <key>queue_clear_queue</key>
@@ -2357,6 +2363,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>INICIASTE SESIÓN COMO</string>
     <key>signed_out</key>
     <string>No se ha iniciado la sesión</string>
+    <key>single_chapter</key>
+    <string>1 capítulo</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>Establecer temporizador de suspensión en %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2407,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Crear acceso directo al podcast</string>
     <key>skip_back</key>
     <string>Retroceder</string>
+    <key>skip_chapters</key>
+    <string>Omitir capítulos</string>
     <key>skip_forward</key>
     <string>Adelantar</string>
     <key>sleep_timer</key>
@@ -2503,6 +2513,8 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Se cancelará tu suscripción el %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Caduca el %1$@</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ por %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>¡Gracias por tu apoyo!</string>
     <key>support_watch_help_message</key>

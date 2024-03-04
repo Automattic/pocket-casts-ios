@@ -155,10 +155,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>加入我們的書籤 Beta 測試！</string>
     <key>announcement_slumber_code_copied</key>
     <string>代碼已複製到剪貼簿</string>
-    <key>announcement_slumber_non_plus_description</key>
-    <string>訂閱 Plus 並享有 1 年份的 Slumber Studios 訂閱內容，這是為進入甜美夢鄉而生的 Podcast。 深入了解。</string>
-    <key>announcement_slumber_plus_description</key>
-    <string>使用代碼「%1$@」即可享有 1 年份的 Slumber Studios 訂閱內容，這是 Plus 訂閱方案的一部分。 深入了解。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>深入了解</string>
     <key>announcement_slumber_redeem</key>
@@ -1303,6 +1299,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>正在播放 %1$@</string>
     <key>now_playing_short_title</key>
     <string>播放中</string>
+    <key>number_of_chapters</key>
+    <string>%1$@ 個章節</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@ 個章節已隱藏</string>
     <key>off</key>
     <string>關閉</string>
     <key>ok</key>
@@ -1767,8 +1767,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>為 Podcast 節目排序</string>
     <key>preview</key>
     <string>預覽</string>
+    <key>pricing_terms_after_discount</key>
+    <string>%2$@後自 %3$@起定期付款 %1$@ 元</string>
     <key>pricing_terms_after_trial</key>
     <string>之後收費為 %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>%1$@免費試用結束後，自 %2$@起開始定期付款</string>
     <key>profile</key>
     <string>個人檔案</string>
     <key>profile_help_support</key>
@@ -1795,6 +1799,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你尚未將任何單集加上星號。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>沒有加上星號的項目</string>
+    <key>purchase_terms</key>
+    <string>繼續即表示你同意我們的%1$@隱私權政策%2$@和%3$@條款與條件%4$@</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>清除 %1$@ 集</string>
     <key>queue_clear_queue</key>
@@ -2357,6 +2363,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>登入身分</string>
     <key>signed_out</key>
     <string>未登入</string>
+    <key>single_chapter</key>
+    <string>1 個章節</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>將睡眠計時器設為 %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2407,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>建立 Podcast 捷徑</string>
     <key>skip_back</key>
     <string>倒轉跳過</string>
+    <key>skip_chapters</key>
+    <string>略過章節</string>
     <key>skip_forward</key>
     <string>快轉跳過</string>
     <key>sleep_timer</key>
@@ -2503,6 +2513,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>訂閱取消日：%1$@ </string>
     <key>subscription_expires_in</key>
     <string>%1$@後到期</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>每 %2$@ %1$@ 元</string>
     <key>subscriptions_thank_you</key>
     <string>感謝你的支持！</string>
     <key>support_watch_help_message</key>

@@ -52,6 +52,11 @@ extension Api_ChangeableSettings {
         useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
         autoUpNextLimit.update(settings.$autoUpNextLimit)
         autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
+        autoDownloadUpNext.update(settings.$autoDownloadUpNext)
+        autoDownloadUnmeteredOnly.update(settings.$autoDownloadUnmeteredOnly)
+        cloudAutoUpload.update(settings.$cloudAutoUpload)
+        cloudAutoDownload.update(settings.$cloudAutoDownload)
+        cloudDownloadUnmeteredOnly.update(settings.$cloudDownloadUnmeteredOnly)
     }
 }
 
@@ -104,6 +109,11 @@ extension AppSettings {
         $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
         $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
         $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
+        $autoDownloadUpNext.update(setting: settings.autoDownloadUpNext)
+        $autoDownloadUnmeteredOnly.update(setting: settings.autoDownloadUnmeteredOnly)
+        $cloudAutoUpload.update(setting: settings.cloudAutoUpload)
+        $cloudAutoDownload.update(setting: settings.cloudAutoDownload)
+        $cloudDownloadUnmeteredOnly.update(setting: settings.cloudDownloadUnmeteredOnly)
         oldSettings.printDiff(from: self)
     }
 }
