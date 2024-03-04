@@ -1,4 +1,7 @@
 import Foundation
+#if !os(watchOS)
+    import FirebaseCrashlytics
+#endif
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -70,6 +73,12 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             }
 
             return
+        } else if error.code != NSURLErrorNotConnectedToInternet {
+            if Settings.analyticsOptOut() == false {
+                #if !os(watchOS)
+                Crashlytics.crashlytics().record(error: error)
+                #endif
+            }
         }
 
         DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: error.localizedDescription, downloadTaskId: nil, episode: episode)
