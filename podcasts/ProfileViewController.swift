@@ -39,7 +39,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt }
+    private enum TableRow { case allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
@@ -265,6 +265,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             cell.settingsLabel.text = L10n.settingsHelp
         case .endOfYearPrompt:
             return EndOfYearPromptCell()
+        case .bookmarks:
+            cell.settingsImage.image = UIImage(named: "bookmarks-shelf-icon")
+            cell.settingsLabel.text = L10n.bookmarks
         }
 
         return cell
@@ -304,6 +307,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .endOfYearPrompt:
             Analytics.track(.endOfYearProfileCardTapped)
             EndOfYear().showStories(in: self, from: .profile)
+        case .bookmarks:
+            let bookmarksController = PCViewController()
+            bookmarksController.title = L10n.bookmarks
+            navigationController?.pushViewController(bookmarksController, animated: true)
         }
     }
 
@@ -322,6 +329,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func tableData() -> [[ProfileViewController.TableRow]] {
         var data: [[ProfileViewController.TableRow]]
         data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory, .help]]
+
+        if FeatureFlag.accountBookmarks.enabled {
+            data[0].insert(.bookmarks, at: 4)
+        }
 
         if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
