@@ -199,7 +199,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateLastRefreshDetails()
         plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
         updateFooterFrame()
-        profileTable.reloadData()
+        refreshTableData()
     }
 
     private func updateLastRefreshDetails() {
@@ -226,15 +226,15 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     // MARK: - UITableView
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        tableData().count
+        tableData.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableData()[section].count
+        tableData[section].count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = tableData()[indexPath.section][indexPath.row]
+        let row = tableData[indexPath.section][indexPath.row]
 
         guard row != .endOfYearPrompt else {
             return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
@@ -284,7 +284,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let row = tableData()[indexPath.section][indexPath.row]
+        let row = tableData[indexPath.section][indexPath.row]
         switch row {
         case .allStats:
             let statsViewController = StatsViewController()
@@ -326,7 +326,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return headerViewModel.contentSize?.height ?? UITableView.automaticDimension
     }
 
-    private func tableData() -> [[ProfileViewController.TableRow]] {
+    private var tableData: [[ProfileViewController.TableRow]] = []
+
+    private func refreshTableData() {
         var data: [[ProfileViewController.TableRow]]
         data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory, .help]]
 
@@ -338,7 +340,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             data[0].insert(.endOfYearPrompt, at: 0)
         }
 
-        return data
+        tableData = data
+        profileTable.reloadData()
     }
 
     private func updateFooterFrame() {
