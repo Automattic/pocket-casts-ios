@@ -4,7 +4,7 @@
 
 7.59
 -----
-
+- Fixes Push Notification registration after restoring the app from a backup. [#1198]
 
 7.58
 -----
