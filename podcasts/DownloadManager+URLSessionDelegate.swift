@@ -81,7 +81,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         removeEpisodeFromCache(episode)
         guard let response = downloadTask.response as? HTTPURLResponse else {
             // invalid download since we can't check things like the status code and headers if it's not a HTTPURLResponse
-            markEpisode(episode, asFailedWithMessage: L10n.downloadFailed)
+            markEpisode(episode, asFailedWithMessage: L10n.downloadFailed, reason: .badResponse)
             return
         }
 
@@ -94,7 +94,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             }
 
             // invalid download
-            markEpisode(episode, asFailedWithMessage: message)
+            markEpisode(episode, asFailedWithMessage: message, reason: .statusCode(response.statusCode))
             return
         }
 
@@ -108,7 +108,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
             // basic sanity checks to make sure the file looks big enough and it's content type isn't text
             if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
-                markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2)
+                markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .episodeSize(fileSize))
 
                 return
             }
@@ -126,7 +126,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
         } catch {
-            markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace)
+            markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace, reason: .badResponse)
         }
     }
 
@@ -147,10 +147,32 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         return episode
     }
 
-    private func markEpisode(_ episode: BaseEpisode, asFailedWithMessage message: String) {
+    enum FailureReason: Error {
+        case badResponse
+        case statusCode(Int)
+        case episodeSize(Int64)
+        case notEnoughSpace
+
+        var localizedDescription: String {
+            switch self {
+            case .badResponse:
+                return "Bad Response"
+            case .statusCode(let statusCode):
+                return "Status Code: \(statusCode)"
+            case .episodeSize(let size):
+                return "Episode Size: \(size)"
+            case .notEnoughSpace:
+                return "Not Enough Space"
+            }
+        }
+    }
+
+    private func markEpisode(_ episode: BaseEpisode, asFailedWithMessage message: String, reason: FailureReason) {
         removeEpisodeFromCache(episode)
 
         DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: message, downloadTaskId: nil, episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
+
+        AnalyticsEpisodeHelper.shared.downloadFailed(episodeUUID: episode.uuid, reason: reason.localizedDescription)
     }
 }
