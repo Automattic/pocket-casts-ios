@@ -47,6 +47,10 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         episodeEvent(.episodeDownloadFinished, uuid: episodeUUID)
     }
 
+    func downloadFailed(episodeUUID: String, reason: String) {
+        track(.episodeDownloadFailed, properties: ["episode_uuid": episodeUUID, "reason": reason])
+    }
+
     func bulkDownloadEpisodes(episodes: [BaseEpisode]) {
         let uuids = episodes.map { $0.uuid }
         episodeDownloadQueue.formUnion(uuids)
