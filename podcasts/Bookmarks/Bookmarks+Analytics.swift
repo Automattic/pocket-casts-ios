@@ -3,6 +3,7 @@ import Foundation
 // MARK: - Source
 
 enum BookmarkAnalyticsSource: String, AnalyticsDescribable {
+    case account = "account_screen"
     case podcasts = "podcast_screen"
     case episodes = "episode_details"
     case player
