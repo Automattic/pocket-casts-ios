@@ -49,6 +49,10 @@ public class Episode: NSObject, BaseEpisode {
         DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
     }
 
+    public var isUserEpisode: Bool {
+        false
+    }
+
     override public init() {}
 
     public func displayableTitle() -> String {
