@@ -10,7 +10,38 @@ struct BookmarksAccountListView: View {
             headerView
             bookmarkListView
         }
-        .navigationTitle(L10n.bookmarks)        
+        .navigationTitle(L10n.bookmarks)
+        .navigationBarBackButtonHidden(viewModel.isMultiSelecting)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                if viewModel.isMultiSelecting {
+                    Button {
+                        viewModel.toggleSelectAll()
+                    } label: {
+                        if viewModel.hasSelectedAll {
+                            Text(L10n.deselectAll)
+                        } else {
+                            Text(L10n.selectAll)
+                        }
+                    }
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    if viewModel.isMultiSelecting {
+                        viewModel.toggleMultiSelection()
+                    } else {
+                        viewModel.showMoreOptions()
+                    }
+                } label: {
+                    if viewModel.isMultiSelecting {
+                        Text(L10n.cancel)
+                    } else {
+                        Image("more")
+                    }
+                }
+            }
+        }
         .background(style.background.ignoresSafeArea())
     }
 
