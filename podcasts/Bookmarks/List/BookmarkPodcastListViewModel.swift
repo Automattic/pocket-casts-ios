@@ -8,7 +8,7 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
         [.newestToOldest, .oldestToNewest, .episode]
     }
 
-    init(podcast: Podcast, bookmarkManager: BookmarkManager, sortOption: BookmarkListViewModel.SortSetting) {
+    init(podcast: Podcast?, bookmarkManager: BookmarkManager, sortOption: BookmarkListViewModel.SortSetting) {
         self.podcast = podcast
 
         super.init(bookmarkManager: bookmarkManager, sortOption: sortOption)
@@ -17,12 +17,17 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
     }
 
     override func reload() {
-        guard feature.isUnlocked, let podcast else {
+        guard feature.isUnlocked else {
             items = []
             return
         }
 
-        var items = bookmarkManager.bookmarks(for: podcast, sorted: sortOption).includeEpisodes()
+        var items: [Bookmark]
+        if let podcast = podcast {
+            items = bookmarkManager.bookmarks(for: podcast, sorted: sortOption).includeEpisodes()
+        } else {
+            items = bookmarkManager.allBookmarks(sorted: sortOption).includeEpisodes()
+        }
 
         if sortOption == .episode {
             items.sortByNewestEpisodeAndBookmarkTimestamp()
