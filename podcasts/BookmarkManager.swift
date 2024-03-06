@@ -66,6 +66,11 @@ class BookmarkManager {
         }
     }
 
+    /// Returns all bookmarks for the account
+    func allBookmarks(sorted: BookmarkSortOption = .newestToOldest) -> [Bookmark] {
+        dataManager.allBookmarks(includeDeleted: false, sorted: sorted.dataSortOption)
+    }
+
     /// Returns an existing bookmark with the given `uuid`
     func bookmark(for uuid: String) -> Bookmark? {
         dataManager.bookmark(for: uuid)
