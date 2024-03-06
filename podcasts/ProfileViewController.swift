@@ -308,8 +308,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             Analytics.track(.endOfYearProfileCardTapped)
             EndOfYear().showStories(in: self, from: .profile)
         case .bookmarks:
-            let bookmarksController = PCViewController()
-            bookmarksController.title = L10n.bookmarks
+            let bookmarksController = BookmarksAccountListController()
             navigationController?.pushViewController(bookmarksController, animated: true)
         }
     }
