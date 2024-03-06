@@ -308,7 +308,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             Analytics.track(.endOfYearProfileCardTapped)
             EndOfYear().showStories(in: self, from: .profile)
         case .bookmarks:
-            let bookmarksController = BookmarksAccountListController()
+            let bookmarksController = BookmarksProfileListController()
             navigationController?.pushViewController(bookmarksController, animated: true)
         }
     }
@@ -331,7 +331,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         var data: [[ProfileViewController.TableRow]]
         data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory, .help]]
 
-        if FeatureFlag.accountBookmarks.enabled {
+        if FeatureFlag.profileBookmarks.enabled {
             data[0].insert(.bookmarks, at: 4)
         }
 

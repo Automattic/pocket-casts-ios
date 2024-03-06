@@ -2,7 +2,7 @@ import Combine
 import PocketCastsDataModel
 import SwiftUI
 
-class BookmarksAccountListController: ThemedHostingController<BookmarksAccountListView> {
+class BookmarksProfileListController: ThemedHostingController<BookmarksProfileListView> {
     private let playbackManager: PlaybackManager
     private let bookmarkManager: BookmarkManager
     private let viewModel: BookmarkPodcastListViewModel
@@ -16,7 +16,7 @@ class BookmarksAccountListController: ThemedHostingController<BookmarksAccountLi
         let sortOption = Settings.podcastBookmarksSort
         let viewModel = BookmarkPodcastListViewModel(podcast: nil, bookmarkManager: bookmarkManager, sortOption: sortOption)
 
-        viewModel.analyticsSource = .account
+        viewModel.analyticsSource = .profile
 
         self.viewModel = viewModel
         super.init(rootView: .init(viewModel: viewModel))
@@ -31,7 +31,7 @@ class BookmarksAccountListController: ThemedHostingController<BookmarksAccountLi
 
 // MARK: - BookmarkListRouter
 
-extension BookmarksAccountListController: BookmarkListRouter {
+extension BookmarksProfileListController: BookmarkListRouter {
     func bookmarkPlay(_ bookmark: Bookmark) {
         playbackManager.playBookmark(bookmark, source: viewModel.analyticsSource)
     }

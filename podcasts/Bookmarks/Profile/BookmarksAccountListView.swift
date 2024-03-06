@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsUtils
 
-struct BookmarksAccountListView: View {
+struct BookmarksProfileListView: View {
     @ObservedObject var viewModel: BookmarkPodcastListViewModel
     @ObservedObject var style = ThemedBookmarksStyle()
 
