@@ -262,6 +262,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func configureFirebase() {
         FirebaseApp.configure()
+        Firebase.Analytics.setUserProperty(BuildEnvironment.current.debugDescription, forName: "environment")
 
         // we user remote config for varies parameters in the app we want to be able to set remotely. Here we set the defaults, then fetch new ones
         let remoteConfig = RemoteConfig.remoteConfig()

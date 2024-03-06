@@ -32,3 +32,16 @@ public enum BuildEnvironment {
         #endif
     }
 }
+
+extension BuildEnvironment: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        switch self {
+        case .debug:
+            return "debug"
+        case .testFlight:
+            return "testFlight"
+        case .appStore:
+            return "appStore"
+        }
+    }
+}
