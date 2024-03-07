@@ -61,4 +61,7 @@ import Foundation
 
     // This property is true if the only filled property is the episode's UUID. If true, this object should only be used as a thin wrapper over the UUID.
     var hasOnlyUuid: Bool { get set }
+
+    /// Whether this is a regular episode, or an user episode (File)
+    var isUserEpisode: Bool { get }
 }

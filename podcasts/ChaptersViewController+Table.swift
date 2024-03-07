@@ -69,15 +69,19 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        FeatureFlag.deselectChapters.enabled ? 44 : CGFloat.leastNonzeroMagnitude
+        shouldShowDeselectChaptersHeader ? 44 : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        FeatureFlag.deselectChapters.enabled ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
+        shouldShowDeselectChaptersHeader ? UITableView.automaticDimension : CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return header
+    }
+
+    var shouldShowDeselectChaptersHeader: Bool {
+        FeatureFlag.deselectChapters.enabled && (PlaybackManager.shared.currentEpisode()?.isUserEpisode == false)
     }
 }
 
