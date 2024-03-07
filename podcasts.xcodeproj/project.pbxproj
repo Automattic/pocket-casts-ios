@@ -1588,6 +1588,8 @@
 		E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3665F532936CD13001C8372 /* ChaptersTests.swift */; };
 		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
+		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
+		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
@@ -3368,6 +3370,7 @@
 		ED026EC07A62C137A4959391 /* Pods-PocketCasts-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		EF3DD428DC2C444C2D8CEC5A /* Pods-PocketCastsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EFBF99F57846D0E1AF8DE08D /* Pods-PocketCasts-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
+		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
 		F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
@@ -4936,6 +4939,7 @@
 			children = (
 				BDB165DD20806F86007B57CD /* DownloadManager.swift */,
 				BDB165DF208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift */,
+				F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */,
 				BDC063D0246A626E00208446 /* DownloadManager+SessionManagement.swift */,
 				BDE5B8D71E6401F80039B409 /* EpisodeFileSizeUpdater.swift */,
 				BD2DE2311E65224900BE21A4 /* ShowNotesUpdater.swift */,
@@ -9179,6 +9183,7 @@
 				404A080A24E4C78000308722 /* SceneDelegate.swift in Sources */,
 				BDAE54CF230C063500330680 /* NoSearchResultsCell.swift in Sources */,
 				BDEC9AB52051197900088D76 /* BadgeSettingsViewController.swift in Sources */,
+				F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */,
 				408529A3247C9A53007FE8AA /* PodcastSupporterCell.swift in Sources */,
 				8BD256D22A5C7090006648BE /* SharingHelper+swipeButton.swift in Sources */,
 				BDCD1E82244D636D00B83602 /* LenticularFilter.swift in Sources */,
@@ -9509,6 +9514,7 @@
 				4614556327C6A32700B65F0F /* OrderPicker.swift in Sources */,
 				BDDC199D1F009EA700BAC535 /* ComplicationController.swift in Sources */,
 				46DE81E327E1244B00B696B9 /* OrderPickerToolbar.swift in Sources */,
+				F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */,
 				4649404327D94757007F29C8 /* EpisodeViewModel.swift in Sources */,
 				46D88AB927DF97ED00F3BC43 /* PodcastsListViewModel.swift in Sources */,
 				C7CE415B28CBD00A00AD063E /* AnalyticsEvent.swift in Sources */,
