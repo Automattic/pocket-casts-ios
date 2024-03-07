@@ -24,6 +24,7 @@ struct BookmarksProfileListView: View {
                             Text(L10n.selectAll)
                         }
                     }
+                    .tint(style.theme.secondaryIcon01)
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -40,6 +41,9 @@ struct BookmarksProfileListView: View {
                         Image("more")
                     }
                 }
+                .disabled(!viewModel.feature.isUnlocked)
+                .opacity(viewModel.feature.isUnlocked ? 1 : 0)
+                .tint(style.theme.secondaryIcon01)
             }
         }
         .background(style.background.ignoresSafeArea())
