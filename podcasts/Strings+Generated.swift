@@ -1861,6 +1861,8 @@ internal enum L10n {
   internal static func podcastAccessEnds(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_access_ends", String(describing: p1))
   }
+  /// Podcast & Episode
+  internal static var podcastAndEpisode: String { return L10n.tr("Localizable", "podcast_and_episode") }
   /// Archive All
   internal static var podcastArchiveAll: String { return L10n.tr("Localizable", "podcast_archive_all") }
   /// Archive All Played

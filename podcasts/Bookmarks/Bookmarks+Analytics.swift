@@ -29,6 +29,8 @@ extension BookmarkSortOption: AnalyticsDescribable {
             return "timestamp"
         case .episode:
             return "episode"
+        case .podcastAndEpisode:
+            return "podcastAndEpisode"
         }
     }
 }

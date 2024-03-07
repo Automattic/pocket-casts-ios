@@ -1161,6 +1161,14 @@ class Settings: NSObject {
         }
     }
 
+    static var profileBookmarksSort: Binding<BookmarkSortOption> {
+        Binding {
+            return Constants.UserDefaults.bookmarks.profileSort.value
+        } set: { newValue in
+            Constants.UserDefaults.bookmarks.profileSort.save(newValue)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)

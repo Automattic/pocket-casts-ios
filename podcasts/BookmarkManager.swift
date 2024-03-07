@@ -184,6 +184,8 @@ private extension BookmarkSortOption {
             return .timestamp
         case .episode:
             return .episode
+        case .podcastAndEpisode:
+            return .episode
         }
     }
 }

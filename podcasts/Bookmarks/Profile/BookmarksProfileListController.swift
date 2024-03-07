@@ -13,7 +13,7 @@ class BookmarksProfileListController: ThemedHostingController<BookmarksProfileLi
         self.bookmarkManager = bookmarkManager
         self.playbackManager = playbackManager
 
-        let sortOption = Settings.podcastBookmarksSort
+        let sortOption = Settings.profileBookmarksSort
         let viewModel = BookmarkPodcastListViewModel(podcast: nil, bookmarkManager: bookmarkManager, sortOption: sortOption)
 
         viewModel.analyticsSource = .profile

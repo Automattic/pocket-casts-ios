@@ -1704,6 +1704,9 @@
 /* Indicates that the access to the podcast will end on the specified date. '%1$@' is a placeholder for date that the access will end. */
 "podcast_access_ends" = "Access ends: %1$@";
 
+/* Sort option for bookmarks that uses Podcast name and Episodes dates*/
+"podcast_and_episode" = "Podcast & Episode";
+
 /* Prompt to archive all of the selected items. */
 "podcast_archive_all" = "Archive All";
 
