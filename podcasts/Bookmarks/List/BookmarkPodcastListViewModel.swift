@@ -55,7 +55,10 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
 
         bookmarkManager.onBookmarkCreated
             .filter { [weak self] event in
-                self?.podcast?.uuid == event.podcast
+                guard let podcast = self?.podcast else {
+                    return true
+                }
+                return podcast.uuid == event.podcast
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
