@@ -53,6 +53,9 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
 
         notificationCenter.getNotificationSettings { settings in
             guard settings.authorizationStatus == .notDetermined else {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
                 return
             }
 
