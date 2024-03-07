@@ -13,40 +13,45 @@ struct BookmarksProfileListView: View {
         .navigationTitle(L10n.bookmarks)
         .navigationBarBackButtonHidden(viewModel.isMultiSelecting)
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                if viewModel.isMultiSelecting {
-                    Button {
-                        viewModel.toggleSelectAll()
-                    } label: {
-                        if viewModel.hasSelectedAll {
-                            Text(L10n.deselectAll)
-                        } else {
-                            Text(L10n.selectAll)
-                        }
-                    }
-                    .tint(style.theme.secondaryIcon01)
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
+            toolbar
+        }
+        .background(style.background.ignoresSafeArea())
+    }
+
+    @ToolbarContentBuilder
+    private var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            if viewModel.isMultiSelecting {
                 Button {
-                    if viewModel.isMultiSelecting {
-                        viewModel.toggleMultiSelection()
-                    } else {
-                        viewModel.showMoreOptions()
-                    }
+                    viewModel.toggleSelectAll()
                 } label: {
-                    if viewModel.isMultiSelecting {
-                        Text(L10n.cancel)
+                    if viewModel.hasSelectedAll {
+                        Text(L10n.deselectAll)
                     } else {
-                        Image("more")
+                        Text(L10n.selectAll)
                     }
                 }
-                .disabled(!viewModel.feature.isUnlocked)
-                .opacity(viewModel.feature.isUnlocked ? 1 : 0)
                 .tint(style.theme.secondaryIcon01)
             }
         }
-        .background(style.background.ignoresSafeArea())
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                if viewModel.isMultiSelecting {
+                    viewModel.toggleMultiSelection()
+                } else {
+                    viewModel.showMoreOptions()
+                }
+            } label: {
+                if viewModel.isMultiSelecting {
+                    Text(L10n.cancel)
+                } else {
+                    Image("more")
+                }
+            }
+            .disabled(!viewModel.feature.isUnlocked)
+            .opacity(viewModel.feature.isUnlocked ? 1 : 0)
+            .tint(style.theme.secondaryIcon01)
+        }
     }
 
     /// Shows the title and search field
