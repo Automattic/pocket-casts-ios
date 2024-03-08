@@ -393,20 +393,21 @@ extension AppDelegate {
                         NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastHeader])
                     }
                 } else if let episodeUuid = item.episodeHeader?.uuid, let podcastUuid = item.podcastHeader?.uuid {
-                    self.loadAndShowEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
+                    let timestamp = item.fromTime?.toDouble()
+                    self.loadAndShowEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid, timestamp: timestamp)
                 }
             }
         }
     }
 
-    private func loadAndShowEpisode(episodeUuid: String, podcastUuid: String) {
+    private func loadAndShowEpisode(episodeUuid: String, podcastUuid: String, timestamp: TimeInterval? = nil) {
         if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
             // if we're subscribed to the podcast, we'll likely have this episode, just open it
             if podcast.isSubscribed() {
-                openEpisode(episodeUuid, from: podcast)
+                openEpisode(episodeUuid, from: podcast, timestamp: timestamp)
             } else { // if we're not subscribed, than it's possible our local copy is out of date, so we'll need to update it first
                 ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
-                    self.openEpisode(episodeUuid, from: podcast)
+                    self.openEpisode(episodeUuid, from: podcast, timestamp: timestamp)
                 }
             }
 
@@ -415,7 +416,7 @@ extension AppDelegate {
 
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { success in
             if success, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                self.openEpisode(episodeUuid, from: podcast)
+                self.openEpisode(episodeUuid, from: podcast, timestamp: timestamp)
             } else {
                 DispatchQueue.main.async {
                     self.hideProgressDialog()
