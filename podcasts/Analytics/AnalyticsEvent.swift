@@ -369,6 +369,7 @@ enum AnalyticsEvent: String {
     case episodeBulkDownloadQueued
     case episodeDownloadCancelled
     case episodeDownloadFailed
+    case episodeDownloadsStale
 
     case episodeUploadQueued
     case episodeUploadFinished
