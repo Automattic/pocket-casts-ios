@@ -167,7 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NavigationManager.sharedManager.miniPlayer
     }
 
-    func openEpisode(_ episodeUuid: String, from podcast: Podcast) {
+    func openEpisode(_ episodeUuid: String, from podcast: Podcast, timestamp: TimeInterval? = nil) {
         DispatchQueue.main.async {
             self.hideProgressDialog()
 
@@ -179,6 +179,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
 
+            #if !os(watchOS)
+            if let time {
+                let dataManager = DataManager.sharedManager
+                // Save the playback time before we start playing so the player will jump to the correct starting time when it does load
+                dataManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
+            }
+            #endif
             NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid])
         }
     }
