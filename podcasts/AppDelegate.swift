@@ -178,7 +178,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             #if !os(watchOS)
-            if let time {
+            if let timestamp {
                 let dataManager = DataManager.sharedManager
                 // Save the playback time before we start playing so the player will jump to the correct starting time when it does load
                 dataManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
