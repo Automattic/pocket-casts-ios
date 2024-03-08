@@ -7,7 +7,7 @@ struct BookmarksProfileListView: View {
 
     var body: some View {
         VStack(spacing: BookmarkListConstants.padding) {
-            headerView
+            searchField.padding([.top, .horizontal], BookmarkListConstants.headerPadding)
             bookmarkListView
         }
         .navigationTitle(L10n.bookmarks)
@@ -54,11 +54,6 @@ struct BookmarksProfileListView: View {
         }
     }
 
-    /// Shows the title and search field
-    private var headerView: some View {
-        searchField.padding()
-    }
-
     @ViewBuilder
     private var searchField: some View {
         if viewModel.isSearching || !viewModel.bookmarks.isEmpty {
@@ -68,9 +63,8 @@ struct BookmarksProfileListView: View {
     }
 
     private var bookmarkListView: some View {
-        VStack {
-            BookmarksListView(viewModel: viewModel, style: style, showHeader: false, showMultiSelectInHeader: false, showMoreInHeader: false)
-        }.padding(.bottom, bottomInset(multiSelectEnabled: false))
+        BookmarksListView(viewModel: viewModel, style: style, showHeader: false, showMultiSelectInHeader: false, showMoreInHeader: false)
+            .padding(.bottom, bottomInset(multiSelectEnabled: viewModel.isMultiSelecting))
     }
 
     func bottomInset(multiSelectEnabled: Bool) -> CGFloat {
