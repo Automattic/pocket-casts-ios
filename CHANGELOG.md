@@ -1,6 +1,6 @@
 7.60
 -----
-
+- Opening a shared podcast episode link with the current position, now opens on the right position. [#5]
 
 7.59
 -----
