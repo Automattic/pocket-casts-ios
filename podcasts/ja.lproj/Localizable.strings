@@ -155,6 +155,10 @@
     <string>ブックマークのベータテストに参加してください !</string>
     <key>announcement_slumber_code_copied</key>
     <string>コードをクリップボードにコピーしました</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Plus の年間購読を開始すると、夢の実現に役立つポッドキャスト、Slumber Studios のコンテンツを1年間購読できます。 さらに詳しく。</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Plus の年間購読の一環として、Slumber Studios のコンテンツを1年間購読できます。コード %1$@ をお使いください。 さらに詳しく。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>さらに詳しく</string>
     <key>announcement_slumber_redeem</key>
@@ -492,7 +496,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社会 / 文化</string>
+    <string>カルチャー</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>スピリチュアル</string>
     <key>discover_browse_by_category_sports</key>
@@ -1077,6 +1081,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>その間、%1$@件のツイートが投稿されました。 すごい ! すごい ! 🐣</string>
     <key>go_to_podcast</key>
     <string>ポッドキャストに移動</string>
+    <key>got_it</key>
+    <string>OK</string>
     <key>group_episodes</key>
     <string>エピソードをグループ化</string>
     <key>history_clear_all</key>

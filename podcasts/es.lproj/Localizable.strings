@@ -155,6 +155,10 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>¡Únete a nosotros en las pruebas beta de marcadores!</string>
     <key>announcement_slumber_code_copied</key>
     <string>El código se ha copiado en el portapapeles</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Suscríbete a Plus de forma anual y disfruta de un año de suscripción al contenido de Slumber Studios, podcasts diseñados para regalarte los más dulces sueños. Más información.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Como parte de tu suscripción anual a Plus, utiliza el código %1$@ y disfrutarás de un año de suscripción al contenido de Slumber Studios. Más información.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Más información</string>
     <key>announcement_slumber_redeem</key>
@@ -492,7 +496,7 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>discover_browse_by_category_society</key>
     <string>Sociedad</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Sociedad y cultura</string>
+    <string>Cultura</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Espiritualidad</string>
     <key>discover_browse_by_category_sports</key>
@@ -1077,6 +1081,8 @@ Compártelos con Pocket Casts y aparecerán aquí.</string>
     <string>Durante ese tiempo, se han enviado %1$@ tweets. ¡Pío! ¡Pío! 🐣</string>
     <key>go_to_podcast</key>
     <string>Ir al podcast</string>
+    <key>got_it</key>
+    <string>De acuerdo</string>
     <key>group_episodes</key>
     <string>Agrupar episodios</string>
     <key>history_clear_all</key>
