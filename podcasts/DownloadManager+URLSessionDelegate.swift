@@ -56,6 +56,8 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
+        FileLog.shared.addMessage("Download failed \(error.domain) \(error.code): \(error.localizedDescription)")
+
         // check for ones we cancelled
         guard let episode = episodeForTask(task, forceReload: true) else { return } // we no longer have this episode
         removeEpisodeFromCache(episode)
@@ -130,6 +132,15 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
     }
 
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        let message = log(metrics: metrics)
+
+        if let error = task.error {
+            let url = task.currentRequest?.url?.absoluteString ?? "unknown"
+            FileLog.shared.addMessage("Failed Download for URL: \(url) \(message)")
+        }
+    }
+
     private func episodeForTask(_ task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {
         guard let downloadId = task.taskDescription else { return nil }
 
@@ -174,5 +185,15 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
         AnalyticsEpisodeHelper.shared.downloadFailed(episodeUUID: episode.uuid, reason: reason.localizedDescription)
+    }
+
+    private func log(metrics: URLSessionTaskMetrics) -> String {
+        let duration = metrics.taskInterval.duration
+        let redirectCount = metrics.redirectCount
+        let isProxy = metrics.transactionMetrics.last?.isProxyConnection
+        let isCellular = metrics.transactionMetrics.last?.isCellular
+        let isMultipath = metrics.transactionMetrics.last?.isMultipath
+        let tlsCipherSuite = metrics.transactionMetrics.last?.negotiatedTLSCipherSuite
+        return "Duration: \(duration) Redirects: \(redirectCount) isProxy: \(String(describing: isProxy)) isCellular: \(String(describing: isCellular)) isMultipath: \(String(describing: isMultipath)) tlsCipherSuite: \(String(describing: tlsCipherSuite))"
     }
 }
