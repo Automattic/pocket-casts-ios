@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/google/abseil-cpp-binary.git",
         "state": {
           "branch": null,
-          "revision": "bfc0b6f81adc06ce5121eb23f628473638d67c5c",
-          "version": "1.2022062300.0"
+          "revision": "df308b8b46607675f2b9ec8e569109008f9155ce",
+          "version": "1.2022062300.1"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "a732a4b47f59e4f725a2ea10f0c77e93a7131117",
-          "version": "9.3.0"
+          "revision": "a637d318ae7ae246b02d7305121275bc75ed5565",
+          "version": "9.4.0"
         }
       },
       {
@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "bc27fad73504f3d4af235de451f02ee22586ebd3",
-          "version": "7.12.1"
+          "revision": "26c898aed8bed13b8a63057ee26500abbbcb8d55",
+          "version": "7.13.1"
         }
       },
       {

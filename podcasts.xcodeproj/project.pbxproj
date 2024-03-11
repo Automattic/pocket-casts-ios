@@ -1234,7 +1234,6 @@
 		BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = BDD239BC267C869B0047750C /* SwipeCellKit */; };
 		BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDD301661EFB9356004A9972 /* Interface.storyboard */; };
 		BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD301691EFB9356004A9972 /* Assets.xcassets */; };
-		BDD301711EFB9356004A9972 /* Pocket Casts Watch App Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BDD301701EFB9356004A9972 /* Pocket Casts Watch App Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BDD301781EFB9356004A9972 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301771EFB9356004A9972 /* InterfaceController.swift */; };
 		BDD3017A1EFB9356004A9972 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */; };
 		BDD3017C1EFB9356004A9972 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3017B1EFB9356004A9972 /* NotificationController.swift */; };
@@ -1597,6 +1596,10 @@
 		F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
 		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
+		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
+		FF2CD57E2B9F4B2D009B58B5 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */; };
+		FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */; };
+		FF2CD5822B9F4B2D009B58B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD5812B9F4B2D009B58B5 /* Kingfisher */; };
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */; };
@@ -1665,13 +1668,6 @@
 			remoteGlobalIDString = BDD301631EFB9356004A9972;
 			remoteInfo = "Pocket Casts Watch App";
 		};
-		46DB228A274EB52A0057D3DD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 462EE0C02702532E003D67DC;
-			remoteInfo = GenerateCredentials;
-		};
 		8B0845912A66C86500742C2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -1693,13 +1689,6 @@
 			remoteGlobalIDString = BD3A210C1E6CFC2400F42241;
 			remoteInfo = NotificationExtension;
 		};
-		BDD301721EFB9356004A9972 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BDD3016F1EFB9356004A9972;
-			remoteInfo = "Pocket Casts Watch App Extension";
-		};
 		BDD301801EFB9356004A9972 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
@@ -1713,6 +1702,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BDEFBA131E6D3C2300B9024B;
 			remoteInfo = NotificationContent;
+		};
+		FF2CD5792B9F4B2D009B58B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 462EE0C02702532E003D67DC;
+			remoteInfo = PreBuildActions;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1765,17 +1761,6 @@
 				BD3A21141E6CFC2400F42241 /* NotificationExtension.appex in Embed App Extensions */,
 				403B5B2821813FFA00821A54 /* PodcastsIntents.appex in Embed App Extensions */,
 				403B5B2521813FFA00821A54 /* PodcastsIntentsUI.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BDD301881EFB9356004A9972 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				BDD301711EFB9356004A9972 /* Pocket Casts Watch App Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3060,7 +3045,6 @@
 		BDD301671EFB9356004A9972 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		BDD301691EFB9356004A9972 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BDD3016B1EFB9356004A9972 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BDD301701EFB9356004A9972 /* Pocket Casts Watch App Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Pocket Casts Watch App Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDD301761EFB9356004A9972 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		BDD301771EFB9356004A9972 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
@@ -3425,6 +3409,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF2CD5822B9F4B2D009B58B5 /* Kingfisher in Frameworks */,
+				FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */,
+				FF2CD57E2B9F4B2D009B58B5 /* PocketCastsServer in Frameworks */,
+				8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */,
+				8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */,
+				8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */,
+				FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */,
+				8B17627C2B684ED300F44450 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3485,17 +3477,6 @@
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
 				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
 				1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BDD3016D1EFB9356004A9972 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8B17627C2B684ED300F44450 /* Kingfisher in Frameworks */,
-				8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */,
-				8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */,
-				8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5787,7 +5768,6 @@
 				BD3A210D1E6CFC2400F42241 /* NotificationExtension.appex */,
 				BDEFBA141E6D3C2300B9024B /* NotificationContent.appex */,
 				BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */,
-				BDD301701EFB9356004A9972 /* Pocket Casts Watch App Extension.appex */,
 				403B5B1021813FFA00821A54 /* PodcastsIntents.appex */,
 				403B5B1921813FFA00821A54 /* PodcastsIntentsUI.appex */,
 				4090974E25235DFA00CED68C /* WidgetExtension.appex */,
@@ -7499,43 +7479,25 @@
 			buildConfigurationList = BDD301891EFB9356004A9972 /* Build configuration list for PBXNativeTarget "Pocket Casts Watch App" */;
 			buildPhases = (
 				BDD301621EFB9356004A9972 /* Resources */,
-				BDD301881EFB9356004A9972 /* Embed App Extensions */,
 				4478D0925E7FBEDEBE29C3DF /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				BDD301731EFB9356004A9972 /* PBXTargetDependency */,
-			);
-			name = "Pocket Casts Watch App";
-			productName = "Pocket Casts Watch App";
-			productReference = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */;
-			productType = "com.apple.product-type.application.watchapp2";
-		};
-		BDD3016F1EFB9356004A9972 /* Pocket Casts Watch App Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BDD301871EFB9356004A9972 /* Build configuration list for PBXNativeTarget "Pocket Casts Watch App Extension" */;
-			buildPhases = (
 				BDD3016C1EFB9356004A9972 /* Sources */,
-				BDD3016D1EFB9356004A9972 /* Frameworks */,
-				BDD3016E1EFB9356004A9972 /* Resources */,
 				BDE48A462410DADE00ECA6CA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				46DB228B274EB52A0057D3DD /* PBXTargetDependency */,
+				FF2CD57A2B9F4B2D009B58B5 /* PBXTargetDependency */,
 			);
-			name = "Pocket Casts Watch App Extension";
+			name = "Pocket Casts Watch App";
 			packageProductDependencies = (
-				8BE36DEA287352F200E35313 /* PocketCastsDataModel */,
-				8BE36DED287352F600E35313 /* PocketCastsServer */,
-				8BE36DF32873533F00E35313 /* PocketCastsUtils */,
-				8B17627B2B684ED300F44450 /* Kingfisher */,
+				FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */,
+				FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */,
+				FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */,
+				FF2CD5812B9F4B2D009B58B5 /* Kingfisher */,
 			);
-			productName = "Pocket Casts Watch App Extension";
-			productReference = BDD301701EFB9356004A9972 /* Pocket Casts Watch App Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
+			productName = "Pocket Casts Watch App";
+			productReference = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */;
+			productType = "com.apple.product-type.application";
 		};
 		BDEFBA131E6D3C2300B9024B /* NotificationContent */ = {
 			isa = PBXNativeTarget;
@@ -7562,7 +7524,7 @@
 			attributes = {
 				CLASSPREFIX = SJ;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1520;
 				ORGANIZATIONNAME = "Shifty Jelly";
 				TargetAttributes = {
 					2F90990A2A4F88B00044FC55 = {
@@ -7629,12 +7591,6 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 					};
-					BDD3016F1EFB9356004A9972 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = SFWALZRJ55;
-						LastSwiftMigration = 1000;
-						ProvisioningStyle = Manual;
-					};
 					BDEFBA131E6D3C2300B9024B = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = SFWALZRJ55;
@@ -7688,7 +7644,6 @@
 				BD3A210C1E6CFC2400F42241 /* NotificationExtension */,
 				BDEFBA131E6D3C2300B9024B /* NotificationContent */,
 				BDD301631EFB9356004A9972 /* Pocket Casts Watch App */,
-				BDD3016F1EFB9356004A9972 /* Pocket Casts Watch App Extension */,
 				403B5B0F21813FFA00821A54 /* PodcastsIntents */,
 				403B5B1821813FFA00821A54 /* PodcastsIntentsUI */,
 				4090974D25235DFA00CED68C /* WidgetExtension */,
@@ -8267,21 +8222,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7360CB92A42128300456930 /* Bookmarks.xcassets in Resources */,
+				C7897B482A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */,
+				8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */,
 				BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */,
 				8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */,
+				BD73A5D52452BFA400679864 /* Extension Assets.xcassets in Resources */,
+				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
 				463538A326E16A2C00BA9D35 /* Localizable.strings in Resources */,
 				BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BDD3016E1EFB9356004A9972 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BD73A5D52452BFA400679864 /* Extension Assets.xcassets in Resources */,
-				C7897B482A9D194F00BEF84F /* bookmark-creation-sound.wav in Resources */,
-				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
-				8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9613,11 +9561,6 @@
 			target = BDD301631EFB9356004A9972 /* Pocket Casts Watch App */;
 			targetProxy = 46AFC23A27AB19CE004B026F /* PBXContainerItemProxy */;
 		};
-		46DB228B274EB52A0057D3DD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 462EE0C02702532E003D67DC /* PreBuildActions */;
-			targetProxy = 46DB228A274EB52A0057D3DD /* PBXContainerItemProxy */;
-		};
 		8B0845922A66C86500742C2F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BD3A210C1E6CFC2400F42241 /* NotificationExtension */;
@@ -9633,11 +9576,6 @@
 			target = BD3A210C1E6CFC2400F42241 /* NotificationExtension */;
 			targetProxy = BD3A21121E6CFC2400F42241 /* PBXContainerItemProxy */;
 		};
-		BDD301731EFB9356004A9972 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BDD3016F1EFB9356004A9972 /* Pocket Casts Watch App Extension */;
-			targetProxy = BDD301721EFB9356004A9972 /* PBXContainerItemProxy */;
-		};
 		BDD301811EFB9356004A9972 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BDD301631EFB9356004A9972 /* Pocket Casts Watch App */;
@@ -9647,6 +9585,11 @@
 			isa = PBXTargetDependency;
 			target = BDEFBA131E6D3C2300B9024B /* NotificationContent */;
 			targetProxy = BDEFBA1F1E6D3C2300B9024B /* PBXContainerItemProxy */;
+		};
+		FF2CD57A2B9F4B2D009B58B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 462EE0C02702532E003D67DC /* PreBuildActions */;
+			targetProxy = FF2CD5792B9F4B2D009B58B5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -10739,35 +10682,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				IBSC_MODULE = Pocket_Casts_Watch_App_Extension;
-				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "797df124-2123-4fb7-af10-d5a67d86b9b7";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Development";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Staging;
-		};
-		BD69A01F2266A9E400168459 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -10778,21 +10692,18 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
-				"DEVELOPMENT_TEAM[sdk=watchos*]" = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "Pocket Casts Watch App Extension/Info.plist";
+				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "0bcd4b78-e154-427e-b907-ddd11c3039c8";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Extension Development";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = "Pocket Casts Watch App Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "797df124-2123-4fb7-af10-d5a67d86b9b7";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Development";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -11052,67 +10963,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				IBSC_MODULE = Pocket_Casts_Watch_App_Extension;
-				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "797df124-2123-4fb7-af10-d5a67d86b9b7";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Development";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Debug;
-		};
-		BDD301841EFB9356004A9972 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				IBSC_MODULE = Pocket_Casts_Watch_App_Extension;
-				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "36f51820-2dda-4d5d-9243-f3acffb153ad";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.watchkitapp";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Release;
-		};
-		BDD301851EFB9356004A9972 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -11123,21 +10973,18 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = PZYM8XX95Q;
-				"DEVELOPMENT_TEAM[sdk=watchos*]" = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "Pocket Casts Watch App Extension/Info.plist";
+				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "0bcd4b78-e154-427e-b907-ddd11c3039c8";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Extension Development";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = "Pocket Casts Watch App Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "797df124-2123-4fb7-af10-d5a67d86b9b7";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Development";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -11147,9 +10994,10 @@
 			};
 			name = Debug;
 		};
-		BDD301861EFB9356004A9972 /* Release */ = {
+		BDD301841EFB9356004A9972 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -11163,17 +11011,16 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "Pocket Casts Watch App Extension/Info.plist";
+				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "33a73ff2-e5e3-4703-933e-30a600da0805";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension";
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "36f51820-2dda-4d5d-9243-f3acffb153ad";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.watchkitapp";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -11353,16 +11200,6 @@
 				BDBD540F17019B2A0048C8C5 /* Debug */,
 				BD69A01A2266A9E400168459 /* Staging */,
 				BDBD541017019B2A0048C8C5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		BDD301871EFB9356004A9972 /* Build configuration list for PBXNativeTarget "Pocket Casts Watch App Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BDD301851EFB9356004A9972 /* Debug */,
-				BD69A01F2266A9E400168459 /* Staging */,
-				BDD301861EFB9356004A9972 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -11609,6 +11446,23 @@
 		F55449412B758E8300F68AE9 /* PocketCastsUtils */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsUtils;
+		};
+		FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsDataModel;
+		};
+		FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsServer;
+		};
+		FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PocketCastsUtils;
+		};
+		FF2CD5812B9F4B2D009B58B5 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

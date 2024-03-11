@@ -283,7 +283,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToWifi() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
 
         #if os(watchOS)
-            let sessionToUse = WKExtension.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession
+            let sessionToUse = WKApplication.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession
         #else
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif

@@ -3,7 +3,8 @@ import PocketCastsServer
 import PocketCastsUtils
 import WatchKit
 
-class ExtensionDelegate: NSObject, WKExtensionDelegate {
+@main
+class ExtensionDelegate: NSObject, WKApplicationDelegate {
     private var haveAttemptedStateRestore = false
 
     func applicationDidFinishLaunching() {
@@ -74,7 +75,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             NavigationManager.shared.navigateToRestorable(name: lastPage, context: context)
         } else {
             // if we have a page we're meant to restore to, but are somehow still on the SourceInterfaceController, restore to that state again
-            let visibleController = WKExtension.shared().visibleInterfaceController ?? WKExtension.shared().rootInterfaceController
+            let visibleController = WKApplication.shared().visibleInterfaceController ?? WKApplication.shared().rootInterfaceController
             if visibleController is SourceInterfaceController {
                 NavigationManager.shared.navigateToRestorable(name: lastPage, context: context)
             }
@@ -97,7 +98,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
         FileLog.shared.addMessage("Scheduling next refresh for 60 minutes time")
         let preferredDate = Date(timeIntervalSinceNow: 60.minutes)
-        WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: preferredDate, userInfo: nil) { error in
+        WKApplication.shared().scheduleBackgroundRefresh(withPreferredDate: preferredDate, userInfo: nil) { error in
             if let error = error {
                 FileLog.shared.addMessage("Task scheduling error \(error.localizedDescription)")
             }

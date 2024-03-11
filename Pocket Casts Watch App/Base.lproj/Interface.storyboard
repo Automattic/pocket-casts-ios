@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="19529" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="abK-a9-vps" pageOrientation="vertical">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="22505" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="abK-a9-vps" pageOrientation="vertical">
     <device id="watch38"/>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="19514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="22022"/>
     </dependencies>
     <scenes>
         <!--Play Source-->
         <scene sceneID="evD-DW-wrE">
             <objects>
-                <controller identifier="SourceInterfaceController" title="Play Source" id="abK-a9-vps" customClass="SourceInterfaceController" customModule="Pocket_Casts_Watch_App_Extension">
+                <controller identifier="SourceInterfaceController" title="Play Source" id="abK-a9-vps" customClass="SourceInterfaceController" customModule="Pocket_Casts_Watch_App">
                     <items>
                         <group width="1" alignment="left" layout="vertical" id="Np3-9E-sk8">
                             <items>
@@ -193,12 +192,12 @@ Account</string>
         <!--Pocket Casts-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="InterfaceController" title="Pocket Casts" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Pocket_Casts_Watch_App" customModuleProvider="target">
+                <controller identifier="InterfaceController" title="Pocket Casts" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Pocket_Casts_Watch_App">
                     <items>
                         <label width="1" alignment="left" hidden="YES" text="No connection to phone. Try opening the phone app" numberOfLines="0" id="3az-jN-Jqa"/>
                         <table alignment="left" id="wSy-vK-9wD">
                             <items>
-                                <tableRow identifier="TopLevelItemRowController" id="vJP-pZ-WMn" customClass="TopLevelItemRowController" customModule="Pocket_Casts_Watch_App_Extension">
+                                <tableRow identifier="TopLevelItemRowController" id="vJP-pZ-WMn" customClass="TopLevelItemRowController" customModule="Pocket_Casts_Watch_App">
                                     <group key="rootItem" width="1" alignment="left" isAccessibilityElement="YES" spacing="5" id="bQr-gh-IHp">
                                         <items>
                                             <imageView width="20" height="20" alignment="left" verticalAlignment="center" initiallyAnimated="NO" animationDuration="1.2" id="ILy-z7-o9W">
@@ -228,7 +227,7 @@ Account</string>
                                         <outlet property="topLevelGroup" destination="bQr-gh-IHp" id="P7V-2R-mtR"/>
                                     </connections>
                                 </tableRow>
-                                <tableRow identifier="NowPlayingRowController" id="pqJ-AB-gYx" customClass="NowPlayingRowController" customModule="Pocket_Casts_Watch_App_Extension">
+                                <tableRow identifier="NowPlayingRowController" id="pqJ-AB-gYx" customClass="NowPlayingRowController" customModule="Pocket_Casts_Watch_App">
                                     <group key="rootItem" width="1" alignment="left" isAccessibilityElement="YES" spacing="5" id="wei-gO-SvH">
                                         <items>
                                             <imageView width="20" height="20" alignment="left" verticalAlignment="center" id="ONb-uv-ITb"/>
@@ -283,21 +282,21 @@ Account</string>
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
             <objects>
-                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="Pocket_Casts_Watch_App" customModuleProvider="target"/>
+                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="Pocket_Casts_Watch_App"/>
             </objects>
             <point key="canvasLocation" x="219" y="980"/>
         </scene>
         <!--Filters-->
         <scene sceneID="afw-X2-c4X">
             <objects>
-                <controller identifier="FiltersInterfaceController" title="Filters" id="KXr-po-fhJ" customClass="FiltersInterfaceController" customModule="Pocket_Casts_Watch_App_Extension">
+                <controller identifier="FiltersInterfaceController" title="Filters" id="KXr-po-fhJ" customClass="FiltersInterfaceController" customModule="Pocket_Casts_Watch_App">
                     <items>
                         <label alignment="left" text="Loading..." id="Eye-h6-H86">
                             <fontDescription key="font" type="system" pointSize="16"/>
                         </label>
                         <table alignment="left" id="MtN-3q-Lai">
                             <items>
-                                <tableRow identifier="TopLevelItemRowController" id="eRn-7W-5Mx" customClass="TopLevelItemRowController" customModule="Pocket_Casts_Watch_App_Extension">
+                                <tableRow identifier="TopLevelItemRowController" id="eRn-7W-5Mx" customClass="TopLevelItemRowController" customModule="Pocket_Casts_Watch_App">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" isAccessibilityElement="YES" spacing="6" id="5Vs-tv-7N6">
                                         <items>
                                             <group width="20" height="40" alignment="left" verticalAlignment="center" id="Hee-yY-8Zh">
@@ -349,7 +348,7 @@ Account</string>
         <!--WatchHostingController-->
         <scene sceneID="Ttk-Q0-GTr">
             <objects>
-                <hostingController identifier="WatchHostingController" id="naP-K1-uas" customClass="WatchHostingController" customModule="Pocket_Casts_Watch_App_Extension"/>
+                <hostingController identifier="WatchHostingController" id="naP-K1-uas" customClass="WatchHostingController" customModule="Pocket_Casts_Watch_App"/>
             </objects>
             <point key="canvasLocation" x="467" y="980"/>
         </scene>
