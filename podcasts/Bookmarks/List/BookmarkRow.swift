@@ -66,7 +66,6 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                 Text(rowModel.title)
                     .foregroundStyle(style.primaryText)
                     .font(style: .subheadline, weight: .medium)
-                    .lineLimit(1)
 
                 Text(rowModel.subtitle)
                     .foregroundStyle(style.tertiaryText)
