@@ -14,13 +14,13 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
 #if os(watchOS)
         DispatchQueue.main.async { [weak self] in
-            guard let self = self, let task = self.pendingWatchBackgroundTask else { return }
+            guard let self, let task = pendingWatchBackgroundTask else { return }
 
             task.setTaskCompletedWithSnapshot(true)
         }
 #else
         DispatchQueue.main.async { [weak self] in
-            guard let strongSelf = self, let appDelegate = strongSelf.appDelegate(), let backgroundHandler = strongSelf.appDelegate()?.backgroundSessionCompletionHandler else { return }
+            guard let self, let appDelegate = appDelegate(), let backgroundHandler = appDelegate.backgroundSessionCompletionHandler else { return }
 
             appDelegate.backgroundSessionCompletionHandler = nil
             backgroundHandler()
