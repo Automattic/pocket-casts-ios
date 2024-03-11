@@ -194,6 +194,21 @@ private extension BookmarkSortOption {
 // MARK: - Bookmarks Array Extension
 
 extension Array where Element == Bookmark {
+
+    func includePodcasts(using dataManager: DataManager = .sharedManager) -> [Element] {
+        guard count > 0 else { return [] }
+
+        let podcasts = uniquePodcasts(using: dataManager)
+
+        return map {
+            var item = $0
+            if let podcastUuid = item.podcastUuid {
+                item.podcast = podcasts[podcastUuid]
+            }
+            return item
+        }
+    }
+
     /// Updates an array of Bookmarks and sets the `episode` property to the `BaseEpisode` from the `episodeUuid`
     /// This tries to be efficient by only fetching the unique episodes from the database
     func includeEpisodes(using dataManager: DataManager = .sharedManager) -> [Element] {
@@ -213,6 +228,12 @@ extension Array where Element == Bookmark {
     private func uniqueEpisodes(using dataManager: DataManager = .sharedManager) -> [String: BaseEpisode] {
         Dictionary(uniqueKeysWithValues: Set(map(\.episodeUuid)).compactMap {
             dataManager.findBaseEpisode(uuid: $0)
+        }.map { ($0.uuid, $0) })
+    }
+
+    private func uniquePodcasts(using dataManager: DataManager = .sharedManager) -> [String: Podcast] {
+        Dictionary(uniqueKeysWithValues: Set(compactMap(\.podcastUuid)).compactMap {
+            dataManager.findPodcast(uuid: $0)
         }.map { ($0.uuid, $0) })
     }
 }
