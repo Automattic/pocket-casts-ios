@@ -47,8 +47,12 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         episodeEvent(.episodeDownloadFinished, uuid: episodeUUID)
     }
 
-    func downloadFailed(episodeUUID: String, reason: String) {
-        track(.episodeDownloadFailed, properties: ["episode_uuid": episodeUUID, "reason": reason])
+    func downloadFailed(episodeUUID: String,
+                        podcastUUID: String,
+                        extraProperties: [String: Any]) {
+        track(.episodeDownloadFailed, properties: ["episode_uuid": episodeUUID,
+                                                   "podcast_uuid": podcastUUID,
+                                                  ].merging(extraProperties, uniquingKeysWith: { (current, _) in return current }))
     }
 
     func bulkDownloadEpisodes(episodes: [BaseEpisode]) {
