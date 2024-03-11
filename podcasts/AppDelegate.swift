@@ -178,15 +178,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 return
             }
-
-            #if !os(watchOS)
+            var data: [String: Any] = [NavigationManager.episodeUuidKey: episode.uuid]
             if let timestamp {
-                let dataManager = DataManager.sharedManager
-                // Save the playback time before we start playing so the player will jump to the correct starting time when it does load
-                dataManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
+                data[NavigationManager.episodeTimestamp] = timestamp
             }
-            #endif
-            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid])
+
+            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: data as NSDictionary)
         }
     }
 
