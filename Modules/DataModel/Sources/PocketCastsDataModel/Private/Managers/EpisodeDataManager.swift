@@ -162,6 +162,49 @@ class EpisodeDataManager {
         return count
     }
 
+    func failedDownloadEpisodeCount(dbQueue: FMDatabaseQueue) -> Int {
+        var count = 0
+        let query = "SELECT COUNT(*) as Count from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloadFailed.rawValue)"
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    count = Int(resultSet.int(forColumn: "Count"))
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeCount error: \(error)")
+            }
+        }
+
+        return count
+    }
+
+    func failedDownloadFirstDate(dbQueue: FMDatabaseQueue, sortOrder: SortOrder) -> Date? {
+        let orderDirection = sortOrder == .forward ? "DESC" : "ASC"
+        var date: Date?
+        let query = "SELECT * from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate IS NOT NULL ORDER BY lastDownloadAttemptDate \(orderDirection) LIMIT 1"
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    date = resultSet.date(forColumn: "lastDownloadAttemptDate")
+                }
+            } catch {
+                logError(error: error)
+            }
+        }
+
+        return date
+    }
+
+    func logError(error: Error, callingFile: String = #file, callingFunction: String = #function) {
+        FileLog.shared.addMessage("\((callingFile.components(separatedBy: "/").last ?? "").components(separatedBy: ".").first ?? "").\(callingFunction) error: \(error)")
+    }
+
     // MARK: - Updates
 
     func saveIfNotModified(starred: Bool, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
@@ -901,6 +944,15 @@ class EpisodeDataManager {
         return values
     }
 }
+
+#if os(watchOS)
+// Only here to support watchOS 8
+public enum SortOrder {
+    case forward
+    case reverse
+}
+#endif
+
 
 // MARK: - 👻 Ghost Episodes 👻
 
