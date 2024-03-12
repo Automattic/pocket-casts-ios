@@ -39,7 +39,6 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.NotificationExtension',
   'au.com.shiftyjelly.podcasts.NotificationContent',
   'au.com.shiftyjelly.podcasts.watchkitapp',
-  'au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension',
   'au.com.shiftyjelly.podcasts.PodcastsIntents',
   'au.com.shiftyjelly.podcasts.PodcastsIntentsUI',
   'au.com.shiftyjelly.podcasts.WidgetExtension',
