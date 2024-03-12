@@ -39,9 +39,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     case cachePlayingEpisode
 
-    /// Show a link to display all user bookmarks in the profile tab
-    case profileBookmarks
-
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -78,8 +75,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .cachePlayingEpisode:
             true
-        case .profileBookmarks:
-            false
         }
     }
 
@@ -93,8 +88,6 @@ public enum FeatureFlag: String, CaseIterable {
             "new_account_upgrade_prompt_flow"
         case .cachePlayingEpisode:
             "cache_playing_episode"
-        case .profileBookmarks:
-            "profile_bookmarks"
         default:
             nil
         }

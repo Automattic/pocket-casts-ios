@@ -329,11 +329,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func refreshTableData() {
         var data: [[ProfileViewController.TableRow]]
-        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .listeningHistory, .help]]
-
-        if FeatureFlag.profileBookmarks.enabled {
-            data[0].insert(.bookmarks, at: 4)
-        }
+        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
 
         if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
