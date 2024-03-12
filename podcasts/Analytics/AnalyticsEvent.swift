@@ -112,6 +112,7 @@ enum AnalyticsEvent: String {
     case profileSettingsButtonTapped
     case profileAccountButtonTapped
     case profileRefreshButtonTapped
+    case profileBookmarksShow
 
     case accountDetailsCancelTapped
     case accountDetailsShowTOS

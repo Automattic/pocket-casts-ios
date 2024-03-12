@@ -24,6 +24,11 @@ class BookmarksProfileListController: ThemedHostingController<BookmarksProfileLi
         viewModel.router = self
     }
 
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        Analytics.track(.profileBookmarksShow)
+    }
+
     @MainActor required dynamic init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
