@@ -101,6 +101,10 @@ private extension Array where Element == Bookmark {
                 if comparation != .orderedSame {
                     return comparation == .orderedAscending ? true : false
                 }
+            } else if $0.podcast?.title == nil, $1.podcast?.title != nil {
+                return false
+            } else if $0.podcast?.title != nil, $1.podcast?.title == nil {
+                return true
             }
 
             let timestampAsc = $0.time < $1.time
