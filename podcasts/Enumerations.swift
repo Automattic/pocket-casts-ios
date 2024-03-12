@@ -574,7 +574,7 @@ extension BookmarksSort {
             self = .newestToOldest
         case .oldestToNewest:
             self = .oldestToNewest
-        case .timestamp, .episode:
+        case .timestamp, .episode, .podcastAndEpisode:
             self = .timestamp
         }
     }

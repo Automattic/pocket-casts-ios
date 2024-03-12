@@ -1,5 +1,6 @@
 7.60
 -----
+- Profile bookmark screen where all user bookmarks can be managed. [#1500]
 
 
 7.59
