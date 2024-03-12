@@ -95,6 +95,8 @@ public enum FeatureFlag: String, CaseIterable {
             "cache_playing_episode"
         case .newSettingsStorage:
             "new_settings_storage"
+        case .settingsSync:
+            "settings_sync"
         default:
             nil
         }
