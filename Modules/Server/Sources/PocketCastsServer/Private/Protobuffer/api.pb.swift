@@ -2599,11 +2599,6 @@ struct Api_NamedSettingsResponse {
   /// Clears the value of `podcastBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearPodcastBookmarksSortType() {_uniqueStorage()._podcastBookmarksSortType = nil}
 
-  var profileBookmarksSortType: Api_Int32Setting {
-    get {return _storage._bookmarksSortOrder ?? Api_Int32Setting()}
-    set {_uniqueStorage()._bookmarksSortOrder = newValue}
-  }
-
   var useDarkUpNextTheme: Api_BoolSetting {
     get {return _storage._useDarkUpNextTheme ?? Api_BoolSetting()}
     set {_uniqueStorage()._useDarkUpNextTheme = newValue}

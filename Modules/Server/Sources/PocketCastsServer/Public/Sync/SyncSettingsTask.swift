@@ -87,7 +87,7 @@ extension AppSettings {
         $playerBookmarksSortType.update(setting: settings.playerBookmarksSortType)
         $episodeBookmarksSortType.update(setting: settings.episodeBookmarksSortType)
         $podcastBookmarksSortType.update(setting: settings.podcastBookmarksSortType)
-        $profileBookmarksSortType.update(setting: settings.profileBookmarksSortType)
+        $profileBookmarksSortType.update(setting: settings.bookmarksSortOrder)
         $headphoneControlsNextAction.update(setting: settings.headphoneControlsNextAction)
         $headphoneControlsPreviousAction.update(setting: settings.headphoneControlsPreviousAction)
         $privacyAnalytics.update(setting: settings.privacyAnalytics)
