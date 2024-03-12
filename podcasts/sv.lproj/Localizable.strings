@@ -155,6 +155,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Var med och betatesta bokmärken!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Kod kopierad till urklipp</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Prenumerera på Plus Yearly och få en 1-årig prenumeration på innehåll från Slumber Studios, podcasts utformade för ljuva drömmar. Läs mer.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Som en del av din Plus Yearly-prenumeration får du en 1-årig prenumeration på innehåll från Slumber Studios med koden %1$@. Läs mer.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Läs mer</string>
     <key>announcement_slumber_redeem</key>
@@ -492,7 +496,7 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <key>discover_browse_by_category_society</key>
     <string>Samhälle</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Samhälle och kultur</string>
+    <string>Kultur</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualitet</string>
     <key>discover_browse_by_category_sports</key>
@@ -1077,6 +1081,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Under den här tiden skrevs %1$@ tweets. Tut! Tut! 🐣</string>
     <key>go_to_podcast</key>
     <string>Gå till podcasten</string>
+    <key>got_it</key>
+    <string>Uppfattat</string>
     <key>group_episodes</key>
     <string>Gruppera avsnitt</string>
     <key>history_clear_all</key>

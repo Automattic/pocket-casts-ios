@@ -155,6 +155,10 @@
     <string>Uneix-te a nosaltres a la prova beta dels marcadors!</string>
     <key>announcement_slumber_code_copied</key>
     <string>Codi copiat al portapapers</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Subscriu-te a Plus i gaudeix d'una subscripció d'un any del contingut de Slumber Studios, podcasts dissenyats per als somnis més dolços. Més informació.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Com a part de la teva subscripció anual Plus, gaudeix d'una subscripció d'un any al contingut de Slumber Studios emprant el codi %1$@. Més informació.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Més informació</string>
     <key>announcement_slumber_redeem</key>
@@ -1186,7 +1190,7 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <key>mark_played</key>
     <string>Marcar com a reproduït</string>
     <key>mark_played_short</key>
-    <string>Marca-ho a com a reproduït</string>
+    <string>Marcar com a reproduït</string>
     <key>mark_unplayed_short</key>
     <string>Marcar com a no reproduït</string>
     <key>maybe_later</key>
