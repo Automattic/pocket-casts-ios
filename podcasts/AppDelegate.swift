@@ -52,7 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         GoogleCastManager.sharedManager.setup()
 
-        SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
         CacheServerHandler.newShowNotesEndpoint = FeatureFlag.newShowNotesEndpoint.enabled
         CacheServerHandler.episodeFeedArtwork = FeatureFlag.episodeFeedArtwork.enabled
 
@@ -308,8 +307,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
                 try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
             }
-
-            SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
 
             try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 
