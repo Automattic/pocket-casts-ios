@@ -53,7 +53,7 @@ public struct AutoAddCandidatesDataManager {
 
                 let query: String
 
-                if FeatureFlag.settingsSync.enabled {
+                if FeatureFlag.newSettingsStorage.enabled {
                     query = """
                     SELECT
                         -- Get the Podcast Auto Add Setting
@@ -117,7 +117,7 @@ public struct AutoAddCandidatesDataManager {
         init?(from resultSet: FMResultSet) {
 
             let setting: Int32
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 let value = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
                 let position = UpNextPosition(rawValue: value)
                 switch position {

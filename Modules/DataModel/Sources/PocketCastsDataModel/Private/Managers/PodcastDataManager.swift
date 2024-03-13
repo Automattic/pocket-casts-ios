@@ -373,7 +373,7 @@ class PodcastDataManager {
     }
 
     func saveAutoAddToUpNext(podcastUuid: String, autoAddToUpNext: Int32, dbQueue: FMDatabaseQueue) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
                 if let setting = AutoAddToUpNextSetting(rawValue: autoAddToUpNext) {
                     podcast.setAutoAddToUpNext(setting: setting)
@@ -429,7 +429,7 @@ class PodcastDataManager {
     }
 
     func saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: Int32, dbQueue: FMDatabaseQueue) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             setOnAllPodcasts(value: autoAddToUpNext, settingName: "addToUpNext", subscribedOnly: true, dbQueue: dbQueue)
         }
         setOnAllPodcasts(value: autoAddToUpNext, propertyName: "autoAddToUpNext", subscribedOnly: true, dbQueue: dbQueue)
@@ -440,7 +440,7 @@ class PodcastDataManager {
             do {
                 let uuids = podcasts.map { $0.uuid }
 
-                if FeatureFlag.settingsSync.enabled {
+                if FeatureFlag.newSettingsStorage.enabled {
                     let query = """
                     SELECT json_patch('setting', '{\"addToUpNext\": {\"value\": \(value)}}')
                     WHERE uuid IN (\(DataHelper.convertArrayToInString(uuids)))
