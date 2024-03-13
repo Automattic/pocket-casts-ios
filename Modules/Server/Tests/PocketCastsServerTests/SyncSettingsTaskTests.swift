@@ -1,6 +1,7 @@
 import XCTest
 @testable import PocketCastsServer
 import SwiftProtobuf
+@testable import PocketCastsUtils
 
 class SyncSettingsTaskTests: XCTestCase {
 
@@ -11,6 +12,11 @@ class SyncSettingsTaskTests: XCTestCase {
     override func setUp() {
         super.setUp()
         UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
+        FeatureFlagMock().set(.settingsSync, value: true)
+    }
+
+    override func tearDown() {
+        FeatureFlagMock().reset()
     }
 
     /// Tests sending a request with updates from `SettingsStore`
