@@ -65,7 +65,7 @@ class PodcastEpisodeListViewModel: ObservableObject {
     }
 
     func didChangeSortOrder(option: PodcastEpisodeSortOrder) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             podcast.settings.episodesSortOrder = option
             podcast.syncStatus = SyncStatus.notSynced.rawValue
         }
