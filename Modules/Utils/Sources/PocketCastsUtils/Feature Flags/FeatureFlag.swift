@@ -71,7 +71,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .deselectChapters:
             false
         case .settingsSync:
-            false
+            false // `newSettingsStorage` also needs to be `true` for syncing to function
         case .slumber:
             false
         case .newAccountUpgradePromptFlow:
