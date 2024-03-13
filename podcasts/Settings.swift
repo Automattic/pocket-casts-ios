@@ -13,7 +13,7 @@ class Settings: NSObject {
     static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
     private static var cachedlibrarySortType: LibraryType?
     class func setLibraryType(_ type: LibraryType) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.gridLayout = type
         }
         UserDefaults.standard.set(type.old.rawValue, forKey: Settings.podcastLibraryGridTypeKey)
@@ -22,7 +22,7 @@ class Settings: NSObject {
 
     class func libraryType() -> LibraryType {
 
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.gridLayout
         }
 
@@ -44,7 +44,7 @@ class Settings: NSObject {
 
     static let badgeKey = "SJBadgeType"
     class func podcastBadgeType() -> BadgeType {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.badges
         }
 
@@ -58,7 +58,7 @@ class Settings: NSObject {
     }
 
     class func setPodcastBadgeType(_ badgeType: BadgeType) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.badges = badgeType
         }
         UserDefaults.standard.set(badgeType.rawValue, forKey: Settings.badgeKey)
@@ -68,7 +68,7 @@ class Settings: NSObject {
 
     static let autoDownloadUpNext = "SJAutoDownloadUpNext"
     class func downloadUpNextEpisodes() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.autoDownloadUpNext
         } else {
             UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
@@ -76,7 +76,7 @@ class Settings: NSObject {
     }
 
     class func setDownloadUpNextEpisodes(_ download: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.autoDownloadUpNext = download
         }
         UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
@@ -87,7 +87,7 @@ class Settings: NSObject {
 
     static let allowCellularDownloadKey = "SJUserCellular"
     class func mobileDataAllowed() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return !SettingsStore.appSettings.warnDataUsage
         } else {
             return UserDefaults.standard.bool(forKey: Settings.allowCellularDownloadKey)
@@ -95,7 +95,7 @@ class Settings: NSObject {
     }
 
     class func setMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.warnDataUsage = !allow
         }
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularDownloadKey)
@@ -108,7 +108,7 @@ class Settings: NSObject {
 
     static let allowCellularAutoDownloadKey = "SJUserCellularAutoDownload"
     class func autoDownloadMobileDataAllowed() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             !SettingsStore.appSettings.autoDownloadUnmeteredOnly
         } else {
             UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
@@ -116,7 +116,7 @@ class Settings: NSObject {
     }
 
     class func setAutoDownloadMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.autoDownloadUnmeteredOnly = !allow
         }
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularAutoDownloadKey)
@@ -155,7 +155,7 @@ class Settings: NSObject {
 
     static let defaultArchiveBehaviour = "SJDefaultArchive"
     class func showArchivedDefault() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.showArchived
         } else {
             return UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
@@ -163,7 +163,7 @@ class Settings: NSObject {
     }
 
     class func setShowArchivedDefault(_ showArchived: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.showArchived = showArchived
         }
         UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
@@ -176,7 +176,7 @@ class Settings: NSObject {
     static let primaryRowActionKey = "SJRowAction"
     private static var cachedPrimaryRowAction: PrimaryRowAction? // we cache this because it's used in lists
     class func primaryRowAction() -> PrimaryRowAction {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.rowAction
         } else {
             if let action = cachedPrimaryRowAction { return action }
@@ -186,7 +186,7 @@ class Settings: NSObject {
     }
 
     class func setPrimaryRowAction(_ action: PrimaryRowAction) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.rowAction = action
         } else {
             UserDefaults.standard.set(
@@ -202,7 +202,7 @@ class Settings: NSObject {
     // MARK: - Podcast Sort Order
 
     class func homeFolderSortOrder() -> LibrarySort {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.gridOrder
         }
 
@@ -215,7 +215,7 @@ class Settings: NSObject {
     }
 
     class func setHomeFolderSortOrder(order: LibrarySort) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.gridOrder = order
         }
         ServerSettings.setHomeGridSortOrder(order.old.rawValue, syncChange: true)
@@ -226,7 +226,7 @@ class Settings: NSObject {
     static let podcastGroupingDefaultKey = "SJDefaultPodcastGrouping"
     private static var cachedPodcastGrouping: PodcastGrouping?
     class func defaultPodcastGrouping() -> PodcastGrouping {
-        guard FeatureFlag.settingsSync.enabled == false else {
+        guard FeatureFlag.newSettingsStorage.enabled == false else {
             return SettingsStore.appSettings.episodeGrouping
         }
 
@@ -240,7 +240,7 @@ class Settings: NSObject {
     }
 
     class func setDefaultPodcastGrouping(_ grouping: PodcastGrouping) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.episodeGrouping = grouping
         }
         UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
@@ -254,7 +254,7 @@ class Settings: NSObject {
     static let primaryUpNextSwipeActionKey = "SJUpNextSwipe"
     private static var cachedPrimaryUpNextSwipeAction: PrimaryUpNextSwipeAction? // we cache this because it's used in lists
     class func primaryUpNextSwipeAction() -> PrimaryUpNextSwipeAction {
-        guard FeatureFlag.settingsSync.enabled == false else {
+        guard FeatureFlag.newSettingsStorage.enabled == false else {
             return SettingsStore.appSettings.upNextSwipe
         }
 
@@ -268,7 +268,7 @@ class Settings: NSObject {
     }
 
     class func setPrimaryUpNextSwipeAction(_ action: PrimaryUpNextSwipeAction) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.upNextSwipe = action
         }
         UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
@@ -281,14 +281,14 @@ class Settings: NSObject {
 
     static let playUpNextOnTapKey = "SJPlayUpNextOnTap"
     class func playUpNextOnTap() -> Bool {
-        guard FeatureFlag.settingsSync.enabled == false else {
+        guard FeatureFlag.newSettingsStorage.enabled == false else {
             return SettingsStore.appSettings.playUpNextOnTap
         }
         return UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
     }
 
     class func setPlayUpNextOnTap(_ isOn: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.playUpNextOnTap = isOn
         }
         UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
@@ -329,7 +329,7 @@ class Settings: NSObject {
 
     static let autoArchivePlayedAfterKey = "AutoArchivePlayedAfer"
     class func autoArchivePlayedAfter() -> TimeInterval {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.autoArchivePlayed.time.rawValue
         } else {
             return UserDefaults.standard.double(forKey: Settings.autoArchivePlayedAfterKey)
@@ -337,7 +337,7 @@ class Settings: NSObject {
     }
 
     class func setAutoArchivePlayedAfter(_ after: TimeInterval, userInitiated: Bool = false) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.autoArchivePlayed = AutoArchiveAfterPlayed(time: AutoArchiveAfterTime(rawValue: after)!)!
         }
         UserDefaults.standard.set(after, forKey: Settings.autoArchivePlayedAfterKey)
@@ -350,7 +350,7 @@ class Settings: NSObject {
 
     static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
     class func autoArchiveInactiveAfter() -> TimeInterval {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.autoArchiveInactive.time.rawValue
         } else {
             return UserDefaults.standard.double(forKey: Settings.autoArchiveInactiveAfterKey)
@@ -358,7 +358,7 @@ class Settings: NSObject {
     }
 
     class func setAutoArchiveInactiveAfter(_ after: TimeInterval, userInitiated: Bool = false) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.autoArchiveInactive = AutoArchiveAfterInactive(time: AutoArchiveAfterTime(rawValue: after)!)!
         }
         UserDefaults.standard.set(after, forKey: Settings.autoArchiveInactiveAfterKey)
@@ -371,7 +371,7 @@ class Settings: NSObject {
 
     static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
     class func archiveStarredEpisodes() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.autoArchiveIncludesStarred
         } else {
             return UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey)
@@ -379,7 +379,7 @@ class Settings: NSObject {
     }
 
     class func setArchiveStarredEpisodes(_ archive: Bool, userInitiated: Bool = false) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.autoArchiveIncludesStarred = archive
         }
         UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
@@ -433,7 +433,7 @@ class Settings: NSObject {
 
     static let mediaSessionActionsKey = "MediaSessionActions"
     class func extraMediaSessionActionsEnabled() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.playbackActions
         } else {
             return UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
@@ -441,7 +441,7 @@ class Settings: NSObject {
     }
 
     class func setExtraMediaSessionActionsEnabled(_ enabled: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.playbackActions = enabled
         }
         UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
@@ -455,7 +455,7 @@ class Settings: NSObject {
 
     static let legacyBtSupportKey = "LegacyBtSupport"
     class func legacyBluetoothModeEnabled() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.legacyBluetooth
         } else {
             return UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
@@ -463,7 +463,7 @@ class Settings: NSObject {
     }
 
     class func setLegacyBluetoothModeEnabled(_ enabled: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.legacyBluetooth = enabled
         }
         UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
@@ -474,7 +474,7 @@ class Settings: NSObject {
 
     static let publishChapterTitlesKey = "PublishChapterTitles"
     class func publishChapterTitlesEnabled() -> Bool {
-        guard FeatureFlag.settingsSync.enabled == false else {
+        guard FeatureFlag.newSettingsStorage.enabled == false else {
             return SettingsStore.appSettings.chapterTitles
         }
 
@@ -486,7 +486,7 @@ class Settings: NSObject {
     }
 
     class func setPublishChapterTitlesEnabled(_ enabled: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.chapterTitles = enabled
         }
         UserDefaults.standard.set(enabled, forKey: Settings.publishChapterTitlesKey)
@@ -505,7 +505,7 @@ class Settings: NSObject {
 
     static let userEpisodeAutoUploadKey = "UserEpisodeAutoUpload"
     class func userFilesAutoUpload() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.cloudAutoUpload
         } else {
             UserDefaults.standard.bool(forKey: userEpisodeAutoUploadKey)
@@ -513,7 +513,7 @@ class Settings: NSObject {
     }
 
     class func setUserEpisodeAutoUpload(_ value: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.cloudAutoUpload = value
         }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoUploadKey)
@@ -522,7 +522,7 @@ class Settings: NSObject {
 
     static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
     class func userEpisodeAutoAddToUpNext() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.filesAutoUpNext
         } else {
             return UserDefaults.standard.bool(forKey: userEpisodeAutoAddToUpNextKey)
@@ -530,7 +530,7 @@ class Settings: NSObject {
     }
 
     class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.filesAutoUpNext = value
         }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
@@ -539,7 +539,7 @@ class Settings: NSObject {
 
     static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
     class func userEpisodeRemoveFileAfterPlaying() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.filesAfterPlayingDeleteLocal
         } else {
             return UserDefaults.standard.bool(forKey: userEpisodeRemoveFileAfterPlayingKey)
@@ -547,7 +547,7 @@ class Settings: NSObject {
     }
 
     class func setUserEpisodeRemoveFileAfterPlaying(_ value: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.filesAfterPlayingDeleteLocal = value
         }
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFileAfterPlayingKey)
@@ -556,7 +556,7 @@ class Settings: NSObject {
 
     static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
     class func userEpisodeRemoveFromCloudAfterPlaying() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.filesAfterPlayingDeleteCloud
         } else {
             return UserDefaults.standard.bool(forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
@@ -564,7 +564,7 @@ class Settings: NSObject {
     }
 
     class func setUserEpisodeRemoveFromCloudAfterPlayingKey(_ value: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.filesAfterPlayingDeleteCloud = value
         }
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
@@ -688,14 +688,14 @@ class Settings: NSObject {
     }
 
     class func setShouldFollowSystemTheme(_ value: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.useSystemTheme = value
         }
         UserDefaults.standard.set(value, forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
     }
 
     class func shouldFollowSystemTheme() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.useSystemTheme
         } else {
             UserDefaults.standard.bool(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
@@ -710,7 +710,7 @@ class Settings: NSObject {
 
         let playerActions: [PlayerAction]
 
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             playerActions = SettingsStore.appSettings.playerShelf
                 .compactMap { action in
                     switch action {
@@ -728,7 +728,7 @@ class Settings: NSObject {
     }
 
     class func updatePlayerActions(_ actions: [PlayerAction]) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             let unknowns = SettingsStore.appSettings.playerShelf.compactMap { action -> ActionOption? in
                 switch action {
                 case .known:
@@ -750,7 +750,7 @@ class Settings: NSObject {
 
     static let multiSelectGestureKey = "MultiSelectGestureEnabled"
     class func multiSelectGestureEnabled() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.multiSelectGesture
         } else {
             return UserDefaults.standard.bool(forKey: multiSelectGestureKey)
@@ -758,7 +758,7 @@ class Settings: NSObject {
     }
 
     class func setMultiSelectGestureEnabled(_ enabled: Bool, userInitiated: Bool = false) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.multiSelectGesture = enabled
         }
         UserDefaults.standard.set(enabled, forKey: multiSelectGestureKey)
@@ -890,14 +890,14 @@ class Settings: NSObject {
     // MARK: - Tracks
 
     class func setAnalytics(optOut: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.privacyAnalytics = !optOut
         }
         UserDefaults.standard.set(optOut, forKey: Constants.UserDefaults.analyticsOptOut)
     }
 
     class func analyticsOptOut() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return !SettingsStore.appSettings.privacyAnalytics
         } else {
             return UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
@@ -976,14 +976,14 @@ class Settings: NSObject {
 
     static var loadEmbeddedImages: Bool {
         get {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.useEmbeddedArtwork
             } else {
                 UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
             }
         }
         set {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.useEmbeddedArtwork = newValue
             }
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.loadEmbeddedImages)
@@ -995,13 +995,13 @@ class Settings: NSObject {
 
     static var autoplay: Bool {
         set {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.autoPlayEnabled = newValue
             }
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoplay)
         }
         get {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.autoPlayEnabled
             } else {
                 return UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay)
@@ -1014,7 +1014,7 @@ class Settings: NSObject {
 
     static var headphonesPreviousAction: HeadphoneControlAction {
         get {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.headphoneControlsPreviousAction.action
             } else {
                 return Constants.UserDefaults.headphones.previousAction.unlockedValue
@@ -1022,7 +1022,7 @@ class Settings: NSObject {
         }
 
         set {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.headphoneControlsPreviousAction = HeadphoneControl(action: newValue)
             }
             Constants.UserDefaults.headphones.previousAction.save(newValue)
@@ -1031,7 +1031,7 @@ class Settings: NSObject {
 
     static var headphonesNextAction: HeadphoneControlAction {
         get {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.headphoneControlsNextAction.action
             } else {
                 return Constants.UserDefaults.headphones.nextAction.unlockedValue
@@ -1039,7 +1039,7 @@ class Settings: NSObject {
         }
 
         set {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.headphoneControlsNextAction = HeadphoneControl(action: newValue)
             }
             Constants.UserDefaults.headphones.nextAction.save(newValue)
@@ -1069,7 +1069,7 @@ class Settings: NSObject {
 
     static var darkUpNextTheme: Bool {
         get {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.useDarkUpNextTheme
             } else {
                 Constants.UserDefaults.appearance.darkUpNextTheme.value
@@ -1077,7 +1077,7 @@ class Settings: NSObject {
         }
 
         set {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.useDarkUpNextTheme = newValue
             }
             Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
@@ -1086,14 +1086,14 @@ class Settings: NSObject {
 
     static var skipBackTime: Int {
         get {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return Int(SettingsStore.appSettings.skipBack)
             } else {
                 return ServerSettings.skipBackTime()
             }
         }
         set {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.skipBack = Int32(newValue)
             }
             ServerSettings.setSkipBackTime(newValue)
@@ -1102,14 +1102,14 @@ class Settings: NSObject {
 
     static var skipForwardTime: Int {
         get {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return Int(SettingsStore.appSettings.skipForward)
             } else {
                 return ServerSettings.skipForwardTime()
             }
         }
         set {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.skipForward = Int32(newValue)
             }
             ServerSettings.setSkipForwardTime(newValue)
@@ -1118,13 +1118,13 @@ class Settings: NSObject {
 
     static var playerBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.playerBookmarksSortType.option
             } else {
                 return Constants.UserDefaults.bookmarks.playerSort.value
             }
         } set: { newValue in
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.playerBookmarksSortType = BookmarksSort(option: newValue)
             }
             Constants.UserDefaults.bookmarks.playerSort.save(newValue)
@@ -1133,13 +1133,13 @@ class Settings: NSObject {
 
     static var episodeBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.episodeBookmarksSortType.option
             } else {
                 return Constants.UserDefaults.bookmarks.playerSort.value
             }
         } set: { newValue in
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.episodeBookmarksSortType = BookmarksSort(option: newValue)
             }
             Constants.UserDefaults.bookmarks.playerSort.save(newValue)
@@ -1148,13 +1148,13 @@ class Settings: NSObject {
 
     static var podcastBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.podcastBookmarksSortType.option
             } else {
                 return Constants.UserDefaults.bookmarks.playerSort.value
             }
         } set: { newValue in
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.podcastBookmarksSortType = BookmarksSort(option: newValue)
             }
             Constants.UserDefaults.bookmarks.playerSort.save(newValue)
@@ -1224,6 +1224,10 @@ class Settings: NSObject {
             let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
 
             return TimeInterval(remoteMs.numberValue.doubleValue / 1000)
+        }
+
+        static var newSettingsStorage: Bool {
+            RemoteConfig.remoteConfig().configValue(forKey: FeatureFlag.newSettingsStorage.remoteKey).boolValue
         }
     #endif
 }
