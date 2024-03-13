@@ -25,7 +25,7 @@ class SyncSettingsTaskTests: XCTestCase {
         store.openLinks = changedValue
 
         let expectation = XCTestExpectation(description: "Request method should be called")
-        let task = SyncSettingsTask(shouldUseNewSync: true, appSettings: store, urlConnection: URLConnection { urlRequest in
+        let task = SyncSettingsTask(appSettings: store, urlConnection: URLConnection { urlRequest in
 
             let data = try XCTUnwrap(urlRequest.httpBody, "Request body should exist")
             let request = try Api_NamedSettingsRequest(serializedData: data)
@@ -60,7 +60,7 @@ class SyncSettingsTaskTests: XCTestCase {
         XCTAssertFalse(store.openLinks, "Initial value should be false")
 
         let expectation = XCTestExpectation(description: "Request method should be called")
-        let task = SyncSettingsTask(shouldUseNewSync: true, appSettings: store, urlConnection: URLConnection { urlRequest in
+        let task = SyncSettingsTask(appSettings: store, urlConnection: URLConnection { urlRequest in
 
             var serverResponse = Api_NamedSettingsResponse()
             serverResponse.openLinks.value.value = changedValue
