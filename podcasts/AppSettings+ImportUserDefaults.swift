@@ -31,6 +31,7 @@ extension SettingsStore<AppSettings> {
         self.update(\.$playerBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.playerSort.value))
         self.update(\.$podcastBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.podcastSort.value))
         self.update(\.$episodeBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.episodeSort.value))
+        self.update(\.$profileBookmarksSortType, value: BookmarksSort(option: Constants.UserDefaults.bookmarks.profileSort.value))
         self.update(\.$headphoneControlsNextAction, value: HeadphoneControl(action: Constants.UserDefaults.headphones.nextAction.unlockedValue))
         self.update(\.$headphoneControlsPreviousAction, value: HeadphoneControl(action: Constants.UserDefaults.headphones.previousAction.unlockedValue))
         self.update(\.$privacyAnalytics, value: !UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut))
