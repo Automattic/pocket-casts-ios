@@ -1022,6 +1022,132 @@ struct Api_ChangeableSettings {
   /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
 
+  var useRssArtwork: Api_BoolSetting {
+    get {return _storage._useRssArtwork ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useRssArtwork = newValue}
+  }
+  /// Returns true if `useRssArtwork` has been explicitly set.
+  var hasUseRssArtwork: Bool {return _storage._useRssArtwork != nil}
+  /// Clears the value of `useRssArtwork`. Subsequent reads from it will return its default value.
+  mutating func clearUseRssArtwork() {_uniqueStorage()._useRssArtwork = nil}
+
+  var bookmarksSortOrder: Api_Int32Setting {
+    get {return _storage._bookmarksSortOrder ?? Api_Int32Setting()}
+    set {_uniqueStorage()._bookmarksSortOrder = newValue}
+  }
+  /// Returns true if `bookmarksSortOrder` has been explicitly set.
+  var hasBookmarksSortOrder: Bool {return _storage._bookmarksSortOrder != nil}
+  /// Clears the value of `bookmarksSortOrder`. Subsequent reads from it will return its default value.
+  mutating func clearBookmarksSortOrder() {_uniqueStorage()._bookmarksSortOrder = nil}
+
+  var autoArchivePlayedEpisodesGlobal: Api_BoolSetting {
+    get {return _storage._autoArchivePlayedEpisodesGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = newValue}
+  }
+  /// Returns true if `autoArchivePlayedEpisodesGlobal` has been explicitly set.
+  var hasAutoArchivePlayedEpisodesGlobal: Bool {return _storage._autoArchivePlayedEpisodesGlobal != nil}
+  /// Clears the value of `autoArchivePlayedEpisodesGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchivePlayedEpisodesGlobal() {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = nil}
+
+  var autoArchiveIncludesStarredGlobal: Api_BoolSetting {
+    get {return _storage._autoArchiveIncludesStarredGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoArchiveIncludesStarredGlobal = newValue}
+  }
+  /// Returns true if `autoArchiveIncludesStarredGlobal` has been explicitly set.
+  var hasAutoArchiveIncludesStarredGlobal: Bool {return _storage._autoArchiveIncludesStarredGlobal != nil}
+  /// Clears the value of `autoArchiveIncludesStarredGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveIncludesStarredGlobal() {_uniqueStorage()._autoArchiveIncludesStarredGlobal = nil}
+
+  var filesAutoUpNextGlobal: Api_BoolSetting {
+    get {return _storage._filesAutoUpNextGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAutoUpNextGlobal = newValue}
+  }
+  /// Returns true if `filesAutoUpNextGlobal` has been explicitly set.
+  var hasFilesAutoUpNextGlobal: Bool {return _storage._filesAutoUpNextGlobal != nil}
+  /// Clears the value of `filesAutoUpNextGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAutoUpNextGlobal() {_uniqueStorage()._filesAutoUpNextGlobal = nil}
+
+  var filesAfterPlayingDeleteLocalGlobal: Api_BoolSetting {
+    get {return _storage._filesAfterPlayingDeleteLocalGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteLocalGlobal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {return _storage._filesAfterPlayingDeleteLocalGlobal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteLocalGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteLocalGlobal() {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = nil}
+
+  var filesAfterPlayingDeleteCloudGlobal: Api_BoolSetting {
+    get {return _storage._filesAfterPlayingDeleteCloudGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteCloudGlobal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {return _storage._filesAfterPlayingDeleteCloudGlobal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteCloudGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteCloudGlobal() {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = nil}
+
+  var playerShelfGlobal: Api_StringSetting {
+    get {return _storage._playerShelfGlobal ?? Api_StringSetting()}
+    set {_uniqueStorage()._playerShelfGlobal = newValue}
+  }
+  /// Returns true if `playerShelfGlobal` has been explicitly set.
+  var hasPlayerShelfGlobal: Bool {return _storage._playerShelfGlobal != nil}
+  /// Clears the value of `playerShelfGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerShelfGlobal() {_uniqueStorage()._playerShelfGlobal = nil}
+
+  var rowActionGlobal: Api_Int32Setting {
+    get {return _storage._rowActionGlobal ?? Api_Int32Setting()}
+    set {_uniqueStorage()._rowActionGlobal = newValue}
+  }
+  /// Returns true if `rowActionGlobal` has been explicitly set.
+  var hasRowActionGlobal: Bool {return _storage._rowActionGlobal != nil}
+  /// Clears the value of `rowActionGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearRowActionGlobal() {_uniqueStorage()._rowActionGlobal = nil}
+
+  var useEmbeddedArtworkGlobal: Api_BoolSetting {
+    get {return _storage._useEmbeddedArtworkGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useEmbeddedArtworkGlobal = newValue}
+  }
+  /// Returns true if `useEmbeddedArtworkGlobal` has been explicitly set.
+  var hasUseEmbeddedArtworkGlobal: Bool {return _storage._useEmbeddedArtworkGlobal != nil}
+  /// Clears the value of `useEmbeddedArtworkGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearUseEmbeddedArtworkGlobal() {_uniqueStorage()._useEmbeddedArtworkGlobal = nil}
+
+  var recommendationsOnGlobal: Api_BoolSetting {
+    get {return _storage._recommendationsOnGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._recommendationsOnGlobal = newValue}
+  }
+  /// Returns true if `recommendationsOnGlobal` has been explicitly set.
+  var hasRecommendationsOnGlobal: Bool {return _storage._recommendationsOnGlobal != nil}
+  /// Clears the value of `recommendationsOnGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearRecommendationsOnGlobal() {_uniqueStorage()._recommendationsOnGlobal = nil}
+
+  var gridLayoutGlobal: Api_Int32Setting {
+    get {return _storage._gridLayoutGlobal ?? Api_Int32Setting()}
+    set {_uniqueStorage()._gridLayoutGlobal = newValue}
+  }
+  /// Returns true if `gridLayoutGlobal` has been explicitly set.
+  var hasGridLayoutGlobal: Bool {return _storage._gridLayoutGlobal != nil}
+  /// Clears the value of `gridLayoutGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearGridLayoutGlobal() {_uniqueStorage()._gridLayoutGlobal = nil}
+
+  var volumeBoostGlobal: Api_BoolSetting {
+    get {return _storage._volumeBoostGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._volumeBoostGlobal = newValue}
+  }
+  /// Returns true if `volumeBoostGlobal` has been explicitly set.
+  var hasVolumeBoostGlobal: Bool {return _storage._volumeBoostGlobal != nil}
+  /// Clears the value of `volumeBoostGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearVolumeBoostGlobal() {_uniqueStorage()._volumeBoostGlobal = nil}
+
+  var badgesGlobal: Api_Int32Setting {
+    get {return _storage._badgesGlobal ?? Api_Int32Setting()}
+    set {_uniqueStorage()._badgesGlobal = newValue}
+  }
+  /// Returns true if `badgesGlobal` has been explicitly set.
+  var hasBadgesGlobal: Bool {return _storage._badgesGlobal != nil}
+  /// Clears the value of `badgesGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearBadgesGlobal() {_uniqueStorage()._badgesGlobal = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -1729,6 +1855,132 @@ struct Api_NamedSettings {
   /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
 
+  var useRssArtwork: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._useRssArtwork ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._useRssArtwork = newValue}
+  }
+  /// Returns true if `useRssArtwork` has been explicitly set.
+  var hasUseRssArtwork: Bool {return _storage._useRssArtwork != nil}
+  /// Clears the value of `useRssArtwork`. Subsequent reads from it will return its default value.
+  mutating func clearUseRssArtwork() {_uniqueStorage()._useRssArtwork = nil}
+
+  var bookmarksSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._bookmarksSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._bookmarksSortOrder = newValue}
+  }
+  /// Returns true if `bookmarksSortOrder` has been explicitly set.
+  var hasBookmarksSortOrder: Bool {return _storage._bookmarksSortOrder != nil}
+  /// Clears the value of `bookmarksSortOrder`. Subsequent reads from it will return its default value.
+  mutating func clearBookmarksSortOrder() {_uniqueStorage()._bookmarksSortOrder = nil}
+
+  var autoArchivePlayedEpisodesGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._autoArchivePlayedEpisodesGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = newValue}
+  }
+  /// Returns true if `autoArchivePlayedEpisodesGlobal` has been explicitly set.
+  var hasAutoArchivePlayedEpisodesGlobal: Bool {return _storage._autoArchivePlayedEpisodesGlobal != nil}
+  /// Clears the value of `autoArchivePlayedEpisodesGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchivePlayedEpisodesGlobal() {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = nil}
+
+  var autoArchiveIncludesStarredGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._autoArchiveIncludesStarredGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._autoArchiveIncludesStarredGlobal = newValue}
+  }
+  /// Returns true if `autoArchiveIncludesStarredGlobal` has been explicitly set.
+  var hasAutoArchiveIncludesStarredGlobal: Bool {return _storage._autoArchiveIncludesStarredGlobal != nil}
+  /// Clears the value of `autoArchiveIncludesStarredGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveIncludesStarredGlobal() {_uniqueStorage()._autoArchiveIncludesStarredGlobal = nil}
+
+  var filesAutoUpNextGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._filesAutoUpNextGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._filesAutoUpNextGlobal = newValue}
+  }
+  /// Returns true if `filesAutoUpNextGlobal` has been explicitly set.
+  var hasFilesAutoUpNextGlobal: Bool {return _storage._filesAutoUpNextGlobal != nil}
+  /// Clears the value of `filesAutoUpNextGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAutoUpNextGlobal() {_uniqueStorage()._filesAutoUpNextGlobal = nil}
+
+  var filesAfterPlayingDeleteLocalGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._filesAfterPlayingDeleteLocalGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteLocalGlobal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {return _storage._filesAfterPlayingDeleteLocalGlobal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteLocalGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteLocalGlobal() {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = nil}
+
+  var filesAfterPlayingDeleteCloudGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._filesAfterPlayingDeleteCloudGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteCloudGlobal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {return _storage._filesAfterPlayingDeleteCloudGlobal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteCloudGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteCloudGlobal() {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = nil}
+
+  var playerShelfGlobal: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._playerShelfGlobal ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._playerShelfGlobal = newValue}
+  }
+  /// Returns true if `playerShelfGlobal` has been explicitly set.
+  var hasPlayerShelfGlobal: Bool {return _storage._playerShelfGlobal != nil}
+  /// Clears the value of `playerShelfGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerShelfGlobal() {_uniqueStorage()._playerShelfGlobal = nil}
+
+  var rowActionGlobal: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._rowActionGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._rowActionGlobal = newValue}
+  }
+  /// Returns true if `rowActionGlobal` has been explicitly set.
+  var hasRowActionGlobal: Bool {return _storage._rowActionGlobal != nil}
+  /// Clears the value of `rowActionGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearRowActionGlobal() {_uniqueStorage()._rowActionGlobal = nil}
+
+  var useEmbeddedArtworkGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._useEmbeddedArtworkGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._useEmbeddedArtworkGlobal = newValue}
+  }
+  /// Returns true if `useEmbeddedArtworkGlobal` has been explicitly set.
+  var hasUseEmbeddedArtworkGlobal: Bool {return _storage._useEmbeddedArtworkGlobal != nil}
+  /// Clears the value of `useEmbeddedArtworkGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearUseEmbeddedArtworkGlobal() {_uniqueStorage()._useEmbeddedArtworkGlobal = nil}
+
+  var recommendationsOnGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._recommendationsOnGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._recommendationsOnGlobal = newValue}
+  }
+  /// Returns true if `recommendationsOnGlobal` has been explicitly set.
+  var hasRecommendationsOnGlobal: Bool {return _storage._recommendationsOnGlobal != nil}
+  /// Clears the value of `recommendationsOnGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearRecommendationsOnGlobal() {_uniqueStorage()._recommendationsOnGlobal = nil}
+
+  var gridLayoutGlobal: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._gridLayoutGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._gridLayoutGlobal = newValue}
+  }
+  /// Returns true if `gridLayoutGlobal` has been explicitly set.
+  var hasGridLayoutGlobal: Bool {return _storage._gridLayoutGlobal != nil}
+  /// Clears the value of `gridLayoutGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearGridLayoutGlobal() {_uniqueStorage()._gridLayoutGlobal = nil}
+
+  var volumeBoostGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {return _storage._volumeBoostGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._volumeBoostGlobal = newValue}
+  }
+  /// Returns true if `volumeBoostGlobal` has been explicitly set.
+  var hasVolumeBoostGlobal: Bool {return _storage._volumeBoostGlobal != nil}
+  /// Clears the value of `volumeBoostGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearVolumeBoostGlobal() {_uniqueStorage()._volumeBoostGlobal = nil}
+
+  var badgesGlobal: SwiftProtobuf.Google_Protobuf_Int32Value {
+    get {return _storage._badgesGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    set {_uniqueStorage()._badgesGlobal = newValue}
+  }
+  /// Returns true if `badgesGlobal` has been explicitly set.
+  var hasBadgesGlobal: Bool {return _storage._badgesGlobal != nil}
+  /// Clears the value of `badgesGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearBadgesGlobal() {_uniqueStorage()._badgesGlobal = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -2435,6 +2687,132 @@ struct Api_NamedSettingsResponse {
   var hasCloudDownloadUnmeteredOnly: Bool {return _storage._cloudDownloadUnmeteredOnly != nil}
   /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
+
+  var useRssArtwork: Api_BoolSetting {
+    get {return _storage._useRssArtwork ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useRssArtwork = newValue}
+  }
+  /// Returns true if `useRssArtwork` has been explicitly set.
+  var hasUseRssArtwork: Bool {return _storage._useRssArtwork != nil}
+  /// Clears the value of `useRssArtwork`. Subsequent reads from it will return its default value.
+  mutating func clearUseRssArtwork() {_uniqueStorage()._useRssArtwork = nil}
+
+  var bookmarksSortOrder: Api_Int32Setting {
+    get {return _storage._bookmarksSortOrder ?? Api_Int32Setting()}
+    set {_uniqueStorage()._bookmarksSortOrder = newValue}
+  }
+  /// Returns true if `bookmarksSortOrder` has been explicitly set.
+  var hasBookmarksSortOrder: Bool {return _storage._bookmarksSortOrder != nil}
+  /// Clears the value of `bookmarksSortOrder`. Subsequent reads from it will return its default value.
+  mutating func clearBookmarksSortOrder() {_uniqueStorage()._bookmarksSortOrder = nil}
+
+  var autoArchivePlayedEpisodesGlobal: Api_BoolSetting {
+    get {return _storage._autoArchivePlayedEpisodesGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = newValue}
+  }
+  /// Returns true if `autoArchivePlayedEpisodesGlobal` has been explicitly set.
+  var hasAutoArchivePlayedEpisodesGlobal: Bool {return _storage._autoArchivePlayedEpisodesGlobal != nil}
+  /// Clears the value of `autoArchivePlayedEpisodesGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchivePlayedEpisodesGlobal() {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = nil}
+
+  var autoArchiveIncludesStarredGlobal: Api_BoolSetting {
+    get {return _storage._autoArchiveIncludesStarredGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._autoArchiveIncludesStarredGlobal = newValue}
+  }
+  /// Returns true if `autoArchiveIncludesStarredGlobal` has been explicitly set.
+  var hasAutoArchiveIncludesStarredGlobal: Bool {return _storage._autoArchiveIncludesStarredGlobal != nil}
+  /// Clears the value of `autoArchiveIncludesStarredGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearAutoArchiveIncludesStarredGlobal() {_uniqueStorage()._autoArchiveIncludesStarredGlobal = nil}
+
+  var filesAutoUpNextGlobal: Api_BoolSetting {
+    get {return _storage._filesAutoUpNextGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAutoUpNextGlobal = newValue}
+  }
+  /// Returns true if `filesAutoUpNextGlobal` has been explicitly set.
+  var hasFilesAutoUpNextGlobal: Bool {return _storage._filesAutoUpNextGlobal != nil}
+  /// Clears the value of `filesAutoUpNextGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAutoUpNextGlobal() {_uniqueStorage()._filesAutoUpNextGlobal = nil}
+
+  var filesAfterPlayingDeleteLocalGlobal: Api_BoolSetting {
+    get {return _storage._filesAfterPlayingDeleteLocalGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteLocalGlobal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {return _storage._filesAfterPlayingDeleteLocalGlobal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteLocalGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteLocalGlobal() {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = nil}
+
+  var filesAfterPlayingDeleteCloudGlobal: Api_BoolSetting {
+    get {return _storage._filesAfterPlayingDeleteCloudGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = newValue}
+  }
+  /// Returns true if `filesAfterPlayingDeleteCloudGlobal` has been explicitly set.
+  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {return _storage._filesAfterPlayingDeleteCloudGlobal != nil}
+  /// Clears the value of `filesAfterPlayingDeleteCloudGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearFilesAfterPlayingDeleteCloudGlobal() {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = nil}
+
+  var playerShelfGlobal: Api_StringSetting {
+    get {return _storage._playerShelfGlobal ?? Api_StringSetting()}
+    set {_uniqueStorage()._playerShelfGlobal = newValue}
+  }
+  /// Returns true if `playerShelfGlobal` has been explicitly set.
+  var hasPlayerShelfGlobal: Bool {return _storage._playerShelfGlobal != nil}
+  /// Clears the value of `playerShelfGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearPlayerShelfGlobal() {_uniqueStorage()._playerShelfGlobal = nil}
+
+  var rowActionGlobal: Api_Int32Setting {
+    get {return _storage._rowActionGlobal ?? Api_Int32Setting()}
+    set {_uniqueStorage()._rowActionGlobal = newValue}
+  }
+  /// Returns true if `rowActionGlobal` has been explicitly set.
+  var hasRowActionGlobal: Bool {return _storage._rowActionGlobal != nil}
+  /// Clears the value of `rowActionGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearRowActionGlobal() {_uniqueStorage()._rowActionGlobal = nil}
+
+  var useEmbeddedArtworkGlobal: Api_BoolSetting {
+    get {return _storage._useEmbeddedArtworkGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._useEmbeddedArtworkGlobal = newValue}
+  }
+  /// Returns true if `useEmbeddedArtworkGlobal` has been explicitly set.
+  var hasUseEmbeddedArtworkGlobal: Bool {return _storage._useEmbeddedArtworkGlobal != nil}
+  /// Clears the value of `useEmbeddedArtworkGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearUseEmbeddedArtworkGlobal() {_uniqueStorage()._useEmbeddedArtworkGlobal = nil}
+
+  var recommendationsOnGlobal: Api_BoolSetting {
+    get {return _storage._recommendationsOnGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._recommendationsOnGlobal = newValue}
+  }
+  /// Returns true if `recommendationsOnGlobal` has been explicitly set.
+  var hasRecommendationsOnGlobal: Bool {return _storage._recommendationsOnGlobal != nil}
+  /// Clears the value of `recommendationsOnGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearRecommendationsOnGlobal() {_uniqueStorage()._recommendationsOnGlobal = nil}
+
+  var gridLayoutGlobal: Api_Int32Setting {
+    get {return _storage._gridLayoutGlobal ?? Api_Int32Setting()}
+    set {_uniqueStorage()._gridLayoutGlobal = newValue}
+  }
+  /// Returns true if `gridLayoutGlobal` has been explicitly set.
+  var hasGridLayoutGlobal: Bool {return _storage._gridLayoutGlobal != nil}
+  /// Clears the value of `gridLayoutGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearGridLayoutGlobal() {_uniqueStorage()._gridLayoutGlobal = nil}
+
+  var volumeBoostGlobal: Api_BoolSetting {
+    get {return _storage._volumeBoostGlobal ?? Api_BoolSetting()}
+    set {_uniqueStorage()._volumeBoostGlobal = newValue}
+  }
+  /// Returns true if `volumeBoostGlobal` has been explicitly set.
+  var hasVolumeBoostGlobal: Bool {return _storage._volumeBoostGlobal != nil}
+  /// Clears the value of `volumeBoostGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearVolumeBoostGlobal() {_uniqueStorage()._volumeBoostGlobal = nil}
+
+  var badgesGlobal: Api_Int32Setting {
+    get {return _storage._badgesGlobal ?? Api_Int32Setting()}
+    set {_uniqueStorage()._badgesGlobal = newValue}
+  }
+  /// Returns true if `badgesGlobal` has been explicitly set.
+  var hasBadgesGlobal: Bool {return _storage._badgesGlobal != nil}
+  /// Clears the value of `badgesGlobal`. Subsequent reads from it will return its default value.
+  mutating func clearBadgesGlobal() {_uniqueStorage()._badgesGlobal = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -5999,6 +6377,25 @@ struct Api_LegacyRecord {
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
 
+  /// chapters fields
+  var deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._deselectedChapters ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._deselectedChapters = newValue}
+  }
+  /// Returns true if `deselectedChapters` has been explicitly set.
+  var hasDeselectedChapters: Bool {return _storage._deselectedChapters != nil}
+  /// Clears the value of `deselectedChapters`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChapters() {_uniqueStorage()._deselectedChapters = nil}
+
+  var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _storage._deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_uniqueStorage()._deselectedChaptersModified = newValue}
+  }
+  /// Returns true if `deselectedChaptersModified` has been explicitly set.
+  var hasDeselectedChaptersModified: Bool {return _storage._deselectedChaptersModified != nil}
+  /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChaptersModified() {_uniqueStorage()._deselectedChaptersModified = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -6510,6 +6907,25 @@ struct Api_LegacyResponseRecord {
   var hasCreatedAt: Bool {return _storage._createdAt != nil}
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
+
+  /// chapters fields
+  var deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._deselectedChapters ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._deselectedChapters = newValue}
+  }
+  /// Returns true if `deselectedChapters` has been explicitly set.
+  var hasDeselectedChapters: Bool {return _storage._deselectedChapters != nil}
+  /// Clears the value of `deselectedChapters`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChapters() {_uniqueStorage()._deselectedChapters = nil}
+
+  var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _storage._deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_uniqueStorage()._deselectedChaptersModified = newValue}
+  }
+  /// Returns true if `deselectedChaptersModified` has been explicitly set.
+  var hasDeselectedChaptersModified: Bool {return _storage._deselectedChaptersModified != nil}
+  /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChaptersModified() {_uniqueStorage()._deselectedChaptersModified = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -7824,6 +8240,20 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     77: .standard(proto: "cloud_auto_upload"),
     78: .standard(proto: "cloud_auto_download"),
     79: .standard(proto: "cloud_download_unmetered_only"),
+    80: .standard(proto: "use_rss_artwork"),
+    81: .standard(proto: "bookmarks_sort_order"),
+    82: .standard(proto: "auto_archive_played_episodes_global"),
+    83: .standard(proto: "auto_archive_includes_starred_global"),
+    84: .standard(proto: "files_auto_up_next_global"),
+    85: .standard(proto: "files_after_playing_delete_local_global"),
+    86: .standard(proto: "files_after_playing_delete_cloud_global"),
+    87: .standard(proto: "player_shelf_global"),
+    88: .standard(proto: "row_action_global"),
+    89: .standard(proto: "use_embedded_artwork_global"),
+    90: .standard(proto: "recommendations_on_global"),
+    91: .standard(proto: "grid_layout_global"),
+    92: .standard(proto: "volume_boost_global"),
+    93: .standard(proto: "badges_global"),
   ]
 
   fileprivate class _StorageClass {
@@ -7904,6 +8334,20 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     var _cloudAutoUpload: Api_BoolSetting? = nil
     var _cloudAutoDownload: Api_BoolSetting? = nil
     var _cloudDownloadUnmeteredOnly: Api_BoolSetting? = nil
+    var _useRssArtwork: Api_BoolSetting? = nil
+    var _bookmarksSortOrder: Api_Int32Setting? = nil
+    var _autoArchivePlayedEpisodesGlobal: Api_BoolSetting? = nil
+    var _autoArchiveIncludesStarredGlobal: Api_BoolSetting? = nil
+    var _filesAutoUpNextGlobal: Api_BoolSetting? = nil
+    var _filesAfterPlayingDeleteLocalGlobal: Api_BoolSetting? = nil
+    var _filesAfterPlayingDeleteCloudGlobal: Api_BoolSetting? = nil
+    var _playerShelfGlobal: Api_StringSetting? = nil
+    var _rowActionGlobal: Api_Int32Setting? = nil
+    var _useEmbeddedArtworkGlobal: Api_BoolSetting? = nil
+    var _recommendationsOnGlobal: Api_BoolSetting? = nil
+    var _gridLayoutGlobal: Api_Int32Setting? = nil
+    var _volumeBoostGlobal: Api_BoolSetting? = nil
+    var _badgesGlobal: Api_Int32Setting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -7987,6 +8431,20 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       _cloudAutoUpload = source._cloudAutoUpload
       _cloudAutoDownload = source._cloudAutoDownload
       _cloudDownloadUnmeteredOnly = source._cloudDownloadUnmeteredOnly
+      _useRssArtwork = source._useRssArtwork
+      _bookmarksSortOrder = source._bookmarksSortOrder
+      _autoArchivePlayedEpisodesGlobal = source._autoArchivePlayedEpisodesGlobal
+      _autoArchiveIncludesStarredGlobal = source._autoArchiveIncludesStarredGlobal
+      _filesAutoUpNextGlobal = source._filesAutoUpNextGlobal
+      _filesAfterPlayingDeleteLocalGlobal = source._filesAfterPlayingDeleteLocalGlobal
+      _filesAfterPlayingDeleteCloudGlobal = source._filesAfterPlayingDeleteCloudGlobal
+      _playerShelfGlobal = source._playerShelfGlobal
+      _rowActionGlobal = source._rowActionGlobal
+      _useEmbeddedArtworkGlobal = source._useEmbeddedArtworkGlobal
+      _recommendationsOnGlobal = source._recommendationsOnGlobal
+      _gridLayoutGlobal = source._gridLayoutGlobal
+      _volumeBoostGlobal = source._volumeBoostGlobal
+      _badgesGlobal = source._badgesGlobal
     }
   }
 
@@ -8082,6 +8540,20 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         case 77: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoUpload) }()
         case 78: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoDownload) }()
         case 79: try { try decoder.decodeSingularMessageField(value: &_storage._cloudDownloadUnmeteredOnly) }()
+        case 80: try { try decoder.decodeSingularMessageField(value: &_storage._useRssArtwork) }()
+        case 81: try { try decoder.decodeSingularMessageField(value: &_storage._bookmarksSortOrder) }()
+        case 82: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayedEpisodesGlobal) }()
+        case 83: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveIncludesStarredGlobal) }()
+        case 84: try { try decoder.decodeSingularMessageField(value: &_storage._filesAutoUpNextGlobal) }()
+        case 85: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteLocalGlobal) }()
+        case 86: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteCloudGlobal) }()
+        case 87: try { try decoder.decodeSingularMessageField(value: &_storage._playerShelfGlobal) }()
+        case 88: try { try decoder.decodeSingularMessageField(value: &_storage._rowActionGlobal) }()
+        case 89: try { try decoder.decodeSingularMessageField(value: &_storage._useEmbeddedArtworkGlobal) }()
+        case 90: try { try decoder.decodeSingularMessageField(value: &_storage._recommendationsOnGlobal) }()
+        case 91: try { try decoder.decodeSingularMessageField(value: &_storage._gridLayoutGlobal) }()
+        case 92: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoostGlobal) }()
+        case 93: try { try decoder.decodeSingularMessageField(value: &_storage._badgesGlobal) }()
         default: break
         }
       }
@@ -8325,6 +8797,48 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       try { if let v = _storage._cloudDownloadUnmeteredOnly {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 79)
       } }()
+      try { if let v = _storage._useRssArtwork {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 80)
+      } }()
+      try { if let v = _storage._bookmarksSortOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 81)
+      } }()
+      try { if let v = _storage._autoArchivePlayedEpisodesGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 82)
+      } }()
+      try { if let v = _storage._autoArchiveIncludesStarredGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 83)
+      } }()
+      try { if let v = _storage._filesAutoUpNextGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 84)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteLocalGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 85)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteCloudGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 86)
+      } }()
+      try { if let v = _storage._playerShelfGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 87)
+      } }()
+      try { if let v = _storage._rowActionGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 88)
+      } }()
+      try { if let v = _storage._useEmbeddedArtworkGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 89)
+      } }()
+      try { if let v = _storage._recommendationsOnGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 90)
+      } }()
+      try { if let v = _storage._gridLayoutGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 91)
+      } }()
+      try { if let v = _storage._volumeBoostGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 92)
+      } }()
+      try { if let v = _storage._badgesGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 93)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -8411,6 +8925,20 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         if _storage._cloudAutoUpload != rhs_storage._cloudAutoUpload {return false}
         if _storage._cloudAutoDownload != rhs_storage._cloudAutoDownload {return false}
         if _storage._cloudDownloadUnmeteredOnly != rhs_storage._cloudDownloadUnmeteredOnly {return false}
+        if _storage._useRssArtwork != rhs_storage._useRssArtwork {return false}
+        if _storage._bookmarksSortOrder != rhs_storage._bookmarksSortOrder {return false}
+        if _storage._autoArchivePlayedEpisodesGlobal != rhs_storage._autoArchivePlayedEpisodesGlobal {return false}
+        if _storage._autoArchiveIncludesStarredGlobal != rhs_storage._autoArchiveIncludesStarredGlobal {return false}
+        if _storage._filesAutoUpNextGlobal != rhs_storage._filesAutoUpNextGlobal {return false}
+        if _storage._filesAfterPlayingDeleteLocalGlobal != rhs_storage._filesAfterPlayingDeleteLocalGlobal {return false}
+        if _storage._filesAfterPlayingDeleteCloudGlobal != rhs_storage._filesAfterPlayingDeleteCloudGlobal {return false}
+        if _storage._playerShelfGlobal != rhs_storage._playerShelfGlobal {return false}
+        if _storage._rowActionGlobal != rhs_storage._rowActionGlobal {return false}
+        if _storage._useEmbeddedArtworkGlobal != rhs_storage._useEmbeddedArtworkGlobal {return false}
+        if _storage._recommendationsOnGlobal != rhs_storage._recommendationsOnGlobal {return false}
+        if _storage._gridLayoutGlobal != rhs_storage._gridLayoutGlobal {return false}
+        if _storage._volumeBoostGlobal != rhs_storage._volumeBoostGlobal {return false}
+        if _storage._badgesGlobal != rhs_storage._badgesGlobal {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -8500,6 +9028,20 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     77: .standard(proto: "cloud_auto_upload"),
     78: .standard(proto: "cloud_auto_download"),
     79: .standard(proto: "cloud_download_unmetered_only"),
+    80: .standard(proto: "use_rss_artwork"),
+    81: .standard(proto: "bookmarks_sort_order"),
+    82: .standard(proto: "auto_archive_played_episodes_global"),
+    83: .standard(proto: "auto_archive_includes_starred_global"),
+    84: .standard(proto: "files_auto_up_next_global"),
+    85: .standard(proto: "files_after_playing_delete_local_global"),
+    86: .standard(proto: "files_after_playing_delete_cloud_global"),
+    87: .standard(proto: "player_shelf_global"),
+    88: .standard(proto: "row_action_global"),
+    89: .standard(proto: "use_embedded_artwork_global"),
+    90: .standard(proto: "recommendations_on_global"),
+    91: .standard(proto: "grid_layout_global"),
+    92: .standard(proto: "volume_boost_global"),
+    93: .standard(proto: "badges_global"),
   ]
 
   fileprivate class _StorageClass {
@@ -8580,6 +9122,20 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     var _cloudAutoUpload: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _cloudAutoDownload: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
     var _cloudDownloadUnmeteredOnly: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _useRssArtwork: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _bookmarksSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _autoArchivePlayedEpisodesGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _autoArchiveIncludesStarredGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _filesAutoUpNextGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _filesAfterPlayingDeleteLocalGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _filesAfterPlayingDeleteCloudGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _playerShelfGlobal: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _rowActionGlobal: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _useEmbeddedArtworkGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _recommendationsOnGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _gridLayoutGlobal: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
+    var _volumeBoostGlobal: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _badgesGlobal: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -8663,6 +9219,20 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       _cloudAutoUpload = source._cloudAutoUpload
       _cloudAutoDownload = source._cloudAutoDownload
       _cloudDownloadUnmeteredOnly = source._cloudDownloadUnmeteredOnly
+      _useRssArtwork = source._useRssArtwork
+      _bookmarksSortOrder = source._bookmarksSortOrder
+      _autoArchivePlayedEpisodesGlobal = source._autoArchivePlayedEpisodesGlobal
+      _autoArchiveIncludesStarredGlobal = source._autoArchiveIncludesStarredGlobal
+      _filesAutoUpNextGlobal = source._filesAutoUpNextGlobal
+      _filesAfterPlayingDeleteLocalGlobal = source._filesAfterPlayingDeleteLocalGlobal
+      _filesAfterPlayingDeleteCloudGlobal = source._filesAfterPlayingDeleteCloudGlobal
+      _playerShelfGlobal = source._playerShelfGlobal
+      _rowActionGlobal = source._rowActionGlobal
+      _useEmbeddedArtworkGlobal = source._useEmbeddedArtworkGlobal
+      _recommendationsOnGlobal = source._recommendationsOnGlobal
+      _gridLayoutGlobal = source._gridLayoutGlobal
+      _volumeBoostGlobal = source._volumeBoostGlobal
+      _badgesGlobal = source._badgesGlobal
     }
   }
 
@@ -8758,6 +9328,20 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         case 77: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoUpload) }()
         case 78: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoDownload) }()
         case 79: try { try decoder.decodeSingularMessageField(value: &_storage._cloudDownloadUnmeteredOnly) }()
+        case 80: try { try decoder.decodeSingularMessageField(value: &_storage._useRssArtwork) }()
+        case 81: try { try decoder.decodeSingularMessageField(value: &_storage._bookmarksSortOrder) }()
+        case 82: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayedEpisodesGlobal) }()
+        case 83: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveIncludesStarredGlobal) }()
+        case 84: try { try decoder.decodeSingularMessageField(value: &_storage._filesAutoUpNextGlobal) }()
+        case 85: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteLocalGlobal) }()
+        case 86: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteCloudGlobal) }()
+        case 87: try { try decoder.decodeSingularMessageField(value: &_storage._playerShelfGlobal) }()
+        case 88: try { try decoder.decodeSingularMessageField(value: &_storage._rowActionGlobal) }()
+        case 89: try { try decoder.decodeSingularMessageField(value: &_storage._useEmbeddedArtworkGlobal) }()
+        case 90: try { try decoder.decodeSingularMessageField(value: &_storage._recommendationsOnGlobal) }()
+        case 91: try { try decoder.decodeSingularMessageField(value: &_storage._gridLayoutGlobal) }()
+        case 92: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoostGlobal) }()
+        case 93: try { try decoder.decodeSingularMessageField(value: &_storage._badgesGlobal) }()
         default: break
         }
       }
@@ -9001,6 +9585,48 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       try { if let v = _storage._cloudDownloadUnmeteredOnly {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 79)
       } }()
+      try { if let v = _storage._useRssArtwork {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 80)
+      } }()
+      try { if let v = _storage._bookmarksSortOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 81)
+      } }()
+      try { if let v = _storage._autoArchivePlayedEpisodesGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 82)
+      } }()
+      try { if let v = _storage._autoArchiveIncludesStarredGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 83)
+      } }()
+      try { if let v = _storage._filesAutoUpNextGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 84)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteLocalGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 85)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteCloudGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 86)
+      } }()
+      try { if let v = _storage._playerShelfGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 87)
+      } }()
+      try { if let v = _storage._rowActionGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 88)
+      } }()
+      try { if let v = _storage._useEmbeddedArtworkGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 89)
+      } }()
+      try { if let v = _storage._recommendationsOnGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 90)
+      } }()
+      try { if let v = _storage._gridLayoutGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 91)
+      } }()
+      try { if let v = _storage._volumeBoostGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 92)
+      } }()
+      try { if let v = _storage._badgesGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 93)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -9087,6 +9713,20 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         if _storage._cloudAutoUpload != rhs_storage._cloudAutoUpload {return false}
         if _storage._cloudAutoDownload != rhs_storage._cloudAutoDownload {return false}
         if _storage._cloudDownloadUnmeteredOnly != rhs_storage._cloudDownloadUnmeteredOnly {return false}
+        if _storage._useRssArtwork != rhs_storage._useRssArtwork {return false}
+        if _storage._bookmarksSortOrder != rhs_storage._bookmarksSortOrder {return false}
+        if _storage._autoArchivePlayedEpisodesGlobal != rhs_storage._autoArchivePlayedEpisodesGlobal {return false}
+        if _storage._autoArchiveIncludesStarredGlobal != rhs_storage._autoArchiveIncludesStarredGlobal {return false}
+        if _storage._filesAutoUpNextGlobal != rhs_storage._filesAutoUpNextGlobal {return false}
+        if _storage._filesAfterPlayingDeleteLocalGlobal != rhs_storage._filesAfterPlayingDeleteLocalGlobal {return false}
+        if _storage._filesAfterPlayingDeleteCloudGlobal != rhs_storage._filesAfterPlayingDeleteCloudGlobal {return false}
+        if _storage._playerShelfGlobal != rhs_storage._playerShelfGlobal {return false}
+        if _storage._rowActionGlobal != rhs_storage._rowActionGlobal {return false}
+        if _storage._useEmbeddedArtworkGlobal != rhs_storage._useEmbeddedArtworkGlobal {return false}
+        if _storage._recommendationsOnGlobal != rhs_storage._recommendationsOnGlobal {return false}
+        if _storage._gridLayoutGlobal != rhs_storage._gridLayoutGlobal {return false}
+        if _storage._volumeBoostGlobal != rhs_storage._volumeBoostGlobal {return false}
+        if _storage._badgesGlobal != rhs_storage._badgesGlobal {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -9176,6 +9816,20 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     77: .standard(proto: "cloud_auto_upload"),
     78: .standard(proto: "cloud_auto_download"),
     79: .standard(proto: "cloud_download_unmetered_only"),
+    80: .standard(proto: "use_rss_artwork"),
+    81: .standard(proto: "bookmarks_sort_order"),
+    82: .standard(proto: "auto_archive_played_episodes_global"),
+    83: .standard(proto: "auto_archive_includes_starred_global"),
+    84: .standard(proto: "files_auto_up_next_global"),
+    85: .standard(proto: "files_after_playing_delete_local_global"),
+    86: .standard(proto: "files_after_playing_delete_cloud_global"),
+    87: .standard(proto: "player_shelf_global"),
+    88: .standard(proto: "row_action_global"),
+    89: .standard(proto: "use_embedded_artwork_global"),
+    90: .standard(proto: "recommendations_on_global"),
+    91: .standard(proto: "grid_layout_global"),
+    92: .standard(proto: "volume_boost_global"),
+    93: .standard(proto: "badges_global"),
   ]
 
   fileprivate class _StorageClass {
@@ -9256,6 +9910,20 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     var _cloudAutoUpload: Api_BoolSetting? = nil
     var _cloudAutoDownload: Api_BoolSetting? = nil
     var _cloudDownloadUnmeteredOnly: Api_BoolSetting? = nil
+    var _useRssArtwork: Api_BoolSetting? = nil
+    var _bookmarksSortOrder: Api_Int32Setting? = nil
+    var _autoArchivePlayedEpisodesGlobal: Api_BoolSetting? = nil
+    var _autoArchiveIncludesStarredGlobal: Api_BoolSetting? = nil
+    var _filesAutoUpNextGlobal: Api_BoolSetting? = nil
+    var _filesAfterPlayingDeleteLocalGlobal: Api_BoolSetting? = nil
+    var _filesAfterPlayingDeleteCloudGlobal: Api_BoolSetting? = nil
+    var _playerShelfGlobal: Api_StringSetting? = nil
+    var _rowActionGlobal: Api_Int32Setting? = nil
+    var _useEmbeddedArtworkGlobal: Api_BoolSetting? = nil
+    var _recommendationsOnGlobal: Api_BoolSetting? = nil
+    var _gridLayoutGlobal: Api_Int32Setting? = nil
+    var _volumeBoostGlobal: Api_BoolSetting? = nil
+    var _badgesGlobal: Api_Int32Setting? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -9339,6 +10007,20 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       _cloudAutoUpload = source._cloudAutoUpload
       _cloudAutoDownload = source._cloudAutoDownload
       _cloudDownloadUnmeteredOnly = source._cloudDownloadUnmeteredOnly
+      _useRssArtwork = source._useRssArtwork
+      _bookmarksSortOrder = source._bookmarksSortOrder
+      _autoArchivePlayedEpisodesGlobal = source._autoArchivePlayedEpisodesGlobal
+      _autoArchiveIncludesStarredGlobal = source._autoArchiveIncludesStarredGlobal
+      _filesAutoUpNextGlobal = source._filesAutoUpNextGlobal
+      _filesAfterPlayingDeleteLocalGlobal = source._filesAfterPlayingDeleteLocalGlobal
+      _filesAfterPlayingDeleteCloudGlobal = source._filesAfterPlayingDeleteCloudGlobal
+      _playerShelfGlobal = source._playerShelfGlobal
+      _rowActionGlobal = source._rowActionGlobal
+      _useEmbeddedArtworkGlobal = source._useEmbeddedArtworkGlobal
+      _recommendationsOnGlobal = source._recommendationsOnGlobal
+      _gridLayoutGlobal = source._gridLayoutGlobal
+      _volumeBoostGlobal = source._volumeBoostGlobal
+      _badgesGlobal = source._badgesGlobal
     }
   }
 
@@ -9434,6 +10116,20 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         case 77: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoUpload) }()
         case 78: try { try decoder.decodeSingularMessageField(value: &_storage._cloudAutoDownload) }()
         case 79: try { try decoder.decodeSingularMessageField(value: &_storage._cloudDownloadUnmeteredOnly) }()
+        case 80: try { try decoder.decodeSingularMessageField(value: &_storage._useRssArtwork) }()
+        case 81: try { try decoder.decodeSingularMessageField(value: &_storage._bookmarksSortOrder) }()
+        case 82: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchivePlayedEpisodesGlobal) }()
+        case 83: try { try decoder.decodeSingularMessageField(value: &_storage._autoArchiveIncludesStarredGlobal) }()
+        case 84: try { try decoder.decodeSingularMessageField(value: &_storage._filesAutoUpNextGlobal) }()
+        case 85: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteLocalGlobal) }()
+        case 86: try { try decoder.decodeSingularMessageField(value: &_storage._filesAfterPlayingDeleteCloudGlobal) }()
+        case 87: try { try decoder.decodeSingularMessageField(value: &_storage._playerShelfGlobal) }()
+        case 88: try { try decoder.decodeSingularMessageField(value: &_storage._rowActionGlobal) }()
+        case 89: try { try decoder.decodeSingularMessageField(value: &_storage._useEmbeddedArtworkGlobal) }()
+        case 90: try { try decoder.decodeSingularMessageField(value: &_storage._recommendationsOnGlobal) }()
+        case 91: try { try decoder.decodeSingularMessageField(value: &_storage._gridLayoutGlobal) }()
+        case 92: try { try decoder.decodeSingularMessageField(value: &_storage._volumeBoostGlobal) }()
+        case 93: try { try decoder.decodeSingularMessageField(value: &_storage._badgesGlobal) }()
         default: break
         }
       }
@@ -9677,6 +10373,48 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       try { if let v = _storage._cloudDownloadUnmeteredOnly {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 79)
       } }()
+      try { if let v = _storage._useRssArtwork {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 80)
+      } }()
+      try { if let v = _storage._bookmarksSortOrder {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 81)
+      } }()
+      try { if let v = _storage._autoArchivePlayedEpisodesGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 82)
+      } }()
+      try { if let v = _storage._autoArchiveIncludesStarredGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 83)
+      } }()
+      try { if let v = _storage._filesAutoUpNextGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 84)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteLocalGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 85)
+      } }()
+      try { if let v = _storage._filesAfterPlayingDeleteCloudGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 86)
+      } }()
+      try { if let v = _storage._playerShelfGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 87)
+      } }()
+      try { if let v = _storage._rowActionGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 88)
+      } }()
+      try { if let v = _storage._useEmbeddedArtworkGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 89)
+      } }()
+      try { if let v = _storage._recommendationsOnGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 90)
+      } }()
+      try { if let v = _storage._gridLayoutGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 91)
+      } }()
+      try { if let v = _storage._volumeBoostGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 92)
+      } }()
+      try { if let v = _storage._badgesGlobal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 93)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -9763,6 +10501,20 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         if _storage._cloudAutoUpload != rhs_storage._cloudAutoUpload {return false}
         if _storage._cloudAutoDownload != rhs_storage._cloudAutoDownload {return false}
         if _storage._cloudDownloadUnmeteredOnly != rhs_storage._cloudDownloadUnmeteredOnly {return false}
+        if _storage._useRssArtwork != rhs_storage._useRssArtwork {return false}
+        if _storage._bookmarksSortOrder != rhs_storage._bookmarksSortOrder {return false}
+        if _storage._autoArchivePlayedEpisodesGlobal != rhs_storage._autoArchivePlayedEpisodesGlobal {return false}
+        if _storage._autoArchiveIncludesStarredGlobal != rhs_storage._autoArchiveIncludesStarredGlobal {return false}
+        if _storage._filesAutoUpNextGlobal != rhs_storage._filesAutoUpNextGlobal {return false}
+        if _storage._filesAfterPlayingDeleteLocalGlobal != rhs_storage._filesAfterPlayingDeleteLocalGlobal {return false}
+        if _storage._filesAfterPlayingDeleteCloudGlobal != rhs_storage._filesAfterPlayingDeleteCloudGlobal {return false}
+        if _storage._playerShelfGlobal != rhs_storage._playerShelfGlobal {return false}
+        if _storage._rowActionGlobal != rhs_storage._rowActionGlobal {return false}
+        if _storage._useEmbeddedArtworkGlobal != rhs_storage._useEmbeddedArtworkGlobal {return false}
+        if _storage._recommendationsOnGlobal != rhs_storage._recommendationsOnGlobal {return false}
+        if _storage._gridLayoutGlobal != rhs_storage._gridLayoutGlobal {return false}
+        if _storage._volumeBoostGlobal != rhs_storage._volumeBoostGlobal {return false}
+        if _storage._badgesGlobal != rhs_storage._badgesGlobal {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -15232,6 +15984,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     49: .same(proto: "time"),
     50: .standard(proto: "title_modified"),
     51: .standard(proto: "created_at"),
+    52: .standard(proto: "deselected_chapters"),
+    53: .standard(proto: "deselected_chapters_modified"),
   ]
 
   fileprivate class _StorageClass {
@@ -15286,6 +16040,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     var _time: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _titleModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
     var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -15343,6 +16099,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       _time = source._time
       _titleModified = source._titleModified
       _createdAt = source._createdAt
+      _deselectedChapters = source._deselectedChapters
+      _deselectedChaptersModified = source._deselectedChaptersModified
     }
   }
 
@@ -15412,6 +16170,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         case 49: try { try decoder.decodeSingularMessageField(value: &_storage._time) }()
         case 50: try { try decoder.decodeSingularMessageField(value: &_storage._titleModified) }()
         case 51: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
+        case 52: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChapters) }()
+        case 53: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChaptersModified) }()
         default: break
         }
       }
@@ -15577,6 +16337,12 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       try { if let v = _storage._createdAt {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
       } }()
+      try { if let v = _storage._deselectedChapters {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 52)
+      } }()
+      try { if let v = _storage._deselectedChaptersModified {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -15637,6 +16403,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         if _storage._time != rhs_storage._time {return false}
         if _storage._titleModified != rhs_storage._titleModified {return false}
         if _storage._createdAt != rhs_storage._createdAt {return false}
+        if _storage._deselectedChapters != rhs_storage._deselectedChapters {return false}
+        if _storage._deselectedChaptersModified != rhs_storage._deselectedChaptersModified {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -15780,6 +16548,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     49: .same(proto: "time"),
     50: .standard(proto: "title_modified"),
     51: .standard(proto: "created_at"),
+    52: .standard(proto: "deselected_chapters"),
+    53: .standard(proto: "deselected_chapters_modified"),
   ]
 
   fileprivate class _StorageClass {
@@ -15834,6 +16604,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _time: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _titleModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
     var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -15891,6 +16663,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _time = source._time
       _titleModified = source._titleModified
       _createdAt = source._createdAt
+      _deselectedChapters = source._deselectedChapters
+      _deselectedChaptersModified = source._deselectedChaptersModified
     }
   }
 
@@ -15960,6 +16734,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 49: try { try decoder.decodeSingularMessageField(value: &_storage._time) }()
         case 50: try { try decoder.decodeSingularMessageField(value: &_storage._titleModified) }()
         case 51: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
+        case 52: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChapters) }()
+        case 53: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChaptersModified) }()
         default: break
         }
       }
@@ -16125,6 +16901,12 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       try { if let v = _storage._createdAt {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
       } }()
+      try { if let v = _storage._deselectedChapters {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 52)
+      } }()
+      try { if let v = _storage._deselectedChaptersModified {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -16185,6 +16967,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._time != rhs_storage._time {return false}
         if _storage._titleModified != rhs_storage._titleModified {return false}
         if _storage._createdAt != rhs_storage._createdAt {return false}
+        if _storage._deselectedChapters != rhs_storage._deselectedChapters {return false}
+        if _storage._deselectedChaptersModified != rhs_storage._deselectedChaptersModified {return false}
         return true
       }
       if !storagesAreEqual {return false}
