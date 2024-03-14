@@ -3053,7 +3053,6 @@
 		BDD301771EFB9356004A9972 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		BDD3017B1EFB9356004A9972 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
-		BDD3017F1EFB9356004A9972 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BDD3018B1EFB94C9004A9972 /* WatchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchManager.swift; sourceTree = "<group>"; };
 		BDD3018D1EFB9574004A9972 /* WatchConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConstants.swift; sourceTree = "<group>"; };
 		BDD301911EFB9979004A9972 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
@@ -5986,7 +5985,6 @@
 				40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */,
 				40BF0B5124244C64003E3ABD /* SourceManager.swift */,
 				BD73A5D42452BFA400679864 /* Extension Assets.xcassets */,
-				BDD3017F1EFB9356004A9972 /* Info.plist */,
 				BDD301751EFB9356004A9972 /* Supporting Files */,
 			);
 			path = "Pocket Casts Watch App Extension";
