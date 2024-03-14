@@ -38,7 +38,7 @@ end
 post_install do |pi|
   pi.pods_project.targets.each do |t|
     t.build_configurations.each do |config|
-      if t.name != 'Pocket Casts Watch App Extension'
+      if t.name != 'Pocket Casts Watch App'
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] =
           app_ios_deployment_target.version
       end

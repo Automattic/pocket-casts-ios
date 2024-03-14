@@ -126,7 +126,7 @@ extension AppDelegate {
             }
         }
 
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             performUpdateIfRequired(updateKey: "MigrateToSyncedSettings") {
                 SettingsStore.appSettings.importUserDefaults()
                 DataManager.sharedManager.importPodcastSettings()

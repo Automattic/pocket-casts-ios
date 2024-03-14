@@ -410,6 +410,18 @@ public class DataManager {
         episodeManager.episodesWithListenHistory(limit: limit, dbQueue: dbQueue)
     }
 
+    public func failedDownloadedEpisodesCount() -> Int {
+        episodeManager.failedDownloadEpisodeCount(dbQueue: dbQueue)
+    }
+
+    public func oldestFailedEpisodeDownload() -> Date? {
+        episodeManager.failedDownloadFirstDate(dbQueue: dbQueue, sortOrder: .reverse)
+    }
+
+    public func newestFailedEpisodeDownload() -> Date? {
+        episodeManager.failedDownloadFirstDate(dbQueue: dbQueue, sortOrder: .forward)
+    }
+
     public func findDownloadedEpisodes() -> [BaseEpisode] {
         let query = "episodeStatus = \(DownloadStatus.downloaded.rawValue)"
         let downloadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)

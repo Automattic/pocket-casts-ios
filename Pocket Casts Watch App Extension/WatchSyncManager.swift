@@ -77,7 +77,7 @@ class WatchSyncManager {
         if updateLoginDetailsIfRequired() {
             return
         } else {
-            if isPlusUser(), WKExtension.shared().applicationState == .background, compareUpNextLists() == .watchNeedsUpdate, !SyncManager.isFirstSyncInProgress() {
+            if isPlusUser(), WKApplication.shared().applicationState == .background, compareUpNextLists() == .watchNeedsUpdate, !SyncManager.isFirstSyncInProgress() {
                 let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
                 BackgroundSyncManager.shared.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
             } else {
@@ -178,7 +178,7 @@ class WatchSyncManager {
             if SyncManager.isUserLoggedIn(), username.isEmpty {
                 FileLog.shared.addMessage("Logging out as phone has logged out ")
                 SyncManager.signout()
-                WKExtension.shared().visibleInterfaceController?.popToRootController()
+                WKApplication.shared().visibleInterfaceController?.popToRootController()
             } else if !SyncManager.isUserLoggedIn() {
                 self.login()
             }

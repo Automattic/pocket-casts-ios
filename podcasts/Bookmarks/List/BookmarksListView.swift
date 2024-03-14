@@ -7,6 +7,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     @ObservedObject var style: ListStyle
     @ObservedObject private var feature: PaidFeature
 
+    var showHeader: Bool = true
     /// When true, when entering multiselect the select all/cancel buttons will appear over the heading view
     /// Set this to false to implement custom handling
     var showMultiSelectInHeader: Bool = true
@@ -17,11 +18,13 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     init(viewModel: BookmarkListViewModel,
          style: ListStyle,
+         showHeader: Bool = true,
          showMultiSelectInHeader: Bool = true,
          showMoreInHeader: Bool = true) {
         self.viewModel = viewModel
         self.feature = viewModel.feature
         self.style = style
+        self.showHeader = showHeader
         self.showMultiSelectInHeader = showMultiSelectInHeader
         self.showMoreInHeader = showMoreInHeader
     }
@@ -69,8 +72,10 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     /// The main content view that displays a list of bookmarks
     @ViewBuilder
     private var listView: some View {
-        headerView
-        divider
+        if showHeader {
+            headerView
+            divider
+        }
 
         actionBarView {
             scrollView

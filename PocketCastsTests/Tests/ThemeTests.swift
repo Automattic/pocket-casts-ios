@@ -1,11 +1,19 @@
 import Foundation
 @testable import podcasts
 import XCTest
+@testable import PocketCastsUtils
 
 class ThemeTests: XCTestCase {
+    let flagMock = FeatureFlagMock()
+
     override func setUp() {
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey)
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.themeKey)
+        flagMock.set(.newSettingsStorage, value: false)
+    }
+
+    override func tearDown() {
+        flagMock.reset()
     }
 
     // If the user never changed the theme neither toggled light/dark option

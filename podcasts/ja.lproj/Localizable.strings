@@ -153,8 +153,18 @@
     <string>ブックマークはこちら !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>ブックマークのベータテストに参加してください !</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>今すぐ Plus に登録すると、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできます。</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Patron サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Plus サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
     <key>announcement_slumber_code_copied</key>
     <string>コードをクリップボードにコピーしました</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Plus の年間購読を開始すると、夢の実現に役立つポッドキャスト、Slumber Studios のコンテンツを1年間購読できます。 さらに詳しく。</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Plus の年間購読の一環として、Slumber Studios のコンテンツを1年間購読できます。コード %1$@ をお使いください。 さらに詳しく。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>さらに詳しく</string>
     <key>announcement_slumber_redeem</key>
@@ -492,7 +502,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社会 / 文化</string>
+    <string>カルチャー</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>スピリチュアル</string>
     <key>discover_browse_by_category_sports</key>
@@ -1077,6 +1087,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>その間、%1$@件のツイートが投稿されました。 すごい ! すごい ! 🐣</string>
     <key>go_to_podcast</key>
     <string>ポッドキャストに移動</string>
+    <key>got_it</key>
+    <string>OK</string>
     <key>group_episodes</key>
     <string>エピソードをグループ化</string>
     <key>history_clear_all</key>
@@ -1895,6 +1907,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>節約秒数</string>
     <key>select</key>
     <string>選択</string>
+    <key>select_a_chapter</key>
+    <string>チャプターを少なくとも1つ選択してください</string>
     <key>select_all</key>
     <string>すべて選択</string>
     <key>select_all_above</key>
@@ -2409,6 +2423,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>巻き戻し</string>
     <key>skip_chapters</key>
     <string>チャプターをスキップ</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Pocket Casts Patron でチャプターのスキップやその他の機能を利用</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Pocket Casts Plus でチャプターのスキップやその他の機能を利用</string>
     <key>skip_forward</key>
     <string>早送り</string>
     <key>sleep_timer</key>
@@ -2607,6 +2625,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アカウントをアップグレード</string>
     <key>upgrade_to_plan</key>
     <string>%1$@ にアップグレード</string>
+    <key>upgrade_to_plus</key>
+    <string>Plus にアップグレード</string>
     <key>upload_sort_alpha</key>
     <string>タイトル (アルファベット順)</string>
     <key>volume_boost</key>

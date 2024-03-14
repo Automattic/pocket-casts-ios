@@ -153,8 +153,18 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>De bladwijzers zijn er!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Doe mee met de bètatests voor bladwijzers!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Neem een Plus-abonnement om waar mogelijk hoofdstukken van afleveringen te selecteren en over te slaan.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Met het Patron-abonnement kan je waar mogelijk hoofdstukken van afleveringen selecteren en overslaan.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Met het Plus-abonnement kan je waar mogelijk hoofdstukken van afleveringen selecteren en overslaan.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code gekopieerd naar klembord</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Abonneer je op Plus en geniet 1 jaar lang van een abonnement op Slumber Studios-content, podcasts ontworpen voor de zoetste dromen. Meer informatie.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Als onderdeel van je Plus-abonnement kan je 1 jaar lang genieten van een abonnement op Slumber Studios-content met code %1$@. Meer informatie.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Meer informatie</string>
     <key>announcement_slumber_redeem</key>
@@ -1077,6 +1087,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>In de tussentijd zijn %1$@ tweets getoet. Toet! Toet! 🐣</string>
     <key>go_to_podcast</key>
     <string>Naar podcast</string>
+    <key>got_it</key>
+    <string>Duidelijk</string>
     <key>group_episodes</key>
     <string>Afleveringen groeperen</string>
     <key>history_clear_all</key>
@@ -1895,6 +1907,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Seconden opgeslagen</string>
     <key>select</key>
     <string>Selecteren</string>
+    <key>select_a_chapter</key>
+    <string>Selecteer ten minste één hoofdstuk</string>
     <key>select_all</key>
     <string>Alles selecteren</string>
     <key>select_all_above</key>
@@ -2409,6 +2423,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Terugspoelen</string>
     <key>skip_chapters</key>
     <string>Hoofdstukken overslaan</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Sla hoofdstukken over en geniet van extra functies met Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Sla hoofdstukken over en geniet van extra functies met Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Doorspoelen</string>
     <key>sleep_timer</key>
@@ -2607,6 +2625,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Account upgraden</string>
     <key>upgrade_to_plan</key>
     <string>Upgrade naar %1$@</string>
+    <key>upgrade_to_plus</key>
+    <string>Upgraden naar Plus</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A-Z)</string>
     <key>volume_boost</key>

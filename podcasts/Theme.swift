@@ -122,7 +122,7 @@ class Theme: ObservableObject {
             }
         }
         didSet {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.theme = activeTheme
             }
             UserDefaults.standard.set(activeTheme.rawValue, forKey: Theme.themeKey)
@@ -137,7 +137,7 @@ class Theme: ObservableObject {
     }
 
     init() {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             activeTheme = SettingsStore.appSettings.theme
         } else {
             let savedTheme = UserDefaults.standard.integer(forKey: Theme.themeKey)
@@ -169,7 +169,7 @@ class Theme: ObservableObject {
     }
 
     class func preferredDarkTheme() -> ThemeType {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.darkThemePreference
         }
 
@@ -184,7 +184,7 @@ class Theme: ObservableObject {
 
     class func setPreferredDarkTheme(_ preferredType: ThemeType, systemIsDark: Bool, userInitiated: Bool = false) {
 
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.darkThemePreference = preferredType
         }
         UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredDarkThemeKey)
@@ -200,7 +200,7 @@ class Theme: ObservableObject {
 
     class func preferredLightTheme() -> ThemeType {
 
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.lightThemePreference
         }
 
@@ -215,7 +215,7 @@ class Theme: ObservableObject {
 
     class func setPreferredLightTheme(_ preferredType: ThemeType, systemIsDark: Bool) {
 
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.lightThemePreference = preferredType
         }
         UserDefaults.standard.setValue(preferredType.old.rawValue, forKey: preferredLightThemeKey)

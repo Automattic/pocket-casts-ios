@@ -16,7 +16,7 @@ class PlaybackItem: NSObject {
     func createPlayerItem() -> AVPlayerItem? {
         guard let url = EpisodeManager.urlForEpisode(episode) else { return nil }
         var options: [String: Any] = [:]
-        if #available(iOS 16, *), #available(watchOSApplicationExtension 9.0, *) {
+        if #available(iOS 16, *), #available(watchOS 9.0, *) {
             // there is now an official, working way to set the user-agent for every request
             // https://developer.apple.com/documentation/avfoundation/avurlassethttpuseragentkey
             options[AVURLAssetHTTPUserAgentKey] = ServerConstants.Values.appUserAgent
