@@ -4,6 +4,7 @@ import SwiftUI
 struct UpNextWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) var family
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
         if let episodes = entry.episodes, episodes.count > 0 {
@@ -18,10 +19,10 @@ struct UpNextWidgetEntryView: View {
                     Text(L10n.widgetsNothingPlaying)
                         .font(.subheadline)
                         .fontWeight(.regular)
-                        .foregroundColor(Color.secondary)
+                        .foregroundColor(colorScheme.filterViewTextColor)
                         .lineLimit(1)
                     Spacer()
-                    Image("logo_red_small")
+                    Image(colorScheme.filterViewIconAssetName)
                         .frame(width: 28, height: 28, alignment: .topTrailing)
                         .accessibility(hidden: true)
                 }
@@ -38,7 +39,7 @@ struct UpNextWidgetEntryView: View {
                 Spacer()
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            .background(darkBackgroundColor)
+            .background(colorScheme.filterViewBackgroundColor)
         }
     }
 }
