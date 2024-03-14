@@ -19,6 +19,8 @@ class SearchResultsModel: ObservableObject {
 
     @Published var hideEpisodes = false
 
+    private(set) var playedEpisodesUUIDs = Set<String>()
+
     init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
         self.analyticsHelper = analyticsHelper
     }
@@ -26,6 +28,7 @@ class SearchResultsModel: ObservableObject {
     func clearSearch() {
         podcasts = []
         episodes = []
+        playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
     }
 
@@ -53,6 +56,7 @@ class SearchResultsModel: ObservableObject {
                 isSearchingForEpisodes = true
                 do {
                     let results = try await episodeSearch.search(term: term)
+                    playedEpisodesUUIDs = buildPlayedEpisodesUUIDs(results)
                     episodes = results
                 } catch {
                     analyticsHelper.trackFailed(error)
@@ -97,6 +101,19 @@ class SearchResultsModel: ObservableObject {
 
         resultsContainLocalPodcasts = true
         isShowingLocalResultsOnly = true
+    }
+
+    private func buildPlayedEpisodesUUIDs(_ episodes: [EpisodeSearchResult]) -> Set<String> {
+        if episodes.isEmpty {
+            return []
+        }
+        let uuids = episodes.map { $0.uuid }
+        return DataManager.sharedManager.findPlayedEpisodesBy(uuids: uuids)
+            .reduce(Set<String>()) { list, episode in
+                var set = list
+                set.insert(episode.uuid)
+                return set
+        }
     }
 
     private func show(podcastResults: [PodcastFolderSearchResult]) {
