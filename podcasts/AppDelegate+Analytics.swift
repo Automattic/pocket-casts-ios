@@ -1,5 +1,6 @@
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 extension AppDelegate {
     private var shouldRegisterAdapters: Bool {
@@ -13,6 +14,23 @@ extension AppDelegate {
         }
 
         Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()])
+    }
+
+    func logStaleDownloads() {
+        let failedDownloadCount = DataManager.sharedManager.failedDownloadedEpisodesCount()
+
+        guard failedDownloadCount > 0 else {
+            return
+        }
+
+        let oldestFailedDownload = DataManager.sharedManager.oldestFailedEpisodeDownload()
+        let newestFailedDownload = DataManager.sharedManager.newestFailedEpisodeDownload()
+
+        let properties: [String: Any?] =  ["failed_download_count": failedDownloadCount,
+                                           "oldest_failed_download": oldestFailedDownload?.formatted(.iso8601),
+                                           "newest_failed_download": newestFailedDownload?.formatted(.iso8601)]
+
+        Analytics.track(.episodeDownloadsStale, properties: properties.compactMapValues({ $0 }))
     }
 
     func addAnalyticsObservers() {

@@ -153,8 +153,18 @@
     <string>书签在这里！</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>加入我们的 Beta 测试，试用书签功能！</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>立即订阅 Plus，然后您就能在任何支持相应功能的剧集中选择和跳过章节。</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>订阅 Patron 后，您就能在任何支持相应功能的剧集中选择和跳过章节。</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>订阅 Plus 后，您就能在任何支持相应功能的剧集中选择和跳过章节。</string>
     <key>announcement_slumber_code_copied</key>
     <string>代码已复制到剪贴板</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>订阅年度 Plus 并享受为期一年的 Slumber Studios 内容订阅，这是为实现最甜蜜的梦想而打造的播客。 了解更多。</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>订阅年度 Plus 后，使用代码 %1$@ 即可享受为期一年的 Slumber Studios 内容订阅。 了解更多。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>了解更多</string>
     <key>announcement_slumber_redeem</key>
@@ -492,7 +502,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社会与文化</string>
+    <string>文化</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>精神生活</string>
     <key>discover_browse_by_category_sports</key>
@@ -1077,6 +1087,8 @@
     <string>在此期间，发送了 %1$@ 篇推文。 太棒了！ 太棒了！ 🐣</string>
     <key>go_to_podcast</key>
     <string>转至播客</string>
+    <key>got_it</key>
+    <string>知道了</string>
     <key>group_episodes</key>
     <string>对剧集进行分组</string>
     <key>history_clear_all</key>
@@ -1895,6 +1907,8 @@
     <string>已保存的秒数</string>
     <key>select</key>
     <string>选择</string>
+    <key>select_a_chapter</key>
+    <string>请至少选择一个章节</string>
     <key>select_all</key>
     <string>全选</string>
     <key>select_all_above</key>
@@ -2409,6 +2423,10 @@
     <string>后跳</string>
     <key>skip_chapters</key>
     <string>跳过章节</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>使用 Pocket Casts Patron，享受跳过章节等更多功能</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>使用 Pocket Casts Plus，享受跳过章节等更多功能</string>
     <key>skip_forward</key>
     <string>前跳</string>
     <key>sleep_timer</key>
@@ -2607,6 +2625,8 @@
     <string>升级账户</string>
     <key>upgrade_to_plan</key>
     <string>升级至 %1$@</string>
+    <key>upgrade_to_plus</key>
+    <string>升级至 Plus</string>
     <key>upload_sort_alpha</key>
     <string>标题 (A-Z)</string>
     <key>volume_boost</key>

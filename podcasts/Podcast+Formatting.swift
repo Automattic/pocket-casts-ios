@@ -93,7 +93,7 @@ extension Podcast {
     #endif
 
     func podcastGrouping() -> PodcastGrouping {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return settings.episodeGrouping
         } else {
             return PodcastGrouping(rawValue: episodeGrouping) ?? .none

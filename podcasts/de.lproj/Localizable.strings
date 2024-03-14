@@ -153,8 +153,18 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Die Lesezeichen sind da!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Sei beim Testen der Beta-Version der Lesezeichen dabei!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Abonniere Plus jetzt, damit du in jeder Folge Kapitel auswählen und überspringen kannst (falls unterstützt).</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Als Teil deines Patron-Abonnements kannst du nun in jeder Folge Kapitel auswählen und überspringen kannst (falls unterstützt).</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Als Teil deines Plus-Abonnements kannst du nun in jeder Folge Kapitel auswählen und überspringen kannst (falls unterstützt).</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code in Zwischenablage kopiert</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Abonniere das Plus-Jahresabonnement und erhalte ein 1-Jahres-Abonnement für Slumber Studios-Inhalte, die Podcasts für süße Träume. Weitere Informationen.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Im Rahmen deines Plus-Jahresabonnements erhältst du mit dem Code %1$@ ein 1-Jahres-Abonnement für Slumber Studios-Inhalte. Weitere Informationen.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Weitere Informationen</string>
     <key>announcement_slumber_redeem</key>
@@ -492,7 +502,7 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <key>discover_browse_by_category_society</key>
     <string>Gesellschaft</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Gesellschaft und Kultur</string>
+    <string>Kultur</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualität</string>
     <key>discover_browse_by_category_sports</key>
@@ -1077,6 +1087,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>In dieser Zeit wurden %1$@ Tweets gezwitschert. Zwitscher! Zwitscher! 🐣</string>
     <key>go_to_podcast</key>
     <string>Zum Podcast</string>
+    <key>got_it</key>
+    <string>Verstanden</string>
     <key>group_episodes</key>
     <string>Folgen gruppieren</string>
     <key>history_clear_all</key>
@@ -1895,6 +1907,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Sekunden gespeichert</string>
     <key>select</key>
     <string>Auswählen</string>
+    <key>select_a_chapter</key>
+    <string>Bitte wähle mindestens ein Kapitel aus</string>
     <key>select_all</key>
     <string>Alle auswählen</string>
     <key>select_all_above</key>
@@ -2409,6 +2423,10 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Zurück</string>
     <key>skip_chapters</key>
     <string>Kapitel überspringen</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Überspringe Kapitel und mehr mit Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Überspringe Kapitel und mehr mit Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Vor</string>
     <key>sleep_timer</key>
@@ -2607,6 +2625,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Upgrade für Konto durchführen</string>
     <key>upgrade_to_plan</key>
     <string>Upgrade auf %1$@ durchführen</string>
+    <key>upgrade_to_plus</key>
+    <string>Upgrade auf Plus durchführen</string>
     <key>upload_sort_alpha</key>
     <string>Titel (A–Z)</string>
     <key>volume_boost</key>

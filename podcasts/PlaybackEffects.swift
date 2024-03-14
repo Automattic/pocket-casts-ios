@@ -44,7 +44,7 @@ class PlaybackEffects {
     var isGlobal: Bool = true
 
     class func effectsFor(podcast: Podcast) -> PlaybackEffects {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             if !podcast.settings.customEffects { return globalEffects() }
         } else {
             if !podcast.overrideGlobalEffects { return globalEffects() }
@@ -54,7 +54,7 @@ class PlaybackEffects {
 
         effects.isGlobal = false
 
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             effects.trimSilence = podcast.settings.trimSilence.amount
             effects.volumeBoost = podcast.settings.boostVolume
             effects.playbackSpeed = podcast.settings.playbackSpeed
@@ -71,7 +71,7 @@ class PlaybackEffects {
         let effects = PlaybackEffects()
         effects.isGlobal = true
         let savedSpeed: Double
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             effects.trimSilence = SettingsStore.appSettings.trimSilence
             effects.volumeBoost = SettingsStore.appSettings.volumeBoost
             savedSpeed = SettingsStore.appSettings.playbackSpeed
