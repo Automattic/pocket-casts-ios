@@ -927,7 +927,6 @@
 		BD7114C020E224BF003DF634 /* AutoArchiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD7114BE20E224BF003DF634 /* AutoArchiveViewController.xib */; };
 		BD7166951ECA8646007DD36E /* TopAlignedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7166941ECA8646007DD36E /* TopAlignedLabel.swift */; };
 		BD7166971ECA880D007DD36E /* IndentedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7166961ECA880D007DD36E /* IndentedTextField.swift */; };
-		BD73A5D52452BFA400679864 /* Extension Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD73A5D42452BFA400679864 /* Extension Assets.xcassets */; };
 		BD74F15127F28E6600222785 /* HomeGridDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15027F28E6600222785 /* HomeGridDataHelper.swift */; };
 		BD74F15327F28F6F00222785 /* HomeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15227F28F6F00222785 /* HomeGridItem.swift */; };
 		BD74F15427F293E400222785 /* HomeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15227F28F6F00222785 /* HomeGridItem.swift */; };
@@ -2729,7 +2728,6 @@
 		BD7114BE20E224BF003DF634 /* AutoArchiveViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AutoArchiveViewController.xib; sourceTree = "<group>"; };
 		BD7166941ECA8646007DD36E /* TopAlignedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopAlignedLabel.swift; sourceTree = "<group>"; };
 		BD7166961ECA880D007DD36E /* IndentedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndentedTextField.swift; sourceTree = "<group>"; };
-		BD73A5D42452BFA400679864 /* Extension Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Extension Assets.xcassets"; sourceTree = "<group>"; };
 		BD74F15027F28E6600222785 /* HomeGridDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGridDataHelper.swift; sourceTree = "<group>"; };
 		BD74F15227F28F6F00222785 /* HomeGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGridItem.swift; sourceTree = "<group>"; };
 		BD74F15727F2955D00222785 /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
@@ -5976,7 +5974,6 @@
 				40BF0B44242055CD003E3ABD /* WatchSyncManager+ServerSyncDelegate.swift */,
 				40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */,
 				40BF0B5124244C64003E3ABD /* SourceManager.swift */,
-				BD73A5D42452BFA400679864 /* Extension Assets.xcassets */,
 				BDD301751EFB9356004A9972 /* Supporting Files */,
 			);
 			path = "Pocket Casts Watch App";
@@ -8234,7 +8231,6 @@
 				8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */,
 				BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */,
 				8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */,
-				BD73A5D52452BFA400679864 /* Extension Assets.xcassets in Resources */,
 				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
 				463538A326E16A2C00BA9D35 /* Localizable.strings in Resources */,
 				BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */,
