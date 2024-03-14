@@ -248,9 +248,12 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("social/share/:showOrPrivate/:sharingId") { [weak self] parameters -> Bool in
             guard let strongSelf = self, let folder = parameters["showOrPrivate"] as? String, let sharingId = parameters["sharingId"] as? String, let controller = SceneHelper.rootViewController() else { return false }
-
+            var sharePath = "social/share/\(folder)/\(sharingId)"
+            if let timestamp = parameters["t"] as? String {
+                sharePath = sharePath + "/?t=\(timestamp)"
+            }
             FileLog.shared.addMessage("Opening share link, path: \(folder)/\(sharingId)")
-            strongSelf.openSharePath("social/share/\(folder)/\(sharingId)", controller: controller, onErrorOpen: nil)
+            strongSelf.openSharePath(sharePath, controller: controller, onErrorOpen: nil)
             return true
         }
 
