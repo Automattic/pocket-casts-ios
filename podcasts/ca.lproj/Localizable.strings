@@ -153,6 +153,12 @@
     <string>Els marcadors són aquí!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Uneix-te a nosaltres a la prova beta dels marcadors!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Subscriu-te a Plus ara perquè puguis triar i saltar capítols en qualsevol episodi que els suporti.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Com a part de la teva subscripció de Patron, ara pots triar i saltar capítols en qualsevol episodi que els suporti.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Com a part de la teva subscripció Plus, ara pots triar i saltar capítols en qualsevol episodi que els suporti.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Codi copiat al portapapers</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -496,7 +502,7 @@
     <key>discover_browse_by_category_society</key>
     <string>Societat</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Societat i cultura</string>
+    <string>Cultura</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Espiritualitat</string>
     <key>discover_browse_by_category_sports</key>
@@ -813,7 +819,7 @@ Ens veiem al 2024!</string>
     <key>episode_count_plural_format</key>
     <string>%1$@ episodis</string>
     <key>episode_details_title</key>
-    <string>Detalls</string>
+    <string>Notes</string>
     <key>episode_filter_by_duration_label</key>
     <string>Filtrar per durada</string>
     <key>episode_filter_no_episodes_msg</key>
@@ -1079,6 +1085,8 @@ Comparteix-los amb Pocket Casts i apareixeran aquí.</string>
     <string>Durant aquest temps s'han enviat %1$@ tuits. Piu! Piu! 🐣</string>
     <key>go_to_podcast</key>
     <string>Anar al podcast</string>
+    <key>got_it</key>
+    <string>Entesos</string>
     <key>group_episodes</key>
     <string>Agrupar episodis</string>
     <key>history_clear_all</key>
@@ -1455,7 +1463,7 @@ ACTUALITZACIONS</string>
     <key>player_share_header</key>
     <string>COMPARTEIX L'ENLLAÇ A</string>
     <key>player_show_notes_title</key>
-    <string>Detalls</string>
+    <string>Notes</string>
     <key>player_user_episode_download_error</key>
     <string>Error de la descàrrega</string>
     <key>player_user_episode_playback_error</key>
@@ -1894,6 +1902,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Segons estalviats</string>
     <key>select</key>
     <string>Seleccionar</string>
+    <key>select_a_chapter</key>
+    <string>Seleccioneu almenys un capítol</string>
     <key>select_all</key>
     <string>Selecciona-ho tot</string>
     <key>select_all_above</key>
@@ -2408,6 +2418,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Endarrerir</string>
     <key>skip_chapters</key>
     <string>Saltar capítols</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Salta capítols i més amb Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Salta capítols i més amb Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avançar</string>
     <key>sleep_timer</key>
@@ -2605,6 +2619,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Actualizar el compte</string>
     <key>upgrade_to_plan</key>
     <string>Actualitza a %1$@</string>
+    <key>upgrade_to_plus</key>
+    <string>Actualitzar a Plus</string>
     <key>upload_sort_alpha</key>
     <string>Títol (A-Z)</string>
     <key>volume_boost</key>
