@@ -45,8 +45,8 @@ struct SearchResultsView: View {
                         }
                     } else if searchResults.episodes.count > 0 {
                         ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
-
-                            SearchResultCell(episode: episode, result: nil)
+                            let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
+                            SearchResultCell(episode: episode, result: nil, played: played)
                         }
                     } else if !searchResults.isShowingLocalResultsOnly {
                         VStack(spacing: 2) {
