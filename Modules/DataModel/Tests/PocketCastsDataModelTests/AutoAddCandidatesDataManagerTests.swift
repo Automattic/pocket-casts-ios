@@ -33,7 +33,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
 
     /// Tests new query and autoAddToUpNext property for UpNext candidates
     func testSyncableUpNextSetting() throws {
-        featureFlagMock.set(.settingsSync, value: true)
+        featureFlagMock.set(.newSettingsStorage, value: true)
 
         let dataManager = try setupDatabase()
         let newUpNextSetting = AutoAddToUpNextSetting.addFirst
@@ -63,7 +63,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
 
     /// Tests old query and autoAddToUpNext property for UpNext candidates
     func testOldUpNextSetting() throws {
-        featureFlagMock.set(.settingsSync, value: false)
+        featureFlagMock.set(.newSettingsStorage, value: false)
 
         let dataManager = try setupDatabase()
         let newUpNextSetting = AutoAddToUpNextSetting.addFirst
@@ -92,7 +92,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
     }
 
     func testOldQueryPerformance() throws {
-        featureFlagMock.set(.settingsSync, value: false)
+        featureFlagMock.set(.newSettingsStorage, value: false)
 
         let dataManager = try setupDatabase()
         let newUpNextSetting = AutoAddToUpNextSetting.addFirst
@@ -125,7 +125,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
     }
 
     func testNewQueryPerformance() throws {
-        featureFlagMock.set(.settingsSync, value: true)
+        featureFlagMock.set(.newSettingsStorage, value: true)
 
         let dataManager = try setupDatabase()
         let newUpNextSetting = AutoAddToUpNextSetting.addFirst

@@ -200,6 +200,8 @@ private extension BookmarkSortOption {
             return L10n.sortOptionTimestamp
         case .episode:
             return L10n.episode
+        case .podcastAndEpisode:
+            return L10n.podcastAndEpisode
         }
     }
 }

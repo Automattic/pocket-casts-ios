@@ -92,7 +92,7 @@ class NavigationManager {
     }
 
     private func topMostController() -> WKInterfaceController? {
-        let visibleController = WKExtension.shared().visibleInterfaceController ?? WKExtension.shared().rootInterfaceController
+        let visibleController = WKApplication.shared().visibleInterfaceController ?? WKApplication.shared().rootInterfaceController
 
         return visibleController
     }

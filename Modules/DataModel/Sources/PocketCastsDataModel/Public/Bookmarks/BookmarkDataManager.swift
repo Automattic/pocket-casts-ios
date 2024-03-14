@@ -268,7 +268,7 @@ private extension BookmarkDataManager {
             .filter { !$0.isEmpty }
             .joined(separator: " AND ")
 
-        let whereString = whereColumns.isEmpty ? "" : "WHERE \(whereValues)"
+        let whereString = whereValues.isEmpty ? "" : "WHERE \(whereValues)"
 
         var results: [Bookmark] = []
 

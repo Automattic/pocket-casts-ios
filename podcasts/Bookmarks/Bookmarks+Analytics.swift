@@ -3,6 +3,7 @@ import Foundation
 // MARK: - Source
 
 enum BookmarkAnalyticsSource: String, AnalyticsDescribable {
+    case profile = "profile_screen"
     case podcasts = "podcast_screen"
     case episodes = "episode_details"
     case player
@@ -28,6 +29,8 @@ extension BookmarkSortOption: AnalyticsDescribable {
             return "timestamp"
         case .episode:
             return "episode"
+        case .podcastAndEpisode:
+            return "podcastAndEpisode"
         }
     }
 }

@@ -60,6 +60,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                     Text($0)
                         .foregroundStyle(style.tertiaryText)
                         .font(style: .caption, weight: .semibold)
+                        .lineLimit(1)
                 }
 
                 Text(rowModel.title)
@@ -69,6 +70,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                 Text(rowModel.subtitle)
                     .foregroundStyle(style.tertiaryText)
                     .font(style: .caption, weight: .semibold)
+                    .lineLimit(1)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         } onTapped: {

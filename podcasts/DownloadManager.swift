@@ -14,6 +14,8 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var downloadingEpisodesCache = [String: BaseEpisode]()
 
+    var taskFailure: [String: FailureReason] = [:]
+
     #if os(watchOS)
         var pendingWatchBackgroundTask: WKURLSessionRefreshBackgroundTask?
     #endif
@@ -269,6 +271,8 @@ class DownloadManager: NSObject, FilePathProtocol {
         guard let url = downloadUrl, let scheme = url.scheme, scheme.count > 0, scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame else {
             DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorContactAuthor, downloadTaskId: nil, episode: episode)
 
+            logDownload(episode, failure: .malformedHost)
+
             if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
 
             return
@@ -283,7 +287,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToWifi() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
 
         #if os(watchOS)
-            let sessionToUse = WKExtension.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession
+            let sessionToUse = WKApplication.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession
         #else
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
@@ -419,9 +423,6 @@ class DownloadManager: NSObject, FilePathProtocol {
     func removeEpisodeFromCache(_ episode: BaseEpisode) {
         progressManager.removeProgressForEpisode(episode.uuid)
 
-        if let taskId = episode.downloadTaskId {
-            downloadingEpisodesCache.removeValue(forKey: taskId)
-        }
     }
 
     private func resumeDownload(tempFilePath: String, session: URLSession, request: URLRequest, previousDownloadFailed: Bool, taskId: String, estimatedBytes: Int64) {

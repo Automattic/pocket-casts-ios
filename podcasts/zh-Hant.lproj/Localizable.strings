@@ -153,8 +153,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>書籤登場！</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>加入我們的書籤 Beta 測試！</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>立即訂閱 Plus，就能在支援章節功能的節目中選取並跳過章節。</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>你已訂閱 Patron，現在可以在支援章節功能的節目中選取並跳過章節。</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>你已訂閱 Plus，現在可以在支援章節功能的節目中選取並跳過章節。</string>
     <key>announcement_slumber_code_copied</key>
     <string>代碼已複製到剪貼簿</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>訂閱 Plus 年繳方案並享有 1 年份的 Slumber Studios 訂閱內容，這是為進入甜美夢鄉而生的 Podcast。 深入了解。</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>使用代碼「%1$@」即可享有 1 年份的 Slumber Studios 訂閱內容，這是 Plus 年繳訂閱方案的一部分。 深入了解。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>深入了解</string>
     <key>announcement_slumber_redeem</key>
@@ -492,7 +502,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>discover_browse_by_category_society</key>
     <string>社會</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社會與文化</string>
+    <string>文化</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>心靈</string>
     <key>discover_browse_by_category_sports</key>
@@ -1077,6 +1087,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在這段時間內世界發送了 %1$@ 則推文。嘰嘰喳喳！嘰嘰喳喳！🐣</string>
     <key>go_to_podcast</key>
     <string>前往 Podcast 節目</string>
+    <key>got_it</key>
+    <string>知道了</string>
     <key>group_episodes</key>
     <string>將單集分組</string>
     <key>history_clear_all</key>
@@ -1895,6 +1907,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>已省下的秒數</string>
     <key>select</key>
     <string>選取</string>
+    <key>select_a_chapter</key>
+    <string>請選取至少一章</string>
     <key>select_all</key>
     <string>全部選取</string>
     <key>select_all_above</key>
@@ -2409,6 +2423,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>倒轉跳過</string>
     <key>skip_chapters</key>
     <string>略過章節</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>訂閱 Pocket Casts Patron，就能跳過章節並享有更多功能</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>訂閱 Pocket Casts Plus，就能跳過章節並享有更多功能</string>
     <key>skip_forward</key>
     <string>快轉跳過</string>
     <key>sleep_timer</key>
@@ -2607,6 +2625,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>升級帳號</string>
     <key>upgrade_to_plan</key>
     <string>升級至 %1$@</string>
+    <key>upgrade_to_plus</key>
+    <string>升級至 Plus</string>
     <key>upload_sort_alpha</key>
     <string>標題 (A-Z)</string>
     <key>volume_boost</key>

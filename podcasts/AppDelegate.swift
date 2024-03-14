@@ -86,6 +86,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupSignOutListener()
 
+        logStaleDownloads()
+
         return true
     }
 
@@ -314,6 +316,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
+            if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
+                if FeatureFlag.newSettingsStorage.enabled {
+                    SettingsStore.appSettings.importUserDefaults()
+                    DataManager.sharedManager.importPodcastSettings()
+                }
+            }
 
             try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 

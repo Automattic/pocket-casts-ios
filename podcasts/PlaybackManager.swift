@@ -736,7 +736,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // persist changes
         if effects.isGlobal {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.trimSilence = effects.trimSilence
                 SettingsStore.appSettings.volumeBoost = effects.volumeBoost
                 SettingsStore.appSettings.playbackSpeed = effects.playbackSpeed
@@ -746,7 +746,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 UserDefaults.standard.set(effects.playbackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
             }
         } else if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 podcast.settings.trimSilence = TrimSilence(amount: effects.trimSilence)
                 podcast.settings.playbackSpeed = effects.playbackSpeed
                 podcast.settings.boostVolume = effects.volumeBoost
@@ -1931,7 +1931,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             DispatchQueue.main.async {
                 if self.playing() {
                     let keepScreenOn: Bool
-                    if FeatureFlag.settingsSync.enabled {
+                    if FeatureFlag.newSettingsStorage.enabled {
                         keepScreenOn = SettingsStore.appSettings.keepScreenAwake
                     } else {
                         keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)

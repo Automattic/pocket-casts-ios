@@ -153,8 +153,18 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Chegaram os favoritos!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Junte-se a nós na versão beta dos favoritos!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Assine o Plus agora para selecionar e pular capítulos em qualquer episódio que seja compatível com esses recursos.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Como parte da assinatura do Patron, você pode selecionar e pular capítulos em qualquer episódio que seja compatível com esses recursos.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Como parte da assinatura do Plus, você pode selecionar e pular capítulos em qualquer episódio que seja compatível com esses recursos.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Código copiado para a área de transferência</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Assine o Plus anual e aproveite uma assinatura de um ano do conteúdo do Slumber Studios, podcasts feitos para proporcionar os melhores sonhos. Saiba mais.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Como parte da sua assinatura Plus anual, aproveite uma assinatura de um ano do conteúdo do Slumber Studios usando o código %1$@. Saiba mais.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Saiba mais</string>
     <key>announcement_slumber_redeem</key>
@@ -492,7 +502,7 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>discover_browse_by_category_society</key>
     <string>Sociedade</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Sociedade e cultura</string>
+    <string>Cultura</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Espiritualidade</string>
     <key>discover_browse_by_category_sports</key>
@@ -1077,6 +1087,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>Nesse período, %1$@ tweets foram publicados. Uau! Uau! 🐣</string>
     <key>go_to_podcast</key>
     <string>Acessar podcast</string>
+    <key>got_it</key>
+    <string>Entendi</string>
     <key>group_episodes</key>
     <string>Agrupar episódios</string>
     <key>history_clear_all</key>
@@ -1895,6 +1907,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Segundos economizados</string>
     <key>select</key>
     <string>Selecionar</string>
+    <key>select_a_chapter</key>
+    <string>Selecione ao menos um capítulo</string>
     <key>select_all</key>
     <string>Selecionar tudo</string>
     <key>select_all_above</key>
@@ -2409,6 +2423,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Voltar</string>
     <key>skip_chapters</key>
     <string>Pular capítulos</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Pule capítulos e muito mais com o Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Pule capítulos e muito mais com o Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avançar</string>
     <key>sleep_timer</key>
@@ -2607,6 +2625,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Fazer upgrade de conta</string>
     <key>upgrade_to_plan</key>
     <string>Fazer upgrade para %1$@</string>
+    <key>upgrade_to_plus</key>
+    <string>Faça upgrade para o Plus</string>
     <key>upload_sort_alpha</key>
     <string>Título (A-Z)</string>
     <key>volume_boost</key>

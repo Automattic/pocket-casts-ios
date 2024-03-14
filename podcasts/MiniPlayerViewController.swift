@@ -208,7 +208,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             setupForEpisode(episode)
             showMiniPlayer()
             let shouldOpenAutomatically: Bool
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 shouldOpenAutomatically = SettingsStore.appSettings.openPlayer
             } else {
                 shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
