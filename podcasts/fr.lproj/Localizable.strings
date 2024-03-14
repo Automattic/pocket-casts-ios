@@ -153,6 +153,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Les favoris sont là !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Rejoignez-nous pour le bêta-test des favoris !</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Abonnez-vous à Plus dès maintenant pour pouvoir sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Dans le cadre de votre abonnement Patron, vous pouvez maintenant sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Dans le cadre de votre abonnement Plus, vous pouvez maintenant sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code copié dans le presse-papiers</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -1901,6 +1907,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Secondes économisées</string>
     <key>select</key>
     <string>Sélectionner</string>
+    <key>select_a_chapter</key>
+    <string>Veuillez sélectionner au moins un chapitre</string>
     <key>select_all</key>
     <string>Tout sélectionner</string>
     <key>select_all_above</key>
@@ -2415,6 +2423,10 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Retour rapide</string>
     <key>skip_chapters</key>
     <string>Sauter les chapitres</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Passer des chapitres et plus encore avec Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Passer des chapitres et plus encore avec Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avance rapide</string>
     <key>sleep_timer</key>
@@ -2613,6 +2625,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Mettre le compte à niveau</string>
     <key>upgrade_to_plan</key>
     <string>Passer à %1$@</string>
+    <key>upgrade_to_plus</key>
+    <string>Mettre à niveau vers Plus</string>
     <key>upload_sort_alpha</key>
     <string>Titre (A-Z)</string>
     <key>volume_boost</key>

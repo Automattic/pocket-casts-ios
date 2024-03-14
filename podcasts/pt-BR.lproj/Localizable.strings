@@ -153,6 +153,12 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Chegaram os favoritos!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Junte-se a nós na versão beta dos favoritos!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Assine o Plus agora para selecionar e pular capítulos em qualquer episódio que seja compatível com esses recursos.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Como parte da assinatura do Patron, você pode selecionar e pular capítulos em qualquer episódio que seja compatível com esses recursos.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Como parte da assinatura do Plus, você pode selecionar e pular capítulos em qualquer episódio que seja compatível com esses recursos.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Código copiado para a área de transferência</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -1901,6 +1907,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Segundos economizados</string>
     <key>select</key>
     <string>Selecionar</string>
+    <key>select_a_chapter</key>
+    <string>Selecione ao menos um capítulo</string>
     <key>select_all</key>
     <string>Selecionar tudo</string>
     <key>select_all_above</key>
@@ -2415,6 +2423,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Voltar</string>
     <key>skip_chapters</key>
     <string>Pular capítulos</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Pule capítulos e muito mais com o Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Pule capítulos e muito mais com o Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avançar</string>
     <key>sleep_timer</key>
@@ -2613,6 +2625,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Fazer upgrade de conta</string>
     <key>upgrade_to_plan</key>
     <string>Fazer upgrade para %1$@</string>
+    <key>upgrade_to_plus</key>
+    <string>Faça upgrade para o Plus</string>
     <key>upload_sort_alpha</key>
     <string>Título (A-Z)</string>
     <key>volume_boost</key>

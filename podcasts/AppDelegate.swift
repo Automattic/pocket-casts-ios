@@ -86,6 +86,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupSignOutListener()
 
+        logStaleDownloads()
+
         return true
     }
 
