@@ -1163,13 +1163,13 @@ class Settings: NSObject {
 
     static var profileBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.profileBookmarksSortType.option
             } else {
                 return Constants.UserDefaults.bookmarks.profileSort.value
             }
         } set: { newValue in
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.profileBookmarksSortType = BookmarksSort(option: newValue)
             }
             Constants.UserDefaults.bookmarks.profileSort.save(newValue)
