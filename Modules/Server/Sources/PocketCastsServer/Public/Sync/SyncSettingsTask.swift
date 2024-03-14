@@ -122,11 +122,9 @@ extension AppSettings {
 
 class SyncSettingsTask: ApiBaseTask {
 
-    private let shouldUseNewSync: Bool
     private let appSettings: SettingsStore<AppSettings>
 
-    init(shouldUseNewSync: Bool, appSettings: SettingsStore<AppSettings> = SettingsStore.appSettings, dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
-        self.shouldUseNewSync = shouldUseNewSync
+    init(appSettings: SettingsStore<AppSettings> = SettingsStore.appSettings, dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.appSettings = appSettings
         super.init(dataManager: dataManager, urlConnection: urlConnection)
     }
@@ -137,7 +135,7 @@ class SyncSettingsTask: ApiBaseTask {
             var settingsRequest = Api_NamedSettingsRequest()
             settingsRequest.m = "iPhone"
 
-            if shouldUseNewSync {
+            if FeatureFlag.settingsSync.enabled {
                 settingsRequest.changedSettings.update(with: appSettings.settings)
                 FileLog.shared.addMessage("Syncing new settings: \(try! settingsRequest.changedSettings.jsonString())")
             } else {
@@ -175,7 +173,7 @@ class SyncSettingsTask: ApiBaseTask {
         do {
             let settings = try Api_NamedSettingsResponse(serializedData: serverData)
 
-            if shouldUseNewSync {
+            if FeatureFlag.settingsSync.enabled {
                 appSettings.settings.update(with: settings)
             } else {
                 if settings.skipForward.changed.value {
