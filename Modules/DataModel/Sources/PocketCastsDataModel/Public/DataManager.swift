@@ -359,6 +359,10 @@ public class DataManager {
         return episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
 
+    public func findPlayedEpisodesBy(uuids: [String]) -> [Episode] {
+        episodeManager.findPlayedEpisodesBy(uuids: uuids, dbQueue: dbQueue)
+    }
+
     public func markAllEpisodePlaybackHistorySynced() {
         episodeManager.markAllEpisodePlaybackHistorySynced(dbQueue: dbQueue)
     }
