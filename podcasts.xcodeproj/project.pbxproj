@@ -5752,8 +5752,7 @@
 				BDBD53F717019B2A0048C8C5 /* Pocket Casts */,
 				BD3A210E1E6CFC2400F42241 /* NotificationExtension */,
 				BDEFBA181E6D3C2300B9024B /* NotificationContent */,
-				BDD301651EFB9356004A9972 /* Pocket Casts Watch App */,
-				BDD301741EFB9356004A9972 /* Pocket Casts Watch App Extension */,
+				BDD301741EFB9356004A9972 /* Pocket Casts Watch App */,
 				403B5B1121813FFA00821A54 /* PodcastsIntents */,
 				403B5B1C21813FFA00821A54 /* PodcastsIntentsUI */,
 				4090975325235DFA00CED68C /* WidgetExtension */,
@@ -5961,19 +5960,12 @@
 			name = "Theme Specific Components";
 			sourceTree = "<group>";
 		};
-		BDD301651EFB9356004A9972 /* Pocket Casts Watch App */ = {
+		BDD301741EFB9356004A9972 /* Pocket Casts Watch App */ = {
 			isa = PBXGroup;
 			children = (
 				BDD301661EFB9356004A9972 /* Interface.storyboard */,
 				BDD301691EFB9356004A9972 /* Assets.xcassets */,
 				BDD3016B1EFB9356004A9972 /* Info.plist */,
-			);
-			path = "Pocket Casts Watch App";
-			sourceTree = "<group>";
-		};
-		BDD301741EFB9356004A9972 /* Pocket Casts Watch App Extension */ = {
-			isa = PBXGroup;
-			children = (
 				BD2AFEDE1EFC9D5F00398A34 /* Extensions */,
 				BDD301901EFB9969004A9972 /* Data & Communication */,
 				BDDC199E1F009EAC00BAC535 /* Complication */,
@@ -5987,7 +5979,7 @@
 				BD73A5D42452BFA400679864 /* Extension Assets.xcassets */,
 				BDD301751EFB9356004A9972 /* Supporting Files */,
 			);
-			path = "Pocket Casts Watch App Extension";
+			path = "Pocket Casts Watch App";
 			sourceTree = "<group>";
 		};
 		BDD301751EFB9356004A9972 /* Supporting Files */ = {
@@ -10727,7 +10719,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App Extension/watch-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App/watch-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
@@ -11008,7 +11000,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App Extension/watch-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App/watch-bridging-header.h";
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
@@ -11044,7 +11036,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App Extension/watch-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App/watch-bridging-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
