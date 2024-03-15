@@ -46,7 +46,7 @@ struct InterfaceView: View {
                 case .upNext:
                     NavigationLink(destination: UpNextView()) { MenuRow(label: L10n.upNext, icon: "upnext", count: upNextCount) }
                 case .filters:
-                    NavigationLink(destination: FilterEpisodeListView(context: nil)) { MenuRow(label: L10n.filters, icon: "filters") }
+                    NavigationLink(destination: FiltersListView()) { MenuRow(label: L10n.filters, icon: "filters") }
                 case .nowPlaying:
                     NavigationLink(destination: NowPlayingContainerView()) { NowPlayingRow(isPlaying: $upNextViewModel.isPlaying, podcastName: $upNextViewModel.upNextTitle) }
                 }

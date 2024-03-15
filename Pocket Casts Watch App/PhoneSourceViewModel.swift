@@ -172,6 +172,11 @@ class PhoneSourceViewModel: PlaySourceViewModel {
 
     // MARK: Filters
 
+    func fetchFilters() -> AnyPublisher<[Filter], PlaySourceError> {
+        let filters = WatchDataManager.filters() ?? []
+        return Just(filters).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
+    }
+
     func fetchFilter(_ uuid: String) -> Filter? {
         WatchDataManager.filters()?.first(where: { $0.uuid == uuid })
     }
@@ -194,6 +199,11 @@ class PhoneSourceViewModel: PlaySourceViewModel {
             })
         }
         .eraseToAnyPublisher()
+    }
+
+    func episodeCount(for filter: Filter) -> Int {
+        // We don't show this information for the phone source
+        return 0
     }
 
     // MARK: Up Next

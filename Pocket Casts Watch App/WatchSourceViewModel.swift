@@ -194,8 +194,20 @@ class WatchSourceViewModel: PlaySourceViewModel {
         return Just(filterEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
+    func fetchFilters() -> AnyPublisher<[Filter], PlaySourceError> {
+        let filters = DataManager.sharedManager.allFilters(includeDeleted: false)
+        return Just(filters).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
+    }
+
     func fetchFilter(_ uuid: String) -> Filter? {
         DataManager.sharedManager.findFilter(uuid: uuid)
+    }
+
+    func episodeCount(for filter: Filter) -> Int {
+        guard let episodeFilter = filter as? EpisodeFilter else {
+            return 0
+        }
+        return DataManager.sharedManager.episodeCount(forFilter: episodeFilter, episodeUuidToAdd: episodeFilter.episodeUuidToAddToQueries())
     }
 
     // MARK: Up Next

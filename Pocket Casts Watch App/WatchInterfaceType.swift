@@ -13,6 +13,7 @@ enum WatchInterfaceType: String {
     case upnext
     case nowPlaying
     case rootInterface
+    case filterList
 }
 
 extension WatchInterfaceType {
@@ -33,6 +34,8 @@ extension WatchInterfaceType {
             return AnyView(NowPlayingContainerView())
         case .rootInterface:
             return AnyView(InterfaceView())
+        case .filterList:
+            return AnyView(FiltersListView())
         default:
             return nil
         }
