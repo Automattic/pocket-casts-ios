@@ -5,8 +5,7 @@ import PocketCastsUtils
 class DeselectChaptersAnnouncementViewModel {
     var isPatronAnnouncementEnabled: Bool {
         FeatureFlag.deselectChapters.enabled
-            && PaidFeature.deselectChapters.tier == .patron
-            && SubscriptionHelper.activeTier == .patron
+            && PaidFeature.deselectChapters.isUnlocked
     }
 
     // Only for TestFlight early access
