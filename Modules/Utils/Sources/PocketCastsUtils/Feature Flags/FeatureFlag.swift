@@ -88,7 +88,7 @@ public enum FeatureFlag: String, CaseIterable {
     public var remoteKey: String? {
         switch self {
         case .deselectChapters:
-            "deselect_chapters"
+            "deselect_chapters_enabled"
         case .newAccountUpgradePromptFlow:
             "new_account_upgrade_prompt_flow"
         case .cachePlayingEpisode:
