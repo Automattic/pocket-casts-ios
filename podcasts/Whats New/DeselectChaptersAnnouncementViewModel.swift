@@ -9,6 +9,13 @@ class DeselectChaptersAnnouncementViewModel {
             && SubscriptionHelper.activeTier == .patron
     }
 
+    // Only for TestFlight early access
+    var isPlusAnnouncementEnabled: Bool {
+        FeatureFlag.deselectChapters.enabled
+            && PaidFeature.deselectChapters.tier == .plus
+            && SubscriptionHelper.activeTier == .plus
+    }
+
     var isPlusFreeAnnouncementEnabled: Bool {
         FeatureFlag.deselectChapters.enabled
             && PaidFeature.deselectChapters.tier == .plus
