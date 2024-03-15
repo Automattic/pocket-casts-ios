@@ -1800,6 +1800,7 @@
 		0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EB2BA471DF0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		28DC441F0290179068AA8DBD /* libPods-Today Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Today Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F63CE9428809E5A00A34B51 /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		2F90990B2A4F88B00044FC55 /* Share Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -5990,6 +5991,7 @@
 				40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */,
 				40BF0B5124244C64003E3ABD /* SourceManager.swift */,
 				BD73A5D42452BFA400679864 /* Extension Assets.xcassets */,
+				10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */,
 				BDD3017F1EFB9356004A9972 /* Info.plist */,
 				BDD301751EFB9356004A9972 /* Supporting Files */,
 			);
