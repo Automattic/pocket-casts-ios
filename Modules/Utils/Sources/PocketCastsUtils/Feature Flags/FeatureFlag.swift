@@ -28,6 +28,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable selecting/deselecting episode chapters
     case deselectChapters
 
+    /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
+    case newSettingsStorage
+
     /// Syncing all app and podcast settings
     case settingsSync
 
@@ -68,13 +71,15 @@ public enum FeatureFlag: String, CaseIterable {
         case .deselectChapters:
             false
         case .settingsSync:
-            false
+            false // `newSettingsStorage` also needs to be `true` for syncing to function
         case .slumber:
             false
         case .newAccountUpgradePromptFlow:
             false
         case .cachePlayingEpisode:
             true
+        case .newSettingsStorage:
+            false
         }
     }
 
@@ -88,6 +93,8 @@ public enum FeatureFlag: String, CaseIterable {
             "new_account_upgrade_prompt_flow"
         case .cachePlayingEpisode:
             "cache_playing_episode"
+        case .newSettingsStorage:
+            "new_settings_storage"
         default:
             nil
         }

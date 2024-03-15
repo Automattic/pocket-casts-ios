@@ -32,7 +32,7 @@ final class SettingsTests: XCTestCase {
     }
 
     func testImportOldHeadphoneControls() throws {
-        try override(flag: .settingsSync, value: false)
+        try override(flag: .newSettingsStorage, value: false)
         try setupSettingsStore()
 
         let newNextAction = HeadphoneControlAction.nextChapter
@@ -41,18 +41,18 @@ final class SettingsTests: XCTestCase {
         Settings.headphonesNextAction = newNextAction
         Settings.headphonesPreviousAction = newPreviousAction
 
-        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: true)
+        try FeatureFlagOverrideStore().override(FeatureFlag.newSettingsStorage, withValue: true)
 
         SettingsStore.appSettings.importUserDefaults()
 
         XCTAssertEqual(newNextAction, Settings.headphonesNextAction, "Next action should be imported from old defaults")
         XCTAssertEqual(newPreviousAction, Settings.headphonesPreviousAction, "Previous action should be imported from old defaults")
-        try reset(flag: .settingsSync)
+        try reset(flag: .newSettingsStorage)
     }
 
     func testPlayerActions() throws {
         let unknownString = "test"
-        try override(flag: .settingsSync, value: true)
+        try override(flag: .newSettingsStorage, value: true)
         try setupSettingsStore()
         Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
 
@@ -71,11 +71,11 @@ final class SettingsTests: XCTestCase {
                         .archive], Settings.playerActions(), "Player actions should exclude unknown actions and include defaults")
         XCTAssertEqual([.known(.addBookmark), .known(.markPlayed), .unknown(unknownString)], SettingsStore.appSettings.playerShelf, "Player shelf should include unknowns at end")
 
-        try reset(flag: .settingsSync)
+        try reset(flag: .newSettingsStorage)
     }
 
     func testOldPlayerActions() throws {
-        try override(flag: .settingsSync, value: false)
+        try override(flag: .newSettingsStorage, value: false)
 
         Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable }) // Set defaults
         Settings.updatePlayerActions([.addBookmark, .markPlayed])
@@ -91,18 +91,18 @@ final class SettingsTests: XCTestCase {
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
 
-        try reset(flag: .settingsSync)
+        try reset(flag: .newSettingsStorage)
     }
 
     func testImportOldPlayerActions() throws {
         // Start with disabled settingsSync
-        try override(flag: .settingsSync, value: false)
+        try override(flag: .newSettingsStorage, value: false)
 
         Settings.updatePlayerActions(PlayerAction.defaultActions.filter { $0.isAvailable })
         Settings.updatePlayerActions([.addBookmark, .markPlayed]) // This update is tested in testOldPlayerActions
 
         // Enable settingsSync to flip `Settings` to use the new value
-        try FeatureFlagOverrideStore().override(FeatureFlag.settingsSync, withValue: true)
+        try FeatureFlagOverrideStore().override(FeatureFlag.newSettingsStorage, withValue: true)
 
         try setupSettingsStore()
         SettingsStore.appSettings.importUserDefaults()
@@ -118,6 +118,6 @@ final class SettingsTests: XCTestCase {
                         .chromecast,
                         .archive], Settings.playerActions(), "Player actions should include changes from update")
 
-        try reset(flag: .settingsSync)
+        try reset(flag: .newSettingsStorage)
     }
 }

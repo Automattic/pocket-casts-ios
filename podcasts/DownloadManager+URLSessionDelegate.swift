@@ -12,20 +12,20 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
     // make sure to call the completion handler on the main queue, otherwise it will crash
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-        #if os(watchOS)
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self, let task = self.pendingWatchBackgroundTask else { return }
+#if os(watchOS)
+        DispatchQueue.main.async { [weak self] in
+            guard let self, let task = pendingWatchBackgroundTask else { return }
 
-                task.setTaskCompletedWithSnapshot(true)
-            }
-        #else
-            DispatchQueue.main.async { [weak self] in
-                guard let strongSelf = self, let appDelegate = strongSelf.appDelegate(), let backgroundHandler = strongSelf.appDelegate()?.backgroundSessionCompletionHandler else { return }
+            task.setTaskCompletedWithSnapshot(true)
+        }
+#else
+        DispatchQueue.main.async { [weak self] in
+            guard let self, let appDelegate = appDelegate(), let backgroundHandler = appDelegate.backgroundSessionCompletionHandler else { return }
 
-                appDelegate.backgroundSessionCompletionHandler = nil
-                backgroundHandler()
-            }
-        #endif
+            appDelegate.backgroundSessionCompletionHandler = nil
+            backgroundHandler()
+        }
+#endif
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
@@ -60,7 +60,8 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         guard let episode = episodeForTask(task, forceReload: true) else { return } // we no longer have this episode
         removeEpisodeFromCache(episode)
 
-        if error.code == NSURLErrorCancelled {
+        switch error.code {
+        case NSURLErrorCancelled:
             if !episode.downloadFailed() {
                 // already handled this error, since we failed the download ourselves
             } else {
@@ -68,6 +69,12 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             }
 
             return
+        case NSURLErrorTimedOut:
+            taskFailure[episode.uuid] = .connectionTimeout
+        case NSURLErrorCannotConnectToHost:
+            taskFailure[episode.uuid] = .unknownHost
+        default:
+            ()
         }
 
         DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: error.localizedDescription, downloadTaskId: nil, episode: episode)
@@ -81,7 +88,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         removeEpisodeFromCache(episode)
         guard let response = downloadTask.response as? HTTPURLResponse else {
             // invalid download since we can't check things like the status code and headers if it's not a HTTPURLResponse
-            markEpisode(episode, asFailedWithMessage: L10n.downloadFailed)
+            markEpisode(episode, asFailedWithMessage: L10n.downloadFailed, reason: .badResponse)
             return
         }
 
@@ -94,7 +101,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             }
 
             // invalid download
-            markEpisode(episode, asFailedWithMessage: message)
+            markEpisode(episode, asFailedWithMessage: message, reason: .statusCode(response.statusCode))
             return
         }
 
@@ -108,7 +115,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
             // basic sanity checks to make sure the file looks big enough and it's content type isn't text
             if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
-                markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2)
+                markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
 
                 return
             }
@@ -126,8 +133,23 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
         } catch {
-            markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace)
+            markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace, reason: .badResponse)
         }
+    }
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        guard let downloadTask = task as? URLSessionDownloadTask,
+              let episode = episodeForTask(downloadTask, forceReload: false) else {
+            return
+        }
+
+        if let failure = taskFailure[episode.uuid] {
+            logDownload(episode, failure: failure, metrics: metrics, session: session)
+            taskFailure.removeValue(forKey: episode.uuid)
+        }
+
+        let taskId = episode.downloadTaskId ?? episode.uuid
+        downloadingEpisodesCache.removeValue(forKey: taskId)
     }
 
     private func episodeForTask(_ task: URLSessionDownloadTask, forceReload: Bool) -> BaseEpisode? {
@@ -147,10 +169,44 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         return episode
     }
 
-    private func markEpisode(_ episode: BaseEpisode, asFailedWithMessage message: String) {
+    enum FailureReason: Error {
+        case badResponse
+        case statusCode(Int)
+        case suspiciousContent(Int64)
+        case notEnoughSpace
+        case connectionTimeout
+        case unknownHost
+        case malformedHost
+        case unknown(NSError)
+
+        var localizedDescription: String {
+            switch self {
+            case .badResponse:
+                return "bad_response"
+            case .statusCode:
+                return "status_code"
+            case .suspiciousContent:
+                return "suspicious_content"
+            case .notEnoughSpace:
+                return "not_enough_storage"
+            case .connectionTimeout:
+                return "connection_timeout"
+            case .unknownHost:
+                return "unknown_host"
+            case .malformedHost:
+                return "malformed_host"
+            case .unknown:
+                return "unknown"
+            }
+        }
+    }
+
+    private func markEpisode(_ episode: BaseEpisode, asFailedWithMessage message: String, reason: FailureReason) {
         removeEpisodeFromCache(episode)
 
         DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: message, downloadTaskId: nil, episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
+
+        taskFailure[episode.uuid] = reason
     }
 }

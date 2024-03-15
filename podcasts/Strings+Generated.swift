@@ -170,11 +170,17 @@ internal enum L10n {
   internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
   /// Join us in the beta testing for bookmarks!
   internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
+  /// Subscribe to Plus now so you can select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersFree: String { return L10n.tr("Localizable", "announcement_deselect_chapters_free") }
+  /// As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersPatron: String { return L10n.tr("Localizable", "announcement_deselect_chapters_patron") }
+  /// As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersPlus: String { return L10n.tr("Localizable", "announcement_deselect_chapters_plus") }
   /// Code copied to clipboard
   internal static var announcementSlumberCodeCopied: String { return L10n.tr("Localizable", "announcement_slumber_code_copied") }
-  /// Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.
+  /// Subscribe to Plus Yearly and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.
   internal static var announcementSlumberNonPlusDescription: String { return L10n.tr("Localizable", "announcement_slumber_non_plus_description") }
-  /// As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.
+  /// As part of your Yearly Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.
   internal static func announcementSlumberPlusDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "announcement_slumber_plus_description", String(describing: p1))
   }
@@ -1242,6 +1248,8 @@ internal enum L10n {
   }
   /// Go to Podcast
   internal static var goToPodcast: String { return L10n.tr("Localizable", "go_to_podcast") }
+  /// Got it
+  internal static var gotIt: String { return L10n.tr("Localizable", "got_it") }
   /// Group Episodes
   internal static var groupEpisodes: String { return L10n.tr("Localizable", "group_episodes") }
   /// Clear All
@@ -1853,6 +1861,8 @@ internal enum L10n {
   internal static func podcastAccessEnds(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_access_ends", String(describing: p1))
   }
+  /// Podcast & Episode
+  internal static var podcastAndEpisode: String { return L10n.tr("Localizable", "podcast_and_episode") }
   /// Archive All
   internal static var podcastArchiveAll: String { return L10n.tr("Localizable", "podcast_archive_all") }
   /// Archive All Played
@@ -2998,6 +3008,8 @@ internal enum L10n {
   internal static func upgradeToPlan(_ p1: Any) -> String {
     return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))
   }
+  /// Upgrade to Plus
+  internal static var upgradeToPlus: String { return L10n.tr("Localizable", "upgrade_to_plus") }
   /// Title (A-Z)
   internal static var uploadSortAlpha: String { return L10n.tr("Localizable", "upload_sort_alpha") }
   /// Volume Boost

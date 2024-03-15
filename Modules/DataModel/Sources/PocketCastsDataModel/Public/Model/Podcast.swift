@@ -66,7 +66,36 @@ public class Podcast: NSObject, Identifiable {
     }
 
     public func autoAddToUpNextOn() -> Bool {
-        autoAddToUpNext == AutoAddToUpNextSetting.addLast.rawValue || autoAddToUpNext == AutoAddToUpNextSetting.addFirst.rawValue
+        if FeatureFlag.newSettingsStorage.enabled {
+            return settings.addToUpNext
+        } else {
+            return autoAddToUpNext == AutoAddToUpNextSetting.addLast.rawValue || autoAddToUpNext == AutoAddToUpNextSetting.addFirst.rawValue
+        }
+    }
+
+    public func autoAddToUpNextSetting() -> AutoAddToUpNextSetting? {
+        if FeatureFlag.newSettingsStorage.enabled {
+            if settings.addToUpNext {
+                switch settings.addToUpNextPosition {
+                case .top:
+                    return .addFirst
+                case .bottom:
+                    return .addLast
+                }
+            } else {
+                return .off
+            }
+        } else {
+            return AutoAddToUpNextSetting(rawValue: autoAddToUpNext)
+        }
+    }
+
+    public func setAutoAddToUpNext(setting: AutoAddToUpNextSetting) {
+        if FeatureFlag.newSettingsStorage.enabled {
+            settings.addToUpNext = setting != .off
+            settings.addToUpNextPosition = setting == .addFirst ? .top : .bottom
+        }
+        autoAddToUpNext = setting.rawValue
     }
 
     public func latestEpisode() -> Episode? {
@@ -99,6 +128,34 @@ public class Podcast: NSObject, Identifiable {
 
 public enum TrimSilenceAmount: Int32, Codable {
     case off = 0, low = 3, medium = 5, high = 10
+}
+
+extension TrimSilence {
+    public init(amount: TrimSilenceAmount) {
+        switch amount {
+        case .off:
+            self = .off
+        case .low:
+            self = .mild
+        case .medium:
+            self = .medium
+        case .high:
+            self = .madMax
+        }
+    }
+
+    public var amount: TrimSilenceAmount {
+        switch self {
+        case .off:
+            return .off
+        case .mild:
+            return .low
+        case .medium:
+            return .medium
+        case .madMax:
+            return .high
+        }
+    }
 }
 
 extension Podcast {

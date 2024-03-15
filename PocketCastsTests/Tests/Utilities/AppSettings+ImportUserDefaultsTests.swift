@@ -26,6 +26,6 @@ class AppSettingsImportUserDefaultsTests: XCTestCase {
         let podcast = try XCTUnwrap(podcasts.first)
 
         XCTAssertEqual(newBoostVolume, podcast.settings.boostVolume, "Value of boostVolume should change after import")
-        XCTAssertEqual(newTrimSilence.rawValue, podcast.settings.trimSilence.rawValue, "Value of trimSilence should change after import")
+        XCTAssertEqual(TrimSilence(amount: newTrimSilence).rawValue, podcast.settings.trimSilence.rawValue, "Value of trimSilence should change after import")
     }
 }

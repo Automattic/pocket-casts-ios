@@ -3,6 +3,7 @@ import XCTest
 @testable import podcasts
 @testable import PocketCastsDataModel
 @testable import PocketCastsServer
+@testable import PocketCastsUtils
 
 class ChapterManagerTests: XCTestCase {
     let featureFlagMock = FeatureFlagMock()

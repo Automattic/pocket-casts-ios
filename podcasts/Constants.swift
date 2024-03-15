@@ -173,6 +173,7 @@ struct Constants {
             static let playerSort = SettingValue("bookmarks.playerSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let podcastSort = SettingValue("bookmarks.podcastSort", defaultValue: BookmarkSortOption.newestToOldest)
             static let episodeSort = SettingValue("bookmarks.episodeSort", defaultValue: BookmarkSortOption.newestToOldest)
+            static let profileSort = SettingValue("bookmarks.profileSort", defaultValue: BookmarkSortOption.newestToOldest)
         }
 
         enum appearance {
@@ -283,7 +284,7 @@ struct Constants {
         static let errorLogoutHandling = "error_logout_handling"
         static let errorLogoutHandlingDefault: Bool = false
 
-        static let slumberStudiosPromoCode = "slumber_studios_promo_code"
+        static let slumberStudiosPromoCode = "slumber_studios_yearly_promo_code"
         static let slumberStudiosPromoCodeDefault = ""
     }
 
@@ -398,5 +399,5 @@ enum HeadphoneControlAction: JSONCodable {
 // MARK: - Bookmark Sorting
 
 enum BookmarkSortOption: JSONCodable {
-    case newestToOldest, oldestToNewest, timestamp, episode
+    case newestToOldest, oldestToNewest, timestamp, episode, podcastAndEpisode
 }

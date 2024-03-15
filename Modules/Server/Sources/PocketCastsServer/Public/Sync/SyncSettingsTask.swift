@@ -5,6 +5,7 @@ import SwiftProtobuf
 
 extension Api_ChangeableSettings {
     mutating func update(with settings: AppSettings) {
+        let oldSettings = self
         openLinks.update(settings.$openLinks)
         rowAction.update(settings.$rowAction)
         skipForward.update(settings.$skipForward)
@@ -28,6 +29,7 @@ extension Api_ChangeableSettings {
         playerBookmarksSortType.update(settings.$playerBookmarksSortType)
         episodeBookmarksSortType.update(settings.$episodeBookmarksSortType)
         podcastBookmarksSortType.update(settings.$podcastBookmarksSortType)
+        bookmarksSortOrder.update(settings.$profileBookmarksSortType)
         headphoneControlsNextAction.update(settings.$headphoneControlsNextAction)
         headphoneControlsPreviousAction.update(settings.$headphoneControlsPreviousAction)
         privacyAnalytics.update(settings.$privacyAnalytics)
@@ -43,11 +45,25 @@ extension Api_ChangeableSettings {
         filesAfterPlayingDeleteLocal.update(settings.$filesAfterPlayingDeleteLocal)
         filesAfterPlayingDeleteCloud.update(settings.$filesAfterPlayingDeleteCloud)
         playerShelf.update(settings.$playerShelf)
+        useEmbeddedArtwork.update(settings.$useEmbeddedArtwork)
+        theme.update(settings.$theme)
+        useSystemTheme.update(settings.$useSystemTheme)
+        lightThemePreference.update(settings.$lightThemePreference)
+        darkThemePreference.update(settings.$darkThemePreference)
+        useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
+        autoUpNextLimit.update(settings.$autoUpNextLimit)
+        autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
+        autoDownloadUpNext.update(settings.$autoDownloadUpNext)
+        autoDownloadUnmeteredOnly.update(settings.$autoDownloadUnmeteredOnly)
+        cloudAutoUpload.update(settings.$cloudAutoUpload)
+        cloudAutoDownload.update(settings.$cloudAutoDownload)
+        cloudDownloadUnmeteredOnly.update(settings.$cloudDownloadUnmeteredOnly)
     }
 }
 
 extension AppSettings {
     mutating func update(with settings: Api_NamedSettingsResponse) {
+        let oldSettings = self
         $openLinks.update(setting: settings.openLinks)
         $rowAction.update(setting: settings.rowAction)
         $skipForward.update(setting: settings.skipForward)
@@ -71,6 +87,7 @@ extension AppSettings {
         $playerBookmarksSortType.update(setting: settings.playerBookmarksSortType)
         $episodeBookmarksSortType.update(setting: settings.episodeBookmarksSortType)
         $podcastBookmarksSortType.update(setting: settings.podcastBookmarksSortType)
+        $profileBookmarksSortType.update(setting: settings.bookmarksSortOrder)
         $headphoneControlsNextAction.update(setting: settings.headphoneControlsNextAction)
         $headphoneControlsPreviousAction.update(setting: settings.headphoneControlsPreviousAction)
         $privacyAnalytics.update(setting: settings.privacyAnalytics)
@@ -86,16 +103,28 @@ extension AppSettings {
         $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocal)
         $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloud)
         $playerShelf.update(setting: settings.playerShelf)
+        $useEmbeddedArtwork.update(setting: settings.useEmbeddedArtwork)
+        $theme.update(setting: settings.theme)
+        $useSystemTheme.update(setting: settings.useSystemTheme)
+        $lightThemePreference.update(setting: settings.lightThemePreference)
+        $darkThemePreference.update(setting: settings.darkThemePreference)
+        $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
+        $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
+        $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
+        $autoDownloadUpNext.update(setting: settings.autoDownloadUpNext)
+        $autoDownloadUnmeteredOnly.update(setting: settings.autoDownloadUnmeteredOnly)
+        $cloudAutoUpload.update(setting: settings.cloudAutoUpload)
+        $cloudAutoDownload.update(setting: settings.cloudAutoDownload)
+        $cloudDownloadUnmeteredOnly.update(setting: settings.cloudDownloadUnmeteredOnly)
+        oldSettings.printDiff(from: self)
     }
 }
 
 class SyncSettingsTask: ApiBaseTask {
 
-    private let shouldUseNewSync: Bool
     private let appSettings: SettingsStore<AppSettings>
 
-    init(shouldUseNewSync: Bool, appSettings: SettingsStore<AppSettings> = SettingsStore.appSettings, dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
-        self.shouldUseNewSync = shouldUseNewSync
+    init(appSettings: SettingsStore<AppSettings> = SettingsStore.appSettings, dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.appSettings = appSettings
         super.init(dataManager: dataManager, urlConnection: urlConnection)
     }
@@ -106,8 +135,9 @@ class SyncSettingsTask: ApiBaseTask {
             var settingsRequest = Api_NamedSettingsRequest()
             settingsRequest.m = "iPhone"
 
-            if shouldUseNewSync {
+            if FeatureFlag.settingsSync.enabled {
                 settingsRequest.changedSettings.update(with: appSettings.settings)
+                FileLog.shared.addMessage("Syncing new settings: \(try! settingsRequest.changedSettings.jsonString())")
             } else {
                 if ServerSettings.skipBackNeedsSyncing() {
                     settingsRequest.settings.skipBack.value = Int32(ServerSettings.skipBackTime())
@@ -143,7 +173,7 @@ class SyncSettingsTask: ApiBaseTask {
         do {
             let settings = try Api_NamedSettingsResponse(serializedData: serverData)
 
-            if shouldUseNewSync {
+            if FeatureFlag.settingsSync.enabled {
                 appSettings.settings.update(with: settings)
             } else {
                 if settings.skipForward.changed.value {

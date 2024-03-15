@@ -153,12 +153,18 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Les favoris sont là !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Rejoignez-nous pour le bêta-test des favoris !</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Abonnez-vous à Plus dès maintenant pour pouvoir sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Dans le cadre de votre abonnement Patron, vous pouvez maintenant sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Dans le cadre de votre abonnement Plus, vous pouvez maintenant sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code copié dans le presse-papiers</string>
     <key>announcement_slumber_non_plus_description</key>
-    <string>Abonnez-vous à Plus et profitez d’un abonnement d’un an au contenu de Slumber Studios, des podcasts conçus pour vous emmener dans les bras de Morphée. Lire la suite.</string>
+    <string>Abonnez-vous à Plus Yearly et profitez d’un abonnement d’un an au contenu de Slumber Studios, des podcasts conçus pour vous emmener dans les bras de Morphée. Lire la suite.</string>
     <key>announcement_slumber_plus_description</key>
-    <string>Dans le cadre votre abonnement Plus, profitez d’un abonnement d’un an au contenu de Slumber Studios grâce au code %1$@. Lire la suite.</string>
+    <string>Dans le cadre votre abonnement Plus Yearly, profitez d’un abonnement d’un an au contenu de Slumber Studios grâce au code %1$@. Lire la suite.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>Lire la suite</string>
     <key>announcement_slumber_redeem</key>
@@ -496,7 +502,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>discover_browse_by_category_society</key>
     <string>Société</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>Société et culture</string>
+    <string>Culture</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>Spiritualité</string>
     <key>discover_browse_by_category_sports</key>
@@ -1081,6 +1087,8 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Pendant lequel %1$@ gazouillis ont été publiés. Cui! Cui! 🐣</string>
     <key>go_to_podcast</key>
     <string>Accéder au balado</string>
+    <key>got_it</key>
+    <string>J’ai compris</string>
     <key>group_episodes</key>
     <string>Regrouper des épisodes</string>
     <key>history_clear_all</key>
@@ -1303,6 +1311,10 @@ podcasts partout avec</string>
     <string>%1$@ en cours de lecture</string>
     <key>now_playing_short_title</key>
     <string>Lecture en cours</string>
+    <key>number_of_chapters</key>
+    <string>%1$@ chapitres</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@ masqué(s)</string>
     <key>off</key>
     <string>Désactivé</string>
     <key>ok</key>
@@ -1767,8 +1779,12 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Trier les balados</string>
     <key>preview</key>
     <string>Prévisualisation</string>
+    <key>pricing_terms_after_discount</key>
+    <string>Paiements récurrents de %1$@ au bout de %2$@ (le %3$@)</string>
     <key>pricing_terms_after_trial</key>
     <string>ensuite %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>Les paiements récurrents commenceront après votre essai gratuit de %1$@ (le %2$@)</string>
     <key>profile</key>
     <string>Profil</string>
     <key>profile_help_support</key>
@@ -1795,6 +1811,8 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Vous n’avez ajouté aucun épisode à vos favoris pour le moment.</string>
     <key>profile_starred_no_episodes_title</key>
     <string>Aucun épisode favori</string>
+    <key>purchase_terms</key>
+    <string>En continuant, vous acceptez notre %1$@politique de confidentialité%2$@ et nos %3$@conditions d’utilisation%4$@.</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>Effacer %1$@ épisodes</string>
     <key>queue_clear_queue</key>
@@ -1889,6 +1907,8 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Secondes économisées</string>
     <key>select</key>
     <string>Sélectionner</string>
+    <key>select_a_chapter</key>
+    <string>Veuillez sélectionner au moins un chapitre</string>
     <key>select_all</key>
     <string>Sélectionner tout</string>
     <key>select_all_above</key>
@@ -2357,6 +2377,8 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>CONNECTÉ(E) EN TANT QUE</string>
     <key>signed_out</key>
     <string>Non connecté(e)</string>
+    <key>single_chapter</key>
+    <string>1 chapitre</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>Régler la minuterie de veille à %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2421,12 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Créer un raccourci vers le podcast</string>
     <key>skip_back</key>
     <string>Saut vers l’arrière</string>
+    <key>skip_chapters</key>
+    <string>Sauter les chapitres</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Passer des chapitres et plus encore avec Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Passer des chapitres et plus encore avec Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Saut vers l’avant</string>
     <key>sleep_timer</key>
@@ -2503,6 +2531,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Abonnement annulé %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Expire dans %1$@</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ par %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Merci de votre soutien!</string>
     <key>support_watch_help_message</key>
@@ -2595,6 +2625,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Mettre le compte à niveau</string>
     <key>upgrade_to_plan</key>
     <string>Passer à %1$@</string>
+    <key>upgrade_to_plus</key>
+    <string>Mettre à niveau vers Plus</string>
     <key>upload_sort_alpha</key>
     <string>Titre (A à Z)</string>
     <key>volume_boost</key>

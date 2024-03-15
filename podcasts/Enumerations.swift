@@ -565,6 +565,10 @@ extension BookmarksSort {
             return .oldestToNewest
         case .timestamp:
             return .timestamp
+        case .episode:
+            return .episode
+        case .podcastAndEspisode:
+            return .podcastAndEpisode
         }
     }
 
@@ -574,8 +578,12 @@ extension BookmarksSort {
             self = .newestToOldest
         case .oldestToNewest:
             self = .oldestToNewest
-        case .timestamp, .episode:
+        case .timestamp:
             self = .timestamp
+        case .episode:
+            self = .episode
+        case .podcastAndEpisode:
+            self = .podcastAndEspisode
         }
     }
 }

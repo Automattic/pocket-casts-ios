@@ -153,12 +153,18 @@
     <string>ブックマークはこちら !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>ブックマークのベータテストに参加してください !</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>今すぐ Plus に登録すると、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできます。</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Patron サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Plus サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
     <key>announcement_slumber_code_copied</key>
     <string>コードをクリップボードにコピーしました</string>
     <key>announcement_slumber_non_plus_description</key>
-    <string>Plus を購読すると、夢の実現に役立つポッドキャスト、Slumber Studios のコンテンツを1年間購読できます。 さらに詳しく。</string>
+    <string>Plus の年間購読を開始すると、夢の実現に役立つポッドキャスト、Slumber Studios のコンテンツを1年間購読できます。 さらに詳しく。</string>
     <key>announcement_slumber_plus_description</key>
-    <string>Plus 購読の一環として、Slumber Studios のコンテンツを1年間購読できます。コード %1$@ をお使いください。 さらに詳しく。</string>
+    <string>Plus の年間購読の一環として、Slumber Studios のコンテンツを1年間購読できます。コード %1$@ をお使いください。 さらに詳しく。</string>
     <key>announcement_slumber_plus_description_learn_more</key>
     <string>さらに詳しく</string>
     <key>announcement_slumber_redeem</key>
@@ -496,7 +502,7 @@
     <key>discover_browse_by_category_society</key>
     <string>社会</string>
     <key>discover_browse_by_category_society_and_culture</key>
-    <string>社会 / 文化</string>
+    <string>カルチャー</string>
     <key>discover_browse_by_category_spirituality</key>
     <string>スピリチュアル</string>
     <key>discover_browse_by_category_sports</key>
@@ -1081,6 +1087,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>その間、%1$@件のツイートが投稿されました。 すごい ! すごい ! 🐣</string>
     <key>go_to_podcast</key>
     <string>ポッドキャストに移動</string>
+    <key>got_it</key>
+    <string>OK</string>
     <key>group_episodes</key>
     <string>エピソードをグループ化</string>
     <key>history_clear_all</key>
@@ -1303,6 +1311,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@を再生中</string>
     <key>now_playing_short_title</key>
     <string>再生中</string>
+    <key>number_of_chapters</key>
+    <string>%1$@個のチャプター</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@個が非表示</string>
     <key>off</key>
     <string>オフ</string>
     <key>ok</key>
@@ -1767,8 +1779,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ポッドキャストを並び替え</string>
     <key>preview</key>
     <string>プレビュー</string>
+    <key>pricing_terms_after_discount</key>
+    <string>%2$@ (%3$@) 経過後に %1$@ の定期支払いが発生します</string>
     <key>pricing_terms_after_trial</key>
     <string>以降 %1$@</string>
+    <key>pricing_terms_after_trial_long</key>
+    <string>%1$@ のお試し期間 (%2$@) 後に定期支払いが発生します</string>
     <key>profile</key>
     <string>プロフィール</string>
     <key>profile_help_support</key>
@@ -1795,6 +1811,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>星を付けているエピソードがありません。</string>
     <key>profile_starred_no_episodes_title</key>
     <string>星付きのエピソードがありません</string>
+    <key>purchase_terms</key>
+    <string>続行すると、%1$@プライバシーポリシー%2$@と%3$@利用規約%4$@に同意したことになります。</string>
     <key>queue_clear_episode_queue_plural</key>
     <string>%1$@件のエピソードをクリア</string>
     <key>queue_clear_queue</key>
@@ -1889,6 +1907,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>節約秒数</string>
     <key>select</key>
     <string>選択</string>
+    <key>select_a_chapter</key>
+    <string>チャプターを少なくとも1つ選択してください</string>
     <key>select_all</key>
     <string>すべて選択</string>
     <key>select_all_above</key>
@@ -2357,6 +2377,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ログインアカウント:</string>
     <key>signed_out</key>
     <string>ログインしていません</string>
+    <key>single_chapter</key>
+    <string>1個のチャプター</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>スリープタイマーを %1$@ に設定</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2399,6 +2421,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ポッドキャストのショートカットを作成</string>
     <key>skip_back</key>
     <string>巻き戻し</string>
+    <key>skip_chapters</key>
+    <string>チャプターをスキップ</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Pocket Casts Patron でチャプターのスキップやその他の機能を利用</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Pocket Casts Plus でチャプターのスキップやその他の機能を利用</string>
     <key>skip_forward</key>
     <string>早送り</string>
     <key>sleep_timer</key>
@@ -2503,6 +2531,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@にサブスクリプションをキャンセル済み </string>
     <key>subscription_expires_in</key>
     <string>%1$@に期限切れ</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ / %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
     <key>support_watch_help_message</key>
@@ -2595,6 +2625,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アカウントをアップグレード</string>
     <key>upgrade_to_plan</key>
     <string>%1$@ にアップグレード</string>
+    <key>upgrade_to_plus</key>
+    <string>Plus にアップグレード</string>
     <key>upload_sort_alpha</key>
     <string>タイトル (アルファベット順)</string>
     <key>volume_boost</key>

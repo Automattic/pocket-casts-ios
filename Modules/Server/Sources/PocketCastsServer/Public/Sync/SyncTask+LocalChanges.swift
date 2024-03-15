@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 import SwiftProtobuf
 
 extension SyncTask {
@@ -17,7 +18,10 @@ extension SyncTask {
             podcastRecord.isDeleted.value = !podcast.isSubscribed()
             podcastRecord.subscribed.value = podcast.isSubscribed()
             podcastRecord.sortPosition.value = podcast.sortOrder
-            podcastRecord.settings = podcast.apiSettings
+
+            if FeatureFlag.settingsSync.enabled {
+                podcastRecord.settings = podcast.apiSettings
+            }
 
             // There's a bug on the watch app that resets all users folders
             // Since the watch don't use folders at all, it shouldn't sync
@@ -28,6 +32,8 @@ extension SyncTask {
             if let addedDate = podcast.addedDate {
                 podcastRecord.dateAdded = Google_Protobuf_Timestamp(date: addedDate)
             }
+
+            FileLog.shared.addMessage("Syncing new settings for \(podcastRecord.uuid): \(try! podcastRecord.settings.jsonString())")
 
             var apiRecord = Api_Record()
             apiRecord.podcast = podcastRecord
@@ -225,6 +231,8 @@ private extension Podcast {
         settings.playbackSpeed.update(self.settings.$playbackSpeed)
         settings.trimSilence.update(self.settings.$trimSilence)
         settings.volumeBoost.update(self.settings.$boostVolume)
+        settings.addToUpNext.update(self.settings.$addToUpNext)
+        settings.addToUpNextPosition.update(self.settings.$addToUpNextPosition)
         settings.episodesSortOrder.update(self.settings.$episodesSortOrder)
         settings.episodeGrouping.update(self.settings.$episodeGrouping)
         settings.autoArchive.update(self.settings.$autoArchive)

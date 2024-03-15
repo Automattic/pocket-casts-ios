@@ -1,11 +1,10 @@
-import MaterialComponents.MaterialBottomSheet
 import UIKit
 
 class ShelfActionsViewController: UIViewController {
     @IBOutlet var actionsTable: UITableView! {
         didSet {
             registerCells()
-            actionsTable.isScrollEnabled = false
+            actionsTable.isScrollEnabled = true
             actionsTable.backgroundView = nil
 
             actionsTable.separatorColor = AppTheme.tableDividerColor(for: .dark)
@@ -48,6 +47,8 @@ class ShelfActionsViewController: UIViewController {
     var extraActions = Settings.playerActions()
 
     weak var playerActionsDelegate: NowPlayingActionsDelegate?
+
+    private var sheetPresentationDismissalBlocker: ShelfActionsSheetDismissalBlocker?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,8 +100,16 @@ class ShelfActionsViewController: UIViewController {
         editButtonVerticalConstraint.isActive = false
         doneButtonVerticalConstraint.isActive = true
         setPreferredSize(animated: true)
-        if let sheetController = parent as? MDCBottomSheetController {
-            sheetController.dismissOnDraggingDownSheet = false
+
+        if let sheetController = sheetPresentationController {
+            // If we're being presented in a bottom sheet enlarge it to (almost) fill the
+            // screen and drop any other detents so the sheet cannot be made smaller by
+            // the user.
+            sheetController.animateChanges { sheetController.detents = [.large()] }
+
+            // Prevent the user from swiping to dismiss the bottom sheet.
+            sheetPresentationDismissalBlocker = .init()
+            sheetController.delegate = sheetPresentationDismissalBlocker
         }
 
         Analytics.track(.playerShelfOverflowMenuRearrangeStarted)
@@ -169,5 +178,14 @@ private extension ShelfActionsViewController {
         }
 
         actionsTable.selectRow(at: .init(row: index, section: 0), animated: true, scrollPosition: .middle)
+    }
+}
+
+/// A UISheetPresentationControllerDelegate that prevents the user from swiping the
+/// sheet away by always rejecting dismissal requests. Programmatic dismissals are still
+/// respected.
+private final class ShelfActionsSheetDismissalBlocker: NSObject, UISheetPresentationControllerDelegate {
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        false
     }
 }

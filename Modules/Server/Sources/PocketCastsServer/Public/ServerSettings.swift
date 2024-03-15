@@ -129,7 +129,7 @@ public class ServerSettings {
     // MARK: Marketing Opt In
 
     public class func setMarketingOptIn(_ value: Bool) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.marketingOptIn = value
         }
         UserDefaults.standard.set(value, forKey: ServerConstants.UserDefaults.marketingOptInKey)
@@ -137,7 +137,7 @@ public class ServerSettings {
     }
 
     public class func marketingOptIn() -> Bool {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.marketingOptIn
         } else {
             return UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.marketingOptInKey)
@@ -218,22 +218,36 @@ public class ServerSettings {
     }
 
     // User files autodownload
-    private static let userEpisodeAutoDownloadKey = "UserEpisodeAutoDownload"
+    public static let userEpisodeAutoDownloadKey = "UserEpisodeAutoDownload"
     public class func userEpisodeAutoDownload() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeAutoDownloadKey)
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.cloudAutoDownload
+        } else {
+            UserDefaults.standard.bool(forKey: userEpisodeAutoDownloadKey)
+        }
     }
 
     public class func setUserEpisodeAutoDownload(_ value: Bool) {
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.cloudAutoDownload = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoDownloadKey)
     }
 
-    // User files autodownload on wifi
-    private static let userEpisodeOnlyOnWifiKey = "UserEpisodeOnlyOnWifi"
     public class func userEpisodeOnlyOnWifi() -> Bool {
-        UserDefaults.standard.bool(forKey: userEpisodeOnlyOnWifiKey)
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.cloudDownloadUnmeteredOnly
+        } else {
+            UserDefaults.standard.bool(forKey: userEpisodeOnlyOnWifiKey)
+        }
     }
 
+    // User files autodownload on wifi
+    public static let userEpisodeOnlyOnWifiKey = "UserEpisodeOnlyOnWifi"
     public class func setUserEpisodeOnlyOnWifi(_ value: Bool) {
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.cloudDownloadUnmeteredOnly = value
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeOnlyOnWifiKey)
     }
 
@@ -295,21 +309,35 @@ public class ServerSettings {
 
     private static let autoAddLimitKey = "AutoAddToUpNextLimit"
     public class func autoAddToUpNextLimit() -> Int {
-        UserDefaults.standard.integer(forKey: autoAddLimitKey)
+        if FeatureFlag.newSettingsStorage.enabled {
+            Int(SettingsStore.appSettings.autoUpNextLimit)
+        } else {
+            UserDefaults.standard.integer(forKey: autoAddLimitKey)
+        }
     }
 
     public class func setAutoAddToUpNextLimit(_ limit: Int) {
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.autoUpNextLimit = Int32(limit)
+        }
         UserDefaults.standard.setValue(limit, forKey: autoAddLimitKey)
     }
 
     private static let onAutoAddLimitReachedKey = "AutoAddLimitReachedKey"
     public class func onAutoAddLimitReached() -> AutoAddLimitReachedAction {
-        let storedValue = UserDefaults.standard.integer(forKey: onAutoAddLimitReachedKey)
+        if FeatureFlag.newSettingsStorage.enabled {
+            return SettingsStore.appSettings.autoUpNextLimitReached
+        } else {
+            let storedValue = UserDefaults.standard.integer(forKey: onAutoAddLimitReachedKey)
 
-        return AutoAddLimitReachedAction(rawValue: Int32(storedValue)) ?? .stopAdding
+            return AutoAddLimitReachedAction(rawValue: Int32(storedValue)) ?? .stopAdding
+        }
     }
 
     public class func setOnAutoAddLimitReached(action: AutoAddLimitReachedAction) {
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.autoUpNextLimitReached = action
+        }
         UserDefaults.standard.setValue(action.rawValue, forKey: onAutoAddLimitReachedKey)
     }
 

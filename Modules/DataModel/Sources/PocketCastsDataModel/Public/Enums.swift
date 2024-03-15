@@ -76,6 +76,8 @@ public enum BookmarksSort: Int32, Codable {
     case newestToOldest = 0
     case oldestToNewest = 1
     case timestamp = 2
+    case episode = 3
+    case podcastAndEspisode = 4
 }
 
 public enum AutoArchiveAfterPlayed: Int32, Codable {
@@ -183,6 +185,13 @@ extension AutoArchiveAfterInactive {
     }
 }
 
+public enum TrimSilence: Int32, Codable {
+    case off = 0
+    case mild = 1
+    case medium = 2
+    case madMax = 3
+}
+
 /// A value representing a type with a `known` and `unknown` value.
 /// The `known` value is of type`Present` and `unknown` of type `Absent`
 public enum Option<Present, Absent> {
@@ -239,4 +248,9 @@ extension Array: RawRepresentable where Element: RawRepresentable<String> {
     public var rawValue: String {
         map(\.rawValue).joined(separator: ",")
     }
+}
+
+public enum UpNextPosition: Int32, Codable {
+    case bottom = 0
+    case top = 1
 }

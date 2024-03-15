@@ -421,17 +421,21 @@ private extension Api_SyncUserBookmark {
 
 extension Podcast {
     func processSettings(_ settings: Api_PodcastSettings) {
+        let oldSettings = self.settings
         self.settings.$customEffects.update(setting: settings.playbackEffects)
         self.settings.$autoStartFrom.update(setting: settings.autoStartFrom)
         self.settings.$autoSkipLast.update(setting: settings.autoSkipLast)
         self.settings.$trimSilence.update(setting: settings.trimSilence)
         self.settings.$playbackSpeed.update(setting: settings.playbackSpeed)
         self.settings.$boostVolume.update(setting: settings.volumeBoost)
+        self.settings.$addToUpNext.update(setting: settings.addToUpNext)
+        self.settings.$addToUpNextPosition.update(setting: settings.addToUpNextPosition)
         self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
         self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
         self.settings.$autoArchive.update(setting: settings.autoArchive)
         self.settings.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
         self.settings.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)
         self.settings.$autoArchiveEpisodeLimit.update(setting: settings.autoArchiveEpisodeLimit)
+        oldSettings.printDiff(from: self.settings, withIdentifier: self.uuid)
     }
 }

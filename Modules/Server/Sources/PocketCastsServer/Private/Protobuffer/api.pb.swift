@@ -2593,6 +2593,7 @@ struct Api_NamedSettingsResponse {
     get {return _storage._podcastBookmarksSortType ?? Api_Int32Setting()}
     set {_uniqueStorage()._podcastBookmarksSortType = newValue}
   }
+
   /// Returns true if `podcastBookmarksSortType` has been explicitly set.
   var hasPodcastBookmarksSortType: Bool {return _storage._podcastBookmarksSortType != nil}
   /// Clears the value of `podcastBookmarksSortType`. Subsequent reads from it will return its default value.

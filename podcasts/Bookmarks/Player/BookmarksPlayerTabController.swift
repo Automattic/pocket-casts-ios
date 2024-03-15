@@ -87,8 +87,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     }
 
     private func showBookmarkEdit(isNew: Bool, bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title in
-            self?.handleEditDismissed(isNew: isNew, title: title)
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title, canceled in
+            self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, title: title, canceled: canceled)
         })
 
         controller.source = viewModel.analyticsSource
@@ -96,9 +96,16 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         present(controller, animated: true)
     }
 
-    func handleEditDismissed(isNew: Bool, title: String) {
+    func handleEditDismissed(bookmark: Bookmark, isNew: Bool, title: String, canceled: Bool) {
         guard isNew else { return }
 
+        if canceled {
+            Task.init {
+                let _ = await bookmarkManager.remove([bookmark])
+                viewModel.reload()
+            }
+            return
+        }
         // If the title is still the default, we'll just show a 'Bookmark Added' message instead of displaying 'Bookmark "Bookmark" Added'.
         let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 

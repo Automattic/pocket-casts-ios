@@ -116,7 +116,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralKeepScreenAwake
 
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 cell.cellSwitch.isOn = SettingsStore.appSettings.keepScreenAwake
             } else {
                 cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
@@ -131,7 +131,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralOpenInBrowser
 
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 cell.cellSwitch.isOn = SettingsStore.appSettings.openLinks
             } else {
                 cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
@@ -146,7 +146,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralAutoOpenPlayer
 
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 cell.cellSwitch.isOn = SettingsStore.appSettings.openPlayer
             } else {
                 cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
@@ -161,7 +161,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralSmartPlayback
 
-            if FeatureFlag.settingsSync.enabled {
+            if FeatureFlag.newSettingsStorage.enabled {
                 cell.cellSwitch.isOn = SettingsStore.appSettings.intelligentResumption
             } else {
                 cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
@@ -446,7 +446,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func screenLockToggled(_ sender: UISwitch) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.keepScreenAwake = sender.isOn
         }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
@@ -455,7 +455,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func openLinksInBrowserToggled(_ sender: UISwitch) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.openLinks = sender.isOn
         } else {
             UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
@@ -476,7 +476,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func openPlayerToggled(_ sender: UISwitch) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.openPlayer = sender.isOn
         }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openPlayerAutomatically)
@@ -484,7 +484,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func intelligentPlaybackResumptionToggled(_ sender: UISwitch) {
-        if FeatureFlag.settingsSync.enabled {
+        if FeatureFlag.newSettingsStorage.enabled {
             SettingsStore.appSettings.intelligentResumption = sender.isOn
         }
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.intelligentPlaybackResumption)

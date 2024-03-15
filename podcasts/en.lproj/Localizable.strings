@@ -1704,6 +1704,9 @@
 /* Indicates that the access to the podcast will end on the specified date. '%1$@' is a placeholder for date that the access will end. */
 "podcast_access_ends" = "Access ends: %1$@";
 
+/* Sort option for bookmarks that uses Podcast name and Episodes dates*/
+"podcast_and_episode" = "Podcast & Episode";
+
 /* Prompt to archive all of the selected items. */
 "podcast_archive_all" = "Archive All";
 
@@ -4008,16 +4011,31 @@
 "announcement_slumber_title" = "Dream big";
 
 /* Slumber Studios partnership announcement description for subscribed users */
-"announcement_slumber_plus_description" = "As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
+"announcement_slumber_plus_description" = "As part of your Yearly Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
 
 /* Should match the "Learn more" translation on announcement_slumber_plus_description and announcement_slumber_non_plus_description */
 "announcement_slumber_plus_description_learn_more" = "Learn more";
 
 /* Slumber Studios partnership announcement description for non-subscribed users */
-"announcement_slumber_non_plus_description" = "Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
+"announcement_slumber_non_plus_description" = "Subscribe to Plus Yearly and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
 
 /* Button label for a feature the user can redeem using a code */
 "announcement_slumber_redeem" = "Redeem your code";
 
 /* Message shown when the code is copied to clipboard */
 "announcement_slumber_code_copied" = "Code copied to clipboard";
+
+/* Announcement of Skip Chapters for Patron users */
+"announcement_deselect_chapters_patron" = "As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.";
+
+/* Announcement of Skip Chapters for Plus users */
+"announcement_deselect_chapters_plus" = "As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.";
+
+/* Announcement of Skip Chapters for free users */
+"announcement_deselect_chapters_free" = "Subscribe to Plus now so you can select and skip chapters in any episode that supports them.";
+
+/* Used in a button meaning that the user undestood the message. */
+"got_it" = "Got it";
+
+/* Prompting the user to upgrade to Plus. Don't translate "Plus" */
+"upgrade_to_plus" = "Upgrade to Plus";
