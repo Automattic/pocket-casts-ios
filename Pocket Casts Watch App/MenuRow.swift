@@ -35,12 +35,12 @@ struct MenuRow: View {
                 Group {
                     Text(countText)
                         .font(.footnote.bold())
-                        .padding(4)
+                        .padding(2)
+                        .frame(minWidth: 20)
                         .background(.white)
-                        .clipShape(Circle())
+                        .clipShape(RoundedRectangle(cornerSize: CGSize(width: 9, height: 9)))
                         .foregroundColor(.black)
                 }
-                .frame(minWidth: 20, minHeight: 20)
                 .opacity(count > 0 ? 1 : 0)
             }.accessibilityLabel(accessibilityLabel)
         } icon: {
