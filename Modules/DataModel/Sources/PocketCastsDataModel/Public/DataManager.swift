@@ -923,9 +923,9 @@ public class DataManager {
         let pushOnCount = DataManager.sharedManager.count(query: pushOnQuery, values: nil)
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         if totalCount > 0, pushOnCount >= totalCount {
-            podcast.pushEnabled = true
+            podcast.isPushEnabled = true
         } else {
-            podcast.pushEnabled = false
+            podcast.isPushEnabled = false
         }
 
         DataManager.sharedManager.save(podcast: podcast)

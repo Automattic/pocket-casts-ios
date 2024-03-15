@@ -38,7 +38,7 @@ class PodcastManager: NSObject {
                     let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
                     var foundPushOff = false
                     for podcast in podcasts {
-                        if !podcast.pushEnabled {
+                        if !podcast.isPushEnabled {
                             foundPushOff = true
                             break
                         }

@@ -364,7 +364,7 @@ class PodcastDataManager {
     }
 
     func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: FMDatabaseQueue) {
-        podcast.pushEnabled = pushEnabled
+        podcast.isPushEnabled = pushEnabled
         savePushSetting(podcastUuid: podcast.uuid, pushEnabled: pushEnabled, dbQueue: dbQueue)
     }
 
