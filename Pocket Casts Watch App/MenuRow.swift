@@ -19,6 +19,14 @@ struct MenuRow: View {
         return ammendedCount
     }
 
+    var accessibilityLabel: String {
+        if count > 0 {
+            return "\(label), \(count)"
+        } else {
+            return label
+        }
+    }
+
     var body: some View {
         Label {
             HStack {
@@ -34,7 +42,7 @@ struct MenuRow: View {
                 }
                 .frame(minWidth: 20, minHeight: 20)
                 .opacity(count > 0 ? 1 : 0)
-            }
+            }.accessibilityLabel(accessibilityLabel)
         } icon: {
             Image(icon)
         }
