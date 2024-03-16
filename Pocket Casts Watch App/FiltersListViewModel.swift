@@ -2,7 +2,7 @@ import Combine
 import Foundation
 import PocketCastsDataModel
 
-class FilterListViewModel: ObservableObject {
+class FiltersListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var filters: [Filter] = []
     let playSourceViewModel = PlaySourceHelper.playSourceViewModel

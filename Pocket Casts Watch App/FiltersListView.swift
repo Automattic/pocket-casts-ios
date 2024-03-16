@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct FiltersListView: View {
-    @StateObject var viewModel = FilterListViewModel()
+    @StateObject var viewModel = FiltersListViewModel()
 
     var body: some View {
         ItemListContainer(isEmpty: viewModel.filters.isEmpty, noItemsTitle: L10n.watchNoFilters, loading: viewModel.isLoading) {
