@@ -160,7 +160,7 @@ class SourceInterfaceController: PCInterfaceController {
         }
         SourceManager.shared.setSource(newSource: .watch)
 
-        pushController(withName: "InterfaceController", context: nil)
+        pushController(forType: .interface)
     }
 
     private func nowPlayingEpisodesMatchOnBothSources() -> Bool {
