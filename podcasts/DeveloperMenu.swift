@@ -6,6 +6,20 @@ struct DeveloperMenu: View {
     var body: some View {
         List {
             Section {
+                Button(action: {
+                    UIPasteboard.general.string = ServerSettings.pushToken()
+                }, label: {
+                    Text("Copy Push Token")
+                })
+
+                Button(action: {
+                    UIPasteboard.general.string = ServerConfig.shared.syncDelegate?.uniqueAppId()
+                }, label: {
+                    Text("Copy Device ID")
+                })
+            }
+
+            Section {
                 Button("Corrupt Sync Login Token") {
                     ServerSettings.syncingV2Token = "badToken"
                 }
