@@ -39,10 +39,13 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.pushEnabled)
     }
 
-    func handleAppLaunch() {
-        if pushEnabled() {
-            registerForPushNotifications()
-        }
+    /// Calls registration APIs if push is enabled
+    /// - Parameter checkToken: Whether to check the token before registering. This would be `false` on app launch but could be checked while app is running to avoid extra work.
+    func register(checkToken: Bool) {
+        guard pushEnabled(),
+              checkToken == false || ServerSettings.pushToken() == nil
+        else { return }
+        registerForPushNotifications()
     }
 
     func registerForPushNotifications() {
