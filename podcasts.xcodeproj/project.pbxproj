@@ -1232,7 +1232,6 @@
 		BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = BDD239BC267C869B0047750C /* SwipeCellKit */; };
 		BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDD301661EFB9356004A9972 /* Interface.storyboard */; };
 		BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD301691EFB9356004A9972 /* Assets.xcassets */; };
-		BDD301781EFB9356004A9972 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301771EFB9356004A9972 /* InterfaceController.swift */; };
 		BDD3017A1EFB9356004A9972 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */; };
 		BDD3017C1EFB9356004A9972 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3017B1EFB9356004A9972 /* NotificationController.swift */; };
 		BDD301821EFB9356004A9972 /* Pocket Casts Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */; };
@@ -3050,7 +3049,6 @@
 		BDD301691EFB9356004A9972 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BDD3016B1EFB9356004A9972 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BDD301761EFB9356004A9972 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
-		BDD301771EFB9356004A9972 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		BDD3017B1EFB9356004A9972 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		BDD3018B1EFB94C9004A9972 /* WatchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchManager.swift; sourceTree = "<group>"; };
@@ -4726,7 +4724,6 @@
 		BD2AFEE01EFC9F3600398A34 /* Main Page */ = {
 			isa = PBXGroup;
 			children = (
-				BDD301771EFB9356004A9972 /* InterfaceController.swift */,
 				40541470243603D300431FD5 /* SourceInterfaceController.swift */,
 				FF47245A2BA4749F00EA916B /* MenuRow.swift */,
 				FF4724642BA721D200EA916B /* InterfaceView.swift */,
@@ -9501,7 +9498,6 @@
 				BDE48A232410D0CA00ECA6CA /* Enumerations.swift in Sources */,
 				46B5DFDA27EA4F12006FC2ED /* VolumeControl.swift in Sources */,
 				4670303B27D7B7C200844CED /* Image+Helpers.swift in Sources */,
-				BDD301781EFB9356004A9972 /* InterfaceController.swift in Sources */,
 				BD11C4232524799F00E308E6 /* SharedConstants.swift in Sources */,
 				46703E1027BEF0C800DD7998 /* Color+Defined.swift in Sources */,
 				463538F426F2413400BA9D35 /* Strings+L10n.swift in Sources */,
