@@ -77,12 +77,6 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var useDarkUpNextTheme: Bool = true
 
-    @ModifiedDate public var autoDownloadUpNext: Bool = false
-    @ModifiedDate public var autoDownloadUnmeteredOnly: Bool = true
-    @ModifiedDate public var cloudAutoUpload: Bool = false
-    @ModifiedDate public var cloudAutoDownload: Bool = false
-    @ModifiedDate public var cloudDownloadUnmeteredOnly: Bool = true
-
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,
                            rowAction: .stream,

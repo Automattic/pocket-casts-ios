@@ -165,6 +165,11 @@ extension SyncTask {
 
         guard let episode = existingEpisode else { return }
 
+        let updateSaved = DataManager.sharedManager.saveIfNotModified(chapters: episodeItem.deselectedChapters, remoteModified: episodeItem.deselectedChaptersModified.value, episodeUuid: episode.uuid)
+        if updateSaved {
+            ServerConfig.shared.syncDelegate?.deselectedChaptersChanged()
+        }
+
         if episodeItem.hasStarred, episode.keepEpisode != episodeItem.starred.value {
             let updateSaved = DataManager.sharedManager.saveIfNotModified(starred: episodeItem.starred.value, episodeUuid: episode.uuid)
             if updateSaved {

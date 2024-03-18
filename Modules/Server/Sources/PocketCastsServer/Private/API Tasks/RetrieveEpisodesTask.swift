@@ -65,6 +65,7 @@ class RetrieveEpisodesTask: ApiBaseTask {
         episode.playedUpTo = Int(protoEpisode.playedUpTo)
         episode.playingStatus = Int(protoEpisode.playingStatus)
         episode.starred = protoEpisode.starred
+        episode.deselectedChapters = protoEpisode.deselectedChapters
 
         return episode
     }
