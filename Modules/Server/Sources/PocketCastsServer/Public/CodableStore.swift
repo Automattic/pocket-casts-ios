@@ -27,7 +27,7 @@ struct CodableStore<Value: JSONCodable, Settings: SettingsStore<Value>> {
             let container = instance.userDefaults
             let key = instance[keyPath: storageKeyPath].key
             let defaultValue = instance[keyPath: storageKeyPath].defaultValue
-            return container.jsonObject(Value.self, forKey: key) ?? defaultValue
+            return (try? container.jsonObject(Value.self, forKey: key)) ?? defaultValue
         }
         set {
             let container = instance.userDefaults

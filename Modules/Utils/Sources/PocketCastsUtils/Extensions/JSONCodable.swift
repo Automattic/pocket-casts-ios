@@ -55,13 +55,13 @@ public extension JSONEncodable {
 /// A type that can decode itself from a JSON Data representation using JSONDecoder.
 public protocol JSONDecodable: Decodable {
     /// Decodes the data using the given type and returns the value on success or nil on failure.
-    static func encodedObject<Value: JSONDecodable>(_ type: Value.Type, from data: Data) -> Value?
+    static func encodedObject<Value: JSONDecodable>(_ type: Value.Type, from data: Data) throws -> Value
 }
 
 public extension JSONDecodable {
     /// By default the value is decoded using a basic JSONDecoder and will return nil if decoding fails or is not the correct type.
-    static func encodedObject<Value: JSONDecodable>(_ type: Value.Type, from data: Data) -> Value? {
-        try? JSONDecoder().decode(Value.self, from: data)
+    static func encodedObject<Value: JSONDecodable>(_ type: Value.Type, from data: Data) throws -> Value {
+        try JSONDecoder().decode(Value.self, from: data)
     }
 }
 
@@ -78,9 +78,9 @@ public extension UserDefaults {
 
     /// Retrieves the JSONDecodable object from the UserDefaults for the given key.
     /// THe value and cast it to the given `type`
-    func jsonObject<Value: JSONDecodable>(_ type: Value.Type, forKey: String) -> Value? {
-        data(forKey: forKey).flatMap {
-            Value.encodedObject(type, from: $0)
+    func jsonObject<Value: JSONDecodable>(_ type: Value.Type, forKey: String) throws -> Value? {
+        try data(forKey: forKey).flatMap {
+            try Value.encodedObject(type, from: $0)
         }
     }
 }
