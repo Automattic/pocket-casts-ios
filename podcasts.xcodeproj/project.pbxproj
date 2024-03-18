@@ -1241,7 +1241,6 @@
 		BDD301931EFB9979004A9972 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301911EFB9979004A9972 /* SessionManager.swift */; };
 		BDD301951EFB9A4F004A9972 /* WatchDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301941EFB9A4F004A9972 /* WatchDataManager.swift */; };
 		BDD301971EFB9A95004A9972 /* WatchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301961EFB9A95004A9972 /* WatchFilter.swift */; };
-		BDD3019A1EFB9EE8004A9972 /* TopLevelItemRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301991EFB9EE8004A9972 /* TopLevelItemRowController.swift */; };
 		BDD3579027BCD33D0000D155 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3578E27BCD33D0000D155 /* FolderViewController.swift */; };
 		BDD3579127BCD33D0000D155 /* FolderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDD3578F27BCD33D0000D155 /* FolderViewController.xib */; };
 		BDD3579327BCD50D0000D155 /* FolderViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3579227BCD50D0000D155 /* FolderViewController+CollectionView.swift */; };
@@ -3060,7 +3059,6 @@
 		BDD301911EFB9979004A9972 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		BDD301941EFB9A4F004A9972 /* WatchDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDataManager.swift; sourceTree = "<group>"; };
 		BDD301961EFB9A95004A9972 /* WatchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchFilter.swift; sourceTree = "<group>"; };
-		BDD301991EFB9EE8004A9972 /* TopLevelItemRowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopLevelItemRowController.swift; sourceTree = "<group>"; };
 		BDD3578E27BCD33D0000D155 /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		BDD3578F27BCD33D0000D155 /* FolderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FolderViewController.xib; sourceTree = "<group>"; };
 		BDD3579227BCD50D0000D155 /* FolderViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FolderViewController+CollectionView.swift"; sourceTree = "<group>"; };
@@ -4737,14 +4735,6 @@
 			name = "Main Page";
 			sourceTree = "<group>";
 		};
-		BD2AFEE21EFCAEA700398A34 /* Row Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				BDD301991EFB9EE8004A9972 /* TopLevelItemRowController.swift */,
-			);
-			name = "Row Controllers";
-			sourceTree = "<group>";
-		};
 		BD2F3BA72366C41B00416633 /* Show Notes */ = {
 			isa = PBXGroup;
 			children = (
@@ -6031,7 +6021,6 @@
 				46B5DFCC27EA16A3006FC2ED /* Play Source */,
 				404EEB372431AE93007EAC2E /* Podcasts */,
 				BD74F15627F2954400222785 /* Folders */,
-				BD2AFEE21EFCAEA700398A34 /* Row Controllers */,
 				BDCB87291F013EA400120EA0 /* State Restoration */,
 				46703E0C27BEE25800DD7998 /* SwiftUI */,
 			);
@@ -9433,7 +9422,6 @@
 				461C46CE274D9E400003D3A9 /* LocalizationHelpers.swift in Sources */,
 				C7252863299B353A00A582C3 /* BookmarkManager.swift in Sources */,
 				46D88AB727DF97CA00F3BC43 /* PodcastsListView.swift in Sources */,
-				BDD3019A1EFB9EE8004A9972 /* TopLevelItemRowController.swift in Sources */,
 				463FCE7D27BEA90B00E5AF89 /* WatchInterfaceType.swift in Sources */,
 				46CD891327E222B20046A9FB /* FilterEpisodeListView.swift in Sources */,
 				BDE48A1B2410D06C00ECA6CA /* PlaybackItem.swift in Sources */,
