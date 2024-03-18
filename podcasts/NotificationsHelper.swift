@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 import UserNotifications
+import PocketCastsUtils
 
 class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     private let downloadEpisodeActionId = "SJEpDownload"
@@ -14,17 +15,27 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
     @objc static let shared = NotificationsHelper()
 
     @objc func pushEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.notifications
+        } else {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled)
+        }
     }
 
     func enablePush() {
         if pushEnabled() { return } // already enabled
 
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.notifications = true
+        }
         UserDefaults.standard.set(true, forKey: Constants.UserDefaults.pushEnabled)
         registerForPushNotifications()
     }
 
     func disablePush() {
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.notifications = false
+        }
         UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.pushEnabled)
     }
 
