@@ -5974,6 +5974,7 @@
 			children = (
 				BDD301661EFB9356004A9972 /* Interface.storyboard */,
 				BDD301691EFB9356004A9972 /* Assets.xcassets */,
+				10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */,
 				BDD3016B1EFB9356004A9972 /* Info.plist */,
 			);
 			path = "Pocket Casts Watch App";
@@ -5993,7 +5994,6 @@
 				40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */,
 				40BF0B5124244C64003E3ABD /* SourceManager.swift */,
 				BD73A5D42452BFA400679864 /* Extension Assets.xcassets */,
-				10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */,
 				BDD3017F1EFB9356004A9972 /* Info.plist */,
 				BDD301751EFB9356004A9972 /* Supporting Files */,
 			);
