@@ -15,6 +15,7 @@ public protocol ServerSyncDelegate {
     func episodeStarredChanged(episode: Episode)
     func archiveEpisodeExternal(episode: Episode)
     func markEpisodeAsPlayedExternal(episode: Episode)
+    func deselectedChaptersChanged()
     func episodeCanBeCleanedUp(episode: Episode) -> Bool
     func autoDownloadLatestEpisode(episode: Episode)
     func cleanupAllUnusedEpisodeBuffers()

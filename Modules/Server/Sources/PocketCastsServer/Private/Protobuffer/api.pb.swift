@@ -3947,6 +3947,8 @@ struct Api_EpisodeSyncResponse {
 
   var bookmarks: [Api_BookmarkResponse] = []
 
+  var deselectedChapters: String = String()
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -5431,6 +5433,17 @@ struct Api_SyncUserEpisode {
   /// Clears the value of `starredModified`. Subsequent reads from it will return its default value.
   mutating func clearStarredModified() {self._starredModified = nil}
 
+  var deselectedChapters: String = String()
+
+  var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_deselectedChaptersModified = newValue}
+  }
+  /// Returns true if `deselectedChaptersModified` has been explicitly set.
+  var hasDeselectedChaptersModified: Bool {return self._deselectedChaptersModified != nil}
+  /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChaptersModified() {self._deselectedChaptersModified = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -5445,6 +5458,7 @@ struct Api_SyncUserEpisode {
   fileprivate var _playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
   fileprivate var _starred: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
   fileprivate var _starredModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
+  fileprivate var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
 }
 
 struct Api_SyncUserDevice {
@@ -6364,6 +6378,25 @@ struct Api_LegacyRecord {
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
 
+  /// chapters fields
+  var deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._deselectedChapters ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._deselectedChapters = newValue}
+  }
+  /// Returns true if `deselectedChapters` has been explicitly set.
+  var hasDeselectedChapters: Bool {return _storage._deselectedChapters != nil}
+  /// Clears the value of `deselectedChapters`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChapters() {_uniqueStorage()._deselectedChapters = nil}
+
+  var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _storage._deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_uniqueStorage()._deselectedChaptersModified = newValue}
+  }
+  /// Returns true if `deselectedChaptersModified` has been explicitly set.
+  var hasDeselectedChaptersModified: Bool {return _storage._deselectedChaptersModified != nil}
+  /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChaptersModified() {_uniqueStorage()._deselectedChaptersModified = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -6875,6 +6908,25 @@ struct Api_LegacyResponseRecord {
   var hasCreatedAt: Bool {return _storage._createdAt != nil}
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
+
+  /// chapters fields
+  var deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {return _storage._deselectedChapters ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._deselectedChapters = newValue}
+  }
+  /// Returns true if `deselectedChapters` has been explicitly set.
+  var hasDeselectedChapters: Bool {return _storage._deselectedChapters != nil}
+  /// Clears the value of `deselectedChapters`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChapters() {_uniqueStorage()._deselectedChapters = nil}
+
+  var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
+    get {return _storage._deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    set {_uniqueStorage()._deselectedChaptersModified = newValue}
+  }
+  /// Returns true if `deselectedChaptersModified` has been explicitly set.
+  var hasDeselectedChaptersModified: Bool {return _storage._deselectedChaptersModified != nil}
+  /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
+  mutating func clearDeselectedChaptersModified() {_uniqueStorage()._deselectedChaptersModified = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -12685,6 +12737,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     5: .same(proto: "starred"),
     6: .same(proto: "duration"),
     7: .same(proto: "bookmarks"),
+    8: .standard(proto: "deselected_chapters"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -12700,6 +12753,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
       case 5: try { try decoder.decodeSingularBoolField(value: &self.starred) }()
       case 6: try { try decoder.decodeSingularInt32Field(value: &self.duration) }()
       case 7: try { try decoder.decodeRepeatedMessageField(value: &self.bookmarks) }()
+      case 8: try { try decoder.decodeSingularStringField(value: &self.deselectedChapters) }()
       default: break
       }
     }
@@ -12727,6 +12781,9 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     if !self.bookmarks.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.bookmarks, fieldNumber: 7)
     }
+    if !self.deselectedChapters.isEmpty {
+      try visitor.visitSingularStringField(value: self.deselectedChapters, fieldNumber: 8)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -12738,6 +12795,7 @@ extension Api_EpisodeSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
     if lhs.starred != rhs.starred {return false}
     if lhs.duration != rhs.duration {return false}
     if lhs.bookmarks != rhs.bookmarks {return false}
+    if lhs.deselectedChapters != rhs.deselectedChapters {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -15222,6 +15280,8 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     10: .standard(proto: "played_up_to_modified"),
     11: .same(proto: "starred"),
     12: .standard(proto: "starred_modified"),
+    13: .standard(proto: "deselected_chapters"),
+    14: .standard(proto: "deselected_chapters_modified"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -15242,6 +15302,8 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
       case 10: try { try decoder.decodeSingularMessageField(value: &self._playedUpToModified) }()
       case 11: try { try decoder.decodeSingularMessageField(value: &self._starred) }()
       case 12: try { try decoder.decodeSingularMessageField(value: &self._starredModified) }()
+      case 13: try { try decoder.decodeSingularStringField(value: &self.deselectedChapters) }()
+      case 14: try { try decoder.decodeSingularMessageField(value: &self._deselectedChaptersModified) }()
       default: break
       }
     }
@@ -15288,6 +15350,12 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     try { if let v = self._starredModified {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
     } }()
+    if !self.deselectedChapters.isEmpty {
+      try visitor.visitSingularStringField(value: self.deselectedChapters, fieldNumber: 13)
+    }
+    try { if let v = self._deselectedChaptersModified {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -15304,6 +15372,8 @@ extension Api_SyncUserEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs._playedUpToModified != rhs._playedUpToModified {return false}
     if lhs._starred != rhs._starred {return false}
     if lhs._starredModified != rhs._starredModified {return false}
+    if lhs.deselectedChapters != rhs.deselectedChapters {return false}
+    if lhs._deselectedChaptersModified != rhs._deselectedChaptersModified {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -15915,6 +15985,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     49: .same(proto: "time"),
     50: .standard(proto: "title_modified"),
     51: .standard(proto: "created_at"),
+    52: .standard(proto: "deselected_chapters"),
+    53: .standard(proto: "deselected_chapters_modified"),
   ]
 
   fileprivate class _StorageClass {
@@ -15969,6 +16041,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     var _time: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _titleModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
     var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -16026,6 +16100,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       _time = source._time
       _titleModified = source._titleModified
       _createdAt = source._createdAt
+      _deselectedChapters = source._deselectedChapters
+      _deselectedChaptersModified = source._deselectedChaptersModified
     }
   }
 
@@ -16095,6 +16171,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         case 49: try { try decoder.decodeSingularMessageField(value: &_storage._time) }()
         case 50: try { try decoder.decodeSingularMessageField(value: &_storage._titleModified) }()
         case 51: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
+        case 52: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChapters) }()
+        case 53: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChaptersModified) }()
         default: break
         }
       }
@@ -16260,6 +16338,12 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       try { if let v = _storage._createdAt {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
       } }()
+      try { if let v = _storage._deselectedChapters {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 52)
+      } }()
+      try { if let v = _storage._deselectedChaptersModified {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -16320,6 +16404,8 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         if _storage._time != rhs_storage._time {return false}
         if _storage._titleModified != rhs_storage._titleModified {return false}
         if _storage._createdAt != rhs_storage._createdAt {return false}
+        if _storage._deselectedChapters != rhs_storage._deselectedChapters {return false}
+        if _storage._deselectedChaptersModified != rhs_storage._deselectedChaptersModified {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -16463,6 +16549,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     49: .same(proto: "time"),
     50: .standard(proto: "title_modified"),
     51: .standard(proto: "created_at"),
+    52: .standard(proto: "deselected_chapters"),
+    53: .standard(proto: "deselected_chapters_modified"),
   ]
 
   fileprivate class _StorageClass {
@@ -16517,6 +16605,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _time: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _titleModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
     var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -16574,6 +16664,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _time = source._time
       _titleModified = source._titleModified
       _createdAt = source._createdAt
+      _deselectedChapters = source._deselectedChapters
+      _deselectedChaptersModified = source._deselectedChaptersModified
     }
   }
 
@@ -16643,6 +16735,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 49: try { try decoder.decodeSingularMessageField(value: &_storage._time) }()
         case 50: try { try decoder.decodeSingularMessageField(value: &_storage._titleModified) }()
         case 51: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
+        case 52: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChapters) }()
+        case 53: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChaptersModified) }()
         default: break
         }
       }
@@ -16808,6 +16902,12 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       try { if let v = _storage._createdAt {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 51)
       } }()
+      try { if let v = _storage._deselectedChapters {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 52)
+      } }()
+      try { if let v = _storage._deselectedChaptersModified {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 53)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -16868,6 +16968,8 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._time != rhs_storage._time {return false}
         if _storage._titleModified != rhs_storage._titleModified {return false}
         if _storage._createdAt != rhs_storage._createdAt {return false}
+        if _storage._deselectedChapters != rhs_storage._deselectedChapters {return false}
+        if _storage._deselectedChaptersModified != rhs_storage._deselectedChaptersModified {return false}
         return true
       }
       if !storagesAreEqual {return false}
