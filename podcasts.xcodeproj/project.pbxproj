@@ -1797,6 +1797,10 @@
 /* Begin PBXFileReference section */
 		0A1708DEC0501FB8417E31BE /* Pods_NotificationExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
+		10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		10B558EB2BA471DF0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		28DC441F0290179068AA8DBD /* libPods-Today Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Today Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F63CE9428809E5A00A34B51 /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		2F90990B2A4F88B00044FC55 /* Share Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3640,6 +3644,7 @@
 			isa = PBXGroup;
 			children = (
 				40E8036B23FE9E9100B4E1F8 /* ChapterIntentHandler.swift */,
+				10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */,
 				40E8036923FE9E9100B4E1F8 /* ExtendSleepTimerIntentHandler.swift */,
 				40E8036E23FE9E9100B4E1F8 /* IntentHandler.swift */,
 				40E8036A23FE9E9100B4E1F8 /* OpenFilterIntentHandler.swift */,
@@ -3779,6 +3784,7 @@
 				4090979F25236BFD00CED68C /* WidgetExtension.entitlements */,
 				4090978525236B0400CED68C /* PocketCastsWidgetBundle.swift */,
 				4090975625235DFC00CED68C /* Assets.xcassets */,
+				10B558EB2BA471DF0061847C /* PrivacyInfo.xcprivacy */,
 				4090975825235DFC00CED68C /* Info.plist */,
 			);
 			path = WidgetExtension;
@@ -5900,6 +5906,7 @@
 				46FBD8B9276A874F00867746 /* Intents.intentdefinition */,
 				BD663F9217E1FBA600D48373 /* Push Sounds */,
 				4007B056230E38DD008DDCF5 /* What's New */,
+				10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -5963,6 +5970,7 @@
 			children = (
 				BDD301661EFB9356004A9972 /* Interface.storyboard */,
 				BDD301691EFB9356004A9972 /* Assets.xcassets */,
+				10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */,
 				BDD3016B1EFB9356004A9972 /* Info.plist */,
 				BD2AFEDE1EFC9D5F00398A34 /* Extensions */,
 				BDD301901EFB9969004A9972 /* Data & Communication */,
