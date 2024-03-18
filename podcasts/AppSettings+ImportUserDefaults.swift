@@ -65,11 +65,6 @@ extension SettingsStore<AppSettings> {
         self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
         self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
         self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
-        importValue(\.$autoDownloadUpNext, forKey: Settings.autoDownloadUpNext, from: userDefaults)
-        importValue(\.$autoDownloadUnmeteredOnly, forKey: Settings.allowCellularAutoDownloadKey, from: userDefaults)
-        importValue(\.$cloudAutoDownload, forKey: ServerSettings.userEpisodeAutoDownloadKey, from: userDefaults)
-        importValue(\.$cloudDownloadUnmeteredOnly, forKey: ServerSettings.userEpisodeOnlyOnWifiKey, from: userDefaults)
-        importValue(\.$cloudAutoUpload, forKey: Settings.userEpisodeAutoUploadKey, from: userDefaults)
     }
 
     /// Imports a value of a given key from UserDefaults, only if that value exists
