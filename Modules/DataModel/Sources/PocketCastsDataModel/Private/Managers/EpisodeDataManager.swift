@@ -59,14 +59,14 @@ class EpisodeDataManager {
         let query = """
         SELECT * from \(DataManager.episodeTableName)
         WHERE uuid IN (\(list))
-        AND playingStatus = 3
+        AND playingStatus = ?
         LIMIT \(uuids.count)
         """
 
         var episodes = [Episode]()
         dbQueue.inDatabase { db in
             do {
-                let resultSet = try db.executeQuery(query, values: nil)
+                let resultSet = try db.executeQuery(query, values: [PlayingStatus.completed.rawValue])
                 defer { resultSet.close() }
 
                 while resultSet.next() {
