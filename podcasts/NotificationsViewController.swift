@@ -46,7 +46,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             return cell
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-            let podcastsSelected = DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
+            let podcastsSelected = DataManager.sharedManager.pushEnabledPodcastsCount()
             let chosenPodcasts = podcastsSelected == 1 ? L10n.chosenPodcastsSingular : L10n.chosenPodcastsPluralFormat(podcastsSelected.localized())
             cell.cellLabel.text = (podcastsSelected == 0) ? L10n.filterChoosePodcasts : chosenPodcasts
             cell.cellSecondaryLabel.text = nil

@@ -6,9 +6,9 @@ public struct ModifiedDate<Value: Codable & Equatable>: Equatable, Codable {
     var value: Value
     public private(set) var modifiedAt: Date?
 
-    public init(wrappedValue: Value) {
+    public init(wrappedValue: Value, modifiedAt: Date? = nil) {
         self.value = wrappedValue
-        self.modifiedAt = nil
+        self.modifiedAt = modifiedAt
     }
 
     public var wrappedValue: Value {

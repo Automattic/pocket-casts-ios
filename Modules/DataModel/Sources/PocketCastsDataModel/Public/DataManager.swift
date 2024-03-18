@@ -930,6 +930,14 @@ public class DataManager {
 
         DataManager.sharedManager.save(podcast: podcast)
     }
+
+    public func pushEnabledPodcastsCount() -> Int {
+        if FeatureFlag.newSettingsStorage.enabled {
+            DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE json_extract(settings, '$.notification.value') = ? AND subscribed = 1", values: [true])
+        } else {
+            DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
+        }
+    }
 }
 
 // MARK: - Ghost Episode Cleanup
