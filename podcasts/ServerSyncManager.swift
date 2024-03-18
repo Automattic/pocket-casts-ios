@@ -51,6 +51,10 @@ class ServerSyncManager: ServerSyncDelegate {
         EpisodeManager.markEpisodeAsPlayedExternal(episode)
     }
 
+    func deselectedChaptersChanged() {
+        PlaybackManager.shared.forceUpdateChapterInfo()
+    }
+
     func cleanupAllUnusedEpisodeBuffers() {
         EpisodeManager.cleanupAllUnusedEpisodeBuffers()
     }

@@ -66,6 +66,10 @@ extension WatchSyncManager: ServerSyncDelegate {
         DownloadManager.shared
     }
 
+    func deselectedChaptersChanged() {
+        PlaybackManager.shared.forceUpdateChapterInfo()
+    }
+
     // MARK: - Settings
 
     func isPushEnabled() -> Bool {
