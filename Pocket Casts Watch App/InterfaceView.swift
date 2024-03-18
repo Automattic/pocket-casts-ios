@@ -6,6 +6,7 @@ import WatchKit
 
 struct InterfaceView: View {
     @StateObject var upNextViewModel = UpNextViewModel()
+    @StateObject var downloadsViewModel = DownloadListViewModel()
 
     private enum Row: String, Identifiable {
         var id: String {
@@ -25,26 +26,18 @@ struct InterfaceView: View {
         }
     }
 
-    var upNextCount: Int {
-        return SourceManager.shared.isPhone() ? WatchDataManager.upNextCount() : PlaybackManager.shared.queue.upNextCount()
-    }
-
-    var downloadedCount: Int {
-        return SourceManager.shared.isPhone() ? 0 : DataManager.sharedManager.downloadedEpisodeCount()
-    }
-
     var body: some View {
         List {
             ForEach(rowList) { row in
                 switch row {
                 case .downloads:
-                    NavigationLink(destination: DownloadListView()) { MenuRow(label: L10n.downloads, icon: "filter_downloaded", count: downloadedCount) }
+                    NavigationLink(destination: DownloadListView()) { MenuRow(label: L10n.downloads, icon: "filter_downloaded", count: $downloadsViewModel.downloadedCount) }
                 case .podcasts:
                     NavigationLink(destination: PodcastsListView()) { MenuRow(label: L10n.podcastsPlural, icon: "podcasts") }
                 case .files:
                     NavigationLink(destination: FilesListView()) { MenuRow(label: L10n.files, icon: "file") }
                 case .upNext:
-                    NavigationLink(destination: UpNextView()) { MenuRow(label: L10n.upNext, icon: "upnext", count: upNextCount) }
+                    NavigationLink(destination: UpNextView()) { MenuRow(label: L10n.upNext, icon: "upnext", count: $upNextViewModel.upNextCount) }
                 case .filters:
                     NavigationLink(destination: FiltersListView()) { MenuRow(label: L10n.filters, icon: "filters") }
                 case .nowPlaying:
