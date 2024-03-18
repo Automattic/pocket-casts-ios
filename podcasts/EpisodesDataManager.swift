@@ -96,7 +96,7 @@ class EpisodesDataManager {
             let inClause = "(\(uuids.map { "'\($0)'" }.joined(separator: ",")))"
             return "podcast_id = \(podcast.id) AND uuid IN \(inClause) \(sortStr)"
         }
-        if !podcast.showArchived {
+        if !podcast.shouldShowArchived {
             return "podcast_id = \(podcast.id) AND archived = 0 \(sortStr)"
         }
 
