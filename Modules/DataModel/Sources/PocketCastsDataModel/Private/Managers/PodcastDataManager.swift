@@ -448,7 +448,7 @@ class PodcastDataManager {
 
                 if FeatureFlag.newSettingsStorage.enabled {
                     let query = """
-                    SELECT json_patch('setting', '{\"addToUpNext\": {\"value\": \(value)}}')
+                    SELECT json_patch('setting', '{\"addToUpNext\": {\"value\": \(value)}}'), syncStatus = \(SyncStatus.notSynced.rawValue)
                     WHERE uuid IN (\(DataHelper.convertArrayToInString(uuids)))
                     FROM \(DataManager.podcastTableName)"
                     """
@@ -500,7 +500,7 @@ class PodcastDataManager {
                     \(DataManager.podcastTableName).settings,
                     '$.\(settingName)',
                     json('\(jsonString)')
-                )
+                ), syncStatus = \(SyncStatus.notSynced.rawValue)
                 """
                 try db.executeUpdate(query, values: [])
             } catch {
@@ -587,7 +587,7 @@ class PodcastDataManager {
                     \(DataManager.podcastTableName).settings,
                     '$.notification',
                     json('\(jsonString)')
-                )
+                ), syncStatus = \(SyncStatus.notSynced.rawValue)
                 WHERE uuid = '\(podcastUuid)'
                 """
                 try db.executeUpdate(query, values: [])
