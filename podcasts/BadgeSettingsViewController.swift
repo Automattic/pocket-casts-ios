@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsServer
 import UIKit
 
 class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
@@ -75,7 +76,7 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             UserDefaults.standard.set(indexPath.row, forKey: Constants.UserDefaults.appBadge)
             UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.appBadgeFilterUuid)
 
-            if let badge = AppBadge(rawValue: indexPath.row) {
+            if let badge = AppBadge(rawValue: Int32(indexPath.row)) {
                 Settings.trackValueChanged(.settingsNotificationsAppBadgeChanged, value: badge)
             }
         } else if indexPath.section == filtersSection {

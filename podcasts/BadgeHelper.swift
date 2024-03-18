@@ -29,7 +29,7 @@ class BadgeHelper {
 
     @objc func updateBadge() {
         let badgeValue = UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)
-        guard let badgeSetting = AppBadge(rawValue: badgeValue) else { return }
+        guard let badgeSetting = AppBadge(rawValue: Int32(badgeValue)) else { return }
 
         let pushOn = NotificationsHelper.shared.pushEnabled()
 
