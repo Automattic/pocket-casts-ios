@@ -20,9 +20,12 @@ class SearchResultsModel: ObservableObject {
     @Published var hideEpisodes = false
 
     private(set) var playedEpisodesUUIDs = Set<String>()
+    private let dataMangager: DataManager
 
-    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
+    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown),
+         dataManager: DataManager = DataManager.sharedManager) {
         self.analyticsHelper = analyticsHelper
+        self.dataMangager = dataManager
     }
 
     func clearSearch() {
@@ -75,7 +78,7 @@ class SearchResultsModel: ObservableObject {
     func searchLocally(term searchTerm: String) {
         clearSearch()
 
-        let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let allPodcasts = dataMangager.allPodcasts(includeUnsubscribed: false)
 
         var results = [PodcastFolderSearchResult?]()
         for podcast in allPodcasts {
@@ -89,7 +92,7 @@ class SearchResultsModel: ObservableObject {
         }
 
         if SubscriptionHelper.hasActiveSubscription() {
-            let allFolders = DataManager.sharedManager.allFolders()
+            let allFolders = dataMangager.allFolders()
             for folder in allFolders {
                 if folder.name.localizedCaseInsensitiveContains(searchTerm) {
                     results.append(PodcastFolderSearchResult(from: folder))
@@ -108,7 +111,7 @@ class SearchResultsModel: ObservableObject {
             return []
         }
         let uuids = episodes.map { $0.uuid }
-        return DataManager.sharedManager.findPlayedEpisodesBy(uuids: uuids)
+        return dataMangager.findPlayedEpisodesBy(uuids: uuids)
             .reduce(Set<String>()) { list, episode in
                 var set = list
                 set.insert(episode.uuid)

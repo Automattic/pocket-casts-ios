@@ -12,13 +12,10 @@ struct SearchResultCell: View {
     let result: PodcastFolderSearchResult?
     let played: Bool
 
-    private let playedAlpha: Double
-
     init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false) {
         self.episode = episode
         self.result = result
-        self.played = played
-        self.playedAlpha = (episode != nil && played) ? 0.5 : 1.0
+        self.played = episode != nil && played
     }
 
     var body: some View {
@@ -44,7 +41,6 @@ struct SearchResultCell: View {
                 HStack(spacing: 12) {
                     (episode?.podcastUuid ?? result?.uuid).map {
                         SearchEntryImage(uuid: $0, kind: result?.kind)
-                            .opacity(playedAlpha)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
@@ -52,17 +48,14 @@ struct SearchResultCell: View {
                             Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)
                                 .font(style: .footnote, weight: .bold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
-                                .opacity(playedAlpha)
                             Text(episode.title)
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                                 .lineLimit(2)
-                                .opacity(playedAlpha)
                             Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration ?? 0)))
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                                 .lineLimit(1)
-                                .opacity(playedAlpha)
                         } else if let result {
                             Text(result.titleToDisplay)
                                 .font(style: .subheadline, weight: .medium)
@@ -89,6 +82,7 @@ struct SearchResultCell: View {
                     }
                 }
                 .padding(.trailing, 8)
+                .opacity(played ? 0.5 : 1.0)
                 ThemedDivider()
             }
             .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))
