@@ -5,7 +5,7 @@ import PocketCastsDataModel
 class FiltersListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var filters: [Filter] = []
-    let playSourceViewModel = PlaySourceHelper.playSourceViewModel
+    private let playSourceViewModel = PlaySourceHelper.playSourceViewModel
     private var cancellables = Set<AnyCancellable>()
 
     init() {
