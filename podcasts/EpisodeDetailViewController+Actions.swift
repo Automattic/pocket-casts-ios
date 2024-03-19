@@ -53,7 +53,7 @@ extension EpisodeDetailViewController {
             }
             if let timestamp = timestamp {
                 DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
-                PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)                
+                PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)
             }
 
             PlaybackActionHelper.playPause()

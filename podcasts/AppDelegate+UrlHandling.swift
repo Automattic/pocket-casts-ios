@@ -354,8 +354,7 @@ extension AppDelegate {
     }
 
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {
-        progressDialog = ShiftyLoadingAlert(title: L10n.sharedItemLoading)        
-
+        progressDialog = ShiftyLoadingAlert(title: L10n.sharedItemLoading)
         progressDialog?.showAlert(controller, hasProgress: false) {
             // URLs that are already in the format https://pca.st/podcast/da3271a0-69e7-0132-d9fd-5f4c86fd3263 (or /private/) have the podcast UUID in them already so no need to ask the refresh server for it
             if path.contains("/podcast/") || path.contains("/private/") {
