@@ -5,7 +5,7 @@ import PocketCastsServer
 
 /// Reponsible for handling the Autoplay of episodes
 class AutoplayHelper {
-    enum Playlist: Codable, AnalyticsDescribable {
+    enum Playlist: Codable, AnalyticsDescribable, Equatable {
         case podcast(uuid: String)
         case filter(uuid: String)
         case downloads
