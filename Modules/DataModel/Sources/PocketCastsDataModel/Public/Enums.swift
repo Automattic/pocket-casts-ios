@@ -2,6 +2,21 @@ import Foundation
 
 public enum UploadedSort: Int32, CaseIterable, Codable {
     case newestToOldest = 0, oldestToNewest = 1, titleAtoZ = 2, titleZtoA = 3, shortestToLongest = 4, longestToShortest = 5
+
+    public enum Old: Int {
+        case newestToOldest = 0, oldestToNewest = 1, titleAtoZ = 2
+    }
+
+    public init(old: Old) {
+        switch old {
+        case .newestToOldest:
+            self = .newestToOldest
+        case .oldestToNewest:
+            self = .oldestToNewest
+        case .titleAtoZ:
+            self = .titleAtoZ
+        }
+    }
 }
 
 public enum AutoDownloadStatus: Int32 {
@@ -61,7 +76,7 @@ public enum LibrarySort: Int32, CaseIterable, Codable {
 }
 
 public enum LibraryType: Int32, Codable {
-    case fourByFour = 0, threeByThree = 1, list = 2
+    case threeByThree = 0, fourByFour = 1, list = 2
 }
 
 public enum BadgeType: Int32, Codable {
@@ -69,7 +84,29 @@ public enum BadgeType: Int32, Codable {
 }
 
 public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
-    case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
+    case titleAtoZ
+    case titleZtoA
+    case oldestToNewest
+    case newestToOldest
+    case shortestToLongest
+    case longestToShortest
+
+    public enum Old: Int32 {
+        case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
+    }
+
+    public init(old: Old) {
+        switch old {
+        case .newestToOldest:
+            self = .newestToOldest
+        case .oldestToNewest:
+            self = .oldestToNewest
+        case .shortestToLongest:
+            self = .shortestToLongest
+        case .longestToShortest:
+            self = .longestToShortest
+        }
+    }
 }
 
 public enum BookmarksSort: Int32, Codable {

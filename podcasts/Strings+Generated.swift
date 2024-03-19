@@ -2040,6 +2040,10 @@ internal enum L10n {
   internal static var podcastsEpisodeSortOldestToNewest: String { return L10n.tr("Localizable", "podcasts_episode_sort_oldest_to_newest") }
   /// Shortest to Longest
   internal static var podcastsEpisodeSortShortestToLongest: String { return L10n.tr("Localizable", "podcasts_episode_sort_shortest_to_longest") }
+  /// Title (A-Z)
+  internal static var podcastsEpisodeSortTitleAToZ: String { return L10n.tr("Localizable", "podcasts_episode_sort_title_a_to_z") }
+  /// Title (Z-A)
+  internal static var podcastsEpisodeSortTitleZToA: String { return L10n.tr("Localizable", "podcasts_episode_sort_title_z_to_a") }
   /// Large Grid
   internal static var podcastsLargeGrid: String { return L10n.tr("Localizable", "podcasts_large_grid") }
   /// Layout

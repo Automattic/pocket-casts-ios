@@ -87,6 +87,10 @@ enum PodcastLicensing: Int32 {
 extension PodcastEpisodeSortOrder: AnalyticsDescribable {
     var description: String {
         switch self {
+        case .titleAtoZ:
+            return L10n.podcastsEpisodeSortTitleAToZ.localizedCapitalized
+        case .titleZtoA:
+            return L10n.podcastsEpisodeSortTitleZToA.localizedCapitalized
         case .newestToOldest:
             return L10n.podcastsEpisodeSortNewestToOldest.localizedCapitalized
         case .oldestToNewest:
@@ -100,7 +104,10 @@ extension PodcastEpisodeSortOrder: AnalyticsDescribable {
 
     var analyticsDescription: String {
         switch self {
-
+        case .titleAtoZ:
+            return "title_a_to_z"
+        case .titleZtoA:
+            return "title_z_to_a"
         case .newestToOldest:
             return "newest_to_oldest"
         case .oldestToNewest:

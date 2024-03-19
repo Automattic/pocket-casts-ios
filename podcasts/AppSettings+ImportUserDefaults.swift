@@ -52,8 +52,12 @@ extension SettingsStore<AppSettings> {
         if let lastPlaylist = AutoplayHelper().userDefaultsPlaylist {
             self.update(\.$autoPlayLastListUuid, value: AutoPlaySource(playlist: lastPlaylist))
 		}
-        self.update(\.$gridOrder, value: Int32(ServerSettings.homeGridSortOrder()))
-        self.update(\.$gridLayout, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)))
+        if let old = LibrarySort.Old(rawValue: ServerSettings.homeGridSortOrder()) {
+            self.update(\.$gridOrder, value: LibrarySort(old: old))
+        }
+        if let old = LibraryType.Old(rawValue: UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)) {
+            self.update(\.$gridLayout, value: LibraryType(old: old))
+        }
         self.update(\.$badges, value: Int32(UserDefaults.standard.integer(forKey: Settings.badgeKey)))
         self.update(\.$filesAutoUpNext, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeAutoAddToUpNextKey))
         self.update(\.$filesAfterPlayingDeleteLocal, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeRemoveFileAfterPlayingKey))
@@ -73,7 +77,9 @@ extension SettingsStore<AppSettings> {
         self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
         self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
         self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
-        self.update(\.$filesSortOrder, value: Int32(UserDefaults.standard.integer(forKey: Settings.userEpisodeSortByKey)))
+        if let old = UploadedSort.Old(rawValue: UserDefaults.standard.integer(forKey: Settings.userEpisodeSortByKey)) {
+            self.update(\.$filesSortOrder, value: UploadedSort(old: old))
+         }
     }
 
     /// Imports a value of a given key from UserDefaults, only if that value exists

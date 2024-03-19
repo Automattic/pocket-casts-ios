@@ -1593,7 +1593,7 @@
 		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
 		F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
-		F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */; };
+		F5DBA58A2B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
 		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
 		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
@@ -3363,7 +3363,7 @@
 		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
 		F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
 		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
-		F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaultsTests.swift"; sourceTree = "<group>"; };
+		F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastSettings+ImportUserDefaultsTests.swift"; sourceTree = "<group>"; };
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
 		F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelperTests.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -7177,7 +7177,7 @@
 			children = (
 				C7F4C6672A8EAB2800483C37 /* PaidFeatureTests.swift */,
 				F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */,
-				F5DBA5892B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift */,
+				F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */,
 				F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */,
 			);
 			path = Utilities;
@@ -8520,7 +8520,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5DBA58A2B756A8700AED77F /* AppSettings+ImportUserDefaultsTests.swift in Sources */,
+				F5DBA58A2B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift in Sources */,
 				8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */,
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
 				8B413D162B76B3A500FAB502 /* ChapterManagerTests.swift in Sources */,
