@@ -52,14 +52,15 @@ extension EpisodeDetailViewController {
                 dismiss(animated: true, completion: nil)
             }
             if let timestamp = timestamp {
-                episode.playedUpTo = timestamp
+                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
+                PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)                
             }
 
             PlaybackActionHelper.playPause()
         } else {
             dismiss(animated: true, completion: nil)
             if let timestamp = timestamp {
-                episode.playedUpTo = timestamp
+                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
             }
             PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
         }
