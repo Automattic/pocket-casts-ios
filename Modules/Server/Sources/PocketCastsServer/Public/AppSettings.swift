@@ -62,6 +62,8 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var gridLayout: LibraryType = .fourByFour
     @ModifiedDate public var badges: BadgeType = .off
 
+    @ModifiedDate public var filesSortOrder: UploadedSort = .newestToOldest
+
     @ModifiedDate public var playerShelf: [ActionOption] = []
 
     // MARK: - Appearance

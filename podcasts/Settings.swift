@@ -480,12 +480,19 @@ class Settings: NSObject {
 
     // MARK: - User Episode Settings
 
-    private static let userEpisodeSortByKey = "UserEpisodeSortBy"
-    class func userEpisodeSortBy() -> Int {
-        UserDefaults.standard.integer(forKey: userEpisodeSortByKey)
+    public static let userEpisodeSortByKey = "UserEpisodeSortBy"
+    class func userEpisodeSortBy() -> Int32 {
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.filesSortOrder.rawValue
+        } else {
+            Int32(UserDefaults.standard.integer(forKey: userEpisodeSortByKey))
+        }
     }
 
-    class func setUserEpisodeSortBy(_ value: Int) {
+    class func setUserEpisodeSortBy(_ value: Int32) {
+        if FeatureFlag.newSettingsStorage.enabled, let order = UploadedSort(rawValue: value) {
+            SettingsStore.appSettings.filesSortOrder = order
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeSortByKey)
     }
 
@@ -1269,7 +1276,7 @@ extension HeadphoneControl {
         case .skipForward:
             return .skipForward
         }
-	}
+    }
 }
 
 extension UserDefaults {
