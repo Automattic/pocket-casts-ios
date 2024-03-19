@@ -54,6 +54,33 @@ class EpisodeDataManager {
         loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
     }
 
+    func findPlayedEpisodes(uuids: [String], dbQueue: FMDatabaseQueue) -> [String] {
+        let list = uuids.map { "'\($0)'" }.joined(separator: ",")
+
+        let query = """
+        SELECT * from \(DataManager.episodeTableName)
+        WHERE uuid IN (\(list))
+        AND playingStatus = ?
+        LIMIT \(uuids.count)
+        """
+
+        var episodes = [String]()
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: [PlayingStatus.completed.rawValue])
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
+                    episodes.append(uuid)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
+            }
+        }
+        return episodes
+    }
+
     func downloadedEpisodeExists(uuid: String, dbQueue: FMDatabaseQueue) -> Bool {
         var found = false
         dbQueue.inDatabase { db in
