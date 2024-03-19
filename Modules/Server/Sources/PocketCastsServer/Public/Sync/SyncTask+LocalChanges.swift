@@ -236,6 +236,7 @@ private extension Podcast {
         settings.addToUpNextPosition.update(self.settings.$addToUpNextPosition)
         settings.episodesSortOrder.update(self.settings.$episodesSortOrder)
         settings.episodeGrouping.update(self.settings.$episodeGrouping)
+        settings.showArchived.update(self.settings.$showArchived)
         settings.autoArchive.update(self.settings.$autoArchive)
         settings.autoArchivePlayed.update(self.settings.$autoArchivePlayed)
         settings.autoArchiveInactive.update(self.settings.$autoArchiveInactive)

@@ -135,6 +135,23 @@ extension Podcast {
         }
     }
 
+    public var shouldShowArchived: Bool {
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                return settings.showArchived
+            } else {
+                return showArchived
+            }
+        }
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                settings.showArchived = newValue
+                syncStatus = SyncStatus.notSynced.rawValue
+            }
+            showArchived = newValue
+        }
+    }
+
     public var isPushEnabled: Bool {
         get {
             if FeatureFlag.newSettingsStorage.enabled {

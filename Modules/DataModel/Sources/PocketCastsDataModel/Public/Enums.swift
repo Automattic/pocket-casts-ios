@@ -1,7 +1,7 @@
 import Foundation
 
-public enum UploadedSort: Int, CaseIterable {
-    case newestToOldest = 0, oldestToNewest = 1, titleAtoZ = 2
+public enum UploadedSort: Int32, CaseIterable, Codable {
+    case newestToOldest = 0, oldestToNewest = 1, titleAtoZ = 2, titleZtoA = 3, shortestToLongest = 4, longestToShortest = 5
 }
 
 public enum AutoDownloadStatus: Int32 {

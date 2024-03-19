@@ -23,5 +23,5 @@ extension LibrarySort: SortOption {
 
 extension UploadedSort: SortOption {
     static var pickerTitle: String = L10n.filesSort
-    public var id: Int { rawValue }
+    public var id: Int32 { rawValue }
 }

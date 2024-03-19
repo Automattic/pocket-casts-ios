@@ -187,6 +187,11 @@ private extension SyncTask {
         podcast.settings.$autoArchivePlayed = settings.$autoArchivePlayed
         podcast.settings.$autoArchiveInactive = settings.$autoArchiveInactive
         podcast.settings.$autoArchiveEpisodeLimit = settings.$autoArchiveEpisodeLimit
+        podcast.settings.$addToUpNext = settings.$addToUpNext
+        podcast.settings.$addToUpNextPosition = settings.$addToUpNextPosition
+        podcast.settings.$episodesSortOrder = settings.$episodesSortOrder
+        podcast.settings.$episodeGrouping = settings.$episodeGrouping
+        podcast.settings.$showArchived = settings.$showArchived
         oldSettings.printDiff(from: podcast.settings, withIdentifier: podcast.uuid)
     }
 }

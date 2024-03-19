@@ -433,6 +433,7 @@ extension Podcast {
         self.settings.$addToUpNextPosition.update(setting: settings.addToUpNextPosition)
         self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
         self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
+        self.settings.$showArchived.update(setting: settings.showArchived)
         self.settings.$autoArchive.update(setting: settings.autoArchive)
         self.settings.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
         self.settings.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)

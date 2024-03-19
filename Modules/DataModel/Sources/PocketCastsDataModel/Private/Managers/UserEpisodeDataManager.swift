@@ -61,6 +61,12 @@ class UserEpisodeDataManager {
             return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) \(whereClause) ORDER BY addedDate ASC\(limitClause)", values: nil, dbQueue: dbQueue)
         case .titleAtoZ:
             return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) \(whereClause) ORDER BY LOWER(title) ASC\(limitClause)", values: nil, dbQueue: dbQueue)
+        case .titleZtoA:
+            return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) \(whereClause) ORDER BY LOWER(title) DESC\(limitClause)", values: nil, dbQueue: dbQueue)
+        case .shortestToLongest:
+            return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) \(whereClause) ORDER BY duration ASC\(limitClause)", values: nil, dbQueue: dbQueue)
+        case .longestToShortest:
+            return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) \(whereClause) ORDER BY duration DESC\(limitClause)", values: nil, dbQueue: dbQueue)
         }
     }
 
@@ -77,6 +83,12 @@ class UserEpisodeDataManager {
             return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE episodeStatus = ? ORDER BY addedDate ASC\(limitClause)", values: [DownloadStatus.downloaded.rawValue], dbQueue: dbQueue)
         case .titleAtoZ:
             return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE episodeStatus = ? ORDER BY LOWER(title) ASC\(limitClause)", values: [DownloadStatus.downloaded.rawValue], dbQueue: dbQueue)
+        case .titleZtoA:
+            return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE episodeStatus = ? ORDER BY LOWER(title) DESC\(limitClause)", values: [DownloadStatus.downloaded.rawValue], dbQueue: dbQueue)
+        case .shortestToLongest:
+            return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE episodeStatus = ? ORDER BY duration ASC\(limitClause)", values: [DownloadStatus.downloaded.rawValue], dbQueue: dbQueue)
+        case .longestToShortest:
+            return loadMultiple(query: "SELECT * from \(DataManager.userEpisodeTableName) WHERE episodeStatus = ? ORDER BY duration DESC\(limitClause)", values: [DownloadStatus.downloaded.rawValue], dbQueue: dbQueue)
         }
     }
 

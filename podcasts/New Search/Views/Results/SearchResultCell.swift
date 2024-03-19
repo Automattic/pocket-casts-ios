@@ -10,6 +10,13 @@ struct SearchResultCell: View {
 
     let episode: EpisodeSearchResult?
     let result: PodcastFolderSearchResult?
+    let played: Bool
+
+    init(episode: EpisodeSearchResult?, result: PodcastFolderSearchResult?, played: Bool = false) {
+        self.episode = episode
+        self.result = result
+        self.played = episode != nil && played
+    }
 
     var body: some View {
         ZStack {
@@ -62,12 +69,20 @@ struct SearchResultCell: View {
                     }
                     .allowsHitTesting(false)
 
+                    if episode != nil, played {
+                        Spacer()
+                        Image("list_played", bundle: nil)
+                            .renderingMode(.template)
+                            .foregroundStyle(AppTheme.episodeCellPlayedIndicatorColor().color)
+                    }
+
                     if let result, result.kind == .podcast {
                         Spacer()
                         SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
                     }
                 }
                 .padding(.trailing, 8)
+                .opacity(played ? 0.5 : 1.0)
                 ThemedDivider()
             }
             .padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 0))

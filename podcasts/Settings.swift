@@ -480,12 +480,19 @@ class Settings: NSObject {
 
     // MARK: - User Episode Settings
 
-    private static let userEpisodeSortByKey = "UserEpisodeSortBy"
-    class func userEpisodeSortBy() -> Int {
-        UserDefaults.standard.integer(forKey: userEpisodeSortByKey)
+    public static let userEpisodeSortByKey = "UserEpisodeSortBy"
+    class func userEpisodeSortBy() -> Int32 {
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.filesSortOrder.rawValue
+        } else {
+            Int32(UserDefaults.standard.integer(forKey: userEpisodeSortByKey))
+        }
     }
 
-    class func setUserEpisodeSortBy(_ value: Int) {
+    class func setUserEpisodeSortBy(_ value: Int32) {
+        if FeatureFlag.newSettingsStorage.enabled, let order = UploadedSort(rawValue: value) {
+            SettingsStore.appSettings.filesSortOrder = order
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeSortByKey)
     }
 
@@ -1155,6 +1162,38 @@ class Settings: NSObject {
         }
     }
 
+    static var appBadge: AppBadge? {
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.appBadge
+            } else {
+                AppBadge(rawValue: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)))
+            }
+        }
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.appBadge = newValue ?? .off
+            }
+            UserDefaults.standard.set(newValue?.rawValue, forKey: Constants.UserDefaults.appBadge)
+        }
+    }
+
+    static var appBadgeFilterUuid: String? {
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.appBadgeFilter
+            } else {
+                UserDefaults.standard.string(forKey: Constants.UserDefaults.appBadgeFilterUuid)
+            }
+        }
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.appBadgeFilter = newValue ?? ""
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.appBadgeFilterUuid)
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
@@ -1269,7 +1308,7 @@ extension HeadphoneControl {
         case .skipForward:
             return .skipForward
         }
-	}
+    }
 }
 
 extension UserDefaults {

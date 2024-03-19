@@ -72,7 +72,7 @@ class InterfaceController: PCInterfaceController {
         case .podcasts:
             pushController(forType: .podcasts)
         case .filters:
-            pushController(withName: "FiltersInterfaceController", context: nil)
+            pushController(forType: .filterList)
         case .downloads:
             pushController(forType: .downloads)
         case .files:

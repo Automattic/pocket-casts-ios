@@ -1,4 +1,6 @@
 import PocketCastsDataModel
+import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
@@ -58,12 +60,12 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
                 cell.settingsLabel.text = L10n.settingsBadgeNewSinceOpened
             }
 
-            let badgeSetting = UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)
+            let badgeSetting = Int(Settings.appBadge?.rawValue ?? AppBadge.off.rawValue)
             cell.accessoryType = (badgeSetting == indexPath.row) ? .checkmark : .none
         } else if indexPath.section == filtersSection, let filter = episodeFilters[safe: indexPath.row] {
             cell.settingsLabel.text = filter.playlistName
 
-            let selectedFilterId = UserDefaults.standard.string(forKey: Constants.UserDefaults.appBadgeFilterUuid)
+            let selectedFilterId = Settings.appBadgeFilterUuid
             cell.accessoryType = filter.uuid == selectedFilterId ? .checkmark : .none
         }
 
@@ -72,16 +74,16 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == optionsSection {
-            UserDefaults.standard.set(indexPath.row, forKey: Constants.UserDefaults.appBadge)
-            UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.appBadgeFilterUuid)
+            Settings.appBadge = AppBadge(rawValue: Int32(indexPath.row))
+            Settings.appBadgeFilterUuid = nil
 
-            if let badge = AppBadge(rawValue: indexPath.row) {
+            if let badge = AppBadge(rawValue: Int32(indexPath.row)) {
                 Settings.trackValueChanged(.settingsNotificationsAppBadgeChanged, value: badge)
             }
         } else if indexPath.section == filtersSection {
-            UserDefaults.standard.set(AppBadge.filterCount.rawValue, forKey: Constants.UserDefaults.appBadge)
+            Settings.appBadge = AppBadge.filterCount
             if let filter = episodeFilters[safe: indexPath.row] {
-                UserDefaults.standard.set(filter.uuid, forKey: Constants.UserDefaults.appBadgeFilterUuid)
+                Settings.appBadgeFilterUuid = filter.uuid
             }
             Settings.trackValueChanged(.settingsNotificationsAppBadgeChanged, value: AppBadge.filterCount)
         }

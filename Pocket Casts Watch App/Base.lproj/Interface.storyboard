@@ -286,65 +286,6 @@ Account</string>
             </objects>
             <point key="canvasLocation" x="219" y="980"/>
         </scene>
-        <!--Filters-->
-        <scene sceneID="afw-X2-c4X">
-            <objects>
-                <controller identifier="FiltersInterfaceController" title="Filters" id="KXr-po-fhJ" customClass="FiltersInterfaceController" customModule="Pocket_Casts_Watch_App">
-                    <items>
-                        <label alignment="left" text="Loading..." id="Eye-h6-H86">
-                            <fontDescription key="font" type="system" pointSize="16"/>
-                        </label>
-                        <table alignment="left" id="MtN-3q-Lai">
-                            <items>
-                                <tableRow identifier="TopLevelItemRowController" id="eRn-7W-5Mx" customClass="TopLevelItemRowController" customModule="Pocket_Casts_Watch_App">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" isAccessibilityElement="YES" spacing="6" id="5Vs-tv-7N6">
-                                        <items>
-                                            <group width="20" height="40" alignment="left" verticalAlignment="center" id="Hee-yY-8Zh">
-                                                <items>
-                                                    <imageView width="20" alignment="left" verticalAlignment="center" image="star_empty" contentMode="scaleAspectFit" id="dz9-bH-LmI">
-                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </imageView>
-                                                </items>
-                                            </group>
-                                            <label width="0.62" alignment="left" verticalAlignment="center" isAccessibilityElement="NO" numberOfLines="2" id="8Ku-xV-fyJ">
-                                                <fontDescription key="font" type="system" pointSize="16"/>
-                                            </label>
-                                            <group width="20" height="20" alignment="right" verticalAlignment="center" radius="9" id="JOa-2s-FHm">
-                                                <items>
-                                                    <label height="13" alignment="center" verticalAlignment="center" isAccessibilityElement="NO" textAlignment="center" id="xvs-WY-QzG">
-                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" type="boldSystem" pointSize="13"/>
-                                                        <variation key="device=watch38mm">
-                                                            <fontDescription key="font" type="boldSystem" pointSize="9"/>
-                                                        </variation>
-                                                    </label>
-                                                </items>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <edgeInsets key="margins" left="2" right="2" top="2" bottom="2"/>
-                                            </group>
-                                        </items>
-                                        <accessibilityTraits key="accessibilityTraits" staticText="YES"/>
-                                        <edgeInsets key="margins" left="6" right="6" top="6" bottom="6"/>
-                                    </group>
-                                    <connections>
-                                        <outlet property="episodeCountGroup" destination="JOa-2s-FHm" id="AG3-8M-X9g"/>
-                                        <outlet property="episodeCountLabel" destination="xvs-WY-QzG" id="ipE-xw-E7S"/>
-                                        <outlet property="icon" destination="dz9-bH-LmI" id="rmP-6d-2Ne"/>
-                                        <outlet property="label" destination="8Ku-xV-fyJ" id="Jvc-yR-Ouj"/>
-                                        <outlet property="topLevelGroup" destination="5Vs-tv-7N6" id="rfj-JJ-0aI"/>
-                                    </connections>
-                                </tableRow>
-                            </items>
-                        </table>
-                    </items>
-                    <connections>
-                        <outlet property="filtersTable" destination="MtN-3q-Lai" id="hTe-Tt-On9"/>
-                        <outlet property="loadingLabel" destination="Eye-h6-H86" id="muc-GX-lpa"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="219" y="336"/>
-        </scene>
         <!--WatchHostingController-->
         <scene sceneID="Ttk-Q0-GTr">
             <objects>
@@ -362,6 +303,5 @@ Account</string>
         <image name="profile-free" width="28" height="28"/>
         <image name="profile-refresh" width="20" height="20"/>
         <image name="retry" width="20" height="20"/>
-        <image name="star_empty" width="24" height="24"/>
     </resources>
 </document>
