@@ -28,8 +28,7 @@ class BadgeHelper {
     }
 
     @objc func updateBadge() {
-        let badgeValue = UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)
-        guard let badgeSetting = AppBadge(rawValue: badgeValue) else { return }
+        guard let badgeSetting = Settings.appBadge else { return }
 
         let pushOn = NotificationsHelper.shared.pushEnabled()
 
@@ -50,14 +49,14 @@ class BadgeHelper {
             let newCount = DataManager.sharedManager.count(query: "SELECT COUNT(e.id) FROM SJEpisode e LEFT JOIN SJPodcast p ON p.id = e.podcast_id WHERE p.subscribed = 1 AND e.playingStatus == 1 AND e.archived = 0 AND e.addedDate > ?", values: [lastClosedDate])
             setBadgeTo(newCount)
         } else if badgeSetting == .filterCount {
-            guard let filterId = UserDefaults.standard.string(forKey: Constants.UserDefaults.appBadgeFilterUuid) else {
-                UserDefaults.standard.set(AppBadge.off.rawValue, forKey: Constants.UserDefaults.appBadge)
+            guard let filterId = Settings.appBadgeFilterUuid else {
+                Settings.appBadge = .off
 
                 return
             }
 
             guard let filter = DataManager.sharedManager.findFilter(uuid: filterId) else {
-                UserDefaults.standard.set(AppBadge.off.rawValue, forKey: Constants.UserDefaults.appBadge)
+                Settings.appBadge = .off
 
                 return
             }

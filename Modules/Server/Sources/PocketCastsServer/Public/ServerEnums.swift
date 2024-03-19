@@ -67,6 +67,10 @@ public enum PrimaryUpNextSwipeAction: Int32, Codable {
     case playNext = 0, playLast = 1
 }
 
+public enum AppBadge: Int32, Codable {
+    case off = 0, totalUnplayed = 1, newSinceLastOpened = 2, filterCount = 10
+}
+
 public enum HeadphoneControl: Int32, Codable {
     case addBookmark = 0
     case skipBack = 1
@@ -142,4 +146,39 @@ public enum ThemeType: Int32, CaseIterable, Codable {
     public enum Old: Int {
         case light = 0, dark, extraDark, electric, classic, indigo, radioactive, rosé, contrastLight, contrastDark
     }
+}
+
+public enum AutoPlaySource: Codable, RawRepresentable, Equatable {
+    public typealias RawValue = String
+
+    public init?(rawValue: String) {
+        switch rawValue {
+        case "downloads":
+            self = .downloads
+        case "files":
+            self = .files
+        case "starred":
+            self = .starred
+        default:
+            self = .uuid(rawValue)
+        }
+    }
+
+    public var rawValue: String {
+        switch self {
+        case .uuid(let uuid):
+            return uuid
+        case .downloads:
+            return "downloads"
+        case .files:
+            return "files"
+        case .starred:
+            return "starred"
+        }
+    }
+
+    case uuid(String)
+    case downloads
+    case files
+    case starred
 }
