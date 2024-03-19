@@ -2,6 +2,21 @@ import Foundation
 
 public enum UploadedSort: Int32, CaseIterable, Codable {
     case newestToOldest = 0, oldestToNewest = 1, titleAtoZ = 2, titleZtoA = 3, shortestToLongest = 4, longestToShortest = 5
+
+    public enum Old: Int {
+        case newestToOldest = 0, oldestToNewest = 1, titleAtoZ = 2
+    }
+
+    public init(old: Old) {
+        switch old {
+        case .newestToOldest:
+            self = .newestToOldest
+        case .oldestToNewest:
+            self = .oldestToNewest
+        case .titleAtoZ:
+            self = .titleAtoZ
+        }
+    }
 }
 
 public enum AutoDownloadStatus: Int32 {
