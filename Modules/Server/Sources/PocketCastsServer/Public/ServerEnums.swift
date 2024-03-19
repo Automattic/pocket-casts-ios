@@ -143,3 +143,38 @@ public enum ThemeType: Int32, CaseIterable, Codable {
         case light = 0, dark, extraDark, electric, classic, indigo, radioactive, rosé, contrastLight, contrastDark
     }
 }
+
+public enum AutoPlaySource: Codable, RawRepresentable, Equatable {
+    public typealias RawValue = String
+
+    public init?(rawValue: String) {
+        switch rawValue {
+        case "downloads":
+            self = .downloads
+        case "files":
+            self = .files
+        case "starred":
+            self = .starred
+        default:
+            self = .uuid(rawValue)
+        }
+    }
+
+    public var rawValue: String {
+        switch self {
+        case .uuid(let uuid):
+            return uuid
+        case .downloads:
+            return "downloads"
+        case .files:
+            return "files"
+        case .starred:
+            return "starred"
+        }
+    }
+
+    case uuid(String)
+    case downloads
+    case files
+    case starred
+}
