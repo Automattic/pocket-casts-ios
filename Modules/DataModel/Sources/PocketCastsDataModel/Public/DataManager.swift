@@ -933,12 +933,20 @@ public class DataManager {
         let pushOnCount = DataManager.sharedManager.count(query: pushOnQuery, values: nil)
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         if totalCount > 0, pushOnCount >= totalCount {
-            podcast.pushEnabled = true
+            podcast.isPushEnabled = true
         } else {
-            podcast.pushEnabled = false
+            podcast.isPushEnabled = false
         }
 
         DataManager.sharedManager.save(podcast: podcast)
+    }
+
+    public func pushEnabledPodcastsCount() -> Int {
+        if FeatureFlag.newSettingsStorage.enabled {
+            DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE json_extract(settings, '$.notification.value') = ? AND subscribed = 1", values: [true])
+        } else {
+            DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
+        }
     }
 }
 

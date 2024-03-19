@@ -38,7 +38,7 @@ class PodcastManager: NSObject {
                     let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
                     var foundPushOff = false
                     for podcast in podcasts {
-                        if !podcast.pushEnabled {
+                        if !podcast.isPushEnabled {
                             foundPushOff = true
                             break
                         }
@@ -52,7 +52,13 @@ class PodcastManager: NSObject {
                 }
             }
 
-            DataManager.sharedManager.savePushSetting(podcast: podcast, pushEnabled: enabled)
+            if FeatureFlag.newSettingsStorage.enabled {
+                podcast.settings.notification = enabled
+                podcast.syncStatus = SyncStatus.notSynced.rawValue
+                DataManager.sharedManager.save(podcast: podcast)
+            } else {
+                DataManager.sharedManager.savePushSetting(podcast: podcast, pushEnabled: enabled)
+            }
         }
     #endif
 

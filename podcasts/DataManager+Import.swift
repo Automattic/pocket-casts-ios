@@ -14,6 +14,7 @@ extension DataManager {
                 podcast.settings.$trimSilence = ModifiedDate<TrimSilence>(wrappedValue: TrimSilence(amount: trimSilence))
             }
             podcast.settings.$boostVolume = ModifiedDate<Bool>(wrappedValue: podcast.boostVolume)
+            podcast.settings.$notification = ModifiedDate<Bool>(wrappedValue: podcast.pushEnabled)
             if let episodeSortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) {
                 podcast.settings.$episodesSortOrder = ModifiedDate<PodcastEpisodeSortOrder>(wrappedValue: episodeSortOrder)
 			}

@@ -92,7 +92,7 @@ extension SyncTask {
         if podcastItem.hasIsDeleted, podcastItem.isDeleted.value {
             if let podcast = existingPodcast {
                 podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
-                podcast.pushEnabled = false
+                podcast.isPushEnabled = false
                 podcast.autoArchiveEpisodeLimit = 0
                 podcast.subscribed = 0
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
@@ -428,6 +428,7 @@ extension Podcast {
         self.settings.$trimSilence.update(setting: settings.trimSilence)
         self.settings.$playbackSpeed.update(setting: settings.playbackSpeed)
         self.settings.$boostVolume.update(setting: settings.volumeBoost)
+        self.settings.$notification.update(setting: settings.notification)
         self.settings.$addToUpNext.update(setting: settings.addToUpNext)
         self.settings.$addToUpNextPosition.update(setting: settings.addToUpNextPosition)
         self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
