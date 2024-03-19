@@ -14,11 +14,11 @@ struct PodcastsListView: View {
                         FolderItemView(folder: folder, podcastCount: viewModel.countOfPodcastsInFolder(folder))
                     }
                 }
+                .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.podcastsSort) { option in
+                    viewModel.sortOrder = option
+                }
             }
             .listStyle(.plain)
-            .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.podcastsSort) { option in
-                viewModel.sortOrder = option
-            }
         }
         .navigationTitle(L10n.podcastsPlural.prefixSourceUnicode)
     }
