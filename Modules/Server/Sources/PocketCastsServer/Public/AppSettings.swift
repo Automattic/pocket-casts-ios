@@ -27,6 +27,9 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    @ModifiedDate public var appBadge: AppBadge = .off
+    @ModifiedDate public var appBadgeFilter: String = ""
+
     @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed = .afterPlaying
     @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive = .never
     @ModifiedDate public var autoArchiveIncludesStarred: Bool = false
