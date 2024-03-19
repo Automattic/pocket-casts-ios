@@ -149,7 +149,7 @@ class SourceInterfaceController: PCInterfaceController {
 
         SourceManager.shared.setSource(newSource: .phone)
 
-        pushController(withName: "InterfaceController", context: nil)
+        pushController(forType: .interface)
     }
 
     @IBAction func watchTapped() {
