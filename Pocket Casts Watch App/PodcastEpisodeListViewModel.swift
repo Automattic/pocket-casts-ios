@@ -13,9 +13,9 @@ class PodcastEpisodeListViewModel: ObservableObject {
         let sortOrder = episodeSortOrder ?? PodcastEpisodeSortOrder.newestToOldest
         switch sortOrder {
         case .titleAtoZ:
-            sortStr = "ORDER BY title DESC, addedDate"
-        case .titleZtoA:
             sortStr = "ORDER BY title ASC, addedDate"
+        case .titleZtoA:
+            sortStr = "ORDER BY title DESC, addedDate"
         case .newestToOldest:
             sortStr = "ORDER BY publishedDate DESC, addedDate DESC"
         case .oldestToNewest:
