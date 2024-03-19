@@ -1,10 +1,7 @@
-7.61
------
-- Visually mark played episodes in search results [#928]
-
 7.60
 -----
 - Profile bookmark screen where all user bookmarks can be managed. [#1500]
+- Visually mark played episodes in search results [#928]
 
 7.59
 -----
