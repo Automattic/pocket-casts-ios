@@ -69,7 +69,29 @@ public enum BadgeType: Int32, Codable {
 }
 
 public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
-    case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
+    case titleAtoZ
+    case titleZtoA
+    case oldestToNewest
+    case newestToOldest
+    case shortestToLongest
+    case longestToShortest
+
+    public enum Old: Int32 {
+        case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
+    }
+
+    public init(old: Old) {
+        switch old {
+        case .newestToOldest:
+            self = .newestToOldest
+        case .oldestToNewest:
+            self = .oldestToNewest
+        case .shortestToLongest:
+            self = .shortestToLongest
+        case .longestToShortest:
+            self = .longestToShortest
+        }
+    }
 }
 
 public enum BookmarksSort: Int32, Codable {

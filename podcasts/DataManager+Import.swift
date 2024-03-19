@@ -15,7 +15,8 @@ extension DataManager {
             }
             podcast.settings.$boostVolume = ModifiedDate<Bool>(wrappedValue: podcast.boostVolume)
             podcast.settings.$notification = ModifiedDate<Bool>(wrappedValue: podcast.pushEnabled)
-            if let episodeSortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) {
+            if let oldValue = PodcastEpisodeSortOrder.Old(rawValue: podcast.episodeSortOrder) {
+                let episodeSortOrder = PodcastEpisodeSortOrder(old: oldValue)
                 podcast.settings.$episodesSortOrder = ModifiedDate<PodcastEpisodeSortOrder>(wrappedValue: episodeSortOrder)
 			}
             if let grouping = PodcastGrouping(rawValue: podcast.episodeGrouping) {
