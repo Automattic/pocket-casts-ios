@@ -7,7 +7,7 @@ extension Api_ChangeableSettings {
     mutating func update(with settings: AppSettings) {
         let oldSettings = self
         openLinks.update(settings.$openLinks)
-        rowAction.update(settings.$rowAction)
+        rowActionGlobal.update(settings.$rowAction)
         skipForward.update(settings.$skipForward)
         skipBack.update(settings.$skipBack)
         keepScreenAwake.update(settings.$keepScreenAwake)
@@ -22,7 +22,7 @@ extension Api_ChangeableSettings {
         multiSelectGesture.update(settings.$multiSelectGesture)
         chapterTitles.update(settings.$chapterTitles)
         autoPlayEnabled.update(settings.$autoPlayEnabled)
-        volumeBoost.update(settings.$volumeBoost)
+        volumeBoostGlobal.update(settings.$volumeBoost)
         trimSilence.update(settings.$trimSilence)
         playbackSpeed.update(settings.$playbackSpeed)
         warnDataUsage.update(settings.$warnDataUsage)
@@ -37,15 +37,15 @@ extension Api_ChangeableSettings {
         freeGiftAcknowledgement.update(settings.$freeGiftAcknowledgement)
         autoArchivePlayed.update(settings.$autoArchivePlayed)
         autoArchiveInactive.update(settings.$autoArchiveInactive)
-        autoArchiveIncludesStarred.update(settings.$autoArchiveIncludesStarred)
+        autoArchiveIncludesStarredGlobal.update(settings.$autoArchiveIncludesStarred)
         gridOrder.update(settings.$gridOrder)
-        gridLayout.update(settings.$gridLayout)
-        badges.update(settings.$badges)
-        filesAutoUpNext.update(settings.$filesAutoUpNext)
-        filesAfterPlayingDeleteLocal.update(settings.$filesAfterPlayingDeleteLocal)
-        filesAfterPlayingDeleteCloud.update(settings.$filesAfterPlayingDeleteCloud)
-        playerShelf.update(settings.$playerShelf)
-        useEmbeddedArtwork.update(settings.$useEmbeddedArtwork)
+        gridLayoutGlobal.update(settings.$gridLayout)
+        badgesGlobal.update(settings.$badges)
+        filesAutoUpNextGlobal.update(settings.$filesAutoUpNext)
+        filesAfterPlayingDeleteLocalGlobal.update(settings.$filesAfterPlayingDeleteLocal)
+        filesAfterPlayingDeleteCloudGlobal.update(settings.$filesAfterPlayingDeleteCloud)
+        playerShelfGlobal.update(settings.$playerShelf)
+        useEmbeddedArtworkGlobal.update(settings.$useEmbeddedArtwork)
         theme.update(settings.$theme)
         useSystemTheme.update(settings.$useSystemTheme)
         lightThemePreference.update(settings.$lightThemePreference)
@@ -53,11 +53,6 @@ extension Api_ChangeableSettings {
         useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
         autoUpNextLimit.update(settings.$autoUpNextLimit)
         autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
-        autoDownloadUpNext.update(settings.$autoDownloadUpNext)
-        autoDownloadUnmeteredOnly.update(settings.$autoDownloadUnmeteredOnly)
-        cloudAutoUpload.update(settings.$cloudAutoUpload)
-        cloudAutoDownload.update(settings.$cloudAutoDownload)
-        cloudDownloadUnmeteredOnly.update(settings.$cloudDownloadUnmeteredOnly)
     }
 }
 
@@ -65,7 +60,7 @@ extension AppSettings {
     mutating func update(with settings: Api_NamedSettingsResponse) {
         let oldSettings = self
         $openLinks.update(setting: settings.openLinks)
-        $rowAction.update(setting: settings.rowAction)
+        $rowAction.update(setting: settings.rowActionGlobal)
         $skipForward.update(setting: settings.skipForward)
         $skipBack.update(setting: settings.skipBack)
         $keepScreenAwake.update(setting: settings.keepScreenAwake)
@@ -80,7 +75,7 @@ extension AppSettings {
         $multiSelectGesture.update(setting: settings.multiSelectGesture)
         $chapterTitles.update(setting: settings.chapterTitles)
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
-        $volumeBoost.update(setting: settings.volumeBoost)
+        $volumeBoost.update(setting: settings.volumeBoostGlobal)
         $trimSilence.update(setting: settings.trimSilence)
         $playbackSpeed.update(setting: settings.playbackSpeed)
         $warnDataUsage.update(setting: settings.warnDataUsage)
@@ -95,15 +90,15 @@ extension AppSettings {
         $freeGiftAcknowledgement.update(setting: settings.freeGiftAcknowledgement)
         $autoArchivePlayed.update(setting: settings.autoArchivePlayed)
         $autoArchiveInactive.update(setting: settings.autoArchiveInactive)
-        $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarred)
+        $autoArchiveIncludesStarred.update(setting: settings.autoArchiveIncludesStarredGlobal)
         $gridOrder.update(setting: settings.gridOrder)
-        $gridLayout.update(setting: settings.gridLayout)
-        $badges.update(setting: settings.badges)
-        $filesAutoUpNext.update(setting: settings.filesAutoUpNext)
-        $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocal)
-        $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloud)
-        $playerShelf.update(setting: settings.playerShelf)
-        $useEmbeddedArtwork.update(setting: settings.useEmbeddedArtwork)
+        $gridLayout.update(setting: settings.gridLayoutGlobal)
+        $badges.update(setting: settings.badgesGlobal)
+        $filesAutoUpNext.update(setting: settings.filesAutoUpNextGlobal)
+        $filesAfterPlayingDeleteLocal.update(setting: settings.filesAfterPlayingDeleteLocalGlobal)
+        $filesAfterPlayingDeleteCloud.update(setting: settings.filesAfterPlayingDeleteCloudGlobal)
+        $playerShelf.update(setting: settings.playerShelfGlobal)
+        $useEmbeddedArtwork.update(setting: settings.useEmbeddedArtworkGlobal)
         $theme.update(setting: settings.theme)
         $useSystemTheme.update(setting: settings.useSystemTheme)
         $lightThemePreference.update(setting: settings.lightThemePreference)
@@ -111,22 +106,15 @@ extension AppSettings {
         $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
         $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
         $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
-        $autoDownloadUpNext.update(setting: settings.autoDownloadUpNext)
-        $autoDownloadUnmeteredOnly.update(setting: settings.autoDownloadUnmeteredOnly)
-        $cloudAutoUpload.update(setting: settings.cloudAutoUpload)
-        $cloudAutoDownload.update(setting: settings.cloudAutoDownload)
-        $cloudDownloadUnmeteredOnly.update(setting: settings.cloudDownloadUnmeteredOnly)
         oldSettings.printDiff(from: self)
     }
 }
 
 class SyncSettingsTask: ApiBaseTask {
 
-    private let shouldUseNewSync: Bool
     private let appSettings: SettingsStore<AppSettings>
 
-    init(shouldUseNewSync: Bool, appSettings: SettingsStore<AppSettings> = SettingsStore.appSettings, dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
-        self.shouldUseNewSync = shouldUseNewSync
+    init(appSettings: SettingsStore<AppSettings> = SettingsStore.appSettings, dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.appSettings = appSettings
         super.init(dataManager: dataManager, urlConnection: urlConnection)
     }
@@ -137,7 +125,7 @@ class SyncSettingsTask: ApiBaseTask {
             var settingsRequest = Api_NamedSettingsRequest()
             settingsRequest.m = "iPhone"
 
-            if shouldUseNewSync {
+            if FeatureFlag.settingsSync.enabled {
                 settingsRequest.changedSettings.update(with: appSettings.settings)
                 FileLog.shared.addMessage("Syncing new settings: \(try! settingsRequest.changedSettings.jsonString())")
             } else {
@@ -175,7 +163,7 @@ class SyncSettingsTask: ApiBaseTask {
         do {
             let settings = try Api_NamedSettingsResponse(serializedData: serverData)
 
-            if shouldUseNewSync {
+            if FeatureFlag.settingsSync.enabled {
                 appSettings.settings.update(with: settings)
             } else {
                 if settings.skipForward.changed.value {

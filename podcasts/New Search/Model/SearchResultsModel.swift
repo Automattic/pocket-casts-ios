@@ -19,13 +19,19 @@ class SearchResultsModel: ObservableObject {
 
     @Published var hideEpisodes = false
 
-    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)) {
+    private(set) var playedEpisodesUUIDs = Set<String>()
+    private let dataMangager: DataManager
+
+    init(analyticsHelper: SearchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown),
+         dataManager: DataManager = DataManager.sharedManager) {
         self.analyticsHelper = analyticsHelper
+        self.dataMangager = dataManager
     }
 
     func clearSearch() {
         podcasts = []
         episodes = []
+        playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
     }
 
@@ -53,6 +59,7 @@ class SearchResultsModel: ObservableObject {
                 isSearchingForEpisodes = true
                 do {
                     let results = try await episodeSearch.search(term: term)
+                    playedEpisodesUUIDs = buildPlayedEpisodesUUIDs(results)
                     episodes = results
                 } catch {
                     analyticsHelper.trackFailed(error)
@@ -71,7 +78,7 @@ class SearchResultsModel: ObservableObject {
     func searchLocally(term searchTerm: String) {
         clearSearch()
 
-        let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+        let allPodcasts = dataMangager.allPodcasts(includeUnsubscribed: false)
 
         var results = [PodcastFolderSearchResult?]()
         for podcast in allPodcasts {
@@ -85,7 +92,7 @@ class SearchResultsModel: ObservableObject {
         }
 
         if SubscriptionHelper.hasActiveSubscription() {
-            let allFolders = DataManager.sharedManager.allFolders()
+            let allFolders = dataMangager.allFolders()
             for folder in allFolders {
                 if folder.name.localizedCaseInsensitiveContains(searchTerm) {
                     results.append(PodcastFolderSearchResult(from: folder))
@@ -97,6 +104,19 @@ class SearchResultsModel: ObservableObject {
 
         resultsContainLocalPodcasts = true
         isShowingLocalResultsOnly = true
+    }
+
+    private func buildPlayedEpisodesUUIDs(_ episodes: [EpisodeSearchResult]) -> Set<String> {
+        if episodes.isEmpty {
+            return []
+        }
+        let uuids = episodes.map { $0.uuid }
+        return dataMangager.findPlayedEpisodes(uuids: uuids)
+            .reduce(Set<String>()) { list, uuid in
+                var set = list
+                set.insert(uuid)
+                return set
+        }
     }
 
     private func show(podcastResults: [PodcastFolderSearchResult]) {

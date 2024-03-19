@@ -54,22 +54,37 @@ struct Announcements {
             customBody: AnyView(SlumberCustomBody())
         ),
 
-        // Deselect Chapters
+        // Deselect Chapters (Patron announcement)
+        .init(
+            version: "7.60",
+            header: AnyView(Image("deselect_chapters")),
+            title: L10n.skipChapters,
+            message: L10n.announcementDeselectChaptersPatron,
+            buttonTitle: L10n.gotIt,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: chaptersViewModel.isPatronAnnouncementEnabled,
+            fullModal: true
+        ),
+
+        // Deselect Chapters (Plus on TestFlight announcement)
+        .init(
+            version: "7.60",
+            header: AnyView(Image("deselect_chapters")),
+            title: L10n.skipChapters,
+            message: chaptersViewModel.plusFreeMessage,
+            buttonTitle: chaptersViewModel.plusFreeButtonTitle,
+            action: {
+                chaptersViewModel.buttonAction()
+            },
+            isEnabled: chaptersViewModel.isPlusAnnouncementEnabled,
+            fullModal: true
+        ),
+
+        // Deselect Chapters (Non-Patron general public announcement)
 //        .init(
-//            version: "7.59",
-//            header: AnyView(Image("deselect_chapters")),
-//            title: L10n.skipChapters,
-//            message: L10n.announcementDeselectChaptersPatron,
-//            buttonTitle: L10n.gotIt,
-//            action: {
-//                SceneHelper.rootViewController()?.dismiss(animated: true)
-//            },
-//            isEnabled: chaptersViewModel.isPatronAnnouncementEnabled,
-//            fullModal: true
-//        ),
-//
-//        .init(
-//            version: "7.59",
+//            version: "7.61",
 //            header: AnyView(Image("deselect_chapters")),
 //            title: L10n.skipChapters,
 //            message: chaptersViewModel.plusFreeMessage,

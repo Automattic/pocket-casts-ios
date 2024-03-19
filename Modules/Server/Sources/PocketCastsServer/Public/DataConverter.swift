@@ -12,6 +12,7 @@ public class DataConverter {
             convertedData.playedUpTo = episodeSyncInfo.playedUpTo
             convertedData.isArchived = episodeSyncInfo.isArchived
             convertedData.starred = episodeSyncInfo.starred
+            convertedData.deselectedChapters = episodeSyncInfo.deselectedChapters
 
             allConvertedEpisodes.append(convertedData)
         }

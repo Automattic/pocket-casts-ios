@@ -218,36 +218,22 @@ public class ServerSettings {
     }
 
     // User files autodownload
-    public static let userEpisodeAutoDownloadKey = "UserEpisodeAutoDownload"
+    private static let userEpisodeAutoDownloadKey = "UserEpisodeAutoDownload"
     public class func userEpisodeAutoDownload() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.cloudAutoDownload
-        } else {
-            UserDefaults.standard.bool(forKey: userEpisodeAutoDownloadKey)
-        }
+        UserDefaults.standard.bool(forKey: userEpisodeAutoDownloadKey)
     }
 
     public class func setUserEpisodeAutoDownload(_ value: Bool) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.cloudAutoDownload = value
-        }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoDownloadKey)
     }
 
+    // User files autodownload on wifi
+    private static let userEpisodeOnlyOnWifiKey = "UserEpisodeOnlyOnWifi"
     public class func userEpisodeOnlyOnWifi() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.cloudDownloadUnmeteredOnly
-        } else {
-            UserDefaults.standard.bool(forKey: userEpisodeOnlyOnWifiKey)
-        }
+        UserDefaults.standard.bool(forKey: userEpisodeOnlyOnWifiKey)
     }
 
-    // User files autodownload on wifi
-    public static let userEpisodeOnlyOnWifiKey = "UserEpisodeOnlyOnWifi"
     public class func setUserEpisodeOnlyOnWifi(_ value: Bool) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.cloudDownloadUnmeteredOnly = value
-        }
         UserDefaults.standard.set(value, forKey: userEpisodeOnlyOnWifiKey)
     }
 

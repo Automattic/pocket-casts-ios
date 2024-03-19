@@ -1,8 +1,11 @@
+7.61
+-----
+- Visually mark played episodes in search results [#928]
+
 7.60
 -----
 - Opening a shared podcast episode link with the current position, now opens on the right position. [#5]
 - Profile bookmark screen where all user bookmarks can be managed. [#1500]
-
 
 7.59
 -----
