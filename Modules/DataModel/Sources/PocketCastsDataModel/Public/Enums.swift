@@ -61,7 +61,7 @@ public enum LibrarySort: Int32, CaseIterable, Codable {
 }
 
 public enum LibraryType: Int32, Codable {
-    case fourByFour = 0, threeByThree = 1, list = 2
+    case threeByThree = 0, fourByFour = 1, list = 2
 }
 
 public enum BadgeType: Int32, Codable {
