@@ -727,15 +727,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func toggleShowArchived() {
         guard let podcast = podcast else { return }
 
-        podcast.showArchived = !podcast.showArchived
+        podcast.shouldShowArchived = !podcast.shouldShowArchived
         DataManager.sharedManager.save(podcast: podcast)
         loadLocalEpisodes(podcast: podcast, animated: true)
 
-        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.showArchived])
+        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.shouldShowArchived])
     }
 
     func showingArchived() -> Bool {
-        podcast?.showArchived ?? false
+        podcast?.shouldShowArchived ?? false
     }
 
     func archiveAllTapped(playedOnly: Bool) {

@@ -27,6 +27,9 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var chapterTitles: Bool
     @ModifiedDate public var autoPlayEnabled: Bool
 
+    @ModifiedDate public var appBadge: AppBadge = .off
+    @ModifiedDate public var appBadgeFilter: String = ""
+
     @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed = .afterPlaying
     @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive = .never
     @ModifiedDate public var autoArchiveIncludesStarred: Bool = false
@@ -62,6 +65,8 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var gridLayout: LibraryType = .fourByFour
     @ModifiedDate public var badges: BadgeType = .off
 
+    @ModifiedDate public var filesSortOrder: UploadedSort = .newestToOldest
+
     @ModifiedDate public var playerShelf: [ActionOption] = []
 
     // MARK: - Appearance
@@ -74,6 +79,7 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var useEmbeddedArtwork: Bool = false
 
     @ModifiedDate public var useDarkUpNextTheme: Bool = true
+    @ModifiedDate public var autoPlayLastListUuid: AutoPlaySource = .uuid("")
 
     static var defaults: AppSettings {
         return AppSettings(openLinks: false,

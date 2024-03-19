@@ -22,6 +22,8 @@ extension Api_ChangeableSettings {
         multiSelectGesture.update(settings.$multiSelectGesture)
         chapterTitles.update(settings.$chapterTitles)
         autoPlayEnabled.update(settings.$autoPlayEnabled)
+        appBadge.update(settings.$appBadge)
+        appBadgeFilter.update(settings.$appBadgeFilter)
         volumeBoostGlobal.update(settings.$volumeBoost)
         trimSilence.update(settings.$trimSilence)
         playbackSpeed.update(settings.$playbackSpeed)
@@ -53,6 +55,8 @@ extension Api_ChangeableSettings {
         useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
         autoUpNextLimit.update(settings.$autoUpNextLimit)
         autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
+        autoPlayLastListUuid.update(settings.$autoPlayLastListUuid)
+        filesSortOrder.update(settings.$filesSortOrder)
     }
 }
 
@@ -75,6 +79,8 @@ extension AppSettings {
         $multiSelectGesture.update(setting: settings.multiSelectGesture)
         $chapterTitles.update(setting: settings.chapterTitles)
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
+        $appBadge.update(setting: settings.appBadge)
+        $appBadgeFilter.update(setting: settings.appBadgeFilter)
         $volumeBoost.update(setting: settings.volumeBoostGlobal)
         $trimSilence.update(setting: settings.trimSilence)
         $playbackSpeed.update(setting: settings.playbackSpeed)
@@ -106,7 +112,9 @@ extension AppSettings {
         $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
         $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
         $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
+        $filesSortOrder.update(setting: settings.filesSortOrder)
         oldSettings.printDiff(from: self)
+        $autoPlayLastListUuid.update(setting: settings.autoPlayLastListUuid)
     }
 }
 
