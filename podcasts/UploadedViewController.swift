@@ -258,9 +258,10 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "sort_by"])
 
         let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
-        optionsPicker.addAction(action: createSortAction(sort: .newestToOldest))
-        optionsPicker.addAction(action: createSortAction(sort: .oldestToNewest))
-        optionsPicker.addAction(action: createSortAction(sort: .titleAtoZ))
+
+        UploadedSort.allCases.forEach { sort in
+            optionsPicker.addAction(action: createSortAction(sort: sort))
+        }
 
         optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
