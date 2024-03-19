@@ -70,16 +70,16 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .deselectChapters:
             false
+        case .newSettingsStorage:
+            true
         case .settingsSync:
-            false // `newSettingsStorage` also needs to be `true` for syncing to function
+            BuildEnvironment.current != .appStore
         case .slumber:
             false
         case .newAccountUpgradePromptFlow:
             false
         case .cachePlayingEpisode:
             true
-        case .newSettingsStorage:
-            false
         }
     }
 
