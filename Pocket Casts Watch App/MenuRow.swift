@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct MenuRow: View {
-    let label: String
-    let icon: String
-    @Binding var count: Int
+    private let label: String
+    private let icon: String
+    @Binding private var count: Int
 
     init(label: String, icon: String, count: Int = 0) {
         self.label = label
