@@ -165,6 +165,11 @@ extension SyncTask {
 
         guard let episode = existingEpisode else { return }
 
+        let updateSaved = DataManager.sharedManager.saveIfNotModified(chapters: episodeItem.deselectedChapters, remoteModified: episodeItem.deselectedChaptersModified.value, episodeUuid: episode.uuid)
+        if updateSaved {
+            ServerConfig.shared.syncDelegate?.deselectedChaptersChanged()
+        }
+
         if episodeItem.hasStarred, episode.keepEpisode != episodeItem.starred.value {
             let updateSaved = DataManager.sharedManager.saveIfNotModified(starred: episodeItem.starred.value, episodeUuid: episode.uuid)
             if updateSaved {
@@ -427,6 +432,7 @@ extension Podcast {
         self.settings.$addToUpNextPosition.update(setting: settings.addToUpNextPosition)
         self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
         self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
+        self.settings.$showArchived.update(setting: settings.showArchived)
         self.settings.$autoArchive.update(setting: settings.autoArchive)
         self.settings.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
         self.settings.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)

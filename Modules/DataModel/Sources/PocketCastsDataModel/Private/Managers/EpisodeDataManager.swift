@@ -40,7 +40,8 @@ class EpisodeDataManager {
         "lastArchiveInteractionDate",
         "excludeFromEpisodeLimit",
         "starredModified",
-        "deselectedChapters"
+        "deselectedChapters",
+        "deselectedChaptersModified"
     ]
 
     // MARK: - Query
@@ -51,6 +52,33 @@ class EpisodeDataManager {
 
     func findWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue) -> Episode? {
         loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
+    }
+
+    func findPlayedEpisodes(uuids: [String], dbQueue: FMDatabaseQueue) -> [String] {
+        let list = uuids.map { "'\($0)'" }.joined(separator: ",")
+
+        let query = """
+        SELECT * from \(DataManager.episodeTableName)
+        WHERE uuid IN (\(list))
+        AND playingStatus = ?
+        LIMIT \(uuids.count)
+        """
+
+        var episodes = [String]()
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: [PlayingStatus.completed.rawValue])
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
+                    episodes.append(uuid)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
+            }
+        }
+        return episodes
     }
 
     func downloadedEpisodeExists(uuid: String, dbQueue: FMDatabaseQueue) -> Bool {
@@ -222,6 +250,10 @@ class EpisodeDataManager {
         saveFieldIfNotModified(fieldName: "playingStatus", modifiedFieldName: "playingStatusModified", value: playingStatus.rawValue, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
+    func saveIfNotModified(chapters: String, remoteModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+        saveFieldIfNotModified(fieldName: "deselectedChapters", modifiedFieldName: "deselectedChaptersModified", value: chapters, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    }
+
     func save(episode: Episode, dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
@@ -373,6 +405,10 @@ class EpisodeDataManager {
                     if let starred = episode.starred {
                         fields.append("keepEpisode")
                         values.append(starred)
+                    }
+                    if let deselectedChapters = episode.deselectedChapters {
+                        fields.append("deselectedChapters")
+                        values.append(deselectedChapters)
                     }
                     values.append(uuid)
 
@@ -876,6 +912,20 @@ class EpisodeDataManager {
         return saved
     }
 
+    private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+        var saved = false
+        dbQueue.inDatabase { db in
+            do {
+                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) < ?", values: [value, episodeUuid, remoteModified])
+                saved = (db.changes > 0)
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
+            }
+        }
+
+        return saved
+    }
+
     private func updateAll(fields: [String], values: [Any], whereClause: String?, dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
@@ -936,6 +986,7 @@ class EpisodeDataManager {
         values.append(episode.excludeFromEpisodeLimit)
         values.append(episode.starredModified)
         values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
+        values.append(episode.deselectedChaptersModified)
 
         if includeIdForWhere {
             values.append(episode.id)

@@ -178,9 +178,7 @@ extension LibrarySort: AnalyticsDescribable {
     }
 }
 
-enum AppBadge: Int, AnalyticsDescribable {
-    case off = 0, totalUnplayed = 1, newSinceLastOpened = 2, filterCount = 10
-
+extension AppBadge: AnalyticsDescribable {
     var analyticsDescription: String {
         switch self {
         case .off:

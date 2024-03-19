@@ -22,6 +22,10 @@ extension SettingsStore<AppSettings> {
         self.update(\.$multiSelectGesture, value: UserDefaults.standard.bool(forKey: Settings.multiSelectGestureKey))
         self.update(\.$chapterTitles, value: UserDefaults.standard.bool(forKey: Settings.publishChapterTitlesKey))
         self.update(\.$autoPlayEnabled, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay))
+        self.update(\.$appBadge, value: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)))
+        if let filter = UserDefaults.standard.string(forKey: Constants.UserDefaults.appBadgeFilterUuid) {
+            self.update(\.$appBadgeFilter, value: filter)
+        }
         self.update(\.$volumeBoost, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.globalVolumeBoost))
         if let trimSilenceAmount = TrimSilenceAmount(rawValue: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.globalRemoveSilence))) {
             self.update(\.$trimSilence, value: TrimSilence(amount: trimSilenceAmount).rawValue)
@@ -44,6 +48,9 @@ extension SettingsStore<AppSettings> {
             self.update(\.$autoArchiveInactive, value: inactive.rawValue)
         }
         self.update(\.$autoArchiveIncludesStarred, value: UserDefaults.standard.bool(forKey: Settings.archiveStarredEpisodesKey))
+        if let lastPlaylist = AutoplayHelper().userDefaultsPlaylist {
+            self.update(\.$autoPlayLastListUuid, value: AutoPlaySource(playlist: lastPlaylist))
+		}
         self.update(\.$gridOrder, value: Int32(ServerSettings.homeGridSortOrder()))
         self.update(\.$gridLayout, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)))
         self.update(\.$badges, value: Int32(UserDefaults.standard.integer(forKey: Settings.badgeKey)))
@@ -65,11 +72,7 @@ extension SettingsStore<AppSettings> {
         self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
         self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
         self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
-        importValue(\.$autoDownloadUpNext, forKey: Settings.autoDownloadUpNext, from: userDefaults)
-        importValue(\.$autoDownloadUnmeteredOnly, forKey: Settings.allowCellularAutoDownloadKey, from: userDefaults)
-        importValue(\.$cloudAutoDownload, forKey: ServerSettings.userEpisodeAutoDownloadKey, from: userDefaults)
-        importValue(\.$cloudDownloadUnmeteredOnly, forKey: ServerSettings.userEpisodeOnlyOnWifiKey, from: userDefaults)
-        importValue(\.$cloudAutoUpload, forKey: Settings.userEpisodeAutoUploadKey, from: userDefaults)
+        self.update(\.$filesSortOrder, value: Int32(UserDefaults.standard.integer(forKey: Settings.userEpisodeSortByKey)))
     }
 
     /// Imports a value of a given key from UserDefaults, only if that value exists

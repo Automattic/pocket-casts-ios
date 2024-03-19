@@ -66,19 +66,12 @@ class Settings: NSObject {
 
     // MARK: - Up Next Auto Download
 
-    static let autoDownloadUpNext = "SJAutoDownloadUpNext"
+    private static let autoDownloadUpNext = "SJAutoDownloadUpNext"
     class func downloadUpNextEpisodes() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.autoDownloadUpNext
-        } else {
-            UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
-        }
+        UserDefaults.standard.bool(forKey: Settings.autoDownloadUpNext)
     }
 
     class func setDownloadUpNextEpisodes(_ download: Bool) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.autoDownloadUpNext = download
-        }
         UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
         trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: download)
     }
@@ -106,19 +99,12 @@ class Settings: NSObject {
 
     // MARK: - Auto Download Mobile Data
 
-    static let allowCellularAutoDownloadKey = "SJUserCellularAutoDownload"
+    private static let allowCellularAutoDownloadKey = "SJUserCellularAutoDownload"
     class func autoDownloadMobileDataAllowed() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            !SettingsStore.appSettings.autoDownloadUnmeteredOnly
-        } else {
-            UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
-        }
+        UserDefaults.standard.bool(forKey: Settings.allowCellularAutoDownloadKey)
     }
 
     class func setAutoDownloadMobileDataAllowed(_ allow: Bool, userInitiated: Bool = false) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.autoDownloadUnmeteredOnly = !allow
-        }
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularAutoDownloadKey)
 
         guard userInitiated else { return }
@@ -494,28 +480,28 @@ class Settings: NSObject {
 
     // MARK: - User Episode Settings
 
-    private static let userEpisodeSortByKey = "UserEpisodeSortBy"
-    class func userEpisodeSortBy() -> Int {
-        UserDefaults.standard.integer(forKey: userEpisodeSortByKey)
+    public static let userEpisodeSortByKey = "UserEpisodeSortBy"
+    class func userEpisodeSortBy() -> Int32 {
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.filesSortOrder.rawValue
+        } else {
+            Int32(UserDefaults.standard.integer(forKey: userEpisodeSortByKey))
+        }
     }
 
-    class func setUserEpisodeSortBy(_ value: Int) {
+    class func setUserEpisodeSortBy(_ value: Int32) {
+        if FeatureFlag.newSettingsStorage.enabled, let order = UploadedSort(rawValue: value) {
+            SettingsStore.appSettings.filesSortOrder = order
+        }
         UserDefaults.standard.set(value, forKey: userEpisodeSortByKey)
     }
 
-    static let userEpisodeAutoUploadKey = "UserEpisodeAutoUpload"
+    private static let userEpisodeAutoUploadKey = "UserEpisodeAutoUpload"
     class func userFilesAutoUpload() -> Bool {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.cloudAutoUpload
-        } else {
-            UserDefaults.standard.bool(forKey: userEpisodeAutoUploadKey)
-        }
+        UserDefaults.standard.bool(forKey: userEpisodeAutoUploadKey)
     }
 
     class func setUserEpisodeAutoUpload(_ value: Bool) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.cloudAutoUpload = value
-        }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoUploadKey)
         trackValueToggled(.settingsFilesAutoUploadToCloudToggled, enabled: value)
     }
@@ -1173,6 +1159,38 @@ class Settings: NSObject {
                 SettingsStore.appSettings.profileBookmarksSortType = BookmarksSort(option: newValue)
             }
             Constants.UserDefaults.bookmarks.profileSort.save(newValue)
+        }
+    }
+
+    static var appBadge: AppBadge? {
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.appBadge
+            } else {
+                AppBadge(rawValue: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)))
+            }
+        }
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.appBadge = newValue ?? .off
+            }
+            UserDefaults.standard.set(newValue?.rawValue, forKey: Constants.UserDefaults.appBadge)
+        }
+    }
+
+    static var appBadgeFilterUuid: String? {
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.appBadgeFilter
+            } else {
+                UserDefaults.standard.string(forKey: Constants.UserDefaults.appBadgeFilterUuid)
+            }
+        }
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.appBadgeFilter = newValue ?? ""
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.appBadgeFilterUuid)
         }
     }
 

@@ -359,6 +359,10 @@ public class DataManager {
         return episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
 
+    public func findPlayedEpisodes(uuids: [String]) -> [String] {
+        episodeManager.findPlayedEpisodes(uuids: uuids, dbQueue: dbQueue)
+    }
+
     public func markAllEpisodePlaybackHistorySynced() {
         episodeManager.markAllEpisodePlaybackHistorySynced(dbQueue: dbQueue)
     }
@@ -475,6 +479,12 @@ public class DataManager {
     // returns true if the save succeeded, false otherwise
     public func saveIfNotModified(playingStatus: PlayingStatus, episodeUuid: String) -> Bool {
         episodeManager.saveIfNotModified(playingStatus: playingStatus, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    }
+
+    // returns true if the save succeeded, false otherwise
+    @discardableResult
+    public func saveIfNotModified(chapters: String, remoteModified: Int64, episodeUuid: String) -> Bool {
+        episodeManager.saveIfNotModified(chapters: chapters, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
     public func saveEpisode(playedUpTo: Double, episode: BaseEpisode, updateSyncFlag: Bool) {

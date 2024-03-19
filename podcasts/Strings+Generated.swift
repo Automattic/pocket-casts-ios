@@ -3011,7 +3011,13 @@ internal enum L10n {
   /// Upgrade to Plus
   internal static var upgradeToPlus: String { return L10n.tr("Localizable", "upgrade_to_plus") }
   /// Title (A-Z)
-  internal static var uploadSortAlpha: String { return L10n.tr("Localizable", "upload_sort_alpha") }
+  internal static var uploadSortAlphaAToZ: String { return L10n.tr("Localizable", "upload_sort_alpha_a_to_z") }
+  /// Title (Z-A)
+  internal static var uploadSortAlphaZToA: String { return L10n.tr("Localizable", "upload_sort_alpha_z_to_a") }
+  /// Longest to shortest
+  internal static var uploadSortLongestToShortest: String { return L10n.tr("Localizable", "upload_sort_longest_to_shortest") }
+  /// Shortest to longest
+  internal static var uploadSortShortestToLongest: String { return L10n.tr("Localizable", "upload_sort_shortest_to_longest") }
   /// Volume Boost
   internal static var volumeBoost: String { return L10n.tr("Localizable", "volume_boost") }
   /// Voices sound louder

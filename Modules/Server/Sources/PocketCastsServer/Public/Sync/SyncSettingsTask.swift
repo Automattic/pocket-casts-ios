@@ -22,6 +22,8 @@ extension Api_ChangeableSettings {
         multiSelectGesture.update(settings.$multiSelectGesture)
         chapterTitles.update(settings.$chapterTitles)
         autoPlayEnabled.update(settings.$autoPlayEnabled)
+        appBadge.update(settings.$appBadge)
+        appBadgeFilter.update(settings.$appBadgeFilter)
         volumeBoostGlobal.update(settings.$volumeBoost)
         trimSilence.update(settings.$trimSilence)
         playbackSpeed.update(settings.$playbackSpeed)
@@ -53,11 +55,8 @@ extension Api_ChangeableSettings {
         useDarkUpNextTheme.update(settings.$useDarkUpNextTheme)
         autoUpNextLimit.update(settings.$autoUpNextLimit)
         autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
-        autoDownloadUpNext.update(settings.$autoDownloadUpNext)
-        autoDownloadUnmeteredOnly.update(settings.$autoDownloadUnmeteredOnly)
-        cloudAutoUpload.update(settings.$cloudAutoUpload)
-        cloudAutoDownload.update(settings.$cloudAutoDownload)
-        cloudDownloadUnmeteredOnly.update(settings.$cloudDownloadUnmeteredOnly)
+        autoPlayLastListUuid.update(settings.$autoPlayLastListUuid)
+        filesSortOrder.update(settings.$filesSortOrder)
     }
 }
 
@@ -80,6 +79,8 @@ extension AppSettings {
         $multiSelectGesture.update(setting: settings.multiSelectGesture)
         $chapterTitles.update(setting: settings.chapterTitles)
         $autoPlayEnabled.update(setting: settings.autoPlayEnabled)
+        $appBadge.update(setting: settings.appBadge)
+        $appBadgeFilter.update(setting: settings.appBadgeFilter)
         $volumeBoost.update(setting: settings.volumeBoostGlobal)
         $trimSilence.update(setting: settings.trimSilence)
         $playbackSpeed.update(setting: settings.playbackSpeed)
@@ -111,12 +112,9 @@ extension AppSettings {
         $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
         $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
         $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
-        $autoDownloadUpNext.update(setting: settings.autoDownloadUpNext)
-        $autoDownloadUnmeteredOnly.update(setting: settings.autoDownloadUnmeteredOnly)
-        $cloudAutoUpload.update(setting: settings.cloudAutoUpload)
-        $cloudAutoDownload.update(setting: settings.cloudAutoDownload)
-        $cloudDownloadUnmeteredOnly.update(setting: settings.cloudDownloadUnmeteredOnly)
+        $filesSortOrder.update(setting: settings.filesSortOrder)
         oldSettings.printDiff(from: self)
+        $autoPlayLastListUuid.update(setting: settings.autoPlayLastListUuid)
     }
 }
 

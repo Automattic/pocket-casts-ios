@@ -69,8 +69,10 @@ protocol PlaySourceViewModel {
 
     // MARK: Filters
 
-    func fetchFilter(_ uuid: String) -> Filter?
-    func fetchFilterEpisodes(_ filter: Filter) -> AnyPublisher<[BaseEpisode], PlaySourceError>
+    func fetchFilters() -> AnyPublisher<[Filter], PlaySourceError>
+    func fetchFilter(_ uuid: String) -> (any Filter)?
+    func fetchFilterEpisodes(_ filter: any Filter) -> AnyPublisher<[BaseEpisode], PlaySourceError>
+    func episodeCount(for filter: Filter) -> Int
 
     // MARK: Up Next
 

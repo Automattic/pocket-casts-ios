@@ -56,17 +56,18 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
         let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
         cell.cellLabel.text = L10n.appBadge
-        let badgeChoice = UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)
-        if badgeChoice == AppBadge.totalUnplayed.rawValue {
+        let badgeChoice = Settings.appBadge
+
+        switch badgeChoice {
+        case .totalUnplayed:
             cell.cellSecondaryLabel.text = L10n.statusUnplayed
-        } else if badgeChoice == AppBadge.filterCount.rawValue {
+        case .filterCount:
             cell.cellSecondaryLabel.text = L10n.settingsNotificationsFilterCount
-        } else if badgeChoice == AppBadge.newSinceLastOpened.rawValue {
+        case .newSinceLastOpened:
             cell.cellSecondaryLabel.text = L10n.newEpisodes
-        } else {
+        default:
             cell.cellSecondaryLabel.text = L10n.off
         }
-
         return cell
     }
 
