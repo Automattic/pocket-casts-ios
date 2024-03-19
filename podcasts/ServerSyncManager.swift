@@ -78,6 +78,7 @@ class ServerSyncManager: ServerSyncDelegate {
             Analytics.shared.refreshRegistered()
             PlaybackManager.shared.effectsChangedExternally()
             Theme.sharedTheme.toggleTheme()
+            NotificationsHelper.shared.register(checkToken: true)
         }
     }
 
