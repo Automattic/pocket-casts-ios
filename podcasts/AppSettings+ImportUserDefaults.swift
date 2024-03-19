@@ -52,8 +52,12 @@ extension SettingsStore<AppSettings> {
         if let lastPlaylist = AutoplayHelper().userDefaultsPlaylist {
             self.update(\.$autoPlayLastListUuid, value: AutoPlaySource(playlist: lastPlaylist))
 		}
-        self.update(\.$gridOrder, value: Int32(ServerSettings.homeGridSortOrder()))
-        self.update(\.$gridLayout, value: Int32(UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)))
+        if let old = LibrarySort.Old(rawValue: ServerSettings.homeGridSortOrder()) {
+            self.update(\.$gridOrder, value: LibrarySort(old: old))
+        }
+        if let old = LibraryType.Old(rawValue: UserDefaults.standard.integer(forKey: Settings.podcastLibraryGridTypeKey)) {
+            self.update(\.$gridLayout, value: LibraryType(old: old))
+        }
         self.update(\.$badges, value: Int32(UserDefaults.standard.integer(forKey: Settings.badgeKey)))
         self.update(\.$filesAutoUpNext, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeAutoAddToUpNextKey))
         self.update(\.$filesAfterPlayingDeleteLocal, value: UserDefaults.standard.bool(forKey: Settings.userEpisodeRemoveFileAfterPlayingKey))
