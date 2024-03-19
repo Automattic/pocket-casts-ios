@@ -56,6 +56,7 @@ extension Api_ChangeableSettings {
         autoUpNextLimit.update(settings.$autoUpNextLimit)
         autoUpNextLimitReached.update(settings.$autoUpNextLimitReached)
         autoPlayLastListUuid.update(settings.$autoPlayLastListUuid)
+        filesSortOrder.update(settings.$filesSortOrder)
     }
 }
 
@@ -111,6 +112,7 @@ extension AppSettings {
         $useDarkUpNextTheme.update(setting: settings.useDarkUpNextTheme)
         $autoUpNextLimit.update(setting: settings.autoUpNextLimit)
         $autoUpNextLimitReached.update(setting: settings.autoUpNextLimitReached)
+        $filesSortOrder.update(setting: settings.filesSortOrder)
         oldSettings.printDiff(from: self)
         $autoPlayLastListUuid.update(setting: settings.autoPlayLastListUuid)
     }

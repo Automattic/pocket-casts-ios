@@ -3079,8 +3079,17 @@
 /* Description shown when your Up Next list is empty. Note that for non right to left languages "right" should be change to "left" (and translated) */
 "up_next_empty_description" = "You can queue episodes to play next by swiping right on episode rows, or tapping the icon on an episode card.";
 
-/* An alphabetical sort option for uploaded files. */
-"upload_sort_alpha" = "Title (A-Z)";
+/* A descending alphabetical sort option for uploaded files. */
+"upload_sort_alpha_a_to_z" = "Title (A-Z)";
+
+/* An ascending alphabetical sort option for uploaded files. */
+"upload_sort_alpha_z_to_a" = "Title (Z-A)";
+
+/* A duration (shortest to longest) sort option for uploaded files. */
+"upload_sort_shortest_to_longest" = "Shortest to longest";
+
+/* A duration (longest to shortest) sort option for uploaded files. */
+"upload_sort_longest_to_shortest" = "Longest to shortest";
 
 /* A common string used throughout the app. Informs the user that the app is waiting for wifi to reconnect. */
 "wait_for_wifi" = "Waiting for WiFi";

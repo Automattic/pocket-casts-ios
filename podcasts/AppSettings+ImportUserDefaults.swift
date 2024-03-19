@@ -72,6 +72,7 @@ extension SettingsStore<AppSettings> {
         self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
         self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
         self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
+        self.update(\.$filesSortOrder, value: Int32(UserDefaults.standard.integer(forKey: Settings.userEpisodeSortByKey)))
     }
 
     /// Imports a value of a given key from UserDefaults, only if that value exists
