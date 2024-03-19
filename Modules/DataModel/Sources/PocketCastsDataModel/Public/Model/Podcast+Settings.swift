@@ -151,4 +151,21 @@ extension Podcast {
             showArchived = newValue
         }
     }
+
+    public var isPushEnabled: Bool {
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                return settings.notification
+            } else {
+                return pushEnabled
+            }
+        }
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                settings.notification = newValue
+                syncStatus = SyncStatus.notSynced.rawValue
+            }
+            pushEnabled = newValue
+        }
+    }
 }

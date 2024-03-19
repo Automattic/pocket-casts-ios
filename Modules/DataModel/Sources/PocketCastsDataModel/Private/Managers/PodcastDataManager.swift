@@ -364,11 +364,14 @@ class PodcastDataManager {
     }
 
     func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: FMDatabaseQueue) {
-        podcast.pushEnabled = pushEnabled
+        podcast.isPushEnabled = pushEnabled
         savePushSetting(podcastUuid: podcast.uuid, pushEnabled: pushEnabled, dbQueue: dbQueue)
     }
 
     func savePushSetting(podcastUuid: String, pushEnabled: Bool, dbQueue: FMDatabaseQueue) {
+        if FeatureFlag.newSettingsStorage.enabled {
+            saveSingleSetting("notification", value: pushEnabled, podcastUuid: podcastUuid, dbQueue: dbQueue)
+        }
         saveSingleValue(name: "pushEnabled", value: pushEnabled, podcastUuid: podcastUuid, dbQueue: dbQueue)
     }
 
@@ -425,6 +428,9 @@ class PodcastDataManager {
     }
 
     func setPushForAllPodcasts(pushEnabled: Bool, dbQueue: FMDatabaseQueue) {
+        if FeatureFlag.newSettingsStorage.enabled {
+            setOnAllPodcasts(value: pushEnabled, settingName: "notification", subscribedOnly: true, dbQueue: dbQueue)
+        }
         setOnAllPodcasts(value: pushEnabled, propertyName: "pushEnabled", subscribedOnly: true, dbQueue: dbQueue)
     }
 
@@ -467,15 +473,36 @@ class PodcastDataManager {
         setOnAllPodcasts(value: setting.rawValue, propertyName: "autoDownloadSetting", subscribedOnly: true, dbQueue: dbQueue)
     }
 
-    func setOnAllPodcasts(value: Any, settingName: String, subscribedOnly: Bool, dbQueue: FMDatabaseQueue) {
+    enum JSONError: Error {
+        case failedStringConvert(String, Data)
+
+        var description: String {
+            switch self {
+            case .failedStringConvert(let name, let data):
+                "Failed to convert JSON to String for \(name) with \(data)"
+            }
+        }
+    }
+
+    func setOnAllPodcasts<Value: Codable & Equatable>(value: Value, settingName: String, subscribedOnly: Bool, dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
-                var query = "SELECT json_patch('setting', '{\"\(settingName)\": {\"value\": \(value)}}')"
-                if subscribedOnly {
-                    query += " WHERE subscribed = 1"
+
+                let modified = ModifiedDate(wrappedValue: value, modifiedAt: Date())
+                let json = try JSONEncoder().encode(modified)
+                guard let jsonString = String(data: json, encoding: .utf8) else {
+                    throw JSONError.failedStringConvert(settingName, json)
                 }
-                query += "FROM \(DataManager.podcastTableName)"
-                try db.executeUpdate(query, values: [value])
+
+                let query = """
+                UPDATE \(DataManager.podcastTableName)
+                SET settings = json_set(
+                    \(DataManager.podcastTableName).settings,
+                    '$.\(settingName)',
+                    json('\(jsonString)')
+                ), syncStatus = \(SyncStatus.notSynced.rawValue)
+                """
+                try db.executeUpdate(query, values: [])
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
             }
@@ -542,6 +569,32 @@ class PodcastDataManager {
     private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: FMDatabaseQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET \(name) = ? WHERE uuid = ?", values: [value ?? NSNull(), podcastUuid], methodName: "PodcastDataManager.saveSingleValue", onQueue: dbQueue)
 
+        cachePodcasts(dbQueue: dbQueue)
+    }
+
+    private func saveSingleSetting<Value: Codable & Equatable>(_ name: String, value: Value, podcastUuid: String, dbQueue: FMDatabaseQueue) {
+        dbQueue.inDatabase { db in
+            do {
+                let modified = ModifiedDate(wrappedValue: value, modifiedAt: Date())
+                let json = try JSONEncoder().encode(modified)
+                guard let jsonString = String(data: json, encoding: .utf8) else {
+                    throw JSONError.failedStringConvert(name, json)
+                }
+
+                let query = """
+                UPDATE \(DataManager.podcastTableName)
+                SET settings = json_set(
+                    \(DataManager.podcastTableName).settings,
+                    '$.notification',
+                    json('\(jsonString)')
+                ), syncStatus = \(SyncStatus.notSynced.rawValue)
+                WHERE uuid = '\(podcastUuid)'
+                """
+                try db.executeUpdate(query, values: [])
+            } catch let error {
+                FileLog.shared.addMessage("PodcastDataManager.saveSingleSetting for \(name) error: \(error)")
+            }
+        }
         cachePodcasts(dbQueue: dbQueue)
     }
 

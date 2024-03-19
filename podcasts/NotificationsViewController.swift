@@ -46,7 +46,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             return cell
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
-            let podcastsSelected = DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
+            let podcastsSelected = DataManager.sharedManager.pushEnabledPodcastsCount()
             let chosenPodcasts = podcastsSelected == 1 ? L10n.chosenPodcastsSingular : L10n.chosenPodcastsPluralFormat(podcastsSelected.localized())
             cell.cellLabel.text = (podcastsSelected == 0) ? L10n.filterChoosePodcasts : chosenPodcasts
             cell.cellSecondaryLabel.text = nil
@@ -79,7 +79,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             if let podcastsController = podcastChooserController {
                 podcastsController.delegate = self
                 let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-                podcastsController.selectedUuids = allPodcasts.filter(\.pushEnabled).map(\.uuid)
+                podcastsController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
                 navigationController?.pushViewController(podcastsController, animated: true)
             }
         } else if indexPath.row == 2 { // app badge
@@ -101,7 +101,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     @objc func podcastUpdated(_ notification: Notification) {
         guard let podcastChooserController = podcastChooserController else { return }
         let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-        podcastChooserController.selectedUuids = allPodcasts.filter(\.pushEnabled).map(\.uuid)
+        podcastChooserController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
         podcastChooserController.selectedUuidsUpdated = true
     }
 

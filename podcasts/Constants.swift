@@ -328,7 +328,7 @@ struct Constants {
                 return defaults.object(forKey: key) as? Value ?? defaultValue
             }
 
-            return defaults.jsonObject(decodableType.self, forKey: key) as? Value ?? defaultValue
+            return (try? defaults.jsonObject(decodableType.self, forKey: key) as? Value) ?? defaultValue
         }
 
         /// Saves the value to the UserDefaults. Passing nil to this will delete the key

@@ -22,6 +22,7 @@ extension SettingsStore<AppSettings> {
         self.update(\.$multiSelectGesture, value: UserDefaults.standard.bool(forKey: Settings.multiSelectGestureKey))
         self.update(\.$chapterTitles, value: UserDefaults.standard.bool(forKey: Settings.publishChapterTitlesKey))
         self.update(\.$autoPlayEnabled, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.autoplay))
+        self.update(\.$notifications, value: UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled))
         self.update(\.$appBadge, value: Int32(UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)))
         if let filter = UserDefaults.standard.string(forKey: Constants.UserDefaults.appBadgeFilterUuid) {
             self.update(\.$appBadgeFilter, value: filter)

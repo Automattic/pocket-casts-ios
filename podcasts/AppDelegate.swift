@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
         checkDefaults()
 
-        NotificationsHelper.shared.handleAppLaunch()
+        NotificationsHelper.shared.register(checkToken: false)
 
         DispatchQueue.global().async { [weak self] in
             self?.postLaunchSetup()
