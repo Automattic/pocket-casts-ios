@@ -32,6 +32,19 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
         loadingIndicator.startAnimating()
         hideErrorMessage(hide: true)
+        
+        if CacheServerHandler.newShowNotesEndpoint {
+            let podcastUUID = episode.parentIdentifier()
+            let episodeUUID = episode.uuid
+            Task { [weak self] in
+                if let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: podcastUUID, episodeUuid: episodeUUID) {
+                    self?.downloadingShowNotes = false
+                    self?.showNotesDidLoad(showNotes: showNotes)
+                }
+            }
+            return
+        }
+        
         CacheServerHandler.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
             self?.downloadingShowNotes = false
             self?.showNotesDidLoad(showNotes: cachedShowNotes)

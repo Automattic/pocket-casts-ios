@@ -23,6 +23,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		103F7DEE2BAB138D00C44487 /* ShowInfoCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103F7DED2BAB138D00C44487 /* ShowInfoCoordinating.swift */; };
+		103F7DEF2BAB138D00C44487 /* ShowInfoCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103F7DED2BAB138D00C44487 /* ShowInfoCoordinating.swift */; };
+		103F7DF12BAB158600C44487 /* ShowInfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103F7DF02BAB158600C44487 /* ShowInfoCoordinator.swift */; };
+		103F7DF22BAB158600C44487 /* ShowInfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103F7DF02BAB158600C44487 /* ShowInfoCoordinator.swift */; };
 		1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */; };
 		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		2F90990E2A4F88B10044FC55 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90990D2A4F88B10044FC55 /* ShareViewController.swift */; };
@@ -1799,6 +1803,8 @@
 /* Begin PBXFileReference section */
 		0A1708DEC0501FB8417E31BE /* Pods_NotificationExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
+		103F7DED2BAB138D00C44487 /* ShowInfoCoordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowInfoCoordinating.swift; sourceTree = "<group>"; };
+		103F7DF02BAB158600C44487 /* ShowInfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowInfoCoordinator.swift; sourceTree = "<group>"; };
 		10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EB2BA471DF0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -3530,6 +3536,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		103F7DEC2BAB130000C44487 /* Episode Info Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				103F7DED2BAB138D00C44487 /* ShowInfoCoordinating.swift */,
+				103F7DF02BAB158600C44487 /* ShowInfoCoordinator.swift */,
+			);
+			name = "Episode Info Coordinator";
+			sourceTree = "<group>";
+		};
 		2F90990C2A4F88B10044FC55 /* Share Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -5214,6 +5229,7 @@
 		BD618BD31702BE1200967A6B /* Managers and Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				103F7DEC2BAB130000C44487 /* Episode Info Coordinator */,
 				FFC293972B6172E90059F3BB /* InAppPurchases */,
 				BD45F013243460C10029ADF2 /* Watch Communication */,
 				BD3334531FC680E20017C3A8 /* Lists */,
@@ -9003,6 +9019,7 @@
 				BDD62981200EEA6700168DF7 /* SimpleNotificationsViewController.swift in Sources */,
 				BD4BBFA41D223AA9001BEE4D /* Settings.swift in Sources */,
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
+				103F7DEE2BAB138D00C44487 /* ShowInfoCoordinating.swift in Sources */,
 				C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */,
 				BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */,
 				4007B053230E3115008DDCF5 /* WhatsNewPageView.swift in Sources */,
@@ -9369,6 +9386,7 @@
 				BD9FF6291B8EFC6F009F075E /* DiscoverSummaryProtocol.swift in Sources */,
 				BDDF8AA4240CE598009BA263 /* ThemeableSwipeCell.swift in Sources */,
 				BD92323523629F7B00C1E118 /* PlayerItemViewController.swift in Sources */,
+				103F7DF12BAB158600C44487 /* ShowInfoCoordinator.swift in Sources */,
 				BDB1E4F61B8C5BF9009AD30F /* NetworkSummaryViewController.swift in Sources */,
 				404A080724E215A200308722 /* CheckboxSubtitleCell.swift in Sources */,
 				C7A110F0291EFF7A00887A90 /* PlusPurchaseModel.swift in Sources */,
@@ -9451,6 +9469,7 @@
 				46C843B927E373B100D1DBF3 /* NowPlayingImage.swift in Sources */,
 				BD74F15827F2955D00222785 /* FolderView.swift in Sources */,
 				BD4910CD2457DC86005202CF /* SessionManager+Send.swift in Sources */,
+				103F7DF22BAB158600C44487 /* ShowInfoCoordinator.swift in Sources */,
 				4054146F2435B82B00431FD5 /* PlaylistManager.swift in Sources */,
 				46B5DFD027EA1703006FC2ED /* WatchSourceViewModel.swift in Sources */,
 				46C7BB8A27DA60F300CD6AE3 /* DownloadListViewModel.swift in Sources */,
@@ -9519,6 +9538,7 @@
 				BDE48A212410D0A300ECA6CA /* DownloadProgress.swift in Sources */,
 				467DF6EA26E10AFB00AC290C /* Strings+Generated.swift in Sources */,
 				46D88ABC27DFDB5B00F3BC43 /* FilesListView.swift in Sources */,
+				103F7DEF2BAB138D00C44487 /* ShowInfoCoordinating.swift in Sources */,
 				C7811D8D2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */,
 				BDD301931EFB9979004A9972 /* SessionManager.swift in Sources */,
 				BDE48A372410D4E300ECA6CA /* WatchNowPlayingHelper.swift in Sources */,
