@@ -737,7 +737,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // persist changes
         if effects.isGlobal {
             if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.trimSilence = effects.trimSilence
+                SettingsStore.appSettings.trimSilence = TrimSilence(amount: effects.trimSilence)
                 SettingsStore.appSettings.volumeBoost = effects.volumeBoost
                 SettingsStore.appSettings.playbackSpeed = effects.playbackSpeed
             } else {
