@@ -28,7 +28,10 @@ public class CacheServerHandler {
 
     public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
         guard !Self.newShowNotesEndpoint else {
-            episodeInfoHandler.loadShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid, cached: cached, completion: completion)
+            Task { [weak self] in
+                let result = await self?.episodeInfoHandler.loadShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+                completion?(result)
+            }
             return
         }
 
@@ -69,7 +72,10 @@ public class CacheServerHandler {
             return
         }
 
-        episodeInfoHandler.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid, completion: completion)
+        Task { [weak self] in
+            let result = await self?.episodeInfoHandler.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+            completion?(result)
+        }
     }
 
     public func loadPodcastColors(podcastUuid: String, allowCachedVersion: Bool, completion: @escaping ((String?, String?, String?) -> Void)) {
