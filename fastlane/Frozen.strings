@@ -1919,6 +1919,12 @@
 "podcasts_badges" = "Badges";
 
 /* Episodes will be displayed in order from the longest to the shortest. */
+"podcasts_episode_sort_title_a_to_z" = "Title (A-Z)";
+
+/* Episodes will be displayed in order from the longest to the shortest. */
+"podcasts_episode_sort_title_z_to_a" = "Title (Z-A)";
+
+/* Episodes will be displayed in order from the longest to the shortest. */
 "podcasts_episode_sort_longest_to_shortest" = "Longest to Shortest";
 
 /* Episodes will be displayed in order from the most resent to the oldest. */

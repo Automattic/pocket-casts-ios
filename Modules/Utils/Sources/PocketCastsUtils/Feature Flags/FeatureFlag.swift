@@ -70,17 +70,21 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .deselectChapters:
             false
+        case .newSettingsStorage:
+            shouldEnableSyncedSettings
         case .settingsSync:
-            false // `newSettingsStorage` also needs to be `true` for syncing to function
+            shouldEnableSyncedSettings
         case .slumber:
             false
         case .newAccountUpgradePromptFlow:
             false
         case .cachePlayingEpisode:
             true
-        case .newSettingsStorage:
-            false
         }
+    }
+
+    private var shouldEnableSyncedSettings: Bool {
+        BuildEnvironment.current != .appStore
     }
 
     /// Remote Feature Flag
@@ -94,7 +98,9 @@ public enum FeatureFlag: String, CaseIterable {
         case .cachePlayingEpisode:
             "cache_playing_episode"
         case .newSettingsStorage:
-            "new_settings_storage"
+            shouldEnableSyncedSettings ? "new_settings_storage" : nil
+        case .settingsSync:
+            shouldEnableSyncedSettings ? "settings_sync" : nil
         default:
             nil
         }

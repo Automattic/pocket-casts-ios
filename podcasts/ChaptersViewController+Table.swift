@@ -31,7 +31,7 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
             }
 
             chapterCell.populateFrom(chapter: chapter, playState: state, isChapterToggleEnabled: isTogglingChapters) { [weak self] url in
-                if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
+                if Settings.openLinks {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 } else {
                     self?.present(SFSafariViewController(with: url), animated: true)

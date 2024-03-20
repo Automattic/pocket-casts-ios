@@ -1,14 +1,17 @@
 import XCTest
 
+@testable import PocketCastsServer
 @testable import podcasts
 
 class AutoplayHelperTests: XCTestCase {
     var autoplayHelper: AutoplayHelper!
 
     override func setUp() {
+        let userDefaults = UserDefaults(suiteName: "\(Int.random(in: 0..<1000))")!
         autoplayHelper = AutoplayHelper(
-            userDefaults: UserDefaults(suiteName: "\(Int.random(in: 0..<1000))")!
+            userDefaults: userDefaults
         )
+        SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings.defaults)
     }
 
     func testInitialValueIsNil() {

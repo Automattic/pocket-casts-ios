@@ -120,4 +120,70 @@ final class SettingsTests: XCTestCase {
 
         try reset(flag: .newSettingsStorage)
     }
+
+    func testImportOldDefaults() throws {
+        // Start with disabled settingsSync
+        try override(flag: .newSettingsStorage, value: false)
+
+        let newRowAction = PrimaryRowAction.stream
+        let newSwipeAction = PrimaryUpNextSwipeAction.playLast
+        let newAppBadge = AppBadge.newSinceLastOpened
+        let newPlayedAfter = AutoArchiveAfterTime.after1Week
+        let newInactiveAfter = AutoArchiveAfterTime.after90Days
+        let newEpisodeSortBy = UploadedSort.titleAtoZ
+        let newPlayerBookmarksSort = BookmarkSortOption.podcastAndEpisode
+        let newEpisodeBookmarksSort = BookmarkSortOption.episode
+        let newProfileBookmarksSort = BookmarkSortOption.newestToOldest
+        let newHeadphonesNextAction = HeadphoneControlAction.previousChapter
+        let newHeadphonesPreviousAction = HeadphoneControlAction.skipForward
+        let newHomeFolderSortOrder = LibrarySort.titleAtoZ
+        let newPodcastBadgeType = BadgeType.latestEpisode
+        let newAutoPlayPlaylist = AutoplayHelper.Playlist.podcast(uuid: "1234")
+        let newTheme = ThemeType.contrastLight
+        let newPreferredLightTheme = ThemeType.contrastLight
+        let newPreferredDarkTheme = ThemeType.contrastDark
+
+        Settings.setPrimaryRowAction(newRowAction)
+        Settings.setPrimaryUpNextSwipeAction(newSwipeAction)
+        Settings.appBadge = newAppBadge
+        Settings.setAutoArchivePlayedAfter(newPlayedAfter.rawValue)
+        Settings.setAutoArchiveInactiveAfter(newInactiveAfter.rawValue)
+        Settings.setUserEpisodeSortBy(newEpisodeSortBy.rawValue)
+        Settings.playerBookmarksSort.wrappedValue = newPlayerBookmarksSort
+        Settings.episodeBookmarksSort.wrappedValue = newEpisodeBookmarksSort
+        Settings.profileBookmarksSort.wrappedValue = newProfileBookmarksSort
+        Settings.headphonesNextAction = newHeadphonesNextAction
+        Settings.headphonesPreviousAction = newHeadphonesPreviousAction
+        Settings.setHomeFolderSortOrder(order: newHomeFolderSortOrder)
+        Settings.setPodcastBadgeType(newPodcastBadgeType)
+
+        Theme.sharedTheme.activeTheme = newTheme
+        Theme.setPreferredLightTheme(newPreferredLightTheme, systemIsDark: false)
+        Theme.setPreferredDarkTheme(newPreferredDarkTheme, systemIsDark: false)
+        AutoplayHelper.shared.playedFrom(playlist: newAutoPlayPlaylist)
+
+        // Enable settingsSync to flip `Settings` to use the new value
+        try FeatureFlagOverrideStore().override(FeatureFlag.newSettingsStorage, withValue: true)
+
+        try setupSettingsStore()
+        SettingsStore.appSettings.importUserDefaults()
+
+        XCTAssertEqual(newRowAction, Settings.primaryRowAction())
+        XCTAssertEqual(newSwipeAction, Settings.primaryUpNextSwipeAction())
+        XCTAssertEqual(newAppBadge, Settings.appBadge)
+        XCTAssertEqual(newPlayedAfter.rawValue, Settings.autoArchivePlayedAfter())
+        XCTAssertEqual(newInactiveAfter.rawValue, Settings.autoArchiveInactiveAfter())
+        XCTAssertEqual(newEpisodeSortBy.rawValue, Settings.userEpisodeSortBy())
+        XCTAssertEqual(newPlayerBookmarksSort, Settings.playerBookmarksSort.wrappedValue)
+        XCTAssertEqual(newEpisodeBookmarksSort, Settings.episodeBookmarksSort.wrappedValue)
+        XCTAssertEqual(newProfileBookmarksSort, Settings.profileBookmarksSort.wrappedValue)
+        XCTAssertEqual(newHeadphonesNextAction, Settings.headphonesNextAction)
+        XCTAssertEqual(newHeadphonesPreviousAction, Settings.headphonesPreviousAction)
+        XCTAssertEqual(newHomeFolderSortOrder, Settings.homeFolderSortOrder())
+        XCTAssertEqual(newPodcastBadgeType, Settings.podcastBadgeType())
+        XCTAssertEqual(newAutoPlayPlaylist, AutoplayHelper.shared.lastPlaylist)
+        XCTAssertEqual(newTheme, Theme.sharedTheme.activeTheme)
+        XCTAssertEqual(newPreferredLightTheme, Theme.preferredLightTheme())
+        XCTAssertEqual(newPreferredDarkTheme, Theme.preferredDarkTheme())
+    }
 }
