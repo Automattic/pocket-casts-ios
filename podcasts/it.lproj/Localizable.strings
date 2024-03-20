@@ -2627,8 +2627,6 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Effettua l'aggiornamento a %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Esegui l'aggiornamento a Plus</string>
-    <key>upload_sort_alpha</key>
-    <string>Titolo (A-Z)</string>
     <key>volume_boost</key>
     <string>Aumenta il volume</string>
     <key>volume_boost_description</key>

@@ -2627,8 +2627,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@ にアップグレード</string>
     <key>upgrade_to_plus</key>
     <string>Plus にアップグレード</string>
-    <key>upload_sort_alpha</key>
-    <string>タイトル (アルファベット順)</string>
     <key>volume_boost</key>
     <string>ボリュームブースト</string>
     <key>volume_boost_description</key>
