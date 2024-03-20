@@ -75,8 +75,8 @@ extension SettingsStore<AppSettings> {
             self.update(\.$darkThemePreference, value: ThemeType(old: oldTheme))
         }
         self.update(\.$useDarkUpNextTheme, value: Constants.UserDefaults.appearance.darkUpNextTheme.value)
-        self.update(\.$autoUpNextLimit, value: Int32(ServerSettings.autoAddToUpNextLimit()))
-        self.update(\.$autoUpNextLimitReached, value: ServerSettings.onAutoAddLimitReached())
+        self.update(\.$autoUpNextLimit, value: Int32(UserDefaults.standard.integer(forKey: ServerSettings.autoAddLimitKey)))
+        self.update(\.$autoUpNextLimitReached, value: Int32(UserDefaults.standard.integer(forKey: ServerSettings.onAutoAddLimitReachedKey)))
         if let old = UploadedSort.Old(rawValue: UserDefaults.standard.integer(forKey: Settings.userEpisodeSortByKey)) {
             self.update(\.$filesSortOrder, value: UploadedSort(old: old))
          }
