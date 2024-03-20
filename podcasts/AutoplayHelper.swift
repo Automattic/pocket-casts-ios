@@ -47,7 +47,10 @@ class AutoplayHelper {
             case .starred:
                 return .starred
             case .uuid(let uuid):
-                if let filter = DataManager.sharedManager.findFilter(uuid: uuid) {
+                guard uuid.isEmpty == false else {
+                    return nil
+                }
+                if DataManager.sharedManager.findFilter(uuid: uuid) != nil {
                     return .filter(uuid: uuid)
                 } else {
                     return .podcast(uuid: uuid)

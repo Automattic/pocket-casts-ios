@@ -293,7 +293,7 @@ public class ServerSettings {
 
     // MARK: - Auto add to Up Next Limit
 
-    private static let autoAddLimitKey = "AutoAddToUpNextLimit"
+    public static let autoAddLimitKey = "AutoAddToUpNextLimit"
     public class func autoAddToUpNextLimit() -> Int {
         if FeatureFlag.newSettingsStorage.enabled {
             Int(SettingsStore.appSettings.autoUpNextLimit)
@@ -309,7 +309,7 @@ public class ServerSettings {
         UserDefaults.standard.setValue(limit, forKey: autoAddLimitKey)
     }
 
-    private static let onAutoAddLimitReachedKey = "AutoAddLimitReachedKey"
+    public static let onAutoAddLimitReachedKey = "AutoAddLimitReachedKey"
     public class func onAutoAddLimitReached() -> AutoAddLimitReachedAction {
         if FeatureFlag.newSettingsStorage.enabled {
             return SettingsStore.appSettings.autoUpNextLimitReached

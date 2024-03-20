@@ -8,6 +8,23 @@ import SwiftUI
 import PocketCastsUtils
 
 class Settings: NSObject {
+
+    static var openLinks: Bool {
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.openLinks = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+        }
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                return SettingsStore.appSettings.openLinks
+            } else {
+                return UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+            }
+        }
+    }
+
     // MARK: - Library Type
 
     static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"

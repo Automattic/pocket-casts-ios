@@ -100,7 +100,7 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
 
         Analytics.track(.discoverCollectionLinkTapped, properties: ["list_id": item.inferredListId])
 
-        if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
+        if Settings.openLinks {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             present(SFSafariViewController(with: url), animated: true, completion: nil)

@@ -10,6 +10,7 @@ extension DataManager {
             podcast.settings.$autoSkipLast = ModifiedDate<Int32>(wrappedValue: podcast.skipLast)
             podcast.settings.$playbackSpeed = ModifiedDate<Double>(wrappedValue: podcast.playbackSpeed)
             podcast.settings.$showArchived = ModifiedDate<Bool>(wrappedValue: podcast.showArchived)
+            podcast.settings.$customEffects = ModifiedDate<Bool>(wrappedValue: podcast.overrideGlobalEffects)
             if let trimSilence = TrimSilenceAmount(rawValue: podcast.trimSilenceAmount) {
                 podcast.settings.$trimSilence = ModifiedDate<TrimSilence>(wrappedValue: TrimSilence(amount: trimSilence))
             }
@@ -26,8 +27,9 @@ extension DataManager {
             if let archiveTime = AutoArchiveAfterTime(rawValue: podcast.autoArchivePlayedAfter), let archivePlayed = AutoArchiveAfterPlayed(time: archiveTime) {
                 podcast.settings.$autoArchivePlayed = ModifiedDate<AutoArchiveAfterPlayed>(wrappedValue: archivePlayed)
             }
+            podcast.settings.autoArchiveEpisodeLimit = podcast.autoArchiveEpisodeLimit
             if let archiveTime = AutoArchiveAfterTime(rawValue: podcast.autoArchiveInactiveAfter), let archiveInactive = AutoArchiveAfterInactive(time: archiveTime) {
-                podcast.settings.$autoArchiveInactive = ModifiedDate<AutoArchiveAfterInactive>(wrappedValue: archiveInactive)
+                podcast.settings.$autoArchiveInactive =  ModifiedDate<AutoArchiveAfterInactive>(wrappedValue: archiveInactive)
             }
 
             if let setting = AutoAddToUpNextSetting(rawValue: podcast.autoAddToUpNext) {
