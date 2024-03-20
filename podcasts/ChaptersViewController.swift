@@ -6,6 +6,8 @@ class ChaptersViewController: PlayerItemViewController {
 
     var numberOfDeselectedChapters = 0
 
+    private var hasActiveSubscription = SubscriptionHelper.hasActiveSubscription()
+
     @IBOutlet var chaptersTable: UITableView! {
         didSet {
             registerCells()
@@ -54,7 +56,7 @@ class ChaptersViewController: PlayerItemViewController {
         addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update))
         addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(update))
         addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update))
-        addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(enableOrDisableChapterSelection))
+        addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(enableOrDisableChapterSelectionIfUserJustPurchased))
     }
 
     @objc private func update() {
@@ -62,7 +64,12 @@ class ChaptersViewController: PlayerItemViewController {
         updateColors()
     }
 
-    @objc private func enableOrDisableChapterSelection() {
+    @objc private func enableOrDisableChapterSelectionIfUserJustPurchased() {
+        guard !hasActiveSubscription, SubscriptionHelper.hasActiveSubscription() else {
+            return
+        }
+
+        hasActiveSubscription = SubscriptionHelper.hasActiveSubscription()
         DispatchQueue.main.async { [weak self] in
             self?.isTogglingChapters = PaidFeature.deselectChapters.isUnlocked ? true : false
             self?.header.isTogglingChapters = self?.isTogglingChapters ?? false
