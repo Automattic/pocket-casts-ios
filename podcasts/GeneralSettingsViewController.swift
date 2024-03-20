@@ -137,11 +137,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralAutoOpenPlayer
 
-            if FeatureFlag.newSettingsStorage.enabled {
-                cell.cellSwitch.isOn = SettingsStore.appSettings.openPlayer
-            } else {
-                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-            }
+            cell.cellSwitch.isOn = Settings.openPlayerAutomatically
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(openPlayerToggled(_:)), for: .valueChanged)
@@ -460,10 +456,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func openPlayerToggled(_ sender: UISwitch) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.openPlayer = sender.isOn
-        }
-        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openPlayerAutomatically)
+        Settings.openPlayerAutomatically = sender.isOn
         Settings.trackValueToggled(.settingsGeneralOpenPlayerAutomaticallyToggled, enabled: sender.isOn)
     }
 

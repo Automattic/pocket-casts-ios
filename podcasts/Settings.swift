@@ -41,6 +41,22 @@ class Settings: NSObject {
         }
     }
 
+    static var openPlayerAutomatically: Bool {
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.openPlayer = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.openPlayerAutomatically)
+        }
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.openPlayer
+            } else {
+                UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
+            }
+        }
+    }
+
     // MARK: - Library Type
 
     static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
