@@ -116,12 +116,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralKeepScreenAwake
 
-            if FeatureFlag.newSettingsStorage.enabled {
-                cell.cellSwitch.isOn = SettingsStore.appSettings.keepScreenAwake
-            } else {
-                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
-            }
-
+            cell.cellSwitch.isOn = Settings.keepScreenAwake
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(screenLockToggled(_:)), for: .valueChanged)
 
@@ -442,10 +437,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func screenLockToggled(_ sender: UISwitch) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.keepScreenAwake = sender.isOn
-        }
-        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+        Settings.keepScreenAwake = sender.isOn
         PlaybackManager.shared.updateIdleTimer()
         Settings.trackValueToggled(.settingsGeneralKeepScreenAwakeToggled, enabled: sender.isOn)
     }

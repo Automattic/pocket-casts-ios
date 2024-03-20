@@ -21,6 +21,22 @@ class Settings: NSObject {
                 return SettingsStore.appSettings.openLinks
             } else {
                 return UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+			}
+		}
+	}
+
+    static var keepScreenAwake: Bool {
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.keepScreenAwake = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+        }
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.keepScreenAwake
+            } else {
+                UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
             }
         }
     }
