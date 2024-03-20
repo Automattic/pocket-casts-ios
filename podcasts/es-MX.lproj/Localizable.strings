@@ -2627,8 +2627,6 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Actualizar a %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Actualiza a Plus</string>
-    <key>upload_sort_alpha</key>
-    <string>Título (A-Z)</string>
     <key>volume_boost</key>
     <string>Aumento de volumen</string>
     <key>volume_boost_description</key>

@@ -2627,8 +2627,6 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Upgrade auf %1$@ durchführen</string>
     <key>upgrade_to_plus</key>
     <string>Upgrade auf Plus durchführen</string>
-    <key>upload_sort_alpha</key>
-    <string>Titel (A–Z)</string>
     <key>volume_boost</key>
     <string>Lautstärke-Booster</string>
     <key>volume_boost_description</key>

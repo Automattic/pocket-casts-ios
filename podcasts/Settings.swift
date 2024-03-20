@@ -8,6 +8,23 @@ import SwiftUI
 import PocketCastsUtils
 
 class Settings: NSObject {
+
+    static var openLinks: Bool {
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.openLinks = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+        }
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                return SettingsStore.appSettings.openLinks
+            } else {
+                return UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
+            }
+        }
+    }
+
     // MARK: - Library Type
 
     static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
@@ -1122,13 +1139,13 @@ class Settings: NSObject {
             if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.episodeBookmarksSortType.option
             } else {
-                return Constants.UserDefaults.bookmarks.playerSort.value
+                return Constants.UserDefaults.bookmarks.episodeSort.value
             }
         } set: { newValue in
             if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.episodeBookmarksSortType = BookmarksSort(option: newValue)
             }
-            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+            Constants.UserDefaults.bookmarks.episodeSort.save(newValue)
         }
     }
 
@@ -1137,13 +1154,13 @@ class Settings: NSObject {
             if FeatureFlag.newSettingsStorage.enabled {
                 return SettingsStore.appSettings.podcastBookmarksSortType.option
             } else {
-                return Constants.UserDefaults.bookmarks.playerSort.value
+                return Constants.UserDefaults.bookmarks.podcastSort.value
             }
         } set: { newValue in
             if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.podcastBookmarksSortType = BookmarksSort(option: newValue)
             }
-            Constants.UserDefaults.bookmarks.playerSort.save(newValue)
+            Constants.UserDefaults.bookmarks.podcastSort.save(newValue)
         }
     }
 

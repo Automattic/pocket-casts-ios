@@ -2627,8 +2627,6 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Passer à %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Mettre à niveau vers Plus</string>
-    <key>upload_sort_alpha</key>
-    <string>Titre (A-Z)</string>
     <key>volume_boost</key>
     <string>Augmenter le volume</string>
     <key>volume_boost_description</key>
