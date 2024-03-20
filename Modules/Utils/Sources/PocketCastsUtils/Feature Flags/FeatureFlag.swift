@@ -71,7 +71,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .deselectChapters:
             false
         case .newSettingsStorage:
-            true
+            BuildEnvironment.current != .appStore
         case .settingsSync:
             BuildEnvironment.current != .appStore
         case .slumber:
