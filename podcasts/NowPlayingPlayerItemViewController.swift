@@ -256,7 +256,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let chapters = PlaybackManager.shared.currentChapters()
         guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
-        if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
+        if Settings.openLinks {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             present(SFSafariViewController(with: url), animated: true)
