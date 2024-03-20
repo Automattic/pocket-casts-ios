@@ -10,6 +10,7 @@ extension DataManager {
             podcast.settings.$autoSkipLast = ModifiedDate<Int32>(wrappedValue: podcast.skipLast)
             podcast.settings.$playbackSpeed = ModifiedDate<Double>(wrappedValue: podcast.playbackSpeed)
             podcast.settings.$showArchived = ModifiedDate<Bool>(wrappedValue: podcast.showArchived)
+            podcast.settings.$customEffects = ModifiedDate<Bool>(wrappedValue: podcast.overrideGlobalEffects)
             if let trimSilence = TrimSilenceAmount(rawValue: podcast.trimSilenceAmount) {
                 podcast.settings.$trimSilence = ModifiedDate<TrimSilence>(wrappedValue: TrimSilence(amount: trimSilence))
             }
