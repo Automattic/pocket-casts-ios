@@ -7438,6 +7438,7 @@
 				DF03311AC9ED8455DC9169CD /* [CP] Check Pods Manifest.lock */,
 				BDBD53E817019B2A0048C8C5 /* Sources */,
 				3C5194112B716756006632DE /* ShellScript */,
+				103F7DF62BAB438000C44487 /* Verify Xcode Version */,
 				BDBD53E917019B2A0048C8C5 /* Frameworks */,
 				BDBD53EA17019B2A0048C8C5 /* Resources */,
 				BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */,
@@ -8253,6 +8254,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		103F7DF62BAB438000C44487 /* Verify Xcode Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode-version",
+			);
+			name = "Verify Xcode Version";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FORMATTED_REQUIRED_VERSION=$(grep \"version\" $SRCROOT/.xcode-version | cut -d \" \" -f2)\nREQUIRED_BUILD_NUMBER=$(grep \"build\" $SRCROOT/.xcode-version | cut -d \" \" -f2)\nREQUIRED_VERSION=$(echo $FORMATTED_REQUIRED_VERSION | sed 's/[^0-9]*//g' )\n\nFORMATTED_XCODE_VERSION_ACTUAL=\"${XCODE_VERSION_ACTUAL:0:2}.${XCODE_VERSION_ACTUAL:2:1}.${XCODE_VERSION_ACTUAL:3:1}\"\n\necho \"Required Xcode version: ${FORMATTED_REQUIRED_VERSION}\"\necho \"Required version code: ${REQUIRED_VERSION}\"\necho \"Required Xcode build number: ${REQUIRED_BUILD_NUMBER}\"\n\necho \"Current Xcode version: ${XCODE_VERSION_ACTUAL}\"\necho \"Current Xcode build number: ${XCODE_PRODUCT_BUILD_VERSION}\"\n\nif [ \"${XCODE_PRODUCT_BUILD_VERSION}\" != \"${REQUIRED_BUILD_NUMBER}\" ]; then\n  echo \"error: Pocket Casts does not support this version of Xcode: $FORMATTED_XCODE_VERSION_ACTUAL (${XCODE_PRODUCT_BUILD_VERSION}). Please use Xcode $FORMATTED_REQUIRED_VERSION (${REQUIRED_BUILD_NUMBER}) and the matching command line tools.\"\n  exit 1;\nfi\n\necho \"The correct version of Xcode is in use.\";\n";
+		};
 		3C5194112B716756006632DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
