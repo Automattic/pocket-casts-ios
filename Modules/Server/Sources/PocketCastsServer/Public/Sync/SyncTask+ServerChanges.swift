@@ -97,7 +97,9 @@ extension SyncTask {
                 podcast.subscribed = 0
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
                 podcast.settings = PodcastSettings.defaults
-                podcast.processSettings(podcastItem.settings)
+                if FeatureFlag.settingsSync.enabled {
+                    podcast.processSettings(podcastItem.settings)
+                }
 
                 DataManager.sharedManager.save(podcast: podcast)
             }
@@ -151,7 +153,9 @@ extension SyncTask {
             podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
         }
 
-        podcast.processSettings(podcastItem.settings)
+        if FeatureFlag.settingsSync.enabled {
+            podcast.processSettings(podcastItem.settings)
+        }
     }
 
     private func importEpisode(_ episodeItem: Api_SyncUserEpisode) {
