@@ -148,11 +148,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralSmartPlayback
 
-            if FeatureFlag.newSettingsStorage.enabled {
-                cell.cellSwitch.isOn = SettingsStore.appSettings.intelligentResumption
-            } else {
-                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
-            }
+            cell.cellSwitch.isOn = Settings.intelligentResumption
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: .valueChanged)
@@ -461,10 +457,7 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func intelligentPlaybackResumptionToggled(_ sender: UISwitch) {
-        if FeatureFlag.newSettingsStorage.enabled {
-            SettingsStore.appSettings.intelligentResumption = sender.isOn
-        }
-        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+        Settings.intelligentResumption = sender.isOn
         Settings.trackValueToggled(.settingsGeneralIntelligentPlaybackToggled, enabled: sender.isOn)
     }
 

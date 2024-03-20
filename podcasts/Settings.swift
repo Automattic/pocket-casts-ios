@@ -57,6 +57,23 @@ class Settings: NSObject {
         }
     }
 
+    static var intelligentResumption: Bool {
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.intelligentResumption = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+        }
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.intelligentResumption
+            } else {
+                UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+            }
+        }
+    }
+
+
     // MARK: - Library Type
 
     static let podcastLibraryGridTypeKey = "SJPodcastLibraryGridType"
