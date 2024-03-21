@@ -105,7 +105,7 @@ class ChapterManager {
                 // Once both arrives, check the one with more chapters to display
                 var chapters: [ChapterInfo]
                 if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, duration: duration) {
-                    chapters = fileChapters.count > externalChapters.count ? fileChapters : externalChapters
+                    chapters = externalChapters.count >= fileChapters.count ? externalChapters : fileChapters
                 } else {
                     chapters = fileChapters
                 }
