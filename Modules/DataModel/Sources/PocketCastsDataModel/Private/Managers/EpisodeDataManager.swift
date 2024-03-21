@@ -989,8 +989,8 @@ class EpisodeDataManager {
         values.append(episode.starredModified)
         values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
         values.append(episode.deselectedChaptersModified)
-        values.append(DBUtils.nullIfNil(value: episode.showNotes))
         values.append(DBUtils.nullIfNil(value: episode.image))
+        values.append(DBUtils.nullIfNil(value: episode.showNotes))
 
         if includeIdForWhere {
             values.append(episode.id)

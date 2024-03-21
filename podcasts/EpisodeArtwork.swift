@@ -45,7 +45,7 @@ class EpisodeArtwork {
     }
 
     private func loadEpisodeArtworkFromUrl(podcastUuid: String, episodeUuid: String) {
-        if CacheServerHandler.newShowNotesEndpoint && CacheServerHandler.episodeFeedArtwork {
+        if !CacheServerHandler.newShowNotesEndpoint && !CacheServerHandler.episodeFeedArtwork {
             return
         }
 
