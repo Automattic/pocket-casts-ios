@@ -14,6 +14,27 @@ class PodcastChapterParser {
         parseChapters(url: url, episodeDuration: episodeDuration, completion: completion)
     }
 
+    func parseLocalFile(_ path: String, episodeDuration: TimeInterval) async -> [ChapterInfo] {
+        await withCheckedContinuation { continuation in
+            parseChapters(url: URL(fileURLWithPath: path), episodeDuration: episodeDuration) {
+                continuation.resume(returning: $0)
+            }
+        }
+    }
+
+    func parseRemoteFile(_ remoteUrl: String, episodeDuration: TimeInterval) async -> [ChapterInfo] {
+        await withCheckedContinuation { continuation in
+            guard let url = URL(string: remoteUrl) else {
+                continuation.resume(returning: [])
+                return
+            }
+
+            parseChapters(url: url, episodeDuration: episodeDuration) {
+                continuation.resume(returning: $0)
+            }
+        }
+    }
+
     private func parseChapters(url: URL, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self else { return }
