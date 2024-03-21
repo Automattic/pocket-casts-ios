@@ -2627,8 +2627,6 @@
     <string>升级至 %1$@</string>
     <key>upgrade_to_plus</key>
     <string>升级至 Plus</string>
-    <key>upload_sort_alpha</key>
-    <string>标题 (A-Z)</string>
     <key>volume_boost</key>
     <string>音量增强</string>
     <key>volume_boost_description</key>

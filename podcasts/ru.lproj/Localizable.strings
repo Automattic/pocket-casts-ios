@@ -2627,8 +2627,6 @@
     <string>Обновить до %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Перейти на Plus</string>
-    <key>upload_sort_alpha</key>
-    <string>По названию (A-Z)</string>
     <key>volume_boost</key>
     <string>Усилитель звука</string>
     <key>volume_boost_description</key>

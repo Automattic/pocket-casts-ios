@@ -23,8 +23,8 @@ class WatchHostingController: WKHostingController<AnyView>, Restorable {
 
     func restoreName() -> String? {
         switch controllerType {
-        case .downloads, .podcasts, .files, .filter, .upnext, .nowPlaying, .filterList:
-            return Self.interfaceName
+        case .downloads, .podcasts, .files, .filter, .upnext, .nowPlaying, .interface, .filterList:
+            return controllerType.rawValue
         default:
             return nil
         }

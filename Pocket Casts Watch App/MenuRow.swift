@@ -1,14 +1,20 @@
 import SwiftUI
 
 struct MenuRow: View {
-    let label: String
-    let icon: String
-    let count: Int
+    private let label: String
+    private let icon: String
+    @Binding private var count: Int
 
     init(label: String, icon: String, count: Int = 0) {
         self.label = label
         self.icon = icon
-        self.count = count
+        _count = Binding.constant(count)
+    }
+
+    init(label: String, icon: String, count: Binding<Int>) {
+        self.label = label
+        self.icon = icon
+        _count = count
     }
 
     var countText: String {

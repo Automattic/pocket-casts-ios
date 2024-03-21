@@ -2627,8 +2627,6 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Uppgradera till %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Uppgradera till Plus</string>
-    <key>upload_sort_alpha</key>
-    <string>Titel (A-Ö)</string>
     <key>volume_boost</key>
     <string>Volymökning</string>
     <key>volume_boost_description</key>

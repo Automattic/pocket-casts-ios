@@ -73,7 +73,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.navigationType == .linkActivated {
-            if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser), let url = navigationAction.request.url {
+            if Settings.openLinks, let url = navigationAction.request.url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
                 safariViewController = navigationAction.request.url.flatMap {

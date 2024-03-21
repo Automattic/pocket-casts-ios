@@ -213,7 +213,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                     PlaybackManager.shared.seekTo(time: timeToSkipTo)
                 })
             }
-        } else if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
+        } else if Settings.openLinks {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             if URLHelper.isValidScheme(url.scheme) {
