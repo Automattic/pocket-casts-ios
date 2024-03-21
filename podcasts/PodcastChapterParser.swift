@@ -74,14 +74,20 @@ class PodcastChapterParser {
 
     private func parseChapters(url: URL, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
         DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else { return }
+            guard let strongSelf = self else {
+                completion([])
+                return
+            }
 
             do {
                 // wrap chapter parsing in an Objective-C try catch block because we don't want errors from this library to propagate up
                 try SJCommonUtils.catchException {
                     let customHeaders = [ServerConstants.HttpHeaders.userAgent: ServerConstants.Values.appUserAgent]
                     let movieAsset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": customHeaders])
-                    guard let chapters = MNAVChapterReader.chapters(from: movieAsset) as? [MNAVChapter], chapters.count > 0 else { return }
+                    guard let chapters = MNAVChapterReader.chapters(from: movieAsset) as? [MNAVChapter], chapters.count > 0 else {
+                        completion([])
+                        return
+                    }
 
                     if chapters.allSatisfy({ $0.hidden }) {
                         chapters.forEach { $0.hidden = false }
