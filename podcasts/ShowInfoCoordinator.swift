@@ -65,6 +65,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         return info?.podcast.episode(with: episodeUuid)?.image
     }
 
+    public func loadChapters(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> ([ShowInfoEpisode.EpisodeChapter]?, String?) {
+        let info = try await retrieveShowInfo(podcastUuid: podcastUuid)
+        let episode = info?.podcast.episode(with: episodeUuid)
+        return (episode?.chapters, episode?.chaptersUrl)
+    }
+
     @discardableResult
     func retrieveShowInfo(podcastUuid: String) async throws -> ShowInfo? {
         if let task = requestingShowInfo[podcastUuid] {
