@@ -9,7 +9,7 @@ struct ShowInfo: Decodable {
 
 struct ShowInfoPodcast: Decodable {
     let episodes: [ShowInfoEpisode]
-    
+
     func episode(with uuid: String) -> ShowInfoEpisode? {
         episodes.first(where: { $0.uuid == uuid })
     }
@@ -67,7 +67,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         }
 
         requestingShowInfo[podcastUuid] = task
-        
+
         return try await task.value
     }
 

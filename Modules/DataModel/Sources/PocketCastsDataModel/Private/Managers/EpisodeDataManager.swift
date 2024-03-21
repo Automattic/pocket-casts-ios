@@ -41,7 +41,9 @@ class EpisodeDataManager {
         "excludeFromEpisodeLimit",
         "starredModified",
         "deselectedChapters",
-        "deselectedChaptersModified"
+        "deselectedChaptersModified",
+        "image",
+        "showNotes"
     ]
 
     // MARK: - Query

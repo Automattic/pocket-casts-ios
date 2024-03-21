@@ -43,6 +43,8 @@ extension Episode {
         episode.starredModified = rs.longLongInt(forColumn: "starredModified")
         episode.deselectedChapters = rs.string(forColumn: "deselectedChapters")
         episode.deselectedChaptersModified = rs.longLongInt(forColumn: "deselectedChaptersModified")
+        episode.showNotes = rs.string(forColumn: "showNotes")
+        episode.image = rs.string(forColumn: "image")
         return episode
     }
 }
