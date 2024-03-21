@@ -2,12 +2,12 @@ import Foundation
 
 /// Request information about an episode using the show notes endpoint
 public actor PodcastIndexChapterDataRetriever {
-    private let showNotesUrlCache: URLCache
+    private let podcastIndexChaptersCache: URLCache
 
     private var dataRequestMap: [String: Task<Data, Error>] = [:]
 
     public init() {
-        showNotesUrlCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
+        podcastIndexChaptersCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
     }
 
     public func loadChapters(_ urlString: String) async throws -> Data {
@@ -21,14 +21,14 @@ public actor PodcastIndexChapterDataRetriever {
 
         let request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData)
 
-        if let cachedResponse = showNotesUrlCache.cachedResponse(for: request) {
+        if let cachedResponse = podcastIndexChaptersCache.cachedResponse(for: request) {
             return cachedResponse.data
         }
 
         let task = Task<Data, Error> {
             let (data, response) = try await URLSession.shared.data(for: request)
             let responseToCache = CachedURLResponse(response: response, data: data)
-            showNotesUrlCache.storeCachedResponse(responseToCache, for: request)
+            podcastIndexChaptersCache.storeCachedResponse(responseToCache, for: request)
             dataRequestMap[urlString] = nil
             return data
         }
