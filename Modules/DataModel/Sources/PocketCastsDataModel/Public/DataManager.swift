@@ -1013,3 +1013,19 @@ public extension DataManager {
         endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
     }
 }
+
+// MARK: - Swift Concurrency
+
+extension DataManager {
+    public func findEpisode(uuid: String) async -> Episode? {
+        await episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
+    }
+}
+
+// MARK: - Show Notes
+
+extension DataManager {
+    public func storeShowInfo(data: Data) async {
+        await episodeManager.storeShowInfo(with: data, dbQueue: dbQueue)
+    }
+}
