@@ -35,6 +35,26 @@ class PodcastChapterParser {
         }
     }
 
+    func parsePodloveChapters(_ podloveChapters: [ShowInfoEpisode.EpisodeChapter], episodeDuration: TimeInterval) -> [ChapterInfo] {
+        podloveChapters.enumerated().compactMap { index, chapter in
+            let chapterInfo = ChapterInfo()
+            chapterInfo.title = chapter.title ?? ""
+            chapterInfo.index = index
+            chapterInfo.startTime = CMTime(seconds: chapter.startTime, preferredTimescale: 1000000)
+
+            // Calculate chapter duration based on the info we have
+            if let endTime = chapter.endTime {
+                chapterInfo.duration = endTime - chapter.startTime
+            } else if let nextChapterStartTime = podloveChapters[safe: index + 1]?.startTime {
+                chapterInfo.duration = nextChapterStartTime - chapter.startTime
+            } else {
+                chapterInfo.duration = episodeDuration - chapter.startTime
+            }
+
+            return chapterInfo
+        }
+    }
+
     private func parseChapters(url: URL, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
         DispatchQueue.global().async { [weak self] in
             guard let strongSelf = self else { return }
