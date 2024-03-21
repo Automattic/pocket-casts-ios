@@ -19,6 +19,18 @@ struct ShowInfoEpisode: Decodable {
     let uuid: String
     let showNotes: String
     let image: String?
+
+    /// Podlove chapters
+    let chapters: [EpisodeChapter]?
+
+    /// Podcast Index chapters
+    let chaptersUrl: String?
+
+    public struct EpisodeChapter: Decodable {
+        public let startTime: TimeInterval
+        public let title: String?
+        public let endTime: TimeInterval?
+    }
 }
 
 actor ShowInfoCoordinator: ShowInfoCoordinating {
