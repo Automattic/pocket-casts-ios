@@ -5,6 +5,7 @@ import PocketCastsServer
 protocol ShowInfoCoordinating {
     init(
         dataRetriever: ShowInfoDataRetriever,
+        podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever,
         dataManager: DataManager
     )
     

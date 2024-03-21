@@ -33,19 +33,33 @@ struct ShowInfoEpisode: Decodable {
     }
 }
 
+struct PodcastIndexEvelope: Decodable {
+    let chapters: [PodcastIndexChapter]
+}
+
+struct PodcastIndexChapter: Decodable {
+    let title: String?
+    let number: Int?
+    let endTime: TimeInterval?
+    let startTime: TimeInterval
+}
+
 actor ShowInfoCoordinator: ShowInfoCoordinating {
     static let shared = ShowInfoCoordinator()
 
     private let dataRetriever: ShowInfoDataRetriever
+    private let podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever
     private let dataManager: DataManager
 
     private var requestingShowInfo: [String: Task<ShowInfo?, Error>] = [:]
 
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
+        podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever = PodcastIndexChapterDataRetriever(),
         dataManager: DataManager = .sharedManager
     ) {
         self.dataRetriever = dataRetriever
+        self.podcastIndexChapterRetriever = podcastIndexChapterRetriever
         self.dataManager = dataManager
     }
 
@@ -68,10 +82,17 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     public func loadChapters(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> ([ShowInfoEpisode.EpisodeChapter]?, String?) {
+    ) async throws -> ([ShowInfoEpisode.EpisodeChapter]?, [PodcastIndexChapter]?) {
         let info = try await retrieveShowInfo(podcastUuid: podcastUuid)
         let episode = info?.podcast.episode(with: episodeUuid)
-        return (episode?.chapters, episode?.chaptersUrl)
+
+        if let pocastIndexChapterUrl = episode?.chaptersUrl,
+            let chaptersData = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
+            let chapters = try? decoder.decode(PodcastIndexEvelope.self, from: chaptersData)
+            return (nil, chapters?.chapters)
+        }
+
+        return (episode?.chapters, nil)
     }
 
     @discardableResult
