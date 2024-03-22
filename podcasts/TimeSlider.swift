@@ -219,7 +219,6 @@ private extension TimeInterval {
     /// An accessibility string to be read by voice over. This will be a spelled out version of the TimeInterval.
     /// - Returns: A string to be read by voice over, a spelled out version of the interval with full units.
     func accessibilityValue() -> String {
-        let formatStyle = Date.ComponentsFormatStyle(style: .spellOut)
         let origDate = Date()
         let date = Date(timeInterval: self, since: origDate)
 
