@@ -64,7 +64,7 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var freeGiftAcknowledgement: Bool = false
 
     @ModifiedDate public var gridOrder: LibrarySort = .dateAddedNewestToOldest
-    @ModifiedDate public var gridLayout: LibraryType = .fourByFour
+    @ModifiedDate public var gridLayout: LibraryType = .threeByThree
     @ModifiedDate public var badges: BadgeType = .off
 
     @ModifiedDate public var filesSortOrder: UploadedSort = .newestToOldest

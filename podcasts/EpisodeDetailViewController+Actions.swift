@@ -52,7 +52,7 @@ extension EpisodeDetailViewController {
                 dismiss(animated: true, completion: nil)
             }
             if let timestamp = timestamp {
-                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: true)
+                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
                 PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)
                 updateProgress()
             }
@@ -61,8 +61,9 @@ extension EpisodeDetailViewController {
         } else {
             dismiss(animated: true, completion: nil)
             if let timestamp = timestamp {
-                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: true)
-                DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: true)
+                episode.playingStatus = PlayingStatus.inProgress.rawValue
+                episode.playedUpTo = timestamp
+                DataManager.sharedManager.save(episode: episode)
                 updateProgress()
             }
             PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
