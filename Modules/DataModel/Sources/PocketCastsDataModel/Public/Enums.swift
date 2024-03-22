@@ -107,6 +107,23 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
             self = .longestToShortest
         }
     }
+
+    public var old: Old {
+        switch self {
+        case .newestToOldest:
+            .newestToOldest
+        case .oldestToNewest:
+            .oldestToNewest
+        case .shortestToLongest:
+            .shortestToLongest
+        case .longestToShortest:
+            .longestToShortest
+        case .titleAtoZ:
+            .newestToOldest
+        case .titleZtoA:
+            .newestToOldest
+        }
+    }
 }
 
 public enum BookmarksSort: Int32, Codable {
