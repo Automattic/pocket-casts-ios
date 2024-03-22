@@ -98,9 +98,9 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     }
 
     // MARK: - Play Button View
-    private struct PlayButton<Style: BookmarksStyle>: View {
+    private struct PlayButton<ButtonStyle: BookmarksStyle>: View {
         let title: String
-        @ObservedObject var style: Style
+        @ObservedObject var style: ButtonStyle
 
         var body: some View {
             HStack(spacing: 10) {
