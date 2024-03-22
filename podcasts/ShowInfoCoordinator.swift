@@ -41,7 +41,10 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     }
 
     @discardableResult
-    func loadShowInfo(podcastUuid: String, episodeUuid: String) async throws -> Episode? {
+    func loadShowInfo(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> Episode? {
         if let task = requestingShowInfo[podcastUuid] {
             return try await task.value
         }

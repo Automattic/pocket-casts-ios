@@ -10,7 +10,9 @@ public actor ShowInfoDataRetriever {
         showNotesUrlCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
     }
 
-    public func loadShowInfoData(for podcastUuid: String) async throws -> Data {
+    public func loadShowInfoData(
+        for podcastUuid: String
+    ) async throws -> Data {
         if let task = dataRequestMap[podcastUuid] {
             return try await task.value
         }
