@@ -8316,6 +8316,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3C5194112B716756006632DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -8416,6 +8417,7 @@
 		};
 		C716FF45296F2BE3006B787D /* Modify Plist */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
