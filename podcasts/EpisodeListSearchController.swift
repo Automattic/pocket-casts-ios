@@ -359,7 +359,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             podcast.settings.episodesSortOrder = setting
             podcast.syncStatus = SyncStatus.notSynced.rawValue
         }
-        podcast.episodeSortOrder = setting.rawValue
+        podcast.episodeSortOrder = setting.old.rawValue
         DataManager.sharedManager.save(podcast: podcast)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
