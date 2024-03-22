@@ -1,6 +1,7 @@
 7.61
 -----
 - Opening a shared podcast episode link with the current position, now opens on the right position. [#5]
+- Allow sharing of bookmarks directly on the bookmarks list. [#1558]
 
 7.60
 -----
