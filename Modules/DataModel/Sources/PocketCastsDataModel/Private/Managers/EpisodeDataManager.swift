@@ -1103,7 +1103,7 @@ extension EpisodeDataManager {
     }
 }
 
-// MARK: - Show Notes
+// MARK: - New Show Info
 
 extension EpisodeDataManager {
     struct ShowInfo: Decodable {
@@ -1112,10 +1112,6 @@ extension EpisodeDataManager {
 
     struct ShowInfoPodcast: Decodable {
         let episodes: [ShowInfoEpisode]
-
-        func episode(with uuid: String) -> ShowInfoEpisode? {
-            episodes.first(where: { $0.uuid == uuid })
-        }
     }
 
     struct ShowInfoEpisode: Decodable {
@@ -1128,22 +1124,23 @@ extension EpisodeDataManager {
         guard let showInfo = await getShowInfo(for: data) else {
             return
         }
-        let showInfoMap = showInfo.podcast.episodes.reduce([String: ShowInfoEpisode]()) { showInfoMap, next in
+        let showInfoMap = showInfo.podcast.episodes.reduce([String: ShowInfoEpisode]()) { showInfoMap, showInfoEpisode in
             var map = showInfoMap
-            map[next.uuid] = next
+            map[showInfoEpisode.uuid] = showInfoEpisode
             return map
         }
         let episodesMap: [String: Episode] = await findAllEpisodesBy(uuids: Array(showInfoMap.keys), dbQueue: dbQueue)
-            .reduce([String: Episode]()) { dict, episode in
-                var map = dict
+            .reduce([String: Episode]()) { episodesMap, episode in
+                var map = episodesMap
                 map[episode.uuid] = episode
                 return map
             }
-        showInfoMap.keys.forEach {
-            if let showInfo = showInfoMap[$0] {
-                episodesMap[$0]?.showNotes = showInfo.showNotes
-                episodesMap[$0]?.image = showInfo.image
+        for uuid in showInfoMap.keys {
+            guard let showInfo = showInfoMap[uuid] else {
+                continue
             }
+            episodesMap[uuid]?.showNotes = showInfo.showNotes
+            episodesMap[uuid]?.image = showInfo.image
         }
         await bulkSave(episodes: Array(episodesMap.values), dbQueue: dbQueue)
     }
