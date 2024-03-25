@@ -8,7 +8,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     private let dataRetriever: ShowInfoDataRetriever
     private let dataManager: DataManager
 
-    private var requestingShowInfo: [String: Task<Episode?, Error>] = [:]
+    private var requestingShowInfo: [String: Task<Episode.Metadata?, Error>] = [:]
 
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
@@ -44,15 +44,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     func loadShowInfo(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> Episode? {
+    ) async throws -> Episode.Metadata? {
         if let task = requestingShowInfo[podcastUuid] {
             return try await task.value
         }
 
-        let task = Task<Episode?, Error> { [unowned self] in
+        let task = Task<Episode.Metadata?, Error> { [unowned self] in
             let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
             await dataManager.storeShowInfo(data: data)
-            let episode = await dataManager.findEpisode(uuid: episodeUuid)
+            let episode = await dataManager.findEpisodeMetadata(uuid: episodeUuid)
             requestingShowInfo[podcastUuid] = nil
             return episode
         }
