@@ -1075,6 +1075,30 @@ extension EpisodeDataManager {
         }
     }
 
+    func findEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async -> Episode.Metadata? {
+        return await withCheckedContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    var episodes = [Episode]()
+                    let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [])
+                    defer { resultSet.close() }
+
+                    if resultSet.next(), let metadataData = resultSet.string(forColumn: "metadata")?.data(using: .utf8) {
+                        Task {
+                            let metadata = await self.getShowInfo(for: metadataData)
+                            continuation.resume(returning: metadata)
+                        }
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
+                    continuation.resume(returning: nil)
+                }
+            }
+        }
+    }
+
     @discardableResult
     func bulkSave(episodes: [Episode], dbQueue: FMDatabaseQueue) async -> Bool {
         return await withCheckedContinuation { continuation in
@@ -1126,20 +1150,6 @@ extension EpisodeDataManager {
 // MARK: - New Show Info
 
 extension EpisodeDataManager {
-    struct ShowInfo: Decodable {
-        let podcast: ShowInfoPodcast
-    }
-
-    struct ShowInfoPodcast: Decodable {
-        let episodes: [ShowInfoEpisode]
-    }
-
-    struct ShowInfoEpisode: Decodable {
-        let uuid: String
-        let showNotes: String
-        let image: String?
-    }
-
     public func storeShowInfo(with data: Data, dbQueue: FMDatabaseQueue) async {
         // show notes string JSON
         var episodesToUpdate: [String: String] = [:]
@@ -1159,11 +1169,11 @@ extension EpisodeDataManager {
         await bulkSave(showInfo: episodesToUpdate, dbQueue: dbQueue)
     }
 
-    private func getShowInfo(for data: Data) async -> ShowInfo? {
+    private func getShowInfo(for data: Data) async -> Episode.Metadata? {
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            return try decoder.decode(ShowInfo.self, from: data)
+            return try decoder.decode(Episode.Metadata.self, from: data)
         } catch {
             return nil
         }
