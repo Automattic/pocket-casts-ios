@@ -3,7 +3,6 @@ import PocketCastsServer
 import PocketCastsUtils
 import WatchKit
 
-@main
 class ExtensionDelegate: NSObject, WKApplicationDelegate {
     private var haveAttemptedStateRestore = false
 
