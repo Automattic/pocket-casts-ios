@@ -5,7 +5,7 @@ class ShowNotesUpdater {
     class func updateShowNotesInBackground(podcastUuid: String, episodeUuid: String) {
         if CacheServerHandler.newShowNotesEndpoint {
             Task {
-                try? await ShowInfoCoordinator.shared.loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+                try? await ShowInfoCoordinator.shared.requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
             }
             return
         }

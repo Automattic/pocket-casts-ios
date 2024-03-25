@@ -25,7 +25,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         if let showNotes = await dataManager.findEpisode(uuid: episodeUuid)?.showNotes {
             return showNotes
         }
-        let episode = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        let episode = try await requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
         return episode?.showNotes ?? CacheServerHandler.noShowNotesMessage
     }
 
@@ -36,12 +36,12 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         if let image = await dataManager.findEpisode(uuid: episodeUuid)?.image {
             return image
         }
-        let episode = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        let episode = try await requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
         return episode?.image
     }
 
     @discardableResult
-    func loadShowInfo(
+    func requestShowInfo(
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> Episode.Metadata? {
