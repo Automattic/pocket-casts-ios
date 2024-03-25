@@ -29,20 +29,38 @@ struct SourceButton: View {
 struct SourceInterfaceForm: View {
     var body: some View {
         List {
-            SourceButton(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone)
-            SourceButton(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch)
-            Text(L10n.watchSourceMsg)
-                .font(.footnote)
-                .multilineTextAlignment(.leading)
-                .foregroundStyle(.gray)
-                .background(.clear)
-            MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
-            Text(L10n.profileLastAppRefresh(L10n.timeFormatNever))
-                .font(.footnote)
-                .multilineTextAlignment(.leading)
-            MenuRow(label: L10n.name, icon: "profile-free")
-            Text(L10n.watchSourceSignInInfo)
-                .font(.footnote)
+            Section {
+                SourceButton(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone)
+                SourceButton(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch)
+            } footer: {
+                Text(L10n.watchSourceMsg)
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .foregroundStyle(.gray)
+            }
+            Section {
+                MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
+            } footer: {
+                Text(L10n.profileLastAppRefresh(L10n.timeFormatNever))
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+            }
+            Section {
+                MenuRow(label: L10n.signedOut, icon: "profile-free")
+                    .listRowBackground(Color.clear)
+            } footer: {
+                Text(L10n.watchSourceSignInInfo)
+                    .font(.footnote)
+            }
+            Section {
+                MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
+            } footer: {
+                VStack {
+                    Text(L10n.watchSourceRefreshAccountInfo)
+                    Image("plus-logo")
+                    Text(L10n.watchSourcePlusInfo)
+                }
+            }
         }
     }
 }
