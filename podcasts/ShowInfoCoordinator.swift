@@ -22,22 +22,28 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> String {
-        if let showNotes = await dataManager.findEpisode(uuid: episodeUuid)?.showNotes {
-            return showNotes
-        }
-        let episode = try await requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-        return episode?.showNotes ?? CacheServerHandler.noShowNotesMessage
+        let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        return metadata?.showNotes ?? CacheServerHandler.noShowNotesMessage
     }
 
     func loadEpisodeArtworkUrl(
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> String? {
-        if let image = await dataManager.findEpisode(uuid: episodeUuid)?.image {
-            return image
+        let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        return metadata?.image
+    }
+
+    @discardableResult
+    func loadShowInfo(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> Episode.Metadata? {
+        if let metadata = await dataManager.findEpisodeMetadata(uuid: episodeUuid) {
+            return metadata
         }
-        let episode = try await requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-        return episode?.image
+
+        return try await requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
     }
 
     @discardableResult
