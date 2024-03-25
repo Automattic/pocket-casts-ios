@@ -39,7 +39,7 @@ public struct AppSettings: JSONCodable {
     // MARK: Playback Effects
 
     @ModifiedDate public var volumeBoost: Bool
-    @ModifiedDate public var trimSilence: TrimSilenceAmount
+    @ModifiedDate public var trimSilence: TrimSilence
     @ModifiedDate public var playbackSpeed: Double
 
     @ModifiedDate public var playerBookmarksSortType: BookmarksSort = .newestToOldest

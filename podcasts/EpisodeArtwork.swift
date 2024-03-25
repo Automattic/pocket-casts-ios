@@ -1,6 +1,7 @@
 import Foundation
 import Kingfisher
 import PocketCastsServer
+import PocketCastsUtils
 
 /// Extracts artwork from a streaming episode (if there's any)
 class EpisodeArtwork {
@@ -45,7 +46,7 @@ class EpisodeArtwork {
     }
 
     private func loadEpisodeArtworkFromUrl(podcastUuid: String, episodeUuid: String) {
-        if CacheServerHandler.newShowNotesEndpoint && CacheServerHandler.episodeFeedArtwork {
+        if !FeatureFlag.newShowNotesEndpoint.enabled && !FeatureFlag.episodeFeedArtwork.enabled {
             return
         }
 

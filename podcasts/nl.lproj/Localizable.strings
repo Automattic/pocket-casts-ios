@@ -2627,8 +2627,6 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Upgrade naar %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Upgraden naar Plus</string>
-    <key>upload_sort_alpha</key>
-    <string>Titel (A-Z)</string>
     <key>volume_boost</key>
     <string>Volumeboost</string>
     <key>volume_boost_description</key>

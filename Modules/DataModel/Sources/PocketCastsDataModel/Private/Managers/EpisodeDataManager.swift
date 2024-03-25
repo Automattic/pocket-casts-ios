@@ -1014,3 +1014,84 @@ extension EpisodeDataManager {
         return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
     }
 }
+
+// MARK: - Swift Concurrency
+
+extension EpisodeDataManager {
+    @discardableResult
+    func bulkSave(showInfo: [String: String], dbQueue: FMDatabaseQueue) async -> Bool {
+        return await withCheckedContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    db.beginTransaction()
+
+                    for episode in showInfo {
+                        try db.executeUpdate("INSERT OR REPLACE INTO EpisodeMetadata VALUES(?, ?);", values: [episode.key, episode.value])
+                    }
+
+                    db.commit()
+                    continuation.resume(returning: true)
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
+                    continuation.resume(returning: false)
+                }
+            }
+        }
+    }
+
+    func findEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async -> Episode.Metadata? {
+        return await withCheckedContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [uuid])
+                    defer { resultSet.close() }
+
+                    if resultSet.next(), let metadataData = resultSet.string(forColumn: "metadata")?.data(using: .utf8) {
+                        Task {
+                            let metadata = await self.getShowInfo(for: metadataData)
+                            continuation.resume(returning: metadata)
+                        }
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
+                    continuation.resume(returning: nil)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - New Show Info
+
+extension EpisodeDataManager {
+    public func storeShowInfo(with data: Data, dbQueue: FMDatabaseQueue) async {
+        // show notes string JSON
+        var episodesToUpdate: [String: String] = [:]
+        if let showInfo = try? (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])?["podcast"] as? [String: Any],
+           let episodes = showInfo["episodes"] as? [Any] {
+            // Iterate over each episode and store it's JSON string content using the
+            // episode UUID as key
+            episodes.forEach { episode in
+                if let uuid = (episode as? [String: Any])?["uuid"] as? String,
+                   let jsonData = try? JSONSerialization.data(withJSONObject: episode),
+                   let jsonString = String(data: jsonData, encoding: .utf8) {
+                    episodesToUpdate[uuid] = jsonString
+                }
+            }
+        }
+
+        await bulkSave(showInfo: episodesToUpdate, dbQueue: dbQueue)
+    }
+
+    private func getShowInfo(for data: Data) async -> Episode.Metadata? {
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode(Episode.Metadata.self, from: data)
+        } catch {
+            return nil
+        }
+    }
+}

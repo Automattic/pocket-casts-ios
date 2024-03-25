@@ -13,10 +13,6 @@ public class CacheServerHandler {
 
     private lazy var episodeInfoHandler = ShowInfoDataRetriever()
 
-    public static var newShowNotesEndpoint: Bool = false
-
-    public static var episodeFeedArtwork: Bool = false
-
     private let tokenHelper = TokenHelper.shared
 
     public init() {

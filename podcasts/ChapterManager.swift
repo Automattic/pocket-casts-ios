@@ -145,7 +145,7 @@ class ChapterManager {
         return []
     }
 
-    private func parseExternalChapters(podlove: [ShowInfoEpisode.EpisodeChapter]?, podcastIndex: [PodcastIndexChapter]?, duration: TimeInterval) -> [ChapterInfo]? {
+    private func parseExternalChapters(podlove: [Episode.Metadata.EpisodeChapter]?, podcastIndex: [PodcastIndexChapter]?, duration: TimeInterval) -> [ChapterInfo]? {
         if let podcastIndex {
             return chapterParser.parsePodcastIndexChapters(podcastIndex, episodeDuration: duration)
         }

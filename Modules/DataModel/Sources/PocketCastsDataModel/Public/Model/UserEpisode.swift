@@ -33,6 +33,8 @@ public class UserEpisode: NSObject, BaseEpisode {
     @objc public var hasOnlyUuid = false
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64
+    @objc public var image: String?
+    @objc public var showNotes: String?
 
     // UserEpisode's are never archived or starred
     public var archived = false

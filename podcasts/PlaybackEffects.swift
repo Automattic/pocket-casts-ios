@@ -72,7 +72,7 @@ class PlaybackEffects {
         effects.isGlobal = true
         let savedSpeed: Double
         if FeatureFlag.newSettingsStorage.enabled {
-            effects.trimSilence = SettingsStore.appSettings.trimSilence
+            effects.trimSilence = SettingsStore.appSettings.trimSilence.amount
             effects.volumeBoost = SettingsStore.appSettings.volumeBoost
             savedSpeed = SettingsStore.appSettings.playbackSpeed
         } else {

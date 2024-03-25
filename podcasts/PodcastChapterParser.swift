@@ -2,6 +2,7 @@ import AVFoundation
 import Foundation
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 class PodcastChapterParser {
     func parseLocalFile(_ path: String, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
@@ -35,7 +36,7 @@ class PodcastChapterParser {
         }
     }
 
-    func parsePodloveChapters(_ podloveChapters: [ShowInfoEpisode.EpisodeChapter], episodeDuration: TimeInterval) -> [ChapterInfo] {
+    func parsePodloveChapters(_ podloveChapters: [Episode.Metadata.EpisodeChapter], episodeDuration: TimeInterval) -> [ChapterInfo] {
         podloveChapters.enumerated().compactMap { index, chapter in
             let chapterInfo = ChapterInfo()
             chapterInfo.title = chapter.title ?? ""

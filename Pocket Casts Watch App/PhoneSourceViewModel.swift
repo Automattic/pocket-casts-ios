@@ -155,6 +155,11 @@ class PhoneSourceViewModel: PlaySourceViewModel {
         .eraseToAnyPublisher()
     }
 
+    var downloadedCount: Int {
+        // We don't return downloads for the phone source
+        return 0
+    }
+
     // MARK: User Episodes
 
     var supportsFileSort = false

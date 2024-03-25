@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsServer
 import SafariServices
 import WebKit
+import PocketCastsUtils
 
 extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControllerDelegate {
     func setupWebView() {
@@ -32,8 +33,8 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
         loadingIndicator.startAnimating()
         hideErrorMessage(hide: true)
-        
-        if CacheServerHandler.newShowNotesEndpoint {
+
+        if FeatureFlag.newShowNotesEndpoint.enabled {
             let podcastUUID = episode.parentIdentifier()
             let episodeUUID = episode.uuid
             Task { [weak self] in
@@ -44,7 +45,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             }
             return
         }
-        
+
         CacheServerHandler.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
             self?.downloadingShowNotes = false
             self?.showNotesDidLoad(showNotes: cachedShowNotes)
@@ -73,7 +74,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.navigationType == .linkActivated {
-            if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser), let url = navigationAction.request.url {
+            if Settings.openLinks, let url = navigationAction.request.url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else if URLHelper.isValidScheme(navigationAction.request.url?.scheme) {
                 safariViewController = navigationAction.request.url.flatMap {

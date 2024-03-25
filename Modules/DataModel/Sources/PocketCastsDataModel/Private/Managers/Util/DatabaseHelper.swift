@@ -677,6 +677,21 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 45 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE EpisodeMetadata (
+                        episodeUuid TEXT PRIMARY KEY,
+                        metadata TEXT NOT NULL
+                    );
+                """, values: nil)
+                schemaVersion = 45
+            } catch {
+                failedAt(45)
+                return
+            }
+        }
+
         db.commit()
     }
 }

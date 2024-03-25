@@ -5,7 +5,7 @@ import PocketCastsServer
 
 /// Reponsible for handling the Autoplay of episodes
 class AutoplayHelper {
-    enum Playlist: Codable, AnalyticsDescribable {
+    enum Playlist: Codable, AnalyticsDescribable, Equatable {
         case podcast(uuid: String)
         case filter(uuid: String)
         case downloads
@@ -47,7 +47,10 @@ class AutoplayHelper {
             case .starred:
                 return .starred
             case .uuid(let uuid):
-                if let filter = DataManager.sharedManager.findFilter(uuid: uuid) {
+                guard uuid.isEmpty == false else {
+                    return nil
+                }
+                if DataManager.sharedManager.findFilter(uuid: uuid) != nil {
                     return .filter(uuid: uuid)
                 } else {
                     return .podcast(uuid: uuid)

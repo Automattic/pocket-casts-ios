@@ -2,37 +2,6 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 
-
-struct ShowInfo: Decodable {
-    let podcast: ShowInfoPodcast
-}
-
-struct ShowInfoPodcast: Decodable {
-    let episodes: [ShowInfoEpisode]
-    
-    func episode(with uuid: String) -> ShowInfoEpisode? {
-        episodes.first(where: { $0.uuid == uuid })
-    }
-}
-
-struct ShowInfoEpisode: Decodable {
-    let uuid: String
-    let showNotes: String
-    let image: String?
-
-    /// Podlove chapters
-    let chapters: [EpisodeChapter]?
-
-    /// Podcast Index chapters
-    let chaptersUrl: String?
-
-    public struct EpisodeChapter: Decodable {
-        public let startTime: TimeInterval
-        public let title: String?
-        public let endTime: TimeInterval?
-    }
-}
-
 struct PodcastIndexEvelope: Decodable {
     let chapters: [PodcastIndexChapter]
 }
@@ -51,7 +20,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     private let podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever
     private let dataManager: DataManager
 
-    private var requestingShowInfo: [String: Task<ShowInfo?, Error>] = [:]
+    private var requestingShowInfo: [String: Task<Episode.Metadata?, Error>] = [:]
 
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
@@ -67,63 +36,66 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> String {
-        let info = try await retrieveShowInfo(podcastUuid: podcastUuid)
-        return info?.podcast.episode(with: episodeUuid)?.showNotes ?? CacheServerHandler.noShowNotesMessage
+        let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        return metadata?.showNotes ?? CacheServerHandler.noShowNotesMessage
     }
 
     func loadEpisodeArtworkUrl(
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> String? {
-        let info = try await retrieveShowInfo(podcastUuid: podcastUuid)
-        return info?.podcast.episode(with: episodeUuid)?.image
+        let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        return metadata?.image
     }
 
     public func loadChapters(
         podcastUuid: String,
         episodeUuid: String
-    ) async throws -> ([ShowInfoEpisode.EpisodeChapter]?, [PodcastIndexChapter]?) {
-        let info = try await retrieveShowInfo(podcastUuid: podcastUuid)
-        let episode = info?.podcast.episode(with: episodeUuid)
+    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?) {
+        let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
-        if let pocastIndexChapterUrl = episode?.chaptersUrl,
+        if let pocastIndexChapterUrl = metadata?.chaptersUrl,
             let chaptersData = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
             let chapters = try? decoder.decode(PodcastIndexEvelope.self, from: chaptersData)
             return (nil, chapters?.chapters)
         }
 
-        return (episode?.chapters, nil)
+        return (metadata?.chapters, nil)
     }
 
     @discardableResult
-    func retrieveShowInfo(podcastUuid: String) async throws -> ShowInfo? {
+    func loadShowInfo(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> Episode.Metadata? {
+        if let metadata = await dataManager.findEpisodeMetadata(uuid: episodeUuid) {
+            return metadata
+        }
+
+        return try await requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+    }
+
+    @discardableResult
+    func requestShowInfo(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> Episode.Metadata? {
         if let task = requestingShowInfo[podcastUuid] {
             return try await task.value
         }
 
-        let task = Task<ShowInfo?, Error> { [unowned self] in
+        let task = Task<Episode.Metadata?, Error> { [unowned self] in
             let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
-            let info = await getShowInfo(for: data)
+            await dataManager.storeShowInfo(data: data)
+            let episode = await dataManager.findEpisodeMetadata(uuid: episodeUuid)
             requestingShowInfo[podcastUuid] = nil
-            return info
+            return episode
         }
 
         requestingShowInfo[podcastUuid] = task
-        
+
         return try await task.value
-    }
-
-    private lazy var decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
-    }()
-
-    private func getShowInfo(for data: Data) async -> ShowInfo? {
-        do {
-            return try decoder.decode(ShowInfo.self, from: data)
-        } catch {
-            return nil
-        }
     }
 }

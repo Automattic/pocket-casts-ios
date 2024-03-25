@@ -1,11 +1,12 @@
 import Foundation
 import PocketCastsServer
+import PocketCastsUtils
 
 class ShowNotesUpdater {
     class func updateShowNotesInBackground(podcastUuid: String, episodeUuid: String) {
-        if CacheServerHandler.newShowNotesEndpoint {
+        if FeatureFlag.newShowNotesEndpoint.enabled {
             Task {
-                try? await ShowInfoCoordinator.shared.retrieveShowInfo(podcastUuid: podcastUuid)
+                try? await ShowInfoCoordinator.shared.requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
             }
             return
         }

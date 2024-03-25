@@ -2627,8 +2627,6 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Fazer upgrade para %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Faça upgrade para o Plus</string>
-    <key>upload_sort_alpha</key>
-    <string>Título (A-Z)</string>
     <key>volume_boost</key>
     <string>Aumento de volume</string>
     <key>volume_boost_description</key>
