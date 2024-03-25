@@ -41,8 +41,7 @@ class EpisodeDataManager {
         "excludeFromEpisodeLimit",
         "starredModified",
         "deselectedChapters",
-        "deselectedChaptersModified",
-        "showNotes"
+        "deselectedChaptersModified"
     ]
 
     // MARK: - Query
@@ -988,8 +987,6 @@ class EpisodeDataManager {
         values.append(episode.starredModified)
         values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
         values.append(episode.deselectedChaptersModified)
-        values.append(DBUtils.nullIfNil(value: episode.image))
-        values.append(DBUtils.nullIfNil(value: episode.showNotes))
 
         if includeIdForWhere {
             values.append(episode.id)
@@ -1021,39 +1018,6 @@ extension EpisodeDataManager {
 // MARK: - Swift Concurrency
 
 extension EpisodeDataManager {
-    func findBy(uuid: String, dbQueue: FMDatabaseQueue) async -> Episode? {
-        await loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid], dbQueue: dbQueue)
-    }
-
-    func findAllEpisodesBy(uuids: [String], dbQueue: FMDatabaseQueue) async -> [Episode] {
-        return await withCheckedContinuation { continuation in
-            let list = uuids.map { "'\($0)'" }.joined(separator: ",")
-
-            let query = """
-            SELECT * from \(DataManager.episodeTableName)
-            WHERE uuid IN (\(list))
-            LIMIT \(uuids.count)
-            """
-
-            dbQueue.inDatabase { db in
-                do {
-                    var episodes = [Episode]()
-                    let resultSet = try db.executeQuery(query, values: [])
-                    defer { resultSet.close() }
-
-                    while resultSet.next() {
-                        let episode = self.createEpisodeFrom(resultSet: resultSet)
-                        episodes.append(episode)
-                    }
-                    continuation.resume(returning: episodes)
-                } catch {
-                    FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
-                    continuation.resume(returning: [])
-                }
-            }
-        }
-    }
-
     @discardableResult
     func bulkSave(showInfo: [String: String], dbQueue: FMDatabaseQueue) async -> Bool {
         return await withCheckedContinuation { continuation in
@@ -1092,53 +1056,6 @@ extension EpisodeDataManager {
                     }
                 } catch {
                     FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
-                    continuation.resume(returning: nil)
-                }
-            }
-        }
-    }
-
-    @discardableResult
-    func bulkSave(episodes: [Episode], dbQueue: FMDatabaseQueue) async -> Bool {
-        return await withCheckedContinuation { continuation in
-            dbQueue.inDatabase { db in
-                do {
-                    db.beginTransaction()
-
-                    for episode in episodes {
-                        if episode.id == 0 {
-                            episode.id = DBUtils.generateUniqueId()
-                            try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
-                        } else {
-                            let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                            try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
-                        }
-                    }
-
-                    db.commit()
-                    continuation.resume(returning: true)
-                } catch {
-                    FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
-                    continuation.resume(returning: false)
-                }
-            }
-        }
-    }
-
-    private func loadSingle(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) async -> Episode? {
-        return await withCheckedContinuation { continuation in
-            dbQueue.inDatabase { db in
-                do {
-                    var episode: Episode?
-                    let resultSet = try db.executeQuery(query, values: values)
-                    defer { resultSet.close() }
-
-                    if resultSet.next() {
-                        episode = self.createEpisodeFrom(resultSet: resultSet)
-                    }
-                    continuation.resume(returning: episode)
-                } catch {
-                    FileLog.shared.addMessage("EpisodeDataManager.loadSingle error: \(error)")
                     continuation.resume(returning: nil)
                 }
             }
