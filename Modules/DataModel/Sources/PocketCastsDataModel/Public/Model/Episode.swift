@@ -178,8 +178,8 @@ public class Episode: NSObject, BaseEpisode {
         taggableId()
     }
 
-    struct Metadata: Decodable {
-        let showNotes: String?
-        let image: String?
+    public struct Metadata: Decodable {
+        public let showNotes: String?
+        public let image: String?
     }
 }
