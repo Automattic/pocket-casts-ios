@@ -129,7 +129,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
         loadingIndicator.startAnimating()
 
-        if CacheServerHandler.newShowNotesEndpoint {
+        if FeatureFlag.newShowNotesEndpoint.enabled {
             let podcastUUID = episode.parentIdentifier()
             let episodeUUID = episode.uuid
             Task { [weak self] in

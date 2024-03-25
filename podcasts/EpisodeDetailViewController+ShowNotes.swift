@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsServer
 import SafariServices
 import WebKit
+import PocketCastsUtils
 
 extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControllerDelegate {
     func setupWebView() {
@@ -33,7 +34,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         loadingIndicator.startAnimating()
         hideErrorMessage(hide: true)
 
-        if CacheServerHandler.newShowNotesEndpoint {
+        if FeatureFlag.newShowNotesEndpoint.enabled {
             let podcastUUID = episode.parentIdentifier()
             let episodeUUID = episode.uuid
             Task { [weak self] in
