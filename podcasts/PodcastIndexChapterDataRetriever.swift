@@ -18,7 +18,7 @@ public actor PodcastIndexChapterDataRetriever {
     private var dataRequestMap: [String: Task<PodcastIndexEvelope, Error>] = [:]
 
     public init() {
-        podcastIndexChaptersCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
+        podcastIndexChaptersCache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "podcast_index_chapters")
     }
 
     public func loadChapters(_ urlString: String) async throws -> PodcastIndexEvelope {
