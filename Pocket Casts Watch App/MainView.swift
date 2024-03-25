@@ -4,7 +4,11 @@ import SwiftUI
 struct MyWatchApp: App {
     var body: some Scene {
         WindowGroup {
-            SourceInterfaceForm()
+            NavigationView {
+                SourceInterfaceForm()
+                    .navigationTitle("Play Source")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
         }
     }
 }
