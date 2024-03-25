@@ -42,7 +42,6 @@ class EpisodeDataManager {
         "starredModified",
         "deselectedChapters",
         "deselectedChaptersModified",
-        "image",
         "showNotes"
     ]
 
@@ -1056,6 +1055,27 @@ extension EpisodeDataManager {
     }
 
     @discardableResult
+    func bulkSave(showInfo: [String: String], dbQueue: FMDatabaseQueue) async -> Bool {
+        return await withCheckedContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    db.beginTransaction()
+
+                    for episode in showInfo {
+                        try db.executeUpdate("INSERT OR REPLACE INTO EpisodeMetadata VALUES(?, ?);", values: [episode.key, episode.value])
+                    }
+
+                    db.commit()
+                    continuation.resume(returning: true)
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
+                    continuation.resume(returning: false)
+                }
+            }
+        }
+    }
+
+    @discardableResult
     func bulkSave(episodes: [Episode], dbQueue: FMDatabaseQueue) async -> Bool {
         return await withCheckedContinuation { continuation in
             dbQueue.inDatabase { db in
@@ -1121,28 +1141,22 @@ extension EpisodeDataManager {
     }
 
     public func storeShowInfo(with data: Data, dbQueue: FMDatabaseQueue) async {
-        guard let showInfo = await getShowInfo(for: data) else {
-            return
-        }
-        let showInfoMap = showInfo.podcast.episodes.reduce([String: ShowInfoEpisode]()) { showInfoMap, showInfoEpisode in
-            var map = showInfoMap
-            map[showInfoEpisode.uuid] = showInfoEpisode
-            return map
-        }
-        let episodesMap: [String: Episode] = await findAllEpisodesBy(uuids: Array(showInfoMap.keys), dbQueue: dbQueue)
-            .reduce([String: Episode]()) { episodesMap, episode in
-                var map = episodesMap
-                map[episode.uuid] = episode
-                return map
+        // show notes string JSON
+        var episodesToUpdate: [String: String] = [:]
+        if let showInfo = try? (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])?["podcast"] as? [String: Any],
+           let episodes = showInfo["episodes"] as? [Any] {
+            // Iterate over each episode and store it's JSON string content using the
+            // episode UUID as key
+            episodes.forEach { episode in
+                if let uuid = (episode as? [String: Any])?["uuid"] as? String,
+                   let jsonData = try? JSONSerialization.data(withJSONObject: episode),
+                   let jsonString = String(data: jsonData, encoding: .utf8) {
+                    episodesToUpdate[uuid] = jsonString
+                }
             }
-        for uuid in showInfoMap.keys {
-            guard let showInfo = showInfoMap[uuid] else {
-                continue
-            }
-            episodesMap[uuid]?.showNotes = showInfo.showNotes
-            episodesMap[uuid]?.image = showInfo.image
         }
-        await bulkSave(episodes: Array(episodesMap.values), dbQueue: dbQueue)
+
+        await bulkSave(showInfo: episodesToUpdate, dbQueue: dbQueue)
     }
 
     private func getShowInfo(for data: Data) async -> ShowInfo? {
