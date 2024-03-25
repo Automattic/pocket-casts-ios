@@ -1020,6 +1020,10 @@ extension DataManager {
     public func findEpisode(uuid: String) async -> Episode? {
         await episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
+
+    public func findEpisodeMetadata(uuid: String) async -> Episode.Metadata? {
+        await episodeManager.findEpisodeMetadata(uuid: uuid, dbQueue: dbQueue)
+    }
 }
 
 // MARK: - Show Notes
