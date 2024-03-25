@@ -2,17 +2,6 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 
-struct PodcastIndexEvelope: Decodable {
-    let chapters: [PodcastIndexChapter]
-}
-
-struct PodcastIndexChapter: Decodable {
-    let title: String?
-    let number: Int?
-    let endTime: TimeInterval?
-    let startTime: TimeInterval
-}
-
 actor ShowInfoCoordinator: ShowInfoCoordinating {
     static let shared = ShowInfoCoordinator()
 
@@ -55,11 +44,8 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
         if let pocastIndexChapterUrl = metadata?.chaptersUrl,
-            let chaptersData = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let chapters = try? decoder.decode(PodcastIndexEvelope.self, from: chaptersData)
-            return (nil, chapters?.chapters)
+            let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
+            return (nil, chapters.chapters)
         }
 
         return (metadata?.chapters, nil)
