@@ -1079,8 +1079,7 @@ extension EpisodeDataManager {
         return await withCheckedContinuation { continuation in
             dbQueue.inDatabase { db in
                 do {
-                    var episodes = [Episode]()
-                    let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [])
+                    let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [uuid])
                     defer { resultSet.close() }
 
                     if resultSet.next(), let metadataData = resultSet.string(forColumn: "metadata")?.data(using: .utf8) {
