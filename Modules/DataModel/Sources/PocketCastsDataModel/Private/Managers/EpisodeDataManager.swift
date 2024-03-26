@@ -1019,8 +1019,8 @@ extension EpisodeDataManager {
 
 extension EpisodeDataManager {
     @discardableResult
-    func bulkSave(showInfo: [String: String], dbQueue: FMDatabaseQueue) async -> Bool {
-        return await withCheckedContinuation { continuation in
+    func bulkSave(showInfo: [String: String], dbQueue: FMDatabaseQueue) async throws -> Bool {
+        return try await withCheckedThrowingContinuation { continuation in
             dbQueue.inDatabase { db in
                 do {
                     db.beginTransaction()
@@ -1032,15 +1032,15 @@ extension EpisodeDataManager {
                     db.commit()
                     continuation.resume(returning: true)
                 } catch {
-                    FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
-                    continuation.resume(returning: false)
+                    FileLog.shared.addMessage("EpisodeDataManager.bulkSave showInfo error: \(error)")
+                    continuation.resume(throwing: error)
                 }
             }
         }
     }
 
-    func findEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async -> Episode.Metadata? {
-        return await withCheckedContinuation { continuation in
+    func findEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async throws -> Episode.Metadata? {
+        return try await withCheckedThrowingContinuation { continuation in
             dbQueue.inDatabase { db in
                 do {
                     let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [uuid])
@@ -1055,8 +1055,8 @@ extension EpisodeDataManager {
                         continuation.resume(returning: nil)
                     }
                 } catch {
-                    FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
-                    continuation.resume(returning: nil)
+                    FileLog.shared.addMessage("EpisodeDataManager.findEpisodeMetadata Episode metadata error: \(error)")
+                    continuation.resume(throwing: error)
                 }
             }
         }
@@ -1066,7 +1066,7 @@ extension EpisodeDataManager {
 // MARK: - New Show Info
 
 extension EpisodeDataManager {
-    public func storeShowInfo(with data: Data, dbQueue: FMDatabaseQueue) async {
+    public func storeShowInfo(with data: Data, dbQueue: FMDatabaseQueue) async throws {
         // show notes string JSON
         var episodesToUpdate: [String: String] = [:]
         if let showInfo = try? (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])?["podcast"] as? [String: Any],
@@ -1082,7 +1082,7 @@ extension EpisodeDataManager {
             }
         }
 
-        await bulkSave(showInfo: episodesToUpdate, dbQueue: dbQueue)
+        try await bulkSave(showInfo: episodesToUpdate, dbQueue: dbQueue)
     }
 
     private func getShowInfo(for data: Data) async -> Episode.Metadata? {

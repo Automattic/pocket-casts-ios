@@ -46,7 +46,7 @@ class EpisodeArtwork {
     }
 
     private func loadEpisodeArtworkFromUrl(podcastUuid: String, episodeUuid: String) {
-        if !FeatureFlag.newShowNotesEndpoint.enabled && !FeatureFlag.episodeFeedArtwork.enabled {
+        guard FeatureFlag.newShowNotesEndpoint.enabled && FeatureFlag.episodeFeedArtwork.enabled else {
             return
         }
 

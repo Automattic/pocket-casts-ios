@@ -1017,15 +1017,15 @@ public extension DataManager {
 // MARK: - Swift Concurrency
 
 extension DataManager {
-    public func findEpisodeMetadata(uuid: String) async -> Episode.Metadata? {
-        await episodeManager.findEpisodeMetadata(uuid: uuid, dbQueue: dbQueue)
+    public func findEpisodeMetadata(uuid: String) async throws -> Episode.Metadata? {
+        try await episodeManager.findEpisodeMetadata(uuid: uuid, dbQueue: dbQueue)
     }
 }
 
 // MARK: - Show Notes
 
 extension DataManager {
-    public func storeShowInfo(data: Data) async {
-        await episodeManager.storeShowInfo(with: data, dbQueue: dbQueue)
+    public func storeShowInfo(data: Data) async throws {
+        try await episodeManager.storeShowInfo(with: data, dbQueue: dbQueue)
     }
 }
