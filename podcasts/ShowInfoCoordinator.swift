@@ -57,7 +57,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
 
         let task = Task<Episode.Metadata?, Error> { [unowned self] in
             let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
-            await dataManager.storeShowInfo(data: data)
+            try await dataManager.storeShowInfo(data: data)
             let episode = try await dataManager.findEpisodeMetadata(uuid: episodeUuid)
             requestingShowInfo[podcastUuid] = nil
             return episode
