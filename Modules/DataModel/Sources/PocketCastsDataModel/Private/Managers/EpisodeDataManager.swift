@@ -1039,8 +1039,8 @@ extension EpisodeDataManager {
         }
     }
 
-    func findEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async -> Episode.Metadata? {
-        return await withCheckedContinuation { continuation in
+    func findEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async throws -> Episode.Metadata? {
+        return try await withCheckedThrowingContinuation { continuation in
             dbQueue.inDatabase { db in
                 do {
                     let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [uuid])
@@ -1055,8 +1055,8 @@ extension EpisodeDataManager {
                         continuation.resume(returning: nil)
                     }
                 } catch {
-                    FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
-                    continuation.resume(returning: nil)
+                    FileLog.shared.addMessage("EpisodeDataManager.findEpisodeMetadata Episode metadata error: \(error)")
+                    continuation.resume(throwing: error)
                 }
             }
         }

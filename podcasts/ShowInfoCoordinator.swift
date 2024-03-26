@@ -39,7 +39,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> Episode.Metadata? {
-        if let metadata = await dataManager.findEpisodeMetadata(uuid: episodeUuid) {
+        if let metadata = try? await dataManager.findEpisodeMetadata(uuid: episodeUuid) {
             return metadata
         }
 
@@ -58,7 +58,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         let task = Task<Episode.Metadata?, Error> { [unowned self] in
             let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
             await dataManager.storeShowInfo(data: data)
-            let episode = await dataManager.findEpisodeMetadata(uuid: episodeUuid)
+            let episode = try await dataManager.findEpisodeMetadata(uuid: episodeUuid)
             requestingShowInfo[podcastUuid] = nil
             return episode
         }
