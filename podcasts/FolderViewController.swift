@@ -205,7 +205,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         options.show(statusBarStyle: preferredStatusBarStyle)
     }
 
-    private func changeSortOrder(_ order: LibrarySort) {
+    private func changeSortOrder(_ order: LibrarySort.Old) {
         folder.sortType = Int32(order.rawValue)
         folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
         DataManager.sharedManager.save(folder: folder)
