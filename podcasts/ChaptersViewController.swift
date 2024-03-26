@@ -74,5 +74,6 @@ class ChaptersViewController: PlayerItemViewController {
     private func updateColors() {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         chaptersTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        header.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
     }
 }
