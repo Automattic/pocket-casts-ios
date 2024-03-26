@@ -9,10 +9,11 @@ class UpNextViewModel: ObservableObject {
     @Published var episodes: [EpisodeRowViewModel]
     @Published var upNextCount: Int = 0
 
-    private var playSource = PlaySourceHelper.playSourceViewModel
+    private let playSource: PlaySourceViewModel
     private var cancellables = Set<AnyCancellable>()
 
     init() {
+        playSource =  PlaySourceHelper.playSourceViewModel
         upNextTitle = playSource.nowPlayingEpisode?.subTitle()
         upNextCount = playSource.upNextCount
         episodes = playSource.episodeUuidsInQueue.map { EpisodeRowViewModel(episode: $0) }

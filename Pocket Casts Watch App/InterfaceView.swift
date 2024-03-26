@@ -5,8 +5,15 @@ import PocketCastsServer
 import WatchKit
 
 struct InterfaceView: View {
-    @StateObject var upNextViewModel = UpNextViewModel()
-    @StateObject var downloadsViewModel = DownloadListViewModel()
+    @StateObject var upNextViewModel: UpNextViewModel
+    @StateObject var downloadsViewModel: DownloadListViewModel
+
+    init(source: Source) {
+        SourceManager.shared.setSource(newSource: source)
+        rowList = SourceManager.shared.isPhone() ? Self.phoneRows : Self.watchRows
+        _upNextViewModel = StateObject(wrappedValue: UpNextViewModel())
+        _downloadsViewModel = StateObject(wrappedValue: DownloadListViewModel())
+    }
 
     private enum Row: String, Identifiable {
         var id: String {
@@ -16,7 +23,7 @@ struct InterfaceView: View {
     }
     private static var watchRows: [Row] = [.nowPlaying, .upNext, .podcasts, .filters, .downloads, .files]
     private static var phoneRows: [Row] = [.nowPlaying, .upNext, .filters, .downloads, .files]
-    private let rowList: [Row] = SourceManager.shared.isPhone() ? Self.phoneRows : Self.watchRows
+    private let rowList: [Row]
 
     var title: String {
         if SourceManager.shared.isPhone() {
@@ -50,5 +57,5 @@ struct InterfaceView: View {
 }
 
 #Preview {
-    InterfaceView()
+    InterfaceView(source: .phone)
 }

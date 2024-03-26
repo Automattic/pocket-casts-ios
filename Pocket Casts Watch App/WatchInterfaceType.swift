@@ -35,7 +35,7 @@ extension WatchInterfaceType {
         case .filterList:
             return AnyView(FiltersListView())
         case .interface:
-            return AnyView(InterfaceView())
+            return AnyView(InterfaceView(source: .phone))
         default:
             return nil
         }

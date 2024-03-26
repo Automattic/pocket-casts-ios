@@ -1,8 +1,12 @@
 import SwiftUI
 
 struct UpNextView: View {
-    @StateObject var viewModel = UpNextViewModel()
+    @StateObject var viewModel: UpNextViewModel
     @State private var presentClearPrompt = false
+
+    init() {
+        _viewModel = StateObject(wrappedValue: UpNextViewModel())
+    }
 
     var body: some View {
         ItemListContainer(isEmpty: viewModel.isEmpty, noItemsTitle: L10n.watchUpNextNoItemsTitle, noItemsSubtitle: L10n.watchUpNextNoItemsSubtitle) {

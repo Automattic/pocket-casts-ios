@@ -8,30 +8,34 @@
 
 import SwiftUI
 
-struct SourceButton: View {
+struct SourceRow: View {
     let sourceSymbol: String
     let label: String
 
     var body: some View {
-        Button(action: {
-            
-        }, label: {
-            HStack {
-                Text(sourceSymbol)
+        HStack {
+            Text(sourceSymbol)
+                .font(.title2)
+            VStack {
                 Text(label)
-                Spacer()
-                Image("now-playing-small")
+                HStack {
+                    Image("gold-plus")
+                    Image("plus-only")
+                }
             }
-        })
+            Spacer()
+            Image("now-playing-small")
+        }
     }
 }
 
 struct SourceInterfaceForm: View {
+
     var body: some View {
         List {
             Section {
-                SourceButton(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone)
-                SourceButton(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch)
+                NavigationLink(destination: InterfaceView(source: .phone)) { SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone) }
+                NavigationLink(destination: InterfaceView(source: .watch)) { SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch) }
             } footer: {
                 Text(L10n.watchSourceMsg)
                     .font(.footnote)
@@ -57,7 +61,9 @@ struct SourceInterfaceForm: View {
             } footer: {
                 VStack {
                     Text(L10n.watchSourceRefreshAccountInfo)
+                    Divider()
                     Image("plus-logo")
+                    Divider()
                     Text(L10n.watchSourcePlusInfo)
                 }
             }
