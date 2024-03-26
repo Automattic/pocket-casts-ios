@@ -55,7 +55,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsNotifications
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
-            cell.setImage(imageName: "settings-notifications")
+            cell.setImage(imageName: "settings_notifications")
             cell.cellSwitch.isOn = podcast.isPushEnabled && NotificationsHelper.shared.pushEnabled()
 
             cell.cellSwitch.removeTarget(self, action: #selector(notificationChanged(_:)), for: UIControl.Event.valueChanged)
