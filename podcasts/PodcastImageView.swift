@@ -28,12 +28,11 @@ class PodcastImageView: UIView {
         guard let imageView = imageView else { return }
 
         Task {
-            if let episodeArtworkUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
+            if Settings.loadEmbeddedImages, let episodeArtworkUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
                 ImageManager.sharedManager.loadImage(url: episodeArtworkUrl, imageView: imageView, size: size, showPlaceHolder: true)
                 adjustForSize(size)
             } else {
-                ImageManager.sharedManager.loadImage(podcastUuid: episode.parentIdentifier(), imageView: imageView, size: size, showPlaceHolder: true)
-                adjustForSize(size)
+                setPodcast(uuid: episode.parentIdentifier(), size: size)
             }
         }
     }
