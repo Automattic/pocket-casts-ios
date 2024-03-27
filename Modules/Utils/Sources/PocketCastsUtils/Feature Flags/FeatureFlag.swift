@@ -64,11 +64,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             false
         case .newShowNotesEndpoint:
-            false
+            true
         case .episodeFeedArtwork:
-            false // To be enabled, newShowNotesEndpoint needs to be too
+            true // To be enabled, newShowNotesEndpoint needs to be too
         case .rssChapters:
-            false // To be enabled, newShowNotesEndpoint needs to be too
+            true // To be enabled, newShowNotesEndpoint needs to be too
         case .newPlayerTransition:
             true
         case .errorLogoutHandling:

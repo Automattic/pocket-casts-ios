@@ -24,9 +24,10 @@ class ChapterManagerTests: XCTestCase {
     }
 
     /// Update the current chapter given a TimeInterval
-    func testUpdateCurrentChapterBasedOnTime() {
+    func testUpdateCurrentChapterBasedOnTime() async {
         featureFlagMock.set(.deselectChapters, value: true)
         let parserMock = PodcastChapterParserMock()
+        let showInfoCoordinatorMock = ShowInfoCoordinatorMock()
         parserMock.chapters = [
             chapterInfo(startTime: 0, duration: 100, shouldPlay: true),
             chapterInfo(startTime: 101, duration: 200, shouldPlay: false),
@@ -35,8 +36,8 @@ class ChapterManagerTests: XCTestCase {
             chapterInfo(startTime: 401, duration: 500, shouldPlay: true),
             chapterInfo(startTime: 501, duration: 600, shouldPlay: false)
         ]
-        let chapterManager = ChapterManager(chapterParser: parserMock)
-        chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
+        let chapterManager = ChapterManager(chapterParser: parserMock, showInfoCoordinator: showInfoCoordinatorMock)
+        await chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
 
         chapterManager.updateCurrentChapter(time: 10)
 
@@ -44,8 +45,9 @@ class ChapterManagerTests: XCTestCase {
     }
 
     /// Update the current chapter given a TimeInterval
-    func testReturnNextVisiblePlayableChapter() {
+    func testReturnNextVisiblePlayableChapter() async {
         featureFlagMock.set(.deselectChapters, value: true)
+        let showInfoCoordinatorMock = ShowInfoCoordinatorMock()
         let parserMock = PodcastChapterParserMock()
         parserMock.chapters = [
             chapterInfo(startTime: 0, duration: 100, shouldPlay: true),
@@ -55,8 +57,8 @@ class ChapterManagerTests: XCTestCase {
             chapterInfo(startTime: 401, duration: 500, shouldPlay: true),
             chapterInfo(startTime: 501, duration: 600, shouldPlay: false)
         ]
-        let chapterManager = ChapterManager(chapterParser: parserMock)
-        chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
+        let chapterManager = ChapterManager(chapterParser: parserMock, showInfoCoordinator: showInfoCoordinatorMock)
+        await chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
         chapterManager.updateCurrentChapter(time: 10)
 
         let nextVisiblePlayableChapter = chapterManager.nextVisiblePlayableChapter()
@@ -65,8 +67,9 @@ class ChapterManagerTests: XCTestCase {
     }
 
     /// Update the current chapter given a TimeInterval
-    func testReturnPreviousVisiblePlayableChapter() {
+    func testReturnPreviousVisiblePlayableChapter() async {
         featureFlagMock.set(.deselectChapters, value: true)
+        let showInfoCoordinatorMock = ShowInfoCoordinatorMock()
         let parserMock = PodcastChapterParserMock()
         parserMock.chapters = [
             chapterInfo(startTime: 0, duration: 100, shouldPlay: true),
@@ -76,8 +79,8 @@ class ChapterManagerTests: XCTestCase {
             chapterInfo(startTime: 401, duration: 500, shouldPlay: true),
             chapterInfo(startTime: 501, duration: 600, shouldPlay: false)
         ]
-        let chapterManager = ChapterManager(chapterParser: parserMock)
-        chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
+        let chapterManager = ChapterManager(chapterParser: parserMock, showInfoCoordinator: showInfoCoordinatorMock)
+        await chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
         chapterManager.updateCurrentChapter(time: 450)
 
         let nextVisiblePlayableChapter = chapterManager.previousVisibleChapter()
@@ -86,8 +89,9 @@ class ChapterManagerTests: XCTestCase {
     }
 
     /// If the Feature Flag is false then everything should be played
-    func testEverythingShouldPlay() {
+    func testEverythingShouldPlay() async {
         featureFlagMock.set(.deselectChapters, value: false)
+        let showInfoCoordinatorMock = ShowInfoCoordinatorMock()
         let parserMock = PodcastChapterParserMock()
         parserMock.chapters = [
             chapterInfo(startTime: 0, duration: 100, shouldPlay: true),
@@ -97,8 +101,8 @@ class ChapterManagerTests: XCTestCase {
             chapterInfo(startTime: 401, duration: 500, shouldPlay: true),
             chapterInfo(startTime: 501, duration: 600, shouldPlay: false)
         ]
-        let chapterManager = ChapterManager(chapterParser: parserMock)
-        chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
+        let chapterManager = ChapterManager(chapterParser: parserMock, showInfoCoordinator: showInfoCoordinatorMock)
+        await chapterManager.parseChapters(episode: EpisodeMock(), duration: 600)
         chapterManager.updateCurrentChapter(time: 450)
 
         XCTAssertEqual(chapterManager.playableChapterCount(), 6)
@@ -118,6 +122,24 @@ class PodcastChapterParserMock: PodcastChapterParser {
 
     override func parseRemoteFile(_ remoteUrl: String, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
         completion(chapters)
+    }
+
+    override func parseRemoteFile(_ remoteUrl: String, episodeDuration: TimeInterval) async -> [ChapterInfo] {
+        chapters
+    }
+}
+
+private class ShowInfoCoordinatorMock: ShowInfoCoordinating {
+    func loadShowNotes(podcastUuid: String, episodeUuid: String) async throws -> String {
+        ""
+    }
+
+    func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String) async throws -> String? {
+        nil
+    }
+
+    func loadChapters(podcastUuid: String, episodeUuid: String) async throws -> ([PocketCastsDataModel.Episode.Metadata.EpisodeChapter]?, [podcasts.PodcastIndexChapter]?) {
+        (nil, nil)
     }
 }
 
