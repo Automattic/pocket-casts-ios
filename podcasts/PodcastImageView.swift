@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import UIKit
+import PocketCastsUtils
 
 class PodcastImageView: UIView {
     private var shadowView: UIView?
@@ -28,7 +29,7 @@ class PodcastImageView: UIView {
         guard let imageView = imageView else { return }
 
         Task {
-            if Settings.loadEmbeddedImages, let episodeArtworkUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
+            if FeatureFlag.episodeFeedArtwork.enabled, Settings.loadEmbeddedImages, let episodeArtworkUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
                 ImageManager.sharedManager.loadImage(url: episodeArtworkUrl, imageView: imageView, size: size, showPlaceHolder: true)
                 adjustForSize(size)
             } else {
