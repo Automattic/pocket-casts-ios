@@ -119,6 +119,13 @@ class ImageManager {
         imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
     }
 
+    func loadImage(url urlString: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
+        let url = URL(string: urlString)!
+        let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
+        let processor = (Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default) |> DownsamplingImageProcessor(size: CGSize(width: ImageManager.sizeFor(imageSize: size), height: ImageManager.sizeFor(imageSize: size)))
+        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
+    }
+
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
         if loadEmbeddedImageIfRequired(in: episode, into: imageView) {
             return
