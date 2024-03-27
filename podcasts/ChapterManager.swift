@@ -15,7 +15,7 @@ class ChapterManager {
     var numberOfChaptersSkipped = 0
 
     var currentChapters = Chapters()
-    
+
     private var playableChapters: [ChapterInfo] {
         visibleChapters.filter { $0.isPlayable() }
     }
