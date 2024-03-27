@@ -24,6 +24,20 @@ class PodcastImageView: UIView {
         adjustForSize(size)
     }
 
+    func setEpisode(_ episode: Episode, size: PodcastThumbnailSize) {
+        guard let imageView = imageView else { return }
+
+        Task {
+            if let episodeArtworkUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
+                ImageManager.sharedManager.loadImage(url: episodeArtworkUrl, imageView: imageView, size: size, showPlaceHolder: true)
+                adjustForSize(size)
+            } else {
+                ImageManager.sharedManager.loadImage(podcastUuid: episode.parentIdentifier(), imageView: imageView, size: size, showPlaceHolder: true)
+                adjustForSize(size)
+            }
+        }
+    }
+
     func setImageManually(image: UIImage?, size: PodcastThumbnailSize) {
         imageView?.image = image
         adjustForSize(size)
