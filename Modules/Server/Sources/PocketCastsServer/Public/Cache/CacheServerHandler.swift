@@ -11,11 +11,7 @@ public class CacheServerHandler {
     private let showNotesUrlCache: URLCache
     private let colorsUrlsCache: URLCache
 
-    private lazy var episodeInfoHandler = EpisodeInfoHandler()
-
-    public static var newShowNotesEndpoint: Bool = false
-
-    public static var episodeFeedArtwork: Bool = false
+    private lazy var episodeInfoHandler = ShowInfoDataRetriever()
 
     private let tokenHelper = TokenHelper.shared
 
@@ -27,14 +23,6 @@ public class CacheServerHandler {
     // MARK: - Show Notes
 
     public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
-        guard !Self.newShowNotesEndpoint else {
-            Task { [weak self] in
-                let result = await self?.episodeInfoHandler.loadShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-                completion?(result)
-            }
-            return
-        }
-
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/show_notes/\(episodeUuid)")
         let request = URLRequest(url: url)
 
@@ -65,18 +53,6 @@ public class CacheServerHandler {
     }
 
     // MARK: - Episode Artwork
-
-    public func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String, completion: ((String?) -> Void)?) {
-        guard Self.newShowNotesEndpoint, Self.episodeFeedArtwork else {
-            completion?(nil)
-            return
-        }
-
-        Task { [weak self] in
-            let result = await self?.episodeInfoHandler.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-            completion?(result)
-        }
-    }
 
     public func loadPodcastColors(podcastUuid: String, allowCachedVersion: Bool, completion: @escaping ((String?, String?, String?) -> Void)) {
         let url = ServerHelper.colorUrl(podcastUuid: podcastUuid)

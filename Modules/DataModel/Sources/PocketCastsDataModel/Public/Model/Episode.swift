@@ -175,4 +175,9 @@ public class Episode: NSObject, BaseEpisode {
     override public var hash: Int {
         taggableId()
     }
+
+    public struct Metadata: Decodable {
+        public let showNotes: String?
+        public let image: String?
+    }
 }
