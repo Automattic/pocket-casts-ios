@@ -1606,6 +1606,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>存取權限結束時間：%1$@</string>
     <key>podcast_access_ends</key>
     <string>存取權限預計結束時間：%1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast 與節目</string>
     <key>podcast_archive_all</key>
     <string>全部封存</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1757,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>從最舊到最新</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>從最短到最長</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>標題 (A-Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>標題 (Z-A)</string>
     <key>podcasts_large_grid</key>
     <string>大方格</string>
     <key>podcasts_layout</key>
@@ -2627,6 +2633,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>升級至 %1$@</string>
     <key>upgrade_to_plus</key>
     <string>升級至 Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>標題 (A-Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>標題 (Z-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>最長到最短</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>最短到最長</string>
     <key>volume_boost</key>
     <string>音量增強</string>
     <key>volume_boost_description</key>
