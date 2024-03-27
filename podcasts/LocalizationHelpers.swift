@@ -88,8 +88,6 @@ public extension String {
             return L10n.discoverBrowseByCategoryTvAndFilm
 
         // Abbreviated categories
-        case "health":
-            return L10n.discoverBrowseByCategoryHealth
         case "family":
             return L10n.discoverBrowseByCategoryFamily
         case "spirituality":

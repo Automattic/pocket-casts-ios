@@ -98,7 +98,7 @@ struct NowPlayingControls: View {
                 case 0 ... 8:
                     Image("upnext-\(viewModel.upNextCount)")
                 default:
-                    Image("upnext-9+")
+                    Image("upnext-9-plus")
                 }
             }
         }

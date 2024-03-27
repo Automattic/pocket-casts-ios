@@ -42,8 +42,12 @@ class ChaptersViewController: PlayerItemViewController {
     func scrollToCurrentlyPlayingChapter(animated: Bool) {
         let currentChapter = PlaybackManager.shared.currentChapters()
 
+        guard let index = playbackManager.index(for: currentChapter) else {
+            return
+        }
+
         // scroll far enough to at least see the current chapter + a few more
-        chaptersTable.scrollToRow(at: IndexPath(item: currentChapter.index, section: 0), at: .middle, animated: animated)
+        chaptersTable.scrollToRow(at: IndexPath(item: index, section: 0), at: .middle, animated: animated)
     }
 
     private func addObservers() {
@@ -54,7 +58,7 @@ class ChaptersViewController: PlayerItemViewController {
         addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update))
         addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(update))
         addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update))
-        addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(enableOrDisableChapterSelection))
+        addCustomObserver(ServerNotifications.iapPurchaseCompleted, selector: #selector(enableOrDisableChapterSelectionIfUserJustPurchased))
     }
 
     @objc private func update() {
@@ -62,7 +66,7 @@ class ChaptersViewController: PlayerItemViewController {
         updateColors()
     }
 
-    @objc private func enableOrDisableChapterSelection() {
+    @objc private func enableOrDisableChapterSelectionIfUserJustPurchased() {
         DispatchQueue.main.async { [weak self] in
             self?.isTogglingChapters = PaidFeature.deselectChapters.isUnlocked ? true : false
             self?.header.isTogglingChapters = self?.isTogglingChapters ?? false
@@ -74,5 +78,6 @@ class ChaptersViewController: PlayerItemViewController {
     private func updateColors() {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         chaptersTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        header.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
     }
 }

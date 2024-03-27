@@ -56,7 +56,7 @@ extension Podcast {
             if FeatureFlag.newSettingsStorage.enabled {
                 return settings.episodesSortOrder
             } else {
-                return PodcastEpisodeSortOrder(rawValue: episodeSortOrder)
+                return PodcastEpisodeSortOrder(old: PodcastEpisodeSortOrder.Old(rawValue: episodeSortOrder) ?? .newestToOldest)
             }
         }
     }

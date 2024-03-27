@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class ChapterManager {
     private var chapterParser = PodcastChapterParser()
@@ -16,6 +17,10 @@ class ChapterManager {
 
     var currentChapters = Chapters()
 
+    private var playableChapters: [ChapterInfo] {
+        visibleChapters.filter { $0.isPlayable() }
+    }
+
     init(chapterParser: PodcastChapterParser = PodcastChapterParser()) {
         self.chapterParser = chapterParser
     }
@@ -25,7 +30,7 @@ class ChapterManager {
     }
 
     func playableChapterCount() -> Int {
-        visibleChapters.filter { $0.isPlayable() }.count
+        playableChapters.count
     }
 
     func haveTriedToParseChaptersFor(episodeUuid: String?) -> Bool {
@@ -72,6 +77,14 @@ class ChapterManager {
         visibleChapters.filter({ $0.isPlayable() })[safe: index]
     }
 
+    func index(for chapter: Chapters) -> Int? {
+        guard let visibleChapter = chapter.visibleChapter else {
+            return nil
+        }
+
+        return playableChapters.firstIndex(of: visibleChapter)
+    }
+
     @discardableResult
     func updateCurrentChapter(time: TimeInterval) -> Bool {
         if chapters.count == 0 { return false }
@@ -90,6 +103,11 @@ class ChapterManager {
         // store the last episode uuid we were asked to check chapters for, we use that below in case this method is called multiple times to not return old results
         lastEpisodeUuid = episode.uuid
 
+        guard !FeatureFlag.rssChapters.enabled else {
+            parseLocalAndRemoteChapters(for: episode, duration: duration)
+            return
+        }
+
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             chapterParser.parseLocalFile(episode.pathToDownloadedFile(pathFinder: DownloadManager.shared), episodeDuration: duration) { [weak self] parsedChapters in
                 if self?.lastEpisodeUuid == episode.uuid {
@@ -103,6 +121,52 @@ class ChapterManager {
                 }
             }
         }
+    }
+
+    private func parseLocalAndRemoteChapters(for episode: BaseEpisode, duration: TimeInterval) {
+        Task {
+            // Parse chapters from the file and request external chapters
+            async let fileChaptersAsync = loadChapters(for: episode, duration: duration)
+
+            async let (podloveChaptersAsync, podcastIndexChaptersAsync) = await
+            ShowInfoCoordinator.shared.loadChapters(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+
+            let (fileChapters, podloveChapters, podcastIndexChapters) = try await (fileChaptersAsync, podloveChaptersAsync, podcastIndexChaptersAsync)
+
+            // Once both arrives, check the one with more chapters to display
+            var chapters: [ChapterInfo]
+            if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, duration: duration) {
+                chapters = externalChapters.count >= fileChapters.count ? externalChapters : fileChapters
+            } else {
+                chapters = fileChapters
+            }
+
+            if lastEpisodeUuid == episode.uuid {
+                handleChaptersLoaded(chapters, for: episode)
+            }
+        }
+    }
+
+    private func loadChapters(for episode: BaseEpisode, duration: TimeInterval) async -> [ChapterInfo] {
+        if episode.downloaded(pathFinder: DownloadManager.shared) {
+            return await chapterParser.parseLocalFile(episode.pathToDownloadedFile(pathFinder: DownloadManager.shared), episodeDuration: duration)
+        } else if let url = EpisodeManager.urlForEpisode(episode) {
+            return await chapterParser.parseRemoteFile(url.absoluteString, episodeDuration: duration)
+        }
+
+        return []
+    }
+
+    private func parseExternalChapters(podlove: [Episode.Metadata.EpisodeChapter]?, podcastIndex: [PodcastIndexChapter]?, duration: TimeInterval) -> [ChapterInfo]? {
+        if let podcastIndex {
+            return chapterParser.parsePodcastIndexChapters(podcastIndex, episodeDuration: duration)
+        }
+
+        if let podlove {
+            return chapterParser.parsePodloveChapters(podlove, episodeDuration: duration)
+        }
+
+        return nil
     }
 
     func clearChapterInfo() {

@@ -125,7 +125,7 @@ class Theme: ObservableObject {
             if FeatureFlag.newSettingsStorage.enabled {
                 SettingsStore.appSettings.theme = activeTheme
             }
-            UserDefaults.standard.set(activeTheme.rawValue, forKey: Theme.themeKey)
+            UserDefaults.standard.set(activeTheme.old.rawValue, forKey: Theme.themeKey)
 
             // if the user is changing from or to the radioactive theme, we need to clear our memory cache because processing is applied to these images
             if oldValue == .radioactive || activeTheme == .radioactive {
@@ -144,7 +144,7 @@ class Theme: ObservableObject {
             if savedTheme == 0 && UserDefaults.standard.object(forKey: Constants.UserDefaults.shouldFollowSystemThemeKey) == nil {
                 Settings.setShouldFollowSystemTheme(true)
             }
-            activeTheme = ThemeType(rawValue: Int32(savedTheme)) ?? .light
+            activeTheme = ThemeType(old: ThemeType.Old(rawValue: savedTheme) ?? .light)
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(systemThemeDidChange(_:)), name: Constants.Notifications.systemThemeMayHaveChanged, object: nil)

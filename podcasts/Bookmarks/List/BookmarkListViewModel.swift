@@ -105,6 +105,13 @@ extension BookmarkListViewModel {
         toggleMultiSelection()
     }
 
+    func shareSelectedBookmarks() {
+        guard let bookmark = selectedItems.first else { return }
+
+        router?.bookmarkShare(bookmark)
+        toggleMultiSelection()
+    }
+
     func sorted(by option: BookmarkSortOption) {
         sortOption = option
         reload()
