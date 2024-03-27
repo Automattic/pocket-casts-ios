@@ -1602,6 +1602,8 @@ ACTUALITZACIONS</string>
     <string>Accés acabat: %1$@</string>
     <key>podcast_access_ends</key>
     <string>L'accés s'acaba: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast i episodi</string>
     <key>podcast_archive_all</key>
     <string>Arxiva-ho tot</string>
     <key>podcast_archive_all_played</key>
@@ -1750,6 +1752,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Del més antic al més nou</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Del més curt al més llarg</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>Títol (A-Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>Títol (Z-A)</string>
     <key>podcasts_large_grid</key>
     <string>Graella gran</string>
     <key>podcasts_layout</key>
@@ -2621,6 +2627,14 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Actualitza a %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Actualitzar a Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>Títol (A-Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>Títol (Z-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>De més llarg a més curt</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>De més curt a més llarg</string>
     <key>volume_boost</key>
     <string>Pujar el volum</string>
     <key>volume_boost_description</key>

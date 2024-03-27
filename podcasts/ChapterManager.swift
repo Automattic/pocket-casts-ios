@@ -16,6 +16,10 @@ class ChapterManager {
 
     var currentChapters = Chapters()
 
+    private var playableChapters: [ChapterInfo] {
+        visibleChapters.filter { $0.isPlayable() }
+    }
+
     init(chapterParser: PodcastChapterParser = PodcastChapterParser()) {
         self.chapterParser = chapterParser
     }
@@ -25,7 +29,7 @@ class ChapterManager {
     }
 
     func playableChapterCount() -> Int {
-        visibleChapters.filter { $0.isPlayable() }.count
+        playableChapters.count
     }
 
     func haveTriedToParseChaptersFor(episodeUuid: String?) -> Bool {
@@ -70,6 +74,14 @@ class ChapterManager {
 
     func playableChapterAt(index: Int) -> ChapterInfo? {
         visibleChapters.filter({ $0.isPlayable() })[safe: index]
+    }
+
+    func index(for chapter: Chapters) -> Int? {
+        guard let visibleChapter = chapter.visibleChapter else {
+            return nil
+        }
+
+        return playableChapters.firstIndex(of: visibleChapter)
     }
 
     @discardableResult
