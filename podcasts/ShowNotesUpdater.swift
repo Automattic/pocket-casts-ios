@@ -6,7 +6,8 @@ class ShowNotesUpdater {
     class func updateShowNotesInBackground(podcastUuid: String, episodeUuid: String) {
         if FeatureFlag.newShowNotesEndpoint.enabled {
             Task {
-                try? await ShowInfoCoordinator.shared.requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+                // Load the show notes and any available chapters
+                _ = try? await ShowInfoCoordinator.shared.loadChapters(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
             }
             return
         }

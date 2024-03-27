@@ -6,15 +6,18 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     static let shared = ShowInfoCoordinator()
 
     private let dataRetriever: ShowInfoDataRetriever
+    private let podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever
     private let dataManager: DataManager
 
     private var requestingShowInfo: [String: Task<Episode.Metadata?, Error>] = [:]
 
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
+        podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever = PodcastIndexChapterDataRetriever(),
         dataManager: DataManager = .sharedManager
     ) {
         self.dataRetriever = dataRetriever
+        self.podcastIndexChapterRetriever = podcastIndexChapterRetriever
         self.dataManager = dataManager
     }
 
@@ -32,6 +35,20 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     ) async throws -> String? {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
         return metadata?.image
+    }
+
+    public func loadChapters(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?) {
+        let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+
+        if let pocastIndexChapterUrl = metadata?.chaptersUrl,
+            let chapters = try? await podcastIndexChapterRetriever.loadChapters(pocastIndexChapterUrl) {
+            return (nil, chapters.chapters)
+        }
+
+        return (metadata?.chapters, nil)
     }
 
     @discardableResult
