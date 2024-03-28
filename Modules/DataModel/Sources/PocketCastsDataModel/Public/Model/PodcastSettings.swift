@@ -1,15 +1,18 @@
 import PocketCastsUtils
 
 public struct PodcastSettings: JSONCodable, Equatable {
+
+    public static let defaults = PodcastSettings()
+
     @ModifiedDate public var customEffects: Bool = false
 
     @ModifiedDate public var autoStartFrom: Int32 = 0
     @ModifiedDate public var autoSkipLast: Int32 = 0
 
     // Playback Effects
-    @ModifiedDate public var trimSilence: TrimSilence
-    @ModifiedDate public var boostVolume: Bool
-    @ModifiedDate public var playbackSpeed: Double
+    @ModifiedDate public var trimSilence: TrimSilence = .off
+    @ModifiedDate public var boostVolume: Bool = false
+    @ModifiedDate public var playbackSpeed: Double = 1
 
     @ModifiedDate public var notification: Bool = false
 
@@ -25,8 +28,4 @@ public struct PodcastSettings: JSONCodable, Equatable {
     @ModifiedDate public var episodesSortOrder: PodcastEpisodeSortOrder = .newestToOldest
     @ModifiedDate public var episodeGrouping: PodcastGrouping = .none
     @ModifiedDate public var showArchived: Bool = false
-
-    public static var defaults: Self {
-        return PodcastSettings(trimSilence: .off, boostVolume: false, playbackSpeed: 1)
-    }
 }
