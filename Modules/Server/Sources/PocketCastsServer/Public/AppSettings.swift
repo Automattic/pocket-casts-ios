@@ -4,28 +4,30 @@ import PocketCastsDataModel
 /// Model type for synced & stored App Settings
 public struct AppSettings: JSONCodable {
 
+    public static let defaults = AppSettings()
+
     // MARK: - General
-    @ModifiedDate public var openLinks: Bool
+    @ModifiedDate public var openLinks: Bool = false
 
-    @ModifiedDate public var rowAction: PrimaryRowAction
+    @ModifiedDate public var rowAction: PrimaryRowAction = .stream
 
-    @ModifiedDate public var episodeGrouping: PodcastGrouping
-    @ModifiedDate public var showArchived: Bool
-    @ModifiedDate public var upNextSwipe: PrimaryUpNextSwipeAction
+    @ModifiedDate public var episodeGrouping: PodcastGrouping = .none
+    @ModifiedDate public var showArchived: Bool = false
+    @ModifiedDate public var upNextSwipe: PrimaryUpNextSwipeAction = .playNext
 
-    @ModifiedDate public var skipForward: Int32
-    @ModifiedDate public var skipBack: Int32
+    @ModifiedDate public var skipForward: Int32 = 45
+    @ModifiedDate public var skipBack: Int32 = 10
 
-    @ModifiedDate public var keepScreenAwake: Bool
-    @ModifiedDate public var openPlayer: Bool
-    @ModifiedDate public var intelligentResumption: Bool
+    @ModifiedDate public var keepScreenAwake: Bool = false
+    @ModifiedDate public var openPlayer: Bool = false
+    @ModifiedDate public var intelligentResumption: Bool = true
 
-    @ModifiedDate public var playUpNextOnTap: Bool
-    @ModifiedDate public var playbackActions: Bool
-    @ModifiedDate public var legacyBluetooth: Bool
-    @ModifiedDate public var multiSelectGesture: Bool
-    @ModifiedDate public var chapterTitles: Bool
-    @ModifiedDate public var autoPlayEnabled: Bool
+    @ModifiedDate public var playUpNextOnTap: Bool = false
+    @ModifiedDate public var playbackActions: Bool = false
+    @ModifiedDate public var legacyBluetooth: Bool = false
+    @ModifiedDate public var multiSelectGesture: Bool = true
+    @ModifiedDate public var chapterTitles: Bool = true
+    @ModifiedDate public var autoPlayEnabled: Bool = true
 
     @ModifiedDate public var notifications: Bool = false
 
@@ -38,9 +40,9 @@ public struct AppSettings: JSONCodable {
 
     // MARK: Playback Effects
 
-    @ModifiedDate public var volumeBoost: Bool
-    @ModifiedDate public var trimSilence: TrimSilence
-    @ModifiedDate public var playbackSpeed: Double
+    @ModifiedDate public var volumeBoost: Bool = false
+    @ModifiedDate public var trimSilence: TrimSilence = .off
+    @ModifiedDate public var playbackSpeed: Double = 1
 
     @ModifiedDate public var playerBookmarksSortType: BookmarksSort = .newestToOldest
     @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
@@ -82,31 +84,8 @@ public struct AppSettings: JSONCodable {
 
     @ModifiedDate public var useDarkUpNextTheme: Bool = true
     @ModifiedDate public var autoPlayLastListUuid: AutoPlaySource = .uuid("")
-
-    static var defaults: AppSettings {
-        return AppSettings(openLinks: false,
-                           rowAction: .stream,
-                           episodeGrouping: .none,
-                           showArchived: false,
-                           upNextSwipe: .playNext,
-                           skipForward: 45,
-                           skipBack: 10,
-                           keepScreenAwake: false,
-                           openPlayer: false,
-                           intelligentResumption: true,
-                           playUpNextOnTap: false,
-                           playbackActions: false,
-                           legacyBluetooth: false,
-                           multiSelectGesture: true,
-                           chapterTitles: true,
-                           autoPlayEnabled: true,
-                           volumeBoost: false,
-                           trimSilence: .off,
-                           playbackSpeed: 0
-        )
-    }
 }
 
 extension SettingsStore<AppSettings> {
-    public static internal(set) var appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
+    public static internal(set) var appSettings = SettingsStore(key: "app_settings", value: AppSettings())
 }
