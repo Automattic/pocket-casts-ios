@@ -54,6 +54,21 @@ let widgetColorSchemeContrast = PCWidgetColorScheme(
     filterViewIconAssetName: "logo_red_small"
 )
 
+let widgetColorSchemeContrastDark = PCWidgetColorScheme(
+    topBackgroundColor: widgetRedDark,
+    bottomBackgroundColor: widgetBlack,
+    topButtonBackgroundColor: .white,
+    bottomButtonBackgroundColor: widgetRedDark,
+    topTextColor: .white,
+    bottomTextColor: .white,
+    topButtonTextColor: widgetRedDark,
+    bottomButtonTextColor: widgetBlack,
+    iconAssetName: "logo_white_small_transparent",
+    filterViewBackgroundColor: widgetBlack,
+    filterViewTextColor: .white,
+    filterViewIconAssetName: "logo_red_small"
+)
+
 let widgetColorSchemeContrastNowPlaying = PCWidgetColorScheme(
     topBackgroundColor: widgetColorSchemeContrast.topBackgroundColor,
     bottomBackgroundColor: widgetColorSchemeContrast.bottomBackgroundColor,
@@ -66,6 +81,21 @@ let widgetColorSchemeContrastNowPlaying = PCWidgetColorScheme(
     iconAssetName: "logo_red_small",
     filterViewBackgroundColor: .white, // not used in now playing
     filterViewTextColor: .white, // not used in now playing,
+    filterViewIconAssetName: "logo_red_small" // not used in now playing
+)
+
+let widgetColorSchemeContrastNowPlayingDark = PCWidgetColorScheme(
+    topBackgroundColor: widgetColorSchemeContrastDark.topBackgroundColor,
+    bottomBackgroundColor: widgetColorSchemeContrastDark.bottomBackgroundColor,
+    topButtonBackgroundColor: widgetColorSchemeContrastDark.bottomButtonBackgroundColor,
+    bottomButtonBackgroundColor: widgetColorSchemeContrastDark.bottomButtonBackgroundColor,
+    topTextColor: widgetColorSchemeContrastDark.topTextColor,
+    bottomTextColor: widgetColorSchemeContrastDark.bottomTextColor,
+    topButtonTextColor: widgetColorSchemeContrastDark.bottomButtonTextColor,
+    bottomButtonTextColor: widgetColorSchemeContrastDark.bottomButtonTextColor,
+    iconAssetName: "logo_red_small",
+    filterViewBackgroundColor: widgetColorSchemeContrastDark.filterViewBackgroundColor, // not used in now playing
+    filterViewTextColor: widgetColorSchemeContrastDark.filterViewTextColor, // not used in now playing,
     filterViewIconAssetName: "logo_red_small" // not used in now playing
 )
 

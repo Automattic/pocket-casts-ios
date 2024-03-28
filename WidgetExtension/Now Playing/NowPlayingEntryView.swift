@@ -7,20 +7,27 @@ struct NowPlayingWidgetEntryView: View {
 
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
-    @Environment(\.widgetColorScheme) var colorScheme
+    @Environment(\.colorScheme) var colorScheme
+    var widgetColorSchemeLight: PCWidgetColorScheme
+    var widgetColorSchemeDark: PCWidgetColorScheme
+    var widgetColorScheme: PCWidgetColorScheme {
+        get {
+            colorScheme == .dark ? widgetColorSchemeDark : widgetColorSchemeLight
+        }
+    }
 
     var body: some View {
         if let playingEpisode = entry.episode {
             ZStack {
                 if showsWidgetBackground {
-                    Rectangle().fill(colorScheme.bottomBackgroundColor)
+                    Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
                 }
                 VStack(alignment: .leading, spacing: 10) {
                     HStack(alignment: .top) {
                         LargeArtworkView(imageData: playingEpisode.imageData)
                             .frame(width: 64, height: 64)
                         Spacer()
-                        Image(colorScheme.iconAssetName)
+                        Image(widgetColorScheme.iconAssetName)
                             .frame(width: 28, height: 28)
                             .unredacted()
                     }
@@ -29,7 +36,7 @@ struct NowPlayingWidgetEntryView: View {
                     Text(playingEpisode.episodeTitle)
                         .font(.footnote)
                         .fontWeight(.semibold)
-                        .foregroundColor(colorScheme.bottomTextColor)
+                        .foregroundColor(widgetColorScheme.bottomTextColor)
                         .lineLimit(1)
                         .frame(height: 12, alignment: .center)
                         .layoutPriority(1)
@@ -42,29 +49,29 @@ struct NowPlayingWidgetEntryView: View {
                                 Text(L10n.nowPlaying)
                                     .font(.caption2)
                                     .fontWeight(.bold)
-                                    .foregroundColor(colorScheme.topButtonTextColor)
+                                    .foregroundColor(widgetColorScheme.topButtonTextColor)
                             } else {
                                 Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                                     .font(.caption2)
                                     .fontWeight(.bold)
-                                    .foregroundColor(colorScheme.topButtonTextColor)
+                                    .foregroundColor(widgetColorScheme.topButtonTextColor)
                                     .layoutPriority(1)
                             }
                         }
-                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: colorScheme))
+                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
                         .padding(bottomTextPadding)
                     } else {
                         if entry.isPlaying {
                             Text(L10n.nowPlaying)
                                 .font(.caption2)
                                 .fontWeight(.medium)
-                                .foregroundColor(colorScheme.bottomTextColor.opacity(0.6))
+                                .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
                                 .padding(bottomTextPadding)
                         } else {
                             Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                                 .font(.caption2)
                                 .fontWeight(.medium)
-                                .foregroundColor(colorScheme.bottomTextColor.opacity(0.6))
+                                .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
                                 .padding(bottomTextPadding)
                                 .layoutPriority(1)
                         }
@@ -143,15 +150,18 @@ struct NowPlayingWidgetEntryView: View {
 struct NowPlayingEntryView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true))
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true), widgetColorSchemeLight: widgetColorSchemeBold,
+                widgetColorSchemeDark: widgetColorSchemeBold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Episode Playing")
 
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false))
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false), widgetColorSchemeLight: widgetColorSchemeBold,
+                widgetColorSchemeDark: widgetColorSchemeBold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Episode Paused")
 
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true))
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true), widgetColorSchemeLight: widgetColorSchemeBold,
+                widgetColorSchemeDark: widgetColorSchemeBold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Nothing Playing")
         }
