@@ -17,6 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ccgus/fmdb.git", from: "2.0.0"),
+        .package(url: "https://github.com/SwiftyLab/MetaCodable.git", from: "1.3.0"),
         .package(path: "../Utils/")
     ],
     targets: [
@@ -24,6 +25,7 @@ let package = Package(
             name: "PocketCastsDataModel",
             dependencies: [
                 .product(name: "FMDB", package: "fmdb"),
+                .product(name: "MetaCodable", package: "MetaCodable"),
                 .product(name: "PocketCastsUtils", package: "Utils")
             ],
             path: "Sources"
