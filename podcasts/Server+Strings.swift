@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import PocketCastsDataModel
 
 public extension SubscriptionHelper {
     class func subscriptionFrequency() -> String {

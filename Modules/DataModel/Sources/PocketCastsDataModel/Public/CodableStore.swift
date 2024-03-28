@@ -3,11 +3,11 @@ import PocketCastsUtils
 
 @propertyWrapper
 /// Stores a Codable value in UserDefaults,. The `Settings` type provides the User Defaults for writing to so it can be overridden globally.
-struct CodableStore<Value: JSONCodable, Settings: SettingsStore<Value>> {
+public struct CodableStore<Value: JSONCodable, Settings: SettingsStore<Value>> {
     let key: String
     let defaultValue: Value
 
-    var wrappedValue: Value {
+    public var wrappedValue: Value {
         get { fatalError("Wrapped value should not be used.") }
         set { fatalError("Wrapped value should not be used.") }
     }
@@ -18,7 +18,7 @@ struct CodableStore<Value: JSONCodable, Settings: SettingsStore<Value>> {
         self.key = key
     }
 
-    static subscript(
+    public static subscript(
         _enclosingInstance instance: Settings,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<Settings, Value>,
         storage storageKeyPath: ReferenceWritableKeyPath<Settings, Self>
