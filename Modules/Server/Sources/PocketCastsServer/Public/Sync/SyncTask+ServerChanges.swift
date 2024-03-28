@@ -96,7 +96,7 @@ extension SyncTask {
                 podcast.autoArchiveEpisodeLimit = 0
                 podcast.subscribed = 0
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
-                podcast.settings = PodcastSettings.defaults
+                podcast.settings = PodcastSettings()
                 if FeatureFlag.settingsSync.enabled {
                     podcast.processSettings(podcastItem.settings)
                 }

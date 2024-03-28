@@ -52,7 +52,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var refreshAvailable = false
     @objc public var folderUuid: String?
 
-    public var settings: PodcastSettings = PodcastSettings.defaults
+    public var settings: PodcastSettings = PodcastSettings()
 
     // transient not saved to database
     public var cachedUnreadCount = 0
