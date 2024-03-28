@@ -62,7 +62,7 @@ let widgetColorSchemeContrastDark = PCWidgetColorScheme(
     topTextColor: .white,
     bottomTextColor: .white,
     topButtonTextColor: widgetRedDark,
-    bottomButtonTextColor: widgetBlack,
+    bottomButtonTextColor: .white,
     iconAssetName: "logo_white_small_transparent",
     filterViewBackgroundColor: widgetBlack,
     filterViewTextColor: .white,
