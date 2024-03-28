@@ -29,7 +29,7 @@ public enum RefreshFetchResult: UInt {
     case failed = 2
 }
 
-public enum AutoAddLimitReachedAction: Int32 {
+public enum AutoAddLimitReachedAction: Int32, Codable {
     case stopAdding = 0, addToTopOnly = 1
 }
 
@@ -61,4 +61,124 @@ extension SubscriptionTier: Comparable {
 
 public enum PrimaryRowAction: Int32, Codable {
     case stream = 0, download = 1
+}
+
+public enum PrimaryUpNextSwipeAction: Int32, Codable {
+    case playNext = 0, playLast = 1
+}
+
+public enum AppBadge: Int32, Codable {
+    case off = 0, totalUnplayed = 1, newSinceLastOpened = 2, filterCount = 10
+}
+
+public enum HeadphoneControl: Int32, Codable {
+    case addBookmark = 0
+    case skipBack = 1
+    case skipForward = 2
+    case nextChapter = 3
+    case previousChapter = 4
+}
+
+/// Android uses different numberic values for these, thus the specific numbers specified here. See `Old` for the original values we used.
+public enum ThemeType: Int32, CaseIterable, Codable {
+    case light = 0
+    case dark = 1
+    case extraDark = 2
+    case electric = 7
+    case classic = 8
+    case indigo = 4
+    case radioactive = 9
+    case rosé = 3
+    case contrastLight = 6
+    case contrastDark = 5
+
+    public init(old: Old) {
+        switch old {
+        case .light:
+            self = .light
+        case .dark:
+            self = .dark
+        case .extraDark:
+            self = .extraDark
+        case .electric:
+            self = .electric
+        case .classic:
+            self = .classic
+        case .indigo:
+            self = .indigo
+        case .radioactive:
+            self = .radioactive
+        case .rosé:
+            self = .rosé
+        case .contrastLight:
+            self = .contrastLight
+        case .contrastDark:
+            self = .contrastDark
+        }
+    }
+
+    public var old: Old {
+        switch self {
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        case .extraDark:
+            return .extraDark
+        case .electric:
+            return .electric
+        case .classic:
+            return .classic
+        case .indigo:
+            return .indigo
+        case .radioactive:
+            return .radioactive
+        case .rosé:
+            return .rosé
+        case .contrastLight:
+            return .contrastLight
+        case .contrastDark:
+            return .contrastDark
+        }
+    }
+
+    /// This Old enum provides the original Int values so we can restore and continue to save the original values.
+    public enum Old: Int {
+        case light = 0, dark, extraDark, electric, classic, indigo, radioactive, rosé, contrastLight, contrastDark
+    }
+}
+
+public enum AutoPlaySource: Codable, RawRepresentable, Equatable {
+    public typealias RawValue = String
+
+    public init?(rawValue: String) {
+        switch rawValue {
+        case "downloads":
+            self = .downloads
+        case "files":
+            self = .files
+        case "starred":
+            self = .starred
+        default:
+            self = .uuid(rawValue)
+        }
+    }
+
+    public var rawValue: String {
+        switch self {
+        case .uuid(let uuid):
+            return uuid
+        case .downloads:
+            return "downloads"
+        case .files:
+            return "files"
+        case .starred:
+            return "starred"
+        }
+    }
+
+    case uuid(String)
+    case downloads
+    case files
+    case starred
 }

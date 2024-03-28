@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 extension MiniPlayerViewController {
     func hideMiniPlayer(_ animated: Bool) {
@@ -40,9 +41,9 @@ extension MiniPlayerViewController {
     func openFullScreenPlayer(completion: (() -> Void)? = nil) {
         guard PlaybackManager.shared.currentEpisode() != nil else { return }
 
-        if playerOpenState == .open || playerOpenState == .animating { return }
-
         guard !FeatureFlag.newPlayerTransition.enabled else {
+            if fullScreenPlayer?.presentingViewController != nil || fullScreenPlayer?.isBeingPresented == true { return }
+
             aboutToDisplayFullScreenPlayer()
 
             fullScreenPlayer?.modalPresentationStyle = .custom
@@ -68,6 +69,8 @@ extension MiniPlayerViewController {
             return
         }
 
+        if playerOpenState == .open || playerOpenState == .animating { return }
+
         playerOpenState = .animating
         aboutToDisplayFullScreenPlayer()
         view.superview?.layoutIfNeeded()
@@ -88,13 +91,13 @@ extension MiniPlayerViewController {
     }
 
     func closeFullScreenPlayer(completion: (() -> Void)? = nil) {
-        if playerOpenState == .closed || playerOpenState == .animating {
-            completion?()
-
-            return
-        }
-
         guard !FeatureFlag.newPlayerTransition.enabled else {
+            if fullScreenPlayer?.presentingViewController == nil || fullScreenPlayer?.isBeingDismissed == true {
+                completion?()
+
+                return
+            }
+
             playerOpenState = .animating
 
             rootViewController()?.dismiss(animated: true) {
@@ -103,6 +106,12 @@ extension MiniPlayerViewController {
                 Analytics.track(.playerDismissed)
                 completion?()
             }
+            return
+        }
+
+        if playerOpenState == .closed || playerOpenState == .animating {
+            completion?()
+
             return
         }
 

@@ -1,10 +1,11 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import PocketCastsServer
 
 /// Reponsible for handling the Autoplay of episodes
 class AutoplayHelper {
-    enum Playlist: Codable, AnalyticsDescribable {
+    enum Playlist: Codable, AnalyticsDescribable, Equatable {
         case podcast(uuid: String)
         case filter(uuid: String)
         case downloads
@@ -37,6 +38,30 @@ class AutoplayHelper {
 
     /// Returns the latest playlist that the user played an episode from
     var lastPlaylist: Playlist? {
+        if FeatureFlag.newSettingsStorage.enabled {
+            switch SettingsStore.appSettings.autoPlayLastListUuid {
+            case .downloads:
+                return .downloads
+            case .files:
+                return .files
+            case .starred:
+                return .starred
+            case .uuid(let uuid):
+                guard uuid.isEmpty == false else {
+                    return nil
+                }
+                if DataManager.sharedManager.findFilter(uuid: uuid) != nil {
+                    return .filter(uuid: uuid)
+                } else {
+                    return .podcast(uuid: uuid)
+                }
+            }
+        } else {
+            return userDefaultsPlaylist
+        }
+    }
+
+    var userDefaultsPlaylist: Playlist? {
         let lastPlaylist = userDefaults.data(forKey: userDefaultsKey).flatMap {
             try? JSONDecoder().decode(Playlist.self, from: $0)
         }
@@ -83,6 +108,15 @@ class AutoplayHelper {
     }
 
     private func save(selectedPlaylist playlist: Playlist?) {
+
+        if FeatureFlag.newSettingsStorage.enabled {
+            if let playlist {
+                SettingsStore.appSettings.autoPlayLastListUuid = AutoPlaySource(playlist: playlist)
+            } else {
+                SettingsStore.appSettings.autoPlayLastListUuid = .uuid("")
+            }
+        }
+
         guard let playlist else {
             userDefaults.removeObject(forKey: userDefaultsKey)
             FileLog.shared.addMessage("Autoplay: reset the last playlist")
@@ -97,4 +131,21 @@ class AutoplayHelper {
         FileLog.shared.addMessage("Autoplay: saving the latest playlist: \(playlist)")
     }
     #endif
+}
+
+extension AutoPlaySource {
+    init(playlist: AutoplayHelper.Playlist) {
+        switch playlist {
+        case .podcast(uuid: let uuid):
+            self = .uuid(uuid)
+        case .filter(uuid: let uuid):
+            self = .uuid(uuid)
+        case .downloads:
+            self = .downloads
+        case .files:
+            self = .files
+        case .starred:
+            self = .starred
+        }
+    }
 }

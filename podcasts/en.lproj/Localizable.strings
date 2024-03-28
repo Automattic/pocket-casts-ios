@@ -1704,6 +1704,9 @@
 /* Indicates that the access to the podcast will end on the specified date. '%1$@' is a placeholder for date that the access will end. */
 "podcast_access_ends" = "Access ends: %1$@";
 
+/* Sort option for bookmarks that uses Podcast name and Episodes dates*/
+"podcast_and_episode" = "Podcast & Episode";
+
 /* Prompt to archive all of the selected items. */
 "podcast_archive_all" = "Archive All";
 
@@ -1910,6 +1913,12 @@
 
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
+
+/* Episodes will be displayed in order from the longest to the shortest. */
+"podcasts_episode_sort_title_a_to_z" = "Title (A-Z)";
+
+/* Episodes will be displayed in order from the longest to the shortest. */
+"podcasts_episode_sort_title_z_to_a" = "Title (Z-A)";
 
 /* Episodes will be displayed in order from the longest to the shortest. */
 "podcasts_episode_sort_longest_to_shortest" = "Longest to Shortest";
@@ -3076,8 +3085,17 @@
 /* Description shown when your Up Next list is empty. Note that for non right to left languages "right" should be change to "left" (and translated) */
 "up_next_empty_description" = "You can queue episodes to play next by swiping right on episode rows, or tapping the icon on an episode card.";
 
-/* An alphabetical sort option for uploaded files. */
-"upload_sort_alpha" = "Title (A-Z)";
+/* A descending alphabetical sort option for uploaded files. */
+"upload_sort_alpha_a_to_z" = "Title (A-Z)";
+
+/* An ascending alphabetical sort option for uploaded files. */
+"upload_sort_alpha_z_to_a" = "Title (Z-A)";
+
+/* A duration (shortest to longest) sort option for uploaded files. */
+"upload_sort_shortest_to_longest" = "Shortest to longest";
+
+/* A duration (longest to shortest) sort option for uploaded files. */
+"upload_sort_longest_to_shortest" = "Longest to shortest";
 
 /* A common string used throughout the app. Informs the user that the app is waiting for wifi to reconnect. */
 "wait_for_wifi" = "Waiting for WiFi";
@@ -3983,20 +4001,56 @@
 /* Accessibility hint to indicate to users that tapping on the podcast will navigate to podcast information page */
 "accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
 
+/* Label that toggles the option for the user to choose which chapters of the podcast they want to skip (to not be played) */
+"skip_chapters" = "Skip chapters";
+
+/* Indicates the number of chapters in a podcast episode. %1$@ is the number of chapters. */
+"number_of_chapters" = "%1$@ chapters";
+
+/* Singular indication of number of chapters */
+"single_chapter" = "1 chapter";
+
+/* Message indicating at least one chapter needs to be selected */
+"select_a_chapter" = "Please select at least one chapter";
+
+/* Indicates the number of hidden chapters in a podcast episode. %1$@ is the number of hidden chapters. */
+"number_of_hidden_chapters" = "%1$@ hidden";
+
+/* Prompt for Plus mentioning Skip Chapters, don't translate Pocket Casts Plus */
+"skip_chapters_plus_prompt" = "Skip chapters and more with Pocket Casts Plus";
+
+/* Prompt for Plus mentioning Skip Chapters, don't translate Pocket Casts Patron */
+"skip_chapters_patron_prompt" = "Skip chapters and more with Pocket Casts Patron";
+
 /* Slumber Studios partnership feature announcement title */
 "announcement_slumber_title" = "Dream big";
 
 /* Slumber Studios partnership announcement description for subscribed users */
-"announcement_slumber_plus_description" = "As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
+"announcement_slumber_plus_description" = "As part of your Yearly Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.";
 
 /* Should match the "Learn more" translation on announcement_slumber_plus_description and announcement_slumber_non_plus_description */
 "announcement_slumber_plus_description_learn_more" = "Learn more";
 
 /* Slumber Studios partnership announcement description for non-subscribed users */
-"announcement_slumber_non_plus_description" = "Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
+"announcement_slumber_non_plus_description" = "Subscribe to Plus Yearly and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.";
 
 /* Button label for a feature the user can redeem using a code */
 "announcement_slumber_redeem" = "Redeem your code";
 
 /* Message shown when the code is copied to clipboard */
 "announcement_slumber_code_copied" = "Code copied to clipboard";
+
+/* Announcement of Skip Chapters for Patron users */
+"announcement_deselect_chapters_patron" = "As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.";
+
+/* Announcement of Skip Chapters for Plus users */
+"announcement_deselect_chapters_plus" = "As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.";
+
+/* Announcement of Skip Chapters for free users */
+"announcement_deselect_chapters_free" = "Subscribe to Plus now so you can select and skip chapters in any episode that supports them.";
+
+/* Used in a button meaning that the user undestood the message. */
+"got_it" = "Got it";
+
+/* Prompting the user to upgrade to Plus. Don't translate "Plus" */
+"upgrade_to_plus" = "Upgrade to Plus";

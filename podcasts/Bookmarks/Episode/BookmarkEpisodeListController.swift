@@ -18,7 +18,7 @@ class BookmarkEpisodeListController: ThemedHostingController<BookmarkEpisodeList
 
         let viewModel = BookmarkEpisodeListViewModel(episode: episode,
                                                       bookmarkManager: bookmarkManager,
-                                                      sortOption: Constants.UserDefaults.bookmarks.episodeSort)
+                                                      sortOption: Settings.episodeBookmarksSort)
         viewModel.analyticsSource = (episode is Episode) ? .episodes : .files
 
         self.viewModel = viewModel
@@ -50,6 +50,15 @@ extension BookmarkEpisodeListController: BookmarkListRouter {
                                                          state: .updating)
 
         controller.source = viewModel.analyticsSource
+
+        present(controller, animated: true)
+    }
+
+    func bookmarkShare(_ bookmark: Bookmark) {
+        guard let episode = bookmark.episode as? Episode else {
+            return
+        }
+        let controller = SharingHelper.shared.createActivityController(episode: episode, shareTime: bookmark.time)
 
         present(controller, animated: true)
     }

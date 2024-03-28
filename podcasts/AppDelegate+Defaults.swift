@@ -126,6 +126,13 @@ extension AppDelegate {
             }
         }
 
+        if FeatureFlag.newSettingsStorage.enabled {
+            performUpdateIfRequired(updateKey: "MigrateToSyncedSettings") {
+                SettingsStore.appSettings.importUserDefaults()
+                DataManager.sharedManager.importPodcastSettings()
+            }
+        }
+
         defaults.synchronize()
     }
 

@@ -5,7 +5,6 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
-import StoreKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -53,17 +52,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         GoogleCastManager.sharedManager.setup()
 
-        SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
-        CacheServerHandler.newShowNotesEndpoint = FeatureFlag.newShowNotesEndpoint.enabled
-        CacheServerHandler.episodeFeedArtwork = FeatureFlag.episodeFeedArtwork.enabled
-
         setupRoutes()
 
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
         checkDefaults()
 
-        NotificationsHelper.shared.handleAppLaunch()
+        NotificationsHelper.shared.register(checkToken: false)
 
         DispatchQueue.global().async { [weak self] in
             self?.postLaunchSetup()
@@ -79,18 +74,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupBackgroundRefresh()
 
-        SKPaymentQueue.default().add(IAPHelper.shared)
-
-        // Request the IAP products on launch
-        if SubscriptionHelper.hasActiveSubscription() == false {
-            IAPHelper.shared.requestProductInfo()
-        }
+        IAPHelper.shared.setup(hasSubscription: SubscriptionHelper.hasActiveSubscription())
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
+
+        logStaleDownloads()
 
         return true
     }
@@ -163,7 +155,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         badgeHelper.teardown()
         shortcutManager.stopListeningForShortcutChanges()
 
-        SKPaymentQueue.default().remove(IAPHelper.shared)
+        IAPHelper.shared.tearDown()
         UIApplication.shared.endReceivingRemoteControlEvents()
     }
 
@@ -171,7 +163,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NavigationManager.sharedManager.miniPlayer
     }
 
-    func openEpisode(_ episodeUuid: String, from podcast: Podcast) {
+    func openEpisode(_ episodeUuid: String, from podcast: Podcast, timestamp: TimeInterval? = nil) {
         DispatchQueue.main.async {
             self.hideProgressDialog()
 
@@ -182,8 +174,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 return
             }
+            var data: [String: Any] = [NavigationManager.episodeUuidKey: episode.uuid]
+            if let timestamp {
+                data[NavigationManager.episodeTimestamp] = timestamp
+            }
 
-            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid])
+            NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: data as NSDictionary)
         }
     }
 
@@ -271,7 +267,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // we user remote config for varies parameters in the app we want to be able to set remotely. Here we set the defaults, then fetch new ones
         let remoteConfig = RemoteConfig.remoteConfig()
-        remoteConfig.setDefaults([
+        var remoteConfigDefaults = [
             Constants.RemoteParams.periodicSaveTimeMs: NSNumber(value: Constants.RemoteParams.periodicSaveTimeMsDefault),
             Constants.RemoteParams.episodeSearchDebounceMs: NSNumber(value: Constants.RemoteParams.episodeSearchDebounceMsDefault),
             Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
@@ -281,8 +277,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
             Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
             Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
-            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault)
-        ])
+            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault),
+            Constants.RemoteParams.slumberStudiosPromoCode: NSString(string: Constants.RemoteParams.slumberStudiosPromoCodeDefault)
+        ]
+        FeatureFlag.allCases.filter { $0.remoteKey != nil }.forEach { flag in
+            remoteConfigDefaults[flag.remoteKey!] = NSNumber(value: flag.default)
+        }
+        remoteConfig.setDefaults(remoteConfigDefaults)
 
         remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
             if status == .success {
@@ -296,7 +297,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func updateRemoteFeatureFlags() {
-        #if !DEBUG
+        guard BuildEnvironment.current != .debug else { return }
         do {
             if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
                 // If the player transition changes we dismiss the full screen player
@@ -310,14 +311,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 try FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
             }
 
-            SyncManager.shouldUseNewSettingsSync = FeatureFlag.settingsSync.enabled
+            if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
+                if FeatureFlag.newSettingsStorage.enabled {
+                    SettingsStore.appSettings.importUserDefaults()
+                    DataManager.sharedManager.importPodcastSettings()
+                }
+            }
 
-            // If the flag is off and we're turning it on we won't have the product info yet so we'll ask for them again
-            IAPHelper.shared.requestProductInfoIfNeeded()
+            try FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
+
+            try FeatureFlag.allCases.forEach { flag in
+                if let remoteKey = flag.remoteKey {
+                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey).boolValue
+                    try FeatureFlagOverrideStore().override(flag, withValue: remoteValue)
+                }
+            }
         } catch {
             FileLog.shared.addMessage("Failed to set remote feature flag: \(error)")
         }
-        #endif
     }
 
     private func updateEndOfYearRemoteValue() {

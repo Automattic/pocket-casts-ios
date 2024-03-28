@@ -656,6 +656,42 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 43 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN deselectedChapters TEXT;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN settings TEXT NOT NULL DEFAULT '';", values: nil)
+                schemaVersion = 43
+            } catch {
+                failedAt(43)
+                return
+            }
+        }
+
+        if schemaVersion < 44 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN deselectedChaptersModified INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 44
+            } catch {
+                failedAt(44)
+                return
+            }
+        }
+
+        if schemaVersion < 45 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE EpisodeMetadata (
+                        episodeUuid TEXT PRIMARY KEY,
+                        metadata TEXT NOT NULL
+                    );
+                """, values: nil)
+                schemaVersion = 45
+            } catch {
+                failedAt(45)
+                return
+            }
+        }
+
         db.commit()
     }
 }

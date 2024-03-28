@@ -43,9 +43,15 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var lastArchiveInteractionDate: Date?
     @objc public var excludeFromEpisodeLimit = false
     @objc public var hasOnlyUuid = false
+    @objc public var deselectedChapters: String?
+    @objc public var deselectedChaptersModified = 0 as Int64
 
     public var hasBookmarks: Bool {
         DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+    }
+
+    public var isUserEpisode: Bool {
+        false
     }
 
     override public init() {}
@@ -130,10 +136,6 @@ public class Episode: NSObject, BaseEpisode {
         podcastUuid
     }
 
-    public func jumpToOnStart() -> TimeInterval {
-        TimeInterval(parentPodcast()?.startFrom ?? 0)
-    }
-
     // MARK: - Meta
 
     @objc public func videoPodcast() -> Bool {
@@ -172,5 +174,22 @@ public class Episode: NSObject, BaseEpisode {
 
     override public var hash: Int {
         taggableId()
+    }
+
+    public struct Metadata: Decodable {
+        public let showNotes: String?
+        public let image: String?
+
+        /// Podlove chapters
+        public let chapters: [EpisodeChapter]?
+
+        /// Podcast Index chapters
+        public let chaptersUrl: String?
+
+        public struct EpisodeChapter: Decodable {
+            public let startTime: TimeInterval
+            public let title: String?
+            public let endTime: TimeInterval?
+        }
     }
 }

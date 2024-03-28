@@ -39,6 +39,8 @@
     <string>エピソードの再生</string>
     <key>accessibility_hide_filter_details</key>
     <string>タップしてフィルターの詳細を非表示</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>タップしてメインのポッドキャスト情報ページに移動します</string>
     <key>accessibility_hint_star</key>
     <string>ダブルタップしてエピソードに星を付ける</string>
     <key>accessibility_hint_unstar</key>
@@ -151,6 +153,24 @@
     <string>ブックマークはこちら !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>ブックマークのベータテストに参加してください !</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>今すぐ Plus に登録すると、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできます。</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Patron サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Plus サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>コードをクリップボードにコピーしました</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Plus の年間購読を開始すると、夢の実現に役立つポッドキャスト、Slumber Studios のコンテンツを1年間購読できます。 さらに詳しく。</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Plus の年間購読の一環として、Slumber Studios のコンテンツを1年間購読できます。コード %1$@ をお使いください。 さらに詳しく。</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>さらに詳しく</string>
+    <key>announcement_slumber_redeem</key>
+    <string>コードを引き換える</string>
+    <key>announcement_slumber_title</key>
+    <string>夢は大きく</string>
     <key>app_badge</key>
     <string>アプリバッジ</string>
     <key>app_icon_classic</key>
@@ -359,6 +379,8 @@
     <string>次のエピソードをクリア</string>
     <key>clear_up_next_message</key>
     <string>次のエピソード待機リストをクリアしてもよろしいですか ?</string>
+    <key>client_error_token_deauth</key>
+    <string>トークンを認証できませんでした。</string>
     <key>close</key>
     <string>閉じる</string>
     <key>color</key>
@@ -1065,6 +1087,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>その間、%1$@件のツイートが投稿されました。 すごい ! すごい ! 🐣</string>
     <key>go_to_podcast</key>
     <string>ポッドキャストに移動</string>
+    <key>got_it</key>
+    <string>OK</string>
     <key>group_episodes</key>
     <string>エピソードをグループ化</string>
     <key>history_clear_all</key>
@@ -1287,6 +1311,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@を再生中</string>
     <key>now_playing_short_title</key>
     <string>再生中</string>
+    <key>number_of_chapters</key>
+    <string>%1$@個のチャプター</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@個が非表示</string>
     <key>off</key>
     <string>オフ</string>
     <key>ok</key>
@@ -1462,6 +1490,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>いつでもキャンセルできます</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@GB のクラウドストレージ</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>初年度は50%% オフ</string>
     <key>plus_error_already_registered</key>
     <string>お客様はすでに Pocket Casts Plus アカウントを保有しています</string>
     <key>plus_error_already_registered_details</key>
@@ -1470,14 +1500,20 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@に期限切れ</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts をお使いの皆さまに感謝の気持ちを込めて</string>
+    <key>plus_feature_slumber</key>
+    <string>Slumber Studios の限定コンテンツを1年間聴取可能</string>
     <key>plus_feature_themes_icons</key>
     <string>追加のテーマとアプリアイコン</string>
     <key>plus_features</key>
     <string>Plus の機能</string>
     <key>plus_free_membership_format</key>
-    <string>%1$@無料</string>
+    <string>%1$@ の無料お試し</string>
     <key>plus_lifetime_membership</key>
     <string>無期限メンバー</string>
+    <key>plus_marketing_desktop_apps_title</key>
+    <string>デスクトップアプリとウェブアプリ</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>フォルダーとブックマーク</string>
     <key>plus_marketing_folders_description</key>
     <string>フォルダーを作成してポッドキャストのコレクションを整理できます。</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1500,6 +1536,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Pocket Casts の Windows 版、macOS 版、ウェブ版アプリでさらに多くの場所で聞きましょう</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>ポッドキャストをフォルダーに整理し、すべてのデバイス間で同期させます。</string>
+    <key>plus_marketing_watch_playback_title</key>
+    <string>Apple Watch アプリと Wear OS アプリ</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@/ 月</string>
     <key>plus_payment_canceled</key>
@@ -1568,6 +1606,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アクセス権終了日: %1$@</string>
     <key>podcast_access_ends</key>
     <string>アクセス権終了予定日: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>ポッドキャストとエピソード</string>
     <key>podcast_archive_all</key>
     <string>すべてアーカイブ</string>
     <key>podcast_archive_all_played</key>
@@ -1717,6 +1757,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>古い順</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>短い順</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>タイトル (アルファベット昇順)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>タイトル (アルファベット降順)</string>
     <key>podcasts_large_grid</key>
     <string>大型グリッド</string>
     <key>podcasts_layout</key>
@@ -1741,10 +1785,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ポッドキャストを並び替え</string>
     <key>preview</key>
     <string>プレビュー</string>
+    <key>pricing_terms_after_discount</key>
+    <string>%2$@ (%3$@) 経過後に %1$@ の定期支払いが発生します</string>
     <key>pricing_terms_after_trial</key>
     <string>以降 %1$@</string>
     <key>pricing_terms_after_trial_long</key>
-    <string>後に定期支払いが発生します%1$@無料お試し</string>
+    <string>%1$@ のお試し期間 (%2$@) 後に定期支払いが発生します</string>
     <key>profile</key>
     <string>プロフィール</string>
     <key>profile_help_support</key>
@@ -1785,6 +1831,18 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>残り時間: %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>合計残り時間: %1$@</string>
+    <key>rate</key>
+    <string>評価する</string>
+    <key>rating_error</key>
+    <string>エラー。 エラーが発生しました。</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>このポッドキャストを評価できるのは、リスナーのみです。 いくつかエピソードを聴いた後、こちらで評価してください。 ご意見をお待ちしています。</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>まずこちらのポッドキャストをお聴きください</string>
+    <key>rating_submitted</key>
+    <string>評価を送信しました。</string>
+    <key>rating_title</key>
+    <string>%1$@ を評価</string>
     <key>refresh_control_fetching_episodes</key>
     <string>新しいポッドキャストエピソードを検索しています</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1855,6 +1913,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>節約秒数</string>
     <key>select</key>
     <string>選択</string>
+    <key>select_a_chapter</key>
+    <string>チャプターを少なくとも1つ選択してください</string>
     <key>select_all</key>
     <string>すべて選択</string>
     <key>select_all_above</key>
@@ -2323,6 +2383,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ログインアカウント:</string>
     <key>signed_out</key>
     <string>ログインしていません</string>
+    <key>single_chapter</key>
+    <string>1個のチャプター</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>スリープタイマーを %1$@ に設定</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2365,6 +2427,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ポッドキャストのショートカットを作成</string>
     <key>skip_back</key>
     <string>巻き戻し</string>
+    <key>skip_chapters</key>
+    <string>チャプターをスキップ</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Pocket Casts Patron でチャプターのスキップやその他の機能を利用</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Pocket Casts Plus でチャプターのスキップやその他の機能を利用</string>
     <key>skip_forward</key>
     <string>早送り</string>
     <key>sleep_timer</key>
@@ -2469,6 +2537,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@にサブスクリプションをキャンセル済み </string>
     <key>subscription_expires_in</key>
     <string>%1$@に期限切れ</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ / %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>ご支援いただきありがとうございます。</string>
     <key>support_watch_help_message</key>
@@ -2561,8 +2631,16 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アカウントをアップグレード</string>
     <key>upgrade_to_plan</key>
     <string>%1$@ にアップグレード</string>
-    <key>upload_sort_alpha</key>
-    <string>タイトル (アルファベット順)</string>
+    <key>upgrade_to_plus</key>
+    <string>Plus にアップグレード</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>タイトル (アルファベット昇順)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>タイトル (アルファベット降順)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>長い順</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>短い順</string>
     <key>volume_boost</key>
     <string>ボリュームブースト</string>
     <key>volume_boost_description</key>

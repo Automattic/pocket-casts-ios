@@ -451,8 +451,8 @@ class WatchManager: NSObject, WCSessionDelegate {
             nowPlayingInfo[WatchConstants.Keys.nowPlayingSpeed] = effects.playbackSpeed
         }
 
-        nowPlayingInfo[WatchConstants.Keys.nowPlayingSkipBackAmount] = ServerSettings.skipBackTime()
-        nowPlayingInfo[WatchConstants.Keys.nowPlayingSkipForwardAmount] = ServerSettings.skipForwardTime()
+        nowPlayingInfo[WatchConstants.Keys.nowPlayingSkipBackAmount] = Settings.skipBackTime
+        nowPlayingInfo[WatchConstants.Keys.nowPlayingSkipForwardAmount] = Settings.skipForwardTime
 
         return nowPlayingInfo
     }
@@ -498,8 +498,8 @@ class WatchManager: NSObject, WCSessionDelegate {
         podcastsWithOverride.forEach {
             var podcastSettings = [String: Any]()
             podcastSettings[WatchConstants.Keys.podcastUuid] = $0.uuid
-            podcastSettings[WatchConstants.Keys.podcastOverrideGlobalArchive] = $0.overrideGlobalArchive
-            podcastSettings[WatchConstants.Keys.podcastAutoArchivePlayedAfter] = $0.autoArchivePlayedAfter
+            podcastSettings[WatchConstants.Keys.podcastOverrideGlobalArchive] = $0.isAutoArchiveOverridden
+            podcastSettings[WatchConstants.Keys.podcastAutoArchivePlayedAfter] = $0.autoArchivePlayedAfterTime
             podcastArchiveSettings.append(podcastSettings)
         }
         return podcastArchiveSettings

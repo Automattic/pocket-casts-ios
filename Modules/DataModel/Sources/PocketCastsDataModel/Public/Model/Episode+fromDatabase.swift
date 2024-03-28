@@ -41,6 +41,8 @@ extension Episode {
         episode.lastArchiveInteractionDate = DBUtils.convertDate(value: rs.double(forColumn: "lastArchiveInteractionDate"))
         episode.excludeFromEpisodeLimit = rs.bool(forColumn: "excludeFromEpisodeLimit")
         episode.starredModified = rs.longLongInt(forColumn: "starredModified")
+        episode.deselectedChapters = rs.string(forColumn: "deselectedChapters")
+        episode.deselectedChaptersModified = rs.longLongInt(forColumn: "deselectedChaptersModified")
         return episode
     }
 }

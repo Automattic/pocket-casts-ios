@@ -48,6 +48,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     var gridItems = [HomeGridListItem]()
+    var gridLayout: LibraryType = Settings.libraryType()
 
     private var lastWillLayoutWidth: CGFloat = 0
 
@@ -202,10 +203,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             let newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder(), badgeType: Settings.podcastBadgeType())
 
             DispatchQueue.main.sync {
-                let stagedSet = StagedChangeset(source: oldData, target: newData)
-                strongSelf.podcastsCollectionView.reload(using: stagedSet, setData: { data in
-                    strongSelf.gridItems = data
-                })
+                if strongSelf.gridLayout != Settings.libraryType() {
+                    strongSelf.podcastsCollectionView.reloadData()
+                    strongSelf.gridLayout = Settings.libraryType()
+                } else {
+                    let stagedSet = StagedChangeset(source: oldData, target: newData)
+                    strongSelf.podcastsCollectionView.reload(using: stagedSet, setData: { data in
+                        strongSelf.gridItems = data
+                    })
+                }
                 strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
             }
         }

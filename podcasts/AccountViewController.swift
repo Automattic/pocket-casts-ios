@@ -68,6 +68,9 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         title = ""
+        if FeatureFlag.newAccountUpgradePromptFlow.enabled {
+            OnboardingFlow.shared.reset()
+        }
     }
 
     deinit {

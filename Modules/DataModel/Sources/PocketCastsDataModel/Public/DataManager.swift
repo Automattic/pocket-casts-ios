@@ -359,6 +359,10 @@ public class DataManager {
         return episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
 
+    public func findPlayedEpisodes(uuids: [String]) -> [String] {
+        episodeManager.findPlayedEpisodes(uuids: uuids, dbQueue: dbQueue)
+    }
+
     public func markAllEpisodePlaybackHistorySynced() {
         episodeManager.markAllEpisodePlaybackHistorySynced(dbQueue: dbQueue)
     }
@@ -404,6 +408,18 @@ public class DataManager {
 
     public func episodesWithListenHistory(limit: Int) -> [Episode] {
         episodeManager.episodesWithListenHistory(limit: limit, dbQueue: dbQueue)
+    }
+
+    public func failedDownloadedEpisodesCount() -> Int {
+        episodeManager.failedDownloadEpisodeCount(dbQueue: dbQueue)
+    }
+
+    public func oldestFailedEpisodeDownload() -> Date? {
+        episodeManager.failedDownloadFirstDate(dbQueue: dbQueue, sortOrder: .reverse)
+    }
+
+    public func newestFailedEpisodeDownload() -> Date? {
+        episodeManager.failedDownloadFirstDate(dbQueue: dbQueue, sortOrder: .forward)
     }
 
     public func findDownloadedEpisodes() -> [BaseEpisode] {
@@ -463,6 +479,12 @@ public class DataManager {
     // returns true if the save succeeded, false otherwise
     public func saveIfNotModified(playingStatus: PlayingStatus, episodeUuid: String) -> Bool {
         episodeManager.saveIfNotModified(playingStatus: playingStatus, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    }
+
+    // returns true if the save succeeded, false otherwise
+    @discardableResult
+    public func saveIfNotModified(chapters: String, remoteModified: Int64, episodeUuid: String) -> Bool {
+        episodeManager.saveIfNotModified(chapters: chapters, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
     public func saveEpisode(playedUpTo: Double, episode: BaseEpisode, updateSyncFlag: Bool) {
@@ -911,12 +933,20 @@ public class DataManager {
         let pushOnCount = DataManager.sharedManager.count(query: pushOnQuery, values: nil)
         let totalCount = (DataManager.sharedManager.count(query: totalQuery, values: nil) - 1) // -1 because the podcast we're currently adding could be returned by this query
         if totalCount > 0, pushOnCount >= totalCount {
-            podcast.pushEnabled = true
+            podcast.isPushEnabled = true
         } else {
-            podcast.pushEnabled = false
+            podcast.isPushEnabled = false
         }
 
         DataManager.sharedManager.save(podcast: podcast)
+    }
+
+    public func pushEnabledPodcastsCount() -> Int {
+        if FeatureFlag.newSettingsStorage.enabled {
+            DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE json_extract(settings, '$.notification.value') = ? AND subscribed = 1", values: [true])
+        } else {
+            DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
+        }
     }
 }
 
@@ -981,5 +1011,21 @@ public extension DataManager {
 
     func episodesStartedAndCompleted() -> EpisodesStartedAndCompleted {
         endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
+    }
+}
+
+// MARK: - Swift Concurrency
+
+extension DataManager {
+    public func findEpisodeMetadata(uuid: String) async throws -> Episode.Metadata? {
+        try await episodeManager.findEpisodeMetadata(uuid: uuid, dbQueue: dbQueue)
+    }
+}
+
+// MARK: - Show Notes
+
+extension DataManager {
+    public func storeShowInfo(data: Data) async throws {
+        try await episodeManager.storeShowInfo(with: data, dbQueue: dbQueue)
     }
 }

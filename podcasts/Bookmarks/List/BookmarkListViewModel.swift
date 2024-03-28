@@ -1,9 +1,10 @@
 import Combine
 import PocketCastsDataModel
 import PocketCastsServer
+import SwiftUI
 
 class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
-    typealias SortSetting = Constants.SettingValue<BookmarkSortOption>
+    typealias SortSetting = Binding<BookmarkSortOption>
 
     weak var router: BookmarkListRouter?
 
@@ -14,7 +15,7 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
             Analytics.track(.bookmarksSortByChanged, source: analyticsSource, properties: [
                 "sort_order": sortOption
             ])
-            sortSettingValue.save(sortOption)
+            sortSettingValue = sortOption
         }
     }
 
@@ -31,15 +32,15 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
     }
 
     var cancellables = Set<AnyCancellable>()
-    private let sortSettingValue: SortSetting
+    @Binding private var sortSettingValue: BookmarkSortOption
 
     let feature: PaidFeature = .bookmarks
     var analyticsSource: BookmarkAnalyticsSource = .unknown
 
     init(bookmarkManager: BookmarkManager, sortOption: SortSetting) {
         self.bookmarkManager = bookmarkManager
-        self.sortSettingValue = sortOption
-        self.sortOption = sortOption.value
+        self._sortSettingValue = sortOption
+        self.sortOption = sortOption.wrappedValue
 
         super.init()
 
@@ -101,6 +102,13 @@ extension BookmarkListViewModel {
         guard let bookmark = selectedItems.first else { return }
 
         router?.bookmarkEdit(bookmark)
+        toggleMultiSelection()
+    }
+
+    func shareSelectedBookmarks() {
+        guard let bookmark = selectedItems.first else { return }
+
+        router?.bookmarkShare(bookmark)
         toggleMultiSelection()
     }
 
@@ -199,6 +207,8 @@ private extension BookmarkSortOption {
             return L10n.sortOptionTimestamp
         case .episode:
             return L10n.episode
+        case .podcastAndEpisode:
+            return L10n.podcastAndEpisode
         }
     }
 }

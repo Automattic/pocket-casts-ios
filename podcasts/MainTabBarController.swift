@@ -3,6 +3,7 @@ import PocketCastsServer
 import SafariServices
 import UIKit
 import Combine
+import PocketCastsUtils
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
     enum Tab { case podcasts, filter, discover, profile }
@@ -207,7 +208,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?) {
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?, timestamp: TimeInterval?) {
         if let navController = selectedViewController as? UINavigationController {
             navController.dismiss(animated: false, completion: nil)
 
@@ -216,7 +217,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
                 if EpisodeLoadingController.needsLoading(uuid: episodeUuid), let podcastUuid {
                     let episodeController = EpisodeLoadingController(episodeUuid: episodeUuid,
-                                                                 podcastUuid: podcastUuid)
+                                                                     podcastUuid: podcastUuid,
+                                                                     timestamp: timestamp)
 
                     let nav = UINavigationController(rootViewController: episodeController)
                     nav.modalPresentationStyle = .formSheet
@@ -224,7 +226,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
                     navController.present(nav, animated: true)
                 } else {
-                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
+                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget, timestamp: timestamp)
                     episodeController.modalPresentationStyle = .formSheet
 
                     navController.present(episodeController, animated: true)
@@ -640,7 +642,7 @@ private extension MainTabBarController {
         let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
         let action = Toast.Action(title: L10n.changeBookmarkTitle) { [weak self] in
-            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle in
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle, cancel in
                 guard title != updatedTitle else { return }
 
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)

@@ -112,6 +112,7 @@ enum AnalyticsEvent: String {
     case profileSettingsButtonTapped
     case profileAccountButtonTapped
     case profileRefreshButtonTapped
+    case profileBookmarksShow
 
     case accountDetailsCancelTapped
     case accountDetailsShowTOS
@@ -223,6 +224,8 @@ enum AnalyticsEvent: String {
     case playbackEffectTrimSilenceToggled
     case playbackEffectTrimSilenceAmountChanged
     case playbackEffectVolumeBoostToggled
+
+    case playbackChapterSkipped
 
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed
@@ -366,6 +369,8 @@ enum AnalyticsEvent: String {
     case episodeDownloadFinished
     case episodeBulkDownloadQueued
     case episodeDownloadCancelled
+    case episodeDownloadFailed
+    case episodeDownloadsStale
 
     case episodeUploadQueued
     case episodeUploadFinished
@@ -661,4 +666,11 @@ enum AnalyticsEvent: String {
     case settingsHeadphoneControlsNextChanged
     case settingsHeadphoneControlsPreviousChanged
     case settingsHeadphoneControlsBookmarkSoundToggled
+
+    // MARK: - Skipping Chapters
+    case deselectChaptersToggledOn
+    case deselectChaptersToggledOff
+    case deselectChaptersChapterSelected
+    case deselectChaptersChapterDeselected
+
 }

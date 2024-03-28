@@ -51,6 +51,10 @@ class ServerSyncManager: ServerSyncDelegate {
         EpisodeManager.markEpisodeAsPlayedExternal(episode)
     }
 
+    func deselectedChaptersChanged() {
+        PlaybackManager.shared.forceUpdateChapterInfo()
+    }
+
     func cleanupAllUnusedEpisodeBuffers() {
         EpisodeManager.cleanupAllUnusedEpisodeBuffers()
     }
@@ -70,6 +74,12 @@ class ServerSyncManager: ServerSyncDelegate {
         PodcastManager.shared.checkForPendingAndAutoDownloads()
         UserEpisodeManager.checkForPendingUploads()
         UserEpisodeManager.checkForPendingCloudDeletes()
+        DispatchQueue.main.async {
+            Analytics.shared.refreshRegistered()
+            PlaybackManager.shared.effectsChangedExternally()
+            Theme.sharedTheme.toggleTheme()
+            NotificationsHelper.shared.register(checkToken: true)
+        }
     }
 
     func cleanupCloudOnlyFiles() {

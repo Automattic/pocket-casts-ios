@@ -170,11 +170,17 @@ internal enum L10n {
   internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
   /// Join us in the beta testing for bookmarks!
   internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
+  /// Subscribe to Plus now so you can select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersFree: String { return L10n.tr("Localizable", "announcement_deselect_chapters_free") }
+  /// As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersPatron: String { return L10n.tr("Localizable", "announcement_deselect_chapters_patron") }
+  /// As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.
+  internal static var announcementDeselectChaptersPlus: String { return L10n.tr("Localizable", "announcement_deselect_chapters_plus") }
   /// Code copied to clipboard
   internal static var announcementSlumberCodeCopied: String { return L10n.tr("Localizable", "announcement_slumber_code_copied") }
-  /// Subscribe to Plus and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.
+  /// Subscribe to Plus Yearly and enjoy a 1-year subscription to Slumber Studios content, podcasts designed for the sweetest dreams. Learn more.
   internal static var announcementSlumberNonPlusDescription: String { return L10n.tr("Localizable", "announcement_slumber_non_plus_description") }
-  /// As part of your Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.
+  /// As part of your Yearly Plus subscription, enjoy a 1-year subscription to Slumber Studios content using code %1$@. Learn more.
   internal static func announcementSlumberPlusDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "announcement_slumber_plus_description", String(describing: p1))
   }
@@ -1242,6 +1248,8 @@ internal enum L10n {
   }
   /// Go to Podcast
   internal static var goToPodcast: String { return L10n.tr("Localizable", "go_to_podcast") }
+  /// Got it
+  internal static var gotIt: String { return L10n.tr("Localizable", "got_it") }
   /// Group Episodes
   internal static var groupEpisodes: String { return L10n.tr("Localizable", "group_episodes") }
   /// Clear All
@@ -1500,6 +1508,14 @@ internal enum L10n {
   }
   /// Playing
   internal static var nowPlayingShortTitle: String { return L10n.tr("Localizable", "now_playing_short_title") }
+  /// %1$@ chapters
+  internal static func numberOfChapters(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "number_of_chapters", String(describing: p1))
+  }
+  /// %1$@ hidden
+  internal static func numberOfHiddenChapters(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "number_of_hidden_chapters", String(describing: p1))
+  }
   /// Off
   internal static var off: String { return L10n.tr("Localizable", "off") }
   /// OK
@@ -1845,6 +1861,8 @@ internal enum L10n {
   internal static func podcastAccessEnds(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_access_ends", String(describing: p1))
   }
+  /// Podcast & Episode
+  internal static var podcastAndEpisode: String { return L10n.tr("Localizable", "podcast_and_episode") }
   /// Archive All
   internal static var podcastArchiveAll: String { return L10n.tr("Localizable", "podcast_archive_all") }
   /// Archive All Played
@@ -2022,6 +2040,10 @@ internal enum L10n {
   internal static var podcastsEpisodeSortOldestToNewest: String { return L10n.tr("Localizable", "podcasts_episode_sort_oldest_to_newest") }
   /// Shortest to Longest
   internal static var podcastsEpisodeSortShortestToLongest: String { return L10n.tr("Localizable", "podcasts_episode_sort_shortest_to_longest") }
+  /// Title (A-Z)
+  internal static var podcastsEpisodeSortTitleAToZ: String { return L10n.tr("Localizable", "podcasts_episode_sort_title_a_to_z") }
+  /// Title (Z-A)
+  internal static var podcastsEpisodeSortTitleZToA: String { return L10n.tr("Localizable", "podcasts_episode_sort_title_z_to_a") }
   /// Large Grid
   internal static var podcastsLargeGrid: String { return L10n.tr("Localizable", "podcasts_large_grid") }
   /// Layout
@@ -2204,6 +2226,8 @@ internal enum L10n {
   internal static var secondsSaved: String { return L10n.tr("Localizable", "seconds_saved") }
   /// Select
   internal static var select: String { return L10n.tr("Localizable", "select") }
+  /// Please select at least one chapter
+  internal static var selectAChapter: String { return L10n.tr("Localizable", "select_a_chapter") }
   /// Select All
   internal static var selectAll: String { return L10n.tr("Localizable", "select_all") }
   /// Select all above
@@ -2712,6 +2736,8 @@ internal enum L10n {
   internal static var signedInAs: String { return L10n.tr("Localizable", "signed_in_as") }
   /// Not Signed In
   internal static var signedOut: String { return L10n.tr("Localizable", "signed_out") }
+  /// 1 chapter
+  internal static var singleChapter: String { return L10n.tr("Localizable", "single_chapter") }
   /// Set sleep timer to %1$@
   internal static func siriShortcutExtendSleepTimer(_ p1: Any) -> String {
     return L10n.tr("Localizable", "siri_shortcut_extend_sleep_timer", String(describing: p1))
@@ -2764,6 +2790,12 @@ internal enum L10n {
   internal static var siriShortcutToPodcast: String { return L10n.tr("Localizable", "siri_shortcut_to_podcast") }
   /// Skip Back
   internal static var skipBack: String { return L10n.tr("Localizable", "skip_back") }
+  /// Skip chapters
+  internal static var skipChapters: String { return L10n.tr("Localizable", "skip_chapters") }
+  /// Skip chapters and more with Pocket Casts Patron
+  internal static var skipChaptersPatronPrompt: String { return L10n.tr("Localizable", "skip_chapters_patron_prompt") }
+  /// Skip chapters and more with Pocket Casts Plus
+  internal static var skipChaptersPlusPrompt: String { return L10n.tr("Localizable", "skip_chapters_plus_prompt") }
   /// Skip Forward
   internal static var skipForward: String { return L10n.tr("Localizable", "skip_forward") }
   /// Sleep Timer
@@ -2980,8 +3012,16 @@ internal enum L10n {
   internal static func upgradeToPlan(_ p1: Any) -> String {
     return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))
   }
+  /// Upgrade to Plus
+  internal static var upgradeToPlus: String { return L10n.tr("Localizable", "upgrade_to_plus") }
   /// Title (A-Z)
-  internal static var uploadSortAlpha: String { return L10n.tr("Localizable", "upload_sort_alpha") }
+  internal static var uploadSortAlphaAToZ: String { return L10n.tr("Localizable", "upload_sort_alpha_a_to_z") }
+  /// Title (Z-A)
+  internal static var uploadSortAlphaZToA: String { return L10n.tr("Localizable", "upload_sort_alpha_z_to_a") }
+  /// Longest to shortest
+  internal static var uploadSortLongestToShortest: String { return L10n.tr("Localizable", "upload_sort_longest_to_shortest") }
+  /// Shortest to longest
+  internal static var uploadSortShortestToLongest: String { return L10n.tr("Localizable", "upload_sort_shortest_to_longest") }
   /// Volume Boost
   internal static var volumeBoost: String { return L10n.tr("Localizable", "volume_boost") }
   /// Voices sound louder

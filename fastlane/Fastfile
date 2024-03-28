@@ -39,7 +39,6 @@ MAIN_BUNDLE_IDENTIFIERS = [
   'au.com.shiftyjelly.podcasts.NotificationExtension',
   'au.com.shiftyjelly.podcasts.NotificationContent',
   'au.com.shiftyjelly.podcasts.watchkitapp',
-  'au.com.shiftyjelly.podcasts.watchkitapp.watchkitextension',
   'au.com.shiftyjelly.podcasts.PodcastsIntents',
   'au.com.shiftyjelly.podcasts.PodcastsIntentsUI',
   'au.com.shiftyjelly.podcasts.WidgetExtension',
@@ -585,7 +584,7 @@ platform :ios do
   # Finalizes a hotfix, by triggering a release build on CI
   #
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
-  lane :finalize_hotfix_release do
+  lane :finalize_hotfix_release do |options|
     # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
     ensure_git_branch(branch: '^release/')
 

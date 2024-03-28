@@ -1,4 +1,5 @@
 import PocketCastsUtils
+import PocketCastsDataModel
 
 /// Helper used to track playback
 class AnalyticsPlaybackHelper: AnalyticsCoordinator {
@@ -60,5 +61,9 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
 
     func volumeBoostToggled(enabled: Bool) {
         track(.playbackEffectVolumeBoostToggled, properties: ["enabled": enabled])
+    }
+
+    func chapterSkipped() {
+        track(.playbackChapterSkipped)
     }
 }

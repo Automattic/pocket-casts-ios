@@ -5,6 +5,7 @@ import PocketCastsUtils
 
 struct Announcements {
     private static let bookmarksViewModel = BookmarkAnnouncementViewModel()
+    private static let chaptersViewModel = DeselectChaptersAnnouncementViewModel()
 
     // Order is important.
     // In the case a user migrates to, let's say, 7.10 to 7.15 and
@@ -38,7 +39,62 @@ struct Announcements {
             },
             displayTier: bookmarksViewModel.displayTier,
             isEnabled: bookmarksViewModel.isReleaseAnnouncementEnabled
-        )
+        ),
+
+        // Slumber Studios partnership
+        .init(
+            version: "7.57",
+            header: AnyView(SlumberWhatsNewHeader()),
+            title: "",
+            message: "",
+            buttonTitle: "",
+            action: {},
+            isEnabled: FeatureFlag.slumber.enabled,
+            fullModal: true,
+            customBody: AnyView(SlumberCustomBody())
+        ),
+
+        // Deselect Chapters (Patron announcement)
+        .init(
+            version: "7.60",
+            header: AnyView(Image("deselect_chapters")),
+            title: L10n.skipChapters,
+            message: L10n.announcementDeselectChaptersPatron,
+            buttonTitle: L10n.gotIt,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: chaptersViewModel.isPatronAnnouncementEnabled,
+            fullModal: true
+        ),
+
+        // Deselect Chapters (Plus on TestFlight announcement)
+        .init(
+            version: "7.60",
+            header: AnyView(Image("deselect_chapters")),
+            title: L10n.skipChapters,
+            message: chaptersViewModel.plusFreeMessage,
+            buttonTitle: chaptersViewModel.plusFreeButtonTitle,
+            action: {
+                chaptersViewModel.buttonAction()
+            },
+            isEnabled: chaptersViewModel.isPlusAnnouncementEnabled,
+            fullModal: true
+        ),
+
+        // Deselect Chapters (Non-Patron general public announcement)
+//        .init(
+//            version: "7.61",
+//            header: AnyView(Image("deselect_chapters")),
+//            title: L10n.skipChapters,
+//            message: chaptersViewModel.plusFreeMessage,
+//            buttonTitle: chaptersViewModel.plusFreeButtonTitle,
+//            action: {
+//                chaptersViewModel.buttonAction()
+//            },
+//            isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
+//            fullModal: true
+//        )
     ]
 }
 

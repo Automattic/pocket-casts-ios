@@ -36,7 +36,9 @@ class EpisodesDataManager {
         let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true)
         var newData = [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
 
-        let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? .newestToOldest
+        let episodeSortOrder = podcast.podcastSortOrder
+
+        let sortOrder = episodeSortOrder ?? .newestToOldest
         switch podcast.podcastGrouping() {
         case .none:
             let episodes = EpisodeTableHelper.loadEpisodes(query: createEpisodesQuery(podcast, uuidsToFilter: uuidsToFilter), arguments: nil)
@@ -76,8 +78,15 @@ class EpisodesDataManager {
 
     func createEpisodesQuery(_ podcast: Podcast, uuidsToFilter: [String]? = nil) -> String {
         let sortStr: String
-        let sortOrder = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder) ?? PodcastEpisodeSortOrder.newestToOldest
+
+        let episodeSortOrder = podcast.podcastSortOrder
+
+        let sortOrder = episodeSortOrder ?? PodcastEpisodeSortOrder.newestToOldest
         switch sortOrder {
+        case .titleAtoZ:
+            sortStr = "ORDER BY title ASC, addedDate"
+        case .titleZtoA:
+            sortStr = "ORDER BY title DESC, addedDate"
         case .newestToOldest:
             sortStr = "ORDER BY publishedDate DESC, addedDate DESC"
         case .oldestToNewest:
@@ -91,7 +100,7 @@ class EpisodesDataManager {
             let inClause = "(\(uuids.map { "'\($0)'" }.joined(separator: ",")))"
             return "podcast_id = \(podcast.id) AND uuid IN \(inClause) \(sortStr)"
         }
-        if !podcast.showArchived {
+        if !podcast.shouldShowArchived {
             return "podcast_id = \(podcast.id) AND archived = 0 \(sortStr)"
         }
 

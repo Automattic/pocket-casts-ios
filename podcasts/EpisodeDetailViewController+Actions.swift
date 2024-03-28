@@ -51,10 +51,21 @@ extension EpisodeDetailViewController {
             if !PlaybackManager.shared.playing() {
                 dismiss(animated: true, completion: nil)
             }
+            if let timestamp = timestamp {
+                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
+                PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)
+                updateProgress()
+            }
 
             PlaybackActionHelper.playPause()
         } else {
             dismiss(animated: true, completion: nil)
+            if let timestamp = timestamp {
+                episode.playingStatus = PlayingStatus.inProgress.rawValue
+                episode.playedUpTo = timestamp
+                DataManager.sharedManager.save(episode: episode)
+                updateProgress()
+            }
             PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
         }
     }
@@ -96,7 +107,7 @@ extension EpisodeDetailViewController {
             downloadBtn.accessibilityLabel = L10n.cancelDownload
         } else {
             downloadBtn.setImage(UIImage(named: "episode-download"), for: .normal)
-            let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
+            let sizeAsStr = episode.sizeInBytes == 0 ? "" : SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
             downloadBtn.setTitle(sizeAsStr == "" ? L10n.download : sizeAsStr, for: .normal)
             downloadBtn.accessibilityLabel = L10n.download
         }
@@ -135,7 +146,10 @@ extension EpisodeDetailViewController {
             if currentTime > 0, duration > 0 {
                 progress = min(1, CGFloat(currentTime / duration))
             }
-        } else if episode.played() {
+        } else if let timestamp {
+            progress = min(1, CGFloat(timestamp / episode.duration))
+        }
+        else if episode.played() {
             progress = 1
         } else if episode.playedUpTo > 0, episode.duration > 0 {
             progress = min(1, CGFloat(episode.playedUpTo / episode.duration))
@@ -155,9 +169,9 @@ extension EpisodeDetailViewController {
             setMessage(title: L10n.downloadFailed, details: episode.downloadErrorDetails ?? L10n.podcastDetailsDownloadError, imageName: "option-alert")
         } else if episode.waitingForWifi() {
             setMessage(title: L10n.waitForWifi, details: L10n.podcastDetailsDownloadWifiQueue, imageName: "waiting-wifi")
-        } else if !episode.archived, episode.excludeFromEpisodeLimit, podcast.autoArchiveEpisodeLimit > 0 {
+        } else if !episode.archived, episode.excludeFromEpisodeLimit, podcast.autoArchiveEpisodeLimitCount > 0 {
             setMessage(title: L10n.podcastDetailsManualUnarchiveTitle,
-                       details: L10n.podcastDetailsManualUnarchiveMsg(podcast.autoArchiveEpisodeLimit.localized()),
+                       details: L10n.podcastDetailsManualUnarchiveMsg(podcast.autoArchiveEpisodeLimitCount.localized()),
                        imageName: "episode-archive")
         } else if buttonBottomOffsetConstraint.constant != 20 {
             messageView.isHidden = true

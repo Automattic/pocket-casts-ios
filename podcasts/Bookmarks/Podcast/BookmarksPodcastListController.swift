@@ -14,7 +14,7 @@ class BookmarksPodcastListController: ThemedHostingController<BookmarksPodcastLi
         self.bookmarkManager = bookmarkManager
         self.playbackManager = playbackManager
 
-        let sortOption = Constants.UserDefaults.bookmarks.podcastSort
+        let sortOption = Settings.podcastBookmarksSort
         let viewModel = BookmarkPodcastListViewModel(podcast: podcast,
                                                       bookmarkManager: bookmarkManager,
                                                       sortOption: sortOption)
@@ -41,6 +41,15 @@ extension BookmarksPodcastListController: BookmarkListRouter {
     func bookmarkEdit(_ bookmark: Bookmark) {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating)
         controller.source = viewModel.analyticsSource
+
+        present(controller, animated: true)
+    }
+
+    func bookmarkShare(_ bookmark: Bookmark) {
+        guard let episode = bookmark.episode as? Episode else {
+            return
+        }
+        let controller = SharingHelper.shared.createActivityController(episode: episode, shareTime: bookmark.time)
 
         present(controller, animated: true)
     }

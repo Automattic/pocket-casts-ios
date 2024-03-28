@@ -1,4 +1,3 @@
-import MaterialComponents.MaterialBottomSheet
 import PocketCastsDataModel
 import PocketCastsUtils
 
@@ -6,11 +5,11 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - TableView DataSource
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        tableData().count
+        tableData.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = tableData()[section]
+        let section = tableData[section]
         switch section {
         case .nowPlayingSection:
             return 1
@@ -22,7 +21,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Section Headers
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard tableData()[section] == .upNextSection, tableData().count > 1 else { return nil }
+        guard tableData[section] == .upNextSection, tableData.count > 1 else { return nil }
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 48))
 
         updateTimeRemainingLabel()
@@ -47,7 +46,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let section = tableData()[section]
+        let section = tableData[section]
         switch section {
         case .nowPlayingSection:
             return 16
@@ -59,7 +58,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Cell Population
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = tableData()[indexPath.section]
+        let section = tableData[indexPath.section]
         if section == .nowPlayingSection {
             let nowPlayingCell = tableView.dequeueReusableCell(withIdentifier: UpNextViewController.nowPlayingCell, for: indexPath) as! UpNextNowPlayingCell
             nowPlayingCell.themeOverride = themeOverride
@@ -90,7 +89,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Selection
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        guard !multiSelectGestureInProgress, tableData()[indexPath.section] == .upNextSection else {
+        guard !multiSelectGestureInProgress, tableData[indexPath.section] == .upNextSection else {
             return indexPath
         }
 
@@ -105,7 +104,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isMultiSelectEnabled, tableData()[indexPath.section] == .upNextSection {
+        if isMultiSelectEnabled, tableData[indexPath.section] == .upNextSection {
             // the cell below is optional because cellForRow only returns a cell if it's visible, and we don't need to tick cells that don't exist
             if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1) {
                 if !multiSelectGestureInProgress {
@@ -123,7 +122,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
-            let section = tableData()[indexPath.section]
+            let section = tableData[indexPath.section]
 
             if section == .nowPlayingSection {
                 track(.upNextNowPlayingTapped)
@@ -164,7 +163,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Rearrange
 
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        let section = tableData()[indexPath.section]
+        let section = tableData[indexPath.section]
         if section == .nowPlayingSection {
             return false
         } else if section == .upNextSection, PlaybackManager.shared.queue.upNextCount() == 0 {
@@ -189,7 +188,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        let toSection = tableData()[proposedDestinationIndexPath.section]
+        let toSection = tableData[proposedDestinationIndexPath.section]
 
         if toSection == .upNextSection { return proposedDestinationIndexPath }
 
@@ -207,7 +206,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Swipe Actions
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        tableData()[indexPath.section] == .upNextSection
+        tableData[indexPath.section] == .upNextSection
     }
 
     // MARK: - Cell Heights
@@ -221,7 +220,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func rowHeightAt(indexPath: IndexPath) -> CGFloat {
-        let section = tableData()[indexPath.section]
+        let section = tableData[indexPath.section]
         if section == .nowPlayingSection { return UpNextViewController.nowPlayingRowHeight }
 
         return PlaybackManager.shared.queue.upNextCount() > 0 ? UpNextViewController.upNextRowHeight : UpNextViewController.noUpNextRowHeight
@@ -246,16 +245,17 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
     // MARK: - Helper Functions
 
-    func tableData() -> [sections] {
+    func refreshSections() {
         var sections: [sections] = [.upNextSection]
 
         if let _ = PlaybackManager.shared.currentEpisode() {
             sections.insert(.nowPlayingSection, at: 0)
         }
-        return sections
+        tableData = sections
     }
 
     @objc func reloadTable() {
+        refreshSections()
         upNextTable.reloadData()
     }
 
@@ -278,18 +278,18 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         // this method is sometimes called during a re-arrange animation. For whatever weird reason doing this as part of that operation causes the table to flash.
         // This is only when the Lottie animation in the the now playing cell is running, so before removing this call, test that case
         DispatchQueue.main.async {
-            self.upNextTable.reloadData()
+            self.reloadTable()
         }
     }
 
     @objc func appDidBecomeActive() {
         // there's a weird issue with the drag handle tints disappearing on the app coming back from being backgrounded, so reload the table in that case
-        upNextTable.reloadData()
+        self.reloadTable()
     }
 
     @objc func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
         let touchPoint = sender.location(in: upNextTable)
-        guard let indexPath = upNextTable.indexPathForRow(at: touchPoint), tableData()[indexPath.section] == .upNextSection,
+        guard let indexPath = upNextTable.indexPathForRow(at: touchPoint), tableData[indexPath.section] == .upNextSection,
               let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
         if sender.state == .began {

@@ -1,6 +1,21 @@
+7.61
+-----
+- Opening a shared podcast episode link with the current position, now opens on the right position. [#5]
+- Allow sharing of bookmarks directly on the bookmarks list. [#1558]
+
+7.60
+-----
+- Profile bookmark screen where all user bookmarks can be managed. [#1500]
+- Fix the player getting stuck and not reopening [#1529]
+- Visually mark played episodes in search results [#928]
+
+7.59
+-----
+- Fixes Push Notification registration after restoring the app from a backup. [#1198]
+
 7.58
 -----
-
+- Fixes an issue where adding a new podcast could fail at the first try. [#1457]
 
 7.57
 -----

@@ -10,8 +10,8 @@ extension UIViewController {
             return presentedViewController.topMostPresentedViewController
         }
 
-        if self is UINavigationController {
-            return navigationController?.visibleViewController?.topMostPresentedViewController
+        if let navigationController = self as? UINavigationController {
+            return navigationController.visibleViewController?.topMostPresentedViewController
         }
 
         return self

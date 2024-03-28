@@ -28,6 +28,9 @@ import Foundation
     var playedUpTo: Double { get set }
     var duration: Double { get set }
 
+    var deselectedChapters: String? { get set }
+    var deselectedChaptersModified: Int64 { get set }
+
     func displayableTitle() -> String
     func parentIdentifier() -> String
 
@@ -49,7 +52,6 @@ import Foundation
     func played() -> Bool
     func unplayed() -> Bool
     func playbackError() -> Bool
-    func jumpToOnStart() -> TimeInterval
 
     // MARK: - Meta Data
 
@@ -60,4 +62,7 @@ import Foundation
 
     // This property is true if the only filled property is the episode's UUID. If true, this object should only be used as a thin wrapper over the UUID.
     var hasOnlyUuid: Bool { get set }
+
+    /// Whether this is a regular episode, or an user episode (File)
+    var isUserEpisode: Bool { get }
 }

@@ -1,6 +1,7 @@
 import XCTest
 @testable import PocketCastsServer
 import SwiftProtobuf
+@testable import PocketCastsUtils
 
 class SyncSettingsTaskTests: XCTestCase {
 
@@ -11,6 +12,11 @@ class SyncSettingsTaskTests: XCTestCase {
     override func setUp() {
         super.setUp()
         UserDefaults.standard.removePersistentDomain(forName: userDefaultsSuiteName)
+        FeatureFlagMock().set(.settingsSync, value: true)
+    }
+
+    override func tearDown() {
+        FeatureFlagMock().reset()
     }
 
     /// Tests sending a request with updates from `SettingsStore`
@@ -19,13 +25,13 @@ class SyncSettingsTaskTests: XCTestCase {
 
         XCTAssertNil(defaults.data(forKey: defaultsKey), "User Defaults data should not exist yet for \(defaultsKey)")
 
-        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings(openLinks: false, rowAction: .stream))
+        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings.defaults)
         let changedValue = true
         let changedDate = Date()
         store.openLinks = changedValue
 
         let expectation = XCTestExpectation(description: "Request method should be called")
-        let task = SyncSettingsTask(shouldUseNewSync: true, appSettings: store, urlConnection: URLConnection { urlRequest in
+        let task = SyncSettingsTask(appSettings: store, urlConnection: URLConnection { urlRequest in
 
             let data = try XCTUnwrap(urlRequest.httpBody, "Request body should exist")
             let request = try Api_NamedSettingsRequest(serializedData: data)
@@ -53,14 +59,14 @@ class SyncSettingsTaskTests: XCTestCase {
 
         XCTAssertNil(defaults.data(forKey: defaultsKey), "User Defaults data should not exist yet for \(defaultsKey)")
 
-        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings(openLinks: false, rowAction: .stream))
+        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings.defaults)
         let changedValue = true
         let changedDate = Date()
 
         XCTAssertFalse(store.openLinks, "Initial value should be false")
 
         let expectation = XCTestExpectation(description: "Request method should be called")
-        let task = SyncSettingsTask(shouldUseNewSync: true, appSettings: store, urlConnection: URLConnection { urlRequest in
+        let task = SyncSettingsTask(appSettings: store, urlConnection: URLConnection { urlRequest in
 
             var serverResponse = Api_NamedSettingsResponse()
             serverResponse.openLinks.value.value = changedValue

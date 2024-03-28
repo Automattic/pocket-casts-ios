@@ -39,6 +39,8 @@
     <string>Riproduzione episodio</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tocca per nascondere i dettagli del filtro</string>
+    <key>accessibility_hint_player_navigate_to_podcast_label</key>
+    <string>Tocca per passare alla pagina di informazioni sui podcast principali</string>
     <key>accessibility_hint_star</key>
     <string>Tocca due volte per assegnare una stella all'episodio</string>
     <key>accessibility_hint_unstar</key>
@@ -151,6 +153,24 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>I segnalibri sono disponibili.</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Unisciti a noi per il beta test della funzionalità dei segnalibri.</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Iscriviti a Plus ora per selezionare e saltare i capitoli in qualsiasi episodio che li supporta.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Grazie al tuo abbonamento a Patron, ora puoi selezionare e saltare i capitoli in qualsiasi episodio che li supporta.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Grazie al tuo abbonamento a Plus, ora puoi selezionare e saltare i capitoli in qualsiasi episodio che li supporta.</string>
+    <key>announcement_slumber_code_copied</key>
+    <string>Codice copiato negli appunti</string>
+    <key>announcement_slumber_non_plus_description</key>
+    <string>Abbonati a Plus annuale e goditi per un anno i contenuti di Slumber Studios, podcast pensati per i sogni più dolci. Scopri di più.</string>
+    <key>announcement_slumber_plus_description</key>
+    <string>Come parte del tuo abbonamento Plus annuale puoi approfittare di un abbonamento di 1 anno ai contenuti di Slumber Studios utilizzando il codice %1$@. Scopri di più.</string>
+    <key>announcement_slumber_plus_description_learn_more</key>
+    <string>Scopri di più</string>
+    <key>announcement_slumber_redeem</key>
+    <string>Riscatta il tuo codice</string>
+    <key>announcement_slumber_title</key>
+    <string>Sogna in grande</string>
     <key>app_badge</key>
     <string>Badge app</string>
     <key>app_icon_classic</key>
@@ -359,6 +379,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Cancella Successivo</string>
     <key>clear_up_next_message</key>
     <string>Desideri cancellare la tua coda Successivo?</string>
+    <key>client_error_token_deauth</key>
+    <string>Autenticazione token non riuscita.</string>
     <key>close</key>
     <string>Chiudi</string>
     <key>color</key>
@@ -1065,6 +1087,8 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Durante questo periodo sono stati "cinguettati" %1$@ tweet. Tweet! Tweet! 🐣</string>
     <key>go_to_podcast</key>
     <string>Vai al podcast</string>
+    <key>got_it</key>
+    <string>Fatto</string>
     <key>group_episodes</key>
     <string>Raggruppa episodi</string>
     <key>history_clear_all</key>
@@ -1287,6 +1311,10 @@ pocast con te</string>
     <string>Riproduzione in corso. %1$@</string>
     <key>now_playing_short_title</key>
     <string>Riproduzione</string>
+    <key>number_of_chapters</key>
+    <string>%1$@ capitoli</string>
+    <key>number_of_hidden_chapters</key>
+    <string>%1$@ nascosto</string>
     <key>off</key>
     <string>Off</string>
     <key>ok</key>
@@ -1462,6 +1490,8 @@ AGGIORNAMENTI</string>
     <string>Può essere annullato in qualsiasi momento</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB di archiviazione su cloud</string>
+    <key>plus_discount_yearly_membership</key>
+    <string>Sconto del 50%% sul primo anno</string>
     <key>plus_error_already_registered</key>
     <string>Disponi già di un account Pocket Casts Plus</string>
     <key>plus_error_already_registered_details</key>
@@ -1470,14 +1500,20 @@ AGGIORNAMENTI</string>
     <string>Scade il giorno %1$@</string>
     <key>plus_feature_gratitude</key>
     <string>La gratitudine di tutti qui a Pocket Casts</string>
+    <key>plus_feature_slumber</key>
+    <string>1 anno di contenuti esclusivi Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
     <string>Temi aggiuntivi e icone delle app</string>
     <key>plus_features</key>
     <string>FUNZIONALITÀ PLUS</string>
     <key>plus_free_membership_format</key>
-    <string>%1$@ gratis</string>
+    <string>%1$@ di prova gratuita</string>
     <key>plus_lifetime_membership</key>
     <string>Membro a vita</string>
+    <key>plus_marketing_desktop_apps_title</key>
+    <string>App per desktop e web</string>
+    <key>plus_marketing_folders_and_bookmarks_title</key>
+    <string>Cartelle e segnalibri</string>
     <key>plus_marketing_folders_description</key>
     <string>Crea cartelle per organizzare la tua raccolta di podcast.</string>
     <key>plus_marketing_hide_ads_description</key>
@@ -1500,6 +1536,8 @@ AGGIORNAMENTI</string>
     <string>Ascolta da più postazioni con le app per Windows, macOS e web</string>
     <key>plus_marketing_updated_folders_description</key>
     <string>Organizza i tuoi podcast in cartelle e sincronizzali su tutti i dispositivi.</string>
+    <key>plus_marketing_watch_playback_title</key>
+    <string>App Apple Watch e Wear OS</string>
     <key>plus_monthly_frequency_pricing_format</key>
     <string>%1$@ al mese</string>
     <key>plus_payment_canceled</key>
@@ -1568,6 +1606,8 @@ AGGIORNAMENTI</string>
     <string>L'accesso è terminato: %1$@</string>
     <key>podcast_access_ends</key>
     <string>L'accesso termina: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast ed episodio</string>
     <key>podcast_archive_all</key>
     <string>Archivia tutti</string>
     <key>podcast_archive_all_played</key>
@@ -1717,6 +1757,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Dal più vecchio al più recente</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Dal più corto al più lungo</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>Titolo (A-Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>Titolo (Z-A)</string>
     <key>podcasts_large_grid</key>
     <string>Griglia grande</string>
     <key>podcasts_layout</key>
@@ -1741,11 +1785,12 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Ordina podcast</string>
     <key>preview</key>
     <string>Anteprima</string>
+    <key>pricing_terms_after_discount</key>
+    <string>Pagamenti ricorrenti a %1$@ dopo %2$@ (%3$@)</string>
     <key>pricing_terms_after_trial</key>
     <string>quindi %1$@</string>
     <key>pricing_terms_after_trial_long</key>
-    <string>I pagamenti ricorrenti inizieranno dopo il
-%1$@ di prova gratuita</string>
+    <string>I pagamenti ricorrenti inizieranno dopo la prova gratuita %1$@ (%2$@)</string>
     <key>profile</key>
     <string>Profilo</string>
     <key>profile_help_support</key>
@@ -1786,6 +1831,18 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Rimanente: %1$@</string>
     <key>queue_total_time_remaining</key>
     <string>Tempo totale rimanente: %1$@</string>
+    <key>rate</key>
+    <string>Valuta</string>
+    <key>rating_error</key>
+    <string>Siamo spiacenti. Si è verificato un errore</string>
+    <key>rating_listen_to_this_podcast_message</key>
+    <string>Solo gli ascoltatori di questo podcast possono dare una valutazione. Ascolta qualche episodio e poi torna per lasciare una valutazione. Non vediamo l'ora di sapere cosa pensi!</string>
+    <key>rating_listen_to_this_podcast_title</key>
+    <string>Ascolta prima questo podcast</string>
+    <key>rating_submitted</key>
+    <string>La valutazione è stata inviata!</string>
+    <key>rating_title</key>
+    <string>Valuta %1$@</string>
     <key>refresh_control_fetching_episodes</key>
     <string>RICERCA DI NUOVI EPISODI DEL PODCAST</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1856,6 +1913,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Secondi risparmiati</string>
     <key>select</key>
     <string>Seleziona</string>
+    <key>select_a_chapter</key>
+    <string>Seleziona almeno un capitolo</string>
     <key>select_all</key>
     <string>Seleziona tutto</string>
     <key>select_all_above</key>
@@ -2324,6 +2383,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>ACCESSO ESEGUITO COME</string>
     <key>signed_out</key>
     <string>Accesso non eseguito</string>
+    <key>single_chapter</key>
+    <string>1 capitolo</string>
     <key>siri_shortcut_extend_sleep_timer</key>
     <string>Imposta l'autospegnimento a %1$@</string>
     <key>siri_shortcut_extend_sleep_timer_five_min</key>
@@ -2366,6 +2427,12 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Crea una scorciatoia al podcast</string>
     <key>skip_back</key>
     <string>Salta indietro</string>
+    <key>skip_chapters</key>
+    <string>Salta capitoli</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Salta capitoli e altro ancora con Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Salta capitoli e altro ancora con Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Salta in avanti</string>
     <key>sleep_timer</key>
@@ -2470,6 +2537,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Abbonamento annullato il giorno %1$@ </string>
     <key>subscription_expires_in</key>
     <string>Scade tra %1$@</string>
+    <key>subscription_frequency_pricing_format</key>
+    <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>
     <string>Grazie per il supporto.</string>
     <key>support_watch_help_message</key>
@@ -2562,8 +2631,16 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Effettua upgrade dell'account</string>
     <key>upgrade_to_plan</key>
     <string>Effettua l'aggiornamento a %1$@</string>
-    <key>upload_sort_alpha</key>
+    <key>upgrade_to_plus</key>
+    <string>Esegui l'aggiornamento a Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
     <string>Titolo (A-Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>Titolo (Z-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>Dal più lungo al più corto</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>Dal più corto al più lungo</string>
     <key>volume_boost</key>
     <string>Aumenta il volume</string>
     <key>volume_boost_description</key>

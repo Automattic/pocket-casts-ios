@@ -1,4 +1,5 @@
 import PocketCastsUtils
+import PocketCastsDataModel
 import UIKit
 
 class PlayerChapterCell: UITableViewCell {
@@ -18,6 +19,8 @@ class PlayerChapterCell: UITableViewCell {
     @IBOutlet var seperatorView: UIView!
     @IBOutlet var progressViewWidth: NSLayoutConstraint!
     @IBOutlet var isPlayingView: UIView!
+    @IBOutlet weak var toggleChapterButton: BouncyButton!
+    @IBOutlet weak var chapterButtonWidth: NSLayoutConstraint!
 
     private var onLinkTapped: ((URL) -> Void)?
     private var chapter: ChapterInfo?
@@ -28,6 +31,8 @@ class PlayerChapterCell: UITableViewCell {
 
     private var circleCenter: CGPoint!
     var chapterPlayedTime: Int!
+
+    private var isChapterToggleEnabled: Bool = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,18 +60,16 @@ class PlayerChapterCell: UITableViewCell {
         }
     }
 
-    func populateFrom(chapter: ChapterInfo, playState: ChapterPlayState, linkTapped: @escaping ((URL) -> Void)) {
+    func populateFrom(chapter: ChapterInfo, playState: ChapterPlayState, isChapterToggleEnabled: Bool, linkTapped: @escaping ((URL) -> Void)) {
         self.playState = playState
+        self.isChapterToggleEnabled = isChapterToggleEnabled
         chapterName.text = chapter.title
         chapterLength.text = TimeFormatter.shared.singleUnitFormattedShortestTime(time: chapter.duration)
         chapterNumber.text = "\(chapter.index + 1)"
-        linkView.alpha = playState == .played ? 0.5 : 1
-        linkView.isHidden = (chapter.url == nil)
+        linkView.isHidden = (chapter.url == nil || isChapterToggleEnabled)
 
         nowPlayingAnimation.animating = false
-        chapterName.textColor = playState == .played ? ThemeColor.playerContrast02() : ThemeColor.playerContrast01()
-        chapterNumber.textColor = chapterName.textColor
-        chapterLength.textColor = chapterName.textColor
+        setColors(dim: playState == .played)
         if playState == .currentlyPlaying || playState == .currentlyPaused {
             isPlayingView.isHidden = false
         } else {
@@ -78,12 +81,58 @@ class PlayerChapterCell: UITableViewCell {
         self.chapter = chapter
         isPlayingView.backgroundColor = ThemeColor.playerContrast06()
         progressUpdated(animated: false)
+
+        setUpSelectedChapterButton()
+
+        toggleChapterButton.currentlyOn = chapter.shouldPlay
+
+        isChapterToggleEnabled ? showSelectedChapterButton() : hideSelectedChapterButton()
+    }
+
+    private func setUpSelectedChapterButton() {
+        toggleChapterButton.onImage = UIImage(named: "rounded-selected")
+        toggleChapterButton.offImage = UIImage(named: "rounded-deselected")
+        toggleChapterButton.tintColor = .white
+        toggleChapterButton.isUserInteractionEnabled = false
+    }
+
+    private func hideSelectedChapterButton() {
+        toggleChapterButton.isHidden = true
+        chapterButtonWidth.constant = 20
+    }
+
+    private func showSelectedChapterButton() {
+        toggleChapterButton.isHidden = false
+        chapterButtonWidth.constant = 48
+        setColors(dim: chapter?.isPlayable() == false)
     }
 
     @IBAction func linkTapped(_ sender: Any) {
         guard let link = chapter?.url, let url = URL(string: link), let linkTapped = onLinkTapped else { return }
 
         linkTapped(url)
+    }
+
+
+    @IBAction func toggleChapterTapped(_ sender: Any) {
+        chapter?.shouldPlay.toggle()
+        toggleChapterButton.currentlyOn.toggle()
+
+        setColors(dim: chapter?.isPlayable() == false)
+
+        if let currentEpisode = PlaybackManager.shared.currentEpisode(), let index = chapter?.index {
+            if chapter?.shouldPlay == true {
+                currentEpisode.select(chapterIndex: index)
+                track(.deselectChaptersChapterSelected)
+            } else {
+                currentEpisode.deselect(chapterIndex: index)
+                track(.deselectChaptersChapterDeselected)
+            }
+
+            currentEpisode.deselectedChaptersModified = TimeFormatter.currentUTCTimeInMillis()
+
+            DataManager.sharedManager.save(episode: currentEpisode)
+        }
     }
 
     @objc func progressUpdated(animated: Bool = true) {
@@ -105,5 +154,16 @@ class PlayerChapterCell: UITableViewCell {
                 self.layoutIfNeeded()
             }
         } else { layoutIfNeeded() }
+    }
+
+    private func setColors(dim shouldDim: Bool) {
+        linkView.alpha = shouldDim ? 0.5 : 1
+        chapterName.textColor = shouldDim ? ThemeColor.playerContrast02() : ThemeColor.playerContrast01()
+        chapterNumber.textColor = chapterName.textColor
+        chapterLength.textColor = chapterName.textColor
+    }
+
+    private func track(_ event: AnalyticsEvent) {
+        Analytics.track(event, properties: ["podcast_uuid": PlaybackManager.shared.currentPodcast?.uuid ?? "unknown", "episode_uuid": PlaybackManager.shared.currentEpisode()?.uuid ?? "unknown"])
     }
 }

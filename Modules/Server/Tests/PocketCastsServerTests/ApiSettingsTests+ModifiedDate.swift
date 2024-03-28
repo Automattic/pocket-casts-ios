@@ -44,6 +44,5 @@ class APISettingsTests: XCTestCase {
 
         XCTAssertEqual(settings.value.value, secondChangedValue, "Changed value should be correct")
         XCTAssertEqual(settings.modifiedAt.timeIntervalSinceReferenceDate, date.timeIntervalSinceReferenceDate, accuracy: 0.01, "Initial Timestamp should be nil?")
-
     }
 }

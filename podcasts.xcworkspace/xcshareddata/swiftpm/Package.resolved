@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/google/abseil-cpp-binary.git",
         "state": {
           "branch": null,
-          "revision": "bfc0b6f81adc06ce5121eb23f628473638d67c5c",
-          "version": "1.2022062300.0"
+          "revision": "7ce7be095bc3ed3c98b009532fe2d7698c132614",
+          "version": "1.2024011601.0"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
           "branch": null,
-          "revision": "b880ec8ec927a838c51c12862c6222c30d7097d7",
-          "version": "10.20.0"
+          "revision": "888f0b6026e2441a69e3ee2ad5293c7a92031e62",
+          "version": "10.23.1"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
         "state": {
           "branch": null,
-          "revision": "ceec9f28dea12b7cf3dabf18b5ed7621c88fd4aa",
-          "version": "10.20.0"
+          "revision": "c7a5917ebe48d69f421aadf154ef3969c8b7f12d",
+          "version": "10.23.1"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/google/grpc-binary.git",
         "state": {
           "branch": null,
-          "revision": "a673bc2937fbe886dd1f99c401b01b6d977a9c98",
-          "version": "1.49.1"
+          "revision": "67043f6389d0e28b38fa02d1c6952afeb04d807f",
+          "version": "1.62.1"
         }
       },
       {

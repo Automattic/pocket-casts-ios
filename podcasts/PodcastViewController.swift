@@ -289,7 +289,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         // Load the ratings even if we've already started loading them to cover all other potential view states
         // The view model will ignore extra calls
-        if let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
+        if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
 
@@ -470,15 +470,21 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             var needsNoSearchResultsMessage = false
             let searching = self.searchController?.searchTextField?.text?.count ?? 0 > 0
             if podcast.podcastGrouping() == .none {
-                let episodeLimit = Int(podcast.autoArchiveEpisodeLimit)
+                let episodeLimit = Int(podcast.autoArchiveEpisodeLimitCount)
                 var episodes = newData[safe: 1]?.elements
                 let episodeCount = episodes?.count ?? 0
-                if episodeCount > 0, episodeLimit > 0, podcast.overrideGlobalArchive {
+                if episodeCount > 0, episodeLimit > 0, podcast.isAutoArchiveOverridden {
                     var indexToInsertAt = -1
-                    if PodcastEpisodeSortOrder.newestToOldest.rawValue == Int(podcast.episodeSortOrder) {
+
+                    let episodeSortOrder = podcast.podcastSortOrder
+
+                    switch episodeSortOrder {
+                    case .newestToOldest:
                         indexToInsertAt = episodeLimit <= episodeCount ? episodeLimit : episodeCount
-                    } else if PodcastEpisodeSortOrder.oldestToNewest.rawValue == Int(podcast.episodeSortOrder) {
+                    case .oldestToNewest:
                         indexToInsertAt = episodeCount > episodeLimit ? episodeCount - episodeLimit : episodeCount - 1
+                    default:
+                        ()
                     }
 
                     if indexToInsertAt >= 0 {
@@ -721,15 +727,15 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func toggleShowArchived() {
         guard let podcast = podcast else { return }
 
-        podcast.showArchived = !podcast.showArchived
+        podcast.shouldShowArchived = !podcast.shouldShowArchived
         DataManager.sharedManager.save(podcast: podcast)
         loadLocalEpisodes(podcast: podcast, animated: true)
 
-        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.showArchived])
+        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.shouldShowArchived])
     }
 
     func showingArchived() -> Bool {
-        podcast?.showArchived ?? false
+        podcast?.shouldShowArchived ?? false
     }
 
     func archiveAllTapped(playedOnly: Bool) {

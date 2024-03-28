@@ -129,6 +129,23 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
         loadingIndicator.startAnimating()
 
+        if FeatureFlag.newShowNotesEndpoint.enabled {
+            let podcastUUID = episode.parentIdentifier()
+            let episodeUUID = episode.uuid
+            Task { [weak self] in
+                if let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: podcastUUID, episodeUuid: episodeUUID) {
+                    self?.downloadingShowNotes = false
+                    self?.displayShowNotes(showNotes)
+
+                    // if we get back the no show notes available message, make sure next update we try again
+                    if showNotes == CacheServerHandler.noShowNotesMessage {
+                        self?.lastEpisodeUuidRendered = ""
+                    }
+                }
+            }
+            return
+        }
+
         CacheServerHandler.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
             self?.downloadingShowNotes = false
             self?.displayShowNotes(cachedShowNotes)
@@ -196,7 +213,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                     PlaybackManager.shared.seekTo(time: timeToSkipTo)
                 })
             }
-        } else if UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser) {
+        } else if Settings.openLinks {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             if URLHelper.isValidScheme(url.scheme) {

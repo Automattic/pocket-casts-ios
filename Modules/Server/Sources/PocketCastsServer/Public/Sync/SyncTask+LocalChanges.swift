@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 import SwiftProtobuf
 
 extension SyncTask {
@@ -18,6 +19,10 @@ extension SyncTask {
             podcastRecord.subscribed.value = podcast.isSubscribed()
             podcastRecord.sortPosition.value = podcast.sortOrder
 
+            if FeatureFlag.settingsSync.enabled {
+                podcastRecord.settings = podcast.apiSettings
+            }
+
             // There's a bug on the watch app that resets all users folders
             // Since the watch don't use folders at all, it shouldn't sync
             #if !os(watchOS)
@@ -27,6 +32,8 @@ extension SyncTask {
             if let addedDate = podcast.addedDate {
                 podcastRecord.dateAdded = Google_Protobuf_Timestamp(date: addedDate)
             }
+
+            FileLog.shared.addMessage("Syncing new settings for \(podcastRecord.uuid): \(try! podcastRecord.settings.jsonString())")
 
             var apiRecord = Api_Record()
             apiRecord.podcast = podcastRecord
@@ -64,6 +71,10 @@ extension SyncTask {
             if episode.archivedModified > 0 {
                 episodeRecord.isDeleted.value = episode.archived
                 episodeRecord.isDeletedModified.value = episode.archivedModified
+            }
+            if let deselectedChapters = episode.deselectedChapters {
+                episodeRecord.deselectedChapters = deselectedChapters
+                episodeRecord.deselectedChaptersModified.value = episode.deselectedChaptersModified
             }
 
             var apiRecord = Api_Record()
@@ -206,6 +217,31 @@ private extension Api_SyncUserBookmark {
 
         self.title.value = bookmark.title
         self.titleModified = .init(date: bookmark.titleModified ?? bookmark.created)
+    }
+}
+
+// MARK: Settings Sync
+
+private extension Podcast {
+    var apiSettings: Api_PodcastSettings {
+        var settings = Api_PodcastSettings()
+        settings.playbackEffects.update(self.settings.$customEffects)
+        settings.autoStartFrom.update(self.settings.$autoStartFrom)
+        settings.autoSkipLast.update(self.settings.$autoSkipLast)
+        settings.playbackSpeed.update(self.settings.$playbackSpeed)
+        settings.trimSilence.update(self.settings.$trimSilence)
+        settings.volumeBoost.update(self.settings.$boostVolume)
+        settings.notification.update(self.settings.$notification)
+        settings.addToUpNext.update(self.settings.$addToUpNext)
+        settings.addToUpNextPosition.update(self.settings.$addToUpNextPosition)
+        settings.episodesSortOrder.update(self.settings.$episodesSortOrder)
+        settings.episodeGrouping.update(self.settings.$episodeGrouping)
+        settings.showArchived.update(self.settings.$showArchived)
+        settings.autoArchive.update(self.settings.$autoArchive)
+        settings.autoArchivePlayed.update(self.settings.$autoArchivePlayed)
+        settings.autoArchiveInactive.update(self.settings.$autoArchiveInactive)
+        settings.autoArchiveEpisodeLimit.update(self.settings.$autoArchiveEpisodeLimit)
+        return settings
     }
 }
 

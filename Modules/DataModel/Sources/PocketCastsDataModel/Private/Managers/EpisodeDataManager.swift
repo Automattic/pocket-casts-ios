@@ -39,7 +39,9 @@ class EpisodeDataManager {
         "archivedModified",
         "lastArchiveInteractionDate",
         "excludeFromEpisodeLimit",
-        "starredModified"
+        "starredModified",
+        "deselectedChapters",
+        "deselectedChaptersModified"
     ]
 
     // MARK: - Query
@@ -50,6 +52,33 @@ class EpisodeDataManager {
 
     func findWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue) -> Episode? {
         loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
+    }
+
+    func findPlayedEpisodes(uuids: [String], dbQueue: FMDatabaseQueue) -> [String] {
+        let list = uuids.map { "'\($0)'" }.joined(separator: ",")
+
+        let query = """
+        SELECT * from \(DataManager.episodeTableName)
+        WHERE uuid IN (\(list))
+        AND playingStatus = ?
+        LIMIT \(uuids.count)
+        """
+
+        var episodes = [String]()
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: [PlayingStatus.completed.rawValue])
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    let uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
+                    episodes.append(uuid)
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
+            }
+        }
+        return episodes
     }
 
     func downloadedEpisodeExists(uuid: String, dbQueue: FMDatabaseQueue) -> Bool {
@@ -161,6 +190,49 @@ class EpisodeDataManager {
         return count
     }
 
+    func failedDownloadEpisodeCount(dbQueue: FMDatabaseQueue) -> Int {
+        var count = 0
+        let query = "SELECT COUNT(*) as Count from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloadFailed.rawValue)"
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    count = Int(resultSet.int(forColumn: "Count"))
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeCount error: \(error)")
+            }
+        }
+
+        return count
+    }
+
+    func failedDownloadFirstDate(dbQueue: FMDatabaseQueue, sortOrder: SortOrder) -> Date? {
+        let orderDirection = sortOrder == .forward ? "DESC" : "ASC"
+        var date: Date?
+        let query = "SELECT * from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate IS NOT NULL ORDER BY lastDownloadAttemptDate \(orderDirection) LIMIT 1"
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    date = resultSet.date(forColumn: "lastDownloadAttemptDate")
+                }
+            } catch {
+                logError(error: error)
+            }
+        }
+
+        return date
+    }
+
+    func logError(error: Error, callingFile: String = #file, callingFunction: String = #function) {
+        FileLog.shared.addMessage("\((callingFile.components(separatedBy: "/").last ?? "").components(separatedBy: ".").first ?? "").\(callingFunction) error: \(error)")
+    }
+
     // MARK: - Updates
 
     func saveIfNotModified(starred: Bool, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
@@ -176,6 +248,10 @@ class EpisodeDataManager {
 
     func saveIfNotModified(playingStatus: PlayingStatus, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
         saveFieldIfNotModified(fieldName: "playingStatus", modifiedFieldName: "playingStatusModified", value: playingStatus.rawValue, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    }
+
+    func saveIfNotModified(chapters: String, remoteModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+        saveFieldIfNotModified(fieldName: "deselectedChapters", modifiedFieldName: "deselectedChaptersModified", value: chapters, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
     func save(episode: Episode, dbQueue: FMDatabaseQueue) {
@@ -329,6 +405,10 @@ class EpisodeDataManager {
                     if let starred = episode.starred {
                         fields.append("keepEpisode")
                         values.append(starred)
+                    }
+                    if let deselectedChapters = episode.deselectedChapters {
+                        fields.append("deselectedChapters")
+                        values.append(deselectedChapters)
                     }
                     values.append(uuid)
 
@@ -771,7 +851,7 @@ class EpisodeDataManager {
                         values.append(DBUtils.currentUTCTimeInMillis())
                     }
 
-                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimit, podcastAutoArchiveLimit > 0 {
+                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimitCount, podcastAutoArchiveLimit > 0 {
                         fields.append("excludeFromEpisodeLimit")
                         values.append(true)
                     }
@@ -823,6 +903,20 @@ class EpisodeDataManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) = 0", values: [value, episodeUuid])
+                saved = (db.changes > 0)
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
+            }
+        }
+
+        return saved
+    }
+
+    private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+        var saved = false
+        dbQueue.inDatabase { db in
+            do {
+                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) < ?", values: [value, episodeUuid, remoteModified])
                 saved = (db.changes > 0)
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
@@ -891,6 +985,8 @@ class EpisodeDataManager {
         values.append(episode.lastArchiveInteractionDate ?? Date(timeIntervalSince1970: 0))
         values.append(episode.excludeFromEpisodeLimit)
         values.append(episode.starredModified)
+        values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
+        values.append(episode.deselectedChaptersModified)
 
         if includeIdForWhere {
             values.append(episode.id)
@@ -900,6 +996,15 @@ class EpisodeDataManager {
     }
 }
 
+#if os(watchOS)
+// Only here to support watchOS 8
+public enum SortOrder {
+    case forward
+    case reverse
+}
+#endif
+
+
 // MARK: - 👻 Ghost Episodes 👻
 
 extension EpisodeDataManager {
@@ -907,5 +1012,86 @@ extension EpisodeDataManager {
         let query = "SELECT SJEpisode.* FROM SJEpisode LEFT JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid WHERE SJPodcast.uuid IS NULL"
 
         return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
+    }
+}
+
+// MARK: - Swift Concurrency
+
+extension EpisodeDataManager {
+    @discardableResult
+    func bulkSave(showInfo: [String: String], dbQueue: FMDatabaseQueue) async throws -> Bool {
+        return try await withCheckedThrowingContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    db.beginTransaction()
+
+                    for episode in showInfo {
+                        try db.executeUpdate("INSERT OR REPLACE INTO EpisodeMetadata VALUES(?, ?);", values: [episode.key, episode.value])
+                    }
+
+                    db.commit()
+                    continuation.resume(returning: true)
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.bulkSave showInfo error: \(error)")
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
+    func findEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async throws -> Episode.Metadata? {
+        return try await withCheckedThrowingContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [uuid])
+                    defer { resultSet.close() }
+
+                    if resultSet.next(), let metadataData = resultSet.string(forColumn: "metadata")?.data(using: .utf8) {
+                        Task {
+                            let metadata = await self.getShowInfo(for: metadataData)
+                            continuation.resume(returning: metadata)
+                        }
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.findEpisodeMetadata Episode metadata error: \(error)")
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - New Show Info
+
+extension EpisodeDataManager {
+    public func storeShowInfo(with data: Data, dbQueue: FMDatabaseQueue) async throws {
+        // show notes string JSON
+        var episodesToUpdate: [String: String] = [:]
+        if let showInfo = try? (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])?["podcast"] as? [String: Any],
+           let episodes = showInfo["episodes"] as? [Any] {
+            // Iterate over each episode and store it's JSON string content using the
+            // episode UUID as key
+            episodes.forEach { episode in
+                if let uuid = (episode as? [String: Any])?["uuid"] as? String,
+                   let jsonData = try? JSONSerialization.data(withJSONObject: episode),
+                   let jsonString = String(data: jsonData, encoding: .utf8) {
+                    episodesToUpdate[uuid] = jsonString
+                }
+            }
+        }
+
+        try await bulkSave(showInfo: episodesToUpdate, dbQueue: dbQueue)
+    }
+
+    private func getShowInfo(for data: Data) async -> Episode.Metadata? {
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode(Episode.Metadata.self, from: data)
+        } catch {
+            return nil
+        }
     }
 }
