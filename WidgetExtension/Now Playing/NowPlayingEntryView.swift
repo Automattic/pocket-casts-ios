@@ -58,13 +58,13 @@ struct NowPlayingWidgetEntryView: View {
                             Text(L10n.nowPlaying)
                                 .font(.caption2)
                                 .fontWeight(.medium)
-                                .foregroundColor(Color.secondary)
+                                .foregroundColor(colorScheme.bottomTextColor.opacity(0.6))
                                 .padding(bottomTextPadding)
                         } else {
                             Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                                 .font(.caption2)
                                 .fontWeight(.medium)
-                                .foregroundColor(Color.secondary)
+                                .foregroundColor(colorScheme.bottomTextColor.opacity(0.6))
                                 .padding(bottomTextPadding)
                                 .layoutPriority(1)
                         }
