@@ -130,7 +130,8 @@ platform :ios do
   desc 'Run the unit tests'
   lane :test do
     run_tests(
-      scheme: SCHEME
+      scheme: SCHEME,
+      xcargs: "-skipPackagePluginValidation"
     )
   end
 
@@ -408,6 +409,7 @@ platform :ios do
       include_bitcode: false,
       include_symbols: true,
       clean: true,
+      xcargs: "-skipPackagePluginValidation",
       export_options: {
         method: 'app-store',
         manageAppVersionAndBuildNumber: false
