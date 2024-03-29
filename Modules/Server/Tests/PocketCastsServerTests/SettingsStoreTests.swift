@@ -1,5 +1,5 @@
 import XCTest
-@testable import PocketCastsServer
+@testable import PocketCastsDataModel
 import PocketCastsUtils
 
 class SettingsStoreTests: XCTestCase {

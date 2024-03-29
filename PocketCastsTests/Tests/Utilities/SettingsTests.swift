@@ -1,7 +1,7 @@
 import XCTest
 @testable import podcasts
 @testable import PocketCastsServer
-import PocketCastsDataModel
+@testable import PocketCastsDataModel
 import PocketCastsUtils
 
 final class SettingsTests: XCTestCase {
@@ -28,7 +28,7 @@ final class SettingsTests: XCTestCase {
 
     private func setupSettingsStore() throws {
         let userDefaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName), "User Defaults suite should load")
-        SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings.defaults)
+        SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings())
     }
 
     func testImportOldHeadphoneControls() throws {

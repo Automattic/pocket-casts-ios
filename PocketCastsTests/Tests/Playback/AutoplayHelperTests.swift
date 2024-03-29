@@ -1,6 +1,6 @@
 import XCTest
 
-@testable import PocketCastsServer
+@testable import PocketCastsDataModel
 @testable import podcasts
 
 class AutoplayHelperTests: XCTestCase {
@@ -11,7 +11,7 @@ class AutoplayHelperTests: XCTestCase {
         autoplayHelper = AutoplayHelper(
             userDefaults: userDefaults
         )
-        SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings.defaults)
+        SettingsStore.appSettings = SettingsStore(userDefaults: userDefaults, key: "app_settings", value: AppSettings())
     }
 
     func testInitialValueIsNil() {

@@ -2,6 +2,7 @@ import XCTest
 @testable import PocketCastsServer
 import SwiftProtobuf
 @testable import PocketCastsUtils
+import PocketCastsDataModel
 
 class SyncSettingsTaskTests: XCTestCase {
 
@@ -25,7 +26,7 @@ class SyncSettingsTaskTests: XCTestCase {
 
         XCTAssertNil(defaults.data(forKey: defaultsKey), "User Defaults data should not exist yet for \(defaultsKey)")
 
-        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings.defaults)
+        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings())
         let changedValue = true
         let changedDate = Date()
         store.openLinks = changedValue
@@ -59,7 +60,7 @@ class SyncSettingsTaskTests: XCTestCase {
 
         XCTAssertNil(defaults.data(forKey: defaultsKey), "User Defaults data should not exist yet for \(defaultsKey)")
 
-        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings.defaults)
+        let store = SettingsStore(userDefaults: defaults, key: defaultsKey, value: AppSettings())
         let changedValue = true
         let changedDate = Date()
 
