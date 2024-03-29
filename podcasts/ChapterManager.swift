@@ -4,6 +4,7 @@ import PocketCastsUtils
 
 class ChapterManager {
     private var chapterParser = PodcastChapterParser()
+    private var showInfoCoordinator: ShowInfoCoordinating
     private var chapters = [ChapterInfo]() {
         didSet {
             visibleChapters = chapters.filter { !$0.isHidden }
@@ -21,8 +22,11 @@ class ChapterManager {
         visibleChapters.filter { $0.isPlayable() }
     }
 
-    init(chapterParser: PodcastChapterParser = PodcastChapterParser()) {
+    init(
+        chapterParser: PodcastChapterParser = PodcastChapterParser(),
+        showInfoCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
         self.chapterParser = chapterParser
+        self.showInfoCoordinator = showInfoCoordinator
     }
 
     func visibleChapterCount() -> Int {
@@ -100,11 +104,17 @@ class ChapterManager {
     }
 
     func parseChapters(episode: BaseEpisode, duration: TimeInterval) {
+        Task {
+            await parseChapters(episode: episode, duration: duration)
+        }
+    }
+
+    func parseChapters(episode: BaseEpisode, duration: TimeInterval) async {
         // store the last episode uuid we were asked to check chapters for, we use that below in case this method is called multiple times to not return old results
         lastEpisodeUuid = episode.uuid
 
         guard !FeatureFlag.rssChapters.enabled else {
-            parseLocalAndRemoteChapters(for: episode, duration: duration)
+            try? await parseLocalAndRemoteChapters(for: episode, duration: duration)
             return
         }
 
@@ -123,27 +133,25 @@ class ChapterManager {
         }
     }
 
-    private func parseLocalAndRemoteChapters(for episode: BaseEpisode, duration: TimeInterval) {
-        Task {
-            // Parse chapters from the file and request external chapters
-            async let fileChaptersAsync = loadChapters(for: episode, duration: duration)
+    private func parseLocalAndRemoteChapters(for episode: BaseEpisode, duration: TimeInterval) async throws {
+        // Parse chapters from the file and request external chapters
+        async let fileChaptersAsync = loadChapters(for: episode, duration: duration)
 
-            async let (podloveChaptersAsync, podcastIndexChaptersAsync) = await
-            ShowInfoCoordinator.shared.loadChapters(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+        async let (podloveChaptersAsync, podcastIndexChaptersAsync) = await
+        showInfoCoordinator.loadChapters(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
 
-            let (fileChapters, podloveChapters, podcastIndexChapters) = try await (fileChaptersAsync, podloveChaptersAsync, podcastIndexChaptersAsync)
+        let (fileChapters, podloveChapters, podcastIndexChapters) = try await (fileChaptersAsync, podloveChaptersAsync, podcastIndexChaptersAsync)
 
-            // Once both arrives, check the one with more chapters to display
-            var chapters: [ChapterInfo]
-            if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, duration: duration) {
-                chapters = externalChapters.count >= fileChapters.count ? externalChapters : fileChapters
-            } else {
-                chapters = fileChapters
-            }
+        // Once both arrives, check the one with more chapters to display
+        var chapters: [ChapterInfo]
+        if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, duration: duration) {
+            chapters = externalChapters.count >= fileChapters.count ? externalChapters : fileChapters
+        } else {
+            chapters = fileChapters
+        }
 
-            if lastEpisodeUuid == episode.uuid {
-                handleChaptersLoaded(chapters, for: episode)
-            }
+        if lastEpisodeUuid == episode.uuid {
+            handleChaptersLoaded(chapters, for: episode)
         }
     }
 
