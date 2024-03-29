@@ -145,8 +145,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // fix issues with the now playing cell not animating by reloading it on appear
-        reloadTable()
 
         AnalyticsHelper.upNextOpened()
     }
