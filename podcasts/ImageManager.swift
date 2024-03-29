@@ -126,6 +126,10 @@ class ImageManager {
         imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
     }
 
+    func setPlaceholder(imageView: UIImageView, size: PodcastThumbnailSize) {
+        imageView.image = placeHolderImage(size)
+    }
+
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
         if loadEmbeddedImageIfRequired(in: episode, into: imageView) {
             return
