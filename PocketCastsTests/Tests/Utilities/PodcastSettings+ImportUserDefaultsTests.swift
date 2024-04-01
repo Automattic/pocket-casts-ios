@@ -69,4 +69,14 @@ class PodcastSettingsImportUserDefaultsTests: XCTestCase {
         XCTAssertEqual(newEpisodeGrouping, podcast.settings.episodeGrouping, "Value of autoArchiveInactive should change after import")
         XCTAssertEqual(newShowArchive, podcast.settings.showArchived, "Value of showArchived should change after import")
     }
+
+    /// Tests that the default values are used when a value is missing from the JSON (such as when a key was added after writing the JSON object)
+    func testDefaultValuesWhenMissing() throws {
+        let json = "{ \"autoArchive\": { \"value\": true, \"modifiedDate\": \"2024-03-28T13:49:51.141Z\"} }"
+        let settings = try JSONDecoder().decode(PodcastSettings.self, from: json.data(using: .utf8)!)
+
+        XCTAssertTrue(settings.autoArchive, "Should contain new value from JSON")
+        XCTAssertEqual(settings.autoArchivePlayed, .afterPlaying, "Should contain default value")
+        XCTAssertEqual(settings.playbackSpeed, 1, "Should contain default value")
+    }
 }
