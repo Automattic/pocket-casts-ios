@@ -40,6 +40,7 @@ class PodcastImageView: UIView {
 
                 // The app might run into the case where the episode changed but there's still
                 // a pending task to display the image of another episode
+                // This can happen when dequeing a cell, for example.
                 // This check prevent this from happening.
                 guard episode.uuid == currentEpisode?.uuid else {
                     return
