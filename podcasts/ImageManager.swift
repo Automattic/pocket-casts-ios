@@ -524,4 +524,14 @@ class ImageManager {
             return Int(320.0 * UIScreen.main.scale)
         }
     }
+
+    /// Clears all of the caches (disk + memory) managed by this instance.
+    func clearCaches() {
+        subscribedPodcastsCache.clearCache()
+        userEpisodeCache.clearCache()
+        userEpisodeCache.clearCache()
+        discoverCache.clearCache()
+        networkImageCache.clearCache()
+        searchImageCache.clearCache()
+    }
 }
