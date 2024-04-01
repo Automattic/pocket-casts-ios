@@ -86,6 +86,76 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var autoPlayLastListUuid: AutoPlaySource = .uuid("")
 }
 
+extension AppSettings {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let defaults = AppSettings()
+
+        try decode(\.$openLinks, forKey: .openLinks, fromContainer: container, withDefaults: defaults)
+        try decode(\.$rowAction, forKey: .rowAction, fromContainer: container, withDefaults: defaults)
+        try decode(\.$episodeGrouping, forKey: .episodeGrouping, fromContainer: container, withDefaults: defaults)
+        try decode(\.$showArchived, forKey: .showArchived, fromContainer: container, withDefaults: defaults)
+        try decode(\.$upNextSwipe, forKey: .upNextSwipe, fromContainer: container, withDefaults: defaults)
+        try decode(\.$skipForward, forKey: .skipForward, fromContainer: container, withDefaults: defaults)
+        try decode(\.$skipBack, forKey: .skipBack, fromContainer: container, withDefaults: defaults)
+        try decode(\.$keepScreenAwake, forKey: .keepScreenAwake, fromContainer: container, withDefaults: defaults)
+        try decode(\.$openPlayer, forKey: .openPlayer, fromContainer: container, withDefaults: defaults)
+        try decode(\.$intelligentResumption, forKey: .intelligentResumption, fromContainer: container, withDefaults: defaults)
+        try decode(\.$playUpNextOnTap, forKey: .playUpNextOnTap, fromContainer: container, withDefaults: defaults)
+        try decode(\.$playbackActions, forKey: .playbackActions, fromContainer: container, withDefaults: defaults)
+        try decode(\.$legacyBluetooth, forKey: .legacyBluetooth, fromContainer: container, withDefaults: defaults)
+        try decode(\.$multiSelectGesture, forKey: .multiSelectGesture, fromContainer: container, withDefaults: defaults)
+        try decode(\.$chapterTitles, forKey: .chapterTitles, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoPlayEnabled, forKey: .autoPlayEnabled, fromContainer: container, withDefaults: defaults)
+        try decode(\.$notifications, forKey: .notifications, fromContainer: container, withDefaults: defaults)
+        try decode(\.$appBadge, forKey: .appBadge, fromContainer: container, withDefaults: defaults)
+        try decode(\.$appBadgeFilter, forKey: .appBadgeFilter, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoArchivePlayed, forKey: .autoArchivePlayed, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoArchiveInactive, forKey: .autoArchiveInactive, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoArchiveIncludesStarred, forKey: .autoArchiveIncludesStarred, fromContainer: container, withDefaults: defaults)
+        try decode(\.$volumeBoost, forKey: .volumeBoost, fromContainer: container, withDefaults: defaults)
+        try decode(\.$trimSilence, forKey: .trimSilence, fromContainer: container, withDefaults: defaults)
+        try decode(\.$playbackSpeed, forKey: .playbackSpeed, fromContainer: container, withDefaults: defaults)
+        try decode(\.$playerBookmarksSortType, forKey: .playerBookmarksSortType, fromContainer: container, withDefaults: defaults)
+        try decode(\.$episodeBookmarksSortType, forKey: .episodeBookmarksSortType, fromContainer: container, withDefaults: defaults)
+        try decode(\.$podcastBookmarksSortType, forKey: .podcastBookmarksSortType, fromContainer: container, withDefaults: defaults)
+        try decode(\.$profileBookmarksSortType, forKey: .profileBookmarksSortType, fromContainer: container, withDefaults: defaults)
+        try decode(\.$filesAutoUpNext, forKey: .filesAutoUpNext, fromContainer: container, withDefaults: defaults)
+        try decode(\.$filesAfterPlayingDeleteLocal, forKey: .filesAfterPlayingDeleteLocal, fromContainer: container, withDefaults: defaults)
+        try decode(\.$filesAfterPlayingDeleteCloud, forKey: .filesAfterPlayingDeleteCloud, fromContainer: container, withDefaults: defaults)
+        try decode(\.$warnDataUsage, forKey: .warnDataUsage, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoUpNextLimit, forKey: .autoUpNextLimit, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoUpNextLimitReached, forKey: .autoUpNextLimitReached, fromContainer: container, withDefaults: defaults)
+        try decode(\.$headphoneControlsNextAction, forKey: .headphoneControlsNextAction, fromContainer: container, withDefaults: defaults)
+        try decode(\.$headphoneControlsPreviousAction, forKey: .headphoneControlsPreviousAction, fromContainer: container, withDefaults: defaults)
+        try decode(\.$privacyAnalytics, forKey: .privacyAnalytics, fromContainer: container, withDefaults: defaults)
+        try decode(\.$marketingOptIn, forKey: .marketingOptIn, fromContainer: container, withDefaults: defaults)
+        try decode(\.$freeGiftAcknowledgement, forKey: .freeGiftAcknowledgement, fromContainer: container, withDefaults: defaults)
+        try decode(\.$gridOrder, forKey: .gridOrder, fromContainer: container, withDefaults: defaults)
+        try decode(\.$gridLayout, forKey: .gridLayout, fromContainer: container, withDefaults: defaults)
+        try decode(\.$badges, forKey: .badges, fromContainer: container, withDefaults: defaults)
+        try decode(\.$filesSortOrder, forKey: .filesSortOrder, fromContainer: container, withDefaults: defaults)
+        try decode(\.$playerShelf, forKey: .playerShelf, fromContainer: container, withDefaults: defaults)
+        try decode(\.$useSystemTheme, forKey: .useSystemTheme, fromContainer: container, withDefaults: defaults)
+        try decode(\.$theme, forKey: .theme, fromContainer: container, withDefaults: defaults)
+        try decode(\.$lightThemePreference, forKey: .lightThemePreference, fromContainer: container, withDefaults: defaults)
+        try decode(\.$darkThemePreference, forKey: .darkThemePreference, fromContainer: container, withDefaults: defaults)
+        try decode(\.$useEmbeddedArtwork, forKey: .useEmbeddedArtwork, fromContainer: container, withDefaults: defaults)
+        try decode(\.$useDarkUpNextTheme, forKey: .useDarkUpNextTheme, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoPlayLastListUuid, forKey: .autoPlayLastListUuid, fromContainer: container, withDefaults: defaults)
+    }
+
+    private mutating func decode<Value: Codable & Equatable>(
+        _ keyPath: WritableKeyPath<Self, ModifiedDate<Value>>,
+        forKey key: CodingKeys,
+        fromContainer container: KeyedDecodingContainer<CodingKeys>,
+        withDefaults defaults: Self
+    ) throws {
+        self[keyPath: keyPath] = try container.decodeIfPresent(ModifiedDate<Value>.self, forKey: key) ?? defaults[keyPath: keyPath]
+    }
+}
+
 extension SettingsStore<AppSettings> {
     public static internal(set) var appSettings = SettingsStore(key: "app_settings", value: AppSettings())
 }
