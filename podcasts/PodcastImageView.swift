@@ -32,11 +32,12 @@ class PodcastImageView: UIView {
 
         currentEpisode = episode
 
-        Task {
-            imageView.kf.cancelDownloadTask()
-            if FeatureFlag.episodeFeedArtwork.enabled, Settings.loadEmbeddedImages, let episodeArtworkUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
+        ImageManager.sharedManager.setPlaceholder(imageView: imageView, size: size)
 
-                ImageManager.sharedManager.setPlaceholder(imageView: imageView, size: size)
+        Task {
+            if FeatureFlag.episodeFeedArtwork.enabled, Settings.loadEmbeddedImages, let episodeArtworkUrl = await episode.loadMetadata()?.image {
+
+                imageView.kf.cancelDownloadTask()
 
                 // The app might run into the case where the episode changed but there's still
                 // a pending task to display the image of another episode
@@ -49,6 +50,10 @@ class PodcastImageView: UIView {
                 ImageManager.sharedManager.loadImage(url: episodeArtworkUrl, imageView: imageView, size: size, showPlaceHolder: true)
                 adjustForSize(size)
             } else {
+                guard episode.uuid == currentEpisode?.uuid else {
+                    return
+                }
+
                 setPodcast(uuid: episode.parentIdentifier(), size: size)
             }
         }
