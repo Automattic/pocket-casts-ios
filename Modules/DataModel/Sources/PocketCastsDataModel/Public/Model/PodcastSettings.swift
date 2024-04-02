@@ -29,3 +29,37 @@ public struct PodcastSettings: JSONCodable, Equatable {
     @ModifiedDate public var episodeGrouping: PodcastGrouping = .none
     @ModifiedDate public var showArchived: Bool = false
 }
+
+extension PodcastSettings {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let defaults = PodcastSettings()
+
+        try decode(\.$customEffects, forKey: .customEffects, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoStartFrom, forKey: .autoStartFrom, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoSkipLast, forKey: .autoSkipLast, fromContainer: container, withDefaults: defaults)
+        try decode(\.$trimSilence, forKey: .trimSilence, fromContainer: container, withDefaults: defaults)
+        try decode(\.$boostVolume, forKey: .boostVolume, fromContainer: container, withDefaults: defaults)
+        try decode(\.$playbackSpeed, forKey: .playbackSpeed, fromContainer: container, withDefaults: defaults)
+        try decode(\.$notification, forKey: .notification, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoArchive, forKey: .autoArchive, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoArchivePlayed, forKey: .autoArchivePlayed, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoArchiveInactive, forKey: .autoArchiveInactive, fromContainer: container, withDefaults: defaults)
+        try decode(\.$autoArchiveEpisodeLimit, forKey: .autoArchiveEpisodeLimit, fromContainer: container, withDefaults: defaults)
+        try decode(\.$addToUpNext, forKey: .addToUpNext, fromContainer: container, withDefaults: defaults)
+        try decode(\.$addToUpNextPosition, forKey: .addToUpNextPosition, fromContainer: container, withDefaults: defaults)
+        try decode(\.$episodesSortOrder, forKey: .episodesSortOrder, fromContainer: container, withDefaults: defaults)
+        try decode(\.$episodeGrouping, forKey: .episodeGrouping, fromContainer: container, withDefaults: defaults)
+        try decode(\.$showArchived, forKey: .showArchived, fromContainer: container, withDefaults: defaults)
+    }
+
+    private mutating func decode<Value: Codable & Equatable>(
+        _ keyPath: WritableKeyPath<Self, ModifiedDate<Value>>,
+        forKey key: CodingKeys,
+        fromContainer container: KeyedDecodingContainer<CodingKeys>,
+        withDefaults defaults: Self
+    ) throws {
+        self[keyPath: keyPath] = try container.decodeIfPresent(ModifiedDate<Value>.self, forKey: key) ?? defaults[keyPath: keyPath]
+    }
+}
