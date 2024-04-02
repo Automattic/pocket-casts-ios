@@ -4002,7 +4002,7 @@
 "accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
 
 /* Label that toggles the option for the user to choose which chapters of the podcast they want to skip (to not be played) */
-"skip_chapters" = "Skip chapters";
+"skip_chapters" = "Deselect chapters";
 
 /* Indicates the number of chapters in a podcast episode. %1$@ is the number of chapters. */
 "number_of_chapters" = "%1$@ chapters";
@@ -4017,10 +4017,10 @@
 "number_of_hidden_chapters" = "%1$@ hidden";
 
 /* Prompt for Plus mentioning Skip Chapters, don't translate Pocket Casts Plus */
-"skip_chapters_plus_prompt" = "Skip chapters and more with Pocket Casts Plus";
+"skip_chapters_plus_prompt" = "Deselect chapters and more with Pocket Casts Plus";
 
 /* Prompt for Plus mentioning Skip Chapters, don't translate Pocket Casts Patron */
-"skip_chapters_patron_prompt" = "Skip chapters and more with Pocket Casts Patron";
+"skip_chapters_patron_prompt" = "Deselect chapters and more with Pocket Casts Patron";
 
 /* Slumber Studios partnership feature announcement title */
 "announcement_slumber_title" = "Dream big";
@@ -4041,13 +4041,13 @@
 "announcement_slumber_code_copied" = "Code copied to clipboard";
 
 /* Announcement of Skip Chapters for Patron users */
-"announcement_deselect_chapters_patron" = "As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.";
+"announcement_deselect_chapters_patron" = "As part of your Patron subscription, you can now deselect and skip chapters automatically in any episode that supports them.";
 
 /* Announcement of Skip Chapters for Plus users */
-"announcement_deselect_chapters_plus" = "As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.";
+"announcement_deselect_chapters_plus" = "As part of your Plus subscription, you can now deselect and skip chapters automatically in any episode that supports them.";
 
 /* Announcement of Skip Chapters for free users */
-"announcement_deselect_chapters_free" = "Subscribe to Plus now so you can select and skip chapters in any episode that supports them.";
+"announcement_deselect_chapters_free" = "Subscribe to Plus now so you can deselect and skip chapters automatically in any episode that supports them.";
 
 /* Used in a button meaning that the user undestood the message. */
 "got_it" = "Got it";
