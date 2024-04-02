@@ -177,6 +177,23 @@ public class Episode: NSObject, BaseEpisode {
         taggableId()
     }
 
+    private var parsedMetadata: Episode.Metadata? = nil
+
+    public var metadata: Episode.Metadata? {
+        if let parsedMetadata {
+            return parsedMetadata
+        } else if let data = rawMetadata?.data(using: .utf8) {
+            // Decode and cache metadata
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let metadata = try? decoder.decode(Episode.Metadata.self, from: data)
+            parsedMetadata = metadata
+            return metadata
+        }
+
+        return nil
+    }
+
     public struct Metadata: Decodable {
         public let showNotes: String?
         public let image: String?
