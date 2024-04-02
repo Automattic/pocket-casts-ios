@@ -1,5 +1,11 @@
 import PocketCastsUtils
 
+/// Model type for synced & stored Podcast Settings
+/// **NOTE:** Adding a setting requires additions to several other locations to succesfully decode and sync:
+/// - `init(from: Decoder)` below in this file
+/// - `SyncTask+FullSync`'s `SyncTask.processSettings(PodcastSettings, to: Podcast)`
+/// - `SyncTask+LocalChanges`'s `SyncTask.apiSettings`
+/// - `SyncTask+ServerChanges`'s `Podcast.processSettings(Api_PodcastSettings)`
 public struct PodcastSettings: JSONCodable, Equatable {
 
     public static let defaults = PodcastSettings()
