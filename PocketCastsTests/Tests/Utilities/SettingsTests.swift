@@ -173,7 +173,6 @@ final class SettingsTests: XCTestCase {
         let newFreeGiftAcknowledgement = true
         let newGridOrder = LibrarySort.titleAtoZ
         let newGridLayout = LibraryType.fourByFour
-        let newFilesSortOrder = UploadedSort.titleZtoA
         let newPlayerShelf: [PlayerAction] = [.effects, .markPlayed]
         let newUseSystemTheme = true
         let newUseEmbeddedArtwork = true
