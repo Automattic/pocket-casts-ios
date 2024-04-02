@@ -1063,6 +1063,26 @@ extension EpisodeDataManager {
             }
         }
     }
+
+    func findRawEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async throws -> String? {
+        return try await withCheckedThrowingContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    let resultSet = try db.executeQuery("SELECT metadata from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid])
+                    defer { resultSet.close() }
+
+                    if resultSet.next() {
+                        continuation.resume(returning: resultSet.string(forColumn: "metadata"))
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.findRawEpisodeMetadata Episode metadata error: \(error)")
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - New Show Info
