@@ -123,6 +123,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     var episode: Episode
     var podcast: Podcast
+    var timestamp: TimeInterval?
 
     let viewSource: EpisodeDetailViewSource
 
@@ -132,13 +133,13 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     // MARK: - Init
 
-    init(episodeUuid: String, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil) {
+    init(episodeUuid: String, source: EpisodeDetailViewSource, playlist: AutoplayHelper.Playlist? = nil, timestamp: TimeInterval? = nil) {
         // it's ok to crash here, an episode card with no episode or podcast is invalid
         episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)!
         podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
         viewSource = source
         fromPlaylist = playlist
-
+        self.timestamp = timestamp
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
 
@@ -367,9 +368,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         episodeName.text = episode.displayableTitle()
         podcastName.text = podcast.title
-        if let uuid = episode.parentPodcast()?.uuid {
-            podcastImage.setPodcast(uuid: uuid, size: .page)
-        }
+        podcastImage.setEpisode(episode, size: .page)
 
         episodeDate.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
         episodeInfo.text = episode.displayableTimeLeft()

@@ -55,7 +55,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsNotifications
             cell.cellSwitch.onTintColor = podcast.switchTintColor()
-            cell.setImage(imageName: "settings-notifications")
+            cell.setImage(imageName: "settings_notifications")
             cell.cellSwitch.isOn = podcast.isPushEnabled && NotificationsHelper.shared.pushEnabled()
 
             cell.cellSwitch.removeTarget(self, action: #selector(notificationChanged(_:)), for: UIControl.Event.valueChanged)
@@ -99,15 +99,16 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
             return cell
         case .skipFirst:
+            let startFrom = podcast.autoStartFrom
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.timeStepperCellId, for: indexPath) as! TimeStepperCell
             cell.cellLabel.text = L10n.settingsSkipFirst
-            cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.startFrom))
+            cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(startFrom))
             cell.timeStepper.tintColor = podcast.iconTintColor()
             cell.timeStepper.minimumValue = 0
             cell.timeStepper.maximumValue = 40.minutes
             cell.timeStepper.bigIncrements = 5.seconds
             cell.timeStepper.smallIncrements = 5.seconds
-            cell.timeStepper.currentValue = TimeInterval(podcast.startFrom)
+            cell.timeStepper.currentValue = TimeInterval(startFrom)
             cell.configureWithImage(imageName: "settings-skipintros", tintColor: podcast.iconTintColor())
 
             cell.onValueChanged = { [weak self] value in
@@ -125,15 +126,16 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
             return cell
         case .skipLast:
+            let skipLast = podcast.autoSkipLast
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.timeStepperCellId, for: indexPath) as! TimeStepperCell
             cell.cellLabel.text = L10n.settingsSkipLast
-            cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(podcast.skipLast))
+            cell.cellSecondaryLabel.text = L10n.timeShorthand(Int(skipLast))
             cell.timeStepper.tintColor = podcast.iconTintColor()
             cell.timeStepper.minimumValue = 0
             cell.timeStepper.maximumValue = 40.minutes
             cell.timeStepper.bigIncrements = 5.seconds
             cell.timeStepper.smallIncrements = 5.seconds
-            cell.timeStepper.currentValue = TimeInterval(podcast.autoSkipLast)
+            cell.timeStepper.currentValue = TimeInterval(skipLast)
             cell.configureWithImage(imageName: "settings-skipoutros", tintColor: podcast.iconTintColor())
 
             cell.onValueChanged = { [weak self] value in
