@@ -692,6 +692,19 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 46 {
+            do {
+                try db.executeUpdate("""
+                    DROP TABLE EpisodeMetadata;
+                    ALTER TABLE SJEpisode ADD COLUMN metadata TEXT;
+                """, values: nil)
+                schemaVersion = 46
+            } catch {
+                failedAt(46)
+                return
+            }
+        }
+
         db.commit()
     }
 }
