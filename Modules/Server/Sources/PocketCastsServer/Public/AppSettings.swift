@@ -2,6 +2,10 @@ import PocketCastsUtils
 import PocketCastsDataModel
 
 /// Model type for synced & stored App Settings
+/// **NOTE:** Adding a setting requires additions to several other locations to succesfully decode and sync:
+/// - `init(from: Decoder)` below in this file
+/// - `SyncSettingsTask`'s `Api_ChangeableSettings.update(with: AppSettings)` and `AppSettings.update(with: Api_NamedSettingsResponse`
+/// - `SettingsTests.testImportOldDefaults()` if importing old values
 public struct AppSettings: JSONCodable {
 
     public static let defaults = AppSettings()
