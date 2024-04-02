@@ -93,7 +93,7 @@ public enum FeatureFlag: String, CaseIterable {
     }
 
     private var shouldEnableSyncedSettings: Bool {
-        false
+        true
     }
 
     /// Remote Feature Flag
