@@ -41,7 +41,8 @@ class EpisodeDataManager {
         "excludeFromEpisodeLimit",
         "starredModified",
         "deselectedChapters",
-        "deselectedChaptersModified"
+        "deselectedChaptersModified",
+        "metadata"
     ]
 
     // MARK: - Query
@@ -987,6 +988,7 @@ class EpisodeDataManager {
         values.append(episode.starredModified)
         values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
         values.append(episode.deselectedChaptersModified)
+        values.append(episode.rawMetadata as Any)
 
         if includeIdForWhere {
             values.append(episode.id)
@@ -1026,7 +1028,7 @@ extension EpisodeDataManager {
                     db.beginTransaction()
 
                     for episode in showInfo {
-                        try db.executeUpdate("INSERT OR REPLACE INTO EpisodeMetadata VALUES(?, ?);", values: [episode.key, episode.value])
+                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET metadata = ? WHERE uuid = ?;", values: [episode.value, episode.key])
                     }
 
                     db.commit()
@@ -1043,7 +1045,7 @@ extension EpisodeDataManager {
         return try await withCheckedThrowingContinuation { continuation in
             dbQueue.inDatabase { db in
                 do {
-                    let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [uuid])
+                    let resultSet = try db.executeQuery("SELECT metadata from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid])
                     defer { resultSet.close() }
 
                     if resultSet.next(), let metadataData = resultSet.string(forColumn: "metadata")?.data(using: .utf8) {

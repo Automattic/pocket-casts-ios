@@ -45,6 +45,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var hasOnlyUuid = false
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64
+    @objc public var rawMetadata: String?
 
     public var hasBookmarks: Bool {
         DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
