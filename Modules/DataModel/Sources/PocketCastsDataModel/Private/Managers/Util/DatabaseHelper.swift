@@ -694,10 +694,8 @@ class DatabaseHelper {
 
         if schemaVersion < 46 {
             do {
-                try db.executeUpdate("""
-                    DROP TABLE EpisodeMetadata;
-                    ALTER TABLE SJEpisode ADD COLUMN metadata TEXT;
-                """, values: nil)
+                try db.executeUpdate("DROP TABLE EpisodeMetadata;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN metadata TEXT;", values: nil)
                 schemaVersion = 46
             } catch {
                 failedAt(46)
