@@ -219,10 +219,6 @@
     <string>Тема подкаста</string>
     <key>appearance_dark_theme</key>
     <string>Тёмная тема</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Использовать встроенную тему</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Показывает в плеере тему из загруженного файла (при наличии) вместо темы шоу.</string>
     <key>appearance_light_theme</key>
     <string>Светлая тема</string>
     <key>appearance_match_device_theme</key>

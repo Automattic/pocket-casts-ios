@@ -219,10 +219,6 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Arte do podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema escuro</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Usar arte incorporada</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Mostra a arte dos arquivos baixados (se houver) no reprodutor, em vez da arte do programa.</string>
     <key>appearance_light_theme</key>
     <string>Tema claro</string>
     <key>appearance_match_device_theme</key>

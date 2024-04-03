@@ -219,10 +219,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Podcast-artwork</string>
     <key>appearance_dark_theme</key>
     <string>Donker thema</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Artwork-embed gebruiken</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Geeft de artwork van het gedownloade bestand weer (als het bestaat) in de speler, in plaats van de artwork van de serie te gebruiken.</string>
     <key>appearance_light_theme</key>
     <string>Licht thema</string>
     <key>appearance_match_device_theme</key>

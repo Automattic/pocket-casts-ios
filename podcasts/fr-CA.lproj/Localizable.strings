@@ -219,10 +219,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Illustration du balado</string>
     <key>appearance_dark_theme</key>
     <string>Thème sombre</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Utiliser l’illustration intégrée</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Affiche l’illustration des émissions du fichier téléchargé (s’il existe) dans le lecteur plutôt que d’utiliser l’illustration de l’émission.</string>
     <key>appearance_light_theme</key>
     <string>Thème clair</string>
     <key>appearance_match_device_theme</key>
