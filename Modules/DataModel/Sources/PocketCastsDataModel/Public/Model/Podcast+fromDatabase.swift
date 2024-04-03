@@ -57,7 +57,7 @@ extension Podcast {
 
         if let settingsString = rs.string(forColumn: "settings"), let data = settingsString.data(using: .utf8) {
             do {
-                podcast.settings = try DBUtils.convertData(value: data) ?? podcast.settings
+                podcast.settings = try DBUtils.convertData(value: data)
             } catch let error {
                 FileLog.shared.addMessage("Podcast fromResultSet: Failed to decode: \(error)")
             }
@@ -70,7 +70,7 @@ extension Podcast {
 }
 
 extension DBUtils {
-    static func convertData<T: JSONCodable>(value: Data) throws -> T? {
+    static func convertData<T: JSONCodable>(value: Data) throws -> T {
         return try JSONDecoder().decode(T.self, from: value)
     }
 }

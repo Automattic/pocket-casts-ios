@@ -1,32 +1,49 @@
 import PocketCastsUtils
+import MetaCodable
 
+@Codable
+@MemberInit
 public struct PodcastSettings: JSONCodable, Equatable {
-    @ModifiedDate public var customEffects: Bool = false
+    @Default(false)
+    @ModifiedDate public var customEffects: Bool
 
-    @ModifiedDate public var autoStartFrom: Int32 = 0
-    @ModifiedDate public var autoSkipLast: Int32 = 0
+    @Default(0)
+    @ModifiedDate public var autoStartFrom: Int32
+    @Default(0)
+    @ModifiedDate public var autoSkipLast: Int32
 
     // Playback Effects
+    @Default(TrimSilence.off)
     @ModifiedDate public var trimSilence: TrimSilence
+    @Default(false)
     @ModifiedDate public var boostVolume: Bool
+    @Default(1)
     @ModifiedDate public var playbackSpeed: Double
 
-    @ModifiedDate public var notification: Bool = false
+    @Default(false)
+    @ModifiedDate public var notification: Bool
 
     // Auto Archive
-    @ModifiedDate public var autoArchive: Bool = false
-    @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed = .afterPlaying
-    @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive = .never
-    @ModifiedDate public var autoArchiveEpisodeLimit: Int32 = 0
+    @Default(false)
+    @ModifiedDate public var autoArchive: Bool
+    @Default(AutoArchiveAfterPlayed.afterPlaying)
+    @ModifiedDate public var autoArchivePlayed: AutoArchiveAfterPlayed
+    @Default(AutoArchiveAfterInactive.never)
+    @ModifiedDate public var autoArchiveInactive: AutoArchiveAfterInactive
+    @Default(0)
+    @ModifiedDate public var autoArchiveEpisodeLimit: Int32
 
+    @Default(false)
     @ModifiedDate public var addToUpNext: Bool = false
-    @ModifiedDate public var addToUpNextPosition: UpNextPosition = .bottom
+    @Default(UpNextPosition.bottom)
+    @ModifiedDate public var addToUpNextPosition: UpNextPosition
 
-    @ModifiedDate public var episodesSortOrder: PodcastEpisodeSortOrder = .newestToOldest
-    @ModifiedDate public var episodeGrouping: PodcastGrouping = .none
-    @ModifiedDate public var showArchived: Bool = false
-
-    public static var defaults: Self {
-        return PodcastSettings(trimSilence: .off, boostVolume: false, playbackSpeed: 1)
-    }
+    @Default(PodcastEpisodeSortOrder.newestToOldest)
+    @ModifiedDate public var episodesSortOrder: PodcastEpisodeSortOrder
+    @Default(PodcastGrouping.none)
+    @ModifiedDate public var episodeGrouping: PodcastGrouping
+    @Default(false)
+    @ModifiedDate public var showArchived: Bool
+    @Default(false)
+    @ModifiedDate public var thing: Bool
 }

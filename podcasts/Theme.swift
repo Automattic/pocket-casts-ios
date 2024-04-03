@@ -1,6 +1,6 @@
 import Foundation
-import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 extension ThemeType: AnalyticsDescribable {
     static var displayOrder: [ThemeType] {
@@ -111,7 +111,7 @@ class Theme: ObservableObject {
     static let preferredLightThemeKey = "preferredLightTheme"
     static let sharedTheme = Theme()
 
-    typealias ThemeType = PocketCastsServer.ThemeType
+    typealias ThemeType = PocketCastsDataModel.ThemeType
 
     @Published var activeTheme: ThemeType {
         willSet {

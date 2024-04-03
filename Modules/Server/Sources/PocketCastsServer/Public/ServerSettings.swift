@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import PocketCastsDataModel
 
 public class ServerSettings {
     // MARK: - Last Update Status

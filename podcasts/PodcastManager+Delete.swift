@@ -25,7 +25,7 @@ extension PodcastManager {
             podcast.isPushEnabled = false
             podcast.syncStatus = SyncStatus.notSynced.rawValue
             podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
-            podcast.settings = PodcastSettings.defaults
+            podcast.settings = PodcastSettings()
             DataManager.sharedManager.save(podcast: podcast)
         } else {
             // if they aren't signed in, just blow it all away

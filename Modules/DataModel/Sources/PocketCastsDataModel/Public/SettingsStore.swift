@@ -12,7 +12,7 @@ public final class SettingsStore<Value: JSONCodable> {
         _settings = CodableStore(wrappedValue: value, key)
     }
 
-    @CodableStore var settings: Value
+    @CodableStore public var settings: Value
 
     /// Access any property from `settings` without direct access to settings.
     /// Avoids having to type `appSettings.settings` and allows for future ObservableObject / publisher adoption in this method

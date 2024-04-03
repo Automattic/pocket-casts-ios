@@ -1,5 +1,6 @@
 import UIKit
 import PocketCastsUtils
+import PocketCastsDataModel
 
 open class SubscriptionHelper: NSObject {
     public static let shared = SubscriptionHelper()

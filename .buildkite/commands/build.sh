@@ -32,5 +32,9 @@ install_gems # see bash-cache Automattic's Buildkite plugin
 echo "--- Install Pods"
 install_cocoapods # see bash-cache Automattic's Buildkite plugin
 
+# Enable Macros by disabling validation
+defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+
 echo "--- Build & Test"
 bundle exec fastlane test
