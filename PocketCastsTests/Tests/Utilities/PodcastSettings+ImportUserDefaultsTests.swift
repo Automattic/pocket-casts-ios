@@ -2,7 +2,10 @@ import XCTest
 import Foundation
 import PocketCastsUtils
 @testable import podcasts
+import FMDB
+import SQLite3
 import PocketCastsDataModel
+@testable import PocketCastsUtils
 
 class PodcastSettingsImportUserDefaultsTests: XCTestCase {
     private let newOverrideGlobalEffects = true
@@ -21,7 +24,12 @@ class PodcastSettingsImportUserDefaultsTests: XCTestCase {
     private let newEpisodeGrouping = PodcastGrouping.starred
     private let newShowArchive = true
 
-    let dataManager = DataManagerMock()
+    private let dataManager = DataManagerMock()
+    private let featureFlagMock = FeatureFlagMock()
+
+    enum TestError: Error {
+        case dbFolderPathFailure
+    }
 
     override func setUp() {
         super.setUp()
@@ -42,6 +50,25 @@ class PodcastSettingsImportUserDefaultsTests: XCTestCase {
         podcast.episodeGrouping = newEpisodeGrouping.rawValue
         podcast.showArchived = newShowArchive
         dataManager.podcastsToReturn = [podcast]
+    }
+
+    private func setupDatabase() throws -> DataManager {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
+        guard let dbFolderPath = documentsPath?.appendingPathComponent("Pocket Casts") as? NSString else {
+            throw TestError.dbFolderPathFailure
+        }
+
+        if !FileManager.default.fileExists(atPath: dbFolderPath as String) {
+            try FileManager.default.createDirectory(atPath: dbFolderPath as String, withIntermediateDirectories: true)
+        }
+
+        let dbPath = dbFolderPath.appendingPathComponent("podcast_testDB.sqlite3")
+        if FileManager.default.fileExists(atPath: dbPath) {
+            try FileManager.default.removeItem(atPath: dbPath)
+        }
+        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
+        let dbQueue = try XCTUnwrap(FMDatabaseQueue(path: dbPath, flags: flags))
+        return DataManager(dbQueue: dbQueue)
     }
 
     /// Tests migrating from values stored in `SJPodcast` properties to `SJPodcast.settings`
@@ -78,5 +105,29 @@ class PodcastSettingsImportUserDefaultsTests: XCTestCase {
         XCTAssertTrue(settings.autoArchive, "Should contain new value from JSON")
         XCTAssertEqual(settings.autoArchivePlayed, .afterPlaying, "Should contain default value")
         XCTAssertEqual(settings.playbackSpeed, 1, "Should contain default value")
+    }
+
+
+    func testImportPerformance() throws {
+        featureFlagMock.set(.newSettingsStorage, value: false)
+
+        let dataManager = try setupDatabase()
+        let newUpNextSetting = AutoAddToUpNextSetting.addFirst
+
+        let podcastCount = 500
+        (0...podcastCount).forEach { _ in
+            let podcast = Podcast()
+            podcast.uuid = UUID().uuidString
+            podcast.addedDate = Date()
+            podcast.setAutoAddToUpNext(setting: newUpNextSetting)
+
+            dataManager.save(podcast: podcast)
+        }
+
+        self.measure {
+            dataManager.importPodcastSettings()
+        }
+
+        featureFlagMock.reset()
     }
 }
