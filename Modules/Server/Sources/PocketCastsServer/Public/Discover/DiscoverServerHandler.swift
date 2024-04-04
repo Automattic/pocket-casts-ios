@@ -51,6 +51,20 @@ public class DiscoverServerHandler {
         }
     }
 
+    public func discoverCategories(source: String) async -> [DiscoverCategory] {
+        return await withCheckedContinuation { continuation in
+            DiscoverServerHandler.shared.discoverCategories(source: source, completion: { discoverCategories in
+                DispatchQueue.main.async {
+                    guard let discoverCategories = discoverCategories else {
+                        continuation.resume(returning: [])
+                        return
+                    }
+                    continuation.resume(returning: discoverCategories)
+                }
+            })
+        }
+    }
+
     public func discoverCategoryDetails(source: String, completion: @escaping (DiscoverCategoryDetails?) -> Void) {
         discoverRequest(path: source, type: DiscoverCategoryDetails.self) { categoryDetails, _ in
             completion(categoryDetails)

@@ -1,5 +1,6 @@
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class DiscoverViewController: PCViewController {
     @IBOutlet var mainScrollView: UIScrollView!
@@ -169,6 +170,17 @@ class DiscoverViewController: PCViewController {
 
         self.discoverLayout = layout
         loadingIndicator.stopAnimating()
+
+        if FeatureFlag.categoriesRedesign.enabled {
+            let categoriesItem = items.first { item in
+                return item.type == "categories"
+            }
+
+            if let categoriesItem {
+                let categories = CategoriesSelectorViewController(item: categoriesItem)
+                addToScrollView(viewController: categories, isLast: false)
+            }
+        }
 
         let currentRegion = Settings.discoverRegion(discoverLayout: layout)
         for discoverItem in items {
