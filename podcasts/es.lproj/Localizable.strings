@@ -219,10 +219,6 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Carátulas de los podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema oscuro</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Utilizar carátulas integradas</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>En el reproductor, muestra las carátulas desde el archivo descargado (si existe), en lugar de utilizar las del programa.</string>
     <key>appearance_light_theme</key>
     <string>Tema claro</string>
     <key>appearance_match_device_theme</key>

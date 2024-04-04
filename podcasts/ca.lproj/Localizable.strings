@@ -219,10 +219,6 @@
     <string>Caràtules del podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema fosc</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Empra les caràtules integrades</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Al reproductor, mostra les caràtules des de l'arxiu integrat (si existeix), enlloc d'emprar les del programa.</string>
     <key>appearance_light_theme</key>
     <string>Tema clar</string>
     <key>appearance_match_device_theme</key>

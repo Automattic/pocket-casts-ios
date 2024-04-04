@@ -219,10 +219,6 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Podcast-Covers</string>
     <key>appearance_dark_theme</key>
     <string>Dunkles Theme</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Eingebettete Covers verwenden</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Dadurch wird im Player anstelle des Podcast-Covers das Cover aus der heruntergeladenen Datei (falls vorhanden) angezeigt.</string>
     <key>appearance_light_theme</key>
     <string>Helles Theme</string>
     <key>appearance_match_device_theme</key>

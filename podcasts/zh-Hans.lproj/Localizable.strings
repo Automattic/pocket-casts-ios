@@ -219,10 +219,6 @@
     <string>播客插图</string>
     <key>appearance_dark_theme</key>
     <string>深色主题</string>
-    <key>appearance_embedded_artwork</key>
-    <string>使用嵌入式插图</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>在播放器中显示下载文件（如果存在）中的插图，而不是使用节目的插图。</string>
     <key>appearance_light_theme</key>
     <string>浅色主题</string>
     <key>appearance_match_device_theme</key>

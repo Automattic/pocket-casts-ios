@@ -292,4 +292,15 @@ final class SettingsTests: XCTestCase {
         XCTAssertEqual(newUseEmbeddedArtwork, Settings.loadEmbeddedImages)
         XCTAssertEqual(newUseEmbeddedArtwork, Settings.darkUpNextTheme)
     }
+
+    /// Tests that the default values are used when a value is missing from the JSON (such as when a key was added after writing the JSON object)
+    func testDefaultValuesWhenMissing() throws {
+        let json = "{ \"openLinks\": { \"value\": true, \"modifiedDate\": \"2024-03-28T13:49:51.141Z\"} }"
+        let settings = try JSONDecoder().decode(AppSettings.self, from: json.data(using: .utf8)!)
+
+        XCTAssertTrue(settings.openLinks, "Should contain new value from JSON")
+        XCTAssertEqual(settings.autoArchivePlayed, .afterPlaying, "Should contain default value")
+        XCTAssertTrue(settings.multiSelectGesture, "Should contain default value")
+        XCTAssertEqual(settings.skipForward, 45, "Should contain default value")
+    }
 }

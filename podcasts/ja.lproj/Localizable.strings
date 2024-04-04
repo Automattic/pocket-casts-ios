@@ -219,10 +219,6 @@
     <string>ポッドキャストのアートワーク</string>
     <key>appearance_dark_theme</key>
     <string>ダークテーマ</string>
-    <key>appearance_embedded_artwork</key>
-    <string>埋め込みアートワークを使用</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>番組のアートワークを使用する代わりに、プレーヤーのダウンロードファイルからのアートワークを表示します (存在する場合)。</string>
     <key>appearance_light_theme</key>
     <string>ライトテーマ</string>
     <key>appearance_match_device_theme</key>

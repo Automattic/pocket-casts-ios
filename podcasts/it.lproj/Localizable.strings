@@ -219,10 +219,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Grafica podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema scuro</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Usa grafica incorporata</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Mostra la grafica del file scaricato (se esiste) nel lettore invece di usare la grafica dello show.</string>
     <key>appearance_light_theme</key>
     <string>Tema chiaro</string>
     <key>appearance_match_device_theme</key>

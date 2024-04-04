@@ -219,10 +219,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Podcastomslag</string>
     <key>appearance_dark_theme</key>
     <string>Mörkt tema</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Använd inbäddat omslag</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Visar omslaget från den nedladdade filen (om det finns någon) istället för omslaget som showen använder.</string>
     <key>appearance_light_theme</key>
     <string>Ljust tema</string>
     <key>appearance_match_device_theme</key>
