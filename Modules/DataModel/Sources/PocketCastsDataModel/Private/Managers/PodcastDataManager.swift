@@ -316,7 +316,7 @@ class PodcastDataManager {
 
     // MARK: - Updates
 
-    func save(podcast: Podcast, dbQueue: FMDatabaseQueue) {
+    func save(podcast: Podcast, dbQueue: FMDatabaseQueue, cache: Bool = true) {
         // Get the existing podcast to compare if folder is being changed
         let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcast.uuid)
 
@@ -338,7 +338,9 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
             }
         }
-        cachePodcasts(dbQueue: dbQueue)
+        if cache {
+            cachePodcasts(dbQueue: dbQueue)
+        }
     }
 
     func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: FMDatabaseQueue) {
