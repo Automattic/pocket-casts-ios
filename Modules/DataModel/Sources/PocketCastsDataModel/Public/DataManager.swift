@@ -10,6 +10,7 @@ public class DataManager {
     public static let playlistEpisodeTableName = "SJPlaylistEpisode"
     public static let upNextChangesTableName = "UpNextChanges"
     public static let folderTableName = "Folder"
+    public static let metadataTableName = "EpisodeMetadata"
 
     private let podcastManager = PodcastDataManager()
     private let upNextManager = UpNextDataManager()
@@ -1019,6 +1020,10 @@ public extension DataManager {
 extension DataManager {
     public func findEpisodeMetadata(uuid: String) async throws -> Episode.Metadata? {
         try await episodeManager.findEpisodeMetadata(uuid: uuid, dbQueue: dbQueue)
+    }
+
+    public func findRawEpisodeMetadata(uuid: String) async throws -> String? {
+        try await episodeManager.findRawEpisodeMetadata(uuid: uuid, dbQueue: dbQueue)
     }
 }
 
