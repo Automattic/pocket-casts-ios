@@ -113,6 +113,7 @@ class ImageManager {
     // MARK: - Subscribed Podcast Images
 
     func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
+        imageView.kf.cancelDownloadTask()
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
         let processor = Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default
@@ -120,6 +121,7 @@ class ImageManager {
     }
 
     func loadImage(url urlString: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
+        imageView.kf.cancelDownloadTask()
         let url = URL(string: urlString)!
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
         let processor = (Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default) |> DownsamplingImageProcessor(size: CGSize(width: ImageManager.sizeFor(imageSize: size), height: ImageManager.sizeFor(imageSize: size)))
