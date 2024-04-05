@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import PocketCastsUtils
 
 public class DiscoverServerHandler {
     enum DiscoverServerError: Error {
@@ -28,7 +29,14 @@ public class DiscoverServerHandler {
     }
 
     public func discoverPage(completion: @escaping (DiscoverLayout?, Bool) -> Void) {
-        discoverRequest(path: ServerConstants.Urls.discover() + "ios/content.json", type: DiscoverLayout.self) { discoverItems, cachedResponse in
+        let contentPath: String
+        if FeatureFlag.categoriesRedesign.enabled {
+            contentPath = "ios/content_v2.json"
+        } else {
+            contentPath = "ios/content.json"
+        }
+
+        discoverRequest(path: ServerConstants.Urls.discover() + contentPath, type: DiscoverLayout.self) { discoverItems, cachedResponse in
             completion(discoverItems, cachedResponse)
         }
     }
