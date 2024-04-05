@@ -290,8 +290,8 @@ public class DataManager {
         podcastManager.delete(podcast: podcast, dbQueue: dbQueue)
     }
 
-    public func save(podcast: Podcast) {
-        podcastManager.save(podcast: podcast, dbQueue: dbQueue)
+    public func save(podcast: Podcast, cache: Bool = true) {
+        podcastManager.save(podcast: podcast, dbQueue: dbQueue, cache: cache)
     }
 
     public func savePushSetting(podcast: Podcast, pushEnabled: Bool) {
