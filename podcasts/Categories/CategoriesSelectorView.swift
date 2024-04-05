@@ -10,12 +10,13 @@ struct CategoriesSelectorView: View {
     @ObservedObject var observable: CategoriesSelectorViewController.Observable
 
     @State private var categories: [DiscoverCategory]?
+    @State private var popular: [DiscoverCategory]?
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                if let categories {
-                    CategoriesPillsView(categories: categories)
+                if let popular {
+                    CategoriesPillsView(categories: popular)
                         .environmentObject(Theme.sharedTheme)
                 } else {
                     PlaceholderPillsView()
@@ -25,7 +26,12 @@ struct CategoriesSelectorView: View {
         }
         .task(id: observable.item?.source) {
             guard let source = observable.item?.source else { return }
-            categories = await DiscoverServerHandler.shared.discoverCategories(source: source)
+            let categories = await DiscoverServerHandler.shared.discoverCategories(source: source)
+            self.categories = categories
+            popular = categories.filter {
+                guard let id = $0.id else { return false }
+                return observable.item?.popular?.contains(id) == true
+            }
         }
     }
 }
