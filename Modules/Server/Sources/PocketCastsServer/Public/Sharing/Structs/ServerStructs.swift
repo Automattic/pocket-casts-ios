@@ -257,6 +257,7 @@ public struct DiscoverRegion: Decodable {
 }
 
 public struct DiscoverItem: Decodable {
+    public var id: String?
     public var uuid: String?
     public var title: String?
     public var type: String?
@@ -276,7 +277,7 @@ public struct DiscoverItem: Decodable {
         case isSponsored = "sponsored"
         case sponsoredPodcasts = "sponsored_podcasts"
         case expandedTopItemLabel = "expanded_top_item_label"
-        case type, title, source, regions, curated, uuid, popular
+        case type, title, source, regions, curated, uuid, popular, id
     }
 }
 
