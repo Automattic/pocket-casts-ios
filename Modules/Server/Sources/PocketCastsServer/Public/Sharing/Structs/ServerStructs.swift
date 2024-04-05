@@ -256,7 +256,7 @@ public struct DiscoverRegion: Decodable {
     public var flag: String
 }
 
-public struct DiscoverItem: Decodable {
+public struct DiscoverItem: Decodable, Equatable {
     public var id: String?
     public var uuid: String?
     public var title: String?
@@ -281,7 +281,7 @@ public struct DiscoverItem: Decodable {
     }
 }
 
-public struct CarouselSponsoredPodcast: Decodable {
+public struct CarouselSponsoredPodcast: Decodable, Equatable {
     public var position: Int?
     public var source: String?
 }
