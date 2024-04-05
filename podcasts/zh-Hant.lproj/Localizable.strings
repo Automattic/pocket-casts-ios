@@ -153,12 +153,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>書籤登場！</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>加入我們的書籤 Beta 測試！</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>立即訂閱 Plus，就能在支援章節功能的節目中選取並跳過章節。</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>你已訂閱 Patron，現在可以在支援章節功能的節目中選取並跳過章節。</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>你已訂閱 Plus，現在可以在支援章節功能的節目中選取並跳過章節。</string>
     <key>announcement_slumber_code_copied</key>
     <string>代碼已複製到剪貼簿</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -2423,12 +2417,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>建立 Podcast 捷徑</string>
     <key>skip_back</key>
     <string>倒轉跳過</string>
-    <key>skip_chapters</key>
-    <string>略過章節</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>訂閱 Pocket Casts Patron，就能跳過章節並享有更多功能</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>訂閱 Pocket Casts Plus，就能跳過章節並享有更多功能</string>
     <key>skip_forward</key>
     <string>快轉跳過</string>
     <key>sleep_timer</key>
