@@ -233,8 +233,8 @@ class DiscoverViewController: PCViewController {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
             }
             viewController.view.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -65).isActive = true
-        } else if let previousView = summaryViewControllers.last?.view {
-            if summaryViewControllers.count == 1 {
+        } else if let previousVC = summaryViewControllers.last, let previousView = previousVC.view {
+            if previousVC is FeaturedSummaryViewController {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: -10).isActive = true
                 mainScrollView.sendSubviewToBack(viewController.view)
             } else {
