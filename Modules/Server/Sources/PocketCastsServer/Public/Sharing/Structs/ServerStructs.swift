@@ -268,6 +268,7 @@ public struct DiscoverItem: Decodable {
     public var curated: Bool?
     public var regions: [String]
     public var isSponsored: Bool?
+    public var popular: [Int]?
 
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"
@@ -275,7 +276,7 @@ public struct DiscoverItem: Decodable {
         case isSponsored = "sponsored"
         case sponsoredPodcasts = "sponsored_podcasts"
         case expandedTopItemLabel = "expanded_top_item_label"
-        case type, title, source, regions, curated, uuid
+        case type, title, source, regions, curated, uuid, popular
     }
 }
 
