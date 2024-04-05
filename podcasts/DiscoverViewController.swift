@@ -150,12 +150,10 @@ class DiscoverViewController: PCViewController {
     ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
     ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
     func reload(except items: [DiscoverItem], category: DiscoverCategory) {
-
         let categoryVC = CategoryPodcastsViewController(category: category)
         categoryVC.registerDiscoverDelegate(self)
+        categoryVC.view.alpha = 0
 
-        //TODO: Allow this to accept a Discover Layout?
-        //TODO: Add fade animation
         let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: items.first?.regions ?? [])
 
         let itemsToRemove = Set(currentSnapshot?.itemIdentifiers ?? []).subtracting(items)
@@ -181,14 +179,26 @@ class DiscoverViewController: PCViewController {
     private var currentSnapshot: NSDiffableDataSourceSnapshot<Int, DiscoverItem>?
 
     private func apply(snapshot: NSDiffableDataSourceSnapshot<Int, DiscoverItem>, currentRegion: String) {
-        summaryViewControllers.filter { sumItem in
-            !snapshot.itemIdentifiers.contains { $0 == sumItem.0 }
-        }.forEach { _, vc in
-            //TODO: Add fade animation
-            vc.willMove(toParent: nil)
-            NSLayoutConstraint.deactivate(vc.view.constraints)
-            vc.view.removeFromSuperview()
-            vc.removeFromParent()
+        let viewsToRemove = summaryViewControllers.filter { sumItem in
+            !snapshot.itemIdentifiers.contains { $0 == sumItem.item }
+        }
+
+        UIView.animate(withDuration: 0.1) {
+            viewsToRemove.forEach { $0.viewController.view.alpha = 0 }
+        } completion: { [self] _ in
+            viewsToRemove.forEach { _, vc in
+                vc.willMove(toParent: nil)
+                vc.view.alpha = 0
+                NSLayoutConstraint.deactivate(vc.view.constraints)
+                vc.view.removeFromSuperview()
+                vc.removeFromParent()
+            }
+
+            UIView.animate(withDuration: 0.2) { [self] in
+                summaryViewControllers.forEach {
+                    $0.viewController.view.alpha = 1
+                }
+            }
         }
 
         summaryViewControllers.removeAll { sumItem in
@@ -272,6 +282,7 @@ class DiscoverViewController: PCViewController {
     private func addSummaryController(_ controller: DiscoverSummaryProtocol, discoverItem: DiscoverItem) {
         guard let viewController = controller as? UIViewController else { return }
 
+        viewController.view.alpha = 0
         addToScrollView(viewController: viewController, for: discoverItem, isLast: false)
 
         controller.registerDiscoverDelegate(self)
