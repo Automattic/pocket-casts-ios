@@ -171,17 +171,6 @@ class DiscoverViewController: PCViewController {
         self.discoverLayout = layout
         loadingIndicator.stopAnimating()
 
-        if FeatureFlag.categoriesRedesign.enabled {
-            let categoriesItem = items.first { item in
-                return item.type == "categories"
-            }
-
-            if let categoriesItem {
-                let categories = CategoriesSelectorViewController(item: categoriesItem)
-                addToScrollView(viewController: categories, isLast: false)
-            }
-        }
-
         let currentRegion = Settings.discoverRegion(discoverLayout: layout)
         for discoverItem in items {
             guard let type = discoverItem.type, let summaryStyle = discoverItem.summaryStyle, discoverItem.regions.contains(currentRegion) else { continue }
@@ -190,6 +179,8 @@ class DiscoverViewController: PCViewController {
             guard coordinator.shouldDisplay(discoverItem) else { continue }
 
             switch (type, summaryStyle, expandedStyle) {
+            case ("categories", "pills", _):
+                addSummaryController(CategoriesSelectorViewController(), discoverItem: discoverItem)
             case ("podcast_list", "carousel", _):
                 addSummaryController(FeaturedSummaryViewController(), discoverItem: discoverItem)
             case ("podcast_list", "small_list", _):
@@ -202,7 +193,7 @@ class DiscoverViewController: PCViewController {
                 addSummaryController(CollectionSummaryViewController(), discoverItem: discoverItem)
             case ("network_list", _, _):
                 addSummaryController(NetworkSummaryViewController(), discoverItem: discoverItem)
-            case ("categories", _, _):
+            case ("categories", "category", _):
                 addSummaryController(CategorySummaryViewController(regionCode: currentRegion), discoverItem: discoverItem)
             case ("episode_list", "single_episode", _):
                 addSummaryController(SingleEpisodeViewController(), discoverItem: discoverItem)
