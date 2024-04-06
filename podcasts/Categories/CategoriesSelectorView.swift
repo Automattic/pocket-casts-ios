@@ -16,7 +16,7 @@ struct CategoriesSelectorView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 if let popular {
-                    CategoriesPillsView(categories: popular, selectedCategory: $observable.selectedCategory)
+                    CategoriesPillsView(categories: popular, selectedCategory: $observable.selectedCategory.animation(.easeOut(duration: 0.25)))
                         .environmentObject(Theme.sharedTheme)
                 } else {
                     PlaceholderPillsView()
@@ -85,9 +85,7 @@ struct CloseButton: View {
 
     var body: some View {
         Button(action: {
-            withAnimation {
-                self.selectedCategory = nil
-            }
+            self.selectedCategory = nil
         }, label: {
             Image(systemName: "xmark")
         })
@@ -106,9 +104,7 @@ struct CategoryButton: View {
 
     var body: some View {
         Button(action: {
-            withAnimation {
-                selectedCategory = category
-            }
+            selectedCategory = category
         }, label: {
             Text(category.name ?? "")
         })
