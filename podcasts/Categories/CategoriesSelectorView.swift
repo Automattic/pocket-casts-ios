@@ -78,12 +78,14 @@ struct CategoriesPillsView: View {
                 .matchedGeometryEffect(id: category.id, in: animation)
             }
             .sheet(isPresented: $showingCategories) {
-                if #available(iOS 16.0, *) {
-                    CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory)
-                    .presentationDetents([.medium])
-                } else {
-                    // Fallback on earlier versions
-                }
+                CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory)
+                    .modify {
+                        if #available(iOS 16.0, *) {
+                            $0.presentationDetents([.medium])
+                        } else {
+                            $0
+                        }
+                    }
             }
             .onChange(of: selectedCategory) { _ in
                 showingCategories = false

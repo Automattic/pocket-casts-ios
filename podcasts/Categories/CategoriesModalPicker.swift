@@ -2,7 +2,6 @@ import SwiftUI
 import PocketCastsServer
 import Kingfisher
 
-@available(iOS 16.0, *) //
 struct CategoriesModalPicker: View {
     let categories: [DiscoverCategory]
 
@@ -57,11 +56,15 @@ struct CategoriesModalPicker: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, Constants.Padding.cell)
                     .listRowSeparatorTint(separator)
-                    .alignmentGuide(.listRowSeparatorLeading) { d in
-                        d[.leading]
-                    }
-                    .alignmentGuide(.listRowSeparatorTrailing) { d in
-                        d[.trailing]
+                    .modify {
+                        if #available(iOS 16.0, *) {
+                            $0.alignmentGuide(.listRowSeparatorLeading) { d in
+                                    d[.leading]
+                                }
+                                .alignmentGuide(.listRowSeparatorTrailing) { d in
+                                    d[.trailing]
+                                }
+                        }
                     }
                     .listRowBackground(background)
                 }
