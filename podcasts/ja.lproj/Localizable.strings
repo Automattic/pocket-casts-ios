@@ -153,12 +153,6 @@
     <string>ブックマークはこちら !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>ブックマークのベータテストに参加してください !</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>今すぐ Plus に登録すると、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできます。</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Patron サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Plus サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
     <key>announcement_slumber_code_copied</key>
     <string>コードをクリップボードにコピーしました</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -2423,12 +2417,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ポッドキャストのショートカットを作成</string>
     <key>skip_back</key>
     <string>巻き戻し</string>
-    <key>skip_chapters</key>
-    <string>チャプターをスキップ</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Pocket Casts Patron でチャプターのスキップやその他の機能を利用</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Pocket Casts Plus でチャプターのスキップやその他の機能を利用</string>
     <key>skip_forward</key>
     <string>早送り</string>
     <key>sleep_timer</key>
