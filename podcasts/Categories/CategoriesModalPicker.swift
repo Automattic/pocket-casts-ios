@@ -1,0 +1,73 @@
+import SwiftUI
+import PocketCastsServer
+import Kingfisher
+
+@available(iOS 16.0, *) //
+struct CategoriesModalPicker: View {
+    let categories: [DiscoverCategory]
+
+    @Binding var selectedCategory: DiscoverCategory?
+
+    @EnvironmentObject var theme: Theme
+
+    private enum Constants {
+        enum Padding {
+            static let title: CGFloat = 20
+            static let cell: CGFloat = 12
+        }
+        static let imageSize: CGFloat = 24
+        static let cellSpacing: CGFloat = 20
+    }
+
+    // MARK: Colors
+    private var separator: Color {
+        theme.primaryField03
+    }
+    private var background: Color {
+        theme.primaryUi01
+    }
+    private var titleForeground: Color {
+        theme.secondaryIcon01
+    }
+    private var cellForeground: Color {
+        theme.primaryText01
+    }
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Select a Category".uppercased())
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundStyle(titleForeground)
+                .padding(.top, Constants.Padding.title)
+                .padding(.leading, Constants.Padding.title)
+            List(selection: $selectedCategory, content: {
+                ForEach(categories, id: \.self) { category in
+                    HStack(spacing: Constants.cellSpacing) {
+                        if let icon = category.icon, let url = URL(string: icon) {
+                            KFImage(url)
+                                .renderingMode(.template)
+                                .resizable()
+                                .frame(width: Constants.imageSize, height: Constants.imageSize)
+                        }
+                        Text(category.name ?? "")
+                            .font(.headline)
+                    }
+                    .foregroundStyle(cellForeground)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, Constants.Padding.cell)
+                    .listRowSeparatorTint(separator)
+                    .alignmentGuide(.listRowSeparatorLeading) { d in
+                        d[.leading]
+                    }
+                    .alignmentGuide(.listRowSeparatorTrailing) { d in
+                        d[.trailing]
+                    }
+                    .listRowBackground(background)
+                }
+            })
+            .listStyle(.plain)
+        }
+        .background(background)
+    }
+}
