@@ -145,6 +145,29 @@ class DiscoverViewController: PCViewController {
         }
     }
 
+    /// Reloads discover, keeping the items listed in `exclude`
+    /// - Parameters:
+    ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
+    ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
+    func reload(except items: [DiscoverItem], category: DiscoverCategory) {
+
+        let categoryVC = CategoryPodcastsViewController(category: category)
+        categoryVC.registerDiscoverDelegate(self)
+
+        //TODO: Allow this to accept a Discover Layout?
+        //TODO: Add fade animation
+        let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: items.first?.regions ?? [])
+
+        let itemsToRemove = Set(currentSnapshot?.itemIdentifiers ?? []).subtracting(items)
+        if var newSnapshot = currentSnapshot {
+            newSnapshot.deleteItems(Array(itemsToRemove))
+            newSnapshot.appendItems([item])
+            apply(snapshot: newSnapshot, currentRegion: Settings.discoverRegion(discoverLayout: discoverLayout!))
+            addToScrollView(viewController: categoryVC, for: item, isLast: true)
+        }
+        categoryVC.podcastsTable.isScrollEnabled = false
+    }
+
     private func showPageLoading() {
         loadingContent = true
 
