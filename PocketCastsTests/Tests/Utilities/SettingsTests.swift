@@ -143,6 +143,41 @@ final class SettingsTests: XCTestCase {
         let newPreferredLightTheme = ThemeType.contrastLight
         let newPreferredDarkTheme = ThemeType.contrastDark
 
+        let newOpenLinks = true
+        let newShowArchived = true
+        let newSkipForward = 20
+        let newSkipBack = 30
+        let newKeepScreenAwake = true
+        let newOpenPlayer = true
+        let newIntelligentResumption = true
+        let newPlayupNextOnTap = true
+        let newPlaybackActions = true
+        let newLegacyBluetooth = true
+        let newMultiselectGesture = true
+        let newChapterTitles = true
+        let newAutoplayEnabled = true
+        let newNotifications = true
+        let newAppBadgeFilter = "1234"
+        let newAutoarchiveIncludesStarred = true
+        let newVolumeBoost = true
+        let newTrimSilence = TrimSilence.medium
+        let newPlaybackSpeed = 2.0
+        let newFilesAutoUpNext = true
+        let newFilesAfterPlayingDeleteLocal = true
+        let newFilesAfterPlayingDeleteCloud = true
+        let newWarnDataUsage = true
+        let newAutoUpNextLimit = 3
+        let newAutoUpNextLimitReached = AutoAddLimitReachedAction.addToTopOnly
+        let newPrivacyAnalytics = true
+        let newMarketingOptIn = true
+        let newFreeGiftAcknowledgement = true
+        let newGridOrder = LibrarySort.titleAtoZ
+        let newGridLayout = LibraryType.fourByFour
+        let newPlayerShelf: [PlayerAction] = [.effects, .markPlayed]
+        let newUseSystemTheme = true
+        let newUseEmbeddedArtwork = true
+        let newUseDarkUpNextTheme = true
+
         Settings.setPrimaryRowAction(newRowAction)
         Settings.setPrimaryUpNextSwipeAction(newSwipeAction)
         Settings.appBadge = newAppBadge
@@ -156,6 +191,41 @@ final class SettingsTests: XCTestCase {
         Settings.headphonesPreviousAction = newHeadphonesPreviousAction
         Settings.setHomeFolderSortOrder(order: newHomeFolderSortOrder)
         Settings.setPodcastBadgeType(newPodcastBadgeType)
+        Settings.openLinks = newOpenLinks
+        Settings.setShowArchivedDefault(newShowArchived)
+        Settings.skipForwardTime = newSkipForward
+        Settings.skipBackTime = newSkipBack
+        Settings.keepScreenAwake = newKeepScreenAwake
+        Settings.openPlayerAutomatically = newOpenPlayer
+        Settings.intelligentResumption = newIntelligentResumption
+        Settings.setPlayUpNextOnTap(newPlayupNextOnTap)
+        Settings.setExtraMediaSessionActionsEnabled(newPlaybackActions)
+        Settings.setLegacyBluetoothModeEnabled(newLegacyBluetooth)
+        Settings.setMultiSelectGestureEnabled(newMultiselectGesture)
+        Settings.setPublishChapterTitlesEnabled(newChapterTitles)
+        Settings.autoplay = newAutoplayEnabled
+        UserDefaults.standard.set(newNotifications, forKey: Constants.UserDefaults.pushEnabled)
+        Settings.appBadgeFilterUuid = newAppBadgeFilter
+        Settings.setArchiveStarredEpisodes(newAutoarchiveIncludesStarred)
+        UserDefaults.standard.set(newVolumeBoost, forKey: Constants.UserDefaults.globalVolumeBoost)
+        UserDefaults.standard.set(newTrimSilence.amount.rawValue, forKey: Constants.UserDefaults.globalRemoveSilence)
+        UserDefaults.standard.set(newPlaybackSpeed, forKey: Constants.UserDefaults.globalPlaybackSpeed)
+        Settings.setUserEpisodeAutoAddToUpNext(newFilesAutoUpNext)
+        Settings.setUserEpisodeRemoveFileAfterPlaying(newFilesAfterPlayingDeleteLocal)
+        Settings.setUserEpisodeRemoveFileAfterPlaying(newFilesAfterPlayingDeleteCloud)
+        Settings.setMobileDataAllowed(!newWarnDataUsage)
+        ServerSettings.setAutoAddToUpNextLimit(newAutoUpNextLimit)
+        ServerSettings.setOnAutoAddLimitReached(action: newAutoUpNextLimitReached)
+        Settings.setAnalytics(optOut: newPrivacyAnalytics)
+        ServerSettings.setMarketingOptIn(newMarketingOptIn)
+        Settings.setSubscriptionCancelledAcknowledged(newFreeGiftAcknowledgement)
+        Settings.setHomeFolderSortOrder(order: newGridOrder)
+        Settings.setLibraryType(newGridLayout)
+        Settings.setUserEpisodeSortBy(newEpisodeSortBy.rawValue)
+        Settings.updatePlayerActions(newPlayerShelf)
+        Settings.setShouldFollowSystemTheme(newUseSystemTheme)
+        Settings.loadEmbeddedImages = newUseEmbeddedArtwork
+        Settings.darkUpNextTheme = newUseDarkUpNextTheme
 
         Theme.sharedTheme.activeTheme = newTheme
         Theme.setPreferredLightTheme(newPreferredLightTheme, systemIsDark: false)
@@ -185,5 +255,52 @@ final class SettingsTests: XCTestCase {
         XCTAssertEqual(newTheme, Theme.sharedTheme.activeTheme)
         XCTAssertEqual(newPreferredLightTheme, Theme.preferredLightTheme())
         XCTAssertEqual(newPreferredDarkTheme, Theme.preferredDarkTheme())
+
+        XCTAssertEqual(newOpenLinks, Settings.openLinks)
+        XCTAssertEqual(newShowArchived, Settings.showArchivedDefault())
+        XCTAssertEqual(newSkipForward, Settings.skipForwardTime)
+        XCTAssertEqual(newSkipBack, Settings.skipBackTime)
+        XCTAssertEqual(newKeepScreenAwake, Settings.keepScreenAwake)
+        XCTAssertEqual(newOpenPlayer, Settings.openPlayerAutomatically)
+        XCTAssertEqual(newIntelligentResumption, Settings.intelligentResumption)
+        XCTAssertEqual(newPlayupNextOnTap, Settings.playUpNextOnTap())
+        XCTAssertEqual(newPlaybackActions, Settings.extraMediaSessionActionsEnabled())
+        XCTAssertEqual(newLegacyBluetooth, Settings.legacyBluetoothModeEnabled())
+        XCTAssertEqual(newMultiselectGesture, Settings.multiSelectGestureEnabled())
+        XCTAssertEqual(newChapterTitles, Settings.publishChapterTitlesEnabled())
+        XCTAssertEqual(newAutoplayEnabled, Settings.autoplay)
+        XCTAssertEqual(newAutoplayEnabled, Settings.autoplay)
+        XCTAssertEqual(newNotifications, UserDefaults.standard.bool(forKey: Constants.UserDefaults.pushEnabled))
+        XCTAssertEqual(newAppBadgeFilter, Settings.appBadgeFilterUuid)
+        XCTAssertEqual(newAutoarchiveIncludesStarred, Settings.archiveStarredEpisodes())
+        XCTAssertEqual(newVolumeBoost, SettingsStore.appSettings.volumeBoost)
+        XCTAssertEqual(newTrimSilence, SettingsStore.appSettings.trimSilence)
+        XCTAssertEqual(newPlaybackSpeed, SettingsStore.appSettings.playbackSpeed)
+        XCTAssertEqual(newFilesAutoUpNext, Settings.userEpisodeAutoAddToUpNext())
+        XCTAssertEqual(newFilesAfterPlayingDeleteLocal, Settings.userEpisodeRemoveFileAfterPlaying())
+        XCTAssertEqual(newFilesAfterPlayingDeleteCloud, Settings.userEpisodeRemoveFileAfterPlaying())
+        XCTAssertEqual(newWarnDataUsage, !Settings.mobileDataAllowed())
+        XCTAssertEqual(newAutoUpNextLimit, ServerSettings.autoAddToUpNextLimit())
+        XCTAssertEqual(newAutoUpNextLimitReached, ServerSettings.onAutoAddLimitReached())
+        XCTAssertEqual(newPrivacyAnalytics, Settings.analyticsOptOut())
+        XCTAssertEqual(newMarketingOptIn, ServerSettings.marketingOptIn())
+        XCTAssertEqual(newFreeGiftAcknowledgement, Settings.subscriptionCancelledAcknowledged())
+        XCTAssertEqual(newGridOrder, Settings.homeFolderSortOrder())
+        XCTAssertEqual(newGridLayout, Settings.libraryType())
+        XCTAssertEqual(newPlayerShelf, Array(Settings.playerActions().prefix(upTo: newPlayerShelf.count))) // Default actions are appended so only look at set items
+        XCTAssertEqual(newUseSystemTheme, Settings.shouldFollowSystemTheme())
+        XCTAssertEqual(newUseEmbeddedArtwork, Settings.loadEmbeddedImages)
+        XCTAssertEqual(newUseEmbeddedArtwork, Settings.darkUpNextTheme)
+    }
+
+    /// Tests that the default values are used when a value is missing from the JSON (such as when a key was added after writing the JSON object)
+    func testDefaultValuesWhenMissing() throws {
+        let json = "{ \"openLinks\": { \"value\": true, \"modifiedDate\": \"2024-03-28T13:49:51.141Z\"} }"
+        let settings = try JSONDecoder().decode(AppSettings.self, from: json.data(using: .utf8)!)
+
+        XCTAssertTrue(settings.openLinks, "Should contain new value from JSON")
+        XCTAssertEqual(settings.autoArchivePlayed, .afterPlaying, "Should contain default value")
+        XCTAssertTrue(settings.multiSelectGesture, "Should contain default value")
+        XCTAssertEqual(settings.skipForward, 45, "Should contain default value")
     }
 }

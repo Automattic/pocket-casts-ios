@@ -1,9 +1,12 @@
 import PocketCastsDataModel
 import UIKit
+import PocketCastsUtils
 
 class PodcastImageView: UIView {
     private var shadowView: UIView?
     var imageView: UIImageView?
+
+    var currentEpisode: Episode? = nil
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,6 +25,36 @@ class PodcastImageView: UIView {
 
         ImageManager.sharedManager.loadImage(podcastUuid: uuid, imageView: imageView, size: size, showPlaceHolder: true)
         adjustForSize(size)
+    }
+
+    func setEpisode(_ episode: Episode, size: PodcastThumbnailSize) {
+        guard let imageView = imageView else { return }
+
+        currentEpisode = episode
+
+        ImageManager.sharedManager.setPlaceholder(imageView: imageView, size: size)
+
+        Task {
+            if FeatureFlag.episodeFeedArtwork.enabled, Settings.loadEmbeddedImages, let episodeArtworkUrl = await episode.loadMetadata()?.image {
+
+                // The app might run into the case where the episode changed but there's still
+                // a pending task to display the image of another episode
+                // This can happen when dequeing a cell, for example.
+                // This check prevent this from happening.
+                guard episode.uuid == currentEpisode?.uuid else {
+                    return
+                }
+
+                ImageManager.sharedManager.loadImage(url: episodeArtworkUrl, imageView: imageView, size: size, showPlaceHolder: true)
+                adjustForSize(size)
+            } else {
+                guard episode.uuid == currentEpisode?.uuid else {
+                    return
+                }
+
+                setPodcast(uuid: episode.parentIdentifier(), size: size)
+            }
+        }
     }
 
     func setImageManually(image: UIImage?, size: PodcastThumbnailSize) {

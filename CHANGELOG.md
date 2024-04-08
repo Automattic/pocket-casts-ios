@@ -1,7 +1,13 @@
+7.62
+-----
+
+
 7.61
 -----
 - Opening a shared podcast episode link with the current position, now opens on the right position. [#5]
 - Allow sharing of bookmarks directly on the bookmarks list. [#1558]
+- Adds support to displaying chapters from RSS [#1574]
+- Adds support to displaying episode artwork [#1574]
 
 7.60
 -----

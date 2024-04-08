@@ -3,12 +3,6 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 protocol ShowInfoCoordinating {
-    init(
-        dataRetriever: ShowInfoDataRetriever,
-        podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever,
-        dataManager: DataManager
-    )
-
     func loadShowNotes(
         podcastUuid: String,
         episodeUuid: String
@@ -18,4 +12,9 @@ protocol ShowInfoCoordinating {
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> String?
+
+    func loadChapters(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> ([Episode.Metadata.EpisodeChapter]?, [PodcastIndexChapter]?)
 }

@@ -153,12 +153,6 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Die Lesezeichen sind da!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Sei beim Testen der Beta-Version der Lesezeichen dabei!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Abonniere Plus jetzt, damit du in jeder Folge Kapitel auswählen und überspringen kannst (falls unterstützt).</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Als Teil deines Patron-Abonnements kannst du nun in jeder Folge Kapitel auswählen und überspringen kannst (falls unterstützt).</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Als Teil deines Plus-Abonnements kannst du nun in jeder Folge Kapitel auswählen und überspringen kannst (falls unterstützt).</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code in Zwischenablage kopiert</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,10 +213,6 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Podcast-Covers</string>
     <key>appearance_dark_theme</key>
     <string>Dunkles Theme</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Eingebettete Covers verwenden</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Dadurch wird im Player anstelle des Podcast-Covers das Cover aus der heruntergeladenen Datei (falls vorhanden) angezeigt.</string>
     <key>appearance_light_theme</key>
     <string>Helles Theme</string>
     <key>appearance_match_device_theme</key>
@@ -2427,12 +2417,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Tastaturkürzel für Podcast erstellen</string>
     <key>skip_back</key>
     <string>Zurück</string>
-    <key>skip_chapters</key>
-    <string>Kapitel überspringen</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Überspringe Kapitel und mehr mit Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Überspringe Kapitel und mehr mit Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Vor</string>
     <key>sleep_timer</key>

@@ -38,7 +38,7 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
             let podcastUUID = episode.parentIdentifier()
             let episodeUUID = episode.uuid
             Task { [weak self] in
-                if let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: podcastUUID, episodeUuid: episodeUUID) {
+                if let showNotes = await self?.episode.loadMetadata()?.showNotes {
                     self?.downloadingShowNotes = false
                     self?.showNotesDidLoad(showNotes: showNotes)
                 }

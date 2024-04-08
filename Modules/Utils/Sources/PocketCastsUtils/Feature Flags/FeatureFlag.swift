@@ -64,11 +64,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             false
         case .newShowNotesEndpoint:
-            false
+            true
         case .episodeFeedArtwork:
-            false // To be enabled, newShowNotesEndpoint needs to be too
+            true // To be enabled, newShowNotesEndpoint needs to be too
         case .rssChapters:
-            false // To be enabled, newShowNotesEndpoint needs to be too
+            true // To be enabled, newShowNotesEndpoint needs to be too
         case .newPlayerTransition:
             true
         case .errorLogoutHandling:
@@ -93,7 +93,8 @@ public enum FeatureFlag: String, CaseIterable {
     }
 
     private var shouldEnableSyncedSettings: Bool {
-        false
+        // Enabled only out of appstore until we verify that this feature is ready for production.
+        BuildEnvironment.current != .appStore
     }
 
     /// Remote Feature Flag

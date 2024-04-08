@@ -32,6 +32,8 @@ import Foundation
     var deselectedChapters: String? { get set }
     var deselectedChaptersModified: Int64 { get set }
 
+    var rawMetadata: String? { get set }
+
     func displayableTitle() -> String
     func parentIdentifier() -> String
 

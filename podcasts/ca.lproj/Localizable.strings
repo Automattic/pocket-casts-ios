@@ -153,12 +153,6 @@
     <string>Els marcadors són aquí!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Uneix-te a nosaltres a la prova beta dels marcadors!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Subscriu-te a Plus ara perquè puguis triar i saltar capítols en qualsevol episodi que els suporti.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Com a part de la teva subscripció de Patron, ara pots triar i saltar capítols en qualsevol episodi que els suporti.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Com a part de la teva subscripció Plus, ara pots triar i saltar capítols en qualsevol episodi que els suporti.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Codi copiat al portapapers</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,10 +213,6 @@
     <string>Caràtules del podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema fosc</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Empra les caràtules integrades</string>
-    <key>appearance_embedded_artwork_subtitle</key>
-    <string>Al reproductor, mostra les caràtules des de l'arxiu integrat (si existeix), enlloc d'emprar les del programa.</string>
     <key>appearance_light_theme</key>
     <string>Tema clar</string>
     <key>appearance_match_device_theme</key>
@@ -2422,12 +2412,6 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Crear accés directe al podcast</string>
     <key>skip_back</key>
     <string>Endarrerir</string>
-    <key>skip_chapters</key>
-    <string>Saltar capítols</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Salta capítols i més amb Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Salta capítols i més amb Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avançar</string>
     <key>sleep_timer</key>
