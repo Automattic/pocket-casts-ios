@@ -2,6 +2,7 @@ import DifferenceKit
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
@@ -167,9 +168,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func updateFolderButton() {
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
-        let leftButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
-        leftButton.accessibilityLabel = L10n.folderCreateNew
-        navigationItem.leftBarButtonItem = leftButton
+        let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
+        folderButton.accessibilityLabel = L10n.folderCreateNew
+        if FeatureFlag.upNextOnTabBar.enabled {
+            extraRightButtons = [folderButton]
+        } else {
+            navigationItem.leftBarButtonItem = folderButton
+        }
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {
