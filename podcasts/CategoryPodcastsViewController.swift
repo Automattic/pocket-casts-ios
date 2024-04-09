@@ -18,7 +18,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     @IBOutlet var noNetworkView: UIView!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
 
-    private weak var delegate: DiscoverDelegate?
+    weak var delegate: DiscoverDelegate?
 
     private var category: DiscoverCategory
     private var podcasts = [DiscoverPodcast]()
