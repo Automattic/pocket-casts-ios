@@ -3,11 +3,11 @@ import PocketCastsServer
 
 class CategoriesSelectorViewController: UIHostingController<CategoriesSelectorView>, DiscoverSummaryProtocol {
 
-    class Observable: ObservableObject {
+    class DiscoverItemObservable: ObservableObject {
         @Published public var item: DiscoverItem?
     }
 
-    @ObservedObject fileprivate var observable: Observable
+    @ObservedObject fileprivate var observable: DiscoverItemObservable
 
     func registerDiscoverDelegate(_ delegate: any DiscoverDelegate) {}
 
@@ -17,10 +17,10 @@ class CategoriesSelectorViewController: UIHostingController<CategoriesSelectorVi
     }
 
     init() {
-        let observable = Observable()
+        let observable = DiscoverItemObservable()
         self.observable = observable
 
-        super.init(rootView: CategoriesSelectorView(observable: observable))
+        super.init(rootView: CategoriesSelectorView(discoverItemObservable: observable))
         if #available(iOS 16.0, *) {
             sizingOptions =  [.intrinsicContentSize]
         }
