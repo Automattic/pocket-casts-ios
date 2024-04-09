@@ -153,6 +153,12 @@
     <string>Els marcadors són aquí!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Uneix-te a nosaltres a la prova beta dels marcadors!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Subscriu-te a Plus ara perquè puguis triar i saltar capítols en qualsevol episodi que els suporti.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Com a part de la teva subscripció de Patron, ara pots triar i saltar capítols en qualsevol episodi que els suporti.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Com a part de la teva subscripció Plus, ara pots triar i saltar capítols en qualsevol episodi que els suporti.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Codi copiat al portapapers</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,10 @@
     <string>Caràtules del podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema fosc</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Empra les caràtules integrades</string>
+    <key>appearance_embedded_artwork_subtitle</key>
+    <string>Alguns podcasts tenen il·lustracions personalitzades per a certs episodis. Activa aquesta opció i Pocket Casts les mostrarà en lloc de la il·lustració del podcast.</string>
     <key>appearance_light_theme</key>
     <string>Tema clar</string>
     <key>appearance_match_device_theme</key>
@@ -2412,6 +2422,12 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Crear accés directe al podcast</string>
     <key>skip_back</key>
     <string>Endarrerir</string>
+    <key>skip_chapters</key>
+    <string>Capítols preseleccionats</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Salta capítols i més amb Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Salta capítols i més amb Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avançar</string>
     <key>sleep_timer</key>
@@ -2646,9 +2662,9 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>watch_no_podcasts</key>
     <string>No hi ha podcasts</string>
     <key>watch_nothing_playing_subtitle</key>
-    <string>Gaudeix del silenci o troba alguna cosa nova per reproduir.
+    <string>Gaudeix del silenci o troba alguna cosa nova per a reproduir.
 
-Sincerament, ambdues són bones decisions.</string>
+Sincerament, totes dues són bones decisions. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>No sona res</string>
     <key>watch_source_msg</key>
