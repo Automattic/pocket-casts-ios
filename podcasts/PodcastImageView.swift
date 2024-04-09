@@ -30,6 +30,11 @@ class PodcastImageView: UIView {
     func setEpisode(_ episode: Episode, size: PodcastThumbnailSize) {
         guard let imageView = imageView else { return }
 
+        guard episode != currentEpisode else {
+            // Don't start the whole process again if the episode is the same
+            return
+        }
+
         currentEpisode = episode
 
         ImageManager.sharedManager.setPlaceholder(imageView: imageView, size: size)
