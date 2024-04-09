@@ -151,7 +151,7 @@ class DiscoverViewController: PCViewController {
     ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
     func reload(except items: [DiscoverItem], category: DiscoverCategory) {
         let categoryVC = CategoryPodcastsViewController(category: category)
-        categoryVC.registerDiscoverDelegate(self)
+        categoryVC.delegate = self
         categoryVC.view.alpha = 0
 
         let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: items.first?.regions ?? [])
