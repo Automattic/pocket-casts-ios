@@ -81,7 +81,8 @@ struct CategoriesPillsView: View {
                 CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory)
                     .modify {
                         if #available(iOS 16.0, *) {
-                            $0.presentationDetents([.medium])
+                            $0.presentationDetents([.medium, .large])
+                                .presentationDragIndicator(.hidden)
                         } else {
                             $0
                         }
