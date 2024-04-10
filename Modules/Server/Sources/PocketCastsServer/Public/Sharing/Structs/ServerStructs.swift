@@ -360,7 +360,7 @@ public struct DiscoverPodcast: Codable, Equatable {
     }
 }
 
-public struct DiscoverCategory: Decodable {
+public struct DiscoverCategory: Decodable, Equatable {
     public var id: Int?
     public var name: String?
     public var source: String?

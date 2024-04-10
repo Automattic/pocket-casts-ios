@@ -17,8 +17,8 @@ struct CategoriesSelectorView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                if let popular {
-                    CategoriesPillsView(categories: popular, selectedCategory: $observable.selectedCategory.animation(.easeOut(duration: 0.25)))
+                if let categories, let popular {
+                    CategoriesPillsView(pillCategories: popular, overflowCategories: categories, selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)))
                         .environmentObject(Theme.sharedTheme)
                 } else {
                     PlaceholderPillsView()
@@ -54,7 +54,8 @@ struct PlaceholderPillsView: View {
 }
 
 struct CategoriesPillsView: View {
-    let categories: [DiscoverCategory]
+    let pillCategories: [DiscoverCategory]
+    let overflowCategories: [DiscoverCategory]
     @Binding var selectedCategory: DiscoverCategory?
 
     @State private var showingCategories = false
@@ -76,11 +77,31 @@ struct CategoriesPillsView: View {
                 }
             })
             .buttonStyle(CategoryButtonStyle())
-            ForEach(categories, id: \.id) { category in
+            ForEach(pillCategories, id: \.id) { category in
                 CategoryButton(category: category, selectedCategory: $selectedCategory)
                 .matchedGeometryEffect(id: category.id, in: animation)
             }
+            .sheet(isPresented: $showingCategories) {
+                CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory)
+                    .modify {
+                        if #available(iOS 16.0, *) {
+                            $0.presentationDetents([.medium, .large])
+                                .presentationDragIndicator(.hidden)
+                        } else {
+                            $0
+                        }
+                    }
+            }
+            .onChange(of: selectedCategory) { _ in
+                showingCategories = false
+            }
         }
+    }
+}
+
+extension DiscoverCategory: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
 
