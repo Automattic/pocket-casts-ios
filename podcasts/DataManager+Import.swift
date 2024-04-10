@@ -33,7 +33,10 @@ extension DataManager {
             }
 
             if let setting = AutoAddToUpNextSetting(rawValue: podcast.autoAddToUpNext) {
-                podcast.settings.autoUpNextSetting = setting
+                podcast.settings.addToUpNext = setting.enabled
+                if let position = setting.position {
+                    podcast.settings.addToUpNextPosition = position
+                }
             }
 
             save(podcast: podcast, cache: idx == podcasts.endIndex)
