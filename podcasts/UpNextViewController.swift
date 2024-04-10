@@ -93,11 +93,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }()
 
     let source: UpNextViewSource
+    let showDone: Bool
 
-    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil) {
+    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil, showDone: Bool = true) {
         self.source = source
         self.themeOverride = Settings.darkUpNextTheme ? .dark : themeOverride
-
+        self.showDone = showDone
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -262,10 +263,18 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
         } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            if showDone {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            } else {
+                navigationItem.leftBarButtonItem = nil
+            }
         } else {
             navigationItem.rightBarButtonItem = nil
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            if showDone {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            } else {
+                navigationItem.leftBarButtonItem = nil
+            }
         }
     }
 
@@ -304,6 +313,7 @@ enum UpNextViewSource: String, AnalyticsDescribable {
     case nowPlaying = "now_playing"
     case player
     case lockScreenWidget = "lock_screen_widget"
+    case tabBar = "tab_bar"
     case unknown
 
     var analyticsDescription: String { rawValue }
