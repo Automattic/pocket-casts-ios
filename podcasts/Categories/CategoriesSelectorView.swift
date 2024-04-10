@@ -12,6 +12,8 @@ struct CategoriesSelectorView: View {
     @State private var categories: [DiscoverCategory]?
     @State private var popular: [DiscoverCategory]?
 
+    @EnvironmentObject var theme: Theme
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
@@ -22,8 +24,11 @@ struct CategoriesSelectorView: View {
                     PlaceholderPillsView()
                 }
             }
-            .padding(16)
+            .padding(.top, 2)
+            .padding(.bottom, 16)
+            .padding(.horizontal, 16)
         }
+        .background(theme.secondaryUi01)
         .task(id: discoverItemObservable.item?.source) {
             guard let source = discoverItemObservable.item?.source else { return }
             let categories = await DiscoverServerHandler.shared.discoverCategories(source: source)
@@ -43,7 +48,6 @@ struct PlaceholderPillsView: View {
                 Text("Placeholder")
             })
             .buttonStyle(CategoryButtonStyle())
-            .environmentObject(Theme.sharedTheme)
             .redacted(reason: .placeholder)
         }
     }
