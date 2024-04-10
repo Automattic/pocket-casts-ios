@@ -11,8 +11,8 @@ struct CategoriesModalPicker: View {
 
     private enum Constants {
         enum Padding {
-            static let title: CGFloat = 20
-            static let cell: CGFloat = 12
+            static let title = EdgeInsets(top: 26, leading: 20, bottom: 4, trailing: 20)
+            static let cell = EdgeInsets(top: 25, leading: 20, bottom: 25, trailing: 20)
         }
         static let imageSize: CGFloat = 24
         static let cellSpacing: CGFloat = 20
