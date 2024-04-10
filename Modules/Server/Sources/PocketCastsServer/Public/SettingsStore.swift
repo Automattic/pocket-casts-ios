@@ -38,16 +38,16 @@ extension SettingsStore {
         }
     }
 
-    public func update<T: RawRepresentable>(_ keyPath: WritableKeyPath<Value, ModifiedDate<T>>, value: T.RawValue) {
+    public func update<T: RawRepresentable>(_ keyPath: WritableKeyPath<Value, ModifiedDate<T>>, value: T.RawValue, modifiedAt: Date? = nil) {
         if let representable = T(rawValue: value) {
-            self.update(keyPath, value: representable)
+            self.update(keyPath, value: representable, modifiedAt: modifiedAt)
         }
     }
 
-    public func update<T: Equatable & Codable>(_ modifiedKeyPath: WritableKeyPath<Value, ModifiedDate<T>>, value: T) {
+    public func update<T: Equatable & Codable>(_ modifiedKeyPath: WritableKeyPath<Value, ModifiedDate<T>>, value: T, modifiedAt: Date? = nil) {
         let openLinksValue = value
         if openLinksValue != self[dynamicMember: modifiedKeyPath].wrappedValue {
-            self[modifiedDate: modifiedKeyPath].projectedValue = ModifiedDate(wrappedValue: openLinksValue)
+            self[modifiedDate: modifiedKeyPath].projectedValue = ModifiedDate(wrappedValue: openLinksValue, modifiedAt: modifiedAt)
         }
     }
 }
