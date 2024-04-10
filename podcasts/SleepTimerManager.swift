@@ -19,6 +19,7 @@ class SleepTimerManager {
            let setting = Settings.sleepTimerLastSetting {
             if let duration = setting.duration {
                 PlaybackManager.shared.setSleepTimerInterval(duration)
+                FileLog.shared.addMessage("Sleep Timer: restarting it automatically")
             } else if setting.sleepOnEpisodeEnd == true {
                 observePlaybackEndAndReactivateTime()
             }
@@ -30,6 +31,7 @@ class SleepTimerManager {
     }
 
     @objc private func playbackTrackChanged() {
+        FileLog.shared.addMessage("Sleep Timer: restarting it automatically to the end of the episode")
         PlaybackManager.shared.sleepOnEpisodeEnd = true
         NotificationCenter.default.removeObserver(self)
     }
