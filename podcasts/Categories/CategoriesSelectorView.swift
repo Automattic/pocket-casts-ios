@@ -16,7 +16,7 @@ struct CategoriesSelectorView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 if let popular {
-                    CategoriesPillsView(categories: popular, selectedCategory: $observable.selectedCategory.animation(.easeOut(duration: 0.25)))
+                    CategoriesPillsView(categories: popular, selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)))
                         .environmentObject(Theme.sharedTheme)
                 } else {
                     PlaceholderPillsView()
