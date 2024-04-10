@@ -6,9 +6,9 @@ import Combine
 import PocketCastsUtils
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
-    enum Tab { case podcasts, filter, discover, profile }
+    enum Tab { case podcasts, filter, discover, profile, upNext }
 
-    let tabs: [Tab] = [.podcasts, .filter, .discover, .profile]
+    var tabs = [Tab]()
 
     let playPauseCommand = UIKeyCommand(title: L10n.keycommandPlayPause, action: #selector(handlePlayPauseKey), input: " ", modifierFlags: [])
 
@@ -29,6 +29,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if FeatureFlag.upNextOnTabBar.enabled {
+            tabs = [.podcasts, .upNext, .filter, .discover]
+        } else {
+            tabs = [.podcasts, .filter, .discover, .profile]
+        }
+
+        var vcsInTab = [UIViewController]()
+
         let podcastsController = PodcastListViewController()
         podcastsController.tabBarItem = UITabBarItem(title: L10n.podcastsPlural, image: UIImage(named: "podcasts_tab"), tag: tabs.firstIndex(of: .podcasts)!)
 
@@ -38,12 +46,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let discoverViewController = DiscoverViewController(coordinator: DiscoverCoordinator())
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
 
-        let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = profileTabBarItem
+        if FeatureFlag.upNextOnTabBar.enabled {
+            let upNextViewController = UpNextViewController(source: .unknown)
+            upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext"), tag: tabs.firstIndex(of: .upNext)!)
+            vcsInTab = [podcastsController, upNextViewController, filtersViewController, discoverViewController]
+        } else {
+            let profileViewController = ProfileViewController()
+            profileViewController.tabBarItem = profileTabBarItem
+            vcsInTab = [podcastsController, filtersViewController, discoverViewController, profileViewController]
+        }
 
         displayEndOfYearBadgeIfNeeded()
 
-        viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
+        viewControllers = vcsInTab.map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
 
         // Track the initial tab opened event
@@ -723,6 +738,8 @@ private extension MainTabBarController {
             event = .discoverTabOpened
         case .profile:
             event = .profileTabOpened
+        case .upNext:
+            event = .upNextTabOpened
         }
 
         Analytics.track(event, properties: ["initial": isInitial])
