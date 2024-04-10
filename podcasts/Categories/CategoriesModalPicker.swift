@@ -26,7 +26,7 @@ struct CategoriesModalPicker: View {
         theme.primaryUi01
     }
     private var titleForeground: Color {
-        theme.secondaryIcon01
+        theme.support01
     }
     private var cellForeground: Color {
         theme.primaryText01
