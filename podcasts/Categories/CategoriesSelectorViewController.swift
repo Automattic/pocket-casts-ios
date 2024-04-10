@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import Combine
 
-class CategoriesSelectorViewController: UIHostingController<CategoriesSelectorView>, DiscoverSummaryProtocol {
+class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelectorView>, DiscoverSummaryProtocol {
 
     class DiscoverItemObservable: ObservableObject {
         @Published public var item: DiscoverItem?
