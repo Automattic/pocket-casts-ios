@@ -455,6 +455,8 @@
 		8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8B1762792B684E7100F44450 /* Kingfisher */; };
 		8B17627C2B684ED300F44450 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8B17627B2B684ED300F44450 /* Kingfisher */; };
 		8B1877E52A45DC570025D245 /* AutoplayHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1877E42A45DC570025D245 /* AutoplayHelperTests.swift */; };
+		8B1B782B2BC7104000DC3373 /* SleepTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B782A2BC7104000DC3373 /* SleepTimerManager.swift */; };
+		8B1B782C2BC7104000DC3373 /* SleepTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B782A2BC7104000DC3373 /* SleepTimerManager.swift */; };
 		8B1C974628FE1C7E00BD5EB9 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */; };
 		8B1C974828FE234B00BD5EB9 /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */; };
 		8B1F09BA29BB5A3D00842854 /* SearchResultsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */; };
@@ -2261,6 +2263,7 @@
 		8B17365C298D47B10057E893 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8B17365D298D47B20057E893 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B1877E42A45DC570025D245 /* AutoplayHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoplayHelperTests.swift; sourceTree = "<group>"; };
+		8B1B782A2BC7104000DC3373 /* SleepTimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerManager.swift; sourceTree = "<group>"; };
 		8B1C974528FE1C7E00BD5EB9 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8B1C974728FE234B00BD5EB9 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
 		8B1F09B929BB5A3D00842854 /* SearchResultsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsListView.swift; sourceTree = "<group>"; };
@@ -4925,6 +4928,7 @@
 				BDF15A3D1B54E053000EC323 /* PlaybackManager.swift */,
 				BDF15A3F1B54E064000EC323 /* PlaybackQueue.swift */,
 				BDF15A451B54E21B000EC323 /* PlaybackEffects.swift */,
+				8B1B782A2BC7104000DC3373 /* SleepTimerManager.swift */,
 				BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */,
 				BD2219F0253EAEAF000025BE /* PlaybackCatchUpHelper.swift */,
 				C725285E299B315000A582C3 /* BookmarkManager.swift */,
@@ -9420,6 +9424,7 @@
 				8B6A2C8D29CA4F78002601F5 /* SearchListView.swift in Sources */,
 				BD57646A17E140BE0039CF8B /* NSNull+Length.m in Sources */,
 				BD7BCF151F6A5C510006E008 /* VideoPlayerView.swift in Sources */,
+				8B1B782B2BC7104000DC3373 /* SleepTimerManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9429,6 +9434,7 @@
 			files = (
 				BD455D8827F17C330041AE3D /* NowPlayingControls.swift in Sources */,
 				BDE48A202410D0A000ECA6CA /* DownloadProgressManager.swift in Sources */,
+				8B1B782C2BC7104000DC3373 /* SleepTimerManager.swift in Sources */,
 				FF47245B2BA4749F00EA916B /* MenuRow.swift in Sources */,
 				463FCE7F27BEAE6400E5AF89 /* WatchHostingController.swift in Sources */,
 				BD74F15A27F2956800222785 /* FolderViewModel.swift in Sources */,
