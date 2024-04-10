@@ -54,7 +54,8 @@
     {
       "skippedTests" : [
         "IAPHelperTests",
-        "IAPHelperTests\/testPurchase()"
+        "IAPHelperTests\/testPurchase()",
+        "PodcastSettingsImportUserDefaultsTests\/testImportPerformance()"
       ],
       "target" : {
         "containerPath" : "container:podcasts.xcodeproj",

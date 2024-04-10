@@ -280,20 +280,11 @@ public struct DiscoverItem: Decodable, Equatable {
         case type, title, source, regions, curated, uuid, popular, id
     }
 
-    public init(id: String? = nil, uuid: String? = nil, title: String? = nil, type: String? = nil, summaryStyle: String? = nil, expandedStyle: String? = nil, source: String? = nil, sponsoredPodcasts: [CarouselSponsoredPodcast]? = nil, expandedTopItemLabel: String? = nil, curated: Bool? = nil, regions: [String], isSponsored: Bool? = nil, popular: [Int]? = nil) {
+    public init(id: String? = nil, title: String? = nil, source: String? = nil, regions: [String]) {
         self.id = id
-        self.uuid = uuid
         self.title = title
-        self.type = type
-        self.summaryStyle = summaryStyle
-        self.expandedStyle = expandedStyle
         self.source = source
-        self.sponsoredPodcasts = sponsoredPodcasts
-        self.expandedTopItemLabel = expandedTopItemLabel
-        self.curated = curated
         self.regions = regions
-        self.isSponsored = isSponsored
-        self.popular = popular
     }
 }
 

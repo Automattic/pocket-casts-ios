@@ -15,6 +15,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var episodeDescription: String?
     @objc public var episodeStatus = 0 as Int32
     @objc public var fileType: String?
+    @objc public var contentType: String?
     @objc public var keepEpisode = false
     @objc public var playedUpTo: Double = 0
     @objc public var duration: Double = 0
@@ -45,6 +46,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var hasOnlyUuid = false
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64
+    @objc public var rawMetadata: String?
 
     public var hasBookmarks: Bool {
         DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
@@ -174,6 +176,23 @@ public class Episode: NSObject, BaseEpisode {
 
     override public var hash: Int {
         taggableId()
+    }
+
+    private var parsedMetadata: Episode.Metadata? = nil
+
+    public var metadata: Episode.Metadata? {
+        if let parsedMetadata {
+            return parsedMetadata
+        } else if let data = rawMetadata?.data(using: .utf8) {
+            // Decode and cache metadata
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let metadata = try? decoder.decode(Episode.Metadata.self, from: data)
+            parsedMetadata = metadata
+            return metadata
+        }
+
+        return nil
     }
 
     public struct Metadata: Decodable {

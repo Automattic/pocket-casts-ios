@@ -35,13 +35,10 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         hideErrorMessage(hide: true)
 
         if FeatureFlag.newShowNotesEndpoint.enabled {
-            let podcastUUID = episode.parentIdentifier()
-            let episodeUUID = episode.uuid
             Task { [weak self] in
-                if let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: podcastUUID, episodeUuid: episodeUUID) {
-                    self?.downloadingShowNotes = false
-                    self?.showNotesDidLoad(showNotes: showNotes)
-                }
+                let showNotes = await self?.episode.loadMetadata()?.showNotes
+                self?.downloadingShowNotes = false
+                self?.showNotesDidLoad(showNotes: showNotes ?? CacheServerHandler.noShowNotesMessage)
             }
             return
         }

@@ -4,12 +4,12 @@ import Combine
 
 class CategoriesSelectorViewController: UIHostingController<CategoriesSelectorView>, DiscoverSummaryProtocol {
 
-    class Observable: ObservableObject {
+    class DiscoverItemObservable: ObservableObject {
         @Published public var item: DiscoverItem?
         @Published public var selectedCategory: DiscoverCategory?
     }
 
-    @ObservedObject fileprivate var observable: Observable
+    @ObservedObject fileprivate var observable: DiscoverItemObservable
 
     private weak var delegate: DiscoverDelegate?
 
@@ -25,10 +25,10 @@ class CategoriesSelectorViewController: UIHostingController<CategoriesSelectorVi
     }
 
     init() {
-        let observable = Observable()
+        let observable = DiscoverItemObservable()
         self.observable = observable
 
-        super.init(rootView: CategoriesSelectorView(observable: observable))
+        super.init(rootView: CategoriesSelectorView(discoverItemObservable: observable))
         if #available(iOS 16.0, *) {
             sizingOptions =  [.intrinsicContentSize]
         }
