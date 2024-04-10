@@ -32,45 +32,63 @@ struct CategoriesModalPicker: View {
         theme.primaryText01
     }
 
+    private var selectedBackground: Color {
+        theme.primaryUi01Active
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Select a Category".uppercased())
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundStyle(titleForeground)
-                .padding(.top, Constants.Padding.title)
-                .padding(.leading, Constants.Padding.title)
-            List(selection: $selectedCategory, content: {
+            title
+                .padding(Constants.Padding.title)
+            List {
                 ForEach(categories, id: \.self) { category in
-                    HStack(spacing: Constants.cellSpacing) {
-                        if let icon = category.icon, let url = URL(string: icon) {
-                            KFImage(url)
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: Constants.imageSize, height: Constants.imageSize)
-                        }
-                        Text(category.name ?? "")
-                            .font(.headline)
-                    }
-                    .foregroundStyle(cellForeground)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical, Constants.Padding.cell)
-                    .listRowSeparatorTint(separator)
-                    .modify {
-                        if #available(iOS 16.0, *) {
-                            $0.alignmentGuide(.listRowSeparatorLeading) { d in
-                                    d[.leading]
+                    cell(category)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(background)
+                        .listRowSeparatorTint(separator)
+                        .modify {
+                            if #available(iOS 16.0, *) {
+                                $0.alignmentGuide(.listRowSeparatorLeading) { d in
+                                    d[.leading] + Constants.Padding.cell.leading
                                 }
                                 .alignmentGuide(.listRowSeparatorTrailing) { d in
-                                    d[.trailing]
+                                    d[.trailing] - Constants.Padding.cell.trailing
                                 }
+                            }
                         }
-                    }
-                    .listRowBackground(background)
                 }
-            })
+            }
             .listStyle(.plain)
         }
         .background(background)
+    }
+
+    @ViewBuilder var title: some View {
+        Text("Select a Category".uppercased())
+            .font(.subheadline)
+            .fontWeight(.bold)
+            .foregroundStyle(titleForeground)
+    }
+
+    @ViewBuilder func cell(_ category: DiscoverCategory) -> some View {
+        HStack(spacing: Constants.cellSpacing) {
+            if let icon = category.icon, let url = URL(string: icon) {
+                KFImage(url)
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width: Constants.imageSize, height: Constants.imageSize)
+            }
+            Text(category.name ?? "")
+                .font(.headline)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Constants.Padding.cell)
+        .buttonize {
+            selectedCategory = category
+        } customize: { config in
+            config.label
+                .foregroundStyle(cellForeground)
+                .background(config.isPressed ? selectedBackground : background)
+        }
     }
 }
