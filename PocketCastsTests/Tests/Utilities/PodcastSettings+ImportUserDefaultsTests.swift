@@ -95,6 +95,7 @@ class PodcastSettingsImportUserDefaultsTests: XCTestCase {
         XCTAssertEqual(PodcastEpisodeSortOrder(old: newEpisodeSortOrder), podcast.settings.episodesSortOrder, "Value of episodesSortOrder should change after import")
         XCTAssertEqual(newEpisodeGrouping, podcast.settings.episodeGrouping, "Value of autoArchiveInactive should change after import")
         XCTAssertEqual(newShowArchive, podcast.settings.showArchived, "Value of showArchived should change after import")
+        XCTAssertNotNil(podcast.settings.$showArchived.modifiedAt)
     }
 
     /// Tests that the default values are used when a value is missing from the JSON (such as when a key was added after writing the JSON object)
