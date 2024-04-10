@@ -44,7 +44,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
 
         if FeatureFlag.upNextOnTabBar.enabled {
-            let upNextViewController = UpNextViewController(source: .unknown)
+            let upNextViewController = UpNextViewController(source: .tabBar, showDone: false)
             upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext"), tag: tabs.firstIndex(of: .upNext)!)
             vcsInTab = [podcastsController, upNextViewController, filtersViewController, discoverViewController]
         } else {
