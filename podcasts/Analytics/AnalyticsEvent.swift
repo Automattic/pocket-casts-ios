@@ -154,6 +154,7 @@ enum AnalyticsEvent: String {
     case filtersTabOpened
     case discoverTabOpened
     case profileTabOpened
+    case upNextTabOpened
 
     // MARK: - Downloads View
 
