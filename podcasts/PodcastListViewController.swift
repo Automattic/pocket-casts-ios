@@ -75,7 +75,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
         super.viewDidLoad()
 
-        updateFolderButton()
+        updateNavigationButtons()
 
         title = L10n.podcastsPlural
         setupSearchBar()
@@ -96,7 +96,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         miniPlayerStatusDidChange()
         refreshGridItems()
         addEventObservers()
-        updateFolderButton()
+        updateNavigationButtons()
 
         Analytics.track(.podcastsListShown, properties: [
             "sort_order": Settings.homeFolderSortOrder(),
@@ -162,18 +162,20 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
-            self.updateFolderButton()
+            self.updateNavigationButtons()
         }
     }
 
-    private func updateFolderButton() {
+    private func updateNavigationButtons() {
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
         let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
         folderButton.accessibilityLabel = L10n.folderCreateNew
         if FeatureFlag.upNextOnTabBar.enabled {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "profile_tab"), style: .plain, target: self, action: #selector(profileTapped(_:)))
             extraRightButtons = [folderButton]
         } else {
             navigationItem.leftBarButtonItem = folderButton
+            extraRightButtons = []
         }
     }
 
@@ -220,6 +222,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                 strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
             }
         }
+    }
+
+    @objc private func profileTapped(_ sender: UIBarButtonItem) {
+        let profileViewController = ProfileViewController()
+        self.navigationController?.pushViewController(profileViewController, animated: true)
     }
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
