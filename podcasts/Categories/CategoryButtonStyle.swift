@@ -15,19 +15,25 @@ struct CategoryButtonStyle: ButtonStyle {
 
     // MARK: Colors
     private var border: Color {
-        theme.primaryField03
+        theme.primaryIcon02
     }
+
     private var background: Color {
-        theme.primaryUi02Active
+        theme.primaryUi01
     }
+
+    private var pressedBackground: Color {
+        theme.primaryUi02Selected
+    }
+
     private var foreground: Color {
         theme.primaryText01
     }
     private var selectedBackground: Color {
-        theme.primaryField03Active
+        theme.primaryIcon01
     }
     private var selectedForeground: Color {
-        theme.primaryUi01
+        theme.primaryUi02Selected
     }
 
     // MARK: View
@@ -45,7 +51,7 @@ struct CategoryButtonStyle: ButtonStyle {
             .padding(.horizontal, Constants.Padding.horizontal)
             .padding(.vertical, Constants.Padding.vertical)
             .cornerRadius(Constants.cornerRadius)
-            .background(isSelected ? selectedBackground : (configuration.isPressed ? background : Color.clear))
+            .background(isSelected ? selectedBackground : (configuration.isPressed ? pressedBackground : background))
             .foregroundColor(isSelected ? selectedForeground : foreground)
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
