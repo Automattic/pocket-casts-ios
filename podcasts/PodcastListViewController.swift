@@ -4,6 +4,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import Kingfisher
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
@@ -166,12 +167,35 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         }
     }
 
+    private func makeProfileButton(email: String) -> UIBarButtonItem {
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+        imageView.contentMode = .scaleAspectFit
+        let gravatarURL = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(256)")
+        let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
+        imageView.kf.setImage(with: gravatarURL, placeholder: UIImage(named: "profile_tab"), options: [
+            .processor(processor),
+            .scaleFactor(UIScreen.main.scale),
+            .transition(.fade(1)),
+            .cacheOriginalImage
+        ])
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped(_:)))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+        return UIBarButtonItem(customView: imageView)
+    }
+
     private func updateNavigationButtons() {
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
         let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
         folderButton.accessibilityLabel = L10n.folderCreateNew
         if FeatureFlag.upNextOnTabBar.enabled {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "profile_tab"), style: .plain, target: self, action: #selector(profileTapped(_:)))
+            let userProfile = UserInfo.Profile()
+            if let email = userProfile.email {
+                navigationItem.leftBarButtonItem = makeProfileButton(email: email)
+            } else {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "profile_tab"), style: .plain, target: self, action: #selector(profileTapped(_:)))
+            }
             extraRightButtons = [folderButton]
         } else {
             navigationItem.leftBarButtonItem = folderButton
