@@ -248,9 +248,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         }
     }
 
-    @objc private func profileTapped(_ sender: UIBarButtonItem) {
+    func showProfileController() {
         let profileViewController = ProfileViewController()
         self.navigationController?.pushViewController(profileViewController, animated: true)
+    }
+
+    @objc private func profileTapped(_ sender: UIBarButtonItem) {
+        showProfileController()
     }
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
