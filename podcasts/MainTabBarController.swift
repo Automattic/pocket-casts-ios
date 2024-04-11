@@ -259,8 +259,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             switchToTab(.podcasts)
             if let index = tabs.firstIndex(of: .podcasts),
                let navController = viewControllers?[safe: index] as? UINavigationController,
-               let podcastsViewController = navController.viewControllers[safe: 0] as? PodcastListViewController
-            {
+               let podcastsViewController = navController.viewControllers[safe: 0] as? PodcastListViewController {
                 podcastsViewController.showProfileController()
             }
         } else {
@@ -273,8 +272,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         if let index = tabs.firstIndex(of: .filter),
            let navController = viewControllers?[safe: index] as? UINavigationController,
-           let filtersViewController = navController.viewControllers[safe: 0] as? PlaylistsViewController
-        {
+           let filtersViewController = navController.viewControllers[safe: 0] as? PlaylistsViewController {
             filtersViewController.showFilter(filter)
         }
     }
