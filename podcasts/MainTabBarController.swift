@@ -255,13 +255,26 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToProfile(_ animated: Bool) {
-        switchToTab(.profile)
+        if FeatureFlag.upNextOnTabBar.enabled {
+            switchToTab(.podcasts)
+            if let index = tabs.firstIndex(of: .podcasts),
+               let navController = viewControllers?[safe: index] as? UINavigationController,
+               let podcastsViewController = navController.viewControllers[safe: 0] as? PodcastListViewController
+            {
+                podcastsViewController.showProfileController()
+            }
+        } else {
+            switchToTab(.profile)
+        }
     }
 
     func navigateToFilter(_ filter: EpisodeFilter, animated: Bool) {
         if !switchToTab(.filter) { return }
 
-        if let navController = viewControllers?[safe: 1] as? UINavigationController, let filtersViewController = navController.viewControllers[safe: 0] as? PlaylistsViewController {
+        if let index = tabs.firstIndex(of: .filter),
+           let navController = viewControllers?[safe: index] as? UINavigationController,
+           let filtersViewController = navController.viewControllers[safe: 0] as? PlaylistsViewController
+        {
             filtersViewController.showFilter(filter)
         }
     }
