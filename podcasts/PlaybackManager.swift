@@ -1473,6 +1473,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Sleep Timer
 
     func cancelSleepTimer() {
+        sleepTimerManager.cancelSleepTimer()
         sleepTimeRemaining = -1
         sleepOnEpisodeEnd = false
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
