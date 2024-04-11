@@ -13,6 +13,10 @@ class SleepTimerManager {
         Settings.sleepTimerLastSetting = setting
     }
 
+    func cancelSleepTimer() {
+        Settings.sleepTimerLastSetting = nil
+    }
+
     func restartSleepTimerIfNeeded() {
         guard !PlaybackManager.shared.sleepTimerActive() else {
             return
