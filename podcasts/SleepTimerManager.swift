@@ -14,6 +14,10 @@ class SleepTimerManager {
     }
 
     func restartSleepTimerIfNeeded() {
+        guard !PlaybackManager.shared.sleepTimerActive() else {
+            return
+        }
+
         if let sleepTimerFinishedDate = Settings.sleepTimerFinishedDate,
            Date.now.timeIntervalSince(sleepTimerFinishedDate) <= restartSleepTimerIfPlayingAgainWithin,
            let setting = Settings.sleepTimerLastSetting {
