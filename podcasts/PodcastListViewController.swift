@@ -190,7 +190,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             let badge = UILabel()
             badge.text = "●"
             badge.backgroundColor = .clear
-            badge.textColor = .red
+            badge.textColor = UIColor(hex: "F43E37")
             badge.translatesAutoresizingMaskIntoConstraints = false
             imageView.addSubview(badge)
             NSLayoutConstraint.activate([
