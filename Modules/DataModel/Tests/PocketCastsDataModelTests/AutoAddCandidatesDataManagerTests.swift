@@ -37,6 +37,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
 
         let dataManager = try setupDatabase()
         let newUpNextSetting = AutoAddToUpNextSetting.addFirst
+        let secondUpNextSetting = AutoAddToUpNextSetting.off
 
         let podcast = Podcast()
         podcast.uuid = "1234"
@@ -57,6 +58,16 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         let matchingCandidate = candidates.first(where: { $0.episodeUuid == episode.uuid })
         XCTAssertNotNil(matchingCandidate, "Episode should appear in Up Next candidates")
         XCTAssertEqual(matchingCandidate?.autoAddToUpNextSetting, newUpNextSetting)
+
+        // Disable the setting and ensure it is removed from candidates
+
+        podcast.setAutoAddToUpNext(setting: secondUpNextSetting)
+        dataManager.save(podcast: podcast)
+
+        let offCandidates = dataManager.autoAddCandidates.candidates()
+
+        let matchingOffCandidate = offCandidates.first(where: { $0.episodeUuid == episode.uuid })
+        XCTAssertEqual(matchingOffCandidate?.autoAddToUpNextSetting, secondUpNextSetting)
 
         featureFlagMock.reset()
     }
