@@ -40,6 +40,7 @@ extension DataManager {
                 }
             }
 
+            podcast.syncStatus = SyncStatus.notSynced.rawValue
             save(podcast: podcast, cache: idx == podcasts.endIndex)
         }
     }
