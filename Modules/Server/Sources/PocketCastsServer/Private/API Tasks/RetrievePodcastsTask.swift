@@ -57,6 +57,9 @@ class RetrievePodcastsTask: ApiBaseTask {
         podcast.folderUuid = (protoPodcast.hasFolderUuid && protoPodcast.folderUuid.value != DataConstants.homeGridFolderUuid) ? protoPodcast.folderUuid.value : nil
         podcast.sortPosition = protoPodcast.hasSortPosition ? protoPodcast.sortPosition.value : nil
         podcast.dateAdded = protoPodcast.hasDateAdded ? protoPodcast.dateAdded.date : nil
+        var settings = PodcastSettings.defaults
+        settings.processSettings(protoPodcast.settings)
+        podcast.settings = settings
 
         return podcast
     }

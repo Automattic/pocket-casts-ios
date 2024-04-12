@@ -98,7 +98,9 @@ extension SyncTask {
                 podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
                 podcast.settings = PodcastSettings.defaults
                 if FeatureFlag.settingsSync.enabled {
-                    podcast.processSettings(podcastItem.settings)
+                    let oldSettings = podcast.settings
+                    podcast.settings.processSettings(podcastItem.settings)
+                    oldSettings.printDiff(from: podcast.settings, withIdentifier: podcast.uuid)
                 }
 
                 DataManager.sharedManager.save(podcast: podcast)
@@ -154,7 +156,9 @@ extension SyncTask {
         }
 
         if FeatureFlag.settingsSync.enabled {
-            podcast.processSettings(podcastItem.settings)
+            let oldSettings = podcast.settings
+            podcast.settings.processSettings(podcastItem.settings)
+            oldSettings.printDiff(from: podcast.settings, withIdentifier: podcast.uuid)
         }
     }
 
@@ -423,25 +427,23 @@ private extension Api_SyncUserBookmark {
     }
 }
 
-extension Podcast {
-    func processSettings(_ settings: Api_PodcastSettings) {
-        let oldSettings = self.settings
-        self.settings.$customEffects.update(setting: settings.playbackEffects)
-        self.settings.$autoStartFrom.update(setting: settings.autoStartFrom)
-        self.settings.$autoSkipLast.update(setting: settings.autoSkipLast)
-        self.settings.$trimSilence.update(setting: settings.trimSilence)
-        self.settings.$playbackSpeed.update(setting: settings.playbackSpeed)
-        self.settings.$boostVolume.update(setting: settings.volumeBoost)
-        self.settings.$notification.update(setting: settings.notification)
-        self.settings.$addToUpNext.update(setting: settings.addToUpNext)
-        self.settings.$addToUpNextPosition.update(setting: settings.addToUpNextPosition)
-        self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
-        self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
-        self.settings.$showArchived.update(setting: settings.showArchived)
-        self.settings.$autoArchive.update(setting: settings.autoArchive)
-        self.settings.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
-        self.settings.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)
-        self.settings.$autoArchiveEpisodeLimit.update(setting: settings.autoArchiveEpisodeLimit)
-        oldSettings.printDiff(from: self.settings, withIdentifier: self.uuid)
+extension PodcastSettings {
+    mutating func processSettings(_ settings: Api_PodcastSettings) {
+        self.$customEffects.update(setting: settings.playbackEffects)
+        self.$autoStartFrom.update(setting: settings.autoStartFrom)
+        self.$autoSkipLast.update(setting: settings.autoSkipLast)
+        self.$trimSilence.update(setting: settings.trimSilence)
+        self.$playbackSpeed.update(setting: settings.playbackSpeed)
+        self.$boostVolume.update(setting: settings.volumeBoost)
+        self.$notification.update(setting: settings.notification)
+        self.$addToUpNext.update(setting: settings.addToUpNext)
+        self.$addToUpNextPosition.update(setting: settings.addToUpNextPosition)
+        self.$episodesSortOrder.update(setting: settings.episodesSortOrder)
+        self.$episodeGrouping.update(setting: settings.episodeGrouping)
+        self.$showArchived.update(setting: settings.showArchived)
+        self.$autoArchive.update(setting: settings.autoArchive)
+        self.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
+        self.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)
+        self.$autoArchiveEpisodeLimit.update(setting: settings.autoArchiveEpisodeLimit)
     }
 }
