@@ -167,14 +167,38 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         }
     }
 
+    private func makeBadge(size: CGFloat) -> UIView {
+        let badgeFrame = UIView()
+        let borderWidth = CGFloat(2)
+        let badgeSize = size - (borderWidth * 2)
+        badgeFrame.backgroundColor = ThemeColor.secondaryUi01()
+        badgeFrame.layer.cornerRadius = size / 2
+        let badge = UIView()
+        badge.layer.cornerRadius = badgeSize / 2
+        badge.backgroundColor = UIColor(hex: "#F43E37")
+        badge.translatesAutoresizingMaskIntoConstraints = false
+        badgeFrame.translatesAutoresizingMaskIntoConstraints = false
+        badgeFrame.addSubview(badge)
+        NSLayoutConstraint.activate([
+            badgeFrame.widthAnchor.constraint(equalToConstant: size),
+            badgeFrame.heightAnchor.constraint(equalToConstant: size),
+            badge.widthAnchor.constraint(equalToConstant: badgeSize),
+            badge.heightAnchor.constraint(equalToConstant: badgeSize),
+            badge.centerXAnchor.constraint(equalTo: badgeFrame.centerXAnchor),
+            badge.centerYAnchor.constraint(equalTo: badgeFrame.centerYAnchor)
+        ])
+        return badgeFrame
+    }
+
     private func makeProfileButton(email: String?) -> UIBarButtonItem {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "profile_tab")
+        let profileImage = UIImage(named: "profile_tab")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = profileImage
         if let email {
             let gravatarURL = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(256)")
             let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
-            imageView.kf.setImage(with: gravatarURL, placeholder: UIImage(named: "profile_tab"), options: [
+            imageView.kf.setImage(with: gravatarURL, placeholder: profileImage, options: [
                 .processor(processor),
                 .scaleFactor(UIScreen.main.scale),
                 .transition(.fade(1)),
@@ -186,18 +210,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
 
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
-            let badge = UILabel()
-            badge.text = "●"
-            badge.backgroundColor = .clear
-            badge.textColor = UIColor(hex: "F43E37")
-            badge.translatesAutoresizingMaskIntoConstraints = false
+        //if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
+            let badgeSize = CGFloat(10)
+            let badge = makeBadge(size: badgeSize)
             imageView.addSubview(badge)
             NSLayoutConstraint.activate([
-                badge.centerXAnchor.constraint(equalTo: imageView.rightAnchor),
-                badge.centerYAnchor.constraint(equalTo: imageView.topAnchor)
+                badge.centerXAnchor.constraint(equalTo: imageView.rightAnchor, constant: -(badgeSize / 2)),
+                badge.centerYAnchor.constraint(equalTo: imageView.topAnchor, constant: +(badgeSize / 2)),
             ])
-        }
+        //}
         return UIBarButtonItem(customView: imageView)
     }
 
