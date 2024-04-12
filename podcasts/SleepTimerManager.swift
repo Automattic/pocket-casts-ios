@@ -13,7 +13,11 @@ class SleepTimerManager {
         Settings.sleepTimerLastSetting = setting
     }
 
-    func cancelSleepTimer() {
+    func cancelSleepTimer(userInitiated: Bool) {
+        guard userInitiated else {
+            return
+        }
+
         Settings.sleepTimerFinishedDate = .distantPast
     }
 
