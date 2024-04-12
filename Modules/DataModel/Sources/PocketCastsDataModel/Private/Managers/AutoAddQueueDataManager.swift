@@ -58,6 +58,7 @@ public struct AutoAddCandidatesDataManager {
                     SELECT
                         -- Get the Podcast Auto Add Setting
                         json_extract(podcast.settings, '$.addToUpNextPosition.value') AS \(Constants.autoAddSettingColumnName),
+                        json_extract(podcast.settings, '$.addToUpNext.value') AS \(Constants.autoAddEnabledColumnName),
 
                         -- Get the episode UUID
                         queue.id AS \(Constants.idColumnName),
@@ -118,12 +119,13 @@ public struct AutoAddCandidatesDataManager {
 
             let setting: Int32
             if FeatureFlag.newSettingsStorage.enabled {
-                let value = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
-                let position = UpNextPosition(rawValue: value)
-                switch position {
-                case .top:
+                let enabledValue = resultSet.bool(forColumn: Constants.autoAddSettingColumnName)
+                let positionValue = resultSet.int(forColumn: Constants.autoAddSettingColumnName)
+                let position = UpNextPosition(rawValue: positionValue)
+                switch (enabledValue, position) {
+                case (true, .top):
                     setting = AutoAddToUpNextSetting.addFirst.rawValue
-                case .bottom:
+                case (true, .bottom):
                     setting = AutoAddToUpNextSetting.addLast.rawValue
                 default:
                     setting = AutoAddToUpNextSetting.off.rawValue
@@ -151,6 +153,7 @@ public struct AutoAddCandidatesDataManager {
     private enum Constants {
         static let tableName = "AutoAddCandidates"
         static let autoAddSettingColumnName = "auto_add_setting"
+        static let autoAddEnabledColumnName = "auto_add_enabled"
         static let settingsColumnName = "settings"
         static let episodeColumnName = "episode_uuid"
         static let idColumnName = "id"
