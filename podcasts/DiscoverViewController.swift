@@ -241,7 +241,7 @@ class DiscoverViewController: PCViewController {
         }
         currentSnapshot = snapshot
     }
-    
+
     /// Populate the scroll view using a DiscoverLayout with optional shouldInclude and shouldReset filters.
     /// - Parameters:
     ///   - discoverLayout: A `DiscoverLayout`
