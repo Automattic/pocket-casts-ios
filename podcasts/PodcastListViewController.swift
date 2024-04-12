@@ -167,21 +167,37 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         }
     }
 
-    private func makeProfileButton(email: String) -> UIBarButtonItem {
+    private func makeProfileButton(email: String?) -> UIBarButtonItem {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
         imageView.contentMode = .scaleAspectFit
-        let gravatarURL = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(256)")
-        let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
-        imageView.kf.setImage(with: gravatarURL, placeholder: UIImage(named: "profile_tab"), options: [
-            .processor(processor),
-            .scaleFactor(UIScreen.main.scale),
-            .transition(.fade(1)),
-            .cacheOriginalImage
-        ])
+        imageView.image = UIImage(named: "profile_tab")
+        if let email {
+            let gravatarURL = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(256)")
+            let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
+            imageView.kf.setImage(with: gravatarURL, placeholder: UIImage(named: "profile_tab"), options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ])
+        }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped(_:)))
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
+
+        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
+            let badge = UILabel()
+            badge.text = "●"
+            badge.backgroundColor = .clear
+            badge.textColor = .red
+            badge.translatesAutoresizingMaskIntoConstraints = false
+            imageView.addSubview(badge)
+            NSLayoutConstraint.activate([
+                badge.centerXAnchor.constraint(equalTo: imageView.rightAnchor),
+                badge.centerYAnchor.constraint(equalTo: imageView.topAnchor)
+            ])
+        }
         return UIBarButtonItem(customView: imageView)
     }
 
@@ -191,11 +207,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         folderButton.accessibilityLabel = L10n.folderCreateNew
         if FeatureFlag.upNextOnTabBar.enabled {
             let userProfile = UserInfo.Profile()
-            if let email = userProfile.email {
-                navigationItem.leftBarButtonItem = makeProfileButton(email: email)
-            } else {
-                navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "profile_tab"), style: .plain, target: self, action: #selector(profileTapped(_:)))
-            }
+            navigationItem.leftBarButtonItem = makeProfileButton(email: userProfile.email)
             extraRightButtons = [folderButton]
         } else {
             navigationItem.leftBarButtonItem = folderButton
