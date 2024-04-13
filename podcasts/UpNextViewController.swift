@@ -93,12 +93,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }()
 
     let source: UpNextViewSource
-    let showDone: Bool
+    let showingInTab: Bool
 
-    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil, showDone: Bool = true) {
+    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil, showingInTab: Bool = false) {
         self.source = source
-        self.themeOverride = Settings.darkUpNextTheme ? .dark : themeOverride
-        self.showDone = showDone
+        self.themeOverride = !showingInTab && Settings.darkUpNextTheme ? .dark : themeOverride
+        self.showingInTab = showingInTab
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -261,17 +261,17 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
         } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-            if showDone {
-                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
-            } else {
+            if showingInTab {
                 navigationItem.leftBarButtonItem = nil
+            } else {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
             }
         } else {
             navigationItem.rightBarButtonItem = nil
-            if showDone {
-                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
-            } else {
+            if showingInTab {
                 navigationItem.leftBarButtonItem = nil
+            } else {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
             }
         }
     }
