@@ -48,7 +48,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         if FeatureFlag.upNextOnTabBar.enabled {
             let upNextViewController = UpNextViewController(source: .tabBar, showDone: false)
-            upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext"), tag: tabs.firstIndex(of: .upNext)!)
+            upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: tabs.firstIndex(of: .upNext)!)
             vcsInTab = [podcastsController, upNextViewController, filtersViewController, discoverViewController]
         } else {
             let profileViewController = ProfileViewController()
