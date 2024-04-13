@@ -210,7 +210,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
 
-        //if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
+        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
             let badgeSize = CGFloat(10)
             let badge = makeBadge(size: badgeSize)
             imageView.addSubview(badge)
@@ -218,7 +218,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                 badge.centerXAnchor.constraint(equalTo: imageView.rightAnchor, constant: -(badgeSize / 2)),
                 badge.centerYAnchor.constraint(equalTo: imageView.topAnchor, constant: +(badgeSize / 2)),
             ])
-        //}
+        }
         return UIBarButtonItem(customView: imageView)
     }
 
