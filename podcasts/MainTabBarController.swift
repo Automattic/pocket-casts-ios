@@ -280,16 +280,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToProfile(_ animated: Bool) {
-        if FeatureFlag.upNextOnTabBar.enabled {
-            switchToTab(.podcasts)
-            if let index = tabs.firstIndex(of: .podcasts),
-               let navController = viewControllers?[safe: index] as? UINavigationController,
-               let podcastsViewController = navController.viewControllers[safe: 0] as? PodcastListViewController {
-                podcastsViewController.showProfileController()
-            }
-        } else {
-            switchToTab(.profile)
-        }
+        switchToTab(.profile)
     }
 
     func navigateToFilter(_ filter: EpisodeFilter, animated: Bool) {
@@ -504,6 +495,17 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         if miniPlayer.playerOpenState == .open {
             miniPlayer.closeFullScreenPlayer()
+        }
+
+        if tab == .profile, FeatureFlag.upNextOnTabBar.enabled {
+            if let index = tabs.firstIndex(of: .podcasts),
+               let navController = viewControllers?[safe: index] as? UINavigationController,
+               let podcastsViewController = navController.viewControllers[safe: 0] as? PodcastListViewController {
+                selectedIndex = index
+                podcastsViewController.showProfileController()
+                return true
+            }
+            return false
         }
 
         selectedIndex = tabs.firstIndex(of: tab)!
