@@ -104,7 +104,7 @@ class PCViewController: SimpleNotificationsViewController {
             if let customRightBtn = customRightBtn {
                 buttons.append(customRightBtn)
             }
-            if let googleCastBtn = googleCastBtn {
+            if let googleCastBtn = googleCastBtn, supportsGoogleCast {
                 buttons.append(googleCastBtn)
             }
             buttons.append(contentsOf: extraRightButtons)
