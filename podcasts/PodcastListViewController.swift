@@ -191,11 +191,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func makeProfileButton(email: String?) -> UIBarButtonItem {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
-        imageView.contentMode = .scaleAspectFit
-        let profileImage = UIImage(named: "profile_tab")?.withRenderingMode(.alwaysTemplate)
+        let avatarSize = CGFloat(32)
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: avatarSize, height: avatarSize))
+        imageView.contentMode = .center
+        let profileImage = UIImage(named: "profile-placeholder")?.withRenderingMode(.alwaysTemplate)
         imageView.image = profileImage
         if let email {
+            imageView.contentMode = .scaleAspectFit
             let gravatarURL = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(256)")
             let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
             imageView.kf.setImage(with: gravatarURL, placeholder: profileImage, options: [
@@ -209,6 +211,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped(_:)))
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: avatarSize),
+            imageView.heightAnchor.constraint(equalToConstant: avatarSize),
+        ])
 
         if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
             let badgeSize = CGFloat(10)
