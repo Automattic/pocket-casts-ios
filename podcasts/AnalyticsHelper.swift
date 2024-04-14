@@ -224,13 +224,13 @@ class AnalyticsHelper {
         class func tabSelected(tab: MainTabBarController.Tab) {
             switch tab {
             case .podcasts:
-                logEvent("podcast_tab_open", parameters: nil)
+                logEvent("podcast_tab_opened", parameters: nil)
             case .filter:
-                logEvent("filter_tab_open", parameters: nil)
+                logEvent("filter_tab_opened", parameters: nil)
             case .profile:
-                logEvent("profile_tab_open", parameters: nil)
+                logEvent("profile_tab_opened", parameters: nil)
             case .upNext:
-                logEvent("upnext_tab_open", parameters: nil)
+                logEvent("upnext_tab_opened", parameters: nil)
             case .discover: break // we don't log this case, since it's handled in did load
             }
         }
