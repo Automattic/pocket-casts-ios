@@ -39,6 +39,9 @@ struct CategoryButtonStyle: ButtonStyle {
     // MARK: View
 
     let isSelected: Bool
+ 
+    /// Used for generating previews with isPressed button state
+    fileprivate var forcePressed = false
 
     init(isSelected: Bool = false) {
         self.isSelected = isSelected
@@ -51,7 +54,7 @@ struct CategoryButtonStyle: ButtonStyle {
             .padding(.horizontal, Constants.Padding.horizontal)
             .padding(.vertical, Constants.Padding.vertical)
             .cornerRadius(Constants.cornerRadius)
-            .background(isSelected ? selectedBackground : (configuration.isPressed ? pressedBackground : background))
+            .background(isSelected ? selectedBackground : ((configuration.isPressed || forcePressed) ? pressedBackground : background))
             .foregroundColor(isSelected ? selectedForeground : foreground)
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
@@ -61,9 +64,28 @@ struct CategoryButtonStyle: ButtonStyle {
     }
 }
 
-#Preview {
+// MARK: Previews
+
+#Preview("normal") {
+    Button("Hello", action: {
+
+    }).buttonStyle(CategoryButtonStyle(isSelected: false))
+    .previewWithAllThemes()
+}
+
+#Preview("selected") {
     Button("Hello", action: {
 
     }).buttonStyle(CategoryButtonStyle(isSelected: true))
+    .previewWithAllThemes()
+}
+
+#Preview("pressed") {
+    var buttonStyle = CategoryButtonStyle(isSelected: false)
+    buttonStyle.forcePressed = true
+    return Button("Hello", action: {
+
+    }).buttonStyle(buttonStyle)
+    .applyButtonEffect(isPressed: true)
     .previewWithAllThemes()
 }
