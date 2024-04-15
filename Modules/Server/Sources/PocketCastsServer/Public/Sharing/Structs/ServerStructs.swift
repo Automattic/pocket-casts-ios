@@ -256,7 +256,8 @@ public struct DiscoverRegion: Decodable {
     public var flag: String
 }
 
-public struct DiscoverItem: Decodable {
+public struct DiscoverItem: Decodable, Equatable {
+    public var id: String?
     public var uuid: String?
     public var title: String?
     public var type: String?
@@ -268,6 +269,8 @@ public struct DiscoverItem: Decodable {
     public var curated: Bool?
     public var regions: [String]
     public var isSponsored: Bool?
+    public var popular: [Int]?
+    public var categoryID: Int?
 
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"
@@ -275,11 +278,19 @@ public struct DiscoverItem: Decodable {
         case isSponsored = "sponsored"
         case sponsoredPodcasts = "sponsored_podcasts"
         case expandedTopItemLabel = "expanded_top_item_label"
-        case type, title, source, regions, curated, uuid
+        case categoryID = "category_id"
+        case type, title, source, regions, curated, uuid, popular, id
+    }
+
+    public init(id: String? = nil, title: String? = nil, source: String? = nil, regions: [String]) {
+        self.id = id
+        self.title = title
+        self.source = source
+        self.regions = regions
     }
 }
 
-public struct CarouselSponsoredPodcast: Decodable {
+public struct CarouselSponsoredPodcast: Decodable, Equatable {
     public var position: Int?
     public var source: String?
 }
@@ -351,7 +362,7 @@ public struct DiscoverPodcast: Codable, Equatable {
     }
 }
 
-public struct DiscoverCategory: Decodable {
+public struct DiscoverCategory: Decodable, Equatable {
     public var id: Int?
     public var name: String?
     public var source: String?

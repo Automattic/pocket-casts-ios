@@ -19,6 +19,7 @@ class DeselectChaptersAnnouncementViewModel {
         FeatureFlag.deselectChapters.enabled
             && PaidFeature.deselectChapters.tier == .plus
             && SubscriptionHelper.activeTier < .patron
+            && BuildEnvironment.current == .appStore
     }
 
     var plusFreeMessage: String {
