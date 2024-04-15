@@ -60,3 +60,10 @@ struct CategoryButtonStyle: ButtonStyle {
             .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
     }
 }
+
+#Preview {
+    Button("Hello", action: {
+
+    }).buttonStyle(CategoryButtonStyle(isSelected: true))
+    .previewWithAllThemes()
+}
