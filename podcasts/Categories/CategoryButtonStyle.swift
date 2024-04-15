@@ -39,7 +39,7 @@ struct CategoryButtonStyle: ButtonStyle {
     // MARK: View
 
     let isSelected: Bool
- 
+
     /// Used for generating previews with isPressed button state
     fileprivate var forcePressed = false
 
