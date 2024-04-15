@@ -292,7 +292,7 @@ final class SettingsTests: XCTestCase {
         XCTAssertEqual(newUseEmbeddedArtwork, Settings.loadEmbeddedImages)
         XCTAssertEqual(newUseEmbeddedArtwork, Settings.darkUpNextTheme)
 
-        XCTAssertNotNil(SettingsStore.appSettings.$appBadge.modifiedAt)
+        XCTAssertEqual(SettingsStore.appSettings.$appBadge.modifiedAt, Date.syncDefaultDate, "Modified Date should equal the default sync date")
     }
 
     /// Tests that the default values are used when a value is missing from the JSON (such as when a key was added after writing the JSON object)
