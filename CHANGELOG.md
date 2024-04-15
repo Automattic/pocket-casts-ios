@@ -1,6 +1,6 @@
 7.62
 -----
-
+- Sleep Timer restarts automatically if you play again within 5 minutes [#1612]
 
 7.61
 -----

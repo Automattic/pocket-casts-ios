@@ -159,6 +159,9 @@ struct Constants {
 
         static let searchHistoryEntries = "SearchHistoryEntries"
 
+        static let sleepTimerFinishedDate = "sleepTimerFinishedDate"
+        static let sleepTimerSetting = "sleepTimerSetting"
+
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",
                                                       defaultValue: HeadphoneControlAction.skipBack)
