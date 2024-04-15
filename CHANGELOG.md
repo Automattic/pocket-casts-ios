@@ -1,6 +1,7 @@
 7.62
 -----
 - Show the Up Next bar on the tab bar. [#1613]
+- Sleep Timer restarts automatically if you play again within 5 minutes [#1612]
 
 7.61
 -----
