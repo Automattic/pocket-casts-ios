@@ -15,7 +15,7 @@ struct CategoryButtonStyle: ButtonStyle {
 
     // MARK: Colors
     private var border: Color {
-        theme.primaryIcon02
+        theme.primaryField03
     }
 
     private var background: Color {
