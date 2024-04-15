@@ -30,10 +30,10 @@ struct CategoryButtonStyle: ButtonStyle {
         theme.primaryText01
     }
     private var selectedBackground: Color {
-        theme.primaryIcon01
+        theme.secondaryIcon01
     }
     private var selectedForeground: Color {
-        theme.primaryUi02Selected
+        theme.secondaryUi01
     }
 
     // MARK: View
