@@ -23,9 +23,7 @@ extension PodcastSettings {
 
 public extension AutoAddToUpNextSetting {
     var enabled: Bool {
-        get {
-            return self != .off
-        }
+        return self != .off
     }
 
     var position: UpNextPosition? {
