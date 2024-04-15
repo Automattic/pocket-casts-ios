@@ -6,7 +6,7 @@ extension SettingsStore<AppSettings> {
     /// Updates the values in AppSettings with
     /// - Parameter userDefaults: The UserDefaults to read values from
     func importUserDefaults(_ userDefaults: UserDefaults = UserDefaults.standard) {
-        let date = Date(timeIntervalSince1970: 1)
+        let date = Date.syncDefaultDate
         self.update(\.$openLinks, value: userDefaults.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser), modifiedAt: date)
         self.update(\.$rowAction, value: Int32(userDefaults.integer(forKey: Settings.primaryRowActionKey)), modifiedAt: date)
         self.update(\.$skipForward, value: Int32(ServerSettings.skipForwardTime()), modifiedAt: date)

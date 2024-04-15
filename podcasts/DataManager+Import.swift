@@ -5,7 +5,7 @@ extension DataManager {
     func importPodcastSettings() {
         let podcasts = allPodcasts(includeUnsubscribed: true)
 
-        let date = Date(timeIntervalSince1970: 1)
+        let date = Date.syncDefaultDate
         podcasts.enumerated().forEach { (idx, podcast) in
             podcast.settings.$autoStartFrom = ModifiedDate<Int32>(wrappedValue: podcast.startFrom, modifiedAt: date)
             podcast.settings.$autoSkipLast = ModifiedDate<Int32>(wrappedValue: podcast.skipLast, modifiedAt: date)
