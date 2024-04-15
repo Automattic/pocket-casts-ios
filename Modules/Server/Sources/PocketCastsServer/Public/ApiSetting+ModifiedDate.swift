@@ -24,12 +24,13 @@ extension ApiSetting {
     }
 }
 
+let serverDefaultDate = Date(timeIntervalSince1970: 0)
+
 extension ModifiedDate {
     /// Updates the ApiSetting ModifiedDate instance with values from an ApiSetting
     /// - Parameter setting: An `ApiSetting` instance which contains a value and (optional) modified date to used to determine whether the value should be overridden
     mutating func update<S: ApiSetting>(setting: S) where Value == S.ReturnValue.T {
-        let referenceDate = Date(timeIntervalSince1970: 0)
-        if setting.modifiedAt.date > modifiedAt ?? referenceDate {
+        if setting.modifiedAt.date > modifiedAt ?? serverDefaultDate {
             // The `modifiedAt` date is not set here so that we can tell when settings are _actually_ changed on device
             // Then we include only those values in sending to the server.
             self = ModifiedDate(wrappedValue: setting.value.value)
@@ -45,8 +46,7 @@ extension ModifiedDate where Value: RawRepresentable {
     /// Updates the ModifiedDate instance with values from an ApiSetting
     /// - Parameter setting: An `ApiSetting` instance which contains a value and (optional) modified date to set on this `ModifiedDate`
     mutating private func uncaughtUpdate<S: ApiSetting>(setting: S) throws where Value.RawValue == S.ReturnValue.T {
-        let referenceDate = Date(timeIntervalSinceReferenceDate: 0)
-        if setting.modifiedAt.date > modifiedAt ?? referenceDate {
+        if setting.modifiedAt.date > modifiedAt ?? serverDefaultDate {
             guard let value = Value(rawValue: setting.value.value) else {
                 throw ApiUpdateError.representableNotFound(value: setting.value.value, representable: Value.self)
             }
