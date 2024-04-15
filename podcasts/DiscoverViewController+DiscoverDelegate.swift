@@ -7,7 +7,7 @@ extension DiscoverViewController: DiscoverDelegate {
         if let category {
             reload(except: [item], category: category)
         } else {
-            reloadDiscoverTapped(NSObject())
+            reload(except: [item], category: nil)
         }
     }
 

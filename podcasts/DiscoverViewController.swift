@@ -149,19 +149,25 @@ class DiscoverViewController: PCViewController {
     /// - Parameters:
     ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
     ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
-    func reload(except items: [DiscoverItem], category: DiscoverCategory) {
-        let categoryVC = CategoryPodcastsViewController(category: category)
-        categoryVC.delegate = self
-        categoryVC.view.alpha = 0
-
-        let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: items.first?.regions ?? [])
+    func reload(except items: [DiscoverItem], category: DiscoverCategory?) {
         populateFrom(discoverLayout: discoverLayout, shouldInclude: {
-            ($0.categoryID == category.id) || items.contains($0)
+            ($0.categoryID == category?.id) || items.contains($0)
         }, shouldReset: {
             !items.contains($0)
         })
-        addToScrollView(viewController: categoryVC, for: item, isLast: true)
+
+        guard let category else { return }
+        addCategoryVC(for: category, regions: items.first?.regions ?? [])
+    }
+
+    private func addCategoryVC(for category: DiscoverCategory, regions: [String]) {
+        let categoryVC = CategoryPodcastsViewController(category: category)
+        categoryVC.delegate = self
+        categoryVC.view.alpha = 0
         categoryVC.podcastsTable.isScrollEnabled = false
+
+        let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: regions)
+        addToScrollView(viewController: categoryVC, for: item, isLast: true)
     }
 
     private func showPageLoading() {
