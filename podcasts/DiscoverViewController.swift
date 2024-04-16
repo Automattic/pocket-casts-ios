@@ -312,8 +312,12 @@ class DiscoverViewController: PCViewController {
 
         // anchor the bottom view to the bottom, the middle ones to each other, and the last one to the bottom and the one above it
         if isLast {
-            if let previousView = summaryViewControllers.last?.viewController.view {
-                viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+            if let previousVC = summaryViewControllers.last?.viewController, let previousView = previousVC.view {
+                if viewController is CategoryPodcastsViewController && (previousVC is CategoriesSelectorViewController) == false {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10).isActive = true
+                } else {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                }
             }
             viewController.view.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -65).isActive = true
         } else if let previousVC = summaryViewControllers.last?.viewController, let previousView = previousVC.view {
@@ -321,7 +325,11 @@ class DiscoverViewController: PCViewController {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: -10).isActive = true
                 mainScrollView.sendSubviewToBack(viewController.view)
             } else {
-                viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                if viewController is CategoryPodcastsViewController && (previousVC is CategoriesSelectorViewController) == false {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10).isActive = true
+                } else {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                }
             }
         } else {
             viewController.view.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
