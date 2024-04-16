@@ -12,26 +12,26 @@ struct CategoriesSelectorView: View {
     @State private var categories: [DiscoverCategory]?
     @State private var popular: [DiscoverCategory]?
 
+    @EnvironmentObject private var theme: Theme
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 if let categories, let popular {
                     CategoriesPillsView(pillCategories: popular, overflowCategories: categories, selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)))
-                        .environmentObject(Theme.sharedTheme)
                 } else {
                     PlaceholderPillsView()
                 }
             }
-            .padding(16)
+            .padding(.top, 2)
+            .padding(.bottom, 16)
+            .padding(.horizontal, 16)
         }
+        .background(theme.secondaryUi01)
         .task(id: discoverItemObservable.item?.source) {
-            guard let source = discoverItemObservable.item?.source else { return }
-            let categories = await DiscoverServerHandler.shared.discoverCategories(source: source)
-            self.categories = categories
-            popular = categories.filter {
-                guard let id = $0.id else { return false }
-                return discoverItemObservable.item?.popular?.contains(id) == true
-            }
+            let result = await discoverItemObservable.load()
+            self.categories = result?.categories
+            self.popular = result?.popular
         }
     }
 }
@@ -43,7 +43,6 @@ struct PlaceholderPillsView: View {
                 Text("Placeholder")
             })
             .buttonStyle(CategoryButtonStyle())
-            .environmentObject(Theme.sharedTheme)
             .redacted(reason: .placeholder)
         }
     }
@@ -131,5 +130,34 @@ struct CategoryButton: View {
             Text(category.name ?? "")
         })
         .buttonStyle(CategoryButtonStyle(isSelected: isSelected))
+    }
+}
+
+// MARK: Previews
+
+#Preview("unselected") {
+    let category = DiscoverCategory(id: 0, name: "Test")
+    let observable = CategoriesSelectorViewController.DiscoverItemObservable {
+        return ([category], [category])
+    }
+    return ScrollView(.vertical) {
+        CategoriesSelectorView(discoverItemObservable: observable)
+            .frame(width: 400)
+            .previewWithAllThemes()
+    }
+}
+
+#Preview("selected") {
+    let category = DiscoverCategory(id: 0, name: "Test")
+    let observable = CategoriesSelectorViewController.DiscoverItemObservable {
+        return ([category], [category])
+    }
+    return ScrollView(.vertical) {
+        CategoriesSelectorView(discoverItemObservable: observable)
+            .frame(width: 400)
+            .previewWithAllThemes()
+            .onAppear {
+                observable.selectedCategory = category
+            }
     }
 }

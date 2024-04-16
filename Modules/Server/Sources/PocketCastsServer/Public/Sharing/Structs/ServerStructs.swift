@@ -367,6 +367,11 @@ public struct DiscoverCategory: Decodable, Equatable {
     public var name: String?
     public var source: String?
     public var icon: String?
+
+    public init(id: Int?, name: String?) {
+        self.id = id
+        self.name = name
+    }
 }
 
 public struct DiscoverCategoryDetails: Decodable {
