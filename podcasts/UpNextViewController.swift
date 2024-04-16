@@ -34,7 +34,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                 } else {
                     self.track(.upNextMultiSelectEntered)
                 }
-
+                if self.showingInTab {
+                    self.upNextTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
+                }
                 reloadTable()
             }
         }
@@ -66,7 +68,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             upNextTable.register(UINib(nibName: "NothingUpNextCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.noUpNextCell)
             upNextTable.register(UINib(nibName: "UpNextNowPlayingCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.nowPlayingCell)
             upNextTable.backgroundView = nil
-
             upNextTable.isEditing = true
             upNextTable.addGestureRecognizer(customLongPressGesture)
             upNextTable.allowsMultipleSelectionDuringEditing = true
@@ -93,11 +94,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }()
 
     let source: UpNextViewSource
+    let showingInTab: Bool
 
-    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil) {
+    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil, showingInTab: Bool = false) {
         self.source = source
-        self.themeOverride = Settings.darkUpNextTheme ? .dark : themeOverride
-
+        self.themeOverride = !showingInTab && Settings.darkUpNextTheme ? .dark : themeOverride
+        self.showingInTab = showingInTab
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -145,7 +147,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        if showingInTab {
+            upNextTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
+        }
         AnalyticsHelper.upNextOpened()
     }
 
@@ -260,10 +264,18 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
         } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            if showingInTab {
+                navigationItem.leftBarButtonItem = nil
+            } else {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            }
         } else {
             navigationItem.rightBarButtonItem = nil
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            if showingInTab {
+                navigationItem.leftBarButtonItem = nil
+            } else {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            }
         }
     }
 
@@ -302,6 +314,7 @@ enum UpNextViewSource: String, AnalyticsDescribable {
     case nowPlaying = "now_playing"
     case player
     case lockScreenWidget = "lock_screen_widget"
+    case tabBar = "tab_bar"
     case unknown
 
     var analyticsDescription: String { rawValue }
