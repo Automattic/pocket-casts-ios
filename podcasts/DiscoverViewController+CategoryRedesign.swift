@@ -59,7 +59,8 @@ extension DiscoverViewController {
     }
 
     private func addCategoryVC(for category: DiscoverCategory, regions: [String]) {
-        let categoryVC = CategoryPodcastsViewController(category: category, skipCount: popularItemsCount)
+        let region = discoverLayout.map { Settings.discoverRegion(discoverLayout: $0) }
+        let categoryVC = CategoryPodcastsViewController(category: category, region: region, skipCount: popularItemsCount)
         categoryVC.delegate = self
         categoryVC.view.alpha = 0
         categoryVC.podcastsTable.isScrollEnabled = false
