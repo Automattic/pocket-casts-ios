@@ -305,6 +305,8 @@ enum AnalyticsEvent: String {
     case discoverRegionChanged
     case discoverCollectionLinkTapped
 
+    case discoverAdCategoryTapped
+
     // MARK: - Mini Player
 
     case miniPlayerLongPressMenuShown
