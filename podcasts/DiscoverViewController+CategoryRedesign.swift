@@ -37,9 +37,9 @@ extension DiscoverViewController {
 
         let title: String
         if let name = category.name {
-            title = "Most Popular in \(name)"
+            title = L10n.mostPopularWithName(name)
         } else {
-            title = "Most Popular"
+            title = L10n.mostPopular
         }
 
         let item = DiscoverItem(
