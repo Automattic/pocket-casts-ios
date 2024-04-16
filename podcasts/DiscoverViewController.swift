@@ -149,19 +149,25 @@ class DiscoverViewController: PCViewController {
     /// - Parameters:
     ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
     ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
-    func reload(except items: [DiscoverItem], category: DiscoverCategory) {
-        let categoryVC = CategoryPodcastsViewController(category: category)
-        categoryVC.delegate = self
-        categoryVC.view.alpha = 0
-
-        let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: items.first?.regions ?? [])
+    func reload(except items: [DiscoverItem], category: DiscoverCategory?) {
         populateFrom(discoverLayout: discoverLayout, shouldInclude: {
-            ($0.categoryID == category.id) || items.contains($0)
+            ($0.categoryID == category?.id) || items.contains($0)
         }, shouldReset: {
             !items.contains($0)
         })
-        addToScrollView(viewController: categoryVC, for: item, isLast: true)
+
+        guard let category else { return }
+        addCategoryVC(for: category, regions: items.first?.regions ?? [])
+    }
+
+    private func addCategoryVC(for category: DiscoverCategory, regions: [String]) {
+        let categoryVC = CategoryPodcastsViewController(category: category)
+        categoryVC.delegate = self
+        categoryVC.view.alpha = 0
         categoryVC.podcastsTable.isScrollEnabled = false
+
+        let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: regions)
+        addToScrollView(viewController: categoryVC, for: item, isLast: true)
     }
 
     private func showPageLoading() {
@@ -306,8 +312,12 @@ class DiscoverViewController: PCViewController {
 
         // anchor the bottom view to the bottom, the middle ones to each other, and the last one to the bottom and the one above it
         if isLast {
-            if let previousView = summaryViewControllers.last?.viewController.view {
-                viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+            if let previousVC = summaryViewControllers.last?.viewController, let previousView = previousVC.view {
+                if viewController is CategoryPodcastsViewController && (previousVC is CategoriesSelectorViewController) == false {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10).isActive = true
+                } else {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                }
             }
             viewController.view.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -65).isActive = true
         } else if let previousVC = summaryViewControllers.last?.viewController, let previousView = previousVC.view {
@@ -315,7 +325,11 @@ class DiscoverViewController: PCViewController {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: -10).isActive = true
                 mainScrollView.sendSubviewToBack(viewController.view)
             } else {
-                viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                if viewController is CategoryPodcastsViewController && (previousVC is CategoriesSelectorViewController) == false {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10).isActive = true
+                } else {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                }
             }
         } else {
             viewController.view.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
