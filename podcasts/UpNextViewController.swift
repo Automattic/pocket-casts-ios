@@ -34,7 +34,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                 } else {
                     self.track(.upNextMultiSelectEntered)
                 }
-
+                if self.showingInTab {
+                    self.upNextTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
+                }
                 reloadTable()
             }
         }
@@ -66,7 +68,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             upNextTable.register(UINib(nibName: "NothingUpNextCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.noUpNextCell)
             upNextTable.register(UINib(nibName: "UpNextNowPlayingCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.nowPlayingCell)
             upNextTable.backgroundView = nil
-
+            if showingInTab {
+                upNextTable.applyInsetForMiniPlayer()
+            }
             upNextTable.isEditing = true
             upNextTable.addGestureRecognizer(customLongPressGesture)
             upNextTable.allowsMultipleSelectionDuringEditing = true
