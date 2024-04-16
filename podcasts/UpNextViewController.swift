@@ -148,7 +148,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if showingInTab {
-            upNextTable.applyInsetForMiniPlayer()
+            upNextTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
         }
         // fix issues with the now playing cell not animating by reloading it on appear
         reloadTable()
