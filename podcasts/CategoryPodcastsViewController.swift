@@ -23,8 +23,10 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     private var category: DiscoverCategory
     private var podcasts = [DiscoverPodcast]()
     private var promotion: DiscoverCategoryPromotion?
-    init(category: DiscoverCategory) {
+    private let region: String?
+    init(category: DiscoverCategory, region: String?) {
         self.category = category
+        self.region = region
         super.init(nibName: "CategoryPodcastsViewController", bundle: nil)
 
         title = category.name?.localized
@@ -84,7 +86,10 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         if let cell = tableView.cellForRow(at: indexPath) as? DiscoverPodcastTableCell {
             let podcast = podcasts[indexPath.row]
 
-            delegate.show(discoverPodcast: podcast, placeholderImage: cell.podcastImage.image, isFeatured: false, listUuid: nil)
+            let categoryName = category.name ?? "unknown"
+            let listUuid = "category-\(categoryName.lowercased())-\(region ?? "unknown")"
+
+            delegate.show(discoverPodcast: podcast, placeholderImage: cell.podcastImage.image, isFeatured: false, listUuid: listUuid)
         } else if let cell = tableView.cellForRow(at: indexPath) as? CategorySponsoredCell, let promotion = promotion {
             var podcastInfo = PodcastInfo()
             podcastInfo.title = promotion.title

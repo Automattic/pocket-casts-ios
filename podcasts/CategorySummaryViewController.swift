@@ -72,7 +72,7 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = categories[indexPath.row]
 
-        let categoryPodcastsController = CategoryPodcastsViewController(category: category)
+        let categoryPodcastsController = CategoryPodcastsViewController(category: category, region: regionCode)
         if let delegate = delegate {
             categoryPodcastsController.registerDiscoverDelegate(delegate)
             delegate.navController()?.pushViewController(categoryPodcastsController, animated: true)
