@@ -2,6 +2,8 @@ import PocketCastsServer
 import UIKit
 
 class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummaryProtocol, UICollectionViewDataSource, GridLayoutDelegate, UICollectionViewDelegateFlowLayout {
+
+    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     @IBOutlet var titleLabel: ThemeableLabel!
     @IBOutlet var showAllBtn: UIButton! {
         didSet {
@@ -18,6 +20,13 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     private var item: DiscoverItem?
 
     @IBOutlet var largeListCollectionViewHeight: NSLayoutConstraint!
+
+    var padding: CGFloat? {
+        didSet {
+            view.setNeedsLayout()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,9 +53,13 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        if padding != nil {
+            titleTopConstraint.constant = 0
+        }
+
         if lastLayedOutWidth != view.bounds.width {
             lastLayedOutWidth = view.bounds.width
-            largeListCollectionViewHeight.constant = cellWidth + 50
+            largeListCollectionViewHeight.constant = cellWidth + (padding ?? 50)
             collectionView.layoutIfNeeded()
         }
     }

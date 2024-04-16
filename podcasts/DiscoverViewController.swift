@@ -305,6 +305,10 @@ class DiscoverViewController: PCViewController {
                 } else {
                     viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
                 }
+
+                if previousVC is CategoriesSelectorViewController {
+                    (viewController as? LargeListSummaryViewController)?.padding = 25
+                }
             }
         } else {
             viewController.view.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
