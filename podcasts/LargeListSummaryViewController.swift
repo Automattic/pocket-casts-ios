@@ -135,13 +135,22 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         guard let source = item.source else { return }
         guard let title = item.title?.localized else { return }
 
+        showAllBtn.isHidden = item.expandedStyle == nil
+
         self.item = item
         titleLabel.text = delegate?.replaceRegionName(string: title)
         titleLabel.sizeToFit()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
-            for podcast in discoverPodcast {
+            let podcasts: [DiscoverPodcast]
+            if let itemCount = item.summaryItemCount {
+                podcasts = Array(discoverPodcast[0..<itemCount])
+            } else {
+                podcasts = discoverPodcast
+            }
+
+            for podcast in podcasts {
                 strongSelf.podcasts.append(podcast)
             }
 

@@ -21,10 +21,12 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     weak var delegate: DiscoverDelegate?
 
     private var category: DiscoverCategory
+    private var skipCount: Int
     private var podcasts = [DiscoverPodcast]()
     private var promotion: DiscoverCategoryPromotion?
-    init(category: DiscoverCategory) {
+    init(category: DiscoverCategory, skipCount: Int = 0) {
         self.category = category
+        self.skipCount = skipCount
         super.init(nibName: "CategoryPodcastsViewController", bundle: nil)
 
         title = category.name?.localized
@@ -121,7 +123,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 }
 
                 strongSelf.loadingIndicator.stopAnimating()
-                strongSelf.podcasts = podcasts
+                strongSelf.podcasts = Array(podcasts.dropFirst(strongSelf.skipCount))
                 strongSelf.promotion = categoryDetails?.promotion
                 strongSelf.podcastsTable.reloadData()
 
