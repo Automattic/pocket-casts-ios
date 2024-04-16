@@ -1193,7 +1193,7 @@ class Settings: NSObject {
     static var playerBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
             if FeatureFlag.newSettingsStorage.enabled {
-                return SettingsStore.appSettings.playerBookmarksSortType.option
+                return SettingsStore.appSettings.playerBookmarksSortType.option(lastOption: .timestamp)
             } else {
                 return Constants.UserDefaults.bookmarks.playerSort.value
             }
@@ -1208,7 +1208,7 @@ class Settings: NSObject {
     static var episodeBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
             if FeatureFlag.newSettingsStorage.enabled {
-                return SettingsStore.appSettings.episodeBookmarksSortType.option
+                return SettingsStore.appSettings.episodeBookmarksSortType.option(lastOption: .timestamp)
             } else {
                 return Constants.UserDefaults.bookmarks.episodeSort.value
             }
@@ -1223,7 +1223,7 @@ class Settings: NSObject {
     static var podcastBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
             if FeatureFlag.newSettingsStorage.enabled {
-                return SettingsStore.appSettings.podcastBookmarksSortType.option
+                return SettingsStore.appSettings.podcastBookmarksSortType.option(lastOption: .episode)
             } else {
                 return Constants.UserDefaults.bookmarks.podcastSort.value
             }
@@ -1238,7 +1238,7 @@ class Settings: NSObject {
     static var profileBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
             if FeatureFlag.newSettingsStorage.enabled {
-                return SettingsStore.appSettings.profileBookmarksSortType.option
+                return SettingsStore.appSettings.profileBookmarksSortType.option(lastOption: .podcastAndEpisode)
             } else {
                 return Constants.UserDefaults.bookmarks.profileSort.value
             }
