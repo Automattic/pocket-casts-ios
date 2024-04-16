@@ -113,8 +113,8 @@ class AnalyticsHelper {
         bumpStat("discover_list_podcast_tap", parameters: properties)
     }
 
-    class func adTapped(promotionUUID: String, podcastUUID: String, category: String) {
-        let properties = ["promotion_uuid": promotionUUID, "podcast_uuid": podcastUUID, "category": category]
+    class func adTapped(promotionUUID: String, podcastUUID: String, categoryID: Int) {
+        let properties = ["promotion_uuid": promotionUUID, "podcast_uuid": podcastUUID, "category_id": category]
         Analytics.track(.discoverAdCategoryTapped, properties: properties)
     }
 
