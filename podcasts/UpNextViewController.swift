@@ -68,9 +68,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             upNextTable.register(UINib(nibName: "NothingUpNextCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.noUpNextCell)
             upNextTable.register(UINib(nibName: "UpNextNowPlayingCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.nowPlayingCell)
             upNextTable.backgroundView = nil
-            if showingInTab {
-                upNextTable.applyInsetForMiniPlayer()
-            }
             upNextTable.isEditing = true
             upNextTable.addGestureRecognizer(customLongPressGesture)
             upNextTable.allowsMultipleSelectionDuringEditing = true
@@ -150,6 +147,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if showingInTab {
+            upNextTable.applyInsetForMiniPlayer()
+        }
         // fix issues with the now playing cell not animating by reloading it on appear
         reloadTable()
 
