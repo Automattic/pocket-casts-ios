@@ -263,6 +263,7 @@ public struct DiscoverItem: Decodable, Equatable {
     public var type: String?
     public var summaryStyle: String?
     public var expandedStyle: String?
+    public var summaryItemCount: Int?
     public var source: String?
     public var sponsoredPodcasts: [CarouselSponsoredPodcast]?
     public var expandedTopItemLabel: String?
@@ -282,11 +283,38 @@ public struct DiscoverItem: Decodable, Equatable {
         case type, title, source, regions, curated, uuid, popular, id
     }
 
-    public init(id: String? = nil, title: String? = nil, source: String? = nil, regions: [String]) {
+    public init(
+        id: String? = nil,
+        uuid: String? = nil,
+        title: String? = nil,
+        type: String? = nil,
+        summaryStyle: String? = nil,
+        summaryItemCount: Int? = nil,
+        expandedStyle: String? = nil,
+        source: String? = nil,
+        sponsoredPodcasts: [CarouselSponsoredPodcast]? = nil,
+        expandedTopItemLabel: String? = nil,
+        curated: Bool? = nil,
+        regions: [String],
+        isSponsored: Bool? = nil,
+        popular: [Int]? = nil,
+        categoryID: Int? = nil
+    ) {
         self.id = id
+        self.uuid = uuid
         self.title = title
+        self.type = type
+        self.summaryStyle = summaryStyle
+        self.summaryItemCount = summaryItemCount
+        self.expandedStyle = expandedStyle
         self.source = source
+        self.sponsoredPodcasts = sponsoredPodcasts
+        self.expandedTopItemLabel = expandedTopItemLabel
+        self.curated = curated
         self.regions = regions
+        self.isSponsored = isSponsored
+        self.popular = popular
+        self.categoryID = categoryID
     }
 }
 
