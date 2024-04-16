@@ -149,7 +149,13 @@ class DiscoverViewController: PCViewController {
     /// - Parameters:
     ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
     ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
-    func reload(except items: [DiscoverItem], category: DiscoverCategory?) {
+    func reload(except items: [DiscoverItem], category: DiscoverCategory) {
+        let region = discoverLayout.map { Settings.discoverRegion(discoverLayout: $0) }
+        let categoryVC = CategoryPodcastsViewController(category: category, region: region)
+        categoryVC.delegate = self
+        categoryVC.view.alpha = 0
+
+        let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: items.first?.regions ?? [])
         populateFrom(discoverLayout: discoverLayout, shouldInclude: {
             ($0.categoryID == category?.id) || items.contains($0)
         }, shouldReset: {
