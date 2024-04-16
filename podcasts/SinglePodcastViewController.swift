@@ -146,7 +146,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             }
 
             if item.isSponsored == true {
-                AnalyticsHelper.adTapped(promotionUUID: item.uuid ?? "", podcastUUID: podcastUuid, category: item.categoryID ?? 0)
+                AnalyticsHelper.adTapped(promotionUUID: item.uuid ?? "", podcastUUID: podcastUuid, categoryID: item.categoryID ?? 0)
             }
         }
     }

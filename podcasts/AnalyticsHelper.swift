@@ -114,7 +114,7 @@ class AnalyticsHelper {
     }
 
     class func adTapped(promotionUUID: String, podcastUUID: String, categoryID: Int) {
-        let properties = ["promotion_uuid": promotionUUID, "podcast_uuid": podcastUUID, "category_id": category]
+        let properties: [String: Any] = ["promotion_uuid": promotionUUID, "podcast_uuid": podcastUUID, "category_id": categoryID]
         Analytics.track(.discoverAdCategoryTapped, properties: properties)
     }
 
