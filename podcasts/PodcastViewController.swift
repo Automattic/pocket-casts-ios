@@ -332,7 +332,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
 
-        Analytics.track(.podcastScreenShown, properties: ["uuid": podcastUUID])
+        var properties = ["uuid": podcastUUID]
+        if let listUuid {
+            properties["list_id"] = listUuid
+        }
+        Analytics.track(.podcastScreenShown, properties: properties)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
