@@ -188,10 +188,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func miniPlayerStatusDidChange() {
+        let margin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+
         if PlaybackManager.shared.currentEpisode() != nil {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
+            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: margin, bottom: Constants.Values.miniPlayerOffset, right: margin)
         } else {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: 0, right: 0)
+            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: margin, bottom: 0, right: margin)
         }
     }
 

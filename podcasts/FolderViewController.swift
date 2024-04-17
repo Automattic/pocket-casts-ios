@@ -56,6 +56,8 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         mainGrid.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
 
+        miniPlayerStatusDidChange()
+
         gridHelper.configureLayout(collectionView: mainGrid)
 
         updateNavTintColor()
@@ -216,10 +218,12 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     }
 
     @objc private func miniPlayerStatusDidChange() {
+        let margin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+
         if PlaybackManager.shared.currentEpisode() != nil {
-            mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
+            mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: margin, bottom: Constants.Values.miniPlayerOffset, right: margin)
         } else {
-            mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: 0, bottom: 0, right: 0)
+            mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: margin, bottom: 0, right: margin)
         }
     }
 
