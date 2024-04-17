@@ -1,8 +1,10 @@
 import PocketCastsServer
 
-private let popularItemsCount = 5
-
 extension DiscoverViewController {
+    private enum Constants {
+        static let popularItemsCount = 5
+    }
+
     /// Reloads discover, keeping the items listed in `exclude`
     /// - Parameters:
     ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
@@ -47,7 +49,7 @@ extension DiscoverViewController {
             title: title,
             type: "podcast_list",
             summaryStyle: "large_list",
-            summaryItemCount: popularItemsCount,
+            summaryItemCount: Constants.popularItemsCount,
             source: source,
             regions: items.first?.regions ?? [],
             categoryID: category.id
@@ -60,7 +62,7 @@ extension DiscoverViewController {
 
     private func addCategoryVC(for category: DiscoverCategory, regions: [String]) {
         let region = discoverLayout.map { Settings.discoverRegion(discoverLayout: $0) }
-        let categoryVC = CategoryPodcastsViewController(category: category, region: region, skipCount: popularItemsCount)
+        let categoryVC = CategoryPodcastsViewController(category: category, region: region, skipCount: Constants.popularItemsCount)
         categoryVC.delegate = self
         categoryVC.view.alpha = 0
         categoryVC.podcastsTable.isScrollEnabled = false
