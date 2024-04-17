@@ -18,13 +18,22 @@ class GridHelper {
 
     private var movingIndexPath: IndexPath?
 
+    private let spacing: CGFloat
+
     // MARK: - UICollectionView layout
+
+    init(spacing: CGFloat = 8) {
+        self.spacing = spacing
+    }
 
     func configureLayout(collectionView: UICollectionView) {
         guard let flowLayout = collectionView.collectionViewLayout as? ReorderableFlowLayout else { return }
 
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.minimumInteritemSpacing = 0
+        let gridType = Settings.libraryType()
+        let spacing = gridType == .list ? 0 : self.spacing
+
+        flowLayout.minimumLineSpacing = spacing
+        flowLayout.minimumInteritemSpacing = spacing
         flowLayout.growScale = GridHelper.moveScale
         flowLayout.alphaOnPickup = GridHelper.moveAlpha
         flowLayout.growOffset = 0
@@ -32,7 +41,7 @@ class GridHelper {
 
     func collectionView(_ collectionView: UICollectionView, sizeForItemAt indexPath: IndexPath, itemCount: Int) -> CGSize {
         let gridType = Settings.libraryType()
-        let viewWidth = collectionView.bounds.width
+        let viewWidth = collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right
         let viewHeight = collectionView.bounds.height
 
         if gridType == .list {
@@ -54,15 +63,17 @@ class GridHelper {
             }
         }
 
-        let roundedSizeStr = cellSizeFormatter.string(from: NSNumber(value: Double(viewWidth / divideBy)))
+        let availableWidth = viewWidth - (spacing * (divideBy-1))
+        let cellWidth =  availableWidth / divideBy
+        let roundedSizeStr = cellSizeFormatter.string(from: NSNumber(value: Double(cellWidth)))
         let roundedSize = roundedSizeStr?.toDouble() ?? 0
         // if there aren't enough podcasts to fill the first row, don't do anything weird
         if viewWidth > CGFloat(Double(itemCount) * roundedSize) {
             return CGSize(width: roundedSize, height: roundedSize)
         }
 
-        let flooredSize = floor(viewWidth / divideBy)
-        let pixelsRemaining = Int(viewWidth - (flooredSize * divideBy))
+        let flooredSize = floor(cellWidth)
+        let pixelsRemaining = Int(availableWidth - (flooredSize * divideBy))
         // if we don't need to add extra pixels to make things sit snugly together, then don't
         if pixelsRemaining == 0 {
             return CGSize(width: flooredSize, height: flooredSize)
