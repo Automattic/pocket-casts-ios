@@ -17,22 +17,31 @@ struct CategoryButtonStyle: ButtonStyle {
     private var border: Color {
         theme.primaryField03
     }
+
     private var background: Color {
-        theme.primaryUi02Active
+        theme.primaryUi01
     }
+
+    private var pressedBackground: Color {
+        theme.primaryUi02Selected
+    }
+
     private var foreground: Color {
         theme.primaryText01
     }
     private var selectedBackground: Color {
-        theme.primaryField03Active
+        theme.secondaryIcon01
     }
     private var selectedForeground: Color {
-        theme.primaryUi01
+        theme.secondaryUi01
     }
 
     // MARK: View
 
     let isSelected: Bool
+
+    /// Used for generating previews with isPressed button state
+    fileprivate var forcePressed = false
 
     init(isSelected: Bool = false) {
         self.isSelected = isSelected
@@ -45,7 +54,7 @@ struct CategoryButtonStyle: ButtonStyle {
             .padding(.horizontal, Constants.Padding.horizontal)
             .padding(.vertical, Constants.Padding.vertical)
             .cornerRadius(Constants.cornerRadius)
-            .background(isSelected ? selectedBackground : (configuration.isPressed ? background : Color.clear))
+            .background(isSelected ? selectedBackground : ((configuration.isPressed || forcePressed) ? pressedBackground : background))
             .foregroundColor(isSelected ? selectedForeground : foreground)
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
@@ -53,4 +62,30 @@ struct CategoryButtonStyle: ButtonStyle {
             )
             .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
     }
+}
+
+// MARK: Previews
+
+#Preview("normal") {
+    Button("Hello", action: {
+
+    }).buttonStyle(CategoryButtonStyle(isSelected: false))
+    .previewWithAllThemes()
+}
+
+#Preview("selected") {
+    Button("Hello", action: {
+
+    }).buttonStyle(CategoryButtonStyle(isSelected: true))
+    .previewWithAllThemes()
+}
+
+#Preview("pressed") {
+    var buttonStyle = CategoryButtonStyle(isSelected: false)
+    buttonStyle.forcePressed = true
+    return Button("Hello", action: {
+
+    }).buttonStyle(buttonStyle)
+    .applyButtonEffect(isPressed: true)
+    .previewWithAllThemes()
 }
