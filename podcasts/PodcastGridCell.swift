@@ -22,6 +22,9 @@ class PodcastGridCell: UICollectionViewCell {
         self.badgeType = badgeType
         podcastUuid = podcast.uuid
 
+        self.layer.cornerRadius = 4
+        self.layer.masksToBounds = true
+
         setImage()
         setColors(podcast: podcast)
 
