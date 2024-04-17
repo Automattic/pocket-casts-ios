@@ -1490,6 +1490,17 @@ class PlaybackManager: ServerPlaybackDelegate {
         Analytics.track(.playerSleepTimerEnabled, properties: ["time": Int(stopIn)])
     }
 
+    func restartSleepTimer() {
+        guard sleepTimerActive() else {
+            return
+        }
+
+        #if !os(watchOS)
+        Toast.show(L10n.deviceShakeSleepTimer)
+        #endif
+        sleepTimerManager.restartSleepTimer()
+    }
+
     // MARK: - Remote Control support
 
     private var lastSeekTime = Date()
