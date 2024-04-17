@@ -1,8 +1,10 @@
 import PocketCastsServer
 
-private let popularItemsCount = 5
-
 extension DiscoverViewController {
+    private enum Constants {
+        static let popularItemsCount = 5
+    }
+
     /// Reloads discover, keeping the items listed in `exclude`
     /// - Parameters:
     ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
@@ -47,7 +49,7 @@ extension DiscoverViewController {
             title: title,
             type: "podcast_list",
             summaryStyle: "large_list",
-            summaryItemCount: popularItemsCount,
+            summaryItemCount: Constants.popularItemsCount,
             source: source,
             regions: items.first?.regions ?? [],
             categoryID: category.id
