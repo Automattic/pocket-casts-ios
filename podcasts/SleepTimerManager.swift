@@ -53,7 +53,7 @@ class SleepTimerManager {
         if let setting = Settings.sleepTimerLastSetting {
             if let duration = setting.duration {
                 PlaybackManager.shared.setSleepTimerInterval(duration)
-                Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": duration])
+                Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": duration, "reason": "device_shake"])
                 FileLog.shared.addMessage("Sleep Timer: restarting it after device shake")
             }
         }
