@@ -11,10 +11,27 @@ class SleepTimerManager {
 
     private lazy var fadeOutManager = FadeOutManager()
 
+    private lazy var tonePlayer: AVAudioPlayer? = {
+        guard let url = Bundle.main.url(forResource: "sleep-timer-restarted-sound", withExtension: "mp3") else {
+            FileLog.shared.addMessage("[Sleep Timer] Unable to create tone player because the sound file is missing from the bundle.")
+            return nil
+        }
+
+        do {
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.prepareToPlay()
+            return player
+        } catch {
+            FileLog.shared.addMessage("[Sleep Timer] Unable to create tone player because of an exception: \(error)")
+            return nil
+        }
+    }()
+
     init(backgroundShakeObserver: BackgroundShakeObserver = BackgroundShakeObserver()) {
         self.backgroundShakeObserver = backgroundShakeObserver
         backgroundShakeObserver.whenShook = { [weak self] in
             self?.restartSleepTimer()
+            self?.playTone()
         }
     }
 
@@ -77,6 +94,12 @@ class SleepTimerManager {
         Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode"])
         PlaybackManager.shared.sleepOnEpisodeEnd = true
         NotificationCenter.default.removeObserver(self, name: Constants.Notifications.playbackTrackChanged, object: nil)
+    }
+
+    func playTone() {
+        guard let tonePlayer else { return }
+
+        tonePlayer.play()
     }
 
     struct SleepTimerSetting: JSONEncodable, JSONDecodable {
