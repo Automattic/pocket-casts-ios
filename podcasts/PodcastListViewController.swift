@@ -265,13 +265,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     func updateInsets() {
-        let margin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+        let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
 
-        if PlaybackManager.shared.currentEpisode() != nil {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: margin, bottom: Constants.Values.miniPlayerOffset, right: margin)
-        } else {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: margin, bottom: 0, right: margin)
-        }
+        podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
     }
 
     @objc func refreshGridItems() {
