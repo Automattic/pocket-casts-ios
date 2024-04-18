@@ -34,6 +34,7 @@ class GridHelper {
 
         flowLayout.minimumLineSpacing = spacing
         flowLayout.minimumInteritemSpacing = spacing
+        flowLayout.sectionInset = UIEdgeInsets(top: spacing, left: 0, bottom: 0, right: 0)
         flowLayout.growScale = GridHelper.moveScale
         flowLayout.alphaOnPickup = GridHelper.moveAlpha
         flowLayout.growOffset = 0
