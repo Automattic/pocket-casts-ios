@@ -1629,6 +1629,7 @@
 		FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */; };
 		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
+		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
 		FFF17EC42B97930700E116C8 /* BookmarksProfileListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */; };
@@ -3407,6 +3408,7 @@
 		FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompt.swift; sourceTree = "<group>"; };
 		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
+		FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
 		FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListController.swift; sourceTree = "<group>"; };
 		FFF17EC52B979B5500E116C8 /* BookmarksProfileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListView.swift; sourceTree = "<group>"; };
@@ -4888,6 +4890,7 @@
 				BD7C1FFC237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift */,
 				BDC63BBB21A5051B00C31887 /* LayerAutoSizingView.swift */,
 				40AB3D22224C4E1000A4DC13 /* ProgressCircleView.swift */,
+				FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */,
 				408F0B35227FF41E0019584D /* ProfileProgressCircleView.swift */,
 				408ADBCF22B87FF800E10AE6 /* TopShadowView.swift */,
 				40F0DE8722E42AD1001DAA52 /* PlusLockedInfoView.swift */,
@@ -9232,6 +9235,7 @@
 				BD9313531D7970F1007A70FC /* SelectPodcastCell.swift in Sources */,
 				BDE6AB7A1CC4BB580087D195 /* RoundedBorderView.swift in Sources */,
 				BDCD1E7E244D631C00B83602 /* LenticularOverlayView.swift in Sources */,
+				FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */,
 				BD60A0781FBEA53900008ACA /* MainEpisodeActionView.swift in Sources */,
 				BDF63D2522BCB1370037AA4A /* MainTabBarController+shortcuts.swift in Sources */,
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
