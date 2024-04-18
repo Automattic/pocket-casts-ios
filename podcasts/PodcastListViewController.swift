@@ -175,7 +175,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         badgeFrame.layer.cornerRadius = size / 2
         let badge = UIView()
         badge.layer.cornerRadius = badgeSize / 2
-        badge.backgroundColor = UIColor(hex: "#F43E37")
+        badge.backgroundColor = ThemeColor.primaryInteractive01()
         badge.translatesAutoresizingMaskIntoConstraints = false
         badgeFrame.translatesAutoresizingMaskIntoConstraints = false
         badgeFrame.addSubview(badge)
