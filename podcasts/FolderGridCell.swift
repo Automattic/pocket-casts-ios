@@ -22,6 +22,12 @@ class FolderGridCell: UICollectionViewCell {
     }
 
     private func updateBadge(folder: Folder, badgeType: BadgeType, libraryType: LibraryType) {
+        guard folder.cachedUnreadCount > 0 else {
+            simpleBadgeView.isHidden = true
+            unplayedSashView.isHidden = true
+            return
+        }
+
         switch badgeType {
         case .latestEpisode:
             simpleBadgeView.isHidden = false

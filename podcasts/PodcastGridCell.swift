@@ -83,6 +83,12 @@ class PodcastGridCell: UICollectionViewCell {
     }
 
     private func updateBadge(podcast: Podcast, badgeType: BadgeType, libraryType: LibraryType) {
+        guard podcast.cachedUnreadCount > 0 else {
+            simpleBadgeView.isHidden = true
+            unplayedSashView.isHidden = true
+            return
+        }
+
         switch badgeType {
         case .latestEpisode:
             simpleBadgeView.isHidden = false
