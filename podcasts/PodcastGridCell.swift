@@ -2,11 +2,15 @@ import PocketCastsDataModel
 import UIKit
 
 class PodcastGridCell: UICollectionViewCell {
+
+    @IBOutlet var containerView: UIView!
     @IBOutlet var podcastImage: UIImageView!
     @IBOutlet var podcastName: UILabel!
 
     @IBOutlet var unplayedSashView: UnplayedSashOverlayView!
     @IBOutlet var supporterHeart: PodcastHeartView!
+
+    @IBOutlet var circleView: CircleView!
 
     private var podcastUuid: String?
     private var badgeType = BadgeType.off
@@ -22,8 +26,8 @@ class PodcastGridCell: UICollectionViewCell {
         self.badgeType = badgeType
         podcastUuid = podcast.uuid
 
-        self.layer.cornerRadius = 4
-        self.layer.masksToBounds = true
+        containerView.layer.cornerRadius = 4
+        containerView.layer.masksToBounds = true
 
         setImage()
         setColors(podcast: podcast)
@@ -65,8 +69,13 @@ class PodcastGridCell: UICollectionViewCell {
     private func setColors(podcast: Podcast) {
         podcastName.text = podcast.title
         let bgColor = ColorManager.backgroundColorForPodcast(podcast)
-        backgroundColor = bgColor
+        backgroundColor = .clear
+        containerView.backgroundColor = bgColor
         podcastName.backgroundColor = bgColor
+
+        circleView.borderColor = ThemeColor.secondaryUi01()
+        circleView.centerColor = ThemeColor.primaryInteractive01()
+        circleView.backgroundColor = .clear
 
         if podcast.isPaid {
             supporterHeart.setPodcastColor(podcast: podcast)
