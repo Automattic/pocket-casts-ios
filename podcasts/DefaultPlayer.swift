@@ -111,6 +111,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         performSetPlaybackRate()
         jumpToStartingPosition()
 
+        player?.volume = 1
+
         completion?()
     }
 
