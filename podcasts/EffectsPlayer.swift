@@ -142,7 +142,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 format = strongSelf.audioFile!.processingFormat
             }
 
-            strongSelf.engine?.connect(strongSelf.player!, to: strongSelf.timePitch!, format: format)
+            strongSelf.engine?.connect(strongSelf.player!, to: strongSelf.audioMixerNode!, format: format)
+            strongSelf.engine?.connect(strongSelf.audioMixerNode!, to: strongSelf.timePitch!, format: format)
             strongSelf.engine?.connect(strongSelf.timePitch!, to: strongSelf.highPassFilter!, format: format)
             strongSelf.engine?.connect(strongSelf.highPassFilter!, to: strongSelf.dynamicsProcessor!, format: format)
             strongSelf.engine?.connect(strongSelf.dynamicsProcessor!, to: strongSelf.peakLimiter!, format: format)
