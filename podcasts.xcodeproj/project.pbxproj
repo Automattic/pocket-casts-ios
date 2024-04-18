@@ -546,6 +546,8 @@
 		8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */; };
 		8BAD6E612975AFAA00DB7259 /* GoogleSocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */; };
 		8BB2E58B2A8AA02E00E93088 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD054A791E3EDEB300D9195B /* SharedConstants.swift */; };
+		8BB4AA662BD1A8040091480A /* sleep-timer-restarted-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */; };
+		8BB4AA672BD1A80E0091480A /* sleep-timer-restarted-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */; };
 		8BB55E3A28FEEE99001D1766 /* StoryShareableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */; };
 		8BBE19EE2BEA973E009E944B /* ShowInfoCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBE19ED2BEA973E009E944B /* ShowInfoCoordinating.swift */; };
 		8BBE19F02BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBE19EF2BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift */; };
@@ -2354,6 +2356,7 @@
 		8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		8BAD2EB32AEE9620006264B3 /* PaidStoryWallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidStoryWallView.swift; sourceTree = "<group>"; };
 		8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialLogin.swift; sourceTree = "<group>"; };
+		8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "sleep-timer-restarted-sound.mp3"; sourceTree = "<group>"; };
 		8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableProvider.swift; sourceTree = "<group>"; };
 		8BBE19ED2BEA973E009E944B /* ShowInfoCoordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowInfoCoordinating.swift; sourceTree = "<group>"; };
 		8BBE19EF2BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastIndexChapterDataRetriever.swift; sourceTree = "<group>"; };
@@ -3892,6 +3895,7 @@
 			isa = PBXGroup;
 			children = (
 				8B15E7212AD050EE0077F45A /* DMSans.ttf */,
+				8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */,
 				C7897B462A9D194F00BEF84F /* bookmark-creation-sound.wav */,
 				467DF6E826E1093A00AC290C /* Strings+Generated.swift */,
 				463538A626E16CD100BA9D35 /* Strings+L10n.swift */,
@@ -8151,6 +8155,7 @@
 				4041FEB22193E5EC0089D4A1 /* SiriShortcuts.xcassets in Resources */,
 				40D6CD21247CD79400F1E665 /* SupporterPodcastViewController.xib in Resources */,
 				BDA002F31F7B318B00DCB4AE /* AppIcon-Round60x60@2x.png in Resources */,
+				8BB4AA662BD1A8040091480A /* sleep-timer-restarted-sound.mp3 in Resources */,
 				BDC692811BA7A91F0023B9F2 /* Discovery.xcassets in Resources */,
 				BD874EF41C9A3A1B00F5B2A5 /* TopLevelSettingsCell.xib in Resources */,
 				BD6B669A245BC28800CF5245 /* AppIcon-Red-Velvet83.5x83.5@2x~ipad.png in Resources */,
@@ -8303,6 +8308,7 @@
 				105A6C442BAA0B3E0025B855 /* PrivacyInfo.xcprivacy in Resources */,
 				BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */,
 				8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */,
+				8BB4AA672BD1A80E0091480A /* sleep-timer-restarted-sound.mp3 in Resources */,
 				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
 				463538A326E16A2C00BA9D35 /* Localizable.strings in Resources */,
 				BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */,
