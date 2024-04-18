@@ -86,6 +86,14 @@ extension FolderViewController: UICollectionViewDelegate, UICollectionViewDataSo
         gridHelper.collectionView(collectionView, sizeForItemAt: indexPath, itemCount: podcasts.count)
     }
 
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return gridHelper.collectionView(collectionView, layout: collectionViewLayout, minimumLineSpacingForSectionAt: section)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return gridHelper.collectionView(collectionView, layout: collectionViewLayout, minimumInteritemSpacingForSectionAt: section)
+    }
+
     func updateFlowLayoutSize() {
         guard let flowLayout = mainGrid.collectionViewLayout as? UICollectionViewFlowLayout else { return }
 

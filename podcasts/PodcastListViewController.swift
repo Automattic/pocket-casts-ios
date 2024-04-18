@@ -95,7 +95,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         refreshControl?.parentViewControllerDidAppear()
 
-        miniPlayerStatusDidChange()
+        updateInsets()
         refreshGridItems()
         addEventObservers()
         updateFolderButton()
@@ -191,6 +191,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func miniPlayerStatusDidChange() {
+        updateInsets()
+    }
+
+    func updateInsets() {
         let margin: CGFloat = Settings.libraryType() == .list ? 0 : 16
 
         if PlaybackManager.shared.currentEpisode() != nil {
@@ -323,6 +327,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     func gridTypeChanged() {
         podcastsCollectionView.reloadData()
+        updateInsets()
     }
 
     private func showBadgeOptions() {
