@@ -1,0 +1,20 @@
+import UIKit
+
+class CircleView: UIView {
+
+    var borderWidth: CGFloat = 2
+    var borderColor = UIColor.white.withAlphaComponent(0.3)
+    var centerColor = UIColor.white.withAlphaComponent(0.3)
+
+    override func draw(_ rect: CGRect) {
+        let radius = (rect.width / 2) - 1
+        let path = UIBezierPath(arcCenter: CGPoint(x: rect.midX, y: rect.midY), radius: radius, startAngle: CGFloat(0).degreesToRadians, endAngle: CGFloat(360).degreesToRadians, clockwise: true)
+        centerColor.setFill()
+        path.fill()
+
+        path.lineWidth = borderWidth
+        borderColor.setStroke()
+        path.stroke()
+
+    }
+}
