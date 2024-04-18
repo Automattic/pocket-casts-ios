@@ -685,6 +685,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     // MARK: - Volume
 
     func setVolume(_ volume: Float) {
-        
+        player?.volume = volume
     }
 }
