@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gTV-IL-0wX" customClass="FolderGridCell" customModule="podcasts" customModuleProvider="target">
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gTV-IL-0wX" customClass="FolderGridCell" customModule="podcasts" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lEk-hS-0Dg" customClass="FolderPreviewView" customModule="podcasts" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1gQ-6J-066" userLabel="ContainerView">
                         <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
-                        <accessibility key="accessibilityConfiguration">
-                            <accessibilityTraits key="traits" button="YES"/>
-                            <bool key="isElement" value="YES"/>
-                        </accessibility>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lEk-hS-0Dg" customClass="FolderPreviewView" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES"/>
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="nKn-tR-VeC"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="lEk-hS-0Dg" secondAttribute="bottom" id="6Aa-js-OZQ"/>
+                            <constraint firstItem="lEk-hS-0Dg" firstAttribute="leading" secondItem="nKn-tR-VeC" secondAttribute="leading" id="CIy-Wc-EnQ"/>
+                            <constraint firstItem="lEk-hS-0Dg" firstAttribute="trailing" secondItem="nKn-tR-VeC" secondAttribute="trailing" id="uGa-MQ-JSH"/>
+                            <constraint firstItem="lEk-hS-0Dg" firstAttribute="top" secondItem="1gQ-6J-066" secondAttribute="top" id="y4d-4h-OYI"/>
+                        </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6TF-v3-9Cy" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="83" y="0.0" width="42" height="42"/>
@@ -30,21 +45,39 @@
                             <constraint firstAttribute="width" constant="42" id="vIj-WN-Sgr"/>
                         </constraints>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jPx-S2-C48" userLabel="Simple Badge View" customClass="CircleView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="119" y="-6" width="12" height="12"/>
+                        <viewLayoutGuide key="safeArea" id="xiT-T5-15o"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="6KB-fg-0uy"/>
+                            <constraint firstAttribute="height" constant="12" id="6k3-Qd-sHc"/>
+                        </constraints>
+                    </view>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="lEk-hS-0Dg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ICc-pY-nG1"/>
-                <constraint firstAttribute="bottom" secondItem="lEk-hS-0Dg" secondAttribute="bottom" id="JQJ-O3-f35"/>
-                <constraint firstAttribute="trailing" secondItem="lEk-hS-0Dg" secondAttribute="trailing" id="UBv-pk-5rW"/>
-                <constraint firstItem="lEk-hS-0Dg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="UX6-Th-mZD"/>
+                <constraint firstItem="1gQ-6J-066" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="C8F-mi-5KY"/>
+                <constraint firstAttribute="bottom" secondItem="1gQ-6J-066" secondAttribute="bottom" id="TUC-f0-Idy"/>
+                <constraint firstAttribute="trailing" secondItem="1gQ-6J-066" secondAttribute="trailing" id="UVB-ZY-5zG"/>
+                <constraint firstItem="jPx-S2-C48" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="top" id="fuP-lv-LLJ"/>
                 <constraint firstItem="6TF-v3-9Cy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="gaS-Fv-AIt"/>
+                <constraint firstItem="jPx-S2-C48" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="trailing" id="wTh-iq-aZo"/>
                 <constraint firstAttribute="trailing" secondItem="6TF-v3-9Cy" secondAttribute="trailing" id="yRm-md-wUv"/>
+                <constraint firstItem="1gQ-6J-066" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="yzI-2c-tTt"/>
             </constraints>
             <connections>
+                <outlet property="containerView" destination="1gQ-6J-066" id="9fR-I6-EdR"/>
                 <outlet property="folderPreview" destination="lEk-hS-0Dg" id="XsM-rm-9lQ"/>
+                <outlet property="simpleBadgeView" destination="jPx-S2-C48" id="qHr-Ai-JYb"/>
                 <outlet property="unplayedSashView" destination="6TF-v3-9Cy" id="gcv-6n-nUs"/>
             </connections>
             <point key="canvasLocation" x="-294.92753623188406" y="-11.71875"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

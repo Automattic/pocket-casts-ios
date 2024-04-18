@@ -10,7 +10,7 @@ class PodcastGridCell: UICollectionViewCell {
     @IBOutlet var unplayedSashView: UnplayedSashOverlayView!
     @IBOutlet var supporterHeart: PodcastHeartView!
 
-    @IBOutlet var circleView: CircleView!
+    @IBOutlet var simpleBadgeView: CircleView!
 
     private var podcastUuid: String?
     private var badgeType = BadgeType.off
@@ -34,7 +34,7 @@ class PodcastGridCell: UICollectionViewCell {
 
         podcastName.accessibilityLabel = podcast.title
 
-        unplayedSashView.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
+        updateBadge(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
 
         supporterHeart.isHidden = !podcast.isPaid
         if podcast.isPaid {
@@ -73,12 +73,27 @@ class PodcastGridCell: UICollectionViewCell {
         containerView.backgroundColor = bgColor
         podcastName.backgroundColor = bgColor
 
-        circleView.borderColor = ThemeColor.secondaryUi01()
-        circleView.centerColor = ThemeColor.primaryInteractive01()
-        circleView.backgroundColor = .clear
+        simpleBadgeView.borderColor = ThemeColor.secondaryUi01()
+        simpleBadgeView.centerColor = ThemeColor.primaryInteractive01()
+        simpleBadgeView.backgroundColor = .clear
 
         if podcast.isPaid {
             supporterHeart.setPodcastColor(podcast: podcast)
+        }
+    }
+
+    private func updateBadge(podcast: Podcast, badgeType: BadgeType, libraryType: LibraryType) {
+        switch badgeType {
+        case .latestEpisode:
+            simpleBadgeView.isHidden = false
+            unplayedSashView.isHidden = true
+        case .allUnplayed:
+            simpleBadgeView.isHidden = true
+            unplayedSashView.isHidden = false
+            unplayedSashView.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
+        case .off:
+            simpleBadgeView.isHidden = true
+            unplayedSashView.isHidden = true
         }
     }
 }
