@@ -145,32 +145,6 @@ class DiscoverViewController: PCViewController {
         }
     }
 
-    /// Reloads discover, keeping the items listed in `exclude`
-    /// - Parameters:
-    ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
-    ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
-    func reload(except items: [DiscoverItem], category: DiscoverCategory?) {
-        populateFrom(discoverLayout: discoverLayout, shouldInclude: {
-            ($0.categoryID == category?.id) || items.contains($0)
-        }, shouldReset: {
-            !items.contains($0)
-        })
-
-        guard let category else { return }
-        addCategoryVC(for: category, regions: items.first?.regions ?? [])
-    }
-
-    private func addCategoryVC(for category: DiscoverCategory, regions: [String]) {
-        let region = discoverLayout.map { Settings.discoverRegion(discoverLayout: $0) }
-        let categoryVC = CategoryPodcastsViewController(category: category, region: region)
-        categoryVC.delegate = self
-        categoryVC.view.alpha = 0
-        categoryVC.podcastsTable.isScrollEnabled = false
-
-        let item = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, source: category.source, regions: regions)
-        addToScrollView(viewController: categoryVC, for: item, isLast: true)
-    }
-
     private func showPageLoading() {
         loadingContent = true
 
@@ -254,7 +228,7 @@ class DiscoverViewController: PCViewController {
     ///   - discoverLayout: A `DiscoverLayout`
     ///   - shouldInclude: Whether a `DiscoverItem` from the layout should be included in the scroll view. This is used to filter items meant only for certain categories, for instance.
     ///   - shouldReset: Whether a view controller from `summaryViewControllers` should be reset during this operation. This is used by the Categories pills to avoid triggering a view reload, allowing animations to continue.
-    private func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil, shouldReset: ((DiscoverItem) -> Bool)? = nil) {
+    func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil, shouldReset: ((DiscoverItem) -> Bool)? = nil) {
         loadingContent = false
 
         guard let layout = discoverLayout, let items = layout.layout, let _ = layout.regions, items.count > 0 else {
@@ -307,7 +281,7 @@ class DiscoverViewController: PCViewController {
         controller.populateFrom(item: discoverItem)
     }
 
-    private func addToScrollView(viewController: UIViewController, for item: DiscoverItem, isLast: Bool) {
+    func addToScrollView(viewController: UIViewController, for item: DiscoverItem, isLast: Bool) {
         mainScrollView.addSubview(viewController.view)
         addCommonConstraintsFor(viewController)
 
@@ -330,6 +304,10 @@ class DiscoverViewController: PCViewController {
                     viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10).isActive = true
                 } else {
                     viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                }
+
+                if previousVC is CategoriesSelectorViewController {
+                    (viewController as? LargeListSummaryViewController)?.padding = 25
                 }
             }
         } else {

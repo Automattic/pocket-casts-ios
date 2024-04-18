@@ -80,13 +80,13 @@ struct CategoryButtonStyle: ButtonStyle {
             .fixedSize(horizontal: true, vertical: false)
             .padding(.horizontal, cornerStyle.horizontalPadding)
             .padding(.vertical, Constants.Padding.vertical)
+            .padding(cornerStyle == .circle ? 3 : 0)
             .cornerRadius(Constants.cornerRadius)
             .background(isSelected ? selectedBackground : ((configuration.isPressed || forcePressed) ? pressedBackground : background))
             .foregroundColor(isSelected ? selectedForeground : foreground)
             .modify {
                 if #available(iOS 16.0, *) {
                     $0
-                        .padding(cornerStyle == .circle ? 3 : 0)
                         .overlay(
                         cornerStyle.shape
                             .stroke(isSelected ? selectedBackground : border, lineWidth: 1)
@@ -124,6 +124,19 @@ struct CategoryButtonStyle: ButtonStyle {
     buttonStyle.forcePressed = true
     return Button("Hello", action: {
 
+    }).buttonStyle(buttonStyle)
+    .applyButtonEffect(isPressed: true)
+    .previewWithAllThemes()
+}
+
+#Preview("closed") {
+    var buttonStyle = CategoryButtonStyle(isSelected: false, cornerStyle: .circle)
+    buttonStyle.forcePressed = true
+    return Button(action: {
+
+    }, label: {
+        Image(systemName: "xmark")
+            .imageScale(.small)
     }).buttonStyle(buttonStyle)
     .applyButtonEffect(isPressed: true)
     .previewWithAllThemes()
