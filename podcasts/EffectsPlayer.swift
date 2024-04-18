@@ -477,4 +477,10 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
     }
+
+    // MARK: - Volume
+
+    func setVolume(_ volume: Float) {
+        
+    }
 }

@@ -681,4 +681,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         episodeArtwork.loadEmbeddedImage(asset: asset, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
         #endif
     }
+
+    // MARK: - Volume
+
+    func setVolume(_ volume: Float) {
+        
+    }
 }
