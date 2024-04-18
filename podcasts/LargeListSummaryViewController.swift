@@ -53,8 +53,8 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if padding != nil {
-            titleTopConstraint.constant = 0
+        if let padding {
+            titleTopConstraint.constant = padding / 2
         }
 
         if lastLayedOutWidth != view.bounds.width {
