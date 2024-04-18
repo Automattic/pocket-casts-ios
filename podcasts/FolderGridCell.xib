@@ -39,10 +39,10 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6TF-v3-9Cy" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="83" y="0.0" width="42" height="42"/>
+                        <rect key="frame" x="107" y="-6" width="24" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="42" id="gZl-iv-HAx"/>
-                            <constraint firstAttribute="width" constant="42" id="vIj-WN-Sgr"/>
+                            <constraint firstAttribute="height" constant="20" id="gZl-iv-HAx"/>
+                            <constraint firstAttribute="width" constant="24" id="vIj-WN-Sgr"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jPx-S2-C48" userLabel="Simple Badge View" customClass="CircleView" customModule="podcasts" customModuleProvider="target">
@@ -61,9 +61,9 @@
                 <constraint firstAttribute="bottom" secondItem="1gQ-6J-066" secondAttribute="bottom" id="TUC-f0-Idy"/>
                 <constraint firstAttribute="trailing" secondItem="1gQ-6J-066" secondAttribute="trailing" id="UVB-ZY-5zG"/>
                 <constraint firstItem="jPx-S2-C48" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="top" id="fuP-lv-LLJ"/>
-                <constraint firstItem="6TF-v3-9Cy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="gaS-Fv-AIt"/>
+                <constraint firstItem="6TF-v3-9Cy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="-6" id="gaS-Fv-AIt"/>
                 <constraint firstItem="jPx-S2-C48" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="trailing" id="wTh-iq-aZo"/>
-                <constraint firstAttribute="trailing" secondItem="6TF-v3-9Cy" secondAttribute="trailing" id="yRm-md-wUv"/>
+                <constraint firstItem="6TF-v3-9Cy" firstAttribute="trailing" secondItem="gTV-IL-0wX" secondAttribute="trailing" constant="6" id="yRm-md-wUv"/>
                 <constraint firstItem="1gQ-6J-066" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="yzI-2c-tTt"/>
             </constraints>
             <connections>
