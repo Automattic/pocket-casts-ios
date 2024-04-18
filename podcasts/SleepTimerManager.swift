@@ -90,9 +90,6 @@ class SleepTimerManager {
     func playTone() {
         guard let tonePlayer else { return }
 
-        tonePlayer.pause()
-        tonePlayer.currentTime = 0
-
         tonePlayer.play()
     }
 
