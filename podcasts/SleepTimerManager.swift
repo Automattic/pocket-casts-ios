@@ -27,6 +27,7 @@ class SleepTimerManager {
         self.backgroundShakeObserver = backgroundShakeObserver
         backgroundShakeObserver.whenShook = { [weak self] in
             self?.restartSleepTimer()
+            self?.playTone()
         }
     }
 
@@ -71,7 +72,6 @@ class SleepTimerManager {
                 PlaybackManager.shared.setSleepTimerInterval(duration)
                 Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": duration, "reason": "device_shake"])
                 FileLog.shared.addMessage("Sleep Timer: restarting it after device shake")
-                playTone()
             }
         }
     }
