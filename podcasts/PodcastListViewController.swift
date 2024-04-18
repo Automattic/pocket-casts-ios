@@ -85,6 +85,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         longPressGesture.delegate = self
 
         gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
+            themeableCollectionView.style = ThemeStyle.secondaryUi01
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
