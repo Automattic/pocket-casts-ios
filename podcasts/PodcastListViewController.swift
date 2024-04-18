@@ -364,6 +364,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         options.show(statusBarStyle: preferredStatusBarStyle)
     }
+
+    override func handleThemeChanged() {
+        super.handleThemeChanged()
+        podcastsCollectionView.reloadData()
+    }
 }
 
 // MARK: - Refresh Control
