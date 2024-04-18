@@ -2,6 +2,7 @@
 -----
 - Show the Up Next bar on the tab bar. [#1613]
 - Shake the device to restart Sleep Timer [#1627]
+- Playback fades out when finishing a sleep timer [#1629]
 
 7.62
 -----
