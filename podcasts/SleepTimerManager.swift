@@ -23,6 +23,10 @@ class SleepTimerManager {
         }
     }()
 
+    let sleepTimerFadeDuration = 5.seconds
+
+    private lazy var fadeOutManager = FadeOutManager()
+
     init(backgroundShakeObserver: BackgroundShakeObserver = BackgroundShakeObserver()) {
         self.backgroundShakeObserver = backgroundShakeObserver
         backgroundShakeObserver.whenShook = { [weak self] in
@@ -74,6 +78,11 @@ class SleepTimerManager {
                 FileLog.shared.addMessage("Sleep Timer: restarting it after device shake")
             }
         }
+    }
+
+    func performFadeOut(player: PlaybackProtocol) {
+        fadeOutManager.player = player
+        fadeOutManager.fadeOut(duration: sleepTimerFadeDuration)
     }
 
     private func observePlaybackEndAndReactivateTime() {
