@@ -15,6 +15,6 @@ class FolderGridCell: UICollectionViewCell {
         containerView.layer.cornerRadius = 4
         containerView.layer.masksToBounds = true
 
-        badgeView.populateFrom(folder: folder, badgeType: badgeType, libraryType: libraryType)
+        badgeView.populateFrom(folder: folder, badgeType: badgeType)
     }
 }

@@ -23,11 +23,11 @@ class GridBadgeView: UIView {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func populateFrom(podcast: Podcast, badgeType: BadgeType, libraryType: LibraryType) {
+    func populateFrom(podcast: Podcast, badgeType: BadgeType) {
         updateBadge(count: podcast.cachedUnreadCount, badgeType: badgeType)
     }
 
-    func populateFrom(folder: Folder, badgeType: BadgeType, libraryType: LibraryType) {
+    func populateFrom(folder: Folder, badgeType: BadgeType) {
         updateBadge(count: folder.cachedUnreadCount, badgeType: badgeType)
     }
 
