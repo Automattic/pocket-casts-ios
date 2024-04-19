@@ -98,7 +98,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         let titleColor = ThemeColor.filterText01(filterColor: folderColor)
         let iconColor = ThemeColor.filterIcon01(filterColor: folderColor)
         let backgroundColor = ThemeColor.filterUi01(filterColor: folderColor)
-        
+
         changeNavTint(titleColor: titleColor, iconsColor: iconColor, backgroundColor: backgroundColor)
     }
 
@@ -220,7 +220,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
 
     @objc private func miniPlayerStatusDidChange() {
         let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
-        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
         mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
     }
 
