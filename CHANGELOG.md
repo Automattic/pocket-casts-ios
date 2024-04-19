@@ -1,6 +1,7 @@
 7.63
 -----
 - Show the Up Next bar on the tab bar. [#1613]
+- Shake the device to restart Sleep Timer [#1627]
 
 7.62
 -----
