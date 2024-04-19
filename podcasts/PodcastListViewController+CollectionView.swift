@@ -126,12 +126,4 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             flowLayout.invalidateLayout() // force the elements to get laid out again with the new size
         }
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return gridHelper.collectionView(collectionView, layout: collectionViewLayout, minimumLineSpacingForSectionAt: section)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return gridHelper.collectionView(collectionView, layout: collectionViewLayout, minimumInteritemSpacingForSectionAt: section)
-    }
 }
