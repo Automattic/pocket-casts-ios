@@ -20,6 +20,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @IBOutlet var podcastArtwork: PodcastImageView!
     @IBOutlet var mainView: MiniPlayerBackingView!
+    @IBOutlet var shadowView: UIView!
 
     private var lastEpisodeUuidImageLoaded = ""
     private var lastEpisodeUuidAutoOpened = ""
@@ -39,7 +40,18 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         addGestureRecognizers()
 
-        view.isHidden = true
+        view.isHidden = false
+        mainView.layer.cornerRadius = 12
+        mainView.layer.masksToBounds = true
+
+        shadowView.layer.shadowColor = UIColor.black.withAlphaComponent(0.9).cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        shadowView.layer.shadowRadius = 15
+        shadowView.layer.shadowOpacity = 1
+        shadowView.layer.cornerRadius = 12
+        //shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 12).cgPath
+        //shadowView.layer.rasterizationScale = UIScreen.main.scale
+        //shadowView.layer.shouldRasterize = true
 
         addUINotificationObservers()
         playbackStateDidChange()
@@ -286,7 +298,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
-        mainView.backgroundColor = bgColor
+        mainView.backgroundColor = bgColor.withAlphaComponent(0.7)
+        shadowView.backgroundColor = bgColor.withAlphaComponent(0.1)
         playPauseBtn.playButtonColor = bgColor
 
         playbackProgressView.updateColors()
