@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -60,19 +59,11 @@
                             <constraint firstItem="4" firstAttribute="top" secondItem="hVd-gA-oCj" secondAttribute="top" id="zjN-K4-LVu"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEg-jY-SHX" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEg-jY-SHX" userLabel="BadgeView" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="88" y="-6" width="24" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="p5J-d1-7fy"/>
                             <constraint firstAttribute="width" constant="24" id="psU-EF-aaE"/>
-                        </constraints>
-                    </view>
-                    <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RDd-b1-aUO" userLabel="Simple Badge View" customClass="CircleView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="100" y="-6" width="12" height="12"/>
-                        <color key="backgroundColor" systemColor="systemPinkColor"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="12" id="hzF-6h-9N4"/>
-                            <constraint firstAttribute="width" constant="12" id="nSo-9f-vOf"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -83,8 +74,6 @@
                 <constraint firstItem="hVd-gA-oCj" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" id="GQ4-1I-Qc7"/>
                 <constraint firstItem="hVd-gA-oCj" firstAttribute="bottom" secondItem="3" secondAttribute="bottom" id="KQd-KY-4G2"/>
                 <constraint firstItem="hVd-gA-oCj" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="Kvt-FM-PLp"/>
-                <constraint firstItem="RDd-b1-aUO" firstAttribute="centerY" secondItem="3" secondAttribute="top" id="Vya-E3-EF6"/>
-                <constraint firstItem="RDd-b1-aUO" firstAttribute="centerX" secondItem="3" secondAttribute="trailing" id="oXu-7O-BMA"/>
                 <constraint firstItem="OEg-jY-SHX" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="6" id="ook-Xa-e9J"/>
                 <constraint firstItem="hVd-gA-oCj" firstAttribute="top" secondItem="3" secondAttribute="top" id="ozX-7N-THF"/>
             </constraints>
@@ -92,16 +81,10 @@
                 <outlet property="containerView" destination="hVd-gA-oCj" id="dub-Mv-NSo"/>
                 <outlet property="podcastImage" destination="8" id="9"/>
                 <outlet property="podcastName" destination="4" id="10"/>
-                <outlet property="simpleBadgeView" destination="RDd-b1-aUO" id="Nqs-7O-o8e"/>
                 <outlet property="supporterHeart" destination="v1m-PH-X4D" id="ckA-l7-rhg"/>
                 <outlet property="unplayedSashView" destination="OEg-jY-SHX" id="o5m-tx-V6G"/>
             </connections>
             <point key="canvasLocation" x="129.59999999999999" y="153.82308845577214"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-    </resources>
 </document>

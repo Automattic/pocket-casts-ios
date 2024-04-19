@@ -38,20 +38,11 @@
                             <constraint firstItem="lEk-hS-0Dg" firstAttribute="top" secondItem="1gQ-6J-066" secondAttribute="top" id="y4d-4h-OYI"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6TF-v3-9Cy" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6TF-v3-9Cy" userLabel="BadgeView" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="107" y="-6" width="24" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="gZl-iv-HAx"/>
                             <constraint firstAttribute="width" constant="24" id="vIj-WN-Sgr"/>
-                        </constraints>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jPx-S2-C48" userLabel="Simple Badge View" customClass="CircleView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="119" y="-6" width="12" height="12"/>
-                        <viewLayoutGuide key="safeArea" id="xiT-T5-15o"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="12" id="6KB-fg-0uy"/>
-                            <constraint firstAttribute="height" constant="12" id="6k3-Qd-sHc"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -60,16 +51,13 @@
                 <constraint firstItem="1gQ-6J-066" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="C8F-mi-5KY"/>
                 <constraint firstAttribute="bottom" secondItem="1gQ-6J-066" secondAttribute="bottom" id="TUC-f0-Idy"/>
                 <constraint firstAttribute="trailing" secondItem="1gQ-6J-066" secondAttribute="trailing" id="UVB-ZY-5zG"/>
-                <constraint firstItem="jPx-S2-C48" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="top" id="fuP-lv-LLJ"/>
                 <constraint firstItem="6TF-v3-9Cy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="-6" id="gaS-Fv-AIt"/>
-                <constraint firstItem="jPx-S2-C48" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="trailing" id="wTh-iq-aZo"/>
                 <constraint firstItem="6TF-v3-9Cy" firstAttribute="trailing" secondItem="gTV-IL-0wX" secondAttribute="trailing" constant="6" id="yRm-md-wUv"/>
                 <constraint firstItem="1gQ-6J-066" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="yzI-2c-tTt"/>
             </constraints>
             <connections>
                 <outlet property="containerView" destination="1gQ-6J-066" id="9fR-I6-EdR"/>
                 <outlet property="folderPreview" destination="lEk-hS-0Dg" id="XsM-rm-9lQ"/>
-                <outlet property="simpleBadgeView" destination="jPx-S2-C48" id="qHr-Ai-JYb"/>
                 <outlet property="unplayedSashView" destination="6TF-v3-9Cy" id="gcv-6n-nUs"/>
             </connections>
             <point key="canvasLocation" x="-294.92753623188406" y="-11.71875"/>
