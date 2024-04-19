@@ -86,6 +86,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
 
+        updateInsets()
         gridHelper.configureLayout(collectionView: podcastsCollectionView)
 
         if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
