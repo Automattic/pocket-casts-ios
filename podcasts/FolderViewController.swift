@@ -222,13 +222,9 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     }
 
     @objc private func miniPlayerStatusDidChange() {
-        let margin: CGFloat = Settings.libraryType() == .list ? 0 : 16
-
-        if PlaybackManager.shared.currentEpisode() != nil {
-            mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: margin, bottom: Constants.Values.miniPlayerOffset, right: margin)
-        } else {
-            mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: margin, bottom: 0, right: margin)
-        }
+        let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
     }
 
     // TODO: change this to be diff based and see if we can use the new iOS diffable stuff
