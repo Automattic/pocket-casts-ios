@@ -7,7 +7,7 @@ class PodcastGridCell: UICollectionViewCell {
     @IBOutlet var podcastImage: UIImageView!
     @IBOutlet var podcastName: UILabel!
 
-    @IBOutlet var unplayedSashView: UnplayedSashOverlayView!
+    @IBOutlet var badgeView: GridBadgeView!
     @IBOutlet var supporterHeart: PodcastHeartView!
 
     private var podcastUuid: String?
@@ -78,10 +78,10 @@ class PodcastGridCell: UICollectionViewCell {
 
     private func updateBadge(podcast: Podcast, badgeType: BadgeType, libraryType: LibraryType) {
         guard podcast.cachedUnreadCount > 0 else {
-            unplayedSashView.isHidden = true
+            badgeView.isHidden = true
             return
         }
 
-        unplayedSashView.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
+        badgeView.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
     }
 }

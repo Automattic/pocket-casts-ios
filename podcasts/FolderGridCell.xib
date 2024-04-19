@@ -38,7 +38,7 @@
                             <constraint firstItem="lEk-hS-0Dg" firstAttribute="top" secondItem="1gQ-6J-066" secondAttribute="top" id="y4d-4h-OYI"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6TF-v3-9Cy" userLabel="BadgeView" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6TF-v3-9Cy" userLabel="BadgeView" customClass="GridBadgeView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="107" y="-6" width="24" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="gZl-iv-HAx"/>
@@ -56,9 +56,9 @@
                 <constraint firstItem="1gQ-6J-066" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="yzI-2c-tTt"/>
             </constraints>
             <connections>
+                <outlet property="badgeView" destination="6TF-v3-9Cy" id="gcv-6n-nUs"/>
                 <outlet property="containerView" destination="1gQ-6J-066" id="9fR-I6-EdR"/>
                 <outlet property="folderPreview" destination="lEk-hS-0Dg" id="XsM-rm-9lQ"/>
-                <outlet property="unplayedSashView" destination="6TF-v3-9Cy" id="gcv-6n-nUs"/>
             </connections>
             <point key="canvasLocation" x="-294.92753623188406" y="-11.71875"/>
         </collectionViewCell>

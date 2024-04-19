@@ -925,7 +925,7 @@
 		BD6C3F03237916A200C01403 /* ShelfActionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD6C3F01237916A200C01403 /* ShelfActionsViewController.xib */; };
 		BD6C3F062379236A00C01403 /* ShelfCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6C3F042379236A00C01403 /* ShelfCell.swift */; };
 		BD6C3F072379236A00C01403 /* ShelfCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD6C3F052379236A00C01403 /* ShelfCell.xib */; };
-		BD6CABC927D18C0700C6D396 /* UnplayedSashOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6CABC827D18C0700C6D396 /* UnplayedSashOverlayView.swift */; };
+		BD6CABC927D18C0700C6D396 /* GridBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6CABC827D18C0700C6D396 /* GridBadgeView.swift */; };
 		BD6D417E200C557A00CA8993 /* PodcastHeadingTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */; };
 		BD6D417F200C557A00CA8993 /* PodcastHeadingTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */; };
 		BD6D4181200C5BD600CA8993 /* Podcasts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */; };
@@ -2733,7 +2733,7 @@
 		BD6C3F01237916A200C01403 /* ShelfActionsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShelfActionsViewController.xib; sourceTree = "<group>"; };
 		BD6C3F042379236A00C01403 /* ShelfCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfCell.swift; sourceTree = "<group>"; };
 		BD6C3F052379236A00C01403 /* ShelfCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShelfCell.xib; sourceTree = "<group>"; };
-		BD6CABC827D18C0700C6D396 /* UnplayedSashOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnplayedSashOverlayView.swift; sourceTree = "<group>"; };
+		BD6CABC827D18C0700C6D396 /* GridBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridBadgeView.swift; sourceTree = "<group>"; };
 		BD6D417C200C557A00CA8993 /* PodcastHeadingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeadingTableCell.swift; sourceTree = "<group>"; };
 		BD6D417D200C557A00CA8993 /* PodcastHeadingTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastHeadingTableCell.xib; sourceTree = "<group>"; };
 		BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Podcasts.xcassets; sourceTree = "<group>"; };
@@ -5406,7 +5406,7 @@
 				BD1C46DB27B9DD9C00B1D8BB /* FolderListCell.swift */,
 				BD1C46DC27B9DD9C00B1D8BB /* FolderListCell.xib */,
 				BD1C46E127BA269300B1D8BB /* FolderPreviewView.swift */,
-				BD6CABC827D18C0700C6D396 /* UnplayedSashOverlayView.swift */,
+				BD6CABC827D18C0700C6D396 /* GridBadgeView.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -9304,7 +9304,7 @@
 				8B99197429A67A7100A5C81C /* SearchView.swift in Sources */,
 				C7318EB72A62D75E00EAFA9C /* BookmarksTheme.swift in Sources */,
 				8B14E3AE29B8E71D0069B6F2 /* RoundedSubscribeButtonView.swift in Sources */,
-				BD6CABC927D18C0700C6D396 /* UnplayedSashOverlayView.swift in Sources */,
+				BD6CABC927D18C0700C6D396 /* GridBadgeView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
 				BD9F2FD627549BA300070958 /* AboutView.swift in Sources */,
 				FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */,
