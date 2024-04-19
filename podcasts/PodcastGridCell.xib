@@ -59,7 +59,7 @@
                             <constraint firstItem="4" firstAttribute="top" secondItem="hVd-gA-oCj" secondAttribute="top" id="zjN-K4-LVu"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEg-jY-SHX" userLabel="BadgeView" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEg-jY-SHX" userLabel="BadgeView" customClass="GridBadgeView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="88" y="-6" width="24" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="p5J-d1-7fy"/>
@@ -78,11 +78,11 @@
                 <constraint firstItem="hVd-gA-oCj" firstAttribute="top" secondItem="3" secondAttribute="top" id="ozX-7N-THF"/>
             </constraints>
             <connections>
+                <outlet property="badgeView" destination="OEg-jY-SHX" id="o5m-tx-V6G"/>
                 <outlet property="containerView" destination="hVd-gA-oCj" id="dub-Mv-NSo"/>
                 <outlet property="podcastImage" destination="8" id="9"/>
                 <outlet property="podcastName" destination="4" id="10"/>
                 <outlet property="supporterHeart" destination="v1m-PH-X4D" id="ckA-l7-rhg"/>
-                <outlet property="unplayedSashView" destination="OEg-jY-SHX" id="o5m-tx-V6G"/>
             </connections>
             <point key="canvasLocation" x="129.59999999999999" y="153.82308845577214"/>
         </collectionViewCell>

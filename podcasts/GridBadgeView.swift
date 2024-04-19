@@ -1,7 +1,7 @@
 import PocketCastsDataModel
 import UIKit
 
-class UnplayedSashOverlayView: UIView {
+class GridBadgeView: UIView {
     private let badgeLabel = UILabel()
     private let simpleBadge = CircleView()
 
