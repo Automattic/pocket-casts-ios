@@ -568,18 +568,14 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
 }
 
 extension BookmarksSort {
-    var option: BookmarkSortOption {
+    func option(lastOption: BookmarkSortOption) -> BookmarkSortOption {
         switch self {
         case .newestToOldest:
             return .newestToOldest
         case .oldestToNewest:
             return .oldestToNewest
         case .timestamp:
-            return .timestamp
-        case .episode:
-            return .episode
-        case .podcastAndEspisode:
-            return .podcastAndEpisode
+            return lastOption
         }
     }
 
@@ -589,12 +585,8 @@ extension BookmarksSort {
             self = .newestToOldest
         case .oldestToNewest:
             self = .oldestToNewest
-        case .timestamp:
+        case .timestamp, .episode, .podcastAndEpisode:
             self = .timestamp
-        case .episode:
-            self = .episode
-        case .podcastAndEpisode:
-            self = .podcastAndEspisode
         }
     }
 }

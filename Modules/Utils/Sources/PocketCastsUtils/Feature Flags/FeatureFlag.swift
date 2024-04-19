@@ -47,6 +47,9 @@ public enum FeatureFlag: String, CaseIterable {
 
     case categoriesRedesign
 
+    /// show UpNext tab on the main tab bar
+    case upNextOnTabBar
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -88,6 +91,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .cachePlayingEpisode:
             true
         case .categoriesRedesign:
+            true
+        case .upNextOnTabBar:
             true
         }
     }
