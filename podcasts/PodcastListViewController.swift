@@ -88,10 +88,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         updateInsets()
         gridHelper.configureLayout(collectionView: podcastsCollectionView)
-
-        if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
-            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.secondaryUi01
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -394,11 +390,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         gridItems[safe: indexPath.row]
     }
 
-    func gridTypeChanged() {        
+    func gridTypeChanged() {
         podcastsCollectionView.reloadData()
-        if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
-            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.secondaryUi01
-        }
         updateInsets()
         gridHelper.configureLayout(collectionView: podcastsCollectionView)
 
