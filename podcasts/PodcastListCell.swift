@@ -42,6 +42,7 @@ class PodcastListCell: ThemeableCollectionCell {
         } else {
             unplayedBadge.isHidden = true
         }
+        unplayedBadge.updateColors()
 
         supporterHeart.isHidden = !podcast.isPaid
         if podcast.isPaid {
