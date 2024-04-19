@@ -1390,6 +1390,12 @@ internal enum L10n {
   internal static var month: String { return L10n.tr("Localizable", "month") }
   /// Monthly
   internal static var monthly: String { return L10n.tr("Localizable", "monthly") }
+  /// Most Popular
+  internal static var mostPopular: String { return L10n.tr("Localizable", "most_popular") }
+  /// Most Popular in %1$@
+  internal static func mostPopularWithName(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "most_popular_with_name", String(describing: p1))
+  }
   /// Move to Bottom
   internal static var moveToBottom: String { return L10n.tr("Localizable", "move_to_bottom") }
   /// Move to Top

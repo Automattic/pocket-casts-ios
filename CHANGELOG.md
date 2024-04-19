@@ -7,6 +7,7 @@
 7.62
 -----
 - Sleep Timer restarts automatically if you play again within 5 minutes [#1612]
+- Add redesigned Categories picker to the top of Discover. [#1621]
 
 7.61
 -----
