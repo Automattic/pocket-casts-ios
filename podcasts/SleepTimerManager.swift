@@ -7,6 +7,10 @@ class SleepTimerManager {
 
     private let backgroundShakeObserver: BackgroundShakeObserver
 
+    let sleepTimerFadeDuration = 5.seconds
+
+    private lazy var fadeOutManager = FadeOutManager()
+
     private lazy var tonePlayer: AVAudioPlayer? = {
         guard let url = Bundle.main.url(forResource: "sleep-timer-restarted-sound", withExtension: "mp3") else {
             FileLog.shared.addMessage("[Sleep Timer] Unable to create tone player because the sound file is missing from the bundle.")
@@ -74,6 +78,11 @@ class SleepTimerManager {
                 FileLog.shared.addMessage("Sleep Timer: restarting it after device shake")
             }
         }
+    }
+
+    func performFadeOut(player: PlaybackProtocol) {
+        fadeOutManager.player = player
+        fadeOutManager.fadeOut(duration: sleepTimerFadeDuration)
     }
 
     private func observePlaybackEndAndReactivateTime() {
