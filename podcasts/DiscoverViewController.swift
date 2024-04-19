@@ -246,7 +246,7 @@ class DiscoverViewController: PCViewController {
 
             let section = 0
             snapshot.appendSections([section])
-            snapshot.appendItems(items.filter({ shouldInclude?($0) ?? true }))
+            snapshot.appendItems(items.filter({ (shouldInclude?($0) ?? true) && $0.regions.contains(currentRegion) }))
 
             return snapshot
         }
