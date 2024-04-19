@@ -40,18 +40,6 @@ class GridHelper {
         flowLayout.growOffset = 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        let gridType = Settings.libraryType()
-        let spacing = gridType == .list ? 0 : self.spacing
-        return spacing
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        let gridType = Settings.libraryType()
-        let spacing = gridType == .list ? 0 : self.spacing
-        return spacing
-    }
-
     func collectionView(_ collectionView: UICollectionView, sizeForItemAt indexPath: IndexPath, itemCount: Int) -> CGSize {
         let gridType = Settings.libraryType()
         let viewWidth = collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right

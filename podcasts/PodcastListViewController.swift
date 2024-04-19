@@ -402,6 +402,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     func gridTypeChanged() {
+        gridHelper.configureLayout(collectionView: podcastsCollectionView)
         podcastsCollectionView.reloadData()
         updateInsets()
     }
