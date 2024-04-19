@@ -168,26 +168,17 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func makeBadge(size: CGFloat) -> UIView {
-        let badgeFrame = UIView()
+        let badgeView = CircleView()
         let borderWidth = CGFloat(2)
-        let badgeSize = size - (borderWidth * 2)
-        badgeFrame.backgroundColor = ThemeColor.secondaryUi01()
-        badgeFrame.layer.cornerRadius = size / 2
-        let badge = UIView()
-        badge.layer.cornerRadius = badgeSize / 2
-        badge.backgroundColor = ThemeColor.primaryInteractive01()
-        badge.translatesAutoresizingMaskIntoConstraints = false
-        badgeFrame.translatesAutoresizingMaskIntoConstraints = false
-        badgeFrame.addSubview(badge)
+        badgeView.borderColor = ThemeColor.secondaryUi01()
+        badgeView.centerColor = ThemeColor.primaryInteractive01()
+        badgeView.backgroundColor = .clear
+        badgeView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            badgeFrame.widthAnchor.constraint(equalToConstant: size),
-            badgeFrame.heightAnchor.constraint(equalToConstant: size),
-            badge.widthAnchor.constraint(equalToConstant: badgeSize),
-            badge.heightAnchor.constraint(equalToConstant: badgeSize),
-            badge.centerXAnchor.constraint(equalTo: badgeFrame.centerXAnchor),
-            badge.centerYAnchor.constraint(equalTo: badgeFrame.centerYAnchor)
+            badgeView.widthAnchor.constraint(equalToConstant: size),
+            badgeView.heightAnchor.constraint(equalToConstant: size),
         ])
-        return badgeFrame
+        return badgeView
     }
 
     private func makeProfileButton(email: String?) -> UIBarButtonItem {
