@@ -82,6 +82,6 @@ class PodcastGridCell: UICollectionViewCell {
             return
         }
 
-        badgeView.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
+        badgeView.populateFrom(podcast: podcast, badgeType: badgeType)
     }
 }
