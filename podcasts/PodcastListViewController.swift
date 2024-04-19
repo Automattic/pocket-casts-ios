@@ -88,7 +88,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         gridHelper.configureLayout(collectionView: podcastsCollectionView)
 
         if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
-            themeableCollectionView.style = ThemeStyle.secondaryUi01
+            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.secondaryUi01
         }
     }
 
@@ -324,10 +324,14 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         gridItems[safe: indexPath.row]
     }
 
-    func gridTypeChanged() {
-        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+    func gridTypeChanged() {        
         podcastsCollectionView.reloadData()
+        if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
+            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.secondaryUi01
+        }
         updateInsets()
+        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+
     }
 
     private func showBadgeOptions() {
