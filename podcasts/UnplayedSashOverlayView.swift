@@ -3,6 +3,7 @@ import UIKit
 
 class UnplayedSashOverlayView: UIView {
     private let badgeLabel = UILabel()
+    private let simpleBadge = CircleView()
 
     private var labelWidthConstraint: NSLayoutConstraint!
 
@@ -31,7 +32,17 @@ class UnplayedSashOverlayView: UIView {
     }
 
     private func updateBadge(count: Int, badgeType: BadgeType) {
-        if count > 0 {
+        guard count > 0 else {
+            isHidden = true
+            return
+        }
+        isHidden = false
+        switch badgeType {
+        case .latestEpisode:
+            simpleBadge.isHidden = false
+            badgeLabel.isHidden = true
+        case .allUnplayed:
+            simpleBadge.isHidden = true
             badgeLabel.isHidden = false
             badgeLabel.text = count < 99 ? "\(count)" : "99"
             if count > 9 {
@@ -39,7 +50,8 @@ class UnplayedSashOverlayView: UIView {
             } else {
                 labelWidthConstraint.constant = 20
             }
-        } else {
+        case .off:
+            simpleBadge.isHidden = true
             badgeLabel.isHidden = true
         }
     }
@@ -54,6 +66,15 @@ class UnplayedSashOverlayView: UIView {
             badgeLabel.heightAnchor.constraint(equalToConstant: 20),
             labelWidthConstraint,
             badgeLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+
+        simpleBadge.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(simpleBadge)
+        NSLayoutConstraint.activate([
+            simpleBadge.heightAnchor.constraint(equalToConstant: 12),
+            simpleBadge.widthAnchor.constraint(equalToConstant: 12),
+            simpleBadge.trailingAnchor.constraint(equalTo: trailingAnchor),
+            simpleBadge.topAnchor.constraint(equalTo: topAnchor)
         ])
 
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
@@ -73,5 +94,9 @@ class UnplayedSashOverlayView: UIView {
         badgeLabel.layer.borderColor = ThemeColor.primaryUi02().cgColor
         badgeLabel.layer.borderWidth = 2
         badgeLabel.layer.cornerRadius = 10
+
+        simpleBadge.borderColor = ThemeColor.primaryUi02()
+        simpleBadge.centerColor = ThemeColor.primaryInteractive01()
+        simpleBadge.backgroundColor = .clear
     }
 }
