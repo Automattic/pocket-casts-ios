@@ -5,6 +5,8 @@ class FolderPreviewView: UIView {
     private let previewCount = 4
     private let interPreviewPadding: CGFloat = 4
 
+    private let labelBottomMargin = CGFloat(6)
+
     private let imageSizeRatio: CGFloat = 120 / 40
     private let imageSizeRatioNoLabel: CGFloat = 120 / 44
 
@@ -100,7 +102,7 @@ class FolderPreviewView: UIView {
                 label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
                 addSubview(label)
 
-                nameLabelBottomConstraint = bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 4)
+                nameLabelBottomConstraint = bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: labelBottomMargin)
                 NSLayoutConstraint.activate([
                     label.leadingAnchor.constraint(equalTo: leadingAnchor),
                     label.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -133,7 +135,7 @@ class FolderPreviewView: UIView {
         let leadingOffset = (bounds.width - tileSquareSpaceNeeded) / 2
         let topOffset = showFolderName ? leadingOffset / 2 : leadingOffset
 
-        nameLabelBottomConstraint?.constant = topOffset < 6 ? 1 : 4
+        nameLabelBottomConstraint?.constant = topOffset < 6 ? 1 : labelBottomMargin
 
         for (index, image) in images.enumerated() {
             let firstRow = index < tilesPerRow
