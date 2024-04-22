@@ -17,11 +17,15 @@ public actor ShowInfoDataRetriever {
         let request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData)
 
         let task = Task<Data, Error> {
-            let (data, _) = try await URLSession.shared.data(for: request)
-            dataRequestMap[podcastUuid] = nil
-            return data
+            do {
+                let (data, _) = try await URLSession.shared.data(for: request)
+                dataRequestMap[podcastUuid] = nil
+                return data
+            } catch {
+                dataRequestMap[podcastUuid] = nil
+                throw error
+            }
         }
-
         dataRequestMap[podcastUuid] = task
 
         return try await task.value
