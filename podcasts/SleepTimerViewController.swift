@@ -221,6 +221,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         } else if PlaybackManager.shared.numberOfEpisodesToSleepAfter > 0 {
             timeRemaining.isHidden = true
             endOfEpisodeLabel.isHidden = false
+            endOfEpisodeLabel.text = sleepTimerEpisodesLabel
         }
     }
 
