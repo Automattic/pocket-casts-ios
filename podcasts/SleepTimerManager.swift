@@ -90,9 +90,10 @@ class SleepTimerManager {
     }
 
     @objc private func playbackTrackChanged() {
+        let numberOfEpisodes = Settings.sleepTimerNumberOfEpisodes
         FileLog.shared.addMessage("Sleep Timer: restarting it automatically to the end of the episode")
-        Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode"])
-        PlaybackManager.shared.numberOfEpisodesToSleepAfter = Settings.sleepTimerNumberOfEpisodes
+        Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode", "number_of_episodes": numberOfEpisodes])
+        PlaybackManager.shared.numberOfEpisodesToSleepAfter = numberOfEpisodes
         NotificationCenter.default.removeObserver(self, name: Constants.Notifications.playbackTrackChanged, object: nil)
     }
 
