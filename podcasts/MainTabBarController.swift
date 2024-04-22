@@ -556,6 +556,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         tabBar.scrollEdgeAppearance = appearance
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
         tabBar.tintColor = AppTheme.tabBarItemTintColor()
+        
+        // Link userInterfaceStyle to Theme type so iOS's Increase Contrast setting does the right thing
+        let isDarkTheme = Theme.isDarkTheme()
+        tabBar.overrideUserInterfaceStyle = isDarkTheme ? .dark : .light
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
