@@ -5,8 +5,8 @@ class FolderPreviewView: UIView {
     private let previewCount = 4
     private let interPreviewPadding: CGFloat = 4
 
-    private let imageSizeRatio: CGFloat = 120 / 44
-    private let imageSizeRatioNoLabel: CGFloat = 120 / 48
+    private let imageSizeRatio: CGFloat = 120 / 40
+    private let imageSizeRatioNoLabel: CGFloat = 120 / 44
 
     var showFolderName = true
 
@@ -97,7 +97,7 @@ class FolderPreviewView: UIView {
                 label.numberOfLines = 1
                 label.textColor = UIColor.white
                 label.textAlignment = .center
-                label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+                label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
                 addSubview(label)
 
                 nameLabelBottomConstraint = bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 4)
