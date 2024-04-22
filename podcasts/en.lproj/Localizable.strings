@@ -2854,6 +2854,15 @@
 /* Accessibility hint that displays the remaining amount of time for the sleep timer. '%1$@' is a placeholder for the remaining time. */
 "sleep_timer_time_remaining" = "Sleep Timer on, %1$@ remaining";
 
+/* Label displaying in how many episodes the sleep timer will activate. %1$@ is the number of episodes. */
+"sleep_timer_episode_count" = "In %1$@ episodes";
+
+/* Label showing that Sleep Timer will activate at the end of current episode */
+"sleep_timer_sleeping_after_current_episode" = "Sleeping at the end of the current episode";
+
+/* Label showing that Sleep Timer will activate after a given number of episodes. %1$@ is the number of episodes and it's always bigger than 1. */
+"sleep_timer_sleeping_after" = "Sleeping in %1$@ episodes";
+
 /* Prompt to confirm when presented with a connection prompt. Used when connecting to a Sonos speaker. */
 "sonos_connect_action" = "CONNECT";
 
