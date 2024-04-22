@@ -213,12 +213,12 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     private func updateSleepRemainingTime() {
-        if PlaybackManager.shared.sleepTimeRemaining >= 0, !PlaybackManager.shared.sleepOnEpisodeEnd {
+        if PlaybackManager.shared.sleepTimeRemaining >= 0, !(PlaybackManager.shared.numberOfEpisodesToSleepAfter > 0) {
             timeRemaining.isHidden = false
             endOfEpisodeLabel.isHidden = true
             timeRemaining.text = TimeFormatter.shared.playTimeFormat(time: PlaybackManager.shared.sleepTimeRemaining)
             timeRemaining.accessibilityLabel = L10n.sleepTimerTimeRemaining(TimeFormatter.shared.playTimeFormat(time: PlaybackManager.shared.sleepTimeRemaining))
-        } else if PlaybackManager.shared.sleepOnEpisodeEnd {
+        } else if PlaybackManager.shared.numberOfEpisodesToSleepAfter > 0 {
             timeRemaining.isHidden = true
             endOfEpisodeLabel.isHidden = false
         }
@@ -230,7 +230,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             sleepTimerActiveView.isHidden = false
             activeSleepAnimation.sleepTimerOn = true
 
-            let sleepAtEpisodeEnd = PlaybackManager.shared.sleepOnEpisodeEnd
+            let sleepAtEpisodeEnd = PlaybackManager.shared.numberOfEpisodesToSleepAfter > 0
             plusFiveBtn.isHidden = sleepAtEpisodeEnd
             endOfEpisodeBtn.isHidden = sleepAtEpisodeEnd
             updateSleepRemainingTime()
@@ -292,7 +292,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func endOfEpisodeTapped(_ sender: Any) {
-        PlaybackManager.shared.sleepOnEpisodeEnd = true
+        PlaybackManager.shared.numberOfEpisodesToSleepAfter = Settings.sleepTimerNumberOfEpisodes
         Analytics.track(.playerSleepTimerEnabled, properties: ["time": "end_of_episode"])
         dismiss(animated: true, completion: nil)
     }
@@ -309,7 +309,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func endOfEpisodeActiveTapped(_ sender: Any) {
-        PlaybackManager.shared.sleepOnEpisodeEnd = true
+        PlaybackManager.shared.numberOfEpisodesToSleepAfter = Settings.sleepTimerNumberOfEpisodes
         updateDisplay()
         Analytics.track(.playerSleepTimerExtended, properties: ["amount": "end_of_episode"])
     }
