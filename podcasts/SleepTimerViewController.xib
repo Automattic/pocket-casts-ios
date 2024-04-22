@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="activeSleepAnimation" destination="E6q-a6-BhY" id="kPi-ro-gxZ"/>
                 <outlet property="cancelBtn" destination="EOQ-B1-4Zt" id="Foy-UE-E5X"/>
+                <outlet property="customEpisodeStepper" destination="5AT-lV-iMB" id="eJW-a6-TrW"/>
                 <outlet property="customTimeBtn" destination="C4v-GT-5g4" id="9yQ-6E-woR"/>
                 <outlet property="customTimeStepper" destination="Nac-xX-8CP" id="qWb-lJ-QAm"/>
                 <outlet property="endOfEpisodeBtn" destination="YYx-nN-wS9" id="RRE-v4-Lmm"/>
@@ -64,10 +65,10 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sleeping when episode ends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWl-Fm-Fg5" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="58" y="147" width="292.5" height="27"/>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sleeping when episode ends" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWl-Fm-Fg5" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="144" width="376" height="30"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="27" id="ZGO-cQ-xa7"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="27" id="ZGO-cQ-xa7"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -129,7 +130,9 @@
                         <constraint firstItem="E6q-a6-BhY" firstAttribute="centerX" secondItem="nxz-IC-HCU" secondAttribute="centerX" id="O3c-zi-w1G"/>
                         <constraint firstItem="sWl-Fm-Fg5" firstAttribute="top" secondItem="E6q-a6-BhY" secondAttribute="bottom" priority="999" constant="16" id="OLw-zf-hbM"/>
                         <constraint firstAttribute="trailing" secondItem="sG9-ye-AOp" secondAttribute="trailing" constant="20" id="Oap-im-bSi"/>
+                        <constraint firstAttribute="trailing" secondItem="sWl-Fm-Fg5" secondAttribute="trailing" constant="16" id="P7T-CR-cf6"/>
                         <constraint firstItem="sG9-ye-AOp" firstAttribute="centerX" secondItem="nxz-IC-HCU" secondAttribute="centerX" id="VwA-AM-kre"/>
+                        <constraint firstItem="sWl-Fm-Fg5" firstAttribute="leading" secondItem="nxz-IC-HCU" secondAttribute="leading" constant="16" id="YYw-QC-98x"/>
                         <constraint firstAttribute="bottom" secondItem="sG9-ye-AOp" secondAttribute="bottom" priority="999" constant="20" id="aIW-h4-g1C"/>
                         <constraint firstItem="vyF-KA-sb1" firstAttribute="centerX" secondItem="nxz-IC-HCU" secondAttribute="centerX" id="czP-Tr-WGi"/>
                         <constraint firstItem="sG9-ye-AOp" firstAttribute="leading" secondItem="nxz-IC-HCU" secondAttribute="leading" constant="20" id="oCX-gc-aVi"/>
@@ -247,19 +250,33 @@
                                         <constraint firstAttribute="height" constant="1" id="mXC-Hj-7NM"/>
                                     </constraints>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLE-pt-wSu" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="zV1-Fm-aS4">
                                     <rect key="frame" x="0.0" y="244" width="368" height="50"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLE-pt-wSu" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="273" height="50"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="yW9-43-SRc"/>
+                                            </constraints>
+                                            <state key="normal" title="End of episode">
+                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="endOfEpisodeTapped:" destination="-1" eventType="touchUpInside" id="6mR-JE-nH3"/>
+                                            </connections>
+                                        </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5AT-lV-iMB" customClass="CustomStepper" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="278" y="3" width="90" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="44" id="LdZ-ff-sWl"/>
+                                                <constraint firstAttribute="width" constant="90" id="U14-Mb-uvd"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="yW9-43-SRc"/>
+                                        <constraint firstAttribute="height" constant="50" id="eLb-K5-lUm"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="End of episode">
-                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="endOfEpisodeTapped:" destination="-1" eventType="touchUpInside" id="6mR-JE-nH3"/>
-                                    </connections>
-                                </button>
+                                </stackView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Odq-ql-AQB" userLabel="Divider" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="299" width="368" height="1"/>
                                     <viewLayoutGuide key="safeArea" id="0GV-bY-Dbn"/>

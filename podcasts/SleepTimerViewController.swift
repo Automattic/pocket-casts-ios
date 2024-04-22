@@ -14,7 +14,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     @IBOutlet var endOfEpisodeBtn: UIButton! {
         didSet {
-            endOfEpisodeBtn.setTitle(L10n.sleepTimerEndOfEpisode, for: .normal)
+            endOfEpisodeBtn.setTitle(sleepTimerEpisodesButtonLabel, for: .normal)
             endOfEpisodeBtn.layer.cornerRadius = 12
             endOfEpisodeBtn.layer.borderWidth = 2
             endOfEpisodeBtn.backgroundColor = UIColor.clear
@@ -65,7 +65,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     @IBOutlet var endOfEpisodeLabel: ThemeableLabel! {
         didSet {
             endOfEpisodeLabel.style = .playerContrast01
-            endOfEpisodeLabel.text = L10n.sleepTimerEndOfEpisode
+            endOfEpisodeLabel.text = sleepTimerEpisodesLabel
         }
     }
 
@@ -108,7 +108,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     @IBOutlet var endOfEpisodeInactiveBtn: ThemeableUIButton! {
         didSet {
-            endOfEpisodeInactiveBtn.setTitle(L10n.sleepTimerEndOfEpisode, for: .normal)
+            endOfEpisodeInactiveBtn.setTitle(sleepTimerEpisodesButtonLabel, for: .normal)
             endOfEpisodeInactiveBtn.style = .playerContrast01
         }
     }
@@ -141,6 +141,29 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         didSet {
             underEndOfEpisodeDivider.style = .playerContrast05
         }
+    }
+
+    @IBOutlet weak var customEpisodeStepper: CustomStepper! {
+        didSet {
+            customEpisodeStepper.minimumValue = 1
+            customEpisodeStepper.maximumValue = 100
+            customEpisodeStepper.currentValue = Settings.sleepTimerNumberOfEpisodes
+            customEpisodeStepper.addTarget(self, action: #selector(customEpisodeDidChange), for: .valueChanged)
+        }
+    }
+
+    // The label of sleep timer per episode
+    private var sleepTimerEpisodesButtonLabel: String {
+        let numberOfEpisodes = Settings.sleepTimerNumberOfEpisodes
+        let title = numberOfEpisodes == 1 ? L10n.sleepTimerEndOfEpisode : L10n.sleepTimerEpisodeCount(numberOfEpisodes)
+        return title
+    }
+
+    // Label of per episode when active
+    private var sleepTimerEpisodesLabel: String {
+        let numberOfEpisodes = PlaybackManager.shared.numberOfEpisodesToSleepAfter
+        let title = numberOfEpisodes == 1 ? L10n.sleepTimerSleepingAfterCurrentEpisode : L10n.sleepTimerSleepingAfter(numberOfEpisodes)
+        return title
     }
 
     override func viewDidLoad() {
@@ -186,6 +209,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         activeSleepAnimation.tintColor = PlayerColorHelper.playerHighlightColor01(for: .dark)
 
         customTimeStepper.tintColor = ThemeColor.playerContrast01()
+        customEpisodeStepper.tintColor = ThemeColor.playerContrast01()
     }
 
     private func updateSleepRemainingTime() {
@@ -229,6 +253,12 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     private func updateCustomSleepTime() {
         let title = TimeFormatter.shared.minutesHoursFormatted(time: Settings.customSleepTime())
         customTimeBtn.setTitle(title, for: .normal)
+    }
+
+    private func updateCustomNumberOfEpisodes() {
+        let title = sleepTimerEpisodesButtonLabel
+        endOfEpisodeInactiveBtn.setTitle(title, for: .normal)
+        endOfEpisodeBtn.setTitle(title, for: .normal)
     }
 
     // When the user unlocks the phone and the timer count is active, we check
@@ -297,6 +327,11 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     @objc private func customTimeDidChange() {
         Settings.setCustomSleepTime(customTimeStepper.currentValue)
         updateCustomSleepTime()
+    }
+
+    @objc private func customEpisodeDidChange() {
+        Settings.sleepTimerNumberOfEpisodes = Int(customEpisodeStepper.currentValue)
+        updateCustomNumberOfEpisodes()
     }
 
     // MARK: - Orientation
