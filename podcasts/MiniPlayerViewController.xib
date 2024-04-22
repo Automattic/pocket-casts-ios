@@ -35,6 +35,15 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTj-uk-yNW" userLabel="Main View" customClass="MiniPlayerBackingView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="8" y="0.0" width="309" height="57"/>
                     <subviews>
+                        <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ja1-7S-nXI">
+                            <rect key="frame" x="0.0" y="0.0" width="309" height="57"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="pTm-YY-k5B">
+                                <rect key="frame" x="0.0" y="0.0" width="309" height="57"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </view>
+                            <blurEffect style="prominent"/>
+                        </visualEffectView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-eT-t3r">
                             <rect key="frame" x="8" y="5.5" width="44" height="44"/>
                             <subviews>
