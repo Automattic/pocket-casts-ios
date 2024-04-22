@@ -34,9 +34,18 @@ enum SharingModal {
     }
 
     static func show(option: Option, podcast: Podcast, episode: Episode?, in viewController: UIViewController) {
-        let artworkURL = ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcast.uuid)
-        let shareInfo = ShareInfo(podcast: podcast, episode: episode, artworkURL: artworkURL, backgroundColor: Color(hex: podcast.primaryColor ?? ""))
+        let shareInfo = ShareInfo(podcast: podcast, episode: episode)
 
-        print("Show \(shareInfo)")
+        let sharingView = SharingView(shareInfo: shareInfo)
+        let modalView = ModalView(view: {
+            AnyView(sharingView)
+        }, dismissAction: {
+            viewController.dismiss(animated: true)
+        })
+        .background(Color(PlayerColorHelper.playerBackgroundColor01()))
+
+        let hostingController = ThemedHostingController(rootView: modalView, theme: Theme(previewTheme: .contrastLight))
+        viewController.present(hostingController, animated: true)
+
     }
 }

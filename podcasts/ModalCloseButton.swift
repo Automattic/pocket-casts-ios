@@ -1,9 +1,18 @@
 import SwiftUI
 
 struct ModalCloseButton: View {
+    let background: Color?
+    let foreground: Color?
+
     @EnvironmentObject var theme: Theme
 
     var action: () -> Void
+
+    init(background: Color? = nil, foreground: Color? = nil, action: @escaping () -> Void) {
+        self.background = background
+        self.foreground = foreground
+        self.action = action
+    }
 
     var body: some View {
         HStack {
@@ -11,9 +20,9 @@ struct ModalCloseButton: View {
             Button(action: action) {
                 ZStack {
                     Circle()
-                        .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
+                        .foregroundColor(background ?? Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
                     Image("close")
-                        .foregroundColor(Color(ThemeColor.primaryInteractive02(for: theme.activeTheme)))
+                        .foregroundColor(foreground ?? Color(ThemeColor.primaryInteractive02(for: theme.activeTheme)))
                         .accessibilityLabel(L10n.close)
                 }
                 .frame(width: 30, height: 30)
