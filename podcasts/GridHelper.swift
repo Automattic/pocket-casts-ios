@@ -31,7 +31,8 @@ class GridHelper {
 
         let gridType = Settings.libraryType()
         let spacing = gridType == .list ? 0 : self.spacing
-
+        // Blocks horizontal scrolling on the collection view
+        collectionView.contentSize.width = 0
         flowLayout.minimumLineSpacing = spacing
         flowLayout.minimumInteritemSpacing = spacing
         flowLayout.sectionInset = UIEdgeInsets(top: spacing * 2, left: 0, bottom: 0, right: 0)
