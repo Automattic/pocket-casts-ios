@@ -54,7 +54,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         mainView.layer.masksToBounds = true
 
         shadowView.backgroundColor = .clear
-        shadowView.layer.shadowColor = ThemeColor.primaryText01().withAlphaComponent(0.8).cgColor
         shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
         shadowView.layer.shadowRadius = 15
         shadowView.layer.shadowOpacity = 1
@@ -309,8 +308,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
-        mainView.backgroundColor = bgColor
-        shadowView.layer.shadowColor = ThemeColor.primaryText01().withAlphaComponent(0.3).cgColor
+        mainView.backgroundColor = bgColor.withAlphaComponent(0.1)
+        shadowView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         playPauseBtn.playButtonColor = bgColor
 
         playbackProgressView.updateColors()
