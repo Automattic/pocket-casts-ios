@@ -99,6 +99,10 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         let iconColor = ThemeColor.filterIcon01(filterColor: folderColor)
         let backgroundColor = ThemeColor.filterUi01(filterColor: folderColor)
 
+        if let themeableCollectionView = mainGrid as? ThemeableCollectionView {
+            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.primaryUi02
+        }
+
         changeNavTint(titleColor: titleColor, iconsColor: iconColor, backgroundColor: backgroundColor)
     }
 
