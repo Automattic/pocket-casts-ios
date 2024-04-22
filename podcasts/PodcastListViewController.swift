@@ -86,8 +86,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
 
-        updateInsets()
-        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        adjustSettingsForGridType()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -253,11 +252,19 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         updateInsets()
     }
 
-    func updateInsets() {
+    private func updateInsets() {
         let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
         let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
 
         podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
+    }
+
+    private func adjustSettingsForGridType() {
+        updateInsets()
+        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
+            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.primaryUi02
+        }
     }
 
     @objc func refreshGridItems() {
@@ -392,9 +399,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     func gridTypeChanged() {
         podcastsCollectionView.reloadData()
-        updateInsets()
-        gridHelper.configureLayout(collectionView: podcastsCollectionView)
-
+        adjustSettingsForGridType()
     }
 
     private func showBadgeOptions() {
