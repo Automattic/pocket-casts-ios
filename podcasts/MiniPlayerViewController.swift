@@ -19,7 +19,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBOutlet var playbackProgressView: ProgressLine!
 
     @IBOutlet var podcastArtwork: PodcastImageView!
-    @IBOutlet var mainView: MiniPlayerBackingView!
+    @IBOutlet var mainView: UIView!
     @IBOutlet var shadowView: UIView!
 
     private var lastEpisodeUuidImageLoaded = ""
@@ -310,7 +310,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
                 actionColor = AppTheme.userEpisodeColor(number: 1)
             }
         }
-
+        view.backgroundColor = .clear
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
         mainView.backgroundColor = bgColor.withAlphaComponent(0.1)
         shadowView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
