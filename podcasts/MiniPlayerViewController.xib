@@ -32,7 +32,7 @@
                     <viewLayoutGuide key="safeArea" id="ccJ-z6-OC8"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTj-uk-yNW" userLabel="Main View" customClass="MiniPlayerBackingView" customModule="podcasts" customModuleProvider="target">
+                <view clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTj-uk-yNW" userLabel="Main View">
                     <rect key="frame" x="8" y="0.0" width="309" height="57"/>
                     <subviews>
                         <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ja1-7S-nXI">
