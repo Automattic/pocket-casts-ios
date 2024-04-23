@@ -22,6 +22,7 @@ steps:
     steps:
       - label: "☢️ Danger - PR Check"
         command: danger
+        key: danger
         if: "build.pull_request.id != null"
         retry:
           manual:
