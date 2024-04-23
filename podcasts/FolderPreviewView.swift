@@ -17,7 +17,7 @@ class FolderPreviewView: UIView {
     private var images: [PodcastImageView] = []
     private var gradientLayer: CAGradientLayer?
     private var nameLabel: UILabel?
-    private var nameLabelBottomConstraint: NSLayoutConstraint?
+    private var nameLabelVerticalPositionConstraint: NSLayoutConstraint?
 
     func populateFrom(folder: Folder) {
         let podcastUuids = DataManager.sharedManager.allPodcastsInFolder(folder: folder).map(\.uuid)
@@ -82,11 +82,11 @@ class FolderPreviewView: UIView {
                 label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
                 addSubview(label)
 
-                nameLabelBottomConstraint = label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -labelBottomMargin)
+                nameLabelVerticalPositionConstraint = label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -labelBottomMargin)
                 NSLayoutConstraint.activate([
                     label.leadingAnchor.constraint(equalTo: leadingAnchor),
                     label.trailingAnchor.constraint(equalTo: trailingAnchor),
-                    nameLabelBottomConstraint!
+                    nameLabelVerticalPositionConstraint!
                 ])
             }
         }
@@ -130,6 +130,6 @@ class FolderPreviewView: UIView {
         }
 
         let remainingHeight = bounds.height - ((2*tileSize) + interPreviewPadding + topOffset)
-        nameLabelBottomConstraint?.constant = -(remainingHeight / 2)
+        nameLabelVerticalPositionConstraint?.constant = -(remainingHeight / 2)
     }
 }
