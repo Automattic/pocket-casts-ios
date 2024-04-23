@@ -86,39 +86,15 @@ class SleepTimerManager {
     }
 
     private func observePlaybackEndAndReactivateTime() {
-        NotificationCenter.default.addObserver(self, selector: #selector(playbackTrackChanged), name: Constants.Notifications.playbackTrackChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(episodeDurationChanged), name: Constants.Notifications.episodeDurationChanged, object: nil)
     }
 
-    private var playbackCheckTimer: Timer?
-    private var recordedPlayedUpTo: Double?
-
-    // Here we watch the current episode until it actually starts playing to
-    // restart the timer per episode.
-    // This avoid issues because the Sleep Timer per episode pauses on the end
-    // of the last episode.
-    @objc private func playbackTrackChanged() {
-        recordedPlayedUpTo = PlaybackManager.shared.currentEpisode()?.playedUpTo
-        playbackCheckTimer?.invalidate()
-        playbackCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] timer in
-            guard let self else {
-                return
-            }
-
-            if let recordedPlayedUpTo, let playedUpTo = PlaybackManager.shared.currentEpisode()?.playedUpTo, playedUpTo > recordedPlayedUpTo {
-                playbackCheckTimer?.invalidate()
-                self.recordedPlayedUpTo = nil
-                restartEndOnEpisodeSleepTimer()
-            }
-        }
-
-        NotificationCenter.default.removeObserver(self, name: Constants.Notifications.playbackTrackChanged, object: nil)
-    }
-
-    private func restartEndOnEpisodeSleepTimer() {
+    @objc private func episodeDurationChanged() {
         let numberOfEpisodes = Settings.sleepTimerNumberOfEpisodes
         FileLog.shared.addMessage("Sleep Timer: restarting it automatically to the end of the episode")
         Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode", "number_of_episodes": numberOfEpisodes])
         PlaybackManager.shared.numberOfEpisodesToSleepAfter = numberOfEpisodes
+        NotificationCenter.default.removeObserver(self, name: Constants.Notifications.episodeDurationChanged, object: nil)
     }
 
     func playTone() {
