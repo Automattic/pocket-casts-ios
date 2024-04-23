@@ -54,7 +54,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         mainView.layer.masksToBounds = true
 
         shadowView.backgroundColor = .clear
-        shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 8)
         shadowView.layer.shadowRadius = 15
         shadowView.layer.shadowOpacity = 1
         shadowView.layer.cornerRadius = cornerRadius
