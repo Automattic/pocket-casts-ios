@@ -557,8 +557,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
         tabBar.tintColor = AppTheme.tabBarItemTintColor()
         // Link userInterfaceStyle to Theme type so iOS's Increase Contrast setting does the right thing
-        let isDarkTheme = Theme.isDarkTheme()
-        tabBar.overrideUserInterfaceStyle = isDarkTheme ? .dark : .light
+        tabBar.overrideUserInterfaceStyle = Theme.isDarkTheme() ? .dark : .light
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
