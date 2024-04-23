@@ -156,14 +156,16 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         containerView.sendSubviewToBack(backgroundTransitionView)
 
         // Get the initial and final colors
-        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.mainView.backgroundColor
+        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.view.backgroundColor
+
         let fullPlayerBackgroundColor = (toViewController as? PlayerContainerViewController)?.nowPlayingItem.view.backgroundColor
 
         let fromColor = isPresenting ? miniPlayerBackgroundColor : fullPlayerBackgroundColor
         let toColor = isPresenting ? fullPlayerBackgroundColor : miniPlayerBackgroundColor
 
+        let miniPlayerView: UIView = (fromViewController as? MiniPlayerViewController)?.mainView ?? fromViewController.view
         // Get the initial and final frames
-        let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
+        let miniplayerFrame = fromViewController.view.convert(miniPlayerView.frame, to: nil)
 
         var backgroundTransitionInitialFrame = containerView.frame
         if !isPresenting {
@@ -174,7 +176,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
 
         // Add a snapshot of the miniplayer and full player
-        let miniPlayerSnapshotView = fromViewController.view.snapshotView(afterScreenUpdates: true)
+        let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: true)
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         backgroundTransitionView.addSubview(toView ?? UIView())
         backgroundTransitionView.addSubview(miniPlayerSnapshotView ?? UIView())
@@ -218,7 +220,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             // Background
             backgroundTransitionView.frame = backgroundToFrame
-
+            backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
             // Miniplayer
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
         } completion: { completed in
