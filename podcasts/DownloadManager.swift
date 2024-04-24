@@ -184,7 +184,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             do {
                 try StorageManager.moveItem(at: sourceUrl, to: destinationUrl, options: .overwriteExisting)
 
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: episode.sizeInBytes, downloadTaskId: nil, episode: episode)
+                DataManager.sharedManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: episode.sizeInBytes, downloadTaskId: nil, contentType: episode.contentType, episode: episode)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
             } catch {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)

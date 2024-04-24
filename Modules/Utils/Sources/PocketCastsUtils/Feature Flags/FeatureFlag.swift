@@ -47,6 +47,9 @@ public enum FeatureFlag: String, CaseIterable {
 
     case categoriesRedesign
 
+    /// show UpNext tab on the main tab bar
+    case upNextOnTabBar
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -64,11 +67,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             false
         case .newShowNotesEndpoint:
-            false
+            true
         case .episodeFeedArtwork:
-            false // To be enabled, newShowNotesEndpoint needs to be too
+            true // To be enabled, newShowNotesEndpoint needs to be too
         case .rssChapters:
-            false // To be enabled, newShowNotesEndpoint needs to be too
+            true // To be enabled, newShowNotesEndpoint needs to be too
         case .newPlayerTransition:
             true
         case .errorLogoutHandling:
@@ -88,12 +91,15 @@ public enum FeatureFlag: String, CaseIterable {
         case .cachePlayingEpisode:
             true
         case .categoriesRedesign:
-            false
+            true
+        case .upNextOnTabBar:
+            true
         }
     }
 
     private var shouldEnableSyncedSettings: Bool {
-        false
+        // Enabled only out of appstore until we verify that this feature is ready for production.
+        BuildEnvironment.current != .appStore
     }
 
     /// Remote Feature Flag

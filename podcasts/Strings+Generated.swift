@@ -170,11 +170,11 @@ internal enum L10n {
   internal static var announcementBookmarksTitle: String { return L10n.tr("Localizable", "announcement_bookmarks_title") }
   /// Join us in the beta testing for bookmarks!
   internal static var announcementBookmarksTitleBeta: String { return L10n.tr("Localizable", "announcement_bookmarks_title_beta") }
-  /// Subscribe to Plus now so you can select and skip chapters in any episode that supports them.
+  /// Subscribe to Plus now so you can preselect and skip chapters automatically in any episode that supports them.
   internal static var announcementDeselectChaptersFree: String { return L10n.tr("Localizable", "announcement_deselect_chapters_free") }
-  /// As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.
+  /// As part of your Patron subscription, you can now preselect and skip chapters automatically in any episode that supports them.
   internal static var announcementDeselectChaptersPatron: String { return L10n.tr("Localizable", "announcement_deselect_chapters_patron") }
-  /// As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.
+  /// As part of your Plus subscription, you can now preselect and skip chapters automatically in any episode that supports them.
   internal static var announcementDeselectChaptersPlus: String { return L10n.tr("Localizable", "announcement_deselect_chapters_plus") }
   /// Code copied to clipboard
   internal static var announcementSlumberCodeCopied: String { return L10n.tr("Localizable", "announcement_slumber_code_copied") }
@@ -240,9 +240,9 @@ internal enum L10n {
   internal static var appearanceArtworkHeader: String { return L10n.tr("Localizable", "appearance_artwork_header") }
   /// Dark Theme
   internal static var appearanceDarkTheme: String { return L10n.tr("Localizable", "appearance_dark_theme") }
-  /// Use Embedded Artwork
+  /// Use Episode Artwork
   internal static var appearanceEmbeddedArtwork: String { return L10n.tr("Localizable", "appearance_embedded_artwork") }
-  /// Shows artwork from the downloaded file (if it exists) in the player instead of using the show's artwork.
+  /// Some shows have custom artwork for certain episodes. Enable this option and Pocket Casts will display them instead of the show’s artwork.
   internal static var appearanceEmbeddedArtworkSubtitle: String { return L10n.tr("Localizable", "appearance_embedded_artwork_subtitle") }
   /// Light Theme
   internal static var appearanceLightTheme: String { return L10n.tr("Localizable", "appearance_light_theme") }
@@ -500,6 +500,8 @@ internal enum L10n {
   internal static var deleteFromDeviceOnly: String { return L10n.tr("Localizable", "delete_from_device_only") }
   /// Deselect All
   internal static var deselectAll: String { return L10n.tr("Localizable", "deselect_all") }
+  /// Sleep timer restarted due to device shake
+  internal static var deviceShakeSleepTimer: String { return L10n.tr("Localizable", "device_shake_sleep_timer") }
   /// Discover
   internal static var discover: String { return L10n.tr("Localizable", "discover") }
   /// All Episodes
@@ -1388,6 +1390,12 @@ internal enum L10n {
   internal static var month: String { return L10n.tr("Localizable", "month") }
   /// Monthly
   internal static var monthly: String { return L10n.tr("Localizable", "monthly") }
+  /// Most Popular
+  internal static var mostPopular: String { return L10n.tr("Localizable", "most_popular") }
+  /// Most Popular in %1$@
+  internal static func mostPopularWithName(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "most_popular_with_name", String(describing: p1))
+  }
   /// Move to Bottom
   internal static var moveToBottom: String { return L10n.tr("Localizable", "move_to_bottom") }
   /// Move to Top
@@ -2790,11 +2798,11 @@ internal enum L10n {
   internal static var siriShortcutToPodcast: String { return L10n.tr("Localizable", "siri_shortcut_to_podcast") }
   /// Skip Back
   internal static var skipBack: String { return L10n.tr("Localizable", "skip_back") }
-  /// Skip chapters
+  /// Preselect chapters
   internal static var skipChapters: String { return L10n.tr("Localizable", "skip_chapters") }
-  /// Skip chapters and more with Pocket Casts Patron
+  /// Preselect chapters and more with Pocket Casts Patron
   internal static var skipChaptersPatronPrompt: String { return L10n.tr("Localizable", "skip_chapters_patron_prompt") }
-  /// Skip chapters and more with Pocket Casts Plus
+  /// Preselect chapters and more with Pocket Casts Plus
   internal static var skipChaptersPlusPrompt: String { return L10n.tr("Localizable", "skip_chapters_plus_prompt") }
   /// Skip Forward
   internal static var skipForward: String { return L10n.tr("Localizable", "skip_forward") }

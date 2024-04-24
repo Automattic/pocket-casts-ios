@@ -154,11 +154,11 @@
     <key>announcement_bookmarks_title_beta</key>
     <string>ブックマークのベータテストに参加してください !</string>
     <key>announcement_deselect_chapters_free</key>
-    <string>今すぐ Plus に登録すると、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできます。</string>
+    <string>今すぐ Plus に登録すると、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできます。</string>
     <key>announcement_deselect_chapters_patron</key>
-    <string>Patron サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
+    <string>Patron サブスクリプションの一環として、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできるようになりました。</string>
     <key>announcement_deselect_chapters_plus</key>
-    <string>Plus サブスクリプションの一環として、チャプターに対応するどのエピソードでも、選択したチャプターをスキップできるようになりました。</string>
+    <string>Plus サブスクリプションの一環として、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできるようになりました。</string>
     <key>announcement_slumber_code_copied</key>
     <string>コードをクリップボードにコピーしました</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -220,9 +220,9 @@
     <key>appearance_dark_theme</key>
     <string>ダークテーマ</string>
     <key>appearance_embedded_artwork</key>
-    <string>埋め込みアートワークを使用</string>
+    <string>エピソードのアートワークを使用</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>番組のアートワークを使用する代わりに、プレーヤーのダウンロードファイルからのアートワークを表示します (存在する場合)。</string>
+    <string>一部の番組には特定のエピソードにカスタムのアートワークがあります。 このオプションを有効化すると、Pocket Casts は番組のアートワークではなく、そのカスタムのアートワークを表示します。</string>
     <key>appearance_light_theme</key>
     <string>ライトテーマ</string>
     <key>appearance_match_device_theme</key>
@@ -1221,6 +1221,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>月</string>
     <key>monthly</key>
     <string>月払い</string>
+    <key>most_popular</key>
+    <string>人気上位</string>
+    <key>most_popular_with_name</key>
+    <string> %1$@ の人気上位</string>
     <key>move_to_bottom</key>
     <string>一番下へ移動</string>
     <key>move_to_top</key>
@@ -2428,11 +2432,11 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>skip_back</key>
     <string>巻き戻し</string>
     <key>skip_chapters</key>
-    <string>チャプターをスキップ</string>
+    <string>チャプターを事前に選択</string>
     <key>skip_chapters_patron_prompt</key>
-    <string>Pocket Casts Patron でチャプターのスキップやその他の機能を利用</string>
+    <string>Pocket Casts Patron でチャプターの事前選択やその他の機能を利用</string>
     <key>skip_chapters_plus_prompt</key>
-    <string>Pocket Casts Plus でチャプターのスキップやその他の機能を利用</string>
+    <string>Pocket Casts Plus でチャプターの事前選択やその他の機能を利用</string>
     <key>skip_forward</key>
     <string>早送り</string>
     <key>sleep_timer</key>

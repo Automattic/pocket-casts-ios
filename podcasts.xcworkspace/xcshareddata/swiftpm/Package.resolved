@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/openid/AppAuth-iOS.git",
         "state": {
           "branch": null,
-          "revision": "3d36a58a2b736f7bc499453e996a704929b25080",
-          "version": "1.6.0"
+          "revision": "7e2c09cbeb3bb799f26c268dbedb26325ea722a9",
+          "version": "1.7.3"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/google/GoogleSignIn-iOS",
         "state": {
           "branch": null,
-          "revision": "9c9b36af86a4dd3da16048a36cf37351e63ccfe1",
-          "version": "6.2.4"
+          "revision": "a7965d134c5d3567026c523e0a8a583f73b62b0d",
+          "version": "7.1.0"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/google/gtm-session-fetcher.git",
         "state": {
           "branch": null,
-          "revision": "5ccda3981422a84186387dbb763ba739178b529c",
-          "version": "2.3.0"
+          "revision": "9534039303015a84837090d20fa21cae6e5eadb6",
+          "version": "3.3.2"
         }
       },
       {
@@ -141,8 +141,8 @@
         "repositoryURL": "https://github.com/google/GTMAppAuth.git",
         "state": {
           "branch": null,
-          "revision": "6dee0cde8a1b223737a5159e55e6b4ec16bbbdd9",
-          "version": "1.3.1"
+          "revision": "5d7d66f647400952b1758b230e019b07c0b4b22a",
+          "version": "4.1.1"
         }
       },
       {

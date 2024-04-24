@@ -154,6 +154,7 @@ enum AnalyticsEvent: String {
     case filtersTabOpened
     case discoverTabOpened
     case profileTabOpened
+    case upNextTabOpened
 
     // MARK: - Downloads View
 
@@ -305,6 +306,8 @@ enum AnalyticsEvent: String {
     case discoverRegionChanged
     case discoverCollectionLinkTapped
 
+    case discoverAdCategoryTapped
+
     // MARK: - Mini Player
 
     case miniPlayerLongPressMenuShown
@@ -348,6 +351,7 @@ enum AnalyticsEvent: String {
     case playerSleepTimerEnabled
     case playerSleepTimerExtended
     case playerSleepTimerCancelled
+    case playerSleepTimerRestarted
 
     // MARK: - Player: Shelf
 
