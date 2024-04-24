@@ -177,6 +177,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // Add a snapshot of the miniplayer and full player
         let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: true)
+        miniPlayerSnapshotView?.addSubview(UIVisualEffectView(effect: UIBlurEffect(style: .prominent)))
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         backgroundTransitionView.addSubview(toView ?? UIView())
         backgroundTransitionView.addSubview(miniPlayerSnapshotView ?? UIView())
