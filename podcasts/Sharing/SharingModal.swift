@@ -21,10 +21,12 @@ enum SharingModal {
     }
 
     static func showModal(podcast: Podcast, episode: Episode?, in viewController: UIViewController) {
-        let optionPicker = OptionsPicker(title: L10n.playerShareHeader)
+        let colors = OptionsPickerRootController.Colors(title: UIColor.white.withAlphaComponent(0.5), background: PlayerColorHelper.playerBackgroundColor01())
+
+        let optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)
 
         let actions: [OptionAction] = Option.allCases.map { option in
-                .init(label: option.title, icon: "chapter-link", action: {
+                .init(label: option.title, action: {
                 show(option: option, podcast: podcast, episode: episode, in: viewController)
             })
         }

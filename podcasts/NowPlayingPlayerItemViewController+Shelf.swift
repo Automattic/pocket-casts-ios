@@ -380,24 +380,29 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func shareEpisode(sender: UIView) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
 
-        let shareOptions = OptionsPicker(title: L10n.playerShareHeader, themeOverride: .dark)
+        if FeatureFlag.newSharing.enabled {
+            let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid)!
+            SharingModal.showModal(podcast: podcast, episode: episode, in: self)
+        } else {
+            let shareOptions = OptionsPicker(title: L10n.playerShareHeader, themeOverride: .dark)
 
-        let sharePodcastAction = OptionAction(label: L10n.podcastSingular, icon: "chapter-link") {
-            self.sharePodcast(source: sender, podcast: episode.parentPodcast())
+            let sharePodcastAction = OptionAction(label: L10n.podcastSingular, icon: "chapter-link") {
+                self.sharePodcast(source: sender, podcast: episode.parentPodcast())
+            }
+            shareOptions.addAction(action: sharePodcastAction)
+
+            let shareLinkAction = OptionAction(label: L10n.episode, icon: "chapter-link") {
+                self.shareEpisode(source: sender, episode: episode, fromTime: 0)
+            }
+            shareOptions.addAction(action: shareLinkAction)
+
+            let sharePositionAction = OptionAction(label: L10n.shareCurrentPosition, icon: "chapter-link") {
+                self.shareEpisode(source: sender, episode: episode, fromTime: PlaybackManager.shared.currentTime())
+            }
+            shareOptions.addAction(action: sharePositionAction)
+
+            shareOptions.show(statusBarStyle: preferredStatusBarStyle)
         }
-        shareOptions.addAction(action: sharePodcastAction)
-
-        let shareLinkAction = OptionAction(label: L10n.episode, icon: "chapter-link") {
-            self.shareEpisode(source: sender, episode: episode, fromTime: 0)
-        }
-        shareOptions.addAction(action: shareLinkAction)
-
-        let sharePositionAction = OptionAction(label: L10n.shareCurrentPosition, icon: "chapter-link") {
-            self.shareEpisode(source: sender, episode: episode, fromTime: PlaybackManager.shared.currentTime())
-        }
-        shareOptions.addAction(action: sharePositionAction)
-
-        shareOptions.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     private func shareEpisode(source: UIView, episode: Episode, fromTime: TimeInterval) {
