@@ -150,7 +150,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // MARK: - Background and Mini Player
 
-        let backgroundTransitionView = MiniPlayerBackingView()
+        let backgroundTransitionView = MiniPlayerShadowView()
 
         containerView.addSubview(backgroundTransitionView)
         containerView.sendSubviewToBack(backgroundTransitionView)

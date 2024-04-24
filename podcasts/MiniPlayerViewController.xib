@@ -27,7 +27,7 @@
             <rect key="frame" x="0.0" y="0.0" width="325" height="65"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H6s-IT-ngQ" userLabel="ShadowView" customClass="MiniPlayerBackingView" customModule="podcasts" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H6s-IT-ngQ" userLabel="ShadowView" customClass="MiniPlayerShadowView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="8" y="0.0" width="309" height="57"/>
                     <viewLayoutGuide key="safeArea" id="ccJ-z6-OC8"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
