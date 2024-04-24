@@ -294,7 +294,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
         view.backgroundColor = .clear
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
-        mainView.backgroundColor = bgColor.withAlphaComponent(0.1)
+        mainView.backgroundColor = bgColor
         playPauseBtn.playButtonColor = bgColor
 
         playbackProgressView.updateColors()
