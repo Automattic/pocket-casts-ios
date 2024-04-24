@@ -1221,6 +1221,10 @@ pódcast contigo</string>
     <string>mes</string>
     <key>monthly</key>
     <string>Mensual</string>
+    <key>most_popular</key>
+    <string>Lo más popular</string>
+    <key>most_popular_with_name</key>
+    <string>Los más populares en %1$@</string>
     <key>move_to_bottom</key>
     <string>Mover al final</string>
     <key>move_to_top</key>

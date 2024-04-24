@@ -108,8 +108,9 @@ struct CloseButton: View {
             self.selectedCategory = nil
         }, label: {
             Image(systemName: "xmark")
+                .imageScale(.small)
         })
-        .buttonStyle(CategoryButtonStyle())
+        .buttonStyle(CategoryButtonStyle(cornerStyle: .circle))
     }
 }
 

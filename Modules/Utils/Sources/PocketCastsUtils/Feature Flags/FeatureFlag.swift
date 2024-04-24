@@ -91,7 +91,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .cachePlayingEpisode:
             true
         case .categoriesRedesign:
-            false
+            true
         case .upNextOnTabBar:
             true
         }

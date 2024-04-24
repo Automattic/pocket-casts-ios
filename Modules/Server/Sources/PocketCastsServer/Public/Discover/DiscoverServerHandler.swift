@@ -10,7 +10,7 @@ public class DiscoverServerHandler {
 
     public static let shared = DiscoverServerHandler()
 
-    private lazy var discoveryCache: URLCache = {
+    public private(set) lazy var discoveryCache: URLCache = {
         let cache = URLCache(memoryCapacity: 1024 * 1024, diskCapacity: 5 * 1024 * 1024, diskPath: "discovery")
         return cache
     }()
