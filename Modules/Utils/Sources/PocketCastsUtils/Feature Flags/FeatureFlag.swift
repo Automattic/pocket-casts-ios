@@ -98,8 +98,7 @@ public enum FeatureFlag: String, CaseIterable {
     }
 
     private var shouldEnableSyncedSettings: Bool {
-        // Enabled only out of appstore until we verify that this feature is ready for production.
-        BuildEnvironment.current != .appStore
+        false
     }
 
     /// Remote Feature Flag
