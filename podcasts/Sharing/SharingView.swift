@@ -8,6 +8,10 @@ struct ShareInfo {
 
 struct SharingView: View {
 
+    private enum Constants {
+        static let descriptionMaxWidth: CGFloat = 200
+    }
+
     let shareInfo: ShareInfo
 
     var body: some View {
@@ -16,16 +20,17 @@ struct SharingView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
-        .background(Color(hex: "2E0102"))
     }
 
     @ViewBuilder var title: some View {
         VStack {
-            Text("Share episode")
+            Text(shareInfo.episode != nil ? "Share episode" : "Share podcast")
                 .font(.headline)
             Text("Choose a format and a platform to share to")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: Constants.descriptionMaxWidth)
         }
     }
 }
