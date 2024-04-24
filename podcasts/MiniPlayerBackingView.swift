@@ -1,19 +1,19 @@
 import UIKit
 
 class MiniPlayerBackingView: UIView {
-    var shadowRadius: CGFloat = 2 {
+    var shadowRadius: CGFloat = 15 {
         didSet {
             updateView()
         }
     }
 
-    var shadowOffset = CGSize(width: 0, height: -1) {
+    var shadowOffset = CGSize(width: 0, height: 8) {
         didSet {
             updateView()
         }
     }
 
-    var shadowOpacity: Float = 0.2 {
+    var shadowOpacity: Float = 1 {
         didSet {
             updateView()
         }
@@ -34,7 +34,7 @@ class MiniPlayerBackingView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 12).cgPath
     }
 
     private func setup() {
@@ -45,10 +45,12 @@ class MiniPlayerBackingView: UIView {
 
     private func updateView() {
         if shadowOpacity == 0 { return }
-
+        backgroundColor = .clear
         layer.shadowRadius = shadowRadius
         layer.shadowOffset = shadowOffset
         layer.shadowOpacity = shadowOpacity
-        layer.shadowColor = UIColor(hex: "#1E1F1E").cgColor
+        layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
     }
 }
