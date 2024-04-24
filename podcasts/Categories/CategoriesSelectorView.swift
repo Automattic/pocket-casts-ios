@@ -31,7 +31,9 @@ struct CategoriesSelectorView: View {
         .task(id: discoverItemObservable.item?.source) {
             let result = await discoverItemObservable.load()
             self.categories = result?.categories
-            self.popular = result?.popular
+            self.popular = discoverItemObservable.item?.popular?.compactMap({ orderedItem in
+                result?.popular.first(where: { $0.id == orderedItem }) ?? result?.categories.first(where: { $0.id == orderedItem })
+            }) ?? result?.popular
         }
     }
 }
