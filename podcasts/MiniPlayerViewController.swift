@@ -52,20 +52,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let cornerRadius = CGFloat(12)
         mainView.layer.cornerRadius = cornerRadius
         mainView.layer.masksToBounds = true
-
-        shadowView.backgroundColor = .clear
-        shadowView.layer.shadowOffset = CGSize(width: 0, height: 8)
-        shadowView.layer.shadowRadius = 15
-        shadowView.layer.shadowOpacity = 1
-        shadowView.layer.cornerRadius = cornerRadius
-        shadowView.layer.shadowPath =  UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: cornerRadius).cgPath
-        shadowView.layer.shouldRasterize = true
-        shadowView.layer.rasterizationScale = UIScreen.main.scale
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        shadowView.layer.shadowPath =  UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 12).cgPath
     }
 
     deinit {
@@ -313,7 +299,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         view.backgroundColor = .clear
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
         mainView.backgroundColor = bgColor.withAlphaComponent(0.1)
-        shadowView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         playPauseBtn.playButtonColor = bgColor
 
         playbackProgressView.updateColors()
