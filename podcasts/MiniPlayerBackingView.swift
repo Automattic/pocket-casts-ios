@@ -46,6 +46,7 @@ class MiniPlayerBackingView: UIView {
     private func updateView() {
         if shadowOpacity == 0 { return }
         backgroundColor = .clear
+        layer.cornerRadius = 12
         layer.shadowRadius = shadowRadius
         layer.shadowOffset = shadowOffset
         layer.shadowOpacity = shadowOpacity
