@@ -23,6 +23,7 @@ let rgbMax = 255.0
 let widgetRedDark = Color(.sRGB, red: 217/rgbMax, green: 32/rgbMax, blue: 28/rgbMax)
 let widgetRedLight = Color(.sRGB, red: 244/rgbMax, green: 62/rgbMax, blue: 55/rgbMax)
 let widgetBlack = Color(.sRGB, red: 22/rgbMax, green: 23/rgbMax, blue: 24/rgbMax)
+let widgetCoolGrey = Color(.sRGB, red: 41/rgbMax, green: 43/rgbMax, blue: 46/rgbMax)
 
 let widgetColorSchemeBold = PCWidgetColorScheme(
     topBackgroundColor: widgetRedLight,
@@ -55,15 +56,15 @@ let widgetColorSchemeContrast = PCWidgetColorScheme(
 )
 
 let widgetColorSchemeContrastDark = PCWidgetColorScheme(
-    topBackgroundColor: widgetRedDark,
+    topBackgroundColor: widgetCoolGrey,
     bottomBackgroundColor: widgetBlack,
     topButtonBackgroundColor: .white,
-    bottomButtonBackgroundColor: widgetRedDark,
+    bottomButtonBackgroundColor: widgetCoolGrey,
     topTextColor: .white,
     bottomTextColor: .white,
-    topButtonTextColor: widgetRedDark,
+    topButtonTextColor: widgetCoolGrey,
     bottomButtonTextColor: .white,
-    iconAssetName: "logo_white_small_transparent",
+    iconAssetName: "logo_red_small",
     filterViewBackgroundColor: widgetBlack,
     filterViewTextColor: .white,
     filterViewIconAssetName: "logo_red_small"
