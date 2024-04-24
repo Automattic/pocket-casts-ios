@@ -6,7 +6,7 @@ struct ModalView: View {
 
     var body: some View {
         VStack {
-            ModalCloseButton(background: Color.white.opacity(0.2), foreground: Color(ThemeColor.playerContrast01()), action: dismissAction)
+            ModalCloseButton(background: Color.gray.opacity(0.2), foreground: Color.white.opacity(0.5), action: dismissAction)
             view()
         }
         .padding(.top, 20)
