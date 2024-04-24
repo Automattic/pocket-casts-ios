@@ -1,6 +1,6 @@
 import UIKit
 
-class MiniPlayerBackingView: UIView {
+class MiniPlayerShadowView: UIView {
     var shadowRadius: CGFloat = 15 {
         didSet {
             updateView()
