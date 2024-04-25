@@ -64,11 +64,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             false
         case .newShowNotesEndpoint:
-            true
+            false
         case .episodeFeedArtwork:
-            true // To be enabled, newShowNotesEndpoint needs to be too
+            false // To be enabled, newShowNotesEndpoint needs to be too
         case .rssChapters:
-            true // To be enabled, newShowNotesEndpoint needs to be too
+            false // To be enabled, newShowNotesEndpoint needs to be too
         case .newPlayerTransition:
             true
         case .errorLogoutHandling:
@@ -111,8 +111,12 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
-        case .newShowNotesEndpoint, .episodeFeedArtwork, .rssChapters:
-            "standard_tags"
+        case .newShowNotesEndpoint:
+            "new_show_notes"
+        case .episodeFeedArtwork:
+            "episode_artwork"
+        case .rssChapters:
+            "rss_chapters"
         default:
             nil
         }
