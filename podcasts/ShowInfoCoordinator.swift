@@ -85,11 +85,16 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         }
 
         let task = Task<String?, Error> { [unowned self] in
-            let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
-            try await dataManager.storeShowInfo(data: data)
-            let episode = try await dataManager.findRawEpisodeMetadata(uuid: episodeUuid)
-            requestingRawMetadata[podcastUuid] = nil
-            return episode
+            do {
+                let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
+                try await dataManager.storeShowInfo(data: data)
+                let episode = try await dataManager.findRawEpisodeMetadata(uuid: episodeUuid)
+                requestingRawMetadata[podcastUuid] = nil
+                return episode
+            } catch {
+                requestingRawMetadata[podcastUuid] = nil
+                throw error
+            }
         }
 
         requestingRawMetadata[podcastUuid] = task
@@ -107,11 +112,16 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         }
 
         let task = Task<Episode.Metadata?, Error> { [unowned self] in
-            let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
-            try await dataManager.storeShowInfo(data: data)
-            let episode = try await dataManager.findEpisodeMetadata(uuid: episodeUuid)
-            requestingShowInfo[podcastUuid] = nil
-            return episode
+            do {
+                let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
+                try await dataManager.storeShowInfo(data: data)
+                let episode = try await dataManager.findEpisodeMetadata(uuid: episodeUuid)
+                requestingShowInfo[podcastUuid] = nil
+                return episode
+            } catch {
+                requestingShowInfo[podcastUuid] = nil
+                throw error
+            }
         }
 
         requestingShowInfo[podcastUuid] = task

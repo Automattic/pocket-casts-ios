@@ -47,6 +47,9 @@ public enum FeatureFlag: String, CaseIterable {
 
     case categoriesRedesign
 
+    /// show UpNext tab on the main tab bar
+    case upNextOnTabBar
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -88,13 +91,14 @@ public enum FeatureFlag: String, CaseIterable {
         case .cachePlayingEpisode:
             true
         case .categoriesRedesign:
-            false
+            true
+        case .upNextOnTabBar:
+            true
         }
     }
 
     private var shouldEnableSyncedSettings: Bool {
-        // Enabled only out of appstore until we verify that this feature is ready for production.
-        BuildEnvironment.current != .appStore
+        false
     }
 
     /// Remote Feature Flag

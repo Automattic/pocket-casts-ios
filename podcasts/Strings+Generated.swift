@@ -500,6 +500,8 @@ internal enum L10n {
   internal static var deleteFromDeviceOnly: String { return L10n.tr("Localizable", "delete_from_device_only") }
   /// Deselect All
   internal static var deselectAll: String { return L10n.tr("Localizable", "deselect_all") }
+  /// Sleep timer restarted due to device shake
+  internal static var deviceShakeSleepTimer: String { return L10n.tr("Localizable", "device_shake_sleep_timer") }
   /// Discover
   internal static var discover: String { return L10n.tr("Localizable", "discover") }
   /// All Episodes
@@ -1388,6 +1390,12 @@ internal enum L10n {
   internal static var month: String { return L10n.tr("Localizable", "month") }
   /// Monthly
   internal static var monthly: String { return L10n.tr("Localizable", "monthly") }
+  /// Most Popular
+  internal static var mostPopular: String { return L10n.tr("Localizable", "most_popular") }
+  /// Most Popular in %1$@
+  internal static func mostPopularWithName(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "most_popular_with_name", String(describing: p1))
+  }
   /// Move to Bottom
   internal static var moveToBottom: String { return L10n.tr("Localizable", "move_to_bottom") }
   /// Move to Top

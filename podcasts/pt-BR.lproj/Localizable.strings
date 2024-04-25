@@ -1221,6 +1221,10 @@ podcasts com você</string>
     <string>mês</string>
     <key>monthly</key>
     <string>Mensal</string>
+    <key>most_popular</key>
+    <string>Mais populares</string>
+    <key>most_popular_with_name</key>
+    <string>Mais populares em %1$@</string>
     <key>move_to_bottom</key>
     <string>Mover para o fim</string>
     <key>move_to_top</key>

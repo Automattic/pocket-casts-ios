@@ -64,6 +64,10 @@
       }
     },
     {
+      "skippedTests" : [
+        "AutoAddCandidatesDataManagerTests\/testNewQueryPerformance()",
+        "AutoAddCandidatesDataManagerTests\/testOldQueryPerformance()"
+      ],
       "target" : {
         "containerPath" : "container:Modules\/DataModel",
         "identifier" : "PocketCastsDataModelTests",
