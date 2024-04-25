@@ -2700,8 +2700,14 @@ internal enum L10n {
   internal static var share: String { return L10n.tr("Localizable", "share") }
   /// Current Position
   internal static var shareCurrentPosition: String { return L10n.tr("Localizable", "share_current_position") }
+  /// Choose a format and a platform to share to
+  internal static var shareDescription: String { return L10n.tr("Localizable", "share_description") }
+  /// Share episode
+  internal static var shareEpisode: String { return L10n.tr("Localizable", "share_episode") }
   /// Subscribing...
   internal static var shareListSubscribing: String { return L10n.tr("Localizable", "share_list_subscribing") }
+  /// Share podcast
+  internal static var sharePodcast: String { return L10n.tr("Localizable", "share_podcast") }
   /// ALL SELECTED
   internal static var sharePodcastsAllSelected: String { return L10n.tr("Localizable", "share_podcasts_all_selected") }
   /// Create List

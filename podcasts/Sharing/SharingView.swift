@@ -24,9 +24,9 @@ struct SharingView: View {
 
     @ViewBuilder var title: some View {
         VStack {
-            Text(shareInfo.episode != nil ? "Share episode" : "Share podcast")
+            Text(shareInfo.episode != nil ? L10n.shareEpisode : L10n.sharePodcast)
                 .font(.headline)
-            Text("Choose a format and a platform to share to")
+            Text(L10n.shareDescription)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
