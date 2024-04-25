@@ -2,7 +2,7 @@ import PocketCastsDataModel
 import SwiftUI
 
 enum SharingModal {
-    
+
     /// Share options including which type of content will be shared
     enum Option: CaseIterable {
         case episode
