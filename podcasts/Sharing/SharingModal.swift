@@ -2,7 +2,8 @@ import PocketCastsDataModel
 import SwiftUI
 
 enum SharingModal {
-
+    
+    /// Share options including which type of content will be shared
     enum Option: CaseIterable {
         case episode
         case currentPosition
@@ -39,11 +40,11 @@ enum SharingModal {
         let shareInfo = ShareInfo(podcast: podcast, episode: episode)
 
         let sharingView = SharingView(shareInfo: shareInfo)
-        let modalView = ModalView(view: {
-            AnyView(sharingView)
-        }, dismissAction: {
+        let modalView = ModalView {
+            sharingView
+        } dismissAction: {
             viewController.dismiss(animated: true)
-        })
+        }
         .background(Color(PlayerColorHelper.playerBackgroundColor01()))
 
         let hostingController = ThemedHostingController(rootView: modalView, theme: Theme(previewTheme: .contrastLight))
