@@ -1221,6 +1221,10 @@
     <string>月</string>
     <key>monthly</key>
     <string>每月</string>
+    <key>most_popular</key>
+    <string>最受欢迎</string>
+    <key>most_popular_with_name</key>
+    <string>在 %1$@ 类中最受欢迎</string>
     <key>move_to_bottom</key>
     <string>移到底部</string>
     <key>move_to_top</key>

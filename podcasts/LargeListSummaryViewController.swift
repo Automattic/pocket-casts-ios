@@ -2,6 +2,8 @@ import PocketCastsServer
 import UIKit
 
 class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummaryProtocol, UICollectionViewDataSource, GridLayoutDelegate, UICollectionViewDelegateFlowLayout {
+
+    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     @IBOutlet var titleLabel: ThemeableLabel!
     @IBOutlet var showAllBtn: UIButton! {
         didSet {
@@ -18,6 +20,13 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     private var item: DiscoverItem?
 
     @IBOutlet var largeListCollectionViewHeight: NSLayoutConstraint!
+
+    var padding: CGFloat? {
+        didSet {
+            view.setNeedsLayout()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,9 +53,13 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        if let padding {
+            titleTopConstraint.constant = padding / 2
+        }
+
         if lastLayedOutWidth != view.bounds.width {
             lastLayedOutWidth = view.bounds.width
-            largeListCollectionViewHeight.constant = cellWidth + 50
+            largeListCollectionViewHeight.constant = cellWidth + (padding ?? 50)
             collectionView.layoutIfNeeded()
         }
     }
@@ -135,13 +148,22 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         guard let source = item.source else { return }
         guard let title = item.title?.localized else { return }
 
+        showAllBtn.isHidden = item.expandedStyle == nil
+
         self.item = item
         titleLabel.text = delegate?.replaceRegionName(string: title)
         titleLabel.sizeToFit()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
-            for podcast in discoverPodcast {
+            let podcasts: [DiscoverPodcast]
+            if let itemCount = item.summaryItemCount {
+                podcasts = Array(discoverPodcast[0..<itemCount])
+            } else {
+                podcasts = discoverPodcast
+            }
+
+            for podcast in podcasts {
                 strongSelf.podcasts.append(podcast)
             }
 

@@ -102,6 +102,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         if let isSponsored = item?.isSponsored, isSponsored {
             typeBadgeLabel.text = L10n.discoverSponsored
             typeBadgeLabel.style = .primaryText02
+            podcastDescription.numberOfLines = 3
         } else {
             typeBadgeLabel.text = L10n.discoverFreshPick
             typeBadgeLabel.style = .support02
@@ -139,8 +140,14 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
         delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: item?.uuid)
 
-        if let listId = item?.uuid, let podcastUuid = podcast.uuid {
-            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
+        if let item, let podcastUuid = podcast.uuid {
+            if let listId = item.uuid {
+                AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
+            }
+
+            if item.isSponsored == true {
+                AnalyticsHelper.adTapped(promotionUUID: item.uuid ?? "", podcastUUID: podcastUuid, categoryID: item.categoryID ?? 0)
+            }
         }
     }
 
