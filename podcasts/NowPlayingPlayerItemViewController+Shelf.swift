@@ -381,8 +381,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
 
         if FeatureFlag.newSharing.enabled {
-            let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid)!
-            SharingModal.showModal(podcast: podcast, episode: episode, in: self)
+            SharingModal.showModal(episode: episode, in: self)
         } else {
             let shareOptions = OptionsPicker(title: L10n.playerShareHeader, themeOverride: .dark)
 
@@ -413,11 +412,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         Analytics.track(.podcastShared, properties: ["type": type, "source": "player"])
 
         if FeatureFlag.newSharing.enabled {
-            let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid)!
             if fromTime == 0 {
-                SharingModal.show(option: .episode, podcast: podcast, episode: episode, in: self)
+                SharingModal.show(option: .episode, episode: episode, in: self)
             } else {
-                SharingModal.show(option: .currentPosition, podcast: podcast, episode: episode, in: self)
+                SharingModal.show(option: .currentPosition, episode: episode, in: self)
             }
         } else {
             let sourceRect = buttonSuperview.convert(source.frame, to: view)

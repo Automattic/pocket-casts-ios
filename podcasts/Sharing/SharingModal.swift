@@ -21,6 +21,14 @@ enum SharingModal {
         }
     }
 
+    static func showModal(episode: Episode, in viewController: UIViewController) {
+        guard let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid) else {
+            assertionFailure("Podcast should exist for episode")
+            return
+        }
+        showModal(podcast: podcast, episode: episode, in: viewController)
+    }
+
     static func showModal(podcast: Podcast, episode: Episode?, in viewController: UIViewController) {
         let colors = OptionsPickerRootController.Colors(title: UIColor.white.withAlphaComponent(0.5), background: PlayerColorHelper.playerBackgroundColor01())
 
@@ -34,6 +42,14 @@ enum SharingModal {
         optionPicker.addActions(actions)
 
         optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+    }
+
+    static func show(option: Option, episode: Episode, in viewController: UIViewController) {
+        guard let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid) else {
+            assertionFailure("Podcast should exist for episode")
+            return
+        }
+        show(option: option, podcast: podcast, episode: episode, in: viewController)
     }
 
     static func show(option: Option, podcast: Podcast, episode: Episode?, in viewController: UIViewController) {

@@ -88,8 +88,7 @@ class SharingHelper: NSObject {
 
     func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, barButtonItem: UIBarButtonItem?) {
         if FeatureFlag.newSharing.enabled {
-            let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid)!
-            SharingModal.show(option: .podcast, podcast: podcast, episode: episode, in: fromController)
+            SharingModal.show(option: .podcast, episode: episode, in: fromController)
         } else {
             activityController = createActivityController(episode: episode, shareTime: shareTime)
             activityController?.completionWithItemsHandler = { _, _, _, _ in
