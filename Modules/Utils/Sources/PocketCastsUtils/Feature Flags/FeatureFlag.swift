@@ -111,6 +111,8 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
+        case .newShowNotesEndpoint, .episodeFeedArtwork, .rssChapters:
+            "standard_tags"
         default:
             nil
         }
