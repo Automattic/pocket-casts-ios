@@ -530,6 +530,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         selectCircleView.layer.borderColor = ThemeColor.primaryIcon02().cgColor
         selectTickImageView.backgroundColor = ThemeColor.primaryInteractive01()
         selectTickImageView.tintColor = ThemeColor.primaryInteractive02()
-        starIndicator.image = UIImage(named: "list_starred")?.tintedImage(ThemeColor.support10())
+        starIndicator.image = UIImage(named: "list_starred")
+        starIndicator.tintColor = ThemeColor.support10()
     }
 }
