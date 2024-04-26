@@ -49,7 +49,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var rawMetadata: String?
 
     public var hasBookmarks: Bool {
-        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        DataManager.sharedManager.bookmarks.hasBookmarks(forEpisode: uuid)
     }
 
     public var isUserEpisode: Bool {

@@ -121,6 +121,30 @@ public struct BookmarkDataManager {
     }
 
     /// Returns the number of bookmarks for the given episode and can optionally include deleted items in the count
+    public func hasBookmarks(forEpisode episodeUuid: String, includeDeleted: Bool = false) -> Bool {
+        let deletedWhere: String? = includeDeleted ? nil : "\(Column.deleted) = 0"
+
+        let whereString = [deletedWhere, "\(Column.episode) = ?"]
+            .compactMap { $0 }.joined(separator: " AND ")
+
+        let query = "SELECT EXISTS(SELECT 1 FROM \(Self.tableName) WHERE \(whereString)) AS record_exists;"
+
+        var hasBookmarks = false
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery(query, values: [episodeUuid])
+                resultSet.next()
+                hasBookmarks = resultSet.bool(forColumnIndex: 0)
+                resultSet.close()
+            } catch {
+                FileLog.shared.addMessage("BookmarkManager.bookmarkCount failed: \(error)")
+            }
+        }
+
+        return hasBookmarks
+    }
+
+    /// Returns the number of bookmarks for the given episode and can optionally include deleted items in the count
     public func bookmarkCount(forEpisode episodeUuid: String, includeDeleted: Bool = false) -> Int {
         let deletedWhere: String? = includeDeleted ? nil : "\(Column.deleted) = 0"
 
