@@ -48,7 +48,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         themeChanged()
     }
 
-    private func setupCorners() {        
+    private func setupCorners() {
         mainView.layer.cornerRadius = MiniPlayerShadowView.Constants.shadowCornerRadius
         mainView.layer.masksToBounds = true
     }
