@@ -42,15 +42,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         view.isHidden = false
 
-        setupCornersAndShadow()
+        setupCorners()
         addUINotificationObservers()
         playbackStateDidChange()
         themeChanged()
     }
 
-    private func setupCornersAndShadow() {
-        let cornerRadius = CGFloat(12)
-        mainView.layer.cornerRadius = cornerRadius
+    private func setupCorners() {        
+        mainView.layer.cornerRadius = MiniPlayerShadowView.Constants.shadowCornerRadius
         mainView.layer.masksToBounds = true
     }
 

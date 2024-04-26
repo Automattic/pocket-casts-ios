@@ -1,19 +1,33 @@
 import UIKit
 
 class MiniPlayerShadowView: UIView {
-    var shadowRadius: CGFloat = 15 {
+
+    enum Constants {
+        static let shadowRadius = CGFloat(15)
+        static let shadowOffset = CGSize(width: 0, height: -4)
+        static let shadowOpacity = Float(1)
+        static let shadowCornerRadius = CGFloat(12)
+    }
+
+    var shadowRadius: CGFloat = Constants.shadowRadius {
         didSet {
             updateView()
         }
     }
 
-    var shadowOffset = CGSize(width: 0, height: 8) {
+    var shadowOffset = Constants.shadowOffset {
         didSet {
             updateView()
         }
     }
 
-    var shadowOpacity: Float = 1 {
+    var shadowOpacity: Float = Constants.shadowOpacity {
+        didSet {
+            updateView()
+        }
+    }
+
+    var shadowCornerRadius: CGFloat = Constants.shadowCornerRadius {
         didSet {
             updateView()
         }
@@ -34,7 +48,7 @@ class MiniPlayerShadowView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 12).cgPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: shadowCornerRadius).cgPath
     }
 
     private func setup() {
@@ -46,7 +60,7 @@ class MiniPlayerShadowView: UIView {
     private func updateView() {
         if shadowOpacity == 0 { return }
         backgroundColor = .clear
-        layer.cornerRadius = 12
+        layer.cornerRadius = shadowCornerRadius
         layer.shadowRadius = shadowRadius
         layer.shadowOffset = shadowOffset
         layer.shadowOpacity = shadowOpacity
