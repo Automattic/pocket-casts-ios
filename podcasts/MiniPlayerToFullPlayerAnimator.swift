@@ -214,6 +214,9 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let gradientView = MiniPlayerGradientView()
         gradientView.frame = fromViewController.view.frame
         gradientView.layer.opacity = isPresenting ? 1 : 0
+        if let miniPlayerVC = fromViewController as? MiniPlayerViewController {
+            gradientView.colors = miniPlayerVC.gradientView.colors
+        }
         containerView.insertSubview(gradientView, belowSubview: backgroundTransitionView)
 
         animate(withDuration: duration) { [self] in
