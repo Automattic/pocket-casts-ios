@@ -1623,6 +1623,7 @@
 		FF4724612BA48CAA00EA916B /* FiltersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724602BA48CA900EA916B /* FiltersListView.swift */; };
 		FF4724632BA48E8D00EA916B /* FiltersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724622BA48E8D00EA916B /* FiltersListViewModel.swift */; };
 		FF4724652BA721D300EA916B /* InterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724642BA721D200EA916B /* InterfaceView.swift */; };
+		FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */; };
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */; };
@@ -3402,6 +3403,7 @@
 		FF4724602BA48CA900EA916B /* FiltersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersListView.swift; sourceTree = "<group>"; };
 		FF4724622BA48E8D00EA916B /* FiltersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersListViewModel.swift; sourceTree = "<group>"; };
 		FF4724642BA721D200EA916B /* InterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceView.swift; sourceTree = "<group>"; };
+		FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerGradientView.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPriceAndOfferView.swift; sourceTree = "<group>"; };
@@ -6200,6 +6202,7 @@
 				8B907F172AA8E1F100926F4F /* MiniPlayerViewController+TransitionDelegate.swift */,
 				BD3EB3AD179E622A00D0731C /* MiniPlayerViewController.xib */,
 				BD1F977B1FD7894C00F89CCD /* MiniPlayerShadowView.swift */,
+				FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */,
 				8B907F192AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift */,
 			);
 			name = "Mini Player";
@@ -9214,6 +9217,7 @@
 				BDCD1E7C244D630700B83602 /* LenticularViewController.swift in Sources */,
 				BDAE72D82138FB32002810A2 /* ActionIconButton.swift in Sources */,
 				BDB165DE20806F86007B57CD /* DownloadManager.swift in Sources */,
+				FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */,
 				404A080A24E4C78000308722 /* SceneDelegate.swift in Sources */,
 				BDAE54CF230C063500330680 /* NoSearchResultsCell.swift in Sources */,
 				BDEC9AB52051197900088D76 /* BadgeSettingsViewController.swift in Sources */,

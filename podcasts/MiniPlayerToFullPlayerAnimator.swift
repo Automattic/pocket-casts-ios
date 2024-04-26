@@ -211,6 +211,11 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let hiddenTabBarFrame = CGRect(x: tabBarFrame.origin.x, y: tabBarFrame.origin.y + tabBarFrame.height, width: tabBarFrame.width, height: tabBarFrame.height)
         tabBarSnapshot?.frame = isPresenting ? tabBarFrame : hiddenTabBarFrame
 
+        let gradientView = MiniPlayerGradientView()
+        gradientView.frame = fromViewController.view.frame
+        gradientView.layer.opacity = isPresenting ? 1 : 0
+        containerView.insertSubview(gradientView, belowSubview: backgroundTransitionView)
+
         animate(withDuration: duration) { [self] in
             // Artwork
             artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
@@ -221,9 +226,11 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             // Background
             backgroundTransitionView.frame = backgroundToFrame
-            backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
+
             // Miniplayer
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
+
+            gradientView.layer.opacity = isPresenting ? 0 : 1
         } completion: { completed in
             self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
@@ -234,7 +241,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             playerView.frame = self.isPresenting ? self.containerView.frame : playerView.frame
             playerView.isHidden = false
 
-            self.fromViewController.view.layer.opacity = 1
+            self.fromViewController.view.layer.opacity = self.isPresenting ? 0 : 1
 
             transitionContext.completeTransition(true)
         }
@@ -244,7 +251,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
             // Background
             backgroundTransitionView.backgroundColor = toColor
-
+            backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
             // Player
             toView?.layer.opacity = self.isPresenting ? 1 : 0
 

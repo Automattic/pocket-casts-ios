@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MiniPlayerViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="gradientView" destination="6X2-Ao-bkj" id="Yru-EM-e6r"/>
                 <outlet property="mainView" destination="rTj-uk-yNW" id="ZLL-0J-RYU"/>
                 <outlet property="playPauseBtn" destination="CjL-4C-tuh" id="Y8g-6z-ZoN"/>
                 <outlet property="playbackProgressView" destination="aWD-bx-vF2" id="vpI-fM-bgO"/>
@@ -27,6 +28,11 @@
             <rect key="frame" x="0.0" y="0.0" width="325" height="65"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6X2-Ao-bkj" customClass="MiniPlayerGradientView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="325" height="65"/>
+                    <viewLayoutGuide key="safeArea" id="6yO-Wh-3Sc"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H6s-IT-ngQ" userLabel="ShadowView" customClass="MiniPlayerShadowView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="8" y="0.0" width="309" height="57"/>
                     <viewLayoutGuide key="safeArea" id="ccJ-z6-OC8"/>
@@ -140,12 +146,16 @@
             <viewLayoutGuide key="safeArea" id="rNg-cs-ZaL"/>
             <constraints>
                 <constraint firstItem="rTj-uk-yNW" firstAttribute="trailing" secondItem="1" secondAttribute="trailing" constant="-8" id="I7p-xy-2PM"/>
+                <constraint firstItem="6X2-Ao-bkj" firstAttribute="trailing" secondItem="rNg-cs-ZaL" secondAttribute="trailing" id="RoW-zE-aK0"/>
                 <constraint firstItem="H6s-IT-ngQ" firstAttribute="trailing" secondItem="rTj-uk-yNW" secondAttribute="trailing" id="UcC-2u-kj3"/>
                 <constraint firstItem="rTj-uk-yNW" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="8" id="UhX-sK-Mo9"/>
                 <constraint firstItem="rTj-uk-yNW" firstAttribute="top" secondItem="1" secondAttribute="top" id="VH5-pf-960"/>
+                <constraint firstItem="6X2-Ao-bkj" firstAttribute="top" secondItem="1" secondAttribute="top" id="W4T-4N-sj2"/>
                 <constraint firstItem="rTj-uk-yNW" firstAttribute="bottom" secondItem="1" secondAttribute="bottom" constant="-8" id="W6T-pp-usn"/>
                 <constraint firstItem="H6s-IT-ngQ" firstAttribute="leading" secondItem="rTj-uk-yNW" secondAttribute="leading" id="bLa-5U-Zm3"/>
                 <constraint firstItem="H6s-IT-ngQ" firstAttribute="top" secondItem="rTj-uk-yNW" secondAttribute="top" id="lbm-Rh-wEv"/>
+                <constraint firstItem="6X2-Ao-bkj" firstAttribute="leading" secondItem="rNg-cs-ZaL" secondAttribute="leading" id="rpd-NA-cic"/>
+                <constraint firstItem="6X2-Ao-bkj" firstAttribute="bottom" secondItem="rNg-cs-ZaL" secondAttribute="bottom" id="xkG-U3-GfR"/>
                 <constraint firstItem="H6s-IT-ngQ" firstAttribute="bottom" secondItem="rTj-uk-yNW" secondAttribute="bottom" id="zbG-AE-E4o"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
