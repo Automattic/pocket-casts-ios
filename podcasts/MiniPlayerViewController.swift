@@ -22,6 +22,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBOutlet var mainView: UIView!
     @IBOutlet var shadowView: UIView!
 
+    @IBOutlet var gradientView: MiniPlayerGradientView!
+
     private var lastEpisodeUuidImageLoaded = ""
     private var lastEpisodeUuidAutoOpened = ""
     var fullScreenPlayer: PlayerContainerViewController?
@@ -292,6 +294,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             }
         }
         view.backgroundColor = .clear
+
+        gradientView.colors = [ThemeColor.primaryUi01().withAlphaComponent(0), ThemeColor.primaryUi01()]
+
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
         mainView.backgroundColor = bgColor
         playPauseBtn.playButtonColor = bgColor
