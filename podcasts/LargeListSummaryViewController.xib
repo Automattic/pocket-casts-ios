@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LargeListSummaryViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="iJi-Yt-ez5" id="lqV-Pl-Ekp"/>
+                <outlet property="divider" destination="8lf-U1-Pgg" id="5tp-81-JYJ"/>
                 <outlet property="largeListCollectionViewHeight" destination="O9B-Ec-Krr" id="8nl-ey-dbz"/>
                 <outlet property="showAllBtn" destination="sF0-fo-tPV" id="NQp-Ou-W2d"/>
                 <outlet property="titleLabel" destination="0VX-rs-RFl" id="gRb-Ti-AKA"/>
