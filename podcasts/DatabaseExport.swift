@@ -115,12 +115,12 @@ struct PCBundleDoc: FileDocument {
 
         // Import database
         let databaseDestination = FileManager.databaseURL
-        if let database = wrapper.fileWrappers?.first(where: { $0.0 == "podcast_newDB.sqlite3" }) {
+        if let database = wrapper.fileWrappers?.first(where: { $0.0.hasSuffix("sqlite3") }) {
             try! database.value.write(to: databaseDestination, originalContentsURL: nil)
         }
 
         // Import Preferences
-        if let preferences = wrapper.fileWrappers?.first(where: { $0.0 == Bundle.main.bundleIdentifier }) {
+        if let preferences = wrapper.fileWrappers?.first(where: { $0.0.hasSuffix("plist") }) {
             let plistToCopy = FileManager.default.temporaryDirectory.appendingPathComponent("PocketCastsImportedPreferences", conformingTo: .propertyList)
             try! preferences.value.write(to: plistToCopy, originalContentsURL: nil)
 
