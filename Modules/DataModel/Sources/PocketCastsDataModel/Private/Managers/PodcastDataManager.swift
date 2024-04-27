@@ -4,7 +4,7 @@ import PocketCastsUtils
 class PodcastDataManager {
     private var cachedPodcasts = [String: Podcast]()
     private lazy var cachedPodcastsQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.PodcastDataQueue")
+        let queue = DispatchQueue(label: "au.com.pocketcasts.PodcastDataQueue", qos: .userInitiated)
 
         return queue
     }()
