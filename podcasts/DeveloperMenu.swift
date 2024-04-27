@@ -42,7 +42,7 @@ struct DeveloperMenu: View {
                         }
                     }
                     Button(action: {
-                        PCBundleType.delete()
+                        PCBundleDoc.delete()
                     }, label: {
                         Text("Reset Database + Settings")
                     })

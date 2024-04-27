@@ -102,6 +102,14 @@ struct PCBundleDoc: FileDocument {
 
     init() {}
 
+    static func delete() {
+        try! FileManager.default.removeItem(at: FileManager.databaseURL)
+        try! FileManager.default.removeItem(at: FileManager.preferencesURL!)
+
+        UserDefaults.resetStandardUserDefaults()
+        exit(0)
+    }
+
     static func `import`(from wrapper: FileWrapper) {
         print(wrapper)
 
