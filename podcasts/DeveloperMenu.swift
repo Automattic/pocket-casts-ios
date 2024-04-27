@@ -4,8 +4,50 @@ import PocketCastsDataModel
 import Kingfisher
 
 struct DeveloperMenu: View {
+    @State var showingImporter = false
+    @State var showingExporter = false
+
     var body: some View {
         List {
+            if #available(iOS 17.0, *) {
+                Section {
+                    Button(action: {
+                        showingImporter.toggle()
+                    }, label: {
+                        Text("Import Bundle")
+                    })
+                    .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.pcasts]) { result in
+                        switch result {
+                        case .success(let url):
+                            print("Selected: \(url)")
+                            Task {
+                                let fileWrapper = try FileWrapper(url: url)
+                                PCBundleDoc.import(from: fileWrapper)
+                            }
+                        case .failure(let error):
+                            print("Failed to import pcasts: \(error)")
+                        }
+                    }
+                    Button(action: {
+                        showingExporter.toggle()
+                    }, label: {
+                        Text("Export Bundle")
+                    })
+                    .fileExporter(isPresented: $showingExporter, document: PCBundleDoc()) { result in
+                        switch result {
+                        case .success(let url):
+                            print("Saved to: \(url)")
+                        case .failure(let error):
+                            print("Failed to export pcasts: \(error)")
+                        }
+                    }
+                    Button(action: {
+                        PCBundleType.delete()
+                    }, label: {
+                        Text("Reset Database + Settings")
+                    })
+                }
+            }
             Section {
                 Button(action: {
                     UIPasteboard.general.string = ServerSettings.pushToken()
