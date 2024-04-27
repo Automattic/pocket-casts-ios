@@ -139,10 +139,12 @@ struct PCBundleDoc: FileDocument {
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        return FileWrapper(directoryWithFileWrappers: [
+        let wrapper = FileWrapper(directoryWithFileWrappers: [
             "database.sqlite": try FileWrapper(url: FileManager.databaseURL),
             "preferences.plist": try FileWrapper(url: FileManager.preferencesURL!)
         ])
+        wrapper.preferredFilename = Date().formatted(.iso8601)
+        return wrapper
     }
 }
 
