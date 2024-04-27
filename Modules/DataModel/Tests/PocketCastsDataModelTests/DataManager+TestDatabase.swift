@@ -25,4 +25,3 @@ extension FMDatabaseQueue {
         return FMDatabaseQueue(path: dbPath, flags: flags)
     }
 }
-
