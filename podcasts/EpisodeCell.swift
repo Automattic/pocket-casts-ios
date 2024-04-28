@@ -358,12 +358,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         updateCell(episodeUuid: episode.uuid)
     }
 
-    @objc private func updateCellFromSpecificEvent(_ notification: Notification) {
-        guard let episodeUuid = notification.object as? String, episodeUuid == episode?.uuid else {
-            return
-        }
+    @objc private func updateCellFromSpecificEvent(_ notification: Notification) {        
+        DispatchQueue.main.async { [weak self] in
+            guard let episodeUuid = notification.object as? String, episodeUuid == self?.episode?.uuid else {
+                return
+            }
 
-        updateCell(episodeUuid: episodeUuid)
+            self?.updateCell(episodeUuid: episodeUuid)
+        }
     }
 
     private func updateCell(episodeUuid: String) {
