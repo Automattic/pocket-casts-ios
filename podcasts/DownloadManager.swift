@@ -5,6 +5,33 @@ import PocketCastsUtils
 #if os(watchOS)
     import WatchKit
 #endif
+
+actor EpisodeFetch {
+    var cache: [String: BaseEpisode] = [:]
+    var tasks: [String: Task<BaseEpisode?, Never>] = [:]
+
+    func fetch(taskID: String, forceReload: Bool) async -> BaseEpisode? {
+        if let cached = cache[taskID], !forceReload {
+            return cached
+        }
+
+        let task = tasks[taskID] ?? Task {
+            let episode = DataManager.sharedManager.findBaseEpisode(downloadTaskId: taskID)
+            if let episode {
+                cache[taskID] = episode
+            }
+            return episode
+        }
+
+        tasks[taskID] = task
+        return await task.value
+    }
+
+    func cancel(taskID: String) {
+        tasks.removeValue(forKey: taskID)
+    }
+}
+
 class DownloadManager: NSObject, FilePathProtocol {
     static let shared = DownloadManager()
 
@@ -15,6 +42,8 @@ class DownloadManager: NSObject, FilePathProtocol {
     var downloadingEpisodesCache = [String: BaseEpisode]()
 
     var taskFailure: [String: FailureReason] = [:]
+
+    var fetch = EpisodeFetch()
 
     #if os(watchOS)
         var pendingWatchBackgroundTask: WKURLSessionRefreshBackgroundTask?
@@ -415,6 +444,12 @@ class DownloadManager: NSObject, FilePathProtocol {
                     try data.write(to: URL(fileURLWithPath: tempFilePath), options: .atomic)
                 } catch {
                     FileLog.shared.addMessage("Failed to save resume data \(error.localizedDescription)")
+                }
+            }
+
+            if let taskID = task.taskDescription, let actor = self?.fetch {
+                Task.detached {
+                    await actor.cancel(taskID: taskID)
                 }
             }
         }
