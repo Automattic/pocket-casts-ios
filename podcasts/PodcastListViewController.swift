@@ -257,6 +257,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
 
         podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
+
+        podcastsCollectionView.verticalScrollIndicatorInsets = UIEdgeInsets(top: podcastsCollectionView.verticalScrollIndicatorInsets.top, left: 0, bottom: bottomMargin, right: 0)
     }
 
     private func adjustSettingsForGridType() {
