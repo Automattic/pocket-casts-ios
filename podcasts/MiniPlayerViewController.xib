@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MiniPlayerViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="gradientView" destination="6X2-Ao-bkj" id="Yru-EM-e6r"/>
                 <outlet property="mainView" destination="rTj-uk-yNW" id="ZLL-0J-RYU"/>
                 <outlet property="playPauseBtn" destination="CjL-4C-tuh" id="Y8g-6z-ZoN"/>
                 <outlet property="playbackProgressView" destination="aWD-bx-vF2" id="vpI-fM-bgO"/>
                 <outlet property="podcastArtwork" destination="tJx-CO-hRe" id="Kzl-ZM-bdq"/>
+                <outlet property="shadowView" destination="H6s-IT-ngQ" id="r3I-mU-Ie7"/>
                 <outlet property="skipBackBtn" destination="92g-6h-Yd9" id="i61-v9-wgd"/>
                 <outlet property="skipFwdBtn" destination="JHq-wc-GDV" id="Pkp-0D-lfF"/>
                 <outlet property="upNextBtn" destination="nTH-nm-IG6" id="QNQ-hP-BL6"/>
@@ -25,21 +28,31 @@
             <rect key="frame" x="0.0" y="0.0" width="325" height="65"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTj-uk-yNW" userLabel="Main View" customClass="MiniPlayerBackingView" customModule="podcasts" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6X2-Ao-bkj" customClass="MiniPlayerGradientView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="325" height="65"/>
+                    <viewLayoutGuide key="safeArea" id="6yO-Wh-3Sc"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H6s-IT-ngQ" userLabel="ShadowView" customClass="MiniPlayerShadowView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="8" y="0.0" width="309" height="57"/>
+                    <viewLayoutGuide key="safeArea" id="ccJ-z6-OC8"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rTj-uk-yNW" userLabel="Main View">
+                    <rect key="frame" x="8" y="0.0" width="309" height="57"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-eT-t3r">
-                            <rect key="frame" x="8" y="2.5" width="58" height="58"/>
+                            <rect key="frame" x="8" y="5.5" width="44" height="44"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJx-CO-hRe" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="3" y="3" width="52" height="52"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                                     <accessibility key="accessibilityConfiguration" hint="Tap to open full size player" label="Player">
                                         <accessibilityTraits key="traits" button="YES"/>
                                         <bool key="isElement" value="YES"/>
                                     </accessibility>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="52" id="dnA-Im-DKw"/>
-                                        <constraint firstAttribute="width" constant="52" id="nch-ve-CD6"/>
+                                        <constraint firstAttribute="height" constant="44" id="dnA-Im-DKw"/>
+                                        <constraint firstAttribute="width" constant="44" id="nch-ve-CD6"/>
                                     </constraints>
                                 </view>
                             </subviews>
@@ -48,14 +61,14 @@
                                 <bool key="isElement" value="YES"/>
                             </accessibility>
                             <constraints>
-                                <constraint firstAttribute="height" constant="58" id="2cu-pH-twC"/>
+                                <constraint firstAttribute="height" constant="44" id="2cu-pH-twC"/>
                                 <constraint firstItem="tJx-CO-hRe" firstAttribute="centerY" secondItem="Bqa-eT-t3r" secondAttribute="centerY" id="WJ7-YG-L41"/>
                                 <constraint firstItem="tJx-CO-hRe" firstAttribute="centerX" secondItem="Bqa-eT-t3r" secondAttribute="centerX" id="gaR-1g-5bG"/>
-                                <constraint firstAttribute="width" constant="58" id="hQL-XX-9K1"/>
+                                <constraint firstAttribute="width" constant="44" id="hQL-XX-9K1"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92g-6h-Yd9" userLabel="Skip Back">
-                            <rect key="frame" x="80.5" y="9.5" width="44" height="44"/>
+                            <rect key="frame" x="80.5" y="5.5" width="44" height="44"/>
                             <accessibility key="accessibilityConfiguration" label="Skip Back"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Woi-QS-Vfx"/>
@@ -67,18 +80,18 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CjL-4C-tuh" userLabel="Play Pause Button" customClass="PlayPauseButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="138.5" y="7.5" width="48" height="48"/>
+                            <rect key="frame" x="138.5" y="11.5" width="32" height="32"/>
                             <accessibility key="accessibilityConfiguration" label="Play/Pause"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="48" id="Q9t-vc-8fw"/>
-                                <constraint firstAttribute="height" constant="48" id="UGD-jw-hmp"/>
+                                <constraint firstAttribute="width" constant="32" id="Q9t-vc-8fw"/>
+                                <constraint firstAttribute="height" constant="32" id="UGD-jw-hmp"/>
                             </constraints>
                             <connections>
                                 <action selector="playPauseTapped:" destination="-1" eventType="touchUpInside" id="MHK-aa-QTy"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JHq-wc-GDV" userLabel="Skip Forward">
-                            <rect key="frame" x="200.5" y="9.5" width="44" height="44"/>
+                            <rect key="frame" x="184.5" y="5.5" width="44" height="44"/>
                             <accessibility key="accessibilityConfiguration" label="Skip Forward"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="44" id="lSC-b9-3WW"/>
@@ -90,7 +103,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nTH-nm-IG6" userLabel="Up Next Button" customClass="UpNextButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="277" y="9.5" width="44" height="44"/>
+                            <rect key="frame" x="261" y="5.5" width="44" height="44"/>
                             <accessibility key="accessibilityConfiguration" label="Up Next List"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="44" id="1HL-eT-cXQ"/>
@@ -102,7 +115,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aWD-bx-vF2" customClass="ProgressLine" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="62" width="325" height="3"/>
+                            <rect key="frame" x="0.0" y="54" width="309" height="3"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="3" id="WcE-ar-iIK"/>
                             </constraints>
@@ -132,10 +145,18 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="rNg-cs-ZaL"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="rTj-uk-yNW" secondAttribute="bottom" id="4a5-HO-sPI"/>
-                <constraint firstItem="rTj-uk-yNW" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="UhX-sK-Mo9"/>
-                <constraint firstItem="rTj-uk-yNW" firstAttribute="width" secondItem="1" secondAttribute="width" id="bww-Qa-p8C"/>
-                <constraint firstItem="rTj-uk-yNW" firstAttribute="height" secondItem="1" secondAttribute="height" id="vzE-bg-2de"/>
+                <constraint firstItem="rTj-uk-yNW" firstAttribute="trailing" secondItem="1" secondAttribute="trailing" constant="-8" id="I7p-xy-2PM"/>
+                <constraint firstItem="6X2-Ao-bkj" firstAttribute="trailing" secondItem="rNg-cs-ZaL" secondAttribute="trailing" id="RoW-zE-aK0"/>
+                <constraint firstItem="H6s-IT-ngQ" firstAttribute="trailing" secondItem="rTj-uk-yNW" secondAttribute="trailing" id="UcC-2u-kj3"/>
+                <constraint firstItem="rTj-uk-yNW" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="8" id="UhX-sK-Mo9"/>
+                <constraint firstItem="rTj-uk-yNW" firstAttribute="top" secondItem="1" secondAttribute="top" id="VH5-pf-960"/>
+                <constraint firstItem="6X2-Ao-bkj" firstAttribute="top" secondItem="1" secondAttribute="top" id="W4T-4N-sj2"/>
+                <constraint firstItem="rTj-uk-yNW" firstAttribute="bottom" secondItem="1" secondAttribute="bottom" constant="-8" id="W6T-pp-usn"/>
+                <constraint firstItem="H6s-IT-ngQ" firstAttribute="leading" secondItem="rTj-uk-yNW" secondAttribute="leading" id="bLa-5U-Zm3"/>
+                <constraint firstItem="H6s-IT-ngQ" firstAttribute="top" secondItem="rTj-uk-yNW" secondAttribute="top" id="lbm-Rh-wEv"/>
+                <constraint firstItem="6X2-Ao-bkj" firstAttribute="leading" secondItem="rNg-cs-ZaL" secondAttribute="leading" id="rpd-NA-cic"/>
+                <constraint firstItem="6X2-Ao-bkj" firstAttribute="bottom" secondItem="rNg-cs-ZaL" secondAttribute="bottom" id="xkG-U3-GfR"/>
+                <constraint firstItem="H6s-IT-ngQ" firstAttribute="bottom" secondItem="rTj-uk-yNW" secondAttribute="bottom" id="zbG-AE-E4o"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -145,5 +166,8 @@
     <resources>
         <image name="miniplayer-skip-backward" width="16" height="20"/>
         <image name="miniplayer-skip-forward" width="16" height="20"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
