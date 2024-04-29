@@ -80,7 +80,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         podcastUuid: String,
         episodeUuid: String
     ) async throws -> String? {
-        if let task = requestingRawMetadata[podcastUuid] {
+        if let task = requestingRawMetadata[episodeUuid] {
             return try await task.value
         }
 
@@ -89,15 +89,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
                 let data = try await dataRetriever.loadShowInfoData(for: podcastUuid)
                 try await dataManager.storeShowInfo(data: data)
                 let episode = try await dataManager.findRawEpisodeMetadata(uuid: episodeUuid)
-                requestingRawMetadata[podcastUuid] = nil
+                requestingRawMetadata[episodeUuid] = nil
                 return episode
             } catch {
-                requestingRawMetadata[podcastUuid] = nil
+                requestingRawMetadata[episodeUuid] = nil
                 throw error
             }
         }
 
-        requestingRawMetadata[podcastUuid] = task
+        requestingRawMetadata[episodeUuid] = task
 
         return try await task.value
     }
