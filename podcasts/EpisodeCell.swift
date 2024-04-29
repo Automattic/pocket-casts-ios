@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
+import Combine
 
 class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     private static let playedAlpha: CGFloat = 0.5
@@ -93,6 +94,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private var episode: BaseEpisode?
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Setup
 
@@ -108,14 +110,25 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(downloadProgressDidUpdate), name: Constants.Notifications.downloadProgress, object: nil)
 
         // events that are specific to an episode
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: Constants.Notifications.episodeDurationChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: Constants.Notifications.episodeStarredChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: Constants.Notifications.episodeDownloadStatusChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: ServerNotifications.episodeTypeOrLengthChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: Constants.Notifications.playbackPositionSaved, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: Constants.Notifications.episodePlayStatusChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: ServerNotifications.userEpisodeUploadStatusChanged, object: nil)
+        let notificationNames = [
+            Constants.Notifications.episodeDurationChanged,
+            Constants.Notifications.episodeStarredChanged,
+            Constants.Notifications.episodeDownloadStatusChanged,
+            ServerNotifications.episodeTypeOrLengthChanged,
+            Constants.Notifications.playbackPositionSaved,
+            Constants.Notifications.episodePlayStatusChanged,
+            Constants.Notifications.episodeDownloaded,
+            ServerNotifications.userEpisodeUploadStatusChanged
+        ]
+
+        let publishers = notificationNames.map {
+            NotificationCenter.default.publisher(for: $0)
+        }
+        let mergedPublisher = Publishers.MergeMany(publishers)
+        mergedPublisher.receive(on: DispatchQueue.main).sink { [weak self] event in
+            self?.updateCellFromSpecificEvent(event)
+        }.store(in: &cancellables)
+
         NotificationCenter.default.addObserver(self, selector: #selector(uploadProgressDidUpdate), name: ServerNotifications.userEpisodeUploadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadArtwork(_:)), name: Constants.Notifications.userEpisodeUpdated, object: nil)
     }
