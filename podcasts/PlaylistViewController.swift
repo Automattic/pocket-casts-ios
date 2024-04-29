@@ -294,9 +294,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
 
     private func updateTableViewContentOffset() {
-        let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        self.tableView.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
     }
 
     @objc func moreTapped() {
