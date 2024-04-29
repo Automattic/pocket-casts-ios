@@ -31,6 +31,18 @@ extension AppDelegate {
                 type.conforms(to: supportedType)
             }
 
+            if let fileExtension = UTType.pcasts.preferredFilenameExtension, type.conforms(to: UTType(filenameExtension: fileExtension)!) {
+                let alert = UIAlertController(title: "Import Podcasts and Settings", message: "Do you want to reset your current podcasta and settings to this file?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Import", style: .default) { _ in
+                    Task {
+                        let fileWrapper = try FileWrapper(url: url)
+                        PCBundleDoc.import(from: fileWrapper)
+                    }
+                })
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                rootViewController.present(alert, animated: true)
+            }
+
             if isSupported {
                 progressDialog = ShiftyLoadingAlert(title: L10n.opmlImporting)
                 rootViewController.dismiss(animated: false, completion: nil)
