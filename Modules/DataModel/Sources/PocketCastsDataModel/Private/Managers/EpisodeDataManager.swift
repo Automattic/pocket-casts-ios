@@ -1091,23 +1091,28 @@ extension EpisodeDataManager {
 // MARK: - New Show Info
 
 extension EpisodeDataManager {
-    public func storeShowInfo(with data: Data, dbQueue: FMDatabaseQueue) async throws {
+    public func storeMetadata(episodeUuid: String, with data: Data, dbQueue: FMDatabaseQueue) async throws {
         // show notes string JSON
-        var episodesToUpdate: [String: String] = [:]
         if let showInfo = try? (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])?["podcast"] as? [String: Any],
            let episodes = showInfo["episodes"] as? [Any] {
             // Iterate over each episode and store it's JSON string content using the
             // episode UUID as key
-            episodes.forEach { episode in
-                if let uuid = (episode as? [String: Any])?["uuid"] as? String,
-                   let jsonData = try? JSONSerialization.data(withJSONObject: episode),
-                   let jsonString = String(data: jsonData, encoding: .utf8) {
-                    episodesToUpdate[uuid] = jsonString
-                }
+            if let episode = episodes.first(where: { (($0 as? [String: Any])?["uuid"] as? String) == episodeUuid }),
+               let jsonData = try? JSONSerialization.data(withJSONObject: episode),
+               let jsonString = String(data: jsonData, encoding: .utf8) {
+                saveMetadata(for: episodeUuid, metadata: jsonString, dbQueue: dbQueue)
             }
         }
+    }
 
-        try await bulkSave(showInfo: episodesToUpdate, dbQueue: dbQueue)
+    func saveMetadata(for episodeUuid: String, metadata: String, dbQueue: FMDatabaseQueue) {
+        dbQueue.inDatabase { db in
+            do {
+                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET metadata = ? WHERE uuid = ?;", values: [metadata, episodeUuid])
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.saveMetadata error: \(error)")
+            }
+        }
     }
 
     private func getShowInfo(for data: Data) async -> Episode.Metadata? {

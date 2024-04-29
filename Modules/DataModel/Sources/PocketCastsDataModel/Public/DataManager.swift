@@ -1031,6 +1031,6 @@ extension DataManager {
 
 extension DataManager {
     public func storeMetadata(episodeUuid: String, data: Data) async throws {
-        try await episodeManager.storeShowInfo(with: data, dbQueue: dbQueue)
+        try await episodeManager.storeMetadata(episodeUuid: episodeUuid, with: data, dbQueue: dbQueue)
     }
 }
