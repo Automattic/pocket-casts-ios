@@ -82,7 +82,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupSignOutListener()
 
-        logStaleDownloads()
+        DispatchQueue.global().sync {
+            logStaleDownloads()
+        }
 
         return true
     }
