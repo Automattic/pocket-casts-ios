@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import Combine
 
 class PlaylistViewController: PCViewController, TitleButtonDelegate {
     var filter: EpisodeFilter
@@ -231,22 +232,35 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     // MARK: - Notification Updates
 
+    private var cancellables = Set<AnyCancellable>()
+
     private func addEventObservers() {
-        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.opmlImportCompleted, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(refreshFilterFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
+
+        let notificationNames = [
+            ServerNotifications.podcastsRefreshed,
+            Constants.Notifications.opmlImportCompleted,
+            Constants.Notifications.episodeDownloaded,
+            Constants.Notifications.playbackTrackChanged,
+            Constants.Notifications.playbackEnded,
+            Constants.Notifications.playbackFailed,
+            Constants.Notifications.filterChanged,
+            Constants.Notifications.upNextEpisodeRemoved,
+            Constants.Notifications.upNextEpisodeAdded,
+            Constants.Notifications.upNextQueueChanged,
+            Constants.Notifications.episodePlayStatusChanged,
+            Constants.Notifications.episodeArchiveStatusChanged,
+            Constants.Notifications.episodeStarredChanged,
+            Constants.Notifications.episodeDownloadStatusChanged,
+            Constants.Notifications.manyEpisodesChanged
+        ]
+
+        let publishers = notificationNames.map {
+            NotificationCenter.default.publisher(for: $0)
+        }
+        let mergedPublisher = Publishers.MergeMany(publishers)
+        mergedPublisher.debounce(for: .seconds(1), scheduler: RunLoop.main).sink { [weak self] event in
+            self?.refreshEpisodesFromNotification()
+        }.store(in: &cancellables)
 
         addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
         addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))

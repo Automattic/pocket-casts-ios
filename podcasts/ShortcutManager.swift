@@ -1,19 +1,32 @@
 import PocketCastsDataModel
 import UIKit
+import Combine
 
 class ShortcutManager: CustomObserver {
-    func listenForShortcutChanges() {
-        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.filterChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.podcastAdded, selector: #selector(shortcutsRequireUpdate))
+    private var cancellables = Set<AnyCancellable>()
 
-        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(shortcutsRequireUpdate))
+    func listenForShortcutChanges() {
+
+        let notificationNames = [
+            Constants.Notifications.playbackStarted,
+            Constants.Notifications.playbackPaused,
+            Constants.Notifications.playbackEnded,
+            Constants.Notifications.filterChanged,
+            Constants.Notifications.podcastAdded,
+            Constants.Notifications.episodePlayStatusChanged,
+            Constants.Notifications.episodeArchiveStatusChanged,
+            Constants.Notifications.episodeStarredChanged,
+            Constants.Notifications.episodeDownloadStatusChanged,
+            Constants.Notifications.manyEpisodesChanged
+        ]
+
+        let publishers = notificationNames.map {
+            NotificationCenter.default.publisher(for: $0)
+        }
+        let mergedPublisher = Publishers.MergeMany(publishers)
+        mergedPublisher.debounce(for: .seconds(1), scheduler: RunLoop.main).sink { [weak self] event in
+            self?.shortcutsRequireUpdate()
+        }.store(in: &cancellables)
 
         shortcutsRequireUpdate()
     }
