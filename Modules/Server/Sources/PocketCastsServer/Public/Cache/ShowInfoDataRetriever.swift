@@ -10,6 +10,25 @@ public actor ShowInfoDataRetriever {
         cache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 10.megabytes, diskPath: "show_notes")
     }
 
+    public func loadEpisodeData(
+        for podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> String? {
+        if let data = try? await loadShowInfoData(for: podcastUuid) {
+            if let showInfo = try? (JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])?["podcast"] as? [String: Any],
+               let episodes = showInfo["episodes"] as? [Any] {
+                // Return the JSON string for the requested episode
+                if let episode = episodes.first(where: { (($0 as? [String: Any])?["uuid"] as? String) == episodeUuid }),
+                   let jsonData = try? JSONSerialization.data(withJSONObject: episode),
+                   let jsonString = String(data: jsonData, encoding: .utf8) {
+                    return jsonString
+                }
+            }
+        }
+
+        return nil
+    }
+
     public func loadShowInfoData(
         for podcastUuid: String
     ) async throws -> Data {
