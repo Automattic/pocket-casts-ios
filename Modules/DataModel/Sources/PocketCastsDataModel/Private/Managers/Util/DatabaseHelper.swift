@@ -714,6 +714,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 48 {
+            do {
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
+                schemaVersion = 48
+            } catch {
+                failedAt(48)
+                return
+            }
+        }
+
         db.commit()
     }
 }
