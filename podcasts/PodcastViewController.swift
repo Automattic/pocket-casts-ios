@@ -351,7 +351,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let window = view.window else { return }
 
         let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: Constants.Values.miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
