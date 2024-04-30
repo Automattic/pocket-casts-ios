@@ -93,7 +93,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .categoriesRedesign:
             true
         case .upNextOnTabBar:
-            true
+            false
         }
     }
 
