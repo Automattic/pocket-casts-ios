@@ -11,10 +11,13 @@ extension PodcastManager {
         // we don't delete podcasts added to the phone in the last week. This is to prevent stuff you just leave open in discover from being removed
         if let addedDate = podcast.addedDate, abs(addedDate.timeIntervalSinceNow) < 1.week { return }
 
-        let interactedEpisodes = DataManager.sharedManager.allEpisodesForPodcast(id: podcast.id).filter { $0.userHasInteractedWithEpisode() }
+
+        let hasInteractedEpisodes = DataManager.sharedManager.hasEpisodeForPodcast(id: podcast.id, withFilter:     {
+            $0.userHasInteractedWithEpisode()
+        })
 
         // we can safely delete podcasts where the user hasn't interacted with any of the episodes
-        if interactedEpisodes.count == 0 {
+        if !hasInteractedEpisodes {
             // Delete all the episodes for the podcast that we're deleting
             DataManager.sharedManager.deleteAllEpisodesInPodcast(podcastId: podcast.id)
             DataManager.sharedManager.delete(podcast: podcast)

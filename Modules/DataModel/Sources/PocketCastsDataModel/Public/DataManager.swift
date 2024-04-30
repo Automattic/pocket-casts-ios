@@ -687,6 +687,10 @@ public class DataManager {
         episodeManager.markAllSynced(episodes: episodes, dbQueue: dbQueue)
     }
 
+    public func hasEpisodeForPodcast(id: Int64, withFilter filter: (Episode) -> Bool) -> Bool {
+        episodeManager.hasEpisodeForPodcast(id: id, withFilter: filter, dbQueue: dbQueue)
+    }
+
     public func allEpisodesForPodcast(id: Int64) -> [Episode] {
         episodeManager.allEpisodesForPodcast(id: id, dbQueue: dbQueue)
     }

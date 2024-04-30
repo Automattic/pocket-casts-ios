@@ -121,6 +121,27 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ?", values: [id], dbQueue: dbQueue)
     }
 
+    func hasEpisodeForPodcast(id: Int64, withFilter filter: (Episode) -> Bool, dbQueue: FMDatabaseQueue) -> Bool {
+        var hasEpisode: Bool = false
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery("SELECT EXISTS(SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ?)", values: [id])
+                defer { resultSet.close() }
+
+                if resultSet.next() {
+                    let episode = self.createEpisodeFrom(resultSet: resultSet)
+                    if filter(episode) {
+                        hasEpisode = true
+                        return
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.loadSingle error: \(error)")
+            }
+        }
+        return hasEpisode
+    }
+
     func episodesWithListenHistory(limit: Int, dbQueue: FMDatabaseQueue) -> [Episode] {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue)
     }
