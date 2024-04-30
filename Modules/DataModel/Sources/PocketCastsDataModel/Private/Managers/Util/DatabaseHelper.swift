@@ -714,6 +714,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 48 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
+                schemaVersion = 48
+            } catch {
+                failedAt(48)
+                return
+            }
+        }
+
         db.commit()
     }
 }

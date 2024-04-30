@@ -43,7 +43,6 @@ class EpisodeDataManager {
         "starredModified",
         "deselectedChapters",
         "deselectedChaptersModified",
-        "metadata"
     ]
 
     // MARK: - Query
@@ -991,7 +990,6 @@ class EpisodeDataManager {
         values.append(episode.starredModified)
         values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
         values.append(episode.deselectedChaptersModified)
-        values.append(episode.rawMetadata as Any)
 
         if includeIdForWhere {
             values.append(episode.id)
