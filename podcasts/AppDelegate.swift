@@ -61,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationsHelper.shared.register(checkToken: false)
 
         DispatchQueue.global().async { [weak self] in
+            self?.logStaleDownloads()
             self?.postLaunchSetup()
             self?.checkIfRestoreCleanupRequired()
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
@@ -81,8 +82,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
-
-        logStaleDownloads()
 
         return true
     }
