@@ -3,8 +3,9 @@ import Foundation
 /// View model for the header view that appears on the Profile tab view
 class ProfileHeaderViewModel: ProfileDataViewModel {
     weak var navigationController: UINavigationController? = nil
-    var shouldShowProfileInfo: Bool = true
-    init(navigationController: UINavigationController? = nil) {
+    let shouldShowProfileInfo: Bool
+    init(navigationController: UINavigationController? = nil, shouldShowProfileInfo: Bool = true) {
+        self.shouldShowProfileInfo = shouldShowProfileInfo
         super.init()
 
         self.navigationController = navigationController

@@ -118,7 +118,7 @@ struct ProfileHeaderView: View {
                 content(proxy)
             }
             .frame(maxWidth: .infinity)
-            .padding(.top, Constants.paddingTop)
+            .padding(.top, viewModel.shouldShowProfileInfo ? Constants.paddingTop : 0)
             .padding(.bottom, Constants.paddingBottomAndSides)
             .padding(.horizontal, Constants.paddingBottomAndSides)
         } contentSizeUpdated: { size in

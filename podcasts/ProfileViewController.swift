@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import GravatarUI
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
@@ -54,14 +55,37 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     // MARK: - Profile Header
     private lazy var headerViewModel: ProfileHeaderViewModel = {
-        let viewModel = ProfileHeaderViewModel(navigationController: navigationController)
-        viewModel.shouldShowProfileInfo = !shouldDisplayGravatarProfile
+        let viewModel = ProfileHeaderViewModel(navigationController: navigationController, shouldShowProfileInfo: !shouldDisplayGravatarProfile)
         // Listen for view size changes and update the header view cell if needed
         viewModel.viewContentSizeChanged = { [weak self] in
             self?.profileTable.reloadData()
         }
 
         return viewModel
+    }()
+
+    private lazy var gravatarHeaderContainerView: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(gravatarHeaderView)
+        let horizontalPadding: CGFloat = 16
+        let verticalPadding: CGFloat = 20
+        NSLayoutConstraint.activate([
+            gravatarHeaderView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalPadding),
+            gravatarHeaderView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalPadding),
+            gravatarHeaderView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: verticalPadding),
+            gravatarHeaderView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -verticalPadding)
+        ])
+        return containerView
+    }()
+
+    private lazy var gravatarHeaderView: UIView & UIContentView = {
+        let config = ProfileViewConfiguration.large()
+        let contentView = config.makeContentView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.layer.cornerRadius = 8
+        contentView.clipsToBounds = true
+        return contentView
     }()
 
     private lazy var headerView: UIView = {
@@ -84,6 +108,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         navigationItem.title = L10n.profile
 
         profileTable.tableFooterView = footerView
+        if shouldDisplayGravatarProfile {
+            profileTable.tableHeaderView = gravatarHeaderContainerView
+            gravatarHeaderContainerView.widthAnchor.constraint(equalTo: profileTable.widthAnchor).isActive = true
+            profileTable.tableHeaderView?.setNeedsLayout()
+            profileTable.tableHeaderView?.layoutIfNeeded()
+        }
 
         updateDisplayedData()
         updateRefreshFooterColors()
