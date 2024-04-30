@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -614,6 +614,8 @@
 		8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */; };
 		8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory.swift */; };
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
+		914AC0282BE0E5A7005DA4A5 /* Gravatar in Frameworks */ = {isa = PBXBuildFile; productRef = 914AC0272BE0E5A7005DA4A5 /* Gravatar */; };
+		914AC02A2BE0E5A7005DA4A5 /* GravatarUI in Frameworks */ = {isa = PBXBuildFile; productRef = 914AC0292BE0E5A7005DA4A5 /* GravatarUI */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -3502,11 +3504,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				914AC0282BE0E5A7005DA4A5 /* Gravatar in Frameworks */,
 				46C22EE028F73D9A00F4173B /* AuthenticationServices.framework in Frameworks */,
 				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
+				914AC02A2BE0E5A7005DA4A5 /* GravatarUI in Frameworks */,
 				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
 				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
@@ -7540,6 +7544,8 @@
 				8B365E4F2B62E82000143DAC /* Agrume */,
 				8B1762762B6808F700F44450 /* JLRoutes */,
 				8B1762792B684E7100F44450 /* Kingfisher */,
+				914AC0272BE0E5A7005DA4A5 /* Gravatar */,
+				914AC0292BE0E5A7005DA4A5 /* GravatarUI */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -7706,6 +7712,7 @@
 				8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */,
 				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				914AC0262BE0E5A7005DA4A5 /* XCLocalSwiftPackageReference "../Gravatar-SDK-iOS" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11324,6 +11331,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		914AC0262BE0E5A7005DA4A5 /* XCLocalSwiftPackageReference "../Gravatar-SDK-iOS" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../Gravatar-SDK-iOS";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -11501,6 +11515,14 @@
 		8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsDataModel;
+		};
+		914AC0272BE0E5A7005DA4A5 /* Gravatar */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Gravatar;
+		};
+		914AC0292BE0E5A7005DA4A5 /* GravatarUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GravatarUI;
 		};
 		BD44F74F267C850000810148 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;
