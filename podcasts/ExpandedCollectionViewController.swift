@@ -63,6 +63,11 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         } else {
             title = item.title?.localized.localizedCapitalized
         }
+
+        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
+        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
+
+        miniPlayerStatusDidChange()
     }
 
     override func viewWillLayoutSubviews() {
@@ -79,10 +84,6 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         if podcastCollection == nil {
             navigationController?.navigationBar.shadowImage = UIImage()
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -112,10 +113,6 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     }
 
     @objc private func miniPlayerStatusDidChange() {
-        if PlaybackManager.shared.currentEpisode() != nil {
-            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        } else {
-            collectionView.contentInset = UIEdgeInsets.zero
-        }
+        collectionView.updateContentInset(multiSelectEnabled: false)
     }
 }
