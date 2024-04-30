@@ -113,7 +113,7 @@ class RefreshOperation: Operation {
         let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
         let updatedPodcasts = refreshResult.podcastUpdates
         var metadataRequestsQueued = 0
-        for podcast in podcasts {
+        for (idx, podcast) in podcasts.enumerated() {
             guard let podcastEpisodes = updatedPodcasts?[podcast.uuid], podcastEpisodes.count > 0 else { continue }
 
             for episode in podcastEpisodes.reversed() {
@@ -153,7 +153,7 @@ class RefreshOperation: Operation {
             }
 
             // there's at least one new episode, so update the latestEpisodeUuid
-            ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: false)
+            ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: false, cache: idx == podcasts.endIndex)
         }
 
         ServerConfig.shared.syncDelegate?.checkForUnusedPodcasts()
