@@ -50,6 +50,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// show UpNext tab on the main tab bar
     case upNextOnTabBar
 
+    /// Enhances the profile view to display more fields from the user's Gravatar profile.
+    case displayGravatarProfile
+    
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -93,6 +96,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .categoriesRedesign:
             true
         case .upNextOnTabBar:
+            true
+        case .displayGravatarProfile:
             false
         }
     }
