@@ -7,6 +7,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     fileprivate enum StatValueType { case listened, saved }
 
     var refreshControl: PCRefreshControl?
+    var shouldDisplayGravatarProfile: Bool {
+        FeatureFlag.displayGravatarProfile.enabled
+    }
 
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
@@ -52,7 +55,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     // MARK: - Profile Header
     private lazy var headerViewModel: ProfileHeaderViewModel = {
         let viewModel = ProfileHeaderViewModel(navigationController: navigationController)
-
+        viewModel.shouldShowProfileInfo = !shouldDisplayGravatarProfile
         // Listen for view size changes and update the header view cell if needed
         viewModel.viewContentSizeChanged = { [weak self] in
             self?.profileTable.reloadData()

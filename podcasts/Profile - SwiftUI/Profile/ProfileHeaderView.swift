@@ -16,7 +16,9 @@ struct ProfileHeaderView: View {
 
     var body: some View {
         container { geometryProxy in
-            profileImage(geometryProxy)
+            if viewModel.shouldShowProfileInfo {
+                profileImage(geometryProxy)
+            }
             profileInfo()
             stats()
         }
@@ -58,8 +60,9 @@ struct ProfileHeaderView: View {
         let alignment: HorizontalAlignment = isShowingVertically ? .center : .leading
 
         VStack(alignment: alignment, spacing: Constants.spacing) {
-            ProfileInfoLabels(profile: viewModel.profile, alignment: alignment, spacing: Constants.spacing)
-
+            if viewModel.shouldShowProfileInfo {
+                ProfileInfoLabels(profile: viewModel.profile, alignment: alignment, spacing: Constants.spacing)
+            }
             Button(viewModel.profile.isLoggedIn ? L10n.account : L10n.setupAccount) {
                 viewModel.accountTapped()
             }
