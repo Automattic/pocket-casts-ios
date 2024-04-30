@@ -1,6 +1,6 @@
 import Foundation
 
-extension UITableView {
+extension UIScrollView {
     func applyInsetForMiniPlayer(additionalBottomInset: CGFloat = 0) {
         let existingInset = contentInset
         contentInset = UIEdgeInsets(top: existingInset.top, left: existingInset.left, bottom: existingInset.bottom + Constants.Values.miniPlayerOffset + additionalBottomInset, right: existingInset.right)
