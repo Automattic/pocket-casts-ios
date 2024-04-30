@@ -86,6 +86,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateRefreshFooterColors()
         updateFooterFrame()
         setupRefreshControl()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: profileTable)
     }
 
     override func viewWillAppear(_ animated: Bool) {

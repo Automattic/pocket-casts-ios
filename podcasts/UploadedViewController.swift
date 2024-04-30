@@ -9,7 +9,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     @IBOutlet var uploadsTable: ThemeableTable! {
         didSet {
-            uploadsTable.updateContentInset(multiSelectEnabled: false)
             registerLongPress()
             uploadsTable.allowsMultipleSelectionDuringEditing = true
         }
@@ -61,7 +60,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                 self.setupNavBar()
                 self.uploadsTable.beginUpdates()
                 self.uploadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.uploadsTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
+                self.insetAdjuster.isMultiSelectEnabled = self.isMultiSelectEnabled
                 self.uploadsTable.endUpdates()
 
                 if self.isMultiSelectEnabled {
@@ -120,7 +119,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         headerView.controllerForPresenting = self
         uploadsTable.tableHeaderView = headerView
         updateHeaderView()
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: uploadsTable)
         reloadLocalFiles()
 
         Analytics.track(.uploadedFilesShown)
@@ -139,7 +138,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         reloadAllFiles()
         addUIObservers()
-        updateContentOffsets()
 
         if let fileURL = fileURL {
             let addCustomVC = AddCustomViewController(fileUrl: fileURL)
@@ -161,7 +159,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     override func handleAppWillBecomeActive() {
         reloadAllFiles()
         addUIObservers()
-        updateContentOffsets()
     }
 
     override func handleAppDidEnterBackground() {
@@ -183,8 +180,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(handleReloadFromNotification))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(handleReloadFromNotification))
         addCustomObserver(ServerNotifications.userEpisodeUploadStatusChanged, selector: #selector(uploadCompletedRefresh(notification:)))
-        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(updateContentOffsets))
-        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(updateContentOffsets))
     }
 
     func setupNavBar() {
@@ -358,10 +353,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     override func handleThemeChanged() {
         uploadsTable.reloadData()
-    }
-
-    @objc private func updateContentOffsets() {
-        uploadsTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
     }
 }
 
