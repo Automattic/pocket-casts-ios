@@ -1368,6 +1368,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // here (as above) we're assuming that in general the timer fires around once a second. Might have to investigate this though as it might not always be the case
         if sleepTimeRemaining >= 0 {
+            if sleepTimeRemaining == sleepTimerManager.sleepTimerFadeDuration {
+                sleepTimerManager.performFadeOut(player: player)
+            }
+
             sleepTimeRemaining = sleepTimeRemaining - updateTimerInterval
 
             if sleepTimeRemaining < 0 {
@@ -1488,6 +1492,17 @@ class PlaybackManager: ServerPlaybackDelegate {
         sleepTimeRemaining = stopIn
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
         Analytics.track(.playerSleepTimerEnabled, properties: ["time": Int(stopIn)])
+    }
+
+    func restartSleepTimer() {
+        guard sleepTimerActive() else {
+            return
+        }
+
+        #if !os(watchOS)
+        Toast.show(L10n.deviceShakeSleepTimer)
+        #endif
+        sleepTimerManager.restartSleepTimer()
     }
 
     // MARK: - Remote Control support

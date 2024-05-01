@@ -717,6 +717,10 @@ class DatabaseHelper {
         if schemaVersion < 48 {
             do {
                 try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_archived ON SJEpisode (archived);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
                 schemaVersion = 48
             } catch {
                 failedAt(48)

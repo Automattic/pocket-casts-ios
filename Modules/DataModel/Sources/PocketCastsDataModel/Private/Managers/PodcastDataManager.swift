@@ -2,7 +2,7 @@ import FMDB
 import PocketCastsUtils
 
 class PodcastDataManager {
-    private var cachedPodcasts = [Podcast]()
+    private var cachedPodcasts = [String: Podcast]()
     private lazy var cachedPodcastsQueue: DispatchQueue = {
         let queue = DispatchQueue(label: "au.com.pocketcasts.PodcastDataQueue")
 
@@ -73,7 +73,7 @@ class PodcastDataManager {
 
         var allPodcasts = [Podcast]()
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed(), !includeUnsubscribed { continue }
 
                 allPodcasts.append(podcast)
@@ -88,7 +88,7 @@ class PodcastDataManager {
 
         var allPodcasts = [Podcast]()
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed() { continue }
 
                 allPodcasts.append(podcast)
@@ -105,7 +105,7 @@ class PodcastDataManager {
 
         var allPodcasts = [Podcast]()
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed() { continue }
 
                 allPodcasts.append(podcast)
@@ -170,7 +170,7 @@ class PodcastDataManager {
     func allUnsubscribedPodcastUuids(dbQueue: FMDatabaseQueue) -> [String] {
         var allUnsubscribed = [String]()
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if podcast.isSubscribed() { continue }
 
                 allUnsubscribed.append(podcast.uuid)
@@ -183,7 +183,7 @@ class PodcastDataManager {
     func allUnsubscribedPodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
         var allUnsubscribed = [Podcast]()
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if podcast.isSubscribed() { continue }
 
                 allUnsubscribed.append(podcast)
@@ -204,7 +204,7 @@ class PodcastDataManager {
         // the other 3 cases we do in memory
         var allPodcastsInFolder: [Podcast] = []
         cachedPodcastsQueue.sync {
-            allPodcastsInFolder = cachedPodcasts.filter { $0.isSubscribed() && $0.folderUuid == folder.uuid }
+            allPodcastsInFolder = cachedPodcasts.values.filter { $0.isSubscribed() && $0.folderUuid == folder.uuid }
         }
 
         allPodcastsInFolder.sort { podcast1, podcast2 in
@@ -222,14 +222,14 @@ class PodcastDataManager {
 
     func countOfPodcastsInFolder(folder: Folder?, dbQueue: FMDatabaseQueue) -> Int {
         cachedPodcastsQueue.sync {
-            cachedPodcasts.filter { $0.isSubscribed() && $0.folderUuid == folder?.uuid }.count
+            cachedPodcasts.values.filter { $0.isSubscribed() && $0.folderUuid == folder?.uuid }.count
         }
     }
 
     func allPaidPodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
         var allPaid = [Podcast]()
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if !podcast.isPaid { continue }
 
                 allPaid.append(podcast)
@@ -242,7 +242,7 @@ class PodcastDataManager {
     func allUnsynced(dbQueue: FMDatabaseQueue) -> [Podcast] {
         var unsyncedPodcasts = [Podcast]()
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if podcast.syncStatus == SyncStatus.notSynced.rawValue {
                     unsyncedPodcasts.append(podcast)
                 }
@@ -255,7 +255,7 @@ class PodcastDataManager {
     func allOverrideGlobalArchivePodcasts(dbQueue: FMDatabaseQueue) -> [Podcast] {
         var podcastsOverrideArchive = [Podcast]()
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if podcast.isSubscribed(), podcast.isAutoArchiveOverridden {
                     podcastsOverrideArchive.append(podcast)
                 }
@@ -267,22 +267,18 @@ class PodcastDataManager {
 
     func find(uuid: String, includeUnsubscribed: Bool, dbQueue: FMDatabaseQueue) -> Podcast? {
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
-                if podcast.uuid == uuid {
-                    if !includeUnsubscribed, !podcast.isSubscribed() { return nil }
+            guard let podcast = cachedPodcasts[uuid] else { return nil }
 
-                    return podcast
-                }
-            }
+            if !includeUnsubscribed, !podcast.isSubscribed() { return nil }
 
-            return nil
+            return podcast
         }
     }
 
     func count(dbQueue: FMDatabaseQueue) -> Int {
         var count = 0
         cachedPodcastsQueue.sync {
-            for podcast in cachedPodcasts {
+            for podcast in cachedPodcasts.values {
                 if !podcast.isSubscribed() { continue }
 
                 count += 1
@@ -611,10 +607,10 @@ class PodcastDataManager {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName) ORDER BY sortOrder ASC", values: nil)
                 defer { resultSet.close() }
 
-                var newPodcasts = [Podcast]()
+                var newPodcasts = [String: Podcast]()
                 while resultSet.next() {
                     let podcast = self.createPodcastFrom(resultSet: resultSet)
-                    newPodcasts.append(podcast)
+                    newPodcasts[podcast.uuid] = podcast
                 }
                 cachedPodcastsQueue.sync {
                     cachedPodcasts = newPodcasts

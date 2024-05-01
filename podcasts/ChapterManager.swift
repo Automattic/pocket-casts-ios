@@ -104,8 +104,8 @@ class ChapterManager {
     }
 
     func parseChapters(episode: BaseEpisode, duration: TimeInterval) {
-        Task {
-            await parseChapters(episode: episode, duration: duration)
+        Task.detached { [weak self] in
+            await self?.parseChapters(episode: episode, duration: duration)
         }
     }
 

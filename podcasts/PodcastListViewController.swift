@@ -2,7 +2,9 @@ import DifferenceKit
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
+import Kingfisher
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
@@ -74,7 +76,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
         super.viewDidLoad()
 
-        updateFolderButton()
+        updateNavigationButtons()
 
         title = L10n.podcastsPlural
         setupSearchBar()
@@ -84,7 +86,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
 
-        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        adjustSettingsForGridType()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -92,10 +94,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         refreshControl?.parentViewControllerDidAppear()
 
-        miniPlayerStatusDidChange()
+        updateInsets()
         refreshGridItems()
         addEventObservers()
-        updateFolderButton()
+        updateNavigationButtons()
 
         Analytics.track(.podcastsListShown, properties: [
             "sort_order": Settings.homeFolderSortOrder(),
@@ -161,15 +163,74 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
-            self.updateFolderButton()
+            self.updateNavigationButtons()
         }
     }
 
-    private func updateFolderButton() {
+    private func makeBadge(size: CGFloat) -> UIView {
+        let badgeView = CircleView()
+        badgeView.borderWidth = CGFloat(2)
+        badgeView.borderColor = ThemeColor.secondaryUi01()
+        badgeView.centerColor = ThemeColor.primaryInteractive01()
+        badgeView.backgroundColor = .clear
+        badgeView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            badgeView.widthAnchor.constraint(equalToConstant: size),
+            badgeView.heightAnchor.constraint(equalToConstant: size),
+        ])
+        return badgeView
+    }
+
+    private func makeProfileButton(email: String?) -> UIBarButtonItem {
+        let avatarSize = CGFloat(32)
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: avatarSize, height: avatarSize))
+        imageView.contentMode = .center
+        let profileImage = UIImage(named: "profile-placeholder")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = profileImage
+        if let email {
+            imageView.contentMode = .scaleAspectFit
+            let gravatarURL = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(256)")
+            let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
+            imageView.kf.setImage(with: gravatarURL, placeholder: profileImage, options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ])
+        }
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped(_:)))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: avatarSize),
+            imageView.heightAnchor.constraint(equalToConstant: avatarSize),
+        ])
+
+        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
+            let badgeSize = CGFloat(10)
+            let badge = makeBadge(size: badgeSize)
+            imageView.addSubview(badge)
+            NSLayoutConstraint.activate([
+                badge.centerXAnchor.constraint(equalTo: imageView.rightAnchor, constant: -(badgeSize / 2)),
+                badge.centerYAnchor.constraint(equalTo: imageView.topAnchor, constant: +(badgeSize / 2)),
+            ])
+        }
+        return UIBarButtonItem(customView: imageView)
+    }
+
+    private func updateNavigationButtons() {
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
-        let leftButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
-        leftButton.accessibilityLabel = L10n.folderCreateNew
-        navigationItem.leftBarButtonItem = leftButton
+        let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
+        folderButton.accessibilityLabel = L10n.folderCreateNew
+        if FeatureFlag.upNextOnTabBar.enabled {
+            let userProfile = UserInfo.Profile()
+            navigationItem.leftBarButtonItem = makeProfileButton(email: userProfile.email)
+            extraRightButtons = [folderButton]
+        } else {
+            navigationItem.leftBarButtonItem = folderButton
+            extraRightButtons = []
+        }
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {
@@ -188,10 +249,21 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func miniPlayerStatusDidChange() {
-        if PlaybackManager.shared.currentEpisode() != nil {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        } else {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: 0, right: 0)
+        updateInsets()
+    }
+
+    private func updateInsets() {
+        let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
+
+        podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
+    }
+
+    private func adjustSettingsForGridType() {
+        updateInsets()
+        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
+            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.primaryUi02
         }
     }
 
@@ -215,6 +287,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                 strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
             }
         }
+    }
+
+    func showProfileController() {
+        let profileViewController = ProfileViewController()
+        self.navigationController?.pushViewController(profileViewController, animated: true)
+    }
+
+    @objc private func profileTapped(_ sender: UIBarButtonItem) {
+        showProfileController()
     }
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {
@@ -318,6 +399,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     func gridTypeChanged() {
         podcastsCollectionView.reloadData()
+        adjustSettingsForGridType()
     }
 
     private func showBadgeOptions() {
@@ -353,6 +435,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         options.addAction(action: unplayedCountAction)
 
         options.show(statusBarStyle: preferredStatusBarStyle)
+    }
+
+    override func handleThemeChanged() {
+        super.handleThemeChanged()
+        podcastsCollectionView.reloadData()
     }
 }
 
