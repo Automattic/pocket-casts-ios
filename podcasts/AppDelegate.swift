@@ -33,8 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
 
-        setupWhatsNew()
-
         setupSecrets()
         addAnalyticsObservers()
         setupAnalytics()
@@ -60,6 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let self else {
                 return
             }
+
+            setupWhatsNew()
 
             logStaleDownloads()
             postLaunchSetup()
