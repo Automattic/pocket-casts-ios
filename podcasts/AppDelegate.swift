@@ -59,15 +59,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
 
+            ServerConfig.shared.syncDelegate = ServerSyncManager.shared
+            ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+            checkDefaults()
+
             logStaleDownloads()
             postLaunchSetup()
             checkIfRestoreCleanupRequired()
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
-
-            ServerConfig.shared.syncDelegate = ServerSyncManager.shared
-            ServerConfig.shared.playbackDelegate = PlaybackManager.shared
-            checkDefaults()
         }
 
         badgeHelper.setup()
