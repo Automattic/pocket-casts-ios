@@ -44,7 +44,6 @@ extension Episode {
         episode.starredModified = rs.longLongInt(forColumn: "starredModified")
         episode.deselectedChapters = rs.string(forColumn: "deselectedChapters")
         episode.deselectedChaptersModified = rs.longLongInt(forColumn: "deselectedChaptersModified")
-        episode.rawMetadata = rs.string(forColumn: "metadata")
         return episode
     }
 }

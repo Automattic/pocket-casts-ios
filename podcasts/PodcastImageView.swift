@@ -39,8 +39,10 @@ class PodcastImageView: UIView {
 
         ImageManager.sharedManager.setPlaceholder(imageView: imageView, size: size)
 
+        let disableCellArtwork = true
+
         Task {
-            if FeatureFlag.episodeFeedArtwork.enabled, Settings.loadEmbeddedImages, let episodeArtworkUrl = await episode.loadMetadata()?.image {
+            if disableCellArtwork, FeatureFlag.episodeFeedArtwork.enabled, Settings.loadEmbeddedImages, let episodeArtworkUrl = await episode.loadMetadata()?.image {
 
                 // The app might run into the case where the episode changed but there's still
                 // a pending task to display the image of another episode
