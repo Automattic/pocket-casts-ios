@@ -25,15 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
 
-    var whatsNew: WhatsNew?
+    lazy var whatsNew = WhatsNew()
 
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
-
-        setupWhatsNew()
 
         setupSecrets()
         addAnalyticsObservers()
@@ -54,15 +52,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupRoutes()
 
-        ServerConfig.shared.syncDelegate = ServerSyncManager.shared
-        ServerConfig.shared.playbackDelegate = PlaybackManager.shared
-        checkDefaults()
-
         NotificationsHelper.shared.register(checkToken: false)
 
         DispatchQueue.global().async { [weak self] in
-            self?.postLaunchSetup()
-            self?.checkIfRestoreCleanupRequired()
+            guard let self else {
+                return
+            }
+
+            ServerConfig.shared.syncDelegate = ServerSyncManager.shared
+            ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+            checkDefaults()
+
+            logStaleDownloads()
+            postLaunchSetup()
+            checkIfRestoreCleanupRequired()
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
         }
@@ -81,8 +84,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
-
-        logStaleDownloads()
 
         return true
     }
@@ -407,11 +408,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
-    }
-
-    // MARK: What's New
-
-    private func setupWhatsNew() {
-        whatsNew = WhatsNew()
     }
 }

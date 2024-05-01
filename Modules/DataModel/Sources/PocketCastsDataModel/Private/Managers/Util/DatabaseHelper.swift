@@ -718,6 +718,8 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
                 try db.executeUpdate("CREATE INDEX \"episodeArchived\" ON \"SJEpisode\" (\"archived\");", values: nil)
+                try db.executeUpdate("CREATE INDEX non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
                 schemaVersion = 48
             } catch {
                 failedAt(48)
