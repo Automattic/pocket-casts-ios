@@ -51,10 +51,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     // this lock is to avoid race conditions where you're destroying the player while in the middle of setting it up (since the play method does its work asynchronously)
     private lazy var playerLock = NSLock()
 
+    private lazy var episodeArtwork = EpisodeArtwork()
+
     // MARK: - PlaybackProtocol Impl
 
     func loadEpisode(_ episode: BaseEpisode) {
         episodePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
+        episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
         self.episode = episode
     }
 
