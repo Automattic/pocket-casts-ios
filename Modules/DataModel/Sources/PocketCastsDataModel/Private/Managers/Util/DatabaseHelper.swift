@@ -716,6 +716,7 @@ class DatabaseHelper {
 
         if schemaVersion < 48 {
             do {
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
                 try db.executeUpdate("CREATE INDEX \"episodeArchived\" ON \"SJEpisode\" (\"archived\");", values: nil)
                 schemaVersion = 48
             } catch {
