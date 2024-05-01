@@ -54,17 +54,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupRoutes()
 
-        ServerConfig.shared.syncDelegate = ServerSyncManager.shared
-        ServerConfig.shared.playbackDelegate = PlaybackManager.shared
-        checkDefaults()
-
         NotificationsHelper.shared.register(checkToken: false)
 
         DispatchQueue.global().async { [weak self] in
-            self?.postLaunchSetup()
-            self?.checkIfRestoreCleanupRequired()
+            guard let self else {
+                return
+            }
+
+            logStaleDownloads()
+            postLaunchSetup()
+            checkIfRestoreCleanupRequired()
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
+
+            ServerConfig.shared.syncDelegate = ServerSyncManager.shared
+            ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+            checkDefaults()
         }
 
         badgeHelper.setup()
@@ -81,8 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
-
-        logStaleDownloads()
 
         return true
     }
