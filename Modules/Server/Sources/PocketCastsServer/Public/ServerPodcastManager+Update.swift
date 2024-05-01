@@ -191,7 +191,7 @@ extension ServerPodcastManager {
         }
     }
 
-    public func updateLatestEpisodeInfo(podcast: Podcast, setDefaults: Bool) {
+    public func updateLatestEpisodeInfo(podcast: Podcast, setDefaults: Bool, cache: Bool = true) {
         guard let latestEpisode = podcast.latestEpisode() else { return }
 
         // no need to re-save one we already have
@@ -199,7 +199,7 @@ extension ServerPodcastManager {
 
         podcast.latestEpisodeDate = latestEpisode.publishedDate
         podcast.latestEpisodeUuid = latestEpisode.uuid
-        DataManager.sharedManager.save(podcast: podcast)
+        DataManager.sharedManager.save(podcast: podcast, cache: cache)
 
         if setDefaults {
             setDefaultsAndLoadMetadataForNewlyAddedPodcast(podcast, latestEpisode: latestEpisode)

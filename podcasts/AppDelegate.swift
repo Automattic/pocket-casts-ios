@@ -66,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             logStaleDownloads()
             postLaunchSetup()
             checkIfRestoreCleanupRequired()
+
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
         }
