@@ -5,8 +5,8 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func checkDefaults() {
-        let defaults = UserDefaults.standard
-        let dataManager = DataManager.sharedManager
+        lazy var defaults = UserDefaults.standard
+        lazy var dataManager = DataManager.sharedManager
 
         performUpdateIfRequired(updateKey: "v5Run") {
             // these are considered defaults for a new app install
