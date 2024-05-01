@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
 
-    var whatsNew: WhatsNew?
+    lazy var whatsNew = WhatsNew()
 
     // MARK: - App Lifecycle
 
@@ -58,8 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let self else {
                 return
             }
-
-            setupWhatsNew()
 
             logStaleDownloads()
             postLaunchSetup()
@@ -410,11 +408,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
-    }
-
-    // MARK: What's New
-
-    private func setupWhatsNew() {
-        whatsNew = WhatsNew()
     }
 }
