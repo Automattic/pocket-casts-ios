@@ -52,7 +52,7 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enhances the profile view to display more fields from the user's Gravatar profile.
     case displayGravatarProfile
-    
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue

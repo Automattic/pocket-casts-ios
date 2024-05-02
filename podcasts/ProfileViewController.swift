@@ -3,6 +3,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 import GravatarUI
+import Combine
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
@@ -67,26 +68,36 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private lazy var gravatarHeaderContainerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(gravatarHeaderView)
+        containerView.addSubview(gravatarProfileView)
         let horizontalPadding: CGFloat = 16
         let verticalPadding: CGFloat = 20
         NSLayoutConstraint.activate([
-            gravatarHeaderView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalPadding),
-            gravatarHeaderView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalPadding),
-            gravatarHeaderView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: verticalPadding),
-            gravatarHeaderView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -verticalPadding)
+            gravatarProfileView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalPadding),
+            gravatarProfileView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalPadding),
+            gravatarProfileView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: verticalPadding),
+            gravatarProfileView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -verticalPadding)
         ])
         return containerView
     }()
 
-    private lazy var gravatarHeaderView: UIView & UIContentView = {
-        let config = ProfileViewConfiguration.large()
-        let contentView = config.makeContentView()
+    private lazy var gravatarProfileView: UIView & UIContentView = {
+        let contentView = gravatarConfiguration.makeContentView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.layer.cornerRadius = 8
         contentView.clipsToBounds = true
         return contentView
     }()
+
+    private let gravatarViewModel: ProfileViewModel = .init()
+    private var cancellables = Set<AnyCancellable>()
+    private var gravatarConfiguration: ProfileViewConfiguration = ProfileViewConfiguration.large() {
+        didSet {
+            gravatarProfileView.configuration = gravatarConfiguration
+            //profileTable.setNeedsLayout()
+            //profileTable.layoutIfNeeded()
+            profileTable.reloadData()
+        }
+    }
 
     private lazy var headerView: UIView = {
         let headerView = ProfileHeaderView(viewModel: headerViewModel)
@@ -114,11 +125,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             profileTable.tableHeaderView?.setNeedsLayout()
             profileTable.tableHeaderView?.layoutIfNeeded()
         }
-
+        receiveGravatarViewModelUpdates()
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
         setupRefreshControl()
+        fetchGravatarProfile()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -228,7 +240,14 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func updateDisplayedData() {
         // Update the new header's data
         headerViewModel.update()
-
+        if shouldDisplayGravatarProfile {
+            if headerViewModel.profile.email == nil {
+                clearGravatarProfile()
+            }
+            else {
+                fetchGravatarProfile()
+            }
+        }
         updateLastRefreshDetails()
         plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
         updateFooterFrame()
@@ -438,5 +457,52 @@ extension ProfileViewController {
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         refreshControl?.scrollViewDidEndDragging(scrollView)
+    }
+}
+
+// MARK: Gravatar
+
+extension ProfileViewController {
+
+    private func receiveGravatarViewModelUpdates() {
+        gravatarViewModel.$profileFetchingResult.sink { [weak self] result in
+            guard let self else { return }
+            guard let result else {
+                var newConfig = self.gravatarConfiguration
+                newConfig.model = nil
+                newConfig.summaryModel = nil
+                self.gravatarConfiguration = newConfig
+                return
+            }
+
+            switch result {
+            case .success(let profile):
+                var newConfig = self.gravatarConfiguration
+                newConfig.model = profile
+                newConfig.summaryModel = profile
+                self.gravatarConfiguration = newConfig
+            case .failure(let error):
+                //TODO: handle error
+                break
+            }
+        }.store(in: &cancellables)
+
+        gravatarViewModel.$isLoading.sink { [weak self] isLoading in
+            guard let self else { return }
+            var newConfig = self.gravatarConfiguration
+            newConfig.isLoading = isLoading
+            self.gravatarConfiguration = newConfig
+        }.store(in: &cancellables)
+    }
+
+    public func clearGravatarProfile() {
+        gravatarViewModel.clear()
+    }
+
+    public func fetchGravatarProfile() {
+        guard let email = headerViewModel.profile.email else { return }
+        Task {
+            await gravatarViewModel.fetchProfile(profileIdentifier: ProfileIdentifier.email(email))
+        }
     }
 }
