@@ -20,9 +20,9 @@ public class DatabaseIndexHelper {
                 } catch {
                     rollback.pointee = true
                 }
-
-                self?.queue.close()
             }
+
+            self?.queue.close()
         }
     }
 }
