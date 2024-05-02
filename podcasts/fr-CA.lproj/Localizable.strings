@@ -154,11 +154,11 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Rejoignez-nous pour le bêta-test des favoris !</string>
     <key>announcement_deselect_chapters_free</key>
-    <string>Abonnez-vous à Plus dès maintenant pour pouvoir sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <string>Abonnez-vous à Plus dès maintenant pour pouvoir présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
     <key>announcement_deselect_chapters_patron</key>
-    <string>Dans le cadre de votre abonnement Patron, vous pouvez maintenant sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <string>Dans le cadre de votre abonnement Patron, vous pouvez maintenant présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
     <key>announcement_deselect_chapters_plus</key>
-    <string>Dans le cadre de votre abonnement Plus, vous pouvez maintenant sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <string>Dans le cadre de votre abonnement Plus, vous pouvez maintenant présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code copié dans le presse-papiers</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -220,9 +220,9 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>appearance_dark_theme</key>
     <string>Thème sombre</string>
     <key>appearance_embedded_artwork</key>
-    <string>Utiliser l’illustration intégrée</string>
+    <string>Utiliser l’illustration de l’épisode</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Affiche l’illustration des émissions du fichier téléchargé (s’il existe) dans le lecteur plutôt que d’utiliser l’illustration de l’émission.</string>
+    <string>Certaines émissions ont des illustrations personnalisées pour certains épisodes. Activez cette option et Pocket Casts les affichera à la place de l’illustration de l’émission.</string>
     <key>appearance_light_theme</key>
     <string>Thème clair</string>
     <key>appearance_match_device_theme</key>
@@ -2428,11 +2428,11 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <key>skip_back</key>
     <string>Saut vers l’arrière</string>
     <key>skip_chapters</key>
-    <string>Sauter les chapitres</string>
+    <string>Présélectionner des chapitres</string>
     <key>skip_chapters_patron_prompt</key>
-    <string>Passer des chapitres et plus encore avec Pocket Casts Patron</string>
+    <string>Présélectionner des chapitres et plus encore avec Pocket Casts Patron</string>
     <key>skip_chapters_plus_prompt</key>
-    <string>Passer des chapitres et plus encore avec Pocket Casts Plus</string>
+    <string>Présélectionner des chapitres et plus encore avec Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Saut vers l’avant</string>
     <key>sleep_timer</key>
