@@ -254,7 +254,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func updateInsets() {
         let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
-        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
+        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 8 : Constants.Values.miniPlayerOffset + 8
 
         podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
     }
