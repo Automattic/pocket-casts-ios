@@ -10,7 +10,7 @@ public class DatabaseIndexHelper {
     }
 
     public func run() {
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.queue.inTransaction { db, rollback in
                 do {
                     try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
