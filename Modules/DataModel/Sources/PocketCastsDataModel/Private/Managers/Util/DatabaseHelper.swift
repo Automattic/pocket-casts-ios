@@ -740,6 +740,15 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 50 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
+            } catch {
+                failedAt(50)
+                return
+            }
+        }
+
         db.commit()
     }
 }

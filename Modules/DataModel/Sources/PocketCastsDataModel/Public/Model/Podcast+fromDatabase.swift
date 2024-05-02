@@ -55,16 +55,6 @@ extension Podcast {
         podcast.refreshAvailable = rs.bool(forColumn: "refreshAvailable")
         podcast.folderUuid = rs.string(forColumn: "folderUuid")
 
-        if let settingsString = rs.string(forColumn: "settings"), let data = settingsString.data(using: .utf8) {
-            do {
-                podcast.settings = try DBUtils.convertData(value: data) ?? podcast.settings
-            } catch let error {
-                FileLog.shared.addMessage("Podcast fromResultSet: Failed to decode: \(error)")
-            }
-        } else {
-            FileLog.shared.addMessage("Podcast fromResultSet: Nil settings column")
-        }
-
         return podcast
     }
 }
