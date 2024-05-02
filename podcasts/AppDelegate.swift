@@ -418,9 +418,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
-        Toast.show("Indexes being created")
         indexHelper.run()
         Settings.upgradedIndexes = true
-        Toast.show("Indexes created")
     }
 }
