@@ -1211,6 +1211,18 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Database (internal)
+
+    class var upgradedIndexes: Bool {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "upgraded_indexes")
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: "upgraded_indexes")
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)

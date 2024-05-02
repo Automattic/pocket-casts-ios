@@ -727,10 +727,6 @@ class DatabaseHelper {
         // Revert all the changes from 7.61 to 7.63
         if schemaVersion < 49 {
             do {
-                try db.executeUpdate("DROP INDEX IF EXISTS episode_download_task_id;", values: nil)
-                try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
-                try db.executeUpdate("DROP INDEX IF EXISTS episode_non_null_download_task_id;", values: nil)
-                try db.executeUpdate("DROP INDEX IF EXISTS episode_added_date;", values: nil)
                 try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
                 try db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
                 schemaVersion = 49

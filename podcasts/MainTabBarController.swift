@@ -709,7 +709,7 @@ private extension MainTabBarController {
     func showWhatsNewIfNeeded() {
         guard let controller = view.window?.rootViewController else { return }
 
-        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
+        if let whatsNewViewController = appDelegate()?.whatsNew.viewControllerToShow() {
             controller.present(whatsNewViewController, animated: true)
             isShowingWhatsNew = true
         }
