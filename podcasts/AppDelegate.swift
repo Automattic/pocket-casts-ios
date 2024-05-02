@@ -122,6 +122,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserEpisodeManager.checkForPendingUploads()
         }
         PlaybackManager.shared.updateIdleTimer()
+
+        updateDatabaseIndexes()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
@@ -407,9 +409,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
     }
 
-    // MARK: What's New
+    // MARK: - Database
 
-    private func setupWhatsNew() {
-        whatsNew = WhatsNew()
+    lazy var indexHelper = DatabaseIndexHelper()
+
+    private func updateDatabaseIndexes() {
+        guard !Settings.upgradedIndexes else {
+            return
+        }
+
+        Toast.show("Indexes being created")
+        indexHelper.run()
+        Settings.upgradedIndexes = true
+        Toast.show("Indexes created")
     }
 }
