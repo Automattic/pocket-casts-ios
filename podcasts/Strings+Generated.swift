@@ -472,6 +472,8 @@ internal enum L10n {
   internal static var customEpisodeRemoveUpload: String { return L10n.tr("Localizable", "custom_episode_remove_upload") }
   /// Upload to Cloud
   internal static var customEpisodeUpload: String { return L10n.tr("Localizable", "custom_episode_upload") }
+  /// We're moving a few bits and bytes so the app runs faster...
+  internal static var databaseMigration: String { return L10n.tr("Localizable", "database_migration") }
   /// Day listened
   internal static var dayListened: String { return L10n.tr("Localizable", "day_listened") }
   /// Day saved
@@ -1252,6 +1254,8 @@ internal enum L10n {
   internal static var gotIt: String { return L10n.tr("Localizable", "got_it") }
   /// Group Episodes
   internal static var groupEpisodes: String { return L10n.tr("Localizable", "group_episodes") }
+  /// Hang on!
+  internal static var hangOn: String { return L10n.tr("Localizable", "hang_on") }
   /// Clear All
   internal static var historyClearAll: String { return L10n.tr("Localizable", "history_clear_all") }
   /// Clear Listening History
