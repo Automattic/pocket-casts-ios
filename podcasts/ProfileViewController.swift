@@ -90,7 +90,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private let gravatarViewModel: ProfileViewModel = .init()
     private var cancellables = Set<AnyCancellable>()
-    private var gravatarConfiguration: ProfileViewConfiguration = ProfileViewConfiguration.large() {
+    private lazy var gravatarConfiguration: ProfileViewConfiguration = {
+        var config = ProfileViewConfiguration.standard()
+        config.avatarPlaceholder = UIImage(named: "profile-placeholder")?.withRenderingMode(.alwaysTemplate)
+        config.padding = .init(top: 12, left: 12, bottom: 12, right: 12)
+        return config
+    }() {
         didSet {
             gravatarProfileView.configuration = gravatarConfiguration
             profileTable.setNeedsLayout()
@@ -132,6 +137,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         gravatarHeaderContainerView.widthAnchor.constraint(equalTo: profileTable.widthAnchor).isActive = true
         profileTable.tableHeaderView?.setNeedsLayout()
         profileTable.tableHeaderView?.layoutIfNeeded()
+        fetchGravatarProfile()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -216,6 +222,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         refreshBtn.animateImage(animationType: .rotate)
         lastRefreshTime.text = L10n.refreshing
         RefreshManager.shared.refreshPodcasts()
+        if shouldDisplayGravatarProfile {
+            fetchGravatarProfile()
+        }
     }
 
     // MARK: - Data Updates
@@ -243,7 +252,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         headerViewModel.update()
         if shouldDisplayGravatarProfile {
             setGravatarTableHeaderView()
-            fetchGravatarProfile()
         }
         else {
             profileTable.tableHeaderView = nil
@@ -449,6 +457,10 @@ extension ProfileViewController {
         refreshControl = PCRefreshControl(scrollView: profileTable,
                                           navBar: navController.navigationBar,
                                           source: .profile)
+        refreshControl?.didBeginRefreshing = { [weak self] in
+            guard let self, self.shouldDisplayGravatarProfile else { return }
+            self.fetchGravatarProfile()
+        }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

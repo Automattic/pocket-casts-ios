@@ -7,10 +7,6 @@ import PocketCastsUtils
 /// Represents a view that will display information about the users profile such as email, subscription status, and stats
 class ProfileDataViewModel: ObservableObject {
 
-    var shouldDisplayGravatarProfile: Bool {
-        FeatureFlag.displayGravatarProfile.enabled && profile.isLoggedIn
-    }
-
     // Allow UIKit to update to view size changes
     private(set) var contentSize: CGSize? = nil
     var viewContentSizeChanged: (() -> Void)? = nil
@@ -45,7 +41,8 @@ class ProfileDataViewModel: ObservableObject {
         profile = .init()
         subscription = .init(loggedIn: profile.isLoggedIn)
         stats = .init()
-        shouldShowProfileInfo = !shouldDisplayGravatarProfile
+        shouldShowProfileInfo = !(FeatureFlag.displayGravatarProfile.enabled && profile.isLoggedIn)
+
         objectWillChange.send()
     }
 

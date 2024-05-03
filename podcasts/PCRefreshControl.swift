@@ -21,7 +21,8 @@ class PCRefreshControl: UIView {
     private weak var navBar: UINavigationBar?
 
     var parentViewVisible = false
-
+    var didBeginRefreshing: (()->())?
+    
     override var bounds: CGRect {
         didSet {
             resetOffsetOnBoundsChangeIfNeeded()
@@ -129,6 +130,7 @@ class PCRefreshControl: UIView {
 
         RefreshManager.shared.refreshPodcasts()
         Analytics.track(.pulledToRefresh, properties: ["source": source])
+        self.didBeginRefreshing?()
     }
 
     func endRefreshing(_ animated: Bool) {
