@@ -496,7 +496,7 @@ extension ProfileViewController: ProfileViewDelegate {
                 newConfig.model = profile
                 newConfig.summaryModel = profile
                 self.gravatarConfiguration = newConfig
-            case .failure(_):
+            case .failure:
                 //TODO: handle error
                 break
             }
@@ -520,7 +520,7 @@ extension ProfileViewController: ProfileViewDelegate {
             await gravatarViewModel.fetchProfile(profileIdentifier: ProfileIdentifier.email(email))
         }
     }
-    
+
     func profileView(_ view: BaseProfileView, didTapOnProfileButtonWithStyle style: ProfileButtonStyle, profileURL: URL?) {
         guard let profileURL else { return }
         let safari = SFSafariViewController(url: profileURL)
@@ -533,4 +533,3 @@ extension ProfileViewController: ProfileViewDelegate {
         present(safari, animated: true)
     }
 }
-
