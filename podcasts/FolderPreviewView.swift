@@ -38,16 +38,18 @@ class FolderPreviewView: UIView {
         if folderName.isEmpty { showFolderName = false }
 
         for i in 0 ... (previewCount - 1) {
-            let imageView = PodcastImageView()
+            let imageView: PodcastImageView
+            if i < images.count {
+                imageView = images[i]
+            } else {
+                imageView = PodcastImageView()
+                addSubview(imageView)
+                images.append(imageView)
+            }
 
             if let uuid = topPodcastUuids[safe: i] {
                 setImage(in: imageView, for: uuid)
-            } else {
-                imageView.setTransparentNoArtwork(size: .list)
             }
-
-            addSubview(imageView)
-            images.append(imageView)
         }
 
         layoutTiles()
@@ -95,9 +97,8 @@ class FolderPreviewView: UIView {
 
     private func cleanupImages() {
         images.forEach { imageView in
-            imageView.removeFromSuperview()
+            imageView.setTransparentNoArtwork(size: .list)
         }
-        images.removeAll()
     }
 
     private func configureGradient() {

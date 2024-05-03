@@ -44,9 +44,9 @@ class PodcastImageView: UIView {
     }
 
     func setTransparentNoArtwork(size: PodcastThumbnailSize) {
+        imageView?.kf.cancelDownloadTask()
         imageView?.image = nil
         imageView?.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-
         adjustForSize(size)
     }
 
