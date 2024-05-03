@@ -10,7 +10,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     var refreshControl: PCRefreshControl?
     var shouldDisplayGravatarProfile: Bool {
-        FeatureFlag.displayGravatarProfile.enabled
+        FeatureFlag.displayGravatarProfile.enabled && headerViewModel.profile.isLoggedIn
     }
 
     @IBOutlet var footerView: UIView!
@@ -56,7 +56,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     // MARK: - Profile Header
     private lazy var headerViewModel: ProfileHeaderViewModel = {
-        let viewModel = ProfileHeaderViewModel(navigationController: navigationController, shouldShowProfileInfo: !shouldDisplayGravatarProfile)
+        let viewModel = ProfileHeaderViewModel(navigationController: navigationController)
         // Listen for view size changes and update the header view cell if needed
         viewModel.viewContentSizeChanged = { [weak self] in
             self?.profileTable.reloadData()
@@ -93,8 +93,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private var gravatarConfiguration: ProfileViewConfiguration = ProfileViewConfiguration.large() {
         didSet {
             gravatarProfileView.configuration = gravatarConfiguration
-            //profileTable.setNeedsLayout()
-            //profileTable.layoutIfNeeded()
+            profileTable.setNeedsLayout()
+            profileTable.layoutIfNeeded()
             profileTable.reloadData()
         }
     }
@@ -119,18 +119,19 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         navigationItem.title = L10n.profile
 
         profileTable.tableFooterView = footerView
-        if shouldDisplayGravatarProfile {
-            profileTable.tableHeaderView = gravatarHeaderContainerView
-            gravatarHeaderContainerView.widthAnchor.constraint(equalTo: profileTable.widthAnchor).isActive = true
-            profileTable.tableHeaderView?.setNeedsLayout()
-            profileTable.tableHeaderView?.layoutIfNeeded()
-        }
         receiveGravatarViewModelUpdates()
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
         setupRefreshControl()
-        fetchGravatarProfile()
+    }
+
+    private func setGravatarTableHeaderView() {
+        guard profileTable.tableHeaderView != gravatarHeaderContainerView else { return }
+        profileTable.tableHeaderView = gravatarHeaderContainerView
+        gravatarHeaderContainerView.widthAnchor.constraint(equalTo: profileTable.widthAnchor).isActive = true
+        profileTable.tableHeaderView?.setNeedsLayout()
+        profileTable.tableHeaderView?.layoutIfNeeded()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -241,12 +242,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         // Update the new header's data
         headerViewModel.update()
         if shouldDisplayGravatarProfile {
-            if headerViewModel.profile.email == nil {
-                clearGravatarProfile()
-            }
-            else {
-                fetchGravatarProfile()
-            }
+            setGravatarTableHeaderView()
+            fetchGravatarProfile()
+        }
+        else {
+            profileTable.tableHeaderView = nil
         }
         updateLastRefreshDetails()
         plusInfoView.isHidden = Settings.plusInfoDismissedOnProfile() || SubscriptionHelper.hasActiveSubscription()
