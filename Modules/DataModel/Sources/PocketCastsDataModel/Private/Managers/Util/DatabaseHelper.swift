@@ -714,35 +714,12 @@ class DatabaseHelper {
             }
         }
 
+        // Those migrations were some heavy DROP COLUMN that we moved outside of DB startup
         if schemaVersion < 48 {
-            do {
-                try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
-                schemaVersion = 48
-            } catch {
-                failedAt(48)
-                return
-            }
+            schemaVersion = 48
         }
-
-        // Revert all the changes from 7.61 to 7.63
         if schemaVersion < 49 {
-            do {
-                try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
-                try db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
-                schemaVersion = 49
-            } catch {
-                failedAt(49)
-                return
-            }
-        }
-
-        if schemaVersion < 50 {
-            do {
-                try db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
-            } catch {
-                failedAt(50)
-                return
-            }
+            schemaVersion = 49
         }
 
         db.commit()
