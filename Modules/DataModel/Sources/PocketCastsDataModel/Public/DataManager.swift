@@ -338,10 +338,12 @@ public class DataManager {
     }
 
     public func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String]) {
+        folderPodcastUuuidCache.removeAll()
         podcastManager.bulkSetFolderUuid(folderUuid: folderUuid, podcastUuids: podcastUuids, dbQueue: dbQueue)
     }
 
     public func updatePodcastFolder(podcastUuid: String, to folderUuid: String?, sortOrder: Int32) {
+        folderPodcastUuuidCache.removeAll()
         podcastManager.updatePodcastFolder(podcastUuid: podcastUuid, sortOrder: sortOrder, folderUuid: folderUuid, dbQueue: dbQueue)
     }
 
@@ -821,6 +823,7 @@ public class DataManager {
     // MARK: - Folders
 
     public func save(folder: Folder) {
+        folderPodcastUuuidCache[folder.uuid] = nil
         folderManager.save(folder: folder, dbQueue: dbQueue)
     }
 
@@ -830,6 +833,17 @@ public class DataManager {
 
     public func findFolder(uuid: String) -> Folder? {
         folderManager.findFolder(uuid: uuid, dbQueue: dbQueue)
+    }
+
+    private var folderPodcastUuuidCache: [String: [String]] = [:]
+
+    public func topPodcastsUuidInFolder(folder: Folder) -> [String] {
+        if let topPodcasts = folderPodcastUuuidCache[folder.uuid] {
+            return topPodcasts
+        }
+        let topPodcasts = podcastManager.allPodcastsInFolder(folder: folder, dbQueue: dbQueue).map({$0.uuid})
+        folderPodcastUuuidCache[folder.uuid] = topPodcasts
+        return topPodcasts
     }
 
     public func allPodcastsInFolder(folder: Folder) -> [Podcast] {

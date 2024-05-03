@@ -18,7 +18,7 @@ class FolderPreviewView: UIView {
     private var nameLabelBottomConstraint: NSLayoutConstraint?
 
     func populateFrom(folder: Folder) {
-        let podcastUuids = DataManager.sharedManager.allPodcastsInFolder(folder: folder).map(\.uuid)
+        let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
         setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids)
     }
 
