@@ -4059,6 +4059,12 @@
 /* Prompting the user to upgrade to Plus. Don't translate "Plus" */
 "upgrade_to_plus" = "Upgrade to Plus";
 
+/* Displayed when doing a heavy task the user has to wait */
+"hang_on" = "Hang on!";
+
+/* Message displayed when doing heavy database operations */
+"database_migration" = "We're moving a few bits and bytes so the app runs faster...";
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */
