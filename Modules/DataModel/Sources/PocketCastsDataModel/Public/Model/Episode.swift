@@ -47,7 +47,12 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var deselectedChaptersModified = 0 as Int64
 
     public var hasBookmarks: Bool {
-        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        // This wil cause a regression in which the bookmarks won't be displayed
+        // for episodes with bookmarks.
+        // However, this call is happening on the main thread and can block the whole app.
+        // We will re-add this again in a way that's not a blocker
+        //DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        false
     }
 
     public var isUserEpisode: Bool {
