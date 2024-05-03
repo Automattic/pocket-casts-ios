@@ -124,8 +124,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         PlaybackManager.shared.updateIdleTimer()
-
-        updateDatabaseIndexes()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
@@ -409,18 +407,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
-    }
-
-    // MARK: - Database
-
-    lazy var indexHelper = DatabaseIndexHelper()
-
-    private func updateDatabaseIndexes() {
-        guard !Settings.upgradedIndexes else {
-            return
-        }
-
-        indexHelper.run()
-        Settings.upgradedIndexes = true
     }
 }
