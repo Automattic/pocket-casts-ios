@@ -22,7 +22,7 @@ class PCRefreshControl: UIView {
 
     var parentViewVisible = false
     var didBeginRefreshing: (()->())?
-    
+
     override var bounds: CGRect {
         didSet {
             resetOffsetOnBoundsChangeIfNeeded()

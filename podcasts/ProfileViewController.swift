@@ -4,6 +4,7 @@ import PocketCastsUtils
 import UIKit
 import GravatarUI
 import Combine
+import SafariServices
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
@@ -94,6 +95,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         var config = ProfileViewConfiguration.standard()
         config.avatarPlaceholder = UIImage(named: "profile-placeholder")?.withRenderingMode(.alwaysTemplate)
         config.padding = .init(top: 12, left: 12, bottom: 12, right: 12)
+        config.profileButtonStyle = .edit
+        config.delegate = self
         return config
     }() {
         didSet {
@@ -474,7 +477,7 @@ extension ProfileViewController {
 
 // MARK: Gravatar
 
-extension ProfileViewController {
+extension ProfileViewController: ProfileViewDelegate {
 
     private func receiveGravatarViewModelUpdates() {
         gravatarViewModel.$profileFetchingResult.sink { [weak self] result in
@@ -493,7 +496,7 @@ extension ProfileViewController {
                 newConfig.model = profile
                 newConfig.summaryModel = profile
                 self.gravatarConfiguration = newConfig
-            case .failure(let error):
+            case .failure(_):
                 //TODO: handle error
                 break
             }
@@ -517,4 +520,17 @@ extension ProfileViewController {
             await gravatarViewModel.fetchProfile(profileIdentifier: ProfileIdentifier.email(email))
         }
     }
+    
+    func profileView(_ view: BaseProfileView, didTapOnProfileButtonWithStyle style: ProfileButtonStyle, profileURL: URL?) {
+        guard let profileURL else { return }
+        let safari = SFSafariViewController(url: profileURL)
+        present(safari, animated: true)
+    }
+
+    func profileView(_ view: BaseProfileView, didTapOnAccountButtonWithModel accountModel: AccountModel) {
+        guard let accountURL = accountModel.accountURL else { return }
+        let safari = SFSafariViewController(url: accountURL)
+        present(safari, animated: true)
+    }
 }
+
