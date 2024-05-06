@@ -161,7 +161,8 @@ class DiscoverViewController: PCViewController {
     }
 
     private func addCategoryVC(for category: DiscoverCategory, regions: [String]) {
-        let categoryVC = CategoryPodcastsViewController(category: category)
+        let region = discoverLayout.map { Settings.discoverRegion(discoverLayout: $0) }
+        let categoryVC = CategoryPodcastsViewController(category: category, region: region)
         categoryVC.delegate = self
         categoryVC.view.alpha = 0
         categoryVC.podcastsTable.isScrollEnabled = false

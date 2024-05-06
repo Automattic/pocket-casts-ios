@@ -5,6 +5,10 @@ import PocketCastsServer
 extension DiscoverViewController: DiscoverDelegate {
     func showExpanded(item: PocketCastsServer.DiscoverItem, category: PocketCastsServer.DiscoverCategory?) {
         if let category {
+            if let categoryId = category.id, let categoryName = category.name, let discoverLayout {
+                let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
+                Analytics.track(.discoverCategoryShown, properties: ["name": categoryName, "region": currentRegion, "id": categoryId])
+            }
             reload(except: [item], category: category)
         } else {
             reload(except: [item], category: nil)
