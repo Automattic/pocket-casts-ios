@@ -117,6 +117,8 @@ public enum FeatureFlag: String, CaseIterable {
             "episode_artwork"
         case .rssChapters:
             "rss_chapters"
+        case .categoriesRedesign:
+            "categories_redesign"
         default:
             nil
         }
