@@ -256,7 +256,8 @@ public struct DiscoverRegion: Decodable {
     public var flag: String
 }
 
-public struct DiscoverItem: Decodable {
+public struct DiscoverItem: Decodable, Equatable {
+    public var id: String?
     public var uuid: String?
     public var title: String?
     public var type: String?
@@ -276,11 +277,18 @@ public struct DiscoverItem: Decodable {
         case isSponsored = "sponsored"
         case sponsoredPodcasts = "sponsored_podcasts"
         case expandedTopItemLabel = "expanded_top_item_label"
-        case type, title, source, regions, curated, uuid, popular
+        case type, title, source, regions, curated, uuid, popular, id
+    }
+
+    public init(id: String? = nil, title: String? = nil, source: String? = nil, regions: [String]) {
+        self.id = id
+        self.title = title
+        self.source = source
+        self.regions = regions
     }
 }
 
-public struct CarouselSponsoredPodcast: Decodable {
+public struct CarouselSponsoredPodcast: Decodable, Equatable {
     public var position: Int?
     public var source: String?
 }

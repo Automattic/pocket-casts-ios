@@ -3,6 +3,14 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 extension DiscoverViewController: DiscoverDelegate {
+    func showExpanded(item: PocketCastsServer.DiscoverItem, category: PocketCastsServer.DiscoverCategory?) {
+        if let category {
+            reload(except: [item], category: category)
+        } else {
+            reloadDiscoverTapped(NSObject())
+        }
+    }
+
     func show(podcastInfo: PodcastInfo, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?) {
         let podcastController = PodcastViewController(podcastInfo: podcastInfo, existingImage: placeholderImage)
         podcastController.featuredPodcast = isFeatured
