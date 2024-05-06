@@ -396,7 +396,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         let peakLimiterRenderCallback: AURenderCallback = { inRefCon, _, _, _, inNumberFrames, ioData -> OSStatus in
             if ioData == nil { return -1 }
 
-            let referenceToSelf = unsafeBitCast(inRefCon, to: DefaultPlayer.self)
+            let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
+            let referenceToSelf = reference.takeUnretainedValue()
             guard let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor else { return -1 }
 
             // The peak limiter is at the end of the chain so just grab the processed audio
@@ -442,7 +443,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let highPassFilterRenderCallback: AURenderCallback = { inRefCon, _, inTimeStamp, _, inNumberFrames, ioData -> OSStatus in
-            let referenceToSelf = unsafeBitCast(inRefCon, to: DefaultPlayer.self)
+            let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
+            let referenceToSelf = reference.takeUnretainedValue()
             guard let peakLimiter = referenceToSelf.peakLimiter, let ioData = ioData else { return -1 }
 
             var audioTimeStamp = AudioTimeStamp()
