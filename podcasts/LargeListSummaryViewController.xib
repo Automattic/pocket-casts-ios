@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,6 +14,7 @@
                 <outlet property="largeListCollectionViewHeight" destination="O9B-Ec-Krr" id="8nl-ey-dbz"/>
                 <outlet property="showAllBtn" destination="sF0-fo-tPV" id="NQp-Ou-W2d"/>
                 <outlet property="titleLabel" destination="0VX-rs-RFl" id="gRb-Ti-AKA"/>
+                <outlet property="titleTopConstraint" destination="bMc-9I-2X9" id="oAi-dY-rrx"/>
                 <outlet property="view" destination="Fw0-IT-oEE" id="dU6-pd-YkH"/>
             </connections>
         </placeholder>
