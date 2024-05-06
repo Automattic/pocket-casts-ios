@@ -82,6 +82,10 @@ public class DataManager {
 
             }
         }
+
+        dbQueue.inDatabase { db in
+            try? db.executeUpdate("VACUUM;", values: nil)
+        }
     }
 
     // MARK: - Up Next
