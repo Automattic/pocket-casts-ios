@@ -9,6 +9,7 @@ public class UserEpisode: NSObject, BaseEpisode {
     @objc public var downloadUrl: String?
     @objc public var episodeStatus = 0 as Int32
     @objc public var fileType: String?
+    @objc public var contentType: String?
     @objc public var playedUpTo: Double = 0
     @objc public var duration: Double = 0
     @objc public var durationModified = 0 as Int64
@@ -35,6 +36,7 @@ public class UserEpisode: NSObject, BaseEpisode {
     @objc public var deselectedChaptersModified = 0 as Int64
     @objc public var image: String?
     @objc public var showNotes: String?
+    @objc public var rawMetadata: String?
 
     // UserEpisode's are never archived or starred
     public var archived = false

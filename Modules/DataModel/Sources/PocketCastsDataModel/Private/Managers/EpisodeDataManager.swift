@@ -13,6 +13,7 @@ class EpisodeDataManager {
         "episodeDescription",
         "episodeStatus",
         "fileType",
+        "contentType",
         "keepEpisode",
         "playedUpTo",
         "duration",
@@ -41,7 +42,8 @@ class EpisodeDataManager {
         "excludeFromEpisodeLimit",
         "starredModified",
         "deselectedChapters",
-        "deselectedChaptersModified"
+        "deselectedChaptersModified",
+        "metadata"
     ]
 
     // MARK: - Query
@@ -632,13 +634,14 @@ class EpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, contentType: String?, episode: Episode, dbQueue: FMDatabaseQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.sizeInBytes = sizeInBytes
         episode.downloadTaskId = downloadTaskId
+        episode.contentType = contentType
 
-        let fields = ["episodeStatus", "sizeInBytes", "downloadTaskId"]
-        let values = [episode.episodeStatus, episode.sizeInBytes, DBUtils.replaceNilWithNull(value: episode.downloadTaskId), episode.id] as [Any]
+        let fields = ["episodeStatus", "sizeInBytes", "contentType", "downloadTaskId"]
+        let values = [episode.episodeStatus, episode.sizeInBytes, DBUtils.replaceNilWithNull(value: episode.contentType), DBUtils.replaceNilWithNull(value: episode.downloadTaskId), episode.id] as [Any]
 
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
@@ -958,6 +961,7 @@ class EpisodeDataManager {
         values.append(DBUtils.nullIfNil(value: episode.episodeDescription))
         values.append(episode.episodeStatus)
         values.append(DBUtils.nullIfNil(value: episode.fileType))
+        values.append(DBUtils.nullIfNil(value: episode.contentType))
         values.append(episode.keepEpisode)
         values.append(episode.playedUpTo)
         values.append(episode.duration)
@@ -987,6 +991,7 @@ class EpisodeDataManager {
         values.append(episode.starredModified)
         values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
         values.append(episode.deselectedChaptersModified)
+        values.append(episode.rawMetadata as Any)
 
         if includeIdForWhere {
             values.append(episode.id)
@@ -1026,7 +1031,7 @@ extension EpisodeDataManager {
                     db.beginTransaction()
 
                     for episode in showInfo {
-                        try db.executeUpdate("INSERT OR REPLACE INTO EpisodeMetadata VALUES(?, ?);", values: [episode.key, episode.value])
+                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET metadata = ? WHERE uuid = ?;", values: [episode.value, episode.key])
                     }
 
                     db.commit()
@@ -1043,7 +1048,7 @@ extension EpisodeDataManager {
         return try await withCheckedThrowingContinuation { continuation in
             dbQueue.inDatabase { db in
                 do {
-                    let resultSet = try db.executeQuery("SELECT metadata from EpisodeMetadata WHERE episodeUuid = ?", values: [uuid])
+                    let resultSet = try db.executeQuery("SELECT metadata from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid])
                     defer { resultSet.close() }
 
                     if resultSet.next(), let metadataData = resultSet.string(forColumn: "metadata")?.data(using: .utf8) {
@@ -1056,6 +1061,26 @@ extension EpisodeDataManager {
                     }
                 } catch {
                     FileLog.shared.addMessage("EpisodeDataManager.findEpisodeMetadata Episode metadata error: \(error)")
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
+    func findRawEpisodeMetadata(uuid: String, dbQueue: FMDatabaseQueue) async throws -> String? {
+        return try await withCheckedThrowingContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    let resultSet = try db.executeQuery("SELECT metadata from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid])
+                    defer { resultSet.close() }
+
+                    if resultSet.next() {
+                        continuation.resume(returning: resultSet.string(forColumn: "metadata"))
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.findRawEpisodeMetadata Episode metadata error: \(error)")
                     continuation.resume(throwing: error)
                 }
             }

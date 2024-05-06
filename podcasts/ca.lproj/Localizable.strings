@@ -222,7 +222,7 @@
     <key>appearance_embedded_artwork</key>
     <string>Empra les caràtules integrades</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Al reproductor, mostra les caràtules des de l'arxiu integrat (si existeix), enlloc d'emprar les del programa.</string>
+    <string>Alguns podcasts tenen il·lustracions personalitzades per a certs episodis. Activa aquesta opció i Pocket Casts les mostrarà en lloc de la il·lustració del podcast.</string>
     <key>appearance_light_theme</key>
     <string>Tema clar</string>
     <key>appearance_match_device_theme</key>
@@ -2423,7 +2423,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>skip_back</key>
     <string>Endarrerir</string>
     <key>skip_chapters</key>
-    <string>Saltar capítols</string>
+    <string>Capítols preseleccionats</string>
     <key>skip_chapters_patron_prompt</key>
     <string>Salta capítols i més amb Pocket Casts Patron</string>
     <key>skip_chapters_plus_prompt</key>
@@ -2662,9 +2662,9 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>watch_no_podcasts</key>
     <string>No hi ha podcasts</string>
     <key>watch_nothing_playing_subtitle</key>
-    <string>Gaudeix del silenci o troba alguna cosa nova per reproduir.
+    <string>Gaudeix del silenci o troba alguna cosa nova per a reproduir.
 
-Sincerament, ambdues són bones decisions.</string>
+Sincerament, totes dues són bones decisions. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>No sona res</string>
     <key>watch_source_msg</key>
