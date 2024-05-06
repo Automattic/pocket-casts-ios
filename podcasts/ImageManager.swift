@@ -122,7 +122,11 @@ class ImageManager {
 
     func loadImage(url urlString: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
         imageView.kf.cancelDownloadTask()
-        let url = URL(string: urlString)!
+        guard let url = URL(string: urlString) else {
+            setPlaceholder(imageView: imageView, size: size)
+            return
+        }
+
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
         let processor = (Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default) |> DownsamplingImageProcessor(size: CGSize(width: ImageManager.sizeFor(imageSize: size), height: ImageManager.sizeFor(imageSize: size)))
         imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .cacheOriginalImage, .transition(.fade(Constants.Animation.defaultAnimationTime))])
