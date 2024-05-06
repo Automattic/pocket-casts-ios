@@ -102,7 +102,6 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         if let isSponsored = item?.isSponsored, isSponsored {
             typeBadgeLabel.text = L10n.discoverSponsored
             typeBadgeLabel.style = .primaryText02
-            podcastDescription.numberOfLines = 3
         } else {
             typeBadgeLabel.text = L10n.discoverFreshPick
             typeBadgeLabel.style = .support02
