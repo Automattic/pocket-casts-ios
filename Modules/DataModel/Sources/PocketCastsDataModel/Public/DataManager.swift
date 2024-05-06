@@ -865,6 +865,10 @@ public class DataManager {
         return topPodcasts
     }
 
+    public func clearFolderCache(folderUuid: String) {
+        folderPodcastUuuidCache[folderUuid] = nil
+    }
+
     public func allPodcastsInFolder(folder: Folder) -> [Podcast] {
         podcastManager.allPodcastsInFolder(folder: folder, dbQueue: dbQueue)
     }
