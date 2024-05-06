@@ -226,7 +226,7 @@ class DiscoverViewController: PCViewController {
     /// Populate the scroll view using a DiscoverLayout with optional shouldInclude and shouldReset filters.
     /// - Parameters:
     ///   - discoverLayout: A `DiscoverLayout`
-    ///   - shouldInclude: Whether a `DiscoverItem` from the layout should be included in the scroll view. This is used to filter items meant only for certain categories, for instance.
+    ///   - shouldInclude: Whether a `DiscoverItem` from the layout should be included in the scroll view. This is used to filter items meant only for certain categories, for instance. By default, this filter will exclude items with a category which are to be shown in the Category page.
     ///   - shouldReset: Whether a view controller from `summaryViewControllers` should be reset during this operation. This is used by the Categories pills to avoid triggering a view reload, allowing animations to continue.
     func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil, shouldReset: ((DiscoverItem) -> Bool)? = nil) {
         loadingContent = false
@@ -234,6 +234,10 @@ class DiscoverViewController: PCViewController {
         guard let layout = discoverLayout, let items = layout.layout, let _ = layout.regions, items.count > 0 else {
             handleLoadFailed()
             return
+        }
+
+        let itemFilter = shouldInclude ?? { item in
+            item.categoryID == nil
         }
 
         self.discoverLayout = layout
@@ -246,7 +250,7 @@ class DiscoverViewController: PCViewController {
 
             let section = 0
             snapshot.appendSections([section])
-            snapshot.appendItems(items.filter({ (shouldInclude?($0) ?? true) && $0.regions.contains(currentRegion) }))
+            snapshot.appendItems(items.filter({ (itemFilter($0)) && $0.regions.contains(currentRegion) }))
 
             return snapshot
         }
@@ -260,7 +264,7 @@ class DiscoverViewController: PCViewController {
         let regions = layout.regions?.keys as? [String]
         let item = DiscoverItem(id: "country-summary", regions: regions ?? [])
 
-        if shouldInclude?(item) ?? true {
+        if itemFilter(item) {
             let countrySummary = CountrySummaryViewController()
             countrySummary.discoverLayout = layout
             countrySummary.registerDiscoverDelegate(self)
