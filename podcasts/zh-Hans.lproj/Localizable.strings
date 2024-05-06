@@ -1606,6 +1606,8 @@
     <string>访问已结束：%1$@</string>
     <key>podcast_access_ends</key>
     <string>访问结束：%1$@</string>
+    <key>podcast_and_episode</key>
+    <string>播客与剧集</string>
     <key>podcast_archive_all</key>
     <string>全部存档</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1757,10 @@
     <string>最旧到最新</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>最短到最长</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>标题 (A-Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>标题 (Z-A)</string>
     <key>podcasts_large_grid</key>
     <string>大网格</string>
     <key>podcasts_layout</key>
@@ -2627,6 +2633,14 @@
     <string>升级至 %1$@</string>
     <key>upgrade_to_plus</key>
     <string>升级至 Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>标题 (A-Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>标题 (Z-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>最长到最短</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>最短到最长</string>
     <key>volume_boost</key>
     <string>音量增强</string>
     <key>volume_boost_description</key>

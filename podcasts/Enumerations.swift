@@ -120,6 +120,12 @@ extension PodcastEpisodeSortOrder: AnalyticsDescribable {
     }
 }
 
+extension LibrarySort.Old: AnalyticsDescribable {
+    var analyticsDescription: String {
+        return LibrarySort(old: self).analyticsDescription
+    }
+}
+
 extension LibrarySort: AnalyticsDescribable {
     enum Old: Int {
         case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6

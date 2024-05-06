@@ -1606,6 +1606,8 @@ AGGIORNAMENTI</string>
     <string>L'accesso è terminato: %1$@</string>
     <key>podcast_access_ends</key>
     <string>L'accesso termina: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast ed episodio</string>
     <key>podcast_archive_all</key>
     <string>Archivia tutti</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1757,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Dal più vecchio al più recente</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Dal più corto al più lungo</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>Titolo (A-Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>Titolo (Z-A)</string>
     <key>podcasts_large_grid</key>
     <string>Griglia grande</string>
     <key>podcasts_layout</key>
@@ -2627,6 +2633,14 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Effettua l'aggiornamento a %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Esegui l'aggiornamento a Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>Titolo (A-Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>Titolo (Z-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>Dal più lungo al più corto</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>Dal più corto al più lungo</string>
     <key>volume_boost</key>
     <string>Aumenta il volume</string>
     <key>volume_boost_description</key>

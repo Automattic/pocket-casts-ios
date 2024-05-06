@@ -1,5 +1,6 @@
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class DiscoverViewController: PCViewController {
     @IBOutlet var mainScrollView: UIScrollView!
@@ -178,6 +179,8 @@ class DiscoverViewController: PCViewController {
             guard coordinator.shouldDisplay(discoverItem) else { continue }
 
             switch (type, summaryStyle, expandedStyle) {
+            case ("categories", "pills", _):
+                addSummaryController(CategoriesSelectorViewController(), discoverItem: discoverItem)
             case ("podcast_list", "carousel", _):
                 addSummaryController(FeaturedSummaryViewController(), discoverItem: discoverItem)
             case ("podcast_list", "small_list", _):
@@ -190,7 +193,7 @@ class DiscoverViewController: PCViewController {
                 addSummaryController(CollectionSummaryViewController(), discoverItem: discoverItem)
             case ("network_list", _, _):
                 addSummaryController(NetworkSummaryViewController(), discoverItem: discoverItem)
-            case ("categories", _, _):
+            case ("categories", "category", _):
                 addSummaryController(CategorySummaryViewController(regionCode: currentRegion), discoverItem: discoverItem)
             case ("episode_list", "single_episode", _):
                 addSummaryController(SingleEpisodeViewController(), discoverItem: discoverItem)
@@ -230,8 +233,8 @@ class DiscoverViewController: PCViewController {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
             }
             viewController.view.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -65).isActive = true
-        } else if let previousView = summaryViewControllers.last?.view {
-            if summaryViewControllers.count == 1 {
+        } else if let previousVC = summaryViewControllers.last, let previousView = previousVC.view {
+            if previousVC is FeaturedSummaryViewController {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: -10).isActive = true
                 mainScrollView.sendSubviewToBack(viewController.view)
             } else {

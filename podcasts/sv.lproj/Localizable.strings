@@ -166,7 +166,7 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <key>announcement_slumber_plus_description</key>
     <string>Som en del av din Plus Yearly-prenumeration får du en 1-årig prenumeration på innehåll från Slumber Studios med koden %1$@. Läs mer.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
-    <string>Läs mer</string>
+    <string>Lär dig mer</string>
     <key>announcement_slumber_redeem</key>
     <string>Lös in din kod</string>
     <key>announcement_slumber_title</key>
@@ -1606,6 +1606,8 @@ UPPDATERINGAR</string>
     <string>Åtkomst upphörde: %1$@</string>
     <key>podcast_access_ends</key>
     <string>Åtkomst upphör: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast och avsnitt</string>
     <key>podcast_archive_all</key>
     <string>Arkivera alla</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1757,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Äldsta till nyaste</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Kortaste till längsta</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>Rubrik (A-Ö)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>Rubrik (Ö-A)</string>
     <key>podcasts_large_grid</key>
     <string>Stort rutnät</string>
     <key>podcasts_layout</key>
@@ -2627,6 +2633,14 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Uppgradera till %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Uppgradera till Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>Rubrik (A-Ö)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>Rubrik (Ö-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>Längsta till kortaste</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>Kortaste till längsta</string>
     <key>volume_boost</key>
     <string>Volymökning</string>
     <key>volume_boost_description</key>

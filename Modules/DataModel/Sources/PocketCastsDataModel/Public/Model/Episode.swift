@@ -175,4 +175,21 @@ public class Episode: NSObject, BaseEpisode {
     override public var hash: Int {
         taggableId()
     }
+
+    public struct Metadata: Decodable {
+        public let showNotes: String?
+        public let image: String?
+
+        /// Podlove chapters
+        public let chapters: [EpisodeChapter]?
+
+        /// Podcast Index chapters
+        public let chaptersUrl: String?
+
+        public struct EpisodeChapter: Decodable {
+            public let startTime: TimeInterval
+            public let title: String?
+            public let endTime: TimeInterval?
+        }
+    }
 }

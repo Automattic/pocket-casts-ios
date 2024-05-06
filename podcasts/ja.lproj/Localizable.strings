@@ -1606,6 +1606,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>アクセス権終了日: %1$@</string>
     <key>podcast_access_ends</key>
     <string>アクセス権終了予定日: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>ポッドキャストとエピソード</string>
     <key>podcast_archive_all</key>
     <string>すべてアーカイブ</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1757,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>古い順</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>短い順</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>タイトル (アルファベット昇順)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>タイトル (アルファベット降順)</string>
     <key>podcasts_large_grid</key>
     <string>大型グリッド</string>
     <key>podcasts_layout</key>
@@ -2627,6 +2633,14 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@ にアップグレード</string>
     <key>upgrade_to_plus</key>
     <string>Plus にアップグレード</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>タイトル (アルファベット昇順)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>タイトル (アルファベット降順)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>長い順</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>短い順</string>
     <key>volume_boost</key>
     <string>ボリュームブースト</string>
     <key>volume_boost_description</key>
