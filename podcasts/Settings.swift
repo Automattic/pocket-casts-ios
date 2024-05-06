@@ -1215,11 +1215,11 @@ class Settings: NSObject {
 
     class var upgradedIndexes: Bool {
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "upgraded_indexes_v3")
+            UserDefaults.standard.setValue(newValue, forKey: "upgraded_indexes_v4")
         }
 
         get {
-            UserDefaults.standard.bool(forKey: "upgraded_indexes_v3")
+            UserDefaults.standard.bool(forKey: "upgraded_indexes_v4")
         }
     }
 

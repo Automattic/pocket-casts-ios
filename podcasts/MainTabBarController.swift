@@ -24,7 +24,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     var isShowingWhatsNew: Bool = false
 
     /// Displayed during database migrations
-    var alert: UIAlertController?
+    var alert: ShiftyLoadingAlert?
 
     override func viewDidLoad() {
         super.viewDidLoad()
