@@ -1221,6 +1221,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>月</string>
     <key>monthly</key>
     <string>月払い</string>
+    <key>most_popular</key>
+    <string>人気上位</string>
+    <key>most_popular_with_name</key>
+    <string> %1$@ の人気上位</string>
     <key>move_to_bottom</key>
     <string>一番下へ移動</string>
     <key>move_to_top</key>
