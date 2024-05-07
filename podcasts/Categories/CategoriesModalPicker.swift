@@ -6,7 +6,7 @@ struct CategoriesModalPicker: View {
     let categories: [DiscoverCategory]
 
     @Binding var selectedCategory: DiscoverCategory?
-    
+
     let region: String?
 
     @EnvironmentObject var theme: Theme
