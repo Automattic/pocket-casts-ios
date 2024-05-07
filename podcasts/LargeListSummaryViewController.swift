@@ -145,7 +145,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     // MARK: - Populate From Data
 
-    func populateFrom(item: DiscoverItem) {
+    func populateFrom(item: DiscoverItem, region: String?) {
         guard let source = item.source else { return }
         guard let title = item.title?.localized else { return }
 

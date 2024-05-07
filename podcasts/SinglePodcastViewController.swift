@@ -66,7 +66,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
     // MARK: DiscoverSummaryProtocol
 
-    func populateFrom(item: DiscoverItem) {
+    func populateFrom(item: DiscoverItem, region: String?) {
         guard let source = item.source else { return }
 
         self.item = item
