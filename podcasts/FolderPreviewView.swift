@@ -20,7 +20,7 @@ class FolderPreviewView: UIView {
 
     func populateFrom(folder: Folder) {
         currentFolderUuid = folder.uuid
-        setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: [], setImages: false)
+        setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: [])
         DispatchQueue.global(qos: .userInteractive).async {
             let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
             let folderUuid = folder.uuid
@@ -29,16 +29,16 @@ class FolderPreviewView: UIView {
                 guard self?.currentFolderUuid == folderUuid else {
                     return
                 }
-                self?.setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids, setImages: true)
+                self?.setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids)
             }
         }
     }
 
     func populateFrom(model: FolderModel) {
-        setup(folderName: model.nameForFolder(), folderColor: Int32(model.colorInt), topPodcastUuids: model.selectedPodcastUuids, setImages: true)
+        setup(folderName: model.nameForFolder(), folderColor: Int32(model.colorInt), topPodcastUuids: model.selectedPodcastUuids)
     }
 
-    private func setup(folderName: String, folderColor: Int32, topPodcastUuids: [String], setImages: Bool) {
+    private func setup(folderName: String, folderColor: Int32, topPodcastUuids: [String]) {
         configureGradient()
         updateNameLabel(name: folderName)
         accessibilityLabel = folderName.isEmpty ? L10n.folderUnnamed : "\(folderName) \(L10n.folder)"
