@@ -1030,7 +1030,7 @@ extension DataManager {
 // MARK: - Show Notes
 
 extension DataManager {
-    public func storeShowInfo(data: Data) async throws {
-        try await episodeManager.storeShowInfo(with: data, dbQueue: dbQueue)
+    public func storeMetadata(episodeUuid: String, data: Data) async throws {
+        try await episodeManager.storeMetadata(episodeUuid: episodeUuid, with: data, dbQueue: dbQueue)
     }
 }
