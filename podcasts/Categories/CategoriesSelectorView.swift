@@ -108,6 +108,7 @@ struct CloseButton: View {
     var body: some View {
         Button(action: {
             self.selectedCategory = nil
+            Analytics.track(.discoverCategoryCloseButtonTapped)
         }, label: {
             Image(systemName: "xmark")
                 .imageScale(.small)
@@ -128,6 +129,7 @@ struct CategoryButton: View {
     var body: some View {
         Button(action: {
             selectedCategory = category
+            Analytics.track(.discoverCategoriesPillTapped)
         }, label: {
             Text(category.name ?? "")
         })

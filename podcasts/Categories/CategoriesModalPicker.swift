@@ -85,6 +85,7 @@ struct CategoriesModalPicker: View {
         .padding(Constants.Padding.cell)
         .buttonize {
             selectedCategory = category
+            Analytics.track(.discoverCategoriesPickerPick, properties: ["id": category.id, "name": category.name ?? "all"])
         } customize: { config in
             config.label
                 .foregroundStyle(cellForeground)

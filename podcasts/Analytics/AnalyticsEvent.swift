@@ -286,9 +286,12 @@ enum AnalyticsEvent: String {
 
     case discoverShown
     case discoverCategoryShown
+    case discoverCategoriesPillTapped
     case discoverFeaturedPodcastTapped
     case discoverFeaturedPodcastSubscribed
     case discoverShowAllTapped
+    case discoverCategoryCloseButtonTapped
+    case discoverCategoriesPickerPick
 
     case discoverListImpression
     case discoverListShowAllTapped
