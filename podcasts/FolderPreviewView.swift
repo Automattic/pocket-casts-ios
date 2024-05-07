@@ -16,18 +16,29 @@ class FolderPreviewView: UIView {
     private var gradientLayer: CAGradientLayer?
     private var nameLabel: UILabel?
     private var nameLabelBottomConstraint: NSLayoutConstraint?
+    private var currentFolderUuid: String?
 
     func populateFrom(folder: Folder) {
-        let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
-        setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids)
+        currentFolderUuid = folder.uuid
+        setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: [], setImages: false)
+        DispatchQueue.global(qos: .userInteractive).async {
+            let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
+            let folderUuid = folder.uuid
+            DispatchQueue.main.async { [weak self] in
+                // Check if the preview is still being used to preview the same folder
+                guard self?.currentFolderUuid == folderUuid else {
+                    return
+                }
+                self?.setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids, setImages: true)
+            }
+        }
     }
 
     func populateFrom(model: FolderModel) {
-        setup(folderName: model.nameForFolder(), folderColor: Int32(model.colorInt), topPodcastUuids: model.selectedPodcastUuids)
+        setup(folderName: model.nameForFolder(), folderColor: Int32(model.colorInt), topPodcastUuids: model.selectedPodcastUuids, setImages: true)
     }
 
-    private func setup(folderName: String, folderColor: Int32, topPodcastUuids: [String]) {
-        cleanupImages()
+    private func setup(folderName: String, folderColor: Int32, topPodcastUuids: [String], setImages: Bool) {
         configureGradient()
         updateNameLabel(name: folderName)
         accessibilityLabel = folderName.isEmpty ? L10n.folderUnnamed : "\(folderName) \(L10n.folder)"
@@ -49,6 +60,8 @@ class FolderPreviewView: UIView {
 
             if let uuid = topPodcastUuids[safe: i] {
                 setImage(in: imageView, for: uuid)
+            } else {
+                imageView.setTransparentNoArtwork(size: .list)
             }
         }
 
@@ -93,12 +106,6 @@ class FolderPreviewView: UIView {
 
         nameLabel?.text = name
         nameLabel?.isHidden = !showFolderName
-    }
-
-    private func cleanupImages() {
-        images.forEach { imageView in
-            imageView.setTransparentNoArtwork(size: .list)
-        }
     }
 
     private func configureGradient() {
