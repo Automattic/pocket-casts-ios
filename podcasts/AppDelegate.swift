@@ -69,11 +69,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
+            SiriShortcutsManager.shared.setup()
         }
 
         badgeHelper.setup()
         WatchManager.shared.setup()
-        SiriShortcutsManager.shared.setup()
         shortcutManager.listenForShortcutChanges()
 
         setupBackgroundRefresh()
