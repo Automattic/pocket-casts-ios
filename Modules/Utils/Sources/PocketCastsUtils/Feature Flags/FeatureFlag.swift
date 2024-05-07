@@ -42,6 +42,8 @@ public enum FeatureFlag: String, CaseIterable {
 
     case cachePlayingEpisode
 
+    case categoriesRedesign
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -80,6 +82,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .cachePlayingEpisode:
             true
+        case .categoriesRedesign:
+            true
         }
     }
 
@@ -101,6 +105,8 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
+        case .categoriesRedesign:
+            "categories_redesign"
         default:
             nil
         }
