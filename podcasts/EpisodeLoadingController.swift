@@ -35,14 +35,12 @@ struct EpisodeLoadingView: View {
 class EpisodeLoadingController: UIHostingController<AnyView> {
     private let episodeUuid: String
     private let podcastUuid: String
-    private let timestamp: TimeInterval?
 
     private let episodeLoadingModel = EpisodeLoadingModel()
 
-    init(episodeUuid: String, podcastUuid: String, timestamp: TimeInterval? = nil) {
+    init(episodeUuid: String, podcastUuid: String) {
         self.episodeUuid = episodeUuid
         self.podcastUuid = podcastUuid
-        self.timestamp = timestamp
 
         super.init(rootView: AnyView(EpisodeLoadingView(episodeLoadingModel: episodeLoadingModel).setupDefaultEnvironment()))
     }
@@ -94,7 +92,7 @@ class EpisodeLoadingController: UIHostingController<AnyView> {
 
     @MainActor func doneLoading() {
         // Push to the controller and fade into it
-        let controller = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget, timestamp: timestamp)
+        let controller = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
 
         navigationController?.delegate = self
         navigationController?.setViewControllers([controller], animated: true)

@@ -147,9 +147,6 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
         ActionBarOverlayView(actionBarVisible: actionBarVisible, title: title, style: style.actionBarStyle, content: {
             content()
         }, actions: [
-            .init(imageName: "podcast-share", title: L10n.share, visible: editVisible, action: {
-                viewModel.shareSelectedBookmarks()
-            }),
             .init(imageName: "folder-edit", title: L10n.edit, visible: editVisible, action: {
                 viewModel.editSelectedBookmarks()
             }),

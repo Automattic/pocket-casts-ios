@@ -13,7 +13,7 @@ struct UnderlineLinkTextView: View {
         attributedString.runs.filter({ $0.link != nil }).forEach({ run in
             attributedString[run.range].underlineStyle = .init(pattern: .solid)
         })
-        let textView = Text(attributedString)
+        var textView = Text(attributedString)
 
         // Open the link inside the app
         return textView.environment(\.openURL, OpenURLAction { url in

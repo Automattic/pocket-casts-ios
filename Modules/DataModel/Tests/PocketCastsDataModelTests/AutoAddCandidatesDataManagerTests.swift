@@ -13,7 +13,21 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
     }
 
     private func setupDatabase() throws -> DataManager {
-        let dbQueue = try XCTUnwrap(FMDatabaseQueue.newTestDatabase())
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
+        guard let dbFolderPath = documentsPath?.appendingPathComponent("Pocket Casts") as? NSString else {
+            throw TestError.dbFolderPathFailure
+        }
+
+        if !FileManager.default.fileExists(atPath: dbFolderPath as String) {
+            try FileManager.default.createDirectory(atPath: dbFolderPath as String, withIntermediateDirectories: true)
+        }
+
+        let dbPath = dbFolderPath.appendingPathComponent("podcast_testDB.sqlite3")
+        if FileManager.default.fileExists(atPath: dbPath) {
+            try FileManager.default.removeItem(atPath: dbPath)
+        }
+        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE
+        let dbQueue = try XCTUnwrap(FMDatabaseQueue(path: dbPath, flags: flags))
         return DataManager(dbQueue: dbQueue)
     }
 
@@ -104,7 +118,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         }
 
         self.measure {
-            _ = dataManager.autoAddCandidates.candidates()
+            let candidates = dataManager.autoAddCandidates.candidates()
         }
 
         featureFlagMock.reset()
@@ -137,7 +151,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         }
 
         self.measure {
-            _ = dataManager.autoAddCandidates.candidates()
+            let candidates = dataManager.autoAddCandidates.candidates()
         }
 
         featureFlagMock.reset()

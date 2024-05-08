@@ -19,6 +19,7 @@ class UnplayedBadge: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        backgroundColor = AppTheme.appTintColor()
         clipsToBounds = true
         layer.cornerRadius = bounds.height / 2
 
@@ -26,13 +27,7 @@ class UnplayedBadge: UIView {
         addSubview(unplayedLabel)
         unplayedLabel.anchorToAllSidesOf(view: self)
         unplayedLabel.font = UIFont.systemFont(ofSize: 13)
+        unplayedLabel.textColor = UIColor.white
         unplayedLabel.textAlignment = .center
-
-        updateColors()
-    }
-
-    func updateColors() {
-        backgroundColor = ThemeColor.primaryInteractive01()
-        unplayedLabel.textColor = ThemeColor.primaryInteractive02()
     }
 }

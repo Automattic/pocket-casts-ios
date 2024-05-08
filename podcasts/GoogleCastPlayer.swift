@@ -122,10 +122,4 @@ class GoogleCastPlayer: PlaybackProtocol {
     func internalPlayerForVideoPlayback() -> AVPlayer? {
         nil
     }
-
-    // MARK: - Volume
-
-    func setVolume(_ volume: Float) {
-        // not supported
-    }
 }

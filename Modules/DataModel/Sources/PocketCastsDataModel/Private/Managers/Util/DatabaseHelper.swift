@@ -677,57 +677,6 @@ class DatabaseHelper {
             }
         }
 
-        if schemaVersion < 45 {
-            do {
-                try db.executeUpdate("""
-                    CREATE TABLE EpisodeMetadata (
-                        episodeUuid TEXT PRIMARY KEY,
-                        metadata TEXT NOT NULL
-                    );
-                """, values: nil)
-                schemaVersion = 45
-            } catch {
-                failedAt(45)
-                return
-            }
-        }
-
-        if schemaVersion < 46 {
-            do {
-                try db.executeUpdate("DROP TABLE EpisodeMetadata;", values: nil)
-                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN metadata TEXT;", values: nil)
-                schemaVersion = 46
-            } catch {
-                failedAt(46)
-                return
-            }
-        }
-
-        if schemaVersion < 47 {
-            do {
-                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
-                try db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
-                schemaVersion = 47
-            } catch {
-                failedAt(47)
-                return
-            }
-        }
-
-        if schemaVersion < 48 {
-            do {
-                try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_archived ON SJEpisode (archived);", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
-                schemaVersion = 48
-            } catch {
-                failedAt(48)
-                return
-            }
-        }
-
         db.commit()
     }
 }

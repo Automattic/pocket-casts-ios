@@ -16,9 +16,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable retrieving episode artwork from the RSS feed
     case episodeFeedArtwork
 
-    /// Enable chapters to be loaded from the RSS feed
-    case rssChapters
-
     /// Enable a quicker and more responsive player transition
     case newPlayerTransition
 
@@ -45,11 +42,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     case cachePlayingEpisode
 
-    case categoriesRedesign
-
-    /// show UpNext tab on the main tab bar
-    case upNextOnTabBar
-
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -70,8 +62,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .episodeFeedArtwork:
             false // To be enabled, newShowNotesEndpoint needs to be too
-        case .rssChapters:
-            false // To be enabled, newShowNotesEndpoint needs to be too
         case .newPlayerTransition:
             true
         case .errorLogoutHandling:
@@ -90,10 +80,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .cachePlayingEpisode:
             true
-        case .categoriesRedesign:
-            true
-        case .upNextOnTabBar:
-            false
         }
     }
 
@@ -115,14 +101,6 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
-        case .newShowNotesEndpoint:
-            "new_show_notes"
-        case .episodeFeedArtwork:
-            "episode_artwork"
-        case .rssChapters:
-            "rss_chapters"
-        case .categoriesRedesign:
-            "categories_redesign"
         default:
             nil
         }

@@ -6,7 +6,7 @@ common_params:
   # Common environment values to use with the `env` key.
   - &common_env
     # If you update the image to a newer Xcode version, don't forget to also update the badge in the README.md file accordingly for consistency
-    IMAGE_ID: xcode-15.3
+    IMAGE_ID: xcode-15.2
   # Common agents values to use with the `agents` key.
   - &common_agents
     queue: mac

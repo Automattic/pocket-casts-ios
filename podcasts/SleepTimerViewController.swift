@@ -274,7 +274,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     @IBAction func cancelTapped(_ sender: Any) {
         Analytics.track(.playerSleepTimerCancelled)
-        PlaybackManager.shared.cancelSleepTimer(userInitiated: true)
+        PlaybackManager.shared.cancelSleepTimer()
         dismiss(animated: true, completion: nil)
     }
 

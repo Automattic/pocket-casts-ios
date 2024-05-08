@@ -6,15 +6,15 @@ import Combine
 import PocketCastsUtils
 
 class MainTabBarController: UITabBarController, NavigationProtocol {
-    enum Tab { case podcasts, filter, discover, profile, upNext }
+    enum Tab { case podcasts, filter, discover, profile }
 
-    var tabs = [Tab]()
+    let tabs: [Tab] = [.podcasts, .filter, .discover, .profile]
 
     let playPauseCommand = UIKeyCommand(title: L10n.keycommandPlayPause, action: #selector(handlePlayPauseKey), input: " ", modifierFlags: [])
 
     private lazy var endOfYear = EndOfYear()
 
-    private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile) ?? -1)
+    private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: tabs.firstIndex(of: .profile)!)
 
 
     /// The viewDidAppear can trigger more than once per lifecycle, setting this flag on the first did appear prevents use from prompting more than once per lifecycle. But still wait until the tab bar has appeared to do so.
@@ -26,14 +26,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if FeatureFlag.upNextOnTabBar.enabled {
-            tabs = [.podcasts, .upNext, .filter, .discover]
-        } else {
-            tabs = [.podcasts, .filter, .discover, .profile]
-        }
-
-        var vcsInTab = [UIViewController]()
-
         let podcastsController = PodcastListViewController()
         podcastsController.tabBarItem = UITabBarItem(title: L10n.podcastsPlural, image: UIImage(named: "podcasts_tab"), tag: tabs.firstIndex(of: .podcasts)!)
 
@@ -43,19 +35,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let discoverViewController = DiscoverViewController(coordinator: DiscoverCoordinator())
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
 
-        if FeatureFlag.upNextOnTabBar.enabled {
-            let upNextViewController = UpNextViewController(source: .tabBar, showingInTab: true)
-            upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: tabs.firstIndex(of: .upNext)!)
-            vcsInTab = [podcastsController, upNextViewController, filtersViewController, discoverViewController]
-        } else {
-            let profileViewController = ProfileViewController()
-            profileViewController.tabBarItem = profileTabBarItem
-            vcsInTab = [podcastsController, filtersViewController, discoverViewController, profileViewController]
-        }
+        let profileViewController = ProfileViewController()
+        profileViewController.tabBarItem = profileTabBarItem
 
         displayEndOfYearBadgeIfNeeded()
 
-        viewControllers = vcsInTab.map { SJUIUtils.navController(for: $0) }
+        viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
 
         // Track the initial tab opened event
@@ -223,7 +208,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?, timestamp: TimeInterval?) {
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?) {
         if let navController = selectedViewController as? UINavigationController {
             navController.dismiss(animated: false, completion: nil)
 
@@ -232,8 +217,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
                 if EpisodeLoadingController.needsLoading(uuid: episodeUuid), let podcastUuid {
                     let episodeController = EpisodeLoadingController(episodeUuid: episodeUuid,
-                                                                     podcastUuid: podcastUuid,
-                                                                     timestamp: timestamp)
+                                                                 podcastUuid: podcastUuid)
 
                     let nav = UINavigationController(rootViewController: episodeController)
                     nav.modalPresentationStyle = .formSheet
@@ -241,7 +225,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
                     navController.present(nav, animated: true)
                 } else {
-                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget, timestamp: timestamp)
+                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
                     episodeController.modalPresentationStyle = .formSheet
 
                     navController.present(episodeController, animated: true)
@@ -261,9 +245,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     func navigateToFilter(_ filter: EpisodeFilter, animated: Bool) {
         if !switchToTab(.filter) { return }
 
-        if let index = tabs.firstIndex(of: .filter),
-           let navController = viewControllers?[safe: index] as? UINavigationController,
-           let filtersViewController = navController.viewControllers[safe: 0] as? PlaylistsViewController {
+        if let navController = viewControllers?[safe: 1] as? UINavigationController, let filtersViewController = navController.viewControllers[safe: 0] as? PlaylistsViewController {
             filtersViewController.showFilter(filter)
         }
     }
@@ -472,17 +454,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             miniPlayer.closeFullScreenPlayer()
         }
 
-        if tab == .profile, FeatureFlag.upNextOnTabBar.enabled {
-            if let index = tabs.firstIndex(of: .podcasts),
-               let navController = viewControllers?[safe: index] as? UINavigationController,
-               let podcastsViewController = navController.viewControllers[safe: 0] as? PodcastListViewController {
-                selectedIndex = index
-                podcastsViewController.showProfileController()
-                return true
-            }
-            return false
-        }
-
         selectedIndex = tabs.firstIndex(of: tab)!
 
         return true
@@ -556,12 +527,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         tabBar.scrollEdgeAppearance = appearance
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
         tabBar.tintColor = AppTheme.tabBarItemTintColor()
-        // Link userInterfaceStyle to Theme type so iOS's Increase Contrast setting does the right thing
-        tabBar.overrideUserInterfaceStyle = Theme.isDarkTheme() ? .dark : .light
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear, !FeatureFlag.upNextOnTabBar.enabled {
+        if EndOfYear.isEligible && Settings.showBadgeForEndOfYear {
             profileTabBarItem.badgeValue = "●"
         }
     }
@@ -639,13 +608,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
 
         super.present(viewControllerToPresent, animated: flag, completion: completion)
-    }
-
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        super.motionEnded(motion, with: event)
-        if motion == .motionShake {
-            PlaybackManager.shared.restartSleepTimer()
-        }
     }
 }
 
@@ -728,8 +690,6 @@ private extension MainTabBarController {
             event = .discoverTabOpened
         case .profile:
             event = .profileTabOpened
-        case .upNext:
-            event = .upNextTabOpened
         }
 
         Analytics.track(event, properties: ["initial": isInitial])
@@ -749,7 +709,7 @@ private extension MainTabBarController {
     func showWhatsNewIfNeeded() {
         guard let controller = view.window?.rootViewController else { return }
 
-        if let whatsNewViewController = appDelegate()?.whatsNew.viewControllerToShow() {
+        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
             controller.present(whatsNewViewController, animated: true)
             isShowingWhatsNew = true
         }

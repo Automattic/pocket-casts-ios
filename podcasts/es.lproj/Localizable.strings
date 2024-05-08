@@ -154,11 +154,11 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>announcement_bookmarks_title_beta</key>
     <string>¡Únete a nosotros en las pruebas beta de marcadores!</string>
     <key>announcement_deselect_chapters_free</key>
-    <string>Suscríbete a Plus y podrás preseleccionar y omitir capítulos automáticamente en los episodios compatibles.</string>
+    <string>Suscríbete a Plus y podrás elegir y omitir capítulos en los episodios compatibles.</string>
     <key>announcement_deselect_chapters_patron</key>
-    <string>Como parte de tu suscripción a Patron, ahora podrás preseleccionar y omitir capítulos automáticamente en los episodios compatibles.</string>
+    <string>Como parte de tu suscripción a Patron, ahora podrás elegir y omitir capítulos en los episodios compatibles.</string>
     <key>announcement_deselect_chapters_plus</key>
-    <string>Como parte de tu suscripción a Plus, ahora podrás preseleccionar y omitir capítulos automáticamente en los episodios compatibles.</string>
+    <string>Como parte de tu suscripción a Plus, ahora podrás elegir y omitir capítulos en los episodios compatibles.</string>
     <key>announcement_slumber_code_copied</key>
     <string>El código se ha copiado en el portapapeles</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -220,9 +220,9 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <key>appearance_dark_theme</key>
     <string>Tema oscuro</string>
     <key>appearance_embedded_artwork</key>
-    <string>Usar carátula del episodio</string>
+    <string>Utilizar carátulas integradas</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Algunos programas disponen de carátulas personalizadas para determinados episodios. Activa esta opción y Pocket Casts las mostrará en lugar de la carátula del programa.</string>
+    <string>En el reproductor, muestra las carátulas desde el archivo descargado (si existe), en lugar de utilizar las del programa.</string>
     <key>appearance_light_theme</key>
     <string>Tema claro</string>
     <key>appearance_match_device_theme</key>
@@ -1221,10 +1221,6 @@ pódcast contigo</string>
     <string>mes</string>
     <key>monthly</key>
     <string>Mensual</string>
-    <key>most_popular</key>
-    <string>Los más populares</string>
-    <key>most_popular_with_name</key>
-    <string>Los más populares en %1$@</string>
     <key>move_to_bottom</key>
     <string>Mover al final</string>
     <key>move_to_top</key>
@@ -2432,11 +2428,11 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <key>skip_back</key>
     <string>Saltar atrás</string>
     <key>skip_chapters</key>
-    <string>Preselección de capítulos</string>
+    <string>Omitir capítulos</string>
     <key>skip_chapters_patron_prompt</key>
-    <string>Preselecciona capítulos y haz otros ajustes con Pocket Casts Patron</string>
+    <string>Omite capítulos y haz otros cambios con Pocket Casts Patron</string>
     <key>skip_chapters_plus_prompt</key>
-    <string>Preselecciona capítulos y haz otros ajustes con Pocket Casts Plus</string>
+    <string>Omite capítulos y haz otros cambios con Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Saltar adelante</string>
     <key>sleep_timer</key>

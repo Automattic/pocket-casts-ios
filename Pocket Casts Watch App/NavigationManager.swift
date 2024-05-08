@@ -7,15 +7,13 @@ class NavigationManager {
     static let shared = NavigationManager()
 
     func navigateToMainMenu() {
-        guard let topController = topMostController() as? WatchHostingController, topController.controllerType != .interface else {
-            return
-        }
+        var topController = topMostController()
+        if topController is InterfaceController { return }
 
-        topController.popToRootController()
+        topController?.popToRootController()
+        topController = topMostController()
 
-        let newTopController = topMostController()
-
-        newTopController?.pushController(forType: .interface, context: nil)
+        topController?.pushController(withName: InterfaceController.controllerRestoreName, context: nil)
     }
 
     func navigateToRestorable(name: String, context: Any?) {
@@ -25,22 +23,35 @@ class NavigationManager {
             navigateToNowPlaying(source: SourceManager.shared.currentSource(), fromLaunchEvent: true)
         } else if let interfaceType = interfaceType {
             navigateTo(interfaceType, context: context)
+        } else {
+            var topController = topMostController()
+
+            if (topController as? PCInterfaceController)?.restoreName() != InterfaceController.controllerRestoreName {
+                topController?.popToRootController()
+                topController = topMostController()
+
+                topController?.pushController(withName: InterfaceController.controllerRestoreName, context: nil)
+                topController = topMostController()
+            }
+
+            if name != InterfaceController.controllerRestoreName {
+                topController?.pushController(withName: name, context: context)
+            }
         }
     }
 
     func navigateTo(_ type: WatchInterfaceType, context: Any?) {
         var topController = topMostController()
 
-        if (topController as? WatchHostingController)?.controllerType != .interface {
+        if (topController as? PCInterfaceController)?.restoreName() != InterfaceController.controllerRestoreName {
             topController?.popToRootController()
             topController = topMostController()
 
-            topController?.pushController(forType: .interface)
+            topController?.pushController(withName: InterfaceController.controllerRestoreName, context: nil)
             topController = topMostController()
         }
-        if type != .interface {
-            topController?.pushController(forType: type, context: context)
-        }
+
+        topController?.pushController(forType: type, context: context)
     }
 
     private var navigatingToNowPlaying = false
@@ -62,7 +73,7 @@ class NavigationManager {
         topController?.popToRootController()
         topController = topMostController()
 
-        topController?.pushController(forType: .interface, context: nil)
+        topController?.pushController(withName: InterfaceController.controllerRestoreName, context: nil)
 
         if fromLaunchEvent {
             // watchOS seems to have issues with pushing one controller on top of another during a launch event. Since the APIs are so limited, there appears to be no better way to fix this than to wait for the first one to appear

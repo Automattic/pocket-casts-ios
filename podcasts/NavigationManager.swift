@@ -12,7 +12,6 @@ class NavigationManager {
 
     static let episodePageKey = "episodePage"
     static let episodeUuidKey = "episode"
-    static let episodeTimestamp = "episodeTimestamp"
 
     private static let homePageKey = "homePage"
     static let podcastListPageKey = "podcastList"
@@ -127,7 +126,7 @@ class NavigationManager {
         } else if place == NavigationManager.episodePageKey {
             guard let data = data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }
 
-            mainController?.navigateToEpisode(uuid, podcastUuid: data[NavigationManager.podcastKey] as? String, timestamp: data[NavigationManager.episodeTimestamp] as? TimeInterval)
+            mainController?.navigateToEpisode(uuid, podcastUuid: data[NavigationManager.podcastKey] as? String)
         } else if place == NavigationManager.podcastListPageKey {
             mainController?.navigateToPodcastList(animated)
         } else if place == NavigationManager.discoverPageKey {

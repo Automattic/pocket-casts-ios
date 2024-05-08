@@ -10,7 +10,6 @@ public class DataManager {
     public static let playlistEpisodeTableName = "SJPlaylistEpisode"
     public static let upNextChangesTableName = "UpNextChanges"
     public static let folderTableName = "Folder"
-    public static let metadataTableName = "EpisodeMetadata"
 
     private let podcastManager = PodcastDataManager()
     private let upNextManager = UpNextDataManager()
@@ -290,8 +289,8 @@ public class DataManager {
         podcastManager.delete(podcast: podcast, dbQueue: dbQueue)
     }
 
-    public func save(podcast: Podcast, cache: Bool = true) {
-        podcastManager.save(podcast: podcast, dbQueue: dbQueue, cache: cache)
+    public func save(podcast: Podcast) {
+        podcastManager.save(podcast: podcast, dbQueue: dbQueue)
     }
 
     public func savePushSetting(podcast: Podcast, pushEnabled: Bool) {
@@ -600,11 +599,11 @@ public class DataManager {
         }
     }
 
-    public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, contentType: String?, episode: BaseEpisode) {
+    public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: BaseEpisode) {
         if let episode = episode as? Episode {
-            episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, contentType: contentType, episode: episode, dbQueue: dbQueue)
+            episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
         } else if let episode = episode as? UserEpisode {
-            userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, contentType: contentType, episode: episode, dbQueue: dbQueue)
+            userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
         }
     }
 
@@ -1012,25 +1011,5 @@ public extension DataManager {
 
     func episodesStartedAndCompleted() -> EpisodesStartedAndCompleted {
         endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
-    }
-}
-
-// MARK: - Swift Concurrency
-
-extension DataManager {
-    public func findEpisodeMetadata(uuid: String) async throws -> Episode.Metadata? {
-        try await episodeManager.findEpisodeMetadata(uuid: uuid, dbQueue: dbQueue)
-    }
-
-    public func findRawEpisodeMetadata(uuid: String) async throws -> String? {
-        try await episodeManager.findRawEpisodeMetadata(uuid: uuid, dbQueue: dbQueue)
-    }
-}
-
-// MARK: - Show Notes
-
-extension DataManager {
-    public func storeMetadata(episodeUuid: String, data: Data) async throws {
-        try await episodeManager.storeMetadata(episodeUuid: episodeUuid, with: data, dbQueue: dbQueue)
     }
 }

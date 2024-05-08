@@ -10,12 +10,6 @@ class PCViewController: SimpleNotificationsViewController {
         }
     }
 
-    var extraRightButtons: [UIBarButtonItem] = [] {
-        didSet {
-            refreshRightButtons()
-        }
-    }
-
     private var navIconsColor: UIColor?
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?
@@ -35,7 +29,7 @@ class PCViewController: SimpleNotificationsViewController {
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
 
             refreshRightButtons()
-        } else if customRightBtn != nil || !extraRightButtons.isEmpty {
+        } else if let _ = customRightBtn {
             refreshRightButtons()
         }
         setupNavBar(animated: false)
@@ -99,15 +93,14 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     @objc func refreshRightButtons() {
-        if supportsGoogleCast || !extraRightButtons.isEmpty {
+        if supportsGoogleCast {
             var buttons = [UIBarButtonItem]()
             if let customRightBtn = customRightBtn {
                 buttons.append(customRightBtn)
             }
-            if let googleCastBtn = googleCastBtn, supportsGoogleCast {
+            if let googleCastBtn = googleCastBtn {
                 buttons.append(googleCastBtn)
             }
-            buttons.append(contentsOf: extraRightButtons)
             navigationItem.rightBarButtonItems = buttons
         } else {
             navigationItem.rightBarButtonItems = nil

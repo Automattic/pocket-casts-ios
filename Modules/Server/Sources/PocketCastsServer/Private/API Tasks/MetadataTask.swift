@@ -56,7 +56,7 @@ class MetadataTask: Operation {
             }
         }
 
-        if let contentLength = responseHeaders["Content-Length"] as? String, let intLength = Int64(contentLength), intLength > MetadataTask.minBytesInFile, episode.sizeInBytes != intLength {
+        if let contentLength = responseHeaders["Content-Length"] as? String, let intLength = Int64(contentLength), intLength > MetadataTask.minBytesInFile {
             DataManager.sharedManager.saveEpisode(fileSize: intLength, episode: episode)
             performedUpdate = true
         }

@@ -2,12 +2,10 @@ import PocketCastsDataModel
 import UIKit
 
 class PodcastGridCell: UICollectionViewCell {
-
-    @IBOutlet var containerView: UIView!
     @IBOutlet var podcastImage: UIImageView!
     @IBOutlet var podcastName: UILabel!
 
-    @IBOutlet var badgeView: GridBadgeView!
+    @IBOutlet var unplayedSashView: UnplayedSashOverlayView!
     @IBOutlet var supporterHeart: PodcastHeartView!
 
     private var podcastUuid: String?
@@ -24,15 +22,12 @@ class PodcastGridCell: UICollectionViewCell {
         self.badgeType = badgeType
         podcastUuid = podcast.uuid
 
-        containerView.layer.cornerRadius = 4
-        containerView.layer.masksToBounds = true
-
         setImage()
         setColors(podcast: podcast)
 
         podcastName.accessibilityLabel = podcast.title
 
-        updateBadge(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
+        unplayedSashView.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
 
         supporterHeart.isHidden = !podcast.isPaid
         if podcast.isPaid {
@@ -67,21 +62,11 @@ class PodcastGridCell: UICollectionViewCell {
     private func setColors(podcast: Podcast) {
         podcastName.text = podcast.title
         let bgColor = ColorManager.backgroundColorForPodcast(podcast)
-        backgroundColor = .clear
-        containerView.backgroundColor = bgColor
+        backgroundColor = bgColor
         podcastName.backgroundColor = bgColor
 
         if podcast.isPaid {
             supporterHeart.setPodcastColor(podcast: podcast)
         }
-    }
-
-    private func updateBadge(podcast: Podcast, badgeType: BadgeType, libraryType: LibraryType) {
-        guard podcast.cachedUnreadCount > 0 else {
-            badgeView.isHidden = true
-            return
-        }
-
-        badgeView.populateFrom(podcast: podcast, badgeType: badgeType)
     }
 }

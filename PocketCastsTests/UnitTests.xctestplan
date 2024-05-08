@@ -54,8 +54,7 @@
     {
       "skippedTests" : [
         "IAPHelperTests",
-        "IAPHelperTests\/testPurchase()",
-        "PodcastSettingsImportUserDefaultsTests\/testImportPerformance()"
+        "IAPHelperTests\/testPurchase()"
       ],
       "target" : {
         "containerPath" : "container:podcasts.xcodeproj",
@@ -64,10 +63,6 @@
       }
     },
     {
-      "skippedTests" : [
-        "AutoAddCandidatesDataManagerTests\/testNewQueryPerformance()",
-        "AutoAddCandidatesDataManagerTests\/testOldQueryPerformance()"
-      ],
       "target" : {
         "containerPath" : "container:Modules\/DataModel",
         "identifier" : "PocketCastsDataModelTests",

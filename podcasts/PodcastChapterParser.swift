@@ -2,7 +2,6 @@ import AVFoundation
 import Foundation
 import PocketCastsServer
 import PocketCastsUtils
-import PocketCastsDataModel
 
 class PodcastChapterParser {
     func parseLocalFile(_ path: String, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
@@ -15,80 +14,16 @@ class PodcastChapterParser {
         parseChapters(url: url, episodeDuration: episodeDuration, completion: completion)
     }
 
-    func parseLocalFile(_ path: String, episodeDuration: TimeInterval) async -> [ChapterInfo] {
-        await withCheckedContinuation { continuation in
-            parseChapters(url: URL(fileURLWithPath: path), episodeDuration: episodeDuration) {
-                continuation.resume(returning: $0)
-            }
-        }
-    }
-
-    func parseRemoteFile(_ remoteUrl: String, episodeDuration: TimeInterval) async -> [ChapterInfo] {
-        await withCheckedContinuation { continuation in
-            guard let url = URL(string: remoteUrl) else {
-                continuation.resume(returning: [])
-                return
-            }
-
-            parseChapters(url: url, episodeDuration: episodeDuration) {
-                continuation.resume(returning: $0)
-            }
-        }
-    }
-
-    func parsePodloveChapters(_ podloveChapters: [Episode.Metadata.EpisodeChapter], episodeDuration: TimeInterval) -> [ChapterInfo] {
-        podloveChapters.enumerated().compactMap { index, chapter in
-            let chapterInfo = ChapterInfo()
-            chapterInfo.title = chapter.title ?? ""
-            chapterInfo.index = index
-            chapterInfo.startTime = CMTime(seconds: chapter.startTime, preferredTimescale: 1000000)
-
-            // Calculate chapter duration based on the info we have
-            if let endTime = chapter.endTime {
-                chapterInfo.duration = endTime - chapter.startTime
-            } else if let nextChapterStartTime = podloveChapters[safe: index + 1]?.startTime {
-                chapterInfo.duration = nextChapterStartTime - chapter.startTime
-            } else {
-                chapterInfo.duration = episodeDuration - chapter.startTime
-            }
-
-            return chapterInfo
-        }
-    }
-
-    func parsePodcastIndexChapters(_ podcastIndexChapters: [PodcastIndexChapter], episodeDuration: TimeInterval) -> [ChapterInfo] {
-        podcastIndexChapters.enumerated().map { index, chapter in
-            let chapterInfo = ChapterInfo()
-            chapterInfo.title = chapter.title ?? ""
-            chapterInfo.index = chapter.number ?? index
-            chapterInfo.startTime = CMTime(seconds: chapter.startTime, preferredTimescale: 1000000)
-            if let endTime = chapter.endTime {
-                chapterInfo.duration = endTime - chapter.startTime
-            } else if let nextChapterStartTime = podcastIndexChapters[safe: index + 1]?.startTime {
-                chapterInfo.duration = nextChapterStartTime - chapter.startTime
-            } else {
-                chapterInfo.duration = episodeDuration - chapter.startTime
-            }
-            return chapterInfo
-        }
-    }
-
     private func parseChapters(url: URL, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
         DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else {
-                completion([])
-                return
-            }
+            guard let strongSelf = self else { return }
 
             do {
                 // wrap chapter parsing in an Objective-C try catch block because we don't want errors from this library to propagate up
                 try SJCommonUtils.catchException {
                     let customHeaders = [ServerConstants.HttpHeaders.userAgent: ServerConstants.Values.appUserAgent]
                     let movieAsset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": customHeaders])
-                    guard let chapters = MNAVChapterReader.chapters(from: movieAsset) as? [MNAVChapter], chapters.count > 0 else {
-                        completion([])
-                        return
-                    }
+                    guard let chapters = MNAVChapterReader.chapters(from: movieAsset) as? [MNAVChapter], chapters.count > 0 else { return }
 
                     if chapters.allSatisfy({ $0.hidden }) {
                         chapters.forEach { $0.hidden = false }

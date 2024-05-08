@@ -150,22 +150,19 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // MARK: - Background and Mini Player
 
-        let backgroundTransitionView = MiniPlayerShadowView()
-
+        let backgroundTransitionView = MiniPlayerBackingView()
         containerView.addSubview(backgroundTransitionView)
         containerView.sendSubviewToBack(backgroundTransitionView)
 
         // Get the initial and final colors
-        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.view.backgroundColor
-
+        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.mainView.backgroundColor
         let fullPlayerBackgroundColor = (toViewController as? PlayerContainerViewController)?.nowPlayingItem.view.backgroundColor
 
         let fromColor = isPresenting ? miniPlayerBackgroundColor : fullPlayerBackgroundColor
         let toColor = isPresenting ? fullPlayerBackgroundColor : miniPlayerBackgroundColor
 
-        let miniPlayerView: UIView = (fromViewController as? MiniPlayerViewController)?.mainView ?? fromViewController.view
         // Get the initial and final frames
-        let miniplayerFrame = fromViewController.view.convert(miniPlayerView.frame, to: nil)
+        let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
 
         var backgroundTransitionInitialFrame = containerView.frame
         if !isPresenting {
@@ -176,8 +173,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
 
         // Add a snapshot of the miniplayer and full player
-        let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: true)
-        miniPlayerSnapshotView?.addSubview(UIVisualEffectView(effect: UIBlurEffect(style: .prominent)))
+        let miniPlayerSnapshotView = fromViewController.view.snapshotView(afterScreenUpdates: true)
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         backgroundTransitionView.addSubview(toView ?? UIView())
         backgroundTransitionView.addSubview(miniPlayerSnapshotView ?? UIView())
@@ -211,15 +207,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let hiddenTabBarFrame = CGRect(x: tabBarFrame.origin.x, y: tabBarFrame.origin.y + tabBarFrame.height, width: tabBarFrame.width, height: tabBarFrame.height)
         tabBarSnapshot?.frame = isPresenting ? tabBarFrame : hiddenTabBarFrame
 
-        let gradientView = MiniPlayerGradientView()
-        gradientView.frame = fromViewController.view.frame
-        gradientView.layer.opacity = isPresenting ? 1 : 0
-        if let miniPlayerVC = fromViewController as? MiniPlayerViewController {
-            gradientView.colors = miniPlayerVC.gradientView.colors
-        }
-        containerView.insertSubview(gradientView, belowSubview: backgroundTransitionView)
-
-        self.fromViewController.view.layer.opacity = 0
         animate(withDuration: duration) { [self] in
             // Artwork
             artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
@@ -233,8 +220,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             // Miniplayer
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
-
-            gradientView.layer.opacity = isPresenting ? 0 : 1
         } completion: { completed in
             self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
@@ -245,7 +230,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             playerView.frame = self.isPresenting ? self.containerView.frame : playerView.frame
             playerView.isHidden = false
 
-            self.fromViewController.view.layer.opacity = self.isPresenting ? 0 : 1
+            self.fromViewController.view.layer.opacity = 1
 
             transitionContext.completeTransition(true)
         }
@@ -255,7 +240,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
             // Background
             backgroundTransitionView.backgroundColor = toColor
-            backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
+
             // Player
             toView?.layer.opacity = self.isPresenting ? 1 : 0
 

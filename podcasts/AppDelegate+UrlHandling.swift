@@ -248,12 +248,9 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("social/share/:showOrPrivate/:sharingId") { [weak self] parameters -> Bool in
             guard let strongSelf = self, let folder = parameters["showOrPrivate"] as? String, let sharingId = parameters["sharingId"] as? String, let controller = SceneHelper.rootViewController() else { return false }
-            var sharePath = "social/share/\(folder)/\(sharingId)"
-            if let timestamp = parameters["t"] as? String {
-                sharePath = sharePath + "/?t=\(timestamp)"
-            }
+
             FileLog.shared.addMessage("Opening share link, path: \(folder)/\(sharingId)")
-            strongSelf.openSharePath(sharePath, controller: controller, onErrorOpen: nil)
+            strongSelf.openSharePath("social/share/\(folder)/\(sharingId)", controller: controller, onErrorOpen: nil)
             return true
         }
 
@@ -355,6 +352,8 @@ extension AppDelegate {
 
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {
         progressDialog = ShiftyLoadingAlert(title: L10n.sharedItemLoading)
+        controller.dismiss(animated: false, completion: nil)
+
         progressDialog?.showAlert(controller, hasProgress: false) {
             // URLs that are already in the format https://pca.st/podcast/da3271a0-69e7-0132-d9fd-5f4c86fd3263 (or /private/) have the podcast UUID in them already so no need to ask the refresh server for it
             if path.contains("/podcast/") || path.contains("/private/") {
@@ -394,21 +393,20 @@ extension AppDelegate {
                         NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcastHeader])
                     }
                 } else if let episodeUuid = item.episodeHeader?.uuid, let podcastUuid = item.podcastHeader?.uuid {
-                    let timestamp = item.fromTime?.toDouble()
-                    self.loadAndShowEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid, timestamp: timestamp)
+                    self.loadAndShowEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid)
                 }
             }
         }
     }
 
-    private func loadAndShowEpisode(episodeUuid: String, podcastUuid: String, timestamp: TimeInterval? = nil) {
+    private func loadAndShowEpisode(episodeUuid: String, podcastUuid: String) {
         if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
             // if we're subscribed to the podcast, we'll likely have this episode, just open it
             if podcast.isSubscribed() {
-                openEpisode(episodeUuid, from: podcast, timestamp: timestamp)
+                openEpisode(episodeUuid, from: podcast)
             } else { // if we're not subscribed, than it's possible our local copy is out of date, so we'll need to update it first
                 ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { _ in
-                    self.openEpisode(episodeUuid, from: podcast, timestamp: timestamp)
+                    self.openEpisode(episodeUuid, from: podcast)
                 }
             }
 
@@ -417,7 +415,7 @@ extension AppDelegate {
 
         ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { success in
             if success, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                self.openEpisode(episodeUuid, from: podcast, timestamp: timestamp)
+                self.openEpisode(episodeUuid, from: podcast)
             } else {
                 DispatchQueue.main.async {
                     self.hideProgressDialog()
