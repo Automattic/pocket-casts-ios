@@ -83,8 +83,18 @@ public class DataManager {
             }
         }
 
+        vacuumDatabase()
+    }
+
+    public func vacuumDatabase() {
         dbQueue.inDatabase { db in
-            try? db.executeUpdate("VACUUM;", values: nil)
+            do {
+                print("start vacuum")
+                try db.executeUpdate("VACUUM;", values: nil)
+                print("end vacuum")
+            } catch {
+                print(error)
+            }
         }
     }
 
