@@ -66,6 +66,8 @@ public class DataManager {
     }
 
     public func cleanUp() {
+        vacuumDatabase()
+        let startDate = Date()
         dbQueue.inTransaction { db, rollback in
             do {
 
@@ -82,20 +84,23 @@ public class DataManager {
 
             }
         }
-
-        vacuumDatabase()
+        let endDate = Date()
+        print("Clean Up Transaction duration:\(endDate.distance(to: startDate))")
     }
 
     public func vacuumDatabase() {
+        let startDate = Date()
+        print("start vacuum")
         dbQueue.inDatabase { db in
             do {
-                print("start vacuum")
                 try db.executeUpdate("VACUUM;", values: nil)
-                print("end vacuum")
             } catch {
-                print(error)
+                print("Vacuum error: \(error)")
             }
         }
+        print("end vacuum")
+        let endDate = Date()
+        print("Vacuum duration:\(endDate.distance(to: startDate))")
     }
 
     // MARK: - Up Next
