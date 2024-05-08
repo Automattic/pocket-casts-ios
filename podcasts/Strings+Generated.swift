@@ -240,9 +240,9 @@ internal enum L10n {
   internal static var appearanceArtworkHeader: String { return L10n.tr("Localizable", "appearance_artwork_header") }
   /// Dark Theme
   internal static var appearanceDarkTheme: String { return L10n.tr("Localizable", "appearance_dark_theme") }
-  /// Use Embedded Artwork
+  /// Use Episode Artwork
   internal static var appearanceEmbeddedArtwork: String { return L10n.tr("Localizable", "appearance_embedded_artwork") }
-  /// Shows artwork from the downloaded file (if it exists) in the player instead of using the show's artwork.
+  /// Some shows have custom artwork for certain episodes. Enable this option and Pocket Casts will display them instead of the show’s artwork.
   internal static var appearanceEmbeddedArtworkSubtitle: String { return L10n.tr("Localizable", "appearance_embedded_artwork_subtitle") }
   /// Light Theme
   internal static var appearanceLightTheme: String { return L10n.tr("Localizable", "appearance_light_theme") }

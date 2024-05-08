@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import PocketCastsUtils
 import SafariServices
 import WebKit
 
@@ -32,6 +33,18 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
         loadingIndicator.startAnimating()
         hideErrorMessage(hide: true)
+
+        if FeatureFlag.newShowNotesEndpoint.enabled {
+            Task { [weak self] in
+                guard let self else { return }
+
+                let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
+                downloadingShowNotes = false
+                showNotesDidLoad(showNotes: showNotes ?? CacheServerHandler.noShowNotesMessage)
+            }
+            return
+        }
+
         CacheServerHandler.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid, cached: { [weak self] cachedShowNotes in
             self?.downloadingShowNotes = false
             self?.showNotesDidLoad(showNotes: cachedShowNotes)
