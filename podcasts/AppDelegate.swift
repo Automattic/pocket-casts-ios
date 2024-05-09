@@ -95,7 +95,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func handleEnterBackground() {
         scheduleNextBackgroundRefresh()
-        DataManager.sharedManager.vacuumDatabase()
         FileLog.shared.forceFlush()
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
