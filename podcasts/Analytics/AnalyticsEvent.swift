@@ -292,6 +292,8 @@ enum AnalyticsEvent: String {
     case discoverShowAllTapped
     case discoverCategoryCloseButtonTapped
     case discoverCategoriesPickerPick
+    case discoverCategoriesPickerClosed
+    case discoverCategoriesPickerShown
 
     case discoverListImpression
     case discoverListShowAllTapped
