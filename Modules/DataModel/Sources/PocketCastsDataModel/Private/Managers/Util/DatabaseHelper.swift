@@ -677,6 +677,51 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 45 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE EpisodeMetadata (
+                        episodeUuid TEXT PRIMARY KEY,
+                        metadata TEXT NOT NULL
+                    );
+                """, values: nil)
+                schemaVersion = 45
+            } catch {
+                failedAt(45)
+                return
+            }
+        }
+
+        if schemaVersion < 46 {
+            do {
+                try db.executeUpdate("DROP TABLE EpisodeMetadata;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN metadata TEXT;", values: nil)
+                schemaVersion = 46
+            } catch {
+                failedAt(46)
+                return
+            }
+        }
+
+        if schemaVersion < 47 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
+                schemaVersion = 47
+            } catch {
+                failedAt(47)
+                return
+            }
+        }
+
+        // Those migrations were some heavy DROP COLUMN that we moved outside of DB startup
+        if schemaVersion < 48 {
+            schemaVersion = 48
+        }
+        if schemaVersion < 49 {
+            schemaVersion = 49
+        }
+
         db.commit()
     }
 }

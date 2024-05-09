@@ -65,6 +65,72 @@ public class DataManager {
         self.endOfYearManager = endOfYearManager
     }
 
+    private func measureTime(_ action: () -> ()) -> TimeInterval {
+        let startDate = Date()
+        action()
+        let endDate = Date()
+        return startDate.distance(to: endDate)
+    }
+
+    private var databaseSize: String? {
+        let pathToDB = DataManager.pathToDb()
+        guard let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB),
+              let size = fileAttributes[.size] as? NSNumber else {
+            return nil
+        }
+        let sizeString = ByteCountFormatter.string(fromByteCount: size.int64Value, countStyle: .file)
+        return sizeString
+    }
+
+    public func cleanUp() {
+        //Do a vacuum before doing db changes
+        vacuumDatabase()
+        let duration = measureTime {
+            dbQueue.inTransaction { db, rollback in
+                do {
+
+                    try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
+
+                    try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
+                } catch {
+
+                }
+            }
+        }
+        FileLog.shared.addMessage("CleanUp Transaction duration: \(duration)")
+        // Do another vacuum to reclaim any space free by the changes above
+        vacuumDatabase()
+    }
+
+    public func vacuumDatabase() {
+        if let sizeString = databaseSize {
+            FileLog.shared.addMessage("VACUUM -> Database start size: \(sizeString)")
+        }
+
+        FileLog.shared.addMessage("VACUUM -> Start")
+        let duration = measureTime {
+            dbQueue.inDatabase { db in
+                do {
+                    try db.executeUpdate("VACUUM;", values: nil)
+                } catch {
+                    FileLog.shared.addMessage("VACUUM -> error: \(error)")
+                }
+            }
+        }
+        FileLog.shared.addMessage("VACUUM -> End")
+
+        FileLog.shared.addMessage("VACUUM -> Duration: \(duration)")
+        if let sizeString = databaseSize {
+            FileLog.shared.addMessage("VACUUM -> Database end size: \(sizeString)")
+        }
+    }
+
     // MARK: - Up Next
 
     public func allUpNextPlaylistEpisodes() -> [PlaylistEpisode] {
@@ -338,10 +404,12 @@ public class DataManager {
     }
 
     public func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String]) {
+        folderPodcastUuuidCache.removeAll()
         podcastManager.bulkSetFolderUuid(folderUuid: folderUuid, podcastUuids: podcastUuids, dbQueue: dbQueue)
     }
 
     public func updatePodcastFolder(podcastUuid: String, to folderUuid: String?, sortOrder: Int32) {
+        folderPodcastUuuidCache.removeAll()
         podcastManager.updatePodcastFolder(podcastUuid: podcastUuid, sortOrder: sortOrder, folderUuid: folderUuid, dbQueue: dbQueue)
     }
 
@@ -821,6 +889,7 @@ public class DataManager {
     // MARK: - Folders
 
     public func save(folder: Folder) {
+        folderPodcastUuuidCache[folder.uuid] = nil
         folderManager.save(folder: folder, dbQueue: dbQueue)
     }
 
@@ -830,6 +899,21 @@ public class DataManager {
 
     public func findFolder(uuid: String) -> Folder? {
         folderManager.findFolder(uuid: uuid, dbQueue: dbQueue)
+    }
+
+    private var folderPodcastUuuidCache: [String: [String]] = [:]
+
+    public func topPodcastsUuidInFolder(folder: Folder) -> [String] {
+        if let topPodcasts = folderPodcastUuuidCache[folder.uuid] {
+            return topPodcasts
+        }
+        let topPodcasts = podcastManager.allPodcastsInFolder(folder: folder, dbQueue: dbQueue).map({$0.uuid})
+        folderPodcastUuuidCache[folder.uuid] = topPodcasts
+        return topPodcasts
+    }
+
+    public func clearFolderCache(folderUuid: String) {
+        folderPodcastUuuidCache[folderUuid] = nil
     }
 
     public func allPodcastsInFolder(folder: Folder) -> [Podcast] {

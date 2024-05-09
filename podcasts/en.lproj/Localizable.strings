@@ -4063,3 +4063,9 @@
 
 /* Message explaining why the sleep timer was restarted after the user shook the device */
 "device_shake_sleep_timer" = "Sleep timer restarted due to device shake";
+
+/* Displayed when doing a heavy task the user has to wait */
+"hang_on" = "Hang on!";
+
+/* Message displayed when doing heavy database operations */
+"database_migration" = "We're moving a few bits and bytes so the app runs faster...";

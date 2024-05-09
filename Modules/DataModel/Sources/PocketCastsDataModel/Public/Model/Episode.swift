@@ -47,7 +47,12 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var deselectedChaptersModified = 0 as Int64
 
     public var hasBookmarks: Bool {
-        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        // This wil cause a regression in which the bookmarks won't be displayed
+        // for episodes with bookmarks.
+        // However, this call is happening on the main thread and can block the whole app.
+        // We will re-add this again in a way that's not a blocker
+        //DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        false
     }
 
     public var isUserEpisode: Bool {
@@ -174,5 +179,24 @@ public class Episode: NSObject, BaseEpisode {
 
     override public var hash: Int {
         taggableId()
+    }
+
+    // MARK: - Metadata
+
+    public struct Metadata: Decodable {
+        public let showNotes: String?
+        public let image: String?
+
+        /// Podlove chapters
+        public let chapters: [EpisodeChapter]?
+
+        /// Podcast Index chapters
+        public let chaptersUrl: String?
+
+        public struct EpisodeChapter: Decodable {
+            public let startTime: TimeInterval
+            public let title: String?
+            public let endTime: TimeInterval?
+        }
     }
 }

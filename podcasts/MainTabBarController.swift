@@ -23,6 +23,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     /// Whether we're actively presenting the what's new
     var isShowingWhatsNew: Bool = false
 
+    /// Displayed during database migrations
+    var alert: ShiftyLoadingAlert?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -82,6 +85,28 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
 
         showInitialOnboardingIfNeeded()
+
+        updateDatabaseIndexes()
+    }
+
+    /// Update database indexes and delete unused columns
+    /// This is outside of migrations and done just once
+    /// because for larger databases it's very time consuming
+    private func updateDatabaseIndexes() {
+        guard !Settings.upgradedIndexes else {
+            return
+        }
+
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self else { return }
+
+            if DataManager.sharedManager.podcastCount() > 100 {
+                self.presentLoader()
+            }
+            DataManager.sharedManager.cleanUp()
+            self.dismissLoader()
+            Settings.upgradedIndexes = true
+        }
     }
 
     private func showInitialOnboardingIfNeeded() {
@@ -709,7 +734,7 @@ private extension MainTabBarController {
     func showWhatsNewIfNeeded() {
         guard let controller = view.window?.rootViewController else { return }
 
-        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
+        if let whatsNewViewController = appDelegate()?.whatsNew.viewControllerToShow() {
             controller.present(whatsNewViewController, animated: true)
             isShowingWhatsNew = true
         }

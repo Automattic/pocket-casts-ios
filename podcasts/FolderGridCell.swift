@@ -7,7 +7,7 @@ class FolderGridCell: UICollectionViewCell {
     @IBOutlet var unplayedSashView: UnplayedSashOverlayView!
 
     func populateFrom(folder: Folder, badgeType: BadgeType, libraryType: LibraryType) {
-        folderPreview.populateFrom(folder: folder)
+        folderPreview.populateFromAsync(folder: folder)
 
         unplayedSashView.populateFrom(folder: folder, badgeType: badgeType, libraryType: libraryType)
     }

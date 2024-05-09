@@ -25,6 +25,7 @@ struct DeveloperMenu: View {
                 }
 
                 Button("Force Reload Discover") {
+                    DiscoverServerHandler.shared.discoveryCache.removeAllCachedResponses()
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
                 }
 

@@ -3,13 +3,14 @@ import PocketCastsServer
 
 protocol DiscoverSummaryProtocol: AnyObject {
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate)
-    func populateFrom(item: DiscoverItem)
+    func populateFrom(item: DiscoverItem, region: String?)
 }
 
 protocol DiscoverDelegate: AnyObject {
     func show(podcastInfo: PodcastInfo, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?)
     func show(discoverPodcast: DiscoverPodcast, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?)
     func show(podcast: Podcast)
+    func showExpanded(item: DiscoverItem, category: DiscoverCategory?)
     func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?)
     func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?)
     func replaceRegionCode(string: String?) -> String?
