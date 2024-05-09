@@ -68,18 +68,18 @@ struct Announcements {
         ),
 
         // Deselect Chapters (Non-Patron general public announcement)
-//        .init(
-//            version: "7.61",
-//            header: AnyView(Image("deselect_chapters")),
-//            title: L10n.skipChapters,
-//            message: chaptersViewModel.plusFreeMessage,
-//            buttonTitle: chaptersViewModel.plusFreeButtonTitle,
-//            action: {
-//                chaptersViewModel.buttonAction()
-//            },
-//            isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
-//            fullModal: true
-//        )
+        .init(
+            version: "7.61",
+            header: AnyView(Image("deselect_chapters")),
+            title: L10n.skipChapters,
+            message: chaptersViewModel.plusFreeMessage,
+            buttonTitle: chaptersViewModel.plusFreeButtonTitle,
+            action: {
+                chaptersViewModel.buttonAction()
+            },
+            isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
+            fullModal: true
+        )
     ]
 }
 
