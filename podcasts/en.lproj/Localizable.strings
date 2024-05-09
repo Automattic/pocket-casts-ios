@@ -217,11 +217,11 @@
 /* Section header for the appearance settings related to artwork. */
 "appearance_artwork_header" = "Podcast Artwork";
 
-/* Prompt to toggle on the use of artwork that's embedded in the episode download files. */
-"appearance_embedded_artwork" = "Use Embedded Artwork";
+/* Prompt to toggle on the use of artwork per episode, as opposed to per podcast. */
+"appearance_embedded_artwork" = "Use Episode Artwork";
 
-/* Subtitle explaining embedded artwork in the episode download files. */
-"appearance_embedded_artwork_subtitle" = "Shows artwork from the downloaded file (if it exists) in the player instead of using the show's artwork.";
+/* Subtitle explaining episode artwork. */
+"appearance_embedded_artwork_subtitle" = "Some shows have custom artwork for certain episodes. Enable this option and Pocket Casts will display them instead of the show’s artwork.";
 
 /* Prompt to toggle whether the theme will match the device theme or not. */
 "appearance_match_device_theme" = "Use iOS Light/Dark Mode";
@@ -4054,3 +4054,12 @@
 
 /* Prompting the user to upgrade to Plus. Don't translate "Plus" */
 "upgrade_to_plus" = "Upgrade to Plus";
+
+/* A title used to a show a list of the most popular podcasts in a category with the provided name of that category. */
+"most_popular_with_name" = "Most Popular in %1$@";
+
+/* A title used to a show a list of the most popular podcasts in a category. */
+"most_popular" = "Most Popular";
+
+/* Message explaining why the sleep timer was restarted after the user shook the device */
+"device_shake_sleep_timer" = "Sleep timer restarted due to device shake";
