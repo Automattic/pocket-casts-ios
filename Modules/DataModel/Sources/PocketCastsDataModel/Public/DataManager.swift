@@ -987,16 +987,6 @@ public class DataManager {
 
     public static func pathToDb() -> String {
         let folderPath = pathToDbFolder() as NSString
-        #if !os(watchOS)
-        let shouldCopyDatabase = true // Change here to copy the database or not
-
-        if shouldCopyDatabase {
-            let databaseToCopy = Bundle.main.url(forResource: "database", withExtension: "sqlite")!
-            let databaseDestination = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!.appendingPathComponent("Pocket Casts").appendingPathComponent("podcast_newDB.sqlite3")
-            try? FileManager.default.removeItem(at: databaseDestination)
-            try! FileManager.default.copyItem(at: databaseToCopy, to: databaseDestination)
-        }
-        #endif
 
         return folderPath.appendingPathComponent("podcast_newDB.sqlite3")
     }
