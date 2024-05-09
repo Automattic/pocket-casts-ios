@@ -153,12 +153,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Les favoris sont là !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Rejoignez-nous pour le bêta-test des favoris !</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Abonnez-vous à Plus dès maintenant pour pouvoir présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Dans le cadre de votre abonnement Patron, vous pouvez maintenant présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Dans le cadre de votre abonnement Plus, vous pouvez maintenant présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code copié dans le presse-papiers</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,10 +213,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Illustration du podcast</string>
     <key>appearance_dark_theme</key>
     <string>Thème sombre</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Utiliser l’illustration de l’épisode</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Certaines émissions ont des illustrations personnalisées pour certains épisodes. Activez cette option et Pocket Casts les affichera à la place de l’illustration de l’émission.</string>
+    <string>Affiche l’illustration du fichier téléchargé (si elle existe) dans le lecteur au lieu d’utiliser l’illustration de l’émission.</string>
     <key>appearance_light_theme</key>
     <string>Thème clair</string>
     <key>appearance_match_device_theme</key>
@@ -1221,10 +1213,6 @@ podcasts partout avec</string>
     <string>mois</string>
     <key>monthly</key>
     <string>Mensuellement</string>
-    <key>most_popular</key>
-    <string>Les plus populaires</string>
-    <key>most_popular_with_name</key>
-    <string>Les plus populaires dans %1$@</string>
     <key>move_to_bottom</key>
     <string>Déplacer vers le bas</string>
     <key>move_to_top</key>
@@ -2432,11 +2420,7 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <key>skip_back</key>
     <string>Retour rapide</string>
     <key>skip_chapters</key>
-    <string>Présélectionner des chapitres</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Présélectionner des chapitres et plus encore avec Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Présélectionner des chapitres et plus encore avec Pocket Casts Plus</string>
+    <string>Sauter les chapitres</string>
     <key>skip_forward</key>
     <string>Avance rapide</string>
     <key>sleep_timer</key>
