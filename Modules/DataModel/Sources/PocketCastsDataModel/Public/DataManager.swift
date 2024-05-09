@@ -65,26 +65,69 @@ public class DataManager {
         self.endOfYearManager = endOfYearManager
     }
 
+    private func measureTime(_ action: () -> ()) -> TimeInterval {
+        let startDate = Date()
+        action()
+        let endDate = Date()
+        return startDate.distance(to: endDate)
+    }
+
+    private var databaseSize: String? {
+        let pathToDB = DataManager.pathToDb()
+        guard let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB),
+              let size = fileAttributes[.size] as? NSNumber else {
+            return nil
+        }
+        let sizeString = ByteCountFormatter.string(fromByteCount: size.int64Value, countStyle: .file)
+        return sizeString
+    }
+
     public func cleanUp() {
-        dbQueue.inTransaction { db, rollback in
-            do {
+        //Do a vacuum before doing db changes
+        vacuumDatabase()
+        let duration = measureTime {
+            dbQueue.inTransaction { db, rollback in
+                do {
 
-                try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
-                try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
-                try? db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
-                try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
 
-                try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
-            } catch {
+                    try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
+                } catch {
 
+                }
             }
         }
+        FileLog.shared.addMessage("CleanUp Transaction duration: \(duration)")
+        // Do another vacuum to reclaim any space free by the changes above
+        vacuumDatabase()
+    }
 
-        dbQueue.inDatabase { db in
-            try? db.executeUpdate("VACUUM;", values: nil)
+    public func vacuumDatabase() {
+        if let sizeString = databaseSize {
+            FileLog.shared.addMessage("VACUUM -> Database start size: \(sizeString)")
+        }
+
+        FileLog.shared.addMessage("VACUUM -> Start")
+        let duration = measureTime {
+            dbQueue.inDatabase { db in
+                do {
+                    try db.executeUpdate("VACUUM;", values: nil)
+                } catch {
+                    FileLog.shared.addMessage("VACUUM -> error: \(error)")
+                }
+            }
+        }
+        FileLog.shared.addMessage("VACUUM -> End")
+
+        FileLog.shared.addMessage("VACUUM -> Duration: \(duration)")
+        if let sizeString = databaseSize {
+            FileLog.shared.addMessage("VACUUM -> Database end size: \(sizeString)")
         }
     }
 
