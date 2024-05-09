@@ -993,14 +993,6 @@ public class DataManager {
         if !FileManager.default.fileExists(atPath: databaseDestination.path) {
             let databaseToCopy = Bundle.main.url(forResource: "database", withExtension: "sqlite")!
             try! FileManager.default.copyItem(at: databaseToCopy, to: databaseDestination)
-
-            let plistToCopy = Bundle.main.url(forResource: "preferences", withExtension: "plist")!
-
-            if let myDict = NSDictionary(contentsOfFile: plistToCopy.path) {
-                myDict.forEach {
-                    UserDefaults.standard.setValue($0.value, forKey: $0.key as! String)
-                }
-            }
         }
         #endif
 
