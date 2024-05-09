@@ -74,7 +74,7 @@ public class DataManager {
 
     private var databaseSize: String? {
         let pathToDB = DataManager.pathToDb()
-        guard let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB), 
+        guard let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB),
               let size = fileAttributes[.size] as? NSNumber else {
             return nil
         }
