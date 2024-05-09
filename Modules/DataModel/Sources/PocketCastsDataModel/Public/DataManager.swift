@@ -65,42 +65,61 @@ public class DataManager {
         self.endOfYearManager = endOfYearManager
     }
 
-    public func cleanUp() {
-        vacuumDatabase()
+    func measureTime(_ action: () -> ()) -> TimeInterval {
         let startDate = Date()
-        dbQueue.inTransaction { db, rollback in
-            do {
+        action()
+        let endDate = Date()
+        return startDate.distance(to: endDate)
+    }
 
-                try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
-                try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
-                try? db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
-                try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
+    public func cleanUp() {
+        //Start by vacuum before doing db change
+        vacuumDatabase()
+        let duration = measureTime {
+            dbQueue.inTransaction { db, rollback in
+                do {
 
-                try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
-            } catch {
+                    try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
 
+                    try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
+                } catch {
+
+                }
             }
         }
-        let endDate = Date()
-        print("Clean Up Transaction duration:\(endDate.distance(to: startDate))")
+        FileLog.shared.addMessage("CleanUp Transaction duration: \(duration)")
+        vacuumDatabase()
     }
 
     public func vacuumDatabase() {
-        let startDate = Date()
-        print("start vacuum")
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("VACUUM;", values: nil)
-            } catch {
-                print("Vacuum error: \(error)")
+        let pathToDB = DataManager.pathToDb()
+        let formatter = ByteCountFormatter()
+        if let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB), let size = fileAttributes[.size], let sizeString = formatter.string(for: size) {
+            FileLog.shared.addMessage("VACUUM -> Database start size: \(sizeString)")
+        }
+
+        FileLog.shared.addMessage("VACUUM -> Start")
+        let duration = measureTime {
+            dbQueue.inDatabase { db in
+                do {
+                    try db.executeUpdate("VACUUM;", values: nil)
+                } catch {
+                    FileLog.shared.addMessage("VACUUM -> error: \(error)")
+                }
             }
         }
-        print("end vacuum")
-        let endDate = Date()
-        print("Vacuum duration:\(endDate.distance(to: startDate))")
+        FileLog.shared.addMessage("VACUUM -> End")
+
+        FileLog.shared.addMessage("VACUUM -> Duration: \(duration)")
+        if let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB), let size = fileAttributes[.size], let sizeString = formatter.string(for: size) {
+            FileLog.shared.addMessage("VACUUM -> Database end size: \(sizeString)")
+        }
     }
 
     // MARK: - Up Next
