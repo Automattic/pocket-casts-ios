@@ -309,6 +309,7 @@ enum AnalyticsEvent: String {
     case discoverCollectionLinkTapped
 
     case discoverAdCategoryTapped
+    case discoverAdCategorySubscribed
 
     // MARK: - Mini Player
 
