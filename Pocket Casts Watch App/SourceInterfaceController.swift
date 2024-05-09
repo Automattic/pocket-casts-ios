@@ -149,7 +149,7 @@ class SourceInterfaceController: PCInterfaceController {
 
         SourceManager.shared.setSource(newSource: .phone)
 
-        pushController(forType: .interface)
+        pushController(withName: "InterfaceController", context: nil)
     }
 
     @IBAction func watchTapped() {
@@ -160,7 +160,7 @@ class SourceInterfaceController: PCInterfaceController {
         }
         SourceManager.shared.setSource(newSource: .watch)
 
-        pushController(forType: .interface)
+        pushController(withName: "InterfaceController", context: nil)
     }
 
     private func nowPlayingEpisodesMatchOnBothSources() -> Bool {

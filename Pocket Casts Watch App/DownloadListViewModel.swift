@@ -5,18 +5,11 @@ import PocketCastsDataModel
 class DownloadListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var episodes: [EpisodeRowViewModel] = []
-    @Published var downloadedCount: Int = 0
     let playSourceViewModel = PlaySourceHelper.playSourceViewModel
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        downloadedCount = playSourceViewModel.downloadedCount
-
-        Publishers.Merge3(
-            Publishers.Notification.dataUpdated,
-            Publishers.Notification.episodeDownloadStatusChanged,
-            Publishers.Notification.episodeDownloaded
-            )
+        Publishers.Notification.dataUpdated
             .sink(receiveValue: { [unowned self] _ in
                 self.loadEpisodes()
             })
@@ -34,7 +27,6 @@ class DownloadListViewModel: ObservableObject {
             .sink(receiveValue: { [unowned self] episodes in
                 self.isLoading = false
                 self.episodes = episodes
-                self.downloadedCount = playSourceViewModel.downloadedCount
             })
             .store(in: &cancellables)
     }

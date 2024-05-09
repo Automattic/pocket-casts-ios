@@ -56,8 +56,6 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         mainGrid.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
 
-        miniPlayerStatusDidChange()
-
         gridHelper.configureLayout(collectionView: mainGrid)
 
         updateNavTintColor()
@@ -98,11 +96,6 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         let titleColor = ThemeColor.filterText01(filterColor: folderColor)
         let iconColor = ThemeColor.filterIcon01(filterColor: folderColor)
         let backgroundColor = ThemeColor.filterUi01(filterColor: folderColor)
-
-        if let themeableCollectionView = mainGrid as? ThemeableCollectionView {
-            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.primaryUi02
-        }
-
         changeNavTint(titleColor: titleColor, iconsColor: iconColor, backgroundColor: backgroundColor)
     }
 
@@ -223,9 +216,11 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
     }
 
     @objc private func miniPlayerStatusDidChange() {
-        let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
-        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
-        mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
+        if PlaybackManager.shared.currentEpisode() != nil {
+            mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
+        } else {
+            mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: 0, bottom: 0, right: 0)
+        }
     }
 
     // TODO: change this to be diff based and see if we can use the new iOS diffable stuff

@@ -237,8 +237,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
                 if let userEpisode = episode as? UserEpisode {
                     episodeImage.setUserEpisode(uuid: userEpisode.uuid, size: .list)
-                } else if let episode = episode as? Episode {
-                    episodeImage.setEpisode(episode, size: .list)
                 } else {
                     episodeImage.setPodcast(uuid: episode.parentIdentifier(), size: .list)
                 }
@@ -359,14 +357,11 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     @objc private func updateCellFromSpecificEvent(_ notification: Notification) {
-        DispatchQueue.main.async { [weak self] in
-            guard let episodeUuid = notification.object as? String, episodeUuid == self?.episode?.uuid else {
-                return
-            }
-            DispatchQueue.global(qos: .userInteractive).async {
-                self?.updateCell(episodeUuid: episodeUuid)
-            }
+        guard let episodeUuid = notification.object as? String, episodeUuid == episode?.uuid else {
+            return
         }
+
+        updateCell(episodeUuid: episodeUuid)
     }
 
     private func updateCell(episodeUuid: String) {
@@ -518,7 +513,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     var showTick = false {
         didSet {
-            guard showTick != oldValue else { return }
             selectTickImageView.isHidden = !showTick
             selectCircleView.layer.borderWidth = showTick ? 0 : 2
             selectView.accessibilityLabel = showTick ? L10n.accessibilityDeselectEpisode : L10n.accessibilitySelectEpisode

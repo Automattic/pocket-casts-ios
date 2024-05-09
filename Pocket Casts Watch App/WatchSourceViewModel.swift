@@ -159,10 +159,6 @@ class WatchSourceViewModel: PlaySourceViewModel {
         return Just(fetchedEpisodes).setFailureType(to: PlaySourceError.self).eraseToAnyPublisher()
     }
 
-    var downloadedCount: Int {
-        return DataManager.sharedManager.downloadedEpisodeCount()
-    }
-
     // MARK: User Episodes
 
     var supportsFileSort = true

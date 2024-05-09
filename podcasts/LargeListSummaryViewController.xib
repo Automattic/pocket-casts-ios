@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,11 +11,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LargeListSummaryViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="iJi-Yt-ez5" id="lqV-Pl-Ekp"/>
-                <outlet property="divider" destination="8lf-U1-Pgg" id="5tp-81-JYJ"/>
                 <outlet property="largeListCollectionViewHeight" destination="O9B-Ec-Krr" id="8nl-ey-dbz"/>
                 <outlet property="showAllBtn" destination="sF0-fo-tPV" id="NQp-Ou-W2d"/>
                 <outlet property="titleLabel" destination="0VX-rs-RFl" id="gRb-Ti-AKA"/>
-                <outlet property="titleTopConstraint" destination="iGU-3S-axn" id="MLu-4G-TLm"/>
                 <outlet property="view" destination="Fw0-IT-oEE" id="dU6-pd-YkH"/>
             </connections>
         </placeholder>
@@ -24,31 +22,12 @@
             <rect key="frame" x="0.0" y="0.0" width="370" height="275"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" alignment="lastBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="X56-LC-Q5n">
-                    <rect key="frame" x="16" y="30" width="338" height="20"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0VX-rs-RFl" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="92" height="20"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                            <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtr-d4-ivC">
-                            <rect key="frame" x="92" y="0.0" width="176" height="20"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </view>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sF0-fo-tPV" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="268" y="0.0" width="70" height="28"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                            <state key="normal" title="SHOW ALL">
-                                <color key="titleColor" red="0.035672488410000001" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </state>
-                            <connections>
-                                <action selector="showAllTapped:" destination="-1" eventType="touchUpInside" id="moq-wQ-lrZ"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0VX-rs-RFl" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="16" y="30" width="92" height="20"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                    <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8lf-U1-Pgg" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="16" y="274" width="338" height="1"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -56,6 +35,16 @@
                         <constraint firstAttribute="height" constant="1" id="1Sj-ah-DW1"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sF0-fo-tPV" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="284" y="32.5" width="70" height="28"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <state key="normal" title="SHOW ALL">
+                        <color key="titleColor" red="0.035672488410000001" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="showAllTapped:" destination="-1" eventType="touchUpInside" id="moq-wQ-lrZ"/>
+                    </connections>
+                </button>
                 <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="iJi-Yt-ez5" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="16" y="66" width="350" height="169"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -72,14 +61,16 @@
             <viewLayoutGuide key="safeArea" id="LyU-Kg-8Dd"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="8lf-U1-Pgg" secondAttribute="trailing" constant="16" id="4UU-zd-txK"/>
-                <constraint firstItem="X56-LC-Q5n" firstAttribute="leading" secondItem="LyU-Kg-8Dd" secondAttribute="leading" constant="16" id="IL6-Cs-p4a"/>
-                <constraint firstItem="LyU-Kg-8Dd" firstAttribute="trailing" secondItem="X56-LC-Q5n" secondAttribute="trailing" constant="16" id="IM6-3S-kcq"/>
-                <constraint firstItem="iJi-Yt-ez5" firstAttribute="top" secondItem="X56-LC-Q5n" secondAttribute="bottom" constant="16" id="OQB-xb-uvH"/>
+                <constraint firstAttribute="trailing" secondItem="sF0-fo-tPV" secondAttribute="trailing" constant="16" id="JpU-a4-kSM"/>
                 <constraint firstAttribute="bottom" secondItem="8lf-U1-Pgg" secondAttribute="bottom" id="a4K-dl-1du"/>
-                <constraint firstItem="X56-LC-Q5n" firstAttribute="top" secondItem="Fw0-IT-oEE" secondAttribute="top" constant="30" id="iGU-3S-axn"/>
+                <constraint firstItem="0VX-rs-RFl" firstAttribute="top" secondItem="Fw0-IT-oEE" secondAttribute="top" constant="30" id="bMc-9I-2X9"/>
                 <constraint firstAttribute="trailing" secondItem="iJi-Yt-ez5" secondAttribute="trailing" constant="4" id="jUE-w2-UeS"/>
                 <constraint firstItem="8lf-U1-Pgg" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leading" constant="16" id="lAW-pH-GZr"/>
+                <constraint firstItem="sF0-fo-tPV" firstAttribute="firstBaseline" secondItem="0VX-rs-RFl" secondAttribute="firstBaseline" id="nq8-FH-y7i"/>
+                <constraint firstItem="iJi-Yt-ez5" firstAttribute="top" secondItem="0VX-rs-RFl" secondAttribute="bottom" constant="16" id="oXK-90-rK5"/>
                 <constraint firstAttribute="bottom" secondItem="iJi-Yt-ez5" secondAttribute="bottom" constant="40" id="p8E-lt-7LD"/>
+                <constraint firstItem="0VX-rs-RFl" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leading" constant="16" id="pjG-Iv-ws5"/>
+                <constraint firstItem="sF0-fo-tPV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0VX-rs-RFl" secondAttribute="trailing" constant="4" id="sFw-LV-ZvT"/>
                 <constraint firstItem="iJi-Yt-ez5" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leading" constant="16" id="tSn-G0-qnf"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

@@ -60,7 +60,6 @@ protocol PlaySourceViewModel {
     // MARK: Downloads
 
     func fetchDownloadedEpisodes() -> AnyPublisher<[BaseEpisode], PlaySourceError>
-    var downloadedCount: Int { get }
 
     // MARK: User Episodes
 

@@ -11,7 +11,11 @@ public class CacheServerHandler {
     private let showNotesUrlCache: URLCache
     private let colorsUrlsCache: URLCache
 
-    private lazy var episodeInfoHandler = ShowInfoDataRetriever()
+    private lazy var episodeInfoHandler = EpisodeInfoHandler()
+
+    public static var newShowNotesEndpoint: Bool = false
+
+    public static var episodeFeedArtwork: Bool = false
 
     private let tokenHelper = TokenHelper.shared
 
@@ -23,6 +27,11 @@ public class CacheServerHandler {
     // MARK: - Show Notes
 
     public func loadShowNotes(podcastUuid: String, episodeUuid: String, cached: ((String) -> Void)? = nil, completion: ((String?) -> Void)?) {
+        guard !Self.newShowNotesEndpoint else {
+            episodeInfoHandler.loadShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid, cached: cached, completion: completion)
+            return
+        }
+
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/episode/show_notes/\(episodeUuid)")
         let request = URLRequest(url: url)
 
@@ -53,6 +62,15 @@ public class CacheServerHandler {
     }
 
     // MARK: - Episode Artwork
+
+    public func loadEpisodeArtworkUrl(podcastUuid: String, episodeUuid: String, completion: ((String?) -> Void)?) {
+        guard Self.newShowNotesEndpoint, Self.episodeFeedArtwork else {
+            completion?(nil)
+            return
+        }
+
+        episodeInfoHandler.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid, completion: completion)
+    }
 
     public func loadPodcastColors(podcastUuid: String, allowCachedVersion: Bool, completion: @escaping ((String?, String?, String?) -> Void)) {
         let url = ServerHelper.colorUrl(podcastUuid: podcastUuid)

@@ -9,7 +9,6 @@ public extension UserEpisode {
         episodeMap["downloadUrl"] = downloadUrl ?? ""
         episodeMap["episodeStatus"] = "\(episodeStatus)"
         episodeMap["fileType"] = fileType ?? ""
-        episodeMap["contentType"] = contentType ?? ""
         episodeMap["keepEpisode"] = "\(keepEpisode)"
         episodeMap["playedUpTo"] = "\(playedUpTo)"
         episodeMap["duration"] = "\(duration)"
@@ -35,7 +34,6 @@ public extension UserEpisode {
         downloadUrl = episodeMap["downloadUrl"]
         episodeStatus = decodeInt32FromString(value: episodeMap["episodeStatus"])
         fileType = episodeMap["fileType"]
-        contentType = episodeMap["contentType"]
         keepEpisode = decodeBoolFromString(value: episodeMap["keepEpisode"])
         playedUpTo = decodeDoubleFromString(value: episodeMap["playedUpTo"])
         duration = decodeDoubleFromString(value: episodeMap["duration"])

@@ -6,9 +6,9 @@ struct FilesListView: View {
         ItemListContainer(isEmpty: $viewModel.episodes.isEmpty, loading: viewModel.isLoading) {
             List {
                 EpisodeListView(title: L10n.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: .files)
-                .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.filesSort, supportsToolbar: viewModel.supportsSort) { option in
-                        viewModel.sortOrder = option
-                    }
+            }
+            .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.filesSort, supportsToolbar: viewModel.supportsSort) { option in
+                viewModel.sortOrder = option
             }
         }
         .navigationTitle(L10n.settingsFiles.prefixSourceUnicode)

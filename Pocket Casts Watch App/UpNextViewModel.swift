@@ -7,14 +7,11 @@ class UpNextViewModel: ObservableObject {
     @Published var isEmpty: Bool = false
     @Published var upNextTitle: String?
     @Published var episodes: [EpisodeRowViewModel]
-    @Published var upNextCount: Int = 0
-
     private var playSource = PlaySourceHelper.playSourceViewModel
     private var cancellables = Set<AnyCancellable>()
 
     init() {
         upNextTitle = playSource.nowPlayingEpisode?.subTitle()
-        upNextCount = playSource.upNextCount
         episodes = playSource.episodeUuidsInQueue.map { EpisodeRowViewModel(episode: $0) }
         isPlaying = playSource.isPlaying
 
@@ -42,7 +39,6 @@ class UpNextViewModel: ObservableObject {
             self.upNextTitle = playSource.nowPlayingEpisode?.subTitle()
             self.episodes = playSource.episodeUuidsInQueue.map { EpisodeRowViewModel(episode: $0) }
             self.isPlaying = playSource.isPlaying
-            self.upNextCount = playSource.upNextCount
         }
         .store(in: &cancellables)
     }

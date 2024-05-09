@@ -49,7 +49,5 @@ class FolderListCell: ThemeableCollectionCell {
         } else {
             unplayedBadge.isHidden = true
         }
-
-        unplayedBadge.updateColors()
     }
 }
