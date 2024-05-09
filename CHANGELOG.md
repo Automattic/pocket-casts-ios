@@ -1,3 +1,15 @@
+7.64
+-----
+- Show the Up Next bar on the tab bar. [#1613]
+- New design for the Podcasts grid layouts. [#1628]
+- Shake the device to restart Sleep Timer [#1627]
+- Playback fades out when finishing a sleep timer [#1629]
+- New design for the mini-player bar [#1634]
+
+7.63
+-----
+- Performance improvements
+
 7.62
 -----
 - Sleep Timer restarts automatically if you play again within 5 minutes [#1612]
@@ -5,7 +17,10 @@
 
 7.61
 -----
-
+- Opening a shared podcast episode link with the current position, now opens on the right position. [#5]
+- Allow sharing of bookmarks directly on the bookmarks list. [#1558]
+- Adds support to displaying chapters from RSS [#1574]
+- Adds support to displaying episode artwork [#1574]
 
 7.60
 -----

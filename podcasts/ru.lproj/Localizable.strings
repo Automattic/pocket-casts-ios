@@ -153,6 +153,12 @@
     <string>Закладки уже готовы!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Примите участие в бета-тестировании закладок!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Подпишитесь на Plus, и вы сможете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>В рамках подписки на Patron вы теперь можете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>В рамках подписки на Plus вы теперь можете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Код скопирован в буфер обмена</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,8 +219,10 @@
     <string>Тема подкаста</string>
     <key>appearance_dark_theme</key>
     <string>Тёмная тема</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Отображать оформление выпусков</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Показывает в плеере тему из загруженного файла (при наличии) вместо темы шоу.</string>
+    <string>В некоторых шоу есть специальное оформление отдельных выпусков. Включите эту опцию, и Pocket Casts будет отображать его вместо общего оформления шоу.</string>
     <key>appearance_light_theme</key>
     <string>Светлая тема</string>
     <key>appearance_match_device_theme</key>
@@ -1213,6 +1221,10 @@
     <string>мес.</string>
     <key>monthly</key>
     <string>Ежемесячно</string>
+    <key>most_popular</key>
+    <string>Самое популярное</string>
+    <key>most_popular_with_name</key>
+    <string>Самое популярное в %1$@</string>
     <key>move_to_bottom</key>
     <string>Переместить вниз</string>
     <key>move_to_top</key>
@@ -2420,7 +2432,11 @@
     <key>skip_back</key>
     <string>Перейти назад</string>
     <key>skip_chapters</key>
-    <string>Пропустить главы</string>
+    <string>Предварительный выбор глав</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Возможность предварительно выбирать главы и множество других функций с Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Возможность предварительно выбирать главы и множество других функций с Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Перейти дальше</string>
     <key>sleep_timer</key>

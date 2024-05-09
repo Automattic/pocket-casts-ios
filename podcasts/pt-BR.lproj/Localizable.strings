@@ -153,6 +153,12 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Chegaram os favoritos!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Junte-se a nós na versão beta dos favoritos!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Assine o Plus agora para pré-selecionar e pular capítulos automaticamente em qualquer episódio que seja compatível com esses recursos.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Como parte da assinatura do Patron, agora você pode pré-selecionar e pular capítulos automaticamente em qualquer episódio que seja compatível com esses recursos.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Como parte da assinatura do Plus, agora você pode pré-selecionar e pular capítulos automaticamente em qualquer episódio que seja compatível com esses recursos.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Código copiado para a área de transferência</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,8 +219,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Arte do podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema escuro</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Usar arte do episódio</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Mostra a arte dos arquivos baixados (se houver) no reprodutor, em vez da arte do programa.</string>
+    <string>Alguns programas usam arte personalizada para determinados episódios. Se você ativar esta opção, o Pocket Casts exibirá essa arte em vez da arte do programa.</string>
     <key>appearance_light_theme</key>
     <string>Tema claro</string>
     <key>appearance_match_device_theme</key>
@@ -1213,6 +1221,10 @@ podcasts com você</string>
     <string>mês</string>
     <key>monthly</key>
     <string>Mensal</string>
+    <key>most_popular</key>
+    <string>Mais populares</string>
+    <key>most_popular_with_name</key>
+    <string>Mais populares em %1$@</string>
     <key>move_to_bottom</key>
     <string>Mover para o fim</string>
     <key>move_to_top</key>
@@ -2420,7 +2432,11 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <key>skip_back</key>
     <string>Voltar</string>
     <key>skip_chapters</key>
-    <string>Pular capítulos</string>
+    <string>Pré-selecionar capítulos</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Pré-selecione capítulos e muito mais com o Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Pré-selecione capítulos e muito mais com o Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avançar</string>
     <key>sleep_timer</key>
