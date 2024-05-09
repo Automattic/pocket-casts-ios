@@ -65,11 +65,21 @@ public class DataManager {
         self.endOfYearManager = endOfYearManager
     }
 
-    func measureTime(_ action: () -> ()) -> TimeInterval {
+    private func measureTime(_ action: () -> ()) -> TimeInterval {
         let startDate = Date()
         action()
         let endDate = Date()
         return startDate.distance(to: endDate)
+    }
+
+    private var databaseSize: String? {
+        let pathToDB = DataManager.pathToDb()
+        guard let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB), 
+              let size = fileAttributes[.size] as? NSNumber else {
+            return nil
+        }
+        let sizeString = ByteCountFormatter.string(fromByteCount: size.int64Value, countStyle: .file)
+        return sizeString
     }
 
     public func cleanUp() {
@@ -98,9 +108,7 @@ public class DataManager {
     }
 
     public func vacuumDatabase() {
-        let pathToDB = DataManager.pathToDb()
-        let formatter = ByteCountFormatter()
-        if let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB), let size = fileAttributes[.size], let sizeString = formatter.string(for: size) {
+        if let sizeString = databaseSize {
             FileLog.shared.addMessage("VACUUM -> Database start size: \(sizeString)")
         }
 
@@ -116,8 +124,8 @@ public class DataManager {
         }
         FileLog.shared.addMessage("VACUUM -> End")
 
-        FileLog.shared.addMessage("VACUUM -> Duration: \(duration)")
-        if let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB), let size = fileAttributes[.size], let sizeString = formatter.string(for: size) {
+        FileLog.shared.addMessage("VACUUM -> Duration: \(TimeFormatter duration)")
+        if let sizeString = databaseSize {
             FileLog.shared.addMessage("VACUUM -> Database end size: \(sizeString)")
         }
     }
