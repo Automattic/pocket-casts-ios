@@ -83,7 +83,7 @@ public class DataManager {
     }
 
     public func cleanUp() {
-        //Start by vacuum before doing db change
+        //Do a vacuum before doing db changes
         vacuumDatabase()
         let duration = measureTime {
             dbQueue.inTransaction { db, rollback in
@@ -104,6 +104,7 @@ public class DataManager {
             }
         }
         FileLog.shared.addMessage("CleanUp Transaction duration: \(duration)")
+        // Do another vacuum to reclaim any space free by the changes above
         vacuumDatabase()
     }
 
@@ -124,7 +125,7 @@ public class DataManager {
         }
         FileLog.shared.addMessage("VACUUM -> End")
 
-        FileLog.shared.addMessage("VACUUM -> Duration: \(TimeFormatter duration)")
+        FileLog.shared.addMessage("VACUUM -> Duration: \(duration)")
         if let sizeString = databaseSize {
             FileLog.shared.addMessage("VACUUM -> Database end size: \(sizeString)")
         }
