@@ -24,7 +24,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     var isShowingWhatsNew: Bool = false
 
     /// Displayed during database migrations
-    var alert: UIAlertController?
+    var alert: ShiftyLoadingAlert?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -233,7 +233,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?) {
+    func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?, timestamp: TimeInterval?) {
         if let navController = selectedViewController as? UINavigationController {
             navController.dismiss(animated: false, completion: nil)
 
@@ -242,7 +242,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
                 if EpisodeLoadingController.needsLoading(uuid: episodeUuid), let podcastUuid {
                     let episodeController = EpisodeLoadingController(episodeUuid: episodeUuid,
-                                                                 podcastUuid: podcastUuid)
+                                                                     podcastUuid: podcastUuid,
+                                                                     timestamp: timestamp)
 
                     let nav = UINavigationController(rootViewController: episodeController)
                     nav.modalPresentationStyle = .formSheet
@@ -250,7 +251,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
                     navController.present(nav, animated: true)
                 } else {
-                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
+                    let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget, timestamp: timestamp)
                     episodeController.modalPresentationStyle = .formSheet
 
                     navController.present(episodeController, animated: true)

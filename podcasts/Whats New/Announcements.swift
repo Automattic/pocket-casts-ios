@@ -26,21 +26,6 @@ struct Announcements {
             isEnabled: true
         ),
 
-        // Bookmarks: Full Release
-        // Show for everyone, except those who saw the `Early Access: Release` announcement
-        .init(
-            version: "7.53",
-            header: AnyView(BookmarksWhatsNewHeader()),
-            title: L10n.announcementBookmarksTitle,
-            message: L10n.announcementBookmarksDescription,
-            buttonTitle: bookmarksViewModel.upgradeOrEnableButtonTitle,
-            action: {
-                bookmarksViewModel.enableAction()
-            },
-            displayTier: bookmarksViewModel.displayTier,
-            isEnabled: bookmarksViewModel.isReleaseAnnouncementEnabled
-        ),
-
         // Slumber Studios partnership
         .init(
             version: "7.57",
@@ -83,18 +68,18 @@ struct Announcements {
         ),
 
         // Deselect Chapters (Non-Patron general public announcement)
-//        .init(
-//            version: "7.61",
-//            header: AnyView(Image("deselect_chapters")),
-//            title: L10n.skipChapters,
-//            message: chaptersViewModel.plusFreeMessage,
-//            buttonTitle: chaptersViewModel.plusFreeButtonTitle,
-//            action: {
-//                chaptersViewModel.buttonAction()
-//            },
-//            isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
-//            fullModal: true
-//        )
+        .init(
+            version: "7.61",
+            header: AnyView(Image("deselect_chapters")),
+            title: L10n.skipChapters,
+            message: chaptersViewModel.plusFreeMessage,
+            buttonTitle: chaptersViewModel.plusFreeButtonTitle,
+            action: {
+                chaptersViewModel.buttonAction()
+            },
+            isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
+            fullModal: true
+        )
     ]
 }
 

@@ -907,6 +907,28 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Sleep Timer (internal)
+
+    class var sleepTimerFinishedDate: Date? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.sleepTimerFinishedDate)
+        }
+
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.sleepTimerFinishedDate) as? Date
+        }
+    }
+
+    class var sleepTimerLastSetting: SleepTimerManager.SleepTimerSetting? {
+        set {
+            UserDefaults.standard.setJSONObject(newValue, forKey: Constants.UserDefaults.sleepTimerSetting)
+        }
+
+        get {
+            try? UserDefaults.standard.jsonObject(SleepTimerManager.SleepTimerSetting.self, forKey: Constants.UserDefaults.sleepTimerSetting)
+        }
+    }
+
     // MARK: - End of Year 2022
 
     class var showBadgeForEndOfYear: Bool {
@@ -1215,11 +1237,11 @@ class Settings: NSObject {
 
     class var upgradedIndexes: Bool {
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "upgraded_indexes_v3")
+            UserDefaults.standard.setValue(newValue, forKey: "upgraded_indexes_v4")
         }
 
         get {
-            UserDefaults.standard.bool(forKey: "upgraded_indexes_v3")
+            UserDefaults.standard.bool(forKey: "upgraded_indexes_v4")
         }
     }
 

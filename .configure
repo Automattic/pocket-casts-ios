@@ -1,7 +1,7 @@
 {
   "project_name": "pocketcasts-ios",
   "branch": "trunk",
-  "pinned_hash": "27f45d7677514d3aec8ff9aa178b68e695f05f8d",
+  "pinned_hash": "90cc94470fb6faed3f5fc309f0dd0045de082240",
   "files_to_copy": [
     {
       "file": "iOS/app_store_connect_fastlane_api_key.json",
@@ -16,11 +16,6 @@
     {
       "file": "iOS/pocket-casts/pocket_casts_credentials.json",
       "destination": "~/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json",
-      "encrypt": true
-    },
-    {
-      "file": "shared/google_cloud_keys.json",
-      "destination": "~/.configure/pocketcasts-ios/secrets/google_cloud_keys.json",
       "encrypt": true
     },
     {

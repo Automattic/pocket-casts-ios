@@ -25,7 +25,7 @@ class FolderListCell: ThemeableCollectionCell {
 
     func populateFrom(folder: Folder, badgeType: BadgeType) {
         folderName.text = folder.name
-        folderPreview.populateFrom(folder: folder)
+        folderPreview.populateFromAsync(folder: folder)
         folderPreview.backgroundColor = AppTheme.folderColor(colorInt: folder.color)
 
         accessibilityLabel = folderPreview.accessibilityLabel

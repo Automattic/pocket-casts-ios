@@ -1,5 +1,6 @@
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class DiscoverViewController: PCViewController {
     @IBOutlet var mainScrollView: UIScrollView!
@@ -15,7 +16,7 @@ class DiscoverViewController: PCViewController {
 
     private let sectionPadding = 16 as CGFloat
 
-    private var summaryViewControllers = [UIViewController]()
+    private var summaryViewControllers = [(item: DiscoverItem, viewController: UIViewController)]()
 
     var searchController: PCSearchBarController!
 
@@ -28,6 +29,8 @@ class DiscoverViewController: PCViewController {
     private var loadingContent = false
 
     var discoverLayout: DiscoverLayout?
+
+    var currentRegion: String?
 
     private let coordinator: DiscoverCoordinator
 
@@ -146,11 +149,6 @@ class DiscoverViewController: PCViewController {
 
     private func showPageLoading() {
         loadingContent = true
-        mainScrollView.removeAllSubviews()
-        for viewController in children {
-            viewController.removeFromParent()
-        }
-        summaryViewControllers.removeAll()
 
         mainScrollView.isHidden = true
         noNetworkView.isHidden = true
@@ -159,25 +157,51 @@ class DiscoverViewController: PCViewController {
         loadingIndicator.startAnimating()
     }
 
-    private func populateFrom(discoverLayout: DiscoverLayout?) {
-        loadingContent = false
+    private var currentSnapshot: NSDiffableDataSourceSnapshot<Int, DiscoverItem>?
 
-        guard let layout = discoverLayout, let items = layout.layout, let _ = layout.regions, items.count > 0 else {
-            handleLoadFailed()
-            return
+    private func resetSummaryViewControllers(filter: ((DiscoverItem) -> Bool)?) {
+        let viewsToRemove = summaryViewControllers.filter { sumItem in
+            filter?(sumItem.item) ?? true
         }
 
-        self.discoverLayout = layout
-        loadingIndicator.stopAnimating()
+        UIView.animate(withDuration: 0.1) {
+            viewsToRemove.forEach { $0.viewController.view.alpha = 0 }
+        } completion: { [self] _ in
+            viewsToRemove.forEach { _, vc in
+                vc.willMove(toParent: nil)
+                vc.view.alpha = 0
+                NSLayoutConstraint.deactivate(vc.view.constraints)
+                vc.view.removeFromSuperview()
+                vc.removeFromParent()
+            }
 
-        let currentRegion = Settings.discoverRegion(discoverLayout: layout)
-        for discoverItem in items {
-            guard let type = discoverItem.type, let summaryStyle = discoverItem.summaryStyle, discoverItem.regions.contains(currentRegion) else { continue }
+            UIView.animate(withDuration: 0.2) { [self] in
+                summaryViewControllers.forEach {
+                    $0.viewController.view.alpha = 1
+                }
+            }
+        }
+
+        summaryViewControllers.removeAll { sumItem in
+            filter?(sumItem.item) ?? true
+        }
+    }
+
+    private func apply(snapshot: NSDiffableDataSourceSnapshot<Int, DiscoverItem>, currentRegion: String) {
+
+        self.currentRegion = currentRegion
+
+        for discoverItem in snapshot.itemIdentifiers {
+            guard let type = discoverItem.type, let summaryStyle = discoverItem.summaryStyle else { continue }
             let expandedStyle = discoverItem.expandedStyle ?? ""
 
             guard coordinator.shouldDisplay(discoverItem) else { continue }
 
+            guard summaryViewControllers.contains(where: { $0.item == discoverItem }) == false else { continue }
+
             switch (type, summaryStyle, expandedStyle) {
+            case ("categories", "pills", _):
+                addSummaryController(CategoriesSelectorViewController(), discoverItem: discoverItem)
             case ("podcast_list", "carousel", _):
                 addSummaryController(FeaturedSummaryViewController(), discoverItem: discoverItem)
             case ("podcast_list", "small_list", _):
@@ -190,7 +214,7 @@ class DiscoverViewController: PCViewController {
                 addSummaryController(CollectionSummaryViewController(), discoverItem: discoverItem)
             case ("network_list", _, _):
                 addSummaryController(NetworkSummaryViewController(), discoverItem: discoverItem)
-            case ("categories", _, _):
+            case ("categories", "category", _):
                 addSummaryController(CategorySummaryViewController(regionCode: currentRegion), discoverItem: discoverItem)
             case ("episode_list", "single_episode", _):
                 addSummaryController(SingleEpisodeViewController(), discoverItem: discoverItem)
@@ -201,11 +225,56 @@ class DiscoverViewController: PCViewController {
                 continue
             }
         }
+        currentSnapshot = snapshot
+    }
 
-        let countrySummary = CountrySummaryViewController()
-        countrySummary.discoverLayout = layout
-        countrySummary.registerDiscoverDelegate(self)
-        addToScrollView(viewController: countrySummary, isLast: true)
+    /// Populate the scroll view using a DiscoverLayout with optional shouldInclude and shouldReset filters.
+    /// - Parameters:
+    ///   - discoverLayout: A `DiscoverLayout`
+    ///   - shouldInclude: Whether a `DiscoverItem` from the layout should be included in the scroll view. This is used to filter items meant only for certain categories, for instance. By default, this filter will exclude items with a category which are to be shown in the Category page.
+    ///   - shouldReset: Whether a view controller from `summaryViewControllers` should be reset during this operation. This is used by the Categories pills to avoid triggering a view reload, allowing animations to continue.
+    func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil, shouldReset: ((DiscoverItem) -> Bool)? = nil) {
+        loadingContent = false
+
+        guard let layout = discoverLayout, let items = layout.layout, let _ = layout.regions, items.count > 0 else {
+            handleLoadFailed()
+            return
+        }
+
+        let itemFilter = shouldInclude ?? { item in
+            item.categoryID == nil
+        }
+
+        self.discoverLayout = layout
+        loadingIndicator.stopAnimating()
+
+        let currentRegion = Settings.discoverRegion(discoverLayout: layout)
+
+        func makeDataSourceSnapshot(from items: [DiscoverItem]) -> NSDiffableDataSourceSnapshot<Int, DiscoverItem> {
+            var snapshot = NSDiffableDataSourceSnapshot<Int, DiscoverItem>()
+
+            let section = 0
+            snapshot.appendSections([section])
+            snapshot.appendItems(items.filter({ (itemFilter($0)) && $0.regions.contains(currentRegion) }))
+
+            return snapshot
+        }
+
+        let snapshot = makeDataSourceSnapshot(from: items)
+        resetSummaryViewControllers {
+            shouldReset?($0) ?? true
+        }
+        apply(snapshot: snapshot, currentRegion: currentRegion)
+
+        let regions = layout.regions?.keys as? [String]
+        let item = DiscoverItem(id: "country-summary", regions: regions ?? [])
+
+        if itemFilter(item) {
+            let countrySummary = CountrySummaryViewController()
+            countrySummary.discoverLayout = layout
+            countrySummary.registerDiscoverDelegate(self)
+            addToScrollView(viewController: countrySummary, for: item, isLast: true)
+        }
 
         mainScrollView.isHidden = false
         noNetworkView.isHidden = true
@@ -214,34 +283,47 @@ class DiscoverViewController: PCViewController {
     private func addSummaryController(_ controller: DiscoverSummaryProtocol, discoverItem: DiscoverItem) {
         guard let viewController = controller as? UIViewController else { return }
 
-        addToScrollView(viewController: viewController, isLast: false)
+        viewController.view.alpha = 0
+        addToScrollView(viewController: viewController, for: discoverItem, isLast: false)
 
         controller.registerDiscoverDelegate(self)
-        controller.populateFrom(item: discoverItem)
+        controller.populateFrom(item: discoverItem, region: currentRegion)
     }
 
-    private func addToScrollView(viewController: UIViewController, isLast: Bool) {
+    func addToScrollView(viewController: UIViewController, for item: DiscoverItem, isLast: Bool) {
         mainScrollView.addSubview(viewController.view)
         addCommonConstraintsFor(viewController)
 
         // anchor the bottom view to the bottom, the middle ones to each other, and the last one to the bottom and the one above it
         if isLast {
-            if let previousView = summaryViewControllers.last?.view {
-                viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+            if let previousVC = summaryViewControllers.last?.viewController, let previousView = previousVC.view {
+                if viewController is CategoryPodcastsViewController && (previousVC is CategoriesSelectorViewController) == false {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10).isActive = true
+                } else {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                }
             }
             viewController.view.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -65).isActive = true
-        } else if let previousView = summaryViewControllers.last?.view {
-            if summaryViewControllers.count == 1 {
+        } else if let previousVC = summaryViewControllers.last?.viewController, let previousView = previousVC.view {
+            if previousVC is FeaturedSummaryViewController {
                 viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: -10).isActive = true
                 mainScrollView.sendSubviewToBack(viewController.view)
             } else {
-                viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                if viewController is CategoryPodcastsViewController && (previousVC is CategoriesSelectorViewController) == false {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor, constant: 10).isActive = true
+                } else {
+                    viewController.view.topAnchor.constraint(equalTo: previousView.bottomAnchor).isActive = true
+                }
+
+                if previousVC is CategoriesSelectorViewController {
+                    (viewController as? LargeListSummaryViewController)?.padding = 25
+                }
             }
         } else {
             viewController.view.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
         }
 
-        summaryViewControllers.append(viewController)
+        summaryViewControllers.append((item, viewController))
         addChild(viewController)
     }
 
@@ -256,5 +338,12 @@ class DiscoverViewController: PCViewController {
 extension DiscoverViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .discover
+    }
+}
+
+extension DiscoverItem: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(uuid)
     }
 }
