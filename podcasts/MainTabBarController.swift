@@ -635,6 +635,13 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         super.present(viewControllerToPresent, animated: flag, completion: completion)
     }
+
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        super.motionEnded(motion, with: event)
+        if motion == .motionShake {
+            PlaybackManager.shared.restartSleepTimer()
+        }
+    }
 }
 
 // MARK: - Bookmarks
