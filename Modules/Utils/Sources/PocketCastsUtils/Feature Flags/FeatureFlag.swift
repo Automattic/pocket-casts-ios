@@ -42,7 +42,9 @@ public enum FeatureFlag: String, CaseIterable {
 
     case cachePlayingEpisode
 
-    case playerFiltersFix
+    /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
+    /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
+    case defaultPlayerFilterCallbackFix
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -82,7 +84,7 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .cachePlayingEpisode:
             true
-        case .playerFiltersFix:
+        case .defaultPlayerFilterCallbackFix:
             true
         }
     }
@@ -105,8 +107,8 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
-        case .playerFiltersFix:
-            "player_filters_fix"
+        case .defaultPlayerFilterCallbackFix:
+            "default_player_filter_callback_fix"
         default:
             nil
         }

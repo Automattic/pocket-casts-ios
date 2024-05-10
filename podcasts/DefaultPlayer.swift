@@ -396,7 +396,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         let peakLimiterRenderCallback: AURenderCallback = { inRefCon, _, _, _, inNumberFrames, ioData -> OSStatus in
             if ioData == nil { return -1 }
             let referenceToSelf: DefaultPlayer
-            if FeatureFlag.playerFiltersFix.enabled {
+            if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
                 let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
                 referenceToSelf = reference.takeUnretainedValue()
             } else {
@@ -448,7 +448,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         let highPassFilterRenderCallback: AURenderCallback = { inRefCon, _, inTimeStamp, _, inNumberFrames, ioData -> OSStatus in
             let referenceToSelf: DefaultPlayer
-            if FeatureFlag.playerFiltersFix.enabled {
+            if FeatureFlag.defaultPlayerFilterCallbackFix.enabled {
                 let reference = Unmanaged<DefaultPlayer>.fromOpaque(inRefCon)
                 referenceToSelf = reference.takeUnretainedValue()
             } else {
