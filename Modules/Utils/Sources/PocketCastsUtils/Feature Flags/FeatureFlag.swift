@@ -47,6 +47,10 @@ public enum FeatureFlag: String, CaseIterable {
 
     case categoriesRedesign
 
+    /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
+    /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
+    case defaultPlayerFilterCallbackFix
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -89,6 +93,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .categoriesRedesign:
             true
+        case .defaultPlayerFilterCallbackFix:
+            true
         }
     }
 
@@ -118,6 +124,8 @@ public enum FeatureFlag: String, CaseIterable {
              "rss_chapters"
         case .categoriesRedesign:
             "categories_redesign"
+        case .defaultPlayerFilterCallbackFix:
+            "default_player_filter_callback_fix"
         default:
             nil
         }
