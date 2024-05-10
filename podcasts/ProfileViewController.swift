@@ -9,6 +9,9 @@ import SafariServices
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
 
+    enum UIConstants {
+        static let gravatarProfileInnerPadding: UIEdgeInsets = .init(top: 12, left: 12, bottom: 12, right: 12)
+    }
     var refreshControl: PCRefreshControl?
     var shouldDisplayGravatarProfile: Bool {
         FeatureFlag.displayGravatarProfile.enabled && headerViewModel.profile.isLoggedIn
@@ -92,12 +95,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let gravatarViewModel: ProfileViewModel = .init()
     private var cancellables = Set<AnyCancellable>()
     private lazy var gravatarConfiguration: ProfileViewConfiguration = {
-        var config = ProfileViewConfiguration.standard()
-        config.avatarPlaceholder = UIImage(named: "profile-placeholder")?.withRenderingMode(.alwaysTemplate)
-        config.padding = .init(top: 12, left: 12, bottom: 12, right: 12)
-        config.profileButtonStyle = .edit
-        config.delegate = self
-        return config
+        return ProfileViewConfiguration.standard().updatedForPocketCasts(delegate: self)
     }() {
         didSet {
             gravatarProfileView.configuration = gravatarConfiguration
@@ -483,7 +481,7 @@ extension ProfileViewController: ProfileViewDelegate {
         gravatarViewModel.$profileFetchingResult.sink { [weak self] result in
             guard let self else { return }
             guard let result else {
-                var newConfig = self.gravatarConfiguration
+                var newConfig = self.gravatarConfiguration.updatedForPocketCasts(delegate: self)
                 newConfig.model = nil
                 newConfig.summaryModel = nil
                 self.gravatarConfiguration = newConfig
@@ -492,12 +490,18 @@ extension ProfileViewController: ProfileViewDelegate {
 
             switch result {
             case .success(let profile):
-                var newConfig = self.gravatarConfiguration
+                var newConfig = self.gravatarConfiguration.updatedForPocketCasts(delegate: self)
                 newConfig.model = profile
                 newConfig.summaryModel = profile
                 self.gravatarConfiguration = newConfig
+            case .failure(ProfileServiceError.responseError(reason: let reason)) where reason.httpStatusCode == 404:
+                // No Gravatar profile found, switch to the "claim profile" state.
+                var claimProfileConfig = ProfileViewConfiguration.claimProfile(profileStyle: gravatarConfiguration.profileStyle)
+                claimProfileConfig.padding = UIConstants.gravatarProfileInnerPadding
+                claimProfileConfig.delegate = self
+                self.gravatarConfiguration = claimProfileConfig
             case .failure:
-                //TODO: handle error
+                // TODO: handle error
                 break
             }
         }.store(in: &cancellables)
@@ -531,5 +535,16 @@ extension ProfileViewController: ProfileViewDelegate {
         guard let accountURL = accountModel.accountURL else { return }
         let safari = SFSafariViewController(url: accountURL)
         present(safari, animated: true)
+    }
+}
+
+fileprivate extension ProfileViewConfiguration {
+    func updatedForPocketCasts(delegate: ProfileViewDelegate) -> ProfileViewConfiguration {
+        var config = self
+        config.avatarPlaceholder = UIImage(named: "profileAvatar")?.withRenderingMode(.alwaysTemplate).tintedImage(ThemeColor.primaryUi01())
+        config.padding = ProfileViewController.UIConstants.gravatarProfileInnerPadding
+        config.profileButtonStyle = .edit
+        config.delegate = delegate
+        return config
     }
 }
