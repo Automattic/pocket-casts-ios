@@ -51,10 +51,21 @@ extension EpisodeDetailViewController {
             if !PlaybackManager.shared.playing() {
                 dismiss(animated: true, completion: nil)
             }
+            if let timestamp = timestamp {
+                DataManager.sharedManager.saveEpisode(playedUpTo: timestamp, episode: episode, updateSyncFlag: false)
+                PlaybackManager.shared.seekTo(time: timestamp, startPlaybackAfterSeek: false)
+                updateProgress()
+            }
 
             PlaybackActionHelper.playPause()
         } else {
             dismiss(animated: true, completion: nil)
+            if let timestamp = timestamp {
+                episode.playingStatus = PlayingStatus.inProgress.rawValue
+                episode.playedUpTo = timestamp
+                DataManager.sharedManager.save(episode: episode)
+                updateProgress()
+            }
             PlaybackActionHelper.play(episode: episode, playlist: fromPlaylist)
         }
     }
@@ -135,7 +146,10 @@ extension EpisodeDetailViewController {
             if currentTime > 0, duration > 0 {
                 progress = min(1, CGFloat(currentTime / duration))
             }
-        } else if episode.played() {
+        } else if let timestamp {
+            progress = min(1, CGFloat(timestamp / episode.duration))
+        }
+        else if episode.played() {
             progress = 1
         } else if episode.playedUpTo > 0, episode.duration > 0 {
             progress = min(1, CGFloat(episode.playedUpTo / episode.duration))
