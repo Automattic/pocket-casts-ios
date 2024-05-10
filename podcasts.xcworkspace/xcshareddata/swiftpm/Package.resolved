@@ -119,6 +119,15 @@
         }
       },
       {
+        "package": "Gravatar",
+        "repositoryURL": "https://github.com/Automattic/Gravatar-SDK-iOS.git",
+        "state": {
+          "branch": "trunk",
+          "revision": "a131bfbc8ec9bb68467ef67ff72824ecf0239e07",
+          "version": null
+        }
+      },
+      {
         "package": "gRPC",
         "repositoryURL": "https://github.com/google/grpc-binary.git",
         "state": {
