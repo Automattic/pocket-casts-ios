@@ -87,21 +87,22 @@ class SharingHelper: NSObject {
     }
 
     func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, barButtonItem: UIBarButtonItem?) {
-        if FeatureFlag.newSharing.enabled {
+        guard FeatureFlag.newSharing.enabled == false else {
             SharingModal.show(option: .podcast, episode: episode, in: fromController)
-        } else {
-            activityController = createActivityController(episode: episode, shareTime: shareTime)
-            activityController?.completionWithItemsHandler = { _, _, _, _ in
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-            }
-
-            guard let activityController = activityController else { return }
-
-            fromController.present(activityController, animated: true, completion: {
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
-            })
-            activityController.popoverPresentationController?.barButtonItem = barButtonItem
+            return
         }
+        
+        activityController = createActivityController(episode: episode, shareTime: shareTime)
+        activityController?.completionWithItemsHandler = { _, _, _, _ in
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
+        }
+
+        guard let activityController = activityController else { return }
+
+        fromController.present(activityController, animated: true, completion: {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
+        })
+        activityController.popoverPresentationController?.barButtonItem = barButtonItem
     }
 
     func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView?, showArrow: Bool = true) {
