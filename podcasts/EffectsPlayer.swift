@@ -25,6 +25,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var timePitch: AVAudioUnitTimePitch?
     private var playbackSpeed = 0 as Double // AVAudioUnitTimePitch seems to not like us querying the rate sometimes, so store that as a separate variable
 
+    private var audioMixerNode: AVAudioMixerNode?
+
     // for volume boost
     private var highPassFilter: AVAudioUnitEffect?
     private var dynamicsProcessor: AVAudioUnitEffect?
@@ -87,6 +89,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.effects = PlaybackManager.shared.effects()
             strongSelf.playBufferManager = PlayBufferManager()
 
+            strongSelf.audioMixerNode = strongSelf.createAudioMixerNode()
+            strongSelf.engine?.attach(strongSelf.audioMixerNode!)
+
             // volume boost effects
             strongSelf.highPassFilter = strongSelf.createHighPassUnit()
             strongSelf.engine?.attach(strongSelf.highPassFilter!)
@@ -136,7 +141,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 format = strongSelf.audioFile!.processingFormat
             }
 
-            strongSelf.engine?.connect(strongSelf.player!, to: strongSelf.timePitch!, format: format)
+            strongSelf.engine?.connect(strongSelf.player!, to: strongSelf.audioMixerNode!, format: format)
+            strongSelf.engine?.connect(strongSelf.audioMixerNode!, to: strongSelf.timePitch!, format: format)
             strongSelf.engine?.connect(strongSelf.timePitch!, to: strongSelf.highPassFilter!, format: format)
             strongSelf.engine?.connect(strongSelf.highPassFilter!, to: strongSelf.dynamicsProcessor!, format: format)
             strongSelf.engine?.connect(strongSelf.dynamicsProcessor!, to: strongSelf.peakLimiter!, format: format)
@@ -431,6 +437,10 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         }
     }
 
+    private func createAudioMixerNode() -> AVAudioMixerNode {
+        return AVAudioMixerNode()
+    }
+
     private func createTimePitchUnit() -> AVAudioUnitTimePitch {
         var componentDescription = AudioComponentDescription()
         componentDescription.componentType = kAudioUnitType_FormatConverter
@@ -475,5 +485,11 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
+    }
+
+    // MARK: - Volume
+
+    func setVolume(_ volume: Float) {
+        audioMixerNode?.outputVolume = volume
     }
 }
