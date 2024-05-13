@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,60 +16,73 @@
                 <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="The Greatest Podcast In the world with the longest name in the world" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4" userLabel="Podcast Name">
-                        <rect key="frame" x="1" y="1" width="104" height="104"/>
-                        <accessibility key="accessibilityConfiguration">
-                            <accessibilityTraits key="traits" button="YES"/>
-                            <bool key="isElement" value="YES"/>
-                        </accessibility>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8" userLabel="Podcast Image" customClass="SmartInvertImageView" customModule="podcasts" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVd-gA-oCj" userLabel="ContainerView">
                         <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
-                        <accessibility key="accessibilityConfiguration">
-                            <accessibilityTraits key="traits" notEnabled="YES"/>
-                            <bool key="isElement" value="NO"/>
-                        </accessibility>
-                    </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEg-jY-SHX" customClass="UnplayedSashOverlayView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="64" y="0.0" width="42" height="42"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="42" id="p5J-d1-7fy"/>
-                            <constraint firstAttribute="width" constant="42" id="psU-EF-aaE"/>
-                        </constraints>
-                    </view>
-                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v1m-PH-X4D" customClass="PodcastHeartView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="73" y="73" width="28" height="28"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="The Greatest Podcast In the world with the longest name in the world" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4" userLabel="Podcast Name">
+                                <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES"/>
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8" userLabel="Podcast Image" customClass="SmartInvertImageView" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                            </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v1m-PH-X4D" customClass="PodcastHeartView" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="78" y="78" width="28" height="28"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="28" id="233-J3-mJZ"/>
+                                    <constraint firstAttribute="height" constant="28" id="pff-A6-8v0"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="28" id="233-J3-mJZ"/>
-                            <constraint firstAttribute="height" constant="28" id="pff-A6-8v0"/>
+                            <constraint firstItem="4" firstAttribute="leading" secondItem="hVd-gA-oCj" secondAttribute="leading" id="6GT-VV-hb0"/>
+                            <constraint firstItem="8" firstAttribute="leading" secondItem="hVd-gA-oCj" secondAttribute="leading" id="9Md-JU-Igp"/>
+                            <constraint firstItem="4" firstAttribute="trailing" secondItem="hVd-gA-oCj" secondAttribute="trailing" id="EQQ-or-vZK"/>
+                            <constraint firstItem="v1m-PH-X4D" firstAttribute="bottom" secondItem="hVd-gA-oCj" secondAttribute="bottom" id="IO8-pQ-56J"/>
+                            <constraint firstItem="8" firstAttribute="top" secondItem="hVd-gA-oCj" secondAttribute="top" id="KYi-Le-dXb"/>
+                            <constraint firstItem="8" firstAttribute="bottom" secondItem="hVd-gA-oCj" secondAttribute="bottom" id="VEf-gY-AwQ"/>
+                            <constraint firstItem="4" firstAttribute="bottom" secondItem="hVd-gA-oCj" secondAttribute="bottom" id="WdH-vN-kpP"/>
+                            <constraint firstItem="8" firstAttribute="trailing" secondItem="hVd-gA-oCj" secondAttribute="trailing" id="c0b-za-evn"/>
+                            <constraint firstItem="v1m-PH-X4D" firstAttribute="trailing" secondItem="hVd-gA-oCj" secondAttribute="trailing" id="hL5-Wl-TFd"/>
+                            <constraint firstItem="4" firstAttribute="top" secondItem="hVd-gA-oCj" secondAttribute="top" id="zjN-K4-LVu"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEg-jY-SHX" userLabel="BadgeView" customClass="GridBadgeView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="88" y="-6" width="24" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="p5J-d1-7fy"/>
+                            <constraint firstAttribute="width" constant="24" id="psU-EF-aaE"/>
                         </constraints>
                     </view>
                 </subviews>
             </view>
             <color key="backgroundColor" red="0.87843137250000003" green="0.90588235289999997" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="1" id="03b-w4-3Yu"/>
-                <constraint firstAttribute="trailing" secondItem="4" secondAttribute="trailing" constant="1" id="1XH-m7-J8J"/>
-                <constraint firstItem="8" firstAttribute="top" secondItem="3" secondAttribute="top" id="ChX-5s-hfO"/>
-                <constraint firstItem="8" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="CiO-yY-CR8"/>
-                <constraint firstAttribute="bottom" secondItem="4" secondAttribute="bottom" constant="1" id="Czb-fg-cFA"/>
-                <constraint firstItem="4" firstAttribute="top" secondItem="3" secondAttribute="top" constant="1" id="JCG-YS-baM"/>
-                <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" id="OOa-02-i2J"/>
-                <constraint firstItem="OEg-jY-SHX" firstAttribute="top" secondItem="3" secondAttribute="top" id="X1X-3K-3kd"/>
-                <constraint firstItem="8" firstAttribute="trailing" secondItem="v1m-PH-X4D" secondAttribute="trailing" constant="5" id="Z4P-us-igA"/>
-                <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" id="gbd-go-x8o"/>
-                <constraint firstItem="8" firstAttribute="bottom" secondItem="v1m-PH-X4D" secondAttribute="bottom" constant="5" id="woC-Gf-YcK"/>
-                <constraint firstAttribute="trailing" secondItem="OEg-jY-SHX" secondAttribute="trailing" id="y0w-Xj-EuO"/>
+                <constraint firstItem="OEg-jY-SHX" firstAttribute="top" secondItem="3" secondAttribute="top" constant="-6" id="Bbv-a1-8ed"/>
+                <constraint firstItem="hVd-gA-oCj" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" id="GQ4-1I-Qc7"/>
+                <constraint firstItem="hVd-gA-oCj" firstAttribute="bottom" secondItem="3" secondAttribute="bottom" id="KQd-KY-4G2"/>
+                <constraint firstItem="hVd-gA-oCj" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="Kvt-FM-PLp"/>
+                <constraint firstItem="OEg-jY-SHX" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="6" id="ook-Xa-e9J"/>
+                <constraint firstItem="hVd-gA-oCj" firstAttribute="top" secondItem="3" secondAttribute="top" id="ozX-7N-THF"/>
             </constraints>
             <connections>
+                <outlet property="badgeView" destination="OEg-jY-SHX" id="o5m-tx-V6G"/>
+                <outlet property="containerView" destination="hVd-gA-oCj" id="dub-Mv-NSo"/>
                 <outlet property="podcastImage" destination="8" id="9"/>
                 <outlet property="podcastName" destination="4" id="10"/>
                 <outlet property="supporterHeart" destination="v1m-PH-X4D" id="ckA-l7-rhg"/>
-                <outlet property="unplayedSashView" destination="OEg-jY-SHX" id="o5m-tx-V6G"/>
             </connections>
             <point key="canvasLocation" x="129.59999999999999" y="153.82308845577214"/>
         </collectionViewCell>

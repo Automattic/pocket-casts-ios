@@ -86,7 +86,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
 
-        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        adjustSettingsForGridType()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -94,7 +94,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         refreshControl?.parentViewControllerDidAppear()
 
-        miniPlayerStatusDidChange()
+        updateInsets()
         refreshGridItems()
         addEventObservers()
         updateNavigationButtons()
@@ -168,26 +168,17 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func makeBadge(size: CGFloat) -> UIView {
-        let badgeFrame = UIView()
+        let badgeView = CircleView()
         let borderWidth = CGFloat(2)
-        let badgeSize = size - (borderWidth * 2)
-        badgeFrame.backgroundColor = ThemeColor.secondaryUi01()
-        badgeFrame.layer.cornerRadius = size / 2
-        let badge = UIView()
-        badge.layer.cornerRadius = badgeSize / 2
-        badge.backgroundColor = UIColor(hex: "#F43E37")
-        badge.translatesAutoresizingMaskIntoConstraints = false
-        badgeFrame.translatesAutoresizingMaskIntoConstraints = false
-        badgeFrame.addSubview(badge)
+        badgeView.borderColor = ThemeColor.secondaryUi01()
+        badgeView.centerColor = ThemeColor.primaryInteractive01()
+        badgeView.backgroundColor = .clear
+        badgeView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            badgeFrame.widthAnchor.constraint(equalToConstant: size),
-            badgeFrame.heightAnchor.constraint(equalToConstant: size),
-            badge.widthAnchor.constraint(equalToConstant: badgeSize),
-            badge.heightAnchor.constraint(equalToConstant: badgeSize),
-            badge.centerXAnchor.constraint(equalTo: badgeFrame.centerXAnchor),
-            badge.centerYAnchor.constraint(equalTo: badgeFrame.centerYAnchor)
+            badgeView.widthAnchor.constraint(equalToConstant: size),
+            badgeView.heightAnchor.constraint(equalToConstant: size),
         ])
-        return badgeFrame
+        return badgeView
     }
 
     private func makeProfileButton(email: String?) -> UIBarButtonItem {
@@ -258,10 +249,21 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     @objc private func miniPlayerStatusDidChange() {
-        if PlaybackManager.shared.currentEpisode() != nil {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        } else {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: 0, right: 0)
+        updateInsets()
+    }
+
+    private func updateInsets() {
+        let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
+
+        podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
+    }
+
+    private func adjustSettingsForGridType() {
+        updateInsets()
+        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
+            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.primaryUi02
         }
     }
 
@@ -397,6 +399,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     func gridTypeChanged() {
         podcastsCollectionView.reloadData()
+        adjustSettingsForGridType()
     }
 
     private func showBadgeOptions() {
@@ -432,6 +435,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         options.addAction(action: unplayedCountAction)
 
         options.show(statusBarStyle: preferredStatusBarStyle)
+    }
+
+    override func handleThemeChanged() {
+        super.handleThemeChanged()
+        podcastsCollectionView.reloadData()
     }
 }
 
