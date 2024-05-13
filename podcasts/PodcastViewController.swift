@@ -289,7 +289,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         // Load the ratings even if we've already started loading them to cover all other potential view states
         // The view model will ignore extra calls
-        if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
+        if let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
 
@@ -332,7 +332,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
 
-        Analytics.track(.podcastScreenShown, properties: ["uuid": podcastUUID])
+        var properties = ["uuid": podcastUUID]
+        if let listUuid {
+            properties["list_id"] = listUuid
+        }
+        Analytics.track(.podcastScreenShown, properties: properties)
     }
 
     override func viewDidDisappear(_ animated: Bool) {

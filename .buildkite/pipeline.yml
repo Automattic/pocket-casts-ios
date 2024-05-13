@@ -2,11 +2,11 @@
 common_params:
   # Common plugin settings to use with the `plugins` key.
   - &common_plugins
-    - automattic/a8c-ci-toolkit#3.1.0
+    - automattic/a8c-ci-toolkit#3.3.0
   # Common environment values to use with the `env` key.
   - &common_env
     # If you update the image to a newer Xcode version, don't forget to also update the badge in the README.md file accordingly for consistency
-    IMAGE_ID: xcode-15.3
+    IMAGE_ID: xcode-15.2
   # Common agents values to use with the `agents` key.
   - &common_agents
     queue: mac
@@ -20,14 +20,23 @@ steps:
 
   - group: "Linters"
     steps:
+      - label: "☢️ Danger - PR Check"
+        command: danger
+        key: danger
+        if: "build.pull_request.id != null"
+        retry:
+          manual:
+            permit_on_passed: true
+        agents:
+          queue: "linter"
+
       - label: ":swift: SwiftLint"
-        command: run_swiftlint --strict
-        plugins: *common_plugins
+        command: swiftlint
         notify:
           - github_commit_status:
               context: "SwiftLint"
         agents:
-          queue: "default"
+          queue: "linter"
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: lint_localized_strings_format

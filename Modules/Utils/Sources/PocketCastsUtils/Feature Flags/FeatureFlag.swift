@@ -10,7 +10,7 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Enable the new show notes endpoint plus embedded episode artwork
+    /// Enable show notes using the new endpoint
     case newShowNotesEndpoint
 
     /// Enable retrieving episode artwork from the RSS feed
@@ -47,8 +47,9 @@ public enum FeatureFlag: String, CaseIterable {
 
     case categoriesRedesign
 
-    /// show UpNext tab on the main tab bar
-    case upNextOnTabBar
+    /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
+    /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
+    case defaultPlayerFilterCallbackFix
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -67,11 +68,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             false
         case .newShowNotesEndpoint:
-            true
+            false
         case .episodeFeedArtwork:
-            true // To be enabled, newShowNotesEndpoint needs to be too
+            false
         case .rssChapters:
-            true // To be enabled, newShowNotesEndpoint needs to be too
+            false
         case .newPlayerTransition:
             true
         case .errorLogoutHandling:
@@ -91,15 +92,14 @@ public enum FeatureFlag: String, CaseIterable {
         case .cachePlayingEpisode:
             true
         case .categoriesRedesign:
-            false
-        case .upNextOnTabBar:
+            true
+        case .defaultPlayerFilterCallbackFix:
             true
         }
     }
 
     private var shouldEnableSyncedSettings: Bool {
-        // Enabled only out of appstore until we verify that this feature is ready for production.
-        BuildEnvironment.current != .appStore
+        false
     }
 
     /// Remote Feature Flag
@@ -116,6 +116,16 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
+        case .newShowNotesEndpoint:
+             "new_show_notes"
+         case .episodeFeedArtwork:
+             "episode_artwork"
+         case .rssChapters:
+             "rss_chapters"
+        case .categoriesRedesign:
+            "categories_redesign"
+        case .defaultPlayerFilterCallbackFix:
+            "default_player_filter_callback_fix"
         default:
             nil
         }

@@ -451,6 +451,8 @@
     <string>Esborrar només del dispositiu</string>
     <key>deselect_all</key>
     <string>Anul·lar totes les seleccions</string>
+    <key>device_shake_sleep_timer</key>
+    <string>El temporitzador de son s'ha reiniciat perquè s'ha agitat el dispositiu</string>
     <key>discover</key>
     <string>Descobrir</string>
     <key>discover_all_episodes</key>
@@ -1217,6 +1219,10 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <string>mes</string>
     <key>monthly</key>
     <string>Mensualment</string>
+    <key>most_popular</key>
+    <string>Més popular</string>
+    <key>most_popular_with_name</key>
+    <string>Més popular a %1$@</string>
     <key>move_to_bottom</key>
     <string>Moure al final</string>
     <key>move_to_top</key>

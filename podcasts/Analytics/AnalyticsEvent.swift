@@ -154,7 +154,6 @@ enum AnalyticsEvent: String {
     case filtersTabOpened
     case discoverTabOpened
     case profileTabOpened
-    case upNextTabOpened
 
     // MARK: - Downloads View
 
@@ -287,9 +286,12 @@ enum AnalyticsEvent: String {
 
     case discoverShown
     case discoverCategoryShown
+    case discoverCategoriesPillTapped
     case discoverFeaturedPodcastTapped
     case discoverFeaturedPodcastSubscribed
     case discoverShowAllTapped
+    case discoverCategoryCloseButtonTapped
+    case discoverCategoriesPickerPick
 
     case discoverListImpression
     case discoverListShowAllTapped
@@ -305,6 +307,8 @@ enum AnalyticsEvent: String {
 
     case discoverRegionChanged
     case discoverCollectionLinkTapped
+
+    case discoverAdCategoryTapped
 
     // MARK: - Mini Player
 

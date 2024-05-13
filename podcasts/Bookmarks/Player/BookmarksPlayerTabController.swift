@@ -136,13 +136,4 @@ extension BookmarksPlayerTabController: BookmarkListRouter {
     func bookmarkEdit(_ bookmark: Bookmark) {
         showBookmarkEdit(isNew: false, bookmark: bookmark)
     }
-
-    func bookmarkShare(_ bookmark: Bookmark) {
-        guard let episode = viewModel.episode as? Episode else {
-            return
-        }
-        let controller = SharingHelper.shared.createActivityController(episode: episode, shareTime: bookmark.time)
-
-        present(controller, animated: true)
-    }
 }

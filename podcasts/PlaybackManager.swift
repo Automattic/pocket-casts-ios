@@ -1971,7 +1971,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             DispatchQueue.main.async {
                 if self.playing() {
                     let keepScreenOn: Bool
-                    keepScreenOn = Settings.keepScreenAwake
+                    if FeatureFlag.newSettingsStorage.enabled {
+                        keepScreenOn = SettingsStore.appSettings.keepScreenAwake
+                    } else {
+                        keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+                    }
                     UIApplication.shared.isIdleTimerDisabled = keepScreenOn
                 } else {
                     UIApplication.shared.isIdleTimerDisabled = false

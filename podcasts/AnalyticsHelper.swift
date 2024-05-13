@@ -113,6 +113,11 @@ class AnalyticsHelper {
         bumpStat("discover_list_podcast_tap", parameters: properties)
     }
 
+    class func adTapped(promotionUUID: String, podcastUUID: String, categoryID: Int) {
+        let properties: [String: Any] = ["promotion_uuid": promotionUUID, "podcast_uuid": podcastUUID, "category_id": categoryID]
+        Analytics.track(.discoverAdCategoryTapped, properties: properties)
+    }
+
     class func podcastEpisodeTapped(fromList listId: String, podcastUuid: String, episodeUuid: String) {
         let properties = ["list_id": listId, "podcast_uuid": podcastUuid, "episode_uuid": episodeUuid]
 
@@ -224,13 +229,12 @@ class AnalyticsHelper {
         class func tabSelected(tab: MainTabBarController.Tab) {
             switch tab {
             case .podcasts:
-                logEvent("podcast_tab_opened", parameters: nil)
+                logEvent("podcast_tab_open", parameters: nil)
             case .filter:
-                logEvent("filter_tab_opened", parameters: nil)
+                logEvent("filter_tab_open", parameters: nil)
             case .profile:
-                logEvent("profile_tab_opened", parameters: nil)
-            case .upNext:
-                logEvent("upnext_tab_opened", parameters: nil)
+                logEvent("profile_tab_open", parameters: nil)
+
             case .discover: break // we don't log this case, since it's handled in did load
             }
         }

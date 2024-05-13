@@ -4,7 +4,6 @@ import UIKit
 protocol BookmarkListRouter: AnyObject {
     func bookmarkPlay(_ bookmark: Bookmark)
     func bookmarkEdit(_ bookmark: Bookmark)
-    func bookmarkShare(_ bookmark: Bookmark)
 
     /// Optional: Dismisses the presented bookmark list, if applicable.
     func dismissBookmarksList()

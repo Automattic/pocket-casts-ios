@@ -104,8 +104,8 @@ class ChapterManager {
     }
 
     func parseChapters(episode: BaseEpisode, duration: TimeInterval) {
-        Task {
-            await parseChapters(episode: episode, duration: duration)
+        Task.detached { [weak self] in
+            await self?.parseChapters(episode: episode, duration: duration)
         }
     }
 
@@ -140,14 +140,22 @@ class ChapterManager {
         async let (podloveChaptersAsync, podcastIndexChaptersAsync) = await
         showInfoCoordinator.loadChapters(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
 
-        let (fileChapters, podloveChapters, podcastIndexChapters) = try await (fileChaptersAsync, podloveChaptersAsync, podcastIndexChaptersAsync)
-
-        // Once both arrives, check the one with more chapters to display
         var chapters: [ChapterInfo]
-        if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, duration: duration) {
-            chapters = externalChapters.count >= fileChapters.count ? externalChapters : fileChapters
-        } else {
-            chapters = fileChapters
+
+        do {
+            let (fileChapters, podloveChapters, podcastIndexChapters) = try await (fileChaptersAsync, podloveChaptersAsync, podcastIndexChaptersAsync)
+
+            // Prioritize embedded chapters, given for some shows it will take
+            // into account dynamic ads
+            if !fileChapters.isEmpty {
+                chapters = fileChapters
+            } else if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, duration: duration) {
+                chapters = externalChapters
+            } else {
+                chapters = []
+            }
+        } catch {
+            chapters = await fileChaptersAsync
         }
 
         if lastEpisodeUuid == episode.uuid {

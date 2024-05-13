@@ -23,12 +23,6 @@ class NowPlayingAnimationView: UIView {
         super.init(coder: aDecoder)
     }
 
-    func setFillColor(_ color: UIColor) {
-        let keypath = AnimationKeypath(keys: ["**", "Fill 1", "**", "Color"])
-        let colorProvider = ColorValueProvider(color.lottieColorValue)
-        animationView.setValueProvider(colorProvider, keypath: keypath)
-    }
-
     override func awakeFromNib() {
         super.awakeFromNib()
 

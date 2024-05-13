@@ -61,6 +61,7 @@ class MotionManager: ObservableObject {
             let attitude = data.attitude
 
             if !attitude.pitch.isNaN && !attitude.roll.isNaN {
+                let gz = data.gravity.z
                 let pitch = attitude.pitch
                 let roll = attitude.roll
 

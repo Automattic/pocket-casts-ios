@@ -53,10 +53,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     // this lock is to avoid race conditions where you're destroying the player while in the middle of setting it up (since the play method does its work asynchronously)
     private lazy var playerLock = NSLock()
 
+    private lazy var episodeArtwork = EpisodeArtwork()
+
     // MARK: - PlaybackProtocol Impl
 
     func loadEpisode(_ episode: BaseEpisode) {
         episodePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
+        episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
         self.episode = episode
     }
 
@@ -114,15 +117,11 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 if strongSelf.cachedFrameCount == 0 {
                     // we haven't cached a frame count for this episode, do that now
                     strongSelf.cachedFrameCount = strongSelf.audioFile!.length
-                    if strongSelf.cachedFrameCount == 0 {
-                        // If don't have a frameCount we cannot use the effect player
-                        throw AVError(_nsError: NSError(domain: AVFoundationErrorDomain, code: AVError.fileFailedToParse.rawValue))
-                    }
                     DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
                 }
             } catch {
                 strongSelf.playerLock.unlock()
-                PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil, fallbackToDefaultPlayer: true)
+                PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
                 return
             }
 

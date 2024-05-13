@@ -1,7 +1,6 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
-import Kingfisher
 
 struct DeveloperMenu: View {
     var body: some View {
@@ -26,13 +25,8 @@ struct DeveloperMenu: View {
                 }
 
                 Button("Force Reload Discover") {
+                    DiscoverServerHandler.shared.discoveryCache.removeAllCachedResponses()
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
-                }
-
-                Button("Clear URL + Image Caches") {
-                    URLCache.shared.removeAllCachedResponses()
-                    ImageManager.sharedManager.clearCaches()
-                    KingfisherManager.shared.cache.clearCache()
                 }
 
                 Button("Unsubscribe from all Podcasts") {

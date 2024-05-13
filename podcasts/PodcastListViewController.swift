@@ -2,9 +2,7 @@ import DifferenceKit
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
-import PocketCastsUtils
 import UIKit
-import Kingfisher
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
@@ -76,7 +74,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
         super.viewDidLoad()
 
-        updateNavigationButtons()
+        updateFolderButton()
 
         title = L10n.podcastsPlural
         setupSearchBar()
@@ -97,7 +95,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         miniPlayerStatusDidChange()
         refreshGridItems()
         addEventObservers()
-        updateNavigationButtons()
+        updateFolderButton()
 
         Analytics.track(.podcastsListShown, properties: [
             "sort_order": Settings.homeFolderSortOrder(),
@@ -163,83 +161,15 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 
-            self.updateNavigationButtons()
+            self.updateFolderButton()
         }
     }
 
-    private func makeBadge(size: CGFloat) -> UIView {
-        let badgeFrame = UIView()
-        let borderWidth = CGFloat(2)
-        let badgeSize = size - (borderWidth * 2)
-        badgeFrame.backgroundColor = ThemeColor.secondaryUi01()
-        badgeFrame.layer.cornerRadius = size / 2
-        let badge = UIView()
-        badge.layer.cornerRadius = badgeSize / 2
-        badge.backgroundColor = UIColor(hex: "#F43E37")
-        badge.translatesAutoresizingMaskIntoConstraints = false
-        badgeFrame.translatesAutoresizingMaskIntoConstraints = false
-        badgeFrame.addSubview(badge)
-        NSLayoutConstraint.activate([
-            badgeFrame.widthAnchor.constraint(equalToConstant: size),
-            badgeFrame.heightAnchor.constraint(equalToConstant: size),
-            badge.widthAnchor.constraint(equalToConstant: badgeSize),
-            badge.heightAnchor.constraint(equalToConstant: badgeSize),
-            badge.centerXAnchor.constraint(equalTo: badgeFrame.centerXAnchor),
-            badge.centerYAnchor.constraint(equalTo: badgeFrame.centerYAnchor)
-        ])
-        return badgeFrame
-    }
-
-    private func makeProfileButton(email: String?) -> UIBarButtonItem {
-        let avatarSize = CGFloat(32)
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: avatarSize, height: avatarSize))
-        imageView.contentMode = .center
-        let profileImage = UIImage(named: "profile-placeholder")?.withRenderingMode(.alwaysTemplate)
-        imageView.image = profileImage
-        if let email {
-            imageView.contentMode = .scaleAspectFit
-            let gravatarURL = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=\(256)")
-            let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
-            imageView.kf.setImage(with: gravatarURL, placeholder: profileImage, options: [
-                .processor(processor),
-                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(1)),
-                .cacheOriginalImage
-            ])
-        }
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileTapped(_:)))
-        imageView.addGestureRecognizer(tapGesture)
-        imageView.isUserInteractionEnabled = true
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: avatarSize),
-            imageView.heightAnchor.constraint(equalToConstant: avatarSize),
-        ])
-
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
-            let badgeSize = CGFloat(10)
-            let badge = makeBadge(size: badgeSize)
-            imageView.addSubview(badge)
-            NSLayoutConstraint.activate([
-                badge.centerXAnchor.constraint(equalTo: imageView.rightAnchor, constant: -(badgeSize / 2)),
-                badge.centerYAnchor.constraint(equalTo: imageView.topAnchor, constant: +(badgeSize / 2)),
-            ])
-        }
-        return UIBarButtonItem(customView: imageView)
-    }
-
-    private func updateNavigationButtons() {
+    private func updateFolderButton() {
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
-        let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
-        folderButton.accessibilityLabel = L10n.folderCreateNew
-        if FeatureFlag.upNextOnTabBar.enabled {
-            let userProfile = UserInfo.Profile()
-            navigationItem.leftBarButtonItem = makeProfileButton(email: userProfile.email)
-            extraRightButtons = [folderButton]
-        } else {
-            navigationItem.leftBarButtonItem = folderButton
-            extraRightButtons = []
-        }
+        let leftButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
+        leftButton.accessibilityLabel = L10n.folderCreateNew
+        navigationItem.leftBarButtonItem = leftButton
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {
@@ -285,15 +215,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
                 strongSelf.noPodcastsView.isHidden = newData.count != 0 || SyncManager.isFirstSyncInProgress()
             }
         }
-    }
-
-    func showProfileController() {
-        let profileViewController = ProfileViewController()
-        self.navigationController?.pushViewController(profileViewController, animated: true)
-    }
-
-    @objc private func profileTapped(_ sender: UIBarButtonItem) {
-        showProfileController()
     }
 
     @objc private func createFolderTapped(_ sender: UIBarButtonItem) {

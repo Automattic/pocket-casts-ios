@@ -4059,6 +4059,15 @@
 /* Prompting the user to upgrade to Plus. Don't translate "Plus" */
 "upgrade_to_plus" = "Upgrade to Plus";
 
+/* A title used to a show a list of the most popular podcasts in a category with the provided name of that category. */
+"most_popular_with_name" = "Most Popular in %1$@";
+
+/* A title used to a show a list of the most popular podcasts in a category. */
+"most_popular" = "Most Popular";
+
+/* Message explaining why the sleep timer was restarted after the user shook the device */
+"device_shake_sleep_timer" = "Sleep timer restarted due to device shake";
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */
