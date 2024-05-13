@@ -21,58 +21,9 @@ class Settings: NSObject {
                 return SettingsStore.appSettings.openLinks
             } else {
                 return UserDefaults.standard.bool(forKey: Constants.UserDefaults.openLinksInExternalBrowser)
-			}
-		}
-	}
-
-    static var keepScreenAwake: Bool {
-        set {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.keepScreenAwake = newValue
-            }
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
-        }
-        get {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.keepScreenAwake
-            } else {
-                UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
             }
         }
     }
-
-    static var openPlayerAutomatically: Bool {
-        set {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.openPlayer = newValue
-            }
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.openPlayerAutomatically)
-        }
-        get {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.openPlayer
-            } else {
-                UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-            }
-        }
-    }
-
-    static var intelligentResumption: Bool {
-        set {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.intelligentResumption = newValue
-            }
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
-        }
-        get {
-            if FeatureFlag.newSettingsStorage.enabled {
-                SettingsStore.appSettings.intelligentResumption
-            } else {
-                UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
-            }
-        }
-    }
-
 
     // MARK: - Library Type
 
@@ -479,6 +430,15 @@ class Settings: NSObject {
     class func setCustomSleepTime(_ time: TimeInterval) {
         let adjustedTime = time < Constants.Limits.minSleepTime ? Constants.Limits.minSleepTime : time
         UserDefaults.standard.set(adjustedTime, forKey: "CustomSleepTime")
+    }
+
+    static var sleepTimerNumberOfEpisodes: Int {
+        get {
+            UserDefaults.standard.object(forKey: "sleep_timer_custom_number_of_episodes") as? Int ?? 1
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sleep_timer_custom_number_of_episodes")
+        }
     }
 
     // MARK: - CarPlay/Lock Screen actions
@@ -1193,7 +1153,7 @@ class Settings: NSObject {
     static var playerBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
             if FeatureFlag.newSettingsStorage.enabled {
-                return SettingsStore.appSettings.playerBookmarksSortType.option(lastOption: .timestamp)
+                return SettingsStore.appSettings.playerBookmarksSortType.option
             } else {
                 return Constants.UserDefaults.bookmarks.playerSort.value
             }
@@ -1208,7 +1168,7 @@ class Settings: NSObject {
     static var episodeBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
             if FeatureFlag.newSettingsStorage.enabled {
-                return SettingsStore.appSettings.episodeBookmarksSortType.option(lastOption: .timestamp)
+                return SettingsStore.appSettings.episodeBookmarksSortType.option
             } else {
                 return Constants.UserDefaults.bookmarks.episodeSort.value
             }
@@ -1223,7 +1183,7 @@ class Settings: NSObject {
     static var podcastBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
             if FeatureFlag.newSettingsStorage.enabled {
-                return SettingsStore.appSettings.podcastBookmarksSortType.option(lastOption: .episode)
+                return SettingsStore.appSettings.podcastBookmarksSortType.option
             } else {
                 return Constants.UserDefaults.bookmarks.podcastSort.value
             }
@@ -1238,7 +1198,7 @@ class Settings: NSObject {
     static var profileBookmarksSort: Binding<BookmarkSortOption> {
         Binding {
             if FeatureFlag.newSettingsStorage.enabled {
-                return SettingsStore.appSettings.profileBookmarksSortType.option(lastOption: .podcastAndEpisode)
+                return SettingsStore.appSettings.profileBookmarksSortType.option
             } else {
                 return Constants.UserDefaults.bookmarks.profileSort.value
             }
@@ -1279,6 +1239,18 @@ class Settings: NSObject {
                 SettingsStore.appSettings.appBadgeFilter = newValue ?? ""
             }
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.appBadgeFilterUuid)
+        }
+    }
+
+    // MARK: - Database (internal)
+
+    class var upgradedIndexes: Bool {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "upgraded_indexes_v4")
+        }
+
+        get {
+            UserDefaults.standard.bool(forKey: "upgraded_indexes_v4")
         }
     }
 

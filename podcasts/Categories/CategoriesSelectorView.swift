@@ -18,7 +18,10 @@ struct CategoriesSelectorView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 if let categories, let popular {
-                    CategoriesPillsView(pillCategories: popular, overflowCategories: categories, selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)))
+                    CategoriesPillsView(pillCategories: popular,
+                                        overflowCategories: categories,
+                                        selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)),
+                                        region: discoverItemObservable.region)
                 } else {
                     PlaceholderPillsView()
                 }
@@ -31,7 +34,9 @@ struct CategoriesSelectorView: View {
         .task(id: discoverItemObservable.item?.source) {
             let result = await discoverItemObservable.load()
             self.categories = result?.categories
-            self.popular = result?.popular
+            self.popular = discoverItemObservable.item?.popular?.compactMap({ orderedItem in
+                result?.popular.first(where: { $0.id == orderedItem }) ?? result?.categories.first(where: { $0.id == orderedItem })
+            }) ?? result?.popular
         }
     }
 }
@@ -53,6 +58,8 @@ struct CategoriesPillsView: View {
     let overflowCategories: [DiscoverCategory]
     @Binding var selectedCategory: DiscoverCategory?
 
+    let region: String?
+
     @State private var showingCategories = false
 
     @Namespace private var animation
@@ -60,11 +67,12 @@ struct CategoriesPillsView: View {
     var body: some View {
         if let selectedCategory {
             CloseButton(selectedCategory: $selectedCategory)
-            CategoryButton(category: selectedCategory, selectedCategory: $selectedCategory)
+            CategoryButton(category: selectedCategory, selectedCategory: $selectedCategory, region: region)
                 .matchedGeometryEffect(id: selectedCategory.id, in: animation)
         } else {
             Button(action: {
                 showingCategories.toggle()
+                Analytics.track(.discoverCategoriesPillTapped, properties: ["name": "all", "region": region ?? "none", "id": -1])
             }, label: {
                 HStack {
                     Text("All Categories")
@@ -73,11 +81,11 @@ struct CategoriesPillsView: View {
             })
             .buttonStyle(CategoryButtonStyle())
             ForEach(pillCategories, id: \.id) { category in
-                CategoryButton(category: category, selectedCategory: $selectedCategory)
+                CategoryButton(category: category, selectedCategory: $selectedCategory, region: region)
                 .matchedGeometryEffect(id: category.id, in: animation)
             }
             .sheet(isPresented: $showingCategories) {
-                CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory)
+                CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory, region: region)
                     .modify {
                         if #available(iOS 16.0, *) {
                             $0.presentationDetents([.medium, .large])
@@ -106,6 +114,7 @@ struct CloseButton: View {
     var body: some View {
         Button(action: {
             self.selectedCategory = nil
+            Analytics.track(.discoverCategoryCloseButtonTapped)
         }, label: {
             Image(systemName: "xmark")
                 .imageScale(.small)
@@ -119,6 +128,8 @@ struct CategoryButton: View {
 
     @Binding var selectedCategory: DiscoverCategory?
 
+    let region: String?
+
     var isSelected: Bool {
         category.id == selectedCategory?.id
     }
@@ -126,6 +137,7 @@ struct CategoryButton: View {
     var body: some View {
         Button(action: {
             selectedCategory = category
+            Analytics.track(.discoverCategoriesPillTapped, properties: ["name": category.name ?? "none", "region": region ?? "none", "id": category.id ?? -1])
         }, label: {
             Text(category.name ?? "")
         })

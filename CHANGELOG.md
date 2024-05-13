@@ -1,8 +1,15 @@
-7.63
+7.64
 -----
 - Show the Up Next bar on the tab bar. [#1613]
+- New design for the Podcasts grid layouts. [#1628]
 - Shake the device to restart Sleep Timer [#1627]
 - Playback fades out when finishing a sleep timer [#1629]
+- Select number of episodes for sleep timer [#1640]
+- New design for the mini-player bar [#1634]
+
+7.63
+-----
+- Performance improvements
 
 7.62
 -----

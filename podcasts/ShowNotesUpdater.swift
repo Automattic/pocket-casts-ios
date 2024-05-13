@@ -11,6 +11,7 @@ class ShowNotesUpdater {
             }
             return
         }
+
         DispatchQueue.global().async {
             // fire and forgot, this call will automatically cache the result
             CacheServerHandler.shared.loadShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid, completion: nil)

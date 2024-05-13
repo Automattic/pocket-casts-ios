@@ -51,7 +51,7 @@ extension DiscoverViewController {
             summaryStyle: "large_list",
             summaryItemCount: Constants.popularItemsCount,
             source: source,
-            regions: items.first?.regions ?? [],
+            regions: [currentRegion ?? ""],
             categoryID: category.id
         )
 

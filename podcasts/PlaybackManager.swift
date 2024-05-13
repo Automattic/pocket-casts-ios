@@ -19,9 +19,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let chapterManager = ChapterManager()
 
     var sleepTimeRemaining = -1 as TimeInterval
-    var sleepOnEpisodeEnd = false {
+
+    var numberOfEpisodesToSleepAfter = 0 {
         didSet {
-            if sleepOnEpisodeEnd {
+            if numberOfEpisodesToSleepAfter > 0 {
                 sleepTimeRemaining = -1
                 sleepTimerManager.recordSleepTimerDuration(duration: nil, onEpisodeEnd: true)
             }
@@ -589,7 +590,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
         }
 
-        sleepOnEpisodeEnd = false
+        numberOfEpisodesToSleepAfter -= 1
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
     }
 
@@ -949,7 +950,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playerDidFinishPlayingEpisode() {
-        if sleepOnEpisodeEnd {
+        if numberOfEpisodesToSleepAfter == 1 {
             pauseAndRecordSleepTimerFinished()
             cancelSleepTimer()
             return
@@ -1022,7 +1023,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             cancelSleepTimer()
         } else {
-            playNextEpisode(autoPlay: !sleepOnEpisodeEnd)
+            playNextEpisode(autoPlay: !(numberOfEpisodesToSleepAfter == 1))
         }
     }
 
@@ -1340,7 +1341,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             let episodeDuration = duration()
             let timeRemaining = episodeDuration - currentTime()
             if episodeDuration > 0, episodeDuration > skipLast, timeRemaining < skipLast {
-                if sleepOnEpisodeEnd {
+                if numberOfEpisodesToSleepAfter == 1 {
                     pause()
                     cancelSleepTimer()
                 } else {
@@ -1479,12 +1480,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     func cancelSleepTimer(userInitiated: Bool = false) {
         sleepTimerManager.cancelSleepTimer(userInitiated: userInitiated)
         sleepTimeRemaining = -1
-        sleepOnEpisodeEnd = false
+        numberOfEpisodesToSleepAfter = 0
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
     }
 
     func sleepTimerActive() -> Bool {
-        sleepTimeRemaining >= 0 || sleepOnEpisodeEnd
+        sleepTimeRemaining >= 0 || numberOfEpisodesToSleepAfter > 0
     }
 
     func setSleepTimerInterval(_ stopIn: TimeInterval) {
@@ -1970,7 +1971,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             DispatchQueue.main.async {
                 if self.playing() {
                     let keepScreenOn: Bool
-                    keepScreenOn = Settings.keepScreenAwake
+                    if FeatureFlag.newSettingsStorage.enabled {
+                        keepScreenOn = SettingsStore.appSettings.keepScreenAwake
+                    } else {
+                        keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+                    }
                     UIApplication.shared.isIdleTimerDisabled = keepScreenOn
                 } else {
                     UIApplication.shared.isIdleTimerDisabled = false

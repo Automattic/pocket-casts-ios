@@ -164,7 +164,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     // MARK: - DiscoverSummaryProtocol
 
-    func populateFrom(item: DiscoverItem) {
+    func populateFrom(item: DiscoverItem, region: String?) {
         guard let source = item.source, let title = item.title?.localized else { return }
 
         if let delegate = delegate {
