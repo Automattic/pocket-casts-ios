@@ -91,7 +91,7 @@ class SharingHelper: NSObject {
             SharingModal.show(option: .podcast, episode: episode, in: fromController)
             return
         }
-        
+
         activityController = createActivityController(episode: episode, shareTime: shareTime)
         activityController?.completionWithItemsHandler = { _, _, _, _ in
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
