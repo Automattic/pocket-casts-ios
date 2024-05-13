@@ -722,6 +722,17 @@ class DatabaseHelper {
             schemaVersion = 49
         }
 
+        if schemaVersion < 50 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
+                schemaVersion = 50
+            } catch {
+                failedAt(50)
+                return
+            }
+        }
+
         db.commit()
     }
 }
