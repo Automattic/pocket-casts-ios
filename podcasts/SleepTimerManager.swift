@@ -23,6 +23,10 @@ class SleepTimerManager {
         }
     }()
 
+    let sleepTimerFadeDuration = 5.seconds
+
+    private lazy var fadeOutManager = FadeOutManager()
+
     init(backgroundShakeObserver: BackgroundShakeObserver = BackgroundShakeObserver()) {
         self.backgroundShakeObserver = backgroundShakeObserver
         backgroundShakeObserver.whenShook = { [weak self] in
@@ -76,15 +80,21 @@ class SleepTimerManager {
         }
     }
 
-    private func observePlaybackEndAndReactivateTime() {
-        NotificationCenter.default.addObserver(self, selector: #selector(playbackTrackChanged), name: Constants.Notifications.playbackTrackChanged, object: nil)
+    func performFadeOut(player: PlaybackProtocol) {
+        fadeOutManager.player = player
+        fadeOutManager.fadeOut(duration: sleepTimerFadeDuration)
     }
 
-    @objc private func playbackTrackChanged() {
+    private func observePlaybackEndAndReactivateTime() {
+        NotificationCenter.default.addObserver(self, selector: #selector(episodeDurationChanged), name: Constants.Notifications.episodeDurationChanged, object: nil)
+    }
+
+    @objc private func episodeDurationChanged() {
+        let numberOfEpisodes = Settings.sleepTimerNumberOfEpisodes
         FileLog.shared.addMessage("Sleep Timer: restarting it automatically to the end of the episode")
-        Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode"])
-        PlaybackManager.shared.sleepOnEpisodeEnd = true
-        NotificationCenter.default.removeObserver(self, name: Constants.Notifications.playbackTrackChanged, object: nil)
+        Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode", "number_of_episodes": numberOfEpisodes])
+        PlaybackManager.shared.numberOfEpisodesToSleepAfter = numberOfEpisodes
+        NotificationCenter.default.removeObserver(self, name: Constants.Notifications.episodeDurationChanged, object: nil)
     }
 
     func playTone() {

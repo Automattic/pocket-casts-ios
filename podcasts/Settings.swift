@@ -432,6 +432,15 @@ class Settings: NSObject {
         UserDefaults.standard.set(adjustedTime, forKey: "CustomSleepTime")
     }
 
+    static var sleepTimerNumberOfEpisodes: Int {
+        get {
+            UserDefaults.standard.object(forKey: "sleep_timer_custom_number_of_episodes") as? Int ?? 1
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sleep_timer_custom_number_of_episodes")
+        }
+    }
+
     // MARK: - CarPlay/Lock Screen actions
 
     static let mediaSessionActionsKey = "MediaSessionActions"

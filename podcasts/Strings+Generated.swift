@@ -2818,6 +2818,16 @@ internal enum L10n {
   internal static var sleepTimerCancel: String { return L10n.tr("Localizable", "sleep_timer_cancel") }
   /// End Of Episode
   internal static var sleepTimerEndOfEpisode: String { return L10n.tr("Localizable", "sleep_timer_end_of_episode") }
+  /// In %1$@ episodes
+  internal static func sleepTimerEpisodeCount(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "sleep_timer_episode_count", String(describing: p1))
+  }
+  /// Sleeping in %1$@ episodes
+  internal static func sleepTimerSleepingAfter(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "sleep_timer_sleeping_after", String(describing: p1))
+  }
+  /// Sleeping at the end of the current episode
+  internal static var sleepTimerSleepingAfterCurrentEpisode: String { return L10n.tr("Localizable", "sleep_timer_sleeping_after_current_episode") }
   /// Sleep Timer on, %1$@ remaining
   internal static func sleepTimerTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "sleep_timer_time_remaining", String(describing: p1))

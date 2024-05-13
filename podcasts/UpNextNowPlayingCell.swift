@@ -166,6 +166,8 @@ class UpNextNowPlayingCell: ThemeableCell {
         }
 
         disclosureImageView.layer.cornerRadius = 12
+
+        playingAnimationView.setFillColor(AppTheme.colorForStyle(.primaryText01, themeOverride: themeOverride))
     }
 
     func updateDownloadStatus() {

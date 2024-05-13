@@ -289,7 +289,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         // Load the ratings even if we've already started loading them to cover all other potential view states
         // The view model will ignore extra calls
-        if let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
+        if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
 
