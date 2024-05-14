@@ -34,7 +34,7 @@ BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartBuildCod
 VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::IOSVersionFile.new(xcconfig_path: VERSION_XCCONFIG_PATH)
 
 APP_STORE_VERSION_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
-MAIN_BUNDLE_IDENTIFIERS = [
+PRODUCTION_BUNDLE_IDENTIFIERS = [
   APP_STORE_VERSION_BUNDLE_IDENTIFIER,
   'au.com.shiftyjelly.podcasts.NotificationExtension',
   'au.com.shiftyjelly.podcasts.NotificationContent',
@@ -140,7 +140,7 @@ platform :ios do
       type: 'appstore',
       team_id: TEAM_ID,
       api_key_path: ASC_KEY_PATH,
-      app_identifier: MAIN_BUNDLE_IDENTIFIERS,
+      app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
 
@@ -915,7 +915,7 @@ inal copy, and try again.")
       device_id = UI.input('Device ID: ') if options[:device_id].nil?
       UI.message "Adding #{device_name} with ID #{device_id} to the Developer Portal"
       UI.message 'Also registering it with any provisioning profiles associated with the following bundle identifiers:'
-      MAIN_BUNDLE_IDENTIFIERS.each do |identifier|
+      PRODUCTION_BUNDLE_IDENTIFIERS.each do |identifier|
         puts "\t#{identifier}"
       end
 
@@ -942,13 +942,13 @@ inal copy, and try again.")
     # Add all development certificates to the provisioning profiles (just in case – this is an easy step to miss)
     add_development_certificates_to_provisioning_profiles(
       team_id: TEAM_ID,
-      app_identifier: MAIN_BUNDLE_IDENTIFIERS
+      app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS
     )
 
     # Add all devices to the provisioning profiles
     add_all_devices_to_provisioning_profiles(
       team_id: TEAM_ID,
-      app_identifier: MAIN_BUNDLE_IDENTIFIERS
+      app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS
     )
   end
 
