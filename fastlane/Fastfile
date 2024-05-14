@@ -31,7 +31,7 @@ DEFAULT_BRANCH = 'trunk'
 
 SCHEME = 'pocketcasts'
 
-TEAM_ID = 'PZYM8XX95Q'
+TEAM_ID_PRODUCTION = 'PZYM8XX95Q'
 
 # Instanstiate versioning classes
 VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
@@ -149,7 +149,7 @@ platform :ios do
   lane :configure_code_signing_production do |options|
     sync_code_signing(
       type: 'appstore',
-      team_id: TEAM_ID,
+      team_id: TEAM_ID_PRODUCTION,
       api_key_path: ASC_KEY_PATH,
       app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS,
       # This might turn out to be useful in the future
@@ -424,7 +424,7 @@ platform :ios do
     secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
     testflight(
       skip_waiting_for_build_processing: true,
-      team_id: TEAM_ID,
+      team_id: TEAM_ID_PRODUCTION,
       api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
     )
 
@@ -931,7 +931,7 @@ inal copy, and try again.")
       register_device(
         name: device_name,
         udid: device_id,
-        team_id: TEAM_ID,
+        team_id: TEAM_ID_PRODUCTION,
         api_key_path: ASC_KEY_PATH
       )
     end
@@ -949,13 +949,13 @@ inal copy, and try again.")
 
     # Add all development certificates to the provisioning profiles (just in case – this is an easy step to miss)
     add_development_certificates_to_provisioning_profiles(
-      team_id: TEAM_ID,
+      team_id: TEAM_ID_PRODUCTION,
       app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS
     )
 
     # Add all devices to the provisioning profiles
     add_all_devices_to_provisioning_profiles(
-      team_id: TEAM_ID,
+      team_id: TEAM_ID_PRODUCTION,
       app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS
     )
   end
