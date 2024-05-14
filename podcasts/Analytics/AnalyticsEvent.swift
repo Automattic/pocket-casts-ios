@@ -293,6 +293,8 @@ enum AnalyticsEvent: String {
     case discoverShowAllTapped
     case discoverCategoryCloseButtonTapped
     case discoverCategoriesPickerPick
+    case discoverCategoriesPickerClosed
+    case discoverCategoriesPickerShown
 
     case discoverListImpression
     case discoverListShowAllTapped
@@ -310,6 +312,7 @@ enum AnalyticsEvent: String {
     case discoverCollectionLinkTapped
 
     case discoverAdCategoryTapped
+    case discoverAdCategorySubscribed
 
     // MARK: - Mini Player
 
