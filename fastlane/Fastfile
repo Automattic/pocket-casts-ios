@@ -20,6 +20,12 @@ EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
 SENTRY_ORG_SLUG = 'a8c'
 SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
 
+CODE_SIGNING_STORAGE_OPTIONS = {
+  storage_mode: 's3',
+  s3_bucket: 'a8c-fastlane-match',
+  s3_region: 'us-east-2'
+}.freeze
+
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 DEFAULT_BRANCH = 'trunk'
 
@@ -148,11 +154,8 @@ platform :ios do
       app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
-
-      storage_mode: 's3',
-      s3_bucket: 'a8c-fastlane-match',
-
-      readonly: options.fetch(:readonly, true)
+      readonly: options.fetch(:readonly, true),
+      **CODE_SIGNING_STORAGE_OPTIONS
     )
   end
 
