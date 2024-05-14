@@ -145,8 +145,8 @@ platform :ios do
     )
   end
 
-  desc 'This lane downloads and configures the code signing certificates and profiles.'
-  lane :configure_code_signing do |options|
+  desc 'Download and configure code signing certificates and provisioning profiles for the App Store Connect build.'
+  lane :configure_code_signing_production do |options|
     sync_code_signing(
       type: 'appstore',
       team_id: TEAM_ID,
