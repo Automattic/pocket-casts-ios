@@ -56,7 +56,9 @@ class ThemeableTable: UITableView {
     }
 
     override var intrinsicContentSize: CGSize {
-        self.layoutIfNeeded()
+        if dataSource != nil {
+            self.layoutIfNeeded()
+        }
         return self.contentSize
     }
 
