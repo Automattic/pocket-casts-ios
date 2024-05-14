@@ -131,14 +131,3 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         }
     }
 }
-
-extension Episode {
-    func loadMetadata() async -> Metadata? {
-        if let metadata {
-            return metadata
-        }
-
-        rawMetadata = try? await ShowInfoCoordinator.shared.loadRawMetadata(podcastUuid: parentIdentifier(), episodeUuid: uuid)
-        return metadata
-    }
-}

@@ -144,9 +144,8 @@ platform :ios do
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
 
-      storage_mode: 'google_cloud',
-      google_cloud_bucket_name: 'a8c-fastlane-match',
-      google_cloud_keys_file: File.join(SECRETS_FOLDER, 'google_cloud_keys.json'),
+      storage_mode: 's3',
+      s3_bucket: 'a8c-fastlane-match',
 
       readonly: options.fetch(:readonly, true)
     )

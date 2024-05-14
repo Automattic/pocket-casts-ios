@@ -229,8 +229,8 @@ public class MainServerHandler {
             return nil
         }
 
-        for (idx, podcast) in podcasts.enumerated() { // ensure podcasts have up to date latest episode uuids
-            ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: false, cache: idx == podcasts.endIndex)
+        for podcast in podcasts { // ensure podcasts have up to date latest episode uuids
+            ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: false)
         }
 
         let pushEnabled = ServerConfig.shared.syncDelegate?.isPushEnabled() ?? false

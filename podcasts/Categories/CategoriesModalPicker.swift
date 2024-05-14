@@ -7,6 +7,8 @@ struct CategoriesModalPicker: View {
 
     @Binding var selectedCategory: DiscoverCategory?
 
+    let region: String?
+
     @EnvironmentObject var theme: Theme
 
     private enum Constants {
@@ -85,6 +87,7 @@ struct CategoriesModalPicker: View {
         .padding(Constants.Padding.cell)
         .buttonize {
             selectedCategory = category
+            Analytics.track(.discoverCategoriesPickerPick, properties: ["id": category.id ?? -1, "name": category.name ?? "all", "region": region ?? "none"])
         } customize: { config in
             config.label
                 .foregroundStyle(cellForeground)
