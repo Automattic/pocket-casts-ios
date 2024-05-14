@@ -34,15 +34,20 @@ BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartBuildCod
 VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::IOSVersionFile.new(xcconfig_path: VERSION_XCCONFIG_PATH)
 
 PRODUCTION_APP_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
+
+EXTENSIONS = %w[
+  NotificationExtension
+  NotificationContent
+  watchkitapp
+  PodcastsIntents
+  PodcastsIntentsUI
+  WidgetExtension
+  Share-Extension
+].freeze
+
 PRODUCTION_BUNDLE_IDENTIFIERS = [
   PRODUCTION_APP_BUNDLE_IDENTIFIER,
-  'au.com.shiftyjelly.podcasts.NotificationExtension',
-  'au.com.shiftyjelly.podcasts.NotificationContent',
-  'au.com.shiftyjelly.podcasts.watchkitapp',
-  'au.com.shiftyjelly.podcasts.PodcastsIntents',
-  'au.com.shiftyjelly.podcasts.PodcastsIntentsUI',
-  'au.com.shiftyjelly.podcasts.WidgetExtension',
-  'au.com.shiftyjelly.podcasts.Share-Extension'
+  *EXTENSIONS.map { |suffix| "#{PRODUCTION_APP_BUNDLE_IDENTIFIER}.#{suffix}" }
 ].freeze
 
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
