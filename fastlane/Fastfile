@@ -33,9 +33,9 @@ VERSION_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartVersionForm
 BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartBuildCodeFormatter.new
 VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::IOSVersionFile.new(xcconfig_path: VERSION_XCCONFIG_PATH)
 
-APP_STORE_VERSION_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
+PRODUCTION_APP_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
 PRODUCTION_BUNDLE_IDENTIFIERS = [
-  APP_STORE_VERSION_BUNDLE_IDENTIFIER,
+  PRODUCTION_APP_BUNDLE_IDENTIFIER,
   'au.com.shiftyjelly.podcasts.NotificationExtension',
   'au.com.shiftyjelly.podcasts.NotificationContent',
   'au.com.shiftyjelly.podcasts.watchkitapp',
@@ -808,7 +808,7 @@ inal copy, and try again.")
     skip_screenshots = with_screenshots == false
 
     upload_to_app_store(
-      app_identifier: APP_STORE_VERSION_BUNDLE_IDENTIFIER,
+      app_identifier: PRODUCTION_APP_BUNDLE_IDENTIFIER,
       app_version: release_version_current,
       skip_binary_upload: true,
       screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
