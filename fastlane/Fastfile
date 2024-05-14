@@ -117,7 +117,7 @@ GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES = {
 }.freeze
 
 before_all do
-  # This is necessary for `match` to work correctly in CI. When running
+  # This is necessary for 'match' to work correctly in CI. When running
   # locally, it has no effect so it's safe to run it before all lanes.
   setup_ci
 
@@ -141,7 +141,7 @@ platform :ios do
 
   desc 'This lane downloads and configures the code signing certificates and profiles.'
   lane :configure_code_signing do |options|
-    match(
+    sync_code_signing(
       type: 'appstore',
       team_id: TEAM_ID,
       api_key_path: ASC_KEY_PATH,
