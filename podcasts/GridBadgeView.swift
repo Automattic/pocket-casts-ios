@@ -95,7 +95,7 @@ class GridBadgeView: UIView {
         badgeLabel.layer.borderWidth = 2
         badgeLabel.layer.cornerRadius = 10
 
-        simpleBadge.borderColor = ThemeColor.primaryUi04()
+        simpleBadge.borderColor = ThemeColor.primaryUi02()
         simpleBadge.centerColor = ThemeColor.primaryInteractive01()
         simpleBadge.backgroundColor = .clear
     }
