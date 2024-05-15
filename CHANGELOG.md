@@ -1,3 +1,7 @@
+7.65
+-----
+
+
 7.64
 -----
 - Show the Up Next bar on the tab bar. [#1613]
