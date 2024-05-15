@@ -31,12 +31,6 @@ CODE_SIGNING_STORAGE_OPTIONS = {
   s3_region: 'us-east-2'
 }.freeze
 
-ASC_API_KEY_PRODUCTION = app_store_connect_api_key(
-  key_id: get_required_env("APP_STORE_CONNECT_API_#{TEAM_ID_PRODUCTION}_KEY_ID"),
-  issuer_id: get_required_env("APP_STORE_CONNECT_API_#{TEAM_ID_PRODUCTION}_ISSUER_ID"),
-  key_content: get_required_env("APP_STORE_CONNECT_API_#{TEAM_ID_PRODUCTION}_KEY_CONTENT")
-)
-
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 DEFAULT_BRANCH = 'trunk'
 
@@ -159,7 +153,7 @@ platform :ios do
     sync_code_signing(
       type: 'appstore',
       team_id: TEAM_ID_PRODUCTION,
-      api_key: ASC_API_KEY_PRODUCTION,
+      api_key: app_store_connect_api_key,
       app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
@@ -433,7 +427,7 @@ platform :ios do
     testflight(
       skip_waiting_for_build_processing: true,
       team_id: TEAM_ID_PRODUCTION,
-      api_key: ASC_API_KEY_PRODUCTION
+      api_key: app_store_connect_api_key
     )
 
     symbols_upload
@@ -832,7 +826,7 @@ inal copy, and try again.")
       overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
       phased_release: true,
       precheck_include_in_app_purchases: false,
-      api_key: ASC_API_KEY_PRODUCTION
+      api_key: app_store_connect_api_key
     )
   end
 
@@ -940,7 +934,7 @@ inal copy, and try again.")
         name: device_name,
         udid: device_id,
         team_id: TEAM_ID_PRODUCTION,
-        api_key: ASC_API_KEY_PRODUCTION
+        api_key: app_store_connect_api_key
       )
     end
 
