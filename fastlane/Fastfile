@@ -23,7 +23,7 @@ EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
 SENTRY_ORG_SLUG = 'a8c'
 SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
 
-TEAM_ID_PRODUCTION = 'PZYM8XX95Q'
+TEAM_ID_APP_STORE = 'PZYM8XX95Q'
 
 CODE_SIGNING_STORAGE_OPTIONS = {
   storage_mode: 's3',
@@ -42,7 +42,7 @@ VERSION_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartVersionForm
 BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartBuildCodeFormatter.new
 VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::IOSVersionFile.new(xcconfig_path: VERSION_XCCONFIG_PATH)
 
-PRODUCTION_APP_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
+APP_BUNDLE_IDENTIFIER_APP_STORE = 'au.com.shiftyjelly.podcasts'
 
 EXTENSIONS = %w[
   NotificationExtension
@@ -54,9 +54,9 @@ EXTENSIONS = %w[
   Share-Extension
 ].freeze
 
-PRODUCTION_BUNDLE_IDENTIFIERS = [
-  PRODUCTION_APP_BUNDLE_IDENTIFIER,
-  *EXTENSIONS.map { |suffix| "#{PRODUCTION_APP_BUNDLE_IDENTIFIER}.#{suffix}" }
+BUNDLE_IDENTIFIERS_APP_STORE = [
+  APP_BUNDLE_IDENTIFIER_APP_STORE,
+  *EXTENSIONS.map { |suffix| "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.#{suffix}" }
 ].freeze
 
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
@@ -148,13 +148,13 @@ platform :ios do
     )
   end
 
-  desc 'Download and configure code signing certificates and provisioning profiles for the App Store Connect build.'
-  lane :configure_code_signing_production do |options|
+  desc 'Download and configure code signing certificates and provisioning profiles for the App Store build.'
+  lane :configure_code_signing_app_store do |options|
     sync_code_signing(
       type: 'appstore',
-      team_id: TEAM_ID_PRODUCTION,
+      team_id: TEAM_ID_APP_STORE,
       api_key: app_store_connect_api_key,
-      app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS,
+      app_identifier: BUNDLE_IDENTIFIERS_APP_STORE,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
       readonly: options.fetch(:readonly, true),
@@ -411,7 +411,7 @@ platform :ios do
     UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
 
     sentry_check_cli_installed
-    configure_code_signing
+    configure_code_signing_app_store
 
     build_app(
       scheme: SCHEME,
@@ -426,7 +426,7 @@ platform :ios do
 
     testflight(
       skip_waiting_for_build_processing: true,
-      team_id: TEAM_ID_PRODUCTION,
+      team_id: TEAM_ID_APP_STORE,
       api_key: app_store_connect_api_key
     )
 
@@ -818,7 +818,7 @@ inal copy, and try again.")
     skip_screenshots = with_screenshots == false
 
     upload_to_app_store(
-      app_identifier: PRODUCTION_APP_BUNDLE_IDENTIFIER,
+      app_identifier: APP_BUNDLE_IDENTIFIER_APP_STORE,
       app_version: release_version_current,
       skip_binary_upload: true,
       screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
@@ -925,7 +925,7 @@ inal copy, and try again.")
       device_id = UI.input('Device ID: ') if options[:device_id].nil?
       UI.message "Adding #{device_name} with ID #{device_id} to the Developer Portal"
       UI.message 'Also registering it with any provisioning profiles associated with the following bundle identifiers:'
-      PRODUCTION_BUNDLE_IDENTIFIERS.each do |identifier|
+      BUNDLE_IDENTIFIERS_APP_STORE.each do |identifier|
         puts "\t#{identifier}"
       end
 
@@ -933,7 +933,7 @@ inal copy, and try again.")
       register_device(
         name: device_name,
         udid: device_id,
-        team_id: TEAM_ID_PRODUCTION,
+        team_id: TEAM_ID_APP_STORE,
         api_key: app_store_connect_api_key
       )
     end
@@ -951,14 +951,14 @@ inal copy, and try again.")
 
     # Add all development certificates to the provisioning profiles (just in case – this is an easy step to miss)
     add_development_certificates_to_provisioning_profiles(
-      team_id: TEAM_ID_PRODUCTION,
-      app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS
+      team_id: TEAM_ID_APP_STORE,
+      app_identifier: BUNDLE_IDENTIFIERS_APP_STORE
     )
 
     # Add all devices to the provisioning profiles
     add_all_devices_to_provisioning_profiles(
-      team_id: TEAM_ID_PRODUCTION,
-      app_identifier: PRODUCTION_BUNDLE_IDENTIFIERS
+      team_id: TEAM_ID_APP_STORE,
+      app_identifier: BUNDLE_IDENTIFIERS_APP_STORE
     )
   end
 
