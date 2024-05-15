@@ -69,10 +69,11 @@ class GridBadgeView: UIView {
         ])
 
         simpleBadge.translatesAutoresizingMaskIntoConstraints = false
+        simpleBadge.borderWidth = 3.0
         addSubview(simpleBadge)
         NSLayoutConstraint.activate([
-            simpleBadge.heightAnchor.constraint(equalToConstant: 12),
-            simpleBadge.widthAnchor.constraint(equalToConstant: 12),
+            simpleBadge.heightAnchor.constraint(equalToConstant: 15),// The total siize needs to take account the border witdth too
+            simpleBadge.widthAnchor.constraint(equalToConstant: 15),
             simpleBadge.trailingAnchor.constraint(equalTo: trailingAnchor),
             simpleBadge.topAnchor.constraint(equalTo: topAnchor)
         ])
