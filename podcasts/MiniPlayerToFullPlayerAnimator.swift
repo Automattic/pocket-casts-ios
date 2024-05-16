@@ -219,6 +219,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         }
         containerView.insertSubview(gradientView, belowSubview: backgroundTransitionView)
 
+        self.fromViewController.view.layer.opacity = 0
         animate(withDuration: duration) { [self] in
             // Artwork
             artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
@@ -244,7 +245,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             playerView.frame = self.isPresenting ? self.containerView.frame : playerView.frame
             playerView.isHidden = false
 
-            self.fromViewController.view.layer.opacity = self.isPresenting ? 0 : 1
+            self.fromViewController.view.layer.opacity = 1
 
             transitionContext.completeTransition(true)
         }

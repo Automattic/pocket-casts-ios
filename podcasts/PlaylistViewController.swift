@@ -133,6 +133,15 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     var cellHeights: [IndexPath: CGFloat] = [:]
 
+    private var loadingIndicator: ThemeLoadingIndicator! {
+        didSet {
+            view.addSubview(loadingIndicator)
+            loadingIndicator.center = view.center
+        }
+    }
+
+    private var firstTimeLoading = true
+
     // MARK: - View Methods
 
     override func viewDidLoad() {
@@ -166,6 +175,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         filterCollectionView.filter = filter
 
         isChipHidden = !isNewFilter
+
+        loadingIndicator = ThemeLoadingIndicator()
 
         Analytics.track(.filterShown)
     }
@@ -253,11 +264,21 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
 
     private func reloadFilterAndRefresh(animated: Bool = false) {
-        if let reloadedFilter = DataManager.sharedManager.findFilter(uuid: filter.uuid) {
-            filter = reloadedFilter
-            filterCollectionView.filter = reloadedFilter
+        if firstTimeLoading {
+            loadingIndicator.startAnimating()
         }
-        refreshEpisodes(animated: animated)
+
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            if let reloadedFilter = DataManager.sharedManager.findFilter(uuid: filter.uuid) {
+                filter = reloadedFilter
+                DispatchQueue.main.async {
+                    self.filterCollectionView.filter = reloadedFilter
+                }
+            }
+
+            refreshEpisodes(animated: animated)
+        }
     }
 
     // MARK: - UIScrollView
@@ -476,6 +497,9 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     func refreshEpisodes(animated: Bool) {
         let refreshOperation = PlaylistRefreshOperation(tableView: tableView, filter: filter) { [weak self] newData in
             guard let strongSelf = self else { return }
+
+            strongSelf.firstTimeLoading = false
+            strongSelf.loadingIndicator.stopAnimating()
 
             strongSelf.tableView.isHidden = (newData.count == 0)
             if animated {

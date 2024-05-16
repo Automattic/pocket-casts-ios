@@ -4,12 +4,15 @@ fastlane_version '2.0'
 
 default_platform :ios
 
+def get_required_env(key)
+  ENV[key] || UI.user_error!("Missing `#{key}` environment variable")
+end
+
 # Paths that are re-used across multiple lanes
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
 APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
-ASC_KEY_PATH = File.join(SECRETS_FOLDER, 'app_store_connect_fastlane_api_key.json')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
 # Unfortunately, ios_current_branch_is_hotfix relies on this ENV var under the hood.
 # We can't get rid of it just yet.
@@ -20,12 +23,18 @@ EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
 SENTRY_ORG_SLUG = 'a8c'
 SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
 
+TEAM_ID_APP_STORE = 'PZYM8XX95Q'
+
+CODE_SIGNING_STORAGE_OPTIONS = {
+  storage_mode: 's3',
+  s3_bucket: 'a8c-fastlane-match',
+  s3_region: 'us-east-2'
+}.freeze
+
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 DEFAULT_BRANCH = 'trunk'
 
 SCHEME = 'pocketcasts'
-
-TEAM_ID = 'PZYM8XX95Q'
 
 # Instanstiate versioning classes
 VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
@@ -33,16 +42,21 @@ VERSION_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartVersionForm
 BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartBuildCodeFormatter.new
 VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::IOSVersionFile.new(xcconfig_path: VERSION_XCCONFIG_PATH)
 
-APP_STORE_VERSION_BUNDLE_IDENTIFIER = 'au.com.shiftyjelly.podcasts'
-MAIN_BUNDLE_IDENTIFIERS = [
-  APP_STORE_VERSION_BUNDLE_IDENTIFIER,
-  'au.com.shiftyjelly.podcasts.NotificationExtension',
-  'au.com.shiftyjelly.podcasts.NotificationContent',
-  'au.com.shiftyjelly.podcasts.watchkitapp',
-  'au.com.shiftyjelly.podcasts.PodcastsIntents',
-  'au.com.shiftyjelly.podcasts.PodcastsIntentsUI',
-  'au.com.shiftyjelly.podcasts.WidgetExtension',
-  'au.com.shiftyjelly.podcasts.Share-Extension'
+APP_BUNDLE_IDENTIFIER_APP_STORE = 'au.com.shiftyjelly.podcasts'
+
+EXTENSIONS = %w[
+  NotificationExtension
+  NotificationContent
+  watchkitapp
+  PodcastsIntents
+  PodcastsIntentsUI
+  WidgetExtension
+  Share-Extension
+].freeze
+
+BUNDLE_IDENTIFIERS_APP_STORE = [
+  APP_BUNDLE_IDENTIFIER_APP_STORE,
+  *EXTENSIONS.map { |suffix| "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.#{suffix}" }
 ].freeze
 
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
@@ -112,7 +126,7 @@ GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES = {
 }.freeze
 
 before_all do
-  # This is necessary for `match` to work correctly in CI. When running
+  # This is necessary for 'match' to work correctly in CI. When running
   # locally, it has no effect so it's safe to run it before all lanes.
   setup_ci
 
@@ -134,21 +148,17 @@ platform :ios do
     )
   end
 
-  desc 'This lane downloads and configures the code signing certificates and profiles.'
-  lane :configure_code_signing do |options|
-    match(
+  desc 'Download and configure code signing certificates and provisioning profiles for the App Store build.'
+  lane :configure_code_signing_app_store do |options|
+    sync_code_signing(
       type: 'appstore',
-      team_id: TEAM_ID,
-      api_key_path: ASC_KEY_PATH,
-      app_identifier: MAIN_BUNDLE_IDENTIFIERS,
+      team_id: TEAM_ID_APP_STORE,
+      api_key: app_store_connect_api_key,
+      app_identifier: BUNDLE_IDENTIFIERS_APP_STORE,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
-
-      storage_mode: 'google_cloud',
-      google_cloud_bucket_name: 'a8c-fastlane-match',
-      google_cloud_keys_file: File.join(SECRETS_FOLDER, 'google_cloud_keys.json'),
-
-      readonly: options.fetch(:readonly, true)
+      readonly: options.fetch(:readonly, true),
+      **CODE_SIGNING_STORAGE_OPTIONS
     )
   end
 
@@ -401,7 +411,7 @@ platform :ios do
     UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
 
     sentry_check_cli_installed
-    configure_code_signing
+    configure_code_signing_app_store
 
     build_app(
       scheme: SCHEME,
@@ -414,11 +424,10 @@ platform :ios do
       }
     )
 
-    secrets_dir = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
     testflight(
       skip_waiting_for_build_processing: true,
-      team_id: TEAM_ID,
-      api_key_path: File.join(secrets_dir, 'app_store_connect_fastlane_api_key.json')
+      team_id: TEAM_ID_APP_STORE,
+      api_key: app_store_connect_api_key
     )
 
     symbols_upload
@@ -809,7 +818,7 @@ inal copy, and try again.")
     skip_screenshots = with_screenshots == false
 
     upload_to_app_store(
-      app_identifier: APP_STORE_VERSION_BUNDLE_IDENTIFIER,
+      app_identifier: APP_BUNDLE_IDENTIFIER_APP_STORE,
       app_version: release_version_current,
       skip_binary_upload: true,
       screenshots_path: File.join(FASTLANE_FOLDER, 'screenshots'),
@@ -817,7 +826,7 @@ inal copy, and try again.")
       overwrite_screenshots: true, # won't have effect if `skip_screenshots` is true
       phased_release: true,
       precheck_include_in_app_purchases: false,
-      api_key_path: ASC_KEY_PATH
+      api_key: app_store_connect_api_key
     )
   end
 
@@ -916,7 +925,7 @@ inal copy, and try again.")
       device_id = UI.input('Device ID: ') if options[:device_id].nil?
       UI.message "Adding #{device_name} with ID #{device_id} to the Developer Portal"
       UI.message 'Also registering it with any provisioning profiles associated with the following bundle identifiers:'
-      MAIN_BUNDLE_IDENTIFIERS.each do |identifier|
+      BUNDLE_IDENTIFIERS_APP_STORE.each do |identifier|
         puts "\t#{identifier}"
       end
 
@@ -924,8 +933,8 @@ inal copy, and try again.")
       register_device(
         name: device_name,
         udid: device_id,
-        team_id: TEAM_ID,
-        api_key_path: ASC_KEY_PATH
+        team_id: TEAM_ID_APP_STORE,
+        api_key: app_store_connect_api_key
       )
     end
 
@@ -942,14 +951,14 @@ inal copy, and try again.")
 
     # Add all development certificates to the provisioning profiles (just in case – this is an easy step to miss)
     add_development_certificates_to_provisioning_profiles(
-      team_id: TEAM_ID,
-      app_identifier: MAIN_BUNDLE_IDENTIFIERS
+      team_id: TEAM_ID_APP_STORE,
+      app_identifier: BUNDLE_IDENTIFIERS_APP_STORE
     )
 
     # Add all devices to the provisioning profiles
     add_all_devices_to_provisioning_profiles(
-      team_id: TEAM_ID,
-      app_identifier: MAIN_BUNDLE_IDENTIFIERS
+      team_id: TEAM_ID_APP_STORE,
+      app_identifier: BUNDLE_IDENTIFIERS_APP_STORE
     )
   end
 

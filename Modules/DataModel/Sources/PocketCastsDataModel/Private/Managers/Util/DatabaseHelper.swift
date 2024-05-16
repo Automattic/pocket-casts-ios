@@ -714,6 +714,14 @@ class DatabaseHelper {
             }
         }
 
+        // Those migrations were some heavy DROP COLUMN that we moved outside of DB startup
+        if schemaVersion < 48 {
+            schemaVersion = 48
+        }
+        if schemaVersion < 49 {
+            schemaVersion = 49
+        }
+
         db.commit()
     }
 }

@@ -104,7 +104,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         }
 
         self.measure {
-            _ = dataManager.autoAddCandidates.candidates()
+            let candidates = dataManager.autoAddCandidates.candidates()
         }
 
         featureFlagMock.reset()
@@ -137,7 +137,7 @@ final class AutoAddCandidatesDataManagerTests: XCTestCase {
         }
 
         self.measure {
-            _ = dataManager.autoAddCandidates.candidates()
+            let candidates = dataManager.autoAddCandidates.candidates()
         }
 
         featureFlagMock.reset()

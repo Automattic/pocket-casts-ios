@@ -451,6 +451,8 @@
     <string>Esborrar només del dispositiu</string>
     <key>deselect_all</key>
     <string>Anul·lar totes les seleccions</string>
+    <key>device_shake_sleep_timer</key>
+    <string>El temporitzador de son s'ha reiniciat perquè s'ha agitat el dispositiu</string>
     <key>discover</key>
     <string>Descobrir</string>
     <key>discover_all_episodes</key>

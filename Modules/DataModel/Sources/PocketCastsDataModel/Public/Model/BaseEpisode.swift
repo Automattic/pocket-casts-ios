@@ -10,7 +10,6 @@ import Foundation
     var autoDownloadStatus: Int32 { get set }
     var downloadUrl: String? { get set }
     var fileType: String? { get set }
-    var contentType: String? { get set }
     var title: String? { get set }
     var playbackErrorDetails: String? { get set }
     var downloadErrorDetails: String? { get set }
@@ -31,8 +30,6 @@ import Foundation
 
     var deselectedChapters: String? { get set }
     var deselectedChaptersModified: Int64 { get set }
-
-    var rawMetadata: String? { get set }
 
     func displayableTitle() -> String
     func parentIdentifier() -> String

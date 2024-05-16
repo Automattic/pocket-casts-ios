@@ -21,9 +21,19 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     @IBOutlet var newFilterButton: UIButton! {
         didSet {
+            newFilterButton.isHidden = true
             newFilterButton.setTitle(L10n.filtersNewFilterButton, for: .normal)
         }
     }
+
+    private var loadingIndicator: ThemeLoadingIndicator! {
+        didSet {
+            view.addSubview(loadingIndicator)
+            loadingIndicator.center = view.center
+        }
+    }
+
+    private var firstTimeLoading = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +42,19 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         title = L10n.filters
 
-        if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
-            let playlistViewController = PlaylistViewController(filter: filter)
-            navigationController?.pushViewController(playlistViewController, animated: false)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+
+            if let lastFilterUuid = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastFilterShown), let filter = DataManager.sharedManager.findFilter(uuid: lastFilterUuid) {
+                DispatchQueue.main.async {
+                    let playlistViewController = PlaylistViewController(filter: filter)
+                    self.navigationController?.pushViewController(playlistViewController, animated: false)
+                }
+            }
+
         }
+
+        loadingIndicator = ThemeLoadingIndicator()
 
         setupNewFilterButton()
         handleThemeChanged()
@@ -119,8 +138,20 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     private func reloadFilters() {
-        episodeFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
-        filtersTable.reloadData()
+        if firstTimeLoading {
+            loadingIndicator.startAnimating()
+        }
+
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            episodeFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+            firstTimeLoading = false
+            DispatchQueue.main.async {
+                self.newFilterButton.isHidden = false
+                self.loadingIndicator.stopAnimating()
+                self.filtersTable.reloadData()
+            }
+        }
     }
 
     // MARK: - FilterCreationDelegate

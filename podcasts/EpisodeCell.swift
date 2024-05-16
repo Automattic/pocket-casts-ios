@@ -237,8 +237,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
                 if let userEpisode = episode as? UserEpisode {
                     episodeImage.setUserEpisode(uuid: userEpisode.uuid, size: .list)
-                } else if let episode = episode as? Episode {
-                    episodeImage.setEpisode(episode, size: .list)
                 } else {
                     episodeImage.setPodcast(uuid: episode.parentIdentifier(), size: .list)
                 }
@@ -515,7 +513,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     var showTick = false {
         didSet {
-            guard showTick != oldValue else { return }
             selectTickImageView.isHidden = !showTick
             selectCircleView.layer.borderWidth = showTick ? 0 : 2
             selectView.accessibilityLabel = showTick ? L10n.accessibilityDeselectEpisode : L10n.accessibilitySelectEpisode

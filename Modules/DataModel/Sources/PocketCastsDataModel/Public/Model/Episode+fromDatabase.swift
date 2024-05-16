@@ -14,7 +14,6 @@ extension Episode {
         episode.episodeDescription = rs.string(forColumn: "episodeDescription")
         episode.episodeStatus = rs.int(forColumn: "episodeStatus")
         episode.fileType = rs.string(forColumn: "fileType")
-        episode.contentType = rs.string(forColumn: "contentType")
         episode.keepEpisode = rs.bool(forColumn: "keepEpisode")
         episode.playedUpTo = rs.double(forColumn: "playedUpTo")
         episode.duration = rs.double(forColumn: "duration")
@@ -44,7 +43,6 @@ extension Episode {
         episode.starredModified = rs.longLongInt(forColumn: "starredModified")
         episode.deselectedChapters = rs.string(forColumn: "deselectedChapters")
         episode.deselectedChaptersModified = rs.longLongInt(forColumn: "deselectedChaptersModified")
-        episode.rawMetadata = rs.string(forColumn: "metadata")
         return episode
     }
 }

@@ -169,7 +169,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func makeBadge(size: CGFloat) -> UIView {
         let badgeView = CircleView()
-        badgeView.borderWidth = CGFloat(2)
+        let borderWidth = CGFloat(2)
         badgeView.borderColor = ThemeColor.secondaryUi01()
         badgeView.centerColor = ThemeColor.primaryInteractive01()
         badgeView.backgroundColor = .clear
@@ -254,7 +254,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func updateInsets() {
         let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
-        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
+        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 8 : Constants.Values.miniPlayerOffset + 8
 
         podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
 

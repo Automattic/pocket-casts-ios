@@ -10,7 +10,7 @@ class FolderGridCell: UICollectionViewCell {
     @IBOutlet var badgeView: GridBadgeView!
 
     func populateFrom(folder: Folder, badgeType: BadgeType, libraryType: LibraryType) {
-        folderPreview.populateFrom(folder: folder)
+        folderPreview.populateFromAsync(folder: folder)
 
         containerView.layer.cornerRadius = 4
         containerView.layer.masksToBounds = true
