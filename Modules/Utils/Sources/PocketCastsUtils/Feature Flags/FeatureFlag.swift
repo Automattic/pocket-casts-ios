@@ -132,7 +132,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
         default:
-            nil
+            rawValue.lowerSnakeCased()
         }
     }
 }
