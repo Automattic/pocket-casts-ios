@@ -74,7 +74,7 @@ class GridBadgeView: UIView {
         simpleBadge.borderWidth = 3.0
         addSubview(simpleBadge)
         NSLayoutConstraint.activate([
-            simpleBadge.heightAnchor.constraint(equalToConstant: 15),// The total siize needs to take account the border witdth too
+            simpleBadge.heightAnchor.constraint(equalToConstant: 15),// The total size needs to take account the border width too
             simpleBadge.widthAnchor.constraint(equalToConstant: 15),
             simpleBadge.trailingAnchor.constraint(equalTo: trailingAnchor),
             simpleBadge.topAnchor.constraint(equalTo: topAnchor)
