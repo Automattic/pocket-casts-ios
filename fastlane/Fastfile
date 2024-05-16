@@ -4,10 +4,6 @@ fastlane_version '2.0'
 
 default_platform :ios
 
-def get_required_env(key)
-  ENV[key] || UI.user_error!("Missing `#{key}` environment variable")
-end
-
 # Paths that are re-used across multiple lanes
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
