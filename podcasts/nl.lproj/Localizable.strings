@@ -153,12 +153,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>De bladwijzers zijn er!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Doe mee met de bètatests voor bladwijzers!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Neem een Plus-abonnement om waar mogelijk hoofdstukken van afleveringen automatisch voor te selecteren en over te slaan.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Met het Patron-abonnement kan je waar mogelijk hoofdstukken van afleveringen automatisch voorselecteren en overslaan.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Met het Plus-abonnement kan je waar mogelijk hoofdstukken van afleveringen automatisch voorselecteren en overslaan.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code gekopieerd naar klembord</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,8 +213,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Podcast-artwork</string>
     <key>appearance_dark_theme</key>
     <string>Donker thema</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Artwork van afleveringen gebruiken</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>Sommige shows hebben apart artwork voor bepaalde afleveringen Als je deze optie inschakelt, zal dit worden weergegeven in plaats van het artwork van de show.</string>
     <key>appearance_light_theme</key>
@@ -451,6 +443,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alleen uit apparaat verwijderen</string>
     <key>deselect_all</key>
     <string>Alles deselecteren</string>
+    <key>device_shake_sleep_timer</key>
+    <string>De slaaptimer is opnieuw gestart omdat er met het apparaat is geschud</string>
     <key>discover</key>
     <string>Ontdek</string>
     <key>discover_all_episodes</key>
@@ -2433,10 +2427,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Terugspoelen</string>
     <key>skip_chapters</key>
     <string>Hoofdstukken voorselecteren</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Selecteer hoofdstukken voor en geniet van extra functies met Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Selecteer hoofdstukken voor en geniet van extra functies met Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Doorspoelen</string>
     <key>sleep_timer</key>
