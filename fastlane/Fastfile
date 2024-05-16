@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'dotenv'
+
 fastlane_version '2.0'
 
 default_platform :ios
@@ -18,6 +20,9 @@ RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'CHANGELOG.md')
 EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
 SENTRY_ORG_SLUG = 'a8c'
 SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
+
+ENV_FILE_NAME = '.pocketcastsios-env.default'
+USER_ENV_FILE_PATH = File.join(Dir.home, ENV_FILE_NAME)
 
 TEAM_ID_APP_STORE = 'PZYM8XX95Q'
 
@@ -130,6 +135,19 @@ before_all do
   # but it has such a negligible overhead that it's worth running it here to
   # keep the individual lanes cleaner.
   configure_apply
+
+  unless is_ci || File.file?(USER_ENV_FILE_PATH)
+    example_path = 'fastlane/user.env-example'
+    UI.user_error! <<~MSG
+      #{ENV_FILE_NAME} not found!
+
+      Please copy #{example_path} to #{USER_ENV_FILE_PATH} and fill in the values for the automation you require.
+
+      cp #{example_path} #{USER_ENV_FILE_PATH}
+    MSG
+  end
+
+  Dotenv.load(USER_ENV_FILE_PATH)
 end
 
 platform :ios do
