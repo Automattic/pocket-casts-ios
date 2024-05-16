@@ -70,6 +70,7 @@ class PodcastGridCell: UICollectionViewCell {
     }
 
     override func layoutSubviews() {
+        super.layoutSubviews()
         shadowView.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
     }
 
