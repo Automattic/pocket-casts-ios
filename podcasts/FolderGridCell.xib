@@ -18,6 +18,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
+                    <view contentMode="scaleToFill" id="S1g-3I-jn4">
+                        <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="oFi-24-Mf6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1gQ-6J-066" userLabel="ContainerView">
                         <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                         <subviews>
@@ -59,6 +65,7 @@
                 <outlet property="badgeView" destination="6TF-v3-9Cy" id="gcv-6n-nUs"/>
                 <outlet property="containerView" destination="1gQ-6J-066" id="9fR-I6-EdR"/>
                 <outlet property="folderPreview" destination="lEk-hS-0Dg" id="XsM-rm-9lQ"/>
+                <outlet property="shadowView" destination="S1g-3I-jn4" id="k68-sg-9P0"/>
             </connections>
             <point key="canvasLocation" x="-294.92753623188406" y="-11.71875"/>
         </collectionViewCell>

@@ -153,12 +153,6 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>¡Ya están aquí los marcadores!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>¡Únete a nosotros en las pruebas beta de marcadores!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Suscríbete a Plus y podrás preseleccionar y omitir capítulos automáticamente en los episodios compatibles.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Como parte de tu suscripción a Patron, ahora podrás preseleccionar y omitir capítulos automáticamente en los episodios compatibles.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Como parte de tu suscripción a Plus, ahora podrás preseleccionar y omitir capítulos automáticamente en los episodios compatibles.</string>
     <key>announcement_slumber_code_copied</key>
     <string>El código se ha copiado en el portapapeles</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,8 +213,6 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Carátulas de los podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema oscuro</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Usar carátula del episodio</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>Algunos programas disponen de carátulas personalizadas para determinados episodios. Activa esta opción y Pocket Casts las mostrará en lugar de la carátula del programa.</string>
     <key>appearance_light_theme</key>
@@ -451,6 +443,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Borrar solo del dispositivo</string>
     <key>deselect_all</key>
     <string>Anular todas las selecciones</string>
+    <key>device_shake_sleep_timer</key>
+    <string>El temporizador de suspensión se reinició porque se agitó el dispositivo</string>
     <key>discover</key>
     <string>Descubrir</string>
     <key>discover_all_episodes</key>
@@ -2433,10 +2427,6 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Saltar atrás</string>
     <key>skip_chapters</key>
     <string>Preselección de capítulos</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Preselecciona capítulos y haz otros ajustes con Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Preselecciona capítulos y haz otros ajustes con Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Saltar adelante</string>
     <key>sleep_timer</key>
