@@ -44,8 +44,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     @IBOutlet var profileTable: UITableView! {
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
-            profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
-            profileTable.applyInsetForMiniPlayer()
+            profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)            
         }
     }
 

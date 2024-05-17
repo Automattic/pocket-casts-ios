@@ -49,7 +49,6 @@ class DownloadsViewController: PCViewController {
 
     @IBOutlet var downloadsTable: UITableView! {
         didSet {
-            downloadsTable.applyInsetForMiniPlayer()
             registerTableCells()
             registerLongPress()
             downloadsTable.estimatedRowHeight = 80.0
