@@ -31,8 +31,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         chartsTable.register(UINib(nibName: "DiscoverPodcastTableCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.cellId)
         chartsTable.register(UINib(nibName: "FeaturedTableViewCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.featuredCellId)
 
-        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
-        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: chartsTable)
 
         chartsTable.updateContentInset(multiSelectEnabled: false)
     }
@@ -41,10 +40,6 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         super.viewWillAppear(animated)
 
         chartsTable.reloadData()
-    }
-
-    @objc func miniPlayerStatusDidChange() {
-        chartsTable.updateContentInset(multiSelectEnabled: false)
     }
 
     // MARK: - UITableView Methods
