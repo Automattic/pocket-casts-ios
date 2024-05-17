@@ -215,7 +215,7 @@ class MiniPlayerInsetAdjuster {
         }
     }
 
-    private var scrollViewAdjustableToMiniPlayer: UIScrollView?
+    private weak var scrollViewAdjustableToMiniPlayer: UIScrollView?
 
     func setupInsetAdjustmentsForMiniPlayer(scrollView: UIScrollView) {
         guard scrollViewAdjustableToMiniPlayer == nil else {
