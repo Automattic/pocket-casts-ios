@@ -95,7 +95,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let gravatarViewModel: ProfileViewModel = .init()
     private var cancellables = Set<AnyCancellable>()
     private lazy var gravatarConfiguration: ProfileViewConfiguration = {
-        return ProfileViewConfiguration.standard().updatedForPocketCasts(delegate: self)
+        return ProfileViewConfiguration.largeSummary().updatedForPocketCasts(delegate: self)
     }() {
         didSet {
             gravatarProfileView.configuration = gravatarConfiguration
