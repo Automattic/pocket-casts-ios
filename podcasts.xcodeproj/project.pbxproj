@@ -10719,7 +10719,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5c98da06-c980-49e9-8668-64d3fa8828ee";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
@@ -11031,7 +11030,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5c98da06-c980-49e9-8668-64d3fa8828ee";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
@@ -11060,7 +11058,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts";
