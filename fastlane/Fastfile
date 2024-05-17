@@ -21,8 +21,8 @@ EXTRACTED_RELEASE_NOTES_PATH = File.join(RESOURCES_FOLDER, 'release_notes.txt')
 SENTRY_ORG_SLUG = 'a8c'
 SENTRY_PROJECT_SLUG = 'pocket-casts-ios'
 
-ENV_FILE_NAME = '.pocketcastsios-env.default'
-USER_ENV_FILE_PATH = File.join(Dir.home, ENV_FILE_NAME)
+ENV_FILE_NAME = 'pocket-casts-ios.env'
+USER_ENV_FILE_PATH = File.join(Dir.home, '.a8c-apps', ENV_FILE_NAME)
 
 TEAM_ID_APP_STORE = 'PZYM8XX95Q'
 
@@ -137,13 +137,13 @@ before_all do
   configure_apply
 
   unless is_ci || File.file?(USER_ENV_FILE_PATH)
-    example_path = 'fastlane/user.env-example'
+    example_path = 'fastlane/example.env'
     UI.user_error! <<~MSG
       #{ENV_FILE_NAME} not found!
 
       Please copy #{example_path} to #{USER_ENV_FILE_PATH} and fill in the values for the automation you require.
 
-      cp #{example_path} #{USER_ENV_FILE_PATH}
+      mkdir -p #{File.dirname(USER_ENV_FILE_PATH)} && cp #{example_path} #{USER_ENV_FILE_PATH}
     MSG
   end
 
