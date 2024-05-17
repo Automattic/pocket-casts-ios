@@ -545,10 +545,10 @@
 		8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */; };
 		8BAD6E612975AFAA00DB7259 /* GoogleSocialLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */; };
 		8BB2E58B2A8AA02E00E93088 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD054A791E3EDEB300D9195B /* SharedConstants.swift */; };
-		8BB4AA662BD1A8040091480A /* sleep-timer-restarted-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */; };
-		8BB4AA672BD1A80E0091480A /* sleep-timer-restarted-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */; };
 		8BB4AA632BD17EC10091480A /* FadeOutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4AA622BD17EC10091480A /* FadeOutManager.swift */; };
 		8BB4AA642BD17EC10091480A /* FadeOutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4AA622BD17EC10091480A /* FadeOutManager.swift */; };
+		8BB4AA662BD1A8040091480A /* sleep-timer-restarted-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */; };
+		8BB4AA672BD1A80E0091480A /* sleep-timer-restarted-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */; };
 		8BB55E3A28FEEE99001D1766 /* StoryShareableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */; };
 		8BBE19EE2BEA973E009E944B /* ShowInfoCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBE19ED2BEA973E009E944B /* ShowInfoCoordinating.swift */; };
 		8BBE19F02BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBE19EF2BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift */; };
@@ -1836,7 +1836,7 @@
 		32163E5F2B1EBDB6009BB16B /* DatabaseExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseExport.swift; sourceTree = "<group>"; };
 		321AC0292B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+WaitForNotification.swift"; sourceTree = "<group>"; };
 		3A427DC232F89CC0DB362F96 /* Pods-PocketCasts-PocketCastsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		3F299D892872BF3600F2ED7F /* PocketCasts.staging.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.staging.xcconfig; sourceTree = "<group>"; };
+		3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.prototype.xcconfig; sourceTree = "<group>"; };
 		3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.release.xcconfig; sourceTree = "<group>"; };
 		3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.debug.xcconfig; sourceTree = "<group>"; };
 		3FB86431288968A1003A86BE /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
@@ -2118,6 +2118,7 @@
 		40FFCDB422FBA9C600395CA5 /* IconSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectorCell.swift; sourceTree = "<group>"; };
 		40FFCDB522FBA9C600395CA5 /* IconSelectorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IconSelectorCell.xib; sourceTree = "<group>"; };
 		40FFCDBC2304E7EC00395CA5 /* ThemeableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableImageView.swift; sourceTree = "<group>"; };
+		424A79CC948AF230394BB38E /* Pods-podcasts.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.prototype.xcconfig"; sourceTree = "<group>"; };
 		45738999285BBAD500D4FE6C /* ColorSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectRow.swift; sourceTree = "<group>"; };
 		45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketCastsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowNotesFormatterUtilsTests.swift; sourceTree = "<group>"; };
@@ -2359,8 +2360,8 @@
 		8BAB8B2E299ABC8200B8404C /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		8BAD2EB32AEE9620006264B3 /* PaidStoryWallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidStoryWallView.swift; sourceTree = "<group>"; };
 		8BAD6E602975AFAA00DB7259 /* GoogleSocialLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialLogin.swift; sourceTree = "<group>"; };
-		8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "sleep-timer-restarted-sound.mp3"; sourceTree = "<group>"; };
 		8BB4AA622BD17EC10091480A /* FadeOutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOutManager.swift; sourceTree = "<group>"; };
+		8BB4AA652BD1A8040091480A /* sleep-timer-restarted-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "sleep-timer-restarted-sound.mp3"; sourceTree = "<group>"; };
 		8BB55E3928FEEE99001D1766 /* StoryShareableProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableProvider.swift; sourceTree = "<group>"; };
 		8BBE19ED2BEA973E009E944B /* ShowInfoCoordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowInfoCoordinating.swift; sourceTree = "<group>"; };
 		8BBE19EF2BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastIndexChapterDataRetriever.swift; sourceTree = "<group>"; };
@@ -3209,6 +3210,7 @@
 		BDFF772F1C9929660086282A /* NavigationProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationProtocol.swift; sourceTree = "<group>"; };
 		BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCRoutePickerView.swift; sourceTree = "<group>"; };
 		BDFFC9B02148E87E0026D875 /* VideoViewController+Seek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoViewController+Seek.swift"; sourceTree = "<group>"; };
+		C4AF9B7EAB2BAD768A5E4DED /* Pods-PocketCastsTests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.prototype.xcconfig"; sourceTree = "<group>"; };
 		C700A86F2A78BCD60091F895 /* EpisodeDetailTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailTabView.swift; sourceTree = "<group>"; };
 		C701C25B2A8E82DC00AD9FAB /* PaidFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaidFeature.swift; sourceTree = "<group>"; };
 		C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
@@ -3562,6 +3564,8 @@
 				0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */,
 				E51D1A08077BEF3B1F180BA7 /* Pods-PocketCasts-podcasts.staging.xcconfig */,
 				E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */,
+				C4AF9B7EAB2BAD768A5E4DED /* Pods-PocketCastsTests.prototype.xcconfig */,
+				424A79CC948AF230394BB38E /* Pods-podcasts.prototype.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -3580,7 +3584,7 @@
 		3F299D882872BF3600F2ED7F /* config */ = {
 			isa = PBXGroup;
 			children = (
-				3F299D892872BF3600F2ED7F /* PocketCasts.staging.xcconfig */,
+				3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */,
 				3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */,
 				3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */,
 			);
@@ -8307,7 +8311,6 @@
 				8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */,
 				105A6C442BAA0B3E0025B855 /* PrivacyInfo.xcprivacy in Resources */,
 				BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */,
-				8B10E78928D9094900702C54 /* GoogleService-Info.plist in Resources */,
 				8BB4AA672BD1A80E0091480A /* sleep-timer-restarted-sound.mp3 in Resources */,
 				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
 				BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */,
@@ -9847,7 +9850,7 @@
 			};
 			name = Debug;
 		};
-		2F9099172A4F88B10044FC55 /* Staging */ = {
+		2F9099172A4F88B10044FC55 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -9892,7 +9895,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		2F9099182A4F88B10044FC55 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10130,7 +10133,7 @@
 			};
 			name = Debug;
 		};
-		4090975D25235DFC00CED68C /* Staging */ = {
+		4090975D25235DFC00CED68C /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -10171,7 +10174,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		4090975E25235DFC00CED68C /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10248,9 +10251,9 @@
 			};
 			name = Debug;
 		};
-		45ECEF8227E910E300C65030 /* Staging */ = {
+		45ECEF8227E910E300C65030 /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */;
+			baseConfigurationReference = C4AF9B7EAB2BAD768A5E4DED /* Pods-PocketCastsTests.prototype.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10282,7 +10285,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/podcasts.app/podcasts";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		45ECEF8327E910E300C65030 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10331,7 +10334,7 @@
 			};
 			name = Debug;
 		};
-		462EE0C32702532E003D67DC /* Staging */ = {
+		462EE0C32702532E003D67DC /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -10340,7 +10343,7 @@
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		462EE0C42702532E003D67DC /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10390,7 +10393,7 @@
 			};
 			name = Debug;
 		};
-		4694FA692799C80300E9CF70 /* Staging */ = {
+		4694FA692799C80300E9CF70 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10428,7 +10431,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = podcasts;
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		4694FA6A2799C80300E9CF70 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10503,7 +10506,7 @@
 			};
 			name = Debug;
 		};
-		46AFC23E27AB19CF004B026F /* Staging */ = {
+		46AFC23E27AB19CF004B026F /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10537,7 +10540,7 @@
 				TEST_TARGET_NAME = "Pocket Casts Watch App";
 				WATCHOS_DEPLOYMENT_TARGET = 8.3;
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		46AFC23F27AB19CF004B026F /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10635,9 +10638,9 @@
 			};
 			name = Release;
 		};
-		BD69A0192266A9E400168459 /* Staging */ = {
+		BD69A0192266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F299D892872BF3600F2ED7F /* PocketCasts.staging.xcconfig */;
+			baseConfigurationReference = 3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -10693,11 +10696,11 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A01A2266A9E400168459 /* Staging */ = {
+		BD69A01A2266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EBB921F698CD2DA170E70AB6 /* Pods-podcasts.staging.xcconfig */;
+			baseConfigurationReference = 424A79CC948AF230394BB38E /* Pods-podcasts.prototype.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -10723,9 +10726,9 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A01C2266A9E400168459 /* Staging */ = {
+		BD69A01C2266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10753,9 +10756,9 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A01D2266A9E400168459 /* Staging */ = {
+		BD69A01D2266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10783,9 +10786,9 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A01E2266A9E400168459 /* Staging */ = {
+		BD69A01E2266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -10818,9 +10821,9 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A0202266A9E400168459 /* Staging */ = {
+		BD69A0202266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10856,9 +10859,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A0212266A9E400168459 /* Staging */ = {
+		BD69A0212266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10893,7 +10896,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		BDBD540C17019B2A0048C8C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -11205,7 +11208,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2F9099162A4F88B10044FC55 /* Debug */,
-				2F9099172A4F88B10044FC55 /* Staging */,
+				2F9099172A4F88B10044FC55 /* Prototype */,
 				2F9099182A4F88B10044FC55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11215,7 +11218,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				403B5B2A21813FFB00821A54 /* Debug */,
-				BD69A0212266A9E400168459 /* Staging */,
+				BD69A0212266A9E400168459 /* Prototype */,
 				403B5B2B21813FFB00821A54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11225,7 +11228,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				403B5B2D21813FFB00821A54 /* Debug */,
-				BD69A0202266A9E400168459 /* Staging */,
+				BD69A0202266A9E400168459 /* Prototype */,
 				403B5B2E21813FFB00821A54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11235,7 +11238,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4090975C25235DFC00CED68C /* Debug */,
-				4090975D25235DFC00CED68C /* Staging */,
+				4090975D25235DFC00CED68C /* Prototype */,
 				4090975E25235DFC00CED68C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11245,7 +11248,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				45ECEF8127E910E300C65030 /* Debug */,
-				45ECEF8227E910E300C65030 /* Staging */,
+				45ECEF8227E910E300C65030 /* Prototype */,
 				45ECEF8327E910E300C65030 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11255,7 +11258,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				462EE0C22702532E003D67DC /* Debug */,
-				462EE0C32702532E003D67DC /* Staging */,
+				462EE0C32702532E003D67DC /* Prototype */,
 				462EE0C42702532E003D67DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11265,7 +11268,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4694FA682799C80300E9CF70 /* Debug */,
-				4694FA692799C80300E9CF70 /* Staging */,
+				4694FA692799C80300E9CF70 /* Prototype */,
 				4694FA6A2799C80300E9CF70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11275,7 +11278,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46AFC23D27AB19CF004B026F /* Debug */,
-				46AFC23E27AB19CF004B026F /* Staging */,
+				46AFC23E27AB19CF004B026F /* Prototype */,
 				46AFC23F27AB19CF004B026F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11285,7 +11288,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BD3A21151E6CFC2400F42241 /* Debug */,
-				BD69A01C2266A9E400168459 /* Staging */,
+				BD69A01C2266A9E400168459 /* Prototype */,
 				BD3A21161E6CFC2400F42241 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11295,7 +11298,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDBD540C17019B2A0048C8C5 /* Debug */,
-				BD69A0192266A9E400168459 /* Staging */,
+				BD69A0192266A9E400168459 /* Prototype */,
 				BDBD540D17019B2A0048C8C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11305,7 +11308,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDBD540F17019B2A0048C8C5 /* Debug */,
-				BD69A01A2266A9E400168459 /* Staging */,
+				BD69A01A2266A9E400168459 /* Prototype */,
 				BDBD541017019B2A0048C8C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11315,7 +11318,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDD301831EFB9356004A9972 /* Debug */,
-				BD69A01E2266A9E400168459 /* Staging */,
+				BD69A01E2266A9E400168459 /* Prototype */,
 				BDD301841EFB9356004A9972 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11325,7 +11328,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDEFBA221E6D3C2300B9024B /* Debug */,
-				BD69A01D2266A9E400168459 /* Staging */,
+				BD69A01D2266A9E400168459 /* Prototype */,
 				BDEFBA231E6D3C2300B9024B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

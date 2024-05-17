@@ -25,6 +25,7 @@ ENV_FILE_NAME = 'pocket-casts-ios.env'
 USER_ENV_FILE_PATH = File.join(Dir.home, '.a8c-apps', ENV_FILE_NAME)
 
 TEAM_ID_APP_STORE = 'PZYM8XX95Q'
+TEAM_ID_ENTERPRISE = '99KV9Z6BKV'
 
 CODE_SIGNING_STORAGE_OPTIONS = {
   storage_mode: 's3',
@@ -44,6 +45,7 @@ BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartBuildCod
 VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::IOSVersionFile.new(xcconfig_path: VERSION_XCCONFIG_PATH)
 
 APP_BUNDLE_IDENTIFIER_APP_STORE = 'au.com.shiftyjelly.podcasts'
+APP_BUNDLE_IDENTIFIER_ENTERPRISE = "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.prototype".freeze
 
 EXTENSIONS = %w[
   NotificationExtension
@@ -58,6 +60,17 @@ EXTENSIONS = %w[
 BUNDLE_IDENTIFIERS_APP_STORE = [
   APP_BUNDLE_IDENTIFIER_APP_STORE,
   *EXTENSIONS.map { |suffix| "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.#{suffix}" }
+].freeze
+
+BUNDLE_IDENTIFIERS_ENTERPRISE = [
+  APP_BUNDLE_IDENTIFIER_ENTERPRISE,
+  *EXTENSIONS.map { |suffix| "#{APP_BUNDLE_IDENTIFIER_ENTERPRISE}.#{suffix}" }
+].freeze
+
+ASC_API_KEY_ENV_VARS = %w[
+  APP_STORE_CONNECT_API_KEY_KEY_ID
+  APP_STORE_CONNECT_API_KEY_ISSUER_ID
+  APP_STORE_CONNECT_API_KEY_KEY
 ].freeze
 
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
@@ -156,17 +169,46 @@ platform :ios do
 
   desc 'Download and configure code signing certificates and provisioning profiles for the App Store build.'
   lane :configure_code_signing_app_store do |options|
-    require_env_vars!(
-      'APP_STORE_CONNECT_API_KEY_KEY_ID',
-      'APP_STORE_CONNECT_API_KEY_ISSUER_ID',
-      'APP_STORE_CONNECT_API_KEY_KEY'
-    )
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
 
     sync_code_signing(
       type: 'appstore',
       team_id: TEAM_ID_APP_STORE,
       api_key: app_store_connect_api_key,
       app_identifier: BUNDLE_IDENTIFIERS_APP_STORE,
+      # This might turn out to be useful in the future
+      # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
+      readonly: options.fetch(:readonly, true),
+      **CODE_SIGNING_STORAGE_OPTIONS
+    )
+  end
+
+  desc 'Download and configure code signing certificates and provisioning profiles for the Enterprise build, i.e. Prototype Builds.'
+  lane :configure_code_signing_enterprise do |options|
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
+
+    readonly = options.fetch(:readonly, true)
+
+    if readonly
+      # In readonly mode, we can use the API key.
+      #
+      # Notice the `in_house: true` parameter.
+      # Unfortunately, even using it, the API does not allow modifying certs or profiles via API key.
+      # It's here for reference and future-proofing.
+      api_key = app_store_connect_api_key(in_house: true)
+    else
+      # The Enterprise account APIs do not support authentication via API key.
+      # If we want to modify data (readonly = false) we need to authenticate manually.
+      prompt_user_for_app_store_connect_credentials
+      # We also need to pass no API key, otherwise Fastlane will give precedence to that authentication mode.
+      api_key = nil
+    end
+
+    sync_code_signing(
+      type: 'enterprise',
+      team_id: TEAM_ID_ENTERPRISE,
+      api_key: api_key,
+      app_identifier: BUNDLE_IDENTIFIERS_ENTERPRISE,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
       readonly: options.fetch(:readonly, true),
