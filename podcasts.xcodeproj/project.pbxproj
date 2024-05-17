@@ -1934,7 +1934,6 @@
 		4041FEA5218FF3B80089D4A1 /* AddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCell.swift; sourceTree = "<group>"; };
 		4041FEA6218FF3B80089D4A1 /* AddCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCell.xib; sourceTree = "<group>"; };
 		4041FEAD219146680089D4A1 /* PodcastsIntents.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PodcastsIntents.entitlements; sourceTree = "<group>"; };
-		4041FEAE219147870089D4A1 /* PodcastsIntentsUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PodcastsIntentsUI.entitlements; sourceTree = "<group>"; };
 		4041FEB12193E5EC0089D4A1 /* SiriShortcuts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SiriShortcuts.xcassets; sourceTree = "<group>"; };
 		40422D94251AF10500C80BE4 /* BundlePodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundlePodcastCell.swift; sourceTree = "<group>"; };
 		40422D95251AF10500C80BE4 /* BundlePodcastCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BundlePodcastCell.xib; sourceTree = "<group>"; };
@@ -3703,7 +3702,6 @@
 				403B5B1D21813FFA00821A54 /* IntentViewController.swift */,
 				403B5B1F21813FFA00821A54 /* MainInterface.storyboard */,
 				403B5B2221813FFA00821A54 /* Info.plist */,
-				4041FEAE219147870089D4A1 /* PodcastsIntentsUI.entitlements */,
 			);
 			path = PodcastsIntentsUI;
 			sourceTree = "<group>";
