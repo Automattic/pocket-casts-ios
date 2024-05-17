@@ -1,8 +1,15 @@
 import PocketCastsDataModel
+import SafariServices
 import PocketCastsServer
 import UIKit
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
+
+    private var changeAvatarURL: URL? {
+        // TODO: Update when the URL is determined
+        URL(string: "https://gravatar.com/embed/?email=\(headerViewModel.profile.email ?? "")&features=avatars")
+    }
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard section == 0 else {
             return UITableView.automaticDimension
@@ -81,6 +88,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.counterView.isHidden = true
             }
             cell.showsDisclosureIndicator = true
+            return cell
+        case .changeAvatar:
+            let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
+            cell.cellLabel.text = L10n.settingsChangeAvatar
+            cell.cellImage.image = UIImage(named: "settings-avatar")?.withRenderingMode(.alwaysTemplate)
+            cell.iconStyle = .primaryInteractive01
+            cell.counterView.isHidden = true
+            cell.showsDisclosureIndicator = false
             return cell
         case .changeEmail:
             let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
@@ -172,6 +187,11 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .supporterContributions:
             let supporterVC = SupporterContributionsViewController()
             navigationController?.pushViewController(supporterVC, animated: true)
+        case .changeAvatar:
+            guard let changeAvatarURL else { return }
+            let safariViewController = SFSafariViewController(url: changeAvatarURL)
+            safariViewController.modalPresentationStyle = .automatic
+            present(safariViewController, animated: true)
         case .changeEmail:
             let changeEmailVC = ChangeEmailViewController()
             changeEmailVC.delegate = self

@@ -2410,6 +2410,8 @@ internal enum L10n {
   internal static var settingsBookmarkConfirmationSound: String { return L10n.tr("Localizable", "settings_bookmark_confirmation_sound") }
   /// Play a confirmation sound after creating a bookmark with your headphones.
   internal static var settingsBookmarkSoundFooter: String { return L10n.tr("Localizable", "settings_bookmark_sound_footer") }
+  /// Change Avatar
+  internal static var settingsChangeAvatar: String { return L10n.tr("Localizable", "settings_change_avatar") }
   /// Collect information
   internal static var settingsCollectInformation: String { return L10n.tr("Localizable", "settings_collect_information") }
   /// Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.

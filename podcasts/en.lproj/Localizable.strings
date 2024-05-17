@@ -2581,6 +2581,9 @@
 /* Fun informational message about the skip options available in the settings. */
 "settings_skip_msg" = "Skip intro and outro music like the power user you were born to be.";
 
+/* Title for the button that open a page to change the avatar(a.k.a. profile picture). */
+"settings_change_avatar" = "Change Avatar";
+
 /* A common string used throughout the app. Refers to the Stats settings menu */
 "settings_stats" = "Stats";
 
