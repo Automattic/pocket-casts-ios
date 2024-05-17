@@ -37,6 +37,7 @@ GHHELPER_REPO = 'Automattic/pocket-casts-ios'
 DEFAULT_BRANCH = 'trunk'
 
 SCHEME = 'pocketcasts'
+SCHEME_ENTERPRISE = 'Pocket Casts Prototype Build'
 
 # Instanstiate versioning classes
 VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
@@ -590,6 +591,22 @@ platform :ios do
     push_release_branches
 
     trigger_beta_build(branch_to_build: release_branch_name)
+  end
+
+  desc 'Builds for Enterprise distribution (Prototype Build)'
+  lane :build_enterprise do
+    configure_code_signing_enterprise
+
+    build_app(
+      scheme: SCHEME_ENTERPRISE,
+      include_bitcode: false,
+      include_symbols: true,
+      clean: true,
+      export_options: {
+        method: 'enterprise',
+        manageAppVersionAndBuildNumber: false
+      }
+    )
   end
 
   # Sets the stage to start working on a hotfix
