@@ -1,3 +1,6 @@
 #include "PocketCasts.base.xcconfig"
 
-PRODUCT_BUNDLE_IDENTIFIER = $PRODUCT_BUNDLE_IDENTIFIER_ROOT;
+PRODUCT_BUNDLE_IDENTIFIER = $PRODUCT_BUNDLE_IDENTIFIER_ROOT
+// Notice that because currently all extensions use this xcconfig for the Release bulid configuration,
+// this line is enough to set the Provisioning Profiles for all.
+PROVISIONING_PROFILE_SPECIFIER = match AppStore $(PRODUCT_BUNDLE_IDENTIFIER)
