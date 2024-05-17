@@ -156,6 +156,12 @@ platform :ios do
 
   desc 'Download and configure code signing certificates and provisioning profiles for the App Store build.'
   lane :configure_code_signing_app_store do |options|
+    require_env_vars!(
+      'APP_STORE_CONNECT_API_KEY_KEY_ID',
+      'APP_STORE_CONNECT_API_KEY_ISSUER_ID',
+      'APP_STORE_CONNECT_API_KEY_KEY'
+    )
+
     sync_code_signing(
       type: 'appstore',
       team_id: TEAM_ID_APP_STORE,
@@ -191,12 +197,14 @@ platform :ios do
 
   # Go through PRs and check their milestones, leaving a message if the target milestone is being frozen
   def comment_on_prs(milestone:)
+    require_env_vars!('GITHUB_TOKEN')
+
     version = milestone
     UI.message("Checking open PRs pointing to #{version} milestone...")
 
     github_api(
       server_url: 'https://api.github.com',
-      api_token: ENV.fetch('GITHUB_TOKEN'),
+      api_token: get_required_env!('GITHUB_TOKEN'),
       http_method: 'GET',
       path: "/repos/#{GHHELPER_REPO}/pulls",
       error_handlers: {
@@ -406,6 +414,8 @@ platform :ios do
   #
   desc 'Builds and uploads for distribution to App Store Connect'
   lane :build_and_upload_app_store_connect do |options|
+    require_env_vars!('GITHUB_TOKEN', 'SLACK_WEBHOOK')
+
     unless options[:skip_prechecks]
       # Verify that there's nothing in progress in the working copy
       ensure_git_status_clean unless is_ci
@@ -450,7 +460,7 @@ platform :ios do
     UI.message("Creating #{version} release on GitHub...")
     set_github_release(
       repository_name: GHHELPER_REPO,
-      api_token: ENV.fetch('GITHUB_TOKEN'),
+      api_token: get_required_env!('GITHUB_TOKEN'),
       name: version,
       tag_name: version,
       description: begin
@@ -467,7 +477,7 @@ platform :ios do
     # TODO: move this to a GH action
     UI.message('Opening PR to merge changes to trunk...')
     create_pull_request(
-      api_token: ENV.fetch('GITHUB_TOKEN'),
+      api_token: get_required_env!('GITHUB_TOKEN'),
       repo: GHHELPER_REPO,
       title: "#{app_version} Release: Merge changes from #{build_version} into `trunk`",
       body: "Merge changes from #{app_version} (#{build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
@@ -480,7 +490,7 @@ platform :ios do
     slack(
       pretext: slack_message(version: app_version, build_number: build_version, is_beta: options[:beta_release]),
       default_payloads: [],
-      slack_url: ENV.fetch('SLACK_WEBHOOK'),
+      slack_url: get_required_env!('SLACK_WEBHOOK'),
       fail_on_error: false
     )
 
@@ -840,6 +850,8 @@ inal copy, and try again.")
   # Kicks off a Buildkite build
   # -----------------------------------------------------------------------------------
   def trigger_buildkite_release_build(branch:, beta:)
+    require_env_vars!('BUILDKITE_TOKEN')
+
     buildkite_trigger_build(
       buildkite_organization: 'automattic',
       buildkite_pipeline: 'pocket-casts-ios',
@@ -1018,9 +1030,11 @@ inal copy, and try again.")
 
   desc 'Uploads DSYM Symbols'
   lane :symbols_upload do |options|
+    require_env_vars!('SENTRY_AUTH_TOKEN')
+
     symbols_path = options[:dsym_path] || lane_context[SharedValues::DSYM_OUTPUT_PATH]
     sentry_upload_dsym(
-      auth_token: ENV.fetch('SENTRY_AUTH_TOKEN'),
+      auth_token: get_required_env!('SENTRY_AUTH_TOKEN'),
       org_slug: SENTRY_ORG_SLUG,
       project_slug: SENTRY_PROJECT_SLUG,
       dsym_path: symbols_path
