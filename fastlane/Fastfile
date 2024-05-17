@@ -48,14 +48,15 @@ VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::IOSVersionFile.new(xccon
 APP_BUNDLE_IDENTIFIER_APP_STORE = 'au.com.shiftyjelly.podcasts'
 APP_BUNDLE_IDENTIFIER_ENTERPRISE = "#{APP_BUNDLE_IDENTIFIER_APP_STORE}.prototype".freeze
 
+# Keep this in alphabetical case-insensitive order so it's easier to visually compare with the list on the Developers Portal.
 EXTENSIONS = %w[
-  NotificationExtension
   NotificationContent
-  watchkitapp
+  NotificationExtension
   PodcastsIntents
   PodcastsIntentsUI
-  WidgetExtension
   Share-Extension
+  watchkitapp
+  WidgetExtension
 ].freeze
 
 BUNDLE_IDENTIFIERS_APP_STORE = [
