@@ -1,1 +1,6 @@
 #include "PocketCasts.base.xcconfig"
+
+// Redefining doesn't seem to work, Xcode resolves it as ".prototype" only
+//PRODUCT_BUNDLE_IDENTIFIER_ROOT = $(PRODUCT_BUNDLE_IDENTIFIER_ROOT).prototype
+PRODUCT_BUNDLE_IDENTIFIER_ROOT = au.com.shiftyjelly.podcasts.prototype
+PRODUCT_BUNDLE_IDENTIFIER = $(PRODUCT_BUNDLE_IDENTIFIER_ROOT)

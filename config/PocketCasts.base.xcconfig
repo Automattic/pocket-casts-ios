@@ -7,4 +7,5 @@ SWIFT_VERSION = 5.0
 MARKETING_VERSION=$(VERSION_SHORT)
 CURRENT_PROJECT_VERSION=$(VERSION_LONG)
 
-PRODUCT_BUNDLE_IDENTIFIER=au.com.shiftyjelly.podcasts
+// Define a root bundle identifier so that extensions can append to it
+PRODUCT_BUNDLE_IDENTIFIER_ROOT=au.com.shiftyjelly.podcasts
