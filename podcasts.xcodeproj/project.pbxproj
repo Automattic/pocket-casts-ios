@@ -1840,6 +1840,9 @@
 		3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.debug.xcconfig; sourceTree = "<group>"; };
 		3FB86431288968A1003A86BE /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		3FD6E04F2BF735EC003941C0 /* podcasts.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = podcasts.prototype.entitlements; sourceTree = "<group>"; };
+		3FD6E0502BF739D6003941C0 /* PodcastsIntents.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = PodcastsIntents.prototype.entitlements; sourceTree = "<group>"; };
+		3FD6E0522BF739F6003941C0 /* WidgetExtension.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.prototype.entitlements; sourceTree = "<group>"; };
+		3FD6E0532BF73A05003941C0 /* Share Extension.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "Share Extension.prototype.entitlements"; sourceTree = "<group>"; };
 		4000A29F25463C6900356FCE /* LeftAlignedFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedFlowLayout.swift; sourceTree = "<group>"; };
 		40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriPodcastItem.swift; sourceTree = "<group>"; };
 		4004F56424EB51F900FBEBE1 /* SceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHelper.swift; sourceTree = "<group>"; };
@@ -3565,6 +3568,7 @@
 		2F90990C2A4F88B10044FC55 /* Share Extension */ = {
 			isa = PBXGroup;
 			children = (
+				3FD6E0532BF73A05003941C0 /* Share Extension.prototype.entitlements */,
 				2F90991A2A4F89330044FC55 /* Share Extension.entitlements */,
 				2F90990D2A4F88B10044FC55 /* ShareViewController.swift */,
 				2F90990F2A4F88B10044FC55 /* MainInterface.storyboard */,
@@ -3679,6 +3683,7 @@
 		403B5B1121813FFA00821A54 /* PodcastsIntents */ = {
 			isa = PBXGroup;
 			children = (
+				3FD6E0502BF739D6003941C0 /* PodcastsIntents.prototype.entitlements */,
 				40E8036B23FE9E9100B4E1F8 /* ChapterIntentHandler.swift */,
 				10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */,
 				40E8036923FE9E9100B4E1F8 /* ExtendSleepTimerIntentHandler.swift */,
@@ -3812,6 +3817,7 @@
 		4090975325235DFA00CED68C /* WidgetExtension */ = {
 			isa = PBXGroup;
 			children = (
+				3FD6E0522BF739F6003941C0 /* WidgetExtension.prototype.entitlements */,
 				BD422ED526841EAF0078B799 /* Common */,
 				BD422EC226840ECB0078B799 /* Data */,
 				BD422EBB26840D9B0078B799 /* Up Next */,
@@ -9852,7 +9858,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.prototype.entitlements";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -10126,7 +10132,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.prototype.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -10796,7 +10802,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = PodcastsIntents/PodcastsIntents.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PodcastsIntents/PodcastsIntents.prototype.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
