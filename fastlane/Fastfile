@@ -126,6 +126,9 @@ GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES = {
   'zh-tw' => 'zh-Hant'
 }.freeze
 
+require_relative 'lib/helpers'
+import 'lib/helpers.rb'
+
 before_all do
   # This is necessary for 'match' to work correctly in CI. When running
   # locally, it has no effect so it's safe to run it before all lanes.
@@ -135,17 +138,6 @@ before_all do
   # but it has such a negligible overhead that it's worth running it here to
   # keep the individual lanes cleaner.
   configure_apply
-
-  unless is_ci || File.file?(USER_ENV_FILE_PATH)
-    example_path = 'fastlane/example.env'
-    UI.user_error! <<~MSG
-      #{ENV_FILE_NAME} not found!
-
-      Please copy #{example_path} to #{USER_ENV_FILE_PATH} and fill in the values for the automation you require.
-
-      mkdir -p #{File.dirname(USER_ENV_FILE_PATH)} && cp #{example_path} #{USER_ENV_FILE_PATH}
-    MSG
-  end
 
   Dotenv.load(USER_ENV_FILE_PATH)
 end
