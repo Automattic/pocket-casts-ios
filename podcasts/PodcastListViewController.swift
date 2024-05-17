@@ -77,7 +77,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         super.viewDidLoad()
 
         updateNavigationButtons()
-
         title = L10n.podcastsPlural
         setupSearchBar()
         setupRefreshControl()
@@ -87,6 +86,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         longPressGesture.delegate = self
 
         adjustSettingsForGridType()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -151,9 +151,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.folderDeleted, selector: #selector(refreshGridItems))
-
-        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
-        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         addCustomObserver(Constants.Notifications.searchRequested, selector: #selector(searchRequested))
@@ -242,17 +239,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         searchController.searchTextField.becomeFirstResponder()
     }
 
-    @objc private func miniPlayerStatusDidChange() {
-        updateInsets()
-    }
-
     private func updateInsets() {
         let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
-        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 8 : Constants.Values.miniPlayerOffset + 8
-
-        podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
-
-        podcastsCollectionView.verticalScrollIndicatorInsets = UIEdgeInsets(top: podcastsCollectionView.verticalScrollIndicatorInsets.top, left: 0, bottom: bottomMargin, right: 0)
+        let currentInsets = podcastsCollectionView.contentInset
+        podcastsCollectionView.contentInset = UIEdgeInsets(top: currentInsets.top, left: horizontalMargin, bottom: currentInsets.bottom, right: horizontalMargin)
     }
 
     private func adjustSettingsForGridType() {
