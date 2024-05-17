@@ -59,7 +59,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         tableView.estimatedRowHeight = EpisodeListTableViewCell.estimatedCellHeight
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
-        tableView.applyInsetForMiniPlayer()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: tableView)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

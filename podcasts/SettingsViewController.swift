@@ -95,13 +95,13 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     @IBOutlet var settingsTable: UITableView! {
         didSet {
             settingsTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
-            settingsTable.applyInsetForMiniPlayer()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.settings
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
     }
 
     override func viewWillAppear(_ animated: Bool) {

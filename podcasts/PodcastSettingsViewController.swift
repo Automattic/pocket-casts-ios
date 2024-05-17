@@ -14,7 +14,6 @@ class PodcastSettingsViewController: PCViewController {
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
-            settingsTable.applyInsetForMiniPlayer()
             registerCells()
         }
     }
@@ -33,6 +32,8 @@ class PodcastSettingsViewController: PCViewController {
         super.viewDidLoad()
         updateExistingSortcutData()
         title = L10n.settingsTitle
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
     }

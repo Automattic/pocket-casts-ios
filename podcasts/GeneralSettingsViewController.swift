@@ -3,7 +3,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
-class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
     private let timeStepperCellId = "TimeStepperCell"
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
@@ -18,7 +18,6 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             settingsTable.register(UINib(nibName: "TimeStepperCell", bundle: nil), forCellReuseIdentifier: timeStepperCellId)
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
-            settingsTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -26,6 +25,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
 
         title = L10n.settingsGeneral
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
 
         Analytics.track(.settingsGeneralShown)
     }

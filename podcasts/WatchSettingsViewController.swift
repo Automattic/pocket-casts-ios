@@ -14,7 +14,6 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "PlusLockedInfoCell", bundle: nil), forCellReuseIdentifier: lockInfoCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
-            settingsTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -26,7 +25,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         super.viewDidLoad()
         title = L10n.appleWatch
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
         Analytics.track(.settingsAppleWatchShown)
     }
 
