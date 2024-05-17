@@ -30,7 +30,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         super.viewDidLoad()
 
         if FeatureFlag.upNextOnTabBar.enabled {
-            tabs = [.podcasts, .upNext, .filter, .discover]
+            tabs = [.podcasts, .upNext, .filter, .discover, .profile]
         } else {
             tabs = [.podcasts, .filter, .discover, .profile]
         }
@@ -46,13 +46,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let discoverViewController = DiscoverViewController(coordinator: DiscoverCoordinator())
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
 
+        let profileViewController = ProfileViewController()
+        profileViewController.tabBarItem = profileTabBarItem
+
         if FeatureFlag.upNextOnTabBar.enabled {
             let upNextViewController = UpNextViewController(source: .tabBar, showingInTab: true)
             upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: tabs.firstIndex(of: .upNext)!)
-            vcsInTab = [podcastsController, upNextViewController, filtersViewController, discoverViewController]
+            vcsInTab = [podcastsController, upNextViewController, filtersViewController, discoverViewController, profileViewController]
         } else {
-            let profileViewController = ProfileViewController()
-            profileViewController.tabBarItem = profileTabBarItem
             vcsInTab = [podcastsController, filtersViewController, discoverViewController, profileViewController]
         }
 
@@ -497,17 +498,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             miniPlayer.closeFullScreenPlayer()
         }
 
-        if tab == .profile, FeatureFlag.upNextOnTabBar.enabled {
-            if let index = tabs.firstIndex(of: .podcasts),
-               let navController = viewControllers?[safe: index] as? UINavigationController,
-               let podcastsViewController = navController.viewControllers[safe: 0] as? PodcastListViewController {
-                selectedIndex = index
-                podcastsViewController.showProfileController()
-                return true
-            }
-            return false
-        }
-
         selectedIndex = tabs.firstIndex(of: tab)!
 
         return true
@@ -584,7 +574,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear, !FeatureFlag.upNextOnTabBar.enabled {
+        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
             profileTabBarItem.badgeValue = "●"
         }
     }

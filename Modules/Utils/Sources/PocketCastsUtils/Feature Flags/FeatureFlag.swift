@@ -99,7 +99,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .defaultPlayerFilterCallbackFix:
             true
         case .upNextOnTabBar:
-            false
+            true
         }
     }
 
@@ -131,6 +131,8 @@ public enum FeatureFlag: String, CaseIterable {
             "categories_redesign"
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
+        case .upNextOnTabBar:
+            "up_next_on_tab_bar"
         default:
             nil
         }

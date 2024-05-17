@@ -223,14 +223,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
         let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
         folderButton.accessibilityLabel = L10n.folderCreateNew
-        if FeatureFlag.upNextOnTabBar.enabled {
-            let userProfile = UserInfo.Profile()
-            navigationItem.leftBarButtonItem = makeProfileButton(email: userProfile.email)
-            extraRightButtons = [folderButton]
-        } else {
-            navigationItem.leftBarButtonItem = folderButton
-            extraRightButtons = []
-        }
+        navigationItem.leftBarButtonItem = folderButton
+        extraRightButtons = []
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {
