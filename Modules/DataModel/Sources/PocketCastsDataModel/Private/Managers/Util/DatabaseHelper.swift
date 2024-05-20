@@ -714,18 +714,12 @@ class DatabaseHelper {
             }
         }
 
+        // Those migrations were some heavy DROP COLUMN that we moved outside of DB startup
         if schemaVersion < 48 {
-            do {
-                try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_archived ON SJEpisode (archived);", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
-                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
-                schemaVersion = 48
-            } catch {
-                failedAt(48)
-                return
-            }
+            schemaVersion = 48
+        }
+        if schemaVersion < 49 {
+            schemaVersion = 49
         }
 
         db.commit()

@@ -7,8 +7,9 @@ extension UITableView {
     }
 
     func updateContentInset(multiSelectEnabled: Bool) {
+        let existingInset = contentInset
         let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        contentInset = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        contentInset = UIEdgeInsets(top: existingInset.top, left: existingInset.left, bottom: miniPlayerOffset + multiSelectFooterOffset, right: existingInset.right)
     }
 }

@@ -42,7 +42,7 @@ class CountrySummaryViewController: UIViewController, DiscoverSummaryProtocol {
         self.delegate = delegate
     }
 
-    func populateFrom(item: DiscoverItem) {}
+    func populateFrom(item: DiscoverItem, region: String?) {}
 
     @objc private func changeCountryTapped() {
         let countryChooser = CountryChooserViewController()

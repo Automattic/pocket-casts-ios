@@ -118,6 +118,11 @@ class AnalyticsHelper {
         Analytics.track(.discoverAdCategoryTapped, properties: properties)
     }
 
+    class func adSubscribed(promotionUUID: String, podcastUUID: String, categoryID: Int) {
+        let properties: [String: Any] = ["promotion_uuid": promotionUUID, "podcast_uuid": podcastUUID, "category_id": categoryID]
+        Analytics.track(.discoverAdCategorySubscribed, properties: properties)
+    }
+
     class func podcastEpisodeTapped(fromList listId: String, podcastUuid: String, episodeUuid: String) {
         let properties = ["list_id": listId, "podcast_uuid": podcastUuid, "episode_uuid": episodeUuid]
 

@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
 
-    lazy var whatsNew = WhatsNew()
+    lazy var whatsNew: WhatsNew = WhatsNew()
 
     // MARK: - App Lifecycle
 
@@ -69,11 +69,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
+            SiriShortcutsManager.shared.setup()
         }
 
         badgeHelper.setup()
         WatchManager.shared.setup()
-        SiriShortcutsManager.shared.setup()
         shortcutManager.listenForShortcutChanges()
 
         setupBackgroundRefresh()
@@ -118,8 +118,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 RefreshManager.shared.refreshPodcasts()
             })
         } else {
-            PodcastManager.shared.checkForPendingAndAutoDownloads()
-            UserEpisodeManager.checkForPendingUploads()
+            DispatchQueue.global(qos: .userInitiated).async {
+                PodcastManager.shared.checkForPendingAndAutoDownloads()
+                UserEpisodeManager.checkForPendingUploads()
+            }
         }
         PlaybackManager.shared.updateIdleTimer()
     }

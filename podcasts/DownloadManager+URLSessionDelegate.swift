@@ -107,12 +107,12 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
         let fileManager = FileManager.default
         var fileSize: Int64 = 0
-        let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
         do {
             let attrs = try fileManager.attributesOfItem(atPath: location.path)
             if let computedSize = attrs[.size] as? Int64 {
                 fileSize = computedSize
             }
+            let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
             // basic sanity checks to make sure the file looks big enough and it's content type isn't text
             if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
                 markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
@@ -120,7 +120,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 return
             }
         } catch {}
-        episode.contentType = contentType
+
         let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
         let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
         let destinationUrl = URL(fileURLWithPath: destinationPath)
@@ -128,7 +128,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             try StorageManager.moveItem(at: location, to: destinationUrl, options: .overwriteExisting)
 
             let newDownloadStatus: DownloadStatus = autoDownloadStatus == .playerDownloadedForStreaming ? .downloadedForStreaming : .downloaded
-            DataManager.sharedManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, contentType: contentType, episode: episode)
+            DataManager.sharedManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
 
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)

@@ -110,7 +110,7 @@ extension SingleEpisodeViewController: DiscoverSummaryProtocol {
         viewModel.delegate = delegate
     }
 
-    func populateFrom(item: DiscoverItem) {
+    func populateFrom(item: DiscoverItem, region: String?) {
         viewModel.discoverItem = item
 
         typeBadgeLabel.text = (item.title ?? L10n.discoverFeaturedEpisode).uppercased()

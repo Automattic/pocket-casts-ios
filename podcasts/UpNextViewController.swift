@@ -150,6 +150,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if showingInTab {
             upNextTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
         }
+        // fix issues with the now playing cell not animating by reloading it on appear
+        reloadTable()
+
         AnalyticsHelper.upNextOpened()
     }
 
