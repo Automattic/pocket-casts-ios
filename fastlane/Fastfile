@@ -1129,7 +1129,7 @@ inal copy, and try again.")
   #
   def build_code_current
     # Read the current build code from the .xcconfig file and parse it into an AppVersion object
-    # The AppVersion is used because WCiOS uses the four part (1.2.3.4) build code format, so the version
+    # The AppVersion is used because Pocket Casts iOS uses the four part (1.2.3.4) build code format, so the version
     # calculator can be used to calculate the next four-part version
     version = VERSION_FORMATTER.parse(VERSION_FILE.read_build_code(attribute_name: BUILD_CODE_KEY))
     # Return the formatted build code
@@ -1140,7 +1140,7 @@ inal copy, and try again.")
   #
   def build_code_code_freeze
     # Read the current build code from the .xcconfig file and parse it into an AppVersion object
-    # The AppVersion is used because WCiOS uses the four part (1.2.3.4) build code format, so the version
+    # The AppVersion is used because Pocket Casts iOS uses the four part (1.2.3.4) build code format, so the version
     # calculator can be used to calculate the next four-part version
     release_version_current = VERSION_FORMATTER.parse(VERSION_FILE.read_release_version)
     # Calculate the next release version, which will be used as the basis of the new build code
@@ -1161,7 +1161,7 @@ inal copy, and try again.")
   #
   def build_code_next
     # Read the current build code from the .xcconfig file and parse it into an AppVersion object
-    # The AppVersion is used because WCiOS uses the four part (1.2.3.4) build code format, so the version
+    # The AppVersion is used because Pocket Casts iOS uses the four part (1.2.3.4) build code format, so the version
     # calculator can be used to calculate the next four-part version
     build_code_current = VERSION_FORMATTER.parse(VERSION_FILE.read_build_code(attribute_name: BUILD_CODE_KEY))
     # Calculate the next build code
