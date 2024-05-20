@@ -103,8 +103,8 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
 
         let task = Task<Episode.Metadata?, Error> { [unowned self] in
             do {
-                let data = try await dataRetriever.loadEpisodeData(for: podcastUuid, episodeUuid: episodeUuid)
-                requestingRawMetadata[episodeUuid] = nil
+                let data = try await dataRetriever.loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid)
+                requestingShowInfo[episodeUuid] = nil
                 return await getShowInfo(for: data?.data(using: .utf8))
             } catch {
                 requestingShowInfo[episodeUuid] = nil

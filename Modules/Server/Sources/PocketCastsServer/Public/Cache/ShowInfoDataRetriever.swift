@@ -10,17 +10,6 @@ public actor ShowInfoDataRetriever {
         cache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 100.megabytes, diskPath: "show_notes")
     }
 
-    public func loadEpisodeData(
-        for podcastUuid: String,
-        episodeUuid: String
-    ) async throws -> String? {
-        if let data = try? await loadShowInfoData(for: podcastUuid) {
-            return extractMetadata(for: episodeUuid, from: data)
-        }
-
-        return nil
-    }
-
     /// Try to load episode data from cache
     /// If it's not found, request it
     public func loadEpisodeDataFromCache(
@@ -80,6 +69,17 @@ public actor ShowInfoDataRetriever {
         dataRequestMap[podcastUuid] = task
 
         return try await task.value
+    }
+
+    private func loadEpisodeData(
+        for podcastUuid: String,
+        episodeUuid: String
+    ) async throws -> String? {
+        if let data = try? await loadShowInfoData(for: podcastUuid) {
+            return extractMetadata(for: episodeUuid, from: data)
+        }
+
+        return nil
     }
 
     private func extractMetadata(for episodeUuid: String, from data: Data) -> String? {
