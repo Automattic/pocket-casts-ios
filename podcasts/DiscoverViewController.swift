@@ -55,6 +55,9 @@ class DiscoverViewController: PCViewController {
 
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
+
+        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
+        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -70,6 +73,8 @@ class DiscoverViewController: PCViewController {
         Analytics.track(.discoverShown)
 
         reloadIfRequired()
+
+        miniPlayerStatusDidChange()
 
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequested), name: Constants.Notifications.searchRequested, object: nil)
     }
@@ -330,6 +335,11 @@ class DiscoverViewController: PCViewController {
     private func handleLoadFailed() {
         loadingIndicator.stopAnimating()
         noNetworkView.isHidden = false
+    }
+
+    @objc func miniPlayerStatusDidChange() {
+        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        mainScrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset, right: 0)
     }
 }
 

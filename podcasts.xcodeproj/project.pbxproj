@@ -1146,7 +1146,7 @@
 		BDA756DF1BFAE61A0035EE13 /* PlaylistColorChooserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA756DD1BFAE61A0035EE13 /* PlaylistColorChooserCell.xib */; };
 		BDA7A0A624C6BBA600ADA8AA /* SecondaryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA7A0A524C6BBA600ADA8AA /* SecondaryLabel.swift */; };
 		BDA7A0A824C6C5B100ADA8AA /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA7A0A724C6C5B100ADA8AA /* GradientButton.swift */; };
-		BDA9668F2189805F00DF9370 /* UITableView+MiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA9668E2189805F00DF9370 /* UITableView+MiniPlayer.swift */; };
+		BDA9668F2189805F00DF9370 /* UIScrollView+MiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA9668E2189805F00DF9370 /* UIScrollView+MiniPlayer.swift */; };
 		BDAA3CEF2122754700649F81 /* PlayerChapterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAA3CED2122754700649F81 /* PlayerChapterCell.swift */; };
 		BDAA3CF02122754700649F81 /* PlayerChapterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDAA3CEE2122754700649F81 /* PlayerChapterCell.xib */; };
 		BDAA3CF321228A0D00649F81 /* ExpandCollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAA3CF221228A0D00649F81 /* ExpandCollapseButton.swift */; };
@@ -2970,7 +2970,7 @@
 		BDA756DD1BFAE61A0035EE13 /* PlaylistColorChooserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaylistColorChooserCell.xib; sourceTree = "<group>"; };
 		BDA7A0A524C6BBA600ADA8AA /* SecondaryLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryLabel.swift; sourceTree = "<group>"; };
 		BDA7A0A724C6C5B100ADA8AA /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
-		BDA9668E2189805F00DF9370 /* UITableView+MiniPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+MiniPlayer.swift"; sourceTree = "<group>"; };
+		BDA9668E2189805F00DF9370 /* UIScrollView+MiniPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+MiniPlayer.swift"; sourceTree = "<group>"; };
 		BDAA3CED2122754700649F81 /* PlayerChapterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerChapterCell.swift; sourceTree = "<group>"; };
 		BDAA3CEE2122754700649F81 /* PlayerChapterCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerChapterCell.xib; sourceTree = "<group>"; };
 		BDAA3CF221228A0D00649F81 /* ExpandCollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandCollapseButton.swift; sourceTree = "<group>"; };
@@ -6372,7 +6372,7 @@
 			children = (
 				BDD5253920477E4400AAD211 /* NSObject+AppDelegate.swift */,
 				FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */,
-				BDA9668E2189805F00DF9370 /* UITableView+MiniPlayer.swift */,
+				BDA9668E2189805F00DF9370 /* UIScrollView+MiniPlayer.swift */,
 				40A0A91024B5FE5300C29362 /* UITableView+MultiSelect.swift */,
 				BD6F1644219AB82700F34D14 /* UISearchBar+TextColor.swift */,
 				BD74F1B521F0133B002EF774 /* MPFeedbackCommand+Title.swift */,
@@ -9240,7 +9240,7 @@
 				BD35BB6C1CF697650018D63E /* AudioUtils.swift in Sources */,
 				C7B3C60A2919DCB700054145 /* ScrollViewIfNeeded.swift in Sources */,
 				C7252E142A71950500E7D3C0 /* EpisodeImage.swift in Sources */,
-				BDA9668F2189805F00DF9370 /* UITableView+MiniPlayer.swift in Sources */,
+				BDA9668F2189805F00DF9370 /* UIScrollView+MiniPlayer.swift in Sources */,
 				BD48D5A6216DB26A00391F9E /* HapticsHelper.swift in Sources */,
 				BD9313531D7970F1007A70FC /* SelectPodcastCell.swift in Sources */,
 				BDE6AB7A1CC4BB580087D195 /* RoundedBorderView.swift in Sources */,

@@ -45,7 +45,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
             profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
-            profileTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -86,6 +85,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateRefreshFooterColors()
         updateFooterFrame()
         setupRefreshControl()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: profileTable)
     }
 
     override func viewWillAppear(_ animated: Bool) {

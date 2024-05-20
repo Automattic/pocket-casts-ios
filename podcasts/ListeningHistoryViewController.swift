@@ -13,7 +13,6 @@ class ListeningHistoryViewController: PCViewController {
     @IBOutlet var listeningHistoryTable: UITableView! {
         didSet {
             registerCells()
-            listeningHistoryTable.updateContentInset(multiSelectEnabled: false)
             listeningHistoryTable.estimatedRowHeight = 80
             listeningHistoryTable.rowHeight = UITableView.automaticDimension
             listeningHistoryTable.allowsMultipleSelection = true
@@ -29,9 +28,8 @@ class ListeningHistoryViewController: PCViewController {
                 self.setupNavBar()
                 self.listeningHistoryTable.beginUpdates()
                 self.listeningHistoryTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.listeningHistoryTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
                 self.listeningHistoryTable.endUpdates()
-
+                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
                 if self.isMultiSelectEnabled {
                     Analytics.track(.listeningHistoryMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
@@ -73,7 +71,7 @@ class ListeningHistoryViewController: PCViewController {
         refreshEpisodes(animated: false)
 
         setupNavBar()
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: listeningHistoryTable)
         Analytics.track(.listeningHistoryShown)
     }
 

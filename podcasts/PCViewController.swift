@@ -194,4 +194,46 @@ class PCViewController: SimpleNotificationsViewController {
     func handleAppDidEnterBackground() {}
     func handleAppWillBecomeActive() {}
     func handleThemeChanged() {}
+
+    var insetAdjuster = MiniPlayerInsetAdjuster()
+}
+
+class MiniPlayerInsetAdjuster {
+
+    init() {
+
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+
+    var isMultiSelectEnabled: Bool = false {
+        didSet {
+            miniPlayerVisibilityDidChange()
+        }
+    }
+
+    private weak var scrollViewAdjustableToMiniPlayer: UIScrollView?
+
+    func setupInsetAdjustmentsForMiniPlayer(scrollView: UIScrollView) {
+        guard scrollViewAdjustableToMiniPlayer == nil else {
+            // This method should only be called once for each ViewController
+            return
+        }
+        scrollViewAdjustableToMiniPlayer = scrollView
+
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerVisibilityDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerVisibilityDidChange), name: Constants.Notifications.miniPlayerDidAppear, object: nil)
+
+        miniPlayerVisibilityDidChange()
+    }
+
+    @objc func miniPlayerVisibilityDidChange() {
+        guard let scrollView = scrollViewAdjustableToMiniPlayer else {
+            return
+        }
+        scrollView.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
+    }
 }

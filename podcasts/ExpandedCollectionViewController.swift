@@ -30,9 +30,6 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
             collectionView.register(UINib(nibName: "DescriptiveCollectionCell", bundle: nil), forCellWithReuseIdentifier: ExpandedCollectionViewController.descriptiveCellId)
             collectionView.register(UINib(nibName: "DiscoverCollectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ExpandedCollectionViewController.headerId)
             collectionView.style = .primaryUi02
-            if PlaybackManager.shared.currentEpisode() != nil {
-                collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-            }
         }
     }
 
@@ -63,6 +60,8 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         } else {
             title = item.title?.localized.localizedCapitalized
         }
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: collectionView)
     }
 
     override func viewWillLayoutSubviews() {
@@ -81,14 +80,9 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         navigationController?.navigationBar.shadowImage = nil
-        NotificationCenter.default.removeObserver(self)
     }
 
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
@@ -109,13 +103,5 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
-    }
-
-    @objc private func miniPlayerStatusDidChange() {
-        if PlaybackManager.shared.currentEpisode() != nil {
-            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        } else {
-            collectionView.contentInset = UIEdgeInsets.zero
-        }
     }
 }

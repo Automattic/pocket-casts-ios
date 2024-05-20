@@ -9,7 +9,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         didSet {
             // This will remove extra separators from tableview
             podcastsTable.tableFooterView = UIView(frame: CGRect.zero)
-            podcastsTable.applyInsetForMiniPlayer()
             podcastsTable.register(UINib(nibName: "DiscoverPodcastTableCell", bundle: nil), forCellReuseIdentifier: CategoryPodcastsViewController.cellId)
             podcastsTable.register(UINib(nibName: "CategorySponsoredCell", bundle: nil), forCellReuseIdentifier: CategoryPodcastsViewController.sponsoredCellId)
         }
@@ -39,6 +38,10 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsTable)
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 

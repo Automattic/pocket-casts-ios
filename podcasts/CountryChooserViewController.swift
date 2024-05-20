@@ -1,7 +1,7 @@
 import PocketCastsServer
 import UIKit
 
-class CountryChooserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CountryChooserViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private static let cellId = "CountryCell"
 
     var regions = [DiscoverRegion]()
@@ -10,17 +10,15 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
     /// Whether the user changed their region or not
     var didChangeRegion = false
 
-    @IBOutlet var countriesTable: UITableView! {
-        didSet {
-            countriesTable.applyInsetForMiniPlayer()
-        }
-    }
+    @IBOutlet var countriesTable: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         countriesTable.register(UINib(nibName: "CountryCell", bundle: nil), forCellReuseIdentifier: CountryChooserViewController.cellId)
         title = L10n.discoverSelectRegion
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: countriesTable)
 
         countriesTable.reloadData()
     }
