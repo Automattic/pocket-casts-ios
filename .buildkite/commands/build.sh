@@ -1,9 +1,6 @@
 #!/bin/bash -u
 
 echo "--- Set up SPM"
-# We'd like to use this, but it doesn't work yet. See
-# https://github.com/Automattic/bash-cache-buildkite-plugin/issues/20 ...
-#
 PRIVATE_REPO_FETCH_KEY_NAME=private_repos_key
 add_ssh_key_to_agent "$PRIVATE_REPOS_BOT_KEY" $PRIVATE_REPO_FETCH_KEY_NAME
 PRIVATE_REPO_FETCH_KEY=~/.ssh/$PRIVATE_REPO_FETCH_KEY_NAME
