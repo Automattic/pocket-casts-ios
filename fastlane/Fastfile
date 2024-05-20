@@ -34,6 +34,7 @@ CODE_SIGNING_STORAGE_OPTIONS = {
 }.freeze
 
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
+GITHUB_URL = "https://github.com/#{GHHELPER_REPO}".freeze
 DEFAULT_BRANCH = 'trunk'
 
 SCHEME = 'pocketcasts'
@@ -273,14 +274,13 @@ platform :ios do
   def slack_message(version:, build_number:, is_beta:)
     build_number_split = build_number.split('.')
 
-    github_url = "https://github.com/#{GHHELPER_REPO}"
     message_root = lambda { |tag, display_name|
-      ":announcement: <#{github_url}/releases/tag/#{tag}|*#{display_name}*>"
+      ":announcement: <#{GITHUB_URL}/releases/tag/#{tag}|*#{display_name}*>"
     }
     appstoreconnect_url = 'https://appstoreconnect.apple.com/apps/414834813'
     testflight_submit_link = "<#{appstoreconnect_url}/testflight/ios|App Store Connect>"
     appstore_submit_link = "<#{appstoreconnect_url}/appstore/ios/version/deliverable|App Store Connect>"
-    merge_pr_link = "<https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
+    merge_pr_link = "<#{GITHUB_URL}/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
 
     if is_beta
       if (build_number_split[3] || '0') == '0'
