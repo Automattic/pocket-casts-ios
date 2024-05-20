@@ -18,6 +18,16 @@ steps:
     env: *common_env
     plugins: *common_plugins
 
+  - label: Prototype Build
+    command: .buildkite/commands/prototype-build.sh
+    agents: *common_agents
+    env: *common_env
+    plugins: *common_plugins
+    notify:
+      - github_commit_status:
+          context: Prototype Build
+    if: "build.pull_request.id != null || build.pull_request.draft"
+
   - group: "Linters"
     steps:
       - label: "☢️ Danger - PR Check"
