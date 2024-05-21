@@ -28,8 +28,7 @@ extension MiniPlayerViewController {
 
         changeHeightTo(desiredHeight())
         moveToHiddenBottomPosition()
-        self.view.isHidden = false
-        if playerOpenState != .open { view.isHidden = true }
+        self.view.isHidden = false        
         view.superview?.layoutIfNeeded()
         UIView.animate(withDuration: 0.2, animations: { () in
             self.moveToShownPosition()
