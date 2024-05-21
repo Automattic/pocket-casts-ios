@@ -10648,7 +10648,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D STAGING -D DEBUG";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = iphoneos;
 				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
