@@ -1825,7 +1825,6 @@
 		10B558EB2BA471DF0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		28DC441F0290179068AA8DBD /* libPods-Today Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Today Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F63CE9428809E5A00A34B51 /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		2F90990B2A4F88B00044FC55 /* Share Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F90990D2A4F88B10044FC55 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -2251,7 +2250,6 @@
 		46FBD8CF276A876B00867746 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Intents.strings; sourceTree = "<group>"; };
 		46FBD8D1276A876D00867746 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Intents.strings; sourceTree = "<group>"; };
 		4E8AA1DE24B6209FED97D14F /* Pods-podcasts.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.ad hoc.xcconfig"; sourceTree = "<group>"; };
-		670F5B14993BACA7E16A7A78 /* Pods-Today Extension.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.staging.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.staging.xcconfig"; sourceTree = "<group>"; };
 		6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-podcasts.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		779DF889D4A7C56C0935B7A7 /* Pods-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		8B0125672912A7AB00EC427A /* StoryShareableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableText.swift; sourceTree = "<group>"; };
@@ -2409,11 +2407,9 @@
 		8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderModelTests.swift; sourceTree = "<group>"; };
 		8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearStory.swift; sourceTree = "<group>"; };
 		8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPageViewModel.swift; sourceTree = "<group>"; };
-		8F94CEC98B0A0E0B35578196 /* Pods-Today Extension.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.ad hoc.xcconfig"; sourceTree = "<group>"; };
 		9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.appstore.xcconfig"; sourceTree = "<group>"; };
 		9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.release.xcconfig"; sourceTree = "<group>"; };
 		A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.staging.xcconfig"; sourceTree = "<group>"; };
-		AE103C9BF073648EBC943757 /* Pods-Today Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		BD001B882174260B00504DD3 /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStepperCell.swift; sourceTree = "<group>"; };
 		BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeStepperCell.xib; sourceTree = "<group>"; };
@@ -3376,7 +3372,6 @@
 		C7FF7714291D45B50082A464 /* SingleSignOn.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SingleSignOn.xcassets; sourceTree = "<group>"; };
 		C7FF7716291D50880082A464 /* Motion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Motion.swift; sourceTree = "<group>"; };
 		D221263DD9A9B6B1BF534128 /* Pods-podcasts.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.adhoc.xcconfig"; sourceTree = "<group>"; };
-		DB0218DC6C25F52415673263 /* Pods-Today Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Today Extension/Pods-Today Extension.release.xcconfig"; sourceTree = "<group>"; };
 		E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.release.xcconfig"; sourceTree = "<group>"; };
 		E3665F532936CD13001C8372 /* ChaptersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersTests.swift; sourceTree = "<group>"; };
 		E3F37445291F0DD1005916ED /* Chapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapters.swift; sourceTree = "<group>"; };
@@ -3546,12 +3541,8 @@
 				30571BE0029B9924A139FBEE /* Pods-podcasts.release.xcconfig */,
 				9A9517324EFFD2C905890193 /* Pods-podcasts.appstore.xcconfig */,
 				D221263DD9A9B6B1BF534128 /* Pods-podcasts.adhoc.xcconfig */,
-				8F94CEC98B0A0E0B35578196 /* Pods-Today Extension.ad hoc.xcconfig */,
 				4E8AA1DE24B6209FED97D14F /* Pods-podcasts.ad hoc.xcconfig */,
 				EBB921F698CD2DA170E70AB6 /* Pods-podcasts.staging.xcconfig */,
-				AE103C9BF073648EBC943757 /* Pods-Today Extension.debug.xcconfig */,
-				670F5B14993BACA7E16A7A78 /* Pods-Today Extension.staging.xcconfig */,
-				DB0218DC6C25F52415673263 /* Pods-Today Extension.release.xcconfig */,
 				EF3DD428DC2C444C2D8CEC5A /* Pods-PocketCastsTests.debug.xcconfig */,
 				A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */,
 				9E6FEF10644B78313185D080 /* Pods-PocketCastsTests.release.xcconfig */,
@@ -5870,7 +5861,6 @@
 				BDEFBA161E6D3C2300B9024B /* UserNotificationsUI.framework */,
 				403B5B1A21813FFA00821A54 /* IntentsUI.framework */,
 				4090974F25235DFA00CED68C /* WidgetKit.framework */,
-				28DC441F0290179068AA8DBD /* libPods-Today Extension.a */,
 				C746C9FCD5A79F9BA9776E01 /* libPods-PocketCastsTests.a */,
 				6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */,
 			);
