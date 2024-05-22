@@ -65,7 +65,9 @@ class AuthenticationHelper {
         ServerSettings.refreshToken = response.refreshToken
 
         // we've signed in, set all our existing podcasts to be non synced
-        DataManager.sharedManager.markAllPodcastsUnsynced()
+        if ServerSettings.lastSyncTime == nil {
+            DataManager.sharedManager.markAllPodcastsUnsynced()
+        }
 
         SyncManager.syncReason = .login
         ServerSettings.clearLastSyncTime()
