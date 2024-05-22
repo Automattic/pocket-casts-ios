@@ -43,6 +43,11 @@ struct UserInfo {
 
             expirationProgress = (expiration / maxDisplayTime).clamped(to: 0..<1)
         }
+        init(tier: SubscriptionTier, expirationProgress: Double, expirationDate: Date?) {
+            self.tier = tier
+            self.expirationProgress = expirationProgress
+            self.expirationDate = expirationDate
+        }
 
         func isExpiring(_ type: SubscriptionTier) -> Bool {
             self.tier == type && expirationProgress < 1

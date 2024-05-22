@@ -85,11 +85,19 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }()
 
     private lazy var gravatarProfileView: UIView & UIContentView = {
-        let contentView = gravatarConfiguration.makeContentView()
+        let contentView = LargeProfileSummaryView(frame: .zero, avatarProvider: self)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.layer.cornerRadius = 8
         contentView.clipsToBounds = true
+        contentView.configuration = gravatarConfiguration
         return contentView
+    }()
+
+    private lazy var badgedAvatarView: UIView = {
+        let view = BadgedSubscriptionProfileImage(viewModel: headerViewModel)
+        let avatarView = view.themedUIView
+        avatarView.backgroundColor = .clear
+        return avatarView
     }()
 
     private let gravatarViewModel: ProfileViewModel = .init()
@@ -147,6 +155,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateDisplayedData()
 
         Analytics.track(.profileShown)
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -177,6 +186,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if EndOfYear.isEligible {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.profileSeen)
         }
+
+        // TODO: Can we find a better place to do this?
+        badgedAvatarView.invalidateIntrinsicContentSize()
+        profileTable.setNeedsLayout()
+        profileTable.layoutIfNeeded()
+        profileTable.reloadData()
 
         whatsNewDismissed()
     }
@@ -475,7 +490,34 @@ extension ProfileViewController {
 
 // MARK: Gravatar
 
-extension ProfileViewController: ProfileViewDelegate {
+extension ProfileViewController: ProfileViewDelegate, AvatarProviding {
+
+    // MARK: AvatarProviding
+
+    var avatarView: UIView {
+        badgedAvatarView
+    }
+
+    public var placeholderPolicy: ProfileViewPlaceholderPolicy {
+        .none
+        /*.shapeShifting(cornerRadius: BadgedSubscriptionProfileImage.Constants.imageSize / 2,
+                       size: .init(width: BadgedSubscriptionProfileImage.Constants.imageSize,
+                                   height: BadgedSubscriptionProfileImage.Constants.imageSize))*/
+    }
+
+    func setImage(with source: URL?, placeholder: UIImage?, options: [GravatarUI.ImageSettingOption]?, completion: ((Bool) -> Void)?) {
+        // no need
+    }
+
+    func setImage(_ image: UIImage?) {
+        // no need
+    }
+
+    func refresh(with paletteType: GravatarUI.PaletteType) {
+        avatarView.backgroundColor = .clear
+    }
+
+    // MARK: ProfileViewDelegate
 
     private func receiveGravatarViewModelUpdates() {
         gravatarViewModel.$profileFetchingResult.sink { [weak self] result in
@@ -535,6 +577,10 @@ extension ProfileViewController: ProfileViewDelegate {
         guard let accountURL = accountModel.accountURL else { return }
         let safari = SFSafariViewController(url: accountURL)
         present(safari, animated: true)
+    }
+
+    func profileView(_ view: GravatarUI.BaseProfileView, didTapOnAvatarWithID avatarID: Gravatar.AvatarIdentifier?) {
+
     }
 }
 

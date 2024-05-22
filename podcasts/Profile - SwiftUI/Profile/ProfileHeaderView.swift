@@ -29,29 +29,7 @@ struct ProfileHeaderView: View {
     /// Shows the profile image with subscription information
     @ViewBuilder
     private func profileImage(_ proxy: GeometryProxy) -> some View {
-        VStack(spacing: 0) {
-            SubscriptionProfileImage(viewModel: viewModel)
-                .frame(width: Constants.imageSize, height: Constants.imageSize)
-
-            // Show the patron badge
-            if let subscription = viewModel.subscription {
-                if subscription.tier == .patron {
-                    SubscriptionBadge(tier: subscription.tier)
-                        .padding(.top, -10)
-                }
-
-                // Display the expiration date if needed
-                if subscription.expirationProgress < 1, let expirationDate = subscription.expirationDate {
-                    let time = TimeFormatter.shared.appleStyleTillString(date: expirationDate) ?? L10n.timeFormatNever
-                    let message = L10n.subscriptionExpiresIn(time)
-
-                    Text(message.localizedUppercase)
-                        .font(style: .caption, weight: .semibold)
-                        .foregroundColor(theme.red)
-                        .padding(.top, Constants.spacing)
-                }
-            }
-        }
+        BadgedSubscriptionProfileImage(viewModel: viewModel)
     }
 
     /// Shows the display name, email, and account button
@@ -229,10 +207,17 @@ struct ProfileHeaderView_Previews: PreviewProvider {
         PreviewContent()
     }
 
+    static var viewModel: ProfileHeaderViewModel {
+        let viewModel = ProfileHeaderViewModel(navigationController: nil)
+        viewModel.profile = UserInfo.Profile.init(isLoggedIn: true, email: "pinarolguc@yahoo.com", displayName: "Pinar O")
+        viewModel.subscription = UserInfo.Subscription(tier: .patron, expirationProgress: 0.3, expirationDate: Calendar.current.date(byAdding: .day, value: 3, to: Date()))
+        return viewModel
+    }
+
     struct PreviewContent: View {
         var body: some View {
             VStack {
-                ProfileHeaderView(viewModel: .init())
+                ProfileHeaderView(viewModel: ProfileHeaderView_Previews.viewModel)
                 Spacer()
             }.setupDefaultEnvironment()
         }

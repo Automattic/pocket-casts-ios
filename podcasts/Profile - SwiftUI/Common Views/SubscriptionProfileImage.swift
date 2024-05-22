@@ -54,7 +54,15 @@ struct SubscriptionProfileImage: View {
 }
 
 struct SubscriptionProfileImage_Previews: PreviewProvider {
+    static var viewModel: ProfileHeaderViewModel {
+        let viewModel = ProfileHeaderViewModel(navigationController: nil)
+        viewModel.profile = UserInfo.Profile(isLoggedIn: true, email: "pinarolguc@yahoo.com", displayName: "Pinar O")
+        viewModel.subscription = UserInfo.Subscription(tier: .patron, expirationProgress: 0.4, expirationDate: Calendar.current.date(byAdding: .day, value: 5, to: Date()))
+        return viewModel
+    }
     static var previews: some View {
-        SubscriptionProfileImage(viewModel: .init())
+        SubscriptionProfileImage(viewModel: viewModel)
+            .frame(width: 200, height: 200)
+            .setupDefaultEnvironment(theme: .init(previewTheme: .dark))
     }
 }
