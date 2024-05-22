@@ -36,6 +36,10 @@ struct DeveloperMenu: View {
                         PodcastManager.shared.unsubscribe(podcast: podcast)
                     }
                 }
+
+                Button("Clear all folder information") {
+                    DataManager.sharedManager.clearAllFolderInformation()
+                }
             }
 
             Section {
