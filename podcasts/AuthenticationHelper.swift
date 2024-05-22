@@ -64,7 +64,8 @@ class AuthenticationHelper {
         ServerSettings.syncingV2Token = response.token
         ServerSettings.refreshToken = response.refreshToken
 
-        // we've signed in, set all our existing podcasts to be non synced
+        // we've signed in, set all our existing podcasts to
+        // be non synced if the user never logged in before
         if ServerSettings.lastSyncTime == nil {
             DataManager.sharedManager.markAllPodcastsUnsynced()
         }

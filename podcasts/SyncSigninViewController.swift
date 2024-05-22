@@ -330,7 +330,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         ServerSettings.userId = userId
         ServerSettings.saveSyncingPassword(password)
 
-        // we've signed in, set all our existing podcasts to be non synced
+        // we've signed in, set all our existing podcasts to
+        // be non synced if the user never logged in before
         if ServerSettings.lastSyncTime == nil {
             DataManager.sharedManager.markAllPodcastsUnsynced()
         }
