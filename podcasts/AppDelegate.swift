@@ -269,38 +269,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureFirebase() {
         FirebaseApp.configure()
 
-        // we user remote config for varies parameters in the app we want to be able to set remotely. Here we set the defaults, then fetch new ones
-        let remoteConfig = RemoteConfig.remoteConfig()
-        var remoteConfigDefaults = [
-            Constants.RemoteParams.periodicSaveTimeMs: NSNumber(value: Constants.RemoteParams.periodicSaveTimeMsDefault),
-            Constants.RemoteParams.episodeSearchDebounceMs: NSNumber(value: Constants.RemoteParams.episodeSearchDebounceMsDefault),
-            Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
-            Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault),
-            Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
-            Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
-            Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
-            Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
-            Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
-            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault),
-            Constants.RemoteParams.slumberStudiosPromoCode: NSString(string: Constants.RemoteParams.slumberStudiosPromoCodeDefault)
-        ]
-        FeatureFlag.allCases.filter { $0.remoteKey != nil }.forEach { flag in
-            remoteConfigDefaults[flag.remoteKey!] = NSNumber(value: flag.default)
-        }
-        remoteConfig.setDefaults(remoteConfigDefaults)
-
-        remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
-            if status == .success {
-                remoteConfig.activate(completion: nil)
-
-                self?.updateEndOfYearRemoteValue()
-                self?.updateRemoteFeatureFlags()
-                ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-            }
+        FirebaseManager.refreshRemoteConfig() { [weak self] status in
+            self?.updateEndOfYearRemoteValue()
+            self?.updateRemoteFeatureFlags()
+            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
         }
     }
 
-    private func updateRemoteFeatureFlags() {
+    func updateRemoteFeatureFlags() {
         guard BuildEnvironment.current != .debug else { return }
         do {
             if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
@@ -326,8 +302,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             try FeatureFlag.allCases.forEach { flag in
                 if let remoteKey = flag.remoteKey {
-                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey).boolValue
-                    try FeatureFlagOverrideStore().override(flag, withValue: remoteValue)
+                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
+                    if remoteValue.source == .remote {
+                        try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
+                    }
                 }
             }
         } catch {

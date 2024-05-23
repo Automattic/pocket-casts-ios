@@ -60,4 +60,12 @@ public extension String {
 
         return attributedSize.width
     }
+
+    /// Returns a lowercased copy of the string with punctuation removed and spaces replaced
+    /// by a single underscore, e.g., "the_quick_brown_fox_jumps_over_the_lazy_dog".
+    func lowerSnakeCased() -> String {
+        return enumerated().map { index, character in
+            character.isUppercase ? "_\(character.lowercased())" : "\(character)"
+        }.joined()
+    }
 }
