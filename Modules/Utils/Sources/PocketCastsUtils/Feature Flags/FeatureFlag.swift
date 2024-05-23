@@ -134,7 +134,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .upNextOnTabBar:
             "up_next_on_tab_bar"
         default:
-            nil
+            rawValue.lowerSnakeCased()
         }
     }
 }
