@@ -459,4 +459,13 @@ class DownloadManager: NSObject, FilePathProtocol {
         downloadTask?.taskDescription = taskId
         downloadTask?.resume()
     }
+
+    func resumeAllBackgrounded() {
+        let queuedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.queued.rawValue])
+        queuedEpisodes.forEach { episode in
+            Task {
+                addToQueue(episodeUuid: episode.uuid)
+            }
+        }
+    }
 }

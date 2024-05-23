@@ -70,6 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
             SiriShortcutsManager.shared.setup()
+
+            DownloadManager.shared.resumeAllBackgrounded()
         }
 
         badgeHelper.setup()
