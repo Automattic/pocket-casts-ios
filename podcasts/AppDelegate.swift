@@ -302,8 +302,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             try FeatureFlag.allCases.forEach { flag in
                 if let remoteKey = flag.remoteKey {
-                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey).boolValue
-                    try FeatureFlagOverrideStore().override(flag, withValue: remoteValue)
+                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
+                    if remoteValue.source == .remote {
+                        try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
+                    }
                 }
             }
         } catch {
