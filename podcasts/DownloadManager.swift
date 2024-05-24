@@ -297,17 +297,10 @@ class DownloadManager: NSObject, FilePathProtocol {
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
 
-        if let task = await sessionToUse.existingTask(for: episode) {
-            if task.originalRequest?.url == request.url {
-                if task.error == nil {
-                    // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
-                    // Before this change, we allowed any new download so we'd rather start out more restrictive
-                    FileLog.shared.addMessage("Download: skipped task for episode: \(episode.uuid)")
-                    return
-                }
-            } else {
-                // If the request URLs don't match, we should cancel the old task since it is expected to be downloading old content
-                task.cancel()
+        if FeatureFlag.downloadFixes.enabled {
+            if await shouldSkipExistingTask(for: episode, in: sessionToUse, matching: request) {
+                FileLog.shared.addMessage("Download: skipped task for episode: \(episode.uuid)")
+                return
             }
         }
 
@@ -315,6 +308,22 @@ class DownloadManager: NSObject, FilePathProtocol {
         resumeDownload(tempFilePath: tempFilePath, session: sessionToUse, request: request, previousDownloadFailed: previousDownloadFailed, taskId: episode.uuid, estimatedBytes: episode.sizeInBytes)
 
         if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
+    }
+
+    private func shouldSkipExistingTask(for episode: BaseEpisode, in session: URLSession, matching request: URLRequest) async -> Bool {
+        if let task = await session.existingTask(for: episode) {
+            if task.originalRequest?.url == request.url {
+                if task.error == nil {
+                    // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
+                    // Before this change, we allowed any new download so we'd rather start out more restrictive
+                    return true
+                }
+            } else {
+                // If the request URLs don't match, we should cancel the old task since it is expected to be downloading old content
+                task.cancel()
+            }
+        }
+        return false
     }
 
     func removeFromQueue(episodeUuid: String, fireNotification: Bool, userInitiated: Bool) {

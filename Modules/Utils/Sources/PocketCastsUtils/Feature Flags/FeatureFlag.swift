@@ -54,6 +54,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
     case defaultPlayerFilterCallbackFix
 
+    case downloadFixes
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -99,6 +101,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .defaultPlayerFilterCallbackFix:
             true
         case .upNextOnTabBar:
+            true
+        case .downloadFixes:
             true
         }
     }
