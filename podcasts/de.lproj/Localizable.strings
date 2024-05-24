@@ -415,6 +415,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Aus der Cloud entfernen</string>
     <key>custom_episode_upload</key>
     <string>In die Cloud hochladen</string>
+    <key>database_migration</key>
+    <string>Wir verschieben gerade ein paar Bits und Bytes, um die App schneller zu machen …</string>
     <key>day_listened</key>
     <string>Tag angehört</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Verstanden</string>
     <key>group_episodes</key>
     <string>Folgen gruppieren</string>
+    <key>hang_on</key>
+    <string>Bitte warte kurz!</string>
     <key>history_clear_all</key>
     <string>Alle löschen</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,12 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Schlummerfunktion beenden</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Ende der Folge</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Nach %1$@ Folgen</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Schlummerfunktion startet nach %1$@ Folgen</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Schlummerfunktion startet am Ende der aktuellen Folge</string>
     <key>sleep_timer_time_remaining</key>
     <string>Schlummerfunktion aktiv, noch %1$@</string>
     <key>social_sign_in_continue_with_apple</key>

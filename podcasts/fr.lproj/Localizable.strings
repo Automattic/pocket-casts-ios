@@ -415,6 +415,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Supprimer du Cloud</string>
     <key>custom_episode_upload</key>
     <string>Télécharger vers le Cloud</string>
+    <key>database_migration</key>
+    <string>On fait un peu de ménage pour accélérer l’application…</string>
     <key>day_listened</key>
     <string>Jour écouté</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@ Partagez-les avec Pocket Casts, ils apparaîtront ici</string>
     <string>J’ai compris</string>
     <key>group_episodes</key>
     <string>Grouper des épisodes</string>
+    <key>hang_on</key>
+    <string>Accrochez-vous !</string>
     <key>history_clear_all</key>
     <string>Tout supprimer</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,12 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Annuler la mise en veille</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Fin de l’épisode</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Dans %1$@ épisodes</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Mise en veille dans %1$@ épisodes</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Mise en veille à la fin de l’épisode en cours</string>
     <key>sleep_timer_time_remaining</key>
     <string>Mise en veille activée, temps restant : %1$@</string>
     <key>social_sign_in_continue_with_apple</key>

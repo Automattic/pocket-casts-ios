@@ -415,6 +415,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Ta bort från molnet</string>
     <key>custom_episode_upload</key>
     <string>Ladda upp till molnet</string>
+    <key>database_migration</key>
+    <string>Vi flyttar på lite dittan och dattan så att appen ska bli snabbare ...</string>
     <key>day_listened</key>
     <string>Dag lyssnad</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Uppfattat</string>
     <key>group_episodes</key>
     <string>Gruppera avsnitt</string>
+    <key>hang_on</key>
+    <string>Häng kvar!</string>
     <key>history_clear_all</key>
     <string>Töm alla</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,12 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Avbryt timer</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Avsnittets slut</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Efter %1$@ avsnitt</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Somnar efter %1$@ avsnitt</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Somnar i slutet av nuvarande avsnitt</string>
     <key>sleep_timer_time_remaining</key>
     <string>Sovtimer på, %1$@ återstår</string>
     <key>social_sign_in_continue_with_apple</key>
