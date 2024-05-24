@@ -302,7 +302,7 @@ class DownloadManager: NSObject, FilePathProtocol {
                 if task.error == nil {
                     // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
                     // Before this change, we allowed any new download so we'd rather start out more restrictive
-                    FileLog.shared.addMessage("Skipped task for episode: \(episode)")
+                    FileLog.shared.addMessage("Download: skipped task for episode: \(episode.uuid)")
                     return
                 }
             } else {
