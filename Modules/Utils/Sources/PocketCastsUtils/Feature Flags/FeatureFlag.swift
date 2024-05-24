@@ -54,6 +54,11 @@ public enum FeatureFlag: String, CaseIterable {
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
     case defaultPlayerFilterCallbackFix
 
+    /// When a user sign in, we always mark ALL podcasts as unsynced
+    /// This recently caused issues, syncing changes that shouldn't have been synced
+    /// When `true`, we only mark podcasts as unsynced if the user never signed in before
+    case onlyMarkPodcastsUnsyncedForNewUsers
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -99,6 +104,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .defaultPlayerFilterCallbackFix:
             true
         case .upNextOnTabBar:
+            true
+        case .onlyMarkPodcastsUnsyncedForNewUsers:
             true
         }
     }
