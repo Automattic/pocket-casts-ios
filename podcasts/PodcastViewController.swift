@@ -165,21 +165,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet weak var multiSelectHeaderViewConstraint: NSLayoutConstraint!
 
     private func setMultiSelectHeaderViewConstraint() {
-        let screenWidth = UIScreen.main.bounds.width
-        var setConstant: Double
-
-        switch screenWidth {
-        /* iPod Touch (320) to iPhone SE 3rd gen (375) and
-         iPad Mini 4 (760) to iPad 6th Gen (1024) */
-        case 320...380, 760...1024:
-            setConstant = 65.0
-        /* Covers most modern devices (380+ width),
-         from iPhone 6 Plus (414) to iPhone 14 Pro Max (430) */
-        default:
-            setConstant = 90.0
-        }
-
-        self.multiSelectHeaderViewConstraint.constant = setConstant
+        let heightConstant: CGFloat = 40
+        self.multiSelectHeaderViewConstraint.constant = heightConstant + view.safeAreaInsets.top
     }
 
     static let headerSection = 0
@@ -196,6 +183,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         view.backgroundColor = .clear
         return view
     }()
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        setMultiSelectHeaderViewConstraint()
+    }
 
     init(podcast: Podcast) {
         self.podcast = podcast
