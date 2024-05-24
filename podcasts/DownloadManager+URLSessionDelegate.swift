@@ -54,7 +54,6 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
     }
 
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {}
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard let error = error as NSError?, let task = task as? URLSessionDownloadTask else {
@@ -69,8 +68,16 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         switch error.code {
         case NSURLErrorCancelled:
             if !episode.downloadFailed() {
-                // already handled this error, since we failed the download ourselves
+                // we already handled this error, since we failed the download ourselves
+                let reason = error.userInfo[NSURLErrorBackgroundTaskCancelledReasonKey] as? Int
+                switch reason {
+                case NSURLErrorCancelledReasonUserForceQuitApplication, NSURLErrorCancelledReasonInsufficientSystemResources:
+                    DataManager.sharedManager.saveEpisode(downloadStatus: .queued, downloadTaskId: nil, episode: episode)
+                default:
+                    ()
+                }
             } else {
+                // this download was cancelled by us so it should have been due to user cancellation
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadTaskId: nil, episode: episode)
             }
 
