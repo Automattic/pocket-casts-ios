@@ -643,16 +643,6 @@ class EpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, episode: Episode, dbQueue: FMDatabaseQueue) {
-        episode.episodeStatus = downloadStatus.rawValue
-        episode.sizeInBytes = sizeInBytes
-
-        let fields = ["episodeStatus", "sizeInBytes"]
-        let values = [episode.episodeStatus, episode.sizeInBytes, episode.id] as [Any]
-
-        save(fields: fields, values: values, dbQueue: dbQueue)
-    }
-
     func saveEpisode(downloadUrl: String, episodeUuid: String, dbQueue: FMDatabaseQueue) {
         save(fieldName: "downloadUrl", value: downloadUrl, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }

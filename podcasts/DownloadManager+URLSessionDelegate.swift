@@ -36,13 +36,19 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             progressManager.updateProgressForEpisode(downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
         }
 
-        if !downloadingEpisode.downloading(), downloadingEpisode.downloadTaskId != nil {
+        // If our download status or downloadTaskId are incorrect, then we should update these
+        if !downloadingEpisode.downloading() || downloadingEpisode.downloadTaskId == nil {
             if let httpResponse = downloadTask.response as? HTTPURLResponse, let episode = downloadingEpisode as? Episode {
                 MetadataUpdater.shared.updateMetadataFrom(response: httpResponse, episode: episode)
             }
 
             if !downloadingToStream {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
+                // Reuse our downloadTaskID if we have one, otherwise let the method set a default based on the episode
+                if let downloadTaskId = downloadingEpisode.downloadTaskId {
+                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, downloadTaskId: downloadTaskId, episode: downloadingEpisode)
+                } else {
+                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
+                }
                 progressManager.updateStatusForEpisode(downloadingEpisode.uuid, status: .downloading)
             }
         }
