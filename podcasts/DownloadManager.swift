@@ -264,12 +264,6 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     private func performAddToQueue(episode: BaseEpisode, url: String, previousDownloadFailed: Bool, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) async {
 
-        if let task = await existingTask(for: episode) {
-            if task.error == nil {
-                return
-            }
-        }
-
         var downloadUrl = URL(string: url)
         if downloadUrl == nil {
             // if the download URL is nil, try encoding the URL to see if that works
@@ -302,6 +296,12 @@ class DownloadManager: NSObject, FilePathProtocol {
         #else
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
+
+        if let task = await sessionToUse.existingTask(for: episode) {
+            if task.error == nil {
+                return
+            }
+        }
 
         FileLog.shared.addMessage("Downloading episode \(episode.displayableTitle()), autoDownloadStatus: \(autoDownloadStatus), previousDownloadFailed: \(previousDownloadFailed)")
         resumeDownload(tempFilePath: tempFilePath, session: sessionToUse, request: request, previousDownloadFailed: previousDownloadFailed, taskId: episode.uuid, estimatedBytes: episode.sizeInBytes)
@@ -478,13 +478,5 @@ class DownloadManager: NSObject, FilePathProtocol {
                 addToQueue(episodeUuid: episode.uuid)
             }
         }
-    }
-
-    private func existingTask(for episode: BaseEpisode) async -> URLSessionTask? {
-        let cellTasks = await cellularBackgroundSession.allTasks
-        let wifiTasks = await wifiOnlyBackgroundSession.allTasks
-
-        let cellTask = cellTasks.first(where: { $0.taskDescription == episode.downloadTaskId })
-        return cellTask ?? wifiTasks.first(where: { $0.taskDescription == episode.downloadTaskId })
     }
 }
