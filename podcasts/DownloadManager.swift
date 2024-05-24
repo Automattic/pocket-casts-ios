@@ -298,8 +298,16 @@ class DownloadManager: NSObject, FilePathProtocol {
         #endif
 
         if let task = await sessionToUse.existingTask(for: episode) {
-            if task.error == nil {
-                return
+            if task.originalRequest?.url == request.url {
+                if task.error == nil {
+                    // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
+                    // Before this change, we allowed any new download so we'd rather start out more restrictive
+                    FileLog.shared.addMessage("Skipped task for episode: \(episode)")
+                    return
+                }
+            } else {
+                // If the request URLs don't match, we should cancel the old task since it is expected to be downloading old content
+                task.cancel()
             }
         }
 
