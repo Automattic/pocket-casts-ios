@@ -165,8 +165,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet weak var multiSelectHeaderViewConstraint: NSLayoutConstraint!
 
     private func setMultiSelectHeaderViewConstraint() {
-        let heightConstant = 40 + view.safeAreaInsets.top
-        self.multiSelectHeaderViewConstraint.constant = heightConstant
+        let heightConstant: CGFloat = 40
+        self.multiSelectHeaderViewConstraint.constant = heightConstant + view.safeAreaInsets.top
     }
 
     static let headerSection = 0
