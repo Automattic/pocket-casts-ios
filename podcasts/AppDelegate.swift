@@ -71,7 +71,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WidgetHelper.shared.cleanupAppGroupImages()
             SiriShortcutsManager.shared.setup()
 
-            DownloadManager.shared.resumeAllBackgrounded()
+            if FeatureFlag.downloadFixes.enabled {
+                DownloadManager.shared.startAllQueued()
+            }
         }
 
         badgeHelper.setup()
