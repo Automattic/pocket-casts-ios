@@ -36,19 +36,24 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             progressManager.updateProgressForEpisode(downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
         }
 
-        if !downloadingEpisode.downloading(), downloadingEpisode.downloadTaskId != nil {
+        // If our download status or downloadTaskId are incorrect, then we should update these
+        if !downloadingEpisode.downloading() || downloadingEpisode.downloadTaskId == nil {
             if let httpResponse = downloadTask.response as? HTTPURLResponse, let episode = downloadingEpisode as? Episode {
                 MetadataUpdater.shared.updateMetadataFrom(response: httpResponse, episode: episode)
             }
 
             if !downloadingToStream {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
+                // Reuse our downloadTaskID if we have one, otherwise let the method set a default based on the episode
+                if let downloadTaskId = downloadingEpisode.downloadTaskId {
+                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, downloadTaskId: downloadTaskId, episode: downloadingEpisode)
+                } else {
+                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
+                }
                 progressManager.updateStatusForEpisode(downloadingEpisode.uuid, status: .downloading)
             }
         }
     }
 
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {}
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard let error = error as NSError?, let task = task as? URLSessionDownloadTask else {
@@ -63,8 +68,16 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         switch error.code {
         case NSURLErrorCancelled:
             if !episode.downloadFailed() {
-                // already handled this error, since we failed the download ourselves
+                // we already handled this error, since we failed the download ourselves
+                let reason = error.userInfo[NSURLErrorBackgroundTaskCancelledReasonKey] as? Int
+                switch reason {
+                case NSURLErrorCancelledReasonUserForceQuitApplication, NSURLErrorCancelledReasonInsufficientSystemResources:
+                    DataManager.sharedManager.saveEpisode(downloadStatus: .queued, downloadTaskId: nil, episode: episode)
+                default:
+                    ()
+                }
             } else {
+                // this download was cancelled by us so it should have been due to user cancellation
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadTaskId: nil, episode: episode)
             }
 

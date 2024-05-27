@@ -212,7 +212,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] wasUpdated in
                 guard let strongSelf = self, let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episodeUuid) : episode, let url = episode.downloadUrl else { return }
 
-                strongSelf.performAddToQueue(episode: updatedEpisode, url: url, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
+                Task {
+                    await strongSelf.performAddToQueue(episode: updatedEpisode, url: url, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
+                }
             }
         } else if let episode = episode as? UserEpisode {
             ApiServerHandler.shared.uploadFilePlayRequest(episode: episode, completion: { url in
@@ -222,7 +224,9 @@ class DownloadManager: NSObject, FilePathProtocol {
                     return
                 }
 
-                self.performAddToQueue(episode: episode, url: url.absoluteString, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
+                Task {
+                    await self.performAddToQueue(episode: episode, url: url.absoluteString, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
+                }
             })
         }
     }
@@ -258,7 +262,8 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
-    private func performAddToQueue(episode: BaseEpisode, url: String, previousDownloadFailed: Bool, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) {
+    private func performAddToQueue(episode: BaseEpisode, url: String, previousDownloadFailed: Bool, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) async {
+
         var downloadUrl = URL(string: url)
         if downloadUrl == nil {
             // if the download URL is nil, try encoding the URL to see if that works
@@ -287,15 +292,38 @@ class DownloadManager: NSObject, FilePathProtocol {
         let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToWifi() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
 
         #if os(watchOS)
-            let sessionToUse = WKApplication.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession
+            let sessionToUse = await WKApplication.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession
         #else
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
+
+        if FeatureFlag.downloadFixes.enabled {
+            if await shouldSkipExistingTask(for: episode, in: sessionToUse, matching: request) {
+                FileLog.shared.addMessage("Download: skipped task for episode: \(episode.uuid)")
+                return
+            }
+        }
 
         FileLog.shared.addMessage("Downloading episode \(episode.displayableTitle()), autoDownloadStatus: \(autoDownloadStatus), previousDownloadFailed: \(previousDownloadFailed)")
         resumeDownload(tempFilePath: tempFilePath, session: sessionToUse, request: request, previousDownloadFailed: previousDownloadFailed, taskId: episode.uuid, estimatedBytes: episode.sizeInBytes)
 
         if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
+    }
+
+    private func shouldSkipExistingTask(for episode: BaseEpisode, in session: URLSession, matching request: URLRequest) async -> Bool {
+        if let task = await session.existingTask(for: episode) {
+            if task.originalRequest?.url == request.url {
+                if task.error == nil {
+                    // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
+                    // Before this change, we allowed any new download so we'd rather start out more restrictive
+                    return true
+                }
+            } else {
+                // If the request URLs don't match, we should cancel the old task since it is expected to be downloading old content
+                task.cancel()
+            }
+        }
+        return false
     }
 
     func removeFromQueue(episodeUuid: String, fireNotification: Bool, userInitiated: Bool) {
@@ -458,5 +486,14 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         downloadTask?.taskDescription = taskId
         downloadTask?.resume()
+    }
+
+    func startAllQueued() {
+        let queuedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.queued.rawValue])
+        queuedEpisodes.forEach { episode in
+            Task {
+                addToQueue(episodeUuid: episode.uuid)
+            }
+        }
     }
 }

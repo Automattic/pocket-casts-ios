@@ -87,7 +87,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 self.setupNavBar()
                 self.tableView.beginUpdates()
                 self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.tableView.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
+                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
                 self.tableView.endUpdates()
 
                 if self.isMultiSelectEnabled {
@@ -156,6 +156,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableView.automaticDimension
 
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: tableView)
+
         if let navController = navigationController {
             tableRefreshControl = PCRefreshControl(scrollView: tableView, navBar: navController.navigationBar, source: analyticsSource)
             noEpisodesRefreshControl = PCRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFilters)
@@ -201,7 +203,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         navigationController?.navigationBar.shadowImage = UIImage()
 
         addEventObservers()
-        miniPlayerStatusDidChange()
 
         tableRefreshControl?.parentViewControllerDidAppear()
         noEpisodesRefreshControl?.parentViewControllerDidAppear()
@@ -258,9 +259,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
-
-        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
-        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
     }
 
     private func reloadFilterAndRefresh(animated: Bool = false) {
@@ -305,19 +303,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         }
 
         selectedRefreshControl?.scrollViewDidEndDragging(scrollView)
-    }
-
-    @objc func miniPlayerStatusDidChange() {
-        updateTableViewContentOffset()
-        if isMultiSelectEnabled {
-            multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-        }
-    }
-
-    private func updateTableViewContentOffset() {
-        let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
     }
 
     @objc func moreTapped() {

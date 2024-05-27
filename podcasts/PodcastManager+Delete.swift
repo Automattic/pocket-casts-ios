@@ -38,7 +38,6 @@ extension PodcastManager {
         // additionally if this podcast was in a folder, update the folder
         if let folderUuid = savedFolderUuid {
             DataManager.sharedManager.updateFolderSyncModified(folderUuid: folderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
-            DataManager.sharedManager.clearFolderCache(folderUuid: folderUuid)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folderUuid)
         }
 

@@ -10,6 +10,12 @@ class PCViewController: SimpleNotificationsViewController {
         }
     }
 
+    var extraRightButtons: [UIBarButtonItem] = [] {
+        didSet {
+            refreshRightButtons()
+        }
+    }
+
     private var navIconsColor: UIColor?
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?
@@ -29,7 +35,7 @@ class PCViewController: SimpleNotificationsViewController {
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
 
             refreshRightButtons()
-        } else if let _ = customRightBtn {
+        } else if customRightBtn != nil || !extraRightButtons.isEmpty {
             refreshRightButtons()
         }
         setupNavBar(animated: false)
@@ -93,14 +99,15 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     @objc func refreshRightButtons() {
-        if supportsGoogleCast {
+        if supportsGoogleCast || !extraRightButtons.isEmpty {
             var buttons = [UIBarButtonItem]()
             if let customRightBtn = customRightBtn {
                 buttons.append(customRightBtn)
             }
-            if let googleCastBtn = googleCastBtn {
+            if let googleCastBtn = googleCastBtn, supportsGoogleCast {
                 buttons.append(googleCastBtn)
             }
+            buttons.append(contentsOf: extraRightButtons)
             navigationItem.rightBarButtonItems = buttons
         } else {
             navigationItem.rightBarButtonItems = nil
@@ -187,4 +194,46 @@ class PCViewController: SimpleNotificationsViewController {
     func handleAppDidEnterBackground() {}
     func handleAppWillBecomeActive() {}
     func handleThemeChanged() {}
+
+    var insetAdjuster = MiniPlayerInsetAdjuster()
+}
+
+class MiniPlayerInsetAdjuster {
+
+    init() {
+
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+
+    var isMultiSelectEnabled: Bool = false {
+        didSet {
+            miniPlayerVisibilityDidChange()
+        }
+    }
+
+    private weak var scrollViewAdjustableToMiniPlayer: UIScrollView?
+
+    func setupInsetAdjustmentsForMiniPlayer(scrollView: UIScrollView) {
+        guard scrollViewAdjustableToMiniPlayer == nil else {
+            // This method should only be called once for each ViewController
+            return
+        }
+        scrollViewAdjustableToMiniPlayer = scrollView
+
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerVisibilityDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerVisibilityDidChange), name: Constants.Notifications.miniPlayerDidAppear, object: nil)
+
+        miniPlayerVisibilityDidChange()
+    }
+
+    @objc func miniPlayerVisibilityDidChange() {
+        guard let scrollView = scrollViewAdjustableToMiniPlayer else {
+            return
+        }
+        scrollView.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
+    }
 }

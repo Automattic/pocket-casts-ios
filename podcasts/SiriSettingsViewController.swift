@@ -6,8 +6,6 @@ import UIKit
 class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource, INUIAddVoiceShortcutViewControllerDelegate, INUIEditVoiceShortcutViewControllerDelegate {
     @IBOutlet var tableView: UITableView! {
         didSet {
-            tableView.applyInsetForMiniPlayer()
-
             tableView.register(UINib(nibName: "SiriShortcutEnabledCell", bundle: nil), forCellReuseIdentifier: enabledCellId)
             tableView.register(UINib(nibName: "SiriShortcutSuggestedCell", bundle: nil), forCellReuseIdentifier: suggestedCellId)
             tableView.register(UINib(nibName: "SiriShortcutDisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCelld)
@@ -34,7 +32,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         activityIndicator.startAnimating()
         suggestedShortcuts = SiriShortcutsManager.shared.defaultSuggestions()
         enabledShortcuts = [INVoiceShortcut]()
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: tableView)
         Analytics.track(.settingsSiriShown)
     }
 

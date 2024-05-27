@@ -95,6 +95,13 @@ struct CategoriesPillsView: View {
                         }
                     }
             }
+            .onChange(of: showingCategories) { isShowing in
+                if isShowing {
+                    Analytics.track(.discoverCategoriesPickerShown, properties: ["region": region ?? "none"])
+                } else {
+                    Analytics.track(.discoverCategoriesPickerClosed, properties: ["region": region ?? "none"])
+                }
+            }
             .onChange(of: selectedCategory) { _ in
                 showingCategories = false
             }

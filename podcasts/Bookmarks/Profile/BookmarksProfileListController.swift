@@ -48,6 +48,15 @@ extension BookmarksProfileListController: BookmarkListRouter {
         present(controller, animated: true)
     }
 
+    func bookmarkShare(_ bookmark: Bookmark) {
+        guard let episode = bookmark.episode as? Episode else {
+            return
+        }
+        let controller = SharingHelper.shared.createActivityController(episode: episode, shareTime: bookmark.time)
+
+        present(controller, animated: true)
+    }
+
     func dismissBookmarksList() {
         dismiss(animated: true)
     }
