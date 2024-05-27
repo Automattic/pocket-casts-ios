@@ -19,6 +19,7 @@ public class DataManager {
     private let userEpisodeManager = UserEpisodeDataManager()
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
+    private lazy var upNextHistoryManager = UpNextHistoryManager()
 
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
@@ -1018,6 +1019,12 @@ public class DataManager {
         } else {
             DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
         }
+    }
+
+    // MARK: - Up Next History Manager
+
+    public func snapshotUpNext() {
+        upNextHistoryManager.snapshot(dbQueue: dbQueue)
     }
 }
 
