@@ -722,6 +722,32 @@ class DatabaseHelper {
             schemaVersion = 49
         }
 
+        if schemaVersion < 50 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE PlaylistEpisodeHistory (
+                    id INTEGER KEY,
+                    episodePosition INTEGER NOT NULL DEFAULT 0,
+                    episodeUuid TEXT NOT NULL,
+                    playlist_id INTEGER NOT NULL,
+                    upcoming INTEGER NOT NULL DEFAULT 0,
+                    timeModified INTEGER NOT NULL DEFAULT 0,
+                    wasDeleted INTEGER NOT NULL DEFAULT 0,
+                    title TEXT,
+                    podcastUuid TEXT,
+                    date REAL NOT NULL
+                    );
+                """, values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_history_date ON PlaylistEpisodeHistory (date);", values: nil)
+
+                schemaVersion = 50
+            } catch {
+                failedAt(50)
+                return
+            }
+        }
+
         db.commit()
     }
 }
