@@ -227,6 +227,77 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
+    func downloadParallelToStream(of episode: BaseEpisode) -> AVPlayerItem? {
+        guard let playbackItem = PlaybackItem(episode: episode).createPlayerItem() else {
+            return nil
+        }
+
+        guard FeatureFlag.cachePlayingEpisode.enabled,
+              let urlAsset = playbackItem.asset as? AVURLAsset,
+              !urlAsset.url.isFileURL // only  start download if it's a remote file that we are playing
+        else {
+            return playbackItem
+        }
+        #if !os(watchOS)
+        Task {
+            /// check for the following:
+            /// - download is not happening already because of auto download, cancel the auto download and use this file
+            episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            DataManager.sharedManager.save(episode: episode)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
+            let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
+            downloadingEpisodesCache[episode.uuid] = episode
+            let exportCompleted = await exportSession(forItem: playbackItem, at: outputURL)
+            if exportCompleted {
+                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadedForStreaming, downloadError: nil, downloadTaskId: nil, episode: episode)
+            } else {
+                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
+            }
+            downloadingEpisodesCache.removeValue(forKey: episode.uuid)
+        }
+        #endif
+        return playbackItem
+    }
+
+    #if !os(watchOS)
+    private func exportSession(forItem item: AVPlayerItem, at outputURL: URL) async -> Bool {
+        let composition = AVMutableComposition()
+        let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))
+
+        do {
+            let sourceAudioTrack = try await item.asset.loadTracks(withMediaType: .audio).first!
+            try compositionAudioTrack?.insertTimeRange(CMTimeRange(start: .zero, end: .indefinite), of: sourceAudioTrack, at: .zero)
+        } catch {
+            print("Failed to create audio track: \(error)")
+            return false
+        }
+
+        guard let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A) else {
+            print("Failed to create export session")
+            return false
+        }
+
+        exporter.outputURL = outputURL
+        exporter.outputFileType = AVFileType.m4a
+
+        if FileManager.default.fileExists(atPath: outputURL.path) {
+            do {
+                try FileManager.default.removeItem(at: outputURL)
+            } catch let error {
+                print("Failed to delete file with error: \(error)")
+                return false
+            }
+        }
+
+        await exporter.export()
+        print("Exporter did finish: \(outputURL)")
+        if let error = exporter.error {
+            print("Exporter error: \(error)")
+        }
+        return true
+    }
+    #endif
+
     private func markUnplayedAndUnarchiveIfRequired(episode: BaseEpisode, saveChanges: Bool) {
         var episodeModified = false
 
@@ -382,7 +453,11 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func streamingBufferPathForEpisode(_ episode: BaseEpisode) -> String {
-        let fileName = episode.uuid + episode.fileExtension()
+        var fileExtension = episode.fileExtension()
+        if FeatureFlag.cachePlayingEpisode.enabled {
+            fileExtension = "." + (UTType(AVFileType.m4a.rawValue)?.preferredFilenameExtension ?? "m4a")
+        }
+        let fileName = episode.uuid + fileExtension
         let path = (streamingBufferDirectory as NSString).appendingPathComponent(fileName)
 
         return path

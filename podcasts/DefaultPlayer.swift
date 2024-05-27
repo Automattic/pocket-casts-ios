@@ -60,7 +60,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             player = nil
         }
 
-        guard let playerItem = PlaybackItem(episode: episode).createPlayerItem() else {
+        guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             handlePlaybackError("Unable to create playback item")
             return
         }
