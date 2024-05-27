@@ -6,7 +6,7 @@ struct UpNextHistoryView: View {
 
     var body: some View {
         List(model.historyEntries) { entry in
-            Text("\(entry.date) \(entry.episodeCount)")
+            Text("\(entry.date.formatted()): \(entry.episodeCount) episodes")
         }
         .onAppear {
             model.loadEntries()
