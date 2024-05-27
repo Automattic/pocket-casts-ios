@@ -1035,6 +1035,10 @@ public class DataManager {
         upNextHistoryManager.replaceUpNext(entry: entry, dbQueue: dbQueue)
         upNextManager.refresh(dbQueue: dbQueue)
     }
+
+    public func upNextHistoryEpisodes(entry: Date) -> [String] {
+        upNextHistoryManager.episodes(entry: entry, dbQueue: dbQueue)
+    }
 }
 
 // MARK: - Ghost Episode Cleanup
