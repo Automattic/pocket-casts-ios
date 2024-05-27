@@ -19,4 +19,17 @@ class UpNextHistoryModel: ObservableObject {
             PlaybackManager.shared.queue.refreshList(checkForAutoDownload: false)
         }
     }
+
+    func reAddMissingItems(entry: Date) {
+        Task {
+            let episodesUuid = DataManager.sharedManager.upNextHistoryEpisodes(entry: entry)
+            episodesUuid.forEach { episodeUuid in
+                if let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
+                    PlaybackManager.shared.addToUpNext(episode: episode, userInitiated: false)
+                }
+            }
+            PlaybackManager.shared.queue.bulkOperationDidComplete()
+            PlaybackManager.shared.queue.refreshList(checkForAutoDownload: false)
+        }
+    }
 }

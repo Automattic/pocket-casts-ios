@@ -7,7 +7,7 @@ struct UpNextHistoryView: View {
     var body: some View {
         List(model.historyEntries) { entry in
             Button(action: {
-                model.replaceUpNext(entry: entry.date)
+                model.reAddMissingItems(entry: entry.date)
             }, label: {
                 Text("\(entry.date.formatted()): \(entry.episodeCount) episodes")
             })
