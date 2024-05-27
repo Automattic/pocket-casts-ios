@@ -56,6 +56,11 @@ public enum FeatureFlag: String, CaseIterable {
 
     case downloadFixes
 
+    /// When a user sign in, we always mark ALL podcasts as unsynced
+    /// This recently caused issues, syncing changes that shouldn't have been synced
+    /// When `true`, we only mark podcasts as unsynced if the user never signed in before
+    case onlyMarkPodcastsUnsyncedForNewUsers
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -103,6 +108,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .upNextOnTabBar:
             true
         case .downloadFixes:
+            true
+        case .onlyMarkPodcastsUnsyncedForNewUsers:
             true
         }
     }

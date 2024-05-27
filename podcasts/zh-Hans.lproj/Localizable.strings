@@ -415,6 +415,8 @@
     <string>从云中删除</string>
     <key>custom_episode_upload</key>
     <string>上传至云</string>
+    <key>database_migration</key>
+    <string>我们正在移动一些比特和字节，以加快应用程序的运行速度…</string>
     <key>day_listened</key>
     <string>已收听的天数</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@
     <string>知道了</string>
     <key>group_episodes</key>
     <string>对剧集进行分组</string>
+    <key>hang_on</key>
+    <string>请稍等！</string>
     <key>history_clear_all</key>
     <string>全部清除</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,12 @@
     <string>取消计时器</string>
     <key>sleep_timer_end_of_episode</key>
     <string>剧集结束</string>
+    <key>sleep_timer_episode_count</key>
+    <string>%1$@ 集后</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>%1$@ 集后进入睡眠状态</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>在本集结束时进入睡眠状态</string>
     <key>sleep_timer_time_remaining</key>
     <string>睡眠计时器打开，剩余 %1$@</string>
     <key>social_sign_in_continue_with_apple</key>
