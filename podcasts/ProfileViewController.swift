@@ -39,7 +39,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    private enum TableRow { case allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks, upNextHistory }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
@@ -263,6 +263,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .help:
             cell.settingsImage.image = UIImage(named: "profile-help")
             cell.settingsLabel.text = L10n.settingsHelp
+        case .upNextHistory:
+            cell.settingsImage.image = UIImage(named: "profile-help")
+            cell.settingsLabel.text = "Up Next History"
         case .endOfYearPrompt:
             return EndOfYearPromptCell()
         case .bookmarks:
@@ -304,6 +307,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .help:
             let navController = SJUIUtils.navController(for: OnlineSupportController())
             present(navController, animated: true, completion: nil)
+        case .upNextHistory:
+            let upNextHistory = UpNextHistoryViewController()
+            navigationController?.pushViewController(upNextHistory, animated: true)
         case .endOfYearPrompt:
             Analytics.track(.endOfYearProfileCardTapped)
             EndOfYear().showStories(in: self, from: .profile)
@@ -329,7 +335,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func refreshTableData() {
         var data: [[ProfileViewController.TableRow]]
-        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
+        data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help, .upNextHistory]]
 
         if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
