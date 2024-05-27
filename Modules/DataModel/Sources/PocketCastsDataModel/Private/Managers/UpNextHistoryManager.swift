@@ -35,6 +35,17 @@ public class UpNextHistoryManager {
         return entries
     }
 
+    func replaceUpNext(entry: Date, dbQueue: FMDatabaseQueue) {
+        dbQueue.inDatabase { db in
+            do {
+                try db.executeUpdate("INSERT INTO SJPlaylistEpisode SELECT id, episodePosition, episodeUuid, playlist_id, upcoming, timeModified, wasDeleted, title, podcastUuid FROM PlaylistEpisodeHistory WHERE date = ?", values: [entry])
+            } catch {
+                FileLog.shared.addMessage("UpNextHistoryManager.replaceUpNext error: \(error)")
+            }
+        }
+
+    }
+
     public struct UpNextHistoryEntry: Hashable, Identifiable {
         public var id: Date {
             date
