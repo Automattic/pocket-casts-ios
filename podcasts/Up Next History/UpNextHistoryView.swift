@@ -6,7 +6,11 @@ struct UpNextHistoryView: View {
 
     var body: some View {
         List(model.historyEntries) { entry in
-            Text("\(entry.date.formatted()): \(entry.episodeCount) episodes")
+            Button(action: {
+                model.replaceUpNext(entry: entry.date)
+            }, label: {
+                Text("\(entry.date.formatted()): \(entry.episodeCount) episodes")
+            })
         }
         .onAppear {
             model.loadEntries()
