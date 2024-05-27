@@ -43,7 +43,24 @@ public class UpNextHistoryManager {
                 FileLog.shared.addMessage("UpNextHistoryManager.replaceUpNext error: \(error)")
             }
         }
+    }
 
+    func episodes(entry: Date, dbQueue: FMDatabaseQueue) -> [String] {
+        var episodesUuid: [String] = []
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery("SELECT episodeUuid FROM PlaylistEpisodeHistory WHERE date = ? ORDER BY episodePosition ASC", values: [entry])
+                defer { resultSet.close() }
+
+                while resultSet.next(), let episodeUuid = resultSet.string(forColumn: "episodeUuid") {
+                    episodesUuid.append(episodeUuid)
+                }
+            } catch {
+                FileLog.shared.addMessage("UpNextHistoryManager.episodes error: \(error)")
+            }
+        }
+
+        return episodesUuid
     }
 
     public struct UpNextHistoryEntry: Hashable, Identifiable {
