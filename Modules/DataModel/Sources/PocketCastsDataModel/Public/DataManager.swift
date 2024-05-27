@@ -1030,6 +1030,11 @@ public class DataManager {
     public func upNextHistoryEntries() -> [UpNextHistoryManager.UpNextHistoryEntry] {
         upNextHistoryManager.entries(dbQueue: dbQueue)
     }
+
+    public func replaceUpNext(entry: Date) {
+        upNextHistoryManager.replaceUpNext(entry: entry, dbQueue: dbQueue)
+        upNextManager.refresh(dbQueue: dbQueue)
+    }
 }
 
 // MARK: - Ghost Episode Cleanup
