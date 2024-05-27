@@ -675,7 +675,7 @@ public class DataManager {
 
     public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, episode: BaseEpisode) {
         if let episode = episode as? Episode {
-            episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, episode: episode, dbQueue: dbQueue)
+            episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: episode.uuid, episode: episode, dbQueue: dbQueue)
         } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, episode: episode, dbQueue: dbQueue)
         }
