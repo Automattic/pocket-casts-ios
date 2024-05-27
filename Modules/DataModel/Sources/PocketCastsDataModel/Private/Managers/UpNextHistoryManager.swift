@@ -10,10 +10,28 @@ class UpNextHistoryManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("INSERT INTO PlaylistEpisodeHistory SELECT *, ? as 'date' FROM SJPlaylistEpisode", values: [Date()])
-                db.commit()
             } catch {
-                FileLog.shared.addMessage("UpNextDataManager.save error: \(error)")
+                FileLog.shared.addMessage("UpNextHistoryManager.snapshot error: \(error)")
             }
         }
+    }
+
+    /// Return all the available Up Next entries
+    func entries(dbQueue: FMDatabaseQueue) -> [Date] {
+        var entries: [Date] = []
+        dbQueue.inDatabase { db in
+            do {
+                let resultSet = try db.executeQuery("SELECT COUNT(*), date FROM PlaylistEpisodeHistory GROUP BY (date)", values: nil)
+                defer { resultSet.close() }
+
+                while resultSet.next(), let date = resultSet.date(forColumn: "date") {
+                    entries.append(date)
+                }
+            } catch {
+                FileLog.shared.addMessage("UpNextHistoryManager.entries error: \(error)")
+            }
+        }
+
+        return entries
     }
 }

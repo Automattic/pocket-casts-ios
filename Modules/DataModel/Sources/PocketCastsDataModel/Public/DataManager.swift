@@ -1026,6 +1026,10 @@ public class DataManager {
     public func snapshotUpNext() {
         upNextHistoryManager.snapshot(dbQueue: dbQueue)
     }
+
+    public func upNextHistoryEntries() -> [Date] {
+        upNextHistoryManager.entries(dbQueue: dbQueue)
+    }
 }
 
 // MARK: - Ghost Episode Cleanup
