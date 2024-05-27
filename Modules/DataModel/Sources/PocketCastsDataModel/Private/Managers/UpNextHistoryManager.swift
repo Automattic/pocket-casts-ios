@@ -1,7 +1,7 @@
 import FMDB
 import PocketCastsUtils
 
-class UpNextHistoryManager {
+public class UpNextHistoryManager {
     // MARK: - Queries
 
     /// Saves the current Up Next state into another table
@@ -17,15 +17,15 @@ class UpNextHistoryManager {
     }
 
     /// Return all the available Up Next entries
-    func entries(dbQueue: FMDatabaseQueue) -> [Date] {
-        var entries: [Date] = []
+    func entries(dbQueue: FMDatabaseQueue) -> [UpNextHistoryEntry] {
+        var entries: [UpNextHistoryEntry] = []
         dbQueue.inDatabase { db in
             do {
-                let resultSet = try db.executeQuery("SELECT COUNT(*), date FROM PlaylistEpisodeHistory GROUP BY (date)", values: nil)
+                let resultSet = try db.executeQuery("SELECT COUNT(*) as count, date FROM PlaylistEpisodeHistory GROUP BY (date) ORDER BY date DESC", values: nil)
                 defer { resultSet.close() }
 
                 while resultSet.next(), let date = resultSet.date(forColumn: "date") {
-                    entries.append(date)
+                    entries.append(UpNextHistoryEntry(date: date, episodeCount: Int(resultSet.int(forColumn: "count"))))
                 }
             } catch {
                 FileLog.shared.addMessage("UpNextHistoryManager.entries error: \(error)")
@@ -33,5 +33,14 @@ class UpNextHistoryManager {
         }
 
         return entries
+    }
+
+    public struct UpNextHistoryEntry: Hashable, Identifiable {
+        public var id: Date {
+            date
+        }
+
+        public let date: Date
+        public let episodeCount: Int
     }
 }

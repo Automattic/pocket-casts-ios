@@ -1027,7 +1027,7 @@ public class DataManager {
         upNextHistoryManager.snapshot(dbQueue: dbQueue)
     }
 
-    public func upNextHistoryEntries() -> [Date] {
+    public func upNextHistoryEntries() -> [UpNextHistoryManager.UpNextHistoryEntry] {
         upNextHistoryManager.entries(dbQueue: dbQueue)
     }
 }
