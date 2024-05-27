@@ -5,8 +5,8 @@ struct UpNextHistoryView: View {
     @ObservedObject var model = UpNextHistoryModel()
 
     var body: some View {
-        List(model.historyEntries, id: \.self) { entry in
-            Text("\(entry)")
+        List(model.historyEntries) { entry in
+            Text("\(entry.date) \(entry.episodeCount)")
         }
         .onAppear {
             model.loadEntries()
