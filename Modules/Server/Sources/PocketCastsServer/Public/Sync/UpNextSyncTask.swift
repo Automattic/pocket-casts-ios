@@ -152,6 +152,8 @@ class UpNextSyncTask: ApiBaseTask {
             }
         }
 
+        DataManager.sharedManager.snapshotUpNext()
+
         let modifiedList = addPlayingEpisode(list: episodes)
         FileLog.shared.addMessage("UpNextSyncTask: server sent \(episodes.count) episodes, we have \(modifiedList.count), making changes")
 
