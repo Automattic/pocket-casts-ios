@@ -717,6 +717,13 @@ class DatabaseHelper {
         // Those migrations were some heavy DROP COLUMN that we moved outside of DB startup
         if schemaVersion < 48 {
             schemaVersion = 48
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
+                try db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
+            } catch {
+                failedAt(48)
+                return
+            }
         }
         if schemaVersion < 49 {
             schemaVersion = 49
