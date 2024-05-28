@@ -4078,3 +4078,15 @@
 
 /* Message displayed when doing heavy database operations */
 "database_migration" = "We're moving a few bits and bytes so the app runs faster...";
+
+/* The act to restore something */
+"restore" = "Restore";
+
+/* Question to the user, if they want to restore their Up Next */
+"restore_up_next" = "Restore Up Next?";
+
+/* Details about how user's Up Next will be restored */
+"restore_up_next_message" = "These episodes will be added to the bottom of your current Up Next";
+
+/* Title of a screen that display Up Next history */
+"up_next_history" = "Up Next History";

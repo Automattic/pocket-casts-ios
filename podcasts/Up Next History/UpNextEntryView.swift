@@ -13,22 +13,22 @@ struct UpNextEntryView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
-                Button("Restore") {
+                Button(L10n.restore) {
                     showingAlert = true
                 }
-                .alert("Restore Up Next?", isPresented: $showingAlert, actions: {
-                    Button("Restore") {
+                .alert(L10n.restoreUpNext, isPresented: $showingAlert, actions: {
+                    Button(L10n.restore) {
                         model.reAddMissingItems(entry: entryDate)
                         dismiss()
                     }
-                    Button("Cancel", role: .cancel) { }
+                    Button(L10n.cancel, role: .cancel) { }
                 }, message: {
-                    Text("These episodes will be added to the bottom of your current Up Next")
+                    Text(L10n.restoreUpNextMessage)
                 })
                 Spacer()
                 Text("\(entryDate.formatted())").bold()
                 Spacer()
-                Button("Cancel") {
+                Button(L10n.cancel) {
                     dismiss()
                 }
             }.padding()

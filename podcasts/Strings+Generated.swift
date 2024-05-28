@@ -2210,6 +2210,12 @@ internal enum L10n {
   internal static var removeUpNext: String { return L10n.tr("Localizable", "remove_up_next") }
   /// Renew your Subscription
   internal static var renewSubscription: String { return L10n.tr("Localizable", "renew_subscription") }
+  /// Restore
+  internal static var restore: String { return L10n.tr("Localizable", "restore") }
+  /// Restore Up Next?
+  internal static var restoreUpNext: String { return L10n.tr("Localizable", "restore_up_next") }
+  /// These episodes will be added to the bottom of your current Up Next
+  internal static var restoreUpNextMessage: String { return L10n.tr("Localizable", "restore_up_next_message") }
   /// Retry
   internal static var retry: String { return L10n.tr("Localizable", "retry") }
   /// Save Bookmark
@@ -3028,6 +3034,8 @@ internal enum L10n {
   internal static var upNextEmptyDescription: String { return L10n.tr("Localizable", "up_next_empty_description") }
   /// Nothing in Up Next
   internal static var upNextEmptyTitle: String { return L10n.tr("Localizable", "up_next_empty_title") }
+  /// Up Next History
+  internal static var upNextHistory: String { return L10n.tr("Localizable", "up_next_history") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
   /// Upgrade to %1$@

@@ -14,7 +14,7 @@ struct UpNextHistoryView: View {
                 selectedEntry = entry
                 presentingEntry = true
             }, label: {
-                Text("\(entry.date.formatted()): \(entry.episodeCount) episodes")
+                Text("\(entry.date.formatted()): \(entry.episodeCount) \((entry.episodeCount > 1 ? L10n.episodes : L10n.episode).lowercased())")
             })
         }
         .sheet(item: $selectedEntry) { entry in
@@ -23,7 +23,7 @@ struct UpNextHistoryView: View {
         .onAppear {
             model.loadEntries()
         }
-        .navigationTitle("Up Next History")
+        .navigationTitle(L10n.upNextHistory)
         .applyDefaultThemeOptions()
     }
 }
