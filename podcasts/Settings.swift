@@ -1043,6 +1043,25 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Sleep Timer
+
+    static var autoRestartSleepTimer: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.autoRestartSleepTimer)
+        }
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.autoRestartSleepTimer) as? Bool ?? true
+        }
+    }
+
+    static var shakeToRestartSleepTimer: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.shakeToRestartSleepTimer)
+        }
+        get {
+            UserDefaults.standard.object(forKey: Constants.UserDefaults.shakeToRestartSleepTimer) as? Bool ?? true
+        }
+    }
 
     // MARK: - Headphone Controls
 
