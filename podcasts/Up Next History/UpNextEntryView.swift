@@ -10,6 +10,14 @@ struct UpNextEntryView: View {
 
     let entryDate: Date
 
+    init(entryDate: Date) {
+        self.entryDate = entryDate
+
+        if #unavailable(iOS 16.0) {
+            UITableView.appearance().backgroundColor = .clear
+        }
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
@@ -49,8 +57,12 @@ struct UpNextEntryView: View {
                             .font(style: .footnote)
                     }
                 }
+                .listRowBackground(theme.primaryUi02)
+                .listRowSeparatorTint(theme.primaryUi05)
             }
         }
+        .modifier(HiddenScrollContentBackground())
+        .background(theme.primaryUi04)
         .onAppear { model.loadEpisodes(for: entryDate) }
         .navigationTitle("\(entryDate.formatted())")
         .applyDefaultThemeOptions()
