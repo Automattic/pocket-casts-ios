@@ -381,6 +381,7 @@ enum AnalyticsEvent: String {
     case episodeDownloadCancelled
     case episodeDownloadFailed
     case episodeDownloadsStale
+    case episodeDownloadTasks
 
     case episodeUploadQueued
     case episodeUploadFinished
