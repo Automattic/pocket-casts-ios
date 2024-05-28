@@ -3036,6 +3036,8 @@ internal enum L10n {
   internal static var upNextEmptyTitle: String { return L10n.tr("Localizable", "up_next_empty_title") }
   /// Up Next History
   internal static var upNextHistory: String { return L10n.tr("Localizable", "up_next_history") }
+  /// A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.
+  internal static var upNextHistoryExplanation: String { return L10n.tr("Localizable", "up_next_history_explanation") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
   /// Upgrade to %1$@

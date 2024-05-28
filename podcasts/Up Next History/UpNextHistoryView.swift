@@ -9,13 +9,23 @@ struct UpNextHistoryView: View {
     @State var selectedEntry: UpNextHistoryManager.UpNextHistoryEntry?
 
     var body: some View {
-        List(model.historyEntries) { entry in
-            Button(action: {
-                selectedEntry = entry
-                presentingEntry = true
-            }, label: {
-                Text("\(entry.date.formatted()): \(entry.episodeCount) \((entry.episodeCount > 1 ? L10n.episodes : L10n.episode).lowercased())")
-            })
+        List {
+            Section {
+
+            } footer: {
+                Text(L10n.upNextHistoryExplanation)
+            }
+
+            Section {
+                ForEach(model.historyEntries) { entry in
+                    Button(action: {
+                        selectedEntry = entry
+                        presentingEntry = true
+                    }, label: {
+                        Text("\(entry.date.formatted()): \(entry.episodeCount) \((entry.episodeCount > 1 ? L10n.episodes : L10n.episode).lowercased())")
+                    })
+                }
+            }
         }
         .sheet(item: $selectedEntry) { entry in
             UpNextEntryView(entryDate: entry.date)

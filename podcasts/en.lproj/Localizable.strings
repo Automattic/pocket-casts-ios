@@ -4090,3 +4090,6 @@
 
 /* Title of a screen that display Up Next history */
 "up_next_history" = "Up Next History";
+
+/* A message explaining how to use the Up Next history */
+"up_next_history_explanation" = "A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.";
