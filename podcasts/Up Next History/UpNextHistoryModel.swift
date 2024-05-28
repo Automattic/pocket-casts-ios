@@ -4,17 +4,23 @@ import PocketCastsServer
 class UpNextHistoryModel: ObservableObject {
     @Published var historyEntries: [UpNextHistoryManager.UpNextHistoryEntry] = []
 
+    private let dataManager: DataManager
+
+    init(dataManager: DataManager = DataManager.sharedManager) {
+        self.dataManager = dataManager
+    }
+
     @MainActor
     func loadEntries() {
         Task {
-            historyEntries = DataManager.sharedManager.upNextHistoryEntries()
+            historyEntries = dataManager.upNextHistoryEntries()
         }
     }
 
     func replaceUpNext(entry: Date) {
         Task {
             PlaybackManager.shared.endPlayback()
-            DataManager.sharedManager.replaceUpNext(entry: entry)
+            dataManager.replaceUpNext(entry: entry)
             PlaybackManager.shared.queue.bulkOperationDidComplete()
             PlaybackManager.shared.queue.refreshList(checkForAutoDownload: false)
         }
@@ -22,9 +28,9 @@ class UpNextHistoryModel: ObservableObject {
 
     func reAddMissingItems(entry: Date) {
         Task {
-            let episodesUuid = DataManager.sharedManager.upNextHistoryEpisodes(entry: entry)
+            let episodesUuid = dataManager.upNextHistoryEpisodes(entry: entry)
             episodesUuid.forEach { episodeUuid in
-                if let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
+                if let episode = dataManager.findEpisode(uuid: episodeUuid) {
                     PlaybackManager.shared.addToUpNext(episode: episode, userInitiated: false)
                 }
             }
