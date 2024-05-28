@@ -82,7 +82,7 @@ public class DataManager {
             dbQueue.inTransaction { db, rollback in
                 do {
 
-                    try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)                    
+                    try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
                     try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
                     try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
                     try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
