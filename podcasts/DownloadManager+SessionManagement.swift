@@ -52,6 +52,10 @@ extension DownloadManager {
                     if let index = episodesWithDownloadIds.firstIndex(where: { $0.uuid == episode.uuid }) {
                         episodesWithDownloadIds.remove(at: index)
                     }
+                } else {
+                    if FeatureFlag.downloadFixes.enabled {
+                        task.cancel()
+                    }
                 }
             }
 
@@ -61,6 +65,10 @@ extension DownloadManager {
                        let episode = self?.dataManager.findBaseEpisode(downloadTaskId: taskId) {
                         if let index = episodesWithDownloadIds.firstIndex(where: { $0.uuid == episode.uuid }) {
                             episodesWithDownloadIds.remove(at: index)
+                        }
+                    } else {
+                        if FeatureFlag.downloadFixes.enabled {
+                            task.cancel()
                         }
                     }
                 }
