@@ -4,7 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 
 extension PodcastManager {
-    func deletePodcastIfUnused(_ podcast: Podcast) {
+    func deletePodcastIfUnused(_ podcast: Podcast) async {
         // we don't delete podcasts that haven't been synced or you're still subscribed to
         if podcast.syncStatus == SyncStatus.notSynced.rawValue || podcast.isSubscribed() { return }
 
@@ -15,6 +15,10 @@ extension PodcastManager {
 
         // we can safely delete podcasts where the user hasn't interacted with any of the episodes
         if interactedEpisodes.count == 0 {
+            if FeatureFlag.downloadFixes.enabled {
+                let episodes = DataManager.sharedManager.allEpisodesForPodcast(id: podcast.id)
+                await DownloadManager.shared.cancelTasks(for: episodes)
+            }
             // Delete all the episodes for the podcast that we're deleting
             DataManager.sharedManager.deleteAllEpisodesInPodcast(podcastId: podcast.id)
             DataManager.sharedManager.delete(podcast: podcast)
@@ -48,10 +52,10 @@ extension PodcastManager {
         FileLog.shared.addMessage("Deleted \(deleted_count) Ghost Episodes")
     }
 
-    func checkForUnusedPodcasts() {
+    func checkForUnusedPodcasts() async {
         let podcasts = DataManager.sharedManager.allUnsubscribedPodcasts()
         for podcast in podcasts {
-            deletePodcastIfUnused(podcast)
+            await deletePodcastIfUnused(podcast)
         }
     }
 

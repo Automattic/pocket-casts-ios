@@ -496,4 +496,27 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         }
     }
+
+    func cancelTasks(for episodes: [BaseEpisode]) async {
+        let matchingTasks = await tasks(for: episodes)
+
+        matchingTasks.forEach {
+            $0.cancel()
+        }
+    }
+
+    func tasks(for episodes: [BaseEpisode]) async -> [URLSessionTask] {
+        let allTasks = [await wifiOnlyBackgroundSession.allTasks,
+         await cellularForegroundSession.allTasks,
+         await cellularBackgroundSession.allTasks].flatMap { $0 }
+
+        let matchingTasks = allTasks.filter { task in
+            let identifier = task.taskDescription
+            return episodes.contains { episode in
+                episode.downloadTaskId == identifier || episode.uuid == identifier
+            }
+        }
+
+        return matchingTasks
+    }
 }
