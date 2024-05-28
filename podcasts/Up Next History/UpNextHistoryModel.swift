@@ -3,6 +3,7 @@ import PocketCastsServer
 
 class UpNextHistoryModel: ObservableObject {
     @Published var historyEntries: [UpNextHistoryManager.UpNextHistoryEntry] = []
+    @Published var episodes: [BaseEpisode] = []
 
     private let dataManager: DataManager
 
@@ -14,6 +15,14 @@ class UpNextHistoryModel: ObservableObject {
     func loadEntries() {
         Task {
             historyEntries = dataManager.upNextHistoryEntries()
+        }
+    }
+
+    @MainActor
+    func loadEpisodes(for entry: Date) {
+        Task {
+            let episodesUuid = dataManager.upNextHistoryEpisodes(entry: entry)
+            episodes = episodesUuid.compactMap { dataManager.findBaseEpisode(uuid: $0) }
         }
     }
 
@@ -30,7 +39,7 @@ class UpNextHistoryModel: ObservableObject {
         Task {
             let episodesUuid = dataManager.upNextHistoryEpisodes(entry: entry)
             episodesUuid.forEach { episodeUuid in
-                if let episode = dataManager.findEpisode(uuid: episodeUuid) {
+                if let episode = dataManager.findBaseEpisode(uuid: episodeUuid) {
                     PlaybackManager.shared.addToUpNext(episode: episode, userInitiated: false)
                 }
             }
