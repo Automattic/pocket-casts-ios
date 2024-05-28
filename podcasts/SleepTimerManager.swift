@@ -53,7 +53,7 @@ class SleepTimerManager {
     }
 
     func restartSleepTimerIfNeeded() {
-        guard !PlaybackManager.shared.sleepTimerActive() else {
+        guard !PlaybackManager.shared.sleepTimerActive(), Settings.autoRestartSleepTimer else {
             return
         }
 
