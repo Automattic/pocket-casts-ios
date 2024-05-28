@@ -15,8 +15,10 @@ extension PodcastManager {
 
         // we can safely delete podcasts where the user hasn't interacted with any of the episodes
         if interactedEpisodes.count == 0 {
-            let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
-            await downloadManager.cancelTasks(for: episodes)
+            if FeatureFlag.downloadFixes.enabled {
+                let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+                await downloadManager.cancelTasks(for: episodes)
+            }
             // Delete all the episodes for the podcast that we're deleting
             dataManager.deleteAllEpisodesInPodcast(podcastId: podcast.id)
             dataManager.delete(podcast: podcast)
