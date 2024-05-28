@@ -717,27 +717,17 @@ class DatabaseHelper {
         // Those migrations were some heavy DROP COLUMN that we moved outside of DB startup
         if schemaVersion < 48 {
             schemaVersion = 48
-            do {
-                try db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
-                try db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
-            } catch {
-                failedAt(48)
-                return
-            }
         }
         if schemaVersion < 49 {
             schemaVersion = 49
         }
 
         if schemaVersion < 50 {
-            do {
-                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
-                try db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
-                schemaVersion = 50
-            } catch {
-                failedAt(50)
-                return
-            }
+            // We are doing try? because depending of the cleanup process was done or not these columns could have been dropped and need to recreated
+            // or they still exist because of the changes of version 47.
+            try? db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
+            try? db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
+            schemaVersion = 50
         }
 
         db.commit()
