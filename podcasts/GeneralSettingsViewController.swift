@@ -261,7 +261,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         case .autoRestartSleepTimer:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
-            cell.cellLabel.text = "Auto Restart Sleep Timer"
+            cell.cellLabel.text = L10n.autoRestartSleepTimer
             cell.cellSwitch.isOn = Settings.autoRestartSleepTimer
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
@@ -271,7 +271,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         case .shakeToRestartSleepTimer:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
 
-            cell.cellLabel.text = "Shake to restart Sleep Timer"
+            cell.cellLabel.text = L10n.shakeToRestartSleepTimer
             cell.cellSwitch.isOn = Settings.shakeToRestartSleepTimer
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
@@ -422,9 +422,9 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         case .autoplay:
             return L10n.settingsGeneralAutoplaySubtitle
         case .autoRestartSleepTimer:
-            return "If on, the sleep timer will restart automatically if you play an episode within 5 minutes after the last pause."
+            return L10n.autoRestartSleepTimerDescription
         case .shakeToRestartSleepTimer:
-            return "If on, the sleep timer will restart when you shake your phone."
+            return L10n.shakeToRestartSleepTimerDescription
         default:
             return nil
         }

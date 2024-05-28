@@ -286,6 +286,10 @@ internal enum L10n {
   }
   /// First
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
+  /// Auto Restart Sleep Timer
+  internal static var autoRestartSleepTimer: String { return L10n.tr("Localizable", "auto_restart_sleep_timer") }
+  /// If on, the sleep timer will restart automatically if you play an episode within 5 minutes after the last pause.
+  internal static var autoRestartSleepTimerDescription: String { return L10n.tr("Localizable", "auto_restart_sleep_timer_description") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
   /// Please download Pocket Casts from the App Store to purchase %1$@.
@@ -2700,6 +2704,10 @@ internal enum L10n {
   }
   /// Set Up Account
   internal static var setupAccount: String { return L10n.tr("Localizable", "setup_account") }
+  /// Shake to restart Sleep Timer
+  internal static var shakeToRestartSleepTimer: String { return L10n.tr("Localizable", "shake_to_restart_sleep_timer") }
+  /// If on, the sleep timer will restart when you shake your phone.
+  internal static var shakeToRestartSleepTimerDescription: String { return L10n.tr("Localizable", "shake_to_restart_sleep_timer_description") }
   /// Share
   internal static var share: String { return L10n.tr("Localizable", "share") }
   /// Current Position
