@@ -2,6 +2,9 @@ import FMDB
 import PocketCastsUtils
 
 public class UpNextHistoryManager {
+    /// The number of days to keep the snapshots
+    private let periodOfSnapshot: TimeInterval = 14.days
+
     // MARK: - Queries
 
     /// Saves the current Up Next state into another table
@@ -10,6 +13,7 @@ public class UpNextHistoryManager {
         dbQueue.inDatabase { db in
             do {
                 try db.executeUpdate("INSERT INTO PlaylistEpisodeHistory SELECT *, ? as 'date' FROM SJPlaylistEpisode", values: [Date()])
+                try db.executeUpdate("DELETE FROM PlaylistEpisodeHistory WHERE date <= ?", values: [Date().addingTimeInterval(-periodOfSnapshot)])
             } catch {
                 FileLog.shared.addMessage("UpNextHistoryManager.snapshot error: \(error)")
             }
