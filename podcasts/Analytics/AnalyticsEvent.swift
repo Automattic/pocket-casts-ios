@@ -486,6 +486,8 @@ enum AnalyticsEvent: String {
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
     case settingsGeneralAutoplayToggled
+    case settingsGeneralAutoSleepTimerRestartToggled
+    case settingsGeneralShakeToResetSleepTimerToggled
 
     // MARK: - Settings: Notifications
 

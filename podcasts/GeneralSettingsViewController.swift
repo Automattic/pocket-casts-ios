@@ -526,16 +526,19 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     @objc private func autoplayToggled(_ sender: UISwitch) {
         Settings.autoplay = sender.isOn
 
-
         Settings.trackValueToggled(.settingsGeneralAutoplayToggled, enabled: sender.isOn)
     }
 
     @objc private func autoRestartSleepTimerToggled(_ sender: UISwitch) {
         Settings.autoRestartSleepTimer = sender.isOn
+
+        Settings.trackValueToggled(.settingsGeneralAutoSleepTimerRestartToggled, enabled: sender.isOn)
     }
 
     @objc private func shakeToRestartSleepTimerToggled(_ sender: UISwitch) {
         Settings.shakeToRestartSleepTimer = sender.isOn
+
+        Settings.trackValueToggled(.settingsGeneralShakeToResetSleepTimerToggled, enabled: sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
