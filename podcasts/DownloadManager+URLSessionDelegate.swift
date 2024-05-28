@@ -133,7 +133,6 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 return
             }
         } catch {}
-        episode.contentType = contentType
         let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
         let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
         let destinationUrl = URL(fileURLWithPath: destinationPath)
@@ -141,7 +140,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             try StorageManager.moveItem(at: location, to: destinationUrl, options: .overwriteExisting)
 
             let newDownloadStatus: DownloadStatus = autoDownloadStatus == .playerDownloadedForStreaming ? .downloadedForStreaming : .downloaded
-            DataManager.sharedManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, contentType: contentType, episode: episode)
+            DataManager.sharedManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
 
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)

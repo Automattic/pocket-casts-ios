@@ -584,6 +584,10 @@ public class DataManager {
         episodeManager.saveFileType(episode: episode, fileType: fileType, dbQueue: dbQueue)
     }
 
+    public func saveEpisode(contentType: String, episode: Episode) {
+        episodeManager.saveContentType(episode: episode, contentType: contentType, dbQueue: dbQueue)
+    }
+
     public func saveEpisode(fileSize: Int64, episode: Episode) {
         episodeManager.saveFileSize(episode: episode, fileSize: fileSize, dbQueue: dbQueue)
     }
@@ -665,11 +669,11 @@ public class DataManager {
         }
     }
 
-    public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, contentType: String?, episode: BaseEpisode) {
+    public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: BaseEpisode) {
         if let episode = episode as? Episode {
-            episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, contentType: contentType, episode: episode, dbQueue: dbQueue)
+            episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
         } else if let episode = episode as? UserEpisode {
-            userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, contentType: contentType, episode: episode, dbQueue: dbQueue)
+            userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: downloadTaskId, episode: episode, dbQueue: dbQueue)
         }
     }
 

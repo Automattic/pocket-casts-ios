@@ -364,6 +364,11 @@ class EpisodeDataManager {
         save(fieldName: "fileType", value: fileType, episodeId: episode.id, dbQueue: dbQueue)
     }
 
+    func saveContentType(episode: Episode, contentType: String, dbQueue: FMDatabaseQueue) {
+        episode.contentType = contentType
+        save(fieldName: "contentType", value: contentType, episodeId: episode.id, dbQueue: dbQueue)
+    }
+
     func saveFileSize(episode: Episode, fileSize: Int64, dbQueue: FMDatabaseQueue) {
         episode.sizeInBytes = fileSize
         save(fieldName: "sizeInBytes", value: fileSize, episodeId: episode.id, dbQueue: dbQueue)
@@ -633,14 +638,13 @@ class EpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, contentType: String?, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: Episode, dbQueue: FMDatabaseQueue) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.sizeInBytes = sizeInBytes
         episode.downloadTaskId = downloadTaskId
-        episode.contentType = contentType
 
-        let fields = ["episodeStatus", "sizeInBytes", "contentType", "downloadTaskId"]
-        let values = [episode.episodeStatus, episode.sizeInBytes, DBUtils.replaceNilWithNull(value: episode.contentType), DBUtils.replaceNilWithNull(value: episode.downloadTaskId), episode.id] as [Any]
+        let fields = ["episodeStatus", "sizeInBytes", "downloadTaskId"]
+        let values = [episode.episodeStatus, episode.sizeInBytes, DBUtils.replaceNilWithNull(value: episode.downloadTaskId), episode.id] as [Any]
 
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
