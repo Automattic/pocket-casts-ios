@@ -65,13 +65,6 @@ public class DataManager {
         self.endOfYearManager = endOfYearManager
     }
 
-    private func measureTime(_ action: () -> ()) -> TimeInterval {
-        let startDate = Date()
-        action()
-        let endDate = Date()
-        return startDate.distance(to: endDate)
-    }
-
     private var databaseSize: String? {
         let pathToDB = DataManager.pathToDb()
         guard let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB),
@@ -85,7 +78,7 @@ public class DataManager {
     public func cleanUp() {
         //Do a vacuum before doing db changes
         vacuumDatabase()
-        let duration = measureTime {
+        let duration = DBUtils.measureTime {
             dbQueue.inTransaction { db, rollback in
                 do {
 
@@ -114,7 +107,7 @@ public class DataManager {
         }
 
         FileLog.shared.addMessage("VACUUM -> Start")
-        let duration = measureTime {
+        let duration =  DBUtils.measureTime {
             dbQueue.inDatabase { db in
                 do {
                     try db.executeUpdate("VACUUM;", values: nil)
