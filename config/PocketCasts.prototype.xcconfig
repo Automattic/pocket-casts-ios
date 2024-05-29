@@ -10,3 +10,5 @@ DEVELOPMENT_TEAM = 99KV9Z6BKV // Automattic, Inc. (Enterprise)
 // Notice that because currently all extensions use this xcconfig for the Prototype bulid configuration,
 // this line is enough to set the Provisioning Profiles for all.
 PROVISIONING_PROFILE_SPECIFIER = match InHouse $(PRODUCT_BUNDLE_IDENTIFIER)
+
+OTHER_SWIFT_FLAGS = -D DEBUG
