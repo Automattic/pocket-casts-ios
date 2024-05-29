@@ -354,6 +354,11 @@ class UserEpisodeDataManager {
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
 
+    func saveContentType(contentType: String, episode: UserEpisode, dbQueue: FMDatabaseQueue) {
+        episode.contentType = contentType
+        save(fieldName: "contentType", value: contentType, episodeId: episode.id, dbQueue: dbQueue)
+    }
+
     func bulkSave(episodes: [UserEpisode], dbQueue: FMDatabaseQueue) {
         dbQueue.inDatabase { db in
             do {
