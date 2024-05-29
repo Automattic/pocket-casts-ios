@@ -252,6 +252,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL)
             if exportCompleted {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .downloadedForStreaming, downloadError: nil, downloadTaskId: nil, episode: episode)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
             } else {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
             }
