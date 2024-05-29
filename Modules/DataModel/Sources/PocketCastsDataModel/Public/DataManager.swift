@@ -843,12 +843,7 @@ public class DataManager {
     }
 
     public func episodeCount(forFilter: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        var count = 0
-        let duration = DBUtils.measureTime {
-            count = filterManager.episodeCount(forFilter: forFilter, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
-        }
-        FileLog.shared.addMessage("Episode Count \(forFilter.playlistName) Duration: \(duration)")
-        return count
+        filterManager.episodeCount(forFilter: forFilter, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
     }
 
     public func deleteDeletedFilters() {
