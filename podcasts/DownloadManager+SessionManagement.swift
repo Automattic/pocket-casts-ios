@@ -41,8 +41,10 @@ extension DownloadManager {
     }
 
     func clearStuckDownloads() {
-        var episodesWithDownloadIds = dataManager.findEpisodesWhereNotNull(propertyName: "downloadTaskId")
-        if episodesWithDownloadIds.count == 0 { return }
+        let episodesWithDownloadIds = DataManager.sharedManager.findEpisodesWhereNotNull(propertyName: "downloadTaskId")
+        if !FeatureFlag.downloadFixes.enabled {
+            if episodesWithDownloadIds.count == 0 { return }
+        }
 
         wifiOnlyBackgroundSession.getTasksWithCompletionHandler { [weak self] _, _, downloadTasks in
             guard let strongSelf = self else { return }
