@@ -9,27 +9,25 @@ end
 
 # Use this instead of getting values from `ENV` directly. It will throw an error if the requested value is missing.
 def get_required_env!(key, env_file_path: USER_ENV_FILE_PATH)
-  unless ENV.key?(key)
-    message = "Environment variable '#{key}' is not set."
+  return ENV.fetch(key) if ENV.key?(key)
 
-    if is_ci
-      UI.user_error!(message)
-    elsif File.exist?(env_file_path)
-      UI.user_error!("#{message} Consider adding it to #{env_file_path}.")
-    else
-      env_file_example_path = 'fastlane/example.env'
-      env_file_dir = File.dirname(env_file_path)
-      env_file_name = File.basename(env_file_path)
+  message = "Environment variable '#{key}' is not set."
 
-      UI.user_error! <<~MSG
-        #{env_file_name} not found in #{env_file_dir}!
+  if is_ci
+    UI.user_error!(message)
+  elsif File.exist?(env_file_path)
+    UI.user_error!("#{message} Consider adding it to #{env_file_path}.")
+  else
+    env_file_example_path = 'fastlane/example.env'
+    env_file_dir = File.dirname(env_file_path)
+    env_file_name = File.basename(env_file_path)
 
-        Please copy #{env_file_example_path} to #{env_file_path} and fill in the values for the automation you require.
+    UI.user_error! <<~MSG
+      #{env_file_name} not found in #{env_file_dir}!
 
-        mkdir -p #{env_file_dir} && cp #{env_file_example_path} #{env_file_path}
-      MSG
-    end
+      Please copy #{env_file_example_path} to #{env_file_path} and fill in the values for the automation you require.
+
+      mkdir -p #{env_file_dir} && cp #{env_file_example_path} #{env_file_path}
+    MSG
   end
-
-  ENV.fetch(key)
 end
