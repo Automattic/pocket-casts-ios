@@ -327,7 +327,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PlaylistManager.createDefaultFilters()
             UserDefaults.standard.set(true, forKey: "CreatedDefPlaylistsV2")
         }
-        DownloadManager.shared.clearStuckDownloads()
+        Task {
+            await DownloadManager.shared.clearStuckDownloads()
+        }
     }
 
     private func checkIfRestoreCleanupRequired() {
