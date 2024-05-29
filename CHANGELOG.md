@@ -5,6 +5,7 @@
 7.65
 -----
 - Show the Up Next bar on the tab bar. [#1613]
+- Add options to enable/disable Sleep Timer shake and auto restart [#1790]
 
 7.64
 -----
