@@ -16,12 +16,12 @@ struct MediaExporter {
         do {
             try compositionAudioTrack.insertTimeRange(CMTimeRangeMake(start: .zero, duration: item.asset.duration), of: sourceAudioTrack, at: CMTime.zero)
         } catch {
-            FileLog.shared.addMessage("Media Export Session -> Failed to create audio track: \(error)")
+            FileLog.shared.addMessage("DownloadManager export session: failed to create audio track -> \(error)")
             return false
         }
 
         guard let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A) else {
-            FileLog.shared.addMessage("Media Export Session -> Failed to create export session")
+            FileLog.shared.addMessage("DownloadManager export session: failed to create export session")
             return false
         }
 
@@ -32,7 +32,7 @@ struct MediaExporter {
             do {
                 try FileManager.default.removeItem(at: outputURL)
             } catch let error {
-                FileLog.shared.addMessage("Media Export Session -> Failed to delete file with error: \(error)")
+                FileLog.shared.addMessage("DownloadManager export session: failed to delete file with error -> \(error)")
                 return false
             }
         }
@@ -40,11 +40,12 @@ struct MediaExporter {
         await exporter.export()
 
         if let error = exporter.error {
-            FileLog.shared.addMessage("Media Export Session -> Finished with error: \(error)")
+            FileLog.shared.addMessage("DownloadManager export session: finished with error -> \(error)")
             return false
         }
 
-        FileLog.shared.addMessage("Media Export Session -> Finished exporting to: \(outputURL)")
+        FileLog.shared.addMessage("DownloadManager export session: Finished exporting successfully")
+        print(outputURL)
         return true
     }
     #endif

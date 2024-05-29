@@ -249,14 +249,11 @@ class DownloadManager: NSObject, FilePathProtocol {
             episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             episode.contentType = UTType.mpeg4Audio.preferredMIMEType
             DataManager.sharedManager.save(episode: episode)
-
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
             let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
-            //TODO: force contentType to M4A so downloads paths match on the remaing code
-
             downloadingEpisodesCache[episode.uuid] = episode
-            FileLog.shared.addMessage("Media Export Session -> starting exporting: \(episode.title ?? "")")
+            FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
             let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL)
             if exportCompleted {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .downloadedForStreaming, downloadError: nil, downloadTaskId: nil, episode: episode)
