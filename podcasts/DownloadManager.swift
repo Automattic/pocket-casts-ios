@@ -241,8 +241,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
         #if !os(watchOS)
         Task {
-            /// check for the following:
-            /// - download is not happening already because of auto download, cancel the auto download and use this file
+            //TODO: check for the following: download is not happening already because of auto download, cancel the auto download and use this file
             episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             DataManager.sharedManager.save(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
