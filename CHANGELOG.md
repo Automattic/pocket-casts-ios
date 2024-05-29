@@ -1,3 +1,7 @@
+7.66
+-----
+- Re-add Use contentType to set extension for downloaded files. [#1743]
+
 7.65
 -----
 - Show the Up Next bar on the tab bar. [#1613]
@@ -19,6 +23,7 @@
 -----
 - Sleep Timer restarts automatically if you play again within 5 minutes [#1612]
 - Add redesigned Categories picker to the top of Discover. [#1621]
+- Use contentType to set extension for downloaded files. [#1577]
 
 7.61
 -----

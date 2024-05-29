@@ -415,6 +415,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Eliminar de la nube</string>
     <key>custom_episode_upload</key>
     <string>Subir a la nube</string>
+    <key>database_migration</key>
+    <string>Estamos haciendo algunos cambios para que la aplicación vaya más rápido...</string>
     <key>day_listened</key>
     <string>Día escuchado</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@ Compártelos con Pocket Casts y aparecerán aquí.</string>
     <string>De acuerdo</string>
     <key>group_episodes</key>
     <string>Agrupar episodios</string>
+    <key>hang_on</key>
+    <string>¡Espera!</string>
     <key>history_clear_all</key>
     <string>Vaciar todo</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,12 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Cancelar temporizador</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Final del episodio</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Dentro de %1$@ episodios</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Suspensión dentro de %1$@ episodios</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Suspensión al final del episodio actual</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador activado, quedan %1$@</string>
     <key>social_sign_in_continue_with_apple</key>

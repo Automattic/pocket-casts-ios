@@ -415,6 +415,8 @@
     <string>Удалить из облака</string>
     <key>custom_episode_upload</key>
     <string>Загрузить в облако</string>
+    <key>database_migration</key>
+    <string>Мы двигаем туда-сюда биты и байты, чтобы приложение работало быстрее…</string>
     <key>day_listened</key>
     <string>день прослушан</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@
     <string>Понятно</string>
     <key>group_episodes</key>
     <string>Группировать выпуски</string>
+    <key>hang_on</key>
+    <string>Подождите немного!</string>
     <key>history_clear_all</key>
     <string>Очистить все</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,12 @@
     <string>Отменить таймер</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Конец выпуска</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Через %1$@ вып.</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Переход в режим ожидания через %1$@ вып.</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Переход в режим ожидания по окончании текущего выпуска</string>
     <key>sleep_timer_time_remaining</key>
     <string>Таймер сна включен, осталось %1$@</string>
     <key>social_sign_in_continue_with_apple</key>

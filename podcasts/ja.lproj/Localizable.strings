@@ -415,6 +415,8 @@
     <string>クラウドから削除</string>
     <key>custom_episode_upload</key>
     <string>クラウドにアップロード</string>
+    <key>database_migration</key>
+    <string>アプリの動作速度を上げるために、少量のビットとバイトを移動しています...</string>
     <key>day_listened</key>
     <string>聴取日数</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>OK</string>
     <key>group_episodes</key>
     <string>エピソードをグループ化</string>
+    <key>hang_on</key>
+    <string>しばらくお待ちください。</string>
     <key>history_clear_all</key>
     <string>すべてクリア</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>タイマーをキャンセル</string>
     <key>sleep_timer_end_of_episode</key>
     <string>エピソード終了時</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>現在のエピソードの最後でスリープ</string>
     <key>sleep_timer_time_remaining</key>
     <string>スリープタイマーがオンになるまで、あと%1$@分</string>
     <key>social_sign_in_continue_with_apple</key>

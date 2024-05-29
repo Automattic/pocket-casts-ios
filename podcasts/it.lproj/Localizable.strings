@@ -415,6 +415,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Rimuovi dal cloud</string>
     <key>custom_episode_upload</key>
     <string>Carica nel cloud</string>
+    <key>database_migration</key>
+    <string>Stiamo spostando alcuni bit e byte per velocizzare l'app...</string>
     <key>day_listened</key>
     <string>Giorno ascoltato</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Fatto</string>
     <key>group_episodes</key>
     <string>Raggruppa episodi</string>
+    <key>hang_on</key>
+    <string>Resisti.</string>
     <key>history_clear_all</key>
     <string>Cancella tutto</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,12 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Annulla l'autospegnimento</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Fine dell'episodio</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Tra %1$@ episodi</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>In sospensione tra %1$@ episodi</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>In sospensione alla fine dell'episodio corrente</string>
     <key>sleep_timer_time_remaining</key>
     <string>Autospegnimento attivo, tempo rimanente: %1$@</string>
     <key>social_sign_in_continue_with_apple</key>

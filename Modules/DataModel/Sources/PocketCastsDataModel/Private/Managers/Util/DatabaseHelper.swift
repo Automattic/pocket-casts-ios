@@ -722,6 +722,14 @@ class DatabaseHelper {
             schemaVersion = 49
         }
 
+        if schemaVersion < 50 {
+            // We are doing try? because depending of the cleanup process was done or not these columns could have been dropped and need to recreated
+            // or they still exist because of the changes of version 47.
+            try? db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
+            try? db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
+            schemaVersion = 50
+        }
+
         db.commit()
     }
 }

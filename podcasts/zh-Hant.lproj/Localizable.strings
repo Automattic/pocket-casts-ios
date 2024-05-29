@@ -415,6 +415,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>從雲端移除</string>
     <key>custom_episode_upload</key>
     <string>上傳到雲端</string>
+    <key>database_migration</key>
+    <string>我們移動了一些資料，讓應用程式運作起來更迅速...</string>
     <key>day_listened</key>
     <string>已收聽的天數</string>
     <key>day_saved</key>
@@ -1085,6 +1087,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>知道了</string>
     <key>group_episodes</key>
     <string>將單集分組</string>
+    <key>hang_on</key>
+    <string>稍待片刻！</string>
     <key>history_clear_all</key>
     <string>全部清除</string>
     <key>history_clear_all_details</key>
@@ -2437,6 +2441,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>取消計時器</string>
     <key>sleep_timer_end_of_episode</key>
     <string>本集結束</string>
+    <key>sleep_timer_episode_count</key>
+    <string>%1$@ 集後</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>在 %1$@ 集後休眠</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>在目前的單集結束後休眠</string>
     <key>sleep_timer_time_remaining</key>
     <string>睡眠計時器已啟動，剩餘 %1$@</string>
     <key>social_sign_in_continue_with_apple</key>
