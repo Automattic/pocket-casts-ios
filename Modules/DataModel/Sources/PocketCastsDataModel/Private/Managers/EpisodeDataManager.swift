@@ -13,6 +13,7 @@ class EpisodeDataManager {
         "episodeDescription",
         "episodeStatus",
         "fileType",
+        "contentType",
         "keepEpisode",
         "playedUpTo",
         "duration",
@@ -361,6 +362,11 @@ class EpisodeDataManager {
     func saveFileType(episode: Episode, fileType: String, dbQueue: FMDatabaseQueue) {
         episode.fileType = fileType
         save(fieldName: "fileType", value: fileType, episodeId: episode.id, dbQueue: dbQueue)
+    }
+
+    func saveContentType(episode: Episode, contentType: String, dbQueue: FMDatabaseQueue) {
+        episode.contentType = contentType
+        save(fieldName: "contentType", value: contentType, episodeId: episode.id, dbQueue: dbQueue)
     }
 
     func saveFileSize(episode: Episode, fileSize: Int64, dbQueue: FMDatabaseQueue) {
@@ -948,6 +954,7 @@ class EpisodeDataManager {
         values.append(DBUtils.nullIfNil(value: episode.episodeDescription))
         values.append(episode.episodeStatus)
         values.append(DBUtils.nullIfNil(value: episode.fileType))
+        values.append(DBUtils.nullIfNil(value: episode.contentType))
         values.append(episode.keepEpisode)
         values.append(episode.playedUpTo)
         values.append(episode.duration)

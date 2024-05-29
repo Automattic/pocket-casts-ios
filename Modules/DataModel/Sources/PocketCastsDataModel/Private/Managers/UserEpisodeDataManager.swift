@@ -561,6 +561,7 @@ class UserEpisodeDataManager {
         episode.downloadUrl = rs.string(forColumn: "downloadUrl")
         episode.episodeStatus = rs.int(forColumn: "episodeStatus")
         episode.fileType = rs.string(forColumn: "fileType")
+        episode.contentType = rs.string(forColumn: "contentType")
         episode.playedUpTo = rs.double(forColumn: "playedUpTo")
         episode.duration = rs.double(forColumn: "duration")
         episode.durationModified = rs.longLongInt(forColumn: "durationModified")
