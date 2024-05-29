@@ -200,8 +200,10 @@ class PCViewController: SimpleNotificationsViewController {
 
 class MiniPlayerInsetAdjuster {
 
-    init() {
+    let ignoreMiniPlayer: Bool
 
+    init(ignoreMiniPlayer: Bool = false) {
+        self.ignoreMiniPlayer = ignoreMiniPlayer
     }
 
     deinit {
@@ -234,6 +236,6 @@ class MiniPlayerInsetAdjuster {
         guard let scrollView = scrollViewAdjustableToMiniPlayer else {
             return
         }
-        scrollView.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
+        scrollView.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled, ignoreMiniPlayer: ignoreMiniPlayer)
     }
 }

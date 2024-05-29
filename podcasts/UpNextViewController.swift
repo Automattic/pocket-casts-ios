@@ -18,6 +18,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var themeOverride: Theme.ThemeType? = nil
 
+    lazy var contentInseter = {
+        MiniPlayerInsetAdjuster(ignoreMiniPlayer: !self.showingInTab)
+    }()
+
     var isMultiSelectEnabled = false {
         didSet {
             let didChange = oldValue != isMultiSelectEnabled
@@ -35,7 +39,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.track(.upNextMultiSelectEntered)
                 }
                 if self.showingInTab {
-                    self.upNextTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
+                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 8 : Constants.Values.miniPlayerOffset + 8
                 }
                 reloadTable()
             }
@@ -50,9 +54,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         didSet {
             multiSelectActionBar.setSelectedCount(count: selectedPlayListEpisodes.count)
             if selectedPlayListEpisodes.count == 0 {
-                upNextTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                contentInseter.isMultiSelectEnabled = false
             } else {
-                upNextTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+                contentInseter.isMultiSelectEnabled = true
             }
             updateNavBarButtons()
         }
@@ -142,14 +146,13 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
 
+        contentInseter.setupInsetAdjustmentsForMiniPlayer(scrollView: upNextTable)
+
         refreshSections()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if showingInTab {
-            upNextTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
-        }
         // fix issues with the now playing cell not animating by reloading it on appear
         reloadTable()
 
