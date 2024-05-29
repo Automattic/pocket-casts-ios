@@ -126,7 +126,6 @@ GLOTPRESS_TO_ASC_METADATA_LOCALE_CODES = {
   'zh-tw' => 'zh-Hant'
 }.freeze
 
-require_relative 'lib/helpers'
 import 'lib/helpers.rb'
 
 before_all do
