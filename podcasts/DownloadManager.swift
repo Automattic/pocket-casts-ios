@@ -268,12 +268,12 @@ class DownloadManager: NSObject, FilePathProtocol {
             let sourceAudioTrack = try await item.asset.loadTracks(withMediaType: .audio).first!
             try compositionAudioTrack?.insertTimeRange(CMTimeRange(start: .zero, end: .indefinite), of: sourceAudioTrack, at: .zero)
         } catch {
-            print("Failed to create audio track: \(error)")
+            FileLog.shared.addMessage("Media Export Session -> Failed to create audio track: \(error)")
             return false
         }
 
         guard let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A) else {
-            print("Failed to create export session")
+            FileLog.shared.addMessage("Media Export Session -> Failed to create export session")
             return false
         }
 
@@ -284,15 +284,17 @@ class DownloadManager: NSObject, FilePathProtocol {
             do {
                 try FileManager.default.removeItem(at: outputURL)
             } catch let error {
-                print("Failed to delete file with error: \(error)")
+                FileLog.shared.addMessage("Media Export Session -> Failed to delete file with error: \(error)")
                 return false
             }
         }
 
         await exporter.export()
-        print("Exporter did finish: \(outputURL)")
+
         if let error = exporter.error {
-            print("Exporter error: \(error)")
+            FileLog.shared.addMessage("Media Export Session -> Finished with error: \(error)")
+        } else {
+            FileLog.shared.addMessage("Media Export Session -> Finished exporting to: \(outputURL)")
         }
         return true
     }
