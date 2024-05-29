@@ -247,58 +247,18 @@ class DownloadManager: NSObject, FilePathProtocol {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
             let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
             downloadingEpisodesCache[episode.uuid] = episode
-            let exportCompleted = await exportSession(forItem: playbackItem, at: outputURL)
+            FileLog.shared.addMessage("Media Export Session -> starting exporting: \(episode.title ?? "")")
+            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL)
             if exportCompleted {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .downloadedForStreaming, downloadError: nil, downloadTaskId: nil, episode: episode)
             } else {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
+                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
             }
             downloadingEpisodesCache.removeValue(forKey: episode.uuid)
         }
         #endif
         return playbackItem
     }
-
-    #if !os(watchOS)
-    private func exportSession(forItem item: AVPlayerItem, at outputURL: URL) async -> Bool {
-        let composition = AVMutableComposition()
-        let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))
-
-        do {
-            let sourceAudioTrack = try await item.asset.loadTracks(withMediaType: .audio).first!
-            try compositionAudioTrack?.insertTimeRange(CMTimeRange(start: .zero, end: .indefinite), of: sourceAudioTrack, at: .zero)
-        } catch {
-            FileLog.shared.addMessage("Media Export Session -> Failed to create audio track: \(error)")
-            return false
-        }
-
-        guard let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A) else {
-            FileLog.shared.addMessage("Media Export Session -> Failed to create export session")
-            return false
-        }
-
-        exporter.outputURL = outputURL
-        exporter.outputFileType = AVFileType.m4a
-
-        if FileManager.default.fileExists(atPath: outputURL.path) {
-            do {
-                try FileManager.default.removeItem(at: outputURL)
-            } catch let error {
-                FileLog.shared.addMessage("Media Export Session -> Failed to delete file with error: \(error)")
-                return false
-            }
-        }
-
-        await exporter.export()
-
-        if let error = exporter.error {
-            FileLog.shared.addMessage("Media Export Session -> Finished with error: \(error)")
-        } else {
-            FileLog.shared.addMessage("Media Export Session -> Finished exporting to: \(outputURL)")
-        }
-        return true
-    }
-    #endif
 
     private func markUnplayedAndUnarchiveIfRequired(episode: BaseEpisode, saveChanges: Bool) {
         var episodeModified = false
