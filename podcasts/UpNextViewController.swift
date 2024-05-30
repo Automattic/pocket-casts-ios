@@ -20,7 +20,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     var themeOverride: Theme.ThemeType? = nil
 
     lazy var contentInseter = {
-        MiniPlayerInsetAdjuster(ignoreMiniPlayer: !self.showingInTab)
+        InsetAdjuster(ignoreMiniPlayer: !self.showingInTab)
     }()
 
     var isMultiSelectEnabled = false {
