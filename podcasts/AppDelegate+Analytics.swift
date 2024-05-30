@@ -16,6 +16,16 @@ extension AppDelegate {
         Analytics.register(adapters: [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()])
     }
 
+    func logActiveDownloadTasks() {
+        Task {
+            let tasks = await DownloadManager.shared.activeTasks()
+
+            let properties: [String: Any?] =  ["tasks_count": tasks.count]
+
+            Analytics.track(.episodeDownloadTasks, properties: properties.compactMapValues({ $0 }))
+        }
+    }
+
     func logStaleDownloads() {
         let failedDownloadCount = DataManager.sharedManager.failedDownloadedEpisodesCount()
 

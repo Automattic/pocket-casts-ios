@@ -1635,6 +1635,7 @@
 		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
 		FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */; };
 		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
+		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
@@ -3415,6 +3416,7 @@
 		FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCard.swift; sourceTree = "<group>"; };
 		FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompt.swift; sourceTree = "<group>"; };
 		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
+		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
 		FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
@@ -5582,6 +5584,7 @@
 				BDD40A171FA1ABF500A53AE1 /* PCNavigationController.swift */,
 				BD6B432B27561EA8005E4017 /* PCHostingController.swift */,
 				C7C4F9BE2A4CC359002822DD /* PCTableViewController.swift */,
+				FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */,
 			);
 			name = "VIew Controllers";
 			sourceTree = "<group>";
@@ -9073,6 +9076,7 @@
 				BDF0507C1FBA65ED00194D68 /* ListeningHistoryViewController.swift in Sources */,
 				BD6C3EFF2378EC5900C01403 /* NowPlayingPlayerItemViewController+Shelf.swift in Sources */,
 				408F0B36227FF41E0019584D /* ProfileProgressCircleView.swift in Sources */,
+				FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */,
 				BDD62981200EEA6700168DF7 /* SimpleNotificationsViewController.swift in Sources */,
 				BD4BBFA41D223AA9001BEE4D /* Settings.swift in Sources */,
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
