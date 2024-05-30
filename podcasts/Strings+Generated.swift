@@ -1178,6 +1178,8 @@ internal enum L10n {
   internal static var folders: String { return L10n.tr("Localizable", "folders") }
   /// Folders History
   internal static var foldersHistory: String { return L10n.tr("Localizable", "folders_history") }
+  /// A list of podcasts that were removed from folders as a result of a sync.
+  internal static var foldersHistoryExplanation: String { return L10n.tr("Localizable", "folders_history_explanation") }
   /// No Payment Now – Cancel Anytime
   internal static var freeTrialDetailLabel: String { return L10n.tr("Localizable", "free_trial_detail_label") }
   /// %1$@ FREE

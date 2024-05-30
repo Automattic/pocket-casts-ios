@@ -19,7 +19,7 @@ struct FolderHistoryView: View {
             Section {
 
             } footer: {
-                Text(L10n.upNextHistoryExplanation)
+                Text(L10n.foldersHistoryExplanation)
                     .foregroundStyle(theme.primaryText02)
             }
 

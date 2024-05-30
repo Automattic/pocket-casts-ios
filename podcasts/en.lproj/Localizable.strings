@@ -4108,3 +4108,6 @@
 
 /* Title of a screen that display Folders history */
 "folders_history" = "Folders History";
+
+/* A message explaining how to use the Folders history */
+"folders_history_explanation" = "A list of podcasts that were removed from folders as a result of a sync.";
