@@ -38,12 +38,18 @@ struct CategoriesSelectorView: View {
 
 struct PlaceholderPillsView: View {
     var body: some View {
-        ForEach(0..<10) { _ in
-            Button(action: {}, label: {
-                Text("Placeholder")
-            })
-            .buttonStyle(CategoryButtonStyle())
-            .redacted(reason: .placeholder)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(0..<10) { _ in
+                    Button(action: {}, label: {
+                        Text("Placeholder")
+                    })
+                    .buttonStyle(CategoryButtonStyle())
+                    .redacted(reason: .placeholder)
+                }
+            }
+            .frame(alignment: .leading)
+            .padding(CategoriesPillsView.Constants.buttonInsets)
         }
     }
 }
@@ -59,7 +65,7 @@ struct CategoriesPillsView: View {
 
     @Namespace private var animation
 
-    private enum Constants {
+    fileprivate enum Constants {
         static let buttonInsets: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 16, trailing: 16)
     }
 
