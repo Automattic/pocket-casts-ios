@@ -4105,3 +4105,6 @@
 
 /* Description of the option to shake to restart sleep timer */
 "shake_to_restart_sleep_timer_description" = "If on, the sleep timer will restart when you shake your phone.";
+
+/* Title of a screen that display Folders history */
+"folders_history" = "Folders History";

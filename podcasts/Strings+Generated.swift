@@ -1176,6 +1176,8 @@ internal enum L10n {
   internal static var folderUnnamed: String { return L10n.tr("Localizable", "folder_unnamed") }
   /// Folders
   internal static var folders: String { return L10n.tr("Localizable", "folders") }
+  /// Folders History
+  internal static var foldersHistory: String { return L10n.tr("Localizable", "folders_history") }
   /// No Payment Now – Cancel Anytime
   internal static var freeTrialDetailLabel: String { return L10n.tr("Localizable", "free_trial_detail_label") }
   /// %1$@ FREE
