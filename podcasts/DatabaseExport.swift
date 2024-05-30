@@ -1,10 +1,13 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import Combine
 
 class DatabaseExport {
     /// The resulting file name of the zip file
     let exportName: String
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(exportName: String = "Pocket Casts Export") {
         self.exportName = exportName
@@ -14,7 +17,7 @@ class DatabaseExport {
 
     /// Create a zip of the database and prefrences
     func export() async -> URL? {
-        guard let exportFolder = self.prepareFiles() else {
+        guard let exportFolder = await self.prepareFiles() else {
             return nil
         }
 
@@ -48,7 +51,7 @@ class DatabaseExport {
     }
 
     /// Copies the database and preferences to a temporary directory
-    private func prepareFiles() -> URL? {
+    private func prepareFiles() async -> URL? {
         do {
             let databaseURL = URL(fileURLWithPath: DataManager.pathToDb())
 
@@ -61,6 +64,11 @@ class DatabaseExport {
             let exportDirectory = temporaryDirectory.appendingPathComponent(exportName, isDirectory: true)
 
             try fileManager.createDirectory(at: exportDirectory, withIntermediateDirectories: true)
+
+            FileLog.shared.forceFlush()
+            let logFile = try await FileLog.shared.logFileForUpload().awaitFirstValue(in: &cancellables)
+            let logsFile = exportDirectory.appendingPathComponent("logs.txt", isDirectory: false)
+            try fileManager.copyItem(at: URL(fileURLWithPath: logFile), to: logsFile)
 
             // Write the preferences to the export folder
             let preferencesFile = exportDirectory.appendingPathComponent("preferences.plist", isDirectory: false)
