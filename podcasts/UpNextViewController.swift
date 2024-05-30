@@ -11,6 +11,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     static let noUpNextRowHeight: CGFloat = 180
     static let nowPlayingRowHeight: CGFloat = 72
     static let rearrangeWidth: CGFloat = 60
+    static let bottomMargin: CGFloat = 8
 
     enum sections: Int { case nowPlayingSection = 0, upNextSection }
 
@@ -39,7 +40,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.track(.upNextMultiSelectEntered)
                 }
                 if self.showingInTab {
-                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 8 : Constants.Values.miniPlayerOffset + 8
+                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? Self.bottomMargin : Constants.Values.miniPlayerOffset + Self.bottomMargin
                 }
                 reloadTable()
             }
