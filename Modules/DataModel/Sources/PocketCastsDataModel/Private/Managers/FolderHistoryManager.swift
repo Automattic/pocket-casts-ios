@@ -14,8 +14,9 @@ public class FolderHistoryManager {
             do {
                 db.beginTransaction()
 
+                let date = Date()
                 try podcastsAndFolders.forEach {
-                    try db.executeUpdate("INSERT INTO PodcastFoldersHistory VALUES ?, ?, ?", values: [$0.key, $0.value, Date()])
+                    try db.executeUpdate("INSERT INTO PodcastFoldersHistory VALUES (?, ?, ?)", values: [$0.key, $0.value, date])
                 }
                 try db.executeUpdate("DELETE FROM PodcastFoldersHistory WHERE date <= ?", values: [Date().addingTimeInterval(-periodOfSnapshot)])
 
@@ -75,5 +76,22 @@ public class FolderHistoryManager {
 
         public let date: Date
         public let changesCount: Int
+    }
+}
+
+public class FolderHistoryHelper {
+    public static let shared = FolderHistoryHelper()
+
+    private var podcastAndFolderUuids: [String: String] = [:]
+
+    public func add(podcastUuid: String, folderUuid: String) {
+        podcastAndFolderUuids[podcastUuid] = folderUuid
+    }
+
+    public func snapshot() {
+        if !podcastAndFolderUuids.isEmpty {
+            DataManager.sharedManager.snapshot(podcastsAndFolders: podcastAndFolderUuids)
+            podcastAndFolderUuids = [:]
+        }
     }
 }
