@@ -20,6 +20,7 @@ public class DataManager {
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
     private lazy var upNextHistoryManager = UpNextHistoryManager()
+    private lazy var folderHistoryManager = FolderHistoryManager()
 
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
@@ -1032,6 +1033,16 @@ public class DataManager {
 
     public func upNextHistoryEpisodes(entry: Date) -> [String] {
         upNextHistoryManager.episodes(entry: entry, dbQueue: dbQueue)
+    }
+
+    // MARK: - Folders History
+
+    public func snapshot(podcastsAndFolders: [String: String]) {
+        folderHistoryManager.snapshot(podcastsAndFolders: podcastsAndFolders, dbQueue: dbQueue)
+    }
+
+    public func foldersHistoryEntries() -> [FolderHistoryManager.PodcastFoldersHistoryEntry] {
+        folderHistoryManager.entries(dbQueue: dbQueue)
     }
 }
 
