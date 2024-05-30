@@ -760,7 +760,6 @@ class DatabaseHelper {
             do {
                 try db.executeUpdate("""
                     CREATE TABLE PodcastFoldersHistory (
-                    id INTEGER KEY,
                     podcastUuid TEXT NOT NULL,
                     folderUuid TEXT NOT NULL,
                     date REAL NOT NULL
@@ -769,9 +768,9 @@ class DatabaseHelper {
 
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS podcast_folders_history_date ON PlaylistEpisodeHistory (date);", values: nil)
 
-                schemaVersion = 51
+                schemaVersion = 52
             } catch {
-                failedAt(51)
+                failedAt(52)
                 return
             }
         }
