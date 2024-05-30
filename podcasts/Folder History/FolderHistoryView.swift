@@ -39,7 +39,7 @@ struct FolderHistoryView: View {
         .modifier(HiddenScrollContentBackground())
         .background(theme.primaryUi04)
         .sheet(item: $selectedEntry) { entry in
-            UpNextEntryView(entryDate: entry.date)
+            FolderHistoryEntryView(entryDate: entry.date)
         }
         .onAppear {
             model.loadEntries()
