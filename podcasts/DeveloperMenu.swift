@@ -36,6 +36,16 @@ struct DeveloperMenu: View {
                         PodcastManager.shared.unsubscribe(podcast: podcast)
                     }
                 }
+
+                Button("Clear all folder information") {
+                    DataManager.sharedManager.clearAllFolderInformation()
+                }
+
+                Button("Force Reload Feature Flags") {
+                    FirebaseManager.refreshRemoteConfig(expirationDuration: 0) { _ in
+                        (UIApplication.shared.delegate as? AppDelegate)?.updateRemoteFeatureFlags()
+                    }
+                }
             }
 
             Section {

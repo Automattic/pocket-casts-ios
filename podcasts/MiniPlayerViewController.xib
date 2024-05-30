@@ -68,7 +68,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92g-6h-Yd9" userLabel="Skip Back">
-                            <rect key="frame" x="80.5" y="5.5" width="44" height="44"/>
+                            <rect key="frame" x="76.5" y="5.5" width="44" height="44"/>
                             <accessibility key="accessibilityConfiguration" label="Skip Back"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Woi-QS-Vfx"/>
@@ -80,18 +80,18 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CjL-4C-tuh" userLabel="Play Pause Button" customClass="PlayPauseButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="138.5" y="11.5" width="32" height="32"/>
+                            <rect key="frame" x="134.5" y="7.5" width="40" height="40"/>
                             <accessibility key="accessibilityConfiguration" label="Play/Pause"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="32" id="Q9t-vc-8fw"/>
-                                <constraint firstAttribute="height" constant="32" id="UGD-jw-hmp"/>
+                                <constraint firstAttribute="width" constant="40" id="Q9t-vc-8fw"/>
+                                <constraint firstAttribute="height" constant="40" id="UGD-jw-hmp"/>
                             </constraints>
                             <connections>
                                 <action selector="playPauseTapped:" destination="-1" eventType="touchUpInside" id="MHK-aa-QTy"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JHq-wc-GDV" userLabel="Skip Forward">
-                            <rect key="frame" x="184.5" y="5.5" width="44" height="44"/>
+                            <rect key="frame" x="188.5" y="5.5" width="44" height="44"/>
                             <accessibility key="accessibilityConfiguration" label="Skip Forward"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="44" id="lSC-b9-3WW"/>

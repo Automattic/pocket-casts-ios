@@ -153,12 +153,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>書籤登場！</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>加入我們的書籤 Beta 測試！</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>立即訂閱 Plus，就能在支援章節功能的節目中自動預先選取並跳過章節。</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>你已訂閱 Patron，現在可以在支援章節功能的節目中自動預先選取並跳過章節。</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>你已訂閱 Plus，現在可以在支援章節功能的節目中自動預先選取並跳過章節。</string>
     <key>announcement_slumber_code_copied</key>
     <string>代碼已複製到剪貼簿</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,8 +213,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Podcast 封面作品</string>
     <key>appearance_dark_theme</key>
     <string>深色佈景主題</string>
-    <key>appearance_embedded_artwork</key>
-    <string>使用單集封面圖片</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>有些節目會針對特定單集推出自訂封面圖片。 若啟用此選項，Pocket Casts 就會顯示這些封面圖片，而非節目的封面圖片。</string>
     <key>appearance_light_theme</key>
@@ -423,6 +415,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>從雲端移除</string>
     <key>custom_episode_upload</key>
     <string>上傳到雲端</string>
+    <key>database_migration</key>
+    <string>我們移動了一些資料，讓應用程式運作起來更迅速...</string>
     <key>day_listened</key>
     <string>已收聽的天數</string>
     <key>day_saved</key>
@@ -451,6 +445,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>只從裝置刪除</string>
     <key>deselect_all</key>
     <string>取消全選</string>
+    <key>device_shake_sleep_timer</key>
+    <string>由於裝置晃動，故睡眠計時器已重新啟動</string>
     <key>discover</key>
     <string>探索</string>
     <key>discover_all_episodes</key>
@@ -1091,6 +1087,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>知道了</string>
     <key>group_episodes</key>
     <string>將單集分組</string>
+    <key>hang_on</key>
+    <string>稍待片刻！</string>
     <key>history_clear_all</key>
     <string>全部清除</string>
     <key>history_clear_all_details</key>
@@ -2433,10 +2431,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>倒轉跳過</string>
     <key>skip_chapters</key>
     <string>預先選取的章節</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>訂閱 Pocket Casts Patron，就能預先選取章節並享有更多功能</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>訂閱 Pocket Casts Plus，就能預先選取章節並享有更多功能</string>
     <key>skip_forward</key>
     <string>快轉跳過</string>
     <key>sleep_timer</key>
@@ -2447,6 +2441,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>取消計時器</string>
     <key>sleep_timer_end_of_episode</key>
     <string>本集結束</string>
+    <key>sleep_timer_episode_count</key>
+    <string>%1$@ 集後</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>在 %1$@ 集後休眠</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>在目前的單集結束後休眠</string>
     <key>sleep_timer_time_remaining</key>
     <string>睡眠計時器已啟動，剩餘 %1$@</string>
     <key>social_sign_in_continue_with_apple</key>

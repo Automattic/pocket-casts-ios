@@ -4,7 +4,6 @@ import UIKit
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: UITableView! {
         didSet {
-            filtersTable.applyInsetForMiniPlayer()
             registerCells()
         }
     }
@@ -55,7 +54,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
 
         loadingIndicator = ThemeLoadingIndicator()
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
         setupNewFilterButton()
         handleThemeChanged()
     }
