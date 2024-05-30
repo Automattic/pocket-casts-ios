@@ -381,6 +381,7 @@ enum AnalyticsEvent: String {
     case episodeDownloadCancelled
     case episodeDownloadFailed
     case episodeDownloadsStale
+    case episodeDownloadTasks
 
     case episodeUploadQueued
     case episodeUploadFinished
@@ -485,6 +486,8 @@ enum AnalyticsEvent: String {
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
     case settingsGeneralAutoplayToggled
+    case settingsGeneralAutoSleepTimerRestartToggled
+    case settingsGeneralShakeToResetSleepTimerToggled
 
     // MARK: - Settings: Notifications
 

@@ -13,6 +13,7 @@ class EpisodeDataManager {
         "episodeDescription",
         "episodeStatus",
         "fileType",
+        "contentType",
         "keepEpisode",
         "playedUpTo",
         "duration",
@@ -363,6 +364,11 @@ class EpisodeDataManager {
         save(fieldName: "fileType", value: fileType, episodeId: episode.id, dbQueue: dbQueue)
     }
 
+    func saveContentType(episode: Episode, contentType: String, dbQueue: FMDatabaseQueue) {
+        episode.contentType = contentType
+        save(fieldName: "contentType", value: contentType, episodeId: episode.id, dbQueue: dbQueue)
+    }
+
     func saveFileSize(episode: Episode, fileSize: Int64, dbQueue: FMDatabaseQueue) {
         episode.sizeInBytes = fileSize
         save(fieldName: "sizeInBytes", value: fileSize, episodeId: episode.id, dbQueue: dbQueue)
@@ -639,16 +645,6 @@ class EpisodeDataManager {
 
         let fields = ["episodeStatus", "sizeInBytes", "downloadTaskId"]
         let values = [episode.episodeStatus, episode.sizeInBytes, DBUtils.replaceNilWithNull(value: episode.downloadTaskId), episode.id] as [Any]
-
-        save(fields: fields, values: values, dbQueue: dbQueue)
-    }
-
-    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, episode: Episode, dbQueue: FMDatabaseQueue) {
-        episode.episodeStatus = downloadStatus.rawValue
-        episode.sizeInBytes = sizeInBytes
-
-        let fields = ["episodeStatus", "sizeInBytes"]
-        let values = [episode.episodeStatus, episode.sizeInBytes, episode.id] as [Any]
 
         save(fields: fields, values: values, dbQueue: dbQueue)
     }
@@ -958,6 +954,7 @@ class EpisodeDataManager {
         values.append(DBUtils.nullIfNil(value: episode.episodeDescription))
         values.append(episode.episodeStatus)
         values.append(DBUtils.nullIfNil(value: episode.fileType))
+        values.append(DBUtils.nullIfNil(value: episode.contentType))
         values.append(episode.keepEpisode)
         values.append(episode.playedUpTo)
         values.append(episode.duration)

@@ -723,6 +723,14 @@ class DatabaseHelper {
         }
 
         if schemaVersion < 50 {
+            // We are doing try? because depending of the cleanup process was done or not these columns could have been dropped and need to recreated
+            // or they still exist because of the changes of version 47.
+            try? db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
+            try? db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
+            schemaVersion = 50
+        }
+
+        if schemaVersion < 51 {
             do {
                 try db.executeUpdate("""
                     CREATE TABLE PlaylistEpisodeHistory (
@@ -741,9 +749,9 @@ class DatabaseHelper {
 
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_history_date ON PlaylistEpisodeHistory (date);", values: nil)
 
-                schemaVersion = 50
+                schemaVersion = 51
             } catch {
-                failedAt(50)
+                failedAt(51)
                 return
             }
         }

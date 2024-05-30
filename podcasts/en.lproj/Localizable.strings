@@ -4093,3 +4093,15 @@
 
 /* A message explaining how to use the Up Next history */
 "up_next_history_explanation" = "A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.";
+
+/* Name of the option to restart sleep timer */
+"auto_restart_sleep_timer" = "Auto Restart Sleep Timer";
+
+/* Name of the option to shake to restart sleep timer */
+"shake_to_restart_sleep_timer" = "Shake to restart Sleep Timer";
+
+/* Description of the option to restart sleep timer */
+"auto_restart_sleep_timer_description" = "If on, the sleep timer will restart automatically if you play an episode within 5 minutes after the last pause.";
+
+/* Description of the option to shake to restart sleep timer */
+"shake_to_restart_sleep_timer_description" = "If on, the sleep timer will restart when you shake your phone.";
