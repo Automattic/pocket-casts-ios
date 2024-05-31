@@ -6,7 +6,7 @@ import PocketCastsUtils
     import WatchKit
 #endif
 class DownloadManager: NSObject, FilePathProtocol {
-    static let shared = DownloadManager()
+    static let shared = DownloadManager(dataManager: DataManager.sharedManager)
 
     static let cellBackgroundSessionId = "au.com.shiftyjelly.PCManualSession"
 
@@ -79,7 +79,10 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     private var tempDownloadFolder = ""
 
-    override init() {
+    let dataManager: DataManager
+
+    init(dataManager: DataManager) {
+        self.dataManager = dataManager
         super.init()
 
         // setup the temp download folder, in caches where iOS can purge it if need be
@@ -135,10 +138,10 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func queueForLaterDownload(episodeUuid: String, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid), !episode.downloaded(pathFinder: DownloadManager.shared) else { return }
+        guard let episode = dataManager.findBaseEpisode(uuid: episodeUuid), !episode.downloaded(pathFinder: DownloadManager.shared) else { return }
 
         markUnplayedAndUnarchiveIfRequired(episode: episode, saveChanges: true)
-        DataManager.sharedManager.saveEpisode(downloadStatus: .waitingForWifi, lastDownloadAttemptDate: Date(), autoDownloadStatus: autoDownloadStatus, episode: episode)
+        dataManager.saveEpisode(downloadStatus: .waitingForWifi, lastDownloadAttemptDate: Date(), autoDownloadStatus: autoDownloadStatus, episode: episode)
 
         FileLog.shared.addMessage("Queued episode \(episode.displayableTitle()) for later download, autoDownloadStatus: \(autoDownloadStatus)")
 
@@ -159,7 +162,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         // if this episode is already downloading, ignore it
         if !shouldAddDownload(episodeUuid, autoDownloadStatus: autoDownloadStatus) { return }
 
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let episode = dataManager.findBaseEpisode(uuid: episodeUuid) else { return }
 
         let downloadingToStream = autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming
 
@@ -184,10 +187,10 @@ class DownloadManager: NSObject, FilePathProtocol {
             do {
                 try StorageManager.moveItem(at: sourceUrl, to: destinationUrl, options: .overwriteExisting)
 
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: episode.sizeInBytes, downloadTaskId: nil, episode: episode)
+                dataManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: episode.sizeInBytes, downloadTaskId: nil, episode: episode)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
             } catch {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
+                dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
             }
 
             return
@@ -201,31 +204,31 @@ class DownloadManager: NSObject, FilePathProtocol {
         markUnplayedAndUnarchiveIfRequired(episode: episode, saveChanges: false)
         episode.downloadTaskId = episode.uuid
         episode.lastDownloadAttemptDate = Date()
-        DataManager.sharedManager.save(episode: episode)
+        dataManager.save(episode: episode)
 
         if !downloadingToStream { progressManager.updateStatusForEpisode(episode.uuid, status: .queued) }
 
         if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
 
         // try to make sure the download URL is up to date. Authors can change URLs at any time, so this is handy to fix cases where they post the wrong one and update it later
-        if let episode = episode as? Episode, let podcast = episode.parentPodcast() {
+        if let episode = episode as? Episode, let podcast = episode.parentPodcast(dataManager: dataManager) {
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] wasUpdated in
-                guard let strongSelf = self, let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episodeUuid) : episode, let url = episode.downloadUrl else { return }
+                guard let strongSelf = self, let updatedEpisode = wasUpdated ? strongSelf.dataManager.findEpisode(uuid: episodeUuid) : episode, let url = episode.downloadUrl else { return }
 
                 Task {
                     await strongSelf.performAddToQueue(episode: updatedEpisode, url: url, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
                 }
             }
         } else if let episode = episode as? UserEpisode {
-            ApiServerHandler.shared.uploadFilePlayRequest(episode: episode, completion: { url in
+            ApiServerHandler.shared.uploadFilePlayRequest(episode: episode, completion: { [weak self] url in
                 guard let url = url else {
-                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
+                    self?.dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
                     return
                 }
 
-                Task {
-                    await self.performAddToQueue(episode: episode, url: url.absoluteString, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
+                Task { [weak self] in
+                    await self?.performAddToQueue(episode: episode, url: url.absoluteString, previousDownloadFailed: previousDownloadFailed, fireNotification: fireNotification, autoDownloadStatus: autoDownloadStatus)
                 }
             })
         }
@@ -295,11 +298,11 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         if episodeModified, saveChanges {
-            DataManager.sharedManager.save(episode: episode)
+            dataManager.save(episode: episode)
         }
     }
 
-    private func performAddToQueue(episode: BaseEpisode, url: String, previousDownloadFailed: Bool, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) async {
+    func performAddToQueue(episode: BaseEpisode, url: String, previousDownloadFailed: Bool, fireNotification: Bool, autoDownloadStatus: AutoDownloadStatus) async {
 
         var downloadUrl = URL(string: url)
         if downloadUrl == nil {
@@ -311,7 +314,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         // make sure the URL is valid and has a supported scheme: only http and https are allowed
         guard let url = downloadUrl, let scheme = url.scheme, scheme.count > 0, scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame else {
-            DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorContactAuthor, downloadTaskId: nil, episode: episode)
+            dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorContactAuthor, downloadTaskId: nil, episode: episode)
 
             logDownload(episode, failure: .malformedHost)
 
@@ -364,7 +367,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func removeFromQueue(episodeUuid: String, fireNotification: Bool, userInitiated: Bool) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let episode = dataManager.findBaseEpisode(uuid: episodeUuid) else { return }
 
         removeFromQueue(episode: episode, fireNotification: fireNotification, userInitiated: userInitiated)
     }
@@ -395,23 +398,23 @@ class DownloadManager: NSObject, FilePathProtocol {
             saveRequired = true
         }
 
-        if saveRequired { DataManager.sharedManager.save(episode: episode) }
+        if saveRequired { dataManager.save(episode: episode) }
 
         if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
     }
 
     private func shouldAddDownload(_ episodeUuid: String, autoDownloadStatus: AutoDownloadStatus) -> Bool {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return false }
+        guard let episode = dataManager.findBaseEpisode(uuid: episodeUuid) else { return false }
 
         if let taskId = episode.downloadTaskId, episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue, autoDownloadStatus != .playerDownloadedForStreaming {
             // if the player was downloading an episode for streaming purposes, and now the user (or the app via auto download) is downloading it, change the status
-            DataManager.sharedManager.saveEpisode(autoDownloadStatus: autoDownloadStatus, episode: episode)
+            dataManager.saveEpisode(autoDownloadStatus: autoDownloadStatus, episode: episode)
             downloadingEpisodesCache[taskId] = episode
             return false
         }
 
         if episode.episodeStatus == DownloadStatus.notDownloaded.rawValue || episode.episodeStatus == DownloadStatus.downloadFailed.rawValue || !isEpisodeDownloading(episode) {
-            DataManager.sharedManager.clearDownloadTaskId(episode: episode)
+            dataManager.clearDownloadTaskId(episode: episode)
             episode.downloadTaskId = nil
         }
 
@@ -527,12 +530,31 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func startAllQueued() {
-        let queuedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.queued.rawValue])
+        let queuedEpisodes = dataManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.queued.rawValue])
         queuedEpisodes.forEach { episode in
             Task {
                 addToQueue(episodeUuid: episode.uuid)
             }
         }
+    }
+
+    func cancelTasks(for episodes: [BaseEpisode]) async {
+        let matchingTasks = await tasks(for: episodes)
+
+        matchingTasks.forEach {
+            $0.cancel()
+        }
+    }
+
+    func tasks(for episodes: [BaseEpisode]) async -> [URLSessionTask] {
+        let matchingTasks = await activeTasks().filter { task in
+            let identifier = task.taskDescription
+            return episodes.contains { episode in
+                episode.downloadTaskId == identifier || episode.uuid == identifier
+            }
+        }
+
+        return matchingTasks
     }
 
     func activeTasks() async -> [URLSessionTask] {

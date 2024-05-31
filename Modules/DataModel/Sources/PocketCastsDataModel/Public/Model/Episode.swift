@@ -164,8 +164,8 @@ public class Episode: NSObject, BaseEpisode {
             fileType.caseInsensitiveCompare("audio/mpeg") == .orderedSame)
     }
 
-    public func parentPodcast() -> Podcast? {
-        DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+    public func parentPodcast(dataManager: DataManager = .sharedManager) -> Podcast? {
+        dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
     }
 
     public func taggableId() -> Int {

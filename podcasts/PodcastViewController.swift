@@ -437,15 +437,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 checkIfPodcastNeedsUpdating()
             } else {
                 let podcastUuid = podcast.uuid
-                PodcastManager.shared.deletePodcastIfUnused(podcast)
-                if let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                    // podcast wasn't deleted, but needs to be updated
-                    loadLocalEpisodes(podcast: podcast, animated: false)
-                    checkIfPodcastNeedsUpdating()
-                } else {
-                    // podcast was deleted, reload the entire thing
-                    self.podcast = nil
-                    loadPodcastInfoFromUuid(podcastUuid)
+                Task {
+                    await PodcastManager.shared.deletePodcastIfUnused(podcast)
+                    if let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+                        // podcast wasn't deleted, but needs to be updated
+                        loadLocalEpisodes(podcast: podcast, animated: false)
+                        checkIfPodcastNeedsUpdating()
+                    } else {
+                        // podcast was deleted, reload the entire thing
+                        self.podcast = nil
+                        loadPodcastInfoFromUuid(podcastUuid)
+                    }
                 }
             }
         } else if let uuid = podcastInfo?.uuid {
