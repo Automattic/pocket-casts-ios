@@ -1986,6 +1986,10 @@ internal enum L10n {
   internal static var podcastQueuing: String { return L10n.tr("Localizable", "podcast_queuing") }
   /// Refresh Artwork
   internal static var podcastRefreshArtwork: String { return L10n.tr("Localizable", "podcast_refresh_artwork") }
+  /// %1$@ removed from %2$@
+  internal static func podcastRemovedFromFolder(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "podcast_removed_from_folder", String(describing: p1), String(describing: p2))
+  }
   /// Season %1$@
   internal static func podcastSeasonFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_season_format", String(describing: p1))
@@ -2220,6 +2224,12 @@ internal enum L10n {
   internal static var renewSubscription: String { return L10n.tr("Localizable", "renew_subscription") }
   /// Restore
   internal static var restore: String { return L10n.tr("Localizable", "restore") }
+  /// Restore podcasts to folders?
+  internal static var restoreFolders: String { return L10n.tr("Localizable", "restore_folders") }
+  /// These podcasts will be permanently added back to the folders listed here
+  internal static var restoreFoldersMessage: String { return L10n.tr("Localizable", "restore_folders_message") }
+  /// Podcasts restored to their original folders
+  internal static var restoreFoldersSuccess: String { return L10n.tr("Localizable", "restore_folders_success") }
   /// Restore Up Next?
   internal static var restoreUpNext: String { return L10n.tr("Localizable", "restore_up_next") }
   /// These episodes will be added to the bottom of your current Up Next

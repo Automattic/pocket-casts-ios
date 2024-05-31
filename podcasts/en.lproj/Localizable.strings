@@ -4111,3 +4111,15 @@
 
 /* A message explaining how to use the Folders history */
 "folders_history_explanation" = "A list of podcasts that were removed from folders as a result of a sync.";
+
+/* Title confirming to the user if they want to restore podcasts to original folders */
+"restore_folders" = "Restore podcasts to folders?";
+
+/* Details about what will happen if they restore folders */
+"restore_folders_message" = "These podcasts will be permanently added back to the folders listed here";
+
+/* Entry informing which podcasts was removed from which folder, %1$@ is the podcast's title, %2$@ folder's name */
+"podcast_removed_from_folder" = "%1$@ removed from %2$@";
+
+/* Message confirming podcasts were restored to the folders */
+"restore_folders_success" = "Podcasts restored to their original folders";

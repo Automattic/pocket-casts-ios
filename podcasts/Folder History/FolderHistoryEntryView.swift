@@ -24,14 +24,14 @@ struct FolderHistoryEntryView: View {
                 Button(L10n.restore) {
                     showingAlert = true
                 }
-                .alert(L10n.restoreUpNext, isPresented: $showingAlert, actions: {
+                .alert(L10n.restoreFolders, isPresented: $showingAlert, actions: {
                     Button(L10n.restore) {
-                        //
+                        model.restore()
                         dismiss()
                     }
                     Button(L10n.cancel, role: .cancel) { }
                 }, message: {
-                    Text(L10n.restoreUpNextMessage)
+                    Text(L10n.restoreFoldersMessage)
                 })
                 Spacer()
                 Text("\(entryDate.formatted())").bold()
@@ -41,29 +41,23 @@ struct FolderHistoryEntryView: View {
                 }
             }.padding()
 
-//            List(model.episodes, id: \.uuid) { episode in
-//                HStack {
-//                    EpisodeImage(episode: episode)
-//                        .frame(width: 48, height: 48)
-//                    VStack(alignment: .leading) {
-//                        Text("\(DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase)")
-//                            .foregroundStyle(theme.primaryText02)
-//                            .font(style: .footnote)
-//                        Text("\(episode.title ?? "")")
-//                            .lineLimit(1)
-//                            .font(style: .body)
-//                        Text(episode.displayableInfo(includeSize: false))
-//                            .foregroundStyle(theme.primaryText02)
-//                            .font(style: .footnote)
-//                    }
-//                }
-//                .listRowBackground(theme.primaryUi02)
-//                .listRowSeparatorTint(theme.primaryUi05)
-//            }
+            List(model.podcastsAndFolders, id: \.0.uuid) { podcast, folder in
+                HStack {
+                    PodcastCover(podcastUuid: podcast.uuid)
+                        .frame(width: 48, height: 48)
+                    VStack(alignment: .leading) {
+                        Text(L10n.podcastRemovedFromFolder(podcast.title ?? "", folder.name))
+                            .foregroundStyle(theme.primaryText02)
+                            .font(style: .footnote)
+                    }
+                }
+                .listRowBackground(theme.primaryUi02)
+                .listRowSeparatorTint(theme.primaryUi05)
+            }
         }
         .modifier(HiddenScrollContentBackground())
         .background(theme.primaryUi04)
-//        .onAppear { model.loadEpisodes(for: entryDate) }
+        .onAppear { model.loadFoldersHistory(for: entryDate) }
         .navigationTitle("\(entryDate.formatted())")
         .applyDefaultThemeOptions()
     }

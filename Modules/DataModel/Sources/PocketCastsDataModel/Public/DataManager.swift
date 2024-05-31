@@ -1044,6 +1044,10 @@ public class DataManager {
     public func foldersHistoryEntries() -> [FolderHistoryManager.PodcastFoldersHistoryEntry] {
         folderHistoryManager.entries(dbQueue: dbQueue)
     }
+
+    public func folderHistory(entry: Date) -> [String: String] {
+        folderHistoryManager.podcastsAndFolders(entry: entry, dbQueue: dbQueue)
+    }
 }
 
 // MARK: - Ghost Episode Cleanup

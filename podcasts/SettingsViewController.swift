@@ -67,9 +67,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             case .headphoneControls:
                 return (L10n.settingsHeadphoneControls, .init(named: "settings_headphone_controls"))
             case .upNextHistory:
-                return (L10n.foldersHistory, .init(named: "upnext"))
+                return (L10n.upNextHistory, .init(named: "upnext"))
             case .foldersHistory:
-                return (L10n.upNextHistory, .init(named: "folder-empty"))
+                return (L10n.foldersHistory, .init(named: "folder-empty"))
             }
         }
     }
