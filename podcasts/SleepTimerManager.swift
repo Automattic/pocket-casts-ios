@@ -53,7 +53,7 @@ class SleepTimerManager {
     }
 
     func restartSleepTimerIfNeeded() {
-        guard !PlaybackManager.shared.sleepTimerActive() else {
+        guard !PlaybackManager.shared.sleepTimerActive(), Settings.autoRestartSleepTimer else {
             return
         }
 
@@ -124,7 +124,7 @@ class BackgroundShakeObserver {
     }
 
     @objc private func appMovedToBackground() {
-        if PlaybackManager.shared.sleepTimerActive() {
+        if PlaybackManager.shared.sleepTimerActive() && Settings.shakeToRestartSleepTimer {
             startObserving()
         }
     }
