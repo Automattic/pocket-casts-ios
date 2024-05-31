@@ -244,7 +244,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             return playbackItem
         }
         #if !os(watchOS)
-        Task {            
+        Task {
             episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             episode.contentType = UTType.mpeg4Audio.preferredMIMEType
             DataManager.sharedManager.save(episode: episode)
