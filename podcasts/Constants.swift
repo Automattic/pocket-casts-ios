@@ -157,6 +157,9 @@ struct Constants {
 
         static let autoplay = "autoplay"
 
+        static let autoRestartSleepTimer = "autoRestartSleepTimer"
+        static let shakeToRestartSleepTimer = "shakeToRestartSleepTimer"
+
         static let searchHistoryEntries = "SearchHistoryEntries"
 
         static let sleepTimerFinishedDate = "sleepTimerFinishedDate"

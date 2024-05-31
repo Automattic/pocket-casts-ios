@@ -4,7 +4,10 @@ import PocketCastsUtils
 
 extension BaseEpisode {
     func fileExtension() -> String {
-        FileTypeUtil.fileExtension(forType: fileType)
+        if let contentType {
+            return FileTypeUtil.fileExtension(forType: contentType)
+        }
+        return FileTypeUtil.fileExtension(forType: fileType)
     }
 
     func readableErrorMessage() -> String {

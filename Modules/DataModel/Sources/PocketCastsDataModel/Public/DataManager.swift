@@ -65,13 +65,6 @@ public class DataManager {
         self.endOfYearManager = endOfYearManager
     }
 
-    private func measureTime(_ action: () -> ()) -> TimeInterval {
-        let startDate = Date()
-        action()
-        let endDate = Date()
-        return startDate.distance(to: endDate)
-    }
-
     private var databaseSize: String? {
         let pathToDB = DataManager.pathToDb()
         guard let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB),
@@ -85,15 +78,12 @@ public class DataManager {
     public func cleanUp() {
         //Do a vacuum before doing db changes
         vacuumDatabase()
-        let duration = measureTime {
+        let duration = DBUtils.measureTime {
             dbQueue.inTransaction { db, rollback in
                 do {
 
                     try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
-                    try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN contentType", values: nil)
-                    try? db.executeUpdate("ALTER TABLE SJUserEpisode DROP COLUMN contentType", values: nil)
                     try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
-
                     try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
                     try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
                     try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
@@ -114,7 +104,7 @@ public class DataManager {
         }
 
         FileLog.shared.addMessage("VACUUM -> Start")
-        let duration = measureTime {
+        let duration =  DBUtils.measureTime {
             dbQueue.inDatabase { db in
                 do {
                     try db.executeUpdate("VACUUM;", values: nil)
@@ -582,6 +572,14 @@ public class DataManager {
 
     public func saveEpisode(fileType: String, episode: Episode) {
         episodeManager.saveFileType(episode: episode, fileType: fileType, dbQueue: dbQueue)
+    }
+
+    public func saveEpisode(contentType: String, episode: BaseEpisode) {
+        if let episode = episode as? Episode {
+            episodeManager.saveContentType(episode: episode, contentType: contentType, dbQueue: dbQueue)
+        } else if let episode = episode as? UserEpisode {
+            userEpisodeManager.saveContentType(contentType: contentType, episode: episode, dbQueue: dbQueue)
+        }
     }
 
     public func saveEpisode(fileSize: Int64, episode: Episode) {

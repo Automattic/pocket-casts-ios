@@ -63,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ServerConfig.shared.playbackDelegate = PlaybackManager.shared
             checkDefaults()
 
+            logActiveDownloadTasks()
             logStaleDownloads()
             postLaunchSetup()
             checkIfRestoreCleanupRequired()
