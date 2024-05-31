@@ -44,7 +44,7 @@ struct MediaExporter {
             return false
         }
 
-        FileLog.shared.addMessage("DownloadManager export session: Finished exporting successfully")        
+        FileLog.shared.addMessage("DownloadManager export session: Finished exporting successfully")
         return true
     }
     #endif
