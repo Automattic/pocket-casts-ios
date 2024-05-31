@@ -574,8 +574,12 @@ public class DataManager {
         episodeManager.saveFileType(episode: episode, fileType: fileType, dbQueue: dbQueue)
     }
 
-    public func saveEpisode(contentType: String, episode: Episode) {
-        episodeManager.saveContentType(episode: episode, contentType: contentType, dbQueue: dbQueue)
+    public func saveEpisode(contentType: String, episode: BaseEpisode) {
+        if let episode = episode as? Episode {
+            episodeManager.saveContentType(episode: episode, contentType: contentType, dbQueue: dbQueue)
+        } else if let episode = episode as? UserEpisode {
+            userEpisodeManager.saveContentType(contentType: contentType, episode: episode, dbQueue: dbQueue)
+        }
     }
 
     public func saveEpisode(fileSize: Int64, episode: Episode) {

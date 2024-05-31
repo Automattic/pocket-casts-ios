@@ -234,6 +234,41 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
+    func downloadParallelToStream(of episode: BaseEpisode) -> AVPlayerItem? {
+        guard let playbackItem = PlaybackItem(episode: episode).createPlayerItem() else {
+            return nil
+        }
+
+        guard FeatureFlag.cachePlayingEpisode.enabled,
+              !episode.videoPodcast(),
+              let urlAsset = playbackItem.asset as? AVURLAsset,
+              !urlAsset.url.isFileURL // only  start download if it's a remote file that we are playing
+        else {
+            return playbackItem
+        }
+        #if !os(watchOS)
+        Task {
+            episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            episode.contentType = UTType.mpeg4Audio.preferredMIMEType
+            DataManager.sharedManager.save(episode: episode)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
+
+            let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
+            downloadingEpisodesCache[episode.uuid] = episode
+            FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
+            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL)
+            if exportCompleted {
+                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadedForStreaming, downloadError: nil, downloadTaskId: nil, episode: episode)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
+            } else {
+                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+            }
+            downloadingEpisodesCache.removeValue(forKey: episode.uuid)
+        }
+        #endif
+        return playbackItem
+    }
+
     private func markUnplayedAndUnarchiveIfRequired(episode: BaseEpisode, saveChanges: Bool) {
         var episodeModified = false
 
@@ -413,7 +448,8 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func streamingBufferPathForEpisode(_ episode: BaseEpisode) -> String {
-        let fileName = episode.uuid + episode.fileExtension()
+        let fileExtension = episode.fileExtension()
+        let fileName = episode.uuid + fileExtension
         let path = (streamingBufferDirectory as NSString).appendingPathComponent(fileName)
 
         return path
