@@ -45,9 +45,9 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             if !downloadingToStream {
                 // Reuse our downloadTaskID if we have one, otherwise let the method set a default based on the episode
                 if let downloadTaskId = downloadingEpisode.downloadTaskId {
-                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, downloadTaskId: downloadTaskId, episode: downloadingEpisode)
+                    dataManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, downloadTaskId: downloadTaskId, episode: downloadingEpisode)
                 } else {
-                    DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
+                    dataManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
                 }
                 progressManager.updateStatusForEpisode(downloadingEpisode.uuid, status: .downloading)
             }
@@ -72,13 +72,13 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 let reason = error.userInfo[NSURLErrorBackgroundTaskCancelledReasonKey] as? Int
                 switch reason {
                 case NSURLErrorCancelledReasonUserForceQuitApplication, NSURLErrorCancelledReasonInsufficientSystemResources:
-                    DataManager.sharedManager.saveEpisode(downloadStatus: .queued, downloadTaskId: nil, episode: episode)
+                    dataManager.saveEpisode(downloadStatus: .queued, downloadTaskId: nil, episode: episode)
                 default:
                     ()
                 }
             } else {
                 // this download was cancelled by us so it should have been due to user cancellation
-                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadTaskId: nil, episode: episode)
+                dataManager.saveEpisode(downloadStatus: .notDownloaded, downloadTaskId: nil, episode: episode)
             }
 
             return
@@ -90,7 +90,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             ()
         }
 
-        DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: error.localizedDescription, downloadTaskId: nil, episode: episode)
+        dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: error.localizedDescription, downloadTaskId: nil, episode: episode)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
     }
@@ -140,7 +140,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             try StorageManager.moveItem(at: location, to: destinationUrl, options: .overwriteExisting)
 
             let newDownloadStatus: DownloadStatus = autoDownloadStatus == .playerDownloadedForStreaming ? .downloadedForStreaming : .downloaded
-            DataManager.sharedManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
+            dataManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
 
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
@@ -173,7 +173,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             }
         }
 
-        let episode = DataManager.sharedManager.findBaseEpisode(downloadTaskId: downloadId)
+        let episode = dataManager.findBaseEpisode(downloadTaskId: downloadId)
         if let episode = episode {
             downloadingEpisodesCache[downloadId] = episode
         }
@@ -216,7 +216,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     private func markEpisode(_ episode: BaseEpisode, asFailedWithMessage message: String, reason: FailureReason) {
         removeEpisodeFromCache(episode)
 
-        DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: message, downloadTaskId: nil, episode: episode)
+        dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: message, downloadTaskId: nil, episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
         taskFailure[episode.uuid] = reason
