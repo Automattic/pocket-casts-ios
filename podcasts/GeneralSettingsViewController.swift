@@ -10,8 +10,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay }
-    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
+    private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer }
+    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -258,6 +258,26 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             cell.cellSwitch.addTarget(self, action: #selector(autoplayToggled(_:)), for: .valueChanged)
 
             return cell
+        case .autoRestartSleepTimer:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.autoRestartSleepTimer
+            cell.cellSwitch.isOn = Settings.autoRestartSleepTimer
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(autoRestartSleepTimerToggled(_:)), for: .valueChanged)
+
+            return cell
+        case .shakeToRestartSleepTimer:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.shakeToRestartSleepTimer
+            cell.cellSwitch.isOn = Settings.shakeToRestartSleepTimer
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(shakeToRestartSleepTimerToggled(_:)), for: .valueChanged)
+
+            return cell
         }
     }
 
@@ -372,6 +392,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsGeneralDefaultsHeader)
         } else if section == 1 {
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsGeneralPlayerHeader)
+        } else if tableData[safe: section]?.contains(.autoRestartSleepTimer) == true {
+            return SettingsTableHeader(frame: headerFrame, title: L10n.sleepTimer)
         }
 
         return nil
@@ -399,6 +421,10 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return L10n.settingsGeneralPublishChapterTitlesSubtitle
         case .autoplay:
             return L10n.settingsGeneralAutoplaySubtitle
+        case .autoRestartSleepTimer:
+            return L10n.autoRestartSleepTimerDescription
+        case .shakeToRestartSleepTimer:
+            return L10n.shakeToRestartSleepTimerDescription
         default:
             return nil
         }
@@ -500,8 +526,19 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     @objc private func autoplayToggled(_ sender: UISwitch) {
         Settings.autoplay = sender.isOn
 
-
         Settings.trackValueToggled(.settingsGeneralAutoplayToggled, enabled: sender.isOn)
+    }
+
+    @objc private func autoRestartSleepTimerToggled(_ sender: UISwitch) {
+        Settings.autoRestartSleepTimer = sender.isOn
+
+        Settings.trackValueToggled(.settingsGeneralAutoSleepTimerRestartToggled, enabled: sender.isOn)
+    }
+
+    @objc private func shakeToRestartSleepTimerToggled(_ sender: UISwitch) {
+        Settings.shakeToRestartSleepTimer = sender.isOn
+
+        Settings.trackValueToggled(.settingsGeneralShakeToResetSleepTimerToggled, enabled: sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

@@ -656,7 +656,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         super.motionEnded(motion, with: event)
-        if motion == .motionShake {
+        if motion == .motionShake && Settings.shakeToRestartSleepTimer {
             PlaybackManager.shared.restartSleepTimer()
         }
     }
