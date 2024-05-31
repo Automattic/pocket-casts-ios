@@ -545,7 +545,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func tasks(for episodes: [BaseEpisode]) async -> [URLSessionTask] {
-        let matchingTasks = await activeTasks().filter { task in
+        let matchingTasks = await allTasks().filter { task in
             let identifier = task.taskDescription
             return episodes.contains { episode in
                 episode.downloadTaskId == identifier || episode.uuid == identifier
@@ -555,7 +555,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         return matchingTasks
     }
 
-    func activeTasks() async -> [URLSessionTask] {
+    func allTasks() async -> [URLSessionTask] {
         return [await wifiOnlyBackgroundSession.allTasks,
          await cellularForegroundSession.allTasks,
          await cellularBackgroundSession.allTasks].flatMap { $0 }

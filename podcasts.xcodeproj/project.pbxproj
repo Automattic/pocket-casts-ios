@@ -1615,11 +1615,13 @@
 		F57BAC682C00E7E6007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F586959A2C04320100E0754A /* PodcastManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58695992C04320100E0754A /* PodcastManagerTests.swift */; };
 		F5952FCA2C057C6400754BC3 /* FMDatabaseQueue+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5952FC92C057C6400754BC3 /* FMDatabaseQueue+Test.swift */; };
+		F5952FCC2C05814100754BC3 /* DownloadManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5952FCB2C05814100754BC3 /* DownloadManagerTests.swift */; };
 		F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
 		F5DBA58A2B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
 		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
+		F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */; };
 		F5F6DA702BBE1109009B1934 /* CategoryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */; };
 		F5F6DA822BC0B512009B1934 /* CategoriesModalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA812BC0B512009B1934 /* CategoriesModalPicker.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
@@ -3401,12 +3403,14 @@
 		F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Episode.swift"; sourceTree = "<group>"; };
 		F58695992C04320100E0754A /* PodcastManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastManagerTests.swift; sourceTree = "<group>"; };
 		F5952FC92C057C6400754BC3 /* FMDatabaseQueue+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FMDatabaseQueue+Test.swift"; sourceTree = "<group>"; };
+		F5952FCB2C05814100754BC3 /* DownloadManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManagerTests.swift; sourceTree = "<group>"; };
 		F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
 		F5B312B32BF5B6D400290696 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
 		F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastSettings+ImportUserDefaultsTests.swift"; sourceTree = "<group>"; };
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
 		F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelperTests.swift; sourceTree = "<group>"; };
+		F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FMDatabaseQueue+Test.swift"; sourceTree = "<group>"; };
 		F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonStyle.swift; sourceTree = "<group>"; };
 		F5F6DA812BC0B512009B1934 /* CategoriesModalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModalPicker.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
@@ -4230,6 +4234,7 @@
 				8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */,
 				8B317BA628906CC200A26A13 /* TestingViewController.swift */,
 				8B317BA82890704400A26A13 /* TestingScreen.storyboard */,
+				F543F6A12C07FC7300FEC8B6 /* DBTestCase.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -4385,6 +4390,7 @@
 				8BA55A1228CA7425002BECC5 /* XCTestCase+eventually.swift */,
 				321AC0292B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift */,
 				F5952FC92C057C6400754BC3 /* FMDatabaseQueue+Test.swift */,
+				F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -7237,6 +7243,7 @@
 				F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */,
 				F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */,
 				F58695992C04320100E0754A /* PodcastManagerTests.swift */,
+				F5952FCB2C05814100754BC3 /* DownloadManagerTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -8600,10 +8607,12 @@
 				F5DBA58A2B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift in Sources */,
 				8B317BA528906CAB00A26A13 /* TestingSceneDelegate.swift in Sources */,
 				8B2319432902CF170001C3DE /* EndOfYearManagerMock.swift in Sources */,
+				F5952FCC2C05814100754BC3 /* DownloadManagerTests.swift in Sources */,
 				8B413D162B76B3A500FAB502 /* ChapterManagerTests.swift in Sources */,
 				F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */,
 				8B317BA328906C8100A26A13 /* TestingAppDelegate.swift in Sources */,
 				C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */,
+				F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */,
 				8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */,
 				F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */,
 				8B484EFB28D25719001AFA97 /* Double+Ext.swift in Sources */,
@@ -8612,6 +8621,7 @@
 				8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */,
 				8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */,
 				C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */,
+				F543F6A22C07FC7300FEC8B6 /* DBTestCase.swift in Sources */,
 				C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */,
 				E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */,
 				C7F4C6682A8EAB2800483C37 /* PaidFeatureTests.swift in Sources */,

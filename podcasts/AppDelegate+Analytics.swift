@@ -18,7 +18,7 @@ extension AppDelegate {
 
     func logActiveDownloadTasks() {
         Task {
-            let tasks = await DownloadManager.shared.activeTasks()
+            let tasks = await DownloadManager.shared.allTasks()
 
             let properties: [String: Any?] =  ["tasks_count": tasks.count]
 
