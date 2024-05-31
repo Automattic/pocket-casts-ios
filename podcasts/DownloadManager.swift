@@ -238,6 +238,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         guard FeatureFlag.cachePlayingEpisode.enabled,
               !episode.videoPodcast(),
+              !episode.isUserEpisode,
               let urlAsset = playbackItem.asset as? AVURLAsset,
               !urlAsset.url.isFileURL // only  start download if it's a remote file that we are playing
         else {
