@@ -10,7 +10,7 @@ struct MediaExporter {
 
         guard let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid)),
             let sourceAudioTrack = try? await item.asset.loadTracks(withMediaType: .audio).first else {
-            FileLog.shared.addMessage("Media Export Session -> Failed to create audio track")
+            FileLog.shared.addMessage("DownloadManager export session: failed to create audio track")
             return false
         }
         do {
