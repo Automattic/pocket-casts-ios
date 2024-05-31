@@ -1603,7 +1603,6 @@
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F52B4F8C2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8B2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift */; };
 		F52B4F8E2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */; };
-		F543F6A22C07FC7300FEC8B6 /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A12C07FC7300FEC8B6 /* DBTestCase.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1620,6 +1619,8 @@
 		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
 		F5F6DA702BBE1109009B1934 /* CategoryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */; };
 		F5F6DA822BC0B512009B1934 /* CategoriesModalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA812BC0B512009B1934 /* CategoriesModalPicker.swift */; };
+		FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
+		FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
@@ -3391,7 +3392,6 @@
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F52B4F8B2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorViewController.swift; sourceTree = "<group>"; };
 		F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorView.swift; sourceTree = "<group>"; };
-		F543F6A12C07FC7300FEC8B6 /* DBTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+CategoryRedesign.swift"; sourceTree = "<group>"; };
@@ -3405,6 +3405,7 @@
 		F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelperTests.swift; sourceTree = "<group>"; };
 		F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonStyle.swift; sourceTree = "<group>"; };
 		F5F6DA812BC0B512009B1934 /* CategoriesModalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModalPicker.swift; sourceTree = "<group>"; };
+		FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Helper.swift"; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
 		FF4724602BA48CA900EA916B /* FiltersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersListView.swift; sourceTree = "<group>"; };
@@ -6397,6 +6398,7 @@
 				C7D5E7F02A8BF3150039F4A1 /* UIViewController+Presenting.swift */,
 				F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */,
 				F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */,
+				FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -8838,6 +8840,7 @@
 				BDF5FD1E1FD8D38900F2A339 /* DownloadsViewController+Table.swift in Sources */,
 				C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */,
 				8BA55A0D28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */,
+				FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */,
 				BDBD2AC5202D64D700E0A79E /* OptionsPicker.swift in Sources */,
 				4041FE9D218AA4310089D4A1 /* PodcastShortcutsViewController.swift in Sources */,
 				C73FD2D6292C209F00E5E2E7 /* LoginLandingCoverImage.swift in Sources */,
@@ -9484,6 +9487,7 @@
 				463FCE7F27BEAE6400E5AF89 /* WatchHostingController.swift in Sources */,
 				BD74F15A27F2956800222785 /* FolderViewModel.swift in Sources */,
 				BD39956C2432BF800026FF27 /* EffectsViewModel.swift in Sources */,
+				FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */,
 				40BF0B5224244C64003E3ABD /* SourceManager.swift in Sources */,
 				BDE48A332410D48900ECA6CA /* ChapterManager.swift in Sources */,
 				BDE48A172410CFD100ECA6CA /* PlaybackManager.swift in Sources */,
