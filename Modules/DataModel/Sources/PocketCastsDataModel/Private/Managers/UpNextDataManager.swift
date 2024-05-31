@@ -220,6 +220,12 @@ class UpNextDataManager {
         cacheEpisodes(dbQueue: dbQueue)
     }
 
+    // MARK: - Up Next History (Restoring)
+
+    public func refresh(dbQueue: FMDatabaseQueue) {
+        cacheEpisodes(dbQueue: dbQueue)
+    }
+
     // MARK: - Caching
 
     private func cacheEpisodes(dbQueue: FMDatabaseQueue) {

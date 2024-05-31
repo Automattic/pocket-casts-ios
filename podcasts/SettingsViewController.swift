@@ -10,6 +10,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case autoArchive, autoDownload, autoAddToUpNext, siriShortcuts
         case watch, customFiles, importSteps, opml
         case about, pocketCastsPlus, privacy
+        case upNextHistory
         case headphoneControls
         case developer, beta
 
@@ -65,6 +66,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return ("Beta Features", UIImage(systemName: "testtube.2"))
             case .headphoneControls:
                 return (L10n.settingsHeadphoneControls, .init(named: "settings_headphone_controls"))
+            case .upNextHistory:
+                return (L10n.upNextHistory, .init(named: "upnext"))
             }
         }
     }
@@ -86,6 +89,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             [.autoArchive, .autoDownload, .autoAddToUpNext],
             [.storageAndDataUse, .siriShortcuts, .headphoneControls, .watch, .customFiles],
             [.importSteps, .opml],
+            [.upNextHistory],
             [.privacy, .about]
         ]
     }()
@@ -191,6 +195,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             navigationController?.pushViewController(hostingController, animated: true)
         case .headphoneControls:
             navigationController?.pushViewController(HeadphoneSettingsViewController(), animated: true)
+        case .upNextHistory:
+            let upNextHistory = UpNextHistoryViewController()
+            navigationController?.pushViewController(upNextHistory, animated: true)
         }
     }
 
