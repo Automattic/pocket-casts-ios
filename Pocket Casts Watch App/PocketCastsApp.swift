@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct MyWatchApp: App {
+struct PocketCastsApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
