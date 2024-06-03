@@ -67,6 +67,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// The player we should fallback to
     private var fallbackToPlayer: PlaybackProtocol.Type? = nil
 
+    private var retryingToPlay = false
+
     init() {
         queue = PlaybackQueue()
         queue.loadPersistedQueue()
@@ -2008,6 +2010,37 @@ class PlaybackManager: ServerPlaybackDelegate {
         // Nothing to autoplay or Up Next has items, reset the latest played from
         AutoplayHelper.shared.playedFrom(playlist: nil)
         #endif
+    }
+
+    // MARK: - Episode Update (Playback Failure)
+
+    // If we're streaming an episode and it fails, try to make sure the URL is up to date.
+    // Authors can change URLs at any time, so this is handy to fix cases where they post
+    // the wrong one and update it later
+    func urlFailedToLoad(for episodeUuid: String) {
+        Task {
+            guard !retryingToPlay,
+                  let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
+                  let podcast = episode.parentPodcast() else {
+                    retryingToPlay = false
+                    playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
+                return
+            }
+
+            FileLog.shared.addMessage("PlaybackManager: URL failed to load, trying to update episode and playing again")
+            retryingToPlay = true
+
+            ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] wasUpdated in
+                self?.retryingToPlay = false
+
+                guard let self,
+                      let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episodeUuid) : episode else { return }
+
+                FileLog.shared.addMessage("PlaybackManager: Episode \(wasUpdated ? "" : "not") updated, trying to play again.")
+
+                load(episode: updatedEpisode, autoPlay: true, overrideUpNext: false)
+            }
+        }
     }
 
     // MARK: - Analytics
