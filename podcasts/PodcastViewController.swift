@@ -165,21 +165,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet weak var multiSelectHeaderViewConstraint: NSLayoutConstraint!
 
     private func setMultiSelectHeaderViewConstraint() {
-        let screenWidth = UIScreen.main.bounds.width
-        var setConstant: Double
-
-        switch screenWidth {
-        /* iPod Touch (320) to iPhone SE 3rd gen (375) and
-         iPad Mini 4 (760) to iPad 6th Gen (1024) */
-        case 320...380, 760...1024:
-            setConstant = 65.0
-        /* Covers most modern devices (380+ width),
-         from iPhone 6 Plus (414) to iPhone 14 Pro Max (430) */
-        default:
-            setConstant = 90.0
-        }
-
-        self.multiSelectHeaderViewConstraint.constant = setConstant
+        let heightConstant: CGFloat = 40
+        self.multiSelectHeaderViewConstraint.constant = heightConstant + view.safeAreaInsets.top
     }
 
     static let headerSection = 0
@@ -196,6 +183,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         view.backgroundColor = .clear
         return view
     }()
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        setMultiSelectHeaderViewConstraint()
+    }
 
     init(podcast: Podcast) {
         self.podcast = podcast
@@ -289,7 +281,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         // Load the ratings even if we've already started loading them to cover all other potential view states
         // The view model will ignore extra calls
-        if let uuid = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
+        if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
 
@@ -332,7 +324,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
 
-        Analytics.track(.podcastScreenShown, properties: ["uuid": podcastUUID])
+        var properties = ["uuid": podcastUUID]
+        if let listUuid {
+            properties["list_id"] = listUuid
+        }
+        Analytics.track(.podcastScreenShown, properties: properties)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -347,7 +343,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let window = view.window else { return }
 
         let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: Constants.Values.miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -439,15 +437,17 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 checkIfPodcastNeedsUpdating()
             } else {
                 let podcastUuid = podcast.uuid
-                PodcastManager.shared.deletePodcastIfUnused(podcast)
-                if let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                    // podcast wasn't deleted, but needs to be updated
-                    loadLocalEpisodes(podcast: podcast, animated: false)
-                    checkIfPodcastNeedsUpdating()
-                } else {
-                    // podcast was deleted, reload the entire thing
-                    self.podcast = nil
-                    loadPodcastInfoFromUuid(podcastUuid)
+                Task {
+                    await PodcastManager.shared.deletePodcastIfUnused(podcast)
+                    if let _ = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+                        // podcast wasn't deleted, but needs to be updated
+                        loadLocalEpisodes(podcast: podcast, animated: false)
+                        checkIfPodcastNeedsUpdating()
+                    } else {
+                        // podcast was deleted, reload the entire thing
+                        self.podcast = nil
+                        loadPodcastInfoFromUuid(podcastUuid)
+                    }
                 }
             }
         } else if let uuid = podcastInfo?.uuid {

@@ -222,7 +222,7 @@
     <key>appearance_embedded_artwork</key>
     <string>Empra les caràtules integrades</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Al reproductor, mostra les caràtules des de l'arxiu integrat (si existeix), enlloc d'emprar les del programa.</string>
+    <string>Alguns podcasts tenen il·lustracions personalitzades per a certs episodis. Activa aquesta opció i Pocket Casts les mostrarà en lloc de la il·lustració del podcast.</string>
     <key>appearance_light_theme</key>
     <string>Tema clar</string>
     <key>appearance_match_device_theme</key>
@@ -296,7 +296,7 @@
     <key>bookmarks_early_access_locked_message</key>
     <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa les marques de temps dels teus episodis preferits.  Prest disponible per a %2$@ subscriptors.</string>
     <key>bookmarks_locked_message</key>
-    <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa els mercadors dels teus episodis preferits.</string>
+    <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa els marcadors dels teus episodis preferits.</string>
     <key>bottom</key>
     <string>Darrer de la cua</string>
     <key>bulk_download_max_format</key>
@@ -423,6 +423,8 @@
     <string>Esborrar del núvol</string>
     <key>custom_episode_upload</key>
     <string>Pujar al núvol</string>
+    <key>database_migration</key>
+    <string>Estem movent uns quants bits i bytes perquè l'aplicació vagi més ràpida...</string>
     <key>day_listened</key>
     <string>Dies escoltats</string>
     <key>day_saved</key>
@@ -451,6 +453,8 @@
     <string>Esborrar només del dispositiu</string>
     <key>deselect_all</key>
     <string>Anul·lar totes les seleccions</string>
+    <key>device_shake_sleep_timer</key>
+    <string>El temporitzador de son s'ha reiniciat perquè s'ha remenat el dispositiu</string>
     <key>discover</key>
     <string>Descobrir</string>
     <key>discover_all_episodes</key>
@@ -1089,6 +1093,8 @@ Comparteix-los amb Pocket Casts i apareixeran aquí.</string>
     <string>Entesos</string>
     <key>group_episodes</key>
     <string>Agrupar episodis</string>
+    <key>hang_on</key>
+    <string>Espera!</string>
     <key>history_clear_all</key>
     <string>Esborra-ho tot</string>
     <key>history_clear_all_details</key>
@@ -1217,6 +1223,10 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <string>mes</string>
     <key>monthly</key>
     <string>Mensualment</string>
+    <key>most_popular</key>
+    <string>Més popular</string>
+    <key>most_popular_with_name</key>
+    <string>Més popular a %1$@</string>
     <key>move_to_bottom</key>
     <string>Moure al final</string>
     <key>move_to_top</key>
@@ -1602,6 +1612,8 @@ ACTUALITZACIONS</string>
     <string>Accés acabat: %1$@</string>
     <key>podcast_access_ends</key>
     <string>L'accés s'acaba: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast i episodi</string>
     <key>podcast_archive_all</key>
     <string>Arxiva-ho tot</string>
     <key>podcast_archive_all_played</key>
@@ -1750,6 +1762,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Del més antic al més nou</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Del més curt al més llarg</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>Títol (A-Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>Títol (Z-A)</string>
     <key>podcasts_large_grid</key>
     <string>Graella gran</string>
     <key>podcasts_layout</key>
@@ -2417,7 +2433,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>skip_back</key>
     <string>Endarrerir</string>
     <key>skip_chapters</key>
-    <string>Saltar capítols</string>
+    <string>Capítols preseleccionats</string>
     <key>skip_chapters_patron_prompt</key>
     <string>Salta capítols i més amb Pocket Casts Patron</string>
     <key>skip_chapters_plus_prompt</key>
@@ -2432,6 +2448,12 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Cancel·lar el temporitzador</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Final de l'episodi</string>
+    <key>sleep_timer_episode_count</key>
+    <string>En %1$@ episodis</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Dormint en %1$@ episodis</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Dormint al final de l'episodi actual.</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporitzador activat, queden %1$@</string>
     <key>social_sign_in_continue_with_apple</key>
@@ -2621,6 +2643,14 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Actualitza a %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Actualitzar a Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>Títol (A-Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>Títol (Z-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>De més llarg a més curt</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>De més curt a més llarg</string>
     <key>volume_boost</key>
     <string>Pujar el volum</string>
     <key>volume_boost_description</key>
@@ -2648,9 +2678,9 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>watch_no_podcasts</key>
     <string>No hi ha podcasts</string>
     <key>watch_nothing_playing_subtitle</key>
-    <string>Gaudeix del silenci o troba alguna cosa nova per reproduir.
+    <string>Gaudeix del silenci o troba alguna cosa nova per a reproduir.
 
-Sincerament, ambdues són bones decisions.</string>
+Sincerament, totes dues són bones decisions. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>No sona res</string>
     <key>watch_source_msg</key>

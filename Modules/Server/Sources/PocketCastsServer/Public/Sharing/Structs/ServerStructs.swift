@@ -256,18 +256,22 @@ public struct DiscoverRegion: Decodable {
     public var flag: String
 }
 
-public struct DiscoverItem: Decodable {
+public struct DiscoverItem: Decodable, Equatable {
+    public var id: String?
     public var uuid: String?
     public var title: String?
     public var type: String?
     public var summaryStyle: String?
     public var expandedStyle: String?
+    public var summaryItemCount: Int?
     public var source: String?
     public var sponsoredPodcasts: [CarouselSponsoredPodcast]?
     public var expandedTopItemLabel: String?
     public var curated: Bool?
     public var regions: [String]
     public var isSponsored: Bool?
+    public var popular: [Int]?
+    public var categoryID: Int?
 
     public enum CodingKeys: String, CodingKey {
         case summaryStyle = "summary_style"
@@ -275,11 +279,46 @@ public struct DiscoverItem: Decodable {
         case isSponsored = "sponsored"
         case sponsoredPodcasts = "sponsored_podcasts"
         case expandedTopItemLabel = "expanded_top_item_label"
-        case type, title, source, regions, curated, uuid
+        case categoryID = "category_id"
+        case type, title, source, regions, curated, uuid, popular, id
+    }
+
+    public init(
+        id: String? = nil,
+        uuid: String? = nil,
+        title: String? = nil,
+        type: String? = nil,
+        summaryStyle: String? = nil,
+        summaryItemCount: Int? = nil,
+        expandedStyle: String? = nil,
+        source: String? = nil,
+        sponsoredPodcasts: [CarouselSponsoredPodcast]? = nil,
+        expandedTopItemLabel: String? = nil,
+        curated: Bool? = nil,
+        regions: [String],
+        isSponsored: Bool? = nil,
+        popular: [Int]? = nil,
+        categoryID: Int? = nil
+    ) {
+        self.id = id
+        self.uuid = uuid
+        self.title = title
+        self.type = type
+        self.summaryStyle = summaryStyle
+        self.summaryItemCount = summaryItemCount
+        self.expandedStyle = expandedStyle
+        self.source = source
+        self.sponsoredPodcasts = sponsoredPodcasts
+        self.expandedTopItemLabel = expandedTopItemLabel
+        self.curated = curated
+        self.regions = regions
+        self.isSponsored = isSponsored
+        self.popular = popular
+        self.categoryID = categoryID
     }
 }
 
-public struct CarouselSponsoredPodcast: Decodable {
+public struct CarouselSponsoredPodcast: Decodable, Equatable {
     public var position: Int?
     public var source: String?
 }
@@ -351,11 +390,16 @@ public struct DiscoverPodcast: Codable, Equatable {
     }
 }
 
-public struct DiscoverCategory: Decodable {
+public struct DiscoverCategory: Decodable, Equatable {
     public var id: Int?
     public var name: String?
     public var source: String?
     public var icon: String?
+
+    public init(id: Int?, name: String?) {
+        self.id = id
+        self.name = name
+    }
 }
 
 public struct DiscoverCategoryDetails: Decodable {

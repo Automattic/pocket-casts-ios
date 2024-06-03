@@ -25,6 +25,7 @@ struct DeveloperMenu: View {
                 }
 
                 Button("Force Reload Discover") {
+                    DiscoverServerHandler.shared.discoveryCache.removeAllCachedResponses()
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
                 }
 
@@ -33,6 +34,16 @@ struct DeveloperMenu: View {
 
                     for podcast in podcasts {
                         PodcastManager.shared.unsubscribe(podcast: podcast)
+                    }
+                }
+
+                Button("Clear all folder information") {
+                    DataManager.sharedManager.clearAllFolderInformation()
+                }
+
+                Button("Force Reload Feature Flags") {
+                    FirebaseManager.refreshRemoteConfig(expirationDuration: 0) { _ in
+                        (UIApplication.shared.delegate as? AppDelegate)?.updateRemoteFeatureFlags()
                     }
                 }
             }

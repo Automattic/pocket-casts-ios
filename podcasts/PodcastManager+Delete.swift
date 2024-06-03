@@ -10,10 +10,10 @@ extension PodcastManager {
         if SyncManager.isUserLoggedIn() {
             // if the user has signed in, there's a cleanup task that will run later to remove episodes they haven't interacted but we do some basic cleanup here
             // eg: remove downloaded/queued episodes and remove any that are in Up Next
-            let episodes = DataManager.sharedManager.allEpisodesForPodcast(id: podcast.id)
+            let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
             for episode in episodes {
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: false)
-                DownloadManager.shared.removeFromQueue(episode: episode, fireNotification: false, userInitiated: false)
+                downloadManager.removeFromQueue(episode: episode, fireNotification: false, userInitiated: false)
                 EpisodeManager.deleteDownloadedFiles(episode: episode)
             }
 
@@ -26,18 +26,18 @@ extension PodcastManager {
             podcast.syncStatus = SyncStatus.notSynced.rawValue
             podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
             podcast.settings = PodcastSettings.defaults
-            DataManager.sharedManager.save(podcast: podcast)
+            dataManager.save(podcast: podcast)
         } else {
             // if they aren't signed in, just blow it all away
             EpisodeManager.deleteAllEpisodesInPodcast(id: podcast.id)
-            DataManager.sharedManager.delete(podcast: podcast)
+            dataManager.delete(podcast: podcast)
         }
 
         FilterManager.handlePodcastUnsubscribed(podcastUuid: podcast.uuid)
 
         // additionally if this podcast was in a folder, update the folder
         if let folderUuid = savedFolderUuid {
-            DataManager.sharedManager.updateFolderSyncModified(folderUuid: folderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
+            dataManager.updateFolderSyncModified(folderUuid: folderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folderUuid)
         }
 

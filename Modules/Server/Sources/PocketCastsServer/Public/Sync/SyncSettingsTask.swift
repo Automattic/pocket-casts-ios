@@ -5,7 +5,6 @@ import SwiftProtobuf
 
 extension Api_ChangeableSettings {
     mutating func update(with settings: AppSettings) {
-        let oldSettings = self
         openLinks.update(settings.$openLinks)
         rowActionGlobal.update(settings.$rowAction)
         skipForward.update(settings.$skipForward)

@@ -19,6 +19,7 @@ public class DataManager {
     private let userEpisodeManager = UserEpisodeDataManager()
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
+    private lazy var upNextHistoryManager = UpNextHistoryManager()
 
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
@@ -63,6 +64,62 @@ public class DataManager {
     convenience init(endOfYearManager: EndOfYearDataManager) {
         self.init()
         self.endOfYearManager = endOfYearManager
+    }
+
+    private var databaseSize: String? {
+        let pathToDB = DataManager.pathToDb()
+        guard let fileAttributes = try? FileManager.default.attributesOfItem(atPath: pathToDB),
+              let size = fileAttributes[.size] as? NSNumber else {
+            return nil
+        }
+        let sizeString = ByteCountFormatter.string(fromByteCount: size.int64Value, countStyle: .file)
+        return sizeString
+    }
+
+    public func cleanUp() {
+        //Do a vacuum before doing db changes
+        vacuumDatabase()
+        let duration = DBUtils.measureTime {
+            dbQueue.inTransaction { db, rollback in
+                do {
+
+                    try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
+                    try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
+                    try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
+                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
+                } catch {
+
+                }
+            }
+        }
+        FileLog.shared.addMessage("CleanUp Transaction duration: \(duration)")
+        // Do another vacuum to reclaim any space free by the changes above
+        vacuumDatabase()
+    }
+
+    public func vacuumDatabase() {
+        if let sizeString = databaseSize {
+            FileLog.shared.addMessage("VACUUM -> Database start size: \(sizeString)")
+        }
+
+        FileLog.shared.addMessage("VACUUM -> Start")
+        let duration =  DBUtils.measureTime {
+            dbQueue.inDatabase { db in
+                do {
+                    try db.executeUpdate("VACUUM;", values: nil)
+                } catch {
+                    FileLog.shared.addMessage("VACUUM -> error: \(error)")
+                }
+            }
+        }
+        FileLog.shared.addMessage("VACUUM -> End")
+
+        FileLog.shared.addMessage("VACUUM -> Duration: \(duration)")
+        if let sizeString = databaseSize {
+            FileLog.shared.addMessage("VACUUM -> Database end size: \(sizeString)")
+        }
     }
 
     // MARK: - Up Next
@@ -518,6 +575,14 @@ public class DataManager {
         episodeManager.saveFileType(episode: episode, fileType: fileType, dbQueue: dbQueue)
     }
 
+    public func saveEpisode(contentType: String, episode: BaseEpisode) {
+        if let episode = episode as? Episode {
+            episodeManager.saveContentType(episode: episode, contentType: contentType, dbQueue: dbQueue)
+        } else if let episode = episode as? UserEpisode {
+            userEpisodeManager.saveContentType(contentType: contentType, episode: episode, dbQueue: dbQueue)
+        }
+    }
+
     public func saveEpisode(fileSize: Int64, episode: Episode) {
         episodeManager.saveFileSize(episode: episode, fileSize: fileSize, dbQueue: dbQueue)
     }
@@ -609,7 +674,7 @@ public class DataManager {
 
     public func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, episode: BaseEpisode) {
         if let episode = episode as? Episode {
-            episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, episode: episode, dbQueue: dbQueue)
+            episodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, downloadTaskId: episode.uuid, episode: episode, dbQueue: dbQueue)
         } else if let episode = episode as? UserEpisode {
             userEpisodeManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: sizeInBytes, episode: episode, dbQueue: dbQueue)
         }
@@ -832,6 +897,11 @@ public class DataManager {
         folderManager.findFolder(uuid: uuid, dbQueue: dbQueue)
     }
 
+    public func topPodcastsUuidInFolder(folder: Folder) -> [String] {
+        let topPodcasts = podcastManager.allPodcastsInFolder(folder: folder, dbQueue: dbQueue).map({$0.uuid})
+        return topPodcasts
+    }
+
     public func allPodcastsInFolder(folder: Folder) -> [Podcast] {
         podcastManager.allPodcastsInFolder(folder: folder, dbQueue: dbQueue)
     }
@@ -947,6 +1017,25 @@ public class DataManager {
         } else {
             DataManager.sharedManager.count(query: "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE pushEnabled = 1 AND subscribed = 1", values: nil)
         }
+    }
+
+    // MARK: - Up Next History Manager
+
+    public func snapshotUpNext() {
+        upNextHistoryManager.snapshot(dbQueue: dbQueue)
+    }
+
+    public func upNextHistoryEntries() -> [UpNextHistoryManager.UpNextHistoryEntry] {
+        upNextHistoryManager.entries(dbQueue: dbQueue)
+    }
+
+    public func replaceUpNext(entry: Date) {
+        upNextHistoryManager.replaceUpNext(entry: entry, dbQueue: dbQueue)
+        upNextManager.refresh(dbQueue: dbQueue)
+    }
+
+    public func upNextHistoryEpisodes(entry: Date) -> [String] {
+        upNextHistoryManager.episodes(entry: entry, dbQueue: dbQueue)
     }
 }
 

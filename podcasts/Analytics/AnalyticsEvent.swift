@@ -154,6 +154,7 @@ enum AnalyticsEvent: String {
     case filtersTabOpened
     case discoverTabOpened
     case profileTabOpened
+    case upNextTabOpened
 
     // MARK: - Downloads View
 
@@ -286,9 +287,14 @@ enum AnalyticsEvent: String {
 
     case discoverShown
     case discoverCategoryShown
+    case discoverCategoriesPillTapped
     case discoverFeaturedPodcastTapped
     case discoverFeaturedPodcastSubscribed
     case discoverShowAllTapped
+    case discoverCategoryCloseButtonTapped
+    case discoverCategoriesPickerPick
+    case discoverCategoriesPickerClosed
+    case discoverCategoriesPickerShown
 
     case discoverListImpression
     case discoverListShowAllTapped
@@ -304,6 +310,9 @@ enum AnalyticsEvent: String {
 
     case discoverRegionChanged
     case discoverCollectionLinkTapped
+
+    case discoverAdCategoryTapped
+    case discoverAdCategorySubscribed
 
     // MARK: - Mini Player
 
@@ -348,6 +357,7 @@ enum AnalyticsEvent: String {
     case playerSleepTimerEnabled
     case playerSleepTimerExtended
     case playerSleepTimerCancelled
+    case playerSleepTimerRestarted
 
     // MARK: - Player: Shelf
 
@@ -371,6 +381,7 @@ enum AnalyticsEvent: String {
     case episodeDownloadCancelled
     case episodeDownloadFailed
     case episodeDownloadsStale
+    case episodeDownloadTasks
 
     case episodeUploadQueued
     case episodeUploadFinished
@@ -475,6 +486,8 @@ enum AnalyticsEvent: String {
     case settingsGeneralMultiSelectGestureToggled
     case settingsGeneralPublishChapterTitlesToggled
     case settingsGeneralAutoplayToggled
+    case settingsGeneralAutoSleepTimerRestartToggled
+    case settingsGeneralShakeToResetSleepTimerToggled
 
     // MARK: - Settings: Notifications
 

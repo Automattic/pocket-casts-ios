@@ -677,6 +677,85 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 45 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE EpisodeMetadata (
+                        episodeUuid TEXT PRIMARY KEY,
+                        metadata TEXT NOT NULL
+                    );
+                """, values: nil)
+                schemaVersion = 45
+            } catch {
+                failedAt(45)
+                return
+            }
+        }
+
+        if schemaVersion < 46 {
+            do {
+                try db.executeUpdate("DROP TABLE EpisodeMetadata;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN metadata TEXT;", values: nil)
+                schemaVersion = 46
+            } catch {
+                failedAt(46)
+                return
+            }
+        }
+
+        if schemaVersion < 47 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
+                try db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
+                schemaVersion = 47
+            } catch {
+                failedAt(47)
+                return
+            }
+        }
+
+        // Those migrations were some heavy DROP COLUMN that we moved outside of DB startup
+        if schemaVersion < 48 {
+            schemaVersion = 48
+        }
+        if schemaVersion < 49 {
+            schemaVersion = 49
+        }
+
+        if schemaVersion < 50 {
+            // We are doing try? because depending of the cleanup process was done or not these columns could have been dropped and need to recreated
+            // or they still exist because of the changes of version 47.
+            try? db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN contentType TEXT;", values: nil)
+            try? db.executeUpdate("ALTER TABLE SJUserEpisode ADD COLUMN contentType TEXT;", values: nil)
+            schemaVersion = 50
+        }
+
+        if schemaVersion < 51 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE PlaylistEpisodeHistory (
+                    id INTEGER KEY,
+                    episodePosition INTEGER NOT NULL DEFAULT 0,
+                    episodeUuid TEXT NOT NULL,
+                    playlist_id INTEGER NOT NULL,
+                    upcoming INTEGER NOT NULL DEFAULT 0,
+                    timeModified INTEGER NOT NULL DEFAULT 0,
+                    wasDeleted INTEGER NOT NULL DEFAULT 0,
+                    title TEXT,
+                    podcastUuid TEXT,
+                    date REAL NOT NULL
+                    );
+                """, values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_history_date ON PlaylistEpisodeHistory (date);", values: nil)
+
+                schemaVersion = 51
+            } catch {
+                failedAt(51)
+                return
+            }
+        }
+
         db.commit()
     }
 }

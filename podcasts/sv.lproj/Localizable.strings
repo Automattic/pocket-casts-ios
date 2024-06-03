@@ -153,12 +153,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Bokmärkena är här!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Var med och betatesta bokmärken!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Prenumerera på Plus nu så att du kan välja och hoppa över kapitel i avsnitt som stöder detta.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Som en del av din Patron-prenumeration kan du nu välja och hoppa över kapitel i avsnitt som stöder detta.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Som en del av din Plus-prenumeration kan du nu välja och hoppa över kapitel i avsnitt som stöder detta.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Kod kopierad till urklipp</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -166,7 +160,7 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <key>announcement_slumber_plus_description</key>
     <string>Som en del av din Plus Yearly-prenumeration får du en 1-årig prenumeration på innehåll från Slumber Studios med koden %1$@. Läs mer.</string>
     <key>announcement_slumber_plus_description_learn_more</key>
-    <string>Läs mer</string>
+    <string>Lär dig mer</string>
     <key>announcement_slumber_redeem</key>
     <string>Lös in din kod</string>
     <key>announcement_slumber_title</key>
@@ -219,10 +213,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Podcastomslag</string>
     <key>appearance_dark_theme</key>
     <string>Mörkt tema</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Använd inbäddat omslag</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Visar omslaget från den nedladdade filen (om det finns någon) istället för omslaget som showen använder.</string>
+    <string>Vissa serier har anpassade omslag för specifika avsnitt. Aktivera det här alternativet så visar Pocket Casts dem istället för seriens omslag.</string>
     <key>appearance_light_theme</key>
     <string>Ljust tema</string>
     <key>appearance_match_device_theme</key>
@@ -423,6 +415,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Ta bort från molnet</string>
     <key>custom_episode_upload</key>
     <string>Ladda upp till molnet</string>
+    <key>database_migration</key>
+    <string>Vi flyttar på lite dittan och dattan så att appen ska bli snabbare ...</string>
     <key>day_listened</key>
     <string>Dag lyssnad</string>
     <key>day_saved</key>
@@ -451,6 +445,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Ta endast bort från enheten</string>
     <key>deselect_all</key>
     <string>Avmarkera alla</string>
+    <key>device_shake_sleep_timer</key>
+    <string>Vilolägestimern återstartades när enheten skakades</string>
     <key>discover</key>
     <string>Upptäck</string>
     <key>discover_all_episodes</key>
@@ -1091,6 +1087,8 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Uppfattat</string>
     <key>group_episodes</key>
     <string>Gruppera avsnitt</string>
+    <key>hang_on</key>
+    <string>Häng kvar!</string>
     <key>history_clear_all</key>
     <string>Töm alla</string>
     <key>history_clear_all_details</key>
@@ -1221,6 +1219,10 @@ podcasts med dig</string>
     <string>månad</string>
     <key>monthly</key>
     <string>Månadsvis</string>
+    <key>most_popular</key>
+    <string>Mest populär</string>
+    <key>most_popular_with_name</key>
+    <string>Mest populär under %1$@</string>
     <key>move_to_bottom</key>
     <string>Flytta längst ned</string>
     <key>move_to_top</key>
@@ -1606,6 +1608,8 @@ UPPDATERINGAR</string>
     <string>Åtkomst upphörde: %1$@</string>
     <key>podcast_access_ends</key>
     <string>Åtkomst upphör: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast och avsnitt</string>
     <key>podcast_archive_all</key>
     <string>Arkivera alla</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1759,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Äldsta till nyaste</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Kortaste till längsta</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>Rubrik (A-Ö)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>Rubrik (Ö-A)</string>
     <key>podcasts_large_grid</key>
     <string>Stort rutnät</string>
     <key>podcasts_layout</key>
@@ -2422,11 +2430,7 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>skip_back</key>
     <string>Hoppa tillbaka</string>
     <key>skip_chapters</key>
-    <string>Hoppa över kapitel</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Hoppa över kapitel och mycket annat med Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Hoppa över kapitel och mycket annat med Pocket Casts Plus</string>
+    <string>Förvalda kapitel</string>
     <key>skip_forward</key>
     <string>Hoppa framåt</string>
     <key>sleep_timer</key>
@@ -2437,6 +2441,12 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Avbryt timer</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Avsnittets slut</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Efter %1$@ avsnitt</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Somnar efter %1$@ avsnitt</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Somnar i slutet av nuvarande avsnitt</string>
     <key>sleep_timer_time_remaining</key>
     <string>Sovtimer på, %1$@ återstår</string>
     <key>social_sign_in_continue_with_apple</key>
@@ -2627,6 +2637,14 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Uppgradera till %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Uppgradera till Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>Rubrik (A-Ö)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>Rubrik (Ö-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>Längsta till kortaste</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>Kortaste till längsta</string>
     <key>volume_boost</key>
     <string>Volymökning</string>
     <key>volume_boost_description</key>

@@ -11,12 +11,17 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     static let noUpNextRowHeight: CGFloat = 180
     static let nowPlayingRowHeight: CGFloat = 72
     static let rearrangeWidth: CGFloat = 60
+    static let bottomMargin: CGFloat = 8
 
     enum sections: Int { case nowPlayingSection = 0, upNextSection }
 
     var tableData = [sections]()
 
     var themeOverride: Theme.ThemeType? = nil
+
+    lazy var contentInseter = {
+        InsetAdjuster(ignoreMiniPlayer: !self.showingInTab)
+    }()
 
     var isMultiSelectEnabled = false {
         didSet {
@@ -34,7 +39,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                 } else {
                     self.track(.upNextMultiSelectEntered)
                 }
-
+                if self.showingInTab {
+                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? Self.bottomMargin : Constants.Values.miniPlayerOffset + Self.bottomMargin
+                }
                 reloadTable()
             }
         }
@@ -48,9 +55,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         didSet {
             multiSelectActionBar.setSelectedCount(count: selectedPlayListEpisodes.count)
             if selectedPlayListEpisodes.count == 0 {
-                upNextTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                contentInseter.isMultiSelectEnabled = false
             } else {
-                upNextTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+                contentInseter.isMultiSelectEnabled = true
             }
             updateNavBarButtons()
         }
@@ -66,7 +73,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             upNextTable.register(UINib(nibName: "NothingUpNextCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.noUpNextCell)
             upNextTable.register(UINib(nibName: "UpNextNowPlayingCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.nowPlayingCell)
             upNextTable.backgroundView = nil
-
             upNextTable.isEditing = true
             upNextTable.addGestureRecognizer(customLongPressGesture)
             upNextTable.allowsMultipleSelectionDuringEditing = true
@@ -93,11 +99,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }()
 
     let source: UpNextViewSource
+    let showingInTab: Bool
 
-    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil) {
+    init(source: UpNextViewSource, themeOverride: Theme.ThemeType? = nil, showingInTab: Bool = false) {
         self.source = source
-        self.themeOverride = Settings.darkUpNextTheme ? .dark : themeOverride
-
+        self.themeOverride = !showingInTab && Settings.darkUpNextTheme ? .dark : themeOverride
+        self.showingInTab = showingInTab
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -139,6 +146,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
         clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
+
+        contentInseter.setupInsetAdjustmentsForMiniPlayer(scrollView: upNextTable)
 
         refreshSections()
     }
@@ -262,10 +271,18 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
         } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            if showingInTab {
+                navigationItem.leftBarButtonItem = nil
+            } else {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            }
         } else {
             navigationItem.rightBarButtonItem = nil
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            if showingInTab {
+                navigationItem.leftBarButtonItem = nil
+            } else {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+            }
         }
     }
 
@@ -304,6 +321,7 @@ enum UpNextViewSource: String, AnalyticsDescribable {
     case nowPlaying = "now_playing"
     case player
     case lockScreenWidget = "lock_screen_widget"
+    case tabBar = "tab_bar"
     case unknown
 
     var analyticsDescription: String { rawValue }

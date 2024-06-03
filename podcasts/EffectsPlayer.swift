@@ -25,6 +25,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var timePitch: AVAudioUnitTimePitch?
     private var playbackSpeed = 0 as Double // AVAudioUnitTimePitch seems to not like us querying the rate sometimes, so store that as a separate variable
 
+    private var audioMixerNode: AVAudioMixerNode?
+
     // for volume boost
     private var highPassFilter: AVAudioUnitEffect?
     private var dynamicsProcessor: AVAudioUnitEffect?
@@ -51,10 +53,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     // this lock is to avoid race conditions where you're destroying the player while in the middle of setting it up (since the play method does its work asynchronously)
     private lazy var playerLock = NSLock()
 
+    private lazy var episodeArtwork = EpisodeArtwork()
+
     // MARK: - PlaybackProtocol Impl
 
     func loadEpisode(_ episode: BaseEpisode) {
         episodePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
+        episodeArtwork.loadEmbeddedImage(asset: nil, podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid)
         self.episode = episode
     }
 
@@ -84,6 +89,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.effects = PlaybackManager.shared.effects()
             strongSelf.playBufferManager = PlayBufferManager()
 
+            strongSelf.audioMixerNode = strongSelf.createAudioMixerNode()
+            strongSelf.engine?.attach(strongSelf.audioMixerNode!)
+
             // volume boost effects
             strongSelf.highPassFilter = strongSelf.createHighPassUnit()
             strongSelf.engine?.attach(strongSelf.highPassFilter!)
@@ -109,11 +117,15 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 if strongSelf.cachedFrameCount == 0 {
                     // we haven't cached a frame count for this episode, do that now
                     strongSelf.cachedFrameCount = strongSelf.audioFile!.length
+                    if strongSelf.cachedFrameCount == 0 {
+                        // If don't have a frameCount we cannot use the effect player
+                        throw AVError(_nsError: NSError(domain: AVFoundationErrorDomain, code: AVError.fileFailedToParse.rawValue))
+                    }
                     DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
                 }
             } catch {
                 strongSelf.playerLock.unlock()
-                PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
+                PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil, fallbackToDefaultPlayer: true)
                 return
             }
 
@@ -133,7 +145,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 format = strongSelf.audioFile!.processingFormat
             }
 
-            strongSelf.engine?.connect(strongSelf.player!, to: strongSelf.timePitch!, format: format)
+            strongSelf.engine?.connect(strongSelf.player!, to: strongSelf.audioMixerNode!, format: format)
+            strongSelf.engine?.connect(strongSelf.audioMixerNode!, to: strongSelf.timePitch!, format: format)
             strongSelf.engine?.connect(strongSelf.timePitch!, to: strongSelf.highPassFilter!, format: format)
             strongSelf.engine?.connect(strongSelf.highPassFilter!, to: strongSelf.dynamicsProcessor!, format: format)
             strongSelf.engine?.connect(strongSelf.dynamicsProcessor!, to: strongSelf.peakLimiter!, format: format)
@@ -428,6 +441,10 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         }
     }
 
+    private func createAudioMixerNode() -> AVAudioMixerNode {
+        return AVAudioMixerNode()
+    }
+
     private func createTimePitchUnit() -> AVAudioUnitTimePitch {
         var componentDescription = AudioComponentDescription()
         componentDescription.componentType = kAudioUnitType_FormatConverter
@@ -472,5 +489,11 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
+    }
+
+    // MARK: - Volume
+
+    func setVolume(_ volume: Float) {
+        audioMixerNode?.outputVolume = volume
     }
 }

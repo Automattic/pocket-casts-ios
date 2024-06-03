@@ -26,12 +26,12 @@ class GoogleSocialLogin: SocialLogin {
     @MainActor
     private func idToken(from viewController: UIViewController) async throws -> String {
         try await withUnsafeThrowingContinuation { continuation in
-            let config = GIDConfiguration(
+            GIDSignIn.sharedInstance.configuration = GIDConfiguration(
                 clientID: ApiCredentials.googleSignInSecret,
                 serverClientID: ApiCredentials.googleSignInServerClientId
             )
 
-            GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { signInResult, error in
+            GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { signInResult, error in
                 if let error {
 
                     if let err = error as? GIDSignInError, err.code == .canceled {
@@ -43,7 +43,7 @@ class GoogleSocialLogin: SocialLogin {
                     return
                 }
 
-                guard let idToken = signInResult?.authentication.idToken else {
+                guard let idToken = signInResult?.user.idToken?.tokenString else {
                     continuation.resume(throwing: GoogleSocialLoginError.emptyIdToken)
                     return
                 }

@@ -153,12 +153,6 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>¡Ya están aquí los marcadores!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>¡Únete a nosotros en las pruebas beta de marcadores!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Suscríbete a Plus y podrás elegir y omitir capítulos en los episodios compatibles.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Como parte de tu suscripción a Patron, ahora podrás elegir y omitir capítulos en los episodios compatibles.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Como parte de tu suscripción a Plus, ahora podrás elegir y omitir capítulos en los episodios compatibles.</string>
     <key>announcement_slumber_code_copied</key>
     <string>El código se ha copiado en el portapapeles</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,10 +213,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Carátulas de los podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema oscuro</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Utilizar carátulas integradas</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>En el reproductor, muestra las carátulas desde el archivo descargado (si existe), en lugar de utilizar las del programa.</string>
+    <string>Algunos programas disponen de carátulas personalizadas para determinados episodios. Activa esta opción y Pocket Casts las mostrará en lugar de la carátula del programa.</string>
     <key>appearance_light_theme</key>
     <string>Tema claro</string>
     <key>appearance_match_device_theme</key>
@@ -423,6 +415,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Eliminar de la nube</string>
     <key>custom_episode_upload</key>
     <string>Subir a la nube</string>
+    <key>database_migration</key>
+    <string>Estamos haciendo algunos cambios para que la aplicación vaya más rápido...</string>
     <key>day_listened</key>
     <string>Día escuchado</string>
     <key>day_saved</key>
@@ -451,6 +445,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Borrar solo del dispositivo</string>
     <key>deselect_all</key>
     <string>Anular todas las selecciones</string>
+    <key>device_shake_sleep_timer</key>
+    <string>El temporizador de suspensión se reinició porque se agitó el dispositivo</string>
     <key>discover</key>
     <string>Descubrir</string>
     <key>discover_all_episodes</key>
@@ -1091,6 +1087,8 @@ Compártelos con Pocket Casts y aparecerán aquí.</string>
     <string>De acuerdo</string>
     <key>group_episodes</key>
     <string>Agrupar episodios</string>
+    <key>hang_on</key>
+    <string>¡Espera!</string>
     <key>history_clear_all</key>
     <string>Vaciar todo</string>
     <key>history_clear_all_details</key>
@@ -1221,6 +1219,10 @@ pódcast contigo</string>
     <string>mes</string>
     <key>monthly</key>
     <string>Mensual</string>
+    <key>most_popular</key>
+    <string>Los más populares</string>
+    <key>most_popular_with_name</key>
+    <string>Los más populares en %1$@</string>
     <key>move_to_bottom</key>
     <string>Mover al final</string>
     <key>move_to_top</key>
@@ -1606,6 +1608,8 @@ ACTUALIZACIONES</string>
     <string>El acceso terminó: %1$@</string>
     <key>podcast_access_ends</key>
     <string>El acceso termina: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast y episodio</string>
     <key>podcast_archive_all</key>
     <string>Archivar todos</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1759,10 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>De más antiguos a más nuevos</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>De más cortos a más largos</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>Título (A-Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>Título (Z-A)</string>
     <key>podcasts_large_grid</key>
     <string>Cuadrícula grande</string>
     <key>podcasts_layout</key>
@@ -2422,11 +2430,7 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <key>skip_back</key>
     <string>Saltar atrás</string>
     <key>skip_chapters</key>
-    <string>Omitir capítulos</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Omite capítulos y haz otros cambios con Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Omite capítulos y haz otros cambios con Pocket Casts Plus</string>
+    <string>Preselección de capítulos</string>
     <key>skip_forward</key>
     <string>Saltar adelante</string>
     <key>sleep_timer</key>
@@ -2437,6 +2441,12 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Cancelar temporizador</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Final del episodio</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Dentro de %1$@ episodios</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Suspensión dentro de %1$@ episodios</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Suspensión al final del episodio actual</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador activado, quedan %1$@</string>
     <key>social_sign_in_continue_with_apple</key>
@@ -2627,6 +2637,14 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Actualizar a %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Actualiza a Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>Título (A-Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>Título (Z-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>De más largos a más cortos</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>De más cortos a más largos</string>
     <key>volume_boost</key>
     <string>Subir volumen</string>
     <key>volume_boost_description</key>

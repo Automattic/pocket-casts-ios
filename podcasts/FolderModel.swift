@@ -72,7 +72,7 @@ class FolderModel: ObservableObject {
         folder.sortOrder = ServerPodcastManager.shared.lowestSortOrderForHomeGrid() - 1
 
         // the sort type for newly created folders defaults to the same thing the home grid is set to
-        folder.sortType = Int32(Settings.homeFolderSortOrder().rawValue)
+        folder.sortType = Int32(Settings.homeFolderSortOrder().old.rawValue)
         DataManager.sharedManager.save(folder: folder)
 
         // if needed update other folders we might have moved podcasts out of

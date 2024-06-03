@@ -15,6 +15,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var episodeDescription: String?
     @objc public var episodeStatus = 0 as Int32
     @objc public var fileType: String?
+    @objc public var contentType: String?
     @objc public var keepEpisode = false
     @objc public var playedUpTo: Double = 0
     @objc public var duration: Double = 0
@@ -47,7 +48,12 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var deselectedChaptersModified = 0 as Int64
 
     public var hasBookmarks: Bool {
-        DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        // This wil cause a regression in which the bookmarks won't be displayed
+        // for episodes with bookmarks.
+        // However, this call is happening on the main thread and can block the whole app.
+        // We will re-add this again in a way that's not a blocker
+        //DataManager.sharedManager.bookmarks.bookmarkCount(forEpisode: uuid) > 0
+        false
     }
 
     public var isUserEpisode: Bool {
@@ -158,8 +164,8 @@ public class Episode: NSObject, BaseEpisode {
             fileType.caseInsensitiveCompare("audio/mpeg") == .orderedSame)
     }
 
-    public func parentPodcast() -> Podcast? {
-        DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+    public func parentPodcast(dataManager: DataManager = .sharedManager) -> Podcast? {
+        dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
     }
 
     public func taggableId() -> Int {
@@ -174,5 +180,24 @@ public class Episode: NSObject, BaseEpisode {
 
     override public var hash: Int {
         taggableId()
+    }
+
+    // MARK: - Metadata
+
+    public struct Metadata: Decodable {
+        public let showNotes: String?
+        public let image: String?
+
+        /// Podlove chapters
+        public let chapters: [EpisodeChapter]?
+
+        /// Podcast Index chapters
+        public let chaptersUrl: String?
+
+        public struct EpisodeChapter: Decodable {
+            public let startTime: TimeInterval
+            public let title: String?
+            public let endTime: TimeInterval?
+        }
     }
 }

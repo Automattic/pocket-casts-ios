@@ -153,12 +153,6 @@
     <string>Закладки уже готовы!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Примите участие в бета-тестировании закладок!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Подпишитесь на Plus, и вы сможете выбирать и пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>В рамках подписки на Patron вы теперь можете выбирать и пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>В рамках подписки на Plus вы теперь можете выбирать и пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Код скопирован в буфер обмена</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,10 +213,8 @@
     <string>Тема подкаста</string>
     <key>appearance_dark_theme</key>
     <string>Тёмная тема</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Использовать встроенную тему</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Показывает в плеере тему из загруженного файла (при наличии) вместо темы шоу.</string>
+    <string>В некоторых шоу есть специальное оформление отдельных выпусков. Включите эту опцию, и Pocket Casts будет отображать его вместо общего оформления шоу.</string>
     <key>appearance_light_theme</key>
     <string>Светлая тема</string>
     <key>appearance_match_device_theme</key>
@@ -423,6 +415,8 @@
     <string>Удалить из облака</string>
     <key>custom_episode_upload</key>
     <string>Загрузить в облако</string>
+    <key>database_migration</key>
+    <string>Мы двигаем туда-сюда биты и байты, чтобы приложение работало быстрее…</string>
     <key>day_listened</key>
     <string>день прослушан</string>
     <key>day_saved</key>
@@ -451,6 +445,8 @@
     <string>Удалить только с устройства</string>
     <key>deselect_all</key>
     <string>ОЧИСТИТЬ ВСЕ</string>
+    <key>device_shake_sleep_timer</key>
+    <string>Таймер сна перезагружен из-за встряхивания устройства</string>
     <key>discover</key>
     <string>Найти</string>
     <key>discover_all_episodes</key>
@@ -1091,6 +1087,8 @@
     <string>Понятно</string>
     <key>group_episodes</key>
     <string>Группировать выпуски</string>
+    <key>hang_on</key>
+    <string>Подождите немного!</string>
     <key>history_clear_all</key>
     <string>Очистить все</string>
     <key>history_clear_all_details</key>
@@ -1221,6 +1219,10 @@
     <string>мес.</string>
     <key>monthly</key>
     <string>Ежемесячно</string>
+    <key>most_popular</key>
+    <string>Самое популярное</string>
+    <key>most_popular_with_name</key>
+    <string>Самое популярное в %1$@</string>
     <key>move_to_bottom</key>
     <string>Переместить вниз</string>
     <key>move_to_top</key>
@@ -1606,6 +1608,8 @@
     <string>Доступ прекращен: %1$@</string>
     <key>podcast_access_ends</key>
     <string>Доступ прекращается: %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Подкаст и выпуск</string>
     <key>podcast_archive_all</key>
     <string>Архивировать все</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1759,10 @@
     <string>От старых к новым</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>От коротких к длинным</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>По названию (A–Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>По названию (Z–A)</string>
     <key>podcasts_large_grid</key>
     <string>Большая сетка</string>
     <key>podcasts_layout</key>
@@ -2422,11 +2430,7 @@
     <key>skip_back</key>
     <string>Перейти назад</string>
     <key>skip_chapters</key>
-    <string>Пропустить главы</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Возможность пропускать главы и множество других функций с Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Возможность пропускать главы и множество других функций с Pocket Casts Plus</string>
+    <string>Предварительный выбор глав</string>
     <key>skip_forward</key>
     <string>Перейти дальше</string>
     <key>sleep_timer</key>
@@ -2437,6 +2441,12 @@
     <string>Отменить таймер</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Конец выпуска</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Через %1$@ вып.</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Переход в режим ожидания через %1$@ вып.</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Переход в режим ожидания по окончании текущего выпуска</string>
     <key>sleep_timer_time_remaining</key>
     <string>Таймер сна включен, осталось %1$@</string>
     <key>social_sign_in_continue_with_apple</key>
@@ -2627,6 +2637,14 @@
     <string>Обновить до %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Перейти на Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>По названию (A–Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>По названию (Z–A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>От длинных к коротким</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>От коротких к длинным</string>
     <key>volume_boost</key>
     <string>Усилитель звука</string>
     <key>volume_boost_description</key>

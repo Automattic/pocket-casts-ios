@@ -153,12 +153,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Les favoris sont là !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Rejoignez-nous pour le bêta-test des favoris !</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Abonnez-vous à Plus dès maintenant pour pouvoir sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Dans le cadre de votre abonnement Patron, vous pouvez maintenant sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Dans le cadre de votre abonnement Plus, vous pouvez maintenant sélectionner et passer des chapitres dans n’importe quel épisode qui en comporte.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code copié dans le presse-papiers</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,10 +213,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Illustration du balado</string>
     <key>appearance_dark_theme</key>
     <string>Thème sombre</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Utiliser l’illustration intégrée</string>
     <key>appearance_embedded_artwork_subtitle</key>
-    <string>Affiche l’illustration des émissions du fichier téléchargé (s’il existe) dans le lecteur plutôt que d’utiliser l’illustration de l’émission.</string>
+    <string>Certaines émissions ont des illustrations personnalisées pour certains épisodes. Activez cette option et Pocket Casts les affichera à la place de l’illustration de l’émission.</string>
     <key>appearance_light_theme</key>
     <string>Thème clair</string>
     <key>appearance_match_device_theme</key>
@@ -423,6 +415,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Supprimer du nuage</string>
     <key>custom_episode_upload</key>
     <string>Téléverser dans le nuage</string>
+    <key>database_migration</key>
+    <string>On fait un peu de ménage pour accélérer l’application…</string>
     <key>day_listened</key>
     <string>Jour écouté</string>
     <key>day_saved</key>
@@ -451,6 +445,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Supprimer de l’appareil uniquement</string>
     <key>deselect_all</key>
     <string>Désélectionner tout</string>
+    <key>device_shake_sleep_timer</key>
+    <string>La mise en veille a été redémarrée en raison d’une secousse de l’appareil</string>
     <key>discover</key>
     <string>Découvrir</string>
     <key>discover_all_episodes</key>
@@ -1091,6 +1087,8 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>J’ai compris</string>
     <key>group_episodes</key>
     <string>Regrouper des épisodes</string>
+    <key>hang_on</key>
+    <string>Accrochez-vous !</string>
     <key>history_clear_all</key>
     <string>Effacer tout</string>
     <key>history_clear_all_details</key>
@@ -1221,6 +1219,10 @@ podcasts partout avec</string>
     <string>mois</string>
     <key>monthly</key>
     <string>Mensuel</string>
+    <key>most_popular</key>
+    <string>Les plus populaires</string>
+    <key>most_popular_with_name</key>
+    <string>Les plus populaires dans %1$@</string>
     <key>move_to_bottom</key>
     <string>Déplacer au bas</string>
     <key>move_to_top</key>
@@ -1606,6 +1608,8 @@ MISES À JOUR</string>
     <string>L’accès a pris fin : %1$@</string>
     <key>podcast_access_ends</key>
     <string>Fin de l’accès : %1$@</string>
+    <key>podcast_and_episode</key>
+    <string>Podcast et épisode</string>
     <key>podcast_archive_all</key>
     <string>Archiver tous les épisodes</string>
     <key>podcast_archive_all_played</key>
@@ -1755,6 +1759,10 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Du plus ancien au plus récent</string>
     <key>podcasts_episode_sort_shortest_to_longest</key>
     <string>Du plus court au plus long</string>
+    <key>podcasts_episode_sort_title_a_to_z</key>
+    <string>Titre (A-Z)</string>
+    <key>podcasts_episode_sort_title_z_to_a</key>
+    <string>Titre (Z-A)</string>
     <key>podcasts_large_grid</key>
     <string>Grande grille</string>
     <key>podcasts_layout</key>
@@ -2422,11 +2430,7 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <key>skip_back</key>
     <string>Saut vers l’arrière</string>
     <key>skip_chapters</key>
-    <string>Sauter les chapitres</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Passer des chapitres et plus encore avec Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Passer des chapitres et plus encore avec Pocket Casts Plus</string>
+    <string>Présélectionner des chapitres</string>
     <key>skip_forward</key>
     <string>Saut vers l’avant</string>
     <key>sleep_timer</key>
@@ -2437,6 +2441,12 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Annuler la minuterie</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Fin de l’épisode</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Dans %1$@ épisodes</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Mise en veille dans %1$@ épisodes</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Mise en veille à la fin de l’épisode en cours</string>
     <key>sleep_timer_time_remaining</key>
     <string>Minuterie de veille activée, il reste %1$@</string>
     <key>social_sign_in_continue_with_apple</key>
@@ -2627,6 +2637,14 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Passer à %1$@</string>
     <key>upgrade_to_plus</key>
     <string>Mettre à niveau vers Plus</string>
+    <key>upload_sort_alpha_a_to_z</key>
+    <string>Titre (A-Z)</string>
+    <key>upload_sort_alpha_z_to_a</key>
+    <string>Titre (Z-A)</string>
+    <key>upload_sort_longest_to_shortest</key>
+    <string>Du plus long au plus court</string>
+    <key>upload_sort_shortest_to_longest</key>
+    <string>Du plus court au plus long</string>
     <key>volume_boost</key>
     <string>Amplification du volume</string>
     <key>volume_boost_description</key>

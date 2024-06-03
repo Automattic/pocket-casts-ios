@@ -19,10 +19,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let chapterManager = ChapterManager()
 
     var sleepTimeRemaining = -1 as TimeInterval
-    var sleepOnEpisodeEnd = false {
+
+    var numberOfEpisodesToSleepAfter = 0 {
         didSet {
-            if sleepOnEpisodeEnd {
+            if numberOfEpisodesToSleepAfter > 0 {
                 sleepTimeRemaining = -1
+                sleepTimerManager.recordSleepTimerDuration(duration: nil, onEpisodeEnd: true)
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
         }
@@ -59,6 +61,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     lazy var bookmarkManager: BookmarkManager = {
         BookmarkManager(playbackManager: self)
     }()
+
+    private lazy var sleepTimerManager = SleepTimerManager()
 
     /// The player we should fallback to
     private var fallbackToPlayer: PlaybackProtocol.Type? = nil
@@ -236,6 +240,8 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
 
             self.updateIdleTimer()
+
+            self.sleepTimerManager.restartSleepTimerIfNeeded()
         })
     }
 
@@ -341,6 +347,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func chapterCount(onlyPlayable: Bool = false) -> Int {
         onlyPlayable ? chapterManager.playableChapterCount() : chapterManager.visibleChapterCount()
+    }
+
+    func index(for chapter: Chapters) -> Int? {
+        chapterManager.index(for: chapter)
     }
 
     func chapterAt(index: Int) -> ChapterInfo? {
@@ -580,7 +590,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
         }
 
-        sleepOnEpisodeEnd = false
+        numberOfEpisodesToSleepAfter -= 1
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
     }
 
@@ -940,8 +950,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playerDidFinishPlayingEpisode() {
-        if sleepOnEpisodeEnd {
-            pause()
+        if numberOfEpisodesToSleepAfter == 1 {
+            pauseAndRecordSleepTimerFinished()
             cancelSleepTimer()
             return
         }
@@ -1013,7 +1023,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             cancelSleepTimer()
         } else {
-            playNextEpisode(autoPlay: !sleepOnEpisodeEnd)
+            playNextEpisode(autoPlay: !(numberOfEpisodesToSleepAfter == 1))
         }
     }
 
@@ -1331,7 +1341,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             let episodeDuration = duration()
             let timeRemaining = episodeDuration - currentTime()
             if episodeDuration > 0, episodeDuration > skipLast, timeRemaining < skipLast {
-                if sleepOnEpisodeEnd {
+                if numberOfEpisodesToSleepAfter == 1 {
                     pause()
                     cancelSleepTimer()
                 } else {
@@ -1359,16 +1369,25 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         // here (as above) we're assuming that in general the timer fires around once a second. Might have to investigate this though as it might not always be the case
         if sleepTimeRemaining >= 0 {
+            if sleepTimeRemaining == sleepTimerManager.sleepTimerFadeDuration {
+                sleepTimerManager.performFadeOut(player: player)
+            }
+
             sleepTimeRemaining = sleepTimeRemaining - updateTimerInterval
 
             if sleepTimeRemaining < 0 {
-                pause()
+                pauseAndRecordSleepTimerFinished()
             }
         }
 
         if player.buffering() == false {
             updateChapterInfo()
         }
+    }
+
+    private func pauseAndRecordSleepTimerFinished() {
+        sleepTimerManager.recordSleepTimerFinished()
+        pause()
     }
 
     private func fireProgressNotification() {
@@ -1458,20 +1477,33 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Sleep Timer
 
-    func cancelSleepTimer() {
+    func cancelSleepTimer(userInitiated: Bool = false) {
+        sleepTimerManager.cancelSleepTimer(userInitiated: userInitiated)
         sleepTimeRemaining = -1
-        sleepOnEpisodeEnd = false
+        numberOfEpisodesToSleepAfter = 0
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
     }
 
     func sleepTimerActive() -> Bool {
-        sleepTimeRemaining >= 0 || sleepOnEpisodeEnd
+        sleepTimeRemaining >= 0 || numberOfEpisodesToSleepAfter > 0
     }
 
     func setSleepTimerInterval(_ stopIn: TimeInterval) {
+        sleepTimerManager.recordSleepTimerDuration(duration: stopIn, onEpisodeEnd: nil)
         sleepTimeRemaining = stopIn
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
         Analytics.track(.playerSleepTimerEnabled, properties: ["time": Int(stopIn)])
+    }
+
+    func restartSleepTimer() {
+        guard sleepTimerActive() else {
+            return
+        }
+
+        #if !os(watchOS)
+        Toast.show(L10n.deviceShakeSleepTimer)
+        #endif
+        sleepTimerManager.restartSleepTimer()
     }
 
     // MARK: - Remote Control support
@@ -1913,7 +1945,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Private helpers
 
     private func checkIfStreamBufferRequired(episode: BaseEpisode, effects: PlaybackEffects) {
-        let downloadEpisode = effects.trimSilence.isEnabled() || FeatureFlag.cachePlayingEpisode.enabled
+        let downloadEpisode = effects.trimSilence.isEnabled() && !FeatureFlag.cachePlayingEpisode.enabled
         if downloadEpisode, !episode.downloaded(pathFinder: DownloadManager.shared) {
             // the user is streaming and has turned on remove silence, kick off a download so we can fulfill that request
             DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .playerDownloadedForStreaming)

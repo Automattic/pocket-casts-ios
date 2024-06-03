@@ -7,7 +7,7 @@ import SwiftUI
 
 extension PaidFeature {
     static var bookmarks: PaidFeature = .plusFeature
-    static var deselectChapters: PaidFeature = .inEarlyAccess
+    static var deselectChapters: PaidFeature = .plusFeature
     static var slumber: PaidFeature = .plusFeature
 }
 

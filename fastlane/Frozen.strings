@@ -221,11 +221,11 @@
 /* Section header for the appearance settings related to artwork. */
 "appearance_artwork_header" = "Podcast Artwork";
 
-/* Prompt to toggle on the use of artwork that's embedded in the episode download files. */
-"appearance_embedded_artwork" = "Use Embedded Artwork";
+/* Prompt to toggle on the use of artwork per episode, as opposed to per podcast. */
+"appearance_embedded_artwork" = "Use Episode Artwork";
 
-/* Subtitle explaining embedded artwork in the episode download files. */
-"appearance_embedded_artwork_subtitle" = "Shows artwork from the downloaded file (if it exists) in the player instead of using the show's artwork.";
+/* Subtitle explaining episode artwork. */
+"appearance_embedded_artwork_subtitle" = "Some shows have custom artwork for certain episodes. Enable this option and Pocket Casts will display them instead of the show’s artwork.";
 
 /* Prompt to toggle whether the theme will match the device theme or not. */
 "appearance_match_device_theme" = "Use iOS Light/Dark Mode";
@@ -2858,6 +2858,15 @@
 /* Accessibility hint that displays the remaining amount of time for the sleep timer. '%1$@' is a placeholder for the remaining time. */
 "sleep_timer_time_remaining" = "Sleep Timer on, %1$@ remaining";
 
+/* Label displaying in how many episodes the sleep timer will activate. %1$@ is the number of episodes. */
+"sleep_timer_episode_count" = "In %1$@ episodes";
+
+/* Label showing that Sleep Timer will activate at the end of current episode */
+"sleep_timer_sleeping_after_current_episode" = "Sleeping at the end of the current episode";
+
+/* Label showing that Sleep Timer will activate after a given number of episodes. %1$@ is the number of episodes and it's always bigger than 1. */
+"sleep_timer_sleeping_after" = "Sleeping in %1$@ episodes";
+
 /* Prompt to confirm when presented with a connection prompt. Used when connecting to a Sonos speaker. */
 "sonos_connect_action" = "CONNECT";
 
@@ -4006,7 +4015,7 @@
 "accessibility_hint_player_navigate_to_podcast_label" = "Tap to navigate to main podcast information page";
 
 /* Label that toggles the option for the user to choose which chapters of the podcast they want to skip (to not be played) */
-"skip_chapters" = "Skip chapters";
+"skip_chapters" = "Preselect chapters";
 
 /* Indicates the number of chapters in a podcast episode. %1$@ is the number of chapters. */
 "number_of_chapters" = "%1$@ chapters";
@@ -4020,11 +4029,11 @@
 /* Indicates the number of hidden chapters in a podcast episode. %1$@ is the number of hidden chapters. */
 "number_of_hidden_chapters" = "%1$@ hidden";
 
-/* Prompt for Plus mentioning Skip Chapters, don't translate Pocket Casts Plus */
-"skip_chapters_plus_prompt" = "Skip chapters and more with Pocket Casts Plus";
+/* Prompt for Plus mentioning Pre selecting Chapters, don't translate Pocket Casts Plus */
+"skip_chapters_plus_prompt" = "Preselect chapters and more with Pocket Casts Plus";
 
-/* Prompt for Plus mentioning Skip Chapters, don't translate Pocket Casts Patron */
-"skip_chapters_patron_prompt" = "Skip chapters and more with Pocket Casts Patron";
+/* Prompt for Plus mentioning Pre selecting Chapters, don't translate Pocket Casts Patron */
+"skip_chapters_patron_prompt" = "Preselect chapters and more with Pocket Casts Patron";
 
 /* Slumber Studios partnership feature announcement title */
 "announcement_slumber_title" = "Dream big";
@@ -4044,20 +4053,47 @@
 /* Message shown when the code is copied to clipboard */
 "announcement_slumber_code_copied" = "Code copied to clipboard";
 
-/* Announcement of Skip Chapters for Patron users */
-"announcement_deselect_chapters_patron" = "As part of your Patron subscription, you can now select and skip chapters in any episode that supports them.";
+/* Announcement of Preselect Chapters for Patron users */
+"announcement_deselect_chapters_patron" = "As part of your Patron subscription, you can now preselect and skip chapters automatically in any episode that supports them.";
 
-/* Announcement of Skip Chapters for Plus users */
-"announcement_deselect_chapters_plus" = "As part of your Plus subscription, you can now select and skip chapters in any episode that supports them.";
+/* Announcement of Preselect Chapters for Plus users */
+"announcement_deselect_chapters_plus" = "As part of your Plus subscription, you can now preselect and skip chapters automatically in any episode that supports them.";
 
-/* Announcement of Skip Chapters for free users */
-"announcement_deselect_chapters_free" = "Subscribe to Plus now so you can select and skip chapters in any episode that supports them.";
+/* Announcement of Preselect Chapters for free users */
+"announcement_deselect_chapters_free" = "Subscribe to Plus now so you can preselect and skip chapters automatically in any episode that supports them.";
 
 /* Used in a button meaning that the user undestood the message. */
 "got_it" = "Got it";
 
 /* Prompting the user to upgrade to Plus. Don't translate "Plus" */
 "upgrade_to_plus" = "Upgrade to Plus";
+
+/* A title used to a show a list of the most popular podcasts in a category with the provided name of that category. */
+"most_popular_with_name" = "Most Popular in %1$@";
+
+/* A title used to a show a list of the most popular podcasts in a category. */
+"most_popular" = "Most Popular";
+
+/* Message explaining why the sleep timer was restarted after the user shook the device */
+"device_shake_sleep_timer" = "Sleep timer restarted due to device shake";
+
+/* Displayed when doing a heavy task the user has to wait */
+"hang_on" = "Hang on!";
+
+/* Message displayed when doing heavy database operations */
+"database_migration" = "We're moving a few bits and bytes so the app runs faster...";
+
+/* Name of the option to restart sleep timer */
+"auto_restart_sleep_timer" = "Auto Restart Sleep Timer";
+
+/* Name of the option to shake to restart sleep timer */
+"shake_to_restart_sleep_timer" = "Shake to restart Sleep Timer";
+
+/* Description of the option to restart sleep timer */
+"auto_restart_sleep_timer_description" = "If on, the sleep timer will restart automatically if you play an episode within 5 minutes after the last pause.";
+
+/* Description of the option to shake to restart sleep timer */
+"shake_to_restart_sleep_timer_description" = "If on, the sleep timer will restart when you shake your phone.";
 
 /* MARK: - InfoPlist.strings */
 

@@ -278,6 +278,10 @@ public class ServerSettings {
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.lastSyncTime)
     }
 
+    public class var lastSyncTime: Date? {
+        UserDefaults.standard.object(forKey: ServerConstants.UserDefaults.lastSyncTime) as? Date
+    }
+
     // Push Token
     public class func pushToken() -> String? {
         UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.pushToken)

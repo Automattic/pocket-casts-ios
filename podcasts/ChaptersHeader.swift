@@ -11,7 +11,6 @@ class ChaptersHeader: UIView {
         container.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         container.isLayoutMarginsRelativeArrangement = true
         container.axis = .horizontal
-        container.backgroundColor = .black
         return container
     }()
 

@@ -1,6 +1,7 @@
 import Foundation
 import Kingfisher
 import PocketCastsServer
+import PocketCastsUtils
 
 /// Extracts artwork from a streaming episode (if there's any)
 class EpisodeArtwork {
@@ -45,12 +46,17 @@ class EpisodeArtwork {
     }
 
     private func loadEpisodeArtworkFromUrl(podcastUuid: String, episodeUuid: String) {
-        CacheServerHandler.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid) { [weak self] imageUrl in
+        guard FeatureFlag.newShowNotesEndpoint.enabled && FeatureFlag.episodeFeedArtwork.enabled else {
+            return
+        }
+
+        Task { [weak self] in
             guard let self else {
                 return
             }
 
-            guard let imageUrl, let url = URL(string: imageUrl) else {
+            guard let imageUrl = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(podcastUuid: podcastUuid, episodeUuid: episodeUuid),
+                  let url = URL(string: imageUrl) else {
                 return
             }
 
@@ -60,7 +66,6 @@ class EpisodeArtwork {
             let size = self.imageManager.biggestPodcastImageSize
             let resizeProcessor = DownsamplingImageProcessor(size: .init(width: size, height: size))
             KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { result in
-
                 if let image = try? result.get().image {
                     self.save(image, for: episodeUuid)
                 }
