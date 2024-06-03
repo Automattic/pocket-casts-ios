@@ -67,7 +67,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     /// The player we should fallback to
     private var fallbackToPlayer: PlaybackProtocol.Type? = nil
 
-    private var retryingToPlay = false
+    private var lastRetryEpisodeUuid: String?
 
     init() {
         queue = PlaybackQueue()
@@ -2019,20 +2019,18 @@ class PlaybackManager: ServerPlaybackDelegate {
     // the wrong one and update it later
     func urlFailedToLoad(for episodeUuid: String) {
         Task {
-            guard !retryingToPlay,
+            guard lastRetryEpisodeUuid != episodeUuid,
                   let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
                   let podcast = episode.parentPodcast() else {
-                    retryingToPlay = false
-                    playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
+                lastRetryEpisodeUuid = episodeUuid
+                playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
                 return
             }
 
             FileLog.shared.addMessage("PlaybackManager: URL failed to load, trying to update episode and playing again")
-            retryingToPlay = true
+            lastRetryEpisodeUuid = episodeUuid
 
             ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] wasUpdated in
-                self?.retryingToPlay = false
-
                 guard let self,
                       let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episodeUuid) : episode else { return }
 
