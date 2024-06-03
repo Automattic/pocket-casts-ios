@@ -205,7 +205,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
     }
 
-    func isEpisodeFileValid(contentType: String?, fileSize: Int64) -> Bool {    
+    func isEpisodeFileValid(contentType: String?, fileSize: Int64) -> Bool {
         // basic sanity checks to make sure the file looks big enough and it's content type isn't text
         if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
             return false
