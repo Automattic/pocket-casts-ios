@@ -2034,7 +2034,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 guard let self,
                       let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episodeUuid) : episode else { return }
 
-                FileLog.shared.addMessage("PlaybackManager: Episode \(wasUpdated ? "" : "not") updated, trying to play again.")
+                FileLog.shared.addMessage("PlaybackManager: Episode\(wasUpdated ? " " : " not") updated, trying to play again.")
 
                 load(episode: updatedEpisode, autoPlay: true, overrideUpNext: false)
             }
