@@ -63,6 +63,7 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Only update an episode if it fails playing
     /// If set to `false`, it will use the previous mechanism that always update
+    /// but can lead to a bigger time between tapping play and actually playing it
     case whenPlayingOnlyUpdateEpisodeIfPlaybackFails
 
     public var enabled: Bool {
