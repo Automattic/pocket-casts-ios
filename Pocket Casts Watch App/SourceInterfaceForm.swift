@@ -1,12 +1,6 @@
-//
-//  SourceInterfaceForm.swift
-//  Pocket Casts Watch App
-//
-//  Created by Sérgio Estêvão on 25/03/2024.
-//  Copyright © 2024 Shifty Jelly. All rights reserved.
-//
-
 import SwiftUI
+import PocketCastsServer
+import PocketCastsUtils
 
 struct SourceRow: View {
     let sourceSymbol: String
@@ -31,6 +25,9 @@ struct SourceRow: View {
 
 struct SourceInterfaceForm: View {
 
+    private var refreshTimedActionHelper = TimedActionHelper()
+    @State private var lastAppRefreshText: String = L10n.profileLastAppRefresh(L10n.timeFormatNever)
+
     var body: some View {
         List {
             Section {
@@ -43,15 +40,23 @@ struct SourceInterfaceForm: View {
                     .foregroundStyle(.gray)
             }
             Section {
-                MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
+                Button(action: {
+                    refreshDataTapped()
+                }, label: {
+                    MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
+                })
             } footer: {
-                Text(L10n.profileLastAppRefresh(L10n.timeFormatNever))
+                Text(lastAppRefreshText)
                     .font(.footnote)
                     .multilineTextAlignment(.leading)
             }
             Section {
-                MenuRow(label: L10n.signedOut, icon: "profile-free")
-                    .listRowBackground(Color.clear)
+                Button(action: {
+                    refreshAccountTapped()
+                }, label: {
+                    MenuRow(label: L10n.signedOut, icon: "profile-free")
+                        .listRowBackground(Color.clear)
+                })
             } footer: {
                 Text(L10n.watchSourceSignInInfo)
                     .font(.footnote)
@@ -67,6 +72,53 @@ struct SourceInterfaceForm: View {
                     Text(L10n.watchSourcePlusInfo)
                 }
             }
+        }
+    }
+
+    private func nowPlayingEpisodesMatchOnBothSources() -> Bool {
+        let watchCurrentEpisode = PlaybackManager.shared.currentEpisode()
+        let phoneCurrentEpisode = WatchDataManager.playingEpisode()
+        if watchCurrentEpisode?.uuid == phoneCurrentEpisode?.uuid {
+            if watchCurrentEpisode?.playedUpTo == phoneCurrentEpisode?.playedUpTo {
+                return true
+            }
+        }
+        return false
+    }
+
+    func refreshDataTapped() {
+        WKInterfaceDevice.current().play(.success)
+        SessionManager.shared.requestData()
+
+        refreshTimedActionHelper.startTimer(for: 5.seconds, action: {
+            RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+        })
+
+        lastAppRefreshText = L10n.refreshing
+    }
+
+    func refreshAccountTapped() {
+        WKInterfaceDevice.current().play(.success)
+        SyncManager.signout()
+        WatchSyncManager.shared.loginAndRefreshIfRequired()
+    }
+
+    private func updateLastRefreshDetails() {
+        var lastRefreshText = String()
+        if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
+            lastRefreshText = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
+        } else if SyncManager.isFirstSyncInProgress() {
+            lastRefreshText = L10n.syncing
+        } else if SyncManager.isRefreshInProgress() {
+            lastRefreshText = L10n.refreshing
+        } else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
+            lastRefreshText = L10n.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
+        } else {
+            lastRefreshText = L10n.timeFormatNever
+        }
+
+        DispatchQueue.main.async {
+            lastAppRefreshText = lastRefreshText
         }
     }
 }
