@@ -19,27 +19,48 @@ class FolderPreviewView: UIView {
     private var nameLabel: UILabel?
     private var nameLabelVerticalPositionConstraint: NSLayoutConstraint?
     private var nameLabelBottomConstraint: NSLayoutConstraint?
-    private var currentFolderUuid: String?
+    private var currentFolder: Folder?
+
+    private func addObservers() {
+        NotificationCenter.default.removeObserver(self)
+
+        guard let currentFolder else {
+            return
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(folderChanged(_:)), name: Constants.Notifications.folderChanged, object: currentFolder.uuid)
+    }
+
+    @objc private func folderChanged(_ notification: Notification) {
+        guard let currentFolder else {
+            return
+        }
+
+        populateFromAsync(folder: currentFolder)
+    }
 
     func populateFrom(folder: Folder) {
+        currentFolder = folder
         let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
         setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids)
+        addObservers()
     }
 
     func populateFromAsync(folder: Folder) {
-        currentFolderUuid = folder.uuid
+        currentFolder = folder
         setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: [])
         DispatchQueue.global(qos: .userInteractive).async {
             let podcastUuids = DataManager.sharedManager.topPodcastsUuidInFolder(folder: folder)
             let folderUuid = folder.uuid
             DispatchQueue.main.async { [weak self] in
                 // Check if the preview is still being used to preview the same folder
-                guard self?.currentFolderUuid == folderUuid else {
+                guard self?.currentFolder?.uuid == folderUuid else {
                     return
                 }
                 self?.setup(folderName: folder.name, folderColor: folder.color, topPodcastUuids: podcastUuids)
             }
         }
+        addObservers()
     }
 
     func populateFrom(model: FolderModel) {

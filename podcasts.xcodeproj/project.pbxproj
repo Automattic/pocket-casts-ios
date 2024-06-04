@@ -591,6 +591,10 @@
 		8BD7A2382C04F0DD00CF84E8 /* UpNextHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2372C04F0DD00CF84E8 /* UpNextHistoryViewController.swift */; };
 		8BD7A23A2C04F63000CF84E8 /* UpNextHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2392C04F63000CF84E8 /* UpNextHistoryModel.swift */; };
 		8BD7A23C2C06254400CF84E8 /* UpNextEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A23B2C06254400CF84E8 /* UpNextEntryView.swift */; };
+		8BD7A2432C09130C00CF84E8 /* FolderHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2422C09130C00CF84E8 /* FolderHistoryView.swift */; };
+		8BD7A2452C09132A00CF84E8 /* FolderHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2442C09132A00CF84E8 /* FolderHistoryViewController.swift */; };
+		8BD7A2472C09134900CF84E8 /* FolderHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2462C09134900CF84E8 /* FolderHistoryModel.swift */; };
+		8BD7A2492C09190200CF84E8 /* FolderHistoryEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */; };
 		8BDDD2AC29770479009E4DD3 /* SyncLoadingAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDDD2AB29770479009E4DD3 /* SyncLoadingAlert.swift */; };
 		8BDE43062AC33BEE00C2D5C9 /* RatePodcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */; };
 		8BDE43082AC34A7600C2D5C9 /* RatePodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */; };
@@ -1607,7 +1611,6 @@
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F52B4F8C2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8B2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift */; };
 		F52B4F8E2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */; };
-		F543F6A22C07FC7300FEC8B6 /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A12C07FC7300FEC8B6 /* DBTestCase.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -2411,6 +2414,10 @@
 		8BD7A2372C04F0DD00CF84E8 /* UpNextHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextHistoryViewController.swift; sourceTree = "<group>"; };
 		8BD7A2392C04F63000CF84E8 /* UpNextHistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextHistoryModel.swift; sourceTree = "<group>"; };
 		8BD7A23B2C06254400CF84E8 /* UpNextEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextEntryView.swift; sourceTree = "<group>"; };
+		8BD7A2422C09130C00CF84E8 /* FolderHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryView.swift; sourceTree = "<group>"; };
+		8BD7A2442C09132A00CF84E8 /* FolderHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryViewController.swift; sourceTree = "<group>"; };
+		8BD7A2462C09134900CF84E8 /* FolderHistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryModel.swift; sourceTree = "<group>"; };
+		8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryEntryView.swift; sourceTree = "<group>"; };
 		8BDDD2AB29770479009E4DD3 /* SyncLoadingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncLoadingAlert.swift; sourceTree = "<group>"; };
 		8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatePodcastView.swift; sourceTree = "<group>"; };
 		8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatePodcastViewModel.swift; sourceTree = "<group>"; };
@@ -3403,7 +3410,6 @@
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F52B4F8B2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorViewController.swift; sourceTree = "<group>"; };
 		F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorView.swift; sourceTree = "<group>"; };
-		F543F6A12C07FC7300FEC8B6 /* DBTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+CategoryRedesign.swift"; sourceTree = "<group>"; };
@@ -4513,6 +4519,17 @@
 			path = "Up Next History";
 			sourceTree = "<group>";
 		};
+		8BD7A2412C09126300CF84E8 /* Folder History */ = {
+			isa = PBXGroup;
+			children = (
+				8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */,
+				8BD7A2422C09130C00CF84E8 /* FolderHistoryView.swift */,
+				8BD7A2442C09132A00CF84E8 /* FolderHistoryViewController.swift */,
+				8BD7A2462C09134900CF84E8 /* FolderHistoryModel.swift */,
+			);
+			path = "Folder History";
+			sourceTree = "<group>";
+		};
 		8BE36DC928734F6500E35313 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -5213,6 +5230,7 @@
 				BD7516E01C0FC8180099F53E /* Downloads */,
 				BDF4D30D2175AA0D0086463E /* Starred */,
 				BDF050791FBA65BE00194D68 /* Listening History */,
+				8BD7A2412C09126300CF84E8 /* Folder History */,
 				400AB2FF220BA3110003EE21 /* Files */,
 				40542E292265600200046330 /* Account Management */,
 				BD8139D01FB95C3900DBF0EC /* ProfileViewController.swift */,
@@ -8711,6 +8729,7 @@
 				C7E99EFE2A5C918900E7CBAF /* NonBlockingLongPressView.swift in Sources */,
 				BDED92F4251DC3E2000BF622 /* CarPlaySceneDelegate.swift in Sources */,
 				BD24E6F320E3474600A712E3 /* ArchiveHelper.swift in Sources */,
+				8BD7A2492C09190200CF84E8 /* FolderHistoryEntryView.swift in Sources */,
 				BD9CF8C2281FC6970000F29A /* AboutViewModel.swift in Sources */,
 				4000A2A025463C6A00356FCE /* LeftAlignedFlowLayout.swift in Sources */,
 				BD59E6BA24107C110019AF1C /* StarredViewController+Swipe.swift in Sources */,
@@ -8832,6 +8851,7 @@
 				BDB5F0C52045036200437669 /* OptionAction.swift in Sources */,
 				40FFAD93214A170200024FCF /* FilterSettingsOverlayController.swift in Sources */,
 				BD998ACC27B2436000B38857 /* NameFolderView.swift in Sources */,
+				8BD7A2432C09130C00CF84E8 /* FolderHistoryView.swift in Sources */,
 				C7FAFF5D2941844C00329B40 /* CancelConfirmationViewModel.swift in Sources */,
 				BD14CCDF1D7D3CB800DB4547 /* SelectedPodcastCell.swift in Sources */,
 				BD93FDA120157B2000F6EF55 /* PodcastImageView.swift in Sources */,
@@ -8886,6 +8906,7 @@
 				F55C4C762BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
 				407B21E72231F6A300B4E492 /* UploadedSettingsViewController.swift in Sources */,
+				8BD7A2472C09134900CF84E8 /* FolderHistoryModel.swift in Sources */,
 				BD339C5C2149E35600E655F9 /* VideoViewController+Controls.swift in Sources */,
 				C7B7123C29DF49BC00965BF7 /* HorizontalCarousel.swift in Sources */,
 				4041FE572181751F0089D4A1 /* SiriShortcutsManager.swift in Sources */,
@@ -9227,6 +9248,7 @@
 				BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */,
 				8B9D459F28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift in Sources */,
 				BDC377631C44E6BD001FD219 /* EmptyHeaderView.swift in Sources */,
+				8BD7A2452C09132A00CF84E8 /* FolderHistoryViewController.swift in Sources */,
 				BD9324772398BC9D004F19A1 /* FeatureTour.swift in Sources */,
 				BDFB53C72362A2570001806E /* NowPlayingPlayerItemViewController.swift in Sources */,
 				BD4DB9951CAB8CFF009E512F /* PCRefreshControl.swift in Sources */,
