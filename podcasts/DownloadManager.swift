@@ -136,7 +136,6 @@ class DownloadManager: NSObject, FilePathProtocol {
             let nsError = error as NSError
             switch (nsError.domain, nsError.code) {
             case (NSCocoaErrorDomain, 513):
-                //TODO: Check underlying error for POSIX Error with permissions issues
                 // No permissions to move, so we'll copy instead
                 try StorageManager.copyItem(at: url, to: destinationUrl)
             default:

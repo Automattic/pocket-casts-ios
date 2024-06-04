@@ -270,8 +270,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     @IBAction func addFilesTapped(_ sender: Any) {
         Analytics.track(.uploadedFilesAddButtonTapped)
 
-        //TODO: Add other supported content types
-        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.mp3], asCopy: true)
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: FileTypeUtil.supportedUserFileTypes, asCopy: true)
         documentPicker.delegate = self
         documentPicker.modalPresentationStyle = .overFullScreen
         documentPicker.allowsMultipleSelection = false
