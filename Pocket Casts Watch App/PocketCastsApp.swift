@@ -13,5 +13,8 @@ struct PocketCastsApp: App {
                     .navigationBarTitleDisplayMode(.inline)
             }
         }
+        // This is placeholder to replace the previous placeholder notification implemented on the
+        // storyboard file. This is not actively used.
+        WKNotificationScene(controller: NotificationController.self, category: "myCategory")
     }
 }
