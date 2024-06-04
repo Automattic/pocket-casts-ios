@@ -1250,7 +1250,6 @@
 		BDCF60EA22EFECA60051EDB3 /* ThemeableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCF60E922EFECA60051EDB3 /* ThemeableCell.swift */; };
 		BDCF60EC22EFEDDC0051EDB3 /* ThemeableTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCF60EB22EFEDDC0051EDB3 /* ThemeableTable.swift */; };
 		BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = BDD239BC267C869B0047750C /* SwipeCellKit */; };
-		BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDD301661EFB9356004A9972 /* Interface.storyboard */; };
 		BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD301691EFB9356004A9972 /* Assets.xcassets */; };
 		BDD3017A1EFB9356004A9972 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */; };
 		BDD3017C1EFB9356004A9972 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3017B1EFB9356004A9972 /* NotificationController.swift */; };
@@ -3097,7 +3096,6 @@
 		BDCF60E922EFECA60051EDB3 /* ThemeableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableCell.swift; sourceTree = "<group>"; };
 		BDCF60EB22EFEDDC0051EDB3 /* ThemeableTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableTable.swift; sourceTree = "<group>"; };
 		BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Casts Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BDD301671EFB9356004A9972 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		BDD301691EFB9356004A9972 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BDD3016B1EFB9356004A9972 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BDD301761EFB9356004A9972 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
@@ -6063,7 +6061,6 @@
 		BDD301741EFB9356004A9972 /* Pocket Casts Watch App */ = {
 			isa = PBXGroup;
 			children = (
-				BDD301661EFB9356004A9972 /* Interface.storyboard */,
 				BDD301691EFB9356004A9972 /* Assets.xcassets */,
 				10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */,
 				BDD3016B1EFB9356004A9972 /* Info.plist */,
@@ -8358,7 +8355,6 @@
 				BDD3016A1EFB9356004A9972 /* Assets.xcassets in Resources */,
 				8BB4AA672BD1A80E0091480A /* sleep-timer-restarted-sound.mp3 in Resources */,
 				463538A426E16A2E00BA9D35 /* Localizable.strings in Resources */,
-				BDD301681EFB9356004A9972 /* Interface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9849,14 +9845,6 @@
 				8B17365D298D47B20057E893 /* ca */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		BDD301661EFB9356004A9972 /* Interface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BDD301671EFB9356004A9972 /* Base */,
-			);
-			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 		BDEFBA1B1E6D3C2300B9024B /* MainInterface.storyboard */ = {
