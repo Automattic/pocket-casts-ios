@@ -32,7 +32,7 @@ extension AppDelegate {
             }
 
             if let fileExtension = UTType.pcasts.preferredFilenameExtension, type.conforms(to: UTType(filenameExtension: fileExtension)!) {
-                let alert = UIAlertController(title: "Import Podcasts and Settings", message: "Do you want to reset your current podcasta and settings to this file?", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Import Podcasts and Settings", message: "Do you want to reset your podcasts and settings to this file?", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Import", style: .default) { _ in
                     Task {
                         let fileWrapper = try FileWrapper(url: url)

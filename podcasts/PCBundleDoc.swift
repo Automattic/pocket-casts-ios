@@ -8,6 +8,11 @@ extension UTType {
 struct PCBundleDoc: FileDocument {
     static var readableContentTypes = [UTType.pcasts]
 
+    enum Constants {
+        static let databaseFilename = "database.sqlite"
+        static let preferencesFilename = "preferences.plist"
+    }
+
     init() {}
 
     static func delete() {
@@ -23,12 +28,12 @@ struct PCBundleDoc: FileDocument {
 
         // Import database
         let databaseDestination = FileManager.databaseURL
-        if let database = wrapper.fileWrappers?.first(where: { $0.0.hasSuffix("sqlite3") }) {
+        if let database = wrapper.fileWrappers?.first(where: { $0.key == Constants.databaseFilename }) {
             try! database.value.write(to: databaseDestination, originalContentsURL: nil)
         }
 
         // Import Preferences
-        if let preferences = wrapper.fileWrappers?.first(where: { $0.0.hasSuffix("plist") }) {
+        if let preferences = wrapper.fileWrappers?.first(where: { $0.key == Constants.preferencesFilename }) {
             let plistToCopy = FileManager.default.temporaryDirectory.appendingPathComponent("PocketCastsImportedPreferences", conformingTo: .propertyList)
             try! preferences.value.write(to: plistToCopy, originalContentsURL: nil)
 
@@ -47,9 +52,15 @@ struct PCBundleDoc: FileDocument {
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        let databaseFileWrapper = try FileWrapper(url: FileManager.databaseURL)
+        databaseFileWrapper.preferredFilename = Constants.databaseFilename
+
+        let preferencesFileWrapper = try FileWrapper(url: FileManager.preferencesURL!)
+        preferencesFileWrapper.preferredFilename = Constants.preferencesFilename
+
         let wrapper = FileWrapper(directoryWithFileWrappers: [
-            "database.sqlite": try FileWrapper(url: FileManager.databaseURL),
-            "preferences.plist": try FileWrapper(url: FileManager.preferencesURL!)
+            Constants.databaseFilename: databaseFileWrapper,
+            Constants.preferencesFilename: preferencesFileWrapper
         ])
         wrapper.preferredFilename = Date().formatted(.iso8601)
         return wrapper
