@@ -7,10 +7,11 @@ import WatchKit
 struct InterfaceView: View {
     @StateObject var upNextViewModel: UpNextViewModel
     @StateObject var downloadsViewModel: DownloadListViewModel
+    private let source: Source
 
     init(source: Source) {
-        SourceManager.shared.setSource(newSource: source)
-        rowList = SourceManager.shared.isPhone() ? Self.phoneRows : Self.watchRows
+        self.source = source
+        rowList = source == .phone ? Self.phoneRows : Self.watchRows
         _upNextViewModel = StateObject(wrappedValue: UpNextViewModel())
         _downloadsViewModel = StateObject(wrappedValue: DownloadListViewModel())
     }
@@ -26,7 +27,7 @@ struct InterfaceView: View {
     private let rowList: [Row]
 
     var title: String {
-        if SourceManager.shared.isPhone() {
+        if source == .phone {
             return L10n.phone.prefixSourceUnicode
         } else {
             return L10n.watch.prefixSourceUnicode

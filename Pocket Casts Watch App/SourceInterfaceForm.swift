@@ -52,16 +52,18 @@ struct UserRow: View {
 
 struct SourceInterfaceForm: View {
 
+    @State var activeSource: Int? = SourceManager.shared.currentSource().rawValue
+
     @StateObject var model = SourceInterfaceModel()
 
     var body: some View {
         List {
             Section {
-                NavigationLink(destination: InterfaceView(source: .phone)) {
+                NavigationLink(destination: InterfaceView(source: .phone), tag: Source.phone.rawValue, selection: $activeSource) {
                     SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
                 }
-                NavigationLink(destination: InterfaceView(source: .watch)) {
-                    SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: model.isLoggedIn && !model.isPlusUser,active: model.activeSource == .watch)
+                NavigationLink(destination: InterfaceView(source: .watch), tag: Source.watch.rawValue, selection: $activeSource) {
+                    SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: model.isLoggedIn && !model.isPlusUser, active: model.activeSource == .watch)
                 }
             } footer: {
                 if model.isPlusUser {
@@ -112,6 +114,11 @@ struct SourceInterfaceForm: View {
             }
         }.onAppear {
             model.willActivate()
+        }.onChange(of: activeSource) { newValue in
+            guard let newValue, let newSource = Source(rawValue: newValue) else {
+                return
+            }
+            SourceManager.shared.setSource(newSource: newSource)
         }
     }
 
