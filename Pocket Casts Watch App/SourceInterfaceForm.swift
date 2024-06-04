@@ -23,6 +23,27 @@ struct SourceRow: View {
     }
 }
 
+struct UserRow: View {
+    let username: String
+    let profileImage: String
+    let isLoggedIn: Bool
+
+    var body: some View {
+        HStack {
+            Image(profileImage)
+            VStack(alignment: .leading) {
+                if isLoggedIn {
+                    Text(L10n.signedInAs)
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                }
+                Text(username)
+                    .multilineTextAlignment(.leading)
+            }
+        }
+    }
+}
+
 struct SourceInterfaceForm: View {
 
     @StateObject var model = SourceInterfaceModel()
@@ -33,24 +54,28 @@ struct SourceInterfaceForm: View {
                 NavigationLink(destination: InterfaceView(source: .phone)) { SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone) }
                 NavigationLink(destination: InterfaceView(source: .watch)) { SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch) }
             } footer: {
-                Text(L10n.watchSourceMsg)
-                    .font(.footnote)
-                    .multilineTextAlignment(.leading)
-                    .foregroundStyle(.gray)
+                if model.isPlusUser {
+                    Text(L10n.watchSourceMsg)
+                        .font(.footnote)
+                        .multilineTextAlignment(.leading)
+                        .foregroundStyle(.gray)
+                }
+            }
+            if model.isPlusUser {
+                Section {
+                    Button(action: {
+                        model.refreshDataTapped()
+                    }, label: {
+                        MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
+                    })
+                } footer: {
+                    Text(model.lastRefreshLabel)
+                        .font(.footnote)
+                        .multilineTextAlignment(.leading)
+                }
             }
             Section {
-                Button(action: {
-                    model.refreshDataTapped()
-                }, label: {
-                    MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
-                })
-            } footer: {
-                Text(model.lastRefreshLabel)
-                    .font(.footnote)
-                    .multilineTextAlignment(.leading)
-            }
-            Section {
-                MenuRow(label: model.usernameLabel, icon: "profile-free")
+                UserRow(username: model.usernameLabel, profileImage: model.profileImage, isLoggedIn: model.isLoggedIn)
                     .listRowBackground(Color.clear)
             } footer: {
                 if !model.isLoggedIn {

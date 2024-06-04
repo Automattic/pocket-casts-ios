@@ -14,7 +14,9 @@ class SourceInterfaceModel: ObservableObject {
     var watchTitle: String = L10n.watch
 
     var signedInLabel: String = ""
-    var profileImage: UIImage?
+
+    @Published var profileImage: String = "profile-free"
+
     @Published var usernameLabel: String = L10n.signedOut
 
     var phoneSourceLabel: String = L10n.phone
@@ -114,33 +116,18 @@ class SourceInterfaceModel: ObservableObject {
         //phoneNowPlayingImage.setHidden(!SourceManager.shared.isPhone())
         //watchNowPlayingIcon.setHidden(!SourceManager.shared.isWatch())
 
-        //signedInLabel.setHidden(!SyncManager.isUserLoggedIn())
-        //signInInfoGroup.setHidden(SyncManager.isUserLoggedIn())
-
         if isLoggedIn, isPlusUser {
             usernameLabel = ServerSettings.syncingEmail() ?? ""
-
-            profileImage = UIImage(named: "profile-plus")
+            profileImage = "profile-plus"
             updateLastRefreshDetails()
-            //infoLabel.setHidden(false)
             infoLabel = L10n.watchSourceMsg
-            //refreshDataButton.setHidden(false)
-            //refreshAccountButton.setHidden(true)
-            //watchPlusOnlyGroup.setHidden(true)
-            //plusMarketingGroup.setHidden(true)
         } else {
             if isLoggedIn {
                 usernameLabel = ServerSettings.syncingEmail() ?? ""
             } else {
                 usernameLabel = L10n.signedOut
             }
-            profileImage = UIImage(named: "profile-free")
-            //infoLabel.setHidden(true)
-            //lastRefreshLabel.setHidden(true)
-            //refreshDataButton.setHidden(true)
-            //refreshAccountButton.setHidden(false)
-            //watchPlusOnlyGroup.setHidden(false)
-            //plusMarketingGroup.setHidden(false)
+            profileImage = "profile-free"
         }
     }
 
@@ -206,7 +193,6 @@ class SourceInterfaceModel: ObservableObject {
 
         DispatchQueue.main.async { [weak self] in
             self?.lastRefreshLabel = lastRefreshText
-            //self?.lastRefreshLabel.setHidden(false)
         }
     }
 }
