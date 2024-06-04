@@ -63,7 +63,9 @@ class WatchSyncManager {
             }
         }
         UserEpisodeManager.removeOrphanedUserEpisodes()
-        DownloadManager.shared.clearStuckDownloads()
+        Task {
+            await DownloadManager.shared.clearStuckDownloads()
+        }
     }
 
     private func performUpdateIfRequired(updateKey: String, update: () -> Void) {

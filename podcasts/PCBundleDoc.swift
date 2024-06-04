@@ -83,4 +83,3 @@ extension FileManager {
         URL(fileURLWithPath: DataManager.pathToDb())
     }
 }
-

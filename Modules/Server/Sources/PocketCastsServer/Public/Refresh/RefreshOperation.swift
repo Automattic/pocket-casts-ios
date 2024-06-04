@@ -116,15 +116,9 @@ class RefreshOperation: Operation {
         for podcast in podcasts {
             guard let podcastEpisodes = updatedPodcasts?[podcast.uuid], podcastEpisodes.count > 0 else { continue }
 
-            for episode in podcastEpisodes.reversed() {
-                if isCancelled {
-                    cleanupAfterCancel()
-
-                    return .cancelled
-                }
-
-                guard let episodeUuid = episode.uuid else { continue }
-                if let _ = DataManager.sharedManager.findEpisode(uuid: episodeUuid) { continue }
+            let episodes: [Episode] = podcastEpisodes.reversed().compactMap({ episode in
+                guard let episodeUuid = episode.uuid else { return nil }
+                if let _ = DataManager.sharedManager.findEpisode(uuid: episodeUuid) { return nil }
 
                 let newEpisode = Episode()
                 newEpisode.podcast_id = podcast.id
@@ -133,24 +127,34 @@ class RefreshOperation: Operation {
                 newEpisode.episodeStatus = DownloadStatus.notDownloaded.rawValue
                 newEpisode.addedDate = Date()
                 newEpisode.populate(fromEpisode: episode)
-                DataManager.sharedManager.save(episode: newEpisode)
+                return newEpisode
+            })
 
-                newEpisodesAdded += 1
+            DataManager.sharedManager.bulkSave(episodes: episodes)
+
+            for episode in episodes {
+                if isCancelled {
+                    cleanupAfterCancel()
+
+                    return .cancelled
+                }
 
                 // store episodes that we might possibly add to Up Next for processing after a sync
                 if podcast.autoAddToUpNextOn() {
-                    DataManager.sharedManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: newEpisode.uuid)
+                    DataManager.sharedManager.autoAddCandidates.add(podcastUUID: podcast.uuid, episodeUUID: episode.uuid)
                 }
 
                 #if !os(watchOS)
                     // so we don't flood the users phone, set a limit on the amount of meta data requests made. So if they open it after
                     // 4 weeks of not using it doesn't sit there for years
                     if metadataRequestsQueued < 10 {
-                        MetadataUpdater.shared.updatedMetadata(episodeUuid: newEpisode.uuid)
+                        MetadataUpdater.shared.updatedMetadata(episodeUuid: episode.uuid)
                         metadataRequestsQueued += 1
                     }
                 #endif
             }
+
+            newEpisodesAdded += episodes.count
 
             // there's at least one new episode, so update the latestEpisodeUuid
             ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: false)

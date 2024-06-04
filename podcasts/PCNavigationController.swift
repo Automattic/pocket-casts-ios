@@ -57,9 +57,6 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
         labelAppearance.adjustsFontSizeToFitWidth = true
         labelAppearance.minimumScaleFactor = 0.75
         labelAppearance.baselineAdjustment = .none
-
-        // Link UserInterfaceStyle to Theme type so iOS's Increase Contrast does the right thing
-        navigationBar.overrideUserInterfaceStyle = Theme.isDarkTheme() ? .dark : .light
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

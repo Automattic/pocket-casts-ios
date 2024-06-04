@@ -113,23 +113,10 @@ class ImageManager {
     // MARK: - Subscribed Podcast Images
 
     func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
-        imageView.kf.cancelDownloadTask()
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
         let processor = Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default
         imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
-    }
-
-    func loadImage(url urlString: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
-        imageView.kf.cancelDownloadTask()
-        let url = URL(string: urlString)!
-        let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        let processor = (Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default) |> DownsamplingImageProcessor(size: CGSize(width: ImageManager.sizeFor(imageSize: size), height: ImageManager.sizeFor(imageSize: size)))
-        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .cacheOriginalImage, .transition(.fade(Constants.Animation.defaultAnimationTime))])
-    }
-
-    func setPlaceholder(imageView: UIImageView, size: PodcastThumbnailSize) {
-        imageView.image = placeHolderImage(size)
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
@@ -525,15 +512,5 @@ class ImageManager {
         case .page:
             return Int(320.0 * UIScreen.main.scale)
         }
-    }
-
-    /// Clears all of the caches (disk + memory) managed by this instance.
-    func clearCaches() {
-        subscribedPodcastsCache.clearCache()
-        userEpisodeCache.clearCache()
-        userEpisodeCache.clearCache()
-        discoverCache.clearCache()
-        networkImageCache.clearCache()
-        searchImageCache.clearCache()
     }
 }

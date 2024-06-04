@@ -16,7 +16,7 @@ class CircleView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        let radius = (rect.width / 2) - 1
+        let radius = (rect.width / 2) - (borderWidth / 2)
         let path = UIBezierPath(arcCenter: CGPoint(x: rect.midX, y: rect.midY), radius: radius, startAngle: CGFloat(0).degreesToRadians, endAngle: CGFloat(360).degreesToRadians, clockwise: true)
         centerColor.setFill()
         path.fill()

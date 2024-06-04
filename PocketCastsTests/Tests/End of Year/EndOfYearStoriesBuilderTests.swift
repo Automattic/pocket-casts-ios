@@ -273,7 +273,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
 }
 
 private class EpisodeMock: Episode {
-    override func parentPodcast() -> Podcast? {
+    override func parentPodcast(dataManager: DataManager) -> Podcast? {
         return Podcast.previewPodcast()
     }
 }

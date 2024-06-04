@@ -40,7 +40,7 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
         self.delegate = delegate
     }
 
-    func populateFrom(item: DiscoverItem) {
+    func populateFrom(item: DiscoverItem, region: String?) {
         guard let source = item.source else { return }
 
         DiscoverServerHandler.shared.discoverCategories(source: source, completion: { [weak self] discoverCategories in

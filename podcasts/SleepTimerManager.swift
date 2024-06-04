@@ -7,10 +7,6 @@ class SleepTimerManager {
 
     private let backgroundShakeObserver: BackgroundShakeObserver
 
-    let sleepTimerFadeDuration = 5.seconds
-
-    private lazy var fadeOutManager = FadeOutManager()
-
     private lazy var tonePlayer: AVAudioPlayer? = {
         guard let url = Bundle.main.url(forResource: "sleep-timer-restarted-sound", withExtension: "mp3") else {
             FileLog.shared.addMessage("[Sleep Timer] Unable to create tone player because the sound file is missing from the bundle.")
@@ -26,6 +22,10 @@ class SleepTimerManager {
             return nil
         }
     }()
+
+    let sleepTimerFadeDuration = 5.seconds
+
+    private lazy var fadeOutManager = FadeOutManager()
 
     init(backgroundShakeObserver: BackgroundShakeObserver = BackgroundShakeObserver()) {
         self.backgroundShakeObserver = backgroundShakeObserver
@@ -53,7 +53,7 @@ class SleepTimerManager {
     }
 
     func restartSleepTimerIfNeeded() {
-        guard !PlaybackManager.shared.sleepTimerActive() else {
+        guard !PlaybackManager.shared.sleepTimerActive(), Settings.autoRestartSleepTimer else {
             return
         }
 
@@ -86,14 +86,15 @@ class SleepTimerManager {
     }
 
     private func observePlaybackEndAndReactivateTime() {
-        NotificationCenter.default.addObserver(self, selector: #selector(playbackTrackChanged), name: Constants.Notifications.playbackTrackChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(episodeDurationChanged), name: Constants.Notifications.episodeDurationChanged, object: nil)
     }
 
-    @objc private func playbackTrackChanged() {
+    @objc private func episodeDurationChanged() {
+        let numberOfEpisodes = Settings.sleepTimerNumberOfEpisodes
         FileLog.shared.addMessage("Sleep Timer: restarting it automatically to the end of the episode")
-        Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode"])
-        PlaybackManager.shared.sleepOnEpisodeEnd = true
-        NotificationCenter.default.removeObserver(self, name: Constants.Notifications.playbackTrackChanged, object: nil)
+        Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode", "number_of_episodes": numberOfEpisodes])
+        PlaybackManager.shared.numberOfEpisodesToSleepAfter = numberOfEpisodes
+        NotificationCenter.default.removeObserver(self, name: Constants.Notifications.episodeDurationChanged, object: nil)
     }
 
     func playTone() {
@@ -123,7 +124,7 @@ class BackgroundShakeObserver {
     }
 
     @objc private func appMovedToBackground() {
-        if PlaybackManager.shared.sleepTimerActive() {
+        if PlaybackManager.shared.sleepTimerActive() && Settings.shakeToRestartSleepTimer {
             startObserving()
         }
     }
