@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import SwiftUI
+import PocketCastsUtils
 
 extension UTType {
     static var pcasts = UTType(filenameExtension: "pcasts", conformingTo: .package)!
@@ -23,19 +24,17 @@ struct PCBundleDoc: FileDocument {
         exit(0)
     }
 
-    static func `import`(from wrapper: FileWrapper) {
-        print(wrapper)
-
+    static func performImport(from wrapper: FileWrapper) throws {
         // Import database
         let databaseDestination = FileManager.databaseURL
         if let database = wrapper.fileWrappers?.first(where: { $0.key == Constants.databaseFilename }) {
-            try! database.value.write(to: databaseDestination, originalContentsURL: nil)
+            try database.value.write(to: databaseDestination, originalContentsURL: nil)
         }
 
         // Import Preferences
         if let preferences = wrapper.fileWrappers?.first(where: { $0.key == Constants.preferencesFilename }) {
             let plistToCopy = FileManager.default.temporaryDirectory.appendingPathComponent("PocketCastsImportedPreferences", conformingTo: .propertyList)
-            try! preferences.value.write(to: plistToCopy, originalContentsURL: nil)
+            try preferences.value.write(to: plistToCopy, originalContentsURL: nil)
 
             if let myDict = NSDictionary(contentsOfFile: plistToCopy.path) {
                 myDict.forEach {
@@ -48,20 +47,23 @@ struct PCBundleDoc: FileDocument {
     }
 
     init(configuration: ReadConfiguration) throws {
-        PCBundleDoc.`import`(from: configuration.file)
+        try PCBundleDoc.performImport(from: configuration.file)
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+
+        let wrapper = FileWrapper(directoryWithFileWrappers: [:])
+
         let databaseFileWrapper = try FileWrapper(url: FileManager.databaseURL)
         databaseFileWrapper.preferredFilename = Constants.databaseFilename
+        wrapper.addFileWrapper(databaseFileWrapper)
 
-        let preferencesFileWrapper = try FileWrapper(url: FileManager.preferencesURL!)
-        preferencesFileWrapper.preferredFilename = Constants.preferencesFilename
+        if let prefURL = FileManager.preferencesURL {
+            let preferencesFileWrapper = try FileWrapper(url: prefURL)
+            preferencesFileWrapper.preferredFilename = Constants.preferencesFilename
+            wrapper.addFileWrapper(preferencesFileWrapper)
+        }
 
-        let wrapper = FileWrapper(directoryWithFileWrappers: [
-            Constants.databaseFilename: databaseFileWrapper,
-            Constants.preferencesFilename: preferencesFileWrapper
-        ])
         wrapper.preferredFilename = Date().formatted(.iso8601)
         return wrapper
     }
@@ -73,6 +75,7 @@ extension FileManager {
             let library = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first,
             let bundle = Bundle.main.bundleIdentifier
         else {
+            FileLog.shared.addMessage("Failed to find library directory or bundle identifier")
             return nil
         }
 

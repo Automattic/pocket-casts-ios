@@ -36,7 +36,7 @@ extension AppDelegate {
                 alert.addAction(UIAlertAction(title: "Import", style: .default) { _ in
                     Task {
                         let fileWrapper = try FileWrapper(url: url)
-                        PCBundleDoc.import(from: fileWrapper)
+                        try PCBundleDoc.performImport(from: fileWrapper)
                     }
                 })
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))

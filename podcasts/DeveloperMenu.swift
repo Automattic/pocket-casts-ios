@@ -21,7 +21,7 @@ struct DeveloperMenu: View {
                             print("Selected: \(url)")
                             Task {
                                 let fileWrapper = try FileWrapper(url: url)
-                                PCBundleDoc.import(from: fileWrapper)
+                                try PCBundleDoc.performImport(from: fileWrapper)
                             }
                         case .failure(let error):
                             print("Failed to import pcasts: \(error)")
