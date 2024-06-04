@@ -4,36 +4,18 @@ import WatchKit
 
 class SourceInterfaceModel: ObservableObject {
 
-    var infoLabel: String = ""
+    @Published var activeSource: Source = .phone
+
     @Published var lastRefreshLabel: String = L10n.profileLastAppRefresh(L10n.timeFormatNever)
 
     @Published var isPlusUser: Bool = false
 
     @Published var isLoggedIn: Bool = false
 
-    var watchTitle: String = L10n.watch
-
-    var signedInLabel: String = ""
-
     @Published var profileImage: String = "profile-free"
 
     @Published var usernameLabel: String = L10n.signedOut
 
-    var phoneSourceLabel: String = L10n.phone
-
-    var phoneSourceSymbol: String = L10n.phone.sourceUnicode(isWatch: false)
-
-    var watchSourceSymbol: String = L10n.watch.sourceUnicode(isWatch: true)
-
-    var refreshDataLabel: String = L10n.watchSourceRefreshData
-
-    var signInPrompt: String = L10n.watchSourceSignInInfo
-
-    var refreshAccountLabel: String = L10n.watchSourceRefreshAccount
-
-    var refreshAccountInfo: String = L10n.watchSourceRefreshAccountInfo
-
-    var plusInfo: String = L10n.watchSourcePlusInfo
 
     private var refreshTimedActionHelper = TimedActionHelper()
 
@@ -113,14 +95,12 @@ class SourceInterfaceModel: ObservableObject {
     private func reload() {
         isPlusUser = SubscriptionHelper.hasActiveSubscription()
         isLoggedIn = SyncManager.isUserLoggedIn()
-        //phoneNowPlayingImage.setHidden(!SourceManager.shared.isPhone())
-        //watchNowPlayingIcon.setHidden(!SourceManager.shared.isWatch())
+        activeSource = SourceManager.shared.currentSource()
 
         if isLoggedIn, isPlusUser {
             usernameLabel = ServerSettings.syncingEmail() ?? ""
             profileImage = "profile-plus"
             updateLastRefreshDetails()
-            infoLabel = L10n.watchSourceMsg
         } else {
             if isLoggedIn {
                 usernameLabel = ServerSettings.syncingEmail() ?? ""

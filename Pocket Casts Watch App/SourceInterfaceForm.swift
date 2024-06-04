@@ -5,6 +5,7 @@ import PocketCastsUtils
 struct SourceRow: View {
     let sourceSymbol: String
     let label: String
+    let active: Bool
 
     var body: some View {
         HStack {
@@ -18,7 +19,9 @@ struct SourceRow: View {
                 }
             }
             Spacer()
-            Image("now-playing-small")
+            if active {
+                Image("now-playing-small")
+            }
         }
     }
 }
@@ -51,8 +54,8 @@ struct SourceInterfaceForm: View {
     var body: some View {
         List {
             Section {
-                NavigationLink(destination: InterfaceView(source: .phone)) { SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone) }
-                NavigationLink(destination: InterfaceView(source: .watch)) { SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch) }
+                NavigationLink(destination: InterfaceView(source: .phone)) { SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, active: model.activeSource == .phone) }
+                NavigationLink(destination: InterfaceView(source: .watch)) { SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, active: model.activeSource == .watch) }
             } footer: {
                 if model.isPlusUser {
                     Text(L10n.watchSourceMsg)
