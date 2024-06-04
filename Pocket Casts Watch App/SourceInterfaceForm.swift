@@ -5,6 +5,7 @@ import PocketCastsUtils
 struct SourceRow: View {
     let sourceSymbol: String
     let label: String
+    let showPlusOnly: Bool
     let active: Bool
 
     var body: some View {
@@ -13,9 +14,11 @@ struct SourceRow: View {
                 .font(.title2)
             VStack {
                 Text(label)
-                HStack {
-                    Image("gold-plus")
-                    Image("plus-only")
+                if showPlusOnly {
+                    HStack {
+                        Image("gold-plus")
+                        Image("plus-only")
+                    }
                 }
             }
             Spacer()
@@ -54,8 +57,12 @@ struct SourceInterfaceForm: View {
     var body: some View {
         List {
             Section {
-                NavigationLink(destination: InterfaceView(source: .phone)) { SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, active: model.activeSource == .phone) }
-                NavigationLink(destination: InterfaceView(source: .watch)) { SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, active: model.activeSource == .watch) }
+                NavigationLink(destination: InterfaceView(source: .phone)) {
+                    SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
+                }
+                NavigationLink(destination: InterfaceView(source: .watch)) {
+                    SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: model.isLoggedIn && !model.isPlusUser,active: model.activeSource == .watch)
+                }
             } footer: {
                 if model.isPlusUser {
                     Text(L10n.watchSourceMsg)
