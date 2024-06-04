@@ -1,4 +1,5 @@
 {
+    "Simulator Target Bundle": "au.com.shiftyjelly.podcasts.watchkitapp",
     "aps": {
         "alert": {
             "body": "Test message",
