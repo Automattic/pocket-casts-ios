@@ -471,18 +471,8 @@ platform :ios do
     UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
 
     sentry_check_cli_installed
-    configure_code_signing_app_store
 
-    build_app(
-      scheme: SCHEME,
-      include_bitcode: false,
-      include_symbols: true,
-      clean: true,
-      export_options: {
-        method: 'app-store',
-        manageAppVersionAndBuildNumber: false
-      }
-    )
+    build_app_store_connect
 
     testflight(
       skip_waiting_for_build_processing: true,
@@ -539,6 +529,22 @@ platform :ios do
     )
 
     FileUtils.rm_rf(archive_zip_path)
+  end
+
+  desc 'Builds for distribution to App Store Connect'
+  lane :build_app_store_connect do
+    configure_code_signing_app_store
+
+    build_app(
+      scheme: SCHEME,
+      include_bitcode: false,
+      include_symbols: true,
+      clean: true,
+      export_options: {
+        method: 'app-store',
+        manageAppVersionAndBuildNumber: false
+      }
+    )
   end
 
   # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
