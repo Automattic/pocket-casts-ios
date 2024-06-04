@@ -25,8 +25,7 @@ struct SourceRow: View {
 
 struct SourceInterfaceForm: View {
 
-    private var refreshTimedActionHelper = TimedActionHelper()
-    @State private var lastAppRefreshText: String = L10n.profileLastAppRefresh(L10n.timeFormatNever)
+    @StateObject var model = SourceInterfaceModel()
 
     var body: some View {
         List {
@@ -41,37 +40,43 @@ struct SourceInterfaceForm: View {
             }
             Section {
                 Button(action: {
-                    refreshDataTapped()
+                    model.refreshDataTapped()
                 }, label: {
                     MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
                 })
             } footer: {
-                Text(lastAppRefreshText)
+                Text(model.lastRefreshLabel)
                     .font(.footnote)
                     .multilineTextAlignment(.leading)
             }
             Section {
-                Button(action: {
-                    refreshAccountTapped()
-                }, label: {
-                    MenuRow(label: L10n.signedOut, icon: "profile-free")
-                        .listRowBackground(Color.clear)
-                })
+                MenuRow(label: model.usernameLabel, icon: "profile-free")
+                    .listRowBackground(Color.clear)
             } footer: {
-                Text(L10n.watchSourceSignInInfo)
-                    .font(.footnote)
-            }
-            Section {
-                MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
-            } footer: {
-                VStack {
-                    Text(L10n.watchSourceRefreshAccountInfo)
-                    Divider()
-                    Image("plus-logo")
-                    Divider()
-                    Text(L10n.watchSourcePlusInfo)
+                if !model.isLoggedIn {
+                    Text(L10n.watchSourceSignInInfo)
+                        .font(.footnote)
                 }
             }
+            Section {
+                Button(action: {
+                    model.refreshAccountTapped()
+                }, label: {
+                    MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
+                })
+            } footer: {
+                if !model.isPlusUser {
+                    VStack {
+                        Text(L10n.watchSourceRefreshAccountInfo)
+                        Divider()
+                        Image("plus-logo")
+                        Divider()
+                        Text(L10n.watchSourcePlusInfo)
+                    }
+                }
+            }
+        }.onAppear {
+            model.willActivate()
         }
     }
 
@@ -84,42 +89,6 @@ struct SourceInterfaceForm: View {
             }
         }
         return false
-    }
-
-    func refreshDataTapped() {
-        WKInterfaceDevice.current().play(.success)
-        SessionManager.shared.requestData()
-
-        refreshTimedActionHelper.startTimer(for: 5.seconds, action: {
-            RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-        })
-
-        lastAppRefreshText = L10n.refreshing
-    }
-
-    func refreshAccountTapped() {
-        WKInterfaceDevice.current().play(.success)
-        SyncManager.signout()
-        WatchSyncManager.shared.loginAndRefreshIfRequired()
-    }
-
-    private func updateLastRefreshDetails() {
-        var lastRefreshText = String()
-        if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
-            lastRefreshText = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
-        } else if SyncManager.isFirstSyncInProgress() {
-            lastRefreshText = L10n.syncing
-        } else if SyncManager.isRefreshInProgress() {
-            lastRefreshText = L10n.refreshing
-        } else if let lastUpdateTime = ServerSettings.lastRefreshEndTime() {
-            lastRefreshText = L10n.refreshPreviousRun(TimeFormatter.shared.appleStyleElapsedString(date: lastUpdateTime))
-        } else {
-            lastRefreshText = L10n.timeFormatNever
-        }
-
-        DispatchQueue.main.async {
-            lastAppRefreshText = lastRefreshText
-        }
     }
 }
 

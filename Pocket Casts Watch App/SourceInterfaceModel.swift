@@ -2,16 +2,20 @@ import PocketCastsServer
 import PocketCastsUtils
 import WatchKit
 
-class SourceInterfaceModel {
+class SourceInterfaceModel: ObservableObject {
 
     var infoLabel: String = ""
-    var lastRefreshLabel: String = ""
+    @Published var lastRefreshLabel: String = L10n.profileLastAppRefresh(L10n.timeFormatNever)
+
+    @Published var isPlusUser: Bool = false
+
+    @Published var isLoggedIn: Bool = false
 
     var watchTitle: String = L10n.watch
 
     var signedInLabel: String = ""
     var profileImage: UIImage?
-    var usernameLabel: String = ""
+    @Published var usernameLabel: String = L10n.signedOut
 
     var phoneSourceLabel: String = L10n.phone
 
@@ -31,6 +35,13 @@ class SourceInterfaceModel {
 
     private var refreshTimedActionHelper = TimedActionHelper()
 
+    func willActivate() {
+        reload()
+        addAdditionalObservers()
+        handleDataUpdated()
+        NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate), name: NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), object: nil)
+    }
+
     func handleDataUpdated() {
         guard !refreshTimedActionHelper.isTimerValid() else {
             refreshTimedActionHelper.cancelTimer()
@@ -38,19 +49,6 @@ class SourceInterfaceModel {
             return
         }
         reload()
-    }
-
-    func willActivate() {
-
-        //if let name = restoreName() {
-        //    UserDefaults.standard.set(name, forKey: WatchConstants.UserDefaults.lastPage)
-            //UserDefaults.standard.set(restoreContext(), forKey: WatchConstants.UserDefaults.lastContext)
-        //}
-
-        addAdditionalObservers()
-        handleDataUpdated()
-        //populateTitle()
-        NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate), name: NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), object: nil)
     }
 
     deinit {
@@ -111,14 +109,15 @@ class SourceInterfaceModel {
     }
 
     private func reload() {
-        let isPlusUser = SubscriptionHelper.hasActiveSubscription()
+        isPlusUser = SubscriptionHelper.hasActiveSubscription()
+        isLoggedIn = SyncManager.isUserLoggedIn()
         //phoneNowPlayingImage.setHidden(!SourceManager.shared.isPhone())
         //watchNowPlayingIcon.setHidden(!SourceManager.shared.isWatch())
 
         //signedInLabel.setHidden(!SyncManager.isUserLoggedIn())
         //signInInfoGroup.setHidden(SyncManager.isUserLoggedIn())
 
-        if SyncManager.isUserLoggedIn(), isPlusUser {
+        if isLoggedIn, isPlusUser {
             usernameLabel = ServerSettings.syncingEmail() ?? ""
 
             profileImage = UIImage(named: "profile-plus")
@@ -130,7 +129,7 @@ class SourceInterfaceModel {
             //watchPlusOnlyGroup.setHidden(true)
             //plusMarketingGroup.setHidden(true)
         } else {
-            if SyncManager.isUserLoggedIn() {
+            if isLoggedIn {
                 usernameLabel = ServerSettings.syncingEmail() ?? ""
             } else {
                 usernameLabel = L10n.signedOut
