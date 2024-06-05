@@ -57,69 +57,74 @@ struct SourceInterfaceForm: View {
     @StateObject var model = SourceInterfaceModel()
 
     var body: some View {
-        List {
-            Section {
-                NavigationLink(destination: InterfaceView(source: .phone), tag: Source.phone.rawValue, selection: $activeSource) {
-                    SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
-                }
-                NavigationLink(destination: InterfaceView(source: .watch), tag: Source.watch.rawValue, selection: $activeSource) {
-                    SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: model.isLoggedIn && !model.isPlusUser, active: model.activeSource == .watch)
-                }
-            } footer: {
-                if model.isPlusUser {
-                    Text(L10n.watchSourceMsg)
-                        .font(.footnote)
-                        .multilineTextAlignment(.leading)
-                        .foregroundStyle(.gray)
-                }
-            }
-            if model.isPlusUser {
+        NavigationView {
+            List {
                 Section {
-                    Button(action: {
-                        model.refreshDataTapped()
-                    }, label: {
-                        MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
-                    })
+                    NavigationLink(destination: InterfaceView(source: .phone), tag: Source.phone.rawValue, selection: $activeSource) {
+                        SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
+                    }
+                    NavigationLink(destination: InterfaceView(source: .watch), tag: Source.watch.rawValue, selection: $activeSource) {
+                        SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: model.isLoggedIn && !model.isPlusUser, active: model.activeSource == .watch)
+                    }
                 } footer: {
-                    Text(model.lastRefreshLabel)
-                        .font(.footnote)
-                        .multilineTextAlignment(.leading)
-                }
-            }
-            Section {
-                UserRow(username: model.usernameLabel, profileImage: model.profileImage, isLoggedIn: model.isLoggedIn)
-                    .listRowBackground(Color.clear)
-            } footer: {
-                if !model.isLoggedIn {
-                    Text(L10n.watchSourceSignInInfo)
-                        .font(.footnote)
-                }
-            }
-            Section {
-                Button(action: {
-                    model.refreshAccountTapped()
-                }, label: {
-                    MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
-                })
-            } footer: {
-                if !model.isPlusUser {
-                    VStack {
-                        Text(L10n.watchSourceRefreshAccountInfo)
-                        Divider()
-                        Image("plus-logo")
-                        Divider()
-                        Text(L10n.watchSourcePlusInfo)
+                    if model.isPlusUser {
+                        Text(L10n.watchSourceMsg)
+                            .font(.footnote)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(.gray)
                     }
                 }
+                if model.isPlusUser {
+                    Section {
+                        Button(action: {
+                            model.refreshDataTapped()
+                        }, label: {
+                            MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
+                        })
+                    } footer: {
+                        Text(model.lastRefreshLabel)
+                            .font(.footnote)
+                            .multilineTextAlignment(.leading)
+                    }
+                }
+                Section {
+                    UserRow(username: model.usernameLabel, profileImage: model.profileImage, isLoggedIn: model.isLoggedIn)
+                        .listRowBackground(Color.clear)
+                } footer: {
+                    if !model.isLoggedIn {
+                        Text(L10n.watchSourceSignInInfo)
+                            .font(.footnote)
+                    }
+                }
+                Section {
+                    Button(action: {
+                        model.refreshAccountTapped()
+                    }, label: {
+                        MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
+                    })
+                } footer: {
+                    if !model.isPlusUser {
+                        VStack {
+                            Text(L10n.watchSourceRefreshAccountInfo)
+                            Divider()
+                            Image("plus-logo")
+                            Divider()
+                            Text(L10n.watchSourcePlusInfo)
+                        }
+                    }
+                }
+            }.onAppear {
+                model.willActivate()
+            }.onChange(of: activeSource) { newValue in
+                guard let newValue, let newSource = Source(rawValue: newValue) else {
+                    return
+                }
+                SourceManager.shared.setSource(newSource: newSource)
             }
-        }.onAppear {
-            model.willActivate()
-        }.onChange(of: activeSource) { newValue in
-            guard let newValue, let newSource = Source(rawValue: newValue) else {
-                return
-            }
-            SourceManager.shared.setSource(newSource: newSource)
         }
+        .navigationTitle("Play Source")
+        .navigationBarTitleDisplayMode(.inline)
+        .tint(.red)
     }
 
     private func nowPlayingEpisodesMatchOnBothSources() -> Bool {
