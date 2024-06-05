@@ -50,7 +50,7 @@ struct UserRow: View {
     }
 }
 
-struct SourceInterfaceForm: View {
+struct SourceInterfaceNavigationView: View {
 
     @State var activeSource: Int? = SourceManager.shared.currentSource().rawValue
 
@@ -140,5 +140,5 @@ struct SourceInterfaceForm: View {
 }
 
 #Preview {
-    SourceInterfaceForm()
+    SourceInterfaceNavigationView()
 }

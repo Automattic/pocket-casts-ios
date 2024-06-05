@@ -7,7 +7,7 @@ struct PocketCastsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SourceInterfaceForm()
+            SourceInterfaceNavigationView()
         }
         // This is placeholder to replace the previous placeholder notification implemented on the
         // storyboard file. This is not actively used.
