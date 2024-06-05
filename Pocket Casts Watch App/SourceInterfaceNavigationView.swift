@@ -128,7 +128,6 @@ struct SourceInterfaceNavigationView: View {
         }
         .navigationTitle("Play Source")
         .navigationBarTitleDisplayMode(.inline)
-        .tint(.red)
     }
 
     private func nowPlayingEpisodesMatchOnBothSources() -> Bool {
