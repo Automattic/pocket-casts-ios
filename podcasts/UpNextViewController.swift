@@ -147,6 +147,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        updateNavBarButtons()
         if showingInTab {
             upNextTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
         }
