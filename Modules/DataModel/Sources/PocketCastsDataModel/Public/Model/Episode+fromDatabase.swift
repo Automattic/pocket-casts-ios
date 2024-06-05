@@ -1,7 +1,53 @@
 import Foundation
+import GRDB
 import FMDB
 
 extension Episode {
+    static func from(row: RowCursor.Element) -> Episode {
+        let episode = Episode()
+        episode.id = row["id"]
+        episode.addedDate = row["addedDate"]
+        episode.lastDownloadAttemptDate = DBUtils.convertDate(value: row["lastDownloadAttemptDate"])
+        episode.detailedDescription = row["detailedDescription"]
+        episode.downloadErrorDetails = row["downloadErrorDetails"]
+        episode.downloadTaskId = row["downloadTaskId"]
+        episode.downloadUrl = row["downloadUrl"]
+        episode.episodeDescription = row["episodeDescription"]
+        episode.episodeStatus = row["episodeStatus"]
+        episode.fileType = row["fileType"]
+        episode.contentType = row["contentType"]
+        episode.keepEpisode = row["keepEpisode"]
+        episode.playedUpTo = row["playedUpTo"]
+        episode.duration = row["duration"]
+        episode.playingStatus = row["playingStatus"]
+        episode.autoDownloadStatus = row["autoDownloadStatus"]
+        episode.publishedDate = row["publishedDate"]
+        episode.sizeInBytes = row["sizeInBytes"]
+        episode.playingStatusModified = row["playingStatusModified"]
+        episode.playedUpToModified = row["playedUpToModified"]
+        episode.durationModified = row["durationModified"]
+        episode.keepEpisodeModified = row["keepEpisodeModified"]
+        episode.title = row["title"]
+        episode.uuid = row["uuid"]
+        episode.podcastUuid = row["podcastUuid"]
+        episode.playbackErrorDetails = row["playbackErrorDetails"]
+        episode.cachedFrameCount = row["cachedFrameCount"]
+        episode.lastPlaybackInteractionDate = row["lastPlaybackInteractionDate"]
+        episode.lastPlaybackInteractionSyncStatus = row["lastPlaybackInteractionSyncStatus"]
+        episode.podcast_id = row["podcast_id"]
+        episode.episodeNumber = row["episodeNumber"]
+        episode.seasonNumber = row["seasonNumber"]
+        episode.episodeType = row["episodeType"]
+        episode.archived = row["archived"]
+        episode.archivedModified = row["archivedModified"]
+        episode.lastArchiveInteractionDate = row["lastArchiveInteractionDate"]
+        episode.excludeFromEpisodeLimit = row["excludeFromEpisodeLimit"]
+        episode.starredModified = row["starredModified"]
+        episode.deselectedChapters = row["deselectedChapters"]
+        episode.deselectedChaptersModified = row["deselectedChaptersModified"]
+        return episode
+    }
+
     static func from(resultSet rs: FMResultSet) -> Episode {
         let episode = Episode()
         episode.id = rs.longLongInt(forColumn: "id")

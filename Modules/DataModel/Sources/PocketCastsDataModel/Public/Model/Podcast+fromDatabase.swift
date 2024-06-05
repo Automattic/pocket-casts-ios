@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsUtils
 import FMDB
+import GRDB
 
 extension Podcast {
     static func from(resultSet rs: FMResultSet) -> Podcast {
@@ -54,6 +55,61 @@ extension Podcast {
         podcast.showArchived = rs.bool(forColumn: "showArchived")
         podcast.refreshAvailable = rs.bool(forColumn: "refreshAvailable")
         podcast.folderUuid = rs.string(forColumn: "folderUuid")
+
+        return podcast
+    }
+
+    static func from(row: RowCursor.Element) -> Podcast {
+        let podcast = Podcast()
+        podcast.id = row["id"]
+        podcast.addedDate = row["addedDate"]
+        podcast.autoDownloadSetting = row["autoDownloadSetting"]
+        podcast.autoAddToUpNext = row["autoAddToUpNext"]
+        podcast.autoArchiveEpisodeLimit = row["episodeKeepSetting"]
+        podcast.backgroundColor = row["backgroundColor"]
+        podcast.detailColor = row["detailColor"]
+        podcast.primaryColor = row["primaryColor"]
+        podcast.secondaryColor = row["secondaryColor"]
+        podcast.lastColorDownloadDate = row["lastColorDownloadDate"]
+        podcast.imageURL = row["imageURL"]
+        podcast.latestEpisodeUuid = row["latestEpisodeUuid"]
+        podcast.latestEpisodeDate = row["latestEpisodeDate"]
+        podcast.mediaType = row["mediaType"]
+        podcast.lastThumbnailDownloadDate = row["lastThumbnailDownloadDate"]
+        podcast.thumbnailStatus = row["thumbnailStatus"]
+        podcast.podcastUrl = row["podcastUrl"]
+        podcast.author = row["author"]
+        podcast.playbackSpeed = row["playbackSpeed"]
+        podcast.boostVolume = row["boostVolume"]
+        podcast.trimSilenceAmount = row["trimSilenceAmount"]
+        podcast.podcastCategory = row["podcastCategory"]
+        podcast.podcastDescription = row["podcastDescription"]
+        podcast.sortOrder = row["sortOrder"]
+        podcast.startFrom = row["startFrom"]
+        podcast.skipLast = row["skipLast"]
+        podcast.subscribed = row["subscribed"]
+        podcast.title = row["title"]
+        podcast.uuid = row["uuid"]
+        podcast.syncStatus = row["syncStatus"]
+        podcast.colorVersion = row["colorVersion"]
+        podcast.pushEnabled = row["pushEnabled"]
+        podcast.episodeSortOrder = row["episodeSortOrder"]
+        podcast.showType = row["showType"]
+        podcast.estimatedNextEpisode = row["estimatedNextEpisode"]
+        podcast.episodeFrequency = row["episodeFrequency"]
+        podcast.lastUpdatedAt = row["lastUpdatedAt"]
+        podcast.excludeFromAutoArchive = row["excludeFromAutoArchive"]
+        podcast.overrideGlobalEffects = row["overrideGlobalEffects"]
+        podcast.overrideGlobalArchive = row["overrideGlobalArchive"]
+        podcast.autoArchivePlayedAfter = row["autoArchivePlayedAfter"]
+        podcast.autoArchiveInactiveAfter = row["autoArchiveInactiveAfter"]
+        podcast.episodeGrouping = row["episodeGrouping"]
+        podcast.isPaid = row["isPaid"]
+        podcast.licensing = row["licensing"]
+        podcast.fullSyncLastSyncAt = row["fullSyncLastSyncAt"]
+        podcast.showArchived = row["showArchived"]
+        podcast.refreshAvailable = row["refreshAvailable"]
+        podcast.folderUuid = row["folderUuid"]
 
         return podcast
     }
