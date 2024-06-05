@@ -19,7 +19,7 @@ struct StorageManager {
 
         return true
     }
-    
+
     @discardableResult
     static func copyItem(at fromURL: URL, to toURL: URL, attributes: Attributes? = nil) throws -> Bool {
         try copyItem(at: fromURL, to: toURL)
