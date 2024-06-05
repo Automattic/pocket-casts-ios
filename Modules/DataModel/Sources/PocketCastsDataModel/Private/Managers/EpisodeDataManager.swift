@@ -1,5 +1,6 @@
 import FMDB
 import PocketCastsUtils
+import GRDB
 
 class EpisodeDataManager {
     private let columnNames = [
@@ -47,15 +48,15 @@ class EpisodeDataManager {
 
     // MARK: - Query
 
-    func findBy(uuid: String, dbQueue: FMDatabaseQueue) -> Episode? {
-        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid], dbQueue: dbQueue)
+    func findBy(uuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Episode? {
+        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE uuid = ?", values: [uuid], dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func findWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue) -> Episode? {
-        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
+    func findWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Episode? {
+        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func findPlayedEpisodes(uuids: [String], dbQueue: FMDatabaseQueue) -> [String] {
+    func findPlayedEpisodes(uuids: [String], dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [String] {
         let list = uuids.map { "'\($0)'" }.joined(separator: ",")
 
         let query = """
@@ -66,165 +67,158 @@ class EpisodeDataManager {
         """
 
         var episodes = [String]()
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery(query, values: [PlayingStatus.completed.rawValue])
-                defer { resultSet.close() }
+        do {
+            try dbPool.read { db in
+                let rows = try Row.fetchCursor(db, sql: query, arguments: [PlayingStatus.completed.rawValue])
 
-                while resultSet.next() {
-                    let uuid = DBUtils.nonNilStringFromColumn(resultSet: resultSet, columnName: "uuid")
+                while let row = try rows.next() {
+                    let uuid: String = row["uuid"]
                     episodes.append(uuid)
                 }
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
         }
         return episodes
     }
 
-    func downloadedEpisodeExists(uuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+    func downloadedEpisodeExists(uuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Bool {
         var found = false
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery("SELECT id from \(DataManager.episodeTableName) WHERE episodeStatus = ? AND uuid = ?", values: [DownloadStatus.downloaded.rawValue, uuid])
-                defer { resultSet.close() }
+        do {
+            try dbPool.read { db in
+                let rows = try Row.fetchCursor(db, sql: "SELECT id from \(DataManager.episodeTableName) WHERE episodeStatus = ? AND uuid = ?", arguments: [DownloadStatus.downloaded.rawValue, uuid])
 
-                if resultSet.next() {
+                if let row = try rows.next() {
                     found = true
                 }
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeExists error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeExists error: \(error)")
         }
 
         return found
     }
 
-    func findBy(downloadTaskId: String, dbQueue: FMDatabaseQueue) -> Episode? {
-        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE downloadTaskId = ?", values: [downloadTaskId], dbQueue: dbQueue)
+    func findBy(downloadTaskId: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Episode? {
+        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE downloadTaskId = ?", values: [downloadTaskId], dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func findWhereNotNull(columnName: String, dbQueue: FMDatabaseQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(columnName) IS NOT NULL", values: nil, dbQueue: dbQueue)
+    func findWhereNotNull(columnName: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [Episode] {
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(columnName) IS NOT NULL", values: nil, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func findEpisodesWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
+    func findEpisodesWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [Episode] {
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func unsyncedEpisodes(limit: Int, dbQueue: FMDatabaseQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 LIMIT \(limit)", values: nil, dbQueue: dbQueue)
+    func unsyncedEpisodes(limit: Int, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [Episode] {
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 LIMIT \(limit)", values: nil, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func allEpisodesForPodcast(id: Int64, dbQueue: FMDatabaseQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ?", values: [id], dbQueue: dbQueue)
+    func allEpisodesForPodcast(id: Int64, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [Episode] {
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ?", values: [id], dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func episodesWithListenHistory(limit: Int, dbQueue: FMDatabaseQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue)
+    func episodesWithListenHistory(limit: Int, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [Episode] {
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func findLatestEpisode(podcast: Podcast, dbQueue: FMDatabaseQueue) -> Episode? {
-        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC LIMIT 1", values: [podcast.id], dbQueue: dbQueue)
+    func findLatestEpisode(podcast: Podcast, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Episode? {
+        loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC LIMIT 1", values: [podcast.id], dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func allUpNextEpisodes(dbQueue: FMDatabaseQueue) -> [Episode] {
+    func allUpNextEpisodes(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [Episode] {
         let upNextTableName = DataManager.playlistEpisodeTableName
         let episodeTableName = DataManager.episodeTableName
 
-        return loadMultiple(query: "SELECT \(episodeTableName).* FROM \(upNextTableName) JOIN \(episodeTableName) ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue)
+        return loadMultiple(query: "SELECT \(episodeTableName).* FROM \(upNextTableName) JOIN \(episodeTableName) ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    private func loadSingle(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> Episode? {
+    private func loadSingle(query: String, values: [Any]?, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Episode? {
         var episode: Episode?
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
+        do {
+            try dbPool.read { db in
+                let rows = try Row.fetchCursor(db, sql: query, arguments: StatementArguments(values ?? [])!)
 
-                if resultSet.next() {
-                    episode = self.createEpisodeFrom(resultSet: resultSet)
+                if let row = try rows.next() {
+                    episode = self.createEpisodeFrom(row: row)
                 }
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.loadSingle error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.loadSingle error: \(error)")
         }
 
         return episode
     }
 
-    private func loadMultiple(query: String, values: [Any]?, dbQueue: FMDatabaseQueue) -> [Episode] {
+    private func loadMultiple(query: String, values: [Any]?, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [Episode] {
         var episodes = [Episode]()
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery(query, values: values)
-                defer { resultSet.close() }
+        do {
+            try dbPool.read { db in
+                let rows = try Row.fetchCursor(db, sql: query, arguments: StatementArguments(values ?? [])!)
 
-                while resultSet.next() {
-                    let episode = self.createEpisodeFrom(resultSet: resultSet)
+                while let row = try rows.next() {
+                    let episode = self.createEpisodeFrom(row: row)
                     episodes.append(episode)
                 }
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.loadMultiple Episode error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.loadSingle error: \(error)")
         }
 
         return episodes
     }
 
-    func downloadedEpisodeCount(dbQueue: FMDatabaseQueue) -> Int {
+    func downloadedEpisodeCount(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Int {
         var count = 0
         let query = "SELECT COUNT(*) as Count from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloaded.rawValue)"
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
+        do {
+            try dbPool.read { db in
+                let rows = try Row.fetchCursor(db, sql: query)
 
-                if resultSet.next() {
-                    count = Int(resultSet.int(forColumn: "Count"))
+                if let row = try rows.next() {
+                    count = row["Count"]
                 }
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeCount error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeCount error: \(error)")
         }
 
         return count
     }
 
-    func failedDownloadEpisodeCount(dbQueue: FMDatabaseQueue) -> Int {
+    func failedDownloadEpisodeCount(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Int {
         var count = 0
         let query = "SELECT COUNT(*) as Count from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloadFailed.rawValue)"
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
+        do {
+            try dbPool.read { db in
+                let rows = try Row.fetchCursor(db, sql: query)
 
-                if resultSet.next() {
-                    count = Int(resultSet.int(forColumn: "Count"))
+                if let row = try rows.next() {
+                    count = row["Count"]
                 }
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeCount error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.downloadedEpisodeCount error: \(error)")
         }
 
         return count
     }
 
-    func failedDownloadFirstDate(dbQueue: FMDatabaseQueue, sortOrder: SortOrder) -> Date? {
+    func failedDownloadFirstDate(dbQueue: FMDatabaseQueue, sortOrder: SortOrder, dbPool: DatabasePool) -> Date? {
         let orderDirection = sortOrder == .forward ? "DESC" : "ASC"
         var date: Date?
         let query = "SELECT * from \(DataManager.episodeTableName) WHERE episodeStatus = \(DownloadStatus.downloadFailed.rawValue) AND lastDownloadAttemptDate IS NOT NULL ORDER BY lastDownloadAttemptDate \(orderDirection) LIMIT 1"
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery(query, values: nil)
-                defer { resultSet.close() }
+        do {
+            try dbPool.read { db in
+                let rows = try Row.fetchCursor(db, sql: query)
 
-                if resultSet.next() {
-                    date = resultSet.date(forColumn: "lastDownloadAttemptDate")
+                if let row = try rows.next() {
+                    date = row["lastDownloadAttemptDate"]
                 }
-            } catch {
-                logError(error: error)
             }
+        } catch {
+            logError(error: error)
         }
 
         return date
@@ -236,70 +230,64 @@ class EpisodeDataManager {
 
     // MARK: - Updates
 
-    func saveIfNotModified(starred: Bool, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+    func saveIfNotModified(starred: Bool, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Bool {
         if !starred {
-            saveEpisode(starredModified: 0, episodeUuid: episodeUuid, dbQueue: dbQueue)
+            saveEpisode(starredModified: 0, episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
         }
-        return saveFieldIfNotModified(fieldName: "keepEpisode", modifiedFieldName: "keepEpisodeModified", value: starred, episodeUuid: episodeUuid, dbQueue: dbQueue)
+        return saveFieldIfNotModified(fieldName: "keepEpisode", modifiedFieldName: "keepEpisodeModified", value: starred, episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveIfNotModified(archived: Bool, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
-        saveFieldIfNotModified(fieldName: "archived", modifiedFieldName: "archivedModified", value: archived, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    func saveIfNotModified(archived: Bool, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Bool {
+        saveFieldIfNotModified(fieldName: "archived", modifiedFieldName: "archivedModified", value: archived, episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveIfNotModified(playingStatus: PlayingStatus, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
-        saveFieldIfNotModified(fieldName: "playingStatus", modifiedFieldName: "playingStatusModified", value: playingStatus.rawValue, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    func saveIfNotModified(playingStatus: PlayingStatus, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Bool {
+        saveFieldIfNotModified(fieldName: "playingStatus", modifiedFieldName: "playingStatusModified", value: playingStatus.rawValue, episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveIfNotModified(chapters: String, remoteModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
-        saveFieldIfNotModified(fieldName: "deselectedChapters", modifiedFieldName: "deselectedChaptersModified", value: chapters, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    func saveIfNotModified(chapters: String, remoteModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Bool {
+        saveFieldIfNotModified(fieldName: "deselectedChapters", modifiedFieldName: "deselectedChaptersModified", value: chapters, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func save(episode: Episode, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
+    func save(episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
                 if episode.id == 0 {
                     episode.id = DBUtils.generateUniqueId()
-                    try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
+                    try db.execute(sql: "INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", arguments: StatementArguments(self.createValuesFrom(episode: episode))!)
                 } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
+                    try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", arguments: StatementArguments(self.createValuesFrom(episode: episode, includeIdForWhere: true))!)
                 }
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
         }
     }
 
-    func bulkSave(episodes: [Episode], dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                db.beginTransaction()
-
+    func bulkSave(episodes: [Episode], dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
                 for episode in episodes {
                     if episode.id == 0 {
                         episode.id = DBUtils.generateUniqueId()
-                        try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
+                        try db.execute(sql: "INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", arguments: StatementArguments(self.createValuesFrom(episode: episode))!)
                     } else {
                         let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
+                        try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", arguments: StatementArguments(self.createValuesFrom(episode: episode, includeIdForWhere: true))!)
                     }
                 }
-
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
         }
     }
 
-    func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
-            do {
-                db.beginTransaction()
-
+        do {
+            try dbPool.write { db in
                 let firstModified = DBUtils.currentUTCTimeInMillis() + Int64(episodes.count) - 1
                 for (index, episode) in episodes.enumerated() {
                     if episode.keepEpisode == starred { continue }
@@ -321,22 +309,19 @@ class EpisodeDataManager {
                     values.append(episode.uuid)
 
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
+                    try db.execute(sql: "UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", arguments: StatementArguments(values)!)
                 }
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.bulkSetStarred error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.bulkSetStarred error: \(error)")
         }
     }
 
-    func bulkUserFileDelete(episodes: [Episode], dbQueue: FMDatabaseQueue) {
+    func bulkUserFileDelete(episodes: [Episode], dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
-            do {
-                db.beginTransaction()
-
+        do {
+            try dbPool.write { db in
                 for episode in episodes {
                     var fields = [String]()
                     var values = [Any]()
@@ -350,37 +335,34 @@ class EpisodeDataManager {
                     values.append(episode.uuid)
 
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
+                    try db.execute(sql: "UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", arguments: StatementArguments(values)!)
                 }
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.bulkUserFileDelete error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.bulkUserFileDelete error: \(error)")
         }
     }
 
-    func saveFileType(episode: Episode, fileType: String, dbQueue: FMDatabaseQueue) {
+    func saveFileType(episode: Episode, fileType: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.fileType = fileType
-        save(fieldName: "fileType", value: fileType, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "fileType", value: fileType, episodeId: episode.id, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveContentType(episode: Episode, contentType: String, dbQueue: FMDatabaseQueue) {
+    func saveContentType(episode: Episode, contentType: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.contentType = contentType
-        save(fieldName: "contentType", value: contentType, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "contentType", value: contentType, episodeId: episode.id, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveFileSize(episode: Episode, fileSize: Int64, dbQueue: FMDatabaseQueue) {
+    func saveFileSize(episode: Episode, fileSize: Int64, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.sizeInBytes = fileSize
-        save(fieldName: "sizeInBytes", value: fileSize, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "sizeInBytes", value: fileSize, episodeId: episode.id, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveBulkEpisodeSyncInfo(episodes: [EpisodeBasicData], dbQueue: FMDatabaseQueue) {
+    func saveBulkEpisodeSyncInfo(episodes: [EpisodeBasicData], dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
-            do {
-                db.beginTransaction()
-
+        do {
+            try dbPool.write { db in
                 for episode in episodes {
                     guard let uuid = episode.uuid else { continue }
 
@@ -419,45 +401,43 @@ class EpisodeDataManager {
                     values.append(uuid)
 
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
+                    try db.execute(sql: "UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", arguments: StatementArguments(values)!)
                 }
-
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.saveBulkEpisodeSyncInfo error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.saveBulkEpisodeSyncInfo error: \(error)")
         }
     }
 
-    func saveFrameCount(episodeId: Int64, frameCount: Int64, dbQueue: FMDatabaseQueue) {
-        save(fieldName: "cachedFrameCount", value: frameCount, episodeId: episodeId, dbQueue: dbQueue)
+    func saveFrameCount(episodeId: Int64, frameCount: Int64, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        save(fieldName: "cachedFrameCount", value: frameCount, episodeId: episodeId, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func findFrameCount(episodeId: Int64, dbQueue: FMDatabaseQueue) -> Int64 {
+    func findFrameCount(episodeId: Int64, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Int64 {
         var frameCount = 0 as Int64
 
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery("SELECT cachedFrameCount from \(DataManager.episodeTableName) WHERE id = ?", values: [episodeId])
-                defer { resultSet.close() }
+        do {
+            try dbPool.write { db in
 
-                if resultSet.next() {
-                    frameCount = resultSet.longLongInt(forColumn: "cachedFrameCount")
+                let rows = try Row.fetchCursor(db, sql: "SELECT cachedFrameCount from \(DataManager.episodeTableName) WHERE id = ?", arguments: [episodeId])
+
+                if let row = try rows.next() {
+                    frameCount = row["cachedFrameCount"]
                 }
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.findFrameCount error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.findFrameCount error: \(error)")
         }
 
         return frameCount
     }
 
-    func saveEpisode(playbackError: String?, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(playbackError: String?, episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.playbackErrorDetails = playbackError
-        save(fieldName: "playbackErrorDetails", value: DBUtils.replaceNilWithNull(value: episode.playbackErrorDetails), episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "playbackErrorDetails", value: episode.playbackErrorDetails, episodeId: episode.id, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(playedUpTo: Double, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(playedUpTo: Double, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.playedUpTo = playedUpTo
         var fields = ["playedUpTo"]
         var values = [episode.playedUpTo] as [Any]
@@ -469,10 +449,10 @@ class EpisodeDataManager {
         }
         values.append(episode.id)
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func updateEpisodePlaybackInteractionDate(episode: Episode, dbQueue: FMDatabaseQueue) {
+    func updateEpisodePlaybackInteractionDate(episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         let now = Date()
         let syncStatus = SyncStatus.notSynced.rawValue
         episode.lastPlaybackInteractionDate = now
@@ -480,48 +460,48 @@ class EpisodeDataManager {
         let fields = ["lastPlaybackInteractionDate", "lastPlaybackInteractionSyncStatus"]
         let values = [now, syncStatus, episode.id] as [Any]
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func clearEpisodePlaybackInteractionDate(episodeUuid: String, dbQueue: FMDatabaseQueue) {
-        save(fieldName: "lastPlaybackInteractionDate", value: NSNull(), episodeUuid: episodeUuid, dbQueue: dbQueue)
+    func clearEpisodePlaybackInteractionDate(episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        save(fieldName: "lastPlaybackInteractionDate", value: NSNull(), episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func setEpisodePlaybackInteractionDate(interactionDate: Date, episodeUuid: String, dbQueue: FMDatabaseQueue) {
-        save(fieldName: "lastPlaybackInteractionDate", value: interactionDate, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    func setEpisodePlaybackInteractionDate(interactionDate: Date, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        save(fieldName: "lastPlaybackInteractionDate", value: interactionDate, episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func markAllEpisodePlaybackHistorySynced(dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionSyncStatus = ?", values: [SyncStatus.synced.rawValue])
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.markAllEpisodePlaybackHistorySynced error: \(error)")
+    func markAllEpisodePlaybackHistorySynced(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionSyncStatus = ?", arguments: [SyncStatus.synced.rawValue])
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.markAllEpisodePlaybackHistorySynced error: \(error)")
         }
     }
 
-    func clearEpisodePlaybackInteractionDatesBefore(date: Date, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionDate = NULL WHERE lastPlaybackInteractionDate <= ?", values: [date])
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.clearEpisodePlaybackInteractionDatesBefore error: \(error)")
+    func clearEpisodePlaybackInteractionDatesBefore(date: Date, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionDate = NULL WHERE lastPlaybackInteractionDate <= ?", arguments: [date])
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.clearEpisodePlaybackInteractionDatesBefore error: \(error)")
         }
     }
 
-    func clearAllEpisodePlaybackInteractions(dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionDate = NULL WHERE lastPlaybackInteractionDate > 0", values: [])
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.clearAllEpisodePlaybackInteractions error: \(error)")
+    func clearAllEpisodePlaybackInteractions(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionDate = NULL WHERE lastPlaybackInteractionDate > 0", arguments: [])
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.clearAllEpisodePlaybackInteractions error: \(error)")
         }
     }
 
-    func saveEpisode(playingStatus: PlayingStatus, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(playingStatus: PlayingStatus, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.playingStatus = playingStatus.rawValue
         var fields = ["playingStatus"]
         var values = [episode.playingStatus] as [Any]
@@ -533,10 +513,10 @@ class EpisodeDataManager {
         }
         values.append(episode.id)
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(archived: Bool, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(archived: Bool, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         let now = Date()
         episode.archived = archived
         episode.lastArchiveInteractionDate = now
@@ -550,15 +530,15 @@ class EpisodeDataManager {
         }
         values.append(episode.id)
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(excludeFromEpisodeLimit: Bool, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(excludeFromEpisodeLimit: Bool, episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.excludeFromEpisodeLimit = excludeFromEpisodeLimit
-        save(fieldName: "excludeFromEpisodeLimit", value: episode.excludeFromEpisodeLimit, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "excludeFromEpisodeLimit", value: episode.excludeFromEpisodeLimit, episodeId: episode.id, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(duration: Double, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(duration: Double, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.duration = duration
         var fields = ["duration"]
         var values = [episode.duration] as [Any]
@@ -570,10 +550,10 @@ class EpisodeDataManager {
         }
         values.append(episode.id)
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(starred: Bool, starredModified: Int64?, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(starred: Bool, starredModified: Int64?, episode: Episode, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.keepEpisode = starred
         var fields = ["keepEpisode"]
         var values = [episode.keepEpisode] as [Any]
@@ -593,15 +573,15 @@ class EpisodeDataManager {
         }
         values.append(episode.id)
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.episodeStatus = downloadStatus.rawValue
-        save(fieldName: "episodeStatus", value: episode.episodeStatus, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "episodeStatus", value: episode.episodeStatus, episodeId: episode.id, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, lastDownloadAttemptDate: Date, autoDownloadStatus: AutoDownloadStatus, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, lastDownloadAttemptDate: Date, autoDownloadStatus: AutoDownloadStatus, episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.lastDownloadAttemptDate = lastDownloadAttemptDate
         episode.autoDownloadStatus = autoDownloadStatus.rawValue
@@ -609,15 +589,15 @@ class EpisodeDataManager {
         let fields = ["episodeStatus", "lastDownloadAttemptDate", "autoDownloadStatus"]
         let values = [episode.episodeStatus, DBUtils.replaceNilWithNull(value: episode.lastDownloadAttemptDate), episode.autoDownloadStatus, episode.id] as [Any]
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.autoDownloadStatus = autoDownloadStatus.rawValue
-        save(fieldName: "autoDownloadStatus", value: autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "autoDownloadStatus", value: autoDownloadStatus.rawValue, episodeId: episode.id, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, downloadError: String?, downloadTaskId: String?, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, downloadError: String?, downloadTaskId: String?, episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.downloadErrorDetails = downloadError
         episode.downloadTaskId = downloadTaskId
@@ -625,20 +605,20 @@ class EpisodeDataManager {
         let fields = ["episodeStatus", "downloadErrorDetails", "downloadTaskId"]
         let values = [episode.episodeStatus, DBUtils.replaceNilWithNull(value: episode.downloadErrorDetails), DBUtils.replaceNilWithNull(value: episode.downloadTaskId), episode.id] as [Any]
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, downloadTaskId: String?, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, downloadTaskId: String?, episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.downloadTaskId = downloadTaskId
 
         let fields = ["episodeStatus", "downloadTaskId"]
         let values = [episode.episodeStatus, DBUtils.replaceNilWithNull(value: episode.downloadTaskId), episode.id] as [Any]
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: Episode, dbQueue: FMDatabaseQueue) {
+    func saveEpisode(downloadStatus: DownloadStatus, sizeInBytes: Int64, downloadTaskId: String?, episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         episode.episodeStatus = downloadStatus.rawValue
         episode.sizeInBytes = sizeInBytes
         episode.downloadTaskId = downloadTaskId
@@ -646,78 +626,72 @@ class EpisodeDataManager {
         let fields = ["episodeStatus", "sizeInBytes", "downloadTaskId"]
         let values = [episode.episodeStatus, episode.sizeInBytes, DBUtils.replaceNilWithNull(value: episode.downloadTaskId), episode.id] as [Any]
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(downloadUrl: String, episodeUuid: String, dbQueue: FMDatabaseQueue) {
-        save(fieldName: "downloadUrl", value: downloadUrl, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    func saveEpisode(downloadUrl: String, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        save(fieldName: "downloadUrl", value: downloadUrl, episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func saveEpisode(starredModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue) {
-        save(fieldName: "starredModified", value: starredModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    func saveEpisode(starredModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        save(fieldName: "starredModified", value: starredModified, episodeUuid: episodeUuid, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func clearKeepEpisodeModified(episode: Episode, dbQueue: FMDatabaseQueue) {
+    func clearKeepEpisodeModified(episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         let fields = ["keepEpisodeModified"]
         var values = [episode.keepEpisodeModified] as [Any]
         values.append(episode.id)
 
-        save(fields: fields, values: values, dbQueue: dbQueue)
+        save(fields: fields, values: values, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func clearDownloadTaskId(episode: Episode, dbQueue: FMDatabaseQueue) {
-        save(fieldName: "downloadTaskId", value: NSNull(), episodeId: episode.id, dbQueue: dbQueue)
+    func clearDownloadTaskId(episode: Episode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        save(fieldName: "downloadTaskId", value: NSNull(), episodeId: episode.id, dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func delete(episodeUuid: String, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("DELETE FROM \(DataManager.episodeTableName) WHERE uuid = ?", values: [episodeUuid])
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.delete error: \(error)")
+    func delete(episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "DELETE FROM \(DataManager.episodeTableName) WHERE uuid = ?", arguments: [episodeUuid])
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.delete error: \(error)")
         }
     }
 
-    func deleteAllEpisodesInPodcast(podcastId: Int64, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("DELETE FROM \(DataManager.episodeTableName) WHERE podcast_id = ?", values: [podcastId])
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.deleteAllEpisodesInPodcast error: \(error)")
+    func deleteAllEpisodesInPodcast(podcastId: Int64, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "DELETE FROM \(DataManager.episodeTableName) WHERE podcast_id = ?", arguments: [podcastId])
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.deleteAllEpisodesInPodcast error: \(error)")
         }
     }
 
-    func markAllSynced(episodes: [Episode], dbQueue: FMDatabaseQueue) {
+    func markAllSynced(episodes: [Episode], dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
-            do {
-                db.beginTransaction()
-
+        do {
+            try dbPool.write { db in
                 for episode in episodes {
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE id = ?", values: [episode.id])
+                    try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE id = ?", arguments: [episode.id])
                 }
-
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.markAllSynced error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.markAllSynced error: \(error)")
         }
     }
 
-    func markAllUnarchivedForPodcast(id: Int64, dbQueue: FMDatabaseQueue) {
-        updateAll(fields: ["archived"], values: [false, id], whereClause: "podcast_id = ?", dbQueue: dbQueue)
+    func markAllUnarchivedForPodcast(id: Int64, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        updateAll(fields: ["archived"], values: [false, id], whereClause: "podcast_id = ?", dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func bulkMarkAsPlayed(episodes: [Episode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func bulkMarkAsPlayed(episodes: [Episode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
-            do {
-                db.beginTransaction()
-
+        do {
+            try dbPool.write { db in
                 for episode in episodes {
                     if episode.playingStatus == PlayingStatus.completed.rawValue { continue }
 
@@ -734,55 +708,51 @@ class EpisodeDataManager {
 
                     values.append(episode.uuid)
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
+                    try db.execute(sql: "UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", arguments: StatementArguments(values)!)
                 }
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.bulkMarkAsPlayed error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.bulkMarkAsPlayed error: \(error)")
         }
     }
 
-    func bulkMarkAsUnPlayed(episodes: [Episode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func bulkMarkAsUnPlayed(episodes: [Episode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         if episodes.count == 0 { return }
 
         dbQueue.inDatabase { db in
             do {
-                db.beginTransaction()
+                try dbPool.write { db in
+                    for episode in episodes {
+                        if episode.playingStatus == PlayingStatus.notPlayed.rawValue { continue }
 
-                for episode in episodes {
-                    if episode.playingStatus == PlayingStatus.notPlayed.rawValue { continue }
+                        var fields = [String]()
+                        var values = [Any]()
 
-                    var fields = [String]()
-                    var values = [Any]()
+                        fields.append("playingStatus")
+                        values.append(PlayingStatus.notPlayed.rawValue)
+                        fields.append("playedUpTo")
+                        values.append(0)
+                        if updateSyncFlag {
+                            fields.append("playingStatusModified")
+                            values.append(DBUtils.currentUTCTimeInMillis())
+                        }
 
-                    fields.append("playingStatus")
-                    values.append(PlayingStatus.notPlayed.rawValue)
-                    fields.append("playedUpTo")
-                    values.append(0)
-                    if updateSyncFlag {
-                        fields.append("playingStatusModified")
-                        values.append(DBUtils.currentUTCTimeInMillis())
+                        values.append(episode.uuid)
+                        let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
+                        try db.execute(sql: "UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", arguments: StatementArguments(values)!)
                     }
-
-                    values.append(episode.uuid)
-                    let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
-                db.commit()
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkMarkAsUnPlayed error: \(error)")
             }
         }
     }
 
-    func bulkArchive(episodes: [Episode], markAsNotDownloaded: Bool, markAsPlayed: Bool, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func bulkArchive(episodes: [Episode], markAsNotDownloaded: Bool, markAsPlayed: Bool, updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
-            do {
-                db.beginTransaction()
-
+        do {
+            try dbPool.write { db in
                 for episode in episodes {
                     var fields = [String]()
                     var values = [Any]()
@@ -817,22 +787,19 @@ class EpisodeDataManager {
                     values.append(episode.uuid)
 
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
+                    try db.execute(sql: "UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", arguments: StatementArguments(values)!)
                 }
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.bulkArchive error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.bulkArchive error: \(error)")
         }
     }
 
-    func bulkUnarchive(episodes: [Episode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue) {
+    func bulkUnarchive(episodes: [Episode], updateSyncFlag: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         if episodes.count == 0 { return }
 
-        dbQueue.inDatabase { db in
-            do {
-                db.beginTransaction()
-
+        do {
+            try dbPool.write { db in
                 for episode in episodes {
                     if !episode.archived { continue }
 
@@ -853,86 +820,85 @@ class EpisodeDataManager {
                     }
                     values.append(episode.uuid)
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
+                    try db.execute(sql: "UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", arguments: StatementArguments(values)!)
                 }
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.bulkUnarchive error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.bulkUnarchive error: \(error)")
         }
     }
 
-    private func save(fields: [String], values: [Any], useId: Bool = true, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
+    private func save(fields: [String], values: [Any], useId: Bool = true, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
                 let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
                 let idColumn = useId ? "id" : "uuid"
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE \(idColumn) = ?", values: values)
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.save fields error: \(error)")
+                try db.execute(sql: "UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE \(idColumn) = ?", arguments: StatementArguments(values)!)
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.save fields error: \(error)")
         }
     }
 
-    private func save(fieldName: String, value: Any, episodeId: Int64, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE id = ?", values: [value, episodeId])
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.save field by id error: \(error)")
+    private func save(fieldName: String, value: DatabaseValueConvertible, episodeId: Int64, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE id = ?", arguments: [value, episodeId])
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.save field by id error: \(error)")
         }
     }
 
-    private func save(fieldName: String, value: Any, episodeUuid: String, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ?", values: [value, episodeUuid])
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.save field by uuid error: \(error)")
+    private func save(fieldName: String, value: DatabaseValueConvertible, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ?", arguments: [value, episodeUuid])
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.save field by uuid error: \(error)")
         }
     }
 
-    private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+    private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: DatabaseValueConvertible, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Bool {
         var saved = false
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) = 0", values: [value, episodeUuid])
-                saved = (db.changes > 0)
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) = 0", arguments: [value, episodeUuid])
+                saved = (db.changesCount > 0)
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
         }
 
         return saved
     }
 
-    private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+    private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: DatabaseValueConvertible, remoteModified: Int64, episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Bool {
         var saved = false
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) < ?", values: [value, episodeUuid, remoteModified])
-                saved = (db.changes > 0)
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) < ?", arguments: [value, episodeUuid, remoteModified])
+                saved = (db.changesCount > 0)
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
         }
 
         return saved
     }
 
-    private func updateAll(fields: [String], values: [Any], whereClause: String?, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
+    private func updateAll(fields: [String], values: [Any], whereClause: String?, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
                 var query = "UPDATE \(DataManager.episodeTableName) SET \(fields.joined(separator: " = ?, ")) = ?"
                 if let whereClause = whereClause {
                     query += " WHERE \(whereClause)"
                 }
-                try db.executeUpdate(query, values: values)
-            } catch {
-                FileLog.shared.addMessage("EpisodeDataManager.updateAll error: \(error)")
+                try db.execute(sql: query, arguments: StatementArguments(values)!)
             }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.updateAll error: \(error)")
         }
     }
 
@@ -940,6 +906,10 @@ class EpisodeDataManager {
 
     private func createEpisodeFrom(resultSet rs: FMResultSet) -> Episode {
         Episode.from(resultSet: rs)
+    }
+
+    private func createEpisodeFrom(row: RowCursor.Element) -> Episode {
+        Episode.from(row: row)
     }
 
     private func createValuesFrom(episode: Episode, includeIdForWhere: Bool = false) -> [Any] {
@@ -1005,9 +975,9 @@ public enum SortOrder {
 // MARK: - 👻 Ghost Episodes 👻
 
 extension EpisodeDataManager {
-    func findGhostEpisodes(_ dbQueue: FMDatabaseQueue) -> [Episode] {
+    func findGhostEpisodes(_ dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [Episode] {
         let query = "SELECT SJEpisode.* FROM SJEpisode LEFT JOIN SJPodcast ON SJEpisode.podcastUuid = SJPodcast.uuid WHERE SJPodcast.uuid IS NULL"
 
-        return loadMultiple(query: query, values: nil, dbQueue: dbQueue)
+        return loadMultiple(query: query, values: nil, dbQueue: dbQueue, dbPool: dbPool)
     }
 }
