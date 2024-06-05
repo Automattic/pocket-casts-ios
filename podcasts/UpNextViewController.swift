@@ -120,7 +120,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         title = L10n.upNext
 
         (view as? ThemeableView)?.style = .primaryUi04
-        (view as? ThemeableView)?.themeOverride = themeOverride        
+        (view as? ThemeableView)?.themeOverride = themeOverride
 
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.playbackTrackChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.playbackEnded, object: nil)
