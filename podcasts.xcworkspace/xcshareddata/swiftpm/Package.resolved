@@ -119,6 +119,15 @@
         }
       },
       {
+        "package": "GRDB",
+        "repositoryURL": "https://github.com/groue/GRDB.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "639fa9168d36931b36a79e60dc06b7d23852f1f4",
+          "version": "6.27.0"
+        }
+      },
+      {
         "package": "gRPC",
         "repositoryURL": "https://github.com/google/grpc-binary.git",
         "state": {
