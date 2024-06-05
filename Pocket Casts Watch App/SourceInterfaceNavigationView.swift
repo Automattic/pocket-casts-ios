@@ -127,9 +127,9 @@ struct SourceInterfaceNavigationView: View {
                     model.watchTapped()
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(L10n.watchPlaySource)
         }
-        .navigationTitle("Play Source")
-        .navigationBarTitleDisplayMode(.inline)
         .environmentObject(NavigationManager.shared)
     }
 

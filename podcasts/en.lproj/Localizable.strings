@@ -4123,3 +4123,6 @@
 
 /* Message confirming podcasts were restored to the folders */
 "restore_folders_success" = "Podcasts restored to their original folders";
+
+/* Title for root screen of the Watch App*/
+"watch_play_source" = "Play Source";
