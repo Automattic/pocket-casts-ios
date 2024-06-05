@@ -18,6 +18,7 @@ struct PodcastsListView: View {
             .listStyle(.plain)
         }
         .navigationTitle(L10n.podcastsPlural.prefixSourceUnicode)
+        .restorable(.podcasts)
         .withOrderPickerToolbar(selectedOption: viewModel.sortOrder, title: L10n.podcastsSort) { option in
             viewModel.sortOrder = option
         }

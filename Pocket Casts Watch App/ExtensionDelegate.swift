@@ -9,6 +9,7 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
     func applicationDidFinishLaunching() {
         SessionManager.shared.setup()
         WatchSyncManager.shared.setup()
+        restorePreviousStateIfRequired()
     }
 
     func applicationDidBecomeActive() {
@@ -16,8 +17,6 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
         if WatchSyncManager.shared.isPlusUser() {
             scheduleNextRefresh()
         }
-
-        restorePreviousStateIfRequired()
     }
 
     func applicationWillResignActive() {

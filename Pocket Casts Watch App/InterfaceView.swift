@@ -67,6 +67,7 @@ struct InterfaceView: View {
                 }
             }
         }
+        .restorable(.interface)
         .navigationTitle(title)
     }
 }
