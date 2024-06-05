@@ -496,4 +496,10 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         }
     }
+
+    func activeTasks() async -> [URLSessionTask] {
+        return [await wifiOnlyBackgroundSession.allTasks,
+         await cellularForegroundSession.allTasks,
+         await cellularBackgroundSession.allTasks].flatMap { $0 }
+    }
 }
