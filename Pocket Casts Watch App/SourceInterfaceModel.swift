@@ -16,14 +16,12 @@ class SourceInterfaceModel: ObservableObject {
 
     @Published var usernameLabel: String = L10n.signedOut
 
-
     private var refreshTimedActionHelper = TimedActionHelper()
 
     func willActivate() {
+        addObservers()
         reload()
-        addAdditionalObservers()
         handleDataUpdated()
-        NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate), name: NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), object: nil)
     }
 
     func handleDataUpdated() {
@@ -38,7 +36,6 @@ class SourceInterfaceModel: ObservableObject {
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), object: nil)
         removeAllCustomObservers()
-        customObservers.removeAll()
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -76,7 +73,8 @@ class SourceInterfaceModel: ObservableObject {
         return customObservers.contains(name)
     }
 
-    func addAdditionalObservers() {
+    func addObservers() {
+        addCustomObserver(NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), selector: #selector(dataDidUpdate))
         addCustomObserver(Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), selector: #selector(handleStatusChangeFromNotification))
         addCustomObserver(Notification.Name(rawValue: ServerNotifications.subscriptionStatusChanged.rawValue), selector: #selector(handleStatusChangeFromNotification))
         addCustomObserver(Notification.Name(rawValue: ServerNotifications.syncFailed.rawValue), selector: #selector(updateLastRefreshDetails))
