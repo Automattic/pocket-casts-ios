@@ -3,14 +3,15 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import WatchKit
 
-class NavigationManager {
+class NavigationManager: ObservableObject {
     static let shared = NavigationManager()
+
+    @Published var currentInterface: Int?
 
     func navigateToMainMenu() {
         guard let topController = topMostController() else {
             return
         }
-
         topController.popToRootController()
     }
 
@@ -25,7 +26,7 @@ class NavigationManager {
     }
 
     func navigateTo(_ type: WatchInterfaceType, context: Any?) {
-
+        currentInterface = type.interfacePosition
     }
 
     private var navigatingToNowPlaying = false
@@ -33,18 +34,11 @@ class NavigationManager {
         if navigatingToNowPlaying { return }
         navigatingToNowPlaying = true
 
-        var topController = topMostController()
-
         if source != SourceManager.shared.currentSource() {
             SourceManager.shared.setSource(newSource: source)
         }
-        topController?.popToRootController()
-        topController = topMostController()
-
-        if fromLaunchEvent {
-            topController = topMostController()
-            navigatingToNowPlaying = false
-        }
+        navigateTo(.nowPlaying, context: nil)
+        navigatingToNowPlaying = false
     }
 
     private func topMostController() -> WKInterfaceController? {

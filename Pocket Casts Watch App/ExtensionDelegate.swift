@@ -72,12 +72,6 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
         if !haveAttemptedStateRestore {
             haveAttemptedStateRestore = true
             NavigationManager.shared.navigateToRestorable(name: lastPage, context: context)
-        } else {
-            // if we have a page we're meant to restore to, but are somehow still on the SourceInterfaceController, restore to that state again
-            let visibleController = WKApplication.shared().visibleInterfaceController ?? WKApplication.shared().rootInterfaceController
-//            if visibleController is SourceInterfaceController {
-//                NavigationManager.shared.navigateToRestorable(name: lastPage, context: context)
-//            }
         }
     }
 
