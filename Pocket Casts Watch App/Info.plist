@@ -72,6 +72,6 @@
 	<key>WKApplication</key>
 	<true/>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>au.com.shiftyjelly.podcasts</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER_ROOT)</string>
 </dict>
 </plist>

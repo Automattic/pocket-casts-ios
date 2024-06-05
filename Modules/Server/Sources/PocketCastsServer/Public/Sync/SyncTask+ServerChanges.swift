@@ -85,6 +85,10 @@ extension SyncTask {
         }
 
         importQueue.waitUntilAllOperationsAreFinished()
+
+        // If any podcasts were moved out of their folders, the app saves this info
+        // In case of sync errors the user can restore.
+        FolderHistoryHelper.shared.snapshot()
     }
 
     private func importPodcast(_ podcastItem: Api_SyncUserPodcast) {
@@ -142,6 +146,10 @@ extension SyncTask {
             let folderUuid = podcastItem.folderUuid.value
 
             FileLog.shared.foldersIssue("SyncTask importItem: \(podcast.title ?? "") changing folder from \(podcast.folderUuid ?? "nil") to \(((folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid) ?? "nil")")
+
+            if folderUuid == DataConstants.homeGridFolderUuid, let originalFolderUuid = podcast.folderUuid {
+                FolderHistoryHelper.shared.add(podcastUuid: podcastItem.uuid, folderUuid: originalFolderUuid)
+            }
 
             podcast.folderUuid = (folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid
         }

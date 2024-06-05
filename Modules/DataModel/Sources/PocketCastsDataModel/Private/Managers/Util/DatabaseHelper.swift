@@ -756,6 +756,25 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 52 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE PodcastFoldersHistory (
+                    podcastUuid TEXT NOT NULL,
+                    folderUuid TEXT NOT NULL,
+                    date REAL NOT NULL
+                    );
+                """, values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS podcast_folders_history_date ON PlaylistEpisodeHistory (date);", values: nil)
+
+                schemaVersion = 52
+            } catch {
+                failedAt(52)
+                return
+            }
+        }
+
         db.commit()
     }
 }

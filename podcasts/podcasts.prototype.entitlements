@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>aps-environment</key>
+	<string>production</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>webcredentials:www.pocketcasts.com</string>
+		<string>webcredentials:pocketcasts.com</string>
+		<string>webcredentials:play.pocketcasts.com</string>
+		<string>applinks:pcast.pocketcasts.net</string>
+		<string>applinks:pca.st</string>
+		<string>applinks:pocketcasts.com</string>
+		<string>applinks:pocket-casts-main-development.mystagingwebsite.com</string>
+	</array>
+	<key>com.apple.developer.networking.wifi-info</key>
+	<true/>
+	<key>com.apple.developer.siri</key>
+	<true/>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.au.com.shiftyjelly.pocketcasts.prototype</string>
+	</array>
+</dict>
+</plist>
