@@ -4811,7 +4811,6 @@
 				FF4724642BA721D200EA916B /* InterfaceView.swift */,
 				FF5B2A432BB1859B009F3DC2 /* SourceInterfaceForm.swift */,
 				FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */,
-				FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */,
 			);
 			name = "Main Page";
 			sourceTree = "<group>";
@@ -6059,12 +6058,15 @@
 				BDD301901EFB9969004A9972 /* Data & Communication */,
 				BDDC199E1F009EAC00BAC535 /* Complication */,
 				BDD301981EFB9ED0004A9972 /* UI */,
+				FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */,
 				BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */,
 				BDD3017B1EFB9356004A9972 /* NotificationController.swift */,
 				40BF0B3C241B3B0F003E3ABD /* WatchSyncManager.swift */,
 				40BF0B44242055CD003E3ABD /* WatchSyncManager+ServerSyncDelegate.swift */,
 				40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */,
 				40BF0B5124244C64003E3ABD /* SourceManager.swift */,
+				46A2763C27C6ADAD0053557E /* SwiftUI+Constants.swift */,
+				463FCE7C27BEA90B00E5AF89 /* WatchInterfaceType.swift */,
 				BDD301751EFB9356004A9972 /* Supporting Files */,
 			);
 			path = "Pocket Casts Watch App";
@@ -6094,8 +6096,6 @@
 		BDD301981EFB9ED0004A9972 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				46A2763C27C6ADAD0053557E /* SwiftUI+Constants.swift */,
-				463FCE7C27BEA90B00E5AF89 /* WatchInterfaceType.swift */,
 				4649404127D94745007F29C8 /* Common View Models */,
 				BDB67B27216F18870020EFAE /* Effects */,
 				BDDAB3301F848F6800732515 /* Episode */,
