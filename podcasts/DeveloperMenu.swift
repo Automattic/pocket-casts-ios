@@ -278,6 +278,12 @@ struct DeveloperMenu: View {
             } header: {
                 Text("End of Year")
             }
+
+            Section {
+                Text(Bundle.main.identifier)
+            } header: {
+                Text("Bundle ID")
+            }
         }
         .modifier(MiniPlayerPadding())
     }
@@ -286,5 +292,17 @@ struct DeveloperMenu: View {
 struct DeveloperMenu_Previews: PreviewProvider {
     static var previews: some View {
         DeveloperMenu()
+    }
+}
+
+extension Bundle {
+
+    var identifier: String {
+        guard let infoDictionary = infoDictionary, let identifier = infoDictionary["CFBundleIdentifier"] as? String else {
+            return "Cound not load bundle id."
+        }
+
+        return identifier
+
     }
 }
