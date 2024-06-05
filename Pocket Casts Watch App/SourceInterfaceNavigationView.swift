@@ -64,8 +64,8 @@ struct SourceInterfaceNavigationView: View {
                         SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
                     }
                     NavigationLink(destination: InterfaceView(source: .watch), tag: Source.watch.rawValue, selection: $activeSource) {
-                        SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: model.isLoggedIn && !model.isPlusUser, active: model.activeSource == .watch)
-                    }
+                        SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: !model.isLoggedIn || !model.isPlusUser, active: model.activeSource == .watch)
+                    }.disabled(!model.isPlusUser)
                 } footer: {
                     if model.isPlusUser {
                         Text(L10n.watchSourceMsg)
@@ -96,20 +96,22 @@ struct SourceInterfaceNavigationView: View {
                             .font(.footnote)
                     }
                 }
-                Section {
-                    Button(action: {
-                        model.refreshAccountTapped()
-                    }, label: {
-                        MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
-                    })
-                } footer: {
-                    if !model.isPlusUser {
-                        VStack {
-                            Text(L10n.watchSourceRefreshAccountInfo)
-                            Divider()
-                            Image("plus-logo")
-                            Divider()
-                            Text(L10n.watchSourcePlusInfo)
+                if !model.isLoggedIn {
+                    Section {
+                        Button(action: {
+                            model.refreshAccountTapped()
+                        }, label: {
+                            MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
+                        })
+                    } footer: {
+                        if !model.isPlusUser {
+                            VStack {
+                                Text(L10n.watchSourceRefreshAccountInfo)
+                                Divider()
+                                Image("plus-logo")
+                                Divider()
+                                Text(L10n.watchSourcePlusInfo)
+                            }
                         }
                     }
                 }
