@@ -178,7 +178,8 @@ class RefreshOperation: Operation {
         // look through our candidate episodes that are new and should be added to Up Next, and add any that haven't been played or archived as part of the sync
         let upNextLimit = ServerSettings.autoAddToUpNextLimit()
 
-        let autoAddCandidates = DataManager.sharedManager.autoAddCandidates.candidates()
+        let autoAdd = DataManager.sharedManager.autoAddCandidates
+        let autoAddCandidates = autoAdd.candidates()
 
         if autoAddCandidates.count > 0 {
             let startingCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
