@@ -119,7 +119,11 @@ struct SourceInterfaceNavigationView: View {
                 guard let newValue, let newSource = Source(rawValue: newValue) else {
                     return
                 }
-                SourceManager.shared.setSource(newSource: newSource)
+                if newSource == .phone {
+                    model.phoneTapped()
+                } else {
+                    model.watchTapped()
+                }
             }
         }
         .navigationTitle("Play Source")
