@@ -1,4 +1,5 @@
 import FMDB
+import GRDB
 import PocketCastsUtils
 
 class UpNextDataManager {
@@ -21,19 +22,19 @@ class UpNextDataManager {
         return queue
     }()
 
-    func setup(dbQueue: FMDatabaseQueue) {
-        cacheEpisodes(dbQueue: dbQueue)
+    func setup(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
     // MARK: - Queries
 
-    func allUpNextPlaylistEpisodes(dbQueue: FMDatabaseQueue) -> [PlaylistEpisode] {
+    func allUpNextPlaylistEpisodes(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> [PlaylistEpisode] {
         cachedItemsQueue.sync {
             cachedItems
         }
     }
 
-    func findPlaylistEpisode(uuid: String, dbQueue: FMDatabaseQueue) -> PlaylistEpisode? {
+    func findPlaylistEpisode(uuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> PlaylistEpisode? {
         cachedItemsQueue.sync {
             for episode in cachedItems {
                 if episode.episodeUuid == uuid {
@@ -45,13 +46,13 @@ class UpNextDataManager {
         }
     }
 
-    func playlistEpisodeAt(index: Int, dbQueue: FMDatabaseQueue) -> PlaylistEpisode? {
+    func playlistEpisodeAt(index: Int, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> PlaylistEpisode? {
         cachedItemsQueue.sync {
             cachedItems[safe: index]
         }
     }
 
-    func positionForPlaylistEpisode(bottomOfList: Bool, dbQueue: FMDatabaseQueue) -> Int32 {
+    func positionForPlaylistEpisode(bottomOfList: Bool, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Int32 {
         cachedItemsQueue.sync {
             if bottomOfList {
                 if let lastItem = cachedItems.last {
@@ -63,13 +64,13 @@ class UpNextDataManager {
         }
     }
 
-    func playlistEpisodeCount(dbQueue: FMDatabaseQueue) -> Int {
+    func playlistEpisodeCount(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Int {
         cachedItemsQueue.sync {
             cachedItems.count
         }
     }
 
-    func isEpisodePresent(uuid: String, dbQueue: FMDatabaseQueue) -> Bool {
+    func isEpisodePresent(uuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) -> Bool {
         cachedItemsQueue.sync {
             return allUuids.contains(uuid)
         }
@@ -77,122 +78,120 @@ class UpNextDataManager {
 
     // MARK: - Updates
 
-    func save(playlistEpisode: PlaylistEpisode, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
+    func save(playlistEpisode: PlaylistEpisode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
                 // move every episode after this one down one, if there are any
-                try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = episodePosition + 1 WHERE episodePosition >= ? AND episodeUuid != ? AND wasDeleted = 0", values: [playlistEpisode.episodePosition, playlistEpisode.episodeUuid])
+                try db.execute(sql: "UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = episodePosition + 1 WHERE episodePosition >= ? AND episodeUuid != ? AND wasDeleted = 0", arguments: [playlistEpisode.episodePosition, playlistEpisode.episodeUuid])
 
                 if playlistEpisode.id == 0 {
                     playlistEpisode.id = DBUtils.generateUniqueId()
-                    try db.executeUpdate("INSERT INTO \(DataManager.playlistEpisodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlistEpisode: playlistEpisode))
+                    try db.execute(sql: "INSERT INTO \(DataManager.playlistEpisodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", arguments: StatementArguments(self.createValuesFrom(playlistEpisode: playlistEpisode))!)
                 } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(playlistEpisode: playlistEpisode, includeIdForWhere: true))
+                    try db.execute(sql: "UPDATE \(DataManager.playlistEpisodeTableName) SET \(setStatement) WHERE id = ?", arguments: StatementArguments(self.createValuesFrom(playlistEpisode: playlistEpisode, includeIdForWhere: true))!)
                 }
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.save error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.save error: \(error)")
         }
-        saveOrdering(dbQueue: dbQueue)
-        cacheEpisodes(dbQueue: dbQueue)
+        saveOrdering(dbQueue: dbQueue, dbPool: dbPool)
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func save(playlistEpisodes: [PlaylistEpisode], dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
+    func save(playlistEpisodes: [PlaylistEpisode], dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
                 let topPosition = playlistEpisodes[0].episodePosition
                 let uuids = playlistEpisodes.map(\.episodeUuid)
                 // move every episode after this one down , if there are any
-                db.beginTransaction()
 
-                try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = episodePosition + ? WHERE episodePosition >= ? AND wasDeleted = 0 AND episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids)))", values: [playlistEpisodes.count, topPosition])
+                try db.execute(sql: "UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = episodePosition + ? WHERE episodePosition >= ? AND wasDeleted = 0 AND episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids)))", arguments: [playlistEpisodes.count, topPosition])
 
                 for playlistEpisode in playlistEpisodes {
                     if playlistEpisode.id == 0 {
                         playlistEpisode.id = DBUtils.generateUniqueId()
-                        try db.executeUpdate("INSERT INTO \(DataManager.playlistEpisodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlistEpisode: playlistEpisode))
+                        try db.execute(sql: "INSERT INTO \(DataManager.playlistEpisodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", arguments: StatementArguments(self.createValuesFrom(playlistEpisode: playlistEpisode))!)
                     } else {
                         let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                        try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(playlistEpisode: playlistEpisode, includeIdForWhere: true))
+                        try db.execute(sql: "UPDATE \(DataManager.playlistEpisodeTableName) SET \(setStatement) WHERE id = ?", arguments: StatementArguments(self.createValuesFrom(playlistEpisode: playlistEpisode, includeIdForWhere: true))!)
                     }
                 }
-                db.commit()
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.save error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.save error: \(error)")
         }
-        saveOrdering(dbQueue: dbQueue)
-        cacheEpisodes(dbQueue: dbQueue)
+        saveOrdering(dbQueue: dbQueue, dbPool: dbPool)
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func delete(playlistEpisode: PlaylistEpisode, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE id = ?", values: [playlistEpisode.id])
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.delete error: \(error)")
+    func delete(playlistEpisode: PlaylistEpisode, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE id = ?", arguments: [playlistEpisode.id])
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.delete error: \(error)")
         }
 
-        saveOrdering(dbQueue: dbQueue)
-        cacheEpisodes(dbQueue: dbQueue)
+        saveOrdering(dbQueue: dbQueue, dbPool: dbPool)
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func deleteAllUpNextEpisodes(dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodes error: \(error)")
+    func deleteAllUpNextEpisodes(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "DELETE FROM \(DataManager.playlistEpisodeTableName)")
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodes error: \(error)")
         }
 
-        cacheEpisodes(dbQueue: dbQueue)
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func deleteAllUpNextEpisodesExcept(episodeUuid: String, dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid <> ?", values: [episodeUuid])
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesExcept error: \(error)")
+    func deleteAllUpNextEpisodesExcept(episodeUuid: String, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid <> ?", arguments: [episodeUuid])
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesExcept error: \(error)")
         }
 
-        cacheEpisodes(dbQueue: dbQueue)
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func deleteAllUpNextEpisodesNotIn(uuids: [String], dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
+    func deleteAllUpNextEpisodesNotIn(uuids: [String], dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.write { db in
                 if uuids.count == 0 {
-                    try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
+                    try db.execute(sql: "DELETE FROM \(DataManager.playlistEpisodeTableName)")
                 } else {
-                    try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids)))", values: nil)
+                    try db.execute(sql: "DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids)))")
                 }
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesNotIn error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesNotIn error: \(error)")
         }
 
-        cacheEpisodes(dbQueue: dbQueue)
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func deleteAllUpNextEpisodesIn(uuids: [String], dbQueue: FMDatabaseQueue) {
+    func deleteAllUpNextEpisodesIn(uuids: [String], dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         guard uuids.count > 0 else { return }
-        dbQueue.inDatabase { db in
-            do {
-                try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(uuids)))", values: nil)
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesNotIn error: \(error)")
+        do {
+            try dbPool.write { db in
+                try db.execute(sql: "DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(uuids)))")
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.deleteAllUpNextEpisodesNotIn error: \(error)")
         }
-        saveOrdering(dbQueue: dbQueue)
-        cacheEpisodes(dbQueue: dbQueue)
+        saveOrdering(dbQueue: dbQueue, dbPool: dbPool)
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
-    func movePlaylistEpisode(from: Int, to: Int, dbQueue: FMDatabaseQueue) {
+    func movePlaylistEpisode(from: Int, to: Int, dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
         var resortedItems = cachedItems
 
         if from == -1, to == 0 {
@@ -208,36 +207,35 @@ class UpNextDataManager {
         }
 
         // persist index changes
-        dbQueue.inTransaction { db, _ in
-            do {
+        do {
+            try dbPool.write { db in
                 for (index, episode) in resortedItems.enumerated() {
-                    try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, episode.id])
+                    try db.execute(sql: "UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", arguments: [index, episode.id])
                 }
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.movePlaylistEpisode error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.movePlaylistEpisode error: \(error)")
         }
-        cacheEpisodes(dbQueue: dbQueue)
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
     // MARK: - Up Next History (Restoring)
 
-    public func refresh(dbQueue: FMDatabaseQueue) {
-        cacheEpisodes(dbQueue: dbQueue)
+    public func refresh(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
     }
 
     // MARK: - Caching
 
-    private func cacheEpisodes(dbQueue: FMDatabaseQueue) {
-        dbQueue.inDatabase { db in
-            do {
-                let resultSet = try db.executeQuery("SELECT * from \(DataManager.playlistEpisodeTableName) ORDER by episodePosition", values: nil)
-                defer { resultSet.close() }
+    private func cacheEpisodes(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        do {
+            try dbPool.read { db in
+                let rows = try Row.fetchCursor(db, sql: "SELECT * from \(DataManager.playlistEpisodeTableName) ORDER by episodePosition")
 
                 var newItems = [PlaylistEpisode]()
                 var uuids = Set<String>()
-                while resultSet.next() {
-                    let episode = self.createEpisodeFrom(resultSet: resultSet)
+                while let row = try rows.next() {
+                    let episode = self.createEpisodeFrom(row: row)
                     newItems.append(episode)
                     uuids.insert(episode.episodeUuid)
                 }
@@ -245,25 +243,25 @@ class UpNextDataManager {
                     cachedItems = newItems
                     allUuids = uuids
                 }
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.cacheEpisodes error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.cacheEpisodes error: \(error)")
         }
     }
 
     // MARK: - Ordering
 
-    private func saveOrdering(dbQueue: FMDatabaseQueue) {
-        cacheEpisodes(dbQueue: dbQueue)
+    private func saveOrdering(dbQueue: FMDatabaseQueue, dbPool: DatabasePool) {
+        cacheEpisodes(dbQueue: dbQueue, dbPool: dbPool)
         let sortedItems = cachedItems
-        dbQueue.inTransaction { db, _ in
-            do {
+        do {
+            try dbPool.write { db in
                 for (index, episode) in sortedItems.enumerated() {
-                    try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", values: [index, episode.id])
+                    try db.execute(sql: "UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = ? WHERE id = ?", arguments: [index, episode.id])
                 }
-            } catch {
-                FileLog.shared.addMessage("UpNextDataManager.saveOrdering error: \(error)")
             }
+        } catch {
+            FileLog.shared.addMessage("UpNextDataManager.saveOrdering error: \(error)")
         }
     }
 
@@ -277,6 +275,18 @@ class UpNextDataManager {
         episode.episodeUuid = DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "episodeUuid")
         episode.title = DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "title")
         episode.podcastUuid = DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "podcastUuid")
+
+        return episode
+    }
+
+    private func createEpisodeFrom(row: RowCursor.Element) -> PlaylistEpisode {
+        let episode = PlaylistEpisode()
+
+        episode.id = row["id"]
+        episode.episodePosition = row["episodePosition"]
+        episode.episodeUuid = row["episodeUuid"]
+        episode.title = row["title"]
+        episode.podcastUuid = row["podcastUuid"]
 
         return episode
     }
