@@ -57,7 +57,7 @@ struct InterfaceView: View {
                         MenuRow(label: L10n.upNext, icon: "upnext", count: $upNextViewModel.upNextCount)
                     }
                 case .filters:
-                    NavigationLink(destination: FiltersListView(), tag: WatchInterfaceType.filter.indexPosition, selection: $navigationModel.currentInterface) {
+                    NavigationLink(destination: FiltersListView(), tag: WatchInterfaceType.filterList.indexPosition, selection: $navigationModel.currentInterface) {
                         MenuRow(label: L10n.filters, icon: "filters")
                     }
                 case .nowPlaying:
