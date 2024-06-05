@@ -589,6 +589,10 @@
 		8BD7A2382C04F0DD00CF84E8 /* UpNextHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2372C04F0DD00CF84E8 /* UpNextHistoryViewController.swift */; };
 		8BD7A23A2C04F63000CF84E8 /* UpNextHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2392C04F63000CF84E8 /* UpNextHistoryModel.swift */; };
 		8BD7A23C2C06254400CF84E8 /* UpNextEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A23B2C06254400CF84E8 /* UpNextEntryView.swift */; };
+		8BD7A2432C09130C00CF84E8 /* FolderHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2422C09130C00CF84E8 /* FolderHistoryView.swift */; };
+		8BD7A2452C09132A00CF84E8 /* FolderHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2442C09132A00CF84E8 /* FolderHistoryViewController.swift */; };
+		8BD7A2472C09134900CF84E8 /* FolderHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2462C09134900CF84E8 /* FolderHistoryModel.swift */; };
+		8BD7A2492C09190200CF84E8 /* FolderHistoryEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */; };
 		8BDDD2AC29770479009E4DD3 /* SyncLoadingAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDDD2AB29770479009E4DD3 /* SyncLoadingAlert.swift */; };
 		8BDE43062AC33BEE00C2D5C9 /* RatePodcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */; };
 		8BDE43082AC34A7600C2D5C9 /* RatePodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */; };
@@ -1603,12 +1607,12 @@
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F52B4F8C2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8B2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift */; };
 		F52B4F8E2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */; };
-		F543F6A22C07FC7300FEC8B6 /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A12C07FC7300FEC8B6 /* DBTestCase.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
 		F55C4C762BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */; };
+		F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56295282C0FC14900C44E8A /* DBTestCase.swift */; };
 		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
 		F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */; };
 		F57BAC672C00CD9C007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
@@ -1850,10 +1854,15 @@
 		32163E5F2B1EBDB6009BB16B /* DatabaseExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseExport.swift; sourceTree = "<group>"; };
 		321AC0292B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+WaitForNotification.swift"; sourceTree = "<group>"; };
 		3A427DC232F89CC0DB362F96 /* Pods-PocketCasts-PocketCastsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-PocketCastsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-PocketCastsTests/Pods-PocketCasts-PocketCastsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		3F299D892872BF3600F2ED7F /* PocketCasts.staging.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.staging.xcconfig; sourceTree = "<group>"; };
+		3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.prototype.xcconfig; sourceTree = "<group>"; };
 		3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.release.xcconfig; sourceTree = "<group>"; };
 		3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.debug.xcconfig; sourceTree = "<group>"; };
 		3FB86431288968A1003A86BE /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
+		3FD6E04F2BF735EC003941C0 /* podcasts.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = podcasts.prototype.entitlements; sourceTree = "<group>"; };
+		3FD6E0502BF739D6003941C0 /* PodcastsIntents.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = PodcastsIntents.prototype.entitlements; sourceTree = "<group>"; };
+		3FD6E0522BF739F6003941C0 /* WidgetExtension.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.prototype.entitlements; sourceTree = "<group>"; };
+		3FD6E0532BF73A05003941C0 /* Share Extension.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "Share Extension.prototype.entitlements"; sourceTree = "<group>"; };
+		3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PocketCasts.staging.xcconfig; sourceTree = "<group>"; };
 		4000A29F25463C6900356FCE /* LeftAlignedFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedFlowLayout.swift; sourceTree = "<group>"; };
 		40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriPodcastItem.swift; sourceTree = "<group>"; };
 		4004F56424EB51F900FBEBE1 /* SceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneHelper.swift; sourceTree = "<group>"; };
@@ -2130,6 +2139,7 @@
 		40FFCDB422FBA9C600395CA5 /* IconSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectorCell.swift; sourceTree = "<group>"; };
 		40FFCDB522FBA9C600395CA5 /* IconSelectorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IconSelectorCell.xib; sourceTree = "<group>"; };
 		40FFCDBC2304E7EC00395CA5 /* ThemeableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableImageView.swift; sourceTree = "<group>"; };
+		424A79CC948AF230394BB38E /* Pods-podcasts.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-podcasts.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-podcasts/Pods-podcasts.prototype.xcconfig"; sourceTree = "<group>"; };
 		45738999285BBAD500D4FE6C /* ColorSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectRow.swift; sourceTree = "<group>"; };
 		45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketCastsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45ECEF8527E910FB00C65030 /* ShowNotesFormatterUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowNotesFormatterUtilsTests.swift; sourceTree = "<group>"; };
@@ -2408,6 +2418,10 @@
 		8BD7A2372C04F0DD00CF84E8 /* UpNextHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextHistoryViewController.swift; sourceTree = "<group>"; };
 		8BD7A2392C04F63000CF84E8 /* UpNextHistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextHistoryModel.swift; sourceTree = "<group>"; };
 		8BD7A23B2C06254400CF84E8 /* UpNextEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextEntryView.swift; sourceTree = "<group>"; };
+		8BD7A2422C09130C00CF84E8 /* FolderHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryView.swift; sourceTree = "<group>"; };
+		8BD7A2442C09132A00CF84E8 /* FolderHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryViewController.swift; sourceTree = "<group>"; };
+		8BD7A2462C09134900CF84E8 /* FolderHistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryModel.swift; sourceTree = "<group>"; };
+		8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryEntryView.swift; sourceTree = "<group>"; };
 		8BDDD2AB29770479009E4DD3 /* SyncLoadingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncLoadingAlert.swift; sourceTree = "<group>"; };
 		8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatePodcastView.swift; sourceTree = "<group>"; };
 		8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatePodcastViewModel.swift; sourceTree = "<group>"; };
@@ -3219,6 +3233,7 @@
 		BDFF772F1C9929660086282A /* NavigationProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationProtocol.swift; sourceTree = "<group>"; };
 		BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCRoutePickerView.swift; sourceTree = "<group>"; };
 		BDFFC9B02148E87E0026D875 /* VideoViewController+Seek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoViewController+Seek.swift"; sourceTree = "<group>"; };
+		C4AF9B7EAB2BAD768A5E4DED /* Pods-PocketCastsTests.prototype.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCastsTests.prototype.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests.prototype.xcconfig"; sourceTree = "<group>"; };
 		C700A86F2A78BCD60091F895 /* EpisodeDetailTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailTabView.swift; sourceTree = "<group>"; };
 		C701C25B2A8E82DC00AD9FAB /* PaidFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaidFeature.swift; sourceTree = "<group>"; };
 		C7080C072922DB5F00D7A432 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
@@ -3398,10 +3413,10 @@
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F52B4F8B2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorViewController.swift; sourceTree = "<group>"; };
 		F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorView.swift; sourceTree = "<group>"; };
-		F543F6A12C07FC7300FEC8B6 /* DBTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+CategoryRedesign.swift"; sourceTree = "<group>"; };
+		F56295282C0FC14900C44E8A /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
 		F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Episode.swift"; sourceTree = "<group>"; };
 		F58695992C04320100E0754A /* PodcastManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastManagerTests.swift; sourceTree = "<group>"; };
@@ -3580,6 +3595,8 @@
 				0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */,
 				E51D1A08077BEF3B1F180BA7 /* Pods-PocketCasts-podcasts.staging.xcconfig */,
 				E333F3BD7D41E3FE8A086315 /* Pods-PocketCasts-podcasts.release.xcconfig */,
+				C4AF9B7EAB2BAD768A5E4DED /* Pods-PocketCastsTests.prototype.xcconfig */,
+				424A79CC948AF230394BB38E /* Pods-podcasts.prototype.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -3587,6 +3604,7 @@
 		2F90990C2A4F88B10044FC55 /* Share Extension */ = {
 			isa = PBXGroup;
 			children = (
+				3FD6E0532BF73A05003941C0 /* Share Extension.prototype.entitlements */,
 				2F90991A2A4F89330044FC55 /* Share Extension.entitlements */,
 				2F90990D2A4F88B10044FC55 /* ShareViewController.swift */,
 				2F90990F2A4F88B10044FC55 /* MainInterface.storyboard */,
@@ -3598,9 +3616,10 @@
 		3F299D882872BF3600F2ED7F /* config */ = {
 			isa = PBXGroup;
 			children = (
-				3F299D892872BF3600F2ED7F /* PocketCasts.staging.xcconfig */,
-				3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */,
 				3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */,
+				3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */,
+				3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */,
+				3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */,
 			);
 			path = config;
 			sourceTree = "<group>";
@@ -3701,6 +3720,7 @@
 		403B5B1121813FFA00821A54 /* PodcastsIntents */ = {
 			isa = PBXGroup;
 			children = (
+				3FD6E0502BF739D6003941C0 /* PodcastsIntents.prototype.entitlements */,
 				40E8036B23FE9E9100B4E1F8 /* ChapterIntentHandler.swift */,
 				10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */,
 				40E8036923FE9E9100B4E1F8 /* ExtendSleepTimerIntentHandler.swift */,
@@ -3833,6 +3853,7 @@
 		4090975325235DFA00CED68C /* WidgetExtension */ = {
 			isa = PBXGroup;
 			children = (
+				3FD6E0522BF739F6003941C0 /* WidgetExtension.prototype.entitlements */,
 				BD422ED526841EAF0078B799 /* Common */,
 				BD422EC226840ECB0078B799 /* Data */,
 				BD422EBB26840D9B0078B799 /* Up Next */,
@@ -4235,11 +4256,11 @@
 		8B317BA128906C7400A26A13 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				F56295282C0FC14900C44E8A /* DBTestCase.swift */,
 				8B317BA228906C8100A26A13 /* TestingAppDelegate.swift */,
 				8B317BA428906CAB00A26A13 /* TestingSceneDelegate.swift */,
 				8B317BA628906CC200A26A13 /* TestingViewController.swift */,
 				8B317BA82890704400A26A13 /* TestingScreen.storyboard */,
-				F543F6A12C07FC7300FEC8B6 /* DBTestCase.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -4508,6 +4529,17 @@
 				8BD7A2372C04F0DD00CF84E8 /* UpNextHistoryViewController.swift */,
 			);
 			path = "Up Next History";
+			sourceTree = "<group>";
+		};
+		8BD7A2412C09126300CF84E8 /* Folder History */ = {
+			isa = PBXGroup;
+			children = (
+				8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */,
+				8BD7A2422C09130C00CF84E8 /* FolderHistoryView.swift */,
+				8BD7A2442C09132A00CF84E8 /* FolderHistoryViewController.swift */,
+				8BD7A2462C09134900CF84E8 /* FolderHistoryModel.swift */,
+			);
+			path = "Folder History";
 			sourceTree = "<group>";
 		};
 		8BE36DC928734F6500E35313 /* Modules */ = {
@@ -5211,6 +5243,7 @@
 				BD7516E01C0FC8180099F53E /* Downloads */,
 				BDF4D30D2175AA0D0086463E /* Starred */,
 				BDF050791FBA65BE00194D68 /* Listening History */,
+				8BD7A2412C09126300CF84E8 /* Folder History */,
 				400AB2FF220BA3110003EE21 /* Files */,
 				40542E292265600200046330 /* Account Management */,
 				BD8139D01FB95C3900DBF0EC /* ProfileViewController.swift */,
@@ -5918,6 +5951,7 @@
 			children = (
 				462EE0B127024FF3003D67DC /* Credentials */,
 				BD7D337619F7D48E00B907EA /* podcasts.entitlements */,
+				3FD6E04F2BF735EC003941C0 /* podcasts.prototype.entitlements */,
 				BD054A821E3EFCFD00D9195B /* podcastsDebug.entitlements */,
 				BDBD547917019DCE0048C8C5 /* Third Party Libraries */,
 				BD054A781E3EDE9C00D9195B /* Shared with Extension */,
@@ -8637,7 +8671,7 @@
 				8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */,
 				8BA55A1328CA7425002BECC5 /* XCTestCase+eventually.swift in Sources */,
 				C7D854F328ADD98700877E87 /* AppLifecyleAnalyticsTests.swift in Sources */,
-				F543F6A22C07FC7300FEC8B6 /* DBTestCase.swift in Sources */,
+				F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */,
 				C7BF5E4A29083B5300733C1E /* DiscoverCoordinatorTests.swift in Sources */,
 				E3665F542936CD13001C8372 /* ChaptersTests.swift in Sources */,
 				C7F4C6682A8EAB2800483C37 /* PaidFeatureTests.swift in Sources */,
@@ -8707,6 +8741,7 @@
 				C7E99EFE2A5C918900E7CBAF /* NonBlockingLongPressView.swift in Sources */,
 				BDED92F4251DC3E2000BF622 /* CarPlaySceneDelegate.swift in Sources */,
 				BD24E6F320E3474600A712E3 /* ArchiveHelper.swift in Sources */,
+				8BD7A2492C09190200CF84E8 /* FolderHistoryEntryView.swift in Sources */,
 				BD9CF8C2281FC6970000F29A /* AboutViewModel.swift in Sources */,
 				4000A2A025463C6A00356FCE /* LeftAlignedFlowLayout.swift in Sources */,
 				BD59E6BA24107C110019AF1C /* StarredViewController+Swipe.swift in Sources */,
@@ -8828,6 +8863,7 @@
 				BDB5F0C52045036200437669 /* OptionAction.swift in Sources */,
 				40FFAD93214A170200024FCF /* FilterSettingsOverlayController.swift in Sources */,
 				BD998ACC27B2436000B38857 /* NameFolderView.swift in Sources */,
+				8BD7A2432C09130C00CF84E8 /* FolderHistoryView.swift in Sources */,
 				C7FAFF5D2941844C00329B40 /* CancelConfirmationViewModel.swift in Sources */,
 				BD14CCDF1D7D3CB800DB4547 /* SelectedPodcastCell.swift in Sources */,
 				BD93FDA120157B2000F6EF55 /* PodcastImageView.swift in Sources */,
@@ -8882,6 +8918,7 @@
 				F55C4C762BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
 				407B21E72231F6A300B4E492 /* UploadedSettingsViewController.swift in Sources */,
+				8BD7A2472C09134900CF84E8 /* FolderHistoryModel.swift in Sources */,
 				BD339C5C2149E35600E655F9 /* VideoViewController+Controls.swift in Sources */,
 				C7B7123C29DF49BC00965BF7 /* HorizontalCarousel.swift in Sources */,
 				4041FE572181751F0089D4A1 /* SiriShortcutsManager.swift in Sources */,
@@ -9223,6 +9260,7 @@
 				BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */,
 				8B9D459F28F9AD3F0034219E /* EndOfYearStoriesDataSource.swift in Sources */,
 				BDC377631C44E6BD001FD219 /* EmptyHeaderView.swift in Sources */,
+				8BD7A2452C09132A00CF84E8 /* FolderHistoryViewController.swift in Sources */,
 				BD9324772398BC9D004F19A1 /* FeatureTour.swift in Sources */,
 				BDFB53C72362A2570001806E /* NowPlayingPlayerItemViewController.swift in Sources */,
 				BD4DB9951CAB8CFF009E512F /* PCRefreshControl.swift in Sources */,
@@ -9859,10 +9897,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -9878,7 +9914,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Share-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).Share-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Pocket Casts Share Extension";
@@ -9890,7 +9926,7 @@
 			};
 			name = Debug;
 		};
-		2F9099172A4F88B10044FC55 /* Staging */ = {
+		2F9099172A4F88B10044FC55 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -9902,12 +9938,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.prototype.entitlements";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -9924,10 +9958,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Share-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).Share-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Pocket Casts Share Extension";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -9935,7 +9967,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		2F9099182A4F88B10044FC55 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -9953,7 +9985,6 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -9970,10 +10001,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Share-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).Share-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore au.com.shiftyjelly.podcasts.Share-Extension";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -9982,6 +10011,438 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		3FD6E0542BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_ACTIVITY_MODE = "";
+				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Staging;
+		};
+		3FD6E0552BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBB921F698CD2DA170E70AB6 /* Pods-podcasts.staging.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				INFOPLIST_FILE = "podcasts/podcasts-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
+				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Staging;
+		};
+		3FD6E0562BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = NotificationExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).NotificationExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Notification Extension Development";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+			};
+			name = Staging;
+		};
+		3FD6E0572BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).NotificationContent";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Notification Content Development";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+			};
+			name = Staging;
+		};
+		3FD6E0582BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Development";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts Watch App/watch-bridging-header.h";
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+			};
+			name = Staging;
+		};
+		3FD6E0592BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = PodcastsIntents/PodcastsIntents.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = PodcastsIntents/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).PodcastsIntents";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Intents Development";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Staging;
+		};
+		3FD6E05A2BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = PodcastsIntentsUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).PodcastsIntentsUI";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Intents UI Development";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Staging;
+		};
+		3FD6E05B2BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).WidgetExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Widget Development";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Staging;
+		};
+		3FD6E05C2BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Staging;
+		};
+		3FD6E05D2BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Screenshot-Automation";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = podcasts;
+			};
+			name = Staging;
+		};
+		3FD6E05E2BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Screenshot-Automation-Watch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Pocket Casts Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+			};
+			name = Staging;
+		};
+		3FD6E05F2BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PocketCastsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/podcasts.app/podcasts";
+			};
+			name = Staging;
+		};
+		3FD6E0602BFC790F003941C0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.entitlements";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Share Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Share Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Shifty Jelly. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).Share-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Pocket Casts Share Extension";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Staging;
 		};
 		403B5B2A21813FFB00821A54 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -9995,10 +10456,8 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -10011,7 +10470,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsIntentsUI;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).PodcastsIntentsUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Intents UI Development";
 				SKIP_INSTALL = YES;
@@ -10035,7 +10494,6 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -10049,9 +10507,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsIntentsUI;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).PodcastsIntentsUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.PodcastsIntentsUI";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -10070,10 +10527,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = PodcastsIntents/PodcastsIntents.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -10086,7 +10541,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsIntents;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).PodcastsIntents";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Intents Development";
 				SKIP_INSTALL = YES;
@@ -10111,7 +10566,6 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -10125,9 +10579,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsIntents;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).PodcastsIntents";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.PodcastsIntents";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -10148,10 +10601,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -10164,7 +10615,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.WidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).WidgetExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Widget Development";
 				SKIP_INSTALL = YES;
@@ -10173,7 +10624,7 @@
 			};
 			name = Debug;
 		};
-		4090975D25235DFC00CED68C /* Staging */ = {
+		4090975D25235DFC00CED68C /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -10187,12 +10638,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension.prototype.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -10206,15 +10655,14 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.WidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).WidgetExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Widget Development";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		4090975E25235DFC00CED68C /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10234,7 +10682,6 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -10248,9 +10695,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.WidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).WidgetExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.WidgetExtension";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -10291,9 +10737,9 @@
 			};
 			name = Debug;
 		};
-		45ECEF8227E910E300C65030 /* Staging */ = {
+		45ECEF8227E910E300C65030 /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A251FE0E92E432C4EF0C8207 /* Pods-PocketCastsTests.staging.xcconfig */;
+			baseConfigurationReference = C4AF9B7EAB2BAD768A5E4DED /* Pods-PocketCastsTests.prototype.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10325,7 +10771,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/podcasts.app/podcasts";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		45ECEF8327E910E300C65030 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10367,29 +10813,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SFWALZRJ55;
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		462EE0C32702532E003D67DC /* Staging */ = {
+		462EE0C32702532E003D67DC /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SFWALZRJ55;
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		462EE0C42702532E003D67DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SFWALZRJ55;
 				GOOGLE_SIGN_IN_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleSignIn.txt";
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -10425,7 +10868,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Screenshot-Automation";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -10433,7 +10875,7 @@
 			};
 			name = Debug;
 		};
-		4694FA692799C80300E9CF70 /* Staging */ = {
+		4694FA692799C80300E9CF70 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10464,14 +10906,13 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Screenshot-Automation";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = podcasts;
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		4694FA6A2799C80300E9CF70 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10504,7 +10945,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Screenshot-Automation";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -10536,7 +10976,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Screenshot-Automation-Watch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "36f51820-2dda-4d5d-9243-f3acffb153ad";
 				SDKROOT = watchos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -10546,7 +10985,7 @@
 			};
 			name = Debug;
 		};
-		46AFC23E27AB19CF004B026F /* Staging */ = {
+		46AFC23E27AB19CF004B026F /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10571,7 +11010,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Screenshot-Automation-Watch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "36f51820-2dda-4d5d-9243-f3acffb153ad";
 				SDKROOT = watchos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -10580,7 +11018,7 @@
 				TEST_TARGET_NAME = "Pocket Casts Watch App";
 				WATCHOS_DEPLOYMENT_TARGET = 8.3;
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		46AFC23F27AB19CF004B026F /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -10607,7 +11045,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "au.com.shiftyjelly.podcasts.Screenshot-Automation-Watch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "36f51820-2dda-4d5d-9243-f3acffb153ad";
 				SDKROOT = watchos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -10626,9 +11063,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationExtension/Info.plist;
@@ -10639,9 +11074,8 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.NotificationExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).NotificationExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "af5d4560-175c-4638-814f-eabfd89731a8";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Notification Extension Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -10658,7 +11092,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -10670,17 +11103,15 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.NotificationExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).NotificationExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "43209392-b974-49c7-8883-b36aba068a81";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.NotificationExtension";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
-		BD69A0192266A9E400168459 /* Staging */ = {
+		BD69A0192266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F299D892872BF3600F2ED7F /* PocketCasts.staging.xcconfig */;
+			baseConfigurationReference = 3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -10705,11 +11136,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -10729,24 +11160,21 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D STAGING -D DEBUG";
 				SDKROOT = iphoneos;
 				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A01A2266A9E400168459 /* Staging */ = {
+		BD69A01A2266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EBB921F698CD2DA170E70AB6 /* Pods-podcasts.staging.xcconfig */;
+			baseConfigurationReference = 424A79CC948AF230394BB38E /* Pods-podcasts.prototype.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
+				CODE_SIGN_ENTITLEMENTS = podcasts/podcasts.prototype.entitlements;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -10759,16 +11187,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5c98da06-c980-49e9-8668-64d3fa8828ee";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A01C2266A9E400168459 /* Staging */ = {
+		BD69A01C2266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10776,9 +11201,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationExtension/Info.plist;
@@ -10789,16 +11212,14 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.NotificationExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).NotificationExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "af5d4560-175c-4638-814f-eabfd89731a8";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Notification Extension Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A01D2266A9E400168459 /* Staging */ = {
+		BD69A01D2266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10806,9 +11227,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
@@ -10819,16 +11238,14 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.NotificationContent;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).NotificationContent";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1d29a204-ed35-4dd1-88aa-e9a021cc7a18";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Notification Content Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A01E2266A9E400168459 /* Staging */ = {
+		BD69A01E2266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -10840,9 +11257,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
@@ -10851,10 +11266,8 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "797df124-2123-4fb7-af10-d5a67d86b9b7";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Development";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -10862,9 +11275,9 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A0202266A9E400168459 /* Staging */ = {
+		BD69A0202266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10876,11 +11289,9 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = PodcastsIntents/PodcastsIntents.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = PodcastsIntents/PodcastsIntents.prototype.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -10893,16 +11304,15 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsIntents;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).PodcastsIntents";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Intents Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
-		BD69A0212266A9E400168459 /* Staging */ = {
+		BD69A0212266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -10914,10 +11324,8 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -10930,14 +11338,13 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.PodcastsIntentsUI;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).PodcastsIntentsUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Intents UI Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = Prototype;
 		};
 		BDBD540C17019B2A0048C8C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -10970,7 +11377,6 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -10990,7 +11396,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = iphoneos;
 				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
@@ -11030,7 +11435,6 @@
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -11058,8 +11462,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11072,9 +11474,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5c98da06-c980-49e9-8668-64d3fa8828ee";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
@@ -11088,7 +11488,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcasts.entitlements;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11101,10 +11500,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30883187-573f-4897-a47e-b5451773b23d";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
@@ -11122,9 +11518,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Pocket Casts Watch App/Info.plist";
@@ -11133,9 +11527,8 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "797df124-2123-4fb7-af10-d5a67d86b9b7";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Watch App Development";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -11160,7 +11553,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -11170,10 +11562,8 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "36f51820-2dda-4d5d-9243-f3acffb153ad";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.watchkitapp";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -11192,9 +11582,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = NotificationContent/Info.plist;
@@ -11205,9 +11593,8 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.NotificationContent;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).NotificationContent";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1d29a204-ed35-4dd1-88aa-e9a021cc7a18";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Notification Content Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -11224,7 +11611,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -11236,10 +11622,8 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = au.com.shiftyjelly.podcasts.NotificationContent;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_ROOT).NotificationContent";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0d55af3f-6f16-4565-9d3f-1937f78f1b08";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore au.com.shiftyjelly.podcasts.NotificationContent";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -11251,7 +11635,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2F9099162A4F88B10044FC55 /* Debug */,
-				2F9099172A4F88B10044FC55 /* Staging */,
+				3FD6E0602BFC790F003941C0 /* Staging */,
+				2F9099172A4F88B10044FC55 /* Prototype */,
 				2F9099182A4F88B10044FC55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11261,7 +11646,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				403B5B2A21813FFB00821A54 /* Debug */,
-				BD69A0212266A9E400168459 /* Staging */,
+				3FD6E05A2BFC790F003941C0 /* Staging */,
+				BD69A0212266A9E400168459 /* Prototype */,
 				403B5B2B21813FFB00821A54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11271,7 +11657,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				403B5B2D21813FFB00821A54 /* Debug */,
-				BD69A0202266A9E400168459 /* Staging */,
+				3FD6E0592BFC790F003941C0 /* Staging */,
+				BD69A0202266A9E400168459 /* Prototype */,
 				403B5B2E21813FFB00821A54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11281,7 +11668,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4090975C25235DFC00CED68C /* Debug */,
-				4090975D25235DFC00CED68C /* Staging */,
+				3FD6E05B2BFC790F003941C0 /* Staging */,
+				4090975D25235DFC00CED68C /* Prototype */,
 				4090975E25235DFC00CED68C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11291,7 +11679,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				45ECEF8127E910E300C65030 /* Debug */,
-				45ECEF8227E910E300C65030 /* Staging */,
+				3FD6E05F2BFC790F003941C0 /* Staging */,
+				45ECEF8227E910E300C65030 /* Prototype */,
 				45ECEF8327E910E300C65030 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11301,7 +11690,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				462EE0C22702532E003D67DC /* Debug */,
-				462EE0C32702532E003D67DC /* Staging */,
+				3FD6E05C2BFC790F003941C0 /* Staging */,
+				462EE0C32702532E003D67DC /* Prototype */,
 				462EE0C42702532E003D67DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11311,7 +11701,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4694FA682799C80300E9CF70 /* Debug */,
-				4694FA692799C80300E9CF70 /* Staging */,
+				3FD6E05D2BFC790F003941C0 /* Staging */,
+				4694FA692799C80300E9CF70 /* Prototype */,
 				4694FA6A2799C80300E9CF70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11321,7 +11712,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46AFC23D27AB19CF004B026F /* Debug */,
-				46AFC23E27AB19CF004B026F /* Staging */,
+				3FD6E05E2BFC790F003941C0 /* Staging */,
+				46AFC23E27AB19CF004B026F /* Prototype */,
 				46AFC23F27AB19CF004B026F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11331,7 +11723,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BD3A21151E6CFC2400F42241 /* Debug */,
-				BD69A01C2266A9E400168459 /* Staging */,
+				3FD6E0562BFC790F003941C0 /* Staging */,
+				BD69A01C2266A9E400168459 /* Prototype */,
 				BD3A21161E6CFC2400F42241 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11341,7 +11734,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDBD540C17019B2A0048C8C5 /* Debug */,
-				BD69A0192266A9E400168459 /* Staging */,
+				3FD6E0542BFC790F003941C0 /* Staging */,
+				BD69A0192266A9E400168459 /* Prototype */,
 				BDBD540D17019B2A0048C8C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11351,7 +11745,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDBD540F17019B2A0048C8C5 /* Debug */,
-				BD69A01A2266A9E400168459 /* Staging */,
+				3FD6E0552BFC790F003941C0 /* Staging */,
+				BD69A01A2266A9E400168459 /* Prototype */,
 				BDBD541017019B2A0048C8C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11361,7 +11756,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDD301831EFB9356004A9972 /* Debug */,
-				BD69A01E2266A9E400168459 /* Staging */,
+				3FD6E0582BFC790F003941C0 /* Staging */,
+				BD69A01E2266A9E400168459 /* Prototype */,
 				BDD301841EFB9356004A9972 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -11371,7 +11767,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDEFBA221E6D3C2300B9024B /* Debug */,
-				BD69A01D2266A9E400168459 /* Staging */,
+				3FD6E0572BFC790F003941C0 /* Staging */,
+				BD69A01D2266A9E400168459 /* Prototype */,
 				BDEFBA231E6D3C2300B9024B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

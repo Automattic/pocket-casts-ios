@@ -10,7 +10,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case autoArchive, autoDownload, autoAddToUpNext, siriShortcuts
         case watch, customFiles, importSteps, opml
         case about, pocketCastsPlus, privacy
-        case upNextHistory
+        case upNextHistory, foldersHistory
         case headphoneControls
         case developer, beta
 
@@ -68,6 +68,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.settingsHeadphoneControls, .init(named: "settings_headphone_controls"))
             case .upNextHistory:
                 return (L10n.upNextHistory, .init(named: "upnext"))
+            case .foldersHistory:
+                return (L10n.foldersHistory, .init(named: "folder-empty"))
             }
         }
     }
@@ -89,7 +91,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             [.autoArchive, .autoDownload, .autoAddToUpNext],
             [.storageAndDataUse, .siriShortcuts, .headphoneControls, .watch, .customFiles],
             [.importSteps, .opml],
-            [.upNextHistory],
+            [.upNextHistory, .foldersHistory],
             [.privacy, .about]
         ]
     }()
@@ -198,6 +200,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .upNextHistory:
             let upNextHistory = UpNextHistoryViewController()
             navigationController?.pushViewController(upNextHistory, animated: true)
+        case .foldersHistory:
+            let foldersHistoryViewController = FolderHistoryViewController()
+            navigationController?.pushViewController(foldersHistoryViewController, animated: true)
         }
     }
 
