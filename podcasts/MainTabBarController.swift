@@ -30,7 +30,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         super.viewDidLoad()
 
         if FeatureFlag.upNextOnTabBar.enabled {
-            tabs = [.podcasts, .upNext, .filter, .discover, .profile]
+            tabs = [.podcasts, .filter, .discover, .upNext, .profile]
         } else {
             tabs = [.podcasts, .filter, .discover, .profile]
         }
@@ -52,7 +52,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if FeatureFlag.upNextOnTabBar.enabled {
             let upNextViewController = UpNextViewController(source: .tabBar, showingInTab: true)
             upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: tabs.firstIndex(of: .upNext)!)
-            vcsInTab = [podcastsController, upNextViewController, filtersViewController, discoverViewController, profileViewController]
+            vcsInTab = [podcastsController, filtersViewController, discoverViewController, upNextViewController, profileViewController]
         } else {
             vcsInTab = [podcastsController, filtersViewController, discoverViewController, profileViewController]
         }
