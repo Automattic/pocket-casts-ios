@@ -128,12 +128,20 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
-    func addLocalFile(url: URL, uuid: String) -> URL? {
+    func addLocalFile(url: URL, uuid: String) throws -> URL? {
         let destinationUrl = URL(fileURLWithPath: pathForUrl(fileUrl: url, uuid: uuid))
         do {
             try StorageManager.moveItem(at: url, to: destinationUrl, options: .overwriteExisting)
-        } catch { return nil }
-
+        } catch let error {
+            let nsError = error as NSError
+            switch (nsError.domain, nsError.code) {
+            case (NSCocoaErrorDomain, 513):
+                // No permissions to move, so we'll copy instead
+                try StorageManager.copyItem(at: url, to: destinationUrl)
+            default:
+                throw error
+            }
+        }
         return destinationUrl
     }
 
