@@ -613,8 +613,12 @@ platform :ios do
   end
 
   desc 'Builds for Enterprise distribution (Prototype Build)'
-  lane :build_enterprise do
-    configure_code_signing_enterprise
+  lane :build_enterprise do |options|
+    if options[:skip_code_sign_setup]
+      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
+    else
+      configure_code_signing_enterprise
+    end
 
     version_settings = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
     build_number = generate_prototype_build_number
