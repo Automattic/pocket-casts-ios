@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 import Combine
+import Pulse
 
 class DatabaseExport {
     /// The resulting file name of the zip file
@@ -69,6 +70,9 @@ class DatabaseExport {
             let logFile = try await FileLog.shared.logFileForUpload().awaitFirstValue(in: &cancellables)
             let logsFile = exportDirectory.appendingPathComponent("logs.txt", isDirectory: false)
             try fileManager.copyItem(at: URL(fileURLWithPath: logFile), to: logsFile)
+
+            let networkLogsFile = exportDirectory.appendingPathComponent("network.pulse", isDirectory: false)
+            try await LoggerStore.shared.export(to: networkLogsFile)
 
             // Write the preferences to the export folder
             let preferencesFile = exportDirectory.appendingPathComponent("preferences.plist", isDirectory: false)
