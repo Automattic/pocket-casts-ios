@@ -18,34 +18,6 @@ steps:
     env: *common_env
     plugins: *common_plugins
 
-  - group: Prototype Build
-    steps:
-      - label: Build
-        key: build_protoype
-        command: .buildkite/commands/prototype-build.sh
-        agents: *common_agents
-        env: *common_env
-        plugins: *common_plugins
-        # The folder and name are configured in Fastlane
-        artifact_paths:
-          - artifacts/*.ipa
-          - artifacts/*.app.dSYM.zip
-        notify:
-          - github_commit_status:
-              context: Prototype Build - Package
-        if: "build.pull_request.id != null || build.pull_request.draft"
-
-      - label: Upload
-        depends_on: build_protoype
-        command: .buildkite/commands/prototype-upload.sh
-        agents: *common_agents
-        env: *common_env
-        plugins: *common_plugins
-        notify:
-          - github_commit_status:
-              context: Prototype Build - Upload
-        if: "build.pull_request.id != null || build.pull_request.draft"
-
   - group: "Linters"
     steps:
       - label: "☢️ Danger - PR Check"
@@ -70,3 +42,39 @@ steps:
         command: lint_localized_strings_format
         plugins: *common_plugins
         env: *common_env
+
+  - block: Deploy Prototype Build
+    prompt: Share a Prototype Build via App Center?
+    key: prototype_triggered
+    # Block steps have implicit dependency on the steps that come before them.
+    # See https://buildkite.com/docs/pipelines/trigger-step
+    #
+    # Make it depend on nothing so we don't have to wait for previous steps to finish before the deployment can start.
+    depends_on: ~
+
+  - group: Prototype Build
+    steps:
+      - label: Prototype Build - Build
+        key: build_prototype
+        depends_on: prototype_triggered
+        command: .buildkite/commands/prototype-build.sh
+        agents: *common_agents
+        env: *common_env
+        plugins: *common_plugins
+        # The folder name is are configured in Fastlane
+        artifact_paths:
+          - artifacts/*.ipa
+          - artifacts/*.app.dSYM.zip
+        notify:
+          - github_commit_status:
+              context: Prototype Build - Build
+
+      - label: Prototype Build - Upload
+        depends_on: build_prototype
+        command: .buildkite/commands/prototype-upload.sh
+        agents: *common_agents
+        env: *common_env
+        plugins: *common_plugins
+        notify:
+          - github_commit_status:
+              context: Prototype Build - Upload
