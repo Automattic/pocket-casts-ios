@@ -150,9 +150,13 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         refreshSections()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateNavBarButtons()
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        updateNavBarButtons()
         // fix issues with the now playing cell not animating by reloading it on appear
         reloadTable()
 
@@ -261,6 +265,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     func updateNavBarButtons() {
+        navigationController?.navigationBar.tintColor = AppTheme.navBarIconsColor(themeOverride: themeOverride)
         if isMultiSelectEnabled {
             if MultiSelectHelper.shouldSelectAll(onCount: selectedPlayListEpisodes.count, totalCount: PlaybackManager.shared.queue.upNextCount()) {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
