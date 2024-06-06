@@ -273,11 +273,14 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             if let currentUuid = PlaybackManager.shared.currentEpisode()?.uuid {
                 selectedEpisodesRemove(uuid: currentUuid)
             }
+            if upNextUuids.isEmpty {
+                isMultiSelectEnabled = false
+            }
         }
-
         // this method is sometimes called during a re-arrange animation. For whatever weird reason doing this as part of that operation causes the table to flash.
         // This is only when the Lottie animation in the the now playing cell is running, so before removing this call, test that case
         DispatchQueue.main.async {
+            self.updateNavBarButtons()
             self.reloadTable()
         }
     }

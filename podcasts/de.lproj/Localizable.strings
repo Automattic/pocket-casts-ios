@@ -255,6 +255,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Die ersten %1$@ Folgen in diesem Filter werden automatisch heruntergeladen</string>
     <key>auto_download_prompt_first</key>
     <string>Erste</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Schlummerfunktion automatisch neu starten</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Wenn die Schlummerfunktion aktiviert ist, wird sie automatisch neu gestartet, wenn du innerhalb von fünf Minuten nach der letzten Pause eine Folge abspielst.</string>
     <key>back</key>
     <string>Zurück</string>
     <key>beta_purchase_disabled</key>
@@ -2339,6 +2343,10 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Die ersten %1$@</string>
     <key>setup_account</key>
     <string>Konto einrichten</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Schütteln, um Schlummerfunktion neu zu starten</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Wenn die Schlummerfunktion aktiviert ist, wird sie neu gestartet, wenn du dein Handy schüttelst.</string>
     <key>share</key>
     <string>Teilen</string>
     <key>share_current_position</key>

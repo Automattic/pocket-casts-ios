@@ -255,6 +255,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>De första %1$@ avsnitten i det här filtret kommer att laddas ner automatiskt</string>
     <key>auto_download_prompt_first</key>
     <string>De första</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Starta om sömntimern automatiskt</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Om det här alternativet är aktiverat kommer sömntimern att starta om automatiskt om du spelar upp ett avsnitt inom 5 minuter efter den senaste pausen.</string>
     <key>back</key>
     <string>Tillbaka</string>
     <key>beta_purchase_disabled</key>
@@ -1792,7 +1796,7 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>pricing_terms_after_trial</key>
     <string>därefter %1$@</string>
     <key>pricing_terms_after_trial_long</key>
-    <string>Återkommande betalning börjar efter din kostnadsfria provperiod på %1$@ (%2$@)</string>
+    <string>Återkommande betalningar kommer börja efter din %1$@ gratis provperiod (%2$@)</string>
     <key>profile</key>
     <string>Profil</string>
     <key>profile_help_support</key>
@@ -2339,6 +2343,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Topp %1$@</string>
     <key>setup_account</key>
     <string>Konfigurera konto</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Skaka för att starta om sömntimern</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Om det här alternativet är aktiverat kommer sömntimern att starta om när du skakar din telefon.</string>
     <key>share</key>
     <string>Dela</string>
     <key>share_current_position</key>

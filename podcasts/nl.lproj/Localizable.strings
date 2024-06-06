@@ -255,6 +255,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>De eerste %1$@ afleveringen in dit filter worden automatisch gedownload</string>
     <key>auto_download_prompt_first</key>
     <string>Eerste</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Automatisch opnieuw opstarten van slaaptimer</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Indien ingeschakeld, wordt de slaaptimer automatisch opnieuw opgestart als je een aflevering afspeelt binnen vijf minuten van de laatste pauzering.</string>
     <key>back</key>
     <string>Terug</string>
     <key>beta_purchase_disabled</key>
@@ -2339,6 +2343,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Bovenste %1$@</string>
     <key>setup_account</key>
     <string>Account instellen</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Schudden om slaaptimer te opnieuw op te starten</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Indien ingeschakeld, wordt de slaaptimer opnieuw opgestart als je met je telefoon schudt.</string>
     <key>share</key>
     <string>Delen</string>
     <key>share_current_position</key>
