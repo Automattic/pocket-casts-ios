@@ -362,6 +362,8 @@ platform :ios do
   desc 'Completes the final steps for the code freeze'
   desc 'Creates a new release branch from the current trunk'
   lane :complete_code_freeze do |options|
+    require_env_vars!('GITHUB_TOKEN')
+
     # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
     ensure_git_branch(branch: '^release/')
 
@@ -377,8 +379,8 @@ platform :ios do
     after_confirming_push(push_merge_branch: true) do
       trigger_beta_build(branch_to_build: release_branch_name)
 
-      setbranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
-      setfrozentag(repository: GHHELPER_REPO, milestone: release_version_current)
+      copy_branch_protection(repository: GHHELPER_REPO, from_branch: DEFAULT_BRANCH, to_branch: release_branch_name)
+      set_milestone_frozen_marker(repository: GHHELPER_REPO, milestone: release_version_current)
     end
   end
 
@@ -419,6 +421,8 @@ platform :ios do
   lane :finalize_release do |options|
     UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead') if ios_current_branch_is_hotfix
 
+    require_env_vars!('GITHUB_TOKEN')
+
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
 
@@ -440,8 +444,8 @@ platform :ios do
     UI.success "Done! New Build Code: #{build_code_current}"
 
     # Wrap up
-    removebranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
-    setfrozentag(repository: GHHELPER_REPO, milestone: release_version_current, freeze: false)
+    remove_branch_protection(repository: GHHELPER_REPO, branch: release_branch_name)
+    set_milestone_frozen_marker(repository: GHHELPER_REPO, milestone: release_version_current, freeze: false)
     create_new_milestone(repository: GHHELPER_REPO)
     close_milestone(repository: GHHELPER_REPO, milestone: release_version_current)
 
