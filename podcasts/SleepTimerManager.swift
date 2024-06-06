@@ -30,8 +30,7 @@ class SleepTimerManager {
     init(backgroundShakeObserver: BackgroundShakeObserver = BackgroundShakeObserver()) {
         self.backgroundShakeObserver = backgroundShakeObserver
         backgroundShakeObserver.whenShook = { [weak self] in
-            self?.restartSleepTimer()
-            self?.playTone()
+            self?.restartSleepTimerAndPlayTone()
         }
     }
 
@@ -95,6 +94,16 @@ class SleepTimerManager {
         Analytics.shared.track(.playerSleepTimerRestarted, properties: ["time": "end_of_episode", "number_of_episodes": numberOfEpisodes])
         PlaybackManager.shared.numberOfEpisodesToSleepAfter = numberOfEpisodes
         NotificationCenter.default.removeObserver(self, name: Constants.Notifications.episodeDurationChanged, object: nil)
+    }
+
+    private func restartSleepTimerAndPlayTone() {
+        guard PlaybackManager.shared.sleepTimerActive() && Settings.shakeToRestartSleepTimer else {
+            backgroundShakeObserver.stopObserving()
+            return
+        }
+
+        restartSleepTimer()
+        playTone()
     }
 
     func playTone() {
