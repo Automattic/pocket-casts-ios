@@ -51,7 +51,10 @@ struct PCBundleDoc: FileDocument {
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        try fileWrapper()
+    }
 
+    func fileWrapper() throws -> FileWrapper {
         let wrapper = FileWrapper(directoryWithFileWrappers: [:])
 
         let databaseFileWrapper = try FileWrapper(url: FileManager.databaseURL)
