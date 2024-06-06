@@ -255,6 +255,10 @@
     <string>此过滤器中的前 %1$@ 集将自动下载</string>
     <key>auto_download_prompt_first</key>
     <string>首先</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>自动重启睡眠计时器</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>如果打开，则如果您在最后一次暂停后的 5 分钟内播放了剧集，睡眠计时器将自动重启。</string>
     <key>back</key>
     <string>返回</string>
     <key>beta_purchase_disabled</key>
@@ -2339,6 +2343,10 @@
     <string>前 %1$@</string>
     <key>setup_account</key>
     <string>设置账户</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>摇晃重启睡眠计时器</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>如果打开，则当您摇晃手机时，睡眠计时器将重启。</string>
     <key>share</key>
     <string>共享</string>
     <key>share_current_position</key>

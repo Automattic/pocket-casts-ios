@@ -255,6 +255,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>I primi %1$@ episodi in questo filtro verranno scaricati automaticamente</string>
     <key>auto_download_prompt_first</key>
     <string>Primo</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Riavvia automaticamente l'autospegnimento</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Quando è attivato, l'autospegnimento si riavvia automaticamente se riproduci un episodio entro 5 minuti dall'ultima pausa.</string>
     <key>back</key>
     <string>Indietro</string>
     <key>beta_purchase_disabled</key>
@@ -2339,6 +2343,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Primi %1$@</string>
     <key>setup_account</key>
     <string>Configura account</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Scuoti per riavviare l'autospegnimento</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Quando è attivato, l'autospegnimento si riavvia quando scuoti il telefono.</string>
     <key>share</key>
     <string>Condividi</string>
     <key>share_current_position</key>
