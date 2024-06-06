@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import PulseUI
 
 struct DeveloperMenu: View {
     @State var showingImporter = false
@@ -59,6 +60,12 @@ struct DeveloperMenu: View {
                 }, label: {
                     Text("Copy Device ID")
                 })
+            }
+
+            Section {
+                NavigationLink(destination: ConsoleView()) {
+                    Text("Network Debugger")
+                }
             }
 
             Section {

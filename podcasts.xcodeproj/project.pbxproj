@@ -1619,6 +1619,8 @@
 		F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56295282C0FC14900C44E8A /* DBTestCase.swift */; };
 		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
 		F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */; };
+		F577A5AC2C11658C003A6860 /* Pulse in Frameworks */ = {isa = PBXBuildFile; productRef = F577A5AB2C11658C003A6860 /* Pulse */; };
+		F577A5AE2C11658C003A6860 /* PulseUI in Frameworks */ = {isa = PBXBuildFile; productRef = F577A5AD2C11658C003A6860 /* PulseUI */; };
 		F57BAC672C00CD9C007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F57BAC682C00E7E6007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F586959A2C04320100E0754A /* PodcastManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58695992C04320100E0754A /* PodcastManagerTests.swift */; };
@@ -3549,6 +3551,7 @@
 			files = (
 				46C22EE028F73D9A00F4173B /* AuthenticationServices.framework in Frameworks */,
 				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
+				F577A5AC2C11658C003A6860 /* Pulse in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
@@ -3564,6 +3567,7 @@
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
+				F577A5AE2C11658C003A6860 /* PulseUI in Frameworks */,
 				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
 				1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */,
 			);
@@ -7623,6 +7627,8 @@
 				8B365E4F2B62E82000143DAC /* Agrume */,
 				8B1762762B6808F700F44450 /* JLRoutes */,
 				8B1762792B684E7100F44450 /* Kingfisher */,
+				F577A5AB2C11658C003A6860 /* Pulse */,
+				F577A5AD2C11658C003A6860 /* PulseUI */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -7789,6 +7795,7 @@
 				8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */,
 				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				F577A5AA2C11658C003A6860 /* XCRemoteSwiftPackageReference "Pulse" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11878,6 +11885,14 @@
 				minimumVersion = 7.1.0;
 			};
 		};
+		F577A5AA2C11658C003A6860 /* XCRemoteSwiftPackageReference "Pulse" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Pulse.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -12009,6 +12024,16 @@
 		F55449412B758E8300F68AE9 /* PocketCastsUtils */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsUtils;
+		};
+		F577A5AB2C11658C003A6860 /* Pulse */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F577A5AA2C11658C003A6860 /* XCRemoteSwiftPackageReference "Pulse" */;
+			productName = Pulse;
+		};
+		F577A5AD2C11658C003A6860 /* PulseUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F577A5AA2C11658C003A6860 /* XCRemoteSwiftPackageReference "Pulse" */;
+			productName = PulseUI;
 		};
 		FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */ = {
 			isa = XCSwiftPackageProductDependency;

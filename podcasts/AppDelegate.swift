@@ -5,6 +5,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import Pulse
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -30,6 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        if FeatureFlag.networkDebugging.enabled {
+            URLSessionProxyDelegate.enableAutomaticRegistration()
+        }
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
 
