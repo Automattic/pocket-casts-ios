@@ -1059,7 +1059,7 @@ class Settings: NSObject {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.shakeToRestartSleepTimer)
         }
         get {
-            UserDefaults.standard.object(forKey: Constants.UserDefaults.shakeToRestartSleepTimer) as? Bool ?? true
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.shakeToRestartSleepTimer)
         }
     }
 
