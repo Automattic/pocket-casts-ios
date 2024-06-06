@@ -18,15 +18,33 @@ steps:
     env: *common_env
     plugins: *common_plugins
 
-  - label: Prototype Build
-    command: .buildkite/commands/prototype-build.sh
-    agents: *common_agents
-    env: *common_env
-    plugins: *common_plugins
-    notify:
-      - github_commit_status:
-          context: Prototype Build
-    if: "build.pull_request.id != null || build.pull_request.draft"
+  - group: Prototype Build
+    steps:
+      - label: Build
+        key: build_protoype
+        command: .buildkite/commands/prototype-build.sh
+        agents: *common_agents
+        env: *common_env
+        plugins: *common_plugins
+        # The folder and name are configured in Fastlane
+        artifact_paths:
+          - artifacts/*.ipa
+          - artifacts/*.app.dSYM.zip
+        notify:
+          - github_commit_status:
+              context: Prototype Build - Package
+        if: "build.pull_request.id != null || build.pull_request.draft"
+
+      - label: Upload
+        depends_on: build_protoype
+        command: .buildkite/commands/prototype-upload.sh
+        agents: *common_agents
+        env: *common_env
+        plugins: *common_plugins
+        notify:
+          - github_commit_status:
+              context: Prototype Build - Upload
+        if: "build.pull_request.id != null || build.pull_request.draft"
 
   - group: "Linters"
     steps:
