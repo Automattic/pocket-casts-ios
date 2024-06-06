@@ -16,11 +16,12 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(url: "https://github.com/kean/Pulse.git", from: "4.2.3")
     ],
     targets: [
         .target(
             name: "PocketCastsUtils",
-            dependencies: [],
+            dependencies: ["Pulse", .product(name: "PulseUI", package: "Pulse")],
             path: "Sources"
         ),
         .testTarget(
