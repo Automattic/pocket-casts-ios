@@ -10,6 +10,7 @@ default_platform :ios
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
 APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
+ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
 # Unfortunately, ios_current_branch_is_hotfix relies on this ENV var under the hood.
@@ -39,6 +40,8 @@ DEFAULT_BRANCH = 'trunk'
 
 SCHEME = 'pocketcasts'
 SCHEME_ENTERPRISE = 'Pocket Casts Prototype Build'
+
+PROTOTYPE_BUILD_NAME = 'pocket-casts-prototype'
 
 # Instanstiate versioning classes
 VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
@@ -607,9 +610,7 @@ platform :ios do
   desc 'Builds and distributes via Enterprise account (Prototype Build)'
   lane :build_and_upload_entreprise do
     build_enterprise
-    upload_pocket_casts_to_appcenter
-    annotate_pr_with_appcenter_link
-    annotate_buildkite_with_appcenter_link
+    upload_enterprise
   end
 
   desc 'Builds for Enterprise distribution (Prototype Build)'
@@ -635,11 +636,23 @@ platform :ios do
       include_bitcode: false,
       include_symbols: true,
       clean: true,
+      output_directory: ARTIFACTS_FOLDER,
+      output_name: PROTOTYPE_BUILD_NAME,
       export_options: {
         method: 'enterprise',
         manageAppVersionAndBuildNumber: false
       }
     )
+  end
+
+  desc 'Distributes a local app via Enterprise account (Prototype Build)'
+  lane :upload_enterprise do
+    upload_pocket_casts_to_appcenter
+
+    next unless is_ci
+
+    annotate_pr_with_appcenter_link
+    annotate_buildkite_with_appcenter_link
   end
 
   # Sets the stage to start working on a hotfix
@@ -1213,8 +1226,8 @@ def upload_pocket_casts_to_appcenter
     owner_name: APPCENTER_OWNER_NAME,
     owner_type: APPCENTER_OWNER_TYPE,
     app_name: APPCENTER_APP_SLUG,
-    file: lane_context[SharedValues::IPA_OUTPUT_PATH],
-    dsym: lane_context[SharedValues::DSYM_OUTPUT_PATH],
+    file: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
+    dsym: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.app.dSYM.zip"),
     release_notes: release_notes,
     destinations: 'Collaborators',
     notify_testers: false
