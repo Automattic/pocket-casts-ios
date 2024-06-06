@@ -122,8 +122,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         (view as? ThemeableView)?.style = .primaryUi04
         (view as? ThemeableView)?.themeOverride = themeOverride
 
-        updateNavBarButtons()
-
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.playbackTrackChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.playbackEnded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(upNextChanged), name: Constants.Notifications.upNextQueueChanged, object: nil)
@@ -150,6 +148,11 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         contentInseter.setupInsetAdjustmentsForMiniPlayer(scrollView: upNextTable)
 
         refreshSections()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateNavBarButtons()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -262,6 +265,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     func updateNavBarButtons() {
+        navigationController?.navigationBar.tintColor = AppTheme.navBarIconsColor(themeOverride: themeOverride)
         if isMultiSelectEnabled {
             if MultiSelectHelper.shouldSelectAll(onCount: selectedPlayListEpisodes.count, totalCount: PlaybackManager.shared.queue.upNextCount()) {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
