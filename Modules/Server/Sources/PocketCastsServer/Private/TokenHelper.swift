@@ -26,7 +26,7 @@ class TokenHelper {
 
         if SyncManager.isUserLoggedIn() {
             let token: String
-            if let storedToken = KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
+            if let storedToken = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
                 token = storedToken
             } else if let newToken = acquireToken() {
                 token = newToken
@@ -81,7 +81,7 @@ class TokenHelper {
 
         if let token = refreshedToken, !token.isEmpty {
             ServerSettings.syncingV2Token = token
-            ServerSettings.refreshToken = refreshedRefreshToken
+            ServerSettings.setRefreshToken(refreshedRefreshToken)
         }
         else {
             if ServerConfig.avoidLogoutOnError {
@@ -193,6 +193,11 @@ class TokenHelper {
 
     private func tokenCleanUp() {
         var logMessages = [String]()
+
+        defer {
+            FileLog.shared.addMessage("Acquire Token was called, however the user has \(logMessages.joined(separator: ", ")).")
+        }
+
         if ServerSettings.syncingEmail() == nil {
             logMessages.append("no email address")
         }
@@ -201,11 +206,18 @@ class TokenHelper {
             logMessages.append("no password")
         }
 
-        if ServerSettings.refreshToken == nil {
-            logMessages.append("no SSO token")
+        do {
+            if try ServerSettings.refreshToken() == nil {
+                logMessages.append("no SSO token")
+            }
+        } catch let error {
+            if case let KeychainHelper.KeychainError.status(status) = error, status == errSecInteractionNotAllowed {
+                logMessages.append("no SSO token")
+                FileLog.shared.addMessage("Acquire Token was called, however the user has \(logMessages.joined(separator: ", ")).")
+                return
+            }
         }
 
-        FileLog.shared.addMessage("Acquire Token was called, however the user has \(logMessages.joined(separator: ", ")).")
         FileLog.shared.addMessage("Sync account is in a weird state, logging user out")
         SyncManager.signout()
     }

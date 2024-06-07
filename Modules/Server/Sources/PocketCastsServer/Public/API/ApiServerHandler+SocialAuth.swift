@@ -60,7 +60,7 @@ public extension ApiServerHandler {
 
     func refreshIdentityToken() async throws -> AuthenticationResponse {
         guard
-            let identityToken = ServerSettings.refreshToken,
+            let identityToken = try ServerSettings.refreshToken(),
             let request = tokenRequest(identityToken: identityToken, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30.seconds)
         else {
             FileLog.shared.addMessage("Unable to locate Apple SSO token in Keychain")

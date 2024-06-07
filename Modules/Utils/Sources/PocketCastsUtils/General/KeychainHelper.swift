@@ -1,6 +1,11 @@
 import Foundation
 
 public class KeychainHelper {
+
+    public enum KeychainError: Error {
+        case status(OSStatus)
+    }
+
     private let prefix = "au.com.shiftyjelly.podcasts."
 
     private static let shared = KeychainHelper()
@@ -16,23 +21,30 @@ public class KeychainHelper {
         KeychainHelper.shared.save(value: nil, key: key, accessibility: kSecAttrAccessibleAfterFirstUnlock)
     }
 
-    public class func string(for key: String) -> String? {
-        KeychainHelper.shared.string(for: key)
+    public class func string(for key: String) throws -> String? {
+        try KeychainHelper.shared.string(for: key)
     }
 
     private func save(string: String?, key: String, accessibility: CFTypeRef) -> Bool {
         save(value: string, key: key, accessibility: accessibility)
     }
 
-    private func string(for key: String) -> String? {
+    private func string(for key: String) throws -> String? {
         let fullKey = prefix + key
 
         var query = createQuery()
         query[kSecAttrService as String] = fullKey
 
         var queryResult: AnyObject?
-        _ = withUnsafeMutablePointer(to: &queryResult) {
+        let status = withUnsafeMutablePointer(to: &queryResult) {
             SecItemCopyMatching(query as CFDictionary, $0)
+        }
+
+        switch status {
+        case errSecItemNotFound, errSecSuccess:
+            ()
+        default:
+            throw KeychainError.status(status)
         }
 
         guard let data = queryResult as? Data else { return nil }
