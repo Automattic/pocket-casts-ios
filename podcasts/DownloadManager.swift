@@ -128,12 +128,20 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
-    func addLocalFile(url: URL, uuid: String) -> URL? {
+    func addLocalFile(url: URL, uuid: String) throws -> URL? {
         let destinationUrl = URL(fileURLWithPath: pathForUrl(fileUrl: url, uuid: uuid))
         do {
             try StorageManager.moveItem(at: url, to: destinationUrl, options: .overwriteExisting)
-        } catch { return nil }
-
+        } catch let error {
+            let nsError = error as NSError
+            switch (nsError.domain, nsError.code) {
+            case (NSCocoaErrorDomain, 513):
+                // No permissions to move, so we'll copy instead
+                try StorageManager.copyItem(at: url, to: destinationUrl)
+            default:
+                throw error
+            }
+        }
         return destinationUrl
     }
 
@@ -241,6 +249,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         guard FeatureFlag.cachePlayingEpisode.enabled,
               !episode.videoPodcast(),
+              !episode.isUserEpisode,
               let urlAsset = playbackItem.asset as? AVURLAsset,
               !urlAsset.url.isFileURL // only  start download if it's a remote file that we are playing
         else {
@@ -258,7 +267,8 @@ class DownloadManager: NSObject, FilePathProtocol {
             FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
             let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL)
             if exportCompleted {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadedForStreaming, downloadError: nil, downloadTaskId: nil, episode: episode)
+                let fileSize = FileManager.default.fileSize(of: outputURL) ?? 0
+                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadedForStreaming, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
             } else {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)

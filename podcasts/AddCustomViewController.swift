@@ -219,7 +219,8 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 showError(message: L10n.fileUploadSupportError)
                 return
             }
-            if let newFileLocation = DownloadManager.shared.addLocalFile(url: fileUrl, uuid: uuid) {
+            do {
+                let newFileLocation = try DownloadManager.shared.addLocalFile(url: fileUrl, uuid: uuid)
                 destinationUrl = newFileLocation
                 title = L10n.fileUploadAddFile
                 errorView.isHidden = true
@@ -232,7 +233,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 setupFileDetails()
                 imageSaveErrorLabel.isHidden = true
                 setupScrollViewOffset()
-            } else {
+            } catch let error {
                 showError(message: L10n.pleaseTryAgain) // TODO: update error meessage
             }
         }

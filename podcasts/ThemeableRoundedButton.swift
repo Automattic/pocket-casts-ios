@@ -60,10 +60,12 @@ class ThemeableRoundedButton: UIButton {
         if shouldFill {
             backgroundColor = AppTheme.colorForStyle(buttonStyle, themeOverride: themeOverride)
             setTitleColor(AppTheme.colorForStyle(textStyle, themeOverride: themeOverride), for: .normal)
+            tintColor = titleColor(for: .normal)
             layer.borderWidth = 0
         } else {
             backgroundColor = AppTheme.colorForStyle(textStyle, themeOverride: themeOverride)
             setTitleColor(AppTheme.colorForStyle(buttonStyle, themeOverride: themeOverride), for: .normal)
+            tintColor = titleColor(for: .normal)
             layer.borderColor = AppTheme.colorForStyle(buttonStyle, themeOverride: themeOverride).cgColor
             layer.borderWidth = 2
         }

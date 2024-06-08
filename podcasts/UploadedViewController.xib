@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UploadedViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="addFilesButton" destination="Tgt-PK-LtN" id="Gac-WL-JeD"/>
                 <outlet property="howToBtn" destination="7dT-21-aat" id="0b6-ja-Wa5"/>
                 <outlet property="multiSelectActionBar" destination="DfE-NN-7GO" id="mus-W8-HN9"/>
                 <outlet property="multiSelectActionBarBottomConstraint" destination="2yC-TR-YWc" id="40h-VD-UpT"/>
@@ -28,26 +29,26 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r2-ZR-bT3">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dVQ-zt-W2R" userLabel="No Uploads View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="20" width="375" height="627"/>
+                            <rect key="frame" x="0.0" y="20" width="375" height="607"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no-files-light" translatesAutoresizingMaskIntoConstraints="NO" id="Z6m-os-dq5" customClass="ThemeableImageView" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="107.5" y="124.5" width="160" height="160"/>
+                                    <rect key="frame" x="107.5" y="114.5" width="160" height="160"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="160" id="ABf-Hv-HUl"/>
                                         <constraint firstAttribute="width" constant="160" id="vLI-yK-iLA"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37k-UA-Fud" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="149.5" y="300.5" width="76.5" height="26.5"/>
+                                    <rect key="frame" x="149.5" y="290.5" width="76.5" height="26.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OTU-d7-cLG" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="50" y="343" width="275" height="54"/>
+                                    <rect key="frame" x="50" y="333" width="275" height="54"/>
                                     <string key="text">Want to listen to your own files? 
 Share them with Pocket Casts,  and they’ll appear here</string>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -55,13 +56,29 @@ Share them with Pocket Casts,  and they’ll appear here</string>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7dT-21-aat" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="127" y="397" width="121" height="44"/>
+                                    <rect key="frame" x="127" y="387" width="121" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="QLs-gU-d1z"/>
                                     </constraints>
                                     <state key="normal" title="How do I do that?"/>
                                     <connections>
                                         <action selector="howToTapped:" destination="-1" eventType="touchUpInside" id="zGp-HY-6db"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tgt-PK-LtN" customClass="ThemeableRoundedButton" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="140" y="439" width="95" height="38"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="38" id="Wom-iU-0Jm"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                    <inset key="contentEdgeInsets" minX="8" minY="-10" maxX="8" maxY="-10"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
+                                    <state key="normal" title="Add Files" image="plus" catalog="system">
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="addFilesTapped:" destination="-1" eventType="touchUpInside" id="4mv-9L-KWH"/>
+                                        <action selector="howToTapped:" destination="-1" eventType="touchUpInside" id="bMR-nJ-NrV"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -73,6 +90,8 @@ Share them with Pocket Casts,  and they’ll appear here</string>
                                 <constraint firstItem="37k-UA-Fud" firstAttribute="top" secondItem="Z6m-os-dq5" secondAttribute="bottom" constant="16" id="Mde-5b-jkc"/>
                                 <constraint firstItem="7dT-21-aat" firstAttribute="centerX" secondItem="dVQ-zt-W2R" secondAttribute="centerX" id="RUc-2z-zhd"/>
                                 <constraint firstItem="7dT-21-aat" firstAttribute="top" secondItem="OTU-d7-cLG" secondAttribute="bottom" id="Suq-d5-ZJZ"/>
+                                <constraint firstItem="Tgt-PK-LtN" firstAttribute="centerX" secondItem="dVQ-zt-W2R" secondAttribute="centerX" id="UIa-L8-nkx"/>
+                                <constraint firstItem="Tgt-PK-LtN" firstAttribute="top" secondItem="7dT-21-aat" secondAttribute="bottom" constant="8" symbolic="YES" id="XJk-T8-3Sh"/>
                                 <constraint firstItem="OTU-d7-cLG" firstAttribute="leading" secondItem="dVQ-zt-W2R" secondAttribute="leading" constant="50" id="ZgD-E8-6ER"/>
                                 <constraint firstItem="37k-UA-Fud" firstAttribute="centerY" secondItem="dVQ-zt-W2R" secondAttribute="centerY" id="c6C-JM-qRP"/>
                                 <constraint firstAttribute="trailing" secondItem="OTU-d7-cLG" secondAttribute="trailing" constant="50" id="nVG-Ca-akg"/>
@@ -93,7 +112,7 @@ Share them with Pocket Casts,  and they’ll appear here</string>
                     </connections>
                 </scrollView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="80" estimatedRowHeight="80" sectionHeaderHeight="45" estimatedSectionHeaderHeight="45" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="7oG-Qg-Hoi" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="separatorColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -130,6 +149,7 @@ Share them with Pocket Casts,  and they’ll appear here</string>
     </objects>
     <resources>
         <image name="no-files-light" width="160" height="160"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
