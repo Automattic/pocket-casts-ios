@@ -118,21 +118,13 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        let fileManager = FileManager.default
-        var fileSize: Int64 = 0
         let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
-        do {
-            let attrs = try fileManager.attributesOfItem(atPath: location.path)
-            if let computedSize = attrs[.size] as? Int64 {
-                fileSize = computedSize
-            }
-            // basic sanity checks to make sure the file looks big enough and it's content type isn't text
-            if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
-                markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
+        let fileSize = FileManager.default.fileSize(of: location) ?? 0
+        guard isEpisodeFileValid(contentType: contentType, fileSize: fileSize) else {
+            markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
+            return
+        }
 
-                return
-            }
-        } catch {}
         let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
         let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
         let destinationUrl = URL(fileURLWithPath: destinationPath)
@@ -211,6 +203,15 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 return "unknown"
             }
         }
+    }
+
+    func isEpisodeFileValid(contentType: String?, fileSize: Int64) -> Bool {
+        // basic sanity checks to make sure the file looks big enough and it's content type isn't text
+        if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
+            return false
+        }
+
+        return true
     }
 
     private func markEpisode(_ episode: BaseEpisode, asFailedWithMessage message: String, reason: FailureReason) {
