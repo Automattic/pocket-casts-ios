@@ -5,11 +5,6 @@ import UIKit
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private var changeAvatarURL: URL? {
-        // TODO: Update when the URL is determined
-        URL(string: "https://gravatar.com/embed/?email=\(headerViewModel.profile.email ?? "")&features=avatars")
-    }
-
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard section == 0 else {
             return UITableView.automaticDimension
@@ -188,8 +183,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             let supporterVC = SupporterContributionsViewController()
             navigationController?.pushViewController(supporterVC, animated: true)
         case .changeAvatar:
-            guard let changeAvatarURL else { return }
-            let safariViewController = SFSafariViewController(url: changeAvatarURL)
+            guard let email = headerViewModel.profile.email,
+                  let safariViewController = GravatarSafariViewController(destination: .avatarUpdate(email: email)) else { return }
             safariViewController.modalPresentationStyle = .automatic
             present(safariViewController, animated: true)
             Analytics.track(.accountDetailsChangeAvatar)
