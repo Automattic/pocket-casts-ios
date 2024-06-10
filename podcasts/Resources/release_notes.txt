@@ -1,2 +1,3 @@
-- Show the Up Next bar on the tab bar. [#1613]
+- Re-add Use contentType to set extension for downloaded files. [#1743]
+- Improve responsiveness when playing a podcast [#1801]
 

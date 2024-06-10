@@ -1,3 +1,7 @@
+7.67
+-----
+
+
 7.66
 -----
 - Re-add Use contentType to set extension for downloaded files. [#1743]
