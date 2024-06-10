@@ -90,7 +90,8 @@ class TokenHelper {
                 case APIError.TOKEN_DEAUTH?, APIError.PERMISSION_DENIED?:
                     tokenCleanUp()
                 default:
-                    () // Do nothing so the user is not disrupted in the case of non-auth errors
+                    // Do nothing so the user is not disrupted in the case of non-auth errors
+                    FileLog.shared.addMessage("TokenHelper: Unable to acquire token but avoided logout due to error: \(String(describing: error))")
                 }
             } else {
                 tokenCleanUp()

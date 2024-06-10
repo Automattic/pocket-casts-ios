@@ -44,6 +44,7 @@ public class KeychainHelper {
         case errSecItemNotFound, errSecSuccess:
             ()
         default:
+            FileLog.shared.addMessage("KeychainHelper: Failed to fetch \(key) osstatus: \(status)")
             throw KeychainError.status(status)
         }
 
