@@ -192,6 +192,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             let safariViewController = SFSafariViewController(url: changeAvatarURL)
             safariViewController.modalPresentationStyle = .automatic
             present(safariViewController, animated: true)
+            Analytics.track(.accountDetailsChangeAvatar)
         case .changeEmail:
             let changeEmailVC = ChangeEmailViewController()
             changeEmailVC.delegate = self
