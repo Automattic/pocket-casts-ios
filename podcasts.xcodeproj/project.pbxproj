@@ -7796,6 +7796,7 @@
 				8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */,
 				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				91319B4A2C1899D1000220A4 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11846,6 +11847,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.6.12;
+			};
+		};
+		91319B4A2C1899D1000220A4 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Automattic/Gravatar-SDK-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
