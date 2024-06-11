@@ -1255,7 +1255,7 @@ def annotate_buildkite_with_appcenter_link
   metadata = version_data.merge(build_type: 'Prototype', 'appcenter:id': appcenter_id)
   appcenter_install_url = "https://install.appcenter.ms/orgs/#{APPCENTER_OWNER_NAME}/apps/#{APPCENTER_APP_SLUG}/releases/#{appcenter_id}"
   list = metadata.map { |k, v| " - **#{k}**: #{v}" }.join("\n")
-  buildkite_annotate(context: 'appcenter-info-pocket-casts', style: 'info', message: "Pocket Casts iOS [AppCenter Build](#{appcenter_install_url}) Info:\n\n#{list}")
+  buildkite_annotate(context: 'appcenter-info-pocket-casts', style: 'info', message: "Pocket Casts iOS [App Center Build](#{appcenter_install_url}) Info:\n\n#{list}")
 end
 
 # Generates a build number for Prototype Builds, based on the PR number and short commit SHA1
