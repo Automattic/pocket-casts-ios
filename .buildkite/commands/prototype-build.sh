@@ -16,4 +16,4 @@ echo "--- :swift: Setting up Swift Packages"
 install_swiftpm_dependencies
 
 echo "--- :hammer_and_wrench: Building"
-bundle exec fastlane build_and_upload_entreprise
+bundle exec fastlane build_enterprise
