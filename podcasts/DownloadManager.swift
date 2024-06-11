@@ -190,7 +190,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         // download requested for something we already have buferred, just move it
         if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
-            moveBufferedToCache(episode: episode)
+            moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
         }
 
         let previousDownloadFailed = episode.episodeStatus == DownloadStatus.downloadFailed.rawValue
@@ -231,7 +231,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
-    func moveBufferedToCache(episode: BaseEpisode) {
+    func moveBufferedEpisodeCacheToEpisodeFile(episode: BaseEpisode) {
         let sourceUrl = URL(fileURLWithPath: streamingBufferPathForEpisode(episode))
         let destinationUrl = URL(fileURLWithPath: pathForEpisode(episode))
         do {
@@ -283,7 +283,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
-                    moveBufferedToCache(episode: episode)
+                    moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
                 } else {
                     let fileSize = FileManager.default.fileSize(of: outputURL) ?? 0
                     DataManager.sharedManager.saveEpisode(downloadStatus: DownloadStatus.downloadedForStreaming, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
