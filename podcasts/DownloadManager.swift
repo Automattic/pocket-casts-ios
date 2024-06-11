@@ -261,7 +261,13 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
         #if !os(watchOS)
         Task {
-            episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            if episode.downloading() || episode.queued() {
+                let previousStatus = episode.autoDownloadStatus
+                self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
+                episode.autoDownloadStatus = previousStatus
+            } else {
+                episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            }
             episode.contentType = UTType.mpeg4Audio.preferredMIMEType
             let downloadTaskUUID = episode.uuid
             downloadingEpisodesCache[downloadTaskUUID] = episode
@@ -273,7 +279,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
             FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
             let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL) { progress in
-                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64(Float(progress * 100)), totalBytesExpectedToWrite: 100)
+                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64((Double(progress) * Double(episode.sizeInBytes))), totalBytesExpectedToWrite: episode.sizeInBytes)
             }
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
