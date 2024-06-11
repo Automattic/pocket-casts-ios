@@ -9,9 +9,11 @@ struct AccountHeaderView: View {
     var body: some View {
         container { proxy in
             VStack(spacing: Constants.padding.vertical) {
-                SubscriptionProfileImage(viewModel: viewModel)
-                    .frame(width: Constants.imageSize, height: Constants.imageSize)
-                ProfileInfoLabels(profile: viewModel.profile, alignment: .center, spacing: Constants.spacing)
+                if !viewModel.shouldDisplayGravatarProfile {
+                    SubscriptionProfileImage(viewModel: viewModel)
+                        .frame(width: Constants.imageSize, height: Constants.imageSize)
+                    ProfileInfoLabels(profile: viewModel.profile, alignment: .center, spacing: Constants.spacing)
+                }
                 // Subscription badge
                 viewModel.subscription.map {
                     SubscriptionBadge(tier: $0.tier)

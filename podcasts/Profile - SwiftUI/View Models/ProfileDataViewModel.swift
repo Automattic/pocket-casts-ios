@@ -2,6 +2,7 @@ import Foundation
 import Combine
 import PocketCastsServer
 import PocketCastsDataModel
+import PocketCastsUtils
 
 /// Represents a view that will display information about the users profile such as email, subscription status, and stats
 class ProfileDataViewModel: ObservableObject {
@@ -18,6 +19,9 @@ class ProfileDataViewModel: ObservableObject {
 
     /// Listening Stats
     var stats: UserInfo.Stats = .init()
+
+    /// If true we let the Gravatar SDK to display the profile view.
+    var shouldDisplayGravatarProfile: Bool = false
 
     private var notifications = Set<AnyCancellable>()
 
@@ -37,7 +41,7 @@ class ProfileDataViewModel: ObservableObject {
         profile = .init()
         subscription = .init(loggedIn: profile.isLoggedIn)
         stats = .init()
-
+        shouldDisplayGravatarProfile = FeatureFlag.displayGravatarProfile.enabled && profile.isLoggedIn
         objectWillChange.send()
     }
 
