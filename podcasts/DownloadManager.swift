@@ -274,18 +274,17 @@ class DownloadManager: NSObject, FilePathProtocol {
             FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
             let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL)
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
-                var downloadStatus = DownloadStatus.downloadedForStreaming
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
                     moveBufferedToCache(episode: episode)
                 } else {
                     let fileSize = FileManager.default.fileSize(of: outputURL) ?? 0
-                    DataManager.sharedManager.saveEpisode(downloadStatus: downloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
+                    DataManager.sharedManager.saveEpisode(downloadStatus: DownloadStatus.downloadedForStreaming, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
                 }
             } else {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
             }
-            downloadingEpisodesCache.removeValue(forKey: episode.uuid)
+            downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
         }
         #endif
         return playbackItem
