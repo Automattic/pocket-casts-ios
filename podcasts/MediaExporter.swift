@@ -5,7 +5,15 @@ import PocketCastsUtils
 struct MediaExporter {
 
     #if !os(watchOS)
-    static func exportMediaItem(_ item: AVPlayerItem, to outputURL: URL) async -> Bool {
+    static func reportProgress(session: AVAssetExportSession, progressCallback: ((Float) -> ())? = nil) async {
+        let statusInProgress: Set<AVAssetExportSession.Status> = [.unknown, .exporting, .waiting]
+        while session.progress != 1, statusInProgress.contains(session.status) {
+            progressCallback?(session.progress)
+            try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        }
+    }
+
+    static func exportMediaItem(_ item: AVPlayerItem, to outputURL: URL, progressCallback: ((Float) -> ())? = nil) async -> Bool {
         let composition = AVMutableComposition()
 
         guard let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid)),
@@ -25,7 +33,6 @@ struct MediaExporter {
             FileLog.shared.addMessage("DownloadManager export session: failed to create export session")
             return false
         }
-
         exporter.outputURL = outputURL
         exporter.outputFileType = AVFileType.m4a
 
@@ -37,14 +44,20 @@ struct MediaExporter {
                 return false
             }
         }
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                await exporter.export()
+            }
+            group.addTask {
+                await reportProgress(session: exporter, progressCallback: progressCallback)
+            }
+        }
 
-        await exporter.export()
 
         if let error = exporter.error {
             FileLog.shared.addMessage("DownloadManager export session: finished with error -> \(error)")
             return false
         }
-
         FileLog.shared.addMessage("DownloadManager export session: Finished exporting successfully")
         return true
     }

@@ -54,6 +54,24 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
     }
 
+    func reportProgress(episodeUUID: String, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        guard let downloadingEpisode = downloadingEpisodesCache[episodeUUID] else {
+            return
+        }
+
+        let downloadingToStream = downloadingEpisode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+        guard !downloadingToStream else {
+            return
+        }
+
+        progressManager.updateProgressForEpisode(downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
+
+        // If our download status or downloadTaskId are incorrect, then we should update these
+        if !downloadingEpisode.downloading() || downloadingEpisode.downloadTaskId == nil {
+            dataManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
+            progressManager.updateStatusForEpisode(downloadingEpisode.uuid, status: .downloading)
+        }
+    }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard let error = error as NSError?, let task = task as? URLSessionDownloadTask else {

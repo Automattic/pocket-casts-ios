@@ -272,7 +272,9 @@ class DownloadManager: NSObject, FilePathProtocol {
 
             let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
             FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
-            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL)
+            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL) { progress in
+                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64(Float(progress * 100)), totalBytesExpectedToWrite: 100)
+            }
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
                     moveBufferedToCache(episode: episode)
