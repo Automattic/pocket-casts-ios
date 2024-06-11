@@ -261,6 +261,11 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
         #if !os(watchOS)
         Task {
+            if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue,
+               let _ = downloadingEpisodesCache[episode.uuid] {
+                // We are already downloading this episode for streaming
+                return
+            }
             if episode.downloading() || episode.queued() {
                 let previousStatus = episode.autoDownloadStatus
                 self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
