@@ -5,17 +5,30 @@ import Kingfisher
 struct ProfileImage: View {
     @EnvironmentObject var theme: Theme
     let email: String?
+    private let avatarRefreshPublisher = NotificationCenter.default.publisher(for: Constants.Notifications.avatarNeedsRefreshing)
+    @State private var forceRefresh: Bool = false
+    @State private var reloadId = UUID()
 
     var body: some View {
-        if let url {
-            KFImage
-                .url(url, cacheKey: email)
-                .placeholder { _ in defaultProfileView }
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        } else {
-            defaultProfileView
-        }
+        ZStack {
+            if let url {
+                KFImage
+                    .url(url, cacheKey: email)
+                    .placeholder { _ in defaultProfileView }
+                    .resizable()
+                    .forceRefresh(forceRefresh)
+                    .onSuccess { result in
+                        forceRefresh = false
+                    }
+                    .aspectRatio(contentMode: .fill)
+            } else {
+                defaultProfileView
+            }
+        }.onReceive(avatarRefreshPublisher, perform: { _ in
+            forceRefresh = true
+            reloadId = UUID() // updating forceRefresh alone doesn't work for reloading the KFImage
+        })
+        .id(reloadId)
     }
 
     private var url: URL? {
