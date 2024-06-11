@@ -608,7 +608,7 @@ platform :ios do
   end
 
   desc 'Builds and distributes via Enterprise account (Prototype Build)'
-  lane :build_and_upload_entreprise do
+  lane :build_and_upload_enterprise do
     build_enterprise
     upload_enterprise
   end
