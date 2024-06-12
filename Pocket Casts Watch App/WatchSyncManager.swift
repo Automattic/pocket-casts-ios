@@ -109,7 +109,7 @@ class WatchSyncManager {
 
                 ServerSettings.setSyncingEmail(email: username)
                 ServerSettings.saveSyncingPassword(password)
-                ServerSettings.refreshToken = refreshToken
+                ServerSettings.setRefreshToken(refreshToken)
 
                 if !username.isEmpty {
                     self.login()
@@ -175,7 +175,7 @@ class WatchSyncManager {
 
             ServerSettings.setSyncingEmail(email: username)
             ServerSettings.saveSyncingPassword(password)
-            ServerSettings.refreshToken = refreshToken
+            ServerSettings.setRefreshToken(refreshToken)
 
             if SyncManager.isUserLoggedIn(), username.isEmpty {
                 FileLog.shared.addMessage("Logging out as phone has logged out ")

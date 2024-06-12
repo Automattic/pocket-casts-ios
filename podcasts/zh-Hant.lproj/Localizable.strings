@@ -1895,6 +1895,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>移除「接下來播放」</string>
     <key>renew_subscription</key>
     <string>續訂</string>
+    <key>restore</key>
+    <string>還原</string>
     <key>retry</key>
     <string>重試</string>
     <key>save_bookmark</key>
