@@ -1895,6 +1895,8 @@
     <string>删除“接下来播放”</string>
     <key>renew_subscription</key>
     <string>续订您的订阅</string>
+    <key>restore</key>
+    <string>恢复</string>
     <key>retry</key>
     <string>重试</string>
     <key>save_bookmark</key>

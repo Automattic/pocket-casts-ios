@@ -1895,6 +1895,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Remover de Próximos</string>
     <key>renew_subscription</key>
     <string>Renove sua assinatura</string>
+    <key>restore</key>
+    <string>Restaurar</string>
     <key>retry</key>
     <string>Tentar novamente</string>
     <key>save_bookmark</key>

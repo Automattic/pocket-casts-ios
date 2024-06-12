@@ -341,7 +341,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         if let password = ServerSettings.syncingPassword() {
             response[WatchConstants.Messages.LoginDetailsResponse.password] = password
         }
-        else if let refreshToken = ServerSettings.refreshToken {
+        else if let refreshToken = try? ServerSettings.refreshToken() {
             response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] = refreshToken
         }
 
