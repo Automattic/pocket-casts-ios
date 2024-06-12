@@ -116,7 +116,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .upNextOnTabBar:
             true
         case .displayGravatarProfile:
-            false
+            true
         case .downloadFixes:
             true
         case .onlyMarkPodcastsUnsyncedForNewUsers:
