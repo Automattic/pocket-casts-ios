@@ -66,6 +66,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// but can lead to a bigger time between tapping play and actually playing it
     case whenPlayingOnlyUpdateEpisodeIfPlaybackFails
 
+    /// Use the Accelerate framework to speed up custom effects
+    case accelerateEffects
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -117,6 +120,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .onlyMarkPodcastsUnsyncedForNewUsers:
             true
         case .whenPlayingOnlyUpdateEpisodeIfPlaybackFails:
+            true
+        case .accelerateEffects:
             true
         }
     }
