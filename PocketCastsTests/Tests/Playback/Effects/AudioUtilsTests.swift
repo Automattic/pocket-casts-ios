@@ -35,7 +35,7 @@ final class AudioUtilsTests: XCTestCase {
         let samples: [Float32] = [-8, -4, -0, 2, 4, 8]
 
         var audioBuffer = AudioBuffer()
-        audioBuffer.mNumberChannels = 1 // Mono audio
+        audioBuffer.mNumberChannels = 2 // Stereo
         audioBuffer.mDataByteSize = UInt32(samples.count * MemoryLayout<Float32>.size)
         audioBuffer.mData = UnsafeMutableRawPointer.allocate(byteCount: Int(audioBuffer.mDataByteSize), alignment: MemoryLayout<Float32>.alignment)
 
