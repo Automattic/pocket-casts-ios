@@ -346,7 +346,7 @@ extension Palette {
             foreground: ForegroundColors(primary: ThemeColor.primaryText01(),
                                          primarySlightlyDimmed: ThemeColor.secondaryText01(),
                                          secondary: ThemeColor.primaryText02()),
-            background: BackgroundColors(primary: ThemeColor.primaryUi02()),
+            background: BackgroundColors(primary: ThemeColor.primaryUi01()),
             avatar: AvatarColors(border: ThemeColor.primaryUi05(),
                                  background: ThemeColor.primaryUi04()),
             border: ThemeColor.primaryUi05(),
