@@ -1895,6 +1895,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Eliminar de A continuación</string>
     <key>renew_subscription</key>
     <string>Renovar la suscripción</string>
+    <key>restore</key>
+    <string>Restaurar</string>
     <key>retry</key>
     <string>Reintentar</string>
     <key>save_bookmark</key>

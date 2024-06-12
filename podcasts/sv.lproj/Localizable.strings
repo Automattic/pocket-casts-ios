@@ -1895,6 +1895,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Ta bort Nästa</string>
     <key>renew_subscription</key>
     <string>Förnya din prenumeration</string>
+    <key>restore</key>
+    <string>Återställ</string>
     <key>retry</key>
     <string>Försök igen</string>
     <key>save_bookmark</key>
