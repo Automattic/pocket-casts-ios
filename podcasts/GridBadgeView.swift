@@ -60,7 +60,7 @@ class GridBadgeView: UIView {
         badgeLabel.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         badgeLabel.translatesAutoresizingMaskIntoConstraints = false
         badgeLabel.textAlignment = .center
-        badgeLabel.layer.borderWidth = 2
+        badgeLabel.layer.borderWidth = 3
         badgeLabel.layer.cornerRadius = 12
         addSubview(badgeLabel)
         labelWidthConstraint = badgeLabel.widthAnchor.constraint(equalToConstant: 25)
