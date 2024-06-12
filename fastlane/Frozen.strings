@@ -4083,6 +4083,21 @@
 /* Message displayed when doing heavy database operations */
 "database_migration" = "We're moving a few bits and bytes so the app runs faster...";
 
+/* The act to restore something */
+"restore" = "Restore";
+
+/* Question to the user, if they want to restore their Up Next */
+"restore_up_next" = "Restore Up Next?";
+
+/* Details about how user's Up Next will be restored */
+"restore_up_next_message" = "These episodes will be added to the bottom of your current Up Next";
+
+/* Title of a screen that display Up Next history */
+"up_next_history" = "Up Next History";
+
+/* A message explaining how to use the Up Next history */
+"up_next_history_explanation" = "A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.";
+
 /* Name of the option to restart sleep timer */
 "auto_restart_sleep_timer" = "Auto Restart Sleep Timer";
 
@@ -4094,6 +4109,24 @@
 
 /* Description of the option to shake to restart sleep timer */
 "shake_to_restart_sleep_timer_description" = "If on, the sleep timer will restart when you shake your phone.";
+
+/* Title of a screen that display Folders history */
+"folders_history" = "Folders History";
+
+/* A message explaining how to use the Folders history */
+"folders_history_explanation" = "A list of podcasts that were removed from folders as a result of a sync.";
+
+/* Title confirming to the user if they want to restore podcasts to original folders */
+"restore_folders" = "Restore podcasts to folders?";
+
+/* Details about what will happen if they restore folders */
+"restore_folders_message" = "These podcasts will be permanently added back to the folders listed here";
+
+/* Entry informing which podcasts was removed from which folder, %1$@ is the podcast's title, %2$@ folder's name */
+"podcast_removed_from_folder" = "%1$@ removed from %2$@";
+
+/* Message confirming podcasts were restored to the folders */
+"restore_folders_success" = "Podcasts restored to their original folders";
 
 /* MARK: - InfoPlist.strings */
 

@@ -263,6 +263,10 @@
     <string>Es descarregaran automàticament els %1$@ primers episodis d'aquest filtre</string>
     <key>auto_download_prompt_first</key>
     <string>Primer</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Reinicia automàticament el temporitzador de son</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Si està activat, el temporitzador de son es reiniciarà automàticament si reprodueixes un episodi als  5 minuts següents a l'última pausa.</string>
     <key>back</key>
     <string>Enrere</string>
     <key>beta_purchase_disabled</key>
@@ -2342,6 +2346,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Els  %1$@ millors</string>
     <key>setup_account</key>
     <string>Configurar el compte</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Remena-ho per a reiniciar el temporitzador de son.</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Si està activat, el temporitzador de son es reiniciarà quan moguis el telèfon.</string>
     <key>share</key>
     <string>Compartir</string>
     <key>share_current_position</key>

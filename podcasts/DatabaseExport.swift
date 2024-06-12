@@ -74,31 +74,15 @@ class DatabaseExport {
             let networkLogsFile = exportDirectory.appendingPathComponent("network.pulse", isDirectory: false)
             try await LoggerStore.shared.export(to: networkLogsFile)
 
-            // Write the preferences to the export folder
-            let preferencesFile = exportDirectory.appendingPathComponent("preferences.plist", isDirectory: false)
-            try writePreferences(to: preferencesFile)
-
-            // Copy the database file into the export folder
-            let databaseFile = exportDirectory.appendingPathComponent("database.sqlite", isDirectory: false)
-            try fileManager.copyItem(at: databaseURL, to: databaseFile)
+            // Write the bundle document
+            let exportFile = exportDirectory.appendingPathComponent("export", conformingTo: .pcasts)
+            let wrapper = try PCBundleDoc().fileWrapper()
+            try wrapper.write(to: exportFile, originalContentsURL: nil)
 
             return exportDirectory
         } catch {
             FileLog.shared.addMessage("[Export] Prepare failed with error: \(error)")
             return nil
         }
-    }
-
-    /// Save the preferences to the url
-    private func writePreferences(to url: URL) throws {
-        guard
-            let library = fileManager.urls(for: .libraryDirectory, in: .userDomainMask).first,
-            let bundle = Bundle.main.bundleIdentifier
-        else {
-            return
-        }
-
-        let preferencesFile = library.appendingPathComponent("Preferences/\(bundle).plist")
-        try fileManager.copyItem(at: preferencesFile, to: url)
     }
 }

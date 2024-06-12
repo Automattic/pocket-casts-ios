@@ -149,13 +149,17 @@ class ChapterManager {
             // into account dynamic ads
             if !fileChapters.isEmpty {
                 chapters = fileChapters
+                FileLog.shared.addMessage("ChapterManager: using file chapters")
             } else if let externalChapters = parseExternalChapters(podlove: podloveChapters, podcastIndex: podcastIndexChapters, duration: duration) {
                 chapters = externalChapters
+                FileLog.shared.addMessage("ChapterManager: using external chapters")
             } else {
                 chapters = []
+                FileLog.shared.addMessage("ChapterManager: failed. Displaying no chapters.")
             }
         } catch {
             chapters = await fileChaptersAsync
+            FileLog.shared.addMessage("ChapterManager: using file chapters because there was an error retrieving external sources")
         }
 
         if lastEpisodeUuid == episode.uuid {

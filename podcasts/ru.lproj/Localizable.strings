@@ -255,6 +255,10 @@
     <string>Первые выпуски (%1$@) в этом фильтре будут скачаны автоматически</string>
     <key>auto_download_prompt_first</key>
     <string>Первый</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Автоматический перезапуск таймера сна</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>В режиме «Включено» таймер сна будет автоматически перезапущен, если вы воспроизведёте выпуск в течение 5 минут после последней остановки.</string>
     <key>back</key>
     <string>Назад</string>
     <key>beta_purchase_disabled</key>
@@ -1891,6 +1895,8 @@
     <string>Удалить следующие</string>
     <key>renew_subscription</key>
     <string>Продлить подписку</string>
+    <key>restore</key>
+    <string>Восстановить</string>
     <key>retry</key>
     <string>Повторить попытку</string>
     <key>save_bookmark</key>
@@ -2339,6 +2345,10 @@
     <string>Первые %1$@</string>
     <key>setup_account</key>
     <string>Создать учетную запись</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Встряхнуть телефон, чтобы перезапустить таймер сна</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>В режиме «Включено» таймер сна будет перезапущен, если телефон станет двигаться.</string>
     <key>share</key>
     <string>Поделиться</string>
     <key>share_current_position</key>

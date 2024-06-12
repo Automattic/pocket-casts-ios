@@ -238,7 +238,7 @@ public class ServerSettings {
     }
 
     public class func syncingEmail() -> String? {
-        KeychainHelper.string(for: ServerConstants.Values.syncingEmailKey)
+        try? KeychainHelper.string(for: ServerConstants.Values.syncingEmailKey)
     }
 
     public class func setSyncingEmail(email: String?) {
@@ -263,7 +263,7 @@ public class ServerSettings {
     }
 
     public class func syncingPassword() -> String? {
-        KeychainHelper.string(for: ServerConstants.Values.syncingPasswordKey)
+        try? KeychainHelper.string(for: ServerConstants.Values.syncingPasswordKey)
     }
 
     public class func lastRefreshStartTime() -> Date? {
@@ -353,7 +353,7 @@ public extension ServerSettings {
 
     class var syncingV2Token: String? {
         get {
-            KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey)
+            try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey)
         }
 
         set {
@@ -361,13 +361,11 @@ public extension ServerSettings {
         }
     }
 
-    class var refreshToken: String? {
-        get {
-            KeychainHelper.string(for: ServerConstants.Values.refreshTokenKey)
-        }
+    class func refreshToken() throws -> String? {
+        try KeychainHelper.string(for: ServerConstants.Values.refreshTokenKey)
+    }
 
-        set {
-            KeychainHelper.save(string: newValue, key: ServerConstants.Values.refreshTokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
-        }
+    class func setRefreshToken(_ newValue: String?) {
+        KeychainHelper.save(string: newValue, key: ServerConstants.Values.refreshTokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
     }
 }

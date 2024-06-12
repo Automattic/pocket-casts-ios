@@ -255,6 +255,10 @@
     <string>このフィルターの最初の%1$@件のエピソードが自動的にダウンロードされます</string>
     <key>auto_download_prompt_first</key>
     <string>最初</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>スリープタイマーを自動再開</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>オンにすると、最後の一時停止から5分以内にエピソードを再生した際にスリープタイマーが自動的に再開されます。</string>
     <key>back</key>
     <string>戻る</string>
     <key>beta_purchase_disabled</key>
@@ -1891,6 +1895,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソードを削除</string>
     <key>renew_subscription</key>
     <string>サブスクリプションを更新</string>
+    <key>restore</key>
+    <string>復元</string>
     <key>retry</key>
     <string>再試行</string>
     <key>save_bookmark</key>
@@ -2339,6 +2345,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>上位%1$@件</string>
     <key>setup_account</key>
     <string>アカウントを設定</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>シェイクしてスリープタイマーを再開</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>オンにすると、スマートフォンをシェイクした際にスリープタイマーが再開されます。</string>
     <key>share</key>
     <string>共有</string>
     <key>share_current_position</key>

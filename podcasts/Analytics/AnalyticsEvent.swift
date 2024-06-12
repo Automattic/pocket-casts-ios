@@ -189,6 +189,7 @@ enum AnalyticsEvent: String {
     case uploadedFilesShown
     case uploadedFilesOptionsButtonTapped
     case uploadedFilesOptionsModalOptionTapped
+    case uploadedFilesAddButtonTapped
 
     case uploadedFilesMultiSelectEntered
     case uploadedFilesSelectAllButtonTapped

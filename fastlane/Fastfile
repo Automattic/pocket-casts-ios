@@ -10,6 +10,7 @@ default_platform :ios
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 FASTLANE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane')
 APP_STORE_METADATA_FOLDER = File.join(FASTLANE_FOLDER, 'metadata')
+ARTIFACTS_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'artifacts')
 SECRETS_FOLDER = File.join(Dir.home, '.configure', 'pocketcasts-ios', 'secrets')
 VERSION_XCCONFIG_PATH = File.join(PROJECT_ROOT_FOLDER, 'config', 'Version.xcconfig')
 # Unfortunately, ios_current_branch_is_hotfix relies on this ENV var under the hood.
@@ -34,14 +35,18 @@ CODE_SIGNING_STORAGE_OPTIONS = {
 }.freeze
 
 GHHELPER_REPO = 'Automattic/pocket-casts-ios'
+GITHUB_URL = "https://github.com/#{GHHELPER_REPO}".freeze
 DEFAULT_BRANCH = 'trunk'
 
 SCHEME = 'pocketcasts'
 SCHEME_ENTERPRISE = 'Pocket Casts Prototype Build'
 
+PROTOTYPE_BUILD_NAME = 'pocket-casts-prototype'
+
 # Instanstiate versioning classes
 VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
 VERSION_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartVersionFormatter.new
+BUILD_CODE_KEY = 'VERSION_LONG'
 BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::FourPartBuildCodeFormatter.new
 VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::IOSVersionFile.new(xcconfig_path: VERSION_XCCONFIG_PATH)
 
@@ -74,6 +79,10 @@ ASC_API_KEY_ENV_VARS = %w[
   APP_STORE_CONNECT_API_KEY_ISSUER_ID
   APP_STORE_CONNECT_API_KEY_KEY
 ].freeze
+
+APPCENTER_OWNER_NAME = 'automattic'
+APPCENTER_OWNER_TYPE = 'organization'
+APPCENTER_APP_SLUG = 'Pocket-Casts-Prototype-Builds'
 
 FROZEN_STRINGS_PATH = File.join(FASTLANE_FOLDER, 'Frozen.strings')
 
@@ -273,14 +282,13 @@ platform :ios do
   def slack_message(version:, build_number:, is_beta:)
     build_number_split = build_number.split('.')
 
-    github_url = "https://github.com/#{GHHELPER_REPO}"
     message_root = lambda { |tag, display_name|
-      ":announcement: <#{github_url}/releases/tag/#{tag}|*#{display_name}*>"
+      ":announcement: <#{GITHUB_URL}/releases/tag/#{tag}|*#{display_name}*>"
     }
     appstoreconnect_url = 'https://appstoreconnect.apple.com/apps/414834813'
     testflight_submit_link = "<#{appstoreconnect_url}/testflight/ios|App Store Connect>"
     appstore_submit_link = "<#{appstoreconnect_url}/appstore/ios/version/deliverable|App Store Connect>"
-    merge_pr_link = "<https://github.com/Automattic/pocket-casts-ios/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
+    merge_pr_link = "<#{GITHUB_URL}/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
 
     if is_beta
       if (build_number_split[3] || '0') == '0'
@@ -357,6 +365,8 @@ platform :ios do
   desc 'Completes the final steps for the code freeze'
   desc 'Creates a new release branch from the current trunk'
   lane :complete_code_freeze do |options|
+    require_env_vars!('GITHUB_TOKEN')
+
     # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
     ensure_git_branch(branch: '^release/')
 
@@ -372,8 +382,8 @@ platform :ios do
     after_confirming_push(push_merge_branch: true) do
       trigger_beta_build(branch_to_build: release_branch_name)
 
-      setbranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
-      setfrozentag(repository: GHHELPER_REPO, milestone: release_version_current)
+      copy_branch_protection(repository: GHHELPER_REPO, from_branch: DEFAULT_BRANCH, to_branch: release_branch_name)
+      set_milestone_frozen_marker(repository: GHHELPER_REPO, milestone: release_version_current)
     end
   end
 
@@ -414,6 +424,8 @@ platform :ios do
   lane :finalize_release do |options|
     UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead') if ios_current_branch_is_hotfix
 
+    require_env_vars!('GITHUB_TOKEN')
+
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
 
@@ -435,8 +447,8 @@ platform :ios do
     UI.success "Done! New Build Code: #{build_code_current}"
 
     # Wrap up
-    removebranchprotection(repository: GHHELPER_REPO, branch: release_branch_name)
-    setfrozentag(repository: GHHELPER_REPO, milestone: release_version_current, freeze: false)
+    remove_branch_protection(repository: GHHELPER_REPO, branch: release_branch_name)
+    set_milestone_frozen_marker(repository: GHHELPER_REPO, milestone: release_version_current, freeze: false)
     create_new_milestone(repository: GHHELPER_REPO)
     close_milestone(repository: GHHELPER_REPO, milestone: release_version_current)
 
@@ -599,20 +611,52 @@ platform :ios do
     trigger_beta_build(branch_to_build: release_branch_name)
   end
 
+  desc 'Builds and distributes via Enterprise account (Prototype Build)'
+  lane :build_and_upload_enterprise do
+    build_enterprise
+    upload_enterprise
+  end
+
   desc 'Builds for Enterprise distribution (Prototype Build)'
-  lane :build_enterprise do
-    configure_code_signing_enterprise
+  lane :build_enterprise do |options|
+    if options[:skip_code_sign_setup]
+      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
+    else
+      configure_code_signing_enterprise
+    end
+
+    version_settings = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
+    build_number = generate_prototype_build_number
+
+    UI.message("Updating build number to #{build_number}.")
+
+    version_settings[BUILD_CODE_KEY] = build_number
+
+    new_config = Xcodeproj::Config.new(version_settings)
+    new_config.save_as(Pathname.new(VERSION_XCCONFIG_PATH))
 
     build_app(
       scheme: SCHEME_ENTERPRISE,
       include_bitcode: false,
       include_symbols: true,
       clean: true,
+      output_directory: ARTIFACTS_FOLDER,
+      output_name: PROTOTYPE_BUILD_NAME,
       export_options: {
         method: 'enterprise',
         manageAppVersionAndBuildNumber: false
       }
     )
+  end
+
+  desc 'Distributes a local app via Enterprise account (Prototype Build)'
+  lane :upload_enterprise do
+    upload_pocket_casts_to_appcenter
+
+    next unless is_ci
+
+    annotate_pr_with_appcenter_link
+    annotate_buildkite_with_appcenter_link
   end
 
   # Sets the stage to start working on a hotfix
@@ -1128,9 +1172,9 @@ inal copy, and try again.")
   #
   def build_code_current
     # Read the current build code from the .xcconfig file and parse it into an AppVersion object
-    # The AppVersion is used because WCiOS uses the four part (1.2.3.4) build code format, so the version
+    # The AppVersion is used because Pocket Casts iOS uses the four part (1.2.3.4) build code format, so the version
     # calculator can be used to calculate the next four-part version
-    version = VERSION_FORMATTER.parse(VERSION_FILE.read_build_code(attribute_name: 'VERSION_LONG'))
+    version = VERSION_FORMATTER.parse(VERSION_FILE.read_build_code(attribute_name: BUILD_CODE_KEY))
     # Return the formatted build code
     BUILD_CODE_FORMATTER.build_code(version: version)
   end
@@ -1139,7 +1183,7 @@ inal copy, and try again.")
   #
   def build_code_code_freeze
     # Read the current build code from the .xcconfig file and parse it into an AppVersion object
-    # The AppVersion is used because WCiOS uses the four part (1.2.3.4) build code format, so the version
+    # The AppVersion is used because Pocket Casts iOS uses the four part (1.2.3.4) build code format, so the version
     # calculator can be used to calculate the next four-part version
     release_version_current = VERSION_FORMATTER.parse(VERSION_FILE.read_release_version)
     # Calculate the next release version, which will be used as the basis of the new build code
@@ -1160,12 +1204,80 @@ inal copy, and try again.")
   #
   def build_code_next
     # Read the current build code from the .xcconfig file and parse it into an AppVersion object
-    # The AppVersion is used because WCiOS uses the four part (1.2.3.4) build code format, so the version
+    # The AppVersion is used because Pocket Casts iOS uses the four part (1.2.3.4) build code format, so the version
     # calculator can be used to calculate the next four-part version
-    build_code_current = VERSION_FORMATTER.parse(VERSION_FILE.read_build_code(attribute_name: 'VERSION_LONG'))
+    build_code_current = VERSION_FORMATTER.parse(VERSION_FILE.read_build_code(attribute_name: BUILD_CODE_KEY))
     # Calculate the next build code
     build_code_next = VERSION_CALCULATOR.next_build_number(version: build_code_current)
     # Return the formatted build code
     BUILD_CODE_FORMATTER.build_code(version: build_code_next)
+  end
+end
+
+def upload_pocket_casts_to_appcenter
+  require_env_vars!('APPCENTER_API_TOKEN')
+
+  commit = ENV.fetch('BUILDKITE_COMMIT', 'Unknown')
+  pr = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
+  release_notes = <<~NOTES
+    - Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'Unknown')}`\n
+    - Commit: [#{commit[0...7]}](#{GITHUB_URL}/commit/#{commit})\n
+    - Pull Request: [##{pr}](#{GITHUB_URL}/pull/#{pr})\n
+  NOTES
+
+  appcenter_upload(
+    api_token: get_required_env!('APPCENTER_API_TOKEN'),
+    owner_name: APPCENTER_OWNER_NAME,
+    owner_type: APPCENTER_OWNER_TYPE,
+    app_name: APPCENTER_APP_SLUG,
+    file: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
+    dsym: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.app.dSYM.zip"),
+    release_notes: release_notes,
+    destinations: 'Collaborators',
+    notify_testers: false
+  )
+end
+
+def annotate_pr_with_appcenter_link
+  comment_body = prototype_build_details_comment(
+    app_display_name: 'Pocket Casts Prototype Build',
+    app_center_org_name: APPCENTER_OWNER_NAME,
+    fold: true
+  )
+
+  comment_on_pr(
+    project: GHHELPER_REPO,
+    pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
+    reuse_identifier: 'prototype-build-link-pocket-casts',
+    body: comment_body
+  )
+end
+
+def annotate_buildkite_with_appcenter_link
+  appcenter_id = lane_context.dig(SharedValues::APPCENTER_BUILD_INFORMATION, 'id')
+  version_data = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
+  metadata = version_data.merge(build_type: 'Prototype', 'appcenter:id': appcenter_id)
+  appcenter_install_url = "https://install.appcenter.ms/orgs/#{APPCENTER_OWNER_NAME}/apps/#{APPCENTER_APP_SLUG}/releases/#{appcenter_id}"
+  list = metadata.map { |k, v| " - **#{k}**: #{v}" }.join("\n")
+  buildkite_annotate(context: 'appcenter-info-pocket-casts', style: 'info', message: "Pocket Casts iOS [App Center Build](#{appcenter_install_url}) Info:\n\n#{list}")
+end
+
+# Generates a build number for Prototype Builds, based on the PR number and short commit SHA1
+#
+# @note This function uses Buildkite-specific ENV vars
+#
+def generate_prototype_build_number
+  if ENV['BUILDKITE']
+    commit = ENV.fetch('BUILDKITE_COMMIT', nil)[0, 7]
+    branch = ENV.fetch('BUILDKITE_BRANCH', nil)
+    pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
+
+    pr_num == 'false' ? "#{branch}-#{commit}" : "pr#{pr_num}-#{commit}"
+  else
+    repo = Git.open(PROJECT_ROOT_FOLDER)
+    commit = repo.current_branch
+    branch = repo.revparse('HEAD')[0, 7]
+
+    "#{branch}-#{commit}"
   end
 end

@@ -255,6 +255,10 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Se descargarán automáticamente los %1$@ primeros episodios para este filtro</string>
     <key>auto_download_prompt_first</key>
     <string>Primero</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Reiniciar el temporizador automáticamente</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Si está activado, el temporizador se reiniciará automáticamente si reproduces un episodio en los 5 minutos siguientes a la última pausa.</string>
     <key>back</key>
     <string>Volver</string>
     <key>beta_purchase_disabled</key>
@@ -1891,6 +1895,8 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Eliminar de A continuación</string>
     <key>renew_subscription</key>
     <string>Renovar la suscripción</string>
+    <key>restore</key>
+    <string>Restaurar</string>
     <key>retry</key>
     <string>Reintentar</string>
     <key>save_bookmark</key>
@@ -2339,6 +2345,10 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Los %1$@ mejores </string>
     <key>setup_account</key>
     <string>Configurar cuenta</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Agitar para reiniciar el temporizador</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Si está activado, el tempoprizador se reiniciará cuando agites tu teléfono.</string>
     <key>share</key>
     <string>Compartir</string>
     <key>share_current_position</key>

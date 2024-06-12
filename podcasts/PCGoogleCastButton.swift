@@ -6,15 +6,12 @@ class PCGoogleCastButton: UIButton {
     private static let connectedIconName = "nav_cast_on"
     private static let animatedIconNames = ["nav_cast_on0", "nav_cast_on1", "nav_cast_on2"]
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setup()
-    }
-
-    required init?(coder decoder: NSCoder) {
-        super.init(coder: decoder)
-
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        guard superview != nil else {
+            NotificationCenter.default.removeObserver(self, name: Constants.Notifications.googleCastStatusChanged, object: nil)
+            return
+        }
         setup()
     }
 

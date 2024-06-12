@@ -1,6 +1,11 @@
+7.67
+-----
+
+
 7.66
 -----
 - Re-add Use contentType to set extension for downloaded files. [#1743]
+- Improve responsiveness when playing a podcast [#1801]
 
 7.65
 -----

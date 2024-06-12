@@ -255,6 +255,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Les %1$@ premiers épisodes dans ce filtre seront automatiquement téléchargés.</string>
     <key>auto_download_prompt_first</key>
     <string>Premiers</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Redémarrer automatiquement la mise en veille</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Si cette fonction est activée, la mise en veille redémarrera automatiquement si vous écoutez un épisode dans les 5 minutes suivant la dernière pause.</string>
     <key>back</key>
     <string>Revenir</string>
     <key>beta_purchase_disabled</key>
@@ -1891,6 +1895,8 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Supprimer la file d’attente Prochains épisodes</string>
     <key>renew_subscription</key>
     <string>Renouveler votre abonnement</string>
+    <key>restore</key>
+    <string>Restaurer</string>
     <key>retry</key>
     <string>Réessayer</string>
     <key>save_bookmark</key>
@@ -2339,6 +2345,10 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>%1$@ épisodes du haut</string>
     <key>setup_account</key>
     <string>Configurer le compte</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Secouer pour redémarrer la mise en veille</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Si cette fonction est activée, la mise en veille redémarrera si vous secouez votre téléphone.</string>
     <key>share</key>
     <string>Partager</string>
     <key>share_current_position</key>

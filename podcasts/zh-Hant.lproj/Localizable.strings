@@ -255,6 +255,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>系統會自動下載此篩選器中的前 %1$@ 集內容</string>
     <key>auto_download_prompt_first</key>
     <string>頂端</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>自動重新啟動睡眠計時器</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>在睡眠計時器開啟的狀態下，若你在最後暫停的 5 分鐘內播放一集單集，計時器就會自動重新啟動。</string>
     <key>back</key>
     <string>上一步</string>
     <key>beta_purchase_disabled</key>
@@ -1891,6 +1895,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>移除「接下來播放」</string>
     <key>renew_subscription</key>
     <string>續訂</string>
+    <key>restore</key>
+    <string>還原</string>
     <key>retry</key>
     <string>重試</string>
     <key>save_bookmark</key>
@@ -2339,6 +2345,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>前 %1$@ 集</string>
     <key>setup_account</key>
     <string>設定帳號</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>搖動以重新啟動睡眠計時器</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>在睡眠計時器開啟的狀態下，搖動手機會重新啟動計時器。</string>
     <key>share</key>
     <string>分享</string>
     <key>share_current_position</key>
