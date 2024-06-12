@@ -1,8 +1,9 @@
 import Combine
+import GravatarUI
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
-import GravatarUI
+import SafariServices
 
 class AccountViewController: UIViewController, ChangeEmailDelegate {
     enum UIConstants {
@@ -266,8 +267,7 @@ extension AccountViewController: ProfileViewDelegate {
                 var claimProfileConfig = ProfileViewConfiguration.claimProfile(profileStyle: gravatarConfiguration.profileStyle)
                 claimProfileConfig.padding = UIConstants.Gravatar.padding
                 claimProfileConfig.delegate = self
-                claimProfileConfig.avatarConfiguration.placeholder = UIImage(named: "profileAvatar")?.withRenderingMode(.alwaysTemplate).tintedImage(ThemeColor.primaryUi05())
-                claimProfileConfig.palette = .custom(claimProfileConfig.pocketCastsPalette)
+                claimProfileConfig.palette = .custom(Palette.pocketCasts)
                 self.gravatarConfiguration = claimProfileConfig
             case .failure:
                 // TODO: handle error
@@ -293,17 +293,20 @@ extension AccountViewController: ProfileViewDelegate {
             await gravatarViewModel.fetchProfile(profileIdentifier: ProfileIdentifier.email(email))
         }
     }
-    func profileView(_ view: GravatarUI.BaseProfileView, didTapOnProfileButtonWithStyle style: GravatarUI.ProfileButtonStyle, profileURL: URL?) {
 
+    func profileView(_ view: GravatarUI.BaseProfileView, didTapOnProfileButtonWithStyle style: GravatarUI.ProfileButtonStyle, profileURL: URL?) {
+        guard let profileURL else { return }
+        let safari = SFSafariViewController(url: profileURL)
+        present(safari, animated: true)
     }
 
     func profileView(_ view: GravatarUI.BaseProfileView, didTapOnAccountButtonWithModel accountModel: any GravatarUI.AccountModel) {
-
+        guard let accountURL = accountModel.accountURL else { return }
+        let safari = SFSafariViewController(url: accountURL)
+        present(safari, animated: true)
     }
 
-    func profileView(_ view: GravatarUI.BaseProfileView, didTapOnAvatarWithID avatarID: Gravatar.AvatarIdentifier?) {
-
-    }
+    func profileView(_ view: GravatarUI.BaseProfileView, didTapOnAvatarWithID avatarID: Gravatar.AvatarIdentifier?) {}
 }
 
 extension AccountViewController: AvatarProviding {
@@ -328,25 +331,31 @@ fileprivate extension ProfileViewConfiguration {
 
     func updatedForPocketCasts(delegate: ProfileViewDelegate) -> ProfileViewConfiguration {
         var config = self
-        config.avatarConfiguration.placeholder = UIImage(named: "profileAvatar")?.withRenderingMode(.alwaysTemplate).tintedImage(ThemeColor.primaryUi05())
         config.padding = AccountViewController.UIConstants.Gravatar.padding
         config.profileButtonStyle = .edit
         config.delegate = delegate
-        config.palette = .custom(pocketCastsPalette)
+        config.palette = .custom(Palette.pocketCasts)
         return config
     }
+}
 
-    func pocketCastsPalette() -> GravatarUI.Palette {
-        GravatarUI.Palette(name: Theme.sharedTheme.activeTheme.description,
-                         foreground: ForegroundColors(primary: ThemeColor.primaryText01(),
-                                                      primarySlightlyDimmed: ThemeColor.secondaryText01(),
-                                                      secondary: ThemeColor.primaryText02()),
-                         background: BackgroundColors(primary: ThemeColor.primaryUi02()),
-                         avatar: AvatarColors(border: ThemeColor.primaryUi05(),
-                                              background: ThemeColor.primaryUi04()),
-                         border: ThemeColor.primaryUi05(),
-                         placeholder: PlaceholderColors(backgroundColor: ThemeColor.primaryUi04(),
-                                                        loadingAnimationColors: [ThemeColor.primaryUi04(), ThemeColor.primaryUi05()]),
-                         preferredUserInterfaceStyle: Theme.sharedTheme.activeTheme.isDark ? .dark: .light)
+extension Palette {
+    static func pocketCasts() -> GravatarUI.Palette {
+        GravatarUI.Palette(
+            name: Theme.sharedTheme.activeTheme.description,
+            foreground: ForegroundColors(primary: ThemeColor.primaryText01(),
+                                         primarySlightlyDimmed: ThemeColor.secondaryText01(),
+                                         secondary: ThemeColor.primaryText02()),
+            background: BackgroundColors(primary: ThemeColor.primaryUi02()),
+            avatar: AvatarColors(border: ThemeColor.primaryUi05(),
+                                 background: ThemeColor.primaryUi04()),
+            border: ThemeColor.primaryUi05(),
+            placeholder: PlaceholderColors(backgroundColor: ThemeColor.primaryText01().withAlphaComponent(0.05),
+                                           loadingAnimationColors: [
+                                            ThemeColor.primaryText01().withAlphaComponent(0.05),
+                                            ThemeColor.primaryText01().withAlphaComponent(0.1)
+                                           ]),
+            preferredUserInterfaceStyle: Theme.sharedTheme.activeTheme.isDark ? .dark: .light
+        )
     }
 }
