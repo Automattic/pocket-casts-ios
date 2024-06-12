@@ -212,7 +212,7 @@ struct ProfileHeaderView: View {
     }
 
     // MARK: - View Constants
-    private enum Constants {
+    enum Constants {
         static let spacing = 16.0
         static let imageSize = 104.0
         static let paddingTop = 30.0
