@@ -227,7 +227,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     @objc private func checkForScrollTap(_ notification: Notification) {
         let topOffset = -PCSearchBarController.defaultHeight - view.safeAreaInsets.top
         if let index = notification.object as? Int, index == tabBarItem.tag, podcastsCollectionView.contentOffset.y.rounded(.down) > topOffset.rounded(.down) {
-            podcastsCollectionView.setContentOffset(CGPoint(x: 0, y: topOffset), animated: true)
+            podcastsCollectionView.setContentOffset(CGPoint(x: -horizontalMargin, y: topOffset), animated: true)
         } else {
             searchController.searchTextField.becomeFirstResponder()
         }
@@ -239,8 +239,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         searchController.searchTextField.becomeFirstResponder()
     }
 
+    private var horizontalMargin: CGFloat {
+        Settings.libraryType() == .list ? 0 : 16
+    }
+
     private func updateInsets() {
-        let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
         let currentInsets = podcastsCollectionView.contentInset
         podcastsCollectionView.contentInset = UIEdgeInsets(top: currentInsets.top, left: horizontalMargin, bottom: currentInsets.bottom, right: horizontalMargin)
     }
