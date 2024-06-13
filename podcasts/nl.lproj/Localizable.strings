@@ -1895,6 +1895,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Hierna verwijderen</string>
     <key>renew_subscription</key>
     <string>Verleng je abonnement</string>
+    <key>restore</key>
+    <string>Herstellen</string>
     <key>retry</key>
     <string>Opnieuw proberen</string>
     <key>save_bookmark</key>

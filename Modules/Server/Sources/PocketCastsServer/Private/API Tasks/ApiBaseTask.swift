@@ -26,7 +26,7 @@ class ApiBaseTask: Operation {
     }
 
     func runTaskSynchronously() {
-        if let token = KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
+        if let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
             apiTokenAcquired(token: token)
         } else if let token = tokenHelper.acquireToken() {
             apiTokenAcquired(token: token)

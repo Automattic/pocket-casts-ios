@@ -1895,6 +1895,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Supprimer la file d'attente</string>
     <key>renew_subscription</key>
     <string>Renouveler votre abonnement</string>
+    <key>restore</key>
+    <string>Restaurer</string>
     <key>retry</key>
     <string>Réessayer</string>
     <key>save_bookmark</key>

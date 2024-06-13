@@ -1895,6 +1895,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソードを削除</string>
     <key>renew_subscription</key>
     <string>サブスクリプションを更新</string>
+    <key>restore</key>
+    <string>復元</string>
     <key>retry</key>
     <string>再試行</string>
     <key>save_bookmark</key>

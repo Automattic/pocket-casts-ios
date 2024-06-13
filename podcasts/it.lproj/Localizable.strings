@@ -1895,6 +1895,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Rimuovi Successivo</string>
     <key>renew_subscription</key>
     <string>Rinnova il tuo abbonamento</string>
+    <key>restore</key>
+    <string>Ripristina</string>
     <key>retry</key>
     <string>Riprova</string>
     <key>save_bookmark</key>
