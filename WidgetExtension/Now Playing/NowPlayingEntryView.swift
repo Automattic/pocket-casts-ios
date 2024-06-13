@@ -23,59 +23,11 @@ struct NowPlayingWidgetEntryView: View {
                     Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
                 }
                 VStack(alignment: .leading, spacing: 10) {
-                    HStack(alignment: .top) {
-                        LargeArtworkView(imageData: playingEpisode.imageData)
-                            .frame(width: 64, height: 64)
-                        Spacer()
-                        Image(widgetColorScheme.iconAssetName)
-                            .frame(width: 28, height: 28)
-                            .unredacted()
-                    }
-                    .padding(topPadding)
+                    artwork(playingEpisode: playingEpisode)
 
-                    Text(playingEpisode.episodeTitle)
-                        .font(.footnote)
-                        .fontWeight(.semibold)
-                        .foregroundColor(widgetColorScheme.bottomTextColor)
-                        .lineLimit(1)
-                        .frame(height: 12, alignment: .center)
-                        .layoutPriority(1)
-                        .padding(episodeTitlePadding)
+                    episodeTitle(playingEpisode: playingEpisode)
 
-                    if #available(iOS 17, *) {
-                        Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
-
-                            if entry.isPlaying {
-                                Text(L10n.nowPlaying)
-                                    .font(.caption2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(widgetColorScheme.topButtonTextColor)
-                            } else {
-                                Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
-                                    .font(.caption2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(widgetColorScheme.topButtonTextColor)
-                                    .layoutPriority(1)
-                            }
-                        }
-                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
-                        .padding(bottomTextPadding)
-                    } else {
-                        if entry.isPlaying {
-                            Text(L10n.nowPlaying)
-                                .font(.caption2)
-                                .fontWeight(.medium)
-                                .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
-                                .padding(bottomTextPadding)
-                        } else {
-                            Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
-                                .font(.caption2)
-                                .fontWeight(.medium)
-                                .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
-                                .padding(bottomTextPadding)
-                                .layoutPriority(1)
-                        }
-                    }
+                    playToggleOrPlaybackLabel(playingEpisode: playingEpisode)
                 }
                 .widgetURL(URL(string: "pktc://last_opened"))
                 .clearBackground()
@@ -97,6 +49,68 @@ struct NowPlayingWidgetEntryView: View {
             .clearBackground()
         }
     }
+
+    private func artwork(playingEpisode: WidgetEpisode) -> some View {
+        HStack(alignment: .top) {
+            LargeArtworkView(imageData: playingEpisode.imageData)
+                .frame(width: 64, height: 64)
+            Spacer()
+            Image(widgetColorScheme.iconAssetName)
+                .frame(width: 28, height: 28)
+                .unredacted()
+        }
+        .padding(topPadding)
+    }
+
+    private func episodeTitle(playingEpisode: WidgetEpisode) -> some View {
+        Text(playingEpisode.episodeTitle)
+            .font(.footnote)
+            .fontWeight(.semibold)
+            .foregroundColor(widgetColorScheme.bottomTextColor)
+            .lineLimit(1)
+            .frame(height: 12, alignment: .center)
+            .layoutPriority(1)
+            .padding(episodeTitlePadding)
+    }
+
+    @ViewBuilder
+    private func playToggleOrPlaybackLabel(playingEpisode: WidgetEpisode) -> some View {
+        if #available(iOS 17, *) {
+            Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
+
+                if entry.isPlaying {
+                    Text(L10n.nowPlaying)
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(widgetColorScheme.topButtonTextColor)
+                } else {
+                    Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(widgetColorScheme.topButtonTextColor)
+                        .layoutPriority(1)
+                }
+            }
+            .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
+            .padding(bottomTextPadding)
+        } else {
+            if entry.isPlaying {
+                Text(L10n.nowPlaying)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
+                    .padding(bottomTextPadding)
+            } else {
+                Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
+                    .padding(bottomTextPadding)
+                    .layoutPriority(1)
+            }
+        }
+    }
+
 
     private var nothingPlaying: some View {
         VStack(alignment: .leading, spacing: 3) {
