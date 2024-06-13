@@ -11,8 +11,8 @@ struct PCWidgetColorScheme {
     let bottomButtonBackgroundColor: Color
     let topTextColor: Color
     let bottomTextColor: Color
-    let topButtonTextColor: Color // foreground color?
-    let bottomButtonTextColor: Color // foreground color?
+    let topButtonTextColor: Color
+    let bottomButtonTextColor: Color
     let iconAssetName: String
     let filterViewBackgroundColor: Color
     let filterViewTextColor: Color
@@ -22,7 +22,7 @@ struct PCWidgetColorScheme {
         topBackgroundColor: widgetRedLight,
         bottomBackgroundColor: widgetRedDark,
         topButtonBackgroundColor: .white,
-        bottomButtonBackgroundColor: Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 0.2),
+        bottomButtonBackgroundColor: .white.opacity(0.2),
         topTextColor: .white,
         bottomTextColor: .white,
         topButtonTextColor: widgetRedLight,
