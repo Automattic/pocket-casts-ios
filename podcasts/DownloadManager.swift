@@ -240,6 +240,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             dataManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
         } catch {
+            FileLog.shared.addMessage("DownloadManager: failed to move streaming file for \(episode.uuid) to new location -> \(error)")
             dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
         }
 
