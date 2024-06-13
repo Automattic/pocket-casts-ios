@@ -71,7 +71,7 @@ struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
                     .foregroundStyle(colorScheme.topButtonTextColor)
             }
             .frame(width: 28, height: 28)
-            // TODO: Something fun - create a timeline that counts down by the minute instead of showing "now playing"
+
             configuration.label
                 .truncationMode(.tail)
         }
