@@ -224,7 +224,7 @@ class AudioReadTask {
                 // don't trim silence from the last 5 seconds
                 rms = 1
             } else {
-                rms = (channelCount == 1) ? calculateRms(bufferListPointer[0]) : calculateStereoRms(bufferListPointer[0], rightBuffer: bufferListPointer[1])
+                rms = (channelCount == 1) ? AudioUtils.calculateRms(bufferListPointer[0]) : AudioUtils.calculateStereoRms(bufferListPointer[0], rightBuffer: bufferListPointer[1])
             }
 
             if rms > minRMS, !foundGap {
@@ -292,42 +292,6 @@ class AudioReadTask {
         if !cancelled.value {
             bufferManager.push(buffer)
         }
-    }
-
-    private func calculateRms(_ audioBuffer: AudioBuffer) -> Float32 {
-        var sum: Float32 = 0.0
-        let bufferSize = Float32(audioBuffer.mDataByteSize) / bufferByteSize
-        guard let buffer = audioBuffer.mData?.bindMemory(to: Float32.self, capacity: Int(bufferSize)) else { return 0 }
-
-        for i in 0 ..< Int(bufferSize) {
-            sum += buffer[i] * buffer[i]
-        }
-
-        return sqrt(sum / bufferSize)
-    }
-
-    private func calculateStereoRms(_ leftBuffer: AudioBuffer, rightBuffer: AudioBuffer) -> Float32 {
-        var sum: Float32 = 0.0
-        let leftSize = Float32(leftBuffer.mDataByteSize) / bufferByteSize
-        if let left = leftBuffer.mData?.bindMemory(to: Float32.self, capacity: Int(leftSize)) {
-            for i in 0 ..< Int(leftSize) {
-                sum += left[i] * left[i]
-            }
-        }
-
-        let leftRms = sqrt(sum / leftSize)
-
-        sum = 0
-        let rightSize = Float32(rightBuffer.mDataByteSize) / bufferByteSize
-        if let right = rightBuffer.mData?.bindMemory(to: Float32.self, capacity: Int(rightSize)) {
-            for i in 0 ..< Int(rightSize) {
-                sum += right[i] * right[i]
-            }
-        }
-
-        let rightRms = sqrt(sum / rightSize)
-
-        return (leftRms + rightRms) / 2
     }
 
     private func gapSizeForSilenceAmount() -> Int {
