@@ -109,11 +109,10 @@ struct PCWidgetColorScheme {
     )
 }
 
-let rgbMax = 255.0
-let widgetRedDark = Color(.sRGB, red: 217/rgbMax, green: 32/rgbMax, blue: 28/rgbMax)
-let widgetRedLight = Color(.sRGB, red: 244/rgbMax, green: 62/rgbMax, blue: 55/rgbMax)
-let widgetBlack = Color(.sRGB, red: 22/rgbMax, green: 23/rgbMax, blue: 24/rgbMax)
-let widgetCoolGrey = Color(.sRGB, red: 41/rgbMax, green: 43/rgbMax, blue: 46/rgbMax)
+let widgetRedDark = Color(red: 217, green: 32, blue: 28)
+let widgetRedLight = Color(red: 244, green: 62, blue: 55)
+let widgetBlack = Color(red: 22, green: 23, blue: 24)
+let widgetCoolGrey = Color(red: 41, green: 43, blue: 46)
 
 struct WidgetColorScheme: EnvironmentKey {
     static var defaultValue: PCWidgetColorScheme = .bold
