@@ -1,11 +1,52 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
-import Kingfisher
 
 struct DeveloperMenu: View {
+    @State var showingImporter = false
+    @State var showingExporter = false
+
     var body: some View {
         List {
+            if #available(iOS 17.0, *) {
+                Section {
+                    Button(action: {
+                        showingImporter.toggle()
+                    }, label: {
+                        Text("Import Bundle")
+                    })
+                    .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.pcasts]) { result in
+                        switch result {
+                        case .success(let url):
+                            print("Selected: \(url)")
+                            Task {
+                                let fileWrapper = try FileWrapper(url: url)
+                                try PCBundleDoc.performImport(from: fileWrapper)
+                            }
+                        case .failure(let error):
+                            print("Failed to import pcasts: \(error)")
+                        }
+                    }
+                    Button(action: {
+                        showingExporter.toggle()
+                    }, label: {
+                        Text("Export Bundle")
+                    })
+                    .fileExporter(isPresented: $showingExporter, document: PCBundleDoc()) { result in
+                        switch result {
+                        case .success(let url):
+                            print("Saved to: \(url)")
+                        case .failure(let error):
+                            print("Failed to export pcasts: \(error)")
+                        }
+                    }
+                    Button(action: {
+                        PCBundleDoc.delete()
+                    }, label: {
+                        Text("Reset Database + Settings")
+                    })
+                }
+            }
             Section {
                 Button(action: {
                     UIPasteboard.general.string = ServerSettings.pushToken()
@@ -30,17 +71,21 @@ struct DeveloperMenu: View {
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.chartRegionChanged)
                 }
 
-                Button("Clear URL + Image Caches") {
-                    URLCache.shared.removeAllCachedResponses()
-                    ImageManager.sharedManager.clearCaches()
-                    KingfisherManager.shared.cache.clearCache()
-                }
-
                 Button("Unsubscribe from all Podcasts") {
                     let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
 
                     for podcast in podcasts {
                         PodcastManager.shared.unsubscribe(podcast: podcast)
+                    }
+                }
+
+                Button("Clear all folder information") {
+                    DataManager.sharedManager.clearAllFolderInformation()
+                }
+
+                Button("Force Reload Feature Flags") {
+                    FirebaseManager.refreshRemoteConfig(expirationDuration: 0) { _ in
+                        (UIApplication.shared.delegate as? AppDelegate)?.updateRemoteFeatureFlags()
                     }
                 }
             }
@@ -233,6 +278,12 @@ struct DeveloperMenu: View {
             } header: {
                 Text("End of Year")
             }
+
+            Section {
+                Text(Bundle.main.identifier)
+            } header: {
+                Text("Bundle ID")
+            }
         }
         .modifier(MiniPlayerPadding())
     }
@@ -241,5 +292,17 @@ struct DeveloperMenu: View {
 struct DeveloperMenu_Previews: PreviewProvider {
     static var previews: some View {
         DeveloperMenu()
+    }
+}
+
+extension Bundle {
+
+    var identifier: String {
+        guard let infoDictionary = infoDictionary, let identifier = infoDictionary["CFBundleIdentifier"] as? String else {
+            return "Cound not load bundle id."
+        }
+
+        return identifier
+
     }
 }

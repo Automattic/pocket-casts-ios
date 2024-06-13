@@ -130,10 +130,8 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
         loadingIndicator.startAnimating()
 
         if FeatureFlag.newShowNotesEndpoint.enabled {
-            let podcastUUID = episode.parentIdentifier()
-            let episodeUUID = episode.uuid
             Task { [weak self] in
-                if let showNotes = await episode.loadMetadata()?.showNotes {
+                if let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
                     self?.downloadingShowNotes = false
                     self?.displayShowNotes(showNotes)
 

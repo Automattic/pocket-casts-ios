@@ -25,15 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
 
-    var whatsNew: WhatsNew?
+    lazy var whatsNew: WhatsNew = WhatsNew()
 
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
-
-        setupWhatsNew()
 
         setupSecrets()
         addAnalyticsObservers()
@@ -54,22 +52,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupRoutes()
 
-        ServerConfig.shared.syncDelegate = ServerSyncManager.shared
-        ServerConfig.shared.playbackDelegate = PlaybackManager.shared
-        checkDefaults()
-
         NotificationsHelper.shared.register(checkToken: false)
 
         DispatchQueue.global().async { [weak self] in
-            self?.postLaunchSetup()
-            self?.checkIfRestoreCleanupRequired()
+            guard let self else {
+                return
+            }
+
+            ServerConfig.shared.syncDelegate = ServerSyncManager.shared
+            ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+            checkDefaults()
+
+            logActiveDownloadTasks()
+            logStaleDownloads()
+            postLaunchSetup()
+            checkIfRestoreCleanupRequired()
+
             ImageManager.sharedManager.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
+            SiriShortcutsManager.shared.setup()
+
+            if FeatureFlag.downloadFixes.enabled {
+                DownloadManager.shared.startAllQueued()
+            }
         }
 
         badgeHelper.setup()
         WatchManager.shared.setup()
-        SiriShortcutsManager.shared.setup()
         shortcutManager.listenForShortcutChanges()
 
         setupBackgroundRefresh()
@@ -81,8 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
-
-        logStaleDownloads()
 
         return true
     }
@@ -116,8 +123,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 RefreshManager.shared.refreshPodcasts()
             })
         } else {
-            PodcastManager.shared.checkForPendingAndAutoDownloads()
-            UserEpisodeManager.checkForPendingUploads()
+            DispatchQueue.global(qos: .userInitiated).async {
+                PodcastManager.shared.checkForPendingAndAutoDownloads()
+                UserEpisodeManager.checkForPendingUploads()
+            }
         }
         PlaybackManager.shared.updateIdleTimer()
     }
@@ -265,38 +274,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureFirebase() {
         FirebaseApp.configure()
 
-        // we user remote config for varies parameters in the app we want to be able to set remotely. Here we set the defaults, then fetch new ones
-        let remoteConfig = RemoteConfig.remoteConfig()
-        var remoteConfigDefaults = [
-            Constants.RemoteParams.periodicSaveTimeMs: NSNumber(value: Constants.RemoteParams.periodicSaveTimeMsDefault),
-            Constants.RemoteParams.episodeSearchDebounceMs: NSNumber(value: Constants.RemoteParams.episodeSearchDebounceMsDefault),
-            Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
-            Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault),
-            Constants.RemoteParams.endOfYearRequireAccount: NSNumber(value: Constants.RemoteParams.endOfYearRequireAccountDefault),
-            Constants.RemoteParams.effectsPlayerStrategy: NSNumber(value: Constants.RemoteParams.effectsPlayerStrategyDefault),
-            Constants.RemoteParams.patronCloudStorageGB: NSNumber(value: Constants.RemoteParams.patronCloudStorageGBDefault),
-            Constants.RemoteParams.addMissingEpisodes: NSNumber(value: Constants.RemoteParams.addMissingEpisodesDefault),
-            Constants.RemoteParams.newPlayerTransition: NSNumber(value: Constants.RemoteParams.newPlayerTransitionDefault),
-            Constants.RemoteParams.errorLogoutHandling: NSNumber(value: Constants.RemoteParams.errorLogoutHandlingDefault),
-            Constants.RemoteParams.slumberStudiosPromoCode: NSString(string: Constants.RemoteParams.slumberStudiosPromoCodeDefault)
-        ]
-        FeatureFlag.allCases.filter { $0.remoteKey != nil }.forEach { flag in
-            remoteConfigDefaults[flag.remoteKey!] = NSNumber(value: flag.default)
-        }
-        remoteConfig.setDefaults(remoteConfigDefaults)
-
-        remoteConfig.fetch(withExpirationDuration: 2.hour) { [weak self] status, _ in
-            if status == .success {
-                remoteConfig.activate(completion: nil)
-
-                self?.updateEndOfYearRemoteValue()
-                self?.updateRemoteFeatureFlags()
-                ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-            }
+        FirebaseManager.refreshRemoteConfig() { [weak self] status in
+            self?.updateEndOfYearRemoteValue()
+            self?.updateRemoteFeatureFlags()
+            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
         }
     }
 
-    private func updateRemoteFeatureFlags() {
+    func updateRemoteFeatureFlags() {
         guard BuildEnvironment.current != .debug else { return }
         do {
             if FeatureFlag.newPlayerTransition.enabled != Settings.newPlayerTransition {
@@ -322,8 +307,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             try FeatureFlag.allCases.forEach { flag in
                 if let remoteKey = flag.remoteKey {
-                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey).boolValue
-                    try FeatureFlagOverrideStore().override(flag, withValue: remoteValue)
+                    let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
+                    if remoteValue.source == .remote {
+                        try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
+                    }
                 }
             }
         } catch {
@@ -341,7 +328,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PlaylistManager.createDefaultFilters()
             UserDefaults.standard.set(true, forKey: "CreatedDefPlaylistsV2")
         }
-        DownloadManager.shared.clearStuckDownloads()
+        Task {
+            await DownloadManager.shared.clearStuckDownloads()
+        }
     }
 
     private func checkIfRestoreCleanupRequired() {
@@ -407,11 +396,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
-    }
-
-    // MARK: What's New
-
-    private func setupWhatsNew() {
-        whatsNew = WhatsNew()
     }
 }

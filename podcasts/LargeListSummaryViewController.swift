@@ -3,6 +3,7 @@ import UIKit
 
 class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummaryProtocol, UICollectionViewDataSource, GridLayoutDelegate, UICollectionViewDelegateFlowLayout {
 
+    @IBOutlet weak var divider: ThemeDividerView!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     @IBOutlet var titleLabel: ThemeableLabel!
     @IBOutlet var showAllBtn: UIButton! {
@@ -144,7 +145,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     // MARK: - Populate From Data
 
-    func populateFrom(item: DiscoverItem) {
+    func populateFrom(item: DiscoverItem, region: String?) {
         guard let source = item.source else { return }
         guard let title = item.title?.localized else { return }
 
@@ -153,6 +154,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         self.item = item
         titleLabel.text = delegate?.replaceRegionName(string: title)
         titleLabel.sizeToFit()
+        divider.isHidden = true
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
 
@@ -168,6 +170,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             }
 
             DispatchQueue.main.async {
+                strongSelf.divider.isHidden = false
                 strongSelf.collectionView.reloadData()
             }
         })

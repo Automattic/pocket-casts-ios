@@ -22,7 +22,7 @@ class APISettingsTests: XCTestCase {
 
         settings.value.value = initialValue
 
-        let modifiedDate = ModifiedDate(wrappedValue: changedValue)
+        var modifiedDate = ModifiedDate(wrappedValue: changedValue)
         settings.update(modifiedDate)
 
         XCTAssertNotEqual(settings.value.value, changedValue, "Settings value should not be changed by the initial value, since it wasn't modified")

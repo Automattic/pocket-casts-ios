@@ -7,6 +7,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
     class DiscoverItemObservable: ObservableObject {
         @Published public var item: DiscoverItem?
         @Published public var selectedCategory: DiscoverCategory?
+        @Published public var region: String?
 
         lazy var load: (() async -> (categories: [DiscoverCategory], popular: [DiscoverCategory])?) = { [weak self] in
             guard let source = self?.item?.source else { return nil }
@@ -36,8 +37,9 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         self.delegate = delegate
     }
 
-    func populateFrom(item: PocketCastsServer.DiscoverItem) {
+    func populateFrom(item: PocketCastsServer.DiscoverItem, region: String?) {
         observable.item = item
+        observable.region = region
         view.setNeedsLayout()
     }
 

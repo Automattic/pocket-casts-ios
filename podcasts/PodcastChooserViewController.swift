@@ -21,7 +21,6 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
 
     @IBOutlet var podcastTable: UITableView! {
         didSet {
-            podcastTable.applyInsetForMiniPlayer()
             podcastTable.register(UINib(nibName: "PodcastChooserCell", bundle: nil), forCellReuseIdentifier: cellId)
         }
     }
@@ -37,6 +36,8 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
         super.viewDidLoad()
 
         title = L10n.shareSelectPodcasts
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastTable)
 
         loadPodcasts()
     }

@@ -153,12 +153,6 @@
     <string>ブックマークはこちら !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>ブックマークのベータテストに参加してください !</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>今すぐ Plus に登録すると、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできます。</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Patron サブスクリプションの一環として、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできるようになりました。</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Plus サブスクリプションの一環として、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできるようになりました。</string>
     <key>announcement_slumber_code_copied</key>
     <string>コードをクリップボードにコピーしました</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,8 +213,6 @@
     <string>ポッドキャストのアートワーク</string>
     <key>appearance_dark_theme</key>
     <string>ダークテーマ</string>
-    <key>appearance_embedded_artwork</key>
-    <string>エピソードのアートワークを使用</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>一部の番組には特定のエピソードにカスタムのアートワークがあります。 このオプションを有効化すると、Pocket Casts は番組のアートワークではなく、そのカスタムのアートワークを表示します。</string>
     <key>appearance_light_theme</key>
@@ -263,6 +255,10 @@
     <string>このフィルターの最初の%1$@件のエピソードが自動的にダウンロードされます</string>
     <key>auto_download_prompt_first</key>
     <string>最初</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>スリープタイマーを自動再開</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>オンにすると、最後の一時停止から5分以内にエピソードを再生した際にスリープタイマーが自動的に再開されます。</string>
     <key>back</key>
     <string>戻る</string>
     <key>beta_purchase_disabled</key>
@@ -423,6 +419,8 @@
     <string>クラウドから削除</string>
     <key>custom_episode_upload</key>
     <string>クラウドにアップロード</string>
+    <key>database_migration</key>
+    <string>アプリの動作速度を上げるために、少量のビットとバイトを移動しています...</string>
     <key>day_listened</key>
     <string>聴取日数</string>
     <key>day_saved</key>
@@ -451,6 +449,8 @@
     <string>端末からのみ削除</string>
     <key>deselect_all</key>
     <string>すべて選択解除</string>
+    <key>device_shake_sleep_timer</key>
+    <string>端末がシェイクされたためスリープタイマーが再開しました</string>
     <key>discover</key>
     <string>ディスカバー</string>
     <key>discover_all_episodes</key>
@@ -1091,6 +1091,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>OK</string>
     <key>group_episodes</key>
     <string>エピソードをグループ化</string>
+    <key>hang_on</key>
+    <string>しばらくお待ちください。</string>
     <key>history_clear_all</key>
     <string>すべてクリア</string>
     <key>history_clear_all_details</key>
@@ -1893,6 +1895,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>次のエピソードを削除</string>
     <key>renew_subscription</key>
     <string>サブスクリプションを更新</string>
+    <key>restore</key>
+    <string>復元</string>
     <key>retry</key>
     <string>再試行</string>
     <key>save_bookmark</key>
@@ -2341,6 +2345,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>上位%1$@件</string>
     <key>setup_account</key>
     <string>アカウントを設定</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>シェイクしてスリープタイマーを再開</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>オンにすると、スマートフォンをシェイクした際にスリープタイマーが再開されます。</string>
     <key>share</key>
     <string>共有</string>
     <key>share_current_position</key>
@@ -2433,10 +2441,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>巻き戻し</string>
     <key>skip_chapters</key>
     <string>チャプターを事前に選択</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Pocket Casts Patron でチャプターの事前選択やその他の機能を利用</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Pocket Casts Plus でチャプターの事前選択やその他の機能を利用</string>
     <key>skip_forward</key>
     <string>早送り</string>
     <key>sleep_timer</key>
@@ -2447,6 +2451,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>タイマーをキャンセル</string>
     <key>sleep_timer_end_of_episode</key>
     <string>エピソード終了時</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>現在のエピソードの最後でスリープ</string>
     <key>sleep_timer_time_remaining</key>
     <string>スリープタイマーがオンになるまで、あと%1$@分</string>
     <key>social_sign_in_continue_with_apple</key>

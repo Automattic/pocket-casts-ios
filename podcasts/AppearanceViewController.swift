@@ -1,7 +1,7 @@
 import PocketCastsServer
 import UIKit
 
-class AppearanceViewController: SimpleNotificationsViewController, UITableViewDataSource, UITableViewDelegate, IconSelectorCellDelegate {
+class AppearanceViewController: PCViewController, UITableViewDataSource, UITableViewDelegate, IconSelectorCellDelegate {
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
     private let buttonCellId = "ButtonCell"
@@ -22,7 +22,6 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
             settingsTable.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
             settingsTable.register(UINib(nibName: "IconSelectorCell", bundle: nil), forCellReuseIdentifier: iconSelectorCellId)
             settingsTable.register(UINib(nibName: "PlusLockedInfoCell", bundle: nil), forCellReuseIdentifier: plusLockedInfoCellId)
-            settingsTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -32,23 +31,16 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         title = L10n.settingsAppearance
         updateTableAndData()
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
         Analytics.track(.settingsAppearanceShown)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         if let appSection = tableData.firstIndex(of: [.appIcon]), let iconSelectorCell = settingsTable.cellForRow(at: IndexPath(item: 0, section: appSection)) as? IconSelectorCell {
             iconSelectorCell.scrollToSelected()
         }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        NotificationCenter.default.removeObserver(self, name: Constants.Notifications.themeChanged, object: nil)
     }
 
     deinit {
@@ -63,11 +55,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-
-    @objc private func themeDidChange() {
+    override func handleThemeChanged() {
         updateTableAndData()
     }
 

@@ -23,11 +23,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     /// Whether we're actively presenting the what's new
     var isShowingWhatsNew: Bool = false
 
+    /// Displayed during database migrations
+    var alert: ShiftyLoadingAlert?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if FeatureFlag.upNextOnTabBar.enabled {
-            tabs = [.podcasts, .upNext, .filter, .discover]
+            tabs = [.podcasts, .filter, .discover, .upNext, .profile]
         } else {
             tabs = [.podcasts, .filter, .discover, .profile]
         }
@@ -43,13 +46,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let discoverViewController = DiscoverViewController(coordinator: DiscoverCoordinator())
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: tabs.firstIndex(of: .discover)!)
 
+        let profileViewController = ProfileViewController()
+        profileViewController.tabBarItem = profileTabBarItem
+
         if FeatureFlag.upNextOnTabBar.enabled {
             let upNextViewController = UpNextViewController(source: .tabBar, showingInTab: true)
             upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: tabs.firstIndex(of: .upNext)!)
-            vcsInTab = [podcastsController, upNextViewController, filtersViewController, discoverViewController]
+            vcsInTab = [podcastsController, filtersViewController, discoverViewController, upNextViewController, profileViewController]
         } else {
-            let profileViewController = ProfileViewController()
-            profileViewController.tabBarItem = profileTabBarItem
             vcsInTab = [podcastsController, filtersViewController, discoverViewController, profileViewController]
         }
 
@@ -97,6 +101,28 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
 
         showInitialOnboardingIfNeeded()
+
+        updateDatabaseIndexes()
+    }
+
+    /// Update database indexes and delete unused columns
+    /// This is outside of migrations and done just once
+    /// because for larger databases it's very time consuming
+    private func updateDatabaseIndexes() {
+        guard !Settings.upgradedIndexes else {
+            return
+        }
+
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self else { return }
+
+            if DataManager.sharedManager.podcastCount() > 100 {
+                self.presentLoader()
+            }
+            DataManager.sharedManager.cleanUp()
+            self.dismissLoader()
+            Settings.upgradedIndexes = true
+        }
     }
 
     private func showInitialOnboardingIfNeeded() {
@@ -472,17 +498,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             miniPlayer.closeFullScreenPlayer()
         }
 
-        if tab == .profile, FeatureFlag.upNextOnTabBar.enabled {
-            if let index = tabs.firstIndex(of: .podcasts),
-               let navController = viewControllers?[safe: index] as? UINavigationController,
-               let podcastsViewController = navController.viewControllers[safe: 0] as? PodcastListViewController {
-                selectedIndex = index
-                podcastsViewController.showProfileController()
-                return true
-            }
-            return false
-        }
-
         selectedIndex = tabs.firstIndex(of: tab)!
 
         return true
@@ -556,12 +571,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         tabBar.scrollEdgeAppearance = appearance
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
         tabBar.tintColor = AppTheme.tabBarItemTintColor()
-        // Link userInterfaceStyle to Theme type so iOS's Increase Contrast setting does the right thing
-        tabBar.overrideUserInterfaceStyle = Theme.isDarkTheme() ? .dark : .light
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear, !FeatureFlag.upNextOnTabBar.enabled {
+        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
             profileTabBarItem.badgeValue = "●"
         }
     }
@@ -643,7 +656,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         super.motionEnded(motion, with: event)
-        if motion == .motionShake {
+        if motion == .motionShake && Settings.shakeToRestartSleepTimer {
             PlaybackManager.shared.restartSleepTimer()
         }
     }
@@ -749,7 +762,7 @@ private extension MainTabBarController {
     func showWhatsNewIfNeeded() {
         guard let controller = view.window?.rootViewController else { return }
 
-        if let whatsNewViewController = appDelegate()?.whatsNew?.viewControllerToShow() {
+        if let whatsNewViewController = appDelegate()?.whatsNew.viewControllerToShow() {
             controller.present(whatsNewViewController, animated: true)
             isShowingWhatsNew = true
         }

@@ -60,6 +60,8 @@ class GridBadgeView: UIView {
         badgeLabel.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         badgeLabel.translatesAutoresizingMaskIntoConstraints = false
         badgeLabel.textAlignment = .center
+        badgeLabel.layer.borderWidth = 2
+        badgeLabel.layer.cornerRadius = 10
         addSubview(badgeLabel)
         labelWidthConstraint = badgeLabel.widthAnchor.constraint(equalToConstant: 20)
         NSLayoutConstraint.activate([
@@ -69,10 +71,11 @@ class GridBadgeView: UIView {
         ])
 
         simpleBadge.translatesAutoresizingMaskIntoConstraints = false
+        simpleBadge.borderWidth = 3.0
         addSubview(simpleBadge)
         NSLayoutConstraint.activate([
-            simpleBadge.heightAnchor.constraint(equalToConstant: 12),
-            simpleBadge.widthAnchor.constraint(equalToConstant: 12),
+            simpleBadge.heightAnchor.constraint(equalToConstant: 15),// The total size needs to take account the border width too
+            simpleBadge.widthAnchor.constraint(equalToConstant: 15),
             simpleBadge.trailingAnchor.constraint(equalTo: trailingAnchor),
             simpleBadge.topAnchor.constraint(equalTo: topAnchor)
         ])
@@ -92,10 +95,8 @@ class GridBadgeView: UIView {
         badgeLabel.textColor = ThemeColor.primaryInteractive02()
         badgeLabel.backgroundColor = ThemeColor.primaryInteractive01()
         badgeLabel.layer.borderColor = ThemeColor.primaryUi04().cgColor
-        badgeLabel.layer.borderWidth = 2
-        badgeLabel.layer.cornerRadius = 10
 
-        simpleBadge.borderColor = ThemeColor.primaryUi04()
+        simpleBadge.borderColor = ThemeColor.primaryUi02()
         simpleBadge.centerColor = ThemeColor.primaryInteractive01()
         simpleBadge.backgroundColor = .clear
     }

@@ -153,12 +153,6 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Chegaram os favoritos!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Junte-se a nós na versão beta dos favoritos!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Assine o Plus agora para pré-selecionar e pular capítulos automaticamente em qualquer episódio que seja compatível com esses recursos.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Como parte da assinatura do Patron, agora você pode pré-selecionar e pular capítulos automaticamente em qualquer episódio que seja compatível com esses recursos.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Como parte da assinatura do Plus, agora você pode pré-selecionar e pular capítulos automaticamente em qualquer episódio que seja compatível com esses recursos.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Código copiado para a área de transferência</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,8 +213,6 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Arte do podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema escuro</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Usar arte do episódio</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>Alguns programas usam arte personalizada para determinados episódios. Se você ativar esta opção, o Pocket Casts exibirá essa arte em vez da arte do programa.</string>
     <key>appearance_light_theme</key>
@@ -263,6 +255,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Os primeiros %1$@ episódios neste filtro serão baixados automaticamente</string>
     <key>auto_download_prompt_first</key>
     <string>Primeiro</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Reiniciar temporizador automaticamente</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Quando ativado, o temporizador será reiniciado automaticamente se você reproduzir um episódio dentro de cinco minutos após a última pausa.</string>
     <key>back</key>
     <string>Voltar</string>
     <key>beta_purchase_disabled</key>
@@ -423,6 +419,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Remover da nuvem</string>
     <key>custom_episode_upload</key>
     <string>Fazer upload na nuvem</string>
+    <key>database_migration</key>
+    <string>Estamos movendo alguns bits e bytes para que o aplicativo seja executado mais rapidamente...</string>
     <key>day_listened</key>
     <string>Dia ouvido</string>
     <key>day_saved</key>
@@ -451,6 +449,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Excluir apenas do dispositivo</string>
     <key>deselect_all</key>
     <string>Desmarcar tudo</string>
+    <key>device_shake_sleep_timer</key>
+    <string>O temporizador reiniciou devido ao sacudir do dispositivo.</string>
     <key>discover</key>
     <string>Explorar</string>
     <key>discover_all_episodes</key>
@@ -1091,6 +1091,8 @@ Compartilhe-os com o Pocket Casts, e eles aparecerão aqui</string>
     <string>Entendi</string>
     <key>group_episodes</key>
     <string>Agrupar episódios</string>
+    <key>hang_on</key>
+    <string>Aguente firme!</string>
     <key>history_clear_all</key>
     <string>Limpar tudo</string>
     <key>history_clear_all_details</key>
@@ -1893,6 +1895,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Remover de Próximos</string>
     <key>renew_subscription</key>
     <string>Renove sua assinatura</string>
+    <key>restore</key>
+    <string>Restaurar</string>
     <key>retry</key>
     <string>Tentar novamente</string>
     <key>save_bookmark</key>
@@ -2341,6 +2345,10 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Primeiros %1$@</string>
     <key>setup_account</key>
     <string>Configurar conta</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Balançar para reiniciar o temporizador</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Se ativado, o temporizador será reiniciado quando você balançar seu celular.</string>
     <key>share</key>
     <string>Compartilhar</string>
     <key>share_current_position</key>
@@ -2433,10 +2441,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Voltar</string>
     <key>skip_chapters</key>
     <string>Pré-selecionar capítulos</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Pré-selecione capítulos e muito mais com o Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Pré-selecione capítulos e muito mais com o Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avançar</string>
     <key>sleep_timer</key>
@@ -2447,6 +2451,12 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Cancelar temporizador</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Fim do episódio</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Em %1$@ episódios</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Dormindo em %1$@ episódios</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Dormindo no final do episódio atual</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporizador ligado, tempo restante: %1$@</string>
     <key>social_sign_in_continue_with_apple</key>

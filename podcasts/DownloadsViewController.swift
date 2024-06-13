@@ -49,7 +49,6 @@ class DownloadsViewController: PCViewController {
 
     @IBOutlet var downloadsTable: UITableView! {
         didSet {
-            downloadsTable.applyInsetForMiniPlayer()
             registerTableCells()
             registerLongPress()
             downloadsTable.estimatedRowHeight = 80.0
@@ -65,7 +64,7 @@ class DownloadsViewController: PCViewController {
                 self.setupNavBar()
                 self.downloadsTable.beginUpdates()
                 self.downloadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.downloadsTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
+                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
                 self.downloadsTable.endUpdates()
 
                 if self.isMultiSelectEnabled {
@@ -109,6 +108,8 @@ class DownloadsViewController: PCViewController {
 
         downloadsTable.tableFooterView = UIView(frame: CGRect.zero)
         downloadsTable.sectionFooterHeight = 0.0
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: downloadsTable)
 
         title = L10n.downloads
 

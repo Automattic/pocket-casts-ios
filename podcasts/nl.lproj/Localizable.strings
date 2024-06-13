@@ -153,12 +153,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>De bladwijzers zijn er!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Doe mee met de bètatests voor bladwijzers!</string>
-    <key>announcement_deselect_chapters_free</key>
-    <string>Neem een Plus-abonnement om waar mogelijk hoofdstukken van afleveringen automatisch voor te selecteren en over te slaan.</string>
-    <key>announcement_deselect_chapters_patron</key>
-    <string>Met het Patron-abonnement kan je waar mogelijk hoofdstukken van afleveringen automatisch voorselecteren en overslaan.</string>
-    <key>announcement_deselect_chapters_plus</key>
-    <string>Met het Plus-abonnement kan je waar mogelijk hoofdstukken van afleveringen automatisch voorselecteren en overslaan.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code gekopieerd naar klembord</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -219,8 +213,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Podcast-artwork</string>
     <key>appearance_dark_theme</key>
     <string>Donker thema</string>
-    <key>appearance_embedded_artwork</key>
-    <string>Artwork van afleveringen gebruiken</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>Sommige shows hebben apart artwork voor bepaalde afleveringen Als je deze optie inschakelt, zal dit worden weergegeven in plaats van het artwork van de show.</string>
     <key>appearance_light_theme</key>
@@ -263,6 +255,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>De eerste %1$@ afleveringen in dit filter worden automatisch gedownload</string>
     <key>auto_download_prompt_first</key>
     <string>Eerste</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Automatisch opnieuw opstarten van slaaptimer</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Indien ingeschakeld, wordt de slaaptimer automatisch opnieuw opgestart als je een aflevering afspeelt binnen vijf minuten van de laatste pauzering.</string>
     <key>back</key>
     <string>Terug</string>
     <key>beta_purchase_disabled</key>
@@ -423,6 +419,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Verwijderen uit cloud</string>
     <key>custom_episode_upload</key>
     <string>Uploaden naar cloud</string>
+    <key>database_migration</key>
+    <string>We verplaatsen een paar bits en bytes zodat de app sneller is...</string>
     <key>day_listened</key>
     <string>Dagen geluisterd</string>
     <key>day_saved</key>
@@ -451,6 +449,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alleen uit apparaat verwijderen</string>
     <key>deselect_all</key>
     <string>Alles deselecteren</string>
+    <key>device_shake_sleep_timer</key>
+    <string>De slaaptimer is opnieuw gestart omdat er met het apparaat is geschud</string>
     <key>discover</key>
     <string>Ontdek</string>
     <key>discover_all_episodes</key>
@@ -1091,6 +1091,8 @@ Deel ze met Pocket Casts en ze verschijnen hier</string>
     <string>Duidelijk</string>
     <key>group_episodes</key>
     <string>Afleveringen groeperen</string>
+    <key>hang_on</key>
+    <string>Wacht!</string>
     <key>history_clear_all</key>
     <string>Alles wissen</string>
     <key>history_clear_all_details</key>
@@ -1221,6 +1223,10 @@ podcasts mee</string>
     <string>maand</string>
     <key>monthly</key>
     <string>Maandelijks</string>
+    <key>most_popular</key>
+    <string>Populairste</string>
+    <key>most_popular_with_name</key>
+    <string>Populairst in %1$@</string>
     <key>move_to_bottom</key>
     <string>Verplaats naar beneden</string>
     <key>move_to_top</key>
@@ -1889,6 +1895,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Hierna verwijderen</string>
     <key>renew_subscription</key>
     <string>Verleng je abonnement</string>
+    <key>restore</key>
+    <string>Herstellen</string>
     <key>retry</key>
     <string>Opnieuw proberen</string>
     <key>save_bookmark</key>
@@ -2337,6 +2345,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Bovenste %1$@</string>
     <key>setup_account</key>
     <string>Account instellen</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Schudden om slaaptimer te opnieuw op te starten</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Indien ingeschakeld, wordt de slaaptimer opnieuw opgestart als je met je telefoon schudt.</string>
     <key>share</key>
     <string>Delen</string>
     <key>share_current_position</key>
@@ -2429,10 +2441,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Terugspoelen</string>
     <key>skip_chapters</key>
     <string>Hoofdstukken voorselecteren</string>
-    <key>skip_chapters_patron_prompt</key>
-    <string>Selecteer hoofdstukken voor en geniet van extra functies met Pocket Casts Patron</string>
-    <key>skip_chapters_plus_prompt</key>
-    <string>Selecteer hoofdstukken voor en geniet van extra functies met Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Doorspoelen</string>
     <key>sleep_timer</key>
@@ -2443,6 +2451,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Timer annuleren</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Einde van de aflevering</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Slaapstand inschakelen aan het einde van de huidige aflevering</string>
     <key>sleep_timer_time_remaining</key>
     <string>Slaaptimer aan, %1$@ resterend</string>
     <key>social_sign_in_continue_with_apple</key>

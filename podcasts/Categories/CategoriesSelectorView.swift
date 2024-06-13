@@ -15,35 +15,41 @@ struct CategoriesSelectorView: View {
     @EnvironmentObject private var theme: Theme
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                if let categories, let popular {
-                    CategoriesPillsView(pillCategories: popular, overflowCategories: categories, selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)))
-                } else {
-                    PlaceholderPillsView()
-                }
+        Group {
+            if let categories, let popular {
+                CategoriesPillsView(pillCategories: popular,
+                                    overflowCategories: categories,
+                                    selectedCategory: $discoverItemObservable.selectedCategory.animation(.easeOut(duration: 0.25)),
+                                    region: discoverItemObservable.region)
+            } else {
+                PlaceholderPillsView()
             }
-            .padding(.top, 2)
-            .padding(.bottom, 16)
-            .padding(.horizontal, 16)
         }
         .background(theme.secondaryUi01)
         .task(id: discoverItemObservable.item?.source) {
             let result = await discoverItemObservable.load()
             self.categories = result?.categories
-            self.popular = result?.popular
+            self.popular = discoverItemObservable.item?.popular?.compactMap({ orderedItem in
+                result?.popular.first(where: { $0.id == orderedItem }) ?? result?.categories.first(where: { $0.id == orderedItem })
+            }) ?? result?.popular
         }
     }
 }
 
 struct PlaceholderPillsView: View {
     var body: some View {
-        ForEach(0..<10) { _ in
-            Button(action: {}, label: {
-                Text("Placeholder")
-            })
-            .buttonStyle(CategoryButtonStyle())
-            .redacted(reason: .placeholder)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(0..<10) { _ in
+                    Button(action: {}, label: {
+                        Text("Placeholder")
+                    })
+                    .buttonStyle(CategoryButtonStyle())
+                    .redacted(reason: .placeholder)
+                }
+            }
+            .frame(alignment: .leading)
+            .padding(CategoriesPillsView.Constants.buttonInsets)
         }
     }
 }
@@ -53,43 +59,74 @@ struct CategoriesPillsView: View {
     let overflowCategories: [DiscoverCategory]
     @Binding var selectedCategory: DiscoverCategory?
 
+    let region: String?
+
     @State private var showingCategories = false
 
     @Namespace private var animation
 
+    fileprivate enum Constants {
+        static let buttonInsets: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 16, trailing: 16)
+    }
+
     var body: some View {
         if let selectedCategory {
-            CloseButton(selectedCategory: $selectedCategory)
-            CategoryButton(category: selectedCategory, selectedCategory: $selectedCategory)
-                .matchedGeometryEffect(id: selectedCategory.id, in: animation)
+            HStack {
+                CloseButton(selectedCategory: $selectedCategory)
+                CategoryButton(category: selectedCategory, selectedCategory: $selectedCategory, region: region)
+                    .matchedGeometryEffect(id: selectedCategory.id, in: animation)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(Constants.buttonInsets)
         } else {
-            Button(action: {
-                showingCategories.toggle()
-            }, label: {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    Text("All Categories")
-                    Image(systemName: "chevron.down")
+                    allCategoriesButton
+                    categoryButtons
                 }
-            })
-            .buttonStyle(CategoryButtonStyle())
-            ForEach(pillCategories, id: \.id) { category in
-                CategoryButton(category: category, selectedCategory: $selectedCategory)
-                .matchedGeometryEffect(id: category.id, in: animation)
+                .padding(Constants.buttonInsets)
             }
-            .sheet(isPresented: $showingCategories) {
-                CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory)
-                    .modify {
-                        if #available(iOS 16.0, *) {
-                            $0.presentationDetents([.medium, .large])
-                                .presentationDragIndicator(.hidden)
-                        } else {
-                            $0
-                        }
+        }
+    }
+
+    @ViewBuilder private var allCategoriesButton: some View {
+        Button(action: {
+            showingCategories.toggle()
+            Analytics.track(.discoverCategoriesPillTapped, properties: ["name": "all", "region": region ?? "none", "id": -1])
+        }, label: {
+            HStack {
+                Text("All Categories")
+                Image(systemName: "chevron.down")
+            }
+        })
+        .buttonStyle(CategoryButtonStyle())
+        .sheet(isPresented: $showingCategories) {
+            CategoriesModalPicker(categories: overflowCategories, selectedCategory: $selectedCategory, region: region)
+                .modify {
+                    if #available(iOS 16.0, *) {
+                        $0.presentationDetents([.medium, .large])
+                            .presentationDragIndicator(.hidden)
+                    } else {
+                        $0
                     }
+                }
+        }
+        .onChange(of: showingCategories) { isShowing in
+            if isShowing {
+                Analytics.track(.discoverCategoriesPickerShown, properties: ["region": region ?? "none"])
+            } else {
+                Analytics.track(.discoverCategoriesPickerClosed, properties: ["region": region ?? "none"])
             }
-            .onChange(of: selectedCategory) { _ in
-                showingCategories = false
-            }
+        }
+        .onChange(of: selectedCategory) { _ in
+            showingCategories = false
+        }
+    }
+
+    @ViewBuilder private var categoryButtons: some View {
+        ForEach(pillCategories, id: \.id) { category in
+            CategoryButton(category: category, selectedCategory: $selectedCategory, region: region)
+                .matchedGeometryEffect(id: category.id, in: animation)
         }
     }
 }
@@ -106,6 +143,7 @@ struct CloseButton: View {
     var body: some View {
         Button(action: {
             self.selectedCategory = nil
+            Analytics.track(.discoverCategoryCloseButtonTapped)
         }, label: {
             Image(systemName: "xmark")
                 .imageScale(.small)
@@ -119,6 +157,8 @@ struct CategoryButton: View {
 
     @Binding var selectedCategory: DiscoverCategory?
 
+    let region: String?
+
     var isSelected: Bool {
         category.id == selectedCategory?.id
     }
@@ -126,6 +166,7 @@ struct CategoryButton: View {
     var body: some View {
         Button(action: {
             selectedCategory = category
+            Analytics.track(.discoverCategoriesPillTapped, properties: ["name": category.name ?? "none", "region": region ?? "none", "id": category.id ?? -1])
         }, label: {
             Text(category.name ?? "")
         })

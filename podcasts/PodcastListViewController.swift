@@ -77,7 +77,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         super.viewDidLoad()
 
         updateNavigationButtons()
-
         title = L10n.podcastsPlural
         setupSearchBar()
         setupRefreshControl()
@@ -87,6 +86,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         longPressGesture.delegate = self
 
         adjustSettingsForGridType()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -152,9 +152,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.folderDeleted, selector: #selector(refreshGridItems))
 
-        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
-        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
-
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         addCustomObserver(Constants.Notifications.searchRequested, selector: #selector(searchRequested))
     }
@@ -169,7 +166,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     private func makeBadge(size: CGFloat) -> UIView {
         let badgeView = CircleView()
-        badgeView.borderWidth = CGFloat(2)
+        let borderWidth = CGFloat(2)
         badgeView.borderColor = ThemeColor.secondaryUi01()
         badgeView.centerColor = ThemeColor.primaryInteractive01()
         badgeView.backgroundColor = .clear
@@ -223,14 +220,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
         let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
         folderButton.accessibilityLabel = L10n.folderCreateNew
-        if FeatureFlag.upNextOnTabBar.enabled {
-            let userProfile = UserInfo.Profile()
-            navigationItem.leftBarButtonItem = makeProfileButton(email: userProfile.email)
-            extraRightButtons = [folderButton]
-        } else {
-            navigationItem.leftBarButtonItem = folderButton
-            extraRightButtons = []
-        }
+        navigationItem.leftBarButtonItem = folderButton
+        extraRightButtons = []
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {
@@ -248,15 +239,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         searchController.searchTextField.becomeFirstResponder()
     }
 
-    @objc private func miniPlayerStatusDidChange() {
-        updateInsets()
-    }
-
     private func updateInsets() {
         let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
-        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
-
-        podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
+        let currentInsets = podcastsCollectionView.contentInset
+        podcastsCollectionView.contentInset = UIEdgeInsets(top: currentInsets.top, left: horizontalMargin, bottom: currentInsets.bottom, right: horizontalMargin)
     }
 
     private func adjustSettingsForGridType() {

@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,6 +17,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Obo-K7-bOt" userLabel="ShadowView">
+                        <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVd-gA-oCj" userLabel="ContainerView">
                         <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                         <subviews>
@@ -82,9 +88,15 @@
                 <outlet property="containerView" destination="hVd-gA-oCj" id="dub-Mv-NSo"/>
                 <outlet property="podcastImage" destination="8" id="9"/>
                 <outlet property="podcastName" destination="4" id="10"/>
+                <outlet property="shadowView" destination="Obo-K7-bOt" id="mVk-6w-e5o"/>
                 <outlet property="supporterHeart" destination="v1m-PH-X4D" id="ckA-l7-rhg"/>
             </connections>
             <point key="canvasLocation" x="129.59999999999999" y="153.82308845577214"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

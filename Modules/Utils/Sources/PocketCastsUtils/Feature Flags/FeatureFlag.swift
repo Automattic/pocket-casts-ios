@@ -10,7 +10,7 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Enable the new show notes endpoint plus embedded episode artwork
+    /// Enable show notes using the new endpoint
     case newShowNotesEndpoint
 
     /// Enable retrieving episode artwork from the RSS feed
@@ -50,6 +50,25 @@ public enum FeatureFlag: String, CaseIterable {
     /// show UpNext tab on the main tab bar
     case upNextOnTabBar
 
+    /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
+    /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
+    case defaultPlayerFilterCallbackFix
+
+    case downloadFixes
+
+    /// When a user sign in, we always mark ALL podcasts as unsynced
+    /// This recently caused issues, syncing changes that shouldn't have been synced
+    /// When `true`, we only mark podcasts as unsynced if the user never signed in before
+    case onlyMarkPodcastsUnsyncedForNewUsers
+
+    /// Only update an episode if it fails playing
+    /// If set to `false`, it will use the previous mechanism that always update
+    /// but can lead to a bigger time between tapping play and actually playing it
+    case whenPlayingOnlyUpdateEpisodeIfPlaybackFails
+
+    /// Use the Accelerate framework to speed up custom effects
+    case accelerateEffects
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -67,11 +86,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             false
         case .newShowNotesEndpoint:
-            true
+            false
         case .episodeFeedArtwork:
-            true // To be enabled, newShowNotesEndpoint needs to be too
+            false
         case .rssChapters:
-            true // To be enabled, newShowNotesEndpoint needs to be too
+            false
         case .newPlayerTransition:
             true
         case .errorLogoutHandling:
@@ -92,14 +111,23 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .categoriesRedesign:
             true
+        case .defaultPlayerFilterCallbackFix:
+            true
         case .upNextOnTabBar:
+            true
+        case .downloadFixes:
+            true
+        case .onlyMarkPodcastsUnsyncedForNewUsers:
+            true
+        case .whenPlayingOnlyUpdateEpisodeIfPlaybackFails:
+            true
+        case .accelerateEffects:
             true
         }
     }
 
     private var shouldEnableSyncedSettings: Bool {
-        // Enabled only out of appstore until we verify that this feature is ready for production.
-        BuildEnvironment.current != .appStore
+        false
     }
 
     /// Remote Feature Flag
@@ -116,8 +144,20 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:
             shouldEnableSyncedSettings ? "settings_sync" : nil
+        case .newShowNotesEndpoint:
+             "new_show_notes"
+         case .episodeFeedArtwork:
+             "episode_artwork"
+         case .rssChapters:
+             "rss_chapters"
+        case .categoriesRedesign:
+            "categories_redesign"
+        case .defaultPlayerFilterCallbackFix:
+            "default_player_filter_callback_fix"
+        case .upNextOnTabBar:
+            "up_next_on_tab_bar"
         default:
-            nil
+            rawValue.lowerSnakeCased()
         }
     }
 }

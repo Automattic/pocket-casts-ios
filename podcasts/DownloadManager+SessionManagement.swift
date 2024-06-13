@@ -40,40 +40,34 @@ extension DownloadManager {
         }
     }
 
-    func clearStuckDownloads() {
-        let episodesWithDownloadIds = DataManager.sharedManager.findEpisodesWhereNotNull(propertyName: "downloadTaskId")
-        if episodesWithDownloadIds.count == 0 { return }
-
-        var episodeUuids = [String]()
-        for episode in episodesWithDownloadIds {
-            episodeUuids.append(episode.uuid)
+    func clearStuckDownloads() async {
+        let episodesWithDownloadIds = dataManager.findEpisodesWhereNotNull(propertyName: "downloadTaskId")
+        if !FeatureFlag.downloadFixes.enabled {
+            if episodesWithDownloadIds.count == 0 { return }
         }
 
-        wifiOnlyBackgroundSession.getTasksWithCompletionHandler { [weak self] _, _, downloadTasks in
-            guard let strongSelf = self else { return }
-            for task in downloadTasks {
-                if let taskId = task.taskDescription, let episode = DataManager.sharedManager.findBaseEpisode(downloadTaskId: taskId), let index = episodeUuids.firstIndex(of: episode.uuid) {
-                    episodeUuids.remove(at: index)
+        var episodeUuids = episodesWithDownloadIds.map { $0.uuid }
+
+        let tasks = await allTasks()
+
+        tasks.forEach { task in
+            if let taskId = task.taskDescription, let episode = dataManager.findBaseEpisode(downloadTaskId: taskId), let index = episodeUuids.firstIndex(of: episode.uuid) {
+                episodeUuids.remove(at: index)
+            } else {
+                if FeatureFlag.downloadFixes.enabled {
+                    task.cancel()
                 }
             }
+        }
 
-            strongSelf.cellularBackgroundSession.getTasksWithCompletionHandler { _, _, downloadTasks in
-                for task in downloadTasks {
-                    if let taskId = task.taskDescription, let episode = DataManager.sharedManager.findBaseEpisode(downloadTaskId: taskId), let index = episodeUuids.firstIndex(of: episode.uuid) {
-                        episodeUuids.remove(at: index)
-                    }
-                }
+        if episodeUuids.count == 0 { return }
 
-                if episodeUuids.count == 0 { return }
+        for episodeUuid in episodeUuids {
+            guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { continue }
 
-                for episodeUuid in episodeUuids {
-                    guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { continue }
-
-                    let downloadStatus: DownloadStatus = episode.downloaded(pathFinder: strongSelf) ? .downloaded : .notDownloaded
-                    DataManager.sharedManager.saveEpisode(downloadStatus: downloadStatus, downloadTaskId: nil, episode: episode)
-                    FileLog.shared.addMessage("Clearing download status on an episode that isn't downloading anymore: \(episode.displayableTitle())")
-                }
-            }
+            let downloadStatus: DownloadStatus = episode.downloaded(pathFinder: self) ? .downloaded : .notDownloaded
+            dataManager.saveEpisode(downloadStatus: downloadStatus, downloadTaskId: nil, episode: episode)
+            FileLog.shared.addMessage("Clearing download status on an episode that isn't downloading anymore: \(episode.displayableTitle())")
         }
     }
 }
