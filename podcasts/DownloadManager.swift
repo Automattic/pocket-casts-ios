@@ -264,10 +264,12 @@ class DownloadManager: NSObject, FilePathProtocol {
             if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue,
                let _ = downloadingEpisodesCache[episode.uuid] {
                 // We are already downloading this episode for streaming
+                FileLog.shared.addMessage("DownloadManager export session: skipping because we are already exporting: \(episode.uuid)")
                 return
             }
             if episode.downloading() || episode.queued() {
                 let previousStatus = episode.autoDownloadStatus
+                FileLog.shared.addMessage("DownloadManager export session: cancelling existing download for: \(episode.uuid) with status:\(previousStatus)")
                 self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
                 episode.autoDownloadStatus = previousStatus
             } else {
