@@ -56,65 +56,85 @@ struct SourceInterfaceNavigationView: View {
 
     @StateObject var model = SourceInterfaceModel()
 
+    @ViewBuilder
+    var sourceSection: some View {
+        Section {
+            NavigationLink(destination: InterfaceView(source: .phone), tag: Source.phone.rawValue, selection: $activeSource) {
+                SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
+            }
+            NavigationLink(destination: InterfaceView(source: .watch), tag: Source.watch.rawValue, selection: $activeSource) {
+                SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: !model.isLoggedIn || !model.isPlusUser, active: model.activeSource == .watch)
+            }.disabled(!model.isPlusUser)
+        } footer: {
+            if model.isPlusUser {
+                Text(L10n.watchSourceMsg)
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .foregroundStyle(.gray)
+            }
+        }
+    }
+
+    @ViewBuilder
+    var dataRefreshSection: some View {
+        if model.isPlusUser {
+            Section {
+                Button(action: {
+                    model.refreshDataTapped()
+                }, label: {
+                    MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
+                })
+            } footer: {
+                Text(model.lastRefreshLabel)
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+            }
+        }
+    }
+
+    @ViewBuilder
+    var userSection: some View {
+        Section {
+            UserRow(username: model.usernameLabel, profileImage: model.profileImage, isLoggedIn: model.isLoggedIn)
+                .listRowBackground(Color.clear)
+        } footer: {
+            if !model.isLoggedIn {
+                Text(L10n.watchSourceSignInInfo)
+                    .font(.footnote)
+            }
+        }
+    }
+
+    @ViewBuilder
+    var refreshAccountSection: some View {
+        if !model.isLoggedIn {
+            Section {
+                Button(action: {
+                    model.refreshAccountTapped()
+                }, label: {
+                    MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
+                })
+            } footer: {
+                if !model.isPlusUser {
+                    VStack {
+                        Text(L10n.watchSourceRefreshAccountInfo)
+                        Divider()
+                        Image("plus-logo")
+                        Divider()
+                        Text(L10n.watchSourcePlusInfo)
+                    }
+                }
+            }
+        }
+    }
+
     var body: some View {
         NavigationView {
             List {
-                Section {
-                    NavigationLink(destination: InterfaceView(source: .phone), tag: Source.phone.rawValue, selection: $activeSource) {
-                        SourceRow(sourceSymbol: L10n.phone.sourceUnicode(isWatch: false), label: L10n.phone, showPlusOnly: false, active: model.activeSource == .phone)
-                    }
-                    NavigationLink(destination: InterfaceView(source: .watch), tag: Source.watch.rawValue, selection: $activeSource) {
-                        SourceRow(sourceSymbol: L10n.watch.sourceUnicode(isWatch: true), label: L10n.watch, showPlusOnly: !model.isLoggedIn || !model.isPlusUser, active: model.activeSource == .watch)
-                    }.disabled(!model.isPlusUser)
-                } footer: {
-                    if model.isPlusUser {
-                        Text(L10n.watchSourceMsg)
-                            .font(.footnote)
-                            .multilineTextAlignment(.leading)
-                            .foregroundStyle(.gray)
-                    }
-                }
-                if model.isPlusUser {
-                    Section {
-                        Button(action: {
-                            model.refreshDataTapped()
-                        }, label: {
-                            MenuRow(label: L10n.watchSourceRefreshData, icon: "retry")
-                        })
-                    } footer: {
-                        Text(model.lastRefreshLabel)
-                            .font(.footnote)
-                            .multilineTextAlignment(.leading)
-                    }
-                }
-                Section {
-                    UserRow(username: model.usernameLabel, profileImage: model.profileImage, isLoggedIn: model.isLoggedIn)
-                        .listRowBackground(Color.clear)
-                } footer: {
-                    if !model.isLoggedIn {
-                        Text(L10n.watchSourceSignInInfo)
-                            .font(.footnote)
-                    }
-                }
-                if !model.isLoggedIn {
-                    Section {
-                        Button(action: {
-                            model.refreshAccountTapped()
-                        }, label: {
-                            MenuRow(label: L10n.watchSourceRefreshAccount, icon: "profile-refresh")
-                        })
-                    } footer: {
-                        if !model.isPlusUser {
-                            VStack {
-                                Text(L10n.watchSourceRefreshAccountInfo)
-                                Divider()
-                                Image("plus-logo")
-                                Divider()
-                                Text(L10n.watchSourcePlusInfo)
-                            }
-                        }
-                    }
-                }
+                sourceSection
+                dataRefreshSection
+                userSection
+                refreshAccountSection
             }.onAppear {
                 model.willActivate()
             }.onChange(of: activeSource) { newValue in
