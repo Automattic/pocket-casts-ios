@@ -165,8 +165,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func makeBadge(size: CGFloat) -> UIView {
-        let badgeView = CircleView()
-        let borderWidth = CGFloat(2)
+        let badgeView = CircleView()        
         badgeView.borderColor = ThemeColor.secondaryUi01()
         badgeView.centerColor = ThemeColor.primaryInteractive01()
         badgeView.backgroundColor = .clear
