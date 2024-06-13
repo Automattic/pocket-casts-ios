@@ -4,7 +4,7 @@ import WidgetKit
 struct UpNextWidgetBold: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "Up_Next_Widget_Bold", provider: UpNextProvider()) { entry in
-            UpNextWidgetEntryView(entry: entry, widgetColorSchemeLight: widgetColorSchemeBold, widgetColorSchemeDark: widgetColorSchemeBold)
+            UpNextWidgetEntryView(entry: entry, widgetColorSchemeLight: .bold, widgetColorSchemeDark: .bold)
                 .clearBackground()
         }
         .contentMarginsDisabledIfAvailable()

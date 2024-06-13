@@ -150,18 +150,18 @@ struct NowPlayingWidgetEntryView: View {
 struct NowPlayingEntryView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true), widgetColorSchemeLight: widgetColorSchemeBold,
-                widgetColorSchemeDark: widgetColorSchemeBold)
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true), widgetColorSchemeLight: .bold,
+                widgetColorSchemeDark: .bold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Episode Playing")
 
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false), widgetColorSchemeLight: widgetColorSchemeBold,
-                widgetColorSchemeDark: widgetColorSchemeBold)
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false), widgetColorSchemeLight: .bold,
+                widgetColorSchemeDark: .bold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Episode Paused")
 
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true), widgetColorSchemeLight: widgetColorSchemeBold,
-                widgetColorSchemeDark: widgetColorSchemeBold)
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true), widgetColorSchemeLight: .bold,
+                widgetColorSchemeDark: .bold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Nothing Playing")
         }
