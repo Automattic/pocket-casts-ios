@@ -15,9 +15,9 @@ class WatchSyncManager {
         NotificationCenter.default.addObserver(self, selector: #selector(significantEpisodeChangeMade), name: Constants.Notifications.episodeArchiveStatusChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(minorEpisodeChangeMade), name: Constants.Notifications.episodeDurationChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(significantEpisodeChangeMade), name: Constants.Notifications.episodeStarredChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(checkSubscriptionStatus), name: NSNotification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(checkSubscriptionStatus), name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusUpdated), name: Notification.Name(rawValue: ServerNotifications.subscriptionStatusChanged.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleContextUpdate), name: NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleContextUpdate), name: WatchConstants.Notifications.dataUpdated, object: nil)
     }
 
     deinit {
@@ -141,7 +141,7 @@ class WatchSyncManager {
     private func handleLogin() {
         FileLog.shared.addMessage("Login successful")
         self.checkSubscriptionStatus()
-        NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
+        NotificationCenter.default.post(name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
     }
 
@@ -154,7 +154,7 @@ class WatchSyncManager {
             FileLog.shared.addMessage("FAILED Login - no message")
         }
         SyncManager.signout()
-        NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), object: nil)
+        NotificationCenter.default.post(name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
     }
 

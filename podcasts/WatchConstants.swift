@@ -64,8 +64,8 @@ public enum WatchConstants {
     }
 
     public enum Notifications {
-        public static let dataUpdated = "dataUpdated"
-        public static let loginStatusUpdated = "loginStatusUpdated"
+        public static let dataUpdated = NSNotification.Name(rawValue: "dataUpdated")
+        public static let loginStatusUpdated = NSNotification.Name(rawValue: "loginStatusUpdated")
     }
 
     public enum Interface {

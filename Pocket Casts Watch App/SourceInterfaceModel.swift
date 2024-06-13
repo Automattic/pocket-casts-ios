@@ -34,7 +34,7 @@ class SourceInterfaceModel: ObservableObject {
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), object: nil)
+        NotificationCenter.default.removeObserver(self, name: WatchConstants.Notifications.dataUpdated, object: nil)
         removeAllCustomObservers()
         NotificationCenter.default.removeObserver(self)
     }
@@ -74,12 +74,12 @@ class SourceInterfaceModel: ObservableObject {
     }
 
     func addObservers() {
-        addCustomObserver(NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), selector: #selector(dataDidUpdate))
-        addCustomObserver(Notification.Name(rawValue: WatchConstants.Notifications.loginStatusUpdated), selector: #selector(handleStatusChangeFromNotification))
-        addCustomObserver(Notification.Name(rawValue: ServerNotifications.subscriptionStatusChanged.rawValue), selector: #selector(handleStatusChangeFromNotification))
-        addCustomObserver(Notification.Name(rawValue: ServerNotifications.syncFailed.rawValue), selector: #selector(updateLastRefreshDetails))
-        addCustomObserver(Notification.Name(rawValue: ServerNotifications.syncStarted.rawValue), selector: #selector(updateLastRefreshDetails))
-        addCustomObserver(Notification.Name(rawValue: ServerNotifications.syncCompleted.rawValue), selector: #selector(updateLastRefreshDetails))
+        addCustomObserver(WatchConstants.Notifications.dataUpdated, selector: #selector(dataDidUpdate))
+        addCustomObserver(WatchConstants.Notifications.loginStatusUpdated, selector: #selector(handleStatusChangeFromNotification))
+        addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(handleStatusChangeFromNotification))
+        addCustomObserver(ServerNotifications.syncFailed, selector: #selector(updateLastRefreshDetails))
+        addCustomObserver(ServerNotifications.syncStarted, selector: #selector(updateLastRefreshDetails))
+        addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(updateLastRefreshDetails))
     }
 
     @objc private func handleStatusChangeFromNotification() {
