@@ -46,9 +46,9 @@ class GridBadgeView: UIView {
             badgeLabel.isHidden = false
             badgeLabel.text = count < 99 ? "\(count)" : "99"
             if count > 9 {
-                labelWidthConstraint.constant = 26
+                labelWidthConstraint.constant = 34
             } else {
-                labelWidthConstraint.constant = 20
+                labelWidthConstraint.constant = 25
             }
         case .off:
             simpleBadge.isHidden = true
@@ -57,15 +57,15 @@ class GridBadgeView: UIView {
     }
 
     private func setup() {
-        badgeLabel.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
+        badgeLabel.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         badgeLabel.translatesAutoresizingMaskIntoConstraints = false
         badgeLabel.textAlignment = .center
-        badgeLabel.layer.borderWidth = 2
-        badgeLabel.layer.cornerRadius = 10
+        badgeLabel.layer.borderWidth = 3
+        badgeLabel.layer.cornerRadius = 12
         addSubview(badgeLabel)
-        labelWidthConstraint = badgeLabel.widthAnchor.constraint(equalToConstant: 20)
+        labelWidthConstraint = badgeLabel.widthAnchor.constraint(equalToConstant: 25)
         NSLayoutConstraint.activate([
-            badgeLabel.heightAnchor.constraint(equalToConstant: 20),
+            badgeLabel.heightAnchor.constraint(equalToConstant: 25),
             labelWidthConstraint,
             badgeLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])

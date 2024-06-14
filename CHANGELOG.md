@@ -6,6 +6,7 @@
 -----
 - Re-add Use contentType to set extension for downloaded files. [#1743]
 - Improve responsiveness when playing a podcast [#1801]
+- Grid layouts tweaks for better readability [#1823]
 
 7.65
 -----

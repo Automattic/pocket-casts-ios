@@ -66,10 +66,10 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEg-jY-SHX" userLabel="BadgeView" customClass="GridBadgeView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="88" y="-6" width="24" height="20"/>
+                        <rect key="frame" x="77" y="-6" width="35" height="25"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="p5J-d1-7fy"/>
-                            <constraint firstAttribute="width" constant="24" id="psU-EF-aaE"/>
+                            <constraint firstAttribute="height" constant="25" id="p5J-d1-7fy"/>
+                            <constraint firstAttribute="width" constant="35" id="psU-EF-aaE"/>
                         </constraints>
                     </view>
                 </subviews>
