@@ -14,6 +14,8 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var downloadingEpisodesCache = [String: BaseEpisode]()
 
+    var downloadAndStreamEpisodes = Set<String>()
+
     var taskFailure: [String: FailureReason] = [:]
 
     #if os(watchOS)
@@ -279,6 +281,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             episode.contentType = UTType.mpeg4Audio.preferredMIMEType
             let downloadTaskUUID = episode.uuid
             downloadingEpisodesCache[downloadTaskUUID] = episode
+            downloadAndStreamEpisodes.insert(downloadTaskUUID)
             episode.downloadTaskId = downloadTaskUUID
 
             DataManager.sharedManager.save(episode: episode)
@@ -302,6 +305,7 @@ class DownloadManager: NSObject, FilePathProtocol {
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
             }
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
+            downloadAndStreamEpisodes.remove(downloadTaskUUID)
         }
         #endif
         return playbackItem
@@ -429,6 +433,13 @@ class DownloadManager: NSObject, FilePathProtocol {
             episode.autoDownloadStatus = AutoDownloadStatus.userCancelledDownload.rawValue
             saveRequired = true
         }
+
+        if FeatureFlag.cachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
+            episode.downloadTaskId = episode.uuid
+            episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            saveRequired = true
+        }
+
         if episode.queued() || episode.downloading() || episode.waitingForWifi() {
             episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
             saveRequired = true
@@ -442,7 +453,9 @@ class DownloadManager: NSObject, FilePathProtocol {
     private func shouldAddDownload(_ episodeUuid: String, autoDownloadStatus: AutoDownloadStatus) -> Bool {
         guard let episode = dataManager.findBaseEpisode(uuid: episodeUuid) else { return false }
 
-        if let taskId = episode.downloadTaskId, episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue, autoDownloadStatus != .playerDownloadedForStreaming {
+        if let taskId = episode.downloadTaskId,
+            episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue,
+            autoDownloadStatus != .playerDownloadedForStreaming {
             // if the player was downloading an episode for streaming purposes, and now the user (or the app via auto download) is downloading it, change the status
             episode.autoDownloadStatus = autoDownloadStatus.rawValue
             episode.episodeStatus = DownloadStatus.downloading.rawValue
