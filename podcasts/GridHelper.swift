@@ -22,7 +22,7 @@ class GridHelper {
 
     // MARK: - UICollectionView layout
 
-    init(spacing: CGFloat = 8) {
+    init(spacing: CGFloat = 6) {
         self.spacing = spacing
     }
 
