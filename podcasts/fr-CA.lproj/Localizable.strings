@@ -1895,6 +1895,8 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Supprimer la file d’attente Prochains épisodes</string>
     <key>renew_subscription</key>
     <string>Renouveler votre abonnement</string>
+    <key>restore</key>
+    <string>Restaurer</string>
     <key>retry</key>
     <string>Réessayer</string>
     <key>save_bookmark</key>

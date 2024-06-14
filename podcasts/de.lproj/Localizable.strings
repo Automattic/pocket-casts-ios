@@ -1895,6 +1895,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Aus Warteschlange entfernen</string>
     <key>renew_subscription</key>
     <string>Abonnement verlängern</string>
+    <key>restore</key>
+    <string>Wiederherstellen</string>
     <key>retry</key>
     <string>Erneut versuchen</string>
     <key>save_bookmark</key>

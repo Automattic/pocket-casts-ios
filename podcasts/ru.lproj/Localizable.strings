@@ -1895,6 +1895,8 @@
     <string>Удалить следующие</string>
     <key>renew_subscription</key>
     <string>Продлить подписку</string>
+    <key>restore</key>
+    <string>Восстановить</string>
     <key>retry</key>
     <string>Повторить попытку</string>
     <key>save_bookmark</key>
