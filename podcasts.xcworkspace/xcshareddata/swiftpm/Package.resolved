@@ -209,15 +209,6 @@
         }
       },
       {
-        "package": "Pulse",
-        "repositoryURL": "https://github.com/kean/Pulse.git",
-        "state": {
-          "branch": null,
-          "revision": "2d37916b14718f7b654606d72f6cf23f299dc47a",
-          "version": "4.2.3"
-        }
-      },
-      {
         "package": "Sentry",
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {

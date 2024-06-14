@@ -21,6 +21,8 @@ end
 target 'podcasts' do
   platform :ios, app_ios_deployment_target.version
   common_pods
+  pod 'PulseCore', :git => 'https://github.com/kean/Pulse.git', :tag => '4.2.4', :configurations => ['Debug', 'Staging', 'Prototype']
+  pod 'PulseUI', :git => 'https://github.com/kean/Pulse.git', :tag => '4.2.4', :configurations => ['Debug', 'Staging', 'Prototype']
 end
 
 target 'PocketCastsTests' do

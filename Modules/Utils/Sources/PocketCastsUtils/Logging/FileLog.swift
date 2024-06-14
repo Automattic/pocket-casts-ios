@@ -2,9 +2,6 @@ import Combine
 import Foundation
 import os
 
-@_exported import Pulse
-@_exported import PulseUI
-
 actor LogBuffer {
     private let bufferThreshold: UInt
 
@@ -116,6 +113,7 @@ public final class FileLog {
     }()
 
     private var logBuffer: LogBuffer
+    public let publisher = PassthroughSubject<String, Never>()
 
     init(
         logPersistence: PersistentTextWriting,
@@ -129,13 +127,7 @@ public final class FileLog {
     public func addMessage(_ message: String, date: Date = Date()) {
         Task {
             await logBuffer.append(message, date: date)
-            if FeatureFlag.networkDebugging.enabled {
-                LoggerStore.shared.storeMessage(
-                    label: "FileLog",
-                    level: .debug,
-                    message: message
-                )
-            }
+            publisher.send(message)
         }
     }
 

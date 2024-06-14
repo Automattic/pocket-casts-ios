@@ -1,7 +1,10 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import PocketCastsUtils
+#if canImport(PulseUI)
 import PulseUI
+#endif
 
 struct DeveloperMenu: View {
     @State var showingImporter = false
@@ -62,10 +65,14 @@ struct DeveloperMenu: View {
                 })
             }
 
-            Section {
-                NavigationLink(destination: ConsoleView()) {
-                    Text("Network Debugger")
+            if FeatureFlag.networkDebugging.enabled {
+            #if canImport(PulseUI)
+                Section {
+                    NavigationLink(destination: ConsoleView()) {
+                        Text("Network Debugger")
+                    }
                 }
+            #endif
             }
 
             Section {
