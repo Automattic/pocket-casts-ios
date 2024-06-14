@@ -299,7 +299,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
         view.backgroundColor = .clear
 
-        gradientView.colors = [ThemeColor.primaryUi02().withAlphaComponent(0), ThemeColor.primaryUi02()]
+        gradientView.colors = [ThemeColor.primaryUi01().withAlphaComponent(0), ThemeColor.primaryUi01()]
 
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
         mainView.backgroundColor = bgColor
