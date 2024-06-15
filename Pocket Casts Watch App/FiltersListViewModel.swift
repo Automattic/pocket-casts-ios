@@ -10,6 +10,7 @@ class FiltersListViewModel: ObservableObject {
 
     init() {
         Publishers.Notification.dataUpdated
+            .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _ in
                 self.loadData()
             })

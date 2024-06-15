@@ -3108,6 +3108,8 @@ internal enum L10n {
   internal static var watchNothingPlayingSubtitle: String { return L10n.tr("Localizable", "watch_nothing_playing_subtitle") }
   /// Nothing Playing
   internal static var watchNothingPlayingTitle: String { return L10n.tr("Localizable", "watch_nothing_playing_title") }
+  /// Play Source
+  internal static var watchPlaySource: String { return L10n.tr("Localizable", "watch_play_source") }
   /// Podcasts will play from the speaker that the chosen device is connected to
   internal static var watchSourceMsg: String { return L10n.tr("Localizable", "watch_source_msg") }
   /// Download direct to your watch and listen without your phone. Check out Pocket Casts Plus on your phone app, or on the web.

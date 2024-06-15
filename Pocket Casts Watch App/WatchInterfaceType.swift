@@ -14,30 +14,36 @@ enum WatchInterfaceType: String {
     case nowPlaying
     case filterList
     case interface
-}
 
-extension WatchInterfaceType {
-    func content(context: Any?) -> AnyView? {
+    var interfacePosition: Int? {
         switch self {
+        case .unknown:
+            return nil
+        case .effects:
+            return 0
+        case .episodeDetails:
+            return 1
         case .downloads:
-            return AnyView(DownloadListView())
+            return 2
         case .podcasts:
-            return AnyView(PodcastsListView())
+            return 3
         case .files:
-            return AnyView(FilesListView())
+            return 4
         case .filter:
-            guard let filterView = FilterEpisodeListView(context: context) else { return nil }
-            return AnyView(filterView)
+            return 5
         case .upnext:
-            return AnyView(UpNextView())
+            return 6
         case .nowPlaying:
-            return AnyView(NowPlayingContainerView())
+            return 7
         case .filterList:
-            return AnyView(FiltersListView())
+            return 8
         case .interface:
-            return AnyView(InterfaceView())
-        default:
             return nil
         }
+    }
+
+    var indexPosition: Int {
+        let position = interfacePosition ?? -1
+        return position
     }
 }

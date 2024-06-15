@@ -9,6 +9,7 @@ struct DownloadListView: View {
             }
         }
         .navigationTitle(L10n.downloads.prefixSourceUnicode)
+        .restorable(.downloads)
         .onAppear {
             viewModel.loadEpisodes()
         }
