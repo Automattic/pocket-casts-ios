@@ -63,6 +63,10 @@ struct MediaExporter {
             FileLog.shared.addMessage("DownloadManager export session: finished with error -> \(error)")
             return false
         }
+        if exporter.status == .cancelled {
+            FileLog.shared.addMessage("DownloadManager export session: cancelled")
+            return false
+        }
         FileLog.shared.addMessage("DownloadManager export session: Finished exporting successfully")
         return true
     }
