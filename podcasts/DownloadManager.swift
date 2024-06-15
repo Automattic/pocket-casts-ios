@@ -270,7 +270,9 @@ class DownloadManager: NSObject, FilePathProtocol {
                 FileLog.shared.addMessage("DownloadManager export session: skipping because we are already exporting: \(episode.uuid)")
                 return
             }
+            var wasDownloadingBefore = false
             if episode.downloading() || episode.queued() {
+                wasDownloadingBefore = true
                 let previousStatus = episode.autoDownloadStatus
                 FileLog.shared.addMessage("DownloadManager export session: cancelling existing download for: \(episode.uuid) with status:\(previousStatus)")
                 self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
@@ -292,6 +294,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL) { progress in
                 self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64((Double(progress) * Double(episode.sizeInBytes))), totalBytesExpectedToWrite: episode.sizeInBytes)
             }
+            downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
+            downloadAndStreamEpisodes.remove(downloadTaskUUID)
+
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
                     // If while the export session was running the user or auto-download system decided to download the episode, we just move the end file
@@ -302,10 +307,9 @@ class DownloadManager: NSObject, FilePathProtocol {
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
                 }
             } else {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+                DataManager.sharedManager.saveEpisode(downloadStatus: wasDownloadingBefore ? .queued : .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
             }
-            downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
-            downloadAndStreamEpisodes.remove(downloadTaskUUID)
         }
         #endif
         return playbackItem
