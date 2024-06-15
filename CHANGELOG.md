@@ -1,6 +1,6 @@
 7.67
 -----
-
+- WatchOS refactor main screen and app entry point to SwiftUI. [#1800]
 
 7.66
 -----
