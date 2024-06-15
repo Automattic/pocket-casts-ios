@@ -13,6 +13,7 @@ struct MediaExporter {
         while session.progress != 1, statusInProgress.contains(session.status) {
             progressCallback?(session.progress)
             try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+            FileLog.shared.addMessage("DownloadManager export session: \(session.outputURL!.lastPathComponent) | \(session.progress) | \(session.status)")
         }
     }
 
