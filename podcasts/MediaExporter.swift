@@ -5,6 +5,9 @@ import PocketCastsUtils
 struct MediaExporter {
 
     #if !os(watchOS)
+
+    private static var currentExporter: AVAssetExportSession?
+
     static func reportProgress(session: AVAssetExportSession, progressCallback: ((Float) -> ())? = nil) async {
         let statusInProgress: Set<AVAssetExportSession.Status> = [.unknown, .exporting, .waiting]
         while session.progress != 1, statusInProgress.contains(session.status) {
@@ -14,6 +17,7 @@ struct MediaExporter {
     }
 
     static func exportMediaItem(_ item: AVPlayerItem, to outputURL: URL, progressCallback: ((Float) -> ())? = nil) async -> Bool {
+        currentExporter?.cancelExport()
         let composition = AVMutableComposition()
 
         guard let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid)),
@@ -33,6 +37,7 @@ struct MediaExporter {
             FileLog.shared.addMessage("DownloadManager export session: failed to create export session")
             return false
         }
+        currentExporter = exporter
         exporter.outputURL = outputURL
         exporter.outputFileType = AVFileType.m4a
 
