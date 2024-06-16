@@ -295,8 +295,8 @@ class DownloadManager: NSObject, FilePathProtocol {
                 self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64((Double(progress) * Double(episode.sizeInBytes))), totalBytesExpectedToWrite: episode.sizeInBytes)
             }
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
+            removeEpisodeFromCache(episode)
             downloadAndStreamEpisodes.remove(downloadTaskUUID)
-
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
                     // If while the export session was running the user or auto-download system decided to download the episode, we just move the end file
