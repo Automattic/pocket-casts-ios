@@ -265,7 +265,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         #if !os(watchOS)
         Task {
             if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue,
-               let _ = downloadingEpisodesCache[episode.uuid] {
+               downloadAndStreamEpisodes.contains(episode.uuid) {
                 // We are already downloading this episode for streaming
                 FileLog.shared.addMessage("DownloadManager export session: skipping because we are already exporting: \(episode.uuid)")
                 return
@@ -298,6 +298,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
             removeEpisodeFromCache(episode)
             downloadAndStreamEpisodes.remove(downloadTaskUUID)
+
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
                     // If while the export session was running the user or auto-download system decided to download the episode, we just move the end file
@@ -308,11 +309,13 @@ class DownloadManager: NSObject, FilePathProtocol {
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
                 }
             } else {
+                if let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
+                    wasDownloadingBefore = episode.downloading()
+                }
+                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+                DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
                 if wasDownloadingBefore {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
-                } else {
-                    DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
-                    DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
                 }
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
             }
