@@ -14,6 +14,7 @@ struct FiltersListView: View {
             }
         }
         .navigationTitle(L10n.filters.prefixSourceUnicode)
+        .restorable(.filterList)
         .onAppear {
             viewModel.loadData()
         }

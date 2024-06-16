@@ -18,6 +18,7 @@ class FilterEpisodeListViewModel: ObservableObject {
         episodes = []
 
         Publishers.Notification.dataUpdated
+            .receive(on: RunLoop.main)
             .sink { [unowned self] _ in
                 self.loadFilterEpisodes()
             }

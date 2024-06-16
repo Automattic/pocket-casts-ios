@@ -17,6 +17,7 @@ class DownloadListViewModel: ObservableObject {
             Publishers.Notification.episodeDownloadStatusChanged,
             Publishers.Notification.episodeDownloaded
             )
+            .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] _ in
                 self.loadEpisodes()
             })

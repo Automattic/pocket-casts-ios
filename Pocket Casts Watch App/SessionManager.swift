@@ -35,7 +35,7 @@ class SessionManager: NSObject, WCSessionDelegate {
         if let messageId = applicationContext[WatchConstants.Keys.messageVersion] as? String, messageId == WatchConstants.Values.messageVersion {
             UserDefaults.standard.set(applicationContext, forKey: WatchConstants.UserDefaults.data)
             UserDefaults.standard.set(Date(), forKey: WatchConstants.UserDefaults.lastDataTime)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: WatchConstants.Notifications.dataUpdated), object: nil)
+            NotificationCenter.default.post(name: WatchConstants.Notifications.dataUpdated, object: nil)
         }
     }
 
