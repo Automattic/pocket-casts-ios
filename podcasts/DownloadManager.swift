@@ -291,8 +291,9 @@ class DownloadManager: NSObject, FilePathProtocol {
 
             let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
             FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
-            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL) { progress in
-                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64((Double(progress) * Double(episode.sizeInBytes))), totalBytesExpectedToWrite: episode.sizeInBytes)
+            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL) { progress, size in
+                let size = max(100, max(size, episode.sizeInBytes))
+                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64((Double(progress) * Double(size))), totalBytesExpectedToWrite: size)
             }
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
             removeEpisodeFromCache(episode)

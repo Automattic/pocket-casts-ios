@@ -6,18 +6,21 @@ struct MediaExporter {
 
     #if !os(watchOS)
 
+    typealias ProgressCallback = (Float, Int64) -> ()
+
     private static var currentExporter: AVAssetExportSession?
 
-    static func reportProgress(session: AVAssetExportSession, progressCallback: ((Float) -> ())? = nil) async {
+    private static func reportProgress(session: AVAssetExportSession, progressCallback: ProgressCallback? = nil) async {
         let statusInProgress: Set<AVAssetExportSession.Status> = [.unknown, .exporting, .waiting]
+        let size = (try? await session.estimatedOutputFileLengthInBytes) ?? 0
         while session.progress != 1, statusInProgress.contains(session.status) {
-            progressCallback?(session.progress)
+            progressCallback?(session.progress, size)
             try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
-            FileLog.shared.addMessage("DownloadManager export session: \(session.outputURL!.lastPathComponent) | \(session.progress) | \(session.status)")
+            FileLog.shared.addMessage("DownloadManager export session: \(session.outputURL!.lastPathComponent) | \(session.progress) | \(session.status) | \(size)")
         }
     }
 
-    static func exportMediaItem(_ item: AVPlayerItem, to outputURL: URL, progressCallback: ((Float) -> ())? = nil) async -> Bool {
+    static func exportMediaItem(_ item: AVPlayerItem, to outputURL: URL, progressCallback: ProgressCallback? = nil) async -> Bool {
         currentExporter?.cancelExport()
         let composition = AVMutableComposition()
 
