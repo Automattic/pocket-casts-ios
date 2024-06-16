@@ -278,7 +278,7 @@ class DownloadManager: NSObject, FilePathProtocol {
                 self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
                 episode.autoDownloadStatus = previousStatus
             } else {
-                episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+                episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             }
             episode.contentType = UTType.mpeg4Audio.preferredMIMEType
             let downloadTaskUUID = episode.uuid
@@ -307,7 +307,12 @@ class DownloadManager: NSObject, FilePathProtocol {
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
                 }
             } else {
-                DataManager.sharedManager.saveEpisode(downloadStatus: wasDownloadingBefore ? .queued : .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+                if wasDownloadingBefore {
+                    DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
+                } else {
+                    DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+                    DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
+                }
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
             }
         }
