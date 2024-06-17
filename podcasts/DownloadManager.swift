@@ -393,6 +393,10 @@ class DownloadManager: NSObject, FilePathProtocol {
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
 
+        if FeatureFlag.cachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
+            return
+        }
+
         if FeatureFlag.downloadFixes.enabled {
             if await shouldSkipExistingTask(for: episode, in: sessionToUse, matching: request) {
                 FileLog.shared.addMessage("Download: skipped task for episode: \(episode.uuid)")
