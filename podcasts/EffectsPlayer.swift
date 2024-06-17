@@ -7,12 +7,6 @@ import UIKit
 class EffectsPlayer: PlaybackProtocol, Hashable {
     private static let targetVolumeDbGain = 15.0 as Float
 
-    /// The maximum number this player will retry to restard an audio if it fails
-    private static let maxNumberOfRetries = 3
-
-    /// The current attempt number to start the player
-    private static var attemptNumber = 1
-
     private var engine: AVAudioEngine?
     private var player: AVAudioPlayerNode?
 
