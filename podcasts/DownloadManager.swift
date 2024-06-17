@@ -300,6 +300,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             downloadAndStreamEpisodes.remove(downloadTaskUUID)
 
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
+                if let contentType = UTType.mpeg4Audio.preferredMIMEType {
+                    DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
+                }
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
                     // If while the export session was running the user or auto-download system decided to download the episode, we just move the end file
                     moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
