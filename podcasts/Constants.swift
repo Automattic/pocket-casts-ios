@@ -275,9 +275,6 @@ struct Constants {
         static let endOfYearRequireAccount = "end_of_year_require_account"
         static let endOfYearRequireAccountDefault: Bool = true
 
-        static let effectsPlayerStrategy = "effects_player_strategy"
-        static let effectsPlayerStrategyDefault: Int = 1
-
         static let patronCloudStorageGB = "patron_custom_storage_limit_gb"
         static let patronCloudStorageGBDefault = 100
 
