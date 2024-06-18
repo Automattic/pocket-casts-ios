@@ -193,6 +193,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         // download requested for something we already have buferred, just move it
         if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
             moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
+            return
         }
 
         let previousDownloadFailed = episode.episodeStatus == DownloadStatus.downloadFailed.rawValue
