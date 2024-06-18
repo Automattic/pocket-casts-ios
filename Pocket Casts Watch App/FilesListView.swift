@@ -12,6 +12,7 @@ struct FilesListView: View {
             }
         }
         .navigationTitle(L10n.settingsFiles.prefixSourceUnicode)
+        .restorable(.files)
         .onAppear {
             viewModel.loadUserEpisodes()
         }

@@ -130,6 +130,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         if let listId = item?.uuid, let podcastUuid = podcast.uuid {
             AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
         }
+        AnalyticsHelper.adSubscribed(promotionUUID: item?.uuid ?? "", podcastUUID: podcast.uuid ?? "", categoryID: item?.categoryID ?? 0)
 
         delegate?.subscribe(podcast: podcast)
     }

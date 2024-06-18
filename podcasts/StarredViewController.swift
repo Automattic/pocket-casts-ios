@@ -8,7 +8,6 @@ class StarredViewController: PCViewController {
 
     @IBOutlet var starredTable: UITableView! {
         didSet {
-            starredTable.applyInsetForMiniPlayer()
             registerCells()
             starredTable.estimatedRowHeight = 80
             starredTable.rowHeight = UITableView.automaticDimension
@@ -41,16 +40,15 @@ class StarredViewController: PCViewController {
     var episodes = [ListEpisode]()
     private let refreshQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
-    var isMultiSelectEnabled = false {
+    var isMultiSelectEnabled: Bool = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.setupNavBar()
                 self.starredTable.beginUpdates()
                 self.starredTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.starredTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
                 self.starredTable.endUpdates()
-
+                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
                 if self.isMultiSelectEnabled {
                     Analytics.track(.starredMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
@@ -90,6 +88,7 @@ class StarredViewController: PCViewController {
         refreshQueue.maxConcurrentOperationCount = 1
         title = L10n.statusStarred
         setupNavBar()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: starredTable)
         if SyncManager.isUserLoggedIn() {
             refreshEpisodesFromServer(animated: false)
         } else {

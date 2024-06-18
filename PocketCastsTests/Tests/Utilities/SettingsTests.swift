@@ -131,9 +131,9 @@ final class SettingsTests: XCTestCase {
         let newPlayedAfter = AutoArchiveAfterTime.after1Week
         let newInactiveAfter = AutoArchiveAfterTime.after90Days
         let newEpisodeSortBy = UploadedSort.titleAtoZ
-        let newPlayerBookmarksSort = BookmarkSortOption.podcastAndEpisode
-        let newEpisodeBookmarksSort = BookmarkSortOption.episode
-        let newProfileBookmarksSort = BookmarkSortOption.newestToOldest
+        let newPlayerBookmarksSort = BookmarkSortOption.newestToOldest
+        let newEpisodeBookmarksSort = BookmarkSortOption.oldestToNewest
+        let newProfileBookmarksSort = BookmarkSortOption.podcastAndEpisode
         let newHeadphonesNextAction = HeadphoneControlAction.previousChapter
         let newHeadphonesPreviousAction = HeadphoneControlAction.skipForward
         let newHomeFolderSortOrder = LibrarySort.titleAtoZ

@@ -30,8 +30,7 @@ class SleepTimerManager {
     init(backgroundShakeObserver: BackgroundShakeObserver = BackgroundShakeObserver()) {
         self.backgroundShakeObserver = backgroundShakeObserver
         backgroundShakeObserver.whenShook = { [weak self] in
-            self?.restartSleepTimer()
-            self?.playTone()
+            self?.restartSleepTimerAndPlayTone()
         }
     }
 
@@ -53,7 +52,7 @@ class SleepTimerManager {
     }
 
     func restartSleepTimerIfNeeded() {
-        guard !PlaybackManager.shared.sleepTimerActive() else {
+        guard !PlaybackManager.shared.sleepTimerActive(), Settings.autoRestartSleepTimer else {
             return
         }
 
@@ -97,6 +96,16 @@ class SleepTimerManager {
         NotificationCenter.default.removeObserver(self, name: Constants.Notifications.episodeDurationChanged, object: nil)
     }
 
+    private func restartSleepTimerAndPlayTone() {
+        guard PlaybackManager.shared.sleepTimerActive() && Settings.shakeToRestartSleepTimer else {
+            backgroundShakeObserver.stopObserving()
+            return
+        }
+
+        restartSleepTimer()
+        playTone()
+    }
+
     func playTone() {
         guard let tonePlayer else { return }
 
@@ -124,7 +133,7 @@ class BackgroundShakeObserver {
     }
 
     @objc private func appMovedToBackground() {
-        if PlaybackManager.shared.sleepTimerActive() {
+        if PlaybackManager.shared.sleepTimerActive() && Settings.shakeToRestartSleepTimer {
             startObserving()
         }
     }

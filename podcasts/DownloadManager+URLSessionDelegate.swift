@@ -36,19 +36,24 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             progressManager.updateProgressForEpisode(downloadingEpisode.uuid, totalBytesWritten: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)
         }
 
-        if !downloadingEpisode.downloading(), downloadingEpisode.downloadTaskId != nil {
+        // If our download status or downloadTaskId are incorrect, then we should update these
+        if !downloadingEpisode.downloading() || downloadingEpisode.downloadTaskId == nil {
             if let httpResponse = downloadTask.response as? HTTPURLResponse, let episode = downloadingEpisode as? Episode {
                 MetadataUpdater.shared.updateMetadataFrom(response: httpResponse, episode: episode)
             }
 
             if !downloadingToStream {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
+                // Reuse our downloadTaskID if we have one, otherwise let the method set a default based on the episode
+                if let downloadTaskId = downloadingEpisode.downloadTaskId {
+                    dataManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, downloadTaskId: downloadTaskId, episode: downloadingEpisode)
+                } else {
+                    dataManager.saveEpisode(downloadStatus: .downloading, sizeInBytes: totalBytesExpectedToWrite, episode: downloadingEpisode)
+                }
                 progressManager.updateStatusForEpisode(downloadingEpisode.uuid, status: .downloading)
             }
         }
     }
 
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {}
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard let error = error as NSError?, let task = task as? URLSessionDownloadTask else {
@@ -63,9 +68,17 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         switch error.code {
         case NSURLErrorCancelled:
             if !episode.downloadFailed() {
-                // already handled this error, since we failed the download ourselves
+                // we already handled this error, since we failed the download ourselves
+                let reason = error.userInfo[NSURLErrorBackgroundTaskCancelledReasonKey] as? Int
+                switch reason {
+                case NSURLErrorCancelledReasonUserForceQuitApplication, NSURLErrorCancelledReasonInsufficientSystemResources:
+                    dataManager.saveEpisode(downloadStatus: .queued, downloadTaskId: nil, episode: episode)
+                default:
+                    ()
+                }
             } else {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadTaskId: nil, episode: episode)
+                // this download was cancelled by us so it should have been due to user cancellation
+                dataManager.saveEpisode(downloadStatus: .notDownloaded, downloadTaskId: nil, episode: episode)
             }
 
             return
@@ -77,7 +90,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             ()
         }
 
-        DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: error.localizedDescription, downloadTaskId: nil, episode: episode)
+        dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: error.localizedDescription, downloadTaskId: nil, episode: episode)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
     }
@@ -105,21 +118,12 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        let fileManager = FileManager.default
-        var fileSize: Int64 = 0
-        do {
-            let attrs = try fileManager.attributesOfItem(atPath: location.path)
-            if let computedSize = attrs[.size] as? Int64 {
-                fileSize = computedSize
-            }
-            let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
-            // basic sanity checks to make sure the file looks big enough and it's content type isn't text
-            if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
-                markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
-
-                return
-            }
-        } catch {}
+        let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
+        let fileSize = FileManager.default.fileSize(of: location) ?? 0
+        guard isEpisodeFileValid(contentType: contentType, fileSize: fileSize) else {
+            markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
+            return
+        }
 
         let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
         let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
@@ -128,7 +132,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             try StorageManager.moveItem(at: location, to: destinationUrl, options: .overwriteExisting)
 
             let newDownloadStatus: DownloadStatus = autoDownloadStatus == .playerDownloadedForStreaming ? .downloadedForStreaming : .downloaded
-            DataManager.sharedManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
+            dataManager.saveEpisode(downloadStatus: newDownloadStatus, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
 
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
@@ -161,7 +165,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             }
         }
 
-        let episode = DataManager.sharedManager.findBaseEpisode(downloadTaskId: downloadId)
+        let episode = dataManager.findBaseEpisode(downloadTaskId: downloadId)
         if let episode = episode {
             downloadingEpisodesCache[downloadId] = episode
         }
@@ -201,10 +205,19 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
     }
 
+    func isEpisodeFileValid(contentType: String?, fileSize: Int64) -> Bool {
+        // basic sanity checks to make sure the file looks big enough and it's content type isn't text
+        if fileSize < DownloadManager.badEpisodeSize || (fileSize < DownloadManager.suspectEpisodeSize && contentType?.contains("text") ?? false) {
+            return false
+        }
+
+        return true
+    }
+
     private func markEpisode(_ episode: BaseEpisode, asFailedWithMessage message: String, reason: FailureReason) {
         removeEpisodeFromCache(episode)
 
-        DataManager.sharedManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: message, downloadTaskId: nil, episode: episode)
+        dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: message, downloadTaskId: nil, episode: episode)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
         taskFailure[episode.uuid] = reason

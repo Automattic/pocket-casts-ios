@@ -1,11 +1,15 @@
 import Foundation
 
 public enum FeatureFlag: String, CaseIterable {
+
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
+
+    /// Whether network debugging with Pulse is enabled
+    case networkDebugging
 
     /// Whether End Of Year feature is enabled
     case endOfYear
@@ -54,6 +58,21 @@ public enum FeatureFlag: String, CaseIterable {
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
     case defaultPlayerFilterCallbackFix
 
+    case downloadFixes
+
+    /// When a user sign in, we always mark ALL podcasts as unsynced
+    /// This recently caused issues, syncing changes that shouldn't have been synced
+    /// When `true`, we only mark podcasts as unsynced if the user never signed in before
+    case onlyMarkPodcastsUnsyncedForNewUsers
+
+    /// Only update an episode if it fails playing
+    /// If set to `false`, it will use the previous mechanism that always update
+    /// but can lead to a bigger time between tapping play and actually playing it
+    case whenPlayingOnlyUpdateEpisodeIfPlaybackFails
+
+    /// Use the Accelerate framework to speed up custom effects
+    case accelerateEffects
+
     case newSharing
 
     public var enabled: Bool {
@@ -69,6 +88,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .tracksLogging:
             false
         case .firebaseLogging:
+            false
+        case .networkDebugging:
             false
         case .endOfYear:
             false
@@ -101,7 +122,15 @@ public enum FeatureFlag: String, CaseIterable {
         case .defaultPlayerFilterCallbackFix:
             true
         case .upNextOnTabBar:
-            false
+            true
+        case .downloadFixes:
+            true
+        case .onlyMarkPodcastsUnsyncedForNewUsers:
+            true
+        case .whenPlayingOnlyUpdateEpisodeIfPlaybackFails:
+            true
+        case .accelerateEffects:
+            true
         case .newSharing:
             false
         }
@@ -135,8 +164,10 @@ public enum FeatureFlag: String, CaseIterable {
             "categories_redesign"
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
+        case .upNextOnTabBar:
+            "up_next_on_tab_bar"
         default:
-            nil
+            rawValue.lowerSnakeCased()
         }
     }
 }

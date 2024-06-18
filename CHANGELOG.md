@@ -1,6 +1,20 @@
-7.64
+7.67
+-----
+- WatchOS refactor main screen and app entry point to SwiftUI. [#1800]
+
+7.66
+-----
+- Re-add Use contentType to set extension for downloaded files. [#1743]
+- Improve responsiveness when playing a podcast [#1801]
+
+7.65
 -----
 - Show the Up Next bar on the tab bar. [#1613]
+- Add options to enable/disable Sleep Timer shake and auto restart [#1790]
+
+7.64
+-----
+
 - New design for the Podcasts grid layouts. [#1628]
 - Shake the device to restart Sleep Timer [#1627]
 - Playback fades out when finishing a sleep timer [#1629]
@@ -15,6 +29,7 @@
 -----
 - Sleep Timer restarts automatically if you play again within 5 minutes [#1612]
 - Add redesigned Categories picker to the top of Discover. [#1621]
+- Use contentType to set extension for downloaded files. [#1577]
 
 7.61
 -----

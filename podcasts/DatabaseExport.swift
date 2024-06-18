@@ -1,10 +1,16 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import Combine
+#if canImport(Pulse)
+import Pulse
+#endif
 
 class DatabaseExport {
     /// The resulting file name of the zip file
     let exportName: String
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(exportName: String = "Pocket Casts Export") {
         self.exportName = exportName
@@ -14,7 +20,7 @@ class DatabaseExport {
 
     /// Create a zip of the database and prefrences
     func export() async -> URL? {
-        guard let exportFolder = self.prepareFiles() else {
+        guard let exportFolder = await self.prepareFiles() else {
             return nil
         }
 
@@ -48,7 +54,7 @@ class DatabaseExport {
     }
 
     /// Copies the database and preferences to a temporary directory
-    private func prepareFiles() -> URL? {
+    private func prepareFiles() async -> URL? {
         do {
             let databaseURL = URL(fileURLWithPath: DataManager.pathToDb())
 
@@ -62,31 +68,25 @@ class DatabaseExport {
 
             try fileManager.createDirectory(at: exportDirectory, withIntermediateDirectories: true)
 
-            // Write the preferences to the export folder
-            let preferencesFile = exportDirectory.appendingPathComponent("preferences.plist", isDirectory: false)
-            try writePreferences(to: preferencesFile)
+            FileLog.shared.forceFlush()
+            let logFile = try await FileLog.shared.logFileForUpload().awaitFirstValue(in: &cancellables)
+            let logsFile = exportDirectory.appendingPathComponent("logs.txt", isDirectory: false)
+            try fileManager.copyItem(at: URL(fileURLWithPath: logFile), to: logsFile)
 
-            // Copy the database file into the export folder
-            let databaseFile = exportDirectory.appendingPathComponent("database.sqlite", isDirectory: false)
-            try fileManager.copyItem(at: databaseURL, to: databaseFile)
+            #if canImport(Pulse)
+            let networkLogsFile = exportDirectory.appendingPathComponent("network.pulse", isDirectory: false)
+            try await LoggerStore.shared.export(to: networkLogsFile)
+            #endif
+
+            // Write the bundle document
+            let exportFile = exportDirectory.appendingPathComponent("export", conformingTo: .pcasts)
+            let wrapper = try PCBundleDoc().fileWrapper()
+            try wrapper.write(to: exportFile, originalContentsURL: nil)
 
             return exportDirectory
         } catch {
             FileLog.shared.addMessage("[Export] Prepare failed with error: \(error)")
             return nil
         }
-    }
-
-    /// Save the preferences to the url
-    private func writePreferences(to url: URL) throws {
-        guard
-            let library = fileManager.urls(for: .libraryDirectory, in: .userDomainMask).first,
-            let bundle = Bundle.main.bundleIdentifier
-        else {
-            return
-        }
-
-        let preferencesFile = library.appendingPathComponent("Preferences/\(bundle).plist")
-        try fileManager.copyItem(at: preferencesFile, to: url)
     }
 }

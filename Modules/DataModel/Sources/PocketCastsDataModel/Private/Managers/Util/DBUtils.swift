@@ -49,6 +49,13 @@ class DBUtils {
 
         return random
     }
+
+    class func measureTime(_ action: () -> ()) -> TimeInterval {
+        let startDate = Date()
+        action()
+        let endDate = Date()
+        return startDate.distance(to: endDate)
+    }
 }
 
 // MARK: - DB Array Extension

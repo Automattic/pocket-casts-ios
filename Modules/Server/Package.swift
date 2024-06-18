@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "PocketCastsServer",
     platforms: [
-        .iOS(.v15), .watchOS(.v7)
+        .iOS(.v15), .watchOS(.v8)
     ], products: [
         .library(
             name: "PocketCastsServer",

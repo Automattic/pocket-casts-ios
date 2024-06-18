@@ -13,7 +13,6 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     @IBOutlet var optionsTable: UITableView! {
         didSet {
             optionsTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: cellId)
-            optionsTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -21,6 +20,8 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         super.viewDidLoad()
 
         episodeFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: optionsTable)
 
         title = L10n.appBadge
     }

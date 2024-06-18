@@ -17,7 +17,9 @@ class ServerSyncManager: ServerSyncDelegate {
     }
 
     func checkForUnusedPodcasts() {
-        PodcastManager.shared.checkForUnusedPodcasts()
+        Task {
+            await PodcastManager.shared.checkForUnusedPodcasts()
+        }
     }
 
     func applyAutoArchivingToAllPodcasts() {

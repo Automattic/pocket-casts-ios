@@ -60,7 +60,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             player = nil
         }
 
-        guard let playerItem = PlaybackItem(episode: episode).createPlayerItem() else {
+        guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             handlePlaybackError("Unable to create playback item")
             return
         }
@@ -232,6 +232,14 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private func playerStatusDidChange() {
         if player?.currentItem?.status == .failed {
+
+            if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
+               (player?.currentItem?.error as? NSError)?.domain == NSURLErrorDomain,
+                let episodeUuid {
+                PlaybackManager.shared.urlFailedToLoad(for: episodeUuid)
+                return
+            }
+
             PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
 
             return

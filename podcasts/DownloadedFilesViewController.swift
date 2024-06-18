@@ -22,14 +22,13 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
             settingsTable.register(UINib(nibName: "CheckboxSubtitleCell", bundle: nil), forCellReuseIdentifier: checkboxCellId)
             settingsTable.register(UINib(nibName: "StatsCell", bundle: nil), forCellReuseIdentifier: statsCellId)
             settingsTable.register(UINib(nibName: "DestructiveButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
-            settingsTable.applyInsetForMiniPlayer()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = L10n.downloadedFiles
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
         // load the last used values for cleanup
         deleteUnplayed = UserDefaults.standard.bool(forKey: Constants.UserDefaults.cleanupUnplayed)
         deletePlayed = UserDefaults.standard.bool(forKey: Constants.UserDefaults.cleanupPlayed)

@@ -11,7 +11,6 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         didSet {
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "PlusLockedInfoCell", bundle: nil), forCellReuseIdentifier: lockInfoCellId)
-            settingsTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -23,6 +22,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         title = L10n.settingsFiles
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
     }
 
     @objc func subscriptionStatusChanged() {

@@ -194,4 +194,6 @@ class PCViewController: SimpleNotificationsViewController {
     func handleAppDidEnterBackground() {}
     func handleAppWillBecomeActive() {}
     func handleThemeChanged() {}
+
+    var insetAdjuster = InsetAdjuster()
 }
