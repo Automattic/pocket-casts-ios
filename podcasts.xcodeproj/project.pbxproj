@@ -11197,7 +11197,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 424A79CC948AF230394BB38E /* Pods-podcasts.prototype.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Prototype";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconPrototype;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcasts.prototype.entitlements;
 				ENABLE_BITCODE = NO;
