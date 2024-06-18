@@ -19,7 +19,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBOutlet var playbackProgressView: ProgressLine!
 
     @IBOutlet var podcastArtwork: PodcastImageView!
-    @IBOutlet var mainView: MiniPlayerBackingView!
+    @IBOutlet var mainView: UIView!
+    @IBOutlet var shadowView: UIView!
+
+    @IBOutlet var gradientView: MiniPlayerGradientView!
 
     private var lastEpisodeUuidImageLoaded = ""
     private var lastEpisodeUuidAutoOpened = ""
@@ -39,11 +42,17 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         addGestureRecognizers()
 
-        view.isHidden = true
+        view.isHidden = false
 
+        setupCorners()
         addUINotificationObservers()
         playbackStateDidChange()
         themeChanged()
+    }
+
+    private func setupCorners() {
+        mainView.layer.cornerRadius = MiniPlayerShadowView.Constants.shadowCornerRadius
+        mainView.layer.masksToBounds = true
     }
 
     deinit {
@@ -208,7 +217,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             setupForEpisode(episode)
             showMiniPlayer()
             let shouldOpenAutomatically: Bool
-            shouldOpenAutomatically = Settings.openPlayerAutomatically
+            if FeatureFlag.newSettingsStorage.enabled {
+                shouldOpenAutomatically = SettingsStore.appSettings.openPlayer
+            } else {
+                shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
+            }
             if shouldOpenAutomatically || episode.videoPodcast(), lastEpisodeUuidAutoOpened != episode.uuid {
                 lastEpisodeUuidAutoOpened = episode.uuid
 
@@ -284,6 +297,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
                 actionColor = AppTheme.userEpisodeColor(number: 1)
             }
         }
+        view.backgroundColor = .clear
+
+        gradientView.colors = [ThemeColor.primaryUi01().withAlphaComponent(0), ThemeColor.primaryUi01()]
 
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
         mainView.backgroundColor = bgColor

@@ -6,7 +6,6 @@ class FileTypeUtil {
 
         if type.contains("video/3gpp") { return ".3gp" }
         else if type.contains("video/3gpp2") { return ".3g2" }
-        else if type.contains("video/mp4") { return ".mp4" }
         else if type.contains("video/x-mp4") { return ".mp4" }
         else if type.contains("video/quicktime") { return ".mov" }
         else if type.contains("video/m4v") { return ".m4v" }
@@ -44,7 +43,6 @@ class FileTypeUtil {
 
         if fileExtension.contains(".3gp") { return "video/3gpp" }
         else if fileExtension.contains(".3g2") { return "video/3gpp2" }
-        else if fileExtension.contains(".mp4") { return "video/mp4" }
         else if fileExtension.contains(".mov") { return "video/quicktime" }
         else if fileExtension.contains(".m4v") { return "video/m4v" }
         else if fileExtension.contains(".m4a") { return "audio/aac" }
@@ -64,18 +62,42 @@ class FileTypeUtil {
         guard let fileName = fileName?.lowercased() else { return false }
         if fileName.contains(".3gp") { return true }
         else if fileName.contains(".3g2") { return true }
-        else if fileName.contains(".mp4") { return true }
         else if fileName.contains(".mov") { return true }
-        else if fileName.contains(".m4v") { return true }
-        else if fileName.contains(".m4a") { return true }
         else if fileName.contains(".aiff") { return true }
         else if fileName.contains(".amr") { return true }
         else if fileName.contains(".mp3") { return true }
         else if fileName.contains(".mp4") { return true }
         else if fileName.contains(".wav") { return true }
+        else if fileName.contains(".m4v") { return true }
         else if fileName.contains(".m4a") { return true }
         else if fileName.contains(".m4b") { return true }
         else if fileName.contains(".m4p") { return true }
         return false
     }
+
+    public class var supportedUserFileTypes: [UTType] {
+        return [
+            .gpp3,
+            .gpp3v2,
+            .quickTimeMovie, // mov
+            .aiff,
+            .amr,
+            .mp3,
+            .mpeg4Movie, .mpeg4Audio, // mp4
+            .wav,
+            .m4v,
+            .m4a,
+            .mpeg4AudioB,
+            .appleProtectedMPEG4Audio, // m4p
+        ]
+    }
+}
+
+extension UTType {
+    static let gpp3 = UTType(filenameExtension: "3gp")!
+    static let gpp3v2 = UTType(filenameExtension: "3g2")!
+    static let amr = UTType(filenameExtension: "amr")!
+    static let m4v = UTType(filenameExtension: "m4v")!
+    static let m4a = UTType(filenameExtension: "m4a")!
+    static let mpeg4AudioB = UTType(filenameExtension: "m4b")!
 }

@@ -263,6 +263,10 @@
     <string>Es descarregaran automàticament els %1$@ primers episodis d'aquest filtre</string>
     <key>auto_download_prompt_first</key>
     <string>Primer</string>
+    <key>auto_restart_sleep_timer</key>
+    <string>Reinicia automàticament el temporitzador de son</string>
+    <key>auto_restart_sleep_timer_description</key>
+    <string>Si està activat, el temporitzador de son es reiniciarà automàticament si reprodueixes un episodi als  5 minuts següents a l'última pausa.</string>
     <key>back</key>
     <string>Enrere</string>
     <key>beta_purchase_disabled</key>
@@ -296,7 +300,7 @@
     <key>bookmarks_early_access_locked_message</key>
     <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa les marques de temps dels teus episodis preferits.  Prest disponible per a %2$@ subscriptors.</string>
     <key>bookmarks_locked_message</key>
-    <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa els mercadors dels teus episodis preferits.</string>
+    <string>Desbloqueja aquesta funció i moltes més amb Pocket Casts %1$@ i desa els marcadors dels teus episodis preferits.</string>
     <key>bottom</key>
     <string>Darrer de la cua</string>
     <key>bulk_download_max_format</key>
@@ -423,6 +427,8 @@
     <string>Esborrar del núvol</string>
     <key>custom_episode_upload</key>
     <string>Pujar al núvol</string>
+    <key>database_migration</key>
+    <string>Estem movent uns quants bits i bytes perquè l'aplicació vagi més ràpida...</string>
     <key>day_listened</key>
     <string>Dies escoltats</string>
     <key>day_saved</key>
@@ -451,6 +457,8 @@
     <string>Esborrar només del dispositiu</string>
     <key>deselect_all</key>
     <string>Anul·lar totes les seleccions</string>
+    <key>device_shake_sleep_timer</key>
+    <string>El temporitzador de son s'ha reiniciat perquè s'ha remenat el dispositiu</string>
     <key>discover</key>
     <string>Descobrir</string>
     <key>discover_all_episodes</key>
@@ -1089,6 +1097,8 @@ Comparteix-los amb Pocket Casts i apareixeran aquí.</string>
     <string>Entesos</string>
     <key>group_episodes</key>
     <string>Agrupar episodis</string>
+    <key>hang_on</key>
+    <string>Espera!</string>
     <key>history_clear_all</key>
     <string>Esborra-ho tot</string>
     <key>history_clear_all_details</key>
@@ -2336,6 +2346,10 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Els  %1$@ millors</string>
     <key>setup_account</key>
     <string>Configurar el compte</string>
+    <key>shake_to_restart_sleep_timer</key>
+    <string>Remena-ho per a reiniciar el temporitzador de son.</string>
+    <key>shake_to_restart_sleep_timer_description</key>
+    <string>Si està activat, el temporitzador de son es reiniciarà quan moguis el telèfon.</string>
     <key>share</key>
     <string>Compartir</string>
     <key>share_current_position</key>
@@ -2442,6 +2456,12 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Cancel·lar el temporitzador</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Final de l'episodi</string>
+    <key>sleep_timer_episode_count</key>
+    <string>En %1$@ episodis</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Dormint en %1$@ episodis</string>
+    <key>sleep_timer_sleeping_after_current_episode</key>
+    <string>Dormint al final de l'episodi actual.</string>
     <key>sleep_timer_time_remaining</key>
     <string>Temporitzador activat, queden %1$@</string>
     <key>social_sign_in_continue_with_apple</key>

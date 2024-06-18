@@ -43,10 +43,10 @@ class PCRefreshControl: UIView {
 
         scrollView.addSubview(self)
         translatesAutoresizingMaskIntoConstraints = false
-        leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+        leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor).isActive = true
         heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
-        widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        widthAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.widthAnchor).isActive = true
         topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -viewHeight).isActive = true
         alpha = 0
 

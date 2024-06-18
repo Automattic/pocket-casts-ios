@@ -10,7 +10,6 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         didSet {
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: DownloadSettingsViewController.switchCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: DownloadSettingsViewController.disclosureCellId)
-            settingsTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -23,7 +22,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
         title = L10n.settingsAutoDownload
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
         Analytics.track(.settingsAutoDownloadShown)
     }
 

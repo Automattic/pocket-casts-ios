@@ -36,7 +36,7 @@ class PodcastSearchCell: ThemeableCell {
         let count = DataManager.sharedManager.countOfPodcastsInFolder(folder: folder)
         podcastAuthor.text = L10n.podcastCount(count)
 
-        folderPreview.populateFrom(folder: folder)
+        folderPreview.populateFromAsync(folder: folder)
         folderPreview.isHidden = false
 
         podcastImage.isHidden = true

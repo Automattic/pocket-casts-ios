@@ -20,4 +20,10 @@ class StringExtensionTests: XCTestCase {
         XCTAssertFalse("email@".isValidEmail)
         XCTAssertFalse("email@example.com email@example.com".isValidEmail)
     }
+
+    func testSnakeCased() {
+        XCTAssertEqual("test", "test".lowerSnakeCased())
+        XCTAssertEqual("test_snake", "testSnake".lowerSnakeCased())
+        XCTAssertEqual("test_snake_case", "testSnakeCase".lowerSnakeCased())
+    }
 }

@@ -199,6 +199,8 @@ class PlaybackQueue: NSObject {
     }
 
     func removeAllEpisodes() {
+        DataManager.sharedManager.snapshotUpNext()
+
         FileLog.shared.addMessage("PlaybackQueue: removeAllEpisodes called, clearing list")
 
         DataManager.sharedManager.deleteAllUpNextEpisodes()
@@ -211,6 +213,8 @@ class PlaybackQueue: NSObject {
 
     func clearUpNextList() {
         guard let topEpisode = topEpisode else { return }
+
+        DataManager.sharedManager.snapshotUpNext()
 
         DataManager.sharedManager.deleteAllUpNextEpisodesExcept(episodeUuid: topEpisode.uuid)
         FileLog.shared.addMessage("PlaybackQueue: clearUpNextList called, clearing list")
@@ -317,8 +321,7 @@ class PlaybackQueue: NSObject {
 
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
-
-            let episodes = self.allEpisodes()
+            let episodes = self.allEpisodes(includeNowPlaying: !FeatureFlag.cachePlayingEpisode.enabled)
             for episode in episodes {
                 self.autoDownloadIfRequired(episode: episode)
             }

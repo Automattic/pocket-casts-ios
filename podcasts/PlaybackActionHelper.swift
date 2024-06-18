@@ -91,7 +91,8 @@ class PlaybackActionHelper {
             }
 
             // if we're streaming an episode, try to make sure the URL is up to date. Authors can change URLs at any time, so this is handy to fix cases where they post the wrong one and update it later
-            if let episode = episode as? Episode, let podcast = episode.parentPodcast(), !episode.downloaded(pathFinder: DownloadManager.shared) {
+            if !FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
+               let episode = episode as? Episode, let podcast = episode.parentPodcast(), !episode.downloaded(pathFinder: DownloadManager.shared) {
                 ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { wasUpdated in
                     guard let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episode.uuid) : episode else { return }
 

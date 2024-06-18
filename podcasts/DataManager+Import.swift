@@ -5,7 +5,7 @@ extension DataManager {
     func importPodcastSettings() {
         let podcasts = allPodcasts(includeUnsubscribed: true)
 
-        podcasts.enumerated().forEach { (idx, podcast) in
+        podcasts.forEach { podcast in
             podcast.settings.$autoStartFrom = ModifiedDate<Int32>(wrappedValue: podcast.startFrom)
             podcast.settings.$autoSkipLast = ModifiedDate<Int32>(wrappedValue: podcast.skipLast)
             podcast.settings.$playbackSpeed = ModifiedDate<Double>(wrappedValue: podcast.playbackSpeed)
@@ -36,7 +36,7 @@ extension DataManager {
                 podcast.settings.autoUpNextSetting = setting
             }
 
-            save(podcast: podcast, cache: idx == podcasts.endIndex)
+            save(podcast: podcast)
         }
     }
 }

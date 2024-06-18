@@ -9,7 +9,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     @IBOutlet var uploadsTable: ThemeableTable! {
         didSet {
-            uploadsTable.updateContentInset(multiSelectEnabled: false)
             registerLongPress()
             uploadsTable.allowsMultipleSelectionDuringEditing = true
         }
@@ -47,6 +46,12 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
     }
 
+    @IBOutlet weak var addFilesButton: ThemeableRoundedButton! {
+        didSet {
+            addFilesButton.setTitle(L10n.fileUploadAddFile, for: .normal)
+        }
+    }
+
     var uploadedEpisodes = [UserEpisode]()
     let headerView = UploadedStorageHeaderView()
 
@@ -61,7 +66,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                 self.setupNavBar()
                 self.uploadsTable.beginUpdates()
                 self.uploadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.uploadsTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
+                self.insetAdjuster.isMultiSelectEnabled = self.isMultiSelectEnabled
                 self.uploadsTable.endUpdates()
 
                 if self.isMultiSelectEnabled {
@@ -103,6 +108,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     override func viewDidLoad() {
         setupNavBar()
+        setupAddFilesButton()
         super.viewDidLoad()
 
         registerCells()
@@ -120,7 +126,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         headerView.controllerForPresenting = self
         uploadsTable.tableHeaderView = headerView
         updateHeaderView()
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: uploadsTable)
         reloadLocalFiles()
 
         Analytics.track(.uploadedFilesShown)
@@ -139,7 +145,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         reloadAllFiles()
         addUIObservers()
-        updateContentOffsets()
 
         if let fileURL = fileURL {
             let addCustomVC = AddCustomViewController(fileUrl: fileURL)
@@ -161,7 +166,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     override func handleAppWillBecomeActive() {
         reloadAllFiles()
         addUIObservers()
-        updateContentOffsets()
     }
 
     override func handleAppDidEnterBackground() {
@@ -183,8 +187,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(handleReloadFromNotification))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(handleReloadFromNotification))
         addCustomObserver(ServerNotifications.userEpisodeUploadStatusChanged, selector: #selector(uploadCompletedRefresh(notification:)))
-        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(updateContentOffsets))
-        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(updateContentOffsets))
     }
 
     func setupNavBar() {
@@ -196,10 +198,21 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
+    func setupAddFilesButton() {
+        addFilesButton.shouldFill = false
+    }
+
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         Analytics.track(.uploadedFilesOptionsButtonTapped)
 
         let optionsPicker = OptionsPicker(title: nil)
+
+        let addFileAction = OptionAction(label: L10n.fileUploadAddFile, icon: "filter_add") { [weak self] in
+            Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "add_file"])
+            self?.addFilesTapped(UIButton())
+
+        }
+        optionsPicker.addAction(action: addFileAction)
 
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
             Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "select_episodes"])
@@ -252,6 +265,16 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         let howToController = HowToUploadViewController()
         let navController = SJUIUtils.navController(for: howToController)
         present(navController, animated: true, completion: nil)
+    }
+
+    @IBAction func addFilesTapped(_ sender: Any) {
+        Analytics.track(.uploadedFilesAddButtonTapped)
+
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: FileTypeUtil.supportedUserFileTypes, asCopy: true)
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .overFullScreen
+        documentPicker.allowsMultipleSelection = false
+        present(documentPicker, animated: true)
     }
 
     func showSortByPicker() {
@@ -359,10 +382,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     override func handleThemeChanged() {
         uploadsTable.reloadData()
     }
-
-    @objc private func updateContentOffsets() {
-        uploadsTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
-    }
 }
 
 // MARK: - Analytics
@@ -399,5 +418,15 @@ private extension UploadedViewController {
                 self?.handleReloadFromNotification()
             }
             .store(in: &cancellables)
+    }
+}
+
+extension UploadedViewController: UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else {
+            return
+        }
+        let addCustomVC = AddCustomViewController(fileUrl: url)
+        present(SJUIUtils.popupNavController(for: addCustomVC), animated: true, completion: nil)
     }
 }

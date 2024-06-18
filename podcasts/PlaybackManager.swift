@@ -19,9 +19,10 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let chapterManager = ChapterManager()
 
     var sleepTimeRemaining = -1 as TimeInterval
-    var sleepOnEpisodeEnd = false {
+
+    var numberOfEpisodesToSleepAfter = 0 {
         didSet {
-            if sleepOnEpisodeEnd {
+            if numberOfEpisodesToSleepAfter > 0 {
                 sleepTimeRemaining = -1
                 sleepTimerManager.recordSleepTimerDuration(duration: nil, onEpisodeEnd: true)
             }
@@ -65,6 +66,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     /// The player we should fallback to
     private var fallbackToPlayer: PlaybackProtocol.Type? = nil
+
+    private var lastRetryEpisodeUuid: String?
 
     init() {
         queue = PlaybackQueue()
@@ -589,7 +592,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
         }
 
-        sleepOnEpisodeEnd = false
+        numberOfEpisodesToSleepAfter -= 1
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
     }
 
@@ -949,7 +952,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playerDidFinishPlayingEpisode() {
-        if sleepOnEpisodeEnd {
+        if numberOfEpisodesToSleepAfter == 1 {
             pauseAndRecordSleepTimerFinished()
             cancelSleepTimer()
             return
@@ -1022,7 +1025,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
             cancelSleepTimer()
         } else {
-            playNextEpisode(autoPlay: !sleepOnEpisodeEnd)
+            playNextEpisode(autoPlay: !(numberOfEpisodesToSleepAfter == 1))
         }
     }
 
@@ -1340,7 +1343,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             let episodeDuration = duration()
             let timeRemaining = episodeDuration - currentTime()
             if episodeDuration > 0, episodeDuration > skipLast, timeRemaining < skipLast {
-                if sleepOnEpisodeEnd {
+                if numberOfEpisodesToSleepAfter == 1 {
                     pause()
                     cancelSleepTimer()
                 } else {
@@ -1479,12 +1482,12 @@ class PlaybackManager: ServerPlaybackDelegate {
     func cancelSleepTimer(userInitiated: Bool = false) {
         sleepTimerManager.cancelSleepTimer(userInitiated: userInitiated)
         sleepTimeRemaining = -1
-        sleepOnEpisodeEnd = false
+        numberOfEpisodesToSleepAfter = 0
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
     }
 
     func sleepTimerActive() -> Bool {
-        sleepTimeRemaining >= 0 || sleepOnEpisodeEnd
+        sleepTimeRemaining >= 0 || numberOfEpisodesToSleepAfter > 0
     }
 
     func setSleepTimerInterval(_ stopIn: TimeInterval) {
@@ -1944,7 +1947,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Private helpers
 
     private func checkIfStreamBufferRequired(episode: BaseEpisode, effects: PlaybackEffects) {
-        let downloadEpisode = effects.trimSilence.isEnabled() || FeatureFlag.cachePlayingEpisode.enabled
+        let downloadEpisode = effects.trimSilence.isEnabled() && !FeatureFlag.cachePlayingEpisode.enabled
         if downloadEpisode, !episode.downloaded(pathFinder: DownloadManager.shared) {
             // the user is streaming and has turned on remove silence, kick off a download so we can fulfill that request
             DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .playerDownloadedForStreaming)
@@ -1970,7 +1973,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             DispatchQueue.main.async {
                 if self.playing() {
                     let keepScreenOn: Bool
-                    keepScreenOn = Settings.keepScreenAwake
+                    if FeatureFlag.newSettingsStorage.enabled {
+                        keepScreenOn = SettingsStore.appSettings.keepScreenAwake
+                    } else {
+                        keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+                    }
                     UIApplication.shared.isIdleTimerDisabled = keepScreenOn
                 } else {
                     UIApplication.shared.isIdleTimerDisabled = false
@@ -2003,6 +2010,35 @@ class PlaybackManager: ServerPlaybackDelegate {
         // Nothing to autoplay or Up Next has items, reset the latest played from
         AutoplayHelper.shared.playedFrom(playlist: nil)
         #endif
+    }
+
+    // MARK: - Episode Update (Playback Failure)
+
+    // If we're streaming an episode and it fails, try to make sure the URL is up to date.
+    // Authors can change URLs at any time, so this is handy to fix cases where they post
+    // the wrong one and update it later
+    func urlFailedToLoad(for episodeUuid: String) {
+        Task {
+            guard lastRetryEpisodeUuid != episodeUuid,
+                  let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
+                  let podcast = episode.parentPodcast() else {
+                lastRetryEpisodeUuid = episodeUuid
+                playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
+                return
+            }
+
+            FileLog.shared.addMessage("PlaybackManager: URL failed to load, trying to update episode and playing again")
+            lastRetryEpisodeUuid = episodeUuid
+
+            ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast) { [weak self] wasUpdated in
+                guard let self,
+                      let updatedEpisode = wasUpdated ? DataManager.sharedManager.findEpisode(uuid: episodeUuid) : episode else { return }
+
+                FileLog.shared.addMessage("PlaybackManager: Episode\(wasUpdated ? " " : " not") updated, trying to play again.")
+
+                load(episode: updatedEpisode, autoPlay: true, overrideUpNext: false)
+            }
+        }
     }
 
     // MARK: - Analytics

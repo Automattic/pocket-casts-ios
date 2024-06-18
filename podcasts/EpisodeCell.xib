@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -115,7 +115,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="neM-x9-7TY" userLabel="Info Stack View">
-                                        <rect key="frame" x="0.0" y="41" width="54.5" height="16"/>
+                                        <rect key="frame" x="0.0" y="41" width="220" height="16"/>
                                         <subviews>
                                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="list_upnext" translatesAutoresizingMaskIntoConstraints="NO" id="bvr-nR-R0Y">
                                                 <rect key="frame" x="-16" y="0.0" width="16" height="16"/>
@@ -161,7 +161,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="..." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYh-rx-5sN" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                <rect key="frame" x="42" y="0.0" width="12.5" height="16"/>
+                                                <rect key="frame" x="42" y="0.0" width="178" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -169,7 +169,9 @@
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="neM-x9-7TY" secondAttribute="trailing" id="8g7-jw-JrB"/>
                                     <constraint firstAttribute="trailing" secondItem="IDe-pC-iLG" secondAttribute="trailing" id="IJ2-6k-Uhy"/>
+                                    <constraint firstItem="neM-x9-7TY" firstAttribute="leading" secondItem="FG0-AH-uw2" secondAttribute="leading" id="jWx-qN-KXx"/>
                                     <constraint firstItem="IDe-pC-iLG" firstAttribute="leading" secondItem="FG0-AH-uw2" secondAttribute="leading" id="oeD-oo-qTJ"/>
                                 </constraints>
                             </stackView>

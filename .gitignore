@@ -32,3 +32,7 @@ podcasts/Credentials/LocalApiCredentials.swift
 
 # SwiftLint Remote Config Cache
 .swiftlint/RemoteConfigCache
+
+# Artifacts produced when building locally
+*.app.dSYM.zip
+*.ipa

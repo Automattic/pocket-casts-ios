@@ -2,21 +2,219 @@
   "object": {
     "pins": [
       {
-        "package": "CryptoSwift",
-        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+        "package": "abseil",
+        "repositoryURL": "https://github.com/google/abseil-cpp-binary.git",
         "state": {
           "branch": null,
-          "revision": "a44caef0550c346e0ab9172f7c9a3852c1833599",
+          "revision": "748c7837511d0e6a507737353af268484e1745e2",
+          "version": "1.2024011601.1"
+        }
+      },
+      {
+        "package": "Agrume",
+        "repositoryURL": "https://github.com/Automattic/Agrume",
+        "state": {
+          "branch": null,
+          "revision": "c2090b3387729965fa0bdbc61adc2ec7af1753f9",
+          "version": "5.6.13"
+        }
+      },
+      {
+        "package": "AppCheck",
+        "repositoryURL": "https://github.com/google/app-check.git",
+        "state": {
+          "branch": null,
+          "revision": "076b241a625e25eac22f8849be256dfb960fcdfe",
+          "version": "10.19.1"
+        }
+      },
+      {
+        "package": "AppAuth",
+        "repositoryURL": "https://github.com/openid/AppAuth-iOS.git",
+        "state": {
+          "branch": null,
+          "revision": "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
+          "version": "1.7.5"
+        }
+      },
+      {
+        "package": "AutomatticTracksiOS",
+        "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
+        "state": {
+          "branch": null,
+          "revision": "cc3200463d9b97d2c58d839d1534e77e5bfa66c3",
+          "version": "3.4.1"
+        }
+      },
+      {
+        "package": "DifferenceKit",
+        "repositoryURL": "https://github.com/ra1028/DifferenceKit",
+        "state": {
+          "branch": null,
+          "revision": "073b9671ce2b9b5b96398611427a1f929927e428",
           "version": "1.3.0"
+        }
+      },
+      {
+        "package": "Firebase",
+        "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
+        "state": {
+          "branch": null,
+          "revision": "8bcaf973b1d84e119b7c7c119abad72ed460979f",
+          "version": "10.27.0"
         }
       },
       {
         "package": "FMDB",
         "repositoryURL": "https://github.com/ccgus/fmdb.git",
         "state": {
-          "branch": "master",
-          "revision": "dcd5bb68b348b51af7c76a51aa9f86f676feb3fc",
-          "version": null
+          "branch": null,
+          "revision": "4cd6276ee24a1d90fe521b130608858b5a1e36f4",
+          "version": "2.7.11"
+        }
+      },
+      {
+        "package": "Fuse",
+        "repositoryURL": "https://github.com/krisk/fuse-swift",
+        "state": {
+          "branch": null,
+          "revision": "26ba868691b2d8b7bf2b1322951eb591be70ccca",
+          "version": "1.4.0"
+        }
+      },
+      {
+        "package": "GoogleAppMeasurement",
+        "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
+        "state": {
+          "branch": null,
+          "revision": "70df02431e216bed98dd461e0c4665889245ba70",
+          "version": "10.27.0"
+        }
+      },
+      {
+        "package": "GoogleDataTransport",
+        "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
+        "state": {
+          "branch": null,
+          "revision": "a637d318ae7ae246b02d7305121275bc75ed5565",
+          "version": "9.4.0"
+        }
+      },
+      {
+        "package": "GoogleSignIn",
+        "repositoryURL": "https://github.com/google/GoogleSignIn-iOS",
+        "state": {
+          "branch": null,
+          "revision": "a7965d134c5d3567026c523e0a8a583f73b62b0d",
+          "version": "7.1.0"
+        }
+      },
+      {
+        "package": "GoogleUtilities",
+        "repositoryURL": "https://github.com/google/GoogleUtilities.git",
+        "state": {
+          "branch": null,
+          "revision": "57a1d307f42df690fdef2637f3e5b776da02aad6",
+          "version": "7.13.3"
+        }
+      },
+      {
+        "package": "gRPC",
+        "repositoryURL": "https://github.com/google/grpc-binary.git",
+        "state": {
+          "branch": null,
+          "revision": "e9fad491d0673bdda7063a0341fb6b47a30c5359",
+          "version": "1.62.2"
+        }
+      },
+      {
+        "package": "GTMSessionFetcher",
+        "repositoryURL": "https://github.com/google/gtm-session-fetcher.git",
+        "state": {
+          "branch": null,
+          "revision": "0382ca27f22fb3494cf657d8dc356dc282cd1193",
+          "version": "3.4.1"
+        }
+      },
+      {
+        "package": "GTMAppAuth",
+        "repositoryURL": "https://github.com/google/GTMAppAuth.git",
+        "state": {
+          "branch": null,
+          "revision": "5d7d66f647400952b1758b230e019b07c0b4b22a",
+          "version": "4.1.1"
+        }
+      },
+      {
+        "package": "InteropForGoogle",
+        "repositoryURL": "https://github.com/google/interop-ios-for-google-sdks.git",
+        "state": {
+          "branch": null,
+          "revision": "2d12673670417654f08f5f90fdd62926dc3a2648",
+          "version": "100.0.0"
+        }
+      },
+      {
+        "package": "JLRoutes",
+        "repositoryURL": "https://github.com/joeldev/JLRoutes",
+        "state": {
+          "branch": null,
+          "revision": "d9f74895e37e0a33a40d39637ede75de3a2d6b66",
+          "version": "2.1.1"
+        }
+      },
+      {
+        "package": "Kingfisher",
+        "repositoryURL": "https://github.com/onevcat/Kingfisher",
+        "state": {
+          "branch": null,
+          "revision": "2ef543ee21d63734e1c004ad6c870255e8716c50",
+          "version": "7.12.0"
+        }
+      },
+      {
+        "package": "leveldb",
+        "repositoryURL": "https://github.com/firebase/leveldb.git",
+        "state": {
+          "branch": null,
+          "revision": "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
+          "version": "1.22.5"
+        }
+      },
+      {
+        "package": "Lottie",
+        "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
+        "state": {
+          "branch": null,
+          "revision": "769b88d83a42ca8d5572b020c96f47e3690b3796",
+          "version": "4.4.3"
+        }
+      },
+      {
+        "package": "nanopb",
+        "repositoryURL": "https://github.com/firebase/nanopb.git",
+        "state": {
+          "branch": null,
+          "revision": "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
+          "version": "2.30910.0"
+        }
+      },
+      {
+        "package": "Promises",
+        "repositoryURL": "https://github.com/google/promises.git",
+        "state": {
+          "branch": null,
+          "revision": "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+          "version": "2.4.0"
+        }
+      },
+      {
+        "package": "Sentry",
+        "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
+        "state": {
+          "branch": null,
+          "revision": "a62862c99f5bcb28fd78617fab1a5fe29607c06c",
+          "version": "8.28.0"
         }
       },
       {
@@ -24,8 +222,44 @@
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {
           "branch": null,
-          "revision": "7790acf0a81d08429cb20375bf42a8c7d279c5fe",
-          "version": "1.8.0"
+          "revision": "9f0c76544701845ad98716f3f6a774a892152bcb",
+          "version": "1.26.0"
+        }
+      },
+      {
+        "package": "Sodium",
+        "repositoryURL": "https://github.com/jedisct1/swift-sodium",
+        "state": {
+          "branch": null,
+          "revision": "4f9164a0a2c9a6a7ff53a2833d54a5c79c957342",
+          "version": "0.9.1"
+        }
+      },
+      {
+        "package": "SwipeCellKit",
+        "repositoryURL": "https://github.com/shiftyjelly/SwipeCellKit",
+        "state": {
+          "branch": null,
+          "revision": "3395be59bf5f60d55fb8298170ad0e3db3a99e18",
+          "version": "2.7.7"
+        }
+      },
+      {
+        "package": "BuildkiteTestCollector",
+        "repositoryURL": "https://github.com/buildkite/test-collector-swift",
+        "state": {
+          "branch": null,
+          "revision": "631a2400dbe876141a3ef8c7400885907fec7f89",
+          "version": "0.4.1"
+        }
+      },
+      {
+        "package": "UIDeviceIdentifier",
+        "repositoryURL": "https://github.com/squarefrog/UIDeviceIdentifier",
+        "state": {
+          "branch": null,
+          "revision": "4699794b08bb79a4d77785edaba6ea739e298e4b",
+          "version": "2.3.0"
         }
       }
     ]

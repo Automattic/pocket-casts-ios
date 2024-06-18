@@ -368,7 +368,9 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         episodeName.text = episode.displayableTitle()
         podcastName.text = podcast.title
-        podcastImage.setEpisode(episode, size: .page)
+        if let uuid = episode.parentPodcast()?.uuid {
+            podcastImage.setPodcast(uuid: uuid, size: .page)
+        }
 
         episodeDate.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
         episodeInfo.text = episode.displayableTimeLeft()

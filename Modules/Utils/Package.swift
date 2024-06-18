@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "PocketCastsUtils",
     platforms: [
-        .iOS(.v15), .watchOS(.v7)
+        .iOS(.v15), .watchOS(.v8)
     ],
     products: [
         .library(
@@ -15,12 +15,9 @@ let package = Package(
             targets: ["PocketCastsUtils"]
         )
     ],
-    dependencies: [
-    ],
     targets: [
         .target(
             name: "PocketCastsUtils",
-            dependencies: [],
             path: "Sources"
         ),
         .testTarget(

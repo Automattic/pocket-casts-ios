@@ -77,7 +77,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         super.viewDidLoad()
 
         updateNavigationButtons()
-
         title = L10n.podcastsPlural
         setupSearchBar()
         setupRefreshControl()
@@ -86,7 +85,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
 
-        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        adjustSettingsForGridType()
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -94,7 +94,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         refreshControl?.parentViewControllerDidAppear()
 
-        miniPlayerStatusDidChange()
+        updateInsets()
         refreshGridItems()
         addEventObservers()
         updateNavigationButtons()
@@ -152,9 +152,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.folderDeleted, selector: #selector(refreshGridItems))
 
-        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
-        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
-
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         addCustomObserver(Constants.Notifications.searchRequested, selector: #selector(searchRequested))
     }
@@ -168,26 +165,17 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     }
 
     private func makeBadge(size: CGFloat) -> UIView {
-        let badgeFrame = UIView()
+        let badgeView = CircleView()
         let borderWidth = CGFloat(2)
-        let badgeSize = size - (borderWidth * 2)
-        badgeFrame.backgroundColor = ThemeColor.secondaryUi01()
-        badgeFrame.layer.cornerRadius = size / 2
-        let badge = UIView()
-        badge.layer.cornerRadius = badgeSize / 2
-        badge.backgroundColor = UIColor(hex: "#F43E37")
-        badge.translatesAutoresizingMaskIntoConstraints = false
-        badgeFrame.translatesAutoresizingMaskIntoConstraints = false
-        badgeFrame.addSubview(badge)
+        badgeView.borderColor = ThemeColor.secondaryUi01()
+        badgeView.centerColor = ThemeColor.primaryInteractive01()
+        badgeView.backgroundColor = .clear
+        badgeView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            badgeFrame.widthAnchor.constraint(equalToConstant: size),
-            badgeFrame.heightAnchor.constraint(equalToConstant: size),
-            badge.widthAnchor.constraint(equalToConstant: badgeSize),
-            badge.heightAnchor.constraint(equalToConstant: badgeSize),
-            badge.centerXAnchor.constraint(equalTo: badgeFrame.centerXAnchor),
-            badge.centerYAnchor.constraint(equalTo: badgeFrame.centerYAnchor)
+            badgeView.widthAnchor.constraint(equalToConstant: size),
+            badgeView.heightAnchor.constraint(equalToConstant: size),
         ])
-        return badgeFrame
+        return badgeView
     }
 
     private func makeProfileButton(email: String?) -> UIBarButtonItem {
@@ -232,14 +220,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let folderImage = SubscriptionHelper.hasActiveSubscription() ? UIImage(named: "folder-create") : UIImage(named: AppTheme.folderLockedImageName())
         let folderButton = UIBarButtonItem(image: folderImage, style: .plain, target: self, action: #selector(createFolderTapped(_:)))
         folderButton.accessibilityLabel = L10n.folderCreateNew
-        if FeatureFlag.upNextOnTabBar.enabled {
-            let userProfile = UserInfo.Profile()
-            navigationItem.leftBarButtonItem = makeProfileButton(email: userProfile.email)
-            extraRightButtons = [folderButton]
-        } else {
-            navigationItem.leftBarButtonItem = folderButton
-            extraRightButtons = []
-        }
+        navigationItem.leftBarButtonItem = folderButton
+        extraRightButtons = []
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {
@@ -257,11 +239,17 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         searchController.searchTextField.becomeFirstResponder()
     }
 
-    @objc private func miniPlayerStatusDidChange() {
-        if PlaybackManager.shared.currentEpisode() != nil {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        } else {
-            podcastsCollectionView.contentInset = UIEdgeInsets(top: podcastsCollectionView.contentInset.top, left: 0, bottom: 0, right: 0)
+    private func updateInsets() {
+        let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
+        let currentInsets = podcastsCollectionView.contentInset
+        podcastsCollectionView.contentInset = UIEdgeInsets(top: currentInsets.top, left: horizontalMargin, bottom: currentInsets.bottom, right: horizontalMargin)
+    }
+
+    private func adjustSettingsForGridType() {
+        updateInsets()
+        gridHelper.configureLayout(collectionView: podcastsCollectionView)
+        if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
+            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.primaryUi02
         }
     }
 
@@ -397,6 +385,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     func gridTypeChanged() {
         podcastsCollectionView.reloadData()
+        adjustSettingsForGridType()
     }
 
     private func showBadgeOptions() {
@@ -432,6 +421,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         options.addAction(action: unplayedCountAction)
 
         options.show(statusBarStyle: preferredStatusBarStyle)
+    }
+
+    override func handleThemeChanged() {
+        super.handleThemeChanged()
+        podcastsCollectionView.reloadData()
     }
 }
 

@@ -1,2 +1,3 @@
-- Sleep Timer restarts automatically if you play again within 5 minutes [#1612]
+- Re-add Use contentType to set extension for downloaded files. [#1743]
+- Improve responsiveness when playing a podcast [#1801]
 

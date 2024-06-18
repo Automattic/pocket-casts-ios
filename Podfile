@@ -21,11 +21,15 @@ end
 target 'podcasts' do
   platform :ios, app_ios_deployment_target.version
   common_pods
+  pod 'PulseCore', git: 'https://github.com/kean/Pulse.git', tag: '4.2.4', configurations: %w[Debug Staging Prototype]
+  pod 'PulseUI', git: 'https://github.com/kean/Pulse.git', tag: '4.2.4', configurations: %w[Debug Staging Prototype]
 end
 
 target 'PocketCastsTests' do
   platform :ios, app_ios_deployment_target.version
   common_pods
+  pod 'PulseCore', git: 'https://github.com/kean/Pulse.git', tag: '4.2.4'
+  pod 'PulseUI', git: 'https://github.com/kean/Pulse.git', tag: '4.2.4'
 end
 
 abstract_target 'CI' do
@@ -35,10 +39,10 @@ abstract_target 'CI' do
   pod 'SwiftLint', swiftlint_version
 end
 
-post_install do |pi|
-  pi.pods_project.targets.each do |t|
-    t.build_configurations.each do |config|
-      if t.name != 'Pocket Casts Watch App'
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      if target.name != 'Pocket Casts Watch App'
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] =
           app_ios_deployment_target.version
       end

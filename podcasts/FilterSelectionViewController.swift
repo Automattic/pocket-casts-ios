@@ -15,7 +15,6 @@ class FilterSelectionViewController: PCViewController, UITableViewDelegate, UITa
     @IBOutlet var filterSelectionTable: UITableView! {
         didSet {
             filterSelectionTable.register(UINib(nibName: "FilterDownloadCell", bundle: nil), forCellReuseIdentifier: FilterSelectionViewController.filterAutoDownloadCell)
-            filterSelectionTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -23,7 +22,7 @@ class FilterSelectionViewController: PCViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
 
         filterSelectionTable.reloadData()
-
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filterSelectionTable)
         title = L10n.settingsSelectFiltersPlural
     }
 

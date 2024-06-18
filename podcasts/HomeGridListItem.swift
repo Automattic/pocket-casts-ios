@@ -58,6 +58,8 @@ class HomeGridListItem: ListItem {
                 folder.name == otherFolder.name &&
                 folder.color == otherFolder.color &&
                 folder.syncModified == otherFolder.syncModified &&
+                folder.sortType == otherFolder.sortType &&
+                folder.sortOrder == otherFolder.sortOrder &&
                 theme.rawValue == rhs.theme.rawValue // since folders use different colours in different themes, we need to compare that as well
         }
 

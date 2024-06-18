@@ -2,7 +2,7 @@
 common_params:
   # Common plugin settings to use with the `plugins` key.
   - &common_plugins
-    - automattic/a8c-ci-toolkit#3.1.0
+    - automattic/a8c-ci-toolkit#3.3.0
   # Common environment values to use with the `env` key.
   - &common_env
     # If you update the image to a newer Xcode version, don't forget to also update the badge in the README.md file accordingly for consistency
@@ -20,16 +20,61 @@ steps:
 
   - group: "Linters"
     steps:
+      - label: "☢️ Danger - PR Check"
+        command: danger
+        key: danger
+        if: "build.pull_request.id != null"
+        retry:
+          manual:
+            permit_on_passed: true
+        agents:
+          queue: "linter"
+
       - label: ":swift: SwiftLint"
-        command: run_swiftlint --strict
-        plugins: *common_plugins
+        command: swiftlint
         notify:
           - github_commit_status:
               context: "SwiftLint"
         agents:
-          queue: "default"
+          queue: "linter"
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: lint_localized_strings_format
         plugins: *common_plugins
         env: *common_env
+
+  - block: Deploy Prototype Build
+    prompt: Share a Prototype Build via App Center?
+    key: prototype_triggered
+    # Block steps have implicit dependency on the steps that come before them.
+    # See https://buildkite.com/docs/pipelines/trigger-step
+    #
+    # Make it depend on nothing so we don't have to wait for previous steps to finish before the deployment can start.
+    depends_on: ~
+
+  - group: Prototype Build
+    steps:
+      - label: Prototype Build - Build
+        key: build_prototype
+        depends_on: prototype_triggered
+        command: .buildkite/commands/prototype-build.sh
+        agents: *common_agents
+        env: *common_env
+        plugins: *common_plugins
+        # The folder name is are configured in Fastlane
+        artifact_paths:
+          - artifacts/*.ipa
+          - artifacts/*.app.dSYM.zip
+        notify:
+          - github_commit_status:
+              context: Prototype Build - Build
+
+      - label: Prototype Build - Upload
+        depends_on: build_prototype
+        command: .buildkite/commands/prototype-upload.sh
+        agents: *common_agents
+        env: *common_env
+        plugins: *common_plugins
+        notify:
+          - github_commit_status:
+              context: Prototype Build - Upload

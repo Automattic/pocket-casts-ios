@@ -39,7 +39,7 @@ extension Publishers {
         static let upNextQueueChanged = NotificationCenter.default.publisher(for: Constants.Notifications.upNextQueueChanged)
 
         // Data Updates
-        static let dataUpdated = NotificationCenter.default.publisher(for: NSNotification.Name(rawValue: WatchConstants.Notifications.dataUpdated), object: nil)
+        static let dataUpdated = NotificationCenter.default.publisher(for: WatchConstants.Notifications.dataUpdated, object: nil)
         static let podcastUpdated = NotificationCenter.default.publisher(for: Constants.Notifications.podcastUpdated)
         static let folderChanged = NotificationCenter.default.publisher(for: Constants.Notifications.folderChanged)
     }

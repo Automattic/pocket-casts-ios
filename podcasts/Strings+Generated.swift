@@ -286,6 +286,10 @@ internal enum L10n {
   }
   /// First
   internal static var autoDownloadPromptFirst: String { return L10n.tr("Localizable", "auto_download_prompt_first") }
+  /// Auto Restart Sleep Timer
+  internal static var autoRestartSleepTimer: String { return L10n.tr("Localizable", "auto_restart_sleep_timer") }
+  /// If on, the sleep timer will restart automatically if you play an episode within 5 minutes after the last pause.
+  internal static var autoRestartSleepTimerDescription: String { return L10n.tr("Localizable", "auto_restart_sleep_timer_description") }
   /// Back
   internal static var back: String { return L10n.tr("Localizable", "back") }
   /// Please download Pocket Casts from the App Store to purchase %1$@.
@@ -472,6 +476,8 @@ internal enum L10n {
   internal static var customEpisodeRemoveUpload: String { return L10n.tr("Localizable", "custom_episode_remove_upload") }
   /// Upload to Cloud
   internal static var customEpisodeUpload: String { return L10n.tr("Localizable", "custom_episode_upload") }
+  /// We're moving a few bits and bytes so the app runs faster...
+  internal static var databaseMigration: String { return L10n.tr("Localizable", "database_migration") }
   /// Day listened
   internal static var dayListened: String { return L10n.tr("Localizable", "day_listened") }
   /// Day saved
@@ -1170,6 +1176,10 @@ internal enum L10n {
   internal static var folderUnnamed: String { return L10n.tr("Localizable", "folder_unnamed") }
   /// Folders
   internal static var folders: String { return L10n.tr("Localizable", "folders") }
+  /// Folders History
+  internal static var foldersHistory: String { return L10n.tr("Localizable", "folders_history") }
+  /// A list of podcasts that were removed from folders as a result of a sync.
+  internal static var foldersHistoryExplanation: String { return L10n.tr("Localizable", "folders_history_explanation") }
   /// No Payment Now – Cancel Anytime
   internal static var freeTrialDetailLabel: String { return L10n.tr("Localizable", "free_trial_detail_label") }
   /// %1$@ FREE
@@ -1254,6 +1264,8 @@ internal enum L10n {
   internal static var gotIt: String { return L10n.tr("Localizable", "got_it") }
   /// Group Episodes
   internal static var groupEpisodes: String { return L10n.tr("Localizable", "group_episodes") }
+  /// Hang on!
+  internal static var hangOn: String { return L10n.tr("Localizable", "hang_on") }
   /// Clear All
   internal static var historyClearAll: String { return L10n.tr("Localizable", "history_clear_all") }
   /// Clear Listening History
@@ -1974,6 +1986,10 @@ internal enum L10n {
   internal static var podcastQueuing: String { return L10n.tr("Localizable", "podcast_queuing") }
   /// Refresh Artwork
   internal static var podcastRefreshArtwork: String { return L10n.tr("Localizable", "podcast_refresh_artwork") }
+  /// %1$@ removed from %2$@
+  internal static func podcastRemovedFromFolder(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "podcast_removed_from_folder", String(describing: p1), String(describing: p2))
+  }
   /// Season %1$@
   internal static func podcastSeasonFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_season_format", String(describing: p1))
@@ -2206,6 +2222,18 @@ internal enum L10n {
   internal static var removeUpNext: String { return L10n.tr("Localizable", "remove_up_next") }
   /// Renew your Subscription
   internal static var renewSubscription: String { return L10n.tr("Localizable", "renew_subscription") }
+  /// Restore
+  internal static var restore: String { return L10n.tr("Localizable", "restore") }
+  /// Restore podcasts to folders?
+  internal static var restoreFolders: String { return L10n.tr("Localizable", "restore_folders") }
+  /// These podcasts will be permanently added back to the folders listed here
+  internal static var restoreFoldersMessage: String { return L10n.tr("Localizable", "restore_folders_message") }
+  /// Podcasts restored to their original folders
+  internal static var restoreFoldersSuccess: String { return L10n.tr("Localizable", "restore_folders_success") }
+  /// Restore Up Next?
+  internal static var restoreUpNext: String { return L10n.tr("Localizable", "restore_up_next") }
+  /// These episodes will be added to the bottom of your current Up Next
+  internal static var restoreUpNextMessage: String { return L10n.tr("Localizable", "restore_up_next_message") }
   /// Retry
   internal static var retry: String { return L10n.tr("Localizable", "retry") }
   /// Save Bookmark
@@ -2696,6 +2724,10 @@ internal enum L10n {
   }
   /// Set Up Account
   internal static var setupAccount: String { return L10n.tr("Localizable", "setup_account") }
+  /// Shake to restart Sleep Timer
+  internal static var shakeToRestartSleepTimer: String { return L10n.tr("Localizable", "shake_to_restart_sleep_timer") }
+  /// If on, the sleep timer will restart when you shake your phone.
+  internal static var shakeToRestartSleepTimerDescription: String { return L10n.tr("Localizable", "shake_to_restart_sleep_timer_description") }
   /// Share
   internal static var share: String { return L10n.tr("Localizable", "share") }
   /// Current Position
@@ -2820,6 +2852,16 @@ internal enum L10n {
   internal static var sleepTimerCancel: String { return L10n.tr("Localizable", "sleep_timer_cancel") }
   /// End Of Episode
   internal static var sleepTimerEndOfEpisode: String { return L10n.tr("Localizable", "sleep_timer_end_of_episode") }
+  /// In %1$@ episodes
+  internal static func sleepTimerEpisodeCount(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "sleep_timer_episode_count", String(describing: p1))
+  }
+  /// Sleeping in %1$@ episodes
+  internal static func sleepTimerSleepingAfter(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "sleep_timer_sleeping_after", String(describing: p1))
+  }
+  /// Sleeping at the end of the current episode
+  internal static var sleepTimerSleepingAfterCurrentEpisode: String { return L10n.tr("Localizable", "sleep_timer_sleeping_after_current_episode") }
   /// Sleep Timer on, %1$@ remaining
   internal static func sleepTimerTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "sleep_timer_time_remaining", String(describing: p1))
@@ -3020,6 +3062,10 @@ internal enum L10n {
   internal static var upNextEmptyDescription: String { return L10n.tr("Localizable", "up_next_empty_description") }
   /// Nothing in Up Next
   internal static var upNextEmptyTitle: String { return L10n.tr("Localizable", "up_next_empty_title") }
+  /// Up Next History
+  internal static var upNextHistory: String { return L10n.tr("Localizable", "up_next_history") }
+  /// A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.
+  internal static var upNextHistoryExplanation: String { return L10n.tr("Localizable", "up_next_history_explanation") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
   /// Upgrade to %1$@
@@ -3068,6 +3114,8 @@ internal enum L10n {
   internal static var watchNothingPlayingSubtitle: String { return L10n.tr("Localizable", "watch_nothing_playing_subtitle") }
   /// Nothing Playing
   internal static var watchNothingPlayingTitle: String { return L10n.tr("Localizable", "watch_nothing_playing_title") }
+  /// Play Source
+  internal static var watchPlaySource: String { return L10n.tr("Localizable", "watch_play_source") }
   /// Podcasts will play from the speaker that the chosen device is connected to
   internal static var watchSourceMsg: String { return L10n.tr("Localizable", "watch_source_msg") }
   /// Download direct to your watch and listen without your phone. Check out Pocket Casts Plus on your phone app, or on the web.

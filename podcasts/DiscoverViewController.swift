@@ -30,6 +30,8 @@ class DiscoverViewController: PCViewController {
 
     var discoverLayout: DiscoverLayout?
 
+    var currentRegion: String?
+
     private let coordinator: DiscoverCoordinator
 
     init(coordinator: DiscoverCoordinator) {
@@ -53,6 +55,9 @@ class DiscoverViewController: PCViewController {
 
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
+
+        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
+        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +73,8 @@ class DiscoverViewController: PCViewController {
         Analytics.track(.discoverShown)
 
         reloadIfRequired()
+
+        miniPlayerStatusDidChange()
 
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequested), name: Constants.Notifications.searchRequested, object: nil)
     }
@@ -186,6 +193,9 @@ class DiscoverViewController: PCViewController {
     }
 
     private func apply(snapshot: NSDiffableDataSourceSnapshot<Int, DiscoverItem>, currentRegion: String) {
+
+        self.currentRegion = currentRegion
+
         for discoverItem in snapshot.itemIdentifiers {
             guard let type = discoverItem.type, let summaryStyle = discoverItem.summaryStyle else { continue }
             let expandedStyle = discoverItem.expandedStyle ?? ""
@@ -226,7 +236,7 @@ class DiscoverViewController: PCViewController {
     /// Populate the scroll view using a DiscoverLayout with optional shouldInclude and shouldReset filters.
     /// - Parameters:
     ///   - discoverLayout: A `DiscoverLayout`
-    ///   - shouldInclude: Whether a `DiscoverItem` from the layout should be included in the scroll view. This is used to filter items meant only for certain categories, for instance.
+    ///   - shouldInclude: Whether a `DiscoverItem` from the layout should be included in the scroll view. This is used to filter items meant only for certain categories, for instance. By default, this filter will exclude items with a category which are to be shown in the Category page.
     ///   - shouldReset: Whether a view controller from `summaryViewControllers` should be reset during this operation. This is used by the Categories pills to avoid triggering a view reload, allowing animations to continue.
     func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil, shouldReset: ((DiscoverItem) -> Bool)? = nil) {
         loadingContent = false
@@ -234,6 +244,10 @@ class DiscoverViewController: PCViewController {
         guard let layout = discoverLayout, let items = layout.layout, let _ = layout.regions, items.count > 0 else {
             handleLoadFailed()
             return
+        }
+
+        let itemFilter = shouldInclude ?? { item in
+            item.categoryID == nil
         }
 
         self.discoverLayout = layout
@@ -246,7 +260,7 @@ class DiscoverViewController: PCViewController {
 
             let section = 0
             snapshot.appendSections([section])
-            snapshot.appendItems(items.filter({ (shouldInclude?($0) ?? true) && $0.regions.contains(currentRegion) }))
+            snapshot.appendItems(items.filter({ (itemFilter($0)) && $0.regions.contains(currentRegion) }))
 
             return snapshot
         }
@@ -260,7 +274,7 @@ class DiscoverViewController: PCViewController {
         let regions = layout.regions?.keys as? [String]
         let item = DiscoverItem(id: "country-summary", regions: regions ?? [])
 
-        if shouldInclude?(item) ?? true {
+        if itemFilter(item) {
             let countrySummary = CountrySummaryViewController()
             countrySummary.discoverLayout = layout
             countrySummary.registerDiscoverDelegate(self)
@@ -278,7 +292,7 @@ class DiscoverViewController: PCViewController {
         addToScrollView(viewController: viewController, for: discoverItem, isLast: false)
 
         controller.registerDiscoverDelegate(self)
-        controller.populateFrom(item: discoverItem)
+        controller.populateFrom(item: discoverItem, region: currentRegion)
     }
 
     func addToScrollView(viewController: UIViewController, for item: DiscoverItem, isLast: Bool) {
@@ -321,6 +335,11 @@ class DiscoverViewController: PCViewController {
     private func handleLoadFailed() {
         loadingIndicator.stopAnimating()
         noNetworkView.isHidden = false
+    }
+
+    @objc func miniPlayerStatusDidChange() {
+        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        mainScrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset, right: 0)
     }
 }
 

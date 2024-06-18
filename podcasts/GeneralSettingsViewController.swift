@@ -3,22 +3,21 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
-class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
     private let timeStepperCellId = "TimeStepperCell"
     private let switchCellId = "SwitchCell"
     private let disclosureCellId = "DisclosureCell"
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay }
-    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
+    private enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer }
+    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
             settingsTable.register(UINib(nibName: "TimeStepperCell", bundle: nil), forCellReuseIdentifier: timeStepperCellId)
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
-            settingsTable.applyInsetForMiniPlayer()
         }
     }
 
@@ -26,6 +25,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
 
         title = L10n.settingsGeneral
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
 
         Analytics.track(.settingsGeneralShown)
     }
@@ -116,7 +117,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralKeepScreenAwake
 
-            cell.cellSwitch.isOn = Settings.keepScreenAwake
+            if FeatureFlag.newSettingsStorage.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.keepScreenAwake
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
+            }
+
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(screenLockToggled(_:)), for: .valueChanged)
 
@@ -137,7 +143,11 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralAutoOpenPlayer
 
-            cell.cellSwitch.isOn = Settings.openPlayerAutomatically
+            if FeatureFlag.newSettingsStorage.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.openPlayer
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
+            }
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(openPlayerToggled(_:)), for: .valueChanged)
@@ -148,7 +158,11 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellLabel.text = L10n.settingsGeneralSmartPlayback
 
-            cell.cellSwitch.isOn = Settings.intelligentResumption
+            if FeatureFlag.newSettingsStorage.enabled {
+                cell.cellSwitch.isOn = SettingsStore.appSettings.intelligentResumption
+            } else {
+                cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.intelligentPlaybackResumption)
+            }
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(intelligentPlaybackResumptionToggled(_:)), for: .valueChanged)
@@ -242,6 +256,26 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
             cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(autoplayToggled(_:)), for: .valueChanged)
+
+            return cell
+        case .autoRestartSleepTimer:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.autoRestartSleepTimer
+            cell.cellSwitch.isOn = Settings.autoRestartSleepTimer
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(autoRestartSleepTimerToggled(_:)), for: .valueChanged)
+
+            return cell
+        case .shakeToRestartSleepTimer:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.shakeToRestartSleepTimer
+            cell.cellSwitch.isOn = Settings.shakeToRestartSleepTimer
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(shakeToRestartSleepTimerToggled(_:)), for: .valueChanged)
 
             return cell
         }
@@ -358,6 +392,8 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsGeneralDefaultsHeader)
         } else if section == 1 {
             return SettingsTableHeader(frame: headerFrame, title: L10n.settingsGeneralPlayerHeader)
+        } else if tableData[safe: section]?.contains(.autoRestartSleepTimer) == true {
+            return SettingsTableHeader(frame: headerFrame, title: L10n.sleepTimer)
         }
 
         return nil
@@ -385,6 +421,10 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             return L10n.settingsGeneralPublishChapterTitlesSubtitle
         case .autoplay:
             return L10n.settingsGeneralAutoplaySubtitle
+        case .autoRestartSleepTimer:
+            return L10n.autoRestartSleepTimerDescription
+        case .shakeToRestartSleepTimer:
+            return L10n.shakeToRestartSleepTimerDescription
         default:
             return nil
         }
@@ -429,7 +469,10 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func screenLockToggled(_ sender: UISwitch) {
-        Settings.keepScreenAwake = sender.isOn
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.keepScreenAwake = sender.isOn
+        }
+        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
         PlaybackManager.shared.updateIdleTimer()
         Settings.trackValueToggled(.settingsGeneralKeepScreenAwakeToggled, enabled: sender.isOn)
     }
@@ -452,12 +495,18 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     @objc private func openPlayerToggled(_ sender: UISwitch) {
-        Settings.openPlayerAutomatically = sender.isOn
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.openPlayer = sender.isOn
+        }
+        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openPlayerAutomatically)
         Settings.trackValueToggled(.settingsGeneralOpenPlayerAutomaticallyToggled, enabled: sender.isOn)
     }
 
     @objc private func intelligentPlaybackResumptionToggled(_ sender: UISwitch) {
-        Settings.intelligentResumption = sender.isOn
+        if FeatureFlag.newSettingsStorage.enabled {
+            SettingsStore.appSettings.intelligentResumption = sender.isOn
+        }
+        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
         Settings.trackValueToggled(.settingsGeneralIntelligentPlaybackToggled, enabled: sender.isOn)
     }
 
@@ -477,8 +526,19 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     @objc private func autoplayToggled(_ sender: UISwitch) {
         Settings.autoplay = sender.isOn
 
-
         Settings.trackValueToggled(.settingsGeneralAutoplayToggled, enabled: sender.isOn)
+    }
+
+    @objc private func autoRestartSleepTimerToggled(_ sender: UISwitch) {
+        Settings.autoRestartSleepTimer = sender.isOn
+
+        Settings.trackValueToggled(.settingsGeneralAutoSleepTimerRestartToggled, enabled: sender.isOn)
+    }
+
+    @objc private func shakeToRestartSleepTimerToggled(_ sender: UISwitch) {
+        Settings.shakeToRestartSleepTimer = sender.isOn
+
+        Settings.trackValueToggled(.settingsGeneralShakeToResetSleepTimerToggled, enabled: sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
