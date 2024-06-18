@@ -7,6 +7,7 @@
 - Re-add Use contentType to set extension for downloaded files. [#1743]
 - Improve responsiveness when playing a podcast [#1801]
 - Grid layouts tweaks for better readability [#1823]
+- Fix gradient view on mini-player in dark themes [#1832]
 
 7.65
 -----
