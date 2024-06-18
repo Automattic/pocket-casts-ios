@@ -6,7 +6,6 @@ class DownloadProgressManager {
     private let progressItemsQueue: DispatchQueue
 
     private var finishedItemCount: Double = 0
-    private var lastUiUpdateTime: Date?
 
     init() {
         progressItemsQueue = DispatchQueue(label: "au.com.pocketcasts.ProgressItemsQueue")
@@ -46,22 +45,29 @@ class DownloadProgressManager {
     }
 
     func updateProgressForEpisode(_ uuid: String, totalBytesWritten: Int64, totalBytesExpected: Int64) {
+        var update: Bool = false
         progressItemsQueue.sync {
-            var progressItem = progressItems[uuid]
-            if progressItem == nil {
+            var progressItem: DownloadProgress
+            if let existing = progressItems[uuid] {
+                progressItem = existing
+            } else {
                 progressItem = DownloadProgress()
                 finishedItemCount = 0
             }
 
-            progressItem?.totalToDownload = totalBytesExpected
-            progressItem?.downloadedSoFar = totalBytesWritten
-            progressItems[uuid] = progressItem!
-        }
+            progressItem.totalToDownload = totalBytesExpected
+            progressItem.downloadedSoFar = totalBytesWritten
 
-        // throttle updates to once every 1s so we don't flood the UI thread
-        if lastUiUpdateTime == nil || lastUiUpdateTime!.timeIntervalSinceNow < -1 {
+            // throttle updates to once every 1s so we don't flood the UI thread
+            if progressItem.lastUiUpdateTime.timeIntervalSinceNow < -1 {
+                progressItem.lastUiUpdateTime = Date()
+                update = true
+            }
+
+            progressItems[uuid] = progressItem
+        }
+        if update {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.downloadProgress, object: uuid)
-            lastUiUpdateTime = Date()
         }
     }
 

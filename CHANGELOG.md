@@ -1,6 +1,7 @@
 7.67
 -----
 - WatchOS refactor main screen and app entry point to SwiftUI. [#1800]
+- Playback skipping: Sync export session with download states. [#1819]
 
 7.66
 -----

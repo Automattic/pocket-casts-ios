@@ -14,6 +14,8 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var downloadingEpisodesCache = [String: BaseEpisode]()
 
+    var downloadAndStreamEpisodes = Set<String>()
+
     var taskFailure: [String: FailureReason] = [:]
 
     #if os(watchOS)
@@ -190,17 +192,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         // download requested for something we already have buferred, just move it
         if episode.bufferedForStreaming(), autoDownloadStatus != AutoDownloadStatus.playerDownloadedForStreaming {
-            let sourceUrl = URL(fileURLWithPath: streamingBufferPathForEpisode(episode))
-            let destinationUrl = URL(fileURLWithPath: pathForEpisode(episode))
-            do {
-                try StorageManager.moveItem(at: sourceUrl, to: destinationUrl, options: .overwriteExisting)
-
-                dataManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: episode.sizeInBytes, downloadTaskId: nil, episode: episode)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
-            } catch {
-                dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
-            }
-
+            moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
             return
         }
 
@@ -242,6 +234,22 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }
 
+    func moveBufferedEpisodeCacheToEpisodeFile(episode: BaseEpisode) {
+        let sourceUrl = URL(fileURLWithPath: streamingBufferPathForEpisode(episode))
+        let destinationUrl = URL(fileURLWithPath: pathForEpisode(episode))
+        do {
+            try StorageManager.moveItem(at: sourceUrl, to: destinationUrl, options: .overwriteExisting)
+            let fileSize = FileManager.default.fileSize(of: destinationUrl) ?? 0
+            dataManager.saveEpisode(downloadStatus: .downloaded, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
+        } catch {
+            FileLog.shared.addMessage("DownloadManager: failed to move streaming file for \(episode.uuid) to new location -> \(error)")
+            dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
+        }
+
+        return
+    }
+
     func downloadParallelToStream(of episode: BaseEpisode) -> AVPlayerItem? {
         guard let playbackItem = PlaybackItem(episode: episode).createPlayerItem() else {
             return nil
@@ -257,23 +265,64 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
         #if !os(watchOS)
         Task {
-            episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue,
+               downloadAndStreamEpisodes.contains(episode.uuid) {
+                // We are already downloading this episode for streaming
+                FileLog.shared.addMessage("DownloadManager export session: skipping because we are already exporting: \(episode.uuid)")
+                return
+            }
+            var wasDownloadingBefore = false
+            if episode.downloading() || episode.queued() {
+                wasDownloadingBefore = true
+                let previousStatus = episode.autoDownloadStatus
+                FileLog.shared.addMessage("DownloadManager export session: cancelling existing download for: \(episode.uuid) with status:\(previousStatus)")
+                self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
+                episode.autoDownloadStatus = previousStatus
+            } else {
+                episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            }
             episode.contentType = UTType.mpeg4Audio.preferredMIMEType
+            let downloadTaskUUID = episode.uuid
+            downloadingEpisodesCache[downloadTaskUUID] = episode
+            downloadAndStreamEpisodes.insert(downloadTaskUUID)
+            episode.downloadTaskId = downloadTaskUUID
+
             DataManager.sharedManager.save(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
             let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
-            downloadingEpisodesCache[episode.uuid] = episode
             FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
-            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL)
-            if exportCompleted {
-                let fileSize = FileManager.default.fileSize(of: outputURL) ?? 0
-                DataManager.sharedManager.saveEpisode(downloadStatus: .downloadedForStreaming, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
-            } else {
-                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL) { progress, size in
+                let size = max(100, max(size, episode.sizeInBytes))
+                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64((Double(progress) * Double(size))), totalBytesExpectedToWrite: size)
             }
-            downloadingEpisodesCache.removeValue(forKey: episode.uuid)
+            downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
+            removeEpisodeFromCache(episode)
+            downloadAndStreamEpisodes.remove(downloadTaskUUID)
+
+            if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
+                if let contentType = UTType.mpeg4Audio.preferredMIMEType {
+                    DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
+                }
+                if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
+                    // If while the export session was running the user or auto-download system decided to download the episode, we just move the end file
+                    moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
+                } else {
+                    let fileSize = FileManager.default.fileSize(of: outputURL) ?? 0
+                    DataManager.sharedManager.saveEpisode(downloadStatus: DownloadStatus.downloadedForStreaming, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
+                }
+            } else {
+                if let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
+                    wasDownloadingBefore = episode.downloading()
+                }
+                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+                DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
+                if wasDownloadingBefore {
+                    DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
+                }
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
+            }
         }
         #endif
         return playbackItem
@@ -345,6 +394,10 @@ class DownloadManager: NSObject, FilePathProtocol {
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
 
+        if FeatureFlag.cachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
+            return
+        }
+
         if FeatureFlag.downloadFixes.enabled {
             if await shouldSkipExistingTask(for: episode, in: sessionToUse, matching: request) {
                 FileLog.shared.addMessage("Download: skipped task for episode: \(episode.uuid)")
@@ -401,6 +454,13 @@ class DownloadManager: NSObject, FilePathProtocol {
             episode.autoDownloadStatus = AutoDownloadStatus.userCancelledDownload.rawValue
             saveRequired = true
         }
+
+        if FeatureFlag.cachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
+            episode.downloadTaskId = episode.uuid
+            episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+            saveRequired = true
+        }
+
         if episode.queued() || episode.downloading() || episode.waitingForWifi() {
             episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
             saveRequired = true
@@ -414,10 +474,15 @@ class DownloadManager: NSObject, FilePathProtocol {
     private func shouldAddDownload(_ episodeUuid: String, autoDownloadStatus: AutoDownloadStatus) -> Bool {
         guard let episode = dataManager.findBaseEpisode(uuid: episodeUuid) else { return false }
 
-        if let taskId = episode.downloadTaskId, episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue, autoDownloadStatus != .playerDownloadedForStreaming {
+        if let taskId = episode.downloadTaskId,
+            episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue,
+            autoDownloadStatus != .playerDownloadedForStreaming {
             // if the player was downloading an episode for streaming purposes, and now the user (or the app via auto download) is downloading it, change the status
-            dataManager.saveEpisode(autoDownloadStatus: autoDownloadStatus, episode: episode)
+            episode.autoDownloadStatus = autoDownloadStatus.rawValue
+            episode.episodeStatus = DownloadStatus.downloading.rawValue
+            dataManager.save(episode: episode)
             downloadingEpisodesCache[taskId] = episode
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
             return false
         }
 
