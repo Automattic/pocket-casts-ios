@@ -4126,3 +4126,12 @@
 
 /* Title for root screen of the Watch App*/
 "watch_play_source" = "Play Source";
+
+/* A title shown when sharing an episode */
+"share_episode" = "Share episode";
+
+/* A title shown when sharing a podcast */
+"share_podcast" = "Share podcast";
+
+/* A message shown when sharing an image representation of a podcast or episode to social media platforms */
+"share_description" = "Choose a format and a platform to share to";

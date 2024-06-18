@@ -2,6 +2,7 @@ import AVKit
 import PocketCastsServer
 import UIKit
 import PocketCastsDataModel
+import PocketCastsUtils
 
 protocol NowPlayingActionsDelegate: AnyObject {
     func starEpisodeTapped()
@@ -379,6 +380,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func shareEpisode(sender: UIView) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
 
+        guard FeatureFlag.newSharing.enabled == false else {
+            SharingModal.showModal(episode: episode, in: self)
+            return
+        }
+
         let shareOptions = OptionsPicker(title: L10n.playerShareHeader, themeOverride: .dark)
 
         let sharePodcastAction = OptionAction(label: L10n.podcastSingular, icon: "chapter-link") {
@@ -405,16 +411,29 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let type = fromTime == 0 ? "episode" : "current_position"
 
         Analytics.track(.podcastShared, properties: ["type": type, "source": "player"])
-        let sourceRect = buttonSuperview.convert(source.frame, to: view)
-        SharingHelper.shared.shareLinkTo(episode: episode, shareTime: fromTime, fromController: self, sourceRect: sourceRect, sourceView: view)
+
+        if FeatureFlag.newSharing.enabled {
+            if fromTime == 0 {
+                SharingModal.show(option: .episode, episode: episode, in: self)
+            } else {
+                SharingModal.show(option: .currentPosition, episode: episode, in: self)
+            }
+        } else {
+            let sourceRect = buttonSuperview.convert(source.frame, to: view)
+            SharingHelper.shared.shareLinkTo(episode: episode, shareTime: fromTime, fromController: self, sourceRect: sourceRect, sourceView: view)
+        }
     }
 
     private func sharePodcast(source: UIView, podcast: Podcast?) {
         guard let buttonSuperview = source.superview, let podcast = podcast else { return }
 
         Analytics.track(.podcastShared, properties: ["type": "podcast", "source": "player"])
-        let sourceRect = buttonSuperview.convert(source.frame, to: view)
-        SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, sourceRect: sourceRect, sourceView: view)
+        if FeatureFlag.newSharing.enabled {
+            SharingModal.show(option: .episode, podcast: podcast, episode: nil, in: self)
+        } else {
+            let sourceRect = buttonSuperview.convert(source.frame, to: view)
+            SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, sourceRect: sourceRect, sourceView: view)
+        }
     }
 
     // MARK: - Private Helpers
