@@ -73,6 +73,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the Accelerate framework to speed up custom effects
     case accelerateEffects
 
+    case newSharing
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -129,6 +131,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .accelerateEffects:
             true
+        case .newSharing:
+            false
         }
     }
 
