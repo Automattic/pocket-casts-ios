@@ -1805,11 +1805,12 @@ class PlaybackManager: ServerPlaybackDelegate {
         let interruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as! NSNumber
         if interruptionType.uintValue == AVAudioSession.InterruptionType.ended.rawValue {
             interruptInProgress = false
-            let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as! NSNumber
-            FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio = \(interruptionOption) )")
-            if interruptionOption.uintValue == AVAudioSession.InterruptionOptions.shouldResume.rawValue, wasPlayingBeforeInterruption {
-                play(userInitiated: false)
-                wasPlayingBeforeInterruption = false
+            if let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as? NSNumber {
+                FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio = \(interruptionOption) )")
+                if interruptionOption.uintValue == AVAudioSession.InterruptionOptions.shouldResume.rawValue, wasPlayingBeforeInterruption {
+                    play(userInitiated: false)
+                    wasPlayingBeforeInterruption = false
+                }
             }
         } else if interruptionType.uintValue == AVAudioSession.InterruptionType.began.rawValue {
             interruptInProgress = true
