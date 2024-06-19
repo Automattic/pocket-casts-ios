@@ -31,8 +31,9 @@ struct PlaybackCatchUpHelper {
                 return max(0, episode.playedUpTo - 10.seconds)
             }
 
-            FileLog.shared.addMessage("Not enough time passed since this episode was last paused, no time adjustment required")
-            return episode.playedUpTo
+            let rewindTime = (1.seconds / 3)
+            FileLog.shared.addMessage("A small amount of time passed since this episode was last paused, jumping back \(rewindTime) seconds")
+            return episode.playedUpTo - rewindTime
         #endif
     }
 
