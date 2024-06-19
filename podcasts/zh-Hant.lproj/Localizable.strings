@@ -1041,6 +1041,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>未命名的資料夾</string>
     <key>folders</key>
     <string>資料夾</string>
+    <key>folders_history</key>
+    <string>資料夾紀錄</string>
+    <key>folders_history_explanation</key>
+    <string>因同步處理而自資料夾移除的 Podcast 清單。</string>
     <key>free_trial_detail_label</key>
     <string>現在無需付費，可隨時取消</string>
     <key>free_trial_duration_free</key>
@@ -1699,6 +1703,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>已排入佇列...</string>
     <key>podcast_refresh_artwork</key>
     <string>重新整理封面作品</string>
+    <key>podcast_removed_from_folder</key>
+    <string>「%1$@」已自「%2$@」移除</string>
     <key>podcast_season_format</key>
     <string>第 %1$@ 季</string>
     <key>podcast_share_episode</key>
@@ -1897,6 +1903,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>續訂</string>
     <key>restore</key>
     <string>還原</string>
+    <key>restore_folders</key>
+    <string>要將 Podcast 還原至資料夾嗎？</string>
+    <key>restore_folders_message</key>
+    <string>這些 Podcast 將永久加回此處列出的資料夾</string>
+    <key>restore_folders_success</key>
+    <string>Podcast 已還原至原始資料夾</string>
+    <key>restore_up_next</key>
+    <string>要還原「接下來播放」嗎？</string>
+    <key>restore_up_next_message</key>
+    <string>這些節目將新增至目前「接下來播放」的底部</string>
     <key>retry</key>
     <string>重試</string>
     <key>save_bookmark</key>
@@ -2641,6 +2657,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你可以在節目佇列向右撥動，或點選節目卡圖示，將接下來要播放的節目排入佇列。</string>
     <key>up_next_empty_title</key>
     <string>「接下來播放」中沒有任何節目</string>
+    <key>up_next_history</key>
+    <string>「接下來播放」紀錄</string>
+    <key>up_next_history_explanation</key>
+    <string>因其他裝置變更，因此在「接下來播放」進行的近期更新清單。 若要檢視單集並提供還原選項，請點選任意條目。</string>
     <key>upgrade_account</key>
     <string>升級帳號</string>
     <key>upgrade_to_plan</key>

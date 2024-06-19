@@ -1047,6 +1047,10 @@ Comparteix-los amb Pocket Casts i apareixeran aquí.</string>
     <string>Carpeta sense nom</string>
     <key>folders</key>
     <string>Carpetes</string>
+    <key>folders_history</key>
+    <string>Historial de carpetes</string>
+    <key>folders_history_explanation</key>
+    <string>Una llista de podcasts s'han eliminat de les carpetes com a resultat de la sincronització.</string>
     <key>free_trial_detail_label</key>
     <string>Sense pagament per avançat. Cancel·la en qualsevol moment</string>
     <key>free_trial_duration_free</key>
@@ -1702,6 +1706,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>A la cua...</string>
     <key>podcast_refresh_artwork</key>
     <string>Actualitzar les caràtules</string>
+    <key>podcast_removed_from_folder</key>
+    <string>%1$@ eliminat de %2$@</string>
     <key>podcast_season_format</key>
     <string>Temporada %1$@</string>
     <key>podcast_share_episode</key>
@@ -1898,6 +1904,18 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Eliminar de 'Tot seguit'</string>
     <key>renew_subscription</key>
     <string>Renova la teva subscripció</string>
+    <key>restore</key>
+    <string>Restaurar</string>
+    <key>restore_folders</key>
+    <string>Vols restaurar els podcasts a carpetes?</string>
+    <key>restore_folders_message</key>
+    <string>Aquests podcasts s'afegiran permanentment de nou a les carpetes llistades aquí.</string>
+    <key>restore_folders_success</key>
+    <string>Podcasts restaurats a la seva carpeta original.</string>
+    <key>restore_up_next</key>
+    <string>Restaurar 'Tot seguit'?</string>
+    <key>restore_up_next_message</key>
+    <string>Aquests episodis s'afegiran al final de la llista 'Tot seguit'</string>
     <key>retry</key>
     <string>Reintentar</string>
     <key>save_bookmark</key>
@@ -2645,6 +2663,10 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Pots posar episodis a la llista perquè es reprodueixin a tot seguit si llisques cap a la dreta a les files dels episodis o si toques la icona a la targeta de l'episodi.</string>
     <key>up_next_empty_title</key>
     <string>No hi ha res a la llista de 'Tot seguit'</string>
+    <key>up_next_history</key>
+    <string>Historial de 'Tot seguit'</string>
+    <key>up_next_history_explanation</key>
+    <string>Una llista d'actualitzacions recents a 'Tot seguit' a causa de canvis a altres dispositius. Per veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
     <key>upgrade_account</key>
     <string>Actualizar el compte</string>
     <key>upgrade_to_plan</key>
