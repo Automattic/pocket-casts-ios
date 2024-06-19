@@ -1041,6 +1041,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>名前のないフォルダー</string>
     <key>folders</key>
     <string>フォルダー</string>
+    <key>folders_history</key>
+    <string>フォルダー履歴</string>
+    <key>folders_history_explanation</key>
+    <string>同期の結果としてフォルダーから削除されたポッドキャストのリスト。</string>
     <key>free_trial_detail_label</key>
     <string>無料でお試ししていつでもキャンセル可能</string>
     <key>free_trial_duration_free</key>
@@ -1699,6 +1703,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>待機リストに追加されました...</string>
     <key>podcast_refresh_artwork</key>
     <string>アートワークを再読み込み</string>
+    <key>podcast_removed_from_folder</key>
+    <string>%1$@ が %2$@ から削除されました</string>
     <key>podcast_season_format</key>
     <string>シーズン%1$@</string>
     <key>podcast_share_episode</key>
@@ -1897,6 +1903,16 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>サブスクリプションを更新</string>
     <key>restore</key>
     <string>復元</string>
+    <key>restore_folders</key>
+    <string>ポッドキャストをフォルダーに復元しますか ?</string>
+    <key>restore_folders_message</key>
+    <string>これらのポッドキャストは、ここにリストされているフォルダーに完全に追加されます</string>
+    <key>restore_folders_success</key>
+    <string>ポッドキャストが元のフォルダーに復元されました</string>
+    <key>restore_up_next</key>
+    <string>「次に再生」を復元しますか ?</string>
+    <key>restore_up_next_message</key>
+    <string>これらのエピソードは、現在の「次に再生」の一番下に追加されます。</string>
     <key>retry</key>
     <string>再試行</string>
     <key>save_bookmark</key>
@@ -2637,6 +2653,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>エピソード行を右にスワイプするか、エピソードカードのアイコンをタップすることで、次に再生するエピソードを待機リストに追加できます。</string>
     <key>up_next_empty_title</key>
     <string>次のエピソードには何もありません</string>
+    <key>up_next_history</key>
+    <string>「次に再生」履歴</string>
+    <key>up_next_history_explanation</key>
+    <string>他端末での変更により、「次に再生」に生じた最近の更新のリスト。 エピソードを表示し、それらを復元するオプションを利用するには、任意のエントリーをタップします。</string>
     <key>upgrade_account</key>
     <string>アカウントをアップグレード</string>
     <key>upgrade_to_plan</key>

@@ -1041,6 +1041,10 @@ Teile sie mit Pocket Casts, dann werden sie hier angezeigt.</string>
     <string>Unbenannter Ordner</string>
     <key>folders</key>
     <string>Ordner</string>
+    <key>folders_history</key>
+    <string>Ordnerverlauf</string>
+    <key>folders_history_explanation</key>
+    <string>Eine Liste von Podcasts, die aufgrund einer Synchronisierung aus Ordnern entfernt wurden.</string>
     <key>free_trial_detail_label</key>
     <string>Jetzt keine Zahlung – jederzeit kündbar</string>
     <key>free_trial_duration_free</key>
@@ -1699,6 +1703,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>In Warteschlange …</string>
     <key>podcast_refresh_artwork</key>
     <string>Coverbilder aktualisieren</string>
+    <key>podcast_removed_from_folder</key>
+    <string>%1$@ aus %2$@ entfernt</string>
     <key>podcast_season_format</key>
     <string>Staffel %1$@</string>
     <key>podcast_share_episode</key>
@@ -1897,6 +1903,16 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Abonnement verlängern</string>
     <key>restore</key>
     <string>Wiederherstellen</string>
+    <key>restore_folders</key>
+    <string>Podcasts in Ordnern wiederherstellen?</string>
+    <key>restore_folders_message</key>
+    <string>Diese Podcasts werden dauerhaft wieder zu den hier aufgeführten Ordnern hinzugefügt</string>
+    <key>restore_folders_success</key>
+    <string>Podcasts in ihren ursprünglichen Ordnern wiederhergestellt</string>
+    <key>restore_up_next</key>
+    <string>„Als Nächstes“ wiederherstellen?</string>
+    <key>restore_up_next_message</key>
+    <string>Diese Folgen werden am Ende deiner aktuellen „Als Nächstes“-Liste hinzugefügt</string>
     <key>retry</key>
     <string>Erneut versuchen</string>
     <key>save_bookmark</key>
@@ -2641,6 +2657,10 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Du kannst eine Folge zur Warteschlange hinzufügen, indem du in der Folgenliste nach rechts wischst oder in einer Folgenkarte das Warteschlangen-Icon antippst.</string>
     <key>up_next_empty_title</key>
     <string>Die Warteschlange ist leer.</string>
+    <key>up_next_history</key>
+    <string>Verlauf „Als Nächstes“</string>
+    <key>up_next_history_explanation</key>
+    <string>Eine Liste kürzlich vorgenommener Updates an „Als Nächstes“ aufgrund von Änderungen auf anderen Geräten. Tippe auf einen beliebigen Eintrag, um die Folgen anzuzeigen und die Wiederherstellungsfunktion zu nutzen.</string>
     <key>upgrade_account</key>
     <string>Upgrade für Konto durchführen</string>
     <key>upgrade_to_plan</key>

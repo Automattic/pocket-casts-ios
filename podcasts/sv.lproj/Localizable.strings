@@ -1041,6 +1041,10 @@ När du har delat dem med Pocket Casts så kommer de att visas här.</string>
     <string>Namnlös mapp</string>
     <key>folders</key>
     <string>Mappar</string>
+    <key>folders_history</key>
+    <string>Mapphistorik</string>
+    <key>folders_history_explanation</key>
+    <string>En lista över podcaster som togs bort från mappar till följd av en synkronisering.</string>
     <key>free_trial_detail_label</key>
     <string>Ingen betalning nu – Avbryt när som helst</string>
     <key>free_trial_duration_free</key>
@@ -1699,6 +1703,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Tillagt i kön...</string>
     <key>podcast_refresh_artwork</key>
     <string>Uppdatera omslag</string>
+    <key>podcast_removed_from_folder</key>
+    <string>%1$@ togs bort från %2$@</string>
     <key>podcast_season_format</key>
     <string>Säsong %1$@</string>
     <key>podcast_share_episode</key>
@@ -1897,6 +1903,16 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Förnya din prenumeration</string>
     <key>restore</key>
     <string>Återställ</string>
+    <key>restore_folders</key>
+    <string>Återställ podcaster till mappar?</string>
+    <key>restore_folders_message</key>
+    <string>Dessa podcaster kommer att sparas permanent i de mappar som listas här</string>
+    <key>restore_folders_success</key>
+    <string>Podcasterna har återställts till de ursprungliga mapparna</string>
+    <key>restore_up_next</key>
+    <string>Återställ Up Next?</string>
+    <key>restore_up_next_message</key>
+    <string>Dessa avsnitt kommer att läggas till längst ner i din nuvarande Up Next</string>
     <key>retry</key>
     <string>Försök igen</string>
     <key>save_bookmark</key>
@@ -2641,6 +2657,10 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Du kan lägga avsnitt i kö för uppspelning genom att svepa åt höger på ett avsnitt i listan eller genom att öppna avsnittet och trycka på ikonen.</string>
     <key>up_next_empty_title</key>
     <string>Inget i Nästa</string>
+    <key>up_next_history</key>
+    <string>Up Next-historik</string>
+    <key>up_next_history_explanation</key>
+    <string>En lista över de senaste uppdateringarna av Up Next som gjorts på grund av ändringar på andra enheter. Tryck på valfritt inlägg för att titta på avsnitten och få möjlighet att återställa dem.</string>
     <key>upgrade_account</key>
     <string>Uppgradera konto</string>
     <key>upgrade_to_plan</key>
