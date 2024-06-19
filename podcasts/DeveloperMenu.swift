@@ -102,6 +102,23 @@ struct DeveloperMenu: View {
                         (UIApplication.shared.delegate as? AppDelegate)?.updateRemoteFeatureFlags()
                     }
                 }
+                Button("Trigger Began Interruption") {
+                    // Triggers a notification mimicking the began interruption
+                    let userInfo: [String: Any] = [
+                        AVAudioSessionInterruptionTypeKey: NSNumber(value: AVAudioSession.InterruptionType.began.rawValue)
+                    ]
+                    let notification = Notification(name: AVAudioSession.interruptionNotification, object: nil, userInfo: userInfo)
+                    NotificationCenter.default.post(notification)
+                }
+                Button("Trigger Ended Interruption") {
+                    // Triggers a notification mimicking the ended interruption
+                    let userInfo: [String: Any] = [
+                        AVAudioSessionInterruptionTypeKey: NSNumber(value: AVAudioSession.InterruptionType.ended.rawValue),
+                        AVAudioSessionInterruptionOptionKey: NSNumber(value: AVAudioSession.InterruptionOptions.shouldResume.rawValue)
+                    ]
+                    let notification = Notification(name: AVAudioSession.interruptionNotification, object: nil, userInfo: userInfo)
+                    NotificationCenter.default.post(notification)
+                }
             }
 
             Section {
