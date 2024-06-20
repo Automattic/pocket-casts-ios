@@ -10,7 +10,7 @@ class SharingHelper: NSObject {
         AnalyticsHelper.sharedPodcast()
 
         if FeatureFlag.newSharing.enabled {
-            SharingModal.show(option: .podcast(podcast), podcast: podcast, episode: nil, in: fromController)
+            SharingModal.show(option: .podcast(podcast), in: fromController)
         } else {
             let sharingUrl = podcast.shareURL
             activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)
@@ -52,7 +52,7 @@ class SharingHelper: NSObject {
         AnalyticsHelper.sharedPodcast()
 
         if FeatureFlag.newSharing.enabled {
-            SharingModal.show(option: .podcast(podcast), podcast: podcast, episode: nil, in: fromController)
+            SharingModal.show(option: .podcast(podcast), in: fromController)
         } else {
             let sharingUrl = podcast.shareURL
             activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)
@@ -88,7 +88,7 @@ class SharingHelper: NSObject {
 
     func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, barButtonItem: UIBarButtonItem?) {
         guard FeatureFlag.newSharing.enabled == false else {
-            SharingModal.show(option: .episode(episode), episode: episode, in: fromController)
+            SharingModal.show(option: .episode(episode), in: fromController)
             return
         }
 

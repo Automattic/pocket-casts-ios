@@ -62,7 +62,7 @@ enum SharingModal {
 
         let actions: [OptionAction] = Option.allCases(episode: episode, podcast: podcast, currentTime: PlaybackManager.shared.currentTime()).map { option in
                 .init(label: option.buttonTitle, action: {
-                show(option: option, podcast: podcast, episode: episode, in: viewController)
+                show(option: option, in: viewController)
             })
         }
         optionPicker.addActions(actions)
@@ -70,15 +70,7 @@ enum SharingModal {
         optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
 
-    static func show(option: Option, episode: Episode, in viewController: UIViewController) {
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid) else {
-            assertionFailure("Podcast should exist for episode")
-            return
-        }
-        show(option: option, podcast: podcast, episode: episode, in: viewController)
-    }
-
-    static func show(option: Option, podcast: Podcast, episode: Episode?, in viewController: UIViewController) {
+    static func show(option: Option, in viewController: UIViewController) {
         let sharingView = SharingView(selectedOption: option)
         let modalView = ModalView {
             sharingView
