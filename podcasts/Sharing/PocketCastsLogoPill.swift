@@ -11,7 +11,7 @@ import SwiftUI
 struct PocketCastsLogoPill: View {
     var body: some View {
         HStack {
-            Image("pocketcasts")
+            Image("splashlogo")
                 .resizable()
                 .frame(width: 18, height: 18)
             Text("Pocket Casts")
