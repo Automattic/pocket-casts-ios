@@ -1609,6 +1609,7 @@
 		F52ADE472BD9698B00AC647F /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52ADE462BD9698B00AC647F /* ModalView.swift */; };
 		F52B4F8C2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8B2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift */; };
 		F52B4F8E2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */; };
+		F533F19D2C24B8CB00EDE9AA /* ShareDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = F533F19C2C24B8CB00EDE9AA /* ShareDestination.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1634,6 +1635,7 @@
 		F5F6DA822BC0B512009B1934 /* CategoriesModalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA812BC0B512009B1934 /* CategoriesModalPicker.swift */; };
 		F5FE747B2C223A6100DF2EAA /* ShareImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61222BD07E3A00190711 /* ShareImageView.swift */; };
 		F5FE747D2C223A6E00DF2EAA /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
+		F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF611F2BD076BA00190711 /* Sharing.xcassets */; };
 		F5FF61232BD07E3A00190711 /* ShareImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61222BD07E3A00190711 /* ShareImageView.swift */; };
 		F5FF61252BD0831200190711 /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
 		F5FF61292BD6D88C00190711 /* SharingModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61282BD6D88C00190711 /* SharingModal.swift */; };
@@ -3428,6 +3430,7 @@
 		F52ADE462BD9698B00AC647F /* ModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		F52B4F8B2BB4A9CA00E87BE4 /* CategoriesSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorViewController.swift; sourceTree = "<group>"; };
 		F52B4F8D2BB4A9ED00E87BE4 /* CategoriesSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesSelectorView.swift; sourceTree = "<group>"; };
+		F533F19C2C24B8CB00EDE9AA /* ShareDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDestination.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+CategoryRedesign.swift"; sourceTree = "<group>"; };
@@ -3448,6 +3451,7 @@
 		F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FMDatabaseQueue+Test.swift"; sourceTree = "<group>"; };
 		F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonStyle.swift; sourceTree = "<group>"; };
 		F5F6DA812BC0B512009B1934 /* CategoriesModalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModalPicker.swift; sourceTree = "<group>"; };
+		F5FF611F2BD076BA00190711 /* Sharing.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sharing.xcassets; sourceTree = "<group>"; };
 		F5FF61222BD07E3A00190711 /* ShareImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareImageView.swift; sourceTree = "<group>"; };
 		F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsLogoPill.swift; sourceTree = "<group>"; };
 		F5FF61282BD6D88C00190711 /* SharingModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingModal.swift; sourceTree = "<group>"; };
@@ -6043,6 +6047,7 @@
 				BD4F25741F70F17B00B8857E /* TabBar.xcassets */,
 				BD8678A61C1954F600CC728B /* ThreeDeeTouch.xcassets */,
 				404BB865230F7FF5006FE8A9 /* WhatsNew.xcassets */,
+				F5FF611F2BD076BA00190711 /* Sharing.xcassets */,
 				8BE85CA72876258300AEB5FF /* Acknowledgments */,
 				BD7EA4CE1E52C2800014EAC5 /* Animations */,
 				C7D813A72A0D4E3E007F715F /* Icons */,
@@ -7425,6 +7430,7 @@
 				F5FF61282BD6D88C00190711 /* SharingModal.swift */,
 				F5FF61222BD07E3A00190711 /* ShareImageView.swift */,
 				F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */,
+				F533F19C2C24B8CB00EDE9AA /* ShareDestination.swift */,
 			);
 			path = Sharing;
 			sourceTree = "<group>";
@@ -8090,6 +8096,7 @@
 				BD6B669B245BC28800CF5245 /* AppIcon-Red-Velvet20x20~ipad.png in Resources */,
 				BD1F07FA1BAAA6F0007A768D /* CategoryPodcastsViewController.xib in Resources */,
 				4084263F2138E2750076D82E /* FeaturedCollectionViewCell.xib in Resources */,
+				F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */,
 				BD49DB821D5B052500813204 /* DestructiveButtonCell.xib in Resources */,
 				BDA25D2A1EDEA2DC00979FE8 /* Sonos.xcassets in Resources */,
 				BD1292EE22F7D066004608A6 /* AppIcon-Classic29x29~ipad.png in Resources */,
@@ -9173,6 +9180,7 @@
 				8BBE19F22BEA98C9009E944B /* ShowInfoCoordinator.swift in Sources */,
 				BDB1E4FE1B8C5C2B009AD30F /* CategorySummaryViewController.swift in Sources */,
 				BD1C46E027B9E6F600B1D8BB /* HomeGridListItem.swift in Sources */,
+				F533F19D2C24B8CB00EDE9AA /* ShareDestination.swift in Sources */,
 				BD542C20240382A100F35D26 /* EpisodeFilter+Formatting.swift in Sources */,
 				C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */,
 				BDB5F0CF2045296200437669 /* PodcastGridCell.swift in Sources */,
