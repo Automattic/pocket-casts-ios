@@ -48,7 +48,7 @@ enum SharingModal {
     }
 
     static func showModal(episode: Episode, in viewController: UIViewController) {
-        guard let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid) else {
+        guard let podcast = episode.parentPodcast() else {
             assertionFailure("Podcast should exist for episode")
             return
         }
