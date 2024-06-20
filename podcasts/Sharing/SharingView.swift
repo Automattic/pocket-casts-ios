@@ -1,10 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
-
-struct ShareInfo {
-    let podcast: Podcast
-    let episode: Episode?
-}
+import PocketCastsUtils
 
 struct SharingView: View {
 
@@ -12,11 +8,14 @@ struct SharingView: View {
         static let descriptionMaxWidth: CGFloat = 200
     }
 
-    let shareInfo: ShareInfo
+    let selectedOption: SharingModal.Option
+
+    @State private var selectedMedia: ShareImageStyle = .large
 
     var body: some View {
         VStack {
             title
+            image
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
@@ -24,7 +23,7 @@ struct SharingView: View {
 
     @ViewBuilder var title: some View {
         VStack {
-            Text(shareInfo.episode != nil ? L10n.shareEpisode : L10n.sharePodcast)
+            Text(selectedOption.shareTitle)
                 .font(.headline)
             Text(L10n.shareDescription)
                 .font(.subheadline)
@@ -33,8 +32,18 @@ struct SharingView: View {
                 .frame(maxWidth: Constants.descriptionMaxWidth)
         }
     }
+
+    @ViewBuilder var image: some View {
+        TabView(selection: $selectedMedia) {
+            ForEach(ShareImageStyle.allCases, id: \.self) { style in
+                ShareImageView(info: selectedOption.imageInfo, style: style)
+                    .tabItem { Text(style.tabString) }
+            }
+        }
+        .tabViewStyle(.page)
+    }
 }
 
 #Preview {
-    SharingView(shareInfo: ShareInfo(podcast: Podcast.previewPodcast(), episode: nil))
+    SharingView(selectedOption: .podcast(Podcast.previewPodcast()))
 }
