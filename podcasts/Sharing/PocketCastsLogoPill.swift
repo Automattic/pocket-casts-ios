@@ -1,11 +1,3 @@
-//
-//  PocketCastsLogoPill.swift
-//  podcasts
-//
-//  Created by Brandon Titus on 4/17/24.
-//  Copyright © 2024 Shifty Jelly. All rights reserved.
-//
-
 import SwiftUI
 
 struct PocketCastsLogoPill: View {
