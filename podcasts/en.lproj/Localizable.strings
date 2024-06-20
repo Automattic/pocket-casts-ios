@@ -2710,6 +2710,15 @@
 /* A common string used throughout the app. Option to share the episode at the current playback position. */
 "share_current_position" = "Current Position";
 
+/* A common string used throughout the app. Option to share the episode at the current playback position. */
+"share_episode_at" = "Share episode at %1$@";
+
+/* A message shown when a share link is copied to the clipboard */
+"share_copied_to_clipboard" = "Link copied to clipboard";
+
+/* A title shown for the share action which displays the system share sheet */
+"share_more_actions" = "More";
+
 /* Message indicating that the process to subscribe to a podcast list is in progress. */
 "share_list_subscribing" = "Subscribing...";
 
@@ -4135,3 +4144,12 @@
 
 /* A message shown when sharing an image representation of a podcast or episode to social media platforms */
 "share_description" = "Choose a format and a platform to share to";
+
+/* A title used when sharing artwork and link to a podcast episode */
+"share_episode_title" = "Share episode";
+
+/* A title used when sharing artwork and link to a podcast */
+"share_podcast_title" = "Share podcast";
+
+/* A title shown for a share option which copies a link to a podcast or episode */
+"share_copy_link" = "Copy link";

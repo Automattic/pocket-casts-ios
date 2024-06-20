@@ -1,15 +1,16 @@
 import PocketCastsDataModel
 import SwiftUI
+import PocketCastsUtils
 
 enum SharingModal {
 
     /// Share options including which type of content will be shared
-    enum Option: CaseIterable {
-        case episode
-        case currentPosition
-        case podcast
+    enum Option {
+        case episode(Episode)
+        case currentPosition(Episode, TimeInterval)
+        case podcast(Podcast)
 
-        var title: String {
+        var buttonTitle: String {
             switch self {
             case .episode:
                 L10n.episode
@@ -17,6 +18,31 @@ enum SharingModal {
                 L10n.shareCurrentPosition
             case .podcast:
                 L10n.podcastSingular
+            }
+        }
+
+        var shareTitle: String {
+            switch self {
+            case .episode:
+                L10n.shareEpisode
+            case .currentPosition(_, let time):
+                L10n.shareEpisodeAt(TimeFormatter.shared.playTimeFormat(time: time))
+            case .podcast:
+                L10n.sharePodcast
+            }
+        }
+
+        static func allCases(episode: Episode?, podcast: Podcast, currentTime: TimeInterval) -> [Option] {
+            if let episode {
+                [
+                    .episode(episode),
+                    .podcast(podcast),
+                    .currentPosition(episode, currentTime)
+                ]
+            } else {
+                [
+                    .podcast(podcast)
+                ]
             }
         }
     }
@@ -34,8 +60,8 @@ enum SharingModal {
 
         let optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)
 
-        let actions: [OptionAction] = Option.allCases.map { option in
-                .init(label: option.title, action: {
+        let actions: [OptionAction] = Option.allCases(episode: episode, podcast: podcast, currentTime: PlaybackManager.shared.currentTime()).map { option in
+                .init(label: option.buttonTitle, action: {
                 show(option: option, podcast: podcast, episode: episode, in: viewController)
             })
         }
@@ -53,9 +79,8 @@ enum SharingModal {
     }
 
     static func show(option: Option, podcast: Podcast, episode: Episode?, in viewController: UIViewController) {
-        let shareInfo = ShareInfo(podcast: podcast, episode: episode)
-
-        let sharingView = SharingView(shareInfo: shareInfo)
+        let shareDestinations = Array(ShareDestination.apps[0...1]) + [.copyLinkOption, .moreOption(vc: viewController)]
+        let sharingView = SharingView(destinations: shareDestinations, selectedOption: option)
         let modalView = ModalView {
             sharingView
         } dismissAction: {

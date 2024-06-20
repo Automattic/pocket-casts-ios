@@ -1632,7 +1632,15 @@
 		F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */; };
 		F5F6DA702BBE1109009B1934 /* CategoryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */; };
 		F5F6DA822BC0B512009B1934 /* CategoriesModalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA812BC0B512009B1934 /* CategoriesModalPicker.swift */; };
+		F5FE747B2C223A6100DF2EAA /* ShareImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61222BD07E3A00190711 /* ShareImageView.swift */; };
+		F5FE747C2C223A6500DF2EAA /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF611B2BD06EF200190711 /* SharingView.swift */; };
+		F5FE747D2C223A6E00DF2EAA /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
+		F5FF611C2BD06EF200190711 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF611B2BD06EF200190711 /* SharingView.swift */; };
+		F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF611F2BD076BA00190711 /* Sharing.xcassets */; };
+		F5FF61232BD07E3A00190711 /* ShareImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61222BD07E3A00190711 /* ShareImageView.swift */; };
+		F5FF61252BD0831200190711 /* PocketCastsLogoPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */; };
 		F5FF61292BD6D88C00190711 /* SharingModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF61282BD6D88C00190711 /* SharingModal.swift */; };
+		F5FF612B2BD6EB3B00190711 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF612A2BD6EB3B00190711 /* ModalView.swift */; };
 		FF03F7C42C0E331E00369572 /* SourceInterfaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */; };
 		FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
@@ -3443,7 +3451,12 @@
 		F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FMDatabaseQueue+Test.swift"; sourceTree = "<group>"; };
 		F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonStyle.swift; sourceTree = "<group>"; };
 		F5F6DA812BC0B512009B1934 /* CategoriesModalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModalPicker.swift; sourceTree = "<group>"; };
+		F5FF611B2BD06EF200190711 /* SharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
+		F5FF611F2BD076BA00190711 /* Sharing.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sharing.xcassets; sourceTree = "<group>"; };
+		F5FF61222BD07E3A00190711 /* ShareImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareImageView.swift; sourceTree = "<group>"; };
+		F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsLogoPill.swift; sourceTree = "<group>"; };
 		F5FF61282BD6D88C00190711 /* SharingModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingModal.swift; sourceTree = "<group>"; };
+		F5FF612A2BD6EB3B00190711 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceModel.swift; sourceTree = "<group>"; };
 		FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Helper.swift"; sourceTree = "<group>"; };
 		FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
@@ -6035,6 +6048,7 @@
 				BD4F25741F70F17B00B8857E /* TabBar.xcassets */,
 				BD8678A61C1954F600CC728B /* ThreeDeeTouch.xcassets */,
 				404BB865230F7FF5006FE8A9 /* WhatsNew.xcassets */,
+				F5FF611F2BD076BA00190711 /* Sharing.xcassets */,
 				8BE85CA72876258300AEB5FF /* Acknowledgments */,
 				BD7EA4CE1E52C2800014EAC5 /* Animations */,
 				C7D813A72A0D4E3E007F715F /* Icons */,
@@ -7291,6 +7305,7 @@
 				C7252E132A71950500E7D3C0 /* EpisodeImage.swift */,
 				C7E99F072A5E103A00E7CBAF /* List View */,
 				C7DC401C2A67025D00883D03 /* Toast */,
+				F5FF612A2BD6EB3B00190711 /* ModalView.swift */,
 			);
 			path = "Common SwiftUI";
 			sourceTree = "<group>";
@@ -7414,6 +7429,9 @@
 			children = (
 				F52ADE432BD8B0F300AC647F /* SharingView.swift */,
 				F5FF61282BD6D88C00190711 /* SharingModal.swift */,
+				F5FF611B2BD06EF200190711 /* SharingView.swift */,
+				F5FF61222BD07E3A00190711 /* ShareImageView.swift */,
+				F5FF61242BD0831200190711 /* PocketCastsLogoPill.swift */,
 			);
 			path = Sharing;
 			sourceTree = "<group>";
@@ -8079,6 +8097,7 @@
 				BD6B669B245BC28800CF5245 /* AppIcon-Red-Velvet20x20~ipad.png in Resources */,
 				BD1F07FA1BAAA6F0007A768D /* CategoryPodcastsViewController.xib in Resources */,
 				4084263F2138E2750076D82E /* FeaturedCollectionViewCell.xib in Resources */,
+				F5FF61202BD076BA00190711 /* Sharing.xcassets in Resources */,
 				BD49DB821D5B052500813204 /* DestructiveButtonCell.xib in Resources */,
 				BDA25D2A1EDEA2DC00979FE8 /* Sonos.xcassets in Resources */,
 				BD1292EE22F7D066004608A6 /* AppIcon-Classic29x29~ipad.png in Resources */,
@@ -8868,6 +8887,7 @@
 				40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */,
 				C7252E122A718AD600E7D3C0 /* BookmarkListRouter.swift in Sources */,
 				4053CDF7214B6B61001C92B1 /* EpisodeFilterOverlayController.swift in Sources */,
+				F5FE747B2C223A6100DF2EAA /* ShareImageView.swift in Sources */,
 				BD998AD327B3430700B38857 /* ColorPreviewFolderView.swift in Sources */,
 				BD7C1FFD237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift in Sources */,
 				BD9324712398BB50004F19A1 /* TourView.swift in Sources */,
@@ -8887,6 +8907,7 @@
 				C7BDECAB2A15310800BECF02 /* SwiftUI+Accessibility.swift in Sources */,
 				403B5AFE2179670F00821A54 /* MediaFilterOverlayController.swift in Sources */,
 				BD001B892174260B00504DD3 /* FilterManager.swift in Sources */,
+				F5FE747D2C223A6E00DF2EAA /* PocketCastsLogoPill.swift in Sources */,
 				BD2A49E61701A6AE00C2F192 /* SJCommonUtils.m in Sources */,
 				406D9F8E253F9BF400B654C6 /* FilterPreviewViewController.swift in Sources */,
 				BD1B32AB204CFA3800F06F67 /* ExpandableLabel.swift in Sources */,
@@ -8922,6 +8943,7 @@
 				409C793722387C0500386495 /* AllArchivedCell.swift in Sources */,
 				405471272163345400341BF6 /* PodcastSelectionHeaderView.swift in Sources */,
 				BD9086A7204E120C00C0C78D /* DescriptiveActionView.swift in Sources */,
+				F5FF612B2BD6EB3B00190711 /* ModalView.swift in Sources */,
 				C7612FFF28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift in Sources */,
 				BDF4D3162175C56F0086463E /* ThemeLoadingIndicator.swift in Sources */,
 				4030D4612496446000BEC7D9 /* MultiSelectActionController.swift in Sources */,
@@ -8982,6 +9004,7 @@
 				BD874EF31C9A3A1B00F5B2A5 /* TopLevelSettingsCell.swift in Sources */,
 				C752F28A29D5F8F200681C33 /* StarRatingView.swift in Sources */,
 				BD47E7FA1DD57F7B00C18EE7 /* ShowNotesFormatter.swift in Sources */,
+				F5FE747C2C223A6500DF2EAA /* SharingView.swift in Sources */,
 				8B67A26329A7D6B60076886D /* SearchHistoryCell.swift in Sources */,
 				BD9A2B521C851577003BA898 /* NavigationManager.swift in Sources */,
 				BDEC9AB32051118900088D76 /* PCViewController.swift in Sources */,
@@ -9071,6 +9094,7 @@
 				8B907F182AA8E1F100926F4F /* MiniPlayerViewController+TransitionDelegate.swift in Sources */,
 				BD35E91A1D45BBDA00CAE2A7 /* EmailHelper.swift in Sources */,
 				BDDF8AA6240CE85D009BA263 /* PodcastViewController+Swipe.swift in Sources */,
+				F5FF611C2BD06EF200190711 /* SharingView.swift in Sources */,
 				463C127A2714B57800178F9E /* Themeable+SwiftUI.swift in Sources */,
 				C7080C5F29233BA000D7A432 /* PlusAccountPromptViewModel.swift in Sources */,
 				40FFAD8A2147831400024FCF /* PlaylistViewController+CollectionView.swift in Sources */,
@@ -9175,6 +9199,7 @@
 				C7FF770F291C2CBA0082A464 /* LoginButtonStyles.swift in Sources */,
 				462EE0A826FB9FDA003D67DC /* ActivityDialog.swift in Sources */,
 				404367C323BAD4E200328B1D /* DiscoverCollectionHeader.swift in Sources */,
+				F5FF61232BD07E3A00190711 /* ShareImageView.swift in Sources */,
 				C71C04CD2924403800F2858A /* ImportDetailsView.swift in Sources */,
 				8B7298F829144EEC0059C077 /* PodcastCover.swift in Sources */,
 				BDA756DE1BFAE61A0035EE13 /* PlaylistColorChooserCell.swift in Sources */,
@@ -9492,6 +9517,7 @@
 				40484F0122F1507F007DBD55 /* ThemeableRoundedButton.swift in Sources */,
 				BDEBD3A91BA0108800AD038F /* BufferedAudio.swift in Sources */,
 				402772D721B6105D00769811 /* PodcastManager+Delete.swift in Sources */,
+				F5FF61252BD0831200190711 /* PocketCastsLogoPill.swift in Sources */,
 				403B5B02217D5F1500821A54 /* TitleViewWithCollapseButton.swift in Sources */,
 				F52ADE472BD9698B00AC647F /* ModalView.swift in Sources */,
 				C713D4FD2A05168B00A78468 /* Theme+AppColors.swift in Sources */,
@@ -11219,7 +11245,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconPrototype;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = podcasts/podcasts.prototype.entitlements;
+				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11507,6 +11536,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11533,6 +11565,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcasts.entitlements;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
