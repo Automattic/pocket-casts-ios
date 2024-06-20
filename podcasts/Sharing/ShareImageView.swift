@@ -65,7 +65,6 @@ struct ShareImageView: View {
             }
         }
         .fixedSize()
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
     @ViewBuilder func image() -> some View {
