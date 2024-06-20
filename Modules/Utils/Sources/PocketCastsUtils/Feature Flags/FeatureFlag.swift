@@ -1,11 +1,15 @@
 import Foundation
 
 public enum FeatureFlag: String, CaseIterable {
+
     /// Whether logging of Tracks events in console are enabled
     case tracksLogging
 
     /// Whether logging of Firebase events in console are enabled
     case firebaseLogging
+
+    /// Whether network debugging with Pulse is enabled
+    case networkDebugging
 
     /// Whether End Of Year feature is enabled
     case endOfYear
@@ -69,6 +73,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the Accelerate framework to speed up custom effects
     case accelerateEffects
 
+    case newSharing
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -82,6 +88,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .tracksLogging:
             false
         case .firebaseLogging:
+            false
+        case .networkDebugging:
             false
         case .endOfYear:
             false
@@ -123,6 +131,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .accelerateEffects:
             true
+        case .newSharing:
+            false
         }
     }
 

@@ -1303,11 +1303,6 @@ class Settings: NSObject {
             return remote.boolValue
         }
 
-        static var effectsPlayerStrategy: EffectsPlayerStrategy? {
-            let remote = RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.effectsPlayerStrategy)
-            return EffectsPlayerStrategy(rawValue: remote.numberValue.intValue)
-        }
-
         static var plusCloudStorageLimit: Int {
             RemoteConfig.remoteConfig().configValue(forKey: Constants.RemoteParams.customStorageLimitGB).numberValue.intValue
         }

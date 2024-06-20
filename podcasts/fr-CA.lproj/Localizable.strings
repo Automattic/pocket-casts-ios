@@ -1041,6 +1041,10 @@ Partagez-les avec Pocket Casts et ils seront affichés ici.</string>
     <string>Dossier sans nom</string>
     <key>folders</key>
     <string>Dossiers</string>
+    <key>folders_history</key>
+    <string>Historique des dossiers</string>
+    <key>folders_history_explanation</key>
+    <string>Liste des podcasts qui ont été supprimés des dossiers à la suite d’une synchronisation.</string>
     <key>free_trial_detail_label</key>
     <string>Aucun paiement pour le moment – Annulation à tout moment</string>
     <key>free_trial_duration_free</key>
@@ -1699,6 +1703,8 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>En file d’attente...</string>
     <key>podcast_refresh_artwork</key>
     <string>Actualiser l’illustration</string>
+    <key>podcast_removed_from_folder</key>
+    <string>%1$@ retiré de %2$@</string>
     <key>podcast_season_format</key>
     <string>Saison %1$@</string>
     <key>podcast_share_episode</key>
@@ -1897,6 +1903,16 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Renouveler votre abonnement</string>
     <key>restore</key>
     <string>Restaurer</string>
+    <key>restore_folders</key>
+    <string>Rétablir les podcasts dans les dossiers ?</string>
+    <key>restore_folders_message</key>
+    <string>Ces podcasts seront définitivement réintégrés dans les dossiers répertoriés ici</string>
+    <key>restore_folders_success</key>
+    <string>Podcasts rétablis dans leurs dossiers d’origine</string>
+    <key>restore_up_next</key>
+    <string>Rétablir la file d’attente ?</string>
+    <key>restore_up_next_message</key>
+    <string>Ces épisodes seront ajoutés au bas de votre file d’attente actuelle</string>
     <key>retry</key>
     <string>Réessayer</string>
     <key>save_bookmark</key>
@@ -2641,6 +2657,10 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
     <string>Vous pouvez mettre des épisodes dans la file d’attente de lecture en balayant la ligne de l’épisode vers la droite ou en appuyant sur l’icône dans la fiche d’un épisode.</string>
     <key>up_next_empty_title</key>
     <string>Aucun épisode dans Prochains épisodes</string>
+    <key>up_next_history</key>
+    <string>Historique de la file d’attente</string>
+    <key>up_next_history_explanation</key>
+    <string>Liste des mises à jour récentes apportées à la file d’attente à la suite de modifications sur d’autres appareils. Pour afficher les épisodes et avoir la possibilité de les rétablir, appuyez sur n’importe quelle entrée.</string>
     <key>upgrade_account</key>
     <string>Mettre le compte à niveau</string>
     <key>upgrade_to_plan</key>

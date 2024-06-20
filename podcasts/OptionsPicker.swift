@@ -7,16 +7,16 @@ class OptionsPicker {
 
     private var noActionCallback: (() -> Void)?
 
-    init(title: String?, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, portraitOnly: Bool = true) {
+    init(title: String?, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil, portraitOnly: Bool = true) {
         self.title = title
-        setup(themeOverride: themeOverride, iconTintStyle: iconTintStyle, portraitOnly: portraitOnly)
+        setup(themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors, portraitOnly: portraitOnly)
     }
 
-    private func setup(themeOverride: Theme.ThemeType?, iconTintStyle: ThemeStyle = .primaryIcon01, portraitOnly: Bool) {
+    private func setup(themeOverride: Theme.ThemeType?, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil, portraitOnly: Bool) {
         optionsController = OptionsPickerRootController()
         optionsController?.portraitOnly = portraitOnly
         optionsController?.delegate = self
-        optionsController?.setup(title: title, themeOverride: themeOverride, iconTintStyle: iconTintStyle)
+        optionsController?.setup(title: title, themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors)
     }
 
     func addAction(action: OptionAction) {

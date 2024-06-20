@@ -5,7 +5,24 @@ import PocketCastsUtils
 struct MediaExporter {
 
     #if !os(watchOS)
-    static func exportMediaItem(_ item: AVPlayerItem, to outputURL: URL) async -> Bool {
+
+    typealias ProgressCallback = (Float, Int64) -> ()
+
+    private static var currentExporter: AVAssetExportSession?
+
+    private static func reportProgress(session: AVAssetExportSession, progressCallback: ProgressCallback? = nil) async {
+        let statusInProgress: Set<AVAssetExportSession.Status> = [.unknown, .exporting, .waiting]
+        let size = (try? await session.estimatedOutputFileLengthInBytes) ?? 0
+        while session.progress != 1, statusInProgress.contains(session.status) {
+            progressCallback?(session.progress, size)
+            try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+            //Only enable the logging bellow in order to help debug export session progress.
+            //FileLog.shared.addMessage("DownloadManager export session: \(session.outputURL!.lastPathComponent) | \(session.progress) | \(session.status) | \(size)")
+        }
+    }
+
+    static func exportMediaItem(_ item: AVPlayerItem, to outputURL: URL, progressCallback: ProgressCallback? = nil) async -> Bool {
+        currentExporter?.cancelExport()
         let composition = AVMutableComposition()
 
         guard let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid)),
@@ -25,7 +42,7 @@ struct MediaExporter {
             FileLog.shared.addMessage("DownloadManager export session: failed to create export session")
             return false
         }
-
+        currentExporter = exporter
         exporter.outputURL = outputURL
         exporter.outputFileType = AVFileType.m4a
 
@@ -37,14 +54,28 @@ struct MediaExporter {
                 return false
             }
         }
-
-        await exporter.export()
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                await exporter.export()
+            }
+            group.addTask {
+                await reportProgress(session: exporter, progressCallback: progressCallback)
+            }
+        }
 
         if let error = exporter.error {
             FileLog.shared.addMessage("DownloadManager export session: finished with error -> \(error)")
+        }
+
+        if exporter.status == .cancelled {
+            FileLog.shared.addMessage("DownloadManager export session: cancelled")
             return false
         }
 
+        if exporter.status == .failed {
+            FileLog.shared.addMessage("DownloadManager export session: failed")
+            return false
+        }
         FileLog.shared.addMessage("DownloadManager export session: Finished exporting successfully")
         return true
     }

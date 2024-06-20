@@ -3,13 +3,13 @@ import PocketCastsServer
 import PocketCastsUtils
 import WatchKit
 
-@main
 class ExtensionDelegate: NSObject, WKApplicationDelegate {
     private var haveAttemptedStateRestore = false
 
     func applicationDidFinishLaunching() {
         SessionManager.shared.setup()
         WatchSyncManager.shared.setup()
+        restorePreviousStateIfRequired()
     }
 
     func applicationDidBecomeActive() {
@@ -17,8 +17,6 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
         if WatchSyncManager.shared.isPlusUser() {
             scheduleNextRefresh()
         }
-
-        restorePreviousStateIfRequired()
     }
 
     func applicationWillResignActive() {
@@ -73,12 +71,6 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
         if !haveAttemptedStateRestore {
             haveAttemptedStateRestore = true
             NavigationManager.shared.navigateToRestorable(name: lastPage, context: context)
-        } else {
-            // if we have a page we're meant to restore to, but are somehow still on the SourceInterfaceController, restore to that state again
-            let visibleController = WKApplication.shared().visibleInterfaceController ?? WKApplication.shared().rootInterfaceController
-            if visibleController is SourceInterfaceController {
-                NavigationManager.shared.navigateToRestorable(name: lastPage, context: context)
-            }
         }
     }
 

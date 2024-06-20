@@ -4,20 +4,8 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 
-enum EffectsPlayerStrategy: Int {
-    case normalPlay = 1
-    case playAndCatchExceptionIfNeeded = 2
-    case playAndFallbackIfNeeded = 3
-}
-
 class EffectsPlayer: PlaybackProtocol, Hashable {
     private static let targetVolumeDbGain = 15.0 as Float
-
-    /// The maximum number this player will retry to restard an audio if it fails
-    private static let maxNumberOfRetries = 3
-
-    /// The current attempt number to start the player
-    private static var attemptNumber = 1
 
     private var engine: AVAudioEngine?
     private var player: AVAudioPlayerNode?
@@ -169,16 +157,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 return
             }
 
-            switch Settings.effectsPlayerStrategy {
-            case .normalPlay:
-                strongSelf.normalPlay()
-            case .playAndCatchExceptionIfNeeded:
-                strongSelf.playAndCatchExceptionIfNeeded()
-            case .playAndFallbackIfNeeded:
-                strongSelf.playAndFallbackIfNeeded()
-            default:
-                strongSelf.normalPlay()
-            }
+            strongSelf.playAndCatchExceptionIfNeeded()
 
             strongSelf.playerLock.unlock()
 
@@ -195,13 +174,6 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     // MARK: - Play
-    /// We have three ways to start the player here. This is here to try
-    /// to fix one of our top-crashes which is related to EffectsPlayer initialization
-
-    /// Just play the player and don't deal with any exception
-    func normalPlay() {
-        player?.play()
-    }
 
     /// Try to play. If an exception happens, just pause it.
     func playAndCatchExceptionIfNeeded() {
@@ -213,18 +185,6 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             FileLog.shared.addMessage("EffectsPlayer: failed to start playback: \(error)")
             self.playerLock.unlock()
             PlaybackManager.shared.pause(userInitiated: false)
-        }
-    }
-
-    /// Try to play. If it fails, fallback to DefaultPlayer
-    func playAndFallbackIfNeeded() {
-        do {
-            try SJCommonUtils.catchException {
-                self.player?.play()
-            }
-        } catch {
-            self.playerLock.unlock()
-            PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil, fallbackToDefaultPlayer: true)
         }
     }
 

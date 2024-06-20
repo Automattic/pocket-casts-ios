@@ -2732,8 +2732,14 @@ internal enum L10n {
   internal static var share: String { return L10n.tr("Localizable", "share") }
   /// Current Position
   internal static var shareCurrentPosition: String { return L10n.tr("Localizable", "share_current_position") }
+  /// Choose a format and a platform to share to
+  internal static var shareDescription: String { return L10n.tr("Localizable", "share_description") }
+  /// Share episode
+  internal static var shareEpisode: String { return L10n.tr("Localizable", "share_episode") }
   /// Subscribing...
   internal static var shareListSubscribing: String { return L10n.tr("Localizable", "share_list_subscribing") }
+  /// Share podcast
+  internal static var sharePodcast: String { return L10n.tr("Localizable", "share_podcast") }
   /// ALL SELECTED
   internal static var sharePodcastsAllSelected: String { return L10n.tr("Localizable", "share_podcasts_all_selected") }
   /// Create List
@@ -3108,6 +3114,8 @@ internal enum L10n {
   internal static var watchNothingPlayingSubtitle: String { return L10n.tr("Localizable", "watch_nothing_playing_subtitle") }
   /// Nothing Playing
   internal static var watchNothingPlayingTitle: String { return L10n.tr("Localizable", "watch_nothing_playing_title") }
+  /// Play Source
+  internal static var watchPlaySource: String { return L10n.tr("Localizable", "watch_play_source") }
   /// Podcasts will play from the speaker that the chosen device is connected to
   internal static var watchSourceMsg: String { return L10n.tr("Localizable", "watch_source_msg") }
   /// Download direct to your watch and listen without your phone. Check out Pocket Casts Plus on your phone app, or on the web.

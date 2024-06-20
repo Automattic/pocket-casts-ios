@@ -113,6 +113,7 @@ public final class FileLog {
     }()
 
     private var logBuffer: LogBuffer
+    public let publisher = PassthroughSubject<String, Never>()
 
     init(
         logPersistence: PersistentTextWriting,
@@ -126,6 +127,7 @@ public final class FileLog {
     public func addMessage(_ message: String, date: Date = Date()) {
         Task {
             await logBuffer.append(message, date: date)
+            publisher.send(message)
         }
     }
 

@@ -1041,6 +1041,10 @@ Condividili con Pocket Cast e verranno visualizzati qui</string>
     <string>Cartella senza nome</string>
     <key>folders</key>
     <string>Cartelle</string>
+    <key>folders_history</key>
+    <string>Cronologia delle cartelle</string>
+    <key>folders_history_explanation</key>
+    <string>Un elenco dei podcast rimossi dalle cartelle a seguito di una sincronizzazione.</string>
     <key>free_trial_detail_label</key>
     <string>Nessun pagamento ora. Cancellazione in qualsiasi momento</string>
     <key>free_trial_duration_free</key>
@@ -1699,6 +1703,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>In coda...</string>
     <key>podcast_refresh_artwork</key>
     <string>Aggiorna grafica</string>
+    <key>podcast_removed_from_folder</key>
+    <string>%1$@ rimosso da %2$@</string>
     <key>podcast_season_format</key>
     <string>Stagione %1$@</string>
     <key>podcast_share_episode</key>
@@ -1897,6 +1903,16 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Rinnova il tuo abbonamento</string>
     <key>restore</key>
     <string>Ripristina</string>
+    <key>restore_folders</key>
+    <string>Ripristinare i podcast nelle cartelle?</string>
+    <key>restore_folders_message</key>
+    <string>Questi podcast verranno aggiunti in modo permanente alle cartelle elencate di seguito</string>
+    <key>restore_folders_success</key>
+    <string>Podcast ripristinati nelle cartelle originali</string>
+    <key>restore_up_next</key>
+    <string>Ripristinare Up Next?</string>
+    <key>restore_up_next_message</key>
+    <string>Questi episodi verranno aggiunti in fondo alla pagina corrente di Up Next</string>
     <key>retry</key>
     <string>Riprova</string>
     <key>save_bookmark</key>
@@ -2641,6 +2657,10 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Puoi mettere in coda gli episodi per la riproduzione successiva scorrendo verso destra sulle righe degli episodi o toccando l'icona sulla scheda di un episodio.</string>
     <key>up_next_empty_title</key>
     <string>Nessun elemento in Prossimo</string>
+    <key>up_next_history</key>
+    <string>Cronologia Up Next</string>
+    <key>up_next_history_explanation</key>
+    <string>Un elenco degli aggiornamenti recenti di Up Next a seguito di modifiche su altri dispositivi. Per visualizzare gli episodi e avere la possibilità di ripristinarli, toccare una voce qualsiasi.</string>
     <key>upgrade_account</key>
     <string>Effettua upgrade dell'account</string>
     <key>upgrade_to_plan</key>

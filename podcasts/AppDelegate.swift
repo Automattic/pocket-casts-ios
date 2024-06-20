@@ -5,6 +5,10 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import Combine
+#if canImport(Pulse)
+import Pulse
+#endif
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -27,9 +31,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     lazy var whatsNew: WhatsNew = WhatsNew()
 
+    private var cancellables = Set<AnyCancellable>()
+
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        if FeatureFlag.networkDebugging.enabled {
+            #if canImport(Pulse)
+            URLSessionProxyDelegate.enableAutomaticRegistration()
+            FileLog.shared.publisher.sink { message in
+                LoggerStore.shared.storeMessage(
+                    label: "FileLog",
+                    level: .debug,
+                    message: message
+                )
+            }.store(in: &cancellables)
+            #endif
+        }
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
 

@@ -27,6 +27,7 @@ class FilesListViewModel: ObservableObject {
             Publishers.Notification.userEpisodesRefreshed,
             Publishers.Notification.dataUpdated
         )
+        .receive(on: RunLoop.main)
         .sink { [unowned self] _ in
             self.loadUserEpisodes()
         }

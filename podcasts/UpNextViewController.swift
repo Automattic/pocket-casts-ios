@@ -115,7 +115,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        track(.upNextShown, properties: ["source": source])
 
         title = L10n.upNext
 
@@ -159,6 +158,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
         // fix issues with the now playing cell not animating by reloading it on appear
         reloadTable()
+
+        track(.upNextShown, properties: ["source": source])
 
         AnalyticsHelper.upNextOpened()
     }
