@@ -29,9 +29,10 @@ public class ServerPodcastManager: NSObject {
 
     // MARK: - Podcast add functions
 
-    /// This tries to add the podcast with UUID up to 3 times if the call fails first time.
+    /// This tries to add the podcast with UUID up to 7 times if the call fails first time.
     /// The retry mechanism is to be used in cases when the podcast was just added to server and the first call might fail because the server didn't have time to update.
-    /// The call will be done a maximum of three times, with each call having an exponetial backoff period of base 2 seconds for each try.
+    /// The call will be done a maximum of seven times, waiting for 2s, then 2s, 5s, 5s, 5s, 5s, 10s
+    /// and then give up.
     /// - Parameters:
     ///   - podcastUuid: the uuid of the podcast to caache
     ///   - subscribe: if we should subscribe to the podcast after adding
@@ -40,17 +41,35 @@ public class ServerPodcastManager: NSObject {
     public func addFromUuidWithRetries(podcastUuid: String, subscribe: Bool, tries: UInt = 0, completion: ((Bool) -> Void)?) {
         var pollbackCounter = tries
         addFromUuid(podcastUuid: podcastUuid, subscribe: subscribe) { [weak self] success in
+            guard let self else {
+                return
+            }
+
             if success {
                 completion?(success)
                 return
             }
+
             pollbackCounter += 1
-            if pollbackCounter < 3 {
-                Thread.sleep(forTimeInterval: pow(2, Double(pollbackCounter)))
-                self?.addFromUuidWithRetries(podcastUuid: podcastUuid, subscribe: subscribe, tries: pollbackCounter, completion: completion)
+            if pollbackCounter < 8 {
+                Thread.sleep(forTimeInterval: pollBackoffTime(pollCount: pollbackCounter - 1))
+                addFromUuidWithRetries(podcastUuid: podcastUuid, subscribe: subscribe, tries: pollbackCounter, completion: completion)
                 return
             }
             completion?(false)
+        }
+    }
+
+    private func pollBackoffTime(pollCount: UInt) -> TimeInterval {
+        switch pollCount {
+        case 0..<2:
+            2
+        case 2..<6:
+            5
+        case 6:
+            10
+        default:
+            -1
         }
     }
 
