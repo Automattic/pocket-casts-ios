@@ -38,7 +38,7 @@ public class ServerPodcastManager: NSObject {
     ///   - subscribe: if we should subscribe to the podcast after adding
     ///   - tries: the number of tries already done
     ///   - completion: the code to execute on completion
-    public func addFromUuidWithRetries(podcastUuid: String, subscribe: Bool, tries: UInt = 0, completion: ((Bool) -> Void)?) {
+    public func addFromUuidWithRetries(podcastUuid: String, subscribe: Bool, tries: Int = 0, completion: ((Bool) -> Void)?) {
         var pollbackCounter = tries
         addFromUuid(podcastUuid: podcastUuid, subscribe: subscribe) { [weak self] success in
             guard let self else {
@@ -52,24 +52,11 @@ public class ServerPodcastManager: NSObject {
 
             pollbackCounter += 1
             if pollbackCounter < 8 {
-                Thread.sleep(forTimeInterval: pollBackoffTime(pollCount: pollbackCounter - 1))
+                Thread.sleep(forTimeInterval: pollbackCounter.pollWaitingTime)
                 addFromUuidWithRetries(podcastUuid: podcastUuid, subscribe: subscribe, tries: pollbackCounter, completion: completion)
                 return
             }
             completion?(false)
-        }
-    }
-
-    private func pollBackoffTime(pollCount: UInt) -> TimeInterval {
-        switch pollCount {
-        case 0..<2:
-            2
-        case 2..<6:
-            5
-        case 6:
-            10
-        default:
-            -1
         }
     }
 
