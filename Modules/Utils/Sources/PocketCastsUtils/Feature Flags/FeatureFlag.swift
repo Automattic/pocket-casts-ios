@@ -54,6 +54,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// show UpNext tab on the main tab bar
     case upNextOnTabBar
 
+    /// Enhances the profile view to display more fields from the user's Gravatar profile.
+    case displayGravatarProfile
+
     /// When enabled it updates the code on filter callback to use a safer method to convert unmanaged player references
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
     case defaultPlayerFilterCallbackFix
@@ -122,6 +125,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .defaultPlayerFilterCallbackFix:
             true
         case .upNextOnTabBar:
+            true
+        case .displayGravatarProfile:
             true
         case .downloadFixes:
             true

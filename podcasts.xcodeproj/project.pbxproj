@@ -622,6 +622,10 @@
 		8BF1C61D2881F05D007E80BF /* FolderModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF1C61C2881F05D007E80BF /* FolderModelTests.swift */; };
 		8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9CC0B2ADDA90F004E9B65 /* YearOverYearStory.swift */; };
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
+		91319B512C1984AD000220A4 /* Gravatar in Frameworks */ = {isa = PBXBuildFile; productRef = 91319B502C1984AD000220A4 /* Gravatar */; };
+		91319B532C1984AD000220A4 /* GravatarUI in Frameworks */ = {isa = PBXBuildFile; productRef = 91319B522C1984AD000220A4 /* GravatarUI */; };
+		91319B562C19E838000220A4 /* Gravatar in Frameworks */ = {isa = PBXBuildFile; productRef = 91319B552C19E838000220A4 /* Gravatar */; };
+		91319B582C19E838000220A4 /* GravatarUI in Frameworks */ = {isa = PBXBuildFile; productRef = 91319B572C19E838000220A4 /* GravatarUI */; };
 		BD001B892174260B00504DD3 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD001B882174260B00504DD3 /* FilterManager.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -3558,12 +3562,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91319B512C1984AD000220A4 /* Gravatar in Frameworks */,
 				46C22EE028F73D9A00F4173B /* AuthenticationServices.framework in Frameworks */,
 				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
+				91319B532C1984AD000220A4 /* GravatarUI in Frameworks */,
 				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
+				91319B562C19E838000220A4 /* Gravatar in Frameworks */,
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
 				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */,
@@ -3574,6 +3581,7 @@
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
+				91319B582C19E838000220A4 /* GravatarUI in Frameworks */,
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
 				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
 				1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */,
@@ -7655,6 +7663,10 @@
 				8B365E4F2B62E82000143DAC /* Agrume */,
 				8B1762762B6808F700F44450 /* JLRoutes */,
 				8B1762792B684E7100F44450 /* Kingfisher */,
+				91319B502C1984AD000220A4 /* Gravatar */,
+				91319B522C1984AD000220A4 /* GravatarUI */,
+				91319B552C19E838000220A4 /* Gravatar */,
+				91319B572C19E838000220A4 /* GravatarUI */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -7820,6 +7832,7 @@
 				8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */,
 				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				91319B542C19E837000220A4 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11870,6 +11883,14 @@
 				minimumVersion = 5.6.12;
 			};
 		};
+		91319B542C19E837000220A4 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Automattic/Gravatar-SDK-iOS.git";
+			requirement = {
+				kind = revision;
+				revision = afe715820691a17f286fac9891afc5290d0e2981;
+			};
+		};
 		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ra1028/DifferenceKit";
@@ -11998,6 +12019,24 @@
 		8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsDataModel;
+		};
+		91319B502C1984AD000220A4 /* Gravatar */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Gravatar;
+		};
+		91319B522C1984AD000220A4 /* GravatarUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GravatarUI;
+		};
+		91319B552C19E838000220A4 /* Gravatar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91319B542C19E837000220A4 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */;
+			productName = Gravatar;
+		};
+		91319B572C19E838000220A4 /* GravatarUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91319B542C19E837000220A4 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */;
+			productName = GravatarUI;
 		};
 		BD44F74F267C850000810148 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;
