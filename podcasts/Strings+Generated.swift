@@ -2730,16 +2730,26 @@ internal enum L10n {
   internal static var shakeToRestartSleepTimerDescription: String { return L10n.tr("Localizable", "shake_to_restart_sleep_timer_description") }
   /// Share
   internal static var share: String { return L10n.tr("Localizable", "share") }
+  /// Link copied to clipboard
+  internal static var shareCopiedToClipboard: String { return L10n.tr("Localizable", "share_copied_to_clipboard") }
   /// Current Position
   internal static var shareCurrentPosition: String { return L10n.tr("Localizable", "share_current_position") }
   /// Choose a format and a platform to share to
   internal static var shareDescription: String { return L10n.tr("Localizable", "share_description") }
   /// Share episode
   internal static var shareEpisode: String { return L10n.tr("Localizable", "share_episode") }
+  /// Share episode at %1$@
+  internal static func shareEpisodeAt(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "share_episode_at", String(describing: p1))
+  }
+  /// Share episode
+  internal static var shareEpisodeTitle: String { return L10n.tr("Localizable", "share_episode_title") }
   /// Subscribing...
   internal static var shareListSubscribing: String { return L10n.tr("Localizable", "share_list_subscribing") }
   /// Share podcast
   internal static var sharePodcast: String { return L10n.tr("Localizable", "share_podcast") }
+  /// Share podcast
+  internal static var sharePodcastTitle: String { return L10n.tr("Localizable", "share_podcast_title") }
   /// ALL SELECTED
   internal static var sharePodcastsAllSelected: String { return L10n.tr("Localizable", "share_podcasts_all_selected") }
   /// Create List
