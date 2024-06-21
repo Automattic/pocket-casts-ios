@@ -2,6 +2,7 @@ import SwiftUI
 
 extension View {
     /// Returns a `UIImage` from a SwiftUI View
+    @MainActor 
     public func snapshot() -> UIImage {
         let controller = UIHostingController(rootView: self.edgesIgnoringSafeArea(.top))
         let view = controller.view

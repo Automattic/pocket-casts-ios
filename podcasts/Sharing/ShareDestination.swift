@@ -17,8 +17,9 @@ struct ShareDestination: Hashable {
         let icon = Image(systemName: "ellipsis")
         return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: { option, style in
             Task.detached {
-                let image = await ShareImageView.shareImage(option, style: style)
-                let activityViewController = await UIActivityViewController(activityItems: [option.shareURL, image], applicationActivities: nil)
+                let itemProvider = ShareImageView(info: option.imageInfo, style: style).itemProvider()
+                let activityItems = [option.shareURL, itemProvider]
+                let activityViewController = await UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
                 await vc.presentedViewController?.present(activityViewController, animated: true, completion: nil)
             }
         })
@@ -32,19 +33,3 @@ struct ShareDestination: Hashable {
     }
 }
 
-fileprivate extension ShareImageView {
-    @MainActor
-    static func shareImage(_ option: SharingModal.Option, style: ShareImageStyle) -> UIImage {
-        let imageView = ShareImageView(info: option.imageInfo, style: style)
-        let image: UIImage
-        if #available(iOS 16.0, *) {
-            let renderer = ImageRenderer(content: imageView)
-            renderer.scale = 2
-            image = renderer.uiImage!
-        } else {
-            image = imageView.snapshot()
-        }
-
-        return image
-    }
-}

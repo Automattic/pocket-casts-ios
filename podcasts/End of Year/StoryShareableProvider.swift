@@ -32,6 +32,7 @@ class StoryShareableProvider: UIActivityItemProvider {
 
     // This method is called when the share sheet appeared
     // So we can go ahead and snapshot the view
+    @MainActor
     func snapshot() {
         guard let view else {
             return
