@@ -166,6 +166,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
+        guard isViewLoaded else { return } // This method was called as a result of `setSelectedIndex` on UITabBarController. The view is not loaded at this point so we don't need to do anything to reset.
         selectedPlayListEpisodes.removeAll()
         isMultiSelectEnabled = false
     }
