@@ -95,16 +95,38 @@ class TranscriptsViewController: PlayerItemViewController {
                 let self,
                 let episode = self.playbackManager.currentEpisode(), let podcast = self.playbackManager.currentPodcast,
                 let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid),
-                let transcript = transcripts.first,
+                let transcript = transcripts.first else {
+                await self?.showResult(transcript: "", noTranscript: true, failedLoading: false)
+                return
+            }
+
+            guard
                 let transcriptURL = URL(string: transcript.url),
                 let transcriptText = try? String(contentsOf: transcriptURL)
             else {
+                await self.showResult(transcript: "", noTranscript: false, failedLoading: true)
                 return
             }
-            DispatchQueue.main.async { [weak self] in
-                self?.activityIndicatorView.stopAnimating()
-                self?.transcriptView.text = transcriptText
+
+            await self.showResult(transcript: transcriptText, noTranscript: false, failedLoading: false)
+        }
+    }
+
+    private func showResult(transcript: String, noTranscript: Bool, failedLoading: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
             }
+            self.activityIndicatorView.stopAnimating()
+            if noTranscript {
+                self.transcriptView.text = "Transcript not available"
+                return
+            }
+            if failedLoading {
+                self.transcriptView.text = "Transcript failed to load"
+                return
+            }
+            self.transcriptView.text = transcript
         }
     }
 
