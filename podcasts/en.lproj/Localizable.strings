@@ -2716,6 +2716,9 @@
 /* A message shown when a share link is copied to the clipboard */
 "share_copied_to_clipboard" = "Link copied to clipboard";
 
+/* A title shown for the share action which displays the system share sheet */
+"share_more_actions" = "More";
+
 /* Message indicating that the process to subscribe to a podcast list is in progress. */
 "share_list_subscribing" = "Subscribing...";
 
@@ -4147,3 +4150,6 @@
 
 /* A title used when sharing artwork and link to a podcast */
 "share_podcast_title" = "Share podcast";
+
+/* A title shown for a share option which copies a link to a podcast or episode */
+"share_copy_link" = "Copy link";
