@@ -37,7 +37,7 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         self.delegate = delegate
     }
 
-    func populateFrom(item: PocketCastsServer.DiscoverItem, region: String?) {
+    func populateFrom(item: PocketCastsServer.DiscoverItem, region: String?, category: DiscoverCategory?) {
         observable.item = item
         observable.region = region
         view.setNeedsLayout()
