@@ -2088,6 +2088,7 @@ private extension PlaybackManager {
         guard FeatureFlag.transcripts.enabled, let episode = currentEpisode(), let podcast = currentPodcast else {
             return
         }
+
         Task.init {
             let _ = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid)
         }
