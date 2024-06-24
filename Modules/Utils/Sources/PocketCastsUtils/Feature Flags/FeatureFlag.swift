@@ -75,6 +75,9 @@ public enum FeatureFlag: String, CaseIterable {
 
     case newSharing
 
+    /// Enable the transcripts feature on podcasts episodes
+    case transcripts
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -132,6 +135,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .accelerateEffects:
             true
         case .newSharing:
+            false
+        case .transcripts:
             false
         }
     }
