@@ -42,6 +42,7 @@ class TranscriptsViewController: PlayerItemViewController {
     private lazy var transcriptView: UITextView = {
         let textView =  UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false
         return textView
     }()
@@ -61,7 +62,7 @@ class TranscriptsViewController: PlayerItemViewController {
     private func updateColors() {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         transcriptView.backgroundColor =  PlayerColorHelper.playerBackgroundColor01()
-        transcriptView.textColor = PlayerColorHelper.playerHighlightColor01(for: Theme.sharedTheme.activeTheme)
+        transcriptView.textColor = ThemeColor.playerContrast01()
     }
 
     private func loadTranscript() {
