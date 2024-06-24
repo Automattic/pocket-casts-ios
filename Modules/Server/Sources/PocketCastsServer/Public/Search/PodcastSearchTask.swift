@@ -109,15 +109,27 @@ public class PodcastSearchTask {
 
     private func pollBackoffTime(pollCount: Int) -> UInt64 {
         let multiply = pow(10, 9)
-        var seconds = 0
-        if pollCount < 3 {
-            seconds = 2
-        } else if pollCount < 7 {
-            seconds = 5
-        } else if pollCount == 7 {
-            seconds = 10
-        }
 
-        return UInt64(NSDecimalNumber(decimal: Decimal(seconds) * multiply).uint64Value)
+        return UInt64(NSDecimalNumber(decimal: Decimal(pollCount.pollWaitingTime) * multiply).uint64Value)
+    }
+}
+
+extension Int {
+    // Return a correspondent poll waiting time for a given number
+    // From 1 to 2: 2 seconds
+    // From 3 to 6: 5 second
+    // For 7: 10 seconds
+    // Others: -1
+    var pollWaitingTime: TimeInterval {
+        switch self {
+        case 1..<3:
+            2
+        case 3..<7:
+            5
+        case 7:
+            10
+        default:
+            -1
+        }
     }
 }
