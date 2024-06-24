@@ -44,6 +44,7 @@ class TranscriptsViewController: PlayerItemViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false
+        textView.showsVerticalScrollIndicator = true
         return textView
     }()
 
@@ -63,6 +64,7 @@ class TranscriptsViewController: PlayerItemViewController {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         transcriptView.backgroundColor =  PlayerColorHelper.playerBackgroundColor01()
         transcriptView.textColor = ThemeColor.playerContrast01()
+        transcriptView.indicatorStyle = .white
     }
 
     private func loadTranscript() {
