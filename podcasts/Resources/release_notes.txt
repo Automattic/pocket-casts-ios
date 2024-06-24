@@ -1,3 +1,3 @@
-- Re-add Use contentType to set extension for downloaded files. [#1743]
-- Improve responsiveness when playing a podcast [#1801]
+- WatchOS refactor main screen and app entry point to SwiftUI. [#1800]
+- Playback skipping: Sync export session with download states. [#1819]
 
