@@ -54,7 +54,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
 
             cell.timeStepper.tintColor = podcast.iconTintColor()
             cell.timeStepper.minimumValue = 0.5
-            cell.timeStepper.maximumValue = 3
+            cell.timeStepper.maximumValue = 5
             cell.timeStepper.smallIncrements = 0.1
             cell.timeStepper.smallIncrementThreshold = TimeInterval.greatestFiniteMagnitude
             if FeatureFlag.newSettingsStorage.enabled {
