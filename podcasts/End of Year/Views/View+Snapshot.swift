@@ -7,7 +7,11 @@ extension View {
         if #available(iOS 16.0, *) {
             let renderer = ImageRenderer(content: self)
             renderer.scale = 3
-            return renderer.uiImage!
+            guard let renderedImage = renderer.uiImage else {
+                assert(false, "Rendered ImageRenderer image shouldn't be `nil`")
+                return UIImage()
+            }
+            return renderedImage
         } else {
             let controller = UIHostingController(rootView: self.edgesIgnoringSafeArea(.top))
             let view = controller.view
