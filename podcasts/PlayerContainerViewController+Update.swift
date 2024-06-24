@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 extension PlayerContainerViewController {
     func updateColors() {
@@ -26,11 +27,13 @@ extension PlayerContainerViewController {
         let shouldShowNotes = (playingEpisode is Episode)
         let shouldShowChapters = PlaybackManager.shared.chapterCount() > 0
         let shouldShowBookmarks = true
+        let shouldShowTranscripts = FeatureFlag.transcripts.enabled
 
         // check to see if the visible views are already configured correctly
         if shouldShowNotes == showingNotes,
             shouldShowChapters == showingChapters,
-            shouldShowBookmarks == showingBookmarks {
+            shouldShowBookmarks == showingBookmarks,
+            shouldShowTranscripts == showingTranscripts {
             return
         }
 
@@ -47,6 +50,10 @@ extension PlayerContainerViewController {
         bookmarksItem.removeFromParent()
         bookmarksItem.view.removeFromSuperview()
         showingBookmarks = false
+
+        transcriptsItem.removeFromParent()
+        transcriptsItem.view.removeFromSuperview()
+        showingTranscripts = false
 
         tabsView.tabs = [.nowPlaying]
 
@@ -71,6 +78,13 @@ extension PlayerContainerViewController {
             tabsView.tabs += [.bookmarks]
 
             addTab(bookmarksItem, previousTab: &previousTab)
+        }
+
+        if shouldShowTranscripts {
+            showingTranscripts = true
+            tabsView.tabs += [.transcripts]
+
+            addTab(transcriptsItem, previousTab: &previousTab)
         }
     }
 
