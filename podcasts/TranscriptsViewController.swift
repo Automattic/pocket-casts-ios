@@ -78,9 +78,9 @@ class TranscriptsViewController: PlayerItemViewController {
     private func updateColors() {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         transcriptView.backgroundColor =  PlayerColorHelper.playerBackgroundColor01()
-        transcriptView.textColor = ThemeColor.playerContrast01()
+        transcriptView.textColor = ThemeColor.playerContrast02()
         transcriptView.indicatorStyle = .white
-        activityIndicatorView.color = .white
+        activityIndicatorView.color = ThemeColor.playerContrast01()
     }
 
     @objc private func update() {
