@@ -74,4 +74,5 @@ struct SharingView: View {
 
 #Preview {
     SharingView(destinations: [.copyLinkOption], selectedOption: .podcast(Podcast.previewPodcast()))
+        .background(Color.black)
 }
