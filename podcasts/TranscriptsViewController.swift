@@ -22,19 +22,24 @@ class TranscriptsViewController: PlayerItemViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        updateColors()
-        loadTranscript()
     }
 
     private func setupViews() {
         view.addSubview(transcriptView)
-
         NSLayoutConstraint.activate(
             [
                 transcriptView.topAnchor.constraint(equalTo: view.topAnchor),
                 transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ]
+        )
+
+        view.addSubview(activityIndicatorView)
+        NSLayoutConstraint.activate(
+            [
+                activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ]
         )
     }
@@ -48,8 +53,18 @@ class TranscriptsViewController: PlayerItemViewController {
         return textView
     }()
 
+    private lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.style = .medium
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicatorView
+    }()
+
     override func willBeAddedToPlayer() {
         updateColors()
+        loadTranscript()
+        addObservers()
     }
 
     override func willBeRemovedFromPlayer() {
@@ -65,9 +80,16 @@ class TranscriptsViewController: PlayerItemViewController {
         transcriptView.backgroundColor =  PlayerColorHelper.playerBackgroundColor01()
         transcriptView.textColor = ThemeColor.playerContrast01()
         transcriptView.indicatorStyle = .white
+        activityIndicatorView.color = .white
+    }
+
+    @objc private func update() {
+        updateColors()
+        loadTranscript()
     }
 
     private func loadTranscript() {
+        activityIndicatorView.startAnimating()
         Task.detached { [weak self] in
             guard
                 let self,
@@ -80,8 +102,13 @@ class TranscriptsViewController: PlayerItemViewController {
                 return
             }
             DispatchQueue.main.async { [weak self] in
+                self?.activityIndicatorView.stopAnimating()
                 self?.transcriptView.text = transcriptText
             }
         }
+    }
+
+    private func addObservers() {
+        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
     }
 }
