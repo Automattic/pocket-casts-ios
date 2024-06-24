@@ -47,6 +47,7 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new flow for Account upgrade prompt where it start IAP flow directly from account cell
     case newAccountUpgradePromptFlow
 
+    /// Enable the AVExportSession parallel download of any playing episode
     case streamAndCachePlayingEpisode
 
     case categoriesRedesign
