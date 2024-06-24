@@ -141,6 +141,10 @@ private class ShowInfoCoordinatorMock: ShowInfoCoordinating {
     func loadChapters(podcastUuid: String, episodeUuid: String) async throws -> ([PocketCastsDataModel.Episode.Metadata.EpisodeChapter]?, [podcasts.PodcastIndexChapter]?) {
         (nil, nil)
     }
+
+    func loadTranscripts(podcastUuid: String, episodeUuid: String) async throws -> [Episode.Metadata.Transcript] {
+        return []
+    }
 }
 
 private class EpisodeMock: Episode {
