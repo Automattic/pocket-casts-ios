@@ -43,7 +43,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
         customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .done, target: self, action: #selector(showOptions(_:)))
 
         AnalyticsHelper.userGuideOpened()
-        Analytics.track(.settingsHelpShown)
+        Analytics.track(.settingsGetSupport)
     }
 
     private func setupWebView() {
