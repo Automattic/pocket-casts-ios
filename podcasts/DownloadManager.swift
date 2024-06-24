@@ -255,7 +255,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             return nil
         }
 
-        guard FeatureFlag.cachePlayingEpisode.enabled,
+        guard FeatureFlag.streamAndCachePlayingEpisode.enabled,
               !episode.videoPodcast(),
               !episode.isUserEpisode,
               let urlAsset = playbackItem.asset as? AVURLAsset,
@@ -394,7 +394,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
 
-        if FeatureFlag.cachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
+        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
             return
         }
 
@@ -455,7 +455,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             saveRequired = true
         }
 
-        if FeatureFlag.cachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
+        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
             episode.downloadTaskId = episode.uuid
             episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             saveRequired = true
