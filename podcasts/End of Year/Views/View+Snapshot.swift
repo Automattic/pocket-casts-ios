@@ -8,7 +8,7 @@ extension View {
             let renderer = ImageRenderer(content: self)
             renderer.scale = 3
             guard let renderedImage = renderer.uiImage else {
-                assert(false, "Rendered ImageRenderer image shouldn't be `nil`")
+                assertionFailure("Rendered ImageRenderer image shouldn't be `nil`")
                 return UIImage()
             }
             return renderedImage
