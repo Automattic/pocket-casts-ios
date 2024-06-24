@@ -60,12 +60,17 @@ enum SharingModal {
 
         let optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)
 
-        let actions: [OptionAction] = Option.allCases(episode: episode, podcast: podcast, currentTime: PlaybackManager.shared.currentTime()).map { option in
+        let actions: [OptionAction] = Option.allCases(episode: episode, podcast: podcast, currentTime: episode?.playedUpTo ?? 0).map { option in
                 .init(label: option.buttonTitle, action: {
                 show(option: option, in: viewController)
             })
         }
         optionPicker.addActions(actions)
+
+        if let vc = (viewController as? EpisodeDetailViewController),
+           let fileAction = vc.episodeFileAction(from: .zero) {
+            optionPicker.addAction(action: fileAction)
+        }
 
         optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
