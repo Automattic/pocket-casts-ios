@@ -2371,6 +2371,8 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Position actuelle</string>
     <key>share_list_subscribing</key>
     <string>Abonnement...</string>
+    <key>share_podcast</key>
+    <string>Partager le balado</string>
     <key>share_podcasts_all_selected</key>
     <string>TOUS LES ÉLÉMENTS SÉLECTIONNÉS</string>
     <key>share_podcasts_create_list</key>

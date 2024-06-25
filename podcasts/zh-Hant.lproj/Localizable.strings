@@ -2371,6 +2371,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>目前的位置</string>
     <key>share_list_subscribing</key>
     <string>正在訂閱...</string>
+    <key>share_podcast</key>
+    <string>分享 Podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>已全部選取</string>
     <key>share_podcasts_create_list</key>

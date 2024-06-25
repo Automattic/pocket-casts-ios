@@ -76,7 +76,7 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
     // MARK: DiscoverSummaryProtocol
 
     var podcastCollection: PodcastCollection?
-    func populateFrom(item: DiscoverItem, region: String?) {
+    func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
         guard let source = item.source else { return }
 
         self.item = item

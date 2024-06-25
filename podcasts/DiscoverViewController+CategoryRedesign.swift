@@ -11,6 +11,7 @@ extension DiscoverViewController {
     ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
     func reload(except items: [DiscoverItem], category: DiscoverCategory?) {
         let newLayout: DiscoverLayout?
+        self.selectedCategory = category
 
         if let category {
             newLayout = modified(layout: discoverLayout, for: category, with: items)

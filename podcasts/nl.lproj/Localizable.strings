@@ -2371,6 +2371,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Huidige positie</string>
     <key>share_list_subscribing</key>
     <string>Aanmelden...</string>
+    <key>share_podcast</key>
+    <string>Podcast delen</string>
     <key>share_podcasts_all_selected</key>
     <string>ALLES GESELECTEERD</string>
     <key>share_podcasts_create_list</key>

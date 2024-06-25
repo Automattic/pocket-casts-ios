@@ -3,7 +3,7 @@ import PocketCastsServer
 
 protocol DiscoverSummaryProtocol: AnyObject {
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate)
-    func populateFrom(item: DiscoverItem, region: String?)
+    func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?)
 }
 
 protocol DiscoverDelegate: AnyObject {

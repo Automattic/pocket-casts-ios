@@ -2371,6 +2371,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Nuvarande position</string>
     <key>share_list_subscribing</key>
     <string>Prenumererar …</string>
+    <key>share_podcast</key>
+    <string>Dela podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>ALLA HAR VALTS</string>
     <key>share_podcasts_create_list</key>
