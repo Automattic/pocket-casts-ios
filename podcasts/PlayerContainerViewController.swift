@@ -185,6 +185,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.episodeTranscriptChanged, selector: #selector(update))
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(themeDidChange))
     }
 

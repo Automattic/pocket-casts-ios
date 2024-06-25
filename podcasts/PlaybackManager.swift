@@ -69,6 +69,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private var lastRetryEpisodeUuid: String?
 
+    private(set) var transcriptsAvailable = false
+
     init() {
         queue = PlaybackQueue()
         queue.loadPersistedQueue()
@@ -162,7 +164,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             chapterManager.clearChapterInfo()
         }
 
-        loadTranscripts()
+        loadTranscripts(episode: episode)
 
         if saveCurrentEpisode && currentEpisode() != nil && !switchingToDifferentUpNextEpisode {
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: false)
@@ -2084,13 +2086,16 @@ private extension PlaybackManager {
     }
 
     // MARK: - Transcripts
-    private func loadTranscripts() {
-        guard FeatureFlag.transcripts.enabled, let episode = currentEpisode(), let podcast = currentPodcast else {
+    private func loadTranscripts(episode: BaseEpisode) {
+        guard FeatureFlag.transcripts.enabled, let episode = episode as? Episode, let podcast = episode.parentPodcast() else {
             return
         }
-
+        transcriptsAvailable = false
         Task.init {
-            let _ = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid)
+            if let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid) {
+                transcriptsAvailable = !transcripts.isEmpty
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeTranscriptChanged)
+            }
         }
     }
 }
