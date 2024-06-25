@@ -2,7 +2,7 @@ import Foundation
 import SwiftSubtitles
 import PocketCastsDataModel
 
-class TranscriptManager {
+class TranscriptLoader {
 
     typealias Transcript = Episode.Metadata.Transcript
 

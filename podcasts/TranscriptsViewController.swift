@@ -94,7 +94,7 @@ class TranscriptsViewController: PlayerItemViewController {
             guard let self else {
                 return
             }
-            let transcriptManager = TranscriptManager(playbackManager: self.playbackManager)
+            let transcriptManager = TranscriptLoader(playbackManager: self.playbackManager)
             do {
                 let text = try await transcriptManager.loadTranscript()
                 await show(transcript: text)
@@ -111,7 +111,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
-        guard let transcriptError = error as? TranscriptManager.TranscriptError else {
+        guard let transcriptError = error as? TranscriptLoader.TranscriptError else {
             transcriptView.text = "Transcript failed to parse"
             return
         }
