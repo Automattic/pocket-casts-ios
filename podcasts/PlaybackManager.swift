@@ -2094,7 +2094,7 @@ private extension PlaybackManager {
         Task.init {
             if let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid) {
                 transcriptsAvailable = !transcripts.isEmpty
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeTranscriptChanged)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeTranscriptAvailabilityChanged)
             }
         }
     }
