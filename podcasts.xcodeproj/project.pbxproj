@@ -1656,6 +1656,7 @@
 		FF5B2A442BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */; };
 		FF5B2A462BB189C7009F3DC2 /* PocketCastsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */; };
 		FF7F89EA2C2979D900FC0ED5 /* TranscriptsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89E92C2979D900FC0ED5 /* TranscriptsViewController.swift */; };
+		FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */ = {isa = PBXBuildFile; productRef = FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */; };
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */; };
@@ -7677,6 +7678,7 @@
 				8B365E4F2B62E82000143DAC /* Agrume */,
 				8B1762762B6808F700F44450 /* JLRoutes */,
 				8B1762792B684E7100F44450 /* Kingfisher */,
+				FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -7842,6 +7844,7 @@
 				8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */,
 				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11938,6 +11941,14 @@
 				minimumVersion = 7.1.0;
 			};
 		};
+		FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dagronf/SwiftSubtitles";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -12086,6 +12097,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */;
+			productName = SwiftSubtitles;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

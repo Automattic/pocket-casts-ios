@@ -56,6 +56,15 @@
         }
       },
       {
+        "package": "DSFRegex",
+        "repositoryURL": "https://github.com/dagronf/DSFRegex",
+        "state": {
+          "branch": null,
+          "revision": "e0e64805519b23b08dcca9c83ca2d4a2b3de4c33",
+          "version": "3.4.0"
+        }
+      },
+      {
         "package": "Firebase",
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
@@ -236,6 +245,15 @@
         }
       },
       {
+        "package": "SwiftSubtitles",
+        "repositoryURL": "https://github.com/dagronf/SwiftSubtitles",
+        "state": {
+          "branch": null,
+          "revision": "ed8c19dab44e285b9463000c3bbb31dcea7790e9",
+          "version": "1.3.0"
+        }
+      },
+      {
         "package": "SwipeCellKit",
         "repositoryURL": "https://github.com/shiftyjelly/SwipeCellKit",
         "state": {
@@ -251,6 +269,15 @@
           "branch": null,
           "revision": "6e46839e1a4507ee047acd0896e29b9b278d9e3a",
           "version": "0.4.0"
+        }
+      },
+      {
+        "package": "TinyCSV",
+        "repositoryURL": "https://github.com/dagronf/TinyCSV",
+        "state": {
+          "branch": null,
+          "revision": "a354f61664eef13236f20c4eb5400b50a8844d5a",
+          "version": "1.0.0"
         }
       },
       {
