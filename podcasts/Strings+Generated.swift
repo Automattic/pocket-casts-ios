@@ -2732,6 +2732,8 @@ internal enum L10n {
   internal static var share: String { return L10n.tr("Localizable", "share") }
   /// Link copied to clipboard
   internal static var shareCopiedToClipboard: String { return L10n.tr("Localizable", "share_copied_to_clipboard") }
+  /// Copy link
+  internal static var shareCopyLink: String { return L10n.tr("Localizable", "share_copy_link") }
   /// Current Position
   internal static var shareCurrentPosition: String { return L10n.tr("Localizable", "share_current_position") }
   /// Choose a format and a platform to share to
@@ -2746,6 +2748,8 @@ internal enum L10n {
   internal static var shareEpisodeTitle: String { return L10n.tr("Localizable", "share_episode_title") }
   /// Subscribing...
   internal static var shareListSubscribing: String { return L10n.tr("Localizable", "share_list_subscribing") }
+  /// More
+  internal static var shareMoreActions: String { return L10n.tr("Localizable", "share_more_actions") }
   /// Share podcast
   internal static var sharePodcast: String { return L10n.tr("Localizable", "share_podcast") }
   /// Share podcast
@@ -3048,6 +3052,8 @@ internal enum L10n {
   internal static var today: String { return L10n.tr("Localizable", "today") }
   /// Top
   internal static var top: String { return L10n.tr("Localizable", "top") }
+  /// Transcript
+  internal static var transcript: String { return L10n.tr("Localizable", "transcript") }
   /// Trial Finished
   internal static var trialFinished: String { return L10n.tr("Localizable", "trial_finished") }
   /// Trim Silence
@@ -3184,9 +3190,9 @@ internal enum L10n {
   internal static var widgetsAppIconDescription: String { return L10n.tr("Localizable", "widgets_app_icon_description") }
   /// Icon
   internal static var widgetsAppIconName: String { return L10n.tr("Localizable", "widgets_app_icon_name") }
-  /// Check out the Discover Tab
+  /// Check out Discover for more
   internal static var widgetsDiscoverPromptMsg: String { return L10n.tr("Localizable", "widgets_discover_prompt_msg") }
-  /// Ears hungry for more?
+  /// Nothing in Up Next
   internal static var widgetsDiscoverPromptTitle: String { return L10n.tr("Localizable", "widgets_discover_prompt_title") }
   /// Nothing Playing
   internal static var widgetsNothingPlaying: String { return L10n.tr("Localizable", "widgets_nothing_playing") }

@@ -7,65 +7,38 @@ struct NowPlayingWidgetEntryView: View {
 
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
+    @Environment(\.colorScheme) var colorScheme
+    var widgetColorSchemeLight: PCWidgetColorScheme
+    var widgetColorSchemeDark: PCWidgetColorScheme
+    var widgetColorScheme: PCWidgetColorScheme {
+        get {
+            colorScheme == .dark ? widgetColorSchemeDark : widgetColorSchemeLight
+        }
+    }
+
     var body: some View {
         if let playingEpisode = entry.episode {
-            VStack(alignment: .leading, spacing: 3) {
-                GeometryReader { geometry in
-                    HStack(alignment: .top) {
-                        if #available(iOS 17, *) {
-                            Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
-                                LargeArtworkView(imageData: playingEpisode.imageData, showShadow: showsWidgetBackground)
-                            }
-                            .toggleStyle(WidgetPlayToggleStyle())
-                        } else {
-                            LargeArtworkView(imageData: playingEpisode.imageData)
-                        }
-                        Spacer()
-                        Image("logo-transparent")
-                            .frame(width: 28, height: 28)
-                    }.padding(topPadding)
-                        .background(
-                            VStack {
-                                if showsWidgetBackground {
-                                    Rectangle()
-                                        .fill(Color(UIColor(hex: playingEpisode.podcastColor)).opacity(0.85))
-                                        .frame(height: 0.667 * geometry.size.height, alignment: .top)
-                                }
-                                Spacer()
-                            })
+            ZStack {
+                if showsWidgetBackground {
+                    Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
                 }
-                Text(playingEpisode.episodeTitle)
-                    .font(.footnote)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color.primary)
-                    .lineLimit(2)
-                    .frame(height: 38, alignment: .center)
-                    .layoutPriority(1)
-                    .padding(episodeTitlePadding)
+                VStack(alignment: .leading, spacing: 10) {
+                    artwork(playingEpisode: playingEpisode)
 
-                if entry.isPlaying {
-                    Text(L10n.nowPlaying.localizedUppercase)
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .foregroundColor(Color.secondary)
-                        .padding(bottomTextPadding)
-                } else {
-                    Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)).localizedUppercase)
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .foregroundColor(Color.secondary)
-                        .padding(bottomTextPadding)
-                        .layoutPriority(1)
+                    episodeTitle(playingEpisode: playingEpisode)
+
+                    playToggleOrPlaybackLabel(playingEpisode: playingEpisode)
+                }
+                .widgetURL(URL(string: "pktc://last_opened"))
+                .clearBackground()
+                .if(!showsWidgetBackground) { view in
+                    view
+                        .padding(.top)
+                        .padding(.bottom)
                 }
             }
-            .widgetURL(URL(string: "pktc://last_opened"))
-            .clearBackground()
-            .if(!showsWidgetBackground) { view in
-                view
-                    .padding(.top)
-                    .padding(.bottom)
-            }
-        } else if !showsWidgetBackground {
+        }
+        else if !showsWidgetBackground {
             nothingPlaying
         } else {
             ZStack {
@@ -76,6 +49,68 @@ struct NowPlayingWidgetEntryView: View {
             .clearBackground()
         }
     }
+
+    private func artwork(playingEpisode: WidgetEpisode) -> some View {
+        HStack(alignment: .top) {
+            LargeArtworkView(imageData: playingEpisode.imageData)
+                .frame(width: 64, height: 64)
+            Spacer()
+            Image(widgetColorScheme.iconAssetName)
+                .frame(width: 28, height: 28)
+                .unredacted()
+        }
+        .padding(topPadding)
+    }
+
+    private func episodeTitle(playingEpisode: WidgetEpisode) -> some View {
+        Text(playingEpisode.episodeTitle)
+            .font(.footnote)
+            .fontWeight(.semibold)
+            .foregroundColor(widgetColorScheme.bottomTextColor)
+            .lineLimit(1)
+            .frame(height: 12, alignment: .center)
+            .layoutPriority(1)
+            .padding(episodeTitlePadding)
+    }
+
+    @ViewBuilder
+    private func playToggleOrPlaybackLabel(playingEpisode: WidgetEpisode) -> some View {
+        if #available(iOS 17, *) {
+            Toggle(isOn: entry.isPlaying, intent: PlayEpisodeIntent(episodeUuid: playingEpisode.episodeUuid)) {
+
+                if entry.isPlaying {
+                    Text(L10n.nowPlaying)
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(widgetColorScheme.topButtonTextColor)
+                } else {
+                    Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(widgetColorScheme.topButtonTextColor)
+                        .layoutPriority(1)
+                }
+            }
+            .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
+            .padding(bottomTextPadding)
+        } else {
+            if entry.isPlaying {
+                Text(L10n.nowPlaying)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
+                    .padding(bottomTextPadding)
+            } else {
+                Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
+                    .padding(bottomTextPadding)
+                    .layoutPriority(1)
+            }
+        }
+    }
+
 
     private var nothingPlaying: some View {
         VStack(alignment: .leading, spacing: 3) {
@@ -129,11 +164,18 @@ struct NowPlayingWidgetEntryView: View {
 struct NowPlayingEntryView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true))
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: true), widgetColorSchemeLight: .bold,
+                widgetColorSchemeDark: .bold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Episode Playing")
 
-            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true))
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: WidgetEpisode(commonItem: CommonUpNextItem.init(episodeUuid: "foo", imageUrl: "", episodeTitle: "foo", podcastName: "foo", podcastColor: "#999999", duration: 400, isPlaying: true)), isPlaying: false), widgetColorSchemeLight: .bold,
+                widgetColorSchemeDark: .bold)
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+                .previewDisplayName("Episode Paused")
+
+            NowPlayingWidgetEntryView(entry: .init(date: Date(), episode: nil, isPlaying: true), widgetColorSchemeLight: .bold,
+                widgetColorSchemeDark: .bold)
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
                 .previewDisplayName("Nothing Playing")
         }

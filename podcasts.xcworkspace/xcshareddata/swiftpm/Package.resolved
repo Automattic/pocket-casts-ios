@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/ra1028/DifferenceKit",
         "state": {
           "branch": null,
-          "revision": "073b9671ce2b9b5b96398611427a1f929927e428",
-          "version": "1.3.0"
+          "revision": "62745d7780deef4a023a792a1f8f763ec7bf9705",
+          "version": "1.2.0"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "a637d318ae7ae246b02d7305121275bc75ed5565",
-          "version": "9.4.0"
+          "revision": "a732a4b47f59e4f725a2ea10f0c77e93a7131117",
+          "version": "9.3.0"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "26c898aed8bed13b8a63057ee26500abbbcb8d55",
-          "version": "7.13.1"
+          "revision": "bc27fad73504f3d4af235de451f02ee22586ebd3",
+          "version": "7.12.1"
         }
       },
       {
@@ -177,8 +177,8 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher",
         "state": {
           "branch": null,
-          "revision": "5b92f029fab2cce44386d28588098b5be0824ef5",
-          "version": "7.11.0"
+          "revision": "3ec0ab0bca4feb56e8b33e289c9496e89059dd08",
+          "version": "7.10.2"
         }
       },
       {
@@ -186,8 +186,8 @@
         "repositoryURL": "https://github.com/firebase/leveldb.git",
         "state": {
           "branch": null,
-          "revision": "9d108e9112aa1d65ce508facf804674546116d9c",
-          "version": "1.22.3"
+          "revision": "0706abcc6b0bd9cedfbb015ba840e4a780b5159b",
+          "version": "1.22.2"
         }
       },
       {
@@ -195,8 +195,8 @@
         "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
         "state": {
           "branch": null,
-          "revision": "7fe8b6f697ae7db4bf0df270119592cb5d502848",
-          "version": "4.4.1"
+          "revision": "f522990668c2f9132323a2e68d924c7dcb9130b4",
+          "version": "4.4.0"
         }
       },
       {
@@ -213,8 +213,8 @@
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
-          "revision": "540318ecedd63d883069ae7f1ed811a2df00b6ac",
-          "version": "2.4.0"
+          "revision": "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
+          "version": "2.3.1"
         }
       },
       {
@@ -267,8 +267,8 @@
         "repositoryURL": "https://github.com/buildkite/test-collector-swift",
         "state": {
           "branch": null,
-          "revision": "6e46839e1a4507ee047acd0896e29b9b278d9e3a",
-          "version": "0.4.0"
+          "revision": "87afcecfb58dd017d6e835ec8e88e9eaa18095ba",
+          "version": "0.1.1"
         }
       },
       {
@@ -285,8 +285,8 @@
         "repositoryURL": "https://github.com/squarefrog/UIDeviceIdentifier",
         "state": {
           "branch": null,
-          "revision": "4699794b08bb79a4d77785edaba6ea739e298e4b",
-          "version": "2.3.0"
+          "revision": "5815e06b9ab916af6e2729b637efcdced887d8b9",
+          "version": "2.1.0"
         }
       }
     ]

@@ -82,7 +82,7 @@ extension PlayerContainerViewController {
 
         if shouldShowTranscripts {
             showingTranscripts = true
-            tabsView.tabs += [.transcripts]
+            tabsView.tabs += [.transcript]
 
             addTab(transcriptsItem, previousTab: &previousTab)
         }

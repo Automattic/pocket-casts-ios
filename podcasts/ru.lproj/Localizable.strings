@@ -1044,7 +1044,7 @@
     <key>folders_history</key>
     <string>История папок</string>
     <key>folders_history_explanation</key>
-    <string>Список подкастов, удалённых из папок в результате синхронизации</string>
+    <string>Список подкастов, удалённых из папок в результате синхронизации.</string>
     <key>free_trial_detail_label</key>
     <string>Пользуйтесь бесплатно или отмените в любой момент</string>
     <key>free_trial_duration_free</key>
@@ -1704,7 +1704,7 @@
     <key>podcast_refresh_artwork</key>
     <string>Обновить тему</string>
     <key>podcast_removed_from_folder</key>
-    <string>%1$@ удален из %2$@</string>
+    <string>%1$@ удалён из %2$@</string>
     <key>podcast_season_format</key>
     <string>Выпуск %1$@</string>
     <key>podcast_share_episode</key>
