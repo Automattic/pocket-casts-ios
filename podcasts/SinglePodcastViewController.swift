@@ -33,6 +33,8 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     private var podcast: DiscoverPodcast?
     private var item: DiscoverItem?
     private var featuredDescription: String?
+    private var region: String?
+    private var category: DiscoverCategory?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,10 +68,12 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
     // MARK: DiscoverSummaryProtocol
 
-    func populateFrom(item: DiscoverItem, region: String?) {
+    func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
         guard let source = item.source else { return }
 
         self.item = item
+        self.region = region
+        self.category = category
         DiscoverServerHandler.shared.discoverPodcastList(source: source, completion: { [weak self] podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
@@ -130,7 +134,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         if let listId = item?.uuid, let podcastUuid = podcast.uuid {
             AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
         }
-        AnalyticsHelper.adSubscribed(promotionUUID: item?.uuid ?? "", podcastUUID: podcast.uuid ?? "", categoryID: item?.categoryID ?? 0)
+        AnalyticsHelper.adSubscribed(categoryName: self.category?.name ?? "unknown", region: region ?? "unknown", podcastUUID: podcast.uuid ?? "unknown", categoryID: item?.categoryID ?? 0)
 
         delegate?.subscribe(podcast: podcast)
     }
@@ -146,7 +150,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             }
 
             if item.isSponsored == true {
-                AnalyticsHelper.adTapped(promotionUUID: item.uuid ?? "", podcastUUID: podcastUuid, categoryID: item.categoryID ?? 0)
+                AnalyticsHelper.adTapped(categoryName: self.category?.name ?? "unknown", region: region ?? "unknown", podcastUUID: podcastUuid, categoryID: item.categoryID ?? 0)
             }
         }
     }

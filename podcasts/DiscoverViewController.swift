@@ -31,6 +31,7 @@ class DiscoverViewController: PCViewController {
     var discoverLayout: DiscoverLayout?
 
     var currentRegion: String?
+    var selectedCategory: DiscoverCategory?
 
     private let coordinator: DiscoverCoordinator
 
@@ -292,7 +293,7 @@ class DiscoverViewController: PCViewController {
         addToScrollView(viewController: viewController, for: discoverItem, isLast: false)
 
         controller.registerDiscoverDelegate(self)
-        controller.populateFrom(item: discoverItem, region: currentRegion)
+        controller.populateFrom(item: discoverItem, region: currentRegion, category: selectedCategory)
     }
 
     func addToScrollView(viewController: UIViewController, for item: DiscoverItem, isLast: Bool) {
