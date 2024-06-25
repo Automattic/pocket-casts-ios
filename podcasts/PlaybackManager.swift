@@ -792,7 +792,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func increasePlaybackSpeed() {
         let playbackEffects = effects()
-        if playbackEffects.playbackSpeed > 2.9 { return }
+        if playbackEffects.playbackSpeed > 4.9 { return }
 
         playbackEffects.playbackSpeed = playbackEffects.playbackSpeed + 0.1
         changeEffects(playbackEffects)
