@@ -564,6 +564,8 @@ enum AnalyticsEvent: String {
     // MARK: - Settings: Help and Feedback
 
     case settingsHelpShown
+    case settingsGetSupport
+    case settingsLeaveFeedback
 
     // MARK: - Settings: Import / Export OPML
 

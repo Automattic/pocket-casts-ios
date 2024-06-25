@@ -32,8 +32,10 @@ class AnalyticsHelper {
     class func userGuideEmail(feedback: Bool) {
         if feedback {
             userGuideEmailFeedback()
+            Analytics.track(.settingsLeaveFeedback)
         } else {
             userGuideEmailSupport()
+            Analytics.track(.settingsGetSupport)
         }
     }
 
