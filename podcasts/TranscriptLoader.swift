@@ -35,7 +35,7 @@ class TranscriptLoader {
             case .failedToLoad:
                 return "Transcript failed to load"
             case .notSupported:
-                return "Transcript formats not supported"
+                return "Transcript format not supported"
             }
         }
     }
