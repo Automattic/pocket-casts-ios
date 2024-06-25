@@ -4147,3 +4147,6 @@
 
 /* A title used when sharing artwork and link to a podcast */
 "share_podcast_title" = "Share podcast";
+
+/* A common string used throughout the app. Often refers to the Transcript tab in the player. */
+"transcript" = "Transcript";
