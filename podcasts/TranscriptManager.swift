@@ -2,7 +2,7 @@ import Foundation
 import SwiftSubtitles
 import PocketCastsDataModel
 
-class TranscriptLoader {
+class TranscriptManager {
 
     typealias Transcript = Episode.Metadata.Transcript
 
@@ -81,7 +81,7 @@ class TranscriptLoader {
 
 extension Episode.Metadata.Transcript {
 
-    var transcriptFormat: TranscriptLoader.TranscriptFormat? {
-        return TranscriptLoader.TranscriptFormat(rawValue: self.type)
+    var transcriptFormat: TranscriptManager.TranscriptFormat? {
+        return TranscriptManager.TranscriptFormat(rawValue: self.type)
     }
 }
