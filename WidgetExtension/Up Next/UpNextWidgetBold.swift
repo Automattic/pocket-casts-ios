@@ -1,10 +1,10 @@
 import SwiftUI
 import WidgetKit
 
-struct UpNextWidget: Widget {
+struct UpNextWidgetBold: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "Up_Next_Widget", provider: UpNextProvider()) { entry in
-            UpNextWidgetEntryView(entry: entry, widgetColorSchemeLight: .contrast, widgetColorSchemeDark: .contrastDark)
+        StaticConfiguration(kind: "Up_Next_Widget_Bold", provider: UpNextProvider()) { entry in
+            UpNextWidgetEntryView(entry: entry, widgetColorSchemeLight: .bold, widgetColorSchemeDark: .bold)
                 .clearBackground()
         }
         .contentMarginsDisabledIfAvailable()

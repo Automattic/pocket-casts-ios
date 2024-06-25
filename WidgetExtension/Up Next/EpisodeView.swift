@@ -5,52 +5,45 @@ struct EpisodeView: View {
     @State var episode: WidgetEpisode
     @State var topText: Text
     @State var isPlaying: Bool = false
-
-    var compactView: Bool {
-        typeSize >= .xxLarge
-    }
+    @State var isFirstEpisode: Bool = false
 
     @Environment(\.dynamicTypeSize) var typeSize
+    @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
+        let textColor = isFirstEpisode ? colorScheme.topTextColor : colorScheme.bottomTextColor
+
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
-                if #available(iOS 17, *) {
-                    Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
-                        SmallArtworkView(imageData: episode.imageData)
-                    }
-                    .toggleStyle(WidgetPlayToggleStyle())
-                } else {
-                    SmallArtworkView(imageData: episode.imageData)
-                }
+                SmallArtworkView(imageData: episode.imageData)
+                    .frame(maxWidth: 52, maxHeight: 52)
                 VStack(alignment: .leading) {
-                    if !compactView {
-                        topText
-                            .textCase(.uppercase)
-                            .font(.caption2)
-                            .foregroundColor(Color.secondary)
-                    }
                     Text(episode.episodeTitle)
                         .font(.footnote)
                         .fontWeight(.semibold)
-                        .foregroundColor(Color.primary)
+                        .foregroundColor(textColor)
                         .lineLimit(1)
-                    HStack(alignment: .center, spacing: 5) {
-                        if compactView {
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    if isFirstEpisode, #available(iOS 17, *) {
+                        Spacer()
+                        Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
                             topText
-                                .textCase(.uppercase)
-                                .font(.caption2)
-                                .foregroundColor(Color.secondary)
-                            Text("•")
-                                .font(.caption2)
-                                .foregroundColor(Color.secondary)
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundColor(colorScheme.topButtonTextColor)
                         }
-                        Text(episode.podcastName)
+                        .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: colorScheme))
+                    } else {
+                        Spacer()
+                            .frame(height: 4)
+                        topText
                             .font(.caption2)
-                            .fontWeight(.semibold)
-                            .foregroundColor(Color.secondary)
-                            .lineLimit(1)
+                            .foregroundColor(textColor.opacity(0.6))
                     }
+                }
+                if !isFirstEpisode, #available(iOS 17, *) {
+                    Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {}
+                    .toggleStyle(WidgetPlayToggleStyle(colorScheme: colorScheme))
                 }
             }
         }
@@ -62,27 +55,57 @@ struct EpisodeView: View {
     }
 }
 
-struct WidgetPlayToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        ZStack {
-            configuration.label
-                .truncationMode(.tail)
+struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
+    let colorScheme: PCWidgetColorScheme
 
-            Circle()
-                .foregroundStyle(.white)
-                .frame(width: 24, height: 24)
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(spacing: 0) {
             Group {
                 configuration.isOn ?
                 Image("icon-pause")
                     .resizable()
-                    .foregroundStyle(.black)
+                    .foregroundStyle(colorScheme.topButtonTextColor)
                 :
-                    Image("icon-play")
+                Image("icon-play")
                     .resizable()
-                    .foregroundStyle(.black)
+                    .foregroundStyle(colorScheme.topButtonTextColor)
             }
-            .frame(width: 24, height: 24)
+            .frame(width: 28, height: 28)
+
+            configuration.label
+                .truncationMode(.tail)
         }
-        .opacity(0.9)
+        .padding(.trailing, 12) // icon has 8px padding built into it, so this should match 8 + .leading
+        .padding(.leading, 4)
+        .padding(.vertical, 2) // 2 + 8 (from icon) = 10 in design (actually 9.76)
+        .background(
+            RoundedRectangle(cornerRadius: 100)
+                .foregroundColor(colorScheme.topButtonBackgroundColor)
+        )
+    }
+}
+
+struct WidgetPlayToggleStyle: ToggleStyle {
+    let colorScheme: PCWidgetColorScheme
+
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            ZStack {
+                Circle()
+                    .foregroundStyle(colorScheme.bottomButtonBackgroundColor)
+                    .frame(width: 24, height: 24)
+                Group {
+                    configuration.isOn ?
+                    Image("icon-pause")
+                        .resizable()
+                        .foregroundStyle(colorScheme.bottomButtonTextColor)
+                    :
+                    Image("icon-play")
+                        .resizable()
+                        .foregroundStyle(colorScheme.bottomButtonTextColor)
+                }
+                .frame(width: 24, height: 24)
+            }
+        }
      }
 }
