@@ -112,15 +112,11 @@ class TranscriptsViewController: PlayerItemViewController {
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
         guard let transcriptError = error as? TranscriptLoader.TranscriptError else {
-            transcriptView.text = "Transcript failed to parse"
+            transcriptView.text = "Transcript unknow error"
             return
         }
-        switch transcriptError {
-        case .notAvailable:
-            self.transcriptView.text = "Transcript not available"
-        case .failedToLoad:
-            self.transcriptView.text = "Transcript failed to load"
-        }
+
+        transcriptView.text = transcriptError.localizedDescription
     }
 
     private func addObservers() {
