@@ -449,6 +449,11 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     // MARK: - Sharing
 
     @objc private func shareTapped(_ sender: UIButton) {
+        guard FeatureFlag.newSharing.enabled == false else {
+            SharingModal.showModal(episode: episode, in: self)
+            return
+        }
+
         let shareOptions = OptionsPicker(title: nil)
 
         let sourceRect = sender.superview!.convert(sender.frame, to: view)
@@ -462,11 +467,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
         shareOptions.addAction(action: sharePositionAction)
 
-        if episode.downloaded(pathFinder: DownloadManager.shared) {
-            let openFileAction = OptionAction(label: L10n.podcastShareOpenFile, icon: nil) { [weak self] in
-                self?.shareEpisodeFile(sourceRect: sourceRect)
-            }
-            shareOptions.addAction(action: openFileAction)
+        if let fileAction = episodeFileAction(from: sourceRect) {
+            shareOptions.addAction(action: fileAction)
         }
 
         shareOptions.show(statusBarStyle: preferredStatusBarStyle)
@@ -503,7 +505,17 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view)
     }
 
-    private func shareEpisodeFile(sourceRect: CGRect) {
+    func episodeFileAction(from sourceRect: CGRect) -> OptionAction? {
+        guard episode.downloaded(pathFinder: DownloadManager.shared) else {
+            return nil
+        }
+        let openFileAction = OptionAction(label: L10n.podcastShareOpenFile, icon: nil) { [weak self] in
+            self?.shareEpisodeFile(sourceRect: sourceRect)
+        }
+        return openFileAction
+    }
+
+    func shareEpisodeFile(sourceRect: CGRect) {
         let fileUrl = URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
         docController = UIDocumentInteractionController(url: fileUrl)
         docController?.name = episode.displayableTitle()

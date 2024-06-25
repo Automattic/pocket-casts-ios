@@ -47,7 +47,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new flow for Account upgrade prompt where it start IAP flow directly from account cell
     case newAccountUpgradePromptFlow
 
-    case cachePlayingEpisode
+    /// Enable the AVExportSession parallel download of any playing episode
+    case streamAndCachePlayingEpisode
 
     case categoriesRedesign
 
@@ -118,7 +119,7 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .newAccountUpgradePromptFlow:
             false
-        case .cachePlayingEpisode:
+        case .streamAndCachePlayingEpisode:
             true
         case .categoriesRedesign:
             true
@@ -153,8 +154,6 @@ public enum FeatureFlag: String, CaseIterable {
             "deselect_chapters_enabled"
         case .newAccountUpgradePromptFlow:
             "new_account_upgrade_prompt_flow"
-        case .cachePlayingEpisode:
-            "cache_playing_episode"
         case .newSettingsStorage:
             shouldEnableSyncedSettings ? "new_settings_storage" : nil
         case .settingsSync:

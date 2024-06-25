@@ -284,7 +284,7 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>bookmark_updated_notification</key>
     <string>Favorito "%1$@" atualizado</string>
     <key>bookmarks</key>
-    <string>Favoritos</string>
+    <string>Marcadores</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ favoritos</string>
     <key>bookmarks_count_singular</key>
