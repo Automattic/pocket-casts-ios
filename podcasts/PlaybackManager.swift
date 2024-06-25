@@ -162,6 +162,8 @@ class PlaybackManager: ServerPlaybackDelegate {
             chapterManager.clearChapterInfo()
         }
 
+        loadTranscripts()
+
         if saveCurrentEpisode && currentEpisode() != nil && !switchingToDifferentUpNextEpisode {
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: false)
         }
@@ -2079,6 +2081,17 @@ private extension PlaybackManager {
 
         lastSeekTime = Date()
         isBack ? skipBack() : skipForward()
+    }
+
+    // MARK: - Transcripts
+    private func loadTranscripts() {
+        guard FeatureFlag.transcripts.enabled, let episode = currentEpisode(), let podcast = currentPodcast else {
+            return
+        }
+
+        Task.init {
+            let _ = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid)
+        }
     }
 }
 

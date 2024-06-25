@@ -199,5 +199,13 @@ public class Episode: NSObject, BaseEpisode {
             public let title: String?
             public let endTime: TimeInterval?
         }
+
+        public let transcripts: [Transcript]
+
+        public struct Transcript: Decodable {
+            public let url: String
+            public let type: String
+            public let language: String
+        }
     }
 }
