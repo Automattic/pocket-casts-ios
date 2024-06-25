@@ -2371,6 +2371,8 @@
     <string>当前位置</string>
     <key>share_list_subscribing</key>
     <string>正在订阅...</string>
+    <key>share_podcast</key>
+    <string>共享播客</string>
     <key>share_podcasts_all_selected</key>
     <string>已全选</string>
     <key>share_podcasts_create_list</key>

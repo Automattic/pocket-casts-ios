@@ -2371,6 +2371,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>現在の再生位置</string>
     <key>share_list_subscribing</key>
     <string>フォローしています...</string>
+    <key>share_podcast</key>
+    <string>ポッドキャストを共有</string>
     <key>share_podcasts_all_selected</key>
     <string>すべて選択済み</string>
     <key>share_podcasts_create_list</key>

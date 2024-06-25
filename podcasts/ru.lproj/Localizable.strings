@@ -2371,6 +2371,8 @@
     <string>Текущее положение</string>
     <key>share_list_subscribing</key>
     <string>Подписка...</string>
+    <key>share_podcast</key>
+    <string>Поделиться подкастом</string>
     <key>share_podcasts_all_selected</key>
     <string>ВЫБРАНО ВСЕ</string>
     <key>share_podcasts_create_list</key>

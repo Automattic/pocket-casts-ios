@@ -2371,6 +2371,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Aktuelle Position</string>
     <key>share_list_subscribing</key>
     <string>Werden abonniert …</string>
+    <key>share_podcast</key>
+    <string>Podcast teilen</string>
     <key>share_podcasts_all_selected</key>
     <string>ALLE AUSGEWÄHLT</string>
     <key>share_podcasts_create_list</key>

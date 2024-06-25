@@ -2371,6 +2371,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Posição atual</string>
     <key>share_list_subscribing</key>
     <string>Assinando...</string>
+    <key>share_podcast</key>
+    <string>Compartilhar podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>TODOS SELECIONADOS</string>
     <key>share_podcasts_create_list</key>
