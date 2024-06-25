@@ -3052,6 +3052,8 @@ internal enum L10n {
   internal static var today: String { return L10n.tr("Localizable", "today") }
   /// Top
   internal static var top: String { return L10n.tr("Localizable", "top") }
+  /// Transcript
+  internal static var transcript: String { return L10n.tr("Localizable", "transcript") }
   /// Trial Finished
   internal static var trialFinished: String { return L10n.tr("Localizable", "trial_finished") }
   /// Trim Silence

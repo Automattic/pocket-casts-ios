@@ -62,6 +62,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
 
+    lazy var transcriptsItem: TranscriptsViewController = {
+        let playbackManager = PlaybackManager.shared
+        let item = TranscriptsViewController(playbackManager: playbackManager)
+
+        item.view.translatesAutoresizingMaskIntoConstraints = false
+        item.containerDelegate = self
+        return item
+    }()
+
     private lazy var upNextViewController = UpNextViewController(source: .player)
 
     @IBOutlet var closeBtn: ThemeableUIButton! {
@@ -75,6 +84,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     var showingChapters = false
     var showingNotes = false
     var showingBookmarks = false
+    var showingTranscripts = false
 
     var finalScrollViewConstraint: NSLayoutConstraint?
 
@@ -190,6 +200,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         nowPlayingItem.themeDidChange()
         chaptersItem.themeDidChange()
         showNotesItem.themeDidChange()
+        transcriptsItem.themeDidChange()
     }
 
     @objc private func playbackFinished() {
