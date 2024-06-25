@@ -91,38 +91,36 @@ class TranscriptsViewController: PlayerItemViewController {
     private func loadTranscript() {
         activityIndicatorView.startAnimating()
         Task.detached { [weak self] in
-            guard
-                let self,
-                let episode = self.playbackManager.currentEpisode(), let podcast = self.playbackManager.currentPodcast,
-                let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid),
-                let transcript = transcripts.first else {
-                await self?.showResult(transcript: "", noTranscript: true, failedLoading: false)
+            guard let self else {
                 return
             }
-
-            guard
-                let transcriptURL = URL(string: transcript.url),
-                let transcriptText = try? String(contentsOf: transcriptURL)
-            else {
-                await self.showResult(transcript: "", noTranscript: false, failedLoading: true)
-                return
+            let transcriptManager = TranscriptManager(playbackManager: self.playbackManager)
+            do {
+                let text = try await transcriptManager.loadTranscript()
+                await show(transcript: text)
+            } catch {
+                await show(error: error)
             }
-
-            await self.showResult(transcript: transcriptText, noTranscript: false, failedLoading: false)
         }
     }
 
-    private func showResult(transcript: String, noTranscript: Bool, failedLoading: Bool) {
-            self.activityIndicatorView.stopAnimating()
-            if noTranscript {
-                self.transcriptView.text = "Transcript not available"
-                return
-            }
-            if failedLoading {
-                self.transcriptView.text = "Transcript failed to load"
-                return
-            }
-            self.transcriptView.text = transcript
+    private func show(transcript: String) {
+            activityIndicatorView.stopAnimating()
+            transcriptView.text = transcript
+    }
+
+    private func show(error: Error) {
+        activityIndicatorView.stopAnimating()
+        guard let transcriptError = error as? TranscriptManager.TranscriptError else {
+            transcriptView.text = "Transcript failed to parse"
+            return
+        }
+        switch transcriptError {
+        case .notAvailable:
+            self.transcriptView.text = "Transcript not available"
+        case .failedToLoad:
+            self.transcriptView.text = "Transcript failed to load"
+        }
     }
 
     private func addObservers() {
