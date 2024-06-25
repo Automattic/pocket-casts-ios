@@ -113,10 +113,6 @@ class TranscriptsViewController: PlayerItemViewController {
     }
 
     private func showResult(transcript: String, noTranscript: Bool, failedLoading: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {
-                return
-            }
             self.activityIndicatorView.stopAnimating()
             if noTranscript {
                 self.transcriptView.text = "Transcript not available"
@@ -127,7 +123,6 @@ class TranscriptsViewController: PlayerItemViewController {
                 return
             }
             self.transcriptView.text = transcript
-        }
     }
 
     private func addObservers() {
