@@ -26,7 +26,7 @@ class TranscriptManager {
     enum TranscriptError: Error {
         case notAvailable
         case failedToLoad
-        case notSupported
+        case notSupported(format: String)
 
         var localizedDescription: String {
             switch self {
@@ -34,8 +34,8 @@ class TranscriptManager {
                 return "Transcript not available"
             case .failedToLoad:
                 return "Transcript failed to load"
-            case .notSupported:
-                return "Transcript format not supported"
+            case .notSupported(let format):
+                return "Transcript format not supported: \(format)"
             }
         }
     }
@@ -52,7 +52,7 @@ class TranscriptManager {
                 return transcript
             }
         }
-        return nil
+        return available.first
     }
 
     public func loadTranscript() async throws -> String {
@@ -64,7 +64,7 @@ class TranscriptManager {
         }
 
         guard let transcriptFormat = transcript.transcriptFormat else {
-            throw TranscriptError.notSupported
+            throw TranscriptError.notSupported(format: transcript.type)
         }
 
         guard
