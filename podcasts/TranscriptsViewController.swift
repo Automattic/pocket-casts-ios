@@ -4,6 +4,8 @@ import UIKit
 class TranscriptsViewController: PlayerItemViewController {
 
     let playbackManager: PlaybackManager
+    var transcript: TranscriptModel?
+    var previousRange: NSRange?
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
@@ -106,11 +108,12 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func show(transcript: TranscriptModel) {
             activityIndicatorView.stopAnimating()
-
+            self.previousRange = nil
+            self.transcript = transcript
             transcriptView.attributedText = styleText(transcript: transcript)
     }
 
-    private func styleText(transcript: TranscriptModel) -> NSAttributedString {
+    private func styleText(transcript: TranscriptModel, position: Double = 0) -> NSAttributedString {
         let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
 
         let paragraphStyle = NSMutableParagraphStyle()
@@ -118,23 +121,24 @@ class TranscriptsViewController: PlayerItemViewController {
         paragraphStyle.paragraphSpacing = 10
         paragraphStyle.lineBreakMode = .byWordWrapping
 
-        let newYorkFont = UIFont(name: "NewYorkLarge-Medium", size: 24) ?? UIFont.systemFont(ofSize: 16)
+        let standardFont = UIFont.systemFont(ofSize: 16)
+        let highlightFont = UIFont.systemFont(ofSize: 18)
 
         let normalStyle: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
-            .font: newYorkFont,
+            .font: standardFont,
             .foregroundColor: ThemeColor.playerContrast02()
         ]
 
         let highlightStyle: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
-            .font: newYorkFont,
+            .font: highlightFont,
             .foregroundColor: ThemeColor.playerContrast01()
         ]
 
         formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
 
-        if let range = transcript.cues.first?.characterRange {
+        if let range = transcript.firstCue(containing: position)?.characterRange {
             formattedText.addAttributes(highlightStyle, range: range)
         }
 
@@ -153,5 +157,25 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func addObservers() {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+    }
+
+    @objc private func updateTranscriptPosition() {
+        let position = playbackManager.currentTime()
+        print("Transcript position: \(position)")
+        guard let transcript else {
+            return
+        }
+        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
+            let range = cue.characterRange
+            print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
+            previousRange = range
+            transcriptView.attributedText = styleText(transcript: transcript, position: position)
+            // adjusting the scroll to range so it shows more text
+            let scrollRange = NSRange(location: range.location, length: range.length * 5)
+            transcriptView.scrollRangeToVisible(scrollRange)
+        } else if let startTime = transcript.cues.first?.startTime, position < startTime {
+            transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+        }
     }
 }
