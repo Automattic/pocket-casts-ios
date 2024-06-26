@@ -175,6 +175,7 @@ class TranscriptsViewController: PlayerItemViewController {
             let scrollRange = NSRange(location: range.location, length: range.length * 5)
             transcriptView.scrollRangeToVisible(scrollRange)
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
+            previousRange = nil
             transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
     }
