@@ -96,17 +96,19 @@ class TranscriptsViewController: PlayerItemViewController {
             }
             let transcriptManager = TranscriptManager(playbackManager: self.playbackManager)
             do {
-                let text = try await transcriptManager.loadTranscript()
-                await show(transcript: text)
+                let transcript = try await transcriptManager.loadTranscript()
+                await show(transcript: transcript)
             } catch {
                 await show(error: error)
             }
         }
     }
 
-    private func show(transcript: String) {
+    private func show(transcript: TranscriptModel) {
             activityIndicatorView.stopAnimating()
-            transcriptView.text = transcript
+            transcriptView.attributedText = transcript.attributedText
+            transcriptView.textColor = ThemeColor.playerContrast02()
+            transcriptView.font = .systemFont(ofSize: 16)
     }
 
     private func show(error: Error) {

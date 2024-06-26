@@ -55,7 +55,7 @@ class TranscriptManager {
         return available.first
     }
 
-    public func loadTranscript() async throws -> String {
+    public func loadTranscript() async throws -> TranscriptModel {
         guard
             let episode = self.playbackManager.currentEpisode(), let podcast = self.playbackManager.currentPodcast,
             let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid),
@@ -74,8 +74,11 @@ class TranscriptManager {
             throw TranscriptError.failedToLoad
         }
 
-        let subtitle = try Subtitles(content: transcriptText, expectedExtension: transcriptFormat.fileExtension)
-        return String(subtitle.text.joined(separator: "\n"))
+        let subtitles = try Subtitles(content: transcriptText, expectedExtension: transcriptFormat.fileExtension)
+
+        let model = TranscriptModel.makeModel(from: subtitles)
+
+        return model
     }
 }
 
