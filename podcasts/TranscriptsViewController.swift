@@ -30,8 +30,8 @@ class TranscriptsViewController: PlayerItemViewController {
             [
                 transcriptView.topAnchor.constraint(equalTo: view.topAnchor),
                 transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+                transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
             ]
         )
 
@@ -106,9 +106,39 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func show(transcript: TranscriptModel) {
             activityIndicatorView.stopAnimating()
-            transcriptView.attributedText = transcript.attributedText
-            transcriptView.textColor = ThemeColor.playerContrast02()
-            transcriptView.font = .systemFont(ofSize: 16)
+
+            transcriptView.attributedText = styleText(transcript: transcript)
+    }
+
+    private func styleText(transcript: TranscriptModel) -> NSAttributedString {
+        let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.2
+        paragraphStyle.paragraphSpacing = 10
+        paragraphStyle.lineBreakMode = .byWordWrapping
+
+        let newYorkFont = UIFont(name: "NewYorkLarge-Medium", size: 24) ?? UIFont.systemFont(ofSize: 16)
+
+        let normalStyle: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .font: newYorkFont,
+            .foregroundColor: ThemeColor.playerContrast02()
+        ]
+
+        let highlightStyle: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .font: newYorkFont,
+            .foregroundColor: ThemeColor.playerContrast01()
+        ]
+
+        formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
+
+        if let range = transcript.cues.first?.characterRange {
+            formattedText.addAttributes(highlightStyle, range: range)
+        }
+
+        return formattedText
     }
 
     private func show(error: Error) {
