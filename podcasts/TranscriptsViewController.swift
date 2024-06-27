@@ -147,7 +147,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
-        guard let transcriptError = error as? TranscriptManager.TranscriptError else {
+        guard let transcriptError = error as? TranscriptError else {
             transcriptView.text = "Transcript unknow error"
             return
         }

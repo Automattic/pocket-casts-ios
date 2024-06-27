@@ -1,6 +1,23 @@
 import Foundation
 import SwiftSubtitles
 
+enum TranscriptFormat: String {
+    case srt = "application/srt"
+    case vtt = "text/vtt"
+
+    var fileExtension: String {
+        switch self {
+        case .srt:
+            return "srt"
+        case .vtt:
+            return "vtt"
+        }
+    }
+
+    // Transcript formats we support in order of priority of use
+    static let supportedFormats: [TranscriptFormat] = [.srt, .vtt]
+}
+
 struct TranscriptCue: Sendable {
     let startTime: Double
     let endTime: Double
@@ -20,7 +37,11 @@ struct TranscriptModel: Sendable {
     let attributedText: NSAttributedString
     let cues: [TranscriptCue]
 
-    static func makeModel(from subtitles: Subtitles) -> TranscriptModel {
+    static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
+        guard let subtitles = try? Subtitles(content: transcriptText, expectedExtension: format.fileExtension) else {
+            return nil
+        }
+
         let resultText = NSMutableAttributedString()
         var cues = [TranscriptCue]()
         for cue in subtitles.cues {
