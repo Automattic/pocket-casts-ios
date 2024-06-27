@@ -45,7 +45,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private let shouldDeactivateSession = AtomicBool()
     private var haveCalledPlayerLoad = false
 
-    private let updateTimerInterval = 0.1 as TimeInterval
+    private let updateTimerInterval = 1 as TimeInterval
 
     #if !os(watchOS)
         private var backgroundTask = UIBackgroundTaskIdentifier.invalid

@@ -98,7 +98,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear:
             false
         case .newShowNotesEndpoint:
-            true
+            false
         case .episodeFeedArtwork:
             false
         case .rssChapters:
@@ -138,7 +138,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newSharing:
             false
         case .transcripts:
-            true
+            false
         }
     }
 
