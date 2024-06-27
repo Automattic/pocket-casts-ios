@@ -5,7 +5,7 @@ protocol Filter {
 }
 
 struct ComposeFilter: Filter {
-    let filters: [Filter]
+    private let filters: [Filter]
 
     func filter(_ input: String) -> String {
         let filteredText: String = filters.reduce(input) { partialResult, filter in
@@ -19,8 +19,8 @@ struct ComposeFilter: Filter {
 
 struct RegexFilter: Filter {
 
-    let pattern: String
-    let replacement: String
+    private let pattern: String
+    private let replacement: String
 
     func filter(_ input: String) -> String {
         return regexSearchReplace(input: input, pattern: pattern, replacement: replacement)
@@ -45,8 +45,8 @@ extension RegexFilter {
 }
 
 struct SuffixFilter: Filter {
-    let condition: String
-    let replacement: String
+    private let condition: String
+    private let replacement: String
 
     func filter(_ input: String) -> String {
         return input.hasSuffix(condition) ? input : input.appending(replacement)
