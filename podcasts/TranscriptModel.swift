@@ -4,6 +4,7 @@ import SwiftSubtitles
 enum TranscriptFormat: String {
     case srt = "application/srt"
     case vtt = "text/vtt"
+    case textHTML = "text/html"
 
     var fileExtension: String {
         switch self {
@@ -11,6 +12,8 @@ enum TranscriptFormat: String {
             return "srt"
         case .vtt:
             return "vtt"
+        case .textHTML:
+            return "html"
         }
     }
 
@@ -38,6 +41,9 @@ struct TranscriptModel: Sendable {
     let cues: [TranscriptCue]
 
     static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
+        if format == .textHTML {
+            return TranscriptModel(attributedText: NSAttributedString(string: transcriptText), cues: [])
+        }
         guard let subtitles = try? Subtitles(content: transcriptText, expectedExtension: format.fileExtension) else {
             return nil
         }
