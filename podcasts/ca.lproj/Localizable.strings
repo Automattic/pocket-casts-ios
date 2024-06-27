@@ -2370,10 +2370,28 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Si està activat, el temporitzador de son es reiniciarà quan moguis el telèfon.</string>
     <key>share</key>
     <string>Compartir</string>
+    <key>share_copied_to_clipboard</key>
+    <string>S'ha copiat l'enllaç al portaretalls</string>
+    <key>share_copy_link</key>
+    <string>Copia l'enllaç</string>
     <key>share_current_position</key>
     <string>Posició actual</string>
+    <key>share_description</key>
+    <string>Tria un format i una plataforma per compartir amb</string>
+    <key>share_episode</key>
+    <string>Compartir l'episodi</string>
+    <key>share_episode_at</key>
+    <string>Compartir l'episodi a %1$@</string>
+    <key>share_episode_title</key>
+    <string>Compartir l'episodi</string>
     <key>share_list_subscribing</key>
     <string>Subscrivint-te…</string>
+    <key>share_more_actions</key>
+    <string>Més</string>
+    <key>share_podcast</key>
+    <string>Compartir el podcast</string>
+    <key>share_podcast_title</key>
+    <string>Compartir el podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>TOT SELECCIONAT</string>
     <key>share_podcasts_create_list</key>
@@ -2713,6 +2731,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
 Sincerament, totes dues són bones decisions. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>No sona res</string>
+    <key>watch_play_source</key>
+    <string>Reprodueix la font</string>
     <key>watch_source_msg</key>
     <string>Els podcasts es reproduiran a través de l'altaveu al que estigui connectat el dispositiu triat</string>
     <key>watch_source_plus_info</key>
