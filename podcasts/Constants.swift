@@ -96,6 +96,9 @@ struct Constants {
 
         // End of Year
         static let profileSeen = NSNotification.Name(rawValue: "profileSeen")
+
+        // Speech to Text
+        static let speechToTextAvailable = NSNotification.Name(rawValue: "speechToTextAvailable")
     }
 
     enum UserDefaults {

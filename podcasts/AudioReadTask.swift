@@ -105,7 +105,7 @@ class AudioReadTask {
         let receivedError = error != nil
 
         if let result {
-            print("$$ \(result.bestTranscription.formattedString)")
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.speechToTextAvailable, userInfo: ["text": result.bestTranscription])
         }
     }
 

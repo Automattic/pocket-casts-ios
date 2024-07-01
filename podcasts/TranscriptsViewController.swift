@@ -1,4 +1,5 @@
 import Foundation
+import Speech
 import UIKit
 
 class TranscriptsViewController: PlayerItemViewController {
@@ -158,6 +159,13 @@ class TranscriptsViewController: PlayerItemViewController {
     private func addObservers() {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+        addCustomObserver(Constants.Notifications.speechToTextAvailable, selector: #selector(updateTranscriptPositionn))
+    }
+
+    @objc private func updateTranscriptPositionn(notification: NSNotification) {
+        guard let text = notification.userInfo?["text"] as? SFTranscription else { return }
+
+        print("$$ \(text.formattedString)")
     }
 
     @objc private func updateTranscriptPosition() {
