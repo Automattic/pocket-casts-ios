@@ -2,6 +2,7 @@ import AVFoundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import Speech
 
 class AudioReadTask {
     private let maxSilenceAmountToSave = 1000
@@ -33,6 +34,15 @@ class AudioReadTask {
     private var currentFramePosition: AVAudioFramePosition = 0
     private let endOfFileSemaphore = DispatchSemaphore(value: 0)
 
+    private lazy var request: SFSpeechAudioBufferRecognitionRequest? = {
+        let request = SFSpeechAudioBufferRecognitionRequest()
+        request.shouldReportPartialResults = true
+        return request
+    }()
+
+    private var task: SFSpeechRecognitionTask?
+    private let recognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
+
     init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64) {
         self.trimSilence = trimSilence
         self.audioFile = audioFile
@@ -53,6 +63,12 @@ class AudioReadTask {
     func startup() {
         readQueue.async { [weak self] in
             guard let self = self else { return }
+
+            guard let recognizer, let request else { return }
+
+            task = recognizer.recognitionTask(with: request, resultHandler: { [weak self] result, error in
+                self?.recognitionHandler(result: result, error: error)
+            })
 
             // there are some Core Audio errors that aren't marked as throws in the Swift code, so they'll crash the app
             // that's why we have an Objective-C try/catch block here to catch them (see https://github.com/shiftyjelly/pocketcasts-ios/issues/1493 for more details)
@@ -81,6 +97,15 @@ class AudioReadTask {
                 self.bufferManager.readErrorOccurred.value = true
                 FileLog.shared.addMessage("Audio Read failed (obj-c): \(error.localizedDescription)")
             }
+        }
+    }
+
+    nonisolated private func recognitionHandler(result: SFSpeechRecognitionResult?, error: Error?) {
+        let receivedFinalResult = result?.isFinal ?? false
+        let receivedError = error != nil
+
+        if let result {
+            print("$$ \(result.bestTranscription.formattedString)")
         }
     }
 
@@ -292,6 +317,8 @@ class AudioReadTask {
         if !cancelled.value {
             bufferManager.push(buffer)
         }
+
+        request?.append(buffer.audioBuffer)
     }
 
     private func gapSizeForSilenceAmount() -> Int {
