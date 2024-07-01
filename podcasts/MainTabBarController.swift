@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import Speech
 import PocketCastsServer
 import SafariServices
 import UIKit
@@ -103,6 +104,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         showInitialOnboardingIfNeeded()
 
         updateDatabaseIndexes()
+
+        SFSpeechRecognizer.requestAuthorization { SFSpeechRecognizerAuthorizationStatus in
+
+        }
     }
 
     /// Update database indexes and delete unused columns
