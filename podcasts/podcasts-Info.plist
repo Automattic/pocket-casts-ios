@@ -1030,6 +1030,8 @@
 	<string>Pocket Casts needs permission to save this image to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Pocket Casts needs permission to save this image to your photo library.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Pocket Casts needs permission to transcribe audio that is playing to text.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ChapterIntent</string>
