@@ -2611,9 +2611,6 @@
 /* Provides a prompt for the user to configure the trim silence options. */
 "settings_trim_silence" = "Trim Silence";
 
-/* A notice message that's shown after the user updates their profile information. */
-"gravatar_update_notice" = "It may take some time for your avatar to be updated in Pocket Casts."
-
 /* Informs the user about how the Queue will be adjusted when the episode limit is reached. '%1$@' is a placeholder for the current queue limit. */
 "settings_up_next_limit" = "Automatically add new episodes to Up Next. New episodes will stop being added when Up Next reaches %1$@.";
 

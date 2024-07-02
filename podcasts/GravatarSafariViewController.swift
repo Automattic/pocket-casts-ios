@@ -8,7 +8,7 @@ final class GravatarSafariViewController: SFSafariViewController {
 
         var url: URL? {
             switch self {
-            case .avatarUpdate(let email):
+            case .avatarUpdate:
                 return URL(string: "https://gravatar.com/profile/avatars")
             }
         }
@@ -22,6 +22,5 @@ final class GravatarSafariViewController: SFSafariViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.post(name: Constants.Notifications.avatarNeedsRefreshing, object: nil)
-       // Toast.show(L10n.grav)
     }
 }
