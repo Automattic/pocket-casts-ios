@@ -6,6 +6,7 @@ struct NowPlayingWidgetEntryView: View {
     @State var entry: NowPlayingProvider.Entry
 
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
+    @Environment(\.widgetFamily) var family
 
     @Environment(\.colorScheme) var colorScheme
     var widgetColorSchemeLight: PCWidgetColorScheme
@@ -18,24 +19,10 @@ struct NowPlayingWidgetEntryView: View {
 
     var body: some View {
         if let playingEpisode = entry.episode {
-            ZStack {
-                if showsWidgetBackground {
-                    Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
-                }
-                VStack(alignment: .leading, spacing: 10) {
-                    artwork(playingEpisode: playingEpisode)
-
-                    episodeTitle(playingEpisode: playingEpisode)
-
-                    playToggleOrPlaybackLabel(playingEpisode: playingEpisode)
-                }
-                .widgetURL(URL(string: "pktc://last_opened"))
-                .clearBackground()
-                .if(!showsWidgetBackground) { view in
-                    view
-                        .padding(.top)
-                        .padding(.bottom)
-                }
+            if family == .systemSmall {
+                smallWidget(playingEpisode: playingEpisode)
+            } else {
+                mediumWidget(playingEpisode: playingEpisode)
             }
         }
         else if !showsWidgetBackground {
@@ -50,7 +37,71 @@ struct NowPlayingWidgetEntryView: View {
         }
     }
 
-    private func artwork(playingEpisode: WidgetEpisode) -> some View {
+    private func smallWidget(playingEpisode: WidgetEpisode) -> some View {
+        ZStack {
+            if showsWidgetBackground {
+                Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
+            }
+            VStack(alignment: .leading, spacing: 10) {
+                smallArtwork(playingEpisode: playingEpisode)
+
+                episodeTitle(playingEpisode: playingEpisode)
+
+                playToggleOrPlaybackLabel(playingEpisode: playingEpisode)
+            }
+            .widgetURL(URL(string: "pktc://last_opened"))
+            .clearBackground()
+            .if(!showsWidgetBackground) { view in
+                view
+                    .padding(.top)
+                    .padding(.bottom)
+            }
+        }
+    }
+
+    private func mediumWidget(playingEpisode: WidgetEpisode) -> some View {
+        ZStack {
+            if showsWidgetBackground {
+                Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
+            }
+
+            HStack {
+                LargeArtworkView(imageData: playingEpisode.imageData, size: .infinity)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack(alignment: .bottom) {
+                        Text("Now Playing")
+                            .font(.footnote)
+                            .textCase(.uppercase)
+                            .padding(topPadding)
+                            .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
+                        Spacer()
+                        Image(widgetColorScheme.iconAssetName)
+                            .frame(width: 28, height: 28)
+                            .unredacted()
+                    }
+
+                    podcastTitle(playingEpisode: playingEpisode)
+
+                    episodeTitle(playingEpisode: playingEpisode)
+                    Spacer()
+                    playToggleOrPlaybackLabel(playingEpisode: playingEpisode)
+                }
+                .frame(maxHeight: 128)
+            }
+            .padding(16)
+
+            .widgetURL(URL(string: "pktc://last_opened"))
+            .clearBackground()
+            .if(!showsWidgetBackground) { view in
+                view
+                    .padding(.top)
+                    .padding(.bottom)
+            }
+        }
+    }
+
+    private func smallArtwork(playingEpisode: WidgetEpisode) -> some View {
         HStack(alignment: .top) {
             LargeArtworkView(imageData: playingEpisode.imageData)
                 .frame(width: 64, height: 64)
@@ -60,6 +111,17 @@ struct NowPlayingWidgetEntryView: View {
                 .unredacted()
         }
         .padding(topPadding)
+    }
+
+    private func podcastTitle(playingEpisode: WidgetEpisode) -> some View {
+        Text(playingEpisode.podcastName)
+            .font(.body)
+            .fontWeight(.semibold)
+            .foregroundColor(widgetColorScheme.bottomTextColor)
+            .lineLimit(1)
+            .frame(height: 12, alignment: .center)
+            .layoutPriority(1)
+            .padding(episodeTitlePadding)
     }
 
     private func episodeTitle(playingEpisode: WidgetEpisode) -> some View {
