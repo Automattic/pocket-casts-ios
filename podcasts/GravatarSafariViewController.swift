@@ -9,7 +9,13 @@ final class GravatarSafariViewController: SFSafariViewController {
         var url: URL? {
             switch self {
             case .avatarUpdate(let email):
-                return URL(string: "https://gravatar.com/profile?is_quick_editor=true&email=\(email)&scope=avatars")
+                guard var components = URLComponents(string: "https://gravatar.com/profile") else { return nil }
+                components.queryItems = [
+                    .init(name: "is_quick_editor", value: "true"),
+                    .init(name: "email", value: email),
+                    .init(name: "scope", value: "avatars")
+                ]
+                return components.url
             }
         }
     }
