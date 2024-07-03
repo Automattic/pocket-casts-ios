@@ -8,8 +8,8 @@ final class GravatarSafariViewController: SFSafariViewController {
 
         var url: URL? {
             switch self {
-            case .avatarUpdate:
-                return URL(string: "https://gravatar.com/profile/avatars")
+            case .avatarUpdate(let email):
+                return URL(string: "https://gravatar.com/profile?is_quick_editor=true&email=\(email)&scope=avatars")
             }
         }
     }
