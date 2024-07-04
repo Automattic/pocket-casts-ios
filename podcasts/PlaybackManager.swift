@@ -25,6 +25,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             if numberOfEpisodesToSleepAfter > 0 {
                 sleepTimeRemaining = -1
                 sleepTimerManager.recordSleepTimerDuration(duration: nil, onEpisodeEnd: true)
+                FileLog.shared.addMessage("Sleep Timer: starting with \(numberOfEpisodesToSleepAfter) episodes")
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
         }
@@ -1495,6 +1496,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func setSleepTimerInterval(_ stopIn: TimeInterval) {
+        FileLog.shared.addMessage("Sleep Timer: starting with \(stopIn)")
         sleepTimerManager.recordSleepTimerDuration(duration: stopIn, onEpisodeEnd: nil)
         sleepTimeRemaining = stopIn
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
