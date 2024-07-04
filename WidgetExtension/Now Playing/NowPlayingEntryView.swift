@@ -71,7 +71,7 @@ struct NowPlayingWidgetEntryView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack(alignment: .bottom) {
                         Text("Now Playing")
-                            .font(.footnote)
+                            .font(.caption)
                             .textCase(.uppercase)
                             .padding(topPadding)
                             .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
