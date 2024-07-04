@@ -1,6 +1,7 @@
 import Foundation
 import Speech
 import UIKit
+import Ifrit
 
 class TranscriptsViewController: PlayerItemViewController {
 
@@ -139,7 +140,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
         formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
 
-        if let range = transcript.firstCue(containing: position)?.characterRange {
+        if let range = transcript.firstWord(containing: position)?.characterRange {
             formattedText.addAttributes(highlightStyle, range: range)
         }
 
@@ -159,33 +160,66 @@ class TranscriptsViewController: PlayerItemViewController {
     private func addObservers() {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
-        addCustomObserver(Constants.Notifications.speechToTextAvailable, selector: #selector(updateTranscriptPositionn))
+        addCustomObserver(Constants.Notifications.speechToTextAvailable, selector: #selector(receivedSpeechToTextContent))
     }
 
-    @objc private func updateTranscriptPositionn(notification: NSNotification) {
-        guard let text = notification.userInfo?["text"] as? SFTranscription else { return }
+    var offset: TimeInterval = 0
 
-        print("$$ \(text.formattedString)")
+    @objc private func receivedSpeechToTextContent(notification: NSNotification) {
+        guard let text = notification.userInfo?["text"] as? SFTranscription,
+              let offset = notification.userInfo?["offset"] as? TimeInterval else { return }
+
+        self.offset = offset
+
+        transcript?.wordByWord(speechToText: text)
     }
 
     @objc private func updateTranscriptPosition() {
-        let position = playbackManager.currentTime()
+        let position = playbackManager.currentTime() - offset
         print("Transcript position: \(position)")
         guard let transcript else {
             return
         }
-        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
-            let range = cue.characterRange
-            //Comment this line out if you want to check the player position and cues in range
-            //print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
-            previousRange = range
+
+        if let word = transcript.firstWord(containing: position) {
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             // adjusting the scroll to range so it shows more text
-            let scrollRange = NSRange(location: range.location, length: range.length * 5)
+            let scrollRange = NSRange(location: word.characterRange.location, length: word.characterRange.length)
             transcriptView.scrollRangeToVisible(scrollRange)
-        } else if let startTime = transcript.cues.first?.startTime, position < startTime {
-            previousRange = nil
-            transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
+
+//        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
+//            let range = cue.characterRange
+//            //Comment this line out if you want to check the player position and cues in range
+//            //print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
+//            previousRange = range
+//            transcriptView.attributedText = styleText(transcript: transcript, position: position)
+//            // adjusting the scroll to range so it shows more text
+//            let scrollRange = NSRange(location: range.location, length: range.length * 5)
+//            transcriptView.scrollRangeToVisible(scrollRange)
+//        } else if let startTime = transcript.cues.first?.startTime, position < startTime {
+//            previousRange = nil
+//            transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+//        }
+    }
+}
+
+extension String {
+    subscript (bounds: CountableClosedRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: bounds.lowerBound)
+        let end = index(startIndex, offsetBy: bounds.upperBound)
+        return String(self[start...end])
+    }
+
+    subscript (bounds: CountableRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: bounds.lowerBound)
+        let end = index(startIndex, offsetBy: bounds.upperBound)
+        return String(self[start..<end])
+    }
+}
+
+extension Array {
+    subscript(safe bounds: CountableClosedRange<Int>) -> ArraySlice<Element> {
+        indices.contains(bounds.upperBound) && indices.contains(bounds.lowerBound) ? self[bounds] : []
     }
 }

@@ -36,15 +36,21 @@ class AudioReadTask {
 
     private lazy var request: SFSpeechAudioBufferRecognitionRequest? = {
         let request = SFSpeechAudioBufferRecognitionRequest()
-        request.shouldReportPartialResults = true
+        request.shouldReportPartialResults = false
+        request.requiresOnDeviceRecognition = true
+        request.taskHint = .dictation
         return request
     }()
 
     private var task: SFSpeechRecognitionTask?
-    private let recognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
+    private lazy var recognizer: SFSpeechRecognizer? = {
+        let recognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
+        recognizer?.defaultTaskHint = .dictation
+        return recognizer
+    }()
 
     init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64) {
-        self.trimSilence = trimSilence
+        self.trimSilence = .off
         self.audioFile = audioFile
         self.outputFormat = outputFormat
         self.bufferManager = bufferManager
@@ -60,12 +66,16 @@ class AudioReadTask {
         }
     }
 
+    var offset: TimeInterval = 0
+
     func startup() {
         readQueue.async { [weak self] in
             guard let self = self else { return }
 
             guard let recognizer, let request else { return }
 
+            offset = PlaybackManager.shared.currentTime()
+            print("$$ Starting task")
             task = recognizer.recognitionTask(with: request, resultHandler: { [weak self] result, error in
                 self?.recognitionHandler(result: result, error: error)
             })
@@ -104,8 +114,16 @@ class AudioReadTask {
         let receivedFinalResult = result?.isFinal ?? false
         let receivedError = error != nil
 
+        if result?.isFinal == true {
+            print("$$ SFSpeechRecognition finished")
+        }
+
+        if let error {
+            print("$$ SFSpeechRecognition error \(error)")
+        }
+
         if let result {
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.speechToTextAvailable, userInfo: ["text": result.bestTranscription])
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.speechToTextAvailable, userInfo: ["text": result.bestTranscription, "offset": offset])
         }
     }
 
