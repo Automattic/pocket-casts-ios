@@ -1,6 +1,7 @@
 7.68
 -----
 - New designs for Widgets. [#1343](https://github.com/Automattic/pocket-casts-ios/pull/1343)
+- Search: fix an issue with scroll when tapping an episode [#1874](https://github.com/Automattic/pocket-casts-ios/pull/1874)
 
 7.67
 -----
