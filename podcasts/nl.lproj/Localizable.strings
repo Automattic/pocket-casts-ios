@@ -2367,11 +2367,27 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Indien ingeschakeld, wordt de slaaptimer opnieuw opgestart als je met je telefoon schudt.</string>
     <key>share</key>
     <string>Delen</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Link naar klembord gekopieerd</string>
+    <key>share_copy_link</key>
+    <string>Link kopiëren</string>
     <key>share_current_position</key>
     <string>Huidige positie</string>
+    <key>share_description</key>
+    <string>Kies een format en een platform om naar te delen</string>
+    <key>share_episode</key>
+    <string>Aflevering delen</string>
+    <key>share_episode_at</key>
+    <string>Aflevering delen om %1$@</string>
+    <key>share_episode_title</key>
+    <string>Aflevering delen</string>
     <key>share_list_subscribing</key>
     <string>Aanmelden...</string>
+    <key>share_more_actions</key>
+    <string>Meer</string>
     <key>share_podcast</key>
+    <string>Podcast delen</string>
+    <key>share_podcast_title</key>
     <string>Podcast delen</string>
     <key>share_podcasts_all_selected</key>
     <string>ALLES GESELECTEERD</string>
@@ -2705,6 +2721,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
 Je kunt geen verkeerde keuze maken. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Er wordt niets afgespeeld</string>
+    <key>watch_play_source</key>
+    <string>Bron afspelen</string>
     <key>watch_source_msg</key>
     <string>Podcast wordt afgespeeld via de speaker waarop het gekozen apparaat is aangesloten</string>
     <key>watch_source_plus_info</key>

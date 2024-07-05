@@ -2367,11 +2367,27 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Om det här alternativet är aktiverat kommer sömntimern att starta om när du skakar din telefon.</string>
     <key>share</key>
     <string>Dela</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Länk kopierad till urklipp</string>
+    <key>share_copy_link</key>
+    <string>Kopiera länk</string>
     <key>share_current_position</key>
     <string>Nuvarande position</string>
+    <key>share_description</key>
+    <string>Välj ett format och en plattform att dela till</string>
+    <key>share_episode</key>
+    <string>Dela avsnitt</string>
+    <key>share_episode_at</key>
+    <string>Dela avsnitt vid %1$@</string>
+    <key>share_episode_title</key>
+    <string>Dela avsnitt</string>
     <key>share_list_subscribing</key>
     <string>Prenumererar …</string>
+    <key>share_more_actions</key>
+    <string>Mer</string>
     <key>share_podcast</key>
+    <string>Dela podcast</string>
+    <key>share_podcast_title</key>
     <string>Dela podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>ALLA HAR VALTS</string>
@@ -2709,6 +2725,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
 Båda alternativen är ärligt talat riktigt bra. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Inget spelas</string>
+    <key>watch_play_source</key>
+    <string>Spela källa</string>
     <key>watch_source_msg</key>
     <string>Podcasts spelas upp från den högtalare som den valda enheten är ansluten till</string>
     <key>watch_source_plus_info</key>

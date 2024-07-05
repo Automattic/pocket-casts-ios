@@ -2367,11 +2367,27 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在睡眠計時器開啟的狀態下，搖動手機會重新啟動計時器。</string>
     <key>share</key>
     <string>分享</string>
+    <key>share_copied_to_clipboard</key>
+    <string>連結已複製到剪貼簿</string>
+    <key>share_copy_link</key>
+    <string>複製連結</string>
     <key>share_current_position</key>
     <string>目前的位置</string>
+    <key>share_description</key>
+    <string>選擇要分享的格式和平台</string>
+    <key>share_episode</key>
+    <string>分享單集</string>
+    <key>share_episode_at</key>
+    <string>在「%1$@」分享單集</string>
+    <key>share_episode_title</key>
+    <string>分享單集</string>
     <key>share_list_subscribing</key>
     <string>正在訂閱...</string>
+    <key>share_more_actions</key>
+    <string>更多</string>
     <key>share_podcast</key>
+    <string>分享 Podcast</string>
+    <key>share_podcast_title</key>
     <string>分享 Podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>已全部選取</string>
@@ -2709,6 +2725,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
 兩者都是很棒的選擇。🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>沒有正在播放的內容</string>
+    <key>watch_play_source</key>
+    <string>播放來源</string>
     <key>watch_source_msg</key>
     <string>Podcast 節目會從所選裝置連接的喇叭播放</string>
     <key>watch_source_plus_info</key>
