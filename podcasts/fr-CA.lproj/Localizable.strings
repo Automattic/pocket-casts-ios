@@ -2367,12 +2367,28 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Si cette fonction est activée, la mise en veille redémarrera si vous secouez votre téléphone.</string>
     <key>share</key>
     <string>Partager</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Lien copié dans le presse-papiers</string>
+    <key>share_copy_link</key>
+    <string>Copier le lien</string>
     <key>share_current_position</key>
     <string>Position actuelle</string>
+    <key>share_description</key>
+    <string>Choisir un format et une plateforme pour le partage</string>
+    <key>share_episode</key>
+    <string>Partager l’épisode</string>
+    <key>share_episode_at</key>
+    <string>Partager l’épisode à partir de %1$@</string>
+    <key>share_episode_title</key>
+    <string>Partager l’épisode</string>
     <key>share_list_subscribing</key>
     <string>Abonnement...</string>
+    <key>share_more_actions</key>
+    <string>Plus</string>
     <key>share_podcast</key>
     <string>Partager le balado</string>
+    <key>share_podcast_title</key>
+    <string>Partager le podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>TOUS LES ÉLÉMENTS SÉLECTIONNÉS</string>
     <key>share_podcasts_create_list</key>
@@ -2709,6 +2725,8 @@ Votre adresse courriel, votre mot de passe et d’autres éléments sensibles ne
 Impossible de se tromper. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Aucune lecture en cours</string>
+    <key>watch_play_source</key>
+    <string>Lire Source</string>
     <key>watch_source_msg</key>
     <string>Le son des balados sortira du haut-parleur auquel est connecté l’appareil choisi.</string>
     <key>watch_source_plus_info</key>

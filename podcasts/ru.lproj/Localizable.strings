@@ -2367,11 +2367,27 @@
     <string>В режиме «Включено» таймер сна будет перезапущен, если телефон станет двигаться.</string>
     <key>share</key>
     <string>Поделиться</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Ссылка скопирована в буфер обмена</string>
+    <key>share_copy_link</key>
+    <string>Копировать ссылку</string>
     <key>share_current_position</key>
     <string>Текущее положение</string>
+    <key>share_description</key>
+    <string>Выбрать формат и платформу для публикации</string>
+    <key>share_episode</key>
+    <string>Поделиться выпуском</string>
+    <key>share_episode_at</key>
+    <string>Поделиться выпуском в %1$@</string>
+    <key>share_episode_title</key>
+    <string>Поделиться выпуском</string>
     <key>share_list_subscribing</key>
     <string>Подписка...</string>
+    <key>share_more_actions</key>
+    <string>Ещё</string>
     <key>share_podcast</key>
+    <string>Поделиться подкастом</string>
+    <key>share_podcast_title</key>
     <string>Поделиться подкастом</string>
     <key>share_podcasts_all_selected</key>
     <string>ВЫБРАНО ВСЕ</string>
@@ -2709,6 +2725,8 @@
 Оба варианта — отличный выбор. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Ничего не воспроизводится</string>
+    <key>watch_play_source</key>
+    <string>Воспроизвести источник</string>
     <key>watch_source_msg</key>
     <string>Подкасты будут воспроизводиться из динамика, к которому подключено выбранное устройство</string>
     <key>watch_source_plus_info</key>

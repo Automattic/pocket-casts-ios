@@ -2367,12 +2367,28 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Quando è attivato, l'autospegnimento si riavvia quando scuoti il telefono.</string>
     <key>share</key>
     <string>Condividi</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Link copiato negli appunti</string>
+    <key>share_copy_link</key>
+    <string>Copia link</string>
     <key>share_current_position</key>
     <string>Posizione attuale</string>
+    <key>share_description</key>
+    <string>Scegli un formato e una piattaforma su cui condividere</string>
+    <key>share_episode</key>
+    <string>Condividi episodio</string>
+    <key>share_episode_at</key>
+    <string>Condividi episodio su %1$@</string>
+    <key>share_episode_title</key>
+    <string>Condividi episodio</string>
     <key>share_list_subscribing</key>
     <string>Abbonamento in corso...</string>
+    <key>share_more_actions</key>
+    <string>Leggi tutto</string>
     <key>share_podcast</key>
     <string>Condividi il podcast</string>
+    <key>share_podcast_title</key>
+    <string>Condividi podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>TUTTI SELEZIONATI</string>
     <key>share_podcasts_create_list</key>
@@ -2709,6 +2725,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
 In ogni caso, avrai fatto la scelta giusta. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Nessuna riproduzione</string>
+    <key>watch_play_source</key>
+    <string>Riproduci sorgente</string>
     <key>watch_source_msg</key>
     <string>I podcast verranno riprodotti dall'altoparlante a cui è collegato il dispositivo scelto</string>
     <key>watch_source_plus_info</key>
