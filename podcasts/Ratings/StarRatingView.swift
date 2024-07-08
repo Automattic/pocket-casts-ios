@@ -84,6 +84,8 @@ struct StarRatingView: View {
         let stars = Int(rating)
         // Get the float value
         let half = rating.truncatingRemainder(dividingBy: 1)
+        let themeStyle = FeatureFlag.giveRatings.enabled ? ThemeStyle.primaryUi05Selected : ThemeStyle.filter03
+        let color = AppTheme.color(for: themeStyle, theme: theme)
 
         HStack(spacing: 3) {
             ForEach(0..<Constants.maxStars, id: \.self) { index in
@@ -91,9 +93,9 @@ struct StarRatingView: View {
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(theme.filter03)
+                    .foregroundStyle(color)
             }
-        }.foregroundColor(AppTheme.color(for: .filter03, theme: theme))
+        }.foregroundColor(color)
     }
 
     @ViewBuilder
