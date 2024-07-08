@@ -2367,11 +2367,27 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>オンにすると、スマートフォンをシェイクした際にスリープタイマーが再開されます。</string>
     <key>share</key>
     <string>共有</string>
+    <key>share_copied_to_clipboard</key>
+    <string>リンクがクリップボードにコピーされました</string>
+    <key>share_copy_link</key>
+    <string>リンクをコピー</string>
     <key>share_current_position</key>
     <string>現在の再生位置</string>
+    <key>share_description</key>
+    <string>フォーマットおよび共有先のプラットフォームを選択</string>
+    <key>share_episode</key>
+    <string>エピソードを共有</string>
+    <key>share_episode_at</key>
+    <string>%1$@ でエピソードを共有</string>
+    <key>share_episode_title</key>
+    <string>エピソードを共有</string>
     <key>share_list_subscribing</key>
     <string>フォローしています...</string>
+    <key>share_more_actions</key>
+    <string>詳細</string>
     <key>share_podcast</key>
+    <string>ポッドキャストを共有</string>
+    <key>share_podcast_title</key>
     <string>ポッドキャストを共有</string>
     <key>share_podcasts_all_selected</key>
     <string>すべて選択済み</string>
@@ -2705,6 +2721,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
 どちらもおすすめの選択肢です。🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>再生中のエピソードがありません</string>
+    <key>watch_play_source</key>
+    <string>再生元</string>
     <key>watch_source_msg</key>
     <string>ポッドキャストは選択デバイスが接続しているスピーカーで再生されます</string>
     <key>watch_source_plus_info</key>

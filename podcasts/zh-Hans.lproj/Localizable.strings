@@ -2367,11 +2367,27 @@
     <string>如果打开，则当您摇晃手机时，睡眠计时器将重启。</string>
     <key>share</key>
     <string>共享</string>
+    <key>share_copied_to_clipboard</key>
+    <string>已将链接复制到剪贴板</string>
+    <key>share_copy_link</key>
+    <string>复制链接</string>
     <key>share_current_position</key>
     <string>当前位置</string>
+    <key>share_description</key>
+    <string>选择格式和共享平台</string>
+    <key>share_episode</key>
+    <string>共享剧集</string>
+    <key>share_episode_at</key>
+    <string>在 %1$@ 共享剧集</string>
+    <key>share_episode_title</key>
+    <string>共享剧集</string>
     <key>share_list_subscribing</key>
     <string>正在订阅...</string>
+    <key>share_more_actions</key>
+    <string>更多</string>
     <key>share_podcast</key>
+    <string>共享播客</string>
+    <key>share_podcast_title</key>
     <string>共享播客</string>
     <key>share_podcasts_all_selected</key>
     <string>已全选</string>
@@ -2709,6 +2725,8 @@
 抓紧行动吧。🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>未播放任何内容</string>
+    <key>watch_play_source</key>
+    <string>播放源</string>
     <key>watch_source_msg</key>
     <string>所选设备所连接的扬声器将播放播客</string>
     <key>watch_source_plus_info</key>
