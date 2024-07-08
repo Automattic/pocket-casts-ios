@@ -171,17 +171,19 @@ class TranscriptsViewController: PlayerItemViewController {
 
         self.offset = offset
 
-        transcript?.wordByWord(speechToText: text)
+        DispatchQueue.global().async {
+            self.transcript?.wordByWord(speechToText: text)
+        }
     }
 
     @objc private func updateTranscriptPosition() {
         let position = playbackManager.currentTime() - offset
-        print("Transcript position: \(position)")
         guard let transcript else {
             return
         }
 
         if let word = transcript.firstWord(containing: position) {
+//            print(transcript.rawText[word.characterRange.lowerBound..<word.characterRange.upperBound])
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             // adjusting the scroll to range so it shows more text
             let scrollRange = NSRange(location: word.characterRange.location, length: word.characterRange.length)
