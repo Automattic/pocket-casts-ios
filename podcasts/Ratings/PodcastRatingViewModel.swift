@@ -10,6 +10,13 @@ class PodcastRatingViewModel: ObservableObject {
     /// Whether we should display the total ratings or not
     var showTotal: Bool = true
 
+    var hasRatings: Bool {
+        guard let rating else {
+            return false
+        }
+        return rating.total > 0
+    }
+
     private var state: LoadingState = .waiting
 
     /// Internally track the podcast UUID

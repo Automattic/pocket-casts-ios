@@ -4001,6 +4001,9 @@
 /* Error message when a user rating for a podcast couldn't be submitted */
 "rating_error" = "Ops! There was an error.";
 
+/* No ratings label message */
+"rating_no_ratings" = "No ratings";
+
 /* Title of a button that takes the user to a screen to rate a podcast */
 "rate" = "Rate";
 
