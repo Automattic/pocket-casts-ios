@@ -76,11 +76,7 @@ struct RatePodcastView: View {
                     let currentStar = viewModel.stars - Double(index)
 
                     Group {
-                        if currentStar > 0 && currentStar < 1 {
-                            Image("star-half")
-                                .resizable()
-                                .renderingMode(.template)
-                        } else if currentStar > 0 {
+                        if currentStar > 0 {
                             Image("star-full")
                                 .resizable()
                                 .renderingMode(.template)
