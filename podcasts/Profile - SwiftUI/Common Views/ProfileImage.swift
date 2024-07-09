@@ -32,7 +32,20 @@ struct ProfileImage: View {
     }
 
     private var url: URL? {
-        email.flatMap { URL(string: "https://www.gravatar.com/avatar/\($0.sha256)?d=404&s=\(256)") }
+        forceRefresh ? cacheBusterURL : defaultURL
+    }
+
+    private var defaultURL: URL? {
+        urlString.flatMap { URL(string: $0) }
+    }
+
+    /// We add a random query parameter to bypass the backend cache and get the latest image.
+    private var cacheBusterURL: URL? {
+        urlString.flatMap { URL(string: "\($0)&_=\(Int(NSDate().timeIntervalSince1970))") }
+    }
+
+    private var urlString: String? {
+        email.flatMap { "https://www.gravatar.com/avatar/\($0.sha256)?d=404&s=\(256)" }
     }
 
     private var defaultProfileView: some View {
