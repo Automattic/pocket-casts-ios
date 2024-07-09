@@ -152,6 +152,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var bottomControlsStackView: UIStackView!
 
+    @IBOutlet weak var transcriptContainerView: UIView!
+
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
@@ -188,12 +190,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         // Show the overflow menu
         if AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
-        }
-
-        displayTranscript = true
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.displayTranscript = false
         }
     }
 
@@ -356,6 +352,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     private func showTranscript() {
+        transcriptContainerView.layer.opacity = 0
         UIView.animate(withDuration: 0.35, animations: { [weak self] in
             guard let self else { return }
 
@@ -363,13 +360,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             shelfBg.isHidden = true
             shelfBg.layer.opacity = 0
 
-            // Hide episode info/chapter/etc
-            episodeInfoView.superview?.isHidden = true
-            episodeInfoView.superview?.layer.opacity = 0
-
-            // Hide episode artwork
-            episodeImage.isHidden = true
-            episodeImage.layer.opacity = 0
+            // Show transcript container view
+            transcriptContainerView.isHidden = false
+            transcriptContainerView.layer.opacity = 1
 
             // Change the stack view that contains the player button
             bottomControlsStackView.distribution = .fill
@@ -399,13 +392,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             shelfBg.isHidden = false
             shelfBg.layer.opacity = 1
 
-            // Show episode info/chapter/etc
-            episodeInfoView.superview?.isHidden = false
-            episodeInfoView.superview?.layer.opacity = 1
-
-            // Show episode artwork
-            episodeImage.isHidden = false
-            episodeImage.layer.opacity = 1
+            // Hide transcript container view
+            transcriptContainerView.layer.opacity = 0
 
             // Change the stack view that contains the player button
             bottomControlsStackView.distribution = .equalSpacing
@@ -422,8 +410,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
             // Ask parent VC to hide tabs
             playerContainer?.showTabsAndUnlockScrollView()
-        }, completion: { _ in
+        }, completion: { [weak self] _ in
+            guard let self else { return }
 
+            transcriptContainerView.isHidden = true
         })
     }
 }
