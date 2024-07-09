@@ -2168,6 +2168,8 @@ internal enum L10n {
   internal static var ratingListenToThisPodcastMessage: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_message") }
   /// Please listen to this podcast first
   internal static var ratingListenToThisPodcastTitle: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_title") }
+  /// No ratings
+  internal static var ratingNoRatings: String { return L10n.tr("Localizable", "rating_no_ratings") }
   /// Your rating was submitted!
   internal static var ratingSubmitted: String { return L10n.tr("Localizable", "rating_submitted") }
   /// Rate %1$@

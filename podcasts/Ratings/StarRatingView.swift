@@ -73,9 +73,33 @@ struct StarRatingView: View {
     @ViewBuilder
     private func ratingView(rating: PodcastRating?) -> some View {
         starsView(rating: rating?.average ?? 0)
-        if viewModel.showTotal {
-            labelView(total: rating?.total)
+        labelView(rating: rating)
+    }
+
+    @ViewBuilder
+    private func labelView(rating: PodcastRating?) -> some View {
+        let defaultColor = AppTheme.color(for: .primaryText01, theme: theme)
+        Group {
+            if !FeatureFlag.giveRatings.enabled {
+                Text("(\(rating?.total.abbreviated ?? ""))")
+                    .font(size: 14, style: .footnote)
+            } else {
+                if let rating, viewModel.hasRatings {
+                    Text("\(rating.average, specifier: "%.1f")")
+                        .font(size: 14, style: .footnote, weight: .semibold)
+                        .padding([.leading], -2)
+                    Text("(\(rating.total.abbreviated))")
+                        .font(size: 14, style: .footnote)
+                        .padding([.leading], -2)
+                } else {
+                    Text(L10n.ratingNoRatings)
+                        .font(size: 14, style: .footnote)
+                }
+            }
         }
+        .foregroundColor(defaultColor)
+        .padding(.top, 1)
+        .monospacedDigit()
     }
 
     @ViewBuilder
@@ -96,15 +120,6 @@ struct StarRatingView: View {
                     .foregroundStyle(color)
             }
         }.foregroundColor(color)
-    }
-
-    @ViewBuilder
-    private func labelView(total: Int?) -> some View {
-        Text("(\(total?.abbreviated ?? ""))")
-            .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-            .font(size: 14, style: .footnote)
-            .padding(.top, 1)
-            .monospacedDigit()
     }
 
     private func image(for index: Int, stars: Int, half: Double) -> Image {
