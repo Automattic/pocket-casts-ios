@@ -25,9 +25,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet var headerHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var topSpaceToHeader: NSLayoutConstraint!
+    @IBOutlet var topSpaceToHeader: NSLayoutConstraint!
 
-    @IBOutlet weak var topSpaceToSafeArea: NSLayoutConstraint!
+    @IBOutlet var topSpaceToSafeArea: NSLayoutConstraint!
 
     lazy var nowPlayingItem: NowPlayingPlayerItemViewController = {
         let item = NowPlayingPlayerItemViewController()
@@ -276,15 +276,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     func hideTabsAndLockScrollView() {
         mainScrollView.isScrollEnabled = false
-        topSpaceToHeader.priority = .defaultLow
-        topSpaceToSafeArea.priority = .defaultHigh
+        topSpaceToHeader.isActive = false
+        topSpaceToSafeArea.isActive = true
         view.layoutIfNeeded()
     }
 
     func showTabsAndUnlockScrollView() {
         mainScrollView.isScrollEnabled = true
-        topSpaceToHeader.priority = .defaultHigh
-        topSpaceToSafeArea.priority = .defaultLow
+        topSpaceToHeader.isActive = true
+        topSpaceToSafeArea.isActive = false
         view.layoutIfNeeded()
     }
 }
