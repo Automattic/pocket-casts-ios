@@ -22,6 +22,8 @@ class RatePodcastViewModel: ObservableObject {
 
     let podcast: Podcast
 
+    let dataManager: DataManager
+
     var buttonLabel: String {
         userCanRate == .allowed ? L10n.supportSubmit : L10n.done
     }
@@ -30,10 +32,11 @@ class RatePodcastViewModel: ObservableObject {
         userCanRate != .allowed || userCanRate == .allowed && stars > 0
     }
 
-    init(presented: Binding<Bool>, podcast: Podcast) {
+    init(presented: Binding<Bool>, podcast: Podcast, dataManager: DataManager = .sharedManager) {
         self._presented = presented
         self.podcast = podcast
-        checkIfUserCanRate()
+        self.dataManager = dataManager
+        checkIfUserCanRatePodcast(id: podcast.id)
     }
 
     func buttonAction() {
@@ -45,7 +48,7 @@ class RatePodcastViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
             self?.isSubmitting = false
             self?.dismiss()
-            Toast.show(L10n.ratingSubmitted)
+            Toast.show(L10n.ratingThankYou)
         }
     }
 
@@ -53,10 +56,11 @@ class RatePodcastViewModel: ObservableObject {
         presented = false
     }
 
-    private func checkIfUserCanRate() {
-        // Check through an API if the user can rate this podcast
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.userCanRate = .allowed
+    private func checkIfUserCanRatePodcast(id: Int64) {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let count = await self.dataManager.findPlayedEpisodesCount(podcastId: id)
+            self.userCanRate = count < Constants.Values.numberOfEpisodesListenedRequiredToRate ? .disallowed : .allowed
         }
     }
 
