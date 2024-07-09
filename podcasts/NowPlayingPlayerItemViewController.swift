@@ -150,6 +150,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var fillView: UIView!
 
+    @IBOutlet weak var bottomControlsStackView: UIStackView!
+
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
@@ -189,6 +191,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
 
         displayTranscript = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.displayTranscript = false
+        }
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
@@ -366,8 +372,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             episodeImage.layer.opacity = 0
 
             // Change the stack view that contains the player button
-            (timeSliderHolderView.superview as! UIStackView).distribution = .fill
-            (timeSliderHolderView.superview as! UIStackView).spacing = 10
+            bottomControlsStackView.distribution = .fill
+            bottomControlsStackView.spacing = 10
 
             // Display the view that will fill the empty space
             fillView.isHidden = false
@@ -386,6 +392,38 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     private func hideTranscript() {
+        UIView.animate(withDuration: 0.35, animations: { [weak self] in
+            guard let self else { return }
 
+            // Show shelf
+            shelfBg.isHidden = false
+            shelfBg.layer.opacity = 1
+
+            // Show episode info/chapter/etc
+            episodeInfoView.superview?.isHidden = false
+            episodeInfoView.superview?.layer.opacity = 1
+
+            // Show episode artwork
+            episodeImage.isHidden = false
+            episodeImage.layer.opacity = 1
+
+            // Change the stack view that contains the player button
+            bottomControlsStackView.distribution = .equalSpacing
+            bottomControlsStackView.spacing = 30
+
+            // Hide the view that will fill the empty space
+            fillView.isHidden = true
+
+            // Change skip back and forward size
+            skipBackBtn.changeSize(to: .large)
+            skipFwdBtn.changeSize(to: .large)
+            skipBackBtn.layoutIfNeeded()
+            skipFwdBtn.layoutIfNeeded()
+
+            // Ask parent VC to hide tabs
+            playerContainer?.showTabsAndUnlockScrollView()
+        }, completion: { _ in
+
+        })
     }
 }

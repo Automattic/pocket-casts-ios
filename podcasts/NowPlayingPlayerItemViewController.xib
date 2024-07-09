@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NowPlayingPlayerItemViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="bottomControlsStackView" destination="UmO-Rc-jIG" id="hwW-jm-hhg"/>
                 <outlet property="chapterCounter" destination="98m-xR-mw0" id="tsa-Tf-HrX"/>
                 <outlet property="chapterInfoView" destination="t3O-EF-0h2" id="4vf-Tn-hEJ"/>
                 <outlet property="chapterLink" destination="sam-0S-73x" id="pjd-Tg-E5M"/>

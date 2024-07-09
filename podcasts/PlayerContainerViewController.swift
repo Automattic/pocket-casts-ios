@@ -280,6 +280,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         topSpaceToSafeArea.priority = .defaultHigh
         view.layoutIfNeeded()
     }
+
+    func showTabsAndUnlockScrollView() {
+        mainScrollView.isScrollEnabled = true
+        topSpaceToHeader.priority = .defaultHigh
+        topSpaceToSafeArea.priority = .defaultLow
+        view.layoutIfNeeded()
+    }
 }
 
 private extension PlayerContainerViewController {
