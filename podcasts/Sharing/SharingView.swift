@@ -5,10 +5,12 @@ import PocketCastsUtils
 class ClipTime: ObservableObject {
     @Published var start: TimeInterval
     @Published var end: TimeInterval
+    @Published var playback: TimeInterval
 
     init(start: TimeInterval, end: TimeInterval) {
         self.start = start
         self.end = end
+        self.playback = start
     }
 }
 
@@ -49,11 +51,7 @@ struct SharingView: View {
                 buttons
             case .clip:
                 VStack(spacing: 16) {
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(.gray)
-                        Text("Timeline")
-                    }
+                    MediaTrimBar(clipTime: clipTime)
                         .frame(height: 72)
                         .tint(color)
                     Button("Clip", action: {
