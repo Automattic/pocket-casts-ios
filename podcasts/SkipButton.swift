@@ -47,7 +47,7 @@ class SkipButton: UIButton {
         animationView.clipsToBounds = false
 
         skipLabel.textAlignment = .center
-        skipLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        skipLabel.font = UIFont.systemFont(ofSize: Size.large.sizes.fontSize, weight: .medium)
         skipLabel.textColor = UIColor.white
 
         addTarget(self, action: #selector(playAnimation), for: .touchUpInside)
@@ -66,9 +66,9 @@ class SkipButton: UIButton {
         setupViews()
     }
 
-    private lazy var animationHeightAnchor = animationView.heightAnchor.constraint(equalToConstant: 53)
-    private lazy var animationWidthAnchor = animationView.widthAnchor.constraint(equalToConstant: 45)
-    private lazy var skipLabelTopAnchor = skipLabel.topAnchor.constraint(equalTo: animationView.topAnchor, constant: 8)
+    private lazy var animationHeightAnchor = animationView.heightAnchor.constraint(equalToConstant: Size.large.sizes.height)
+    private lazy var animationWidthAnchor = animationView.widthAnchor.constraint(equalToConstant: Size.large.sizes.width)
+    private lazy var skipLabelTopAnchor = skipLabel.topAnchor.constraint(equalTo: animationView.topAnchor, constant: Size.large.sizes.topPadding)
 
     func setupViews() {
         animationView.translatesAutoresizingMaskIntoConstraints = false
@@ -103,10 +103,20 @@ class SkipButton: UIButton {
         animationView.play()
     }
 
-    func change(width: CGFloat, height: CGFloat, fontSize: CGFloat) {
-        animationHeightAnchor.constant = height
-        animationWidthAnchor.constant = width
-        skipLabel.font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
-        skipLabelTopAnchor.constant = 5
+    func changeSize(to size: Size) {
+        let sizes = size.sizes
+        animationHeightAnchor.constant = sizes.height
+        animationWidthAnchor.constant = sizes.width
+        skipLabel.font = UIFont.systemFont(ofSize: sizes.fontSize, weight: .medium)
+        skipLabelTopAnchor.constant = sizes.topPadding
+    }
+
+    enum Size {
+        case small
+        case large
+
+        var sizes: (width: CGFloat, height: CGFloat, fontSize: CGFloat, topPadding: CGFloat) {
+            self == .small ? (32, 32, 10, 5) : (45, 53, 14, 8)
+        }
     }
 }

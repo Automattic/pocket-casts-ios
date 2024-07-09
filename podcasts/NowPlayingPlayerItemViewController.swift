@@ -369,8 +369,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             fillView.isHidden = false
 
             // Change skip back and forward size
-            skipBackBtn.change(width: 32, height: 32, fontSize: 10)
-            skipFwdBtn.change(width: 32, height: 32, fontSize: 10)
+            skipBackBtn.changeSize(to: .small)
+            skipFwdBtn.changeSize(to: .small)
             skipBackBtn.layoutIfNeeded()
             skipFwdBtn.layoutIfNeeded()
 
