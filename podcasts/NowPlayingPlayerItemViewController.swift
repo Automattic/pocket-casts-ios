@@ -188,37 +188,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             overflowTapped()
         }
 
-        displayTranscripts = true
-
-        (self.parent as? PlayerContainerViewController)?.mainScrollView.isScrollEnabled = false
-
-        UIView.animate(withDuration: 0.8,
-                           delay: 0.0,
-                           usingSpringWithDamping: 0.9,
-                           initialSpringVelocity: 1,
-                           options: [],
-                           animations: {
-            self.shelfBg.isHidden = true
-            self.shelfBg.layer.opacity = 0
-            self.episodeInfoView.superview?.isHidden = true
-            self.episodeInfoView.superview?.layer.opacity = 0
-            self.episodeImage.isHidden = true
-            self.episodeImage.layer.opacity = 0
-            (self.timeSliderHolderView.superview as! UIStackView).distribution = .fill
-            (self.timeSliderHolderView.superview as! UIStackView).spacing = 10
-            self.fillView.isHidden = false
-            self.view.layoutIfNeeded()
-
-            self.skipBackBtn.change(width: 32, height: 32, fontSize: 10)
-            self.skipFwdBtn.change(width: 32, height: 32, fontSize: 10)
-            self.skipBackBtn.layoutIfNeeded()
-            self.skipFwdBtn.layoutIfNeeded()
-
-            (self.parent as? PlayerContainerViewController)?.topSpaceToHeader.priority = .defaultLow
-            (self.parent as? PlayerContainerViewController)?.topSpaceToSafeArea.priority = .defaultHigh
-            (self.parent as? PlayerContainerViewController)?.view.layoutIfNeeded()
-                            },
-                           completion: nil)
+        displayTranscript = true
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
@@ -227,7 +197,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         .player
     }
 
-    var displayTranscripts = false
+    var displayTranscript = false {
+        didSet {
+            displayTranscript ? showTranscript() : hideTranscript()
+        }
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -240,7 +214,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let spacing: CGFloat = screenHeight > 600 ? 30 : 20
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        if displayTranscripts {
+        if displayTranscript {
             playPauseHeightConstraint.constant = 40
         } else {
             let height: CGFloat = screenHeight > 710 ? 100 : 80
@@ -369,5 +343,45 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         navController.modalPresentationStyle = .fullScreen
 
         present(navController, animated: true, completion: nil)
+    }
+
+    private func showTranscript() {
+        UIView.animate(withDuration: 0.35, animations: { [weak self] in
+            guard let self else { return }
+
+            // Hide shelf
+            shelfBg.isHidden = true
+            shelfBg.layer.opacity = 0
+
+            // Hide episode info/chapter/etc
+            episodeInfoView.superview?.isHidden = true
+            episodeInfoView.superview?.layer.opacity = 0
+
+            // Hide episode artwork
+            episodeImage.isHidden = true
+            episodeImage.layer.opacity = 0
+
+            // Change the stack view that contains the player button
+            (timeSliderHolderView.superview as! UIStackView).distribution = .fill
+            (timeSliderHolderView.superview as! UIStackView).spacing = 10
+
+            // Display the view that will fill the empty space
+            fillView.isHidden = false
+
+            // Change skip back and forward size
+            skipBackBtn.change(width: 32, height: 32, fontSize: 10)
+            skipFwdBtn.change(width: 32, height: 32, fontSize: 10)
+            skipBackBtn.layoutIfNeeded()
+            skipFwdBtn.layoutIfNeeded()
+
+            // Ask parent VC to hide tabs
+            (parent as? PlayerContainerViewController)?.hideTabsAndLockScrollView()
+        }, completion: { _ in
+
+        })
+    }
+
+    private func hideTranscript() {
+
     }
 }
