@@ -197,10 +197,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         .player
     }
 
-    var displayTranscript = false {
+    private var displayTranscript = false {
         didSet {
             displayTranscript ? showTranscript() : hideTranscript()
         }
+    }
+
+    private var playerContainer: PlayerContainerViewController? {
+        parent as? PlayerContainerViewController
     }
 
     override func viewDidLayoutSubviews() {
@@ -375,7 +379,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             skipFwdBtn.layoutIfNeeded()
 
             // Ask parent VC to hide tabs
-            (parent as? PlayerContainerViewController)?.hideTabsAndLockScrollView()
+            playerContainer?.hideTabsAndLockScrollView()
         }, completion: { _ in
 
         })
