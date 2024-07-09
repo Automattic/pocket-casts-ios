@@ -188,6 +188,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             overflowTapped()
         }
 
+        displayTranscripts = true
+
+        (self.parent as? PlayerContainerViewController)?.mainScrollView.isScrollEnabled = false
+
         UIView.animate(withDuration: 0.8,
                            delay: 0.0,
                            usingSpringWithDamping: 0.9,
@@ -200,15 +204,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             self.episodeInfoView.superview?.layer.opacity = 0
             self.episodeImage.isHidden = true
             self.episodeImage.layer.opacity = 0
-            self.playPauseHeightConstraint.constant = 40
             (self.playPauseBtn.superview as! UIStackView).distribution = .fill
             self.fillView.isHidden = false
             self.view.layoutIfNeeded()
 
-//            (self.parent as? PlayerContainerViewController)?.headerView.isHidden = true
+            self.skipBackBtn.change(width: 32, height: 32, fontSize: 10)
+            self.skipFwdBtn.change(width: 32, height: 32, fontSize: 10)
+
             (self.parent as? PlayerContainerViewController)?.topSpaceToHeader.priority = .defaultLow
             (self.parent as? PlayerContainerViewController)?.topSpaceToSafeArea.priority = .defaultHigh
-//
             (self.parent as? PlayerContainerViewController)?.view.layoutIfNeeded()
                             },
                            completion: nil)

@@ -66,14 +66,18 @@ class SkipButton: UIButton {
         setupViews()
     }
 
+    private lazy var animationHeightAnchor = animationView.heightAnchor.constraint(equalToConstant: 53)
+    private lazy var animationWidthAnchor = animationView.widthAnchor.constraint(equalToConstant: 45)
+    private lazy var skipLabelTopAnchor = skipLabel.topAnchor.constraint(equalTo: animationView.topAnchor, constant: 8)
+
     func setupViews() {
         animationView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(animationView)
 
         let xConstraint = skipBack ? trailingAnchor.constraint(equalTo: animationView.trailingAnchor, constant: SkipButton.buttonPadding) : animationView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: SkipButton.buttonPadding)
         NSLayoutConstraint.activate([
-            animationView.heightAnchor.constraint(equalToConstant: 53),
-            animationView.widthAnchor.constraint(equalToConstant: 45),
+            animationHeightAnchor,
+            animationWidthAnchor,
             xConstraint,
             animationView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
@@ -84,7 +88,7 @@ class SkipButton: UIButton {
             skipLabel.leadingAnchor.constraint(equalTo: animationView.leadingAnchor),
             skipLabel.trailingAnchor.constraint(equalTo: animationView.trailingAnchor),
             skipLabel.bottomAnchor.constraint(equalTo: animationView.bottomAnchor),
-            skipLabel.topAnchor.constraint(equalTo: animationView.topAnchor, constant: 8)
+            skipLabelTopAnchor
         ])
     }
 
@@ -97,5 +101,12 @@ class SkipButton: UIButton {
     @objc private func playAnimation() {
         animationView.currentProgress = 0
         animationView.play()
+    }
+
+    func change(width: CGFloat, height: CGFloat, fontSize: CGFloat) {
+        animationHeightAnchor.constant = height
+        animationWidthAnchor.constant = width
+        skipLabel.font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
+        skipLabelTopAnchor.constant = 5
     }
 }
