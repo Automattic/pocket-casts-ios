@@ -204,12 +204,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             self.episodeInfoView.superview?.layer.opacity = 0
             self.episodeImage.isHidden = true
             self.episodeImage.layer.opacity = 0
-            (self.playPauseBtn.superview as! UIStackView).distribution = .fill
+            (self.timeSliderHolderView.superview as! UIStackView).distribution = .fill
+            (self.timeSliderHolderView.superview as! UIStackView).spacing = 10
             self.fillView.isHidden = false
             self.view.layoutIfNeeded()
 
             self.skipBackBtn.change(width: 32, height: 32, fontSize: 10)
             self.skipFwdBtn.change(width: 32, height: 32, fontSize: 10)
+            self.skipBackBtn.layoutIfNeeded()
+            self.skipFwdBtn.layoutIfNeeded()
 
             (self.parent as? PlayerContainerViewController)?.topSpaceToHeader.priority = .defaultLow
             (self.parent as? PlayerContainerViewController)?.topSpaceToSafeArea.priority = .defaultHigh
