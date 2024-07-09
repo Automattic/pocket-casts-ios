@@ -33,14 +33,13 @@ final class GravatarSafariViewController: SFSafariViewController {
 
 fileprivate extension URLQueryItem {
     func percentEncoded() -> URLQueryItem {
-        /// addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) encode parameters following RFC 3986
-        /// According to RFC 3986, `+` is a valid character so it is not encoded.
-        /// We should encode "+" sign with its HTTP equivalent.
+        /// `addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)` encode parameters following RFC 3986
+        /// and it treats many special characters valid and leaves them unencoded.
+        /// We need to "URL encode" all non-alphanumberic characters like "+", "@"... So we instead pass `.alphanumerics` here.
 
         var newQueryItem = self
         newQueryItem.value = value?
-            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)?
-            .replacingOccurrences(of: "+", with: "%2B")
+            .addingPercentEncoding(withAllowedCharacters: .alphanumerics)
 
         return newQueryItem
     }
