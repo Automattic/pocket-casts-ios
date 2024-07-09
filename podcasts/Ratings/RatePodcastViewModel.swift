@@ -61,6 +61,9 @@ class RatePodcastViewModel: ObservableObject {
             guard let self else { return }
             let count = await self.dataManager.findPlayedEpisodesCount(podcastId: id)
             self.userCanRate = count < Constants.Values.numberOfEpisodesListenedRequiredToRate ? .disallowed : .allowed
+            if self.userCanRate == .allowed {
+                // API to fetch the rate list and check if the user needs to update or submit a rate
+            }
         }
     }
 
