@@ -90,7 +90,7 @@ class EpisodeDataManager {
                 do {
                     let resultSet = try db.executeQuery(query, values: [podcastId])
                     defer { resultSet.close() }
-                    
+
                     if resultSet.next() {
                         count = Int(resultSet.int(forColumn: "Count"))
                     }
