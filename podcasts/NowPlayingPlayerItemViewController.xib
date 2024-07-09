@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,6 +20,7 @@
                 <outlet property="episodeImage" destination="dXr-Zd-0wP" id="g0t-eE-u5G"/>
                 <outlet property="episodeInfoView" destination="MLe-7y-U6n" id="0K2-Ws-I3X"/>
                 <outlet property="episodeName" destination="ool-HF-az4" id="87D-Nv-oIM"/>
+                <outlet property="fillView" destination="sbN-fi-Mv7" id="AN8-6l-tnT"/>
                 <outlet property="floatingVideoView" destination="auM-3f-elA" id="OGa-U7-JAh"/>
                 <outlet property="playPauseBtn" destination="XXp-BW-AVr" id="Di2-7G-pn5"/>
                 <outlet property="playPauseHeightConstraint" destination="dtu-hS-iiu" id="s0N-0P-nEh"/>
@@ -42,6 +43,13 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="WxQ-7h-0WZ">
                     <rect key="frame" x="0.0" y="8" width="414" height="858"/>
                     <subviews>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sbN-fi-Mv7">
+                            <rect key="frame" x="0.0" y="-50" width="414" height="50"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="l1V-3a-EuZ"/>
+                            </constraints>
+                        </view>
                         <imageView contentMode="scaleAspectFit" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dXr-Zd-0wP">
                             <rect key="frame" x="30" y="0.0" width="354" height="354"/>
                             <accessibility key="accessibilityConfiguration" label="Podcast Artwork">
@@ -324,6 +332,7 @@
                         </stackView>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="sbN-fi-Mv7" firstAttribute="width" secondItem="WxQ-7h-0WZ" secondAttribute="width" id="0Qg-hG-Xav"/>
                         <constraint firstAttribute="trailing" secondItem="Sme-fz-BDA" secondAttribute="trailing" constant="20" id="9GS-az-gTh"/>
                         <constraint firstAttribute="trailing" secondItem="UmO-Rc-jIG" secondAttribute="trailing" id="Lgo-ja-KKq"/>
                         <constraint firstItem="Sme-fz-BDA" firstAttribute="leading" secondItem="dXr-Zd-0wP" secondAttribute="leading" priority="750" id="X7s-hz-x0i"/>

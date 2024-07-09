@@ -148,6 +148,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playPauseHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var fillView: UIView!
+
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
@@ -185,6 +187,31 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if AnnouncementFlow.current == .bookmarksPlayer {
             overflowTapped()
         }
+
+        UIView.animate(withDuration: 0.8,
+                           delay: 0.0,
+                           usingSpringWithDamping: 0.9,
+                           initialSpringVelocity: 1,
+                           options: [],
+                           animations: {
+            self.shelfBg.isHidden = true
+            self.shelfBg.layer.opacity = 0
+            self.episodeInfoView.superview?.isHidden = true
+            self.episodeInfoView.superview?.layer.opacity = 0
+            self.episodeImage.isHidden = true
+            self.episodeImage.layer.opacity = 0
+            self.playPauseHeightConstraint.constant = 40
+            (self.playPauseBtn.superview as! UIStackView).distribution = .fill
+            self.fillView.isHidden = false
+            self.view.layoutIfNeeded()
+
+//            (self.parent as? PlayerContainerViewController)?.headerView.isHidden = true
+            (self.parent as? PlayerContainerViewController)?.topSpaceToHeader.priority = .defaultLow
+            (self.parent as? PlayerContainerViewController)?.topSpaceToSafeArea.priority = .defaultHigh
+//
+            (self.parent as? PlayerContainerViewController)?.view.layoutIfNeeded()
+                            },
+                           completion: nil)
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
@@ -192,6 +219,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var analyticsSource: AnalyticsSource {
         .player
     }
+
+    var displayTranscripts = false
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -204,8 +233,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let spacing: CGFloat = screenHeight > 600 ? 30 : 20
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        let height: CGFloat = screenHeight > 710 ? 100 : 80
-        if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
+        if displayTranscripts {
+            playPauseHeightConstraint.constant = 40
+        } else {
+            let height: CGFloat = screenHeight > 710 ? 100 : 80
+            if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
+        }
     }
 
     override func willBeAddedToPlayer() {

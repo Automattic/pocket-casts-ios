@@ -25,6 +25,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet var headerHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var topSpaceToHeader: NSLayoutConstraint!
+    
+    @IBOutlet weak var topSpaceToSafeArea: NSLayoutConstraint!
+    
     lazy var nowPlayingItem: NowPlayingPlayerItemViewController = {
         let item = NowPlayingPlayerItemViewController()
         item.containerDelegate = self
