@@ -7,8 +7,9 @@ enum SharingModal {
     /// Share options including which type of content will be shared
     enum Option {
         case episode(Episode)
-        case currentPosition(Episode, TimeInterval)
         case podcast(Podcast)
+        case currentPosition(Episode, TimeInterval)
+        case clip(Episode, TimeInterval)
 
         var buttonTitle: String {
             switch self {
@@ -18,6 +19,8 @@ enum SharingModal {
                 L10n.shareCurrentPosition
             case .podcast:
                 L10n.podcastSingular
+            case .clip:
+                L10n.clip
             }
         }
 
@@ -29,6 +32,8 @@ enum SharingModal {
                 L10n.shareEpisodeAt(TimeFormatter.shared.playTimeFormat(time: time))
             case .podcast:
                 L10n.sharePodcast
+            case .clip:
+                L10n.createClip
             }
         }
 
@@ -37,7 +42,8 @@ enum SharingModal {
                 [
                     .episode(episode),
                     .podcast(podcast),
-                    .currentPosition(episode, currentTime)
+                    .currentPosition(episode, currentTime),
+                    .clip(episode, currentTime)
                 ]
             } else {
                 [
@@ -60,7 +66,14 @@ enum SharingModal {
 
         let optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)
 
-        let actions: [OptionAction] = Option.allCases(episode: episode, podcast: podcast, currentTime: episode?.playedUpTo ?? 0).map { option in
+        let timeInterval: Double
+        if PlaybackManager.shared.currentEpisode()?.uuid == episode?.uuid {
+            timeInterval = PlaybackManager.shared.currentTime()
+        } else {
+            timeInterval = episode?.playedUpTo ?? 0
+        }
+
+        let actions: [OptionAction] = Option.allCases(episode: episode, podcast: podcast, currentTime: timeInterval).map { option in
                 .init(label: option.buttonTitle, action: {
                 show(option: option, in: viewController)
             })
@@ -94,7 +107,7 @@ enum SharingModal {
 extension SharingModal.Option {
     private var description: String {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _):
             if let date = episode.publishedDate {
                 return date.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted))
             } else {
@@ -107,7 +120,7 @@ extension SharingModal.Option {
 
     private var title: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _):
             episode.title
         case .podcast(let podcast):
             podcast.title
@@ -116,7 +129,7 @@ extension SharingModal.Option {
 
     private var name: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _):
             episode.parentPodcast()?.title
         case .podcast(let podcast):
             podcast.author
@@ -125,7 +138,7 @@ extension SharingModal.Option {
 
     private var podcast: Podcast {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _):
             return episode.parentPodcast()!
         case .podcast(let podcast):
             return podcast
@@ -153,6 +166,8 @@ extension SharingModal.Option {
         case .podcast(let podcast):
             return podcast.shareURL
         case .currentPosition(let episode, let timeInterval):
+            return episode.shareURL + "?t=\(round(timeInterval))"
+        case .clip(let episode, let timeInterval):
             return episode.shareURL + "?t=\(round(timeInterval))"
         }
     }

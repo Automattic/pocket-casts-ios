@@ -4159,3 +4159,9 @@
 
 /* A common string used throughout the app. Often refers to the Transcript tab in the player. */
 "transcript" = "Transcript";
+
+/* A title shown for a share option which creates an audio clip of an episode */
+"create_clip" = "Create clip";
+
+/* Shown in a button when creating a shareable audio clip of an episode */
+"clip" = "Clip";
