@@ -6,11 +6,12 @@ struct AudioWaveformView: View {
     var scale: CGFloat
     var width: CGFloat
 
-    enum LineHeight: Int, CaseIterable {
-        case shortest = 0
-        case medium = 1
-        case tallest = 2
+    enum LineHeight: CaseIterable {
+        case shortest
+        case medium
+        case tallest
 
+        /// The height of the line as a fraction of the full height of the view
         var fraction: CGFloat {
             switch self {
             case .shortest: return 0.1
@@ -19,6 +20,7 @@ struct AudioWaveformView: View {
             }
         }
 
+        /// Determines how when each line type begins fading
         var fadeStartScale: CGFloat {
             switch self {
             case .shortest: return 1.8
@@ -27,8 +29,9 @@ struct AudioWaveformView: View {
             }
         }
 
+        /// Determines how quickly each line type fades out
         var fadeDuration: CGFloat {
-            return 0.5  // This determines how quickly each line type fades out
+            return 0.5
         }
     }
 

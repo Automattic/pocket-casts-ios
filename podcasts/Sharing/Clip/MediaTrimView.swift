@@ -17,7 +17,7 @@ struct MediaTrimView: View {
     }
 
     private enum Colors {
-        static var trimBorderColor = Color(hex: "6B6B6B")
+        static var trimBorderColor = Color(hex: "6B6B6B").opacity(0.28)
     }
 
     var body: some View {
@@ -37,12 +37,6 @@ struct MediaTrimView: View {
                             scrollable.scrollTo("\(currentSecond)", anchor: .center)
                         }
                     }
-                    .onChange(of: playTime) { _ in
-                        //TODO: Change this to listen to the play/pause event?
-                        let currentSecond = Int(playTime)
-                        scrollable.scrollTo("\(currentSecond)", anchor: .center)
-                        playPosition = durationRelative(value: playTime, for: geometry.size.width)
-                    }
                 .onAppear {
                     initializePositions(in: geometry)
                     DispatchQueue.main.async {
@@ -57,7 +51,7 @@ struct MediaTrimView: View {
     private func borderView(in geometry: GeometryProxy) -> some View {
         RoundedRectangle(cornerRadius: 20)
             .fill(Color.clear)
-            .border(Colors.trimBorderColor.opacity(0.28), width: Constants.trimLineWidth)
+            .border(Colors.trimBorderColor, width: Constants.trimLineWidth)
     }
 
     private func scaledPosition(_ position: Binding<CGFloat>) -> Binding<CGFloat> {
