@@ -56,7 +56,7 @@ struct SharingView: View {
                     }
                         .frame(height: 72)
                         .tint(color)
-                    Button("Clip", action: {
+                    Button(L10n.clip, action: {
                         print("Clip: s:\(clipTime.start) e:\(clipTime.end)")
                     }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
                 }
