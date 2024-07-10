@@ -13,7 +13,7 @@ public struct JSONDecodableURLTask<Response: Decodable> {
         self.decoder = decoder
     }
 
-    public func get(urlString: String, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy) async throws -> Response? {
+    public func get(urlString: String, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy) async throws -> Response {
         let url = try URL(throwing: urlString)
 
         var request = URLRequest(url: url)
@@ -23,7 +23,7 @@ public struct JSONDecodableURLTask<Response: Decodable> {
         return try await perform(request: request)
     }
 
-    public func post(urlString: String, body: Any, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy) async throws -> Response? {
+    public func post(urlString: String, body: Any, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy) async throws -> Response {
         let url = try URL(throwing: urlString)
 
         var request = URLRequest(url: url)
@@ -33,7 +33,7 @@ public struct JSONDecodableURLTask<Response: Decodable> {
         return try await perform(request: request)
     }
 
-    public func perform(request: URLRequest) async throws -> Response? {
+    public func perform(request: URLRequest) async throws -> Response {
         let (data, _) = try await session.data(for: request)
 
         return try decoder.decode(Response.self, from: data)

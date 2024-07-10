@@ -38,7 +38,7 @@ class PodcastRatingViewModel: ObservableObject {
         state = .loading
 
         Task {
-            let rating = try? await RetrievePodcastRatingTask().retrieve(for: uuid)
+            let rating = try? await PodcastRatingTask().retrieve(for: uuid)
 
             // Publish on main thread only
             await MainActor.run {

@@ -1,10 +1,13 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
 
 class RatePodcastViewModel: ObservableObject {
     @Binding var presented: Bool
 
     @Published var userCanRate: UserCanRate = .checking
+
+    @Published var userRatingAction: UserRatingAction = .add
 
     @Published var isSubmitting: Bool = false
 
@@ -36,7 +39,7 @@ class RatePodcastViewModel: ObservableObject {
         self._presented = presented
         self.podcast = podcast
         self.dataManager = dataManager
-        checkIfUserCanRatePodcast(id: podcast.id)
+        checkIfUserCanRatePodcast(id: podcast.id, uuid: podcast.uuid)
     }
 
     func buttonAction() {
@@ -56,21 +59,32 @@ class RatePodcastViewModel: ObservableObject {
         presented = false
     }
 
-    private func checkIfUserCanRatePodcast(id: Int64) {
+    private func checkIfUserCanRatePodcast(id: Int64, uuid: String) {
         Task { @MainActor [weak self] in
             guard let self else { return }
             let count = await self.dataManager.findPlayedEpisodesCount(podcastId: id)
             let userCanRate: UserCanRate = count < Constants.Values.numberOfEpisodesListenedRequiredToRate ? .disallowed : .allowed
             if userCanRate == .allowed {
-                // API to fetch the rate list and check if the user needs to update or submit a rate
+                self.userRatingAction = try await self.userRatingAction(uuid: uuid)
             }
             self.userCanRate = userCanRate
         }
+    }
+
+    private func userRatingAction(uuid: String) async throws -> UserRatingAction {
+        let list = try await PodcastRatingTask().getRatingsList()
+        let rating = list.first { $0.podcastUuid == uuid }
+        return rating != nil ? .update : .add
     }
 
     enum UserCanRate {
         case checking
         case allowed
         case disallowed
+    }
+    
+    enum UserRatingAction {
+        case add
+        case update
     }
 }
