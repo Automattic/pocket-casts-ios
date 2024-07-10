@@ -68,8 +68,8 @@ extension NowPlayingPlayerItemViewController {
     private func updateColors() {
         let backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         view.backgroundColor = backgroundColor
-        transcriptContainerView.backgroundColor = view.backgroundColor
         playPauseBtn.playButtonColor = backgroundColor
+        transcriptContainerView.backgroundColor = backgroundColor
 
         let buttonColor = ThemeColor.playerContrast01()
         playPauseBtn.circleColor = buttonColor
