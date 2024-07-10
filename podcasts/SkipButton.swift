@@ -70,7 +70,8 @@ class SkipButton: UIButton {
 
     private lazy var animationHeightAnchor = animationView.heightAnchor.constraint(equalToConstant: Size.large.sizes.height)
     private lazy var animationWidthAnchor = animationView.widthAnchor.constraint(equalToConstant: Size.large.sizes.width)
-    private lazy var skipLabelTopAnchor = skipLabel.topAnchor.constraint(equalTo: animationView.topAnchor, constant: Size.large.sizes.topPadding)
+    private lazy var skipLabelCenterYAnchor = skipLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Size.large.sizes.topPadding / 2)
+    private lazy var skipLabelXConstraint = skipBack ? trailingAnchor.constraint(equalTo: skipLabel.trailingAnchor, constant: SkipButton.buttonPadding) : skipLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: SkipButton.buttonPadding)
 
     func setupViews() {
         animationView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,10 +88,10 @@ class SkipButton: UIButton {
         addSubview(skipLabel)
         skipLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            skipLabel.leadingAnchor.constraint(equalTo: animationView.leadingAnchor),
-            skipLabel.trailingAnchor.constraint(equalTo: animationView.trailingAnchor),
-            skipLabel.bottomAnchor.constraint(equalTo: animationView.bottomAnchor),
-            skipLabelTopAnchor
+            skipLabel.heightAnchor.constraint(equalToConstant: Size.large.sizes.height),
+            skipLabel.widthAnchor.constraint(equalToConstant: Size.large.sizes.width),
+            skipLabelXConstraint,
+            skipLabelCenterYAnchor
         ])
     }
 
@@ -110,8 +111,13 @@ class SkipButton: UIButton {
         let sizes = currentSize.sizes
         animationHeightAnchor.constant = sizes.height
         animationWidthAnchor.constant = sizes.width
-        skipLabel.font = UIFont.systemFont(ofSize: sizes.fontSize, weight: .medium)
-        skipLabelTopAnchor.constant = sizes.topPadding
+        skipLabelCenterYAnchor.constant = sizes.topPadding / 2
+
+        let labelScale = UIFont.systemFont(ofSize: sizes.fontSize, weight: .medium).pointSize / skipLabel.font.pointSize
+        skipLabel.transform = .init(scaleX: labelScale, y: labelScale)
+
+        let subtract = currentSize == .small ? (Size.large.sizes.width - Size.small.sizes.width) / 2 : 0
+        skipLabelXConstraint.constant = SkipButton.buttonPadding - subtract
     }
 
     enum Size {
