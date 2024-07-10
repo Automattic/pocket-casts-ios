@@ -220,12 +220,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let spacing: CGFloat = screenHeight > 600 ? 30 : 20
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        if displayTranscript {
-            playPauseHeightConstraint.constant = 40
-        } else {
-            let height: CGFloat = screenHeight > 710 ? 100 : 80
-            if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
-        }
+        let height: CGFloat = displayTranscript ? 40 : screenHeight > 710 ? 100 : 80
+        if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
     }
 
     override func willBeAddedToPlayer() {
