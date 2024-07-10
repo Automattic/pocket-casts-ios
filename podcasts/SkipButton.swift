@@ -36,6 +36,8 @@ class SkipButton: UIButton {
     private var animationView: LottieAnimationView
     private let skipLabel: UILabel
 
+    var currentSize: Size = .large
+
     required init?(coder aDecoder: NSCoder) {
         animationView = LottieAnimationView(name: "skip_button")
         skipLabel = UILabel()
@@ -104,7 +106,8 @@ class SkipButton: UIButton {
     }
 
     func changeSize(to size: Size) {
-        let sizes = size.sizes
+        currentSize = size
+        let sizes = currentSize.sizes
         animationHeightAnchor.constant = sizes.height
         animationWidthAnchor.constant = sizes.width
         skipLabel.font = UIFont.systemFont(ofSize: sizes.fontSize, weight: .medium)
@@ -118,5 +121,34 @@ class SkipButton: UIButton {
         var sizes: (width: CGFloat, height: CGFloat, fontSize: CGFloat, topPadding: CGFloat) {
             self == .small ? (32, 32, 10, 5) : (45, 53, 14, 8)
         }
+    }
+
+    // When using UIVIew.animate LottieAnimationView doesn't play nice with it
+    // Here we snapshot the view to provide a smooth animation
+    func prepareForAnimateTransition(withBackground: UIColor?) {
+        guard let lottieView = subviews.first as? LottieAnimationView,
+              let snapshot = lottieView.snapshotView(afterScreenUpdates: false) else { return }
+
+        let multiplier = currentSize == .large ? Size.large.sizes.width / Size.large.sizes.height : Size.large.sizes.height / Size.large.sizes.width
+
+        snapshot.translatesAutoresizingMaskIntoConstraints = false
+        snapshot.backgroundColor = withBackground
+        subviews.first?.addSubview(snapshot)
+        NSLayoutConstraint.activate([
+            snapshot.widthAnchor.constraint(equalTo: lottieView.widthAnchor, multiplier: multiplier),
+            snapshot.heightAnchor.constraint(equalTo: lottieView.heightAnchor),
+            snapshot.centerXAnchor.constraint(equalTo: lottieView.centerXAnchor),
+            snapshot.centerYAnchor.constraint(equalTo: lottieView.centerYAnchor)
+        ])
+
+        animationView.clipsToBounds = true
+    }
+
+    func finishedTransition() {
+        guard let lottieView = subviews.first else { return }
+
+
+        animationView.clipsToBounds = false
+        lottieView.subviews.first?.removeFromSuperview()
     }
 }
