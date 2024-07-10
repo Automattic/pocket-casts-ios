@@ -36,7 +36,12 @@ class SkipButton: UIButton {
     private var animationView: LottieAnimationView
     private let skipLabel: UILabel
 
-    var currentSize: Size = .large
+    private var currentSize: Size = .large
+
+    private lazy var animationHeightAnchor = animationView.heightAnchor.constraint(equalToConstant: Size.large.sizes.height)
+    private lazy var animationWidthAnchor = animationView.widthAnchor.constraint(equalToConstant: Size.large.sizes.width)
+    private lazy var skipLabelCenterYAnchor = skipLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Size.large.sizes.topPadding / 2)
+    private lazy var skipLabelXConstraint = skipBack ? trailingAnchor.constraint(equalTo: skipLabel.trailingAnchor, constant: SkipButton.buttonPadding) : skipLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: SkipButton.buttonPadding)
 
     required init?(coder aDecoder: NSCoder) {
         animationView = LottieAnimationView(name: "skip_button")
@@ -67,11 +72,6 @@ class SkipButton: UIButton {
 
         setupViews()
     }
-
-    private lazy var animationHeightAnchor = animationView.heightAnchor.constraint(equalToConstant: Size.large.sizes.height)
-    private lazy var animationWidthAnchor = animationView.widthAnchor.constraint(equalToConstant: Size.large.sizes.width)
-    private lazy var skipLabelCenterYAnchor = skipLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Size.large.sizes.topPadding / 2)
-    private lazy var skipLabelXConstraint = skipBack ? trailingAnchor.constraint(equalTo: skipLabel.trailingAnchor, constant: SkipButton.buttonPadding) : skipLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: SkipButton.buttonPadding)
 
     func setupViews() {
         animationView.translatesAutoresizingMaskIntoConstraints = false
@@ -120,15 +120,6 @@ class SkipButton: UIButton {
         skipLabelXConstraint.constant = SkipButton.buttonPadding - subtract
     }
 
-    enum Size {
-        case small
-        case large
-
-        var sizes: (width: CGFloat, height: CGFloat, fontSize: CGFloat, topPadding: CGFloat) {
-            self == .small ? (32, 32, 10, 5) : (45, 53, 14, 8)
-        }
-    }
-
     // When using UIVIew.animate LottieAnimationView doesn't play nice with it
     // Here we snapshot the view to provide a smooth animation
     func prepareForAnimateTransition(withBackground: UIColor?) {
@@ -156,5 +147,14 @@ class SkipButton: UIButton {
 
         animationView.clipsToBounds = false
         lottieView.subviews.first?.removeFromSuperview()
+    }
+
+    enum Size {
+        case small
+        case large
+
+        var sizes: (width: CGFloat, height: CGFloat, fontSize: CGFloat, topPadding: CGFloat) {
+            self == .small ? (32, 32, 10, 5) : (45, 53, 14, 8)
+        }
     }
 }
