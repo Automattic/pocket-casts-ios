@@ -3999,7 +3999,7 @@
 "rating_submitted" = "Your rating was submitted!";
 
 /* Thank you message that a user rating for a podcast was submitted */
-"rating_thank_you" = "Thank you for rating";
+"rating_thank_you" = "Thank you for rating!";
 
 /* Error message when a user rating for a podcast couldn't be submitted */
 "rating_error" = "Ops! There was an error.";
