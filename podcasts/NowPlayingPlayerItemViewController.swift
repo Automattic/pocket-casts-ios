@@ -352,6 +352,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     private func showTranscript() {
+        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        playPauseBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+
         transcriptContainerView.layer.opacity = 0
         UIView.animate(withDuration: 0.35, animations: { [weak self] in
             guard let self else { return }
@@ -379,12 +383,20 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
             // Ask parent VC to hide tabs
             playerContainer?.hideTabsAndLockScrollView()
-        }, completion: { _ in
+        }, completion: { [weak self] _ in
+            guard let self else { return }
 
+            playPauseBtn.finishedTransition()
+            skipBackBtn.finishedTransition()
+            skipFwdBtn.finishedTransition()
         })
     }
 
     private func hideTranscript() {
+        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        playPauseBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+
         UIView.animate(withDuration: 0.35, animations: { [weak self] in
             guard let self else { return }
 
@@ -414,6 +426,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             guard let self else { return }
 
             transcriptContainerView.isHidden = true
+
+            playPauseBtn.finishedTransition()
+            skipBackBtn.finishedTransition()
+            skipFwdBtn.finishedTransition()
         })
     }
 }
