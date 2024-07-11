@@ -7359,27 +7359,6 @@ struct Api_PodcastRating {
   fileprivate var _modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
-struct Api_PodcastRatingResponse {
-  // SwiftProtobuf.Message conformance is added in an extension below. See the
-  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-  // methods supported on all messages.
-
-  var podcastRating: Api_PodcastRating {
-    get {return _podcastRating ?? Api_PodcastRating()}
-    set {_podcastRating = newValue}
-  }
-  /// Returns true if `podcastRating` has been explicitly set.
-  var hasPodcastRating: Bool {return self._podcastRating != nil}
-  /// Clears the value of `podcastRating`. Subsequent reads from it will return its default value.
-  mutating func clearPodcastRating() {self._podcastRating = nil}
-
-  var unknownFields = SwiftProtobuf.UnknownStorage()
-
-  init() {}
-
-  fileprivate var _podcastRating: Api_PodcastRating? = nil
-}
-
 struct Api_PodcastRatingsResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -7406,7 +7385,7 @@ struct Api_PodcastRatingAddRequest {
   init() {}
 }
 
-struct Api_PodcastRatingGetRequest {
+struct Api_PodcastRatingShowRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -7577,10 +7556,9 @@ extension Api_BookmarksRequest: @unchecked Sendable {}
 extension Api_BookmarkResponse: @unchecked Sendable {}
 extension Api_BookmarksResponse: @unchecked Sendable {}
 extension Api_PodcastRating: @unchecked Sendable {}
-extension Api_PodcastRatingResponse: @unchecked Sendable {}
 extension Api_PodcastRatingsResponse: @unchecked Sendable {}
 extension Api_PodcastRatingAddRequest: @unchecked Sendable {}
-extension Api_PodcastRatingGetRequest: @unchecked Sendable {}
+extension Api_PodcastRatingShowRequest: @unchecked Sendable {}
 extension Api_PodcastRatingUpdateRequest: @unchecked Sendable {}
 extension Api_PodcastRatingAggregateResponse: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
@@ -18162,42 +18140,6 @@ extension Api_PodcastRating: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
   }
 }
 
-extension Api_PodcastRatingResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".PodcastRatingResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "podcast_rating"),
-  ]
-
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      // The use of inline closures is to circumvent an issue where the compiler
-      // allocates stack space for every case branch when no optimizations are
-      // enabled. https://github.com/apple/swift-protobuf/issues/1034
-      switch fieldNumber {
-      case 1: try { try decoder.decodeSingularMessageField(value: &self._podcastRating) }()
-      default: break
-      }
-    }
-  }
-
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
-    try { if let v = self._podcastRating {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
-    } }()
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  static func ==(lhs: Api_PodcastRatingResponse, rhs: Api_PodcastRatingResponse) -> Bool {
-    if lhs._podcastRating != rhs._podcastRating {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
 extension Api_PodcastRatingsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PodcastRatingsResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
@@ -18268,8 +18210,8 @@ extension Api_PodcastRatingAddRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
   }
 }
 
-extension Api_PodcastRatingGetRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".PodcastRatingGetRequest"
+extension Api_PodcastRatingShowRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PodcastRatingShowRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "podcast_uuid"),
   ]
@@ -18293,7 +18235,7 @@ extension Api_PodcastRatingGetRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Api_PodcastRatingGetRequest, rhs: Api_PodcastRatingGetRequest) -> Bool {
+  static func ==(lhs: Api_PodcastRatingShowRequest, rhs: Api_PodcastRatingShowRequest) -> Bool {
     if lhs.podcastUuid != rhs.podcastUuid {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true

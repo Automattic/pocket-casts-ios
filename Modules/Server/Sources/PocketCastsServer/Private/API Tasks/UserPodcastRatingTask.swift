@@ -56,7 +56,7 @@ class UserPodcastRatingGetTask: ApiBaseTask {
         let urlString = "\(ServerConstants.Urls.api())user/podcast_rating/show"
 
         do {
-            var request = Api_PodcastRatingGetRequest()
+            var request = Api_PodcastRatingShowRequest()
             request.podcastUuid = uuid
 
             let data = try request.serializedData()
