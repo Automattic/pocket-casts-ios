@@ -247,7 +247,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
-        displayTranscript.toggle()
+        analyticsPlaybackHelper.currentSource = analyticsSource
+        HapticsHelper.triggerPlayPauseHaptic()
+        PlaybackManager.shared.playPause()
     }
 
     @IBAction func skipFwdTapped(_ sender: Any) {
