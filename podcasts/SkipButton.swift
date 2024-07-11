@@ -144,7 +144,6 @@ class SkipButton: UIButton {
     func finishedTransition() {
         guard let lottieView = subviews.first else { return }
 
-
         animationView.clipsToBounds = false
         lottieView.subviews.first?.removeFromSuperview()
     }
