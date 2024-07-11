@@ -1,44 +1,29 @@
 import Foundation
-import SwiftSubtitles
 import PocketCastsDataModel
+
+enum TranscriptError: Error {
+    case notAvailable
+    case failedToLoad
+    case notSupported(format: String)
+    case failedToParse
+
+    var localizedDescription: String {
+        switch self {
+        case .notAvailable:
+            return "Transcript not available"
+        case .failedToLoad:
+            return "Transcript failed to load"
+        case .notSupported(let format):
+            return "Transcript format not supported: \(format)"
+        case .failedToParse:
+            return "Transcript failed to parse"
+        }
+    }
+}
 
 class TranscriptManager {
 
     typealias Transcript = Episode.Metadata.Transcript
-
-    enum TranscriptFormat: String {
-        case srt = "application/srt"
-        case vtt = "text/vtt"
-
-        var fileExtension: String {
-            switch self {
-            case .srt:
-                return "srt"
-            case .vtt:
-                return "vtt"
-            }
-        }
-    }
-
-    // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.srt, .vtt]
-
-    enum TranscriptError: Error {
-        case notAvailable
-        case failedToLoad
-        case notSupported(format: String)
-
-        var localizedDescription: String {
-            switch self {
-            case .notAvailable:
-                return "Transcript not available"
-            case .failedToLoad:
-                return "Transcript failed to load"
-            case .notSupported(let format):
-                return "Transcript format not supported: \(format)"
-            }
-        }
-    }
 
     let playbackManager: PlaybackManager
 
@@ -47,7 +32,7 @@ class TranscriptManager {
     }
 
     private func bestTranscript(from available: [Transcript]) -> Transcript? {
-        for format in Self.supportedFormats {
+        for format in TranscriptFormat.supportedFormats {
             if let transcript = available.first(where: { $0.type == format.rawValue}) {
                 return transcript
             }
@@ -55,7 +40,7 @@ class TranscriptManager {
         return available.first
     }
 
-    public func loadTranscript() async throws -> String {
+    public func loadTranscript() async throws -> TranscriptModel {
         guard
             let episode = self.playbackManager.currentEpisode(), let podcast = self.playbackManager.currentPodcast,
             let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid),
@@ -74,14 +59,17 @@ class TranscriptManager {
             throw TranscriptError.failedToLoad
         }
 
-        let subtitle = try Subtitles(content: transcriptText, expectedExtension: transcriptFormat.fileExtension)
-        return String(subtitle.text.joined(separator: "\n"))
+        guard let model = TranscriptModel.makeModel(from: transcriptText, format: transcriptFormat) else {
+            throw TranscriptError.failedToParse
+        }
+
+        return model
     }
 }
 
 extension Episode.Metadata.Transcript {
 
-    var transcriptFormat: TranscriptManager.TranscriptFormat? {
-        return TranscriptManager.TranscriptFormat(rawValue: self.type)
+    var transcriptFormat: TranscriptFormat? {
+        return TranscriptFormat(rawValue: self.type)
     }
 }

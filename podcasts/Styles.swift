@@ -155,15 +155,17 @@ struct BasicButtonStyle: ButtonStyle {
 struct RoundedButtonStyle: ButtonStyle {
     @ObservedObject var theme: Theme
     let textColor: ThemeStyle
+    let backgroundColor: Color?
 
-    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02) {
+    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil) {
         self.theme = theme
         self.textColor = textColor
+        self.backgroundColor = backgroundColor
     }
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let text = AppTheme.color(for: textColor, theme: theme)
-        let background = AppTheme.color(for: .primaryInteractive01, theme: theme)
+        let background = backgroundColor ?? AppTheme.color(for: .primaryInteractive01, theme: theme)
                             .opacity(configuration.isPressed ? 0.6 : 1)
 
         BasicButtonStyle(textColor: text, backgroundColor: background)

@@ -434,6 +434,8 @@ internal enum L10n {
   internal static var clearUpNextMessage: String { return L10n.tr("Localizable", "clear_up_next_message") }
   /// Token authentication failed.
   internal static var clientErrorTokenDeauth: String { return L10n.tr("Localizable", "client_error_token_deauth") }
+  /// Clip
+  internal static var clip: String { return L10n.tr("Localizable", "clip") }
   /// Close
   internal static var close: String { return L10n.tr("Localizable", "close") }
   /// Color
@@ -462,6 +464,8 @@ internal enum L10n {
   internal static var createAccountFreePrice: String { return L10n.tr("Localizable", "create_account_free_price") }
   /// Everything unlocked
   internal static var createAccountPlusDetails: String { return L10n.tr("Localizable", "create_account_plus_details") }
+  /// Create clip
+  internal static var createClip: String { return L10n.tr("Localizable", "create_clip") }
   /// Create Filter
   internal static var createFilter: String { return L10n.tr("Localizable", "create_filter") }
   /// Current Email
@@ -2172,6 +2176,8 @@ internal enum L10n {
   internal static var ratingNoRatings: String { return L10n.tr("Localizable", "rating_no_ratings") }
   /// Your rating was submitted!
   internal static var ratingSubmitted: String { return L10n.tr("Localizable", "rating_submitted") }
+  /// Thank you for rating
+  internal static var ratingThankYou: String { return L10n.tr("Localizable", "rating_thank_you") }
   /// Rate %1$@
   internal static func ratingTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "rating_title", String(describing: p1))
