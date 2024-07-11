@@ -7,7 +7,7 @@ class RatePodcastViewModel: ObservableObject {
 
     @Published var userCanRate: UserCanRate = .checking
 
-    @Published var userRatingAction: UserRatingAction = .add
+    @Published var userPodcastRating: UserPodcastRating?
 
     @Published var isSubmitting: Bool = false
 
@@ -35,6 +35,13 @@ class RatePodcastViewModel: ObservableObject {
         userCanRate != .allowed || userCanRate == .allowed && stars > 0
     }
 
+    var shouldHideButton: Bool {
+        if let userPodcastRating {
+            return Double(userPodcastRating.podcastRating) == stars
+        }
+        return false
+    }
+
     init(presented: Binding<Bool>, podcast: Podcast, dataManager: DataManager = .sharedManager) {
         self._presented = presented
         self.podcast = podcast
@@ -48,10 +55,14 @@ class RatePodcastViewModel: ObservableObject {
 
     func submit() {
         isSubmitting = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.isSubmitting = false
-            self?.dismiss()
-            Toast.show(L10n.ratingThankYou)
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let success = await ApiServerHandler.shared.addRating(uuid: self.podcast.uuid, rating: Int(self.stars))
+            self.isSubmitting = false
+            if success {
+                self.dismiss()
+                Toast.show(L10n.ratingThankYou)
+            }
         }
     }
 
@@ -64,27 +75,18 @@ class RatePodcastViewModel: ObservableObject {
             guard let self else { return }
             let count = await self.dataManager.findPlayedEpisodesCount(podcastId: id)
             let userCanRate: UserCanRate = count < Constants.Values.numberOfEpisodesListenedRequiredToRate ? .disallowed : .allowed
-            if userCanRate == .allowed {
-                self.userRatingAction = try await self.userRatingAction(uuid: uuid)
+            if userCanRate == .allowed,
+               let userPodcastRating = await ApiServerHandler.shared.getRating(uuid: uuid) {
+                self.stars = Double(userPodcastRating.podcastRating)
+                self.userPodcastRating = userPodcastRating
             }
             self.userCanRate = userCanRate
         }
-    }
-
-    private func userRatingAction(uuid: String) async throws -> UserRatingAction {
-        let list = try await PodcastRatingTask().getRatingsList()
-        let rating = list.first { $0.podcastUuid == uuid }
-        return rating != nil ? .update : .add
     }
 
     enum UserCanRate {
         case checking
         case allowed
         case disallowed
-    }
-    
-    enum UserRatingAction {
-        case add
-        case update
     }
 }

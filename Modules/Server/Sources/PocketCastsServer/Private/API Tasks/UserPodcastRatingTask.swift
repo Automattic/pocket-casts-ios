@@ -2,12 +2,6 @@ import Foundation
 import PocketCastsUtils
 import SwiftProtobuf
 
-public struct UserPodcastRating: Codable {
-    public let podcastRating: UInt32
-    public let podcastUuid: String
-    public let modifiedAt: Date?
-}
-
 class UserPodcastRatingAddTask: ApiBaseTask {
     var completion: ((Bool) -> Void)?
 
@@ -47,4 +41,54 @@ class UserPodcastRatingAddTask: ApiBaseTask {
             completion?(false)
         }
     }
+}
+
+class UserPodcastRatingGetTask: ApiBaseTask {
+    var completion: ((Bool, UserPodcastRating?) -> Void)?
+
+    private let uuid: String
+
+    init(uuid: String) {
+        self.uuid = uuid
+    }
+
+    override func apiTokenAcquired(token: String) {
+        let urlString = "\(ServerConstants.Urls.api())user/podcast_rating/show"
+
+        do {
+            var request = Api_PodcastRatingGetRequest()
+            request.podcastUuid = uuid
+
+            let data = try request.serializedData()
+
+            let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
+
+            guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
+                completion?(false, nil)
+                return
+            }
+
+            do {
+                let result = try Api_PodcastRatingResponse(serializedData: responseData)
+                let userRating = UserPodcastRating(podcastRating: result.podcastRating.podcastRating,
+                                                   podcastUuid: result.podcastRating.podcastUuid,
+                                                   modifiedAt: result.podcastRating.modifiedAt.date)
+                completion?(true, userRating)
+
+                FileLog.shared.addMessage("Get rating success for podcast \(uuid)")
+            } catch {
+                FileLog.shared.addMessage("Failed to get rating \(error.localizedDescription) for podcast \(uuid)")
+                completion?(false, nil)
+            }
+        } catch {
+            FileLog.shared.addMessage("Failed to get rating \(error.localizedDescription) for podcast \(uuid)")
+            completion?(false, nil)
+        }
+    }
+}
+
+public struct UserPodcastRating: Codable {
+    public let podcastRating: UInt32
+    public let podcastUuid: String
+    public let modifiedAt: Date
 }

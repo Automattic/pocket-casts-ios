@@ -19,7 +19,9 @@ struct RatePodcastView: View {
                 Spacer()
                 content
                 Spacer()
-                button
+                if !viewModel.shouldHideButton {
+                    button
+                }
             }
 
             Image("close")
