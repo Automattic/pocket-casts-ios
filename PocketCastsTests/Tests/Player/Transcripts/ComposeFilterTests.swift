@@ -4,7 +4,7 @@ import XCTest
 
 final class ComposeFilterTests: XCTestCase {
 
-    func testVTT() throws {
+    func testNormalString() throws {
         let transcript = """
         This content should not change
         """
