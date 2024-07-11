@@ -2176,7 +2176,7 @@ internal enum L10n {
   internal static var ratingNoRatings: String { return L10n.tr("Localizable", "rating_no_ratings") }
   /// Your rating was submitted!
   internal static var ratingSubmitted: String { return L10n.tr("Localizable", "rating_submitted") }
-  /// Thank you for rating
+  /// Thank you for rating!
   internal static var ratingThankYou: String { return L10n.tr("Localizable", "rating_thank_you") }
   /// Rate %1$@
   internal static func ratingTitle(_ p1: Any) -> String {
