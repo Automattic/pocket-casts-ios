@@ -14,6 +14,6 @@ struct ModalView<Content: View>: View {
             ModalCloseButton(background: Color.gray.opacity(0.2), foreground: Color.white.opacity(0.5), action: dismissAction)
             content()
         }
-        .padding(.top, 20)
+        .padding(UIDevice.current.userInterfaceIdiom == .pad ? .vertical : .top, 20)
     }
 }
