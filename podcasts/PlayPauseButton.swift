@@ -51,7 +51,7 @@ class PlayPauseButton: BasePlayPauseButton {
 
     // When using UIVIew.animate LottieAnimationView doesn't play nice with it
     // Here we snapshot the view to provide a smooth animation
-    func prepareForAnimateTransition(withBackground: UIColor?) {
+    func prepareForAnimateTransition() {
         guard let snapshot = snapshotView(afterScreenUpdates: false) else { return }
 
         snapshot.translatesAutoresizingMaskIntoConstraints = false

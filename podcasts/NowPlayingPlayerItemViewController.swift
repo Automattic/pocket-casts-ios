@@ -247,9 +247,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = analyticsSource
-        HapticsHelper.triggerPlayPauseHaptic()
-        PlaybackManager.shared.playPause()
+        displayTranscript.toggle()
     }
 
     @IBAction func skipFwdTapped(_ sender: Any) {
@@ -350,7 +348,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func showTranscript() {
         skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
         skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
-        playPauseBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        playPauseBtn.prepareForAnimateTransition()
 
         transcriptContainerView.layer.opacity = 0
         UIView.animate(withDuration: 0.35, animations: { [weak self] in
@@ -391,7 +389,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func hideTranscript() {
         skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
         skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
-        playPauseBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        playPauseBtn.prepareForAnimateTransition()
 
         UIView.animate(withDuration: 0.35, animations: { [weak self] in
             guard let self else { return }
