@@ -69,10 +69,10 @@ class UserPodcastRatingGetTask: ApiBaseTask {
             }
 
             do {
-                let result = try Api_PodcastRatingResponse(serializedData: responseData)
-                let userRating = UserPodcastRating(podcastRating: result.podcastRating.podcastRating,
-                                                   podcastUuid: result.podcastRating.podcastUuid,
-                                                   modifiedAt: result.podcastRating.modifiedAt.date)
+                let result = try Api_PodcastRating(serializedData: responseData)
+                let userRating = UserPodcastRating(podcastRating: result.podcastRating,
+                                                   podcastUuid: result.podcastUuid,
+                                                   modifiedAt: result.modifiedAt.date)
                 completion?(true, userRating)
 
                 FileLog.shared.addMessage("Get rating success for podcast \(uuid)")
