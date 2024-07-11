@@ -26,6 +26,7 @@ class UserPodcastRatingAddTask: ApiBaseTask {
             let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
 
             if response == nil {
+                FileLog.shared.addMessage("Failed to get rating for podcast \(uuid) because response is empty")
                 completion?(false)
                 return
             }
@@ -33,11 +34,11 @@ class UserPodcastRatingAddTask: ApiBaseTask {
             if httpStatus == ServerConstants.HttpConstants.ok {
                 FileLog.shared.addMessage("Add rating success for podcast \(uuid)")
             } else {
-                FileLog.shared.addMessage("Failed to add rating for podcast \(uuid)")
+                FileLog.shared.addMessage("Failed to get rating for podcast \(uuid), http status \(httpStatus)")
             }
             completion?(httpStatus == ServerConstants.HttpConstants.ok)
         } catch {
-            FileLog.shared.addMessage("Failed to add rating \(error.localizedDescription) for podcast \(uuid)")
+            FileLog.shared.addMessage("Failed to serialize Api_PodcastRatingAddRequest \(error.localizedDescription) for podcast \(uuid)")
             completion?(false)
         }
     }
@@ -64,6 +65,7 @@ class UserPodcastRatingGetTask: ApiBaseTask {
             let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
 
             guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
+                FileLog.shared.addMessage("Failed to get rating for podcast \(uuid), http status \(httpStatus)")
                 completion?(false, nil)
                 return
             }
@@ -77,11 +79,11 @@ class UserPodcastRatingGetTask: ApiBaseTask {
 
                 FileLog.shared.addMessage("Get rating success for podcast \(uuid)")
             } catch {
-                FileLog.shared.addMessage("Failed to get rating \(error.localizedDescription) for podcast \(uuid)")
+                FileLog.shared.addMessage("Failed to serialize Api_PodcastRating \(error.localizedDescription) for podcast \(uuid)")
                 completion?(false, nil)
             }
         } catch {
-            FileLog.shared.addMessage("Failed to get rating \(error.localizedDescription) for podcast \(uuid)")
+            FileLog.shared.addMessage("Failed to serialize Api_PodcastRatingShowRequest \(error.localizedDescription) for podcast \(uuid)")
             completion?(false, nil)
         }
     }

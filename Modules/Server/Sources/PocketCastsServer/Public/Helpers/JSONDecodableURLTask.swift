@@ -49,7 +49,7 @@ public struct JSONDecodableURLTask<Response: Decodable> {
         case ServerConstants.HttpConstants.notFound:
             throw JSONDecodableURLTaskError.objectNotFound
         case ServerConstants.HttpConstants.forbidden:
-            throw JSONDecodableURLTaskError.ratingForbidden
+            throw JSONDecodableURLTaskError.forbidden
         default:
             break
         }
@@ -58,7 +58,7 @@ public struct JSONDecodableURLTask<Response: Decodable> {
     enum JSONDecodableURLTaskError: Error {
         case notValidResponse
         case objectNotFound
-        case ratingForbidden
+        case forbidden
     }
 }
 
