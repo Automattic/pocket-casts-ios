@@ -42,6 +42,13 @@ class RatePodcastViewModel: ObservableObject {
         return false
     }
 
+    var buttonOpacity: Double {
+        if shouldHideButton {
+            return 0
+        }
+        return isButtonEnabled ? 1 : 0.8
+    }
+
     init(presented: Binding<Bool>, podcast: Podcast, dataManager: DataManager = .sharedManager) {
         self._presented = presented
         self.podcast = podcast

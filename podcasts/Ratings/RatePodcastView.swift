@@ -14,14 +14,12 @@ struct RatePodcastView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .topLeading) {
             VStack {
                 Spacer()
                 content
                 Spacer()
-                if !viewModel.shouldHideButton {
-                    button
-                }
+                button
             }
 
             Image("close")
@@ -122,7 +120,7 @@ struct RatePodcastView: View {
         })
         .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
         .disabled(!viewModel.isButtonEnabled)
-        .opacity(viewModel.isButtonEnabled ? 1 : 0.8)
+        .opacity(viewModel.buttonOpacity)
     }
 
     private var errorAlert: Alert {
