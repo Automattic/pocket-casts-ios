@@ -11,7 +11,7 @@ struct ComposeFilter: TranscriptFilter {
         let filteredText: String = filters.reduce(input) { partialResult, filter in
             return filter.filter(partialResult)
         }
-        return filteredText
+        return filteredText.trim()
     }
 
     static let transcriptFilter = ComposeFilter(filters: [RegexFilter.vttTagsFilter, RegexFilter.speakerFilter, RegexFilter.newLinesFilter, SuffixFilter.addSpaceWhenNotEndofLine])
