@@ -281,7 +281,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             } else {
                 episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             }
-            episode.contentType = UTType.mpeg4Audio.preferredMIMEType
+            episode.contentType = UTType(episode.fileExtension())?.preferredMIMEType
             let downloadTaskUUID = episode.uuid
             downloadingEpisodesCache[downloadTaskUUID] = episode
             downloadAndStreamEpisodes.insert(downloadTaskUUID)
@@ -301,7 +301,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             downloadAndStreamEpisodes.remove(downloadTaskUUID)
 
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
-                if let contentType = UTType.mpeg4Audio.preferredMIMEType {
+                if let contentType = episode.contentType {
                     DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
                 }
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
