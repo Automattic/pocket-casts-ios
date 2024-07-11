@@ -201,7 +201,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     private var displayTranscript = false {
         didSet {
-            displayTranscript ? showTranscript() : hideTranscript()
+            toggleTranscript()
         }
     }
 
@@ -345,81 +345,46 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         present(navController, animated: true, completion: nil)
     }
 
-    private func showTranscript() {
+    private func toggleTranscript() {
+        let isShowing = displayTranscript
+
         skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
         skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
         playPauseBtn.prepareForAnimateTransition()
 
-        transcriptContainerView.layer.opacity = 0
+        transcriptContainerView.layer.opacity = isShowing ? 0 : 1
+
         UIView.animate(withDuration: 0.35, animations: { [weak self] in
             guard let self else { return }
 
-            // Hide shelf
-            shelfBg.isHidden = true
-            shelfBg.layer.opacity = 0
+            // Hide/show shelf
+            shelfBg.isHidden = isShowing
+            shelfBg.layer.opacity = isShowing ? 0 : 1
 
-            // Show transcript container view
+            // Show/hide transcript container view
             transcriptContainerView.isHidden = false
-            transcriptContainerView.layer.opacity = 1
+            transcriptContainerView.layer.opacity = isShowing ? 1 : 0
 
             // Change the stack view that contains the player button
-            bottomControlsStackView.distribution = .fill
-            bottomControlsStackView.spacing = 10
+            bottomControlsStackView.distribution = isShowing ? .fill : .equalSpacing
+            bottomControlsStackView.spacing = isShowing ? 10 : 30
 
-            // Display the view that will fill the empty space
-            fillView.isHidden = false
+            // Display/hide the view that will fill the empty space
+            fillView.isHidden = !isShowing
 
             // Change skip back and forward size
-            skipBackBtn.changeSize(to: .small)
-            skipFwdBtn.changeSize(to: .small)
+            let skipButtonSize: SkipButton.Size = isShowing ? .small : .large
+            skipBackBtn.changeSize(to: skipButtonSize)
+            skipFwdBtn.changeSize(to: skipButtonSize)
             skipBackBtn.layoutIfNeeded()
             skipFwdBtn.layoutIfNeeded()
 
-            // Ask parent VC to hide tabs
-            playerContainer?.updateTabsAndScrollView(isEnabled: false)
+            // Ask parent VC to hide/show tabs
+            playerContainer?.updateTabsAndScrollView(isEnabled: !isShowing)
         }, completion: { [weak self] _ in
             guard let self else { return }
 
-            playPauseBtn.finishedTransition()
-            skipBackBtn.finishedTransition()
-            skipFwdBtn.finishedTransition()
-        })
-    }
-
-    private func hideTranscript() {
-        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
-        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
-        playPauseBtn.prepareForAnimateTransition()
-
-        UIView.animate(withDuration: 0.35, animations: { [weak self] in
-            guard let self else { return }
-
-            // Show shelf
-            shelfBg.isHidden = false
-            shelfBg.layer.opacity = 1
-
-            // Hide transcript container view
-            transcriptContainerView.layer.opacity = 0
-
-            // Change the stack view that contains the player button
-            bottomControlsStackView.distribution = .equalSpacing
-            bottomControlsStackView.spacing = 30
-
-            // Hide the view that will fill the empty space
-            fillView.isHidden = true
-
-            // Change skip back and forward size
-            skipBackBtn.changeSize(to: .large)
-            skipFwdBtn.changeSize(to: .large)
-            skipBackBtn.layoutIfNeeded()
-            skipFwdBtn.layoutIfNeeded()
-
-            // Ask parent VC to hide tabs
-            playerContainer?.updateTabsAndScrollView(isEnabled: true)
-        }, completion: { [weak self] _ in
-            guard let self else { return }
-
-            transcriptContainerView.isHidden = true
+            transcriptContainerView.isHidden = isShowing ? false : true
 
             playPauseBtn.finishedTransition()
             skipBackBtn.finishedTransition()
