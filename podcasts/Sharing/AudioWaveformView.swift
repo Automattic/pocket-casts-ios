@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct AudioWaveformView: View {
-    let baseLineWidth: CGFloat = 2
-    let baseLineSpacing: CGFloat = 2
-    var scale: CGFloat
-    var width: CGFloat
+    let scale: CGFloat
+    let width: CGFloat
+
+    private let baseLineWidth: CGFloat = 2
+    private let baseLineSpacing: CGFloat = 2
 
     enum LineHeight: CaseIterable {
         case shortest

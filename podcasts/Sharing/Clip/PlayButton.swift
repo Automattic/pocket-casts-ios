@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PlayButton: View {
+struct TrimPlayButton: View {
     @State var isPlaying: Bool
 
     var body: some View {

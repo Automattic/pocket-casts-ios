@@ -11,7 +11,7 @@ struct MediaTrimBar: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            PlayButton(isPlaying: false)
+            TrimPlayButton(isPlaying: false)
                 .frame(width: Constants.height)
                 .background(Constants.trimBorderColor)
                 .modify { view in
