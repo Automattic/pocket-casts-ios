@@ -274,17 +274,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     // MARK: - Hide/Show tabs
 
-    func hideTabsAndLockScrollView() {
-        mainScrollView.isScrollEnabled = false
-        topSpaceToHeader.isActive = false
-        topSpaceToSafeArea.isActive = true
-        view.layoutIfNeeded()
-    }
-
-    func showTabsAndUnlockScrollView() {
-        mainScrollView.isScrollEnabled = true
-        topSpaceToHeader.isActive = true
-        topSpaceToSafeArea.isActive = false
+    func updateTabsAndScrollView(isEnabled: Bool) {
+        mainScrollView.isScrollEnabled = isEnabled
+        topSpaceToHeader.isActive = isEnabled
+        topSpaceToSafeArea.isActive = !isEnabled
         view.layoutIfNeeded()
     }
 }

@@ -376,7 +376,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             skipFwdBtn.layoutIfNeeded()
 
             // Ask parent VC to hide tabs
-            playerContainer?.hideTabsAndLockScrollView()
+            playerContainer?.updateTabsAndScrollView(isEnabled: false)
         }, completion: { [weak self] _ in
             guard let self else { return }
 
@@ -415,7 +415,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             skipFwdBtn.layoutIfNeeded()
 
             // Ask parent VC to hide tabs
-            playerContainer?.showTabsAndUnlockScrollView()
+            playerContainer?.updateTabsAndScrollView(isEnabled: true)
         }, completion: { [weak self] _ in
             guard let self else { return }
 
