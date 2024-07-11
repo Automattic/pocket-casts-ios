@@ -1,11 +1,11 @@
 import Foundation
 
-protocol Filter {
+protocol TranscriptFilter {
     func filter(_ input: String) -> String
 }
 
-struct ComposeFilter: Filter {
-    private let filters: [Filter]
+struct ComposeFilter: TranscriptFilter {
+    private let filters: [TranscriptFilter]
 
     func filter(_ input: String) -> String {
         let filteredText: String = filters.reduce(input) { partialResult, filter in
@@ -17,7 +17,7 @@ struct ComposeFilter: Filter {
     static let transcriptFilter = ComposeFilter(filters: [RegexFilter.vttTagsFilter, RegexFilter.speakerFilter, RegexFilter.newLinesFilter, SuffixFilter.addSpaceWhenNotEndofLine])
 }
 
-struct RegexFilter: Filter {
+struct RegexFilter: TranscriptFilter {
 
     private let pattern: String
     private let replacement: String
@@ -44,7 +44,7 @@ extension RegexFilter {
     static let newLinesFilter = RegexFilter(pattern: "\\.\\z", replacement: ".\n")
 }
 
-struct SuffixFilter: Filter {
+struct SuffixFilter: TranscriptFilter {
     private let condition: String
     private let replacement: String
 
