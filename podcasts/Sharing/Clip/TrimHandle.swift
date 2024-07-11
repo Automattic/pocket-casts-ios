@@ -66,9 +66,9 @@ struct TrimHandle: View {
     var edgeRadius: (leading: CGFloat, trailing: CGFloat) {
         switch side {
         case .leading:
-            return (Constants.cornerRadius, 0)
+            (Constants.cornerRadius, 0)
         case .trailing:
-            return (0, Constants.cornerRadius)
+            (0, Constants.cornerRadius)
         }
     }
 }
