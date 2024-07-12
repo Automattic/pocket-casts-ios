@@ -183,6 +183,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
     }
 
+    func dismissTranscript() {
+        nowPlayingItem.displayTranscript = false
+    }
+
     // MARK: - PlayerTabDelegate
 
     func didSwitchToTab(index: Int) {

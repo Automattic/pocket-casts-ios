@@ -44,6 +44,9 @@ class TranscriptsViewController: PlayerItemViewController {
                 activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ]
         )
+
+        view.addSubview(closeButton)
+        closeButton.frame = .init(x: 0, y: 0, width: 44, height: 44)
     }
 
     private lazy var transcriptView: UITextView = {
@@ -61,6 +64,14 @@ class TranscriptsViewController: PlayerItemViewController {
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicatorView
+    }()
+
+    private lazy var closeButton: TintableImageButton! = {
+        let closeButton = TintableImageButton()
+        closeButton.setImage(UIImage(named: "close"), for: .normal)
+        closeButton.tintColor = ThemeColor.primaryIcon02()
+        closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
+        return closeButton
     }()
 
     override func willBeAddedToPlayer() {
@@ -89,6 +100,10 @@ class TranscriptsViewController: PlayerItemViewController {
     @objc private func update() {
         updateColors()
         loadTranscript()
+    }
+
+    @objc private func closeTapped() {
+        containerDelegate?.dismissTranscript()
     }
 
     private func loadTranscript() {
