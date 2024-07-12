@@ -285,8 +285,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     func updateTabsAndScrollView(isEnabled: Bool) {
         mainScrollView.isScrollEnabled = isEnabled
-        topSpaceToHeader.isActive = isEnabled
-        topSpaceToSafeArea.isActive = !isEnabled
         view.layoutIfNeeded()
     }
 

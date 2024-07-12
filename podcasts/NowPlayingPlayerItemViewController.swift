@@ -210,16 +210,23 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        // there's some expensive operations below, so only do them if the bounds has actually changed
+        // there's some expensive operations in resizeControls,
+        // so only do them if the bounds has actually changed
         if lastBoundsAdjustedFor == view.bounds { return }
         lastBoundsAdjustedFor = view.bounds
 
+        resizeControls()
+    }
+
+    private func resizeControls() {
         let screenHeight = view.bounds.height
         let spacing: CGFloat = screenHeight > 600 ? 30 : 20
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
         let height: CGFloat = displayTranscript ? 40 : screenHeight > 710 ? 100 : 80
         if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
+
+        view.layoutIfNeeded()
     }
 
     override func willBeAddedToPlayer() {
@@ -387,6 +394,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
             // Ask parent VC to hide/show tabs
             playerContainer?.updateTabsAndScrollView(isEnabled: !isShowing)
+
+            resizeControls()
         }, completion: { [weak self] _ in
             guard let self else { return }
 
