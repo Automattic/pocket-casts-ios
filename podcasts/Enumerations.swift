@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 extension LibraryType: AnalyticsDescribable {
     enum Old: Int {
@@ -244,9 +245,9 @@ extension PlayerAction: AnalyticsDescribable {
     /// Specify default actions and their order
     static var defaultActions: [PlayerAction] {
         [
-            .effects, .sleepTimer, .routePicker, .starEpisode,
-            .shareEpisode, .goToPodcast, .chromecast, .markPlayed,
-            .addBookmark, .archive
+            .effects, .sleepTimer, .routePicker, .transcript,
+            .starEpisode, .shareEpisode, .goToPodcast, .chromecast,
+            .markPlayed, .addBookmark, .archive
         ]
     }
 
@@ -272,6 +273,8 @@ extension PlayerAction: AnalyticsDescribable {
             self = .archive
         case 10:
             self = .addBookmark
+        case 11:
+            self = .transcript
         default:
             return nil
         }
@@ -299,6 +302,8 @@ extension PlayerAction: AnalyticsDescribable {
             return 9
         case .addBookmark:
             return 10
+        case .transcript:
+            return 11
         }
     }
 
@@ -338,6 +343,8 @@ extension PlayerAction: AnalyticsDescribable {
 
         case .addBookmark:
             return L10n.addBookmark
+        case .transcript:
+            return L10n.transcript
         }
     }
 
@@ -374,6 +381,8 @@ extension PlayerAction: AnalyticsDescribable {
             return episode is UserEpisode ? "delete-red" : "episode-archive"
         case .addBookmark:
             return "bookmarks-shelf-overflow-icon"
+        case .transcript:
+            return "show_notes"
         }
     }
 
@@ -399,6 +408,8 @@ extension PlayerAction: AnalyticsDescribable {
             return episode is UserEpisode ? "shelf_delete" : "shelf_archive"
         case .addBookmark:
             return "bookmarks-shelf-icon"
+        case .transcript:
+            return "show_notes"
         }
     }
 
@@ -406,8 +417,8 @@ extension PlayerAction: AnalyticsDescribable {
         switch self {
         case .starEpisode, .shareEpisode:
             return episode is Episode
-        case .addBookmark:
-            return isAvailable
+        case .transcript:
+            return FeatureFlag.transcripts.enabled
         default:
             return true
         }
@@ -417,6 +428,8 @@ extension PlayerAction: AnalyticsDescribable {
     /// If false, the action will be hidden from the player shelf and overflow menu
     var isAvailable: Bool {
         switch self {
+        case .transcript:
+            return FeatureFlag.transcripts.enabled
         default:
             return true
         }
@@ -444,6 +457,8 @@ extension PlayerAction: AnalyticsDescribable {
             return "archive"
         case .addBookmark:
             return "bookmark"
+        case .transcript:
+            return "transcript"
         }
     }
 }

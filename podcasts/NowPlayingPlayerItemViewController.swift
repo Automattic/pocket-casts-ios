@@ -197,7 +197,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         .player
     }
 
-    private var displayTranscript = false {
+    var displayTranscript = false {
         didSet {
             toggleTranscript()
         }
