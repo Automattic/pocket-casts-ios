@@ -9,6 +9,9 @@ struct MediaTrimView: View {
     @Binding var playTime: TimeInterval
 
     @State private var scale: CGFloat = .zero
+
+    @State private var startPosition: CGFloat = 0
+    @State private var endPosition: CGFloat = 1
     @State private var playPosition: CGFloat = 0
 
     private enum Constants {
@@ -28,15 +31,17 @@ struct MediaTrimView: View {
                 PlayheadView(position: scaledPosition($playPosition), onChanged: {
                     print("Moved playhead to: \($0)")
                 })
-                    .frame(maxHeight: .infinity)
                     .frame(width: Constants.playLineWidth)
-                    .onAppear {
-                        initializePositions(in: geometry)
-                        DispatchQueue.main.async {
-                            let currentSecond = Int(playTime)
-                            scrollable.scrollTo("\(currentSecond)", anchor: .center)
-                        }
+                TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), changed: { position, side in
+                    update(position: position, for: side, in: geometry.size.width)
+                })
+                .onAppear {
+                    initializePositions(in: geometry)
+                    DispatchQueue.main.async {
+                        let currentSecond = Int(playTime)
+                        scrollable.scrollTo("\(currentSecond)", anchor: .center)
                     }
+                }
                 .onAppear {
                     initializePositions(in: geometry)
                     DispatchQueue.main.async {
@@ -72,6 +77,8 @@ struct MediaTrimView: View {
     }
 
     private func updatePositions(for width: CGFloat) {
+        startPosition = durationRelative(value: startTime, for: width)
+        endPosition = durationRelative(value: endTime, for: width)
         playPosition = durationRelative(value: playTime, for: width)
     }
 
@@ -88,6 +95,36 @@ struct MediaTrimView: View {
 
     private func durationRelative(value: CGFloat, for width: CGFloat) -> CGFloat {
         return (value / duration) * width
+    }
+
+    /// Updates the position of the trim handles
+    /// - Parameters:
+    ///   - position: The raw position of a trim handle
+    ///   - side: The trim handle's side (leading or trailing)
+    ///   - width: The width of the containing view to constrain to min and max values
+    private func update(position: CGFloat, for side: TrimHandle.Side, in width: CGFloat) {
+        let range: ClosedRange<CGFloat>
+
+        switch side {
+        case .leading:
+            range = 0...endPosition
+        case .trailing:
+            range = startPosition...width
+        }
+
+        let scaledPosition = position / scale
+        let newPosition = scaledPosition.clamped(to: range)
+
+        let time = Double(newPosition / width) * duration
+
+        switch side {
+        case .leading:
+            startTime = time
+            startPosition = newPosition
+        case .trailing:
+            endTime = time
+            endPosition = newPosition
+        }
     }
 }
 

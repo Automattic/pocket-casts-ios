@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NowPlayingPlayerItemViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="bottomControlsStackView" destination="UmO-Rc-jIG" id="hwW-jm-hhg"/>
                 <outlet property="chapterCounter" destination="98m-xR-mw0" id="tsa-Tf-HrX"/>
                 <outlet property="chapterInfoView" destination="t3O-EF-0h2" id="4vf-Tn-hEJ"/>
                 <outlet property="chapterLink" destination="sam-0S-73x" id="pjd-Tg-E5M"/>
@@ -20,6 +22,7 @@
                 <outlet property="episodeImage" destination="dXr-Zd-0wP" id="g0t-eE-u5G"/>
                 <outlet property="episodeInfoView" destination="MLe-7y-U6n" id="0K2-Ws-I3X"/>
                 <outlet property="episodeName" destination="ool-HF-az4" id="87D-Nv-oIM"/>
+                <outlet property="fillView" destination="sbN-fi-Mv7" id="AN8-6l-tnT"/>
                 <outlet property="floatingVideoView" destination="auM-3f-elA" id="OGa-U7-JAh"/>
                 <outlet property="playPauseBtn" destination="XXp-BW-AVr" id="Di2-7G-pn5"/>
                 <outlet property="playPauseHeightConstraint" destination="dtu-hS-iiu" id="s0N-0P-nEh"/>
@@ -32,6 +35,7 @@
                 <outlet property="timeRemaining" destination="1nY-hc-503" id="kQs-v5-qfg"/>
                 <outlet property="timeSlider" destination="v3N-m7-an0" id="Isd-Kl-TGM"/>
                 <outlet property="timeSliderHolderView" destination="T2E-0H-hwM" id="AP1-uU-3Id"/>
+                <outlet property="transcriptContainerView" destination="Nvx-nQ-jae" id="nEQ-nr-hb7"/>
                 <outlet property="view" destination="Dsl-xJ-ho3" id="gSW-Zh-fo1"/>
             </connections>
         </placeholder>
@@ -194,6 +198,13 @@
                                 <constraint firstItem="MLe-7y-U6n" firstAttribute="leading" secondItem="Sme-fz-BDA" secondAttribute="leading" id="ygZ-bt-S0i"/>
                             </constraints>
                         </view>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sbN-fi-Mv7">
+                            <rect key="frame" x="0.0" y="459" width="414" height="50"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="l1V-3a-EuZ"/>
+                            </constraints>
+                        </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="UmO-Rc-jIG" userLabel="Bottom Controls Stack View">
                             <rect key="frame" x="0.0" y="459" width="414" height="399"/>
                             <subviews>
@@ -324,6 +335,7 @@
                         </stackView>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="sbN-fi-Mv7" firstAttribute="width" secondItem="WxQ-7h-0WZ" secondAttribute="width" id="0Qg-hG-Xav"/>
                         <constraint firstAttribute="trailing" secondItem="Sme-fz-BDA" secondAttribute="trailing" constant="20" id="9GS-az-gTh"/>
                         <constraint firstAttribute="trailing" secondItem="UmO-Rc-jIG" secondAttribute="trailing" id="Lgo-ja-KKq"/>
                         <constraint firstItem="Sme-fz-BDA" firstAttribute="leading" secondItem="dXr-Zd-0wP" secondAttribute="leading" priority="750" id="X7s-hz-x0i"/>
@@ -368,6 +380,10 @@
                         <constraint firstAttribute="width" secondItem="auM-3f-elA" secondAttribute="height" multiplier="1:1" id="r9y-4s-XLM"/>
                     </constraints>
                 </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nvx-nQ-jae">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="467"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" label="Full Size Player">
@@ -378,9 +394,13 @@
                 <constraint firstItem="sam-0S-73x" firstAttribute="trailing" secondItem="dXr-Zd-0wP" secondAttribute="trailing" constant="-10" id="2fE-dE-Tel"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerX" secondItem="dXr-Zd-0wP" secondAttribute="centerX" id="3QC-yl-rk2"/>
                 <constraint firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
+                <constraint firstItem="Nvx-nQ-jae" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" id="8pY-ln-4Ky"/>
+                <constraint firstItem="UmO-Rc-jIG" firstAttribute="top" secondItem="Nvx-nQ-jae" secondAttribute="bottom" id="OWX-bb-BTi"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerY" secondItem="dXr-Zd-0wP" secondAttribute="centerY" id="P1f-xu-Ze5"/>
+                <constraint firstItem="Nvx-nQ-jae" firstAttribute="width" secondItem="Dsl-xJ-ho3" secondAttribute="width" id="PrN-n2-F73"/>
                 <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="WxQ-7h-0WZ" secondAttribute="top" constant="10" id="fgs-F6-NzZ"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" constant="8" id="hS4-XE-bck"/>
+                <constraint firstItem="Nvx-nQ-jae" firstAttribute="centerX" secondItem="Dsl-xJ-ho3" secondAttribute="centerX" id="kbl-l4-hvD"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>
                 <constraint firstAttribute="bottom" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
@@ -394,5 +414,8 @@
         <image name="chapter-link-white" width="24" height="24"/>
         <image name="chapter-skipbackwards" width="30" height="30"/>
         <image name="chapter-skipforward" width="30" height="30"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
