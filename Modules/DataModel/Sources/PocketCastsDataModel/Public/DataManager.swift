@@ -417,6 +417,10 @@ public class DataManager {
         return episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
 
+    public func findEpisodeCount(podcastId: Int64) async -> Int {
+        await count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?", values: [podcastId])
+    }
+
     public func findPlayedEpisodes(uuids: [String]) -> [String] {
         episodeManager.findPlayedEpisodes(uuids: uuids, dbQueue: dbQueue)
     }
@@ -973,6 +977,25 @@ public class DataManager {
         }
 
         return count
+    }
+
+    public func count(query: String, values: [Any]?) async -> Int {
+        return await withCheckedContinuation { continuation in
+            dbQueue.inDatabase { db in
+                do {
+                    var count = 0
+                    let resultSet = try db.executeQuery(query, values: values)
+                    if resultSet.next() {
+                        count = resultSet.long(forColumnIndex: 0)
+                    }
+                    resultSet.close()
+                    continuation.resume(returning: count)
+                } catch {
+                    FileLog.shared.addMessage("DataManager.count error: \(error)")
+                    continuation.resume(returning: 0)
+                }
+            }
+        }
     }
 
     // MARK: - Path Related

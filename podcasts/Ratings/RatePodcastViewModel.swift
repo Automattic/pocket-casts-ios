@@ -89,8 +89,18 @@ class RatePodcastViewModel: ObservableObject {
     private func checkIfUserCanRatePodcast(id: Int64, uuid: String) {
         Task { @MainActor [weak self] in
             guard let self else { return }
-            let count = await self.dataManager.findPlayedEpisodesCount(podcastId: id)
-            let userCanRate: UserCanRate = count < Constants.Values.numberOfEpisodesListenedRequiredToRate ? .disallowed : .allowed
+            // Some podcasts can have just one episode.
+            // Let's use the episode count to compute the requirement to rate
+            let episodeCount = await self.dataManager.findEpisodeCount(podcastId: id)
+
+            // This shouldn't be necessary, but just in case it's empty we return
+            guard episodeCount > 0 else { return }
+            let playedEpisodesCount = await self.dataManager.findPlayedEpisodesCount(podcastId: id)
+
+            // If the episode count is 1 -> requirement to rate is 1
+            // If the episode count is > 1 -> requirement to rate is 2
+            let requirementToRate = min(episodeCount, Constants.Values.numberOfEpisodesListenedRequiredToRate)
+            let userCanRate: UserCanRate = playedEpisodesCount < requirementToRate ? .disallowed : .allowed
             if userCanRate == .allowed,
                let userPodcastRating = await ApiServerHandler.shared.getRating(uuid: uuid) {
                 self.stars = Double(userPodcastRating.podcastRating)
