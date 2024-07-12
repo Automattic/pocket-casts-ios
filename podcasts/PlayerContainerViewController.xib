@@ -16,8 +16,6 @@
                 <outlet property="headerView" destination="tuk-fS-Mph" id="YKz-RD-dYe"/>
                 <outlet property="mainScrollView" destination="jyM-S1-fQW" id="GsL-TZ-dEm"/>
                 <outlet property="tabsView" destination="DY8-o1-Oqt" id="aZi-9q-1H6"/>
-                <outlet property="topSpaceToHeader" destination="QNv-lA-xUW" id="2r0-oz-j9B"/>
-                <outlet property="topSpaceToSafeArea" destination="gZo-Eg-DzI" id="6Bl-e7-1aw"/>
                 <outlet property="transcriptContainerView" destination="wCD-j3-45q" id="4ef-Tc-lZ8"/>
                 <outlet property="upNextBtn" destination="HBu-bE-aeT" id="BCf-TR-qEj"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -93,7 +91,6 @@
                 <constraint firstAttribute="top" secondItem="tuk-fS-Mph" secondAttribute="top" id="V0b-Ya-heu"/>
                 <constraint firstItem="jyM-S1-fQW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Vu0-o1-JuT"/>
                 <constraint firstItem="tuk-fS-Mph" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZVO-ed-MuN"/>
-                <constraint firstItem="jyM-S1-fQW" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" priority="999" id="gZo-Eg-DzI"/>
                 <constraint firstAttribute="bottom" secondItem="jyM-S1-fQW" secondAttribute="bottom" id="iHP-ln-ubZ"/>
                 <constraint firstAttribute="trailing" secondItem="tuk-fS-Mph" secondAttribute="trailing" id="jMd-Bl-UDQ"/>
                 <constraint firstItem="wCD-j3-45q" firstAttribute="bottom" secondItem="jyM-S1-fQW" secondAttribute="bottom" placeholder="YES" id="tMr-pU-IJP"/>
