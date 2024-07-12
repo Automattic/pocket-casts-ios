@@ -393,7 +393,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             skipFwdBtn.layoutIfNeeded()
 
             // Ask parent VC to hide/show tabs
-            playerContainer?.updateTabsAndScrollView(isEnabled: !isShowing)
+            playerContainer?.scrollView(isEnabled: !isShowing)
 
             resizeControls()
         }, completion: { [weak self] _ in

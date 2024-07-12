@@ -279,7 +279,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     // MARK: - Hide/Show tabs
 
-    func updateTabsAndScrollView(isEnabled: Bool) {
+    func scrollView(isEnabled: Bool) {
         mainScrollView.isScrollEnabled = isEnabled
         view.layoutIfNeeded()
     }
