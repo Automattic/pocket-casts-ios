@@ -70,15 +70,17 @@ class RatePodcastViewModel: ObservableObject {
             let success = await ApiServerHandler.shared.addRating(uuid: self.podcast.uuid, rating: Int(self.stars))
             self.isSubmitting = false
             if success {
-                self.dismiss()
+                self.dismiss(trackingEvent: false)
                 Toast.show(L10n.ratingThankYou)
             }
         }
     }
 
-    func dismiss() {
-        let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenDismissed : .notAllowedToRateScreenDismissed
-        Analytics.shared.track(event)
+    func dismiss(trackingEvent: Bool = true) {
+        if trackingEvent {
+            let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenDismissed : .notAllowedToRateScreenDismissed
+            Analytics.shared.track(event)
+        }
         presented = false
     }
 
