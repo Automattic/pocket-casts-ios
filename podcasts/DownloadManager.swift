@@ -412,19 +412,25 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     private func shouldSkipExistingTask(for episode: BaseEpisode, in session: URLSession, matching request: URLRequest) async -> Bool {
-        if let task = await session.existingTask(for: episode) {
-            if task.originalRequest?.url == request.url {
-                if task.error == nil {
-                    // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
-                    // Before this change, we allowed any new download so we'd rather start out more restrictive
-                    return true
-                }
-            } else {
-                // If the request URLs don't match, we should cancel the old task since it is expected to be downloading old content
-                task.cancel()
-            }
+        guard let task = await session.existingTask(for: episode) else {
+            return false
         }
-        return false
+
+        if task.originalRequest?.url == request.url {
+            if let error = task.error {
+                FileLog.shared.addMessage("Download: Didn't skip \(episode.title ?? "Unknown") due to error: \(error)")
+                return false
+            } else {
+                // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
+                // Before this change, we allowed any new download so we'd rather start out more restrictive
+                return true
+            }
+        } else {
+            // If the request URLs don't match, we should cancel the old task since it is expected to be downloading old content
+            FileLog.shared.addMessage("Download: Cancelled task for \(episode.title ?? "Unknown") with url: \(task.originalRequest?.url?.absoluteString ?? "Unknown")")
+            task.cancel()
+            return false
+        }
     }
 
     func removeFromQueue(episodeUuid: String, fireNotification: Bool, userInitiated: Bool) {
