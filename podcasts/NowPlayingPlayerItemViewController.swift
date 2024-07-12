@@ -152,8 +152,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var bottomControlsStackView: UIStackView!
 
-    @IBOutlet weak var transcriptContainerView: UIView!
-
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
@@ -247,9 +245,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = analyticsSource
-        HapticsHelper.triggerPlayPauseHaptic()
-        PlaybackManager.shared.playPause()
+        displayTranscript.toggle()
     }
 
     @IBAction func skipFwdTapped(_ sender: Any) {
@@ -354,7 +350,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
         playPauseBtn.prepareForAnimateTransition()
 
-        transcriptContainerView.layer.opacity = isShowing ? 0 : 1
+        playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1
+
+        if isShowing {
+            playerContainer?.showTranscript()
+        }
 
         UIView.animate(withDuration: 0.35, animations: { [weak self] in
             guard let self else { return }
@@ -364,8 +364,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             shelfBg.layer.opacity = isShowing ? 0 : 1
 
             // Show/hide transcript container view
-            transcriptContainerView.isHidden = false
-            transcriptContainerView.layer.opacity = isShowing ? 1 : 0
+            playerContainer?.transcriptContainerView.isHidden = false
+            playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 1 : 0
 
             // Change the stack view that contains the player button
             bottomControlsStackView.distribution = isShowing ? .fill : .equalSpacing
@@ -386,7 +386,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }, completion: { [weak self] _ in
             guard let self else { return }
 
-            transcriptContainerView.isHidden = isShowing ? false : true
+            playerContainer?.transcriptContainerView.isHidden = isShowing ? false : true
+
+            if !isShowing {
+                playerContainer?.hideTranscript()
+            }
 
             playPauseBtn.finishedTransition()
             skipBackBtn.finishedTransition()

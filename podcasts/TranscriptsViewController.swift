@@ -67,6 +67,7 @@ class TranscriptsViewController: PlayerItemViewController {
         updateColors()
         loadTranscript()
         addObservers()
+        (transcriptView as UIScrollView).delegate = scrollViewHandler
     }
 
     override func willBeRemovedFromPlayer() {

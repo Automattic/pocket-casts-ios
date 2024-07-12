@@ -29,6 +29,8 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet var topSpaceToSafeArea: NSLayoutConstraint!
 
+    @IBOutlet weak var transcriptContainerView: UIView!
+
     lazy var nowPlayingItem: NowPlayingPlayerItemViewController = {
         let item = NowPlayingPlayerItemViewController()
         item.containerDelegate = self
@@ -71,6 +73,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         let item = TranscriptsViewController(playbackManager: playbackManager)
 
         item.view.translatesAutoresizingMaskIntoConstraints = false
+        item.scrollViewHandler = self
         item.containerDelegate = self
         return item
     }()
@@ -107,6 +110,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         update()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        // To avoid weird animations when apearing, we add the transcript view here
+        configureTranscriptView()
     }
 
 
@@ -279,6 +285,30 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         topSpaceToHeader.isActive = isEnabled
         topSpaceToSafeArea.isActive = !isEnabled
         view.layoutIfNeeded()
+    }
+
+    // MARK: - Transcripts
+
+    func showTranscript() {
+        addChild(transcriptsItem)
+        transcriptContainerView.addSubview(transcriptsItem.view)
+        transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
+        transcriptsItem.didMove(toParent: self)
+        transcriptsItem.willBeAddedToPlayer()
+        transcriptsItem.themeDidChange()
+    }
+
+    func hideTranscript() {
+        transcriptsItem.removeFromParent()
+        transcriptsItem.view.removeFromSuperview()
+    }
+
+    private func configureTranscriptView() {
+        transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor).isActive = true
+        transcriptContainerView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+
+        transcriptContainerView.addSubview(transcriptsItem.view)
+        transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
     }
 }
 
