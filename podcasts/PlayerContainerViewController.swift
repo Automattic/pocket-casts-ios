@@ -25,6 +25,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet var headerHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet var topSpaceToHeader: NSLayoutConstraint!
+
+    @IBOutlet var topSpaceToSafeArea: NSLayoutConstraint!
+
     lazy var nowPlayingItem: NowPlayingPlayerItemViewController = {
         let item = NowPlayingPlayerItemViewController()
         item.containerDelegate = self
@@ -266,6 +270,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @objc func handleAppWillBecomeActive() {
         didSwitchToTab(index: tabsView.currentTab)
+    }
+
+    // MARK: - Hide/Show tabs
+
+    func updateTabsAndScrollView(isEnabled: Bool) {
+        mainScrollView.isScrollEnabled = isEnabled
+        topSpaceToHeader.isActive = isEnabled
+        topSpaceToSafeArea.isActive = !isEnabled
+        view.layoutIfNeeded()
     }
 }
 

@@ -148,6 +148,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playPauseHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var fillView: UIView!
+
+    @IBOutlet weak var bottomControlsStackView: UIStackView!
+
+    @IBOutlet weak var transcriptContainerView: UIView!
+
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
@@ -193,6 +199,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         .player
     }
 
+    private var displayTranscript = false {
+        didSet {
+            toggleTranscript()
+        }
+    }
+
+    private var playerContainer: PlayerContainerViewController? {
+        parent as? PlayerContainerViewController
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -204,7 +220,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let spacing: CGFloat = screenHeight > 600 ? 30 : 20
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        let height: CGFloat = screenHeight > 710 ? 100 : 80
+        let height: CGFloat = displayTranscript ? 40 : screenHeight > 710 ? 100 : 80
         if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
     }
 
@@ -329,5 +345,52 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         navController.modalPresentationStyle = .fullScreen
 
         present(navController, animated: true, completion: nil)
+    }
+
+    private func toggleTranscript() {
+        let isShowing = displayTranscript
+
+        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        playPauseBtn.prepareForAnimateTransition()
+
+        transcriptContainerView.layer.opacity = isShowing ? 0 : 1
+
+        UIView.animate(withDuration: 0.35, animations: { [weak self] in
+            guard let self else { return }
+
+            // Hide/show shelf
+            shelfBg.isHidden = isShowing
+            shelfBg.layer.opacity = isShowing ? 0 : 1
+
+            // Show/hide transcript container view
+            transcriptContainerView.isHidden = false
+            transcriptContainerView.layer.opacity = isShowing ? 1 : 0
+
+            // Change the stack view that contains the player button
+            bottomControlsStackView.distribution = isShowing ? .fill : .equalSpacing
+            bottomControlsStackView.spacing = isShowing ? 10 : 30
+
+            // Display/hide the view that will fill the empty space
+            fillView.isHidden = !isShowing
+
+            // Change skip back and forward size
+            let skipButtonSize: SkipButton.Size = isShowing ? .small : .large
+            skipBackBtn.changeSize(to: skipButtonSize)
+            skipFwdBtn.changeSize(to: skipButtonSize)
+            skipBackBtn.layoutIfNeeded()
+            skipFwdBtn.layoutIfNeeded()
+
+            // Ask parent VC to hide/show tabs
+            playerContainer?.updateTabsAndScrollView(isEnabled: !isShowing)
+        }, completion: { [weak self] _ in
+            guard let self else { return }
+
+            transcriptContainerView.isHidden = isShowing ? false : true
+
+            playPauseBtn.finishedTransition()
+            skipBackBtn.finishedTransition()
+            skipFwdBtn.finishedTransition()
+        })
     }
 }
