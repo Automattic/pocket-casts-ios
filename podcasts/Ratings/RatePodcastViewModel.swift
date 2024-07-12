@@ -5,6 +5,8 @@ import PocketCastsServer
 class RatePodcastViewModel: ObservableObject {
     @Binding var presented: Bool
 
+    @Binding var dismissAction: DismissAction
+
     @Published var userCanRate: UserCanRate = .checking
 
     @Published var userPodcastRating: UserPodcastRating?
@@ -49,8 +51,9 @@ class RatePodcastViewModel: ObservableObject {
         return isButtonEnabled ? 1 : 0.8
     }
 
-    init(presented: Binding<Bool>, podcast: Podcast, dataManager: DataManager = .sharedManager) {
+    init(presented: Binding<Bool>, dismissAction: Binding<DismissAction>, podcast: Podcast, dataManager: DataManager = .sharedManager) {
         self._presented = presented
+        self._dismissAction = dismissAction
         self.podcast = podcast
         self.dataManager = dataManager
         checkIfUserCanRatePodcast(id: podcast.id, uuid: podcast.uuid)
@@ -77,9 +80,8 @@ class RatePodcastViewModel: ObservableObject {
     }
 
     func dismiss(trackingEvent: Bool = true) {
-        if trackingEvent {
-            let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenDismissed : .notAllowedToRateScreenDismissed
-            Analytics.shared.track(event)
+        if !trackingEvent {
+            dismissAction = .default
         }
         presented = false
     }
@@ -97,12 +99,24 @@ class RatePodcastViewModel: ObservableObject {
             let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenShown : .notAllowedToRateScreenShown
             Analytics.shared.track(event, properties: ["uuid": uuid])
             self.userCanRate = userCanRate
+
+            self.setDismissAction()
         }
+    }
+
+    private func setDismissAction() {
+        let dismissEvent: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenDismissed : .notAllowedToRateScreenDismissed
+        dismissAction = .dismissAndTracking(dismissEvent)
     }
 
     enum UserCanRate {
         case checking
         case allowed
         case disallowed
+    }
+
+    enum DismissAction {
+        case dismissAndTracking(AnalyticsEvent)
+        case `default`
     }
 }
