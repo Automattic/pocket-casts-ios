@@ -47,7 +47,7 @@ class TranscriptsViewController: PlayerItemViewController {
     }
 
     private lazy var transcriptView: UITextView = {
-        let textView =  UITextView()
+        let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false

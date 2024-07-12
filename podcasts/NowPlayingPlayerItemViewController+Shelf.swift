@@ -144,7 +144,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             addToShelf(on: button)
 
         case .transcript:
-            let button = UIButton(frame: CGRect.zero)
+            let button = TranscriptShelfButton(frame: CGRect.zero)
             button.isPointerInteractionEnabled = true
             button.imageView?.tintColor = ThemeColor.playerContrast02()
             button.setImage(UIImage(named: action.largeIconName(episode: playingEpisode)), for: .normal)

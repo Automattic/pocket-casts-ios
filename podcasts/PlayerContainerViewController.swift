@@ -91,7 +91,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     var showingChapters = false
     var showingNotes = false
     var showingBookmarks = false
-    var showingTranscripts = false
 
     var finalScrollViewConstraint: NSLayoutConstraint?
 
