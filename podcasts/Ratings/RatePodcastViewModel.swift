@@ -5,6 +5,8 @@ import PocketCastsServer
 class RatePodcastViewModel: ObservableObject {
     @Binding var presented: Bool
 
+    @Binding var dismissAction: DismissAction
+
     @Published var userCanRate: UserCanRate = .checking
 
     @Published var userPodcastRating: UserPodcastRating?
@@ -49,8 +51,9 @@ class RatePodcastViewModel: ObservableObject {
         return isButtonEnabled ? 1 : 0.8
     }
 
-    init(presented: Binding<Bool>, podcast: Podcast, dataManager: DataManager = .sharedManager) {
+    init(presented: Binding<Bool>, dismissAction: Binding<DismissAction>, podcast: Podcast, dataManager: DataManager = .sharedManager) {
         self._presented = presented
+        self._dismissAction = dismissAction
         self.podcast = podcast
         self.dataManager = dataManager
         checkIfUserCanRatePodcast(id: podcast.id, uuid: podcast.uuid)
@@ -62,18 +65,24 @@ class RatePodcastViewModel: ObservableObject {
 
     func submit() {
         isSubmitting = true
+        Analytics.shared.track(.ratingScreenSubmitTapped,
+                               properties: ["uuid": podcast.uuid,
+                                            "stars": stars])
         Task { @MainActor [weak self] in
             guard let self else { return }
             let success = await ApiServerHandler.shared.addRating(uuid: self.podcast.uuid, rating: Int(self.stars))
             self.isSubmitting = false
             if success {
-                self.dismiss()
+                self.dismiss(trackingEvent: false)
                 Toast.show(L10n.ratingThankYou)
             }
         }
     }
 
-    func dismiss() {
+    func dismiss(trackingEvent: Bool = true) {
+        if !trackingEvent {
+            dismissAction = .default
+        }
         presented = false
     }
 
@@ -87,13 +96,27 @@ class RatePodcastViewModel: ObservableObject {
                 self.stars = Double(userPodcastRating.podcastRating)
                 self.userPodcastRating = userPodcastRating
             }
+            let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenShown : .notAllowedToRateScreenShown
+            Analytics.shared.track(event, properties: ["uuid": uuid])
             self.userCanRate = userCanRate
+
+            self.setDismissAction()
         }
+    }
+
+    private func setDismissAction() {
+        let dismissEvent: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenDismissed : .notAllowedToRateScreenDismissed
+        dismissAction = .dismissAndTracking(dismissEvent)
     }
 
     enum UserCanRate {
         case checking
         case allowed
         case disallowed
+    }
+
+    enum DismissAction {
+        case dismissAndTracking(AnalyticsEvent)
+        case `default`
     }
 }
