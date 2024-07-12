@@ -62,6 +62,9 @@ class RatePodcastViewModel: ObservableObject {
 
     func submit() {
         isSubmitting = true
+        Analytics.shared.track(.ratingScreenSubmitTapped,
+                               properties: ["uuid": podcast.uuid,
+                                            "stars": stars])
         Task { @MainActor [weak self] in
             guard let self else { return }
             let success = await ApiServerHandler.shared.addRating(uuid: self.podcast.uuid, rating: Int(self.stars))
@@ -74,6 +77,8 @@ class RatePodcastViewModel: ObservableObject {
     }
 
     func dismiss() {
+        let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenDismissed : .notAllowedToRateScreenDismissed
+        Analytics.shared.track(event)
         presented = false
     }
 
@@ -87,6 +92,8 @@ class RatePodcastViewModel: ObservableObject {
                 self.stars = Double(userPodcastRating.podcastRating)
                 self.userPodcastRating = userPodcastRating
             }
+            let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenShown : .notAllowedToRateScreenShown
+            Analytics.shared.track(event, properties: ["uuid": uuid])
             self.userCanRate = userCanRate
         }
     }
