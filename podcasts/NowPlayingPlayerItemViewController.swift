@@ -352,6 +352,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
         playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1
 
+        episodeImage.layer.opacity = 1
+
         if isShowing {
             playerContainer?.showTranscript()
         }
@@ -390,6 +392,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
             if !isShowing {
                 playerContainer?.hideTranscript()
+            } else {
+                episodeImage.layer.opacity = 0
             }
 
             playPauseBtn.finishedTransition()
