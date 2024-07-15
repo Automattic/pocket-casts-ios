@@ -1,10 +1,15 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
 
 class RatePodcastViewModel: ObservableObject {
     @Binding var presented: Bool
 
+    @Binding var dismissAction: DismissAction
+
     @Published var userCanRate: UserCanRate = .checking
+
+    @Published var userPodcastRating: UserPodcastRating?
 
     @Published var isSubmitting: Bool = false
 
@@ -22,6 +27,8 @@ class RatePodcastViewModel: ObservableObject {
 
     let podcast: Podcast
 
+    let dataManager: DataManager
+
     var buttonLabel: String {
         userCanRate == .allowed ? L10n.supportSubmit : L10n.done
     }
@@ -30,10 +37,26 @@ class RatePodcastViewModel: ObservableObject {
         userCanRate != .allowed || userCanRate == .allowed && stars > 0
     }
 
-    init(presented: Binding<Bool>, podcast: Podcast) {
+    var shouldHideButton: Bool {
+        if let userPodcastRating {
+            return Double(userPodcastRating.podcastRating) == stars
+        }
+        return false
+    }
+
+    var buttonOpacity: Double {
+        if shouldHideButton {
+            return 0
+        }
+        return isButtonEnabled ? 1 : 0.8
+    }
+
+    init(presented: Binding<Bool>, dismissAction: Binding<DismissAction>, podcast: Podcast, dataManager: DataManager = .sharedManager) {
         self._presented = presented
+        self._dismissAction = dismissAction
         self.podcast = podcast
-        checkIfUserCanRate()
+        self.dataManager = dataManager
+        checkIfUserCanRatePodcast(id: podcast.id, uuid: podcast.uuid)
     }
 
     func buttonAction() {
@@ -42,27 +65,58 @@ class RatePodcastViewModel: ObservableObject {
 
     func submit() {
         isSubmitting = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.isSubmitting = false
-            self?.dismiss()
-            Toast.show(L10n.ratingSubmitted)
+        Analytics.shared.track(.ratingScreenSubmitTapped,
+                               properties: ["uuid": podcast.uuid,
+                                            "stars": stars])
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let success = await ApiServerHandler.shared.addRating(uuid: self.podcast.uuid, rating: Int(self.stars))
+            self.isSubmitting = false
+            if success {
+                self.dismiss(trackingEvent: false)
+                Toast.show(L10n.ratingThankYou)
+            }
         }
     }
 
-    func dismiss() {
+    func dismiss(trackingEvent: Bool = true) {
+        if !trackingEvent {
+            dismissAction = .default
+        }
         presented = false
     }
 
-    private func checkIfUserCanRate() {
-        // Check through an API if the user can rate this podcast
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.userCanRate = .allowed
+    private func checkIfUserCanRatePodcast(id: Int64, uuid: String) {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let count = await self.dataManager.findPlayedEpisodesCount(podcastId: id)
+            let userCanRate: UserCanRate = count < Constants.Values.numberOfEpisodesListenedRequiredToRate ? .disallowed : .allowed
+            if userCanRate == .allowed,
+               let userPodcastRating = await ApiServerHandler.shared.getRating(uuid: uuid) {
+                self.stars = Double(userPodcastRating.podcastRating)
+                self.userPodcastRating = userPodcastRating
+            }
+            let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenShown : .notAllowedToRateScreenShown
+            Analytics.shared.track(event, properties: ["uuid": uuid])
+            self.userCanRate = userCanRate
+
+            self.setDismissAction()
         }
+    }
+
+    private func setDismissAction() {
+        let dismissEvent: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenDismissed : .notAllowedToRateScreenDismissed
+        dismissAction = .dismissAndTracking(dismissEvent)
     }
 
     enum UserCanRate {
         case checking
         case allowed
         case disallowed
+    }
+
+    enum DismissAction {
+        case dismissAndTracking(AnalyticsEvent)
+        case `default`
     }
 }

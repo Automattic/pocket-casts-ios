@@ -168,7 +168,8 @@ class TranscriptsViewController: PlayerItemViewController {
         }
         if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
             let range = cue.characterRange
-            print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
+            //Comment this line out if you want to check the player position and cues in range
+            //print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             // adjusting the scroll to range so it shows more text

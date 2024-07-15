@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,6 +15,8 @@
                 <outlet property="headerView" destination="tuk-fS-Mph" id="YKz-RD-dYe"/>
                 <outlet property="mainScrollView" destination="jyM-S1-fQW" id="GsL-TZ-dEm"/>
                 <outlet property="tabsView" destination="DY8-o1-Oqt" id="aZi-9q-1H6"/>
+                <outlet property="topSpaceToHeader" destination="QNv-lA-xUW" id="2r0-oz-j9B"/>
+                <outlet property="topSpaceToSafeArea" destination="gZo-Eg-DzI" id="6Bl-e7-1aw"/>
                 <outlet property="upNextBtn" destination="HBu-bE-aeT" id="BCf-TR-qEj"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -82,6 +84,7 @@
                 <constraint firstAttribute="top" secondItem="tuk-fS-Mph" secondAttribute="top" id="V0b-Ya-heu"/>
                 <constraint firstItem="jyM-S1-fQW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Vu0-o1-JuT"/>
                 <constraint firstItem="tuk-fS-Mph" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZVO-ed-MuN"/>
+                <constraint firstItem="jyM-S1-fQW" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" priority="999" id="gZo-Eg-DzI"/>
                 <constraint firstAttribute="bottom" secondItem="jyM-S1-fQW" secondAttribute="bottom" id="iHP-ln-ubZ"/>
                 <constraint firstAttribute="trailing" secondItem="tuk-fS-Mph" secondAttribute="trailing" id="jMd-Bl-UDQ"/>
             </constraints>

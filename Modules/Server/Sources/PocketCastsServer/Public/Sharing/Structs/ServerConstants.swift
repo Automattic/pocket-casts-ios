@@ -57,6 +57,7 @@ public enum ServerConstants {
         public static let ok = 200
         public static let notModified = 304
         public static let unauthorized = 401
+        public static let forbidden = 403
         public static let notFound = 404
         public static let serverError = 500
         public static let badRequest = 400

@@ -77,7 +77,7 @@ struct PlayerColorHelper {
         return theme.isDark ? ColorManager.darkThemeTintForPodcast(parentPodcast) : ColorManager.lightThemeTintForPodcast(parentPodcast)
     }
 
-    private static func backgroundColor(for episode: BaseEpisode?) -> UIColor? {
+    static func backgroundColor(for episode: BaseEpisode?) -> UIColor? {
         guard let parentPodcast = (episode as? Episode)?.parentPodcast() else {
             return nil
         }

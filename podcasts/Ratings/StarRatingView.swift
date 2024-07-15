@@ -6,6 +6,8 @@ struct StarRatingView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PodcastRatingViewModel
 
+    @State private var dismissAction: RatePodcastViewModel.DismissAction = .default
+
     /// Keeps track of when we appear to determine if we should animate
     private var startDate: Date = .now
 
@@ -45,11 +47,19 @@ struct StarRatingView: View {
                         viewModel.didTapRating()
                     }
             }
-            .sheet(isPresented: $viewModel.presentingGiveRatings) {
-                if let podcast = viewModel.podcast {
-                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, podcast: podcast))
+            .sheet(isPresented: $viewModel.presentingGiveRatings, onDismiss: {
+                switch dismissAction {
+                case .dismissAndTracking(let event):
+                    Analytics.shared.track(event)
+                default:
+                    break
                 }
-            }
+                dismissAction = .default
+            }, content: {
+                if let podcast = viewModel.podcast {
+                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, dismissAction: $dismissAction, podcast: podcast))
+                }
+            })
 
             Rectangle()
                 .foregroundStyle(theme.primaryUi05)
@@ -73,9 +83,33 @@ struct StarRatingView: View {
     @ViewBuilder
     private func ratingView(rating: PodcastRating?) -> some View {
         starsView(rating: rating?.average ?? 0)
-        if viewModel.showTotal {
-            labelView(total: rating?.total)
+        labelView(rating: rating)
+    }
+
+    @ViewBuilder
+    private func labelView(rating: PodcastRating?) -> some View {
+        let defaultColor = AppTheme.color(for: .primaryText01, theme: theme)
+        Group {
+            if !FeatureFlag.giveRatings.enabled {
+                Text("(\(rating?.total.abbreviated ?? ""))")
+                    .font(size: 14, style: .footnote)
+            } else {
+                if let rating, viewModel.hasRatings {
+                    Text("\(rating.average, specifier: "%.1f")")
+                        .font(size: 14, style: .footnote, weight: .semibold)
+                        .padding([.leading], -2)
+                    Text("(\(rating.total.abbreviated))")
+                        .font(size: 14, style: .footnote)
+                        .padding([.leading], -2)
+                } else {
+                    Text(L10n.ratingNoRatings)
+                        .font(size: 14, style: .footnote)
+                }
+            }
         }
+        .foregroundColor(defaultColor)
+        .padding(.top, 1)
+        .monospacedDigit()
     }
 
     @ViewBuilder
@@ -84,6 +118,8 @@ struct StarRatingView: View {
         let stars = Int(rating)
         // Get the float value
         let half = rating.truncatingRemainder(dividingBy: 1)
+        let themeStyle = FeatureFlag.giveRatings.enabled ? ThemeStyle.primaryUi05Selected : ThemeStyle.filter03
+        let color = AppTheme.color(for: themeStyle, theme: theme)
 
         HStack(spacing: 3) {
             ForEach(0..<Constants.maxStars, id: \.self) { index in
@@ -91,18 +127,9 @@ struct StarRatingView: View {
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(theme.filter03)
+                    .foregroundStyle(color)
             }
-        }.foregroundColor(AppTheme.color(for: .filter03, theme: theme))
-    }
-
-    @ViewBuilder
-    private func labelView(total: Int?) -> some View {
-        Text("(\(total?.abbreviated ?? ""))")
-            .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
-            .font(size: 14, style: .footnote)
-            .padding(.top, 1)
-            .monospacedDigit()
+        }.foregroundColor(color)
     }
 
     private func image(for index: Int, stars: Int, half: Double) -> Image {
