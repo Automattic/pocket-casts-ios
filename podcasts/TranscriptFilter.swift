@@ -40,7 +40,7 @@ struct RegexFilter: TranscriptFilter {
 
 extension RegexFilter {
     static let vttTagsFilter = RegexFilter(pattern: "<[^>]*>", replacement: "")
-    static let speakerFilter = RegexFilter(pattern: "Speaker \\d?:", replacement: "")
+    static let speakerFilter = RegexFilter(pattern: "Speaker \\d?: *", replacement: "")
     static let newLinesFilter = RegexFilter(pattern: "\\.\\z", replacement: ".\n")
 }
 

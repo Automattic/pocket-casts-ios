@@ -30,11 +30,11 @@ final class ComposeFilterTests: XCTestCase {
         let expected = """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet condimentum ligula quis fringilla. Donec eu ultricies enim. Aenean eu risus leo. Nulla facilisi.
 
-         Mauris ac urna sodales, efficitur ipsum congue, congue arcu. Nam ut lacus eget urna vehicula dictum eget vel mauris.
+        Mauris ac urna sodales, efficitur ipsum congue, congue arcu. Nam ut lacus eget urna vehicula dictum eget vel mauris.
 
-         Aenean quis commodo est, a faucibus ligula. Vivamus ultricies lectus ut dui varius, nec mollis sapien elementum. Phasellus augue arcu, tincidunt fermentum justo ullamcorper,
+        Aenean quis commodo est, a faucibus ligula. Vivamus ultricies lectus ut dui varius, nec mollis sapien elementum. Phasellus augue arcu, tincidunt fermentum justo ullamcorper,
 
-         tincidunt scelerisque libero. Cras maximus nunc consectetur, scelerisque tortor at, aliquet metus. Aliquam ullamcorper in massa in convallis.
+        tincidunt scelerisque libero. Cras maximus nunc consectetur, scelerisque tortor at, aliquet metus. Aliquam ullamcorper in massa in convallis.
         """
 
         XCTAssertEqual(filtered, expected.trim())
