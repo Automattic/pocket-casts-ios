@@ -7,6 +7,8 @@ class PodcastRatingViewModel: ObservableObject {
     @Published var rating: PodcastRating? = nil
     @Published var presentingGiveRatings = false
 
+    var presentLogin: ((PodcastRatingViewModel) -> Void)? = nil
+
     /// Whether we should display the total ratings or not
     var showTotal: Bool = true
 
@@ -58,6 +60,14 @@ class PodcastRatingViewModel: ObservableObject {
 extension PodcastRatingViewModel {
     func didTapRating() {
         if FeatureFlag.giveRatings.enabled {
+            if SyncManager.isUserLoggedIn() {
+                presentingGiveRatings = true
+            } else {
+                DispatchQueue.main.async {
+                    self.presentLogin?(self)
+                }
+            }
+        } else {
             presentingGiveRatings = true
         }
 

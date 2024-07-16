@@ -4010,6 +4010,9 @@
 /* Title of a button that takes the user to a screen to rate a podcast */
 "rate" = "Rate";
 
+/* Toast message to alert a user to log in to leave a rating */
+"rating_login_required" = "You must log in to leave a rating";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 
