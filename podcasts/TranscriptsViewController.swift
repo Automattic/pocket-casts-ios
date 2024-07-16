@@ -7,6 +7,8 @@ class TranscriptsViewController: PlayerItemViewController {
     var transcript: TranscriptModel?
     var previousRange: NSRange?
 
+    var canScrollToDismiss = true
+
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
         super.init()
@@ -37,7 +39,8 @@ class TranscriptsViewController: PlayerItemViewController {
             ]
         )
 
-        transcriptView.textContainerInset = .init(top: 50, left: 0, bottom: 0, right: 0)
+        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
+        transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
 
         view.addSubview(activityIndicatorView)
         NSLayoutConstraint.activate(
@@ -54,7 +57,7 @@ class TranscriptsViewController: PlayerItemViewController {
                 topGradient.topAnchor.constraint(equalTo: view.topAnchor),
                 topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                topGradient.heightAnchor.constraint(equalToConstant: 80)
+                topGradient.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
             ]
         )
 
@@ -65,7 +68,7 @@ class TranscriptsViewController: PlayerItemViewController {
                 bottomGradient.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 bottomGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 bottomGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                bottomGradient.heightAnchor.constraint(equalToConstant: 60)
+                bottomGradient.heightAnchor.constraint(equalToConstant: Sizes.bottomGradientHeight)
             ]
         )
 
@@ -110,7 +113,7 @@ class TranscriptsViewController: PlayerItemViewController {
         updateColors()
         loadTranscript()
         addObservers()
-        (transcriptView as UIScrollView).delegate = scrollViewHandler
+        (transcriptView as UIScrollView).delegate = self
     }
 
     override func willBeRemovedFromPlayer() {
@@ -227,5 +230,24 @@ class TranscriptsViewController: PlayerItemViewController {
             previousRange = nil
             transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
+    }
+
+    private enum Sizes {
+        static let topGradientHeight: CGFloat = 80
+        static let bottomGradientHeight: CGFloat = 60
+    }
+}
+
+extension TranscriptsViewController: UIScrollViewDelegate {
+
+    // Only allow scroll to dismiss if scrolling bottom from the top
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if canScrollToDismiss {
+            scrollViewHandler?.scrollViewDidScroll?(scrollView)
+        }
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        canScrollToDismiss = scrollView.contentOffset.y == 0
     }
 }
