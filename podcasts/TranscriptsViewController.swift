@@ -233,7 +233,7 @@ class TranscriptsViewController: PlayerItemViewController {
     }
 
     private enum Sizes {
-        static let topGradientHeight: CGFloat = 80
+        static let topGradientHeight: CGFloat = 60
         static let bottomGradientHeight: CGFloat = 60
     }
 }
