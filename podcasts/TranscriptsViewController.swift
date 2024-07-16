@@ -70,7 +70,7 @@ class TranscriptsViewController: PlayerItemViewController {
         )
 
         view.addSubview(closeButton)
-        closeButton.frame = .init(x: 0, y: 0, width: 44, height: 44)
+        closeButton.frame = .init(x: 16, y: 0, width: 44, height: 44)
     }
 
     private lazy var transcriptView: UITextView = {
