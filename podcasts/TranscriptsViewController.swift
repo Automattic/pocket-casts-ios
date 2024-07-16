@@ -37,11 +37,35 @@ class TranscriptsViewController: PlayerItemViewController {
             ]
         )
 
+        transcriptView.textContainerInset = .init(top: 50, left: 0, bottom: 0, right: 0)
+
         view.addSubview(activityIndicatorView)
         NSLayoutConstraint.activate(
             [
                 activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ]
+        )
+
+        view.addSubview(topGradient)
+        topGradient.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                topGradient.topAnchor.constraint(equalTo: view.topAnchor),
+                topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                topGradient.heightAnchor.constraint(equalToConstant: 80)
+            ]
+        )
+
+        view.addSubview(bottomGradient)
+        bottomGradient.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                bottomGradient.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                bottomGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                bottomGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                bottomGradient.heightAnchor.constraint(equalToConstant: 60)
             ]
         )
 
@@ -72,6 +96,14 @@ class TranscriptsViewController: PlayerItemViewController {
         closeButton.tintColor = ThemeColor.primaryIcon02()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return closeButton
+    }()
+
+    private lazy var topGradient: UIView = {
+        TranscriptGradientView()
+    }()
+
+    private lazy var bottomGradient: UIView = {
+        TranscriptGradientView(direction: .bottomToTop)
     }()
 
     override func willBeAddedToPlayer() {
