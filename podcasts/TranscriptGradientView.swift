@@ -30,7 +30,7 @@ class TranscriptGradientView: UIView {
         gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             PlayerColorHelper.playerBackgroundColor01().cgColor,
-            UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
+            PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0).cgColor
         ]
 
         if direction == .bottomToTop {
