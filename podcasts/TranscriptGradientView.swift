@@ -50,4 +50,3 @@ class TranscriptGradientView: UIView {
         gradientLayer?.frame = bounds
     }
 }
-
