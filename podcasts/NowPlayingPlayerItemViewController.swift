@@ -367,7 +367,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             playerContainer?.showTranscript()
         }
 
-        UIView.animate(withDuration: 0.35, animations: { [weak self] in
+        UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 1, animations: { [weak self] in
             guard let self else { return }
 
             // Hide/show shelf
