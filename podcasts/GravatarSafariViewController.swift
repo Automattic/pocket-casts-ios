@@ -13,7 +13,8 @@ final class GravatarSafariViewController: SFSafariViewController {
                 components.percentEncodedQueryItems = [
                     URLQueryItem(name: "is_quick_editor", value: "true"),
                     URLQueryItem(name: "email", value: email),
-                    URLQueryItem(name: "scope", value: "avatars")
+                    URLQueryItem(name: "scope", value: "avatars"),
+                    URLQueryItem(name: "is_app_origin", value: "true")
                 ].map({ $0.percentEncoded() })
                 return components.url
             }
