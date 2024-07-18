@@ -87,11 +87,11 @@ class RatePodcastViewModel: ObservableObject {
     }
 
     private func checkIfUserCanRatePodcast(id: Int64, uuid: String) {
-        Task { @MainActor [weak self] in
+        Task { [weak self] in
             guard let self else { return }
             // Some podcasts can have just one episode.
             // Let's use the episode count to compute the requirement to rate
-            let episodeCount = await self.dataManager.findEpisodeCount(podcastId: id)
+            let episodeCount = self.dataManager.findEpisodeCount(podcastId: id)
 
             // This shouldn't be necessary, but just in case it's empty we return
             guard episodeCount > 0 else { return }
@@ -103,14 +103,17 @@ class RatePodcastViewModel: ObservableObject {
             let userCanRate: UserCanRate = playedEpisodesCount < requirementToRate ? .disallowed : .allowed
             if userCanRate == .allowed,
                let userPodcastRating = await ApiServerHandler.shared.getRating(uuid: uuid) {
-                self.stars = Double(userPodcastRating.podcastRating)
-                self.userPodcastRating = userPodcastRating
+                await MainActor.run {
+                    self.stars = Double(userPodcastRating.podcastRating)
+                    self.userPodcastRating = userPodcastRating
+                }
             }
             let event: AnalyticsEvent = userCanRate == .allowed ? .ratingScreenShown : .notAllowedToRateScreenShown
             Analytics.shared.track(event, properties: ["uuid": uuid])
-            self.userCanRate = userCanRate
-
-            self.setDismissAction()
+            await MainActor.run {
+                self.userCanRate = userCanRate
+                self.setDismissAction()
+            }
         }
     }
 
