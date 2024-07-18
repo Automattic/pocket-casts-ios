@@ -2651,6 +2651,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>hoy</string>
     <key>top</key>
     <string>Top</string>
+    <key>transcript</key>
+    <string>Transcripción</string>
     <key>trial_finished</key>
     <string>Prueba finalizada</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@ Con esta función, el trabajo que has hecho para organizar tu página de podcast
     <key>widgets_app_icon_name</key>
     <string>Icono</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Consulta la pestaña Descubrir</string>
+    <string>Consulta Discover para obtener más información</string>
     <key>widgets_discover_prompt_title</key>
-    <string>¿Quieres saber más?</string>
+    <string>Nada en Próximamente</string>
     <key>widgets_nothing_playing</key>
     <string>No se está reproduciendo nada</string>
     <key>widgets_now_playing_desc</key>

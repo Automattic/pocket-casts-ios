@@ -2651,6 +2651,8 @@
     <string>今天</string>
     <key>top</key>
     <string>顶部</string>
+    <key>transcript</key>
+    <string>文字转录稿</string>
     <key>trial_finished</key>
     <string>试用完成</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@
     <key>widgets_app_icon_name</key>
     <string>图标</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>查看“发现”选项卡</string>
+    <string>查看“发现”，了解更多信息</string>
     <key>widgets_discover_prompt_title</key>
-    <string>渴望收听更多内容？</string>
+    <string>“接下来播放”列表无内容</string>
     <key>widgets_nothing_playing</key>
     <string>未播放任何内容</string>
     <key>widgets_now_playing_desc</key>

@@ -2647,6 +2647,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Vandaag</string>
     <key>top</key>
     <string>Boven</string>
+    <key>transcript</key>
+    <string>Transcriptie</string>
     <key>trial_finished</key>
     <string>Proefperiode afgelopen</string>
     <key>trim_silence</key>
@@ -2780,9 +2782,9 @@ Je kan nu dus met een gerust hart de lay-out van de pagina podcasts gaan aanpass
     <key>widgets_app_icon_name</key>
     <string>Pictogram</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Bekijk het tabblad Ontdekken</string>
+    <string>Bekijk Ontdekken voor nog meer</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Zijn je oren op zoek naar meer?</string>
+    <string>Niets in Hierna</string>
     <key>widgets_nothing_playing</key>
     <string>Er wordt niets afgespeeld</string>
     <key>widgets_now_playing_desc</key>
