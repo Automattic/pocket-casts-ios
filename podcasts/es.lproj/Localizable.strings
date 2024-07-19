@@ -2367,12 +2367,28 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Si está activado, el tempoprizador se reiniciará cuando agites tu teléfono.</string>
     <key>share</key>
     <string>Compartir</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Enlace copiado al portapapeles</string>
+    <key>share_copy_link</key>
+    <string>Copiar enlace</string>
     <key>share_current_position</key>
     <string>Posición actual</string>
+    <key>share_description</key>
+    <string>Elegir un formato y una plataforma a la que compartir</string>
+    <key>share_episode</key>
+    <string>Compartir episodio</string>
+    <key>share_episode_at</key>
+    <string>Compartir episodio en %1$@</string>
+    <key>share_episode_title</key>
+    <string>Compartir episodio</string>
     <key>share_list_subscribing</key>
     <string>Suscribiéndote…</string>
+    <key>share_more_actions</key>
+    <string>Más</string>
     <key>share_podcast</key>
     <string>Compartir podcast</string>
+    <key>share_podcast_title</key>
+    <string>Compartir pódcast</string>
     <key>share_podcasts_all_selected</key>
     <string>TODO SELECCIONADO</string>
     <key>share_podcasts_create_list</key>
@@ -2709,6 +2725,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
 Las dos cosas están genial. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>No se está reproduciendo nada</string>
+    <key>watch_play_source</key>
+    <string>Reproducir original</string>
     <key>watch_source_msg</key>
     <string>Los podcasts se reproducirán a través del altavoz al que esté conectado el dispositivo elegido</string>
     <key>watch_source_plus_info</key>

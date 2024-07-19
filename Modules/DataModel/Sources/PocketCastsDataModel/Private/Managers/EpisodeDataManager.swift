@@ -82,6 +82,27 @@ class EpisodeDataManager {
         return episodes
     }
 
+    func findPlayedEpisodesCount(podcastId: Int64, dbQueue: FMDatabaseQueue) async -> Int {
+        return await withCheckedContinuation { continuation in
+            var count = 0
+            let query = "SELECT COUNT(*) as Count from \(DataManager.episodeTableName) WHERE podcast_id = ? AND playedUpTo > (duration / 2)"
+            dbQueue.inDatabase { db in
+                do {
+                    let resultSet = try db.executeQuery(query, values: [podcastId])
+                    defer { resultSet.close() }
+
+                    if resultSet.next() {
+                        count = Int(resultSet.int(forColumn: "Count"))
+                    }
+                    continuation.resume(returning: count)
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.findPlayedEpisodesCount error: \(error)")
+                    continuation.resume(returning: 0)
+                }
+            }
+        }
+    }
+
     func downloadedEpisodeExists(uuid: String, dbQueue: FMDatabaseQueue) -> Bool {
         var found = false
         dbQueue.inDatabase { db in

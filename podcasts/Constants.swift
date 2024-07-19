@@ -214,6 +214,8 @@ struct Constants {
         public static let offerEligibilityDefaultValue = true
 
         static let bookmarkMaxTitleLength = 100
+
+        static let numberOfEpisodesListenedRequiredToRate = 2
     }
 
     enum Limits {

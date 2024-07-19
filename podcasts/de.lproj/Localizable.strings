@@ -2367,11 +2367,27 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Wenn die Schlummerfunktion aktiviert ist, wird sie neu gestartet, wenn du dein Handy schüttelst.</string>
     <key>share</key>
     <string>Teilen</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Link in Zwischenablage kopiert</string>
+    <key>share_copy_link</key>
+    <string>Link kopieren</string>
     <key>share_current_position</key>
     <string>Aktuelle Position</string>
+    <key>share_description</key>
+    <string>Wähle ein Format und eine Plattform aus, auf der der Inhalt geteilt werden soll</string>
+    <key>share_episode</key>
+    <string>Folge teilen</string>
+    <key>share_episode_at</key>
+    <string>Folge bei %1$@ teilen</string>
+    <key>share_episode_title</key>
+    <string>Folge teilen</string>
     <key>share_list_subscribing</key>
     <string>Werden abonniert …</string>
+    <key>share_more_actions</key>
+    <string>Mehr</string>
     <key>share_podcast</key>
+    <string>Podcast teilen</string>
+    <key>share_podcast_title</key>
     <string>Podcast teilen</string>
     <key>share_podcasts_all_selected</key>
     <string>ALLE AUSGEWÄHLT</string>
@@ -2709,6 +2725,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
 Beides klingt gut. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Aktuell keine Wiedergabe</string>
+    <key>watch_play_source</key>
+    <string>Quelle der Wiedergabe</string>
     <key>watch_source_msg</key>
     <string>Podcasts werden über den Lautsprecher abgespielt, mit dem das ausgewählte Gerät verbunden ist</string>
     <key>watch_source_plus_info</key>

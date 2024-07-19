@@ -4001,11 +4001,20 @@
 /* Confirmation message that a user rating for a podcast was submitted */
 "rating_submitted" = "Your rating was submitted!";
 
+/* Thank you message that a user rating for a podcast was submitted */
+"rating_thank_you" = "Thank you for rating!";
+
 /* Error message when a user rating for a podcast couldn't be submitted */
 "rating_error" = "Ops! There was an error.";
 
+/* No ratings label message */
+"rating_no_ratings" = "No ratings";
+
 /* Title of a button that takes the user to a screen to rate a podcast */
 "rate" = "Rate";
+
+/* Toast message to alert a user to log in to leave a rating */
+"rating_login_required" = "You must log in to leave a rating";
 
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
@@ -4159,3 +4168,9 @@
 
 /* A common string used throughout the app. Often refers to the Transcript tab in the player. */
 "transcript" = "Transcript";
+
+/* A title shown for a share option which creates an audio clip of an episode */
+"create_clip" = "Create clip";
+
+/* Shown in a button when creating a shareable audio clip of an episode */
+"clip" = "Clip";

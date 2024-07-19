@@ -4,6 +4,8 @@ import UIKit
 class TranscriptsViewController: PlayerItemViewController {
 
     let playbackManager: PlaybackManager
+    var transcript: TranscriptModel?
+    var previousRange: NSRange?
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
@@ -30,8 +32,8 @@ class TranscriptsViewController: PlayerItemViewController {
             [
                 transcriptView.topAnchor.constraint(equalTo: view.topAnchor),
                 transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+                transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
             ]
         )
 
@@ -96,22 +98,56 @@ class TranscriptsViewController: PlayerItemViewController {
             }
             let transcriptManager = TranscriptManager(playbackManager: self.playbackManager)
             do {
-                let text = try await transcriptManager.loadTranscript()
-                await show(transcript: text)
+                let transcript = try await transcriptManager.loadTranscript()
+                await show(transcript: transcript)
             } catch {
                 await show(error: error)
             }
         }
     }
 
-    private func show(transcript: String) {
+    private func show(transcript: TranscriptModel) {
             activityIndicatorView.stopAnimating()
-            transcriptView.text = transcript
+            self.previousRange = nil
+            self.transcript = transcript
+            transcriptView.attributedText = styleText(transcript: transcript)
+    }
+
+    private func styleText(transcript: TranscriptModel, position: Double = 0) -> NSAttributedString {
+        let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.2
+        paragraphStyle.paragraphSpacing = 10
+        paragraphStyle.lineBreakMode = .byWordWrapping
+
+        let standardFont = UIFont.systemFont(ofSize: 16)
+        let highlightFont = UIFont.systemFont(ofSize: 18)
+
+        let normalStyle: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .font: standardFont,
+            .foregroundColor: ThemeColor.playerContrast02()
+        ]
+
+        let highlightStyle: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .font: highlightFont,
+            .foregroundColor: ThemeColor.playerContrast01()
+        ]
+
+        formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
+
+        if let range = transcript.firstCue(containing: position)?.characterRange {
+            formattedText.addAttributes(highlightStyle, range: range)
+        }
+
+        return formattedText
     }
 
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
-        guard let transcriptError = error as? TranscriptManager.TranscriptError else {
+        guard let transcriptError = error as? TranscriptError else {
             transcriptView.text = "Transcript unknow error"
             return
         }
@@ -121,5 +157,27 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func addObservers() {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+    }
+
+    @objc private func updateTranscriptPosition() {
+        let position = playbackManager.currentTime()
+        print("Transcript position: \(position)")
+        guard let transcript else {
+            return
+        }
+        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
+            let range = cue.characterRange
+            //Comment this line out if you want to check the player position and cues in range
+            //print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
+            previousRange = range
+            transcriptView.attributedText = styleText(transcript: transcript, position: position)
+            // adjusting the scroll to range so it shows more text
+            let scrollRange = NSRange(location: range.location, length: range.length * 5)
+            transcriptView.scrollRangeToVisible(scrollRange)
+        } else if let startTime = transcript.cues.first?.startTime, position < startTime {
+            previousRange = nil
+            transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+        }
     }
 }

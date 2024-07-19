@@ -14,7 +14,7 @@ struct RatePodcastView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .topLeading) {
             VStack {
                 Spacer()
                 content
@@ -76,11 +76,7 @@ struct RatePodcastView: View {
                     let currentStar = viewModel.stars - Double(index)
 
                     Group {
-                        if currentStar > 0 && currentStar < 1 {
-                            Image("star-half")
-                                .resizable()
-                                .renderingMode(.template)
-                        } else if currentStar > 0 {
+                        if currentStar > 0 {
                             Image("star-full")
                                 .resizable()
                                 .renderingMode(.template)
@@ -103,7 +99,7 @@ struct RatePodcastView: View {
                     .onChanged { gesture in
                         var starValue = (gesture.location.x * 5) / reader.size.width
                         starValue = (starValue * 2).rounded() / 2
-                        viewModel.stars = max(1, min(5, starValue))
+                        viewModel.stars = max(1, min(5, starValue.rounded()))
                     }
             )
         }, contentSizeUpdated: { _ in
@@ -124,7 +120,7 @@ struct RatePodcastView: View {
         })
         .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
         .disabled(!viewModel.isButtonEnabled)
-        .opacity(viewModel.isButtonEnabled ? 1 : 0.8)
+        .opacity(viewModel.buttonOpacity)
     }
 
     private var errorAlert: Alert {
@@ -147,6 +143,6 @@ struct RatePodcastView: View {
 }
 
 #Preview {
-    RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true), podcast: Podcast.previewPodcast()))
+    RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true), dismissAction: .constant(.default), podcast: Podcast.previewPodcast()))
         .environmentObject(Theme.sharedTheme)
 }
