@@ -1,3 +1,8 @@
+7.70
+-----
+- A new button is added under Account Settings: "Change Avatar". It opens the in-app Safari with Gravatar's Avatar Quick Editor. [#1770]
+
+
 7.68
 -----
 - New designs for Widgets. [#1343](https://github.com/Automattic/pocket-casts-ios/pull/1343)
