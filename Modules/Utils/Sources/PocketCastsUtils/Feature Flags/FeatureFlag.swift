@@ -175,8 +175,6 @@ public enum FeatureFlag: String, CaseIterable {
             "default_player_filter_callback_fix"
         case .upNextOnTabBar:
             "up_next_on_tab_bar"
-        case .gravatarChangeAvatar:
-            "gravatar_change_avatar"
         default:
             rawValue.lowerSnakeCased()
         }
