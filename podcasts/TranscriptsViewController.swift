@@ -126,7 +126,7 @@ class TranscriptsViewController: PlayerItemViewController {
         if let descriptor = UIFontDescriptor.preferredFontDescriptor(
           withTextStyle: .body)
           .withDesign(.serif) {
-            standardFont = UIFont(descriptor: descriptor, size: 0)
+            standardFont = UIFont(descriptor: descriptor, size: 16)
         }
 
 
