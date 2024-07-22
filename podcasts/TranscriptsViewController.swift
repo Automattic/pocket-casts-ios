@@ -121,8 +121,14 @@ class TranscriptsViewController: PlayerItemViewController {
         paragraphStyle.paragraphSpacing = 10
         paragraphStyle.lineBreakMode = .byWordWrapping
 
-        let standardFont = UIFont.systemFont(ofSize: 16)
-        let highlightFont = UIFont.systemFont(ofSize: 18)
+        var standardFont = UIFont.systemFont(ofSize: 18)
+
+        if let descriptor = UIFontDescriptor.preferredFontDescriptor(
+          withTextStyle: .body)
+          .withDesign(.serif) {
+            standardFont = UIFont(descriptor: descriptor, size: 0)
+        }
+
 
         let normalStyle: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
@@ -132,7 +138,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
         let highlightStyle: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
-            .font: highlightFont,
+            .font: standardFont,
             .foregroundColor: ThemeColor.playerContrast01()
         ]
 
