@@ -18,7 +18,7 @@ enum TranscriptFormat: String {
     }
 
     // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.srt, .vtt]
+    static let supportedFormats: [TranscriptFormat] = [.vtt, .srt]
 }
 
 struct TranscriptCue: Sendable {
