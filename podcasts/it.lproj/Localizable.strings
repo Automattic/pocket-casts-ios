@@ -2651,6 +2651,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Oggi</string>
     <key>top</key>
     <string>Principale</string>
+    <key>transcript</key>
+    <string>Trascrizione</string>
     <key>trial_finished</key>
     <string>Prova terminata</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@ Ciò significa che puoi stare più tranquillo sapendo che il duro lavoro che hai
     <key>widgets_app_icon_name</key>
     <string>Icona</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Accedi alla scheda Scopri</string>
+    <string>Visita Scopri per altro</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Vuoi ascoltare di più?</string>
+    <string>Nulla in Prossimo</string>
     <key>widgets_nothing_playing</key>
     <string>Nessuna riproduzione in corso</string>
     <key>widgets_now_playing_desc</key>

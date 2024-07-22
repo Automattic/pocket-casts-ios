@@ -23,7 +23,8 @@ struct SharingView: View {
     }
 
     let destinations: [ShareDestination]
-    let selectedOption: SharingModal.Option
+
+    @State var selectedOption: SharingModal.Option
 
     @State private var selectedMedia: ShareImageStyle
 
@@ -49,16 +50,20 @@ struct SharingView: View {
             switch selectedOption {
             case .episode, .podcast, .currentPosition:
                 buttons
-            case .clip:
+            case .clip(let episode, _):
                 VStack(spacing: 16) {
                     MediaTrimBar(clipTime: clipTime)
                         .frame(height: 72)
                         .tint(color)
                     Button(L10n.clip, action: {
-                        print("Clip: s:\(clipTime.start) e:\(clipTime.end)")
+                        withAnimation {
+                            selectedOption = .clipShare(episode, clipTime)
+                        }
                     }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
                 }
                 .padding(.horizontal, 16)
+            case .clipShare:
+                buttons
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -81,6 +86,21 @@ struct SharingView: View {
             switch selectedOption {
             case .clip:
                 EmptyView() // Don't show the description to give extra space for trim view
+            case .clipShare(let episode, let clipTime):
+                Button(action: {
+                    withAnimation {
+                        selectedOption = .clip(episode, clipTime.playback)
+                    }
+                }) {
+                    Text(L10n.editClip)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 10)
+                        .background(
+                            Capsule()
+                                .fill(.white.opacity(0.2))
+                        )
+                }
+                .padding(.top, 14)
             default:
                 Text(L10n.shareDescription)
                     .font(.subheadline)

@@ -4010,6 +4010,9 @@
 /* Title of a button that takes the user to a screen to rate a podcast */
 "rate" = "Rate";
 
+/* Toast message to alert a user to log in to leave a rating */
+"rating_login_required" = "You must log in to leave a rating";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 
@@ -4168,3 +4171,9 @@
 
 /* Shown in a button when creating a shareable audio clip of an episode */
 "clip" = "Clip";
+
+/* A title shown for a button to return to editing a clip */
+"edit_clip" = "Edit clip";
+
+/* A title shown after editing a clip but before sharing */
+"share_clip" = "Share clip";

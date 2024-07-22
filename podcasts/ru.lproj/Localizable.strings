@@ -2651,6 +2651,8 @@
     <string>Сегодня</string>
     <key>top</key>
     <string>Вверх</string>
+    <key>transcript</key>
+    <string>Расшифровка</string>
     <key>trial_finished</key>
     <string>Пробный период завершен</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@
     <key>widgets_app_icon_name</key>
     <string>Иконка</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Проверьте вкладку «Поиск»</string>
+    <string>Испытайте Discover и убедитесь сами</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Хотите услышать больше?</string>
+    <string>Очередь пуста</string>
     <key>widgets_nothing_playing</key>
     <string>Ничего не воспроизводится</string>
     <key>widgets_now_playing_desc</key>
