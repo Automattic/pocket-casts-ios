@@ -2651,6 +2651,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>今天</string>
     <key>top</key>
     <string>頂端</string>
+    <key>transcript</key>
+    <string>文字稿</string>
     <key>trial_finished</key>
     <string>試用已結束</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>widgets_app_icon_name</key>
     <string>圖示</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>查看「探索」分頁</string>
+    <string>查看「探索」深入更多內容</string>
     <key>widgets_discover_prompt_title</key>
-    <string>聽得還不過癮嗎？</string>
+    <string>「接下來播放」沒有內容</string>
     <key>widgets_nothing_playing</key>
     <string>沒有正在播放的內容</string>
     <key>widgets_now_playing_desc</key>

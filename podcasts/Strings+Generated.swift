@@ -758,6 +758,8 @@ internal enum L10n {
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
   /// Edit
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
+  /// Edit clip
+  internal static var editClip: String { return L10n.tr("Localizable", "edit_clip") }
   /// Enable it now
   internal static var enableItNow: String { return L10n.tr("Localizable", "enable_it_now") }
   /// See your listening stats, top podcasts, and more.
@@ -2742,6 +2744,8 @@ internal enum L10n {
   internal static var shakeToRestartSleepTimerDescription: String { return L10n.tr("Localizable", "shake_to_restart_sleep_timer_description") }
   /// Share
   internal static var share: String { return L10n.tr("Localizable", "share") }
+  /// Share clip
+  internal static var shareClip: String { return L10n.tr("Localizable", "share_clip") }
   /// Link copied to clipboard
   internal static var shareCopiedToClipboard: String { return L10n.tr("Localizable", "share_copied_to_clipboard") }
   /// Copy link

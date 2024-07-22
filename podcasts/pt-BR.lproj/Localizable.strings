@@ -2651,6 +2651,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Hoje</string>
     <key>top</key>
     <string>Topo da lista</string>
+    <key>transcript</key>
+    <string>Transcrição</string>
     <key>trial_finished</key>
     <string>Período de teste expirado</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@ Então, pode ficar tranquilo porque enquanto você organiza sua página de podca
     <key>widgets_app_icon_name</key>
     <string>Ícone</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Confira a guia Explorar</string>
+    <string>Confira "Explorar" para ver mais</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Quer ouvir mais?</string>
+    <string>Nada na fila de Próximos</string>
     <key>widgets_nothing_playing</key>
     <string>Nada em reprodução</string>
     <key>widgets_now_playing_desc</key>

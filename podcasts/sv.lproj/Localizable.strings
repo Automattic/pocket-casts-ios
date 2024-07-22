@@ -2651,6 +2651,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Idag</string>
     <key>top</key>
     <string>Längst upp</string>
+    <key>transcript</key>
+    <string>Transkription</string>
     <key>trial_finished</key>
     <string>Provperioden har löpt ut</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@ Detta innebär att du kan koppla av med vetskapen om att allt det hårda arbete 
     <key>widgets_app_icon_name</key>
     <string>Ikon</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Kolla in fliken Upptäck</string>
+    <string>Kolla in Upptäck för mer</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Vill du höra mer?</string>
+    <string>Inget i Nästa</string>
     <key>widgets_nothing_playing</key>
     <string>Ingenting spelas upp</string>
     <key>widgets_now_playing_desc</key>
