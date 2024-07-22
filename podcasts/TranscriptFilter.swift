@@ -51,7 +51,7 @@ extension RegexFilter {
     // Ensure that any full stop starts a new line
     static let fullStopNewLineFilter = RegexFilter(pattern: "[\\!\\?\\.][ \\t]*", replacement: ".\n")
     // Ensure that end of cues have a space when appended to the next cue
-    static let notfullStopNewLineFilter = RegexFilter(pattern: "(^[\\!\\?\\.])\\z", replacement: "$0 ")
+    static let notfullStopNewLineFilter = RegexFilter(pattern: "([^\\!\\?\\.])\\z", replacement: "$0 ")
 }
 
 struct SuffixFilter: TranscriptFilter {
