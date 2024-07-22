@@ -168,7 +168,6 @@ class TranscriptsViewController: PlayerItemViewController {
 
     @objc private func updateTranscriptPosition() {
         let position = playbackManager.currentTime()
-        print("Transcript position: \(position)")
         guard let transcript else {
             return
         }
@@ -179,7 +178,7 @@ class TranscriptsViewController: PlayerItemViewController {
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             // adjusting the scroll to range so it shows more text
-            let scrollRange = NSRange(location: range.location, length: range.length * 5)
+            let scrollRange = NSRange(location: range.location, length: range.length * 2)
             transcriptView.scrollRangeToVisible(scrollRange)
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
