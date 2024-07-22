@@ -14,7 +14,12 @@ struct ComposeFilter: TranscriptFilter {
         return filteredText
     }
 
-    static let transcriptFilter = ComposeFilter(filters: [RegexFilter.vttTagsFilter, RegexFilter.speakerFilter, RegexFilter.newLinesFilter, RegexFilter.notNewLineFilter])
+    static let transcriptFilter = ComposeFilter(filters: [
+        RegexFilter.vttTagsFilter,
+        RegexFilter.speakerFilter,
+        RegexFilter.notfullStopNewLineFilter,
+        RegexFilter.fullStopNewLineFilter,
+    ])
 }
 
 struct RegexFilter: TranscriptFilter {
@@ -43,10 +48,10 @@ extension RegexFilter {
     static let vttTagsFilter = RegexFilter(pattern: "<[^>]*>", replacement: "")
     // Remove SRT tags, for example: "Speaker 1: " to ""
     static let speakerFilter = RegexFilter(pattern: "Speaker \\d?: *", replacement: "")
-    // Ensure that any paragraph dot starts a new line
-    static let newLinesFilter = RegexFilter(pattern: "\\. *", replacement: ".\n")
+    // Ensure that any full stop starts a new line
+    static let fullStopNewLineFilter = RegexFilter(pattern: "\\.[ \\t]*", replacement: ".\n")
     // Ensure that end of cues have a space when appended to the next cue
-    static let notNewLineFilter = RegexFilter(pattern: "([^.])\\z", replacement: "$0 ")
+    static let notfullStopNewLineFilter = RegexFilter(pattern: "([^\\.])\\z", replacement: "$0 ")
 }
 
 struct SuffixFilter: TranscriptFilter {
