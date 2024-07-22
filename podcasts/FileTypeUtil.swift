@@ -6,6 +6,7 @@ class FileTypeUtil {
 
         if type.contains("video/3gpp") { return ".3gp" }
         else if type.contains("video/3gpp2") { return ".3g2" }
+        else if type.contains("video/mp4") { return ".mp4" }
         else if type.contains("video/x-mp4") { return ".mp4" }
         else if type.contains("video/quicktime") { return ".mov" }
         else if type.contains("video/m4v") { return ".m4v" }
@@ -44,6 +45,7 @@ class FileTypeUtil {
         if fileExtension.contains(".3gp") { return "video/3gpp" }
         else if fileExtension.contains(".3g2") { return "video/3gpp2" }
         else if fileExtension.contains(".mov") { return "video/quicktime" }
+        else if fileExtension.contains(".mp4") { return "video/mp4" }
         else if fileExtension.contains(".m4v") { return "video/m4v" }
         else if fileExtension.contains(".m4a") { return "audio/aac" }
         else if fileExtension.contains(".aiff") { return "audio/aiff" }

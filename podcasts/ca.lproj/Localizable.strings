@@ -2371,7 +2371,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>share</key>
     <string>Compartir</string>
     <key>share_copied_to_clipboard</key>
-    <string>S'ha copiat l'enllaç al portaretalls</string>
+    <string>S'ha copiat l'enllaç al porta-retalls</string>
     <key>share_copy_link</key>
     <string>Copia l'enllaç</string>
     <key>share_current_position</key>
@@ -2657,6 +2657,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>avui</string>
     <key>top</key>
     <string>Primer</string>
+    <key>transcript</key>
+    <string>Transcripció</string>
     <key>trial_finished</key>
     <string>Prova acabada</string>
     <key>trim_silence</key>
@@ -2790,9 +2792,9 @@ Amb aquesta funció, la feina que has fet per organitzar la teva pàgina de podc
     <key>widgets_app_icon_name</key>
     <string>Icona</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Consulta la pestanya 'Descobrir'</string>
+    <string>Mira a Descobrir per a veure'n més</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Tens ganes d'escoltar més?</string>
+    <string>No hi ha res a la cua de 'Tot seguit'</string>
     <key>widgets_nothing_playing</key>
     <string>No sona res</string>
     <key>widgets_now_playing_desc</key>

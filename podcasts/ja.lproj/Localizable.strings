@@ -2647,6 +2647,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>今日</string>
     <key>top</key>
     <string>一番上</string>
+    <key>transcript</key>
+    <string>トランスクリプト</string>
     <key>trial_finished</key>
     <string>トライアルが終了しました</string>
     <key>trim_silence</key>
@@ -2780,9 +2782,9 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>widgets_app_icon_name</key>
     <string>アイコン</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>「ディスカバー」タブを確認</string>
+    <string>Discover をチェックして他のエピソードを見つけましょう</string>
     <key>widgets_discover_prompt_title</key>
-    <string>別のエピソードはいかがですか ?</string>
+    <string>次のエピソードには何もありません</string>
     <key>widgets_nothing_playing</key>
     <string>再生中のエピソードがありません</string>
     <key>widgets_now_playing_desc</key>

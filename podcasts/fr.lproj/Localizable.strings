@@ -2651,6 +2651,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Aujourd'hui</string>
     <key>top</key>
     <string>Haut</string>
+    <key>transcript</key>
+    <string>Transcription</string>
     <key>trial_finished</key>
     <string>Essai terminé</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@ Vous pouvez donc avoir l’esprit tranquille, sachant que le dur labeur consacr�
     <key>widgets_app_icon_name</key>
     <string>Icône</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Consulter l’onglet Découvrir</string>
+    <string>Appuyez sur Découvrir pour en savoir plus</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Vos oreilles en redemandent ?</string>
+    <string>Rien dans la file d’attente</string>
     <key>widgets_nothing_playing</key>
     <string>Aucune lecture en cours</string>
     <key>widgets_now_playing_desc</key>
