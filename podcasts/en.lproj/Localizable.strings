@@ -4171,3 +4171,9 @@
 
 /* Shown in a button when creating a shareable audio clip of an episode */
 "clip" = "Clip";
+
+/* A title shown for a button to return to editing a clip */
+"edit_clip" = "Edit clip";
+
+/* A title shown after editing a clip but before sharing */
+"share_clip" = "Share clip";
