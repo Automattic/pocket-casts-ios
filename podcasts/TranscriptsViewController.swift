@@ -1,11 +1,13 @@
-import Foundation
 import UIKit
+import PocketCastsUtils
 
 class TranscriptsViewController: PlayerItemViewController {
 
     let playbackManager: PlaybackManager
     var transcript: TranscriptModel?
     var previousRange: NSRange?
+
+    var canScrollToDismiss = true
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
@@ -37,6 +39,9 @@ class TranscriptsViewController: PlayerItemViewController {
             ]
         )
 
+        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
+        transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
+
         view.addSubview(activityIndicatorView)
         NSLayoutConstraint.activate(
             [
@@ -44,10 +49,35 @@ class TranscriptsViewController: PlayerItemViewController {
                 activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ]
         )
+
+        view.addSubview(topGradient)
+        topGradient.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                topGradient.topAnchor.constraint(equalTo: view.topAnchor),
+                topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                topGradient.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
+            ]
+        )
+
+        view.addSubview(bottomGradient)
+        bottomGradient.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                bottomGradient.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                bottomGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                bottomGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                bottomGradient.heightAnchor.constraint(equalToConstant: Sizes.bottomGradientHeight)
+            ]
+        )
+
+        view.addSubview(closeButton)
+        closeButton.frame = .init(x: 16, y: 0, width: 44, height: 44)
     }
 
     private lazy var transcriptView: UITextView = {
-        let textView =  UITextView()
+        let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false
@@ -63,10 +93,27 @@ class TranscriptsViewController: PlayerItemViewController {
         return activityIndicatorView
     }()
 
+    private lazy var closeButton: TintableImageButton! = {
+        let closeButton = TintableImageButton()
+        closeButton.setImage(UIImage(named: "close"), for: .normal)
+        closeButton.tintColor = ThemeColor.primaryIcon02()
+        closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
+        return closeButton
+    }()
+
+    private lazy var topGradient: GradientView = {
+        GradientView(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
+    }()
+
+    private lazy var bottomGradient: GradientView = {
+        GradientView(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
+    }()
+
     override func willBeAddedToPlayer() {
         updateColors()
         loadTranscript()
         addObservers()
+        (transcriptView as UIScrollView).delegate = self
     }
 
     override func willBeRemovedFromPlayer() {
@@ -83,11 +130,21 @@ class TranscriptsViewController: PlayerItemViewController {
         transcriptView.textColor = ThemeColor.playerContrast02()
         transcriptView.indicatorStyle = .white
         activityIndicatorView.color = ThemeColor.playerContrast01()
+        updateGradientColors()
+    }
+
+    private func updateGradientColors() {
+        topGradient.updateColors(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
+        bottomGradient.updateColors(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
     }
 
     @objc private func update() {
         updateColors()
         loadTranscript()
+    }
+
+    @objc private func closeTapped() {
+        containerDelegate?.dismissTranscript()
     }
 
     private func loadTranscript() {
@@ -179,5 +236,30 @@ class TranscriptsViewController: PlayerItemViewController {
             previousRange = nil
             transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
+    }
+
+    private enum Sizes {
+        static let topGradientHeight: CGFloat = 60
+        static let bottomGradientHeight: CGFloat = 60
+    }
+
+    private enum Colors {
+        static var gradientColor: UIColor {
+            PlayerColorHelper.playerBackgroundColor01()
+        }
+    }
+}
+
+extension TranscriptsViewController: UIScrollViewDelegate {
+
+    // Only allow scroll to dismiss if scrolling bottom from the top
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if canScrollToDismiss {
+            scrollViewHandler?.scrollViewDidScroll?(scrollView)
+        }
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        canScrollToDismiss = scrollView.contentOffset.y == 0
     }
 }
