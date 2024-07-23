@@ -49,6 +49,8 @@ public actor ShowInfoDataRetriever {
             }
         }
 
+        FileLog.shared.addMessage("Show Info: requesting info for podcast \(podcastUuid)")
+
         let task = Task<Data, Error> {
             do {
                 let (data, response) = try await URLSession.shared.data(for: request)
@@ -56,14 +58,17 @@ public actor ShowInfoDataRetriever {
                 if response.extractStatusCode() == 200 {
                     let responseToCache = CachedURLResponse(response: response, data: data)
                     cache.storeCachedResponse(responseToCache, for: request)
+                    FileLog.shared.addMessage("Show Info: request succeeded for podcast \(podcastUuid).")
                 } else if let data = cache.cachedResponse(for: request)?.data {
                     dataRequestMap[podcastUuid] = nil
+                    FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid). Returning cached data")
                     return data
                 }
 
                 dataRequestMap[podcastUuid] = nil
                 return data
             } catch {
+                FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid): \(error.localizedDescription). Returning cached data")
                 dataRequestMap[podcastUuid] = nil
                 throw error
             }
