@@ -92,7 +92,7 @@ struct ShareImageView: View {
     }
 }
 
-extension ShareImageView {
+extension View {
     func itemProvider() -> NSItemProvider {
         let itemProvider = NSItemProvider()
         if #available(iOS 16.0, *) {

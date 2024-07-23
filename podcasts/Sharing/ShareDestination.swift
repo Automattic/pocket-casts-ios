@@ -17,8 +17,7 @@ struct ShareDestination: Hashable {
         let icon = Image(systemName: "ellipsis")
         return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: { option, style in
             Task.detached {
-                let itemProvider = ShareImageView(info: option.imageInfo, style: style).itemProvider()
-                let activityItems = [option.shareURL, itemProvider]
+                let activityItems = [option.shareURL, option.itemProvider(style: style)]
                 let activityViewController = await UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
                 await vc.presentedViewController?.present(activityViewController, animated: true, completion: nil)
             }

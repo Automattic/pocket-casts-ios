@@ -162,6 +162,17 @@ extension SharingModal.Option {
         return imageInfo
     }
 
+    func itemProvider(style: ShareImageStyle) -> NSItemProvider {
+        switch self {
+        case .clip(let episode, let time):
+            AnimatedShareImageView(info: imageInfo, style: style).itemProvider()
+        case .clipShare(let episode, let clipTime):
+            AnimatedShareImageView(info: imageInfo, style: style).itemProvider()
+        default:
+            ShareImageView(info: imageInfo, style: style).itemProvider()
+        }
+    }
+
     var shareURL: String {
         switch self {
         case .episode(let episode):
