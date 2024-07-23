@@ -4,7 +4,7 @@
 
 7.69
 -----
-
+- Fix an issue for show notes not loading. [#1928](https://github.com/Automattic/pocket-casts-ios/pull/1928)
 
 7.68
 -----
