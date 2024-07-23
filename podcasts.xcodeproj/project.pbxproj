@@ -1683,6 +1683,7 @@
 		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
 		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
+		FFD044192C4FE9F400CCB192 /* TranscriptModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD044182C4FE9F400CCB192 /* TranscriptModelTests.swift */; };
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */; };
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
@@ -3512,6 +3513,7 @@
 		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
 		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
+		FFD044182C4FE9F400CCB192 /* TranscriptModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscriptModelTests.swift; sourceTree = "<group>"; };
 		FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
 		FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListController.swift; sourceTree = "<group>"; };
@@ -4498,6 +4500,7 @@
 			isa = PBXGroup;
 			children = (
 				8BA6CAFD2C404C3600FB4704 /* ComposeFilterTests.swift */,
+				FFD044182C4FE9F400CCB192 /* TranscriptModelTests.swift */,
 			);
 			path = Transcripts;
 			sourceTree = "<group>";
@@ -8834,6 +8837,7 @@
 				8B484EFF28D257E2001AFA97 /* DataManagerMock.swift in Sources */,
 				8B484EF928D256F5001AFA97 /* Date+Ext.swift in Sources */,
 				F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */,
+				FFD044192C4FE9F400CCB192 /* TranscriptModelTests.swift in Sources */,
 				FFF024CE2B62AC9400457373 /* IAPHelperTests.swift in Sources */,
 				8B3295432A5336DA00BDFA11 /* WhatsNewTests.swift in Sources */,
 				F586959A2C04320100E0754A /* PodcastManagerTests.swift in Sources */,
