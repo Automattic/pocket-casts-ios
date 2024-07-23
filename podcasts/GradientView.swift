@@ -2,15 +2,13 @@ import UIKit
 
 class GradientView: UIView {
     private var gradientLayer: CAGradientLayer!
-    private var direction: Direction = .topToBottom
+    private var firstColor: UIColor!
+    private var secondColor: UIColor!
 
-    enum Direction {
-        case topToBottom, bottomToTop
-    }
-
-    init(direction: Direction) {
+    init(firstColor: UIColor, secondColor: UIColor) {
         super.init(frame: .zero)
-        self.direction = direction
+        self.firstColor = firstColor
+        self.secondColor = secondColor
         setup()
     }
 
@@ -29,13 +27,9 @@ class GradientView: UIView {
     func setup() {
         gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
-            PlayerColorHelper.playerBackgroundColor01().cgColor,
-            PlayerColorHelper.playerBackgroundColor01().withAlphaComponent(0).cgColor
+            firstColor.cgColor,
+            secondColor.cgColor
         ]
-
-        if direction == .bottomToTop {
-            gradientLayer.colors = gradientLayer.colors?.reversed()
-        }
 
         gradientLayer.locations = [0, 1]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)

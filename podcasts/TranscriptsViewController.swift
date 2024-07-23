@@ -102,11 +102,11 @@ class TranscriptsViewController: PlayerItemViewController {
     }()
 
     private lazy var topGradient: UIView = {
-        GradientView()
+        GradientView(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
     }()
 
     private lazy var bottomGradient: UIView = {
-        GradientView(direction: .bottomToTop)
+        GradientView(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
     }()
 
     override func willBeAddedToPlayer() {
@@ -235,6 +235,10 @@ class TranscriptsViewController: PlayerItemViewController {
     private enum Sizes {
         static let topGradientHeight: CGFloat = 60
         static let bottomGradientHeight: CGFloat = 60
+    }
+
+    private enum Colors {
+        static let gradientColor: UIColor = PlayerColorHelper.playerBackgroundColor01()
     }
 }
 
