@@ -1,11 +1,12 @@
+#if !os(watchOS)
 import UIKit
 
-class GradientView: UIView {
+public class GradientView: UIView {
     private var gradientLayer: CAGradientLayer!
     private var firstColor: UIColor!
     private var secondColor: UIColor!
 
-    init(firstColor: UIColor, secondColor: UIColor) {
+    public init(firstColor: UIColor, secondColor: UIColor) {
         super.init(frame: .zero)
         self.firstColor = firstColor
         self.secondColor = secondColor
@@ -24,7 +25,7 @@ class GradientView: UIView {
         setup()
     }
 
-    func updateColors(firstColor: UIColor, secondColor: UIColor) {
+    public func updateColors(firstColor: UIColor, secondColor: UIColor) {
         self.firstColor = firstColor
         self.secondColor = secondColor
 
@@ -48,9 +49,10 @@ class GradientView: UIView {
         layer.addSublayer(gradientLayer)
     }
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
 
         gradientLayer?.frame = bounds
     }
 }
+#endif
