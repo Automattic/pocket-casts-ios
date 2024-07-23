@@ -4,14 +4,14 @@ import XCTest
 
 final class ComposeFilterTests: XCTestCase {
 
-    func testNormalString() throws {
+    func testAddEmptySpaceAfterSentence() throws {
         let transcript = """
-        This content should not change
+        This content should get an extra space
         """
 
         let filtered = ComposeFilter.transcriptFilter.filter(transcript)
 
-        XCTAssertEqual(filtered, "This content should not change ")
+        XCTAssertEqual(filtered, "This content should get an extra space ")
     }
 
     func testSpeakerX() throws {
