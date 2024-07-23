@@ -1,6 +1,6 @@
 import UIKit
 
-class TranscriptGradientView: UIView {
+class GradientView: UIView {
     private var gradientLayer: CAGradientLayer!
     private var direction: Direction = .topToBottom
 

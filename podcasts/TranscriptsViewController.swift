@@ -102,11 +102,11 @@ class TranscriptsViewController: PlayerItemViewController {
     }()
 
     private lazy var topGradient: UIView = {
-        TranscriptGradientView()
+        GradientView()
     }()
 
     private lazy var bottomGradient: UIView = {
-        TranscriptGradientView(direction: .bottomToTop)
+        GradientView(direction: .bottomToTop)
     }()
 
     override func willBeAddedToPlayer() {
