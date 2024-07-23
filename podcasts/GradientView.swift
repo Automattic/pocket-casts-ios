@@ -24,6 +24,16 @@ class GradientView: UIView {
         setup()
     }
 
+    func updateColors(firstColor: UIColor, secondColor: UIColor) {
+        self.firstColor = firstColor
+        self.secondColor = secondColor
+
+        gradientLayer.colors = [
+            firstColor.cgColor,
+            secondColor.cgColor
+        ]
+    }
+
     func setup() {
         gradientLayer = CAGradientLayer()
         gradientLayer.colors = [

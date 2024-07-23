@@ -101,12 +101,12 @@ class TranscriptsViewController: PlayerItemViewController {
         return closeButton
     }()
 
-    private lazy var topGradient: UIView = {
-        GradientView(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
+    private lazy var topGradient: GradientView = {
+        GradientView(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
     }()
 
-    private lazy var bottomGradient: UIView = {
-        GradientView(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
+    private lazy var bottomGradient: GradientView = {
+        GradientView(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
     }()
 
     override func willBeAddedToPlayer() {
@@ -130,6 +130,12 @@ class TranscriptsViewController: PlayerItemViewController {
         transcriptView.textColor = ThemeColor.playerContrast02()
         transcriptView.indicatorStyle = .white
         activityIndicatorView.color = ThemeColor.playerContrast01()
+        updateGradientColors()
+    }
+
+    private func updateGradientColors() {
+        topGradient.updateColors(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
+        bottomGradient.updateColors(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
     }
 
     @objc private func update() {
@@ -238,7 +244,9 @@ class TranscriptsViewController: PlayerItemViewController {
     }
 
     private enum Colors {
-        static let gradientColor: UIColor = PlayerColorHelper.playerBackgroundColor01()
+        static var gradientColor: UIColor {
+            PlayerColorHelper.playerBackgroundColor01()
+        }
     }
 }
 
