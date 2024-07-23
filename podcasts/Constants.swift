@@ -96,6 +96,9 @@ struct Constants {
 
         // End of Year
         static let profileSeen = NSNotification.Name(rawValue: "profileSeen")
+
+        // Gravatar
+        static let avatarNeedsRefreshing = NSNotification.Name(rawValue: "avatarNeedsRefreshing")
     }
 
     enum UserDefaults {

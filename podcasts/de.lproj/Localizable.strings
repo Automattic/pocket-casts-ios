@@ -2651,6 +2651,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Heute</string>
     <key>top</key>
     <string>Anfang</string>
+    <key>transcript</key>
+    <string>Transkript</string>
     <key>trial_finished</key>
     <string>Testzeitraum abgelaufen</string>
     <key>trim_silence</key>
@@ -2784,9 +2786,9 @@ D. h., deine Podcasts-Seite mit allen Anordnungen, die du vorgenommen hast, wir
     <key>widgets_app_icon_name</key>
     <string>Icon</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Sieh dir den „Entdecken“-Tab an</string>
+    <string>Unter „Entdecken“ erfährst du mehr</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Wollen deine Ohren mehr?</string>
+    <string>Keine Inhalte in „Als Nächstes“</string>
     <key>widgets_nothing_playing</key>
     <string>Keine aktuelle Wiedergabe</string>
     <key>widgets_now_playing_desc</key>

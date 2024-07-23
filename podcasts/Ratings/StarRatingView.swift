@@ -6,6 +6,8 @@ struct StarRatingView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: PodcastRatingViewModel
 
+    @State private var dismissAction: RatePodcastViewModel.DismissAction = .default
+
     /// Keeps track of when we appear to determine if we should animate
     private var startDate: Date = .now
 
@@ -45,11 +47,19 @@ struct StarRatingView: View {
                         viewModel.didTapRating()
                     }
             }
-            .sheet(isPresented: $viewModel.presentingGiveRatings) {
-                if let podcast = viewModel.podcast {
-                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, podcast: podcast))
+            .sheet(isPresented: $viewModel.presentingGiveRatings, onDismiss: {
+                switch dismissAction {
+                case .dismissAndTracking(let event):
+                    Analytics.shared.track(event)
+                default:
+                    break
                 }
-            }
+                dismissAction = .default
+            }, content: {
+                if let podcast = viewModel.podcast {
+                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, dismissAction: $dismissAction, podcast: podcast))
+                }
+            })
 
             Rectangle()
                 .foregroundStyle(theme.primaryUi05)

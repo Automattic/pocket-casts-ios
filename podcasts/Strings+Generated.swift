@@ -758,6 +758,8 @@ internal enum L10n {
   internal static var downloadsStopAllDownloads: String { return L10n.tr("Localizable", "downloads_stop_all_downloads") }
   /// Edit
   internal static var edit: String { return L10n.tr("Localizable", "edit") }
+  /// Edit clip
+  internal static var editClip: String { return L10n.tr("Localizable", "edit_clip") }
   /// Enable it now
   internal static var enableItNow: String { return L10n.tr("Localizable", "enable_it_now") }
   /// See your listening stats, top podcasts, and more.
@@ -2172,6 +2174,8 @@ internal enum L10n {
   internal static var ratingListenToThisPodcastMessage: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_message") }
   /// Please listen to this podcast first
   internal static var ratingListenToThisPodcastTitle: String { return L10n.tr("Localizable", "rating_listen_to_this_podcast_title") }
+  /// You must log in to leave a rating
+  internal static var ratingLoginRequired: String { return L10n.tr("Localizable", "rating_login_required") }
   /// No ratings
   internal static var ratingNoRatings: String { return L10n.tr("Localizable", "rating_no_ratings") }
   /// Your rating was submitted!
@@ -2418,6 +2422,8 @@ internal enum L10n {
   internal static var settingsBookmarkConfirmationSound: String { return L10n.tr("Localizable", "settings_bookmark_confirmation_sound") }
   /// Play a confirmation sound after creating a bookmark with your headphones.
   internal static var settingsBookmarkSoundFooter: String { return L10n.tr("Localizable", "settings_bookmark_sound_footer") }
+  /// Change Avatar
+  internal static var settingsChangeAvatar: String { return L10n.tr("Localizable", "settings_change_avatar") }
   /// Collect information
   internal static var settingsCollectInformation: String { return L10n.tr("Localizable", "settings_collect_information") }
   /// Allowing us to collect analytics helps us build a better app. We understand if you would prefer not to share this information.
@@ -2738,6 +2744,8 @@ internal enum L10n {
   internal static var shakeToRestartSleepTimerDescription: String { return L10n.tr("Localizable", "shake_to_restart_sleep_timer_description") }
   /// Share
   internal static var share: String { return L10n.tr("Localizable", "share") }
+  /// Share clip
+  internal static var shareClip: String { return L10n.tr("Localizable", "share_clip") }
   /// Link copied to clipboard
   internal static var shareCopiedToClipboard: String { return L10n.tr("Localizable", "share_copied_to_clipboard") }
   /// Copy link

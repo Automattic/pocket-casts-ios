@@ -2581,6 +2581,9 @@
 /* Fun informational message about the skip options available in the settings. */
 "settings_skip_msg" = "Skip intro and outro music like the power user you were born to be.";
 
+/* Title for the button that open a page to change the avatar(a.k.a. profile picture). */
+"settings_change_avatar" = "Change Avatar";
+
 /* A common string used throughout the app. Refers to the Stats settings menu */
 "settings_stats" = "Stats";
 
@@ -4010,6 +4013,9 @@
 /* Title of a button that takes the user to a screen to rate a podcast */
 "rate" = "Rate";
 
+/* Toast message to alert a user to log in to leave a rating */
+"rating_login_required" = "You must log in to leave a rating";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 
@@ -4168,3 +4174,9 @@
 
 /* Shown in a button when creating a shareable audio clip of an episode */
 "clip" = "Clip";
+
+/* A title shown for a button to return to editing a clip */
+"edit_clip" = "Edit clip";
+
+/* A title shown after editing a clip but before sharing */
+"share_clip" = "Share clip";

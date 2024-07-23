@@ -79,6 +79,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the transcripts feature on podcasts episodes
     case transcripts
 
+    /// Makes the "Change Avatar" button visible in the Account Settings.
+    case gravatarChangeAvatar
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -139,6 +142,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .transcripts:
             false
+        case .gravatarChangeAvatar:
+            true
         }
     }
 
