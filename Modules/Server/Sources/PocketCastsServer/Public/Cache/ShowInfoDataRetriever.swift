@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 /// Request information about an episode using the show notes endpoint
 public actor ShowInfoDataRetriever {
@@ -21,6 +22,7 @@ public actor ShowInfoDataRetriever {
 
         if let cachedResponse = cache.cachedResponse(for: request),
             let metadata = extractMetadata(for: episodeUuid, from: cachedResponse.data) {
+            FileLog.shared.addMessage("Show Info: returning cached data for \(episodeUuid)")
             return metadata
         }
 
