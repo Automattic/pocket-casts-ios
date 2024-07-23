@@ -4,7 +4,7 @@
 
 7.69
 -----
-
+- Bug fixes and improvements
 
 7.68
 -----
