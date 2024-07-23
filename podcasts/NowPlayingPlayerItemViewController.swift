@@ -152,8 +152,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var bottomControlsStackView: UIStackView!
 
-    @IBOutlet weak var transcriptContainerView: UIView!
-
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
@@ -199,7 +197,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         .player
     }
 
-    private var displayTranscript = false {
+    var displayTranscript = false {
         didSet {
             toggleTranscript()
         }
@@ -212,16 +210,23 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        // there's some expensive operations below, so only do them if the bounds has actually changed
+        // there's some expensive operations in resizeControls,
+        // so only do them if the bounds has actually changed
         if lastBoundsAdjustedFor == view.bounds { return }
         lastBoundsAdjustedFor = view.bounds
 
+        resizeControls()
+    }
+
+    private func resizeControls() {
         let screenHeight = view.bounds.height
         let spacing: CGFloat = screenHeight > 600 ? 30 : 20
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
         let height: CGFloat = displayTranscript ? 40 : screenHeight > 710 ? 100 : 80
         if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
+
+        view.layoutIfNeeded()
     }
 
     override func willBeAddedToPlayer() {
@@ -354,9 +359,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
         playPauseBtn.prepareForAnimateTransition()
 
-        transcriptContainerView.layer.opacity = isShowing ? 0 : 1
+        playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1
 
-        UIView.animate(withDuration: 0.35, animations: { [weak self] in
+        episodeImage.layer.opacity = 1
+
+        if isShowing {
+            playerContainer?.showTranscript()
+        }
+
+        UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 1, animations: { [weak self] in
             guard let self else { return }
 
             // Hide/show shelf
@@ -364,8 +375,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             shelfBg.layer.opacity = isShowing ? 0 : 1
 
             // Show/hide transcript container view
-            transcriptContainerView.isHidden = false
-            transcriptContainerView.layer.opacity = isShowing ? 1 : 0
+            playerContainer?.transcriptContainerView.isHidden = false
+            playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 1 : 0
 
             // Change the stack view that contains the player button
             bottomControlsStackView.distribution = isShowing ? .fill : .equalSpacing
@@ -382,11 +393,19 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             skipFwdBtn.layoutIfNeeded()
 
             // Ask parent VC to hide/show tabs
-            playerContainer?.updateTabsAndScrollView(isEnabled: !isShowing)
+            playerContainer?.scrollView(isEnabled: !isShowing)
+
+            resizeControls()
         }, completion: { [weak self] _ in
             guard let self else { return }
 
-            transcriptContainerView.isHidden = isShowing ? false : true
+            playerContainer?.transcriptContainerView.isHidden = isShowing ? false : true
+
+            if !isShowing {
+                playerContainer?.hideTranscript()
+            } else {
+                episodeImage.layer.opacity = 0
+            }
 
             playPauseBtn.finishedTransition()
             skipBackBtn.finishedTransition()

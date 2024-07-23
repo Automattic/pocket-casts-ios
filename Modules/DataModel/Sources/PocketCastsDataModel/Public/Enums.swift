@@ -286,6 +286,7 @@ public enum PlayerAction: String, Codable, Equatable {
     case markPlayed = "played"
     case archive = "archive"
     case addBookmark = "bookmark"
+    case transcript = "transcript"
 }
 
 extension Array: RawRepresentable where Element: RawRepresentable<String> {

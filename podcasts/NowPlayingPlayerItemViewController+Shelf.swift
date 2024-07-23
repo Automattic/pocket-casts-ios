@@ -15,6 +15,7 @@ protocol NowPlayingActionsDelegate: AnyObject {
     func markPlayedTapped()
     func archiveTapped()
     func bookmarkTapped()
+    func transcriptTapped()
 
     func sharedRoutePicker(largeSize: Bool) -> PCRoutePickerView
 }
@@ -141,6 +142,16 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             button.accessibilityLabel = L10n.addBookmark
 
             addToShelf(on: button)
+
+        case .transcript:
+            let button = TranscriptShelfButton(frame: CGRect.zero)
+            button.isPointerInteractionEnabled = true
+            button.imageView?.tintColor = ThemeColor.playerContrast02()
+            button.setImage(UIImage(named: action.largeIconName(episode: playingEpisode)), for: .normal)
+            button.addTarget(self, action: #selector(transcriptTapped(_:)), for: .touchUpInside)
+            button.accessibilityLabel = L10n.transcript
+
+            addToShelf(on: button)
         }
 
         return true
@@ -219,6 +230,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         PlaybackManager.shared.bookmark(source: .player)
     }
 
+    func transcriptTapped() {
+        displayTranscript = true
+    }
+
     // MARK: - Player Actions
     private func presentUsingSheet(_ viewController: UIViewController, forceLarge: Bool = false) {
         if let sheetController = viewController.sheetPresentationController {
@@ -292,6 +307,12 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         }
 
         bookmarkTapped()
+    }
+
+    @objc private func transcriptTapped(_ sender: UIButton) {
+        shelfButtonTapped(.transcript)
+
+        displayTranscript = true
     }
 
     // MARK: - Sleep Timer
