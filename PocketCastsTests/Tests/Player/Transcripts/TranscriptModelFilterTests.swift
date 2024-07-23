@@ -2,53 +2,50 @@ import XCTest
 
 @testable import podcasts
 
-final class TrasnscriptModelFilterTests: XCTestCase {
+final class TranscriptModelFilterTests: XCTestCase {
 
     func testVTT() throws {
         let transcript = """
-        WEBVTT - Flying Too High: AI and Air France Flight 447
+        WEBVTT - Lorem ipsum translated to English
 
         0:00:15.410 --> 0:00:25.850
-        <v Speaker 1>Pushkin. When the trouble started in the middle of the Atlantic,
+        <v Speaker 1>But I must explain to you how all this mistaken idea
 
         0:00:26.530 --> 0:00:30.650
-        <v Speaker 1>Captain Mark Dubois was in the flight rest compartment, right
+        <v Speaker 1>of reprobating pleasure and extolling pain arose. To do so, I will give you a complete account of the system,
 
         0:00:30.690 --> 0:00:33.130
-        <v Speaker 1>next to the flight deck. He was in charge of
+        <v Speaker 1>and expound the actual teachings of the great explorer of the truth,
 
         0:00:33.330 --> 0:00:37.690
-        <v Speaker 1>Air France flight four four seven, en route overnight from
+        <v Speaker 1>the master-builder of human happiness. No one rejects,
 
         0:00:37.770 --> 0:00:41.610
-        <v Speaker 1>Rio de Janeiro to Paris, but he was tired. He
+        <v Speaker 1>dislikes or avoids pleasure itself, because it is pleasure, but because
 
         0:00:41.610 --> 0:00:44.490
-        <v Speaker 1>had been seeing the sights of Rio with his girlfriend
+        <v Speaker 1>those who do not know how to pursue pleasure rationally encounter consequences
 
         0:00:45.050 --> 0:00:49.050
-        <v Speaker 1>Copacabana Beach a helicopter tour, and he hadn\'t had a
+        <v Speaker 1>that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain
 
         0:00:49.050 --> 0:00:52.450
-        <v Speaker 1>lot of sleep. The airliner was in the hands of
+        <v Speaker 1>of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure
 
         0:00:52.610 --> 0:00:57.850
-        <v Speaker 1>flight officers David Robert and Pierre Cedric Bonard, and when
+        <v Speaker 1>him some great pleasure. To take a trivial example, which of us ever undertakes laborious
 
         0:00:57.850 --> 0:01:02.530
-        <v Speaker 1>the trouble started, first Officer David Robert pressed the call
+        <v Speaker 1>physical exercise, except to obtain some advantage from it? But who has any right
 
         0:01:02.610 --> 0:01:07.610
-        <v Speaker 1>button to summon Captain Dubois. When you\'re asleep and the
+        <v Speaker 1>to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences,
 
         0:01:07.650 --> 0:01:11.810
-        <v Speaker 1>alarm goes off, how quickly do you wake up? Captain
+        <v Speaker 1>or one who avoids a pain
 
         0:01:11.890 --> 0:01:15.490
-        <v Speaker 1>Dubois took ninety eight seconds to get out of bed
-
-        0:01:16.010 --> 0:01:22.050
-        <v Speaker 1>into the flight deck, not exactly slow, but not quick enough.
+        <v Speaker 1>that produces no resultant pleasure?
         """
 
         guard let model = TranscriptModel.makeModel(from: transcript, format: .vtt) else {
@@ -58,13 +55,12 @@ final class TrasnscriptModelFilterTests: XCTestCase {
         let filtered = model.attributedText.string
 
         let expected = """
-        Pushkin.
-        When the trouble started in the middle of the Atlantic, Captain Mark Dubois was in the flight rest compartment, right next to the flight deck.
-        He was in charge of Air France flight four four seven, en route overnight from Rio de Janeiro to Paris, but he was tired.
-        He had been seeing the sights of Rio with his girlfriend Copacabana Beach a helicopter tour, and he hadn\'t had a lot of sleep.
-        The airliner was in the hands of flight officers David Robert and Pierre Cedric Bonard, and when the trouble started, first Officer David Robert pressed the call button to summon Captain Dubois.
-        When you\'re asleep and the alarm goes off, how quickly do you wake up?
-        Captain Dubois took ninety eight seconds to get out of bed into the flight deck, not exactly slow, but not quick enough.
+        But I must explain to you how all this mistaken idea of reprobating pleasure and extolling pain arose.
+        To do so, I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+        No one rejects, dislikes or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.
+        Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+        To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?
+        But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?
         """
         XCTAssertEqual(filtered.trim(), expected)
     }
@@ -72,32 +68,56 @@ final class TrasnscriptModelFilterTests: XCTestCase {
     func testSRT() throws {
         let transcript = """
         1
-        00:00:15,410 --> 00:00:29,130
-        Speaker 1: Pushkin eighteen nineteen. The Pacific Ocean. The Pacific is pretty big,
+        0:00:15,410 --> 0:00:25,850
+        Speaker 1: But I must explain to you how all this mistaken idea
 
         2
-        00:00:29,370 --> 00:00:32,810
-        Speaker 1: so let's narrow it down. We're close to the equator.
+        0:00:26,530 --> 0:00:30,650
+        Speaker 1: of reprobating pleasure and extolling pain arose. To do so, I will give you a complete account of the system,
 
         3
-        00:00:33,210 --> 00:00:38,250
-        Speaker 1: Three thousand miles one way lies Ecuador, seven thousand miles
+        0:00:30,690 --> 0:00:33,130
+        Speaker 1: and expound the actual teachings of the great explorer of the truth,
 
         4
-        00:00:38,290 --> 00:00:42,250
-        Speaker 1: the other way Papua New Guinea. Your nearest land is
+        0:00:33,330 --> 0:00:37,690
+        Speaker 1: the master-builder of human happiness. No one rejects,
 
         5
-        00:00:42,290 --> 00:00:46,530
-        Speaker 1: a small volcano in what's now French Polynesia. And when
+        0:00:37,770 --> 0:00:41,610
+        Speaker 1: dislikes or avoids pleasure itself, because it is pleasure, but because
 
         6
-        00:00:46,570 --> 00:00:51,930
-        Speaker 1: I say nearest, I'm talking fifteen one hundred miles. You
+        0:00:41,610 --> 0:00:44,490
+        Speaker 1: those who do not know how to pursue pleasure rationally encounter consequences
 
         7
-        00:00:51,970 --> 00:00:56,530
-        Speaker 1: get the idea. We're a very long way from anywhere.
+        0:00:45,050 --> 0:00:49,050
+        Speaker 1: that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain
+
+        8
+        0:00:49,050 --> 0:00:52,450
+        Speaker 1: of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure
+
+        9
+        0:00:52,610 --> 0:00:57,850
+        Speaker 1: him some great pleasure. To take a trivial example, which of us ever undertakes laborious
+
+        10
+        0:00:57,850 --> 0:01:02,530
+        Speaker 1: physical exercise, except to obtain some advantage from it? But who has any right
+
+        11
+        0:01:02,610 --> 0:01:07,610
+        Speaker 1: to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences,
+
+        12
+        0:01:07,650 --> 0:01:11,810
+        Speaker 1: or one who avoids a pain
+
+        13
+        0:01:11,890 --> 0:01:15,490
+        Speaker 1: that produces no resultant pleasure?
         """
 
         guard let model = TranscriptModel.makeModel(from: transcript, format: .srt) else {
@@ -107,15 +127,12 @@ final class TrasnscriptModelFilterTests: XCTestCase {
         let filtered = model.attributedText.string
 
         let expected = """
-        Pushkin eighteen nineteen.
-        The Pacific Ocean.
-        The Pacific is pretty big, so let's narrow it down.
-        We're close to the equator.
-        Three thousand miles one way lies Ecuador, seven thousand miles the other way Papua New Guinea.
-        Your nearest land is a small volcano in what's now French Polynesia.
-        And when I say nearest, I'm talking fifteen one hundred miles.
-        You get the idea.
-        We're a very long way from anywhere.
+        But I must explain to you how all this mistaken idea of reprobating pleasure and extolling pain arose.
+        To do so, I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+        No one rejects, dislikes or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.
+        Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+        To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?
+        But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?
         """
 
         XCTAssertEqual(filtered.trim(), expected)
