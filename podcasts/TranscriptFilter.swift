@@ -69,7 +69,7 @@ extension RegexFilter {
     // &nbsp filter
     static let nbspFilter = RegexFilter(pattern: "&nbsp;", replacement: " ")
     // <br> filter
-    static let breakLineFilter = RegexFilter(pattern: "<br>", replacement: "\n")
+    static let breakLineFilter = RegexFilter(pattern: "<br>|<BR>|<br/>|<BR/>", replacement: "\n")
     // Sound descriptor filter. Ex: [laughs]
     static let soundDescriptorFilter = RegexFilter(pattern: "\\[[^\\]]*\\]", replacement: "")
     // Speaker names at start
