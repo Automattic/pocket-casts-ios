@@ -28,7 +28,11 @@ struct AccountHeaderView: View {
                         Text(title)
                             .fixedSize(horizontal: false, vertical: true)
                         Spacer()
-                        label
+                        Button(action: {
+                            Toast.show(L10n.plusChampionMessage)
+                        }, label: {
+                            label
+                        })
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .foregroundColor(theme.primaryText01)
@@ -65,7 +69,7 @@ struct AccountHeaderView: View {
             // Lifetime membership, show a thank you message
             return (
                 L10n.subscriptionsThankYou,
-                Text(L10n.plusLifetimeMembership)
+                Text(L10n.plusChampion)
                     .foregroundColor(theme.green)
             )
         case .paymentCancelled:
