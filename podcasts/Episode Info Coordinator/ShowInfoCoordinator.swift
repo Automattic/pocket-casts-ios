@@ -71,38 +71,6 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         try await requestShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
     }
 
-    func loadRawMetadata(
-        podcastUuid: String,
-        episodeUuid: String
-    ) async throws -> String? {
-        try await requestRawMetadata(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-    }
-
-    @discardableResult
-    func requestRawMetadata(
-        podcastUuid: String,
-        episodeUuid: String
-    ) async throws -> String? {
-        if let task = requestingRawMetadata[episodeUuid] {
-            return try await task.value
-        }
-
-        let task = Task<String?, Error> { [unowned self] in
-            do {
-                let data = try await dataRetriever.loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid)
-                requestingRawMetadata[episodeUuid] = nil
-                return data
-            } catch {
-                requestingRawMetadata[episodeUuid] = nil
-                throw error
-            }
-        }
-
-        requestingRawMetadata[episodeUuid] = task
-
-        return try await task.value
-    }
-
     @discardableResult
     func requestShowInfo(
         podcastUuid: String,
