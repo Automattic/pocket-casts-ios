@@ -18,7 +18,7 @@ enum TranscriptFormat: String {
     }
 
     // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.srt, .vtt]
+    static let supportedFormats: [TranscriptFormat] = [.vtt, .srt]
 }
 
 struct TranscriptCue: Sendable {
@@ -52,7 +52,10 @@ struct TranscriptModel: Sendable {
         var cues = [TranscriptCue]()
         for cue in subtitles.cues {
             let text = cue.text
-            let attributedText = NSAttributedString(string: text + "\n")
+
+            let filteredText: String = ComposeFilter.transcriptFilter.filter(text)
+
+            let attributedText = NSAttributedString(string: filteredText)
             let startPosition = resultText.length
             let endPosition = attributedText.length
             let range = NSRange(location: startPosition, length: endPosition)
