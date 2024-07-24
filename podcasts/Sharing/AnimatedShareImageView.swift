@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct AnimatedShareImageView: View {
     let info: ShareImageInfo
@@ -10,13 +11,17 @@ struct AnimatedShareImageView: View {
 }
 
 extension AnimatedShareImageView {
-    func itemProvider() -> NSItemProvider {
+    func itemProvider(episode: some BaseEpisode, startTime: CMTime, duration: CMTime) -> NSItemProvider {
         let itemProvider = NSItemProvider()
         if #available(iOS 16.0, *) {
-            itemProvider.registerFileRepresentation(for: .mpeg4Movie, openInPlace: true) { completion in
+            itemProvider.registerFileRepresentation(for: .mpeg4Movie) { completion in
                 let progress = Progress()
                 Task.detached {
-                    let video = SwiftUIVideoExporter(view: Self(info: info, style: style), duration: 60, size: CGSize(width: 768, height: 1024))
+                    guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
+                        completion(nil, false, nil)
+                        return
+                    }
+                    let video = SwiftUIVideoExporter(view: Self(info: info, style: style), duration: CMTimeGetSeconds(duration), size: CGSize(width: 768, height: 1024), audioPlayerItem: playerItem, audioStartTime: startTime, audioDuration: duration)
                     let url = FileManager.default.temporaryDirectory.appending(path: "video_export-\(UUID().uuidString).mp4")
 
                     do {

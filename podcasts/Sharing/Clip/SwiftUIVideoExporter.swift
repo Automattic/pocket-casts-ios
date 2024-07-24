@@ -8,12 +8,18 @@ class SwiftUIVideoExporter<Content: View> {
     private let duration: TimeInterval
     private let size: CGSize
     private let fps: Int
+    private let audioPlayerItem: AVPlayerItem?
+    private let audioStartTime: CMTime
+    private let audioDuration: CMTime
 
-    init(view: Content, duration: TimeInterval, size: CGSize, fps: Int = 60) {
+    init(view: Content, duration: TimeInterval, size: CGSize, fps: Int = 60, audioPlayerItem: AVPlayerItem, audioStartTime: CMTime, audioDuration: CMTime) {
         self.view = view
         self.duration = duration
         self.size = size
         self.fps = fps
+        self.audioPlayerItem = audioPlayerItem
+        self.audioStartTime = audioStartTime
+        self.audioDuration = audioDuration
     }
 
     @MainActor func exportToMP4(outputURL: URL, progress: Progress) async throws {
@@ -48,43 +54,110 @@ class SwiftUIVideoExporter<Content: View> {
 
         videoWriter.add(videoWriterInput)
 
+        // Add audio input if audioPlayerItem is provided
+        var audioWriterInput: AVAssetWriterInput?
+        if let audioPlayerItem = audioPlayerItem {
+            let audioSettings: [String: Any] = [
+                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                AVSampleRateKey: 44100,
+                AVNumberOfChannelsKey: 2,
+                AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+            ]
+            audioWriterInput = AVAssetWriterInput(mediaType: .audio, outputSettings: audioSettings)
+            videoWriter.add(audioWriterInput!)
+        }
+
         videoWriter.startWriting()
         videoWriter.startSession(atSourceTime: .zero)
 
         let renderer = ImageRenderer(content: view)
         renderer.scale = UIScreen.main.scale
 
-        let queue = DispatchQueue(label: "com.videoexporter.renderqueue")
+        let queue = DispatchQueue.main
+
+        let group = DispatchGroup()
+        group.enter()
 
         videoWriterInput.requestMediaDataWhenReady(on: queue) {
             progress.totalUnitCount = Int64(frameCount)
-            (0..<frameCount).forEach { frameNumber in
+            for frameNumber in 0..<frameCount {
                 if videoWriterInput.isReadyForMoreMediaData {
                     let time = Double(frameNumber) / Double(self.fps)
 
-                    // Update the view for the next frame
-                    DispatchQueue.main.sync {
-                        if let image = renderer.uiImage {
-                            if let buffer = self.pixelBuffer(from: image) {
-                                let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                                adaptor.append(buffer, withPresentationTime: frameTime)
-                                progress.completedUnitCount = Int64(frameNumber)
-                            }
+                    if let image = renderer.uiImage {
+                        if let buffer = self.pixelBuffer(from: image) {
+                            let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+                            adaptor.append(buffer, withPresentationTime: frameTime)
+                            progress.completedUnitCount = Int64(frameNumber)
                         }
                     }
                 }
             }
 
             videoWriterInput.markAsFinished()
+            group.leave()
+        }
+
+        // Handle audio export if audioPlayerItem is provided
+        if let audioPlayerItem = audioPlayerItem, let audioWriterInput = audioWriterInput {
+
+            group.enter()
+
+            Task.detached {
+                var audioReader: AVAssetReader!
+                var sharedTrackOutput: AVAssetReaderTrackOutput!
+
+                let tracks = try await audioPlayerItem.asset.load(.tracks)
+
+                let composition = AVMutableComposition()
+                guard let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid)),
+                      let sourceAudioTrack = tracks.first else {
+                    print("Failed to create audio track")
+                    audioWriterInput.markAsFinished()
+                    group.leave()
+                    return
+                }
+
+                let timeRange = CMTimeRangeMake(start: self.audioStartTime, duration: self.audioDuration)
+                try compositionAudioTrack.insertTimeRange(timeRange, of: sourceAudioTrack, at: .zero)
+
+                audioReader = try AVAssetReader(asset: composition)
+
+                let outputSettings: [String: Any] = [
+                    AVFormatIDKey: kAudioFormatLinearPCM,
+                    AVSampleRateKey: 44100
+                ]
+
+                sharedTrackOutput = AVAssetReaderTrackOutput(track: compositionAudioTrack, outputSettings: outputSettings)
+                audioReader.add(sharedTrackOutput)
+                let isReading = audioReader.startReading()
+
+                audioWriterInput.requestMediaDataWhenReady(on: queue) {
+                    guard audioWriterInput.isReadyForMoreMediaData else {
+                        audioWriterInput.markAsFinished()
+                        group.leave()
+                        return
+                    }
+
+                    if let sampleBuffer = sharedTrackOutput.copyNextSampleBuffer() {
+                        audioWriterInput.append(sampleBuffer)
+                    } else {
+                        audioWriterInput.markAsFinished()
+                        group.leave()
+                    }
+                }
+
+                group.wait()
+            }
+        }
+
+        group.notify(queue: queue) {
             videoWriter.finishWriting {
                 DispatchQueue.main.async {
-                    switch videoWriter.status {
-                    case .failed:
-                        completion(.failure(ExportError.exportFailed(videoWriter.error)))
-                    case .completed:
+                    if videoWriter.status == .completed {
                         completion(.success(()))
-                    default:
-                        ()
+                    } else {
+                        completion(.failure(ExportError.exportFailed(videoWriter.error)))
                     }
                 }
             }
@@ -133,6 +206,44 @@ class SwiftUIVideoExporter<Content: View> {
 
     enum ExportError: Error {
         case failedToCreateAssetWriter
+
         case exportFailed(Error?)
+    }
+}
+
+extension AVAssetWriterInput {
+
+    func fillMediaData(output: AVAssetReaderOutput) async {
+        for await _ in requestMediaDataWhenReady(on: DispatchQueue.main) {
+            guard let sampleBuffer = output.copyNextSampleBuffer()
+            else {
+                return
+            }
+
+            if isReadyForMoreMediaData {
+                append(sampleBuffer)
+            }
+        }
+    }
+
+    func requestMediaDataWhenReady(on queue: DispatchQueue) -> AsyncStream<Void> {
+        AsyncStream { continuation in
+
+            requestMediaDataWhenReady(on: queue, using: {
+                continuation.yield()
+            })
+
+            continuation.onTermination = { @Sendable [weak self] _ in
+                self?.markAsFinished()
+            }
+
+//            monitor.quakeHandler = { quake in
+//                continuation.yield(quake)
+//            }
+//            continuation.onTermination = { @Sendable _ in
+//                 monitor.stopMonitoring()
+//            }
+//            monitor.startMonitoring()
+        }
     }
 }
