@@ -27,7 +27,10 @@ struct ComposeFilter: TranscriptFilter {
         RegexFilter.breakLineFilter,
         RegexFilter.nbspFilter,
         RegexFilter.vttTagsFilter,
-        RegexFilter.soundDescriptorFilter
+        RegexFilter.soundDescriptorFilter,
+        RegexFilter.htmlSpeakerFilter,
+        RegexFilter.emptySpacesAtEndOfLinesFilter,
+        RegexFilter.doubleOrMoreSpacesFilter
     ])
 }
 
@@ -42,7 +45,7 @@ struct RegexFilter: TranscriptFilter {
 
     private func regexSearchReplace(input: String, pattern: String, replacement: String) -> String {
         do {
-            let regex = try NSRegularExpression(pattern: pattern)
+            let regex = try NSRegularExpression(pattern: pattern, options: [.anchorsMatchLines])
             let range = NSRange(input.startIndex..., in: input)
             let result = regex.stringByReplacingMatches(in: input, options: [], range: range, withTemplate: replacement)
             return result
@@ -69,6 +72,12 @@ extension RegexFilter {
     static let breakLineFilter = RegexFilter(pattern: "<br>", replacement: "\n")
     // Sound descriptor filter. Ex: [laughs]
     static let soundDescriptorFilter = RegexFilter(pattern: "\\[[^\\]]*\\]", replacement: "")
+    // Speaker names at start
+    static let htmlSpeakerFilter = RegexFilter(pattern: "^\\w+:\\s*", replacement: "")
+    // Empty spaces at the end of lines
+    static let emptySpacesAtEndOfLinesFilter = RegexFilter(pattern: "[ ]*\\n", replacement: "\n")
+    // Double or more spaces
+    static let doubleOrMoreSpacesFilter = RegexFilter(pattern: "[ ]+", replacement: " ")
 }
 
 struct SuffixFilter: TranscriptFilter {

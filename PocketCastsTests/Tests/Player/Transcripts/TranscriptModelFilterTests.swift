@@ -150,16 +150,15 @@ final class TranscriptModelFilterTests: XCTestCase {
         let filtered = model.attributedText.string
 
         let expected = """
-        Peter: How should we start?
-        Mike: I mean, we don't need a zing.
-        Peter: Michael, Peter, what do you know about the next Vice President of the United States?
-        Mike: I'm proud of his ad-Vance-ment.
-        Peter:
-        Mike: Terrible.
-        Peter: Terrible. Oh, my God.
-        Mike: Ridiculous.
-        Peter: So we thought we would release our Hillbilly Elegy episode, now that the author, J.D. Vance, has been selected by Donald Trump as his running mate for the presidential election.
-        Mike: We have also been a little bit late with episodes lately because I got Covid and Peter got the Elden Ring DLC. So we're doing this to hold you over until we're back with Jonathan Haidt's Anxious Generation. So please stop emailing us asking us to do it because we're already doing it.
+        How should we start?
+        I mean, we don't need a zing.
+        Michael, Peter, what do you know about the next Vice President of the United States?
+        I'm proud of his ad-Vance-ment.
+        Terrible.
+        Terrible. Oh, my God.
+        Ridiculous.
+        So we thought we would release our Hillbilly Elegy episode, now that the author, J. D. Vance, has been selected by Donald Trump as his running mate for the presidential election.
+        We have also been a little bit late with episodes lately because I got Covid and Peter got the Elden Ring DLC. So we're doing this to hold you over until we're back with Jonathan Haidt's Anxious Generation. So please stop emailing us asking us to do it because we're already doing it.
         """
 
         XCTAssertEqual(filtered.trim(), expected)
