@@ -500,6 +500,7 @@
 		8B5AB48A29018A950018C637 /* EpilogueStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB48929018A950018C637 /* EpilogueStory.swift */; };
 		8B5AB48C29018EFA0018C637 /* StoriesConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */; };
 		8B5AB48E2901A8BD0018C637 /* StoriesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AB48D2901A8BD0018C637 /* StoriesController.swift */; };
+		8B5BD0B82C50235400C687CB /* Episode+Transcript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5BD0B72C50235400C687CB /* Episode+Transcript.swift */; };
 		8B5F9A6728EFBB9800DE1C12 /* AppIcon-Halloween@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */; };
 		8B5F9A6828EFBB9800DE1C12 /* AppIcon-Halloween@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */; };
 		8B5FB8212B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5FB8202B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift */; };
@@ -2375,6 +2376,7 @@
 		8B5AB48929018A950018C637 /* EpilogueStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpilogueStory.swift; sourceTree = "<group>"; };
 		8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesConfiguration.swift; sourceTree = "<group>"; };
 		8B5AB48D2901A8BD0018C637 /* StoriesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesController.swift; sourceTree = "<group>"; };
+		8B5BD0B72C50235400C687CB /* Episode+Transcript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+Transcript.swift"; sourceTree = "<group>"; };
 		8B5F9A6528EFBB9700DE1C12 /* AppIcon-Halloween@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@2x.png"; sourceTree = "<group>"; };
 		8B5F9A6628EFBB9800DE1C12 /* AppIcon-Halloween@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween@3x.png"; sourceTree = "<group>"; };
 		8B5FB8202B88FF52007576F0 /* DeselectChaptersAnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeselectChaptersAnnouncementViewModel.swift; sourceTree = "<group>"; };
@@ -7525,6 +7527,7 @@
 				FF7F89EC2C2AF6DE00FC0ED5 /* TranscriptManager.swift */,
 				FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */,
 				FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */,
+				8B5BD0B72C50235400C687CB /* Episode+Transcript.swift */,
 			);
 			name = Transcripts;
 			sourceTree = "<group>";
@@ -9268,6 +9271,7 @@
 				8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */,
 				BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */,
 				C722245C2936CA15006B3B55 /* StoryLogoView.swift in Sources */,
+				8B5BD0B82C50235400C687CB /* Episode+Transcript.swift in Sources */,
 				C713D4F52A04C90500A78468 /* ProfileImage.swift in Sources */,
 				466DE3F6278794D50046F722 /* EpisodeListTableViewCell.swift in Sources */,
 				BD056F111F6F8CE800AF8260 /* MainTabBarController.swift in Sources */,

@@ -165,8 +165,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             chapterManager.clearChapterInfo()
         }
 
-        loadTranscripts(episode: episode)
-
         if saveCurrentEpisode && currentEpisode() != nil && !switchingToDifferentUpNextEpisode {
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: false)
         }
@@ -2085,20 +2083,6 @@ private extension PlaybackManager {
 
         lastSeekTime = Date()
         isBack ? skipBack() : skipForward()
-    }
-
-    // MARK: - Transcripts
-    private func loadTranscripts(episode: BaseEpisode) {
-        guard FeatureFlag.transcripts.enabled, let episode = episode as? Episode, let podcast = episode.parentPodcast() else {
-            return
-        }
-        transcriptsAvailable = false
-        Task.init {
-            if let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid) {
-                transcriptsAvailable = !transcripts.isEmpty
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeTranscriptAvailabilityChanged)
-            }
-        }
     }
 }
 
