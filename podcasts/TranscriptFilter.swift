@@ -29,7 +29,8 @@ struct ComposeFilter: TranscriptFilter {
         RegexFilter.soundDescriptorFilter,
         RegexFilter.htmlSpeakerFilter,
         RegexFilter.emptySpacesAtEndOfLinesFilter,
-        RegexFilter.doubleOrMoreSpacesFilter
+        RegexFilter.doubleOrMoreSpacesFilter,
+        RegexFilter.doubleOrMoreEmptyLinesFilter,
     ])
 }
 
@@ -77,6 +78,8 @@ extension RegexFilter {
     static let emptySpacesAtEndOfLinesFilter = RegexFilter(pattern: "[ ]*\\n", replacement: "\n")
     // Double or more spaces
     static let doubleOrMoreSpacesFilter = RegexFilter(pattern: "[ ]+", replacement: " ")
+    // Double or more lines
+    static let doubleOrMoreEmptyLinesFilter = RegexFilter(pattern: "[\\n]+", replacement: "\n")
 }
 
 struct SuffixFilter: TranscriptFilter {
