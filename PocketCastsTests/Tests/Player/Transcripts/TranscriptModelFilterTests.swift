@@ -140,7 +140,7 @@ final class TranscriptModelFilterTests: XCTestCase {
 
     func testHTML() throws {
         let transcript = """
-        <p><!--block--><b> Peter:</b> How should we start?&nbsp;</p><p><!--block--><br><b>Mike:</b> I mean, we don't need a zing.&nbsp;</p><p><!--block--><br/><b>Peter:</b> Michael, Peter, what do you know about the next Vice President of the United States?&nbsp;</p><p><!--block--><BR><b>Mike:</b> I'm proud of his ad-Vance-ment.&nbsp;</p><p><!--block--><BR/></p><p><!--block--><b>Peter:</b> [laughs]&nbsp;</p><p><!--block--><br></p><p><!--block--><b>Mike:</b> Terrible.&nbsp;</p><p><!--block--><br><b>Peter:</b> Terrible. Oh, my God.&nbsp;</p><p><!--block--><br><b>Mike:</b> Ridiculous.&nbsp;</p><p><!--block--><br><b>Peter:</b> So we thought we would release our Hillbilly Elegy episode, now that the author, J. D. Vance, has been selected by Donald Trump as his running mate for the presidential election.&nbsp;</p><p><!--block--><br><b>Mike:</b> We have also been a little bit late with episodes lately because I got Covid and Peter got the Elden Ring DLC. [Peter chuckles] So we're doing this to hold you over until we're back with Jonathan Haidt's <em>Anxious Generation</em>. So please stop emailing us asking us to do it because we're already doing it.&nbsp;</p><p><!--block--><br></p>
+        <p><!--block--><b> Peter:</b> But I must explain to you how all this mistaken idea of reprobating pleasure and extolling pain arose.&nbsp;</p><p><!--block--><br><b>Mike:</b> To do so, I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.&nbsp;</p><p><!--block--><br/><b>Peter:</b> No one rejects, dislikes or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.&nbsp;</p><p><!--block--><BR><b>Mike:</b> Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure.&nbsp;</p><p><!--block--><BR/></p><p><!--block--><b>Peter:</b> [laughs]&nbsp;</p><p><!--block--><br></p><p><!--block--><b>Mike:</b> To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?&nbsp;</p><p><!--block--><br><b>Peter:</b> But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&nbsp;</p><p><!--block--><br></p>
         """
 
         guard let model = TranscriptModel.makeModel(from: transcript, format: .textHTML) else {
@@ -150,15 +150,12 @@ final class TranscriptModelFilterTests: XCTestCase {
         let filtered = model.attributedText.string
 
         let expected = """
-        How should we start?
-        I mean, we don't need a zing.
-        Michael, Peter, what do you know about the next Vice President of the United States?
-        I'm proud of his ad-Vance-ment.
-        Terrible.
-        Terrible. Oh, my God.
-        Ridiculous.
-        So we thought we would release our Hillbilly Elegy episode, now that the author, J. D. Vance, has been selected by Donald Trump as his running mate for the presidential election.
-        We have also been a little bit late with episodes lately because I got Covid and Peter got the Elden Ring DLC. So we're doing this to hold you over until we're back with Jonathan Haidt's Anxious Generation. So please stop emailing us asking us to do it because we're already doing it.
+        But I must explain to you how all this mistaken idea of reprobating pleasure and extolling pain arose.
+        To do so, I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+        No one rejects, dislikes or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.
+        Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+        To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?
+        But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?
         """
 
         XCTAssertEqual(filtered.trim(), expected)
