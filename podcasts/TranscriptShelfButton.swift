@@ -1,10 +1,11 @@
 import UIKit
+import PocketCastsDataModel
 
 class TranscriptShelfButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addObservers()
-        playingStateDidChange()
+        checkTranscriptAvailability()
     }
 
     required init?(coder: NSCoder) {
@@ -12,10 +13,27 @@ class TranscriptShelfButton: UIButton {
     }
 
     func addObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(playingStateDidChange), name: Constants.Notifications.episodeTranscriptAvailabilityChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(episodeTranscriptAvailabilityChanged), name: Constants.Notifications.episodeTranscriptAvailabilityChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(playbackTrackChanged), name: Constants.Notifications.playbackTrackChanged, object: nil)
     }
 
-    @objc func playingStateDidChange() {
-        isEnabled = PlaybackManager.shared.transcriptsAvailable
+    @objc func playbackTrackChanged() {
+        checkTranscriptAvailability()
+    }
+
+    @objc func episodeTranscriptAvailabilityChanged(notification: NSNotification) {
+        guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
+              let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
+              episodeUuid == PlaybackManager.shared.currentEpisode()?.uuid else {
+            return
+        }
+
+        isEnabled = isAvailable
+    }
+
+    private func checkTranscriptAvailability() {
+        isEnabled = false
+        let currentEpisode = PlaybackManager.shared.currentEpisode() as? Episode
+        currentEpisode?.checkTranscriptAvailability()
     }
 }
