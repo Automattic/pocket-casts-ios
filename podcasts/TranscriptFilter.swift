@@ -15,10 +15,19 @@ struct ComposeFilter: TranscriptFilter {
     }
 
     static let transcriptFilter = ComposeFilter(filters: [
+        RegexFilter.nbspFilter,
         RegexFilter.vttTagsFilter,
         RegexFilter.speakerFilter,
         RegexFilter.notfullStopNewLineFilter,
         RegexFilter.fullStopNewLineFilter,
+        RegexFilter.fullStopEndofCueFilter
+    ])
+
+    static let htmlFilter = ComposeFilter(filters: [
+        RegexFilter.breakLineFilter,
+        RegexFilter.nbspFilter,
+        RegexFilter.vttTagsFilter,
+        RegexFilter.soundDescriptorFilter
     ])
 }
 
@@ -49,9 +58,17 @@ extension RegexFilter {
     // Remove SRT tags, for example: "Speaker 1: " to ""
     static let speakerFilter = RegexFilter(pattern: "Speaker \\d?: *", replacement: "")
     // Ensure that any full stop starts a new line
-    static let fullStopNewLineFilter = RegexFilter(pattern: "([\\!\\?\\.])\\s*", replacement: "$1\n")
+    static let fullStopNewLineFilter = RegexFilter(pattern: "([\\!\\?\\.])\\s+", replacement: "$1\n")
+    // Full Stop at end
+    static let fullStopEndofCueFilter = RegexFilter(pattern: "([\\!\\?\\.])\\z", replacement: "$1\n")
     // Ensure that end of cues have a space when appended to the next cue
     static let notfullStopNewLineFilter = RegexFilter(pattern: "([^\\!\\?\\.])\\z", replacement: "$1 ")
+    // &nbsp filter
+    static let nbspFilter = RegexFilter(pattern: "&nbsp;", replacement: " ")
+    // <br> filter
+    static let breakLineFilter = RegexFilter(pattern: "<br>", replacement: "\n")
+    // Sound descriptor filter. Ex: [laughs]
+    static let soundDescriptorFilter = RegexFilter(pattern: "\\[[^\\]]*\\]", replacement: "")
 }
 
 struct SuffixFilter: TranscriptFilter {
