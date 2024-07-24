@@ -73,7 +73,7 @@ extension RegexFilter {
     // Sound descriptor filter. Ex: [laughs]
     static let soundDescriptorFilter = RegexFilter(pattern: "\\[[^\\]]*\\]", replacement: "")
     // Speaker names at start
-    static let htmlSpeakerFilter = RegexFilter(pattern: "^\\w+:\\s*", replacement: "")
+    static let htmlSpeakerFilter = RegexFilter(pattern: "^[ ]*\\w+:\\s*", replacement: "")
     // Empty spaces at the end of lines
     static let emptySpacesAtEndOfLinesFilter = RegexFilter(pattern: "[ ]*\\n", replacement: "\n")
     // Double or more spaces
