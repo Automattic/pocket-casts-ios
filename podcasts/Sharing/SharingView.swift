@@ -13,10 +13,23 @@ class ClipTime: ObservableObject {
     @Published var end: TimeInterval
     @Published var playback: TimeInterval
 
+    private let originalStart: TimeInterval
+    private let originalEnd: TimeInterval
+
+    var startChanged: Bool {
+        return start != originalStart
+    }
+
+    var endChanged: Bool {
+        return end != originalEnd
+    }
+
     init(start: TimeInterval, end: TimeInterval, playback: TimeInterval? = nil) {
         self.start = start
         self.end = end
-        self.playback = playback ?? start
+        self.playback = start
+        self.originalStart = start
+        self.originalEnd = end
     }
 }
 
@@ -34,6 +47,7 @@ struct SharingView: View {
     }
 
     let destinations: [ShareDestination]
+    let source: AnalyticsSource
 
     @State private var shareable: Shareable
     @State private var isExporting: Bool = false
@@ -41,7 +55,9 @@ struct SharingView: View {
     @ObservedObject var clipTime: ClipTime
     @StateObject var clipResult = ClipResult()
 
-    init(destinations: [ShareDestination], selectedOption: SharingModal.Option, selectedStyle: ShareImageStyle = .large) {
+    private let clipUUID = UUID().uuidString
+
+    init(destinations: [ShareDestination], selectedOption: SharingModal.Option, selectedStyle: ShareImageStyle = .large, source: AnalyticsSource) {
         self.destinations = destinations
         self.shareable = Shareable(option: selectedOption, style: selectedStyle)
 
@@ -58,17 +74,45 @@ struct SharingView: View {
         default:
             self.clipTime = ClipTime(start: 0, end: 0)
         }
+
+        self.source = source
     }
 
     var body: some View {
         VStack {
             title
             tabView
-            SharingFooterView(clipTime: clipTime, option: $shareable.option, isExporting: $isExporting, clipResult: clipResult, destinations: destinations, style: shareable.style)
+            SharingFooterView(clipTime: clipTime, option: $shareable.option, isExporting: $isExporting, clipResult: clipResult, destinations: destinations, style: shareable.style, clipUUID: clipUUID, source: source)
         }
         .task(id: isExporting, {
             await exportIfNeeded()
         })
+        .onAppear {
+            var properties = [:]
+            let type: String
+
+            switch shareable.option {
+            case .clip(let episode, _):
+                properties["episode_uuid"] = episode.uuid
+                type = "clip"
+            case .clipShare(let episode, _, _, _):
+                properties["episode_uuid"] = episode.uuid
+                type = "clip"
+            case .episode(let episode):
+                properties["episode_uuid"] = episode.uuid
+                type = "episode"
+            case .podcast(let podcast):
+                properties["podcast_uuid"] = podcast.uuid
+                type = "podcast"
+            case .currentPosition(let episode, _):
+                properties["episode_uuid"] = episode.uuid
+                type = "episode_timestamp"
+            }
+            properties["clip_uuid"] = clipUUID
+            properties["type"] = type
+
+            Analytics.track(.shareScreenShown, source: source, properties: properties)
+        }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
     }
@@ -134,6 +178,52 @@ struct SharingView: View {
             .tabItem { Text(style.tabString) }
             .id(style)
             .scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.previewSize.height)
+	}
+
+    private func logShareAction(option: SharingModal.Option, style: ShareImageStyle) {
+        var properties: Dictionary<String, Any> = [:]
+
+        switch option {
+        case .clip(let episode, _):
+            properties["episode_uuid"] = episode.uuid
+        case .clipShare(let episode, let clipTime, _, _):
+            properties["episode_uuid"] = episode.uuid
+            properties["start"] = Int(clipTime.start)
+            properties["end"] = Int(clipTime.end)
+            properties["start_modified"] = clipTime.startChanged
+            properties["end_modified"] = clipTime.endChanged
+        case .episode(let episode):
+            properties["episode_uuid"] = episode.uuid
+        case .podcast(let podcast):
+            properties["podcast_uuid"] = podcast.uuid
+        case .currentPosition(let episode, _):
+            properties["episode_uuid"] = episode.uuid
+        }
+        properties["clip_uuid"] = clipUUID
+
+        switch style {
+        case .large:
+            properties["card_type"] = "vertical"
+        case .medium:
+            properties["card_type"] = "square"
+        case .small:
+            properties["card_type"] = "horizontal"
+        case .audio:
+            properties["card_type"] = "audio"
+        }
+
+        let shareType: String
+        switch (style, option) {
+        case (.audio, _):
+            shareType = "audio"
+        case (_, .clip), (_, .clipShare):
+            shareType = "video"
+        default:
+            shareType = "link"
+        }
+        properties["type"] = shareType
+
+        Analytics.track(.shareScreenClipShared, source: source, properties: properties)
     }
 
     private func shareItems(style: ShareImageStyle) -> [Shareable] {
@@ -215,6 +305,6 @@ struct SharingView: View {
 }
 
 #Preview {
-    SharingView(destinations: [.copyLinkOption], selectedOption: .podcast(Podcast.previewPodcast()))
+    SharingView(destinations: [.copyLinkOption], selectedOption: .podcast(Podcast.previewPodcast()), source: .player)
         .background(Color.black)
 }

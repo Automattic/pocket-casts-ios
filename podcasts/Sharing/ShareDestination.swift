@@ -9,6 +9,11 @@ struct ShareDestination: Hashable {
         static let displayedAppsCount = 3
     }
 
+    enum Media {
+        case media
+        case link
+    }
+
     static func ==(lhs: ShareDestination, rhs: ShareDestination) -> Bool {
         lhs.name == rhs.name && lhs.icon == rhs.icon
     }

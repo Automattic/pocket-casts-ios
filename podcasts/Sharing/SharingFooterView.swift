@@ -9,6 +9,8 @@ struct SharingFooterView: View {
 
     let destinations: [ShareDestination]
     let style: ShareImageStyle
+    let clipUUID: String
+    let source: AnalyticsSource
 
     @EnvironmentObject var theme: Theme
 
@@ -18,7 +20,7 @@ struct SharingFooterView: View {
             buttons
         case .clip(let episode, _):
             VStack(spacing: 12) {
-                MediaTrimBar(clipTime: clipTime, episode: episode)
+                MediaTrimBar(clipTime: clipTime, episode: episode, clipUUID: clipUUID, analyticsSource: source)
                     .frame(height: 72)
                     .tint(color)
                 HStack {
