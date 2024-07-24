@@ -138,4 +138,31 @@ final class TranscriptModelFilterTests: XCTestCase {
         XCTAssertEqual(filtered.trim(), expected)
     }
 
+    func testHTML() throws {
+        let transcript = """
+        <p><!--block--><b>Peter:</b> How should we start?&nbsp;</p><p><!--block--><br><b>Mike:</b> I mean, we don't need a zing.&nbsp;</p><p><!--block--><br><b>Peter:</b> Michael, Peter, what do you know about the next Vice President of the United States?&nbsp;</p><p><!--block--><br><b>Mike:</b> I'm proud of his ad-Vance-ment.&nbsp;</p><p><!--block--><br></p><p><!--block--><b>Peter:</b> [laughs]&nbsp;</p><p><!--block--><br></p><p><!--block--><b>Mike:</b> Terrible.&nbsp;</p><p><!--block--><br><b>Peter:</b> Terrible. Oh, my God.&nbsp;</p><p><!--block--><br><b>Mike:</b> Ridiculous.&nbsp;</p><p><!--block--><br><b>Peter:</b> So we thought we would release our Hillbilly Elegy episode, now that the author, J. D. Vance, has been selected by Donald Trump as his running mate for the presidential election.&nbsp;</p><p><!--block--><br><b>Mike:</b> We have also been a little bit late with episodes lately because I got Covid and Peter got the Elden Ring DLC. [Peter chuckles] So we're doing this to hold you over until we're back with Jonathan Haidt's <em>Anxious Generation</em>. So please stop emailing us asking us to do it because we're already doing it.&nbsp;</p><p><!--block--><br></p>
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .textHTML) else {
+            XCTFail("Model should be created")
+            return
+        }
+        let filtered = model.attributedText.string
+
+        let expected = """
+        Peter: How should we start?
+        Mike: I mean, we don't need a zing.
+        Peter: Michael, Peter, what do you know about the next Vice President of the United States?
+        Mike: I'm proud of his ad-Vance-ment.
+        Peter:
+        Mike: Terrible.
+        Peter: Terrible. Oh, my God.
+        Mike: Ridiculous.
+        Peter: So we thought we would release our Hillbilly Elegy episode, now that the author, J.D. Vance, has been selected by Donald Trump as his running mate for the presidential election.
+        Mike: We have also been a little bit late with episodes lately because I got Covid and Peter got the Elden Ring DLC. So we're doing this to hold you over until we're back with Jonathan Haidt's Anxious Generation. So please stop emailing us asking us to do it because we're already doing it.
+        """
+
+        XCTAssertEqual(filtered.trim(), expected)
+    }
+
 }
