@@ -15,7 +15,6 @@ struct ComposeFilter: TranscriptFilter {
     }
 
     static let transcriptFilter = ComposeFilter(filters: [
-        RegexFilter.nbspFilter,
         RegexFilter.vttTagsFilter,
         RegexFilter.speakerFilter,
         RegexFilter.notfullStopNewLineFilter,
