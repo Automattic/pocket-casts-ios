@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TrimPlayButton: View {
-    @State var isPlaying: Bool
+    @Binding var isPlaying: Bool
 
     var body: some View {
         Button(action: {

@@ -28,9 +28,13 @@ struct MediaTrimView: View {
             ScrollableScrollView(scale: $scale, duration: duration, geometry: geometry) { scrollable in
                 AudioWaveformView(scale: scale, width: geometry.size.width * scale)
                 borderView(in: geometry)
-                PlayheadView(position: scaledPosition($playPosition), onChanged: {
-                    print("Moved playhead to: \($0)")
-                })
+                PlayheadView(position: scaledPosition($playPosition))
+                    .onChange(of: playTime) { playTime in
+                        playPosition = durationRelative(value: playTime, for: geometry.size.width)
+                    }
+                    .onChange(of: playPosition) { playPosition in
+                        playTime = (playPosition * duration) / geometry.size.width
+                    }
                     .frame(width: Constants.playLineWidth)
                 TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), changed: { position, side in
                     update(position: position, for: side, in: geometry.size.width)
