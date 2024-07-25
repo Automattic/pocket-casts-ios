@@ -4180,3 +4180,15 @@
 
 /* A title shown after editing a clip but before sharing */
 "share_clip" = "Share clip";
+
+/* Kids Profile banner title */
+"kids_profile_banner_title" = "Kids Profile";
+
+/* Kids Profile banner badge title */
+"kids_profile_banner_badge" = "Soon";
+
+/* Kids Profile banner text */
+"kids_profile_banner_text" = "A new profile with only content for kids to keep you subscriptions tidy.";
+
+/* Kids Profile banner action button title */
+"kids_profile_banner_request_button" = "Request Early Access ";
