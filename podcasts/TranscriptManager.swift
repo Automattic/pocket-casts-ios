@@ -66,7 +66,7 @@ class TranscriptManager {
             throw TranscriptError.failedToParse
         }
 
-        guard !model.isEmtpy else {
+        if model.isEmtpy {
             throw TranscriptError.empty
         }
 
