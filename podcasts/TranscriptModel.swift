@@ -42,7 +42,8 @@ struct TranscriptModel: Sendable {
 
     static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
         if format == .textHTML {
-            return TranscriptModel(attributedText: NSAttributedString(string: transcriptText), cues: [])
+            let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [])
         }
         guard let subtitles = try? Subtitles(content: transcriptText, expectedExtension: format.fileExtension) else {
             return nil

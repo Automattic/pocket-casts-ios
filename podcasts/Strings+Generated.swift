@@ -1757,6 +1757,10 @@ internal enum L10n {
   internal static var plusButtonTitleUnlockAll: String { return L10n.tr("Localizable", "plus_button_title_unlock_all") }
   /// Can be canceled at any time
   internal static var plusCancelTerms: String { return L10n.tr("Localizable", "plus_cancel_terms") }
+  /// Pocket Casts Champion
+  internal static var plusChampion: String { return L10n.tr("Localizable", "plus_champion") }
+  /// Thanks for being with Pocket Casts from the start. You're a real champion!
+  internal static var plusChampionMessage: String { return L10n.tr("Localizable", "plus_champion_message") }
   /// %1$@ GB Cloud Storage
   internal static func plusCloudStorageLimitFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_cloud_storage_limit_format", String(describing: p1))
@@ -1783,8 +1787,6 @@ internal enum L10n {
   internal static func plusFreeMembershipFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_free_membership_format", String(describing: p1))
   }
-  /// Lifetime Member
-  internal static var plusLifetimeMembership: String { return L10n.tr("Localizable", "plus_lifetime_membership") }
   /// Desktop & web apps
   internal static var plusMarketingDesktopAppsTitle: String { return L10n.tr("Localizable", "plus_marketing_desktop_apps_title") }
   /// Folders & Bookmarks
