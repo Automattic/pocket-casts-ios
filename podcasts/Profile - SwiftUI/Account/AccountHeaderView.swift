@@ -16,7 +16,7 @@ struct AccountHeaderView: View {
                 viewModel.subscription.map {
                     SubscriptionBadge(tier: $0.tier)
                 }
-                let (title, label) = subscriptionLabels
+                let (title, label, action) = subscriptionLabels
                 if label == nil, FeatureFlag.newAccountUpgradePromptFlow.enabled {
                     Text(title)
                         .fixedSize(horizontal: false, vertical: true)
@@ -28,11 +28,10 @@ struct AccountHeaderView: View {
                         Text(title)
                             .fixedSize(horizontal: false, vertical: true)
                         Spacer()
-                        Button(action: {
-                            Toast.show(L10n.plusChampionMessage)
-                        }, label: {
-                            label
-                        })
+                        label
+                        .onTapGesture {
+                            action?()
+                        }
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .foregroundColor(theme.primaryText01)
@@ -42,7 +41,7 @@ struct AccountHeaderView: View {
         }
     }
 
-    private var subscriptionLabels: (String, Text?) {
+    private var subscriptionLabels: (String, Text?, (() -> Void)?) {
         switch viewModel.viewState {
         case .freeAccount:
             // Show the free account status and the total listening time the user has
@@ -51,32 +50,39 @@ struct AccountHeaderView: View {
                 FeatureFlag.newAccountUpgradePromptFlow.enabled ? nil :
                 viewModel.stats.listeningTime.seconds.localizedTimeDescription.map {
                     Text(L10n.accountDetailsListenedFor($0))
-                }
+                },
+                nil
             )
         case .activeSubscription(_, let frequency, let expirationDate):
             // Show the next billing date, and how often their subscription reviews
             return (
                 L10n.nextPaymentFormat(DateFormatHelper.sharedHelper.longLocalizedFormat(expirationDate)),
-                frequency.localizedDescription.map { Text($0) }
+                frequency.localizedDescription.map { Text($0) },
+                nil
             )
         case .freeTrial(let remaining):
             // Show the time remaining in the free trial and the date it expires
             return (
                 L10n.plusFreeMembershipFormat(DateFormatHelper.sharedHelper.shortTimeRemaining(remaining).localizedCapitalized),
-                expirationLabel()
+                expirationLabel(),
+                nil
             )
         case .lifetime:
             // Lifetime membership, show a thank you message
             return (
                 L10n.subscriptionsThankYou,
                 Text(L10n.plusChampion)
-                    .foregroundColor(theme.green)
+                    .foregroundColor(theme.green),
+                {
+                    Toast.show(L10n.plusChampionMessage)
+                }
             )
         case .paymentCancelled:
             // Show the cancelled label, and the date the subscription expires
             return (
                 L10n.plusPaymentCanceled,
-                expirationLabel()
+                expirationLabel(),
+                nil
             )
         }
     }
