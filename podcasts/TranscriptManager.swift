@@ -19,7 +19,7 @@ enum TranscriptError: Error {
         case .failedToParse:
             return "Transcript failed to parse"
         case .empty:
-            return "Transcript is emtpy"
+            return "Transcript is empty"
         }
     }
 }
