@@ -138,4 +138,24 @@ final class TranscriptModelFilterTests: XCTestCase {
         XCTAssertEqual(filtered.trim(), expected)
     }
 
+    func testVTTEmpty() throws {
+        let transcript = """
+        WEBVTT
+
+        NOTE
+        Podcast: My Favourite Podcast
+        Episode: Some Random Episode
+        Publishing Date: 2024-07-08T13:44:46+02:00
+        Podcast URL: https://random.com
+        Episode URL: https://random.com/some_random_episode
+        """
+
+        guard let model = TranscriptModel.makeModel(from: transcript, format: .vtt) else {
+            XCTFail("Model should be created")
+            return
+        }
+
+        XCTAssertEqual(model.isEmtpy, true)
+    }
+
 }
