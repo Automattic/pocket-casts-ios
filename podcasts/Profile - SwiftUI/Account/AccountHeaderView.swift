@@ -39,11 +39,15 @@ struct AccountHeaderView: View {
                     .foregroundColor(theme.primaryText01)
                     .font(size: 14, style: .subheadline, weight: .medium)
                     .sheet(isPresented: $showingChampion) {
-                        if #available(iOS 16.0, *) {
-                            ChampionView()
-                                .presentationDetents([.medium])
-                        } else {
-                            ChampionView()
+                        ZStack {
+                            theme.primaryUi01.ignoresSafeArea()
+
+                            if #available(iOS 16.0, *) {
+                                ChampionView()
+                                    .presentationDetents([.medium])
+                            } else {
+                                ChampionView()
+                            }
                         }
                     }
                 }
