@@ -6,6 +6,7 @@ enum TranscriptError: Error {
     case failedToLoad
     case notSupported(format: String)
     case failedToParse
+    case empty
 
     var localizedDescription: String {
         switch self {
@@ -17,6 +18,8 @@ enum TranscriptError: Error {
             return "Transcript format not supported: \(format)"
         case .failedToParse:
             return "Transcript failed to parse"
+        case .empty:
+            return "Transcript is emtpy"
         }
     }
 }
@@ -61,6 +64,10 @@ class TranscriptManager {
 
         guard let model = TranscriptModel.makeModel(from: transcriptText, format: transcriptFormat) else {
             throw TranscriptError.failedToParse
+        }
+
+        guard !model.isEmtpy else {
+            throw TranscriptError.empty
         }
 
         return model
