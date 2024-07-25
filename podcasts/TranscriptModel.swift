@@ -71,4 +71,8 @@ struct TranscriptModel: Sendable {
     @inlinable public func firstCue(containing secondsValue: Double) -> TranscriptCue? {
         self.cues.first { $0.contains(timeInSeconds: secondsValue) }
     }
+
+    var isEmtpy: Bool {
+        return attributedText.string.trim().isEmpty
+    }
 }
