@@ -2,7 +2,6 @@ import SwiftUI
 import AVFoundation
 import UIKit
 
-@available(iOS 16.0, *)
 class SwiftUIVideoExporter<Content: View> {
     private let view: Content
     private let duration: TimeInterval
@@ -70,26 +69,21 @@ class SwiftUIVideoExporter<Content: View> {
         videoWriter.startWriting()
         videoWriter.startSession(atSourceTime: .zero)
 
-        let renderer = ImageRenderer(content: view)
-        renderer.scale = UIScreen.main.scale
-
         let queue = DispatchQueue.main
 
         let group = DispatchGroup()
         group.enter()
 
-        videoWriterInput.requestMediaDataWhenReady(on: queue) {
+        videoWriterInput.requestMediaDataWhenReady(on: queue) { [view] in
             progress.totalUnitCount = Int64(frameCount)
             for frameNumber in 0..<frameCount {
                 if videoWriterInput.isReadyForMoreMediaData {
                     let time = Double(frameNumber) / Double(self.fps)
-
-                    if let image = renderer.uiImage {
-                        if let buffer = self.pixelBuffer(from: image) {
-                            let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                            adaptor.append(buffer, withPresentationTime: frameTime)
-                            progress.completedUnitCount = Int64(frameNumber)
-                        }
+                    let image = view.snapshot()
+                    if let buffer = self.pixelBuffer(from: image) {
+                        let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+                        adaptor.append(buffer, withPresentationTime: frameTime)
+                        progress.completedUnitCount = Int64(frameNumber)
                     }
                 }
             }
