@@ -6,6 +6,8 @@ struct AccountHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: AccountHeaderViewModel
 
+    @State private var showingChampion = false
+
     var body: some View {
         container { proxy in
             VStack(spacing: Constants.padding.vertical) {
@@ -36,6 +38,14 @@ struct AccountHeaderView: View {
                     }
                     .foregroundColor(theme.primaryText01)
                     .font(size: 14, style: .subheadline, weight: .medium)
+                    .sheet(isPresented: $showingChampion) {
+                        if #available(iOS 16.0, *) {
+                            ChampionView()
+                                .presentationDetents([.medium])
+                        } else {
+                            ChampionView()
+                        }
+                    }
                 }
             }
         }
@@ -72,9 +82,8 @@ struct AccountHeaderView: View {
             return (
                 L10n.subscriptionsThankYou,
                 Text(L10n.plusChampion)
-                    .foregroundColor(theme.green),
-                {
-                    Toast.show(L10n.plusChampionMessage)
+                    .foregroundColor(theme.green), {
+                        showingChampion.toggle()
                 }
             )
         case .paymentCancelled:
