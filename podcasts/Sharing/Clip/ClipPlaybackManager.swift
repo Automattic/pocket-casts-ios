@@ -25,9 +25,7 @@ class ClipPlaybackManager: ObservableObject {
 
         PlaybackManager.shared.pause()
 
-        //TODO: Check the Player's current episode and reuse the player item
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
-//            handlePlaybackError("Unable to create playback item")
             return
         }
 
