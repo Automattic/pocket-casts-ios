@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PlayheadView: View {
     @Binding var position: CGFloat
+    let validRange: ClosedRange<CGFloat>
 
     // Represents the true offset position. Any updates to `position` will be ignored will drag is occurring.
     @State private var realPosition: CGFloat = 0
@@ -17,7 +18,7 @@ struct PlayheadView: View {
                     .onChanged { value in
                         let currentTranslation = value.translation.width
                         let delta = currentTranslation - (lastTranslation ?? 0)
-                        realPosition = realPosition + delta
+                        realPosition = (realPosition + delta).clamped(to: validRange)
                         lastTranslation = currentTranslation
                     }
                     .onEnded { _ in

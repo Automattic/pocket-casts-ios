@@ -28,7 +28,7 @@ struct MediaTrimView: View {
             ScrollableScrollView(scale: $scale, duration: duration, geometry: geometry) { scrollable in
                 AudioWaveformView(scale: scale, width: geometry.size.width * scale)
                 borderView(in: geometry)
-                PlayheadView(position: scaledPosition($playPosition))
+                PlayheadView(position: scaledPosition($playPosition), validRange: scaledPosition($startPosition).wrappedValue...scaledPosition($endPosition).wrappedValue)
                     .onChange(of: playTime) { playTime in
                         playPosition = durationRelative(value: playTime, for: geometry.size.width)
                     }
@@ -129,6 +129,8 @@ struct MediaTrimView: View {
             endTime = time
             endPosition = newPosition
         }
+
+        playTime = playTime.clamped(to: startTime...endTime)
     }
 }
 
