@@ -72,8 +72,36 @@ class TranscriptsViewController: PlayerItemViewController {
             ]
         )
 
+        view.addSubview(hiddenTextView)
+
         view.addSubview(closeButton)
         closeButton.frame = .init(x: 16, y: 0, width: 44, height: 44)
+
+        view.addSubview(searchButton)
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                searchButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+                searchButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            ]
+        )
+    }
+
+    override var inputAccessoryView: UIView? {
+        searchView
+    }
+
+    lazy var searchView: TranscriptSearchAcessoryView = {
+        let view = TranscriptSearchAcessoryView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    @objc private func search() {
+        hiddenTextView.becomeFirstResponder()
+
+        // Move focus to the textView on the input accessory view
+        searchView.textView.becomeFirstResponder()
     }
 
     private lazy var transcriptView: UITextView = {
@@ -99,6 +127,28 @@ class TranscriptsViewController: PlayerItemViewController {
         closeButton.tintColor = ThemeColor.primaryIcon02()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return closeButton
+    }()
+
+    private lazy var searchButton: RoundButton = {
+        var configuration = UIButton.Configuration.filled()
+        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+
+        let searchButton = RoundButton(type: .system)
+        searchButton.setTitle(L10n.search, for: .normal)
+        searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
+        searchButton.setTitleColor(.white, for: .normal)
+        searchButton.tintColor = .white.withAlphaComponent(0.2)
+        searchButton.layer.masksToBounds = true
+        searchButton.configuration = configuration
+        searchButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        searchButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        return searchButton
+    }()
+
+    private lazy var hiddenTextView: UITextField = {
+        let textView = UITextField()
+        textView.layer.opacity = 0
+        return textView
     }()
 
     private lazy var topGradient: GradientView = {
@@ -266,5 +316,13 @@ extension TranscriptsViewController: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         canScrollToDismiss = scrollView.contentOffset.y == 0
+    }
+}
+
+private class RoundButton: UIButton {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        layer.cornerRadius = bounds.height / 2
     }
 }
