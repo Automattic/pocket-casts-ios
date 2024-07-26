@@ -291,7 +291,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         let row = tableData[indexPath.section][indexPath.row]
-        if FeatureFlag.kidsProfile.enabled && row == .kidsProfile {
+        if FeatureFlag.kidsProfile.enabled, row == .kidsProfile {
             return false
         }
         return true
@@ -300,8 +300,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
 
-        if EndOfYear.isEligible && row == .endOfYearPrompt ||
-            FeatureFlag.kidsProfile.enabled && row == .kidsProfile {
+        if EndOfYear.isEligible, row == .endOfYearPrompt ||
+            FeatureFlag.kidsProfile.enabled, row == .kidsProfile {
             return UITableView.automaticDimension
         } else {
             return 70

@@ -7,13 +7,13 @@ struct KidsProfileBannerView: View {
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(theme.primaryUi01Active)
+            RoundedRectangle(cornerRadius: Constants.cornerRadiusBig)
+                .fill(theme.primaryUi02Active)
 
             HStack {
                 textsView
-                    .padding(.leading, 16)
-                    .padding(.trailing, 35)
+                    .padding(.leading, Constants.textsViewPaddingLeading)
+                    .padding(.trailing, Constants.textsViewPaddingTrailing)
 
                 Spacer()
 
@@ -22,7 +22,7 @@ struct KidsProfileBannerView: View {
                         Spacer()
 
                         Image("kids-profile-banner-face")
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadiusBig))
                     }
 
                     VStack {
@@ -31,61 +31,77 @@ struct KidsProfileBannerView: View {
                                 .imageScale(.small)
                                 .foregroundColor(theme.secondaryIcon02)
                         }
-                        .frame(width: 24, height: 24)
-                        .padding(.top, 8)
-                        .padding(.trailing, 4)
+                        .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+                        .padding(.top, Constants.buttonPaddingTop)
+                        .padding(.trailing, Constants.buttonPaddingTrailing)
 
                         Spacer()
                     }
                 }
             }
         }
-        .frame(height: 105)
+        .frame(minHeight: Constants.minHeight)
     }
 
     var textsView: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text(L10n.kidsProfileBannerTitle)
-                    .font(
-                        Font.custom("SF Pro Text", size: 15.0)
-                            .weight(.semibold)
-                    )
+                    .font(size: Constants.titleSize, style: .body, weight: .semibold)
                     .frame(alignment: .topLeading)
                     .foregroundStyle(theme.primaryText01)
 
-                Text(L10n.kidsProfileBannerBadge)
-                    .font(
-                        Font.custom("SF Pro Text", size: 11)
-                            .weight(.semibold)
-                    )
-                    .foregroundColor(theme.secondaryText02)
-                    .opacity(0.8)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(theme.primaryUi05)
-                    .cornerRadius(4)
+                badge
             }
 
             Text(L10n.kidsProfileBannerText)
-                .font(
-                    Font.custom("SF Pro Text", size: 11)
-                        .weight(.semibold)
-                )
+                .font(size: Constants.textSize, style: .body, weight: .medium)
                 .foregroundColor(theme.secondaryText02)
-                .opacity(0.8)
-                .padding(.bottom, 4)
+                .opacity(Constants.opacity)
+                .padding(.bottom, Constants.textPaddingBottom)
 
             Button(action: viewModel.requestEarlyAccessTap) {
                 Text(L10n.kidsProfileBannerRequestButton)
-                    .font(
-                        Font.custom("SF Pro Text", size: 11)
-                            .weight(.semibold)
-                    )
+                    .font(size: Constants.textSize, style: .body, weight: .medium)
                     .foregroundStyle(theme.primaryInteractive01)
-                    .opacity(0.8)
+                    .opacity(Constants.opacity)
             }
         }
+    }
+
+    private var badge: some View {
+        HStack {
+            Text(L10n.kidsProfileBannerBadge)
+                .font(size: Constants.textSize, style: .body, weight: .medium)
+                .foregroundColor(theme.secondaryText02)
+                .opacity(Constants.opacity)
+        }
+        .padding(.horizontal, Constants.badgePaddingH)
+        .padding(.vertical, Constants.badgePaddingV)
+        .background(theme.primaryUi05)
+        .cornerRadius(Constants.cornerRadiusSmall)
+    }
+
+    private enum Constants {
+        static let opacity = 0.8
+        static let titleSize = 15.0
+        static let textSize = 11.0
+
+        static let minHeight = 105.0
+        static let buttonSize = 24.0
+        static let cornerRadiusBig = 8.0
+        static let cornerRadiusSmall = 4.0
+
+        static let badgePaddingH = 6.0
+        static let badgePaddingV = 2.0
+
+        static let textPaddingBottom = 4.0
+
+        static let buttonPaddingTrailing = 4.0
+        static let buttonPaddingTop = 8.0
+
+        static let textsViewPaddingTrailing = 35.0
+        static let textsViewPaddingLeading = 16.0
     }
 }
 
@@ -95,6 +111,7 @@ struct KidsProfileBannerViewLight_Preview: PreviewProvider {
             .environmentObject(Theme(previewTheme: .light))
             .previewLayout(.sizeThatFits)
             .padding(16)
+            .frame(height: 105)
     }
 }
 
@@ -104,5 +121,6 @@ struct KidsProfileBannerViewDark_Preview: PreviewProvider {
             .environmentObject(Theme(previewTheme: .dark))
             .previewLayout(.sizeThatFits)
             .padding(16)
+            .frame(height: 105)
     }
 }
