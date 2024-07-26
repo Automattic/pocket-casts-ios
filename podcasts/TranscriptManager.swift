@@ -28,10 +28,16 @@ class TranscriptManager {
 
     typealias Transcript = Episode.Metadata.Transcript
 
-    let playbackManager: PlaybackManager
+    let episode: BaseEpisode
 
-    init(playbackManager: PlaybackManager) {
-        self.playbackManager  = playbackManager
+    let podcast: Podcast
+
+    let showCoordinator: ShowInfoCoordinating
+
+    init(episode: BaseEpisode, podcast: Podcast, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
+        self.episode = episode
+        self.podcast = podcast
+        self.showCoordinator = showCoordinator
     }
 
     private func bestTranscript(from available: [Transcript]) -> Transcript? {
@@ -45,8 +51,7 @@ class TranscriptManager {
 
     public func loadTranscript() async throws -> TranscriptModel {
         guard
-            let episode = self.playbackManager.currentEpisode(), let podcast = self.playbackManager.currentPodcast,
-            let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid),
+            let transcripts = try? await showCoordinator.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid),
             let transcript = bestTranscript(from: transcripts) else {
             throw TranscriptError.notAvailable
         }

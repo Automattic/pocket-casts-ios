@@ -150,10 +150,10 @@ class TranscriptsViewController: PlayerItemViewController {
     private func loadTranscript() {
         activityIndicatorView.startAnimating()
         Task.detached { [weak self] in
-            guard let self else {
+            guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
                 return
             }
-            let transcriptManager = TranscriptManager(playbackManager: self.playbackManager)
+            let transcriptManager = TranscriptManager(episode: episode, podcast: podcast)
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 await show(transcript: transcript)
