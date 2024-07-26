@@ -11,6 +11,9 @@ class ClipPlaybackManager: ObservableObject {
     @Published var currentTime: TimeInterval?
     @Published var duration: TimeInterval = 0
 
+    private let normalPlaybackManager = PlaybackManager.shared
+    private let downloadManager = DownloadManager.shared
+
     private var avPlayer: AVPlayer?
     private var timeObserverToken: Any?
     private var cancellables = Set<AnyCancellable>()
@@ -23,9 +26,9 @@ class ClipPlaybackManager: ObservableObject {
             avPlayer = nil
         }
 
-        PlaybackManager.shared.pause()
+        normalPlaybackManager.pause()
 
-        guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
+        guard let playerItem = downloadManager.downloadParallelToStream(of: episode) else {
             return
         }
 
@@ -37,7 +40,7 @@ class ClipPlaybackManager: ObservableObject {
 
         let playbackCMTime = CMTime(seconds: playbackTime, preferredTimescale: .audio)
 
-        PlaybackManager.shared.activateAudioSession(completion: { [weak self] activated in
+        normalPlaybackManager.activateAudioSession(completion: { [weak self] activated in
             self?.avPlayer?.seek(to: playbackCMTime)
             self?.avPlayer?.play()
         })
