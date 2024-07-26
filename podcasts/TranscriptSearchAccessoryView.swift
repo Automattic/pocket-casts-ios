@@ -1,6 +1,16 @@
 import UIKit
 
+protocol TranscriptSearchAcessoryViewDelegate: AnyObject {
+    // When "Done" is tapped on this view
+    func doneTapped()
+
+    // WHen "Search" is tapped on the keyboard
+    func searchButtonTapped()
+}
+
 class TranscriptSearchAcessoryView: UIInputView {
+    weak var delegate: TranscriptSearchAcessoryViewDelegate?
+
     lazy var textField: CustomTextField = {
         let textField = CustomTextField()
         textField.returnKeyType = .search
@@ -12,6 +22,7 @@ class TranscriptSearchAcessoryView: UIInputView {
 
         textField.rightLabel.text = "1/10"
         textField.rightLabel.textColor = .secondaryLabel
+        textField.delegate = self
         return textField
     }()
 
@@ -121,6 +132,15 @@ class TranscriptSearchAcessoryView: UIInputView {
 
     @objc private func done() {
         textField.resignFirstResponder()
+        delegate?.doneTapped()
+    }
+}
+
+extension TranscriptSearchAcessoryView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        delegate?.searchButtonTapped()
+        return true
     }
 }
 

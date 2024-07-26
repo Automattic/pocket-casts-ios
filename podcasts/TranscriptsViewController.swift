@@ -34,6 +34,10 @@ class TranscriptsViewController: PlayerItemViewController {
         dismissSearch()
     }
 
+    override var canBecomeFirstResponder: Bool {
+        true
+    }
+
     private func setupViews() {
         view.addSubview(transcriptView)
         NSLayoutConstraint.activate(
@@ -99,6 +103,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
     lazy var searchView: TranscriptSearchAcessoryView = {
         let view = TranscriptSearchAcessoryView()
+        view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -112,6 +117,8 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func dismissSearch() {
         searchView.textField.resignFirstResponder()
+
+        resignFirstResponder()
     }
 
     private lazy var transcriptView: UITextView = {
@@ -326,6 +333,17 @@ extension TranscriptsViewController: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         canScrollToDismiss = scrollView.contentOffset.y == 0
+    }
+}
+
+extension TranscriptsViewController: TranscriptSearchAcessoryViewDelegate {
+    func doneTapped() {
+        dismissSearch()
+        searchView.removeFromSuperview()
+    }
+
+    func searchButtonTapped() {
+        becomeFirstResponder()
     }
 }
 
