@@ -37,9 +37,7 @@ class ClipPlaybackManager: ObservableObject {
         let endTime = clipTime.projectedValue.end.wrappedValue
         let playbackTime = clipTime.projectedValue.playback.wrappedValue
 
-        let startCMTime = CMTime(seconds: startTime, preferredTimescale: 600)
-        let endCMTime = CMTime(seconds: endTime, preferredTimescale: 600)
-        let playbackCMTime = CMTime(seconds: playbackTime, preferredTimescale: 600)
+        let playbackCMTime = CMTime(seconds: playbackTime, preferredTimescale: .audio)
 
         PlaybackManager.shared.activateAudioSession(completion: { [weak self] activated in
             self?.avPlayer?.seek(to: playbackCMTime)
@@ -82,7 +80,7 @@ class ClipPlaybackManager: ObservableObject {
             }
             // Loops back to the beginning at end of clip range
             guard time.seconds < clipTime.end else {
-                avPlayer?.seek(to: CMTime(seconds: clipTime.start, preferredTimescale: 600)) { [weak self] _ in
+                avPlayer?.seek(to: CMTime(seconds: clipTime.start, preferredTimescale: .audio)) { [weak self] _ in
                     guard let self else {
                         return
                     }
