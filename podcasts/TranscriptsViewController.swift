@@ -25,6 +25,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .dark
         setupViews()
     }
 

@@ -75,6 +75,8 @@ class TranscriptSearchAcessoryView: UIInputView {
     }
 
     private func setupView() {
+        overrideUserInterfaceStyle = .dark
+
         let mainStackView = UIStackView()
         mainStackView.axis = .vertical
         addSubview(mainStackView)
