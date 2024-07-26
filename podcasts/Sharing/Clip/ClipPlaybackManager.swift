@@ -11,9 +11,6 @@ class ClipPlaybackManager: ObservableObject {
     @Published var currentTime: TimeInterval?
     @Published var duration: TimeInterval = 0
 
-    private var startTime: TimeInterval = 0
-    private var endTime: TimeInterval = 0
-
     private var avPlayer: AVPlayer?
     private var timeObserverToken: Any?
     private var cancellables = Set<AnyCancellable>()
@@ -38,39 +35,27 @@ class ClipPlaybackManager: ObservableObject {
 
         let startTime = clipTime.projectedValue.start.wrappedValue
         let endTime = clipTime.projectedValue.end.wrappedValue
+        let playbackTime = clipTime.projectedValue.playback.wrappedValue
 
         let startCMTime = CMTime(seconds: startTime, preferredTimescale: 600)
         let endCMTime = CMTime(seconds: endTime, preferredTimescale: 600)
+        let playbackCMTime = CMTime(seconds: playbackTime, preferredTimescale: 600)
 
         PlaybackManager.shared.activateAudioSession(completion: { [weak self] activated in
-            self?.avPlayer?.currentItem?.forwardPlaybackEndTime = endCMTime
-
-            self?.avPlayer?.seek(to: startCMTime)
+            self?.avPlayer?.seek(to: playbackCMTime)
             self?.avPlayer?.play()
         })
 
         isPlaying = true
-        self.startTime = startTime
-        self.endTime = endTime
         duration = endTime - startTime
 
-        setupTimeObserver()
         observePlaybackEnd()
 
         self._clipTime = clipTime
 
-        self.clipTime.$start.sink(receiveValue: { start in
-            self.startTime = start
-        }).store(in: &cancellables)
-
-        self.clipTime.$end.sink(receiveValue: { end in
-            self.endTime = end
-        }).store(in: &cancellables)
+        setupTimeObserver()
 
         $currentTime.sink(receiveValue: { currentTime in
-//            if let currentTime, currentTime != self?.avPlayer?.currentTime().seconds {
-//                self?.avPlayer?.seek(to: CMTime(seconds: currentTime, preferredTimescale: 600))
-//            }
             if let currentTime, currentTime > 0 {
                 clipTime.wrappedValue.playback = currentTime
             }
@@ -96,11 +81,17 @@ class ClipPlaybackManager: ObservableObject {
                 return
             }
             // Loops back to the beginning at end of clip range
-            guard time.seconds < self.endTime else {
-                self.avPlayer?.seek(to: CMTime(seconds: startTime, preferredTimescale: 600))
+            guard time.seconds < clipTime.end else {
+                avPlayer?.seek(to: CMTime(seconds: clipTime.start, preferredTimescale: 600)) { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+                    avPlayer?.pause()
+                    currentTime = clipTime.start
+                }
                 return
             }
-            self.currentTime = time.seconds
+            currentTime = time.seconds
         }
     }
 
@@ -114,9 +105,7 @@ class ClipPlaybackManager: ObservableObject {
     private func observePlaybackEnd() {
         avPlayer?.publisher(for: \.timeControlStatus)
             .sink { [weak self] status in
-                if status == .paused {
-//                    self?.stop()
-                }
+                self?.isPlaying = (status == .playing || status == .waitingToPlayAtSpecifiedRate)
             }
             .store(in: &cancellables)
     }
