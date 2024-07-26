@@ -8,8 +8,10 @@ class TranscriptSearchAcessoryView: UIInputView {
         textField.spellCheckingType = .no
         textField.clearButtonMode = .whileEditing
         textField.layer.cornerRadius = 8
+        textField.backgroundColor = .systemGray3
 
-        textField.rightLabel.text = "Label Text"
+        textField.rightLabel.text = "1/10"
+        textField.rightLabel.textColor = .secondaryLabel
         return textField
     }()
 
@@ -23,11 +25,13 @@ class TranscriptSearchAcessoryView: UIInputView {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(done), for: .touchUpInside)
         button.setTitle(L10n.done, for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.setTitleColor(.systemGray, for: .highlighted)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         button.titleLabel?.adjustsFontForContentSizeCategory = true
 
         var buttonConfig = UIButton.Configuration.plain()
-        buttonConfig.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
+        buttonConfig.contentInsets = .init(top: 8, leading: 16, bottom: 8, trailing: 16)
         button.configuration = buttonConfig
         return button
     }()
@@ -39,6 +43,7 @@ class TranscriptSearchAcessoryView: UIInputView {
         button.setImage(UIImage(systemName: "chevron.down", withConfiguration: config), for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.tintColor = .label
 
         var buttonConfig = UIButton.Configuration.plain()
         buttonConfig.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
@@ -53,6 +58,7 @@ class TranscriptSearchAcessoryView: UIInputView {
         button.setImage(UIImage(systemName: "chevron.up", withConfiguration: config), for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.tintColor = .label
 
         var buttonConfig = UIButton.Configuration.plain()
         buttonConfig.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
@@ -89,7 +95,6 @@ class TranscriptSearchAcessoryView: UIInputView {
         stackView.addArrangedSubview(upButton)
         stackView.addArrangedSubview(downButton)
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .white
 
         // Set content hugging priority
         textField.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
@@ -148,7 +153,7 @@ class CustomTextField: UITextField {
         super.layoutSubviews()
 
         let clearButtonWidth: CGFloat = clearButtonRect(forBounds: bounds).width
-        let rightInset: CGFloat = isEditing && text?.isEmpty == false ? clearButtonWidth + 8 : 0
+        let rightInset: CGFloat = isEditing && text?.isEmpty == false ? clearButtonWidth + 8 : 8
         rightLabel.sizeToFit()
         let labelWidth: CGFloat = rightLabel.frame.width
 
