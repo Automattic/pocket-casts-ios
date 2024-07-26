@@ -4,7 +4,7 @@ protocol TranscriptSearchAcessoryViewDelegate: AnyObject {
     // When "Done" is tapped on this view
     func doneTapped()
 
-    // WHen "Search" is tapped on the keyboard
+    // When "Search" is tapped on the keyboard
     func searchButtonTapped()
 }
 
