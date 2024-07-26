@@ -27,6 +27,11 @@
 		105A6C432BAA0B3B0025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */; };
 		105A6C442BAA0B3E0025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */; };
 		105A6C452BAA0B410025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */; };
+		10A4F7532C515D720084D783 /* KidsProfile.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A4F7522C515D720084D783 /* KidsProfile.xcassets */; };
+		10A4F7562C5162C90084D783 /* KidsProfileBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */; };
+		10A4F7582C52635F0084D783 /* KidsProfileBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */; };
+		10A4F75B2C5286560084D783 /* KidsProfileBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F75A2C5286560084D783 /* KidsProfileBannerViewModel.swift */; };
+		10A4F75E2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F75D2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift */; };
 		1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */; };
 		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		2F90990E2A4F88B10044FC55 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90990D2A4F88B10044FC55 /* ShareViewController.swift */; };
@@ -1877,6 +1882,11 @@
 /* Begin PBXFileReference section */
 		0A1708DEC0501FB8417E31BE /* Pods_NotificationExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
+		10A4F7522C515D720084D783 /* KidsProfile.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = KidsProfile.xcassets; sourceTree = "<group>"; };
+		10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerTableCell.swift; path = "Kids Profile/KidsProfileBannerTableCell.swift"; sourceTree = "<group>"; };
+		10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerView.swift; path = "Kids Profile/KidsProfileBannerView.swift"; sourceTree = "<group>"; };
+		10A4F75A2C5286560084D783 /* KidsProfileBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerViewModel.swift; path = "Kids Profile/KidsProfileBannerViewModel.swift"; sourceTree = "<group>"; };
+		10A4F75D2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsProfileBannerViewModelTests.swift; sourceTree = "<group>"; };
 		10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EB2BA471DF0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -3672,6 +3682,32 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		10A4F7542C51627C0084D783 /* Kids Profile */ = {
+			isa = PBXGroup;
+			children = (
+				10A4F7592C52862A0084D783 /* Banner */,
+			);
+			name = "Kids Profile";
+			sourceTree = "<group>";
+		};
+		10A4F7592C52862A0084D783 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */,
+				10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */,
+				10A4F75A2C5286560084D783 /* KidsProfileBannerViewModel.swift */,
+			);
+			name = Banner;
+			sourceTree = "<group>";
+		};
+		10A4F75C2C52C74E0084D783 /* Kids Profile */ = {
+			isa = PBXGroup;
+			children = (
+				10A4F75D2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift */,
+			);
+			path = "Kids Profile";
+			sourceTree = "<group>";
+		};
 		2F90990C2A4F88B10044FC55 /* Share Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -4365,6 +4401,7 @@
 		8B47542C28D36D5800BC89F7 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				10A4F75C2C52C74E0084D783 /* Kids Profile */,
 				FFF024CC2B62AC5F00457373 /* IAP */,
 				C7F4C6642A8EAB0A00483C37 /* Utilities */,
 				C7D8AE5A2A6056A900C9EBAF /* Common SwiftUI */,
@@ -5333,6 +5370,7 @@
 		BD55C9F11FB9200C0084A7CB /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				10A4F7542C51627C0084D783 /* Kids Profile */,
 				C76400542A0EDFB90092A74B /* UserInfo.swift */,
 				C713D4EB2A04C8D700A78468 /* Profile - SwiftUI */,
 				BD5B79191783F9CF00A0F407 /* Settings */,
@@ -6099,6 +6137,7 @@
 				BDE43412231759060045D0CB /* Files.xcassets */,
 				4053CE042150B3D5001C92B1 /* Filter.xcassets */,
 				BDC3028A1C7ABAD300FC2026 /* iPadImages.xcassets */,
+				10A4F7522C515D720084D783 /* KidsProfile.xcassets */,
 				BD5AE6801FE0CF950009B8A1 /* ListImages.xcassets */,
 				BD8E76C71B9EA709000E20C7 /* NoArtwork.xcassets */,
 				C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */,
@@ -8133,6 +8172,7 @@
 				BD14CCE01D7D3CB800DB4547 /* SelectedPodcastCell.xib in Resources */,
 				BD6B6670245BC25B00CF5245 /* AppIcon-Indigo20x20@2x.png in Resources */,
 				BD6B664E245BC24C00CF5245 /* AppIcon-Pocket-Cats20x20@2x.png in Resources */,
+				10A4F7532C515D720084D783 /* KidsProfile.xcassets in Resources */,
 				BD9324752398BB6B004F19A1 /* TourViewController.xib in Resources */,
 				BD12931A22F809F8004608A6 /* AppIcon-Electric-Pink40x40@3x.png in Resources */,
 				8BD5A5042A1F96C200F473C6 /* AppIcon-Pride29x29@2x.png in Resources */,
@@ -8818,6 +8858,7 @@
 				8B413D162B76B3A500FAB502 /* ChapterManagerTests.swift in Sources */,
 				F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */,
 				8B317BA328906C8100A26A13 /* TestingAppDelegate.swift in Sources */,
+				10A4F75E2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift in Sources */,
 				C7D8AE5F2A6056DA00C9EBAF /* MutliSelectListViewModel.swift in Sources */,
 				F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */,
 				8B484EFD28D2574D001AFA97 /* EpisodeBuilder.swift in Sources */,
@@ -8906,6 +8947,7 @@
 				BD9CF8C2281FC6970000F29A /* AboutViewModel.swift in Sources */,
 				4000A2A025463C6A00356FCE /* LeftAlignedFlowLayout.swift in Sources */,
 				BD59E6BA24107C110019AF1C /* StarredViewController+Swipe.swift in Sources */,
+				10A4F7562C5162C90084D783 /* KidsProfileBannerTableCell.swift in Sources */,
 				BDA0E29F22DDB2DC0029EBEB /* ThemeableLabel.swift in Sources */,
 				BD3FD738202A85E900A7F609 /* ListeningHistoryViewController+Table.swift in Sources */,
 				BD2B50AD201076310099B79D /* PodcastSettingsViewController.swift in Sources */,
@@ -9093,6 +9135,7 @@
 				BD339C5C2149E35600E655F9 /* VideoViewController+Controls.swift in Sources */,
 				C7B7123C29DF49BC00965BF7 /* HorizontalCarousel.swift in Sources */,
 				4041FE572181751F0089D4A1 /* SiriShortcutsManager.swift in Sources */,
+				10A4F75B2C5286560084D783 /* KidsProfileBannerViewModel.swift in Sources */,
 				4053CDFB214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift in Sources */,
 				BD26AFD427BDFD18008CC973 /* Folder+Formatting.swift in Sources */,
 				40F0DE8922E42AD2001DAA52 /* PlusLockedInfoView.swift in Sources */,
@@ -9298,6 +9341,7 @@
 				BD542C20240382A100F35D26 /* EpisodeFilter+Formatting.swift in Sources */,
 				C7811D862A90247B00FC68B4 /* Unlockable.swift in Sources */,
 				BDB5F0CF2045296200437669 /* PodcastGridCell.swift in Sources */,
+				10A4F7582C52635F0084D783 /* KidsProfileBannerView.swift in Sources */,
 				C7AF7B912925E5CD002F0025 /* PlusHostingViewController.swift in Sources */,
 				4007B060230E3A81008DDCF5 /* WhatsNewStructs.swift in Sources */,
 				4041FE8D218A7DA60089D4A1 /* SiriShortcutEnabledCell.swift in Sources */,
