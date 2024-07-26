@@ -16,6 +16,7 @@ class ClipPlaybackManager: ObservableObject {
 
     private var avPlayer: AVPlayer?
     private var timeObserverToken: Any?
+    private var isSeeking: Bool = false
     private var cancellables = Set<AnyCancellable>()
 
     @ObservedObject var clipTime: ClipTime = ClipTime(start: 0, end: 0)
@@ -62,7 +63,10 @@ class ClipPlaybackManager: ObservableObject {
     }
 
     func seek(to time: CMTime) {
-        avPlayer?.seek(to: time)
+        isSeeking = true
+        avPlayer?.seek(to: time) { [weak self] _ in
+            self?.isSeeking = false
+        }
     }
 
     func stop() {
@@ -81,16 +85,21 @@ class ClipPlaybackManager: ObservableObject {
             }
             // Loops back to the beginning at end of clip range
             guard time.seconds < clipTime.end else {
+                isSeeking = true
                 avPlayer?.seek(to: CMTime(seconds: clipTime.start, preferredTimescale: .audio)) { [weak self] _ in
                     guard let self else {
                         return
                     }
+                    isSeeking = false
                     avPlayer?.pause()
                     currentTime = clipTime.start
                 }
                 return
             }
-            currentTime = time.seconds
+
+            if !isSeeking {
+                currentTime = time.seconds
+            }
         }
     }
 
