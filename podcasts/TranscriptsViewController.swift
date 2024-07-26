@@ -153,7 +153,7 @@ class TranscriptsViewController: PlayerItemViewController {
             guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
                 return
             }
-            let transcriptManager = TranscriptManager(episode: episode, podcast: podcast)
+            let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 await show(transcript: transcript)

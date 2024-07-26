@@ -28,15 +28,15 @@ class TranscriptManager {
 
     typealias Transcript = Episode.Metadata.Transcript
 
-    let episode: BaseEpisode
+    let episodeUUID: String
 
-    let podcast: Podcast
+    let podcastUUID: String
 
     let showCoordinator: ShowInfoCoordinating
 
-    init(episode: BaseEpisode, podcast: Podcast, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
-        self.episode = episode
-        self.podcast = podcast
+    init(episodeUUID: String, podcastUUID: String, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
+        self.episodeUUID = episodeUUID
+        self.podcastUUID = podcastUUID
         self.showCoordinator = showCoordinator
     }
 
@@ -51,7 +51,7 @@ class TranscriptManager {
 
     public func loadTranscript() async throws -> TranscriptModel {
         guard
-            let transcripts = try? await showCoordinator.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid),
+            let transcripts = try? await showCoordinator.loadTranscripts(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
             let transcript = bestTranscript(from: transcripts) else {
             throw TranscriptError.notAvailable
         }
