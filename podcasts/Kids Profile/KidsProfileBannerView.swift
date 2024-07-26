@@ -29,7 +29,7 @@ struct KidsProfileBannerView: View {
                         Button(action: viewModel.closeButtonTap) {
                             Image(systemName: "xmark")
                                 .imageScale(.small)
-                                .foregroundColor(theme.secondaryIcon02)
+                                .foregroundStyle(theme.secondaryIcon02)
                         }
                         .frame(width: Constants.buttonSize, height: Constants.buttonSize)
                         .padding(.top, Constants.buttonPaddingTop)
@@ -56,7 +56,7 @@ struct KidsProfileBannerView: View {
 
             Text(L10n.kidsProfileBannerText)
                 .font(size: Constants.textSize, style: .body, weight: .medium)
-                .foregroundColor(theme.secondaryText02)
+                .foregroundColor(theme.primaryText02)
                 .opacity(Constants.opacity)
                 .padding(.bottom, Constants.textPaddingBottom)
 
@@ -73,12 +73,12 @@ struct KidsProfileBannerView: View {
         HStack {
             Text(L10n.kidsProfileBannerBadge)
                 .font(size: Constants.textSize, style: .body, weight: .medium)
-                .foregroundColor(theme.secondaryText02)
+                .foregroundStyle(theme.primaryInteractive02)
                 .opacity(Constants.opacity)
         }
         .padding(.horizontal, Constants.badgePaddingH)
         .padding(.vertical, Constants.badgePaddingV)
-        .background(theme.primaryUi05)
+        .background(theme.primaryInteractive01)
         .cornerRadius(Constants.cornerRadiusSmall)
     }
 
