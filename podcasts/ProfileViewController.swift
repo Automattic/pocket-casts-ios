@@ -241,7 +241,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
         }
 
-        if FeatureFlag.kidsProfile.enabled && row == .kidsProfile {
+        if FeatureFlag.kidsProfile.enabled, row == .kidsProfile {
             let cell = tableView.dequeueReusableCell(withIdentifier: KidsProfileBannerTableCell.identifier, for: indexPath) as! KidsProfileBannerTableCell
             cell.onCloseButtonTap = { [weak self] cell in
                 if let cell, let indexPath = tableView.indexPath(for: cell) {
@@ -300,8 +300,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
 
-        if EndOfYear.isEligible, row == .endOfYearPrompt ||
-            FeatureFlag.kidsProfile.enabled, row == .kidsProfile {
+        if EndOfYear.isEligible && row == .endOfYearPrompt ||
+            FeatureFlag.kidsProfile.enabled && row == .kidsProfile {
             return UITableView.automaticDimension
         } else {
             return 70
