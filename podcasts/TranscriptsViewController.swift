@@ -29,6 +29,11 @@ class TranscriptsViewController: PlayerItemViewController {
         setupViews()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        dismissSearch()
+    }
+
     private func setupViews() {
         view.addSubview(transcriptView)
         NSLayoutConstraint.activate(
@@ -103,6 +108,10 @@ class TranscriptsViewController: PlayerItemViewController {
 
         // Move focus to the textView on the input accessory view
         searchView.textField.becomeFirstResponder()
+    }
+
+    private func dismissSearch() {
+        searchView.textField.resignFirstResponder()
     }
 
     private lazy var transcriptView: UITextView = {
