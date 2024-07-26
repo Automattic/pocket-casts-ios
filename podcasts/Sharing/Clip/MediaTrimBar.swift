@@ -46,6 +46,9 @@ struct MediaTrimBar: View {
                         playbackManager.stop()
                     }
                 }
+                .onDisappear {
+                    playbackManager.stop()
+                }
             MediaTrimView(duration: episode.duration, startTime: $clipTime.start, endTime: $clipTime.end, playTime: $clipTime.playback)
                 .onChange(of: clipTime.playback) { newValue in
                     if let currentTime = playbackManager.currentTime, abs(currentTime - newValue) > 0.1 {
