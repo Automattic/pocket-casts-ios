@@ -49,7 +49,7 @@ struct MediaTrimView: View {
                 .onAppear {
                     initializePositions(in: geometry)
                     DispatchQueue.main.async {
-                        let currentSecond = Int(startTime)
+                        let currentSecond = Int(startTime + (endTime - startTime) / 2)
                         scrollable.scrollTo("\(currentSecond)", anchor: .center)
                     }
                 }
@@ -92,7 +92,7 @@ struct MediaTrimView: View {
         let durationRatio = fullDuration / visibleDuration
 
         // The scale should make the visible duration fit the view width
-        let scale = durationRatio / 2
+        let scale = durationRatio
 
         return max(scale, 1.0)
     }
