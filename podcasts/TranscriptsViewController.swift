@@ -101,7 +101,7 @@ class TranscriptsViewController: PlayerItemViewController {
         hiddenTextView.becomeFirstResponder()
 
         // Move focus to the textView on the input accessory view
-        searchView.textView.becomeFirstResponder()
+        searchView.textField.becomeFirstResponder()
     }
 
     private lazy var transcriptView: UITextView = {

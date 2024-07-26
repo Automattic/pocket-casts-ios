@@ -1,8 +1,64 @@
 import UIKit
 
 class TranscriptSearchAcessoryView: UIInputView {
-    let textView = UITextView()
-    private var heightConstraint: NSLayoutConstraint!
+    lazy var textField: CustomTextField = {
+        let textField = CustomTextField()
+        textField.returnKeyType = .search
+        textField.autocorrectionType = .no
+        textField.spellCheckingType = .no
+        textField.clearButtonMode = .whileEditing
+        textField.layer.cornerRadius = 8
+
+        textField.rightLabel.text = "Label Text"
+        return textField
+    }()
+
+    lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        return stackView
+    }()
+
+    lazy var doneButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(done), for: .touchUpInside)
+        button.setTitle(L10n.done, for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+
+        var buttonConfig = UIButton.Configuration.plain()
+        buttonConfig.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
+        button.configuration = buttonConfig
+        return button
+    }()
+
+    lazy var downButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(done), for: .touchUpInside)
+        let config = UIImage.SymbolConfiguration(textStyle: .body)
+        button.setImage(UIImage(systemName: "chevron.down", withConfiguration: config), for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+
+        var buttonConfig = UIButton.Configuration.plain()
+        buttonConfig.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
+        button.configuration = buttonConfig
+        return button
+    }()
+
+    lazy var upButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(done), for: .touchUpInside)
+        let config = UIImage.SymbolConfiguration(textStyle: .body)
+        button.setImage(UIImage(systemName: "chevron.up", withConfiguration: config), for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+
+        var buttonConfig = UIButton.Configuration.plain()
+        buttonConfig.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
+        button.configuration = buttonConfig
+        return button
+    }()
 
     override var intrinsicContentSize: CGSize {
         return .zero
@@ -19,36 +75,109 @@ class TranscriptSearchAcessoryView: UIInputView {
     }
 
     private func setupView() {
-        addSubview(textView)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.isScrollEnabled = false
-        textView.backgroundColor = .white
-        textView.delegate = self
+        let mainStackView = UIStackView()
+        mainStackView.axis = .vertical
+        addSubview(mainStackView)
+        mainStackView.addArrangedSubview(stackView)
+        mainStackView.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        mainStackView.isLayoutMarginsRelativeArrangement = true
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(doneButton)
+        stackView.addArrangedSubview(textField)
+        stackView.addArrangedSubview(upButton)
+        stackView.addArrangedSubview(downButton)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = .white
 
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.adjustsFontForContentSizeCategory = true
+        // Set content hugging priority
+        textField.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
+        doneButton.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        upButton.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        downButton.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
 
-        heightConstraint = heightAnchor.constraint(equalToConstant: 44)
-        heightConstraint.isActive = true
+        // Set content compression resistance priority
+        textField.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
+        doneButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        upButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        downButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
+
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.adjustsFontForContentSizeCategory = true
 
         NSLayoutConstraint.activate([
-            textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            textView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
 
-        textViewDidChange(textView)
+    @objc private func done() {
+        textField.resignFirstResponder()
     }
 }
 
-extension TranscriptSearchAcessoryView: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
-        let newHeight = size.height + 16 // Add some padding
-        if newHeight != heightConstraint.constant {
-            heightConstraint.constant = newHeight
-            layoutIfNeeded()
-        }
+class CustomTextField: UITextField {
+
+    let rightLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupLabel()
+        addTarget(self, action: #selector(editingChanged), for: .editingChanged)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupLabel()
+        addTarget(self, action: #selector(editingChanged), for: .editingChanged)
+    }
+
+    private func setupLabel() {
+        addSubview(rightLabel)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        let clearButtonWidth: CGFloat = clearButtonRect(forBounds: bounds).width
+        let rightInset: CGFloat = isEditing && text?.isEmpty == false ? clearButtonWidth + 8 : 0
+        rightLabel.sizeToFit()
+        let labelWidth: CGFloat = rightLabel.frame.width
+
+        rightLabel.frame = CGRect(
+            x: bounds.width - labelWidth - rightInset,
+            y: (bounds.height - rightLabel.intrinsicContentSize.height) / 2,
+            width: labelWidth,
+            height: rightLabel.intrinsicContentSize.height
+        )
+    }
+
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return adjustRect(forBounds: bounds)
+    }
+
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return adjustRect(forBounds: bounds)
+    }
+
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return adjustRect(forBounds: bounds)
+    }
+
+    private func adjustRect(forBounds bounds: CGRect) -> CGRect {
+        let labelWidth: CGFloat = rightLabel.frame.width
+        let clearButtonWidth: CGFloat = clearButtonRect(forBounds: bounds).width
+        let rightInset: CGFloat = clearButtonMode == .never ? 0 : clearButtonWidth
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: labelWidth + rightInset + 16))
+    }
+
+    @objc private func editingChanged() {
+        setNeedsLayout()
     }
 }
