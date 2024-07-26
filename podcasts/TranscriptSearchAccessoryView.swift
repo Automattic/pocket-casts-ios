@@ -138,7 +138,6 @@ class TranscriptSearchAcessoryView: UIInputView {
 
 extension TranscriptSearchAcessoryView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
         delegate?.searchButtonTapped()
         return true
     }

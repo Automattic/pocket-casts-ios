@@ -25,12 +25,12 @@ class TranscriptsViewController: PlayerItemViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        view.overrideUserInterfaceStyle = .dark
         setupViews()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
     }
 
@@ -343,6 +343,8 @@ extension TranscriptsViewController: TranscriptSearchAcessoryViewDelegate {
     }
 
     func searchButtonTapped() {
+        // We want to keep the inputAccessoryView in dark
+        parent?.view.overrideUserInterfaceStyle = .dark
         becomeFirstResponder()
     }
 }
