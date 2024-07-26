@@ -86,6 +86,13 @@ class TranscriptsViewController: PlayerItemViewController {
 
         view.addSubview(closeButton)
         closeButton.frame = .init(x: 16, y: 0, width: 44, height: 44)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+                closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            ]
+        )
 
         view.addSubview(searchButton)
         searchButton.translatesAutoresizingMaskIntoConstraints = false
