@@ -176,8 +176,10 @@ class CustomTextField: UITextField {
         rightLabel.sizeToFit()
         let labelWidth: CGFloat = rightLabel.frame.width
 
+        let xPosition = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? rightInset : bounds.width - labelWidth - rightInset
+
         rightLabel.frame = CGRect(
-            x: bounds.width - labelWidth - rightInset,
+            x: xPosition,
             y: (bounds.height - rightLabel.intrinsicContentSize.height) / 2,
             width: labelWidth,
             height: rightLabel.intrinsicContentSize.height
@@ -199,8 +201,12 @@ class CustomTextField: UITextField {
     private func adjustRect(forBounds bounds: CGRect) -> CGRect {
         let labelWidth: CGFloat = rightLabel.frame.width
         let clearButtonWidth: CGFloat = clearButtonRect(forBounds: bounds).width
-        let rightInset: CGFloat = clearButtonMode == .never ? 0 : clearButtonWidth
-        return bounds.inset(by: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: labelWidth + rightInset + 16))
+        let rightInset: CGFloat = isEditing && text?.isEmpty == false ? clearButtonWidth : 0
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+            return bounds.inset(by: UIEdgeInsets(top: 0, left: labelWidth + rightInset + 16, bottom: 0, right: 8))
+        } else {
+            return bounds.inset(by: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: labelWidth + rightInset + 16))
+        }
     }
 
     @objc private func editingChanged() {
