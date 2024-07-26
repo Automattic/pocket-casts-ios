@@ -15,5 +15,8 @@ struct TrimPlayButton: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .onReceive(ClipPlaybackManager.shared.$isPlaying) { playerIsPlaying in
+            isPlaying = playerIsPlaying
+        }
     }
 }
