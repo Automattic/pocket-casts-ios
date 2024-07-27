@@ -1,12 +1,49 @@
 import SwiftUI
 import PocketCastsDataModel
 
-struct AnimatedShareImageView: View {
+class AnimationProgress: ObservableObject {
+    @Published var progress: Double = 0 // O-1
+}
+
+struct AnimatedShareImageView: AnimatableContent {
     let info: ShareImageInfo
     let style: ShareImageStyle
 
+    @State var angle: Double = 0
+    @ObservedObject var animationProgress: AnimationProgress = .init()
+
     var body: some View {
-        ShareImageView(info: info, style: style)
+        GeometryReader { geometry in
+            ZStack {
+                ShareImageView(info: info, style: style, angle: $angle)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .onReceive(animationProgress.$progress) { progress in
+                        let calculatedAngle = calculateAngle(progress: Float(progress))
+                        angle = Double(calculatedAngle)
+//                        print("Update angle: \(angle) for: \(progress)")
+                    }
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .background(Color.black)
+        }
+    }
+
+    func update(for progress: Double) {
+        animationProgress.progress = progress
+//        print("Update progress: \(progress)")
+//        let calculatedAngle = calculateAngle(progress: Float(progress))
+//        angle = Double(calculatedAngle)
+    }
+
+    func calculateAngle(progress: Float) -> Float {
+//        let rotationsPerSecond: Float = 0.2
+//        let fps = 60
+//        let degreesPerProgress: Float = 360.0 / (rotationsPerSecond * Float(fps))
+//        let angle = progress * degreesPerProgress
+//        return angle
+
+        let angle = (progress * 18000).truncatingRemainder(dividingBy: 360)
+        return angle
     }
 }
 

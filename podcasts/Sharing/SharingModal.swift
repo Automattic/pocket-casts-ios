@@ -169,7 +169,7 @@ extension SharingModal.Option {
         case .clipShare(let episode, let clipTime):
             AnimatedShareImageView(info: imageInfo, style: style).itemProvider(episode: episode, startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600), duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600))
         default:
-            ShareImageView(info: imageInfo, style: style).itemProvider()
+            ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()
         }
     }
 

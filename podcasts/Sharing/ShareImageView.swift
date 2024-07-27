@@ -31,6 +31,8 @@ struct ShareImageView: View {
     let info: ShareImageInfo
     let style: ShareImageStyle
 
+    @Binding var angle: Double
+
     var body: some View {
         ZStack {
             LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
@@ -39,32 +41,37 @@ struct ShareImageView: View {
             case .large:
                 VStack(spacing: 32) {
                     image()
-                        .frame(width: 200, height: 200)
+                        .aspectRatio(1, contentMode: .fit)
+//                        .frame(width: 200, height: 200)
                     text()
-                    PocketCastsLogoPill()
+                    PocketCastsLogoPill(angle: $angle)
                 }
                 .padding(24)
-                .frame(width: 292, height: 438)
+                .aspectRatio(0.66, contentMode: .fit)
+//                .frame(width: 292, height: 438)
             case .medium:
                 VStack(spacing: 24) {
                     image()
-                        .frame(width: 120, height: 120)
+                        .aspectRatio(1, contentMode: .fit)
+//                        .frame(width: 120, height: 120)
                     text()
                         .frame(alignment: .leading)
                 }
                 .padding(24)
-                .frame(width: 292, height: 293)
+                .aspectRatio(0.99, contentMode: .fit)
+//                .frame(width: 292, height: 293)
             case .small:
                 HStack(spacing: 18) {
                     image()
-                        .frame(width: 120, height: 120)
+                        .aspectRatio(1, contentMode: .fit)
+//                        .frame(width: 120, height: 120)
                     text(alignment: .leading, textAlignment: .leading, lineLimit: 3)
                 }
                 .padding(24)
-                .frame(width: 324, height: 169)
+                .aspectRatio(1.97, contentMode: .fit)
+//                .frame(width: 324, height: 169)
             }
         }
-        .fixedSize()
     }
 
     @ViewBuilder func image() -> some View {
@@ -116,13 +123,13 @@ extension View {
 let previewInfo = ShareImageInfo(name: "This American Life", title: "Dylan Field, Figma Co-founder, Talks Design, Economy, and life after failed Adobe acquisitions", description: Date().formatted(), artwork: URL(string: "https://static.pocketcasts.com/discover/images/280/3782b780-0bc5-012e-fb02-00163e1b201c.jpg")!, gradient: Gradient(colors: [Color.red, Color(hex: "620603")]))
 
 #Preview("large") {
-    ShareImageView(info: previewInfo, style: .large)
+    ShareImageView(info: previewInfo, style: .large, angle: .constant(0))
 }
 
 #Preview("medium") {
-    ShareImageView(info: previewInfo, style: .medium)
+    ShareImageView(info: previewInfo, style: .medium, angle: .constant(0))
 }
 
 #Preview("small") {
-    ShareImageView(info: previewInfo, style: .small)
+    ShareImageView(info: previewInfo, style: .small, angle: .constant(0))
 }

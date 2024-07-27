@@ -2,7 +2,11 @@ import SwiftUI
 import AVFoundation
 import UIKit
 
-class SwiftUIVideoExporter<Content: View> {
+protocol AnimatableContent: View {
+    func update(for progress: Double)
+}
+
+class SwiftUIVideoExporter<Content: AnimatableContent> {
     private let view: Content
     private let duration: TimeInterval
     private let size: CGSize
@@ -74,22 +78,48 @@ class SwiftUIVideoExporter<Content: View> {
         let group = DispatchGroup()
         group.enter()
 
-        videoWriterInput.requestMediaDataWhenReady(on: queue) { [view] in
+        var currentFrame: Int = 0
+
+        videoWriterInput.requestMediaDataWhenReady(on: queue) { [view, size] in
             progress.totalUnitCount = Int64(frameCount)
-            for frameNumber in 0..<frameCount {
-                if videoWriterInput.isReadyForMoreMediaData {
-                    let time = Double(frameNumber) / Double(self.fps)
-                    let image = view.snapshot()
-                    if let buffer = self.pixelBuffer(from: image) {
+
+            while currentFrame < frameCount && videoWriterInput.isReadyForMoreMediaData {
+//                if videoWriterInput.isReadyForMoreMediaData {
+                    let time = Double(currentFrame) / Double(self.fps)
+                    view.update(for: Double(currentFrame) / Double(frameCount))
+                let buffer: CVPixelBuffer?
+                if #available(iOS 16.0, *) {
+                    buffer = self.pixelBuffer(from: view.frame(width: size.width, height: size.height), size: size)
+                } else {
+                    let image = view.frame(width: size.width, height: size.height).snapshot()
+                    buffer = self.pixelBuffer(from: image)
+                }
+                    if let buffer {
                         let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
                         adaptor.append(buffer, withPresentationTime: frameTime)
-                        progress.completedUnitCount = Int64(frameNumber)
+                        currentFrame += 1
+                        progress.completedUnitCount = Int64(currentFrame)
                     }
-                }
+//                }
             }
+//            for frameNumber in 0..<frameCount {
+//                if videoWriterInput.isReadyForMoreMediaData {
+//                    let time = Double(frameNumber) / Double(self.fps)
+//                    view.update(for: Double(frameNumber) / Double(frameCount))
+//                    let image = view.snapshot()
+//                    if let buffer = self.pixelBuffer(from: image) {
+//                        let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+//                        adaptor.append(buffer, withPresentationTime: frameTime)
+//                        progress.completedUnitCount = Int64(frameNumber)
+//                    }
+//                }
+//
+//            }
 
-            videoWriterInput.markAsFinished()
-            group.leave()
+            if currentFrame == frameCount {
+                videoWriterInput.markAsFinished()
+                group.leave()
+            }
         }
 
         // Handle audio export if audioPlayerItem is provided
@@ -156,6 +186,47 @@ class SwiftUIVideoExporter<Content: View> {
                 }
             }
         }
+    }
+
+
+    @MainActor @available(iOS 16.0, *)
+    func pixelBuffer<V: View>(from view: V, size: CGSize) -> CVPixelBuffer? {
+        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+                     kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer: CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault,
+                                         Int(size.width),
+                                         Int(size.height),
+                                         kCVPixelFormatType_32ARGB,
+                                         attrs,
+                                         &pixelBuffer)
+
+        guard status == kCVReturnSuccess, let buffer = pixelBuffer else {
+            return nil
+        }
+
+        CVPixelBufferLockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelData = CVPixelBufferGetBaseAddress(buffer)
+
+        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        guard let context = CGContext(data: pixelData,
+                                      width: Int(size.width),
+                                      height: Int(size.height),
+                                      bitsPerComponent: 8,
+                                      bytesPerRow: CVPixelBufferGetBytesPerRow(buffer),
+                                      space: rgbColorSpace,
+                                      bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
+            return nil
+        }
+
+        let renderer = ImageRenderer(content: view)
+        renderer.render { size, render in
+            render(context)
+        }
+
+        CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
+
+        return buffer
     }
 
     private func pixelBuffer(from image: UIImage) -> CVPixelBuffer? {

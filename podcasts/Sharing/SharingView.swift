@@ -121,7 +121,7 @@ struct SharingView: View {
     @ViewBuilder var image: some View {
         TabView(selection: $selectedMedia) {
             ForEach(ShareImageStyle.allCases, id: \.self) { style in
-                ShareImageView(info: selectedOption.imageInfo, style: style)
+                ShareImageView(info: selectedOption.imageInfo, style: style, angle: .constant(0))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .tabItem { Text(style.tabString) }
             }
