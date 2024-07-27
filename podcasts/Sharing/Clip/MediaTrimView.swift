@@ -36,7 +36,7 @@ struct MediaTrimView: View {
                         playTime = (playPosition * duration) / geometry.size.width
                     }
                     .frame(width: Constants.playLineWidth)
-                TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), changed: { position, side in
+                TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), indicatorWidth: Constants.playLineWidth, changed: { position, side in
                     update(position: position, for: side, in: geometry.size.width)
                 })
                 .onAppear {
