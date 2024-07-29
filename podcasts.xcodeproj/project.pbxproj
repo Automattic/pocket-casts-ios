@@ -1681,6 +1681,7 @@
 		FF5B2A462BB189C7009F3DC2 /* PocketCastsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */; };
 		FF6BBCEE2C53E9D000604A01 /* TranscriptManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCED2C53E9D000604A01 /* TranscriptManagerTests.swift */; };
 		FF6BBCF02C53EA1F00604A01 /* sample.vtt in Resources */ = {isa = PBXBuildFile; fileRef = FF6BBCEF2C53EA1F00604A01 /* sample.vtt */; };
+		FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
 		FF7F89EA2C2979D900FC0ED5 /* TranscriptsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89E92C2979D900FC0ED5 /* TranscriptsViewController.swift */; };
 		FF7F89ED2C2AF6DE00FC0ED5 /* TranscriptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89EC2C2AF6DE00FC0ED5 /* TranscriptManager.swift */; };
 		FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */ = {isa = PBXBuildFile; productRef = FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */; };
@@ -3522,6 +3523,7 @@
 		FF5B2A452BB189C7009F3DC2 /* PocketCastsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketCastsApp.swift; sourceTree = "<group>"; };
 		FF6BBCED2C53E9D000604A01 /* TranscriptManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscriptManagerTests.swift; sourceTree = "<group>"; };
 		FF6BBCEF2C53EA1F00604A01 /* sample.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sample.vtt; sourceTree = "<group>"; };
+		FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptsDataRetriever.swift; sourceTree = "<group>"; };
 		FF7F89E92C2979D900FC0ED5 /* TranscriptsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptsViewController.swift; sourceTree = "<group>"; };
 		FF7F89EC2C2AF6DE00FC0ED5 /* TranscriptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptManager.swift; sourceTree = "<group>"; };
 		FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptModel.swift; sourceTree = "<group>"; };
@@ -7573,6 +7575,7 @@
 				FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */,
 				FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */,
 				8B5BD0B72C50235400C687CB /* Episode+Transcript.swift */,
+				FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */,
 			);
 			name = Transcripts;
 			sourceTree = "<group>";
@@ -9387,6 +9390,7 @@
 				FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */,
 				BDD62981200EEA6700168DF7 /* SimpleNotificationsViewController.swift in Sources */,
 				BD4BBFA41D223AA9001BEE4D /* Settings.swift in Sources */,
+				FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */,
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
 				FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */,
 				C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */,

@@ -62,7 +62,7 @@ class TranscriptManager {
 
         guard
             let transcriptURL = URL(string: transcript.url),
-            let transcriptText = try? String(contentsOf: transcriptURL)
+            let transcriptText = try? await dataRetriever.loadTranscript(url: transcriptURL)
         else {
             throw TranscriptError.failedToLoad
         }
@@ -77,6 +77,10 @@ class TranscriptManager {
 
         return model
     }
+
+    private lazy var dataRetriever: TranscriptsDataRetriever = {
+        return TranscriptsDataRetriever()
+    }()
 }
 
 extension Episode.Metadata.Transcript {
