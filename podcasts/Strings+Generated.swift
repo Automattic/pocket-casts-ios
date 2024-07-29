@@ -1380,6 +1380,14 @@ internal enum L10n {
   internal static var keycommandOpenPlayer: String { return L10n.tr("Localizable", "keycommand_open_player") }
   /// Play/Pause
   internal static var keycommandPlayPause: String { return L10n.tr("Localizable", "keycommand_play_pause") }
+  /// Soon
+  internal static var kidsProfileBannerBadge: String { return L10n.tr("Localizable", "kids_profile_banner_badge") }
+  /// Request Early Access 
+  internal static var kidsProfileBannerRequestButton: String { return L10n.tr("Localizable", "kids_profile_banner_request_button") }
+  /// A new profile with only content for kids to keep you subscriptions tidy.
+  internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
+  /// Kids Profile
+  internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }
   /// Learn More
   internal static var learnMore: String { return L10n.tr("Localizable", "learn_more") }
   /// Listening History

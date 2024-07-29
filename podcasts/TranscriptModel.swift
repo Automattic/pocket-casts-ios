@@ -42,7 +42,8 @@ struct TranscriptModel: Sendable {
 
     static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
         if format == .textHTML {
-            return TranscriptModel(attributedText: NSAttributedString(string: transcriptText), cues: [])
+            let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [])
         }
         guard let subtitles = try? Subtitles(content: transcriptText, expectedExtension: format.fileExtension) else {
             return nil
@@ -69,5 +70,9 @@ struct TranscriptModel: Sendable {
 
     @inlinable public func firstCue(containing secondsValue: Double) -> TranscriptCue? {
         self.cues.first { $0.contains(timeInSeconds: secondsValue) }
+    }
+
+    var isEmtpy: Bool {
+        return attributedText.string.trim().isEmpty
     }
 }
