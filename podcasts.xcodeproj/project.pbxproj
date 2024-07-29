@@ -27,11 +27,15 @@
 		105A6C432BAA0B3B0025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */; };
 		105A6C442BAA0B3E0025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */; };
 		105A6C452BAA0B410025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */; };
+		10756F832C57D00B0089D34F /* KidsProfileThankYouScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F822C57D00B0089D34F /* KidsProfileThankYouScreen.swift */; };
 		10A4F7532C515D720084D783 /* KidsProfile.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A4F7522C515D720084D783 /* KidsProfile.xcassets */; };
 		10A4F7562C5162C90084D783 /* KidsProfileBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */; };
 		10A4F7582C52635F0084D783 /* KidsProfileBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */; };
 		10A4F75B2C5286560084D783 /* KidsProfileBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F75A2C5286560084D783 /* KidsProfileBannerViewModel.swift */; };
 		10A4F75E2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F75D2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift */; };
+		10A4F7652C540B400084D783 /* KidsProfileSheetHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7642C540B400084D783 /* KidsProfileSheetHost.swift */; };
+		10A4F7672C540DC00084D783 /* KidsProfileSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7662C540DC00084D783 /* KidsProfileSheet.swift */; };
+		10A4F7692C540EBE0084D783 /* KidsProfileSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7682C540EBE0084D783 /* KidsProfileSheetViewModel.swift */; };
 		1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */; };
 		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		2F90990E2A4F88B10044FC55 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90990D2A4F88B10044FC55 /* ShareViewController.swift */; };
@@ -1882,11 +1886,15 @@
 /* Begin PBXFileReference section */
 		0A1708DEC0501FB8417E31BE /* Pods_NotificationExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
+		10756F822C57D00B0089D34F /* KidsProfileThankYouScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileThankYouScreen.swift; path = "Kids Profile/KidsProfileThankYouScreen.swift"; sourceTree = "<group>"; };
 		10A4F7522C515D720084D783 /* KidsProfile.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = KidsProfile.xcassets; sourceTree = "<group>"; };
 		10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerTableCell.swift; path = "Kids Profile/KidsProfileBannerTableCell.swift"; sourceTree = "<group>"; };
 		10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerView.swift; path = "Kids Profile/KidsProfileBannerView.swift"; sourceTree = "<group>"; };
 		10A4F75A2C5286560084D783 /* KidsProfileBannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerViewModel.swift; path = "Kids Profile/KidsProfileBannerViewModel.swift"; sourceTree = "<group>"; };
 		10A4F75D2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsProfileBannerViewModelTests.swift; sourceTree = "<group>"; };
+		10A4F7642C540B400084D783 /* KidsProfileSheetHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileSheetHost.swift; path = "Kids Profile/KidsProfileSheetHost.swift"; sourceTree = "<group>"; };
+		10A4F7662C540DC00084D783 /* KidsProfileSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileSheet.swift; path = "Kids Profile/KidsProfileSheet.swift"; sourceTree = "<group>"; };
+		10A4F7682C540EBE0084D783 /* KidsProfileSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileSheetViewModel.swift; path = "Kids Profile/KidsProfileSheetViewModel.swift"; sourceTree = "<group>"; };
 		10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EB2BA471DF0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -3682,9 +3690,18 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		10756F812C57CFF00089D34F /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				10756F822C57D00B0089D34F /* KidsProfileThankYouScreen.swift */,
+			);
+			name = Screens;
+			sourceTree = "<group>";
+		};
 		10A4F7542C51627C0084D783 /* Kids Profile */ = {
 			isa = PBXGroup;
 			children = (
+				10A4F7632C540AE80084D783 /* Scheet */,
 				10A4F7592C52862A0084D783 /* Banner */,
 			);
 			name = "Kids Profile";
@@ -3706,6 +3723,17 @@
 				10A4F75D2C52C7680084D783 /* KidsProfileBannerViewModelTests.swift */,
 			);
 			path = "Kids Profile";
+			sourceTree = "<group>";
+		};
+		10A4F7632C540AE80084D783 /* Scheet */ = {
+			isa = PBXGroup;
+			children = (
+				10A4F7642C540B400084D783 /* KidsProfileSheetHost.swift */,
+				10A4F7682C540EBE0084D783 /* KidsProfileSheetViewModel.swift */,
+				10A4F7662C540DC00084D783 /* KidsProfileSheet.swift */,
+				10756F812C57CFF00089D34F /* Screens */,
+			);
+			name = Scheet;
 			sourceTree = "<group>";
 		};
 		2F90990C2A4F88B10044FC55 /* Share Extension */ = {
@@ -9478,6 +9506,7 @@
 				BD980DA21F666A91008E381A /* GridLayout.swift in Sources */,
 				C734A88E2938308F005E5B98 /* CommonStoryViews.swift in Sources */,
 				466DE3F2278783F70046F722 /* EpisodeListHeaderView.swift in Sources */,
+				10A4F7652C540B400084D783 /* KidsProfileSheetHost.swift in Sources */,
 				BDC14C5D24B2DED600E71889 /* CastDeviceVolumeView.swift in Sources */,
 				400A3EFA22703D54007361C7 /* AccountUpdatedViewController.swift in Sources */,
 				BD998AC827B2257D00B38857 /* PodcastPickerRow.swift in Sources */,
@@ -9528,6 +9557,7 @@
 				FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */,
 				404A080A24E4C78000308722 /* SceneDelegate.swift in Sources */,
 				BDAE54CF230C063500330680 /* NoSearchResultsCell.swift in Sources */,
+				10756F832C57D00B0089D34F /* KidsProfileThankYouScreen.swift in Sources */,
 				BDEC9AB52051197900088D76 /* BadgeSettingsViewController.swift in Sources */,
 				F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */,
 				408529A3247C9A53007FE8AA /* PodcastSupporterCell.swift in Sources */,
@@ -9555,6 +9585,7 @@
 				BD9313531D7970F1007A70FC /* SelectPodcastCell.swift in Sources */,
 				BDE6AB7A1CC4BB580087D195 /* RoundedBorderView.swift in Sources */,
 				BDCD1E7E244D631C00B83602 /* LenticularOverlayView.swift in Sources */,
+				10A4F7672C540DC00084D783 /* KidsProfileSheet.swift in Sources */,
 				FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */,
 				BD60A0781FBEA53900008ACA /* MainEpisodeActionView.swift in Sources */,
 				BDF63D2522BCB1370037AA4A /* MainTabBarController+shortcuts.swift in Sources */,
@@ -9685,6 +9716,7 @@
 				4084262B2134CBCD0076D82E /* LargeListSummaryViewController.swift in Sources */,
 				C7F605132A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift in Sources */,
 				BDF0D4B523EBF1190034129E /* MNAVChapterReader.m in Sources */,
+				10A4F7692C540EBE0084D783 /* KidsProfileSheetViewModel.swift in Sources */,
 				BDA0E2A122DDB31A0029EBEB /* ThemeStyle.swift in Sources */,
 				BDF7BDCE1CA2247F0045AB6D /* StatsCell.swift in Sources */,
 				40F1492C218BCC4F008F54EA /* FilterShortcutsViewController.swift in Sources */,
