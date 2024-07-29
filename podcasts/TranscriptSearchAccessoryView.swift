@@ -26,7 +26,7 @@ class TranscriptSearchAcessoryView: UIInputView {
         return textField
     }()
 
-    lazy var mainStackView: UIStackView = {
+    private lazy var mainStackView: UIStackView = {
         let mainStackView = UIStackView()
         mainStackView.axis = .vertical
         mainStackView.addArrangedSubview(innerStackView)
@@ -35,13 +35,13 @@ class TranscriptSearchAcessoryView: UIInputView {
         return mainStackView
     }()
 
-    lazy var innerStackView: UIStackView = {
+    private lazy var innerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         return stackView
     }()
 
-    lazy var doneButton: UIButton = {
+    private lazy var doneButton: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(done), for: .touchUpInside)
         button.setTitle(L10n.done, for: .normal)
@@ -56,7 +56,7 @@ class TranscriptSearchAcessoryView: UIInputView {
         return button
     }()
 
-    lazy var downButton: UIButton = {
+    private lazy var downButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(done), for: .touchUpInside)
         let config = UIImage.SymbolConfiguration(textStyle: .body)
@@ -71,7 +71,7 @@ class TranscriptSearchAcessoryView: UIInputView {
         return button
     }()
 
-    lazy var upButton: UIButton = {
+    private lazy var upButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(done), for: .touchUpInside)
         let config = UIImage.SymbolConfiguration(textStyle: .body)
@@ -105,11 +105,11 @@ class TranscriptSearchAcessoryView: UIInputView {
 
         addSubview(mainStackView)
         mainStackView.addArrangedSubview(innerStackView)
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         innerStackView.addArrangedSubview(doneButton)
         innerStackView.addArrangedSubview(textField)
         innerStackView.addArrangedSubview(upButton)
         innerStackView.addArrangedSubview(downButton)
+
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         // Set content hugging priority
@@ -127,6 +127,7 @@ class TranscriptSearchAcessoryView: UIInputView {
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.adjustsFontForContentSizeCategory = true
 
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
