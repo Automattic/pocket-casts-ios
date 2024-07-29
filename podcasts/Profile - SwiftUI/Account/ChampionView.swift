@@ -9,8 +9,6 @@ struct ChampionView: View {
     var body: some View {
         VStack(spacing: 16) {
             Image("crown")
-                .renderingMode(.template)
-                .tint(theme.primaryUi05Selected)
             Text("You’re a true champion of Pocket Casts!")
                 .font(style: .title, weight: .semibold)
                 .multilineTextAlignment(.center)
@@ -23,7 +21,7 @@ struct ChampionView: View {
             }, label: {
                 Text("Rate Pocket Casts")
             })
-            .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryText01))
+            .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
         }
         .padding()
         .applyDefaultThemeOptions()
