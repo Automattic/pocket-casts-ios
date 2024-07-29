@@ -13,13 +13,13 @@ struct KidsProfileThankYouScreen: View {
             Text(L10n.kidsProfileThankyouTitle)
                 .font(size: Constants.titleSize, style: .body, weight: .semibold)
                 .multilineTextAlignment(.center)
-                .foregroundColor(theme.primaryText01)
+                .foregroundStyle(theme.primaryText01)
                 .padding(.bottom, Constants.vPadding)
 
             Text(L10n.kidsProfileThankyouText)
                 .font(size: Constants.textSize, style: .body, weight: .medium)
                 .multilineTextAlignment(.center)
-                .foregroundColor(theme.primaryText02)
+                .foregroundStyle(theme.primaryText02)
                 .padding(.leading, Constants.hPadding * 2.0)
                 .padding(.trailing, Constants.hPadding * 2.0)
 
