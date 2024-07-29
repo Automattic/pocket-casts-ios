@@ -4183,3 +4183,12 @@
 
 /* A title shown after editing a clip but before sharing */
 "share_clip" = "Share clip";
+
+/* Title of the Pocket Casts champion screen, greeting an user that has been using Pocket Casts for a long time */
+"champion_title" = "You’re a true champion of Pocket Casts!";
+
+/* Subtitle of the Pocket Casts champion screen */
+"champion_description" = "Thanks for being with us since the beginning! If you enjoy using our app, we’d love to hear your feedback.";
+
+/* Title of a button that allows the user to rate the app */
+"rate_pocket_casts" = "Rate Pocket Casts";

@@ -382,6 +382,10 @@ internal enum L10n {
   internal static var carplayPlaybackSpeed: String { return L10n.tr("Localizable", "carplay_playback_speed") }
   /// Up Next Queue
   internal static var carplayUpNextQueue: String { return L10n.tr("Localizable", "carplay_up_next_queue") }
+  /// Thanks for being with us since the beginning! If you enjoy using our app, we’d love to hear your feedback.
+  internal static var championDescription: String { return L10n.tr("Localizable", "champion_description") }
+  /// You’re a true champion of Pocket Casts!
+  internal static var championTitle: String { return L10n.tr("Localizable", "champion_title") }
   /// Change App Icon
   internal static var changeAppIcon: String { return L10n.tr("Localizable", "change_app_icon") }
   /// Change the title that identifies this bookmark
@@ -2170,6 +2174,8 @@ internal enum L10n {
   }
   /// Rate
   internal static var rate: String { return L10n.tr("Localizable", "rate") }
+  /// Rate Pocket Casts
+  internal static var ratePocketCasts: String { return L10n.tr("Localizable", "rate_pocket_casts") }
   /// Ops! There was an error.
   internal static var ratingError: String { return L10n.tr("Localizable", "rating_error") }
   /// Only listeners of this podcast can give it a rating. Have a listen to a few episodes and then come back to give your rating. We look forward to hearing what you think!

@@ -9,17 +9,17 @@ struct ChampionView: View {
     var body: some View {
         VStack(spacing: 16) {
             Image("crown")
-            Text("You’re a true champion of Pocket Casts!")
+            Text(L10n.championTitle)
                 .font(style: .title, weight: .semibold)
                 .multilineTextAlignment(.center)
-            Text("Thanks for being with us since the beginning! If you enjoy using our app, we’d love to hear your feedback.")
+            Text(L10n.championDescription)
                 .font(style: .callout)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(theme.primaryUi05Selected)
             Button(action: {
                 openURL(URL(string: ServerConstants.Urls.appStoreReview)!)
             }, label: {
-                Text("Rate Pocket Casts")
+                Text(L10n.ratePocketCasts)
             })
             .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
         }
