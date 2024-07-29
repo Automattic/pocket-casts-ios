@@ -26,7 +26,16 @@ class TranscriptSearchAcessoryView: UIInputView {
         return textField
     }()
 
-    lazy var stackView: UIStackView = {
+    lazy var mainStackView: UIStackView = {
+        let mainStackView = UIStackView()
+        mainStackView.axis = .vertical
+        mainStackView.addArrangedSubview(innerStackView)
+        mainStackView.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        mainStackView.isLayoutMarginsRelativeArrangement = true
+        return mainStackView
+    }()
+
+    lazy var innerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         return stackView
@@ -94,17 +103,13 @@ class TranscriptSearchAcessoryView: UIInputView {
     private func setupView() {
         overrideUserInterfaceStyle = .dark
 
-        let mainStackView = UIStackView()
-        mainStackView.axis = .vertical
         addSubview(mainStackView)
-        mainStackView.addArrangedSubview(stackView)
-        mainStackView.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        mainStackView.isLayoutMarginsRelativeArrangement = true
+        mainStackView.addArrangedSubview(innerStackView)
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(doneButton)
-        stackView.addArrangedSubview(textField)
-        stackView.addArrangedSubview(upButton)
-        stackView.addArrangedSubview(downButton)
+        innerStackView.addArrangedSubview(doneButton)
+        innerStackView.addArrangedSubview(textField)
+        innerStackView.addArrangedSubview(upButton)
+        innerStackView.addArrangedSubview(downButton)
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         // Set content hugging priority
