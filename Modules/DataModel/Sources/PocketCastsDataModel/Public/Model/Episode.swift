@@ -206,6 +206,40 @@ public class Episode: NSObject, BaseEpisode {
             public let url: String
             public let type: String
             public let language: String?
+
+            public var transcriptFormat: TranscriptFormat? {
+                return TranscriptFormat(rawValue: self.type)
+            }
+        }
+
+        public enum TranscriptFormat: String {
+
+            case srt = "application/srt"
+            case vtt = "text/vtt"
+            case textHTML = "text/html"
+
+            public var fileExtension: String {
+                switch self {
+                case .srt:
+                    return "srt"
+                case .vtt:
+                    return "vtt"
+                case .textHTML:
+                    return "html"
+                }
+            }
+
+            // Transcript formats we support in order of priority of use
+            public static let supportedFormats: [TranscriptFormat] = [.vtt, .srt, .textHTML]
+
+            public static func bestTranscript(from available: [Transcript]) -> Transcript? {
+                for format in Self.supportedFormats {
+                    if let transcript = available.first(where: { $0.type == format.rawValue}) {
+                        return transcript
+                    }
+                }
+                return available.first
+            }
         }
     }
 }

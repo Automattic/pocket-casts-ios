@@ -1,25 +1,6 @@
 import Foundation
 import SwiftSubtitles
-
-enum TranscriptFormat: String {
-    case srt = "application/srt"
-    case vtt = "text/vtt"
-    case textHTML = "text/html"
-
-    var fileExtension: String {
-        switch self {
-        case .srt:
-            return "srt"
-        case .vtt:
-            return "vtt"
-        case .textHTML:
-            return "html"
-        }
-    }
-
-    // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.vtt, .srt]
-}
+import PocketCastsDataModel
 
 struct TranscriptCue: Sendable {
     let startTime: Double
@@ -40,7 +21,7 @@ struct TranscriptModel: Sendable {
     let attributedText: NSAttributedString
     let cues: [TranscriptCue]
 
-    static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
+    static func makeModel(from transcriptText: String, format: Episode.Metadata.TranscriptFormat) -> TranscriptModel? {
         if format == .textHTML {
             let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
             return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [])

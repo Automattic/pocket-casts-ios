@@ -27,6 +27,7 @@ enum TranscriptError: Error {
 class TranscriptManager {
 
     typealias Transcript = Episode.Metadata.Transcript
+    typealias TranscriptFormat = Episode.Metadata.TranscriptFormat
 
     let episodeUUID: String
 
@@ -40,19 +41,10 @@ class TranscriptManager {
         self.showCoordinator = showCoordinator
     }
 
-    private func bestTranscript(from available: [Transcript]) -> Transcript? {
-        for format in TranscriptFormat.supportedFormats {
-            if let transcript = available.first(where: { $0.type == format.rawValue}) {
-                return transcript
-            }
-        }
-        return available.first
-    }
-
     public func loadTranscript() async throws -> TranscriptModel {
         guard
             let transcripts = try? await showCoordinator.loadTranscripts(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
-            let transcript = bestTranscript(from: transcripts) else {
+            let transcript = TranscriptFormat.bestTranscript(from: transcripts) else {
             throw TranscriptError.notAvailable
         }
 
@@ -81,11 +73,4 @@ class TranscriptManager {
     private lazy var dataRetriever: TranscriptsDataRetriever = {
         return TranscriptsDataRetriever()
     }()
-}
-
-extension Episode.Metadata.Transcript {
-
-    var transcriptFormat: TranscriptFormat? {
-        return TranscriptFormat(rawValue: self.type)
-    }
 }

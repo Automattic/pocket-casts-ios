@@ -8,6 +8,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     private let dataRetriever: ShowInfoDataRetriever
     private let podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever
     private let dataManager: DataManager
+    private let transcriptDataRetriever: TranscriptsDataRetriever
 
     private var requestingShowInfo: [String: Task<Episode.Metadata?, Error>] = [:]
     private var requestingRawMetadata: [String: Task<String?, Error>] = [:]
@@ -15,11 +16,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     init(
         dataRetriever: ShowInfoDataRetriever = ShowInfoDataRetriever(),
         podcastIndexChapterRetriever: PodcastIndexChapterDataRetriever = PodcastIndexChapterDataRetriever(),
-        dataManager: DataManager = .sharedManager
+        dataManager: DataManager = .sharedManager,
+        transcriptDataRetriever: TranscriptsDataRetriever = TranscriptsDataRetriever()
     ) {
         self.dataRetriever = dataRetriever
         self.podcastIndexChapterRetriever = podcastIndexChapterRetriever
         self.dataManager = dataManager
+        self.transcriptDataRetriever = transcriptDataRetriever
+
+
     }
 
     func loadShowNotes(
@@ -59,7 +64,10 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         guard let transcripts = metadata?.transcripts else {
             return []
         }
-
+        if let transcript = Episode.Metadata.TranscriptFormat.bestTranscript(from: transcripts),
+           let url = URL(string: transcript.url) {
+           let _ = try? await transcriptDataRetriever.loadTranscript(url: url)
+        }
         return transcripts
     }
 
