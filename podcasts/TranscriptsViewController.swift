@@ -108,8 +108,8 @@ class TranscriptsViewController: PlayerItemViewController {
         searchView
     }
 
-    lazy var searchView: TranscriptSearchAcessoryView = {
-        let view = TranscriptSearchAcessoryView()
+    lazy var searchView: TranscriptSearchAccessoryView = {
+        let view = TranscriptSearchAccessoryView()
         view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -347,7 +347,7 @@ extension TranscriptsViewController: UIScrollViewDelegate {
     }
 }
 
-extension TranscriptsViewController: TranscriptSearchAcessoryViewDelegate {
+extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     func doneTapped() {
         dismissSearch()
         searchView.removeFromSuperview()
