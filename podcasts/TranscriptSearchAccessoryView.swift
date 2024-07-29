@@ -149,7 +149,10 @@ extension TranscriptSearchAcessoryView: UITextFieldDelegate {
     }
 }
 
+/// A custom UITextField that allows a label appearing near the clear button
 class CustomTextField: UITextField {
+
+    private lazy var commonSpacing: CGFloat = 8
 
     let rightLabel: UILabel = {
         let label = UILabel()
@@ -178,7 +181,7 @@ class CustomTextField: UITextField {
         super.layoutSubviews()
 
         let clearButtonWidth: CGFloat = clearButtonRect(forBounds: bounds).width
-        let rightInset: CGFloat = isEditing && text?.isEmpty == false ? clearButtonWidth + 8 : 8
+        let rightInset: CGFloat = isEditing && text?.isEmpty == false ? clearButtonWidth + commonSpacing : commonSpacing
         rightLabel.sizeToFit()
         let labelWidth: CGFloat = rightLabel.frame.width
 
@@ -209,9 +212,9 @@ class CustomTextField: UITextField {
         let clearButtonWidth: CGFloat = clearButtonRect(forBounds: bounds).width
         let rightInset: CGFloat = isEditing && text?.isEmpty == false ? clearButtonWidth : 0
         if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
-            return bounds.inset(by: UIEdgeInsets(top: 0, left: labelWidth + rightInset + 16, bottom: 0, right: 8))
+            return bounds.inset(by: UIEdgeInsets(top: 0, left: labelWidth + rightInset + (commonSpacing * 2), bottom: 0, right: commonSpacing))
         } else {
-            return bounds.inset(by: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: labelWidth + rightInset + 16))
+            return bounds.inset(by: UIEdgeInsets(top: 0, left: commonSpacing, bottom: 0, right: labelWidth + rightInset + (commonSpacing * 2)))
         }
     }
 
