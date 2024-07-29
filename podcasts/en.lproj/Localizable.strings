@@ -4195,3 +4195,15 @@
 
 /* Kids Profile banner action button title */
 "kids_profile_banner_request_button" = "Request Early Access ";
+
+/* Kids Profile Thank You screen title*/
+"kids_profile_thankyou_title" = "Thank you for your interest";
+
+/* Kids Profile Thank You screen text*/
+"kids_profile_thankyou_text" = "You’ll get a notification via the app when the new Kids profile is ready! Want to let us know what you’d like to see?";
+
+/* Kids Profile Thank You screen send button title */
+"kids_profile_thankyou_button_send" = "Send Feedback";
+
+/* Kids Profile Thank You screen close button title */
+"kids_profile_thankyou_button_close" = "No, thank you";
