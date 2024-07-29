@@ -116,6 +116,9 @@ class TranscriptsViewController: PlayerItemViewController {
     }()
 
     @objc private func search() {
+        // Keep the inputAccessoryView dark
+        parent?.view.overrideUserInterfaceStyle = .dark
+
         hiddenTextView.becomeFirstResponder()
 
         // Move focus to the textView on the input accessory view
@@ -350,8 +353,6 @@ extension TranscriptsViewController: TranscriptSearchAcessoryViewDelegate {
     }
 
     func searchButtonTapped() {
-        // We want to keep the inputAccessoryView in dark
-        parent?.view.overrideUserInterfaceStyle = .dark
         becomeFirstResponder()
     }
 }
