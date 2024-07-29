@@ -34,8 +34,9 @@ class TranscriptsDataRetriever {
             do {
                 let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
                 let (data, response) = try await urlSession.data(for: request)
-
-                dataRequestMap[url] = nil
+                defer {
+                    dataRequestMap[url] = nil
+                }
 
                 guard response.extractStatusCode() == 200 else {
                     FileLog.shared.addMessage("Transcripts Data Retriever: request failed for transcript url \(url). Returning cached data")
@@ -45,7 +46,6 @@ class TranscriptsDataRetriever {
                 let responseToCache = CachedURLResponse(response: response, data: data)
                 cache.storeCachedResponse(responseToCache, for: request)
                 FileLog.shared.addMessage("Transcripts Data Retriever: request succeeded for url \(url).")
-                dataRequestMap[url] = nil
 
                 return data
             } catch {
@@ -59,7 +59,7 @@ class TranscriptsDataRetriever {
         return try await String(data: task.value, encoding: .utf8)
     }
 
-    private lazy var urlSession: URLSession = {        
+    private lazy var urlSession: URLSession = {
         return URLSession(configuration: .ephemeral)
     }()
 }
