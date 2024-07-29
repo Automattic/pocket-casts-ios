@@ -6,11 +6,7 @@ import UIKit
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard section == 0 else {
-            return UITableView.automaticDimension
-        }
-
-        return headerViewModel.contentSize?.height ?? UITableView.automaticDimension
+        UITableView.automaticDimension
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "kids-profile-view-face.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

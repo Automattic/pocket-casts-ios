@@ -1558,8 +1558,11 @@
 /* Account detail message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
 "plus_free_membership_format" = "%1$@ Free Trial";
 
-/* Account detail message informing the user that they have been granted a lifetime membership. */
-"plus_lifetime_membership" = "Lifetime Member";
+/* Account detail message informing the user that they have been granted a lifetime membership, don't translate "Pocket Casts Champion" */
+"plus_champion" = "Pocket Casts Champion";
+
+/* Message displayed when teh user tap "Pocket Casts Champion" button */
+"plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
@@ -4180,3 +4183,15 @@
 
 /* A title shown after editing a clip but before sharing */
 "share_clip" = "Share clip";
+
+/* Kids Profile banner title */
+"kids_profile_banner_title" = "Kids Profile";
+
+/* Kids Profile banner badge title */
+"kids_profile_banner_badge" = "Soon";
+
+/* Kids Profile banner text */
+"kids_profile_banner_text" = "A new profile with only content for kids to keep you subscriptions tidy.";
+
+/* Kids Profile banner action button title */
+"kids_profile_banner_request_button" = "Request Early Access ";

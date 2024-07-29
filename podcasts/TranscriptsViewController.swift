@@ -227,10 +227,10 @@ class TranscriptsViewController: PlayerItemViewController {
     private func loadTranscript() {
         activityIndicatorView.startAnimating()
         Task.detached { [weak self] in
-            guard let self else {
+            guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
                 return
             }
-            let transcriptManager = TranscriptManager(playbackManager: self.playbackManager)
+            let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 await show(transcript: transcript)
@@ -297,7 +297,8 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func addObservers() {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+        //We disabled the method bellow until we find a way to resync/shift transcript positions
+        //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
     }
 
     @objc private func updateTranscriptPosition() {

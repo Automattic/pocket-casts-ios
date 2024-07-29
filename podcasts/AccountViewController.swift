@@ -32,6 +32,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         let viewModel = AccountHeaderViewModel()
 
         viewModel.viewContentSizeChanged = { [weak self] in
+            self?.updatedHeaderContentView.frame = .init(x: 0, y: 0, width: self?.headerViewModel.contentSize?.width ?? 0, height: self?.headerViewModel.contentSize?.height ?? 0)
             self?.tableView.reloadData()
         }
 

@@ -82,6 +82,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Makes the "Change Avatar" button visible in the Account Settings.
     case gravatarChangeAvatar
 
+    /// Enables the Kids banner
+    case kidsProfile
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -144,6 +147,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .gravatarChangeAvatar:
             true
+        case .kidsProfile:
+            false
         }
     }
 
