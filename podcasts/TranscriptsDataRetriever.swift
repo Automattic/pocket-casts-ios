@@ -35,17 +35,18 @@ class TranscriptsDataRetriever {
                 let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
                 let (data, response) = try await urlSession.data(for: request)
 
-                if response.extractStatusCode() == 200 {
-                    let responseToCache = CachedURLResponse(response: response, data: data)
-                    cache.storeCachedResponse(responseToCache, for: request)
-                    FileLog.shared.addMessage("Transcripts Data Retriever: request succeeded for url \(url).")
-                } else if let data = cache.cachedResponse(for: request)?.data {
-                    dataRequestMap[url] = nil
+                dataRequestMap[url] = nil
+
+                guard response.extractStatusCode() == 200 else {
                     FileLog.shared.addMessage("Transcripts Data Retriever: request failed for transcript url \(url). Returning cached data")
                     return data
                 }
 
+                let responseToCache = CachedURLResponse(response: response, data: data)
+                cache.storeCachedResponse(responseToCache, for: request)
+                FileLog.shared.addMessage("Transcripts Data Retriever: request succeeded for url \(url).")
                 dataRequestMap[url] = nil
+
                 return data
             } catch {
                 FileLog.shared.addMessage("Transcripts Data Retriever: request failed for url \(url): \(error.localizedDescription). Returning cached data")
