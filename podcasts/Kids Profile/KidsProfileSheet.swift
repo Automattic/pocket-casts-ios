@@ -20,6 +20,7 @@ struct KidsProfileSheet: View {
     }
 
     private var submitScreen: some View {
+        // this will be replaced by the next screen
         ZStack {
             Rectangle().background(.black)
                 .padding(.leading, 20.0)

@@ -46,11 +46,10 @@ class KidsProfileSheetHost: ThemedHostingController<KidsProfileSheet> {
 
     private func expandViewController() {
         if let sheet = sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
+            sheet.detents = [.large()]
             sheet.animateChanges {
                 sheet.selectedDetentIdentifier = .large
             }
-            sheet.detents = [.large()]
         }
     }
 }
