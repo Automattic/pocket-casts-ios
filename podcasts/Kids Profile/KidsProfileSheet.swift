@@ -5,14 +5,16 @@ struct KidsProfileSheet: View {
 
     @EnvironmentObject var theme: Theme
 
+    private let transition: AnyTransition = .asymmetric(insertion: .slide, removal: .scale(scale: 0.7)).combined(with: .opacity)
+
     var body: some View {
         VStack {
             if viewModel.currentScreen == .submit {
                 submitScreen
-                    .transition(viewModel.transition)
+                    .transition(transition)
             } else {
                 KidsProfileThankYouScreen(viewModel: viewModel, theme: theme)
-                    .transition(viewModel.transition)
+                    .transition(transition)
             }
             Spacer()
         }

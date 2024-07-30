@@ -7,8 +7,6 @@ class KidsProfileSheetViewModel: ObservableObject {
     var onDismissScreenTap: (() -> Void)? = nil
     var onSendFeedbackTap: (() -> Void)? = nil
 
-    let transition: AnyTransition = .asymmetric(insertion: .slide, removal: .scale(scale: 0.7)).combined(with: .opacity)
-
     func dismissScreen() {
         onDismissScreenTap?()
     }
