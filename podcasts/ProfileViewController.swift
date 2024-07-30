@@ -249,6 +249,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
             }
+            cell.onRequestEarlyAccessTap = { [weak self] _ in
+                let viewModel = KidsProfileSheetViewModel()
+                let hostViewController = KidsProfileSheetHost(viewModel: viewModel)
+                self?.present(hostViewController, animated: true)
+            }
             return cell
         }
 
