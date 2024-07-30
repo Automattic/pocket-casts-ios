@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 import PocketCastsServer
 
-class TranscriptsDataRetriever {
+actor TranscriptsDataRetriever {
 
     private var dataRequestMap: [URL: Task<Data, Error>] = [:]
 
