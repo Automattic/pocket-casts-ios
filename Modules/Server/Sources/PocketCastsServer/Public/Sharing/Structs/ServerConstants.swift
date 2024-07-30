@@ -46,7 +46,7 @@ public enum ServerConstants {
         public static let pocketcastsDotCom = "https://pocketcasts.com/"
         public static let automatticDotCom = "https://automattic.com/"
         public static let automatticWorkWithUs = "https://automattic.com/work-with-us/"
-        public static let appStoreReview = "https://itunes.apple.com/app/id414834813?action=write-review"
+        public static let appStoreReview = "https://apps.apple.com/app/id414834813?action=write-review"
     }
 
     private static func production() -> Bool {
