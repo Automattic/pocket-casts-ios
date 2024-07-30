@@ -5,6 +5,7 @@ enum TranscriptFormat: String {
     case srt = "application/srt"
     case vtt = "text/vtt"
     case textHTML = "text/html"
+    case jsonPodcastIndex = "application/json"
 
     var fileExtension: String {
         switch self {
@@ -14,11 +15,13 @@ enum TranscriptFormat: String {
             return "vtt"
         case .textHTML:
             return "html"
+        case .jsonPodcastIndex:
+            return "json"
         }
     }
 
     // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.vtt, .srt]
+    static let supportedFormats: [TranscriptFormat] = [.jsonPodcastIndex, .vtt, .srt]
 }
 
 struct TranscriptCue: Sendable {
