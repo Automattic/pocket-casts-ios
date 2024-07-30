@@ -4,7 +4,7 @@ import UIKit
 /// A custom UITextField that allows a label appearing near the clear button
 public class CustomTextField: UITextField {
 
-    private lazy var commonSpacing: CGFloat = 8
+    private let commonSpacing: CGFloat = 8
 
     public let rightLabel: UILabel = {
         let label = UILabel()
