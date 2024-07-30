@@ -28,6 +28,16 @@ class TranscriptsViewController: PlayerItemViewController {
         setupViews()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        parent?.view.overrideUserInterfaceStyle = .unspecified
+        dismissSearch()
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        true
+    }
+
     private func setupViews() {
         view.addSubview(transcriptView)
         NSLayoutConstraint.activate(
@@ -72,8 +82,52 @@ class TranscriptsViewController: PlayerItemViewController {
             ]
         )
 
-        view.addSubview(closeButton)
-        closeButton.frame = .init(x: 16, y: 0, width: 44, height: 44)
+        view.addSubview(hiddenTextView)
+
+        stackView.addArrangedSubview(closeButton)
+        stackView.addArrangedSubview(UIView())
+        stackView.addArrangedSubview(searchButton)
+
+        view.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+        ])
+
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            closeButton.heightAnchor.constraint(equalToConstant: 44),
+            closeButton.widthAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+
+    override var inputAccessoryView: UIView? {
+        searchView
+    }
+
+    lazy var searchView: TranscriptSearchAccessoryView = {
+        let view = TranscriptSearchAccessoryView()
+        view.delegate = self
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    @objc private func search() {
+        // Keep the inputAccessoryView dark
+        parent?.view.overrideUserInterfaceStyle = .dark
+
+        hiddenTextView.becomeFirstResponder()
+
+        // Move focus to the textView on the input accessory view
+        searchView.textField.becomeFirstResponder()
+    }
+
+    private func dismissSearch() {
+        searchView.textField.resignFirstResponder()
+
+        resignFirstResponder()
     }
 
     private lazy var transcriptView: UITextView = {
@@ -99,6 +153,35 @@ class TranscriptsViewController: PlayerItemViewController {
         closeButton.tintColor = ThemeColor.primaryIcon02()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return closeButton
+    }()
+
+    private lazy var searchButton: RoundButton = {
+        var configuration = UIButton.Configuration.filled()
+        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+
+        let searchButton = RoundButton(type: .system)
+        searchButton.setTitle(L10n.search, for: .normal)
+        searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
+        searchButton.setTitleColor(.white, for: .normal)
+        searchButton.tintColor = .white.withAlphaComponent(0.2)
+        searchButton.layer.masksToBounds = true
+        searchButton.configuration = configuration
+        searchButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        searchButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        return searchButton
+    }()
+
+    private lazy var hiddenTextView: UITextField = {
+        let textView = UITextField()
+        textView.layer.opacity = 0
+        return textView
+    }()
+
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        return stackView
     }()
 
     private lazy var topGradient: GradientView = {
@@ -280,5 +363,24 @@ extension TranscriptsViewController: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         canScrollToDismiss = scrollView.contentOffset.y == 0
+    }
+}
+
+extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
+    func doneTapped() {
+        dismissSearch()
+        searchView.removeFromSuperview()
+    }
+
+    func searchButtonTapped() {
+        becomeFirstResponder()
+    }
+}
+
+private class RoundButton: UIButton {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        layer.cornerRadius = bounds.height / 2
     }
 }
