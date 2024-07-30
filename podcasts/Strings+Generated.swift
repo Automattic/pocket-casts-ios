@@ -1388,6 +1388,14 @@ internal enum L10n {
   internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
   /// Kids Profile
   internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }
+  /// No, thank you
+  internal static var kidsProfileThankyouButtonClose: String { return L10n.tr("Localizable", "kids_profile_thankyou_button_close") }
+  /// Send Feedback
+  internal static var kidsProfileThankyouButtonSend: String { return L10n.tr("Localizable", "kids_profile_thankyou_button_send") }
+  /// You’ll get a notification via the app when the new Kids profile is ready! Want to let us know what you’d like to see?
+  internal static var kidsProfileThankyouText: String { return L10n.tr("Localizable", "kids_profile_thankyou_text") }
+  /// Thank you for your interest
+  internal static var kidsProfileThankyouTitle: String { return L10n.tr("Localizable", "kids_profile_thankyou_title") }
   /// Learn More
   internal static var learnMore: String { return L10n.tr("Localizable", "learn_more") }
   /// Listening History
