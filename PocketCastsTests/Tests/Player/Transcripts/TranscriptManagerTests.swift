@@ -17,7 +17,7 @@ final class TranscriptManagerTests: XCTestCase {
             return (nil, nil)
         }
 
-        func loadTranscriptsMetada(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool) async throws -> [Episode.Metadata.Transcript] {
+        func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool) async throws -> [Episode.Metadata.Transcript] {
             guard let transcriptURL = Bundle(for: Self.self).url(forResource: "sample", withExtension: "vtt") else {
                 return []
             }

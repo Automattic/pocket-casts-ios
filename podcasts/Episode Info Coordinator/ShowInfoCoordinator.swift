@@ -57,7 +57,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         return (metadata?.chapters, nil)
     }
 
-    public func loadTranscriptsMetada(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool = false
+    public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool = false
     ) async throws -> [Episode.Metadata.Transcript] {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 

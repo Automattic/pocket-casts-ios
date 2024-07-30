@@ -142,7 +142,7 @@ private class ShowInfoCoordinatorMock: ShowInfoCoordinating {
         (nil, nil)
     }
 
-    func loadTranscriptsMetada(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool) async throws -> [Episode.Metadata.Transcript] {
+    func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool) async throws -> [Episode.Metadata.Transcript] {
         return []
     }
 }
