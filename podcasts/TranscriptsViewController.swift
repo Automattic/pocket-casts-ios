@@ -163,6 +163,19 @@ class TranscriptsViewController: PlayerItemViewController {
         }
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            refreshText()
+        }
+    }
+
+    private func refreshText() {
+        guard let transcript else {
+            return
+        }
+        transcriptView.attributedText = styleText(transcript: transcript)
+    }
+
     private func show(transcript: TranscriptModel) {
             activityIndicatorView.stopAnimating()
             self.previousRange = nil
@@ -178,12 +191,12 @@ class TranscriptsViewController: PlayerItemViewController {
         paragraphStyle.paragraphSpacing = 10
         paragraphStyle.lineBreakMode = .byWordWrapping
 
-        var standardFont = UIFont.systemFont(ofSize: 18)
+        var standardFont = UIFont.preferredFont(forTextStyle: .body)
 
         if let descriptor = UIFontDescriptor.preferredFontDescriptor(
           withTextStyle: .body)
           .withDesign(.serif) {
-            standardFont = UIFont(descriptor: descriptor, size: 16)
+            standardFont =  UIFont(descriptor: descriptor, size: 0)
         }
 
 
