@@ -84,24 +84,23 @@ class TranscriptsViewController: PlayerItemViewController {
 
         view.addSubview(hiddenTextView)
 
-        view.addSubview(closeButton)
-        closeButton.frame = .init(x: 16, y: 0, width: 44, height: 44)
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-            [
-                closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-                closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
-            ]
-        )
+        stackView.addArrangedSubview(closeButton)
+        stackView.addArrangedSubview(UIView())
+        stackView.addArrangedSubview(searchButton)
 
-        view.addSubview(searchButton)
-        searchButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-            [
-                searchButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-                searchButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
-            ]
-        )
+        view.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+        ])
+
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            closeButton.heightAnchor.constraint(equalToConstant: 44),
+            closeButton.widthAnchor.constraint(equalToConstant: 44)
+        ])
     }
 
     override var inputAccessoryView: UIView? {
@@ -176,6 +175,13 @@ class TranscriptsViewController: PlayerItemViewController {
         let textView = UITextField()
         textView.layer.opacity = 0
         return textView
+    }()
+
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        return stackView
     }()
 
     private lazy var topGradient: GradientView = {
