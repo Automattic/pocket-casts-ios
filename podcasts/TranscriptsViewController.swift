@@ -183,7 +183,7 @@ class TranscriptsViewController: PlayerItemViewController {
             transcriptView.attributedText = styleText(transcript: transcript)
     }
 
-    private func styleText(transcript: TranscriptModel, position: Double = 0) -> NSAttributedString {
+    private func styleText(transcript: TranscriptModel, position: Double = -1) -> NSAttributedString {
         let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
 
         let paragraphStyle = NSMutableParagraphStyle()
@@ -214,7 +214,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
         formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
 
-        if let range = transcript.firstCue(containing: position)?.characterRange {
+        if position != -1, let range = transcript.firstCue(containing: position)?.characterRange {
             formattedText.addAttributes(highlightStyle, range: range)
         }
 
