@@ -16,15 +16,20 @@ actor TranscriptsDataRetriever {
         let request = URLRequest(url: url)
 
         if let cachedResponse = cache.cachedResponse(for: request),
-           let result = String(data: cachedResponse.data, encoding: .utf8) {
+           let result = String(data: cachedResponse.data, encoding: .utf8),
+           !result.trim().isEmpty {
             FileLog.shared.addMessage("Transcripts Data Retriever: returning cached data for transcript")
+            Task {
+                // trigger a background refresh to force cache update
+                try? await loadTranscriptFromServer(url, previousResponse: cachedResponse)
+            }
             return result
         }
 
         return try await loadTranscriptFromServer(url)
     }
 
-    private func loadTranscriptFromServer(_ url: URL) async throws -> String? {
+    private func loadTranscriptFromServer(_ url: URL, previousResponse: CachedURLResponse? = nil) async throws -> String? {
         if let task = dataRequestMap[url] {
             return try await String(data: task.value, encoding: .utf8)
         }
@@ -32,7 +37,10 @@ actor TranscriptsDataRetriever {
 
         let task = Task<Data, Error> {
             do {
-                let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+                var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+                if let previousResponse {
+                    request.setRefreshHeadersUsing(cachedResponse: previousResponse)
+                }
                 let (data, response) = try await urlSession.data(for: request)
                 defer {
                     dataRequestMap[url] = nil
