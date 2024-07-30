@@ -1,8 +1,12 @@
 import Foundation
 import PocketCastsUtils
 import PocketCastsServer
+import PocketCastsDataModel
 
 actor TranscriptsDataRetriever {
+
+    typealias Transcript = Episode.Metadata.Transcript
+    typealias TranscriptFormat = Episode.Metadata.TranscriptFormat
 
     private var dataRequestMap: [URL: Task<Data, Error>] = [:]
 
@@ -10,6 +14,15 @@ actor TranscriptsDataRetriever {
 
     public init() {
         cache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 100.megabytes, diskPath: "transcripts")
+    }
+
+    public func loadBestTranscript(from transcripts: [Transcript]) async throws -> String? {
+        guard let transcript = Episode.Metadata.TranscriptFormat.bestTranscript(from: transcripts),
+              let url = URL(string: transcript.url) else {
+            return nil
+        }
+
+        return try await loadTranscript(url: url)
     }
 
     public func loadTranscript(url: URL) async throws -> String? {

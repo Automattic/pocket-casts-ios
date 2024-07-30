@@ -64,11 +64,9 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         guard let transcripts = metadata?.transcripts else {
             return []
         }
-        if let transcript = Episode.Metadata.TranscriptFormat.bestTranscript(from: transcripts),
-           let url = URL(string: transcript.url) {
-            if cacheTranscript {
-                let _ = try? await transcriptDataRetriever.loadTranscript(url: url)
-            }
+
+        if cacheTranscript {
+            let _ = try? await transcriptDataRetriever.loadBestTranscript(from: transcripts)
         }
         return transcripts
     }
