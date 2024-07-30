@@ -43,7 +43,7 @@ class TranscriptManager {
 
     public func loadTranscript() async throws -> TranscriptModel {
         guard
-            let transcripts = try? await showCoordinator.loadTranscripts(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
+            let transcripts = try? await showCoordinator.loadTranscriptsMetada(podcastUuid: podcastUUID, episodeUuid: episodeUUID, cacheTranscript: false),
             let transcript = TranscriptFormat.bestTranscript(from: transcripts) else {
             throw TranscriptError.notAvailable
         }

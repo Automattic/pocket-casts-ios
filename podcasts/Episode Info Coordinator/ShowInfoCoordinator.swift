@@ -57,7 +57,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         return (metadata?.chapters, nil)
     }
 
-    public func loadTranscripts(podcastUuid: String, episodeUuid: String
+    public func loadTranscriptsMetada(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool = false
     ) async throws -> [Episode.Metadata.Transcript] {
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
@@ -66,7 +66,9 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         }
         if let transcript = Episode.Metadata.TranscriptFormat.bestTranscript(from: transcripts),
            let url = URL(string: transcript.url) {
-           let _ = try? await transcriptDataRetriever.loadTranscript(url: url)
+            if cacheTranscript {
+                let _ = try? await transcriptDataRetriever.loadTranscript(url: url)
+            }
         }
         return transcripts
     }

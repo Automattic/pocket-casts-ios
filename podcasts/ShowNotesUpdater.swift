@@ -10,7 +10,7 @@ class ShowNotesUpdater {
                 _ = try? await ShowInfoCoordinator.shared.loadChapters(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
                 if FeatureFlag.transcripts.enabled {
-                 _ = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+                 _ = try? await ShowInfoCoordinator.shared.loadTranscriptsMetada(podcastUuid: podcastUuid, episodeUuid: episodeUuid, cacheTranscript: true)
                 }
             }
             return
