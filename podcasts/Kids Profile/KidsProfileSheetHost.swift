@@ -24,7 +24,7 @@ class KidsProfileSheetHost: ThemedHostingController<KidsProfileSheet> {
     }
 
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
     }
 
     private func setupSheetController() {

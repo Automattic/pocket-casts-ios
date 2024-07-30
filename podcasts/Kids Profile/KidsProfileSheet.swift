@@ -17,6 +17,7 @@ struct KidsProfileSheet: View {
             Spacer()
         }
         .animation(.easeOut, value: viewModel.currentScreen)
+        .background(theme.primaryUi01)
     }
 
     private var submitScreen: some View {
