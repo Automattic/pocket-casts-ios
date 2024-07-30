@@ -2,7 +2,7 @@ import Foundation
 
 public extension URLRequest {
 
-    mutating func setRefreshHeadersUsing(cachedResponse: CachedURLResponse) {
+    mutating func setEtagAndLastModifiedHeaders(cachedResponse: CachedURLResponse) {
         if let etag = cachedResponse.response.etag {
             self.setValue(etag, forHTTPHeaderField: ServerConstants.HttpHeaders.ifNoneMatch)
         }

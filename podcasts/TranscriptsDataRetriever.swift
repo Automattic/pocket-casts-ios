@@ -39,7 +39,7 @@ actor TranscriptsDataRetriever {
             do {
                 var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
                 if let previousResponse {
-                    request.setRefreshHeadersUsing(cachedResponse: previousResponse)
+                    request.setEtagAndLastModifiedHeaders(cachedResponse: previousResponse)
                 }
                 let (data, response) = try await urlSession.data(for: request)
                 defer {
