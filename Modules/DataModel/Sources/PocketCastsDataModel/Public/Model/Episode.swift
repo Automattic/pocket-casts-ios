@@ -217,6 +217,7 @@ public class Episode: NSObject, BaseEpisode {
             case srt = "application/srt"
             case vtt = "text/vtt"
             case textHTML = "text/html"
+            case jsonPodcastIndex = "application/json"
 
             public var fileExtension: String {
                 switch self {
@@ -226,11 +227,13 @@ public class Episode: NSObject, BaseEpisode {
                     return "vtt"
                 case .textHTML:
                     return "html"
+                case .jsonPodcastIndex:
+                    return "json"
                 }
             }
 
             // Transcript formats we support in order of priority of use
-            public static let supportedFormats: [TranscriptFormat] = [.vtt, .srt, .textHTML]
+            public static let supportedFormats: [TranscriptFormat] = [.jsonPodcastIndex, .vtt, .srt, .textHTML]
 
             public static func bestTranscript(from available: [Transcript]) -> Transcript? {
                 for format in Self.supportedFormats {
