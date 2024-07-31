@@ -11,6 +11,8 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private var isSearching = false
 
+    private let debounce = Debounce(delay: Constants.defaultDebounceTime)
+
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
         super.init()
@@ -388,7 +390,9 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     func search(_ term: String) {
-
+        debounce.call {
+            // search
+        }
     }
 
     func previousMatch() {
