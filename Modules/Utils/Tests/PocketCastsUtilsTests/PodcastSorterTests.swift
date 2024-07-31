@@ -50,4 +50,19 @@ class PodcastSorterTests: XCTestCase {
         XCTAssertFalse(PodcastSorter.dateAddedSort(date1: now, date2: now))
         XCTAssertFalse(PodcastSorter.dateAddedSort(date1: fiveMinutesFromNow, date2: now))
     }
+
+    func testSortyByNameAndUUID() {
+        let item1 = MockModel(itemUUID: "abcdefg", itemTitle: "Item 1")
+        let item2 = MockModel(itemUUID: "gfedcba", itemTitle: "Item 2")
+        let item3 = MockModel(itemUUID: "hijklmn", itemTitle: "Item 1")
+
+        XCTAssertTrue(PodcastSorter.sortByNameAndUUID(item1: item1, item2: item2))
+        XCTAssertFalse(PodcastSorter.sortByNameAndUUID(item1: item2, item2: item1))
+        XCTAssertTrue(PodcastSorter.sortByNameAndUUID(item1: item1, item2: item3))
+    }
+
+    private struct MockModel: Sortable {
+        var itemUUID: String
+        var itemTitle: String?
+    }
 }
