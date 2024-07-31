@@ -205,7 +205,7 @@ public class Episode: NSObject, BaseEpisode {
         public struct Transcript: Decodable {
             public let url: String
             public let type: String
-            public let language: String?            
-        }        
+            public let language: String?
+        }
     }
 }
