@@ -21,7 +21,7 @@ struct TranscriptModel: Sendable {
     let attributedText: NSAttributedString
     let cues: [TranscriptCue]
 
-    static func makeModel(from transcriptText: String, format: Episode.Metadata.TranscriptFormat) -> TranscriptModel? {
+    static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
         if format == .textHTML {
             let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
             return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [])

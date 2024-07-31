@@ -6,7 +6,6 @@ import PocketCastsDataModel
 actor TranscriptsDataRetriever {
 
     typealias Transcript = Episode.Metadata.Transcript
-    typealias TranscriptFormat = Episode.Metadata.TranscriptFormat
 
     private var dataRequestMap: [URL: Task<Data, Error>] = [:]
 
@@ -17,7 +16,7 @@ actor TranscriptsDataRetriever {
     }
 
     public func loadBestTranscript(from transcripts: [Transcript]) async throws -> String? {
-        guard let transcript = Episode.Metadata.TranscriptFormat.bestTranscript(from: transcripts),
+        guard let transcript = TranscriptFormat.bestTranscript(from: transcripts),
               let url = URL(string: transcript.url) else {
             return nil
         }

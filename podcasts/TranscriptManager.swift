@@ -27,7 +27,6 @@ enum TranscriptError: Error {
 class TranscriptManager {
 
     typealias Transcript = Episode.Metadata.Transcript
-    typealias TranscriptFormat = Episode.Metadata.TranscriptFormat
 
     let episodeUUID: String
 
