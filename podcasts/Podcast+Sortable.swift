@@ -6,7 +6,7 @@ extension Podcast: Sortable {
     public var itemUUID: String {
         uuid
     }
-    
+
     public var itemTitle: String? {
         title
     }
