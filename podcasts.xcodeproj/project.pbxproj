@@ -27,6 +27,10 @@
 		105A6C432BAA0B3B0025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */; };
 		105A6C442BAA0B3E0025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */; };
 		105A6C452BAA0B410025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */; };
+		10756F852C5944660089D34F /* Podcast+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F842C5944660089D34F /* Podcast+Sortable.swift */; };
+		10756F862C5944660089D34F /* Podcast+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F842C5944660089D34F /* Podcast+Sortable.swift */; };
+		10756F882C59449C0089D34F /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
+		10756F892C59449C0089D34F /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
 		10DFE9312C5A889700957D0A /* CategoryPodcastsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9302C5A889700957D0A /* CategoryPodcastsTable.swift */; };
 		10756F832C57D00B0089D34F /* KidsProfileThankYouScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F822C57D00B0089D34F /* KidsProfileThankYouScreen.swift */; };
 		10A4F7532C515D720084D783 /* KidsProfile.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A4F7522C515D720084D783 /* KidsProfile.xcassets */; };
@@ -1891,6 +1895,8 @@
 /* Begin PBXFileReference section */
 		0A1708DEC0501FB8417E31BE /* Pods_NotificationExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
+		10756F842C5944660089D34F /* Podcast+Sortable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Podcast+Sortable.swift"; sourceTree = "<group>"; };
+		10756F872C59449C0089D34F /* Folder+Sortable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+Sortable.swift"; sourceTree = "<group>"; };
 		10756F822C57D00B0089D34F /* KidsProfileThankYouScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileThankYouScreen.swift; path = "Kids Profile/KidsProfileThankYouScreen.swift"; sourceTree = "<group>"; };
 		10A4F7522C515D720084D783 /* KidsProfile.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = KidsProfile.xcassets; sourceTree = "<group>"; };
 		10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerTableCell.swift; path = "Kids Profile/KidsProfileBannerTableCell.swift"; sourceTree = "<group>"; };
@@ -5432,12 +5438,14 @@
 			isa = PBXGroup;
 			children = (
 				BD56102C200DA4BC002F2D53 /* Podcast+Formatting.swift */,
+				10756F842C5944660089D34F /* Podcast+Sortable.swift */,
 				BD561030200DADA0002F2D53 /* Episode+Formatting.swift */,
 				40FE395E229CF424004526CD /* UserEpisode+Formatting.swift */,
 				BDA681AC220D185A0053BEEE /* BaseEpisode+Formatting.swift */,
 				BD542C1F240382A100F35D26 /* EpisodeFilter+Formatting.swift */,
 				BD542C212403845500F35D26 /* PlaylistEpisode+Formatting.swift */,
 				BD26AFD327BDFD18008CC973 /* Folder+Formatting.swift */,
+				10756F872C59449C0089D34F /* Folder+Sortable.swift */,
 			);
 			name = "Data Helpers";
 			sourceTree = "<group>";
@@ -9174,6 +9182,7 @@
 				BD1EBD6E1CB7770B004F83D6 /* AppearanceViewController.swift in Sources */,
 				BD13574E27BF24B500A5D7C6 /* EditFolderPodcastsView.swift in Sources */,
 				C713D4FA2A04C90500A78468 /* AccountHeaderViewModel.swift in Sources */,
+				10756F882C59449C0089D34F /* Folder+Sortable.swift in Sources */,
 				F55C4C762BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift in Sources */,
 				F5954D602C3F2864004A8C04 /* TrimHandle.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
@@ -9686,6 +9695,7 @@
 				408F0B32227A6B540019584D /* IAPHelper.swift in Sources */,
 				BD2F3BA02366C01400416633 /* PlayerColorHelper.swift in Sources */,
 				40164A6B23DAAF8B0043907B /* PromotionAcknowledgementViewController.swift in Sources */,
+				10756F852C5944660089D34F /* Podcast+Sortable.swift in Sources */,
 				C7ADDD202AD73DD000471853 /* BookmarksAnnouncement.swift in Sources */,
 				C7A110E6291EF2DF00887A90 /* PlusLandingViewModel.swift in Sources */,
 				8B484EF528D23BEF001AFA97 /* PlaybackTimeHelper.swift in Sources */,
@@ -9906,6 +9916,7 @@
 				4054146F2435B82B00431FD5 /* PlaylistManager.swift in Sources */,
 				46B5DFD027EA1703006FC2ED /* WatchSourceViewModel.swift in Sources */,
 				46C7BB8A27DA60F300CD6AE3 /* DownloadListViewModel.swift in Sources */,
+				10756F892C59449C0089D34F /* Folder+Sortable.swift in Sources */,
 				BD74F15427F293E400222785 /* HomeGridItem.swift in Sources */,
 				BD26AFD527BDFD18008CC973 /* Folder+Formatting.swift in Sources */,
 				C761300028E3BC090044C6C2 /* AnalyticsEpisodeHelper.swift in Sources */,
@@ -9923,6 +9934,7 @@
 				BDE48A222410D0AD00ECA6CA /* Settings.swift in Sources */,
 				C761300C28E4CAE90044C6C2 /* AnalyticsCoordinator.swift in Sources */,
 				BDEF20A62435AA780000ABB2 /* ColorManager.swift in Sources */,
+				10756F862C5944660089D34F /* Podcast+Sortable.swift in Sources */,
 				FF03F7C42C0E331E00369572 /* SourceInterfaceModel.swift in Sources */,
 				FF5B2A462BB189C7009F3DC2 /* PocketCastsApp.swift in Sources */,
 				4670303827D7B5CF00844CED /* PodcastEpisodeListViewModel.swift in Sources */,

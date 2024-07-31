@@ -131,9 +131,11 @@ class HomeGridDataHelper {
     }
 
     private class func titleSort(item1: HomeGridItem, item2: HomeGridItem) -> Bool {
-        guard let title1 = item1.podcast?.title ?? item1.folder?.name, let title2 = item2.podcast?.title ?? item2.folder?.name else { return false }
-
-        return PodcastSorter.titleSort(title1: title1, title2: title2)
+        guard let item1: Sortable = item1.podcast ?? item1.folder,
+              let item2: Sortable = item2.podcast ?? item2.folder else {
+            return false
+        }
+        return PodcastSorter.sortByNameAndUUID(item1: item1, item2: item2)
     }
 
     private class func customSort(item1: HomeGridItem, item2: HomeGridItem) -> Bool {
