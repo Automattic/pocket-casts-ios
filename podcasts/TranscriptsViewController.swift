@@ -386,6 +386,18 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     func searchButtonTapped() {
         becomeFirstResponder()
     }
+
+    func search(_ term: String) {
+
+    }
+
+    func previousMatch() {
+
+    }
+
+    func nextMatch() {
+
+    }
 }
 
 private class RoundButton: UIButton {

@@ -7,6 +7,15 @@ protocol TranscriptSearchAccessoryViewDelegate: AnyObject {
 
     // When "Search" is tapped on the keyboard
     func searchButtonTapped()
+
+    // Text to search for
+    func search(_ term: String)
+
+    // Previous match requested
+    func previousMatch()
+
+    // Next match requested
+    func nextMatch()
 }
 
 class TranscriptSearchAccessoryView: UIInputView {
@@ -43,13 +52,13 @@ class TranscriptSearchAccessoryView: UIInputView {
 
     private lazy var downButton: UIButton = createSymbolButton(
         imageName: "chevron.down",
-        action: #selector(done),
+        action: #selector(nextMatch),
         contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8)
     )
 
     private lazy var upButton: UIButton = createSymbolButton(
         imageName: "chevron.up",
-        action: #selector(done),
+        action: #selector(previousMatch),
         contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8)
     )
 
@@ -84,6 +93,14 @@ class TranscriptSearchAccessoryView: UIInputView {
     @objc private func done() {
         textField.resignFirstResponder()
         delegate?.doneTapped()
+    }
+
+    @objc private func previousMatch() {
+        delegate?.previousMatch()
+    }
+
+    @objc private func nextMatch() {
+        delegate?.nextMatch()
     }
 }
 
