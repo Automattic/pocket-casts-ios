@@ -1,11 +1,13 @@
-import Foundation
 import UIKit
+import PocketCastsUtils
 
 class TranscriptsViewController: PlayerItemViewController {
 
     let playbackManager: PlaybackManager
     var transcript: TranscriptModel?
     var previousRange: NSRange?
+
+    var canScrollToDismiss = true
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
@@ -26,6 +28,16 @@ class TranscriptsViewController: PlayerItemViewController {
         setupViews()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        parent?.view.overrideUserInterfaceStyle = .unspecified
+        dismissSearch()
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        true
+    }
+
     private func setupViews() {
         view.addSubview(transcriptView)
         NSLayoutConstraint.activate(
@@ -37,6 +49,9 @@ class TranscriptsViewController: PlayerItemViewController {
             ]
         )
 
+        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
+        transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
+
         view.addSubview(activityIndicatorView)
         NSLayoutConstraint.activate(
             [
@@ -44,10 +59,79 @@ class TranscriptsViewController: PlayerItemViewController {
                 activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ]
         )
+
+        view.addSubview(topGradient)
+        topGradient.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                topGradient.topAnchor.constraint(equalTo: view.topAnchor),
+                topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                topGradient.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
+            ]
+        )
+
+        view.addSubview(bottomGradient)
+        bottomGradient.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                bottomGradient.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                bottomGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                bottomGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                bottomGradient.heightAnchor.constraint(equalToConstant: Sizes.bottomGradientHeight)
+            ]
+        )
+
+        view.addSubview(hiddenTextView)
+
+        stackView.addArrangedSubview(closeButton)
+        stackView.addArrangedSubview(UIView())
+        stackView.addArrangedSubview(searchButton)
+
+        view.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+        ])
+
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            closeButton.heightAnchor.constraint(equalToConstant: 44),
+            closeButton.widthAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+
+    override var inputAccessoryView: UIView? {
+        searchView
+    }
+
+    lazy var searchView: TranscriptSearchAccessoryView = {
+        let view = TranscriptSearchAccessoryView()
+        view.delegate = self
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    @objc private func search() {
+        // Keep the inputAccessoryView dark
+        parent?.view.overrideUserInterfaceStyle = .dark
+
+        hiddenTextView.becomeFirstResponder()
+
+        // Move focus to the textView on the input accessory view
+        searchView.textField.becomeFirstResponder()
+    }
+
+    private func dismissSearch() {
+        searchView.textField.resignFirstResponder()
+
+        resignFirstResponder()
     }
 
     private lazy var transcriptView: UITextView = {
-        let textView =  UITextView()
+        let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false
@@ -63,10 +147,56 @@ class TranscriptsViewController: PlayerItemViewController {
         return activityIndicatorView
     }()
 
+    private lazy var closeButton: TintableImageButton! = {
+        let closeButton = TintableImageButton()
+        closeButton.setImage(UIImage(named: "close"), for: .normal)
+        closeButton.tintColor = ThemeColor.primaryIcon02()
+        closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
+        return closeButton
+    }()
+
+    private lazy var searchButton: RoundButton = {
+        var configuration = UIButton.Configuration.filled()
+        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+
+        let searchButton = RoundButton(type: .system)
+        searchButton.setTitle(L10n.search, for: .normal)
+        searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
+        searchButton.setTitleColor(.white, for: .normal)
+        searchButton.tintColor = .white.withAlphaComponent(0.2)
+        searchButton.layer.masksToBounds = true
+        searchButton.configuration = configuration
+        searchButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        searchButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        return searchButton
+    }()
+
+    private lazy var hiddenTextView: UITextField = {
+        let textView = UITextField()
+        textView.layer.opacity = 0
+        return textView
+    }()
+
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        return stackView
+    }()
+
+    private lazy var topGradient: GradientView = {
+        GradientView(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
+    }()
+
+    private lazy var bottomGradient: GradientView = {
+        GradientView(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
+    }()
+
     override func willBeAddedToPlayer() {
         updateColors()
         loadTranscript()
         addObservers()
+        (transcriptView as UIScrollView).delegate = self
     }
 
     override func willBeRemovedFromPlayer() {
@@ -83,6 +213,12 @@ class TranscriptsViewController: PlayerItemViewController {
         transcriptView.textColor = ThemeColor.playerContrast02()
         transcriptView.indicatorStyle = .white
         activityIndicatorView.color = ThemeColor.playerContrast01()
+        updateGradientColors()
+    }
+
+    private func updateGradientColors() {
+        topGradient.updateColors(firstColor: Colors.gradientColor, secondColor: Colors.gradientColor.withAlphaComponent(0))
+        bottomGradient.updateColors(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
     }
 
     @objc private func update() {
@@ -90,13 +226,17 @@ class TranscriptsViewController: PlayerItemViewController {
         loadTranscript()
     }
 
+    @objc private func closeTapped() {
+        containerDelegate?.dismissTranscript()
+    }
+
     private func loadTranscript() {
         activityIndicatorView.startAnimating()
         Task.detached { [weak self] in
-            guard let self else {
+            guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
                 return
             }
-            let transcriptManager = TranscriptManager(playbackManager: self.playbackManager)
+            let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 await show(transcript: transcript)
@@ -104,6 +244,19 @@ class TranscriptsViewController: PlayerItemViewController {
                 await show(error: error)
             }
         }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            refreshText()
+        }
+    }
+
+    private func refreshText() {
+        guard let transcript else {
+            return
+        }
+        transcriptView.attributedText = styleText(transcript: transcript)
     }
 
     private func show(transcript: TranscriptModel) {
@@ -121,8 +274,14 @@ class TranscriptsViewController: PlayerItemViewController {
         paragraphStyle.paragraphSpacing = 10
         paragraphStyle.lineBreakMode = .byWordWrapping
 
-        let standardFont = UIFont.systemFont(ofSize: 16)
-        let highlightFont = UIFont.systemFont(ofSize: 18)
+        var standardFont = UIFont.preferredFont(forTextStyle: .body)
+
+        if let descriptor = UIFontDescriptor.preferredFontDescriptor(
+          withTextStyle: .body)
+          .withDesign(.serif) {
+            standardFont =  UIFont(descriptor: descriptor, size: 0)
+        }
+
 
         let normalStyle: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
@@ -132,7 +291,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
         let highlightStyle: [NSAttributedString.Key: Any] = [
             .paragraphStyle: paragraphStyle,
-            .font: highlightFont,
+            .font: standardFont,
             .foregroundColor: ThemeColor.playerContrast01()
         ]
 
@@ -157,12 +316,12 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func addObservers() {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+        //We disabled the method bellow until we find a way to resync/shift transcript positions
+        //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
     }
 
     @objc private func updateTranscriptPosition() {
         let position = playbackManager.currentTime()
-        print("Transcript position: \(position)")
         guard let transcript else {
             return
         }
@@ -173,11 +332,55 @@ class TranscriptsViewController: PlayerItemViewController {
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             // adjusting the scroll to range so it shows more text
-            let scrollRange = NSRange(location: range.location, length: range.length * 5)
+            let scrollRange = NSRange(location: range.location, length: range.length * 2)
             transcriptView.scrollRangeToVisible(scrollRange)
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
             transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
+    }
+
+    private enum Sizes {
+        static let topGradientHeight: CGFloat = 60
+        static let bottomGradientHeight: CGFloat = 60
+    }
+
+    private enum Colors {
+        static var gradientColor: UIColor {
+            PlayerColorHelper.playerBackgroundColor01()
+        }
+    }
+}
+
+extension TranscriptsViewController: UIScrollViewDelegate {
+
+    // Only allow scroll to dismiss if scrolling bottom from the top
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if canScrollToDismiss {
+            scrollViewHandler?.scrollViewDidScroll?(scrollView)
+        }
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        canScrollToDismiss = scrollView.contentOffset.y == 0
+    }
+}
+
+extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
+    func doneTapped() {
+        dismissSearch()
+        searchView.removeFromSuperview()
+    }
+
+    func searchButtonTapped() {
+        becomeFirstResponder()
+    }
+}
+
+private class RoundButton: UIButton {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        layer.cornerRadius = bounds.height / 2
     }
 }

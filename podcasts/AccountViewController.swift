@@ -3,7 +3,7 @@ import PocketCastsUtils
 import UIKit
 
 class AccountViewController: UIViewController, ChangeEmailDelegate {
-    enum TableRow { case upgradeView, changeEmail, changePassword, upgradeAccount, newsletter, cancelSubscription, logout, deleteAccount, privacyPolicy, termsOfUse, supporterContributions }
+    enum TableRow { case upgradeView, changeAvatar, changeEmail, changePassword, upgradeAccount, newsletter, cancelSubscription, logout, deleteAccount, privacyPolicy, termsOfUse, supporterContributions }
     var tableData: [[TableRow]] = [[.changeEmail, .changePassword, .newsletter], [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
     static let newsletterCellId = "NewsletterCellId"
@@ -32,6 +32,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         let viewModel = AccountHeaderViewModel()
 
         viewModel.viewContentSizeChanged = { [weak self] in
+            self?.updatedHeaderContentView.frame = .init(x: 0, y: 0, width: self?.headerViewModel.contentSize?.width ?? 0, height: self?.headerViewModel.contentSize?.height ?? 0)
             self?.tableView.reloadData()
         }
 
@@ -106,7 +107,9 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         } else {
             accountOptions = [upgradeRow, .newsletter].compactMap { $0 }
         }
-
+        if FeatureFlag.gravatarChangeAvatar.enabled && headerViewModel.profile.isLoggedIn {
+            accountOptions.insert(.changeAvatar, safelyAt: 0)
+        }
         if SubscriptionHelper.hasActiveSubscription() {
             var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 

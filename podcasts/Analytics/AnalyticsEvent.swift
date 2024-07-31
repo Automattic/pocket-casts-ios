@@ -117,6 +117,7 @@ enum AnalyticsEvent: String {
     case accountDetailsCancelTapped
     case accountDetailsShowTOS
     case accountDetailsShowPrivacyPolicy
+    case accountDetailsChangeAvatar
 
     // MARK: - Stats View
 

@@ -5,6 +5,7 @@ enum TranscriptFormat: String {
     case srt = "application/srt"
     case vtt = "text/vtt"
     case textHTML = "text/html"
+    case jsonPodcastIndex = "application/json"
 
     var fileExtension: String {
         switch self {
@@ -14,11 +15,13 @@ enum TranscriptFormat: String {
             return "vtt"
         case .textHTML:
             return "html"
+        case .jsonPodcastIndex:
+            return "json"
         }
     }
 
     // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.srt, .vtt]
+    static let supportedFormats: [TranscriptFormat] = [.jsonPodcastIndex, .vtt, .srt]
 }
 
 struct TranscriptCue: Sendable {
@@ -42,7 +45,8 @@ struct TranscriptModel: Sendable {
 
     static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
         if format == .textHTML {
-            return TranscriptModel(attributedText: NSAttributedString(string: transcriptText), cues: [])
+            let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [])
         }
         guard let subtitles = try? Subtitles(content: transcriptText, expectedExtension: format.fileExtension) else {
             return nil
@@ -52,7 +56,10 @@ struct TranscriptModel: Sendable {
         var cues = [TranscriptCue]()
         for cue in subtitles.cues {
             let text = cue.text
-            let attributedText = NSAttributedString(string: text + "\n")
+
+            let filteredText: String = ComposeFilter.transcriptFilter.filter(text)
+
+            let attributedText = NSAttributedString(string: filteredText)
             let startPosition = resultText.length
             let endPosition = attributedText.length
             let range = NSRange(location: startPosition, length: endPosition)
@@ -66,5 +73,9 @@ struct TranscriptModel: Sendable {
 
     @inlinable public func firstCue(containing secondsValue: Double) -> TranscriptCue? {
         self.cues.first { $0.contains(timeInSeconds: secondsValue) }
+    }
+
+    var isEmtpy: Bool {
+        return attributedText.string.trim().isEmpty
     }
 }

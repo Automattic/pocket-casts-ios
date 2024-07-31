@@ -25,9 +25,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet var headerHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet var topSpaceToHeader: NSLayoutConstraint!
-
-    @IBOutlet var topSpaceToSafeArea: NSLayoutConstraint!
+    @IBOutlet weak var transcriptContainerView: UIView!
 
     lazy var nowPlayingItem: NowPlayingPlayerItemViewController = {
         let item = NowPlayingPlayerItemViewController()
@@ -71,6 +69,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         let item = TranscriptsViewController(playbackManager: playbackManager)
 
         item.view.translatesAutoresizingMaskIntoConstraints = false
+        item.scrollViewHandler = self
         item.containerDelegate = self
         return item
     }()
@@ -88,7 +87,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     var showingChapters = false
     var showingNotes = false
     var showingBookmarks = false
-    var showingTranscripts = false
 
     var finalScrollViewConstraint: NSLayoutConstraint?
 
@@ -107,6 +105,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         update()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        // To avoid weird animations when apearing, we add the transcript view here
+        configureTranscriptView()
     }
 
 
@@ -178,6 +179,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
     }
 
+    func dismissTranscript() {
+        nowPlayingItem.displayTranscript = false
+    }
+
     // MARK: - PlayerTabDelegate
 
     func didSwitchToTab(index: Int) {
@@ -189,7 +194,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.episodeTranscriptAvailabilityChanged, selector: #selector(update))
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(themeDidChange))
     }
 
@@ -274,11 +278,33 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     // MARK: - Hide/Show tabs
 
-    func updateTabsAndScrollView(isEnabled: Bool) {
+    func scrollView(isEnabled: Bool) {
         mainScrollView.isScrollEnabled = isEnabled
-        topSpaceToHeader.isActive = isEnabled
-        topSpaceToSafeArea.isActive = !isEnabled
         view.layoutIfNeeded()
+    }
+
+    // MARK: - Transcripts
+
+    func showTranscript() {
+        addChild(transcriptsItem)
+        transcriptContainerView.addSubview(transcriptsItem.view)
+        transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
+        transcriptsItem.didMove(toParent: self)
+        transcriptsItem.willBeAddedToPlayer()
+        transcriptsItem.themeDidChange()
+    }
+
+    func hideTranscript() {
+        transcriptsItem.removeFromParent()
+        transcriptsItem.view.removeFromSuperview()
+    }
+
+    private func configureTranscriptView() {
+        transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor).isActive = true
+        transcriptContainerView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+
+        transcriptContainerView.addSubview(transcriptsItem.view)
+        transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
     }
 }
 

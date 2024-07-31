@@ -1,6 +1,7 @@
 7.70
 -----
-
+- A new button is added under Account Settings: "Change Avatar". It opens the in-app Safari with Gravatar's Avatar Quick Editor. [#1770](https://github.com/Automattic/pocket-casts-ios/pull/1770)
+- Adds the ability to rate podcasts [#1879](https://github.com/Automattic/pocket-casts-ios/issues/1879)
 
 7.69
 -----
@@ -13,6 +14,7 @@
 -----
 - New designs for Widgets. [#1343](https://github.com/Automattic/pocket-casts-ios/pull/1343)
 - Search: fix an issue with scroll when tapping an episode [#1874](https://github.com/Automattic/pocket-casts-ios/pull/1874)
+- Fixes video playback on mp4 files [#1918](https://github.com/Automattic/pocket-casts-ios/pull/1918)
 
 7.67
 -----

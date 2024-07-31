@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -35,7 +34,6 @@
                 <outlet property="timeRemaining" destination="1nY-hc-503" id="kQs-v5-qfg"/>
                 <outlet property="timeSlider" destination="v3N-m7-an0" id="Isd-Kl-TGM"/>
                 <outlet property="timeSliderHolderView" destination="T2E-0H-hwM" id="AP1-uU-3Id"/>
-                <outlet property="transcriptContainerView" destination="Nvx-nQ-jae" id="nEQ-nr-hb7"/>
                 <outlet property="view" destination="Dsl-xJ-ho3" id="gSW-Zh-fo1"/>
             </connections>
         </placeholder>
@@ -380,10 +378,6 @@
                         <constraint firstAttribute="width" secondItem="auM-3f-elA" secondAttribute="height" multiplier="1:1" id="r9y-4s-XLM"/>
                     </constraints>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nvx-nQ-jae">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="467"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" label="Full Size Player">
@@ -394,13 +388,9 @@
                 <constraint firstItem="sam-0S-73x" firstAttribute="trailing" secondItem="dXr-Zd-0wP" secondAttribute="trailing" constant="-10" id="2fE-dE-Tel"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerX" secondItem="dXr-Zd-0wP" secondAttribute="centerX" id="3QC-yl-rk2"/>
                 <constraint firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
-                <constraint firstItem="Nvx-nQ-jae" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" id="8pY-ln-4Ky"/>
-                <constraint firstItem="UmO-Rc-jIG" firstAttribute="top" secondItem="Nvx-nQ-jae" secondAttribute="bottom" id="OWX-bb-BTi"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerY" secondItem="dXr-Zd-0wP" secondAttribute="centerY" id="P1f-xu-Ze5"/>
-                <constraint firstItem="Nvx-nQ-jae" firstAttribute="width" secondItem="Dsl-xJ-ho3" secondAttribute="width" id="PrN-n2-F73"/>
                 <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="WxQ-7h-0WZ" secondAttribute="top" constant="10" id="fgs-F6-NzZ"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" constant="8" id="hS4-XE-bck"/>
-                <constraint firstItem="Nvx-nQ-jae" firstAttribute="centerX" secondItem="Dsl-xJ-ho3" secondAttribute="centerX" id="kbl-l4-hvD"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>
                 <constraint firstAttribute="bottom" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
@@ -414,8 +404,5 @@
         <image name="chapter-link-white" width="24" height="24"/>
         <image name="chapter-skipbackwards" width="30" height="30"/>
         <image name="chapter-skipforward" width="30" height="30"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

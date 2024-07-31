@@ -39,12 +39,13 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    private enum TableRow { case kidsProfile, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
             profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
+            profileTable.register(KidsProfileBannerTableCell.self, forCellReuseIdentifier: KidsProfileBannerTableCell.identifier)
         }
     }
 
@@ -240,11 +241,31 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
         }
 
+        if FeatureFlag.kidsProfile.enabled, row == .kidsProfile {
+            let cell = tableView.dequeueReusableCell(withIdentifier: KidsProfileBannerTableCell.identifier, for: indexPath) as! KidsProfileBannerTableCell
+            cell.onCloseButtonTap = { [weak self] cell in
+                if let cell, let indexPath = tableView.indexPath(for: cell) {
+                    self?.tableData[indexPath.section].remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
+            cell.onRequestEarlyAccessTap = { [weak self] _ in
+                let viewModel = KidsProfileSheetViewModel()
+                let hostViewController = KidsProfileSheetHost(viewModel: viewModel)
+                self?.present(hostViewController, animated: true)
+            }
+            return cell
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId, for: indexPath) as! TopLevelSettingsCell
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
+        cell.separatorInset = .zero
+
         switch row {
+        case .kidsProfile:
+            return KidsProfileBannerTableCell()
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -273,8 +294,19 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return cell
     }
 
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        let row = tableData[indexPath.section][indexPath.row]
+        if FeatureFlag.kidsProfile.enabled, row == .kidsProfile {
+            return false
+        }
+        return true
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if EndOfYear.isEligible && indexPath.row == 0 {
+        let row = tableData[indexPath.section][indexPath.row]
+
+        if EndOfYear.isEligible && row == .endOfYearPrompt ||
+            FeatureFlag.kidsProfile.enabled && row == .kidsProfile {
             return UITableView.automaticDimension
         } else {
             return 70
@@ -286,6 +318,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         let row = tableData[indexPath.section][indexPath.row]
         switch row {
+        case .kidsProfile:
+            break
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -333,6 +367,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         if EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
+        }
+
+        if FeatureFlag.kidsProfile.enabled {
+            data[0].insert(.kidsProfile, at: 0)
         }
 
         tableData = data
