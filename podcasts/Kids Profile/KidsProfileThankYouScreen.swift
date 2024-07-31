@@ -8,13 +8,13 @@ struct KidsProfileThankYouScreen: View {
         VStack {
             Image("kids-profile-view-face")
                 .padding(.top, Constants.imageTopPadding)
-                .padding(.bottom, Constants.smallBottomPadding)
+                .padding(.bottom, Constants.vPadding)
 
             Text(L10n.kidsProfileThankyouTitle)
                 .font(size: Constants.titleSize, style: .body, weight: .semibold)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(theme.primaryText01)
-                .padding(.bottom, Constants.smallBottomPadding)
+                .padding(.bottom, Constants.vPadding)
 
             Text(L10n.kidsProfileThankyouText)
                 .font(size: Constants.textSize, style: .body, weight: .medium)
@@ -52,11 +52,9 @@ struct KidsProfileThankYouScreen: View {
         static let buttonHeight = 56.0
 
         static let hPadding = 20.0
-        static let vPadding = 8.0
+        static let vPadding = 12.0
 
-        static let imageTopPadding = 12.0
-
-        static let smallBottomPadding = 4.0
+        static let imageTopPadding = 55.0
 
         static let titleSize = 18.0
         static let textSize = 14.0
