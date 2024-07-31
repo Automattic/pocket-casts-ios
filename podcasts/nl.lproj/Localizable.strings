@@ -377,6 +377,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Weet je zeker dat je je wachtrij Hierna wilt wissen?</string>
     <key>client_error_token_deauth</key>
     <string>Token-authenticatie mislukt.</string>
+    <key>clip</key>
+    <string>Clip</string>
     <key>close</key>
     <string>Sluiten</string>
     <key>color</key>
@@ -405,6 +407,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Gratis</string>
     <key>create_account_plus_details</key>
     <string>Alles ontgrendeld</string>
+    <key>create_clip</key>
+    <string>Clip maken</string>
     <key>create_filter</key>
     <string>Filter aanmaken</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Alle downloads stoppen</string>
     <key>edit</key>
     <string>Bewerken</string>
+    <key>edit_clip</key>
+    <string>Clip bewerken</string>
     <key>enable_it_now</key>
     <string>Nu inschakelen</string>
     <key>eoy_card_description</key>
@@ -1851,8 +1857,14 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Alleen luisteraars van deze podcast kunnen hem beoordelen. Luister een paar afleveringen en kom dan terug om je beoordeling te geven. We kijken ernaar uit om te horen wat je vindt!</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Luister alsjeblieft eerst naar deze podcast</string>
+    <key>rating_login_required</key>
+    <string>Je moet inloggen om een beoordeling achter te laten</string>
+    <key>rating_no_ratings</key>
+    <string>Geen beoordelingen</string>
     <key>rating_submitted</key>
     <string>Je beoordeling is ingediend!</string>
+    <key>rating_thank_you</key>
+    <string>Bedankt voor het beoordelen!</string>
     <key>rating_title</key>
     <string>Beoordeel %1$@</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,6 +2379,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Indien ingeschakeld, wordt de slaaptimer opnieuw opgestart als je met je telefoon schudt.</string>
     <key>share</key>
     <string>Delen</string>
+    <key>share_clip</key>
+    <string>Clip delen</string>
     <key>share_copied_to_clipboard</key>
     <string>Link naar klembord gekopieerd</string>
     <key>share_copy_link</key>
