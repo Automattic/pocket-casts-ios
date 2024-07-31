@@ -59,6 +59,9 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
 
     public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool = false
     ) async throws -> [Episode.Metadata.Transcript] {
+#if os(watchOS)
+        return []
+#else
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
         guard let transcripts = metadata?.transcripts else {
@@ -69,6 +72,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             let _ = try? await transcriptDataRetriever.loadBestTranscript(from: transcripts)
         }
         return transcripts
+#endif
     }
 
     @discardableResult
