@@ -377,6 +377,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>你確定要清除「接下來播放」佇列嗎？</string>
     <key>client_error_token_deauth</key>
     <string>代碼驗證失敗。</string>
+    <key>clip</key>
+    <string>短片</string>
     <key>close</key>
     <string>關閉</string>
     <key>color</key>
@@ -405,6 +407,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>免費</string>
     <key>create_account_plus_details</key>
     <string>解鎖全部功能</string>
+    <key>create_clip</key>
+    <string>建立短片</string>
     <key>create_filter</key>
     <string>建立篩選器</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>停止所有下載項目</string>
     <key>edit</key>
     <string>編輯</string>
+    <key>edit_clip</key>
+    <string>編輯短片</string>
     <key>enable_it_now</key>
     <string>立即啟用</string>
     <key>eoy_card_description</key>
@@ -1851,8 +1857,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>僅有此 Podcast 的聽眾才能給予評分。 先聆聽一些單集，再回來給予評分。 希望聽到你的看法！</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>請先聆聽此 Podcast</string>
+    <key>rating_login_required</key>
+    <string>評分前請先登入</string>
+    <key>rating_no_ratings</key>
+    <string>無評分</string>
     <key>rating_submitted</key>
     <string>評分已提交！</string>
+    <key>rating_thank_you</key>
+    <string>謝謝你的評分！</string>
     <key>rating_title</key>
     <string>對「%1$@」評分</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,6 +2379,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在睡眠計時器開啟的狀態下，搖動手機會重新啟動計時器。</string>
     <key>share</key>
     <string>分享</string>
+    <key>share_clip</key>
+    <string>分享短片</string>
     <key>share_copied_to_clipboard</key>
     <string>連結已複製到剪貼簿</string>
     <key>share_copy_link</key>
