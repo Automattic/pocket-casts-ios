@@ -7,6 +7,8 @@
 -----
 - Fix an issue for show notes not loading. [#1928](https://github.com/Automattic/pocket-casts-ios/pull/1928)
 - Fix scrolling drift on Podcasts list grid view. [#1930](https://github.com/Automattic/pocket-casts-ios/issues/1930)
+- Fix UpNext on the tab bar multi-select action bar diplay. [#1913](https://github.com/Automattic/pocket-casts-ios/issues/1913)
+- Fix a crash caused by the Categories redesign. [#1720](https://github.com/Automattic/pocket-casts-ios/pull/1720) | [#1756](https://github.com/Automattic/pocket-casts-ios/pull/1756)
 
 7.68
 -----
