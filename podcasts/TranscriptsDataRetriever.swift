@@ -49,7 +49,7 @@ actor TranscriptsDataRetriever {
 
         let task = Task<Data, Error> {
             do {
-                var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+                var request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData)
                 if let previousResponse {
                     request.setEtagAndLastModifiedHeaders(cachedResponse: previousResponse)
                 }
