@@ -212,18 +212,21 @@ struct RoundedDarkButton: ButtonStyle {
 
 /// A button that contains a stroke
 struct StrokeButton: ButtonStyle {
-    @ObservedObject var theme: Theme
+    let textColor: Color
+    let backgroundColor: Color
+    let strokeColor: Color
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 18, weight: .semibold))
-            .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
+            .applyButtonFont()
+            .foregroundColor(textColor)
             .frame(maxWidth: .infinity)
             .padding()
+            .background(backgroundColor)
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .overlay(
                 RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
-                    .stroke(ThemeColor.primaryText01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
+                    .stroke(strokeColor, lineWidth: ViewConstants.buttonStrokeWidth)
             )
             .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
