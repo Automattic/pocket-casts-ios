@@ -1,28 +1,6 @@
 import Foundation
 import SwiftSubtitles
-
-enum TranscriptFormat: String {
-    case srt = "application/srt"
-    case vtt = "text/vtt"
-    case textHTML = "text/html"
-    case jsonPodcastIndex = "application/json"
-
-    var fileExtension: String {
-        switch self {
-        case .srt:
-            return "srt"
-        case .vtt:
-            return "vtt"
-        case .textHTML:
-            return "html"
-        case .jsonPodcastIndex:
-            return "json"
-        }
-    }
-
-    // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.jsonPodcastIndex, .vtt, .srt]
-}
+import PocketCastsDataModel
 
 struct TranscriptCue: Sendable {
     let startTime: Double
