@@ -120,7 +120,7 @@ class TranscriptsViewController: PlayerItemViewController {
         return view
     }()
 
-    @objc private func search() {
+    @objc private func displaySearch() {
         isSearching = true
 
         // Keep the inputAccessoryView dark
@@ -172,7 +172,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
         let searchButton = RoundButton(type: .system)
         searchButton.setTitle(L10n.search, for: .normal)
-        searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(displaySearch), for: .touchUpInside)
         searchButton.setTitleColor(.white, for: .normal)
         searchButton.tintColor = .white.withAlphaComponent(0.2)
         searchButton.layer.masksToBounds = true
