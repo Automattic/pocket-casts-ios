@@ -113,10 +113,19 @@ private extension TracksAdapter {
     func updateAuthenticationState() {
         guard let userId = ServerSettings.userId else {
             tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
+            reloadABTest()
             return
         }
 
         tracksService.switchToAuthenticatedUser(withUsername: nil, userID: userId, skipAliasEventCreation: false)
+
+        reloadABTest()
+    }
+
+    func reloadABTest() {
+        Task { @MainActor in
+            await ABTestProvider.shared.start()
+        }
     }
 }
 

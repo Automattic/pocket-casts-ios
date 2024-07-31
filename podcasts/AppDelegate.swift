@@ -109,6 +109,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupSignOutListener()
 
+        Task { @MainActor in
+            await ABTestProvider.shared.start()
+        }
+
         return true
     }
 
