@@ -107,6 +107,11 @@ class TranscriptSearchAccessoryView: UIInputView {
     @objc private func editingChanged() {
         delegate?.search(textField.text ?? "")
     }
+
+    func updateLabel(_ text: String) {
+        textField.rightLabel.text = text
+        textField.rightLabel.sizeToFit()
+    }
 }
 
 extension TranscriptSearchAccessoryView: UITextFieldDelegate {
@@ -126,7 +131,6 @@ private extension TranscriptSearchAccessoryView {
         textField.clearButtonMode = .whileEditing
         textField.layer.cornerRadius = 8
         textField.backgroundColor = .systemGray3
-        textField.rightLabel.text = "1/10"
         textField.rightLabel.textColor = .secondaryLabel
         textField.delegate = self
         textField.font = UIFont.preferredFont(forTextStyle: .body)

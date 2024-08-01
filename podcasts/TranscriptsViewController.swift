@@ -268,6 +268,7 @@ class TranscriptsViewController: PlayerItemViewController {
         currentSearchIndex = 0
         searchView.textField.text = ""
         searchTerm = nil
+        updateNumberOfResults()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -387,6 +388,7 @@ class TranscriptsViewController: PlayerItemViewController {
     func performSearch(_ term: String) {
         Task {
             findOccurrences(of: term)
+            updateNumberOfResults()
             highlightSearchMatches()
         }
     }
@@ -408,6 +410,16 @@ class TranscriptsViewController: PlayerItemViewController {
         guard let transcript else { return }
 
         transcriptView.attributedText = styleText(transcript: transcript)
+    }
+
+    @MainActor
+    func updateNumberOfResults() {
+        guard searchIndicesResult.count > 0 else {
+            searchView.updateLabel("")
+            return
+        }
+
+        searchView.updateLabel("\(currentSearchIndex + 1) of \(searchIndicesResult.count)")
     }
 
     // MARK: - Constants
@@ -449,6 +461,11 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     func search(_ term: String) {
+        guard !term.isEmpty else {
+            resetSearch()
+            return
+        }
+
         debounce.call { [weak self] in
             self?.performSearch(term)
         }
