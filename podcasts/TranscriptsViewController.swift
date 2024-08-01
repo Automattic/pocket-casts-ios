@@ -11,6 +11,8 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private var isSearching = false
 
+    private var searchIndicesResult: [Int] = []
+
     private let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
     init(playbackManager: PlaybackManager) {
@@ -236,6 +238,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
     @objc private func update() {
         updateColors()
+        resetSearch()
         loadTranscript()
     }
 
@@ -257,6 +260,11 @@ class TranscriptsViewController: PlayerItemViewController {
                 await show(error: error)
             }
         }
+    }
+
+    private func resetSearch() {
+        searchIndicesResult = []
+        searchView.textField.text = ""
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -390,9 +398,20 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     func search(_ term: String) {
-        debounce.call {
-            // search
+        debounce.call { [weak self] in
+            self?.findOccurrences(of: term)
         }
+    }
+
+    func findOccurrences(of term: String) {
+        guard let transcriptText = transcript?.attributedText.string,
+              !term.isEmpty else {
+            searchIndicesResult = []
+            return
+        }
+
+        let kmpSearch = KMPSearch(pattern: term)
+        searchIndicesResult = kmpSearch.search(in: transcriptText)
     }
 
     func previousMatch() {
