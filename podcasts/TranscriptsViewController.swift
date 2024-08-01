@@ -269,6 +269,7 @@ class TranscriptsViewController: PlayerItemViewController {
         searchView.textField.text = ""
         searchTerm = nil
         updateNumberOfResults()
+        refreshText()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -277,6 +278,7 @@ class TranscriptsViewController: PlayerItemViewController {
         }
     }
 
+    @MainActor
     private func refreshText() {
         guard let transcript else {
             return
@@ -342,8 +344,6 @@ class TranscriptsViewController: PlayerItemViewController {
             }
         }
 
-
-
         return formattedText
     }
 
@@ -389,7 +389,7 @@ class TranscriptsViewController: PlayerItemViewController {
         Task {
             findOccurrences(of: term)
             updateNumberOfResults()
-            highlightSearchMatches()
+            refreshText()
         }
     }
 
@@ -403,13 +403,6 @@ class TranscriptsViewController: PlayerItemViewController {
         let kmpSearch = KMPSearch(pattern: term)
         searchIndicesResult = kmpSearch.search(in: transcriptText)
         searchTerm = term
-    }
-
-    @MainActor
-    func highlightSearchMatches() {
-        guard let transcript else { return }
-
-        transcriptView.attributedText = styleText(transcript: transcript)
     }
 
     @MainActor
@@ -453,6 +446,7 @@ extension TranscriptsViewController: UIScrollViewDelegate {
 extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     func doneTapped() {
         dismissSearch()
+        resetSearch()
         searchView.removeFromSuperview()
     }
 
