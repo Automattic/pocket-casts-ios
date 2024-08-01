@@ -30,11 +30,8 @@ struct NowPlayingWidgetEntryView: View {
             nothingPlaying
         } else {
             ZStack {
-                Rectangle()
-                    .fill(PCWidgetColorScheme.bold.topBackgroundColor)
                 Image(CommonWidgetHelper.loadAppIconName())
                     .resizable()
-                    .aspectRatio(1, contentMode: .fit)
             }
             .widgetURL(URL(string: "pktc://last_opened"))
             .clearBackground()
