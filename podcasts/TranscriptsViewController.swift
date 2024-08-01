@@ -334,8 +334,8 @@ class TranscriptsViewController: PlayerItemViewController {
             searchIndicesResult.enumerated().forEach { index, indice in
                 if indice + searchTermLength <= length {
                     let highlightStyle: [NSAttributedString.Key: Any] = [
-                        .backgroundColor: UIColor.white.withAlphaComponent(index == 0 ? 1 : 0.4),
-                        .foregroundColor: index == 0 ? UIColor.black : ThemeColor.playerContrast01()
+                        .backgroundColor: UIColor.white.withAlphaComponent(index == currentSearchIndex ? 1 : 0.4),
+                        .foregroundColor: index == currentSearchIndex ? UIColor.black : ThemeColor.playerContrast01()
                     ]
 
                     formattedText.addAttributes(highlightStyle, range: NSRange(location: indice, length: searchTermLength))
@@ -412,7 +412,7 @@ class TranscriptsViewController: PlayerItemViewController {
             return
         }
 
-        searchView.updateLabel("\(currentSearchIndex + 1) of \(searchIndicesResult.count)")
+        searchView.updateLabel(L10n.searchResults(currentSearchIndex + 1, searchIndicesResult.count))
     }
 
     // MARK: - Constants
@@ -466,11 +466,17 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     func previousMatch() {
-
+        currentSearchIndex = currentSearchIndex - 1 < 0 ? searchIndicesResult.count - 1 : currentSearchIndex - 1
+        updateNumberOfResults()
+        refreshText()
+        transcriptView.scrollRangeToVisible(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
     }
 
     func nextMatch() {
-
+        currentSearchIndex = currentSearchIndex + 1 > searchIndicesResult.count - 1 ? 0 : currentSearchIndex + 1
+        updateNumberOfResults()
+        refreshText()
+        transcriptView.scrollRangeToVisible(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
     }
 }
 
