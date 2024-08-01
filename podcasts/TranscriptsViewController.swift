@@ -39,6 +39,7 @@ class TranscriptsViewController: PlayerItemViewController {
         super.viewWillDisappear(animated)
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
+        resetSearch()
     }
 
     override var canBecomeFirstResponder: Bool {
