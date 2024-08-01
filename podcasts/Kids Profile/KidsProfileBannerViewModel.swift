@@ -5,7 +5,7 @@ class KidsProfileBannerViewModel {
     var onRequestEarlyAccessTap: (() -> Void)? = nil
 
     func closeButtonTap() {
-        UserDefaults.standard.setValue(true, forKey: Constants.UserDefaults.kidsProfile.shouldHideBanner)
+        Settings.shouldHideBanner = true
         onCloseButtonTap?()
     }
 
