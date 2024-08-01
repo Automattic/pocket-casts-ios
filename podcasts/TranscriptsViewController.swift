@@ -38,8 +38,7 @@ class TranscriptsViewController: PlayerItemViewController {
                 transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
         )
-
-        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: 32, bottom: 0.7 * Sizes.bottomGradientHeight, right: 32)
+        updateTextMargins()
         transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
 
         view.addSubview(activityIndicatorView)
@@ -166,7 +165,18 @@ class TranscriptsViewController: PlayerItemViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             refreshText()
+            updateTextMargins()
         }
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateTextMargins()
+    }
+
+    private func updateTextMargins() {
+        let margin = self.view.readableContentGuide.layoutFrame.minX + 8
+        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: margin, bottom: 0.7 * Sizes.bottomGradientHeight, right: margin)
     }
 
     private func refreshText() {
