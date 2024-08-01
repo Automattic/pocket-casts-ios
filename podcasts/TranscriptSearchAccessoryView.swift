@@ -104,7 +104,7 @@ class TranscriptSearchAccessoryView: UIInputView {
         delegate?.nextMatch()
     }
 
-    @objc func editingChanged() {
+    @objc private func editingChanged() {
         delegate?.search(textField.text ?? "")
     }
 }
