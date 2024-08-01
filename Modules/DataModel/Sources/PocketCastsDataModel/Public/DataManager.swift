@@ -417,8 +417,16 @@ public class DataManager {
         return episodeManager.findBy(uuid: uuid, dbQueue: dbQueue)
     }
 
+    public func findEpisodeCount(podcastId: Int64) -> Int {
+        count(query: "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id == ?", values: [podcastId])
+    }
+
     public func findPlayedEpisodes(uuids: [String]) -> [String] {
         episodeManager.findPlayedEpisodes(uuids: uuids, dbQueue: dbQueue)
+    }
+
+    public func findPlayedEpisodesCount(podcastId: Int64) async -> Int {
+        await episodeManager.findPlayedEpisodesCount(podcastId: podcastId, dbQueue: dbQueue)
     }
 
     public func markAllEpisodePlaybackHistorySynced() {
@@ -965,7 +973,9 @@ public class DataManager {
                     count = resultSet.long(forColumnIndex: 0)
                 }
                 resultSet.close()
-            } catch {}
+            } catch {
+                FileLog.shared.addMessage("DataManager.count error: \(error)")
+            }
         }
 
         return count

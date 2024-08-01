@@ -148,6 +148,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playPauseHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var fillView: UIView!
+
+    @IBOutlet weak var bottomControlsStackView: UIStackView!
+
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
@@ -193,19 +197,36 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         .player
     }
 
+    var displayTranscript = false {
+        didSet {
+            toggleTranscript()
+        }
+    }
+
+    private var playerContainer: PlayerContainerViewController? {
+        parent as? PlayerContainerViewController
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        // there's some expensive operations below, so only do them if the bounds has actually changed
+        // there's some expensive operations in resizeControls,
+        // so only do them if the bounds has actually changed
         if lastBoundsAdjustedFor == view.bounds { return }
         lastBoundsAdjustedFor = view.bounds
 
+        resizeControls()
+    }
+
+    private func resizeControls() {
         let screenHeight = view.bounds.height
         let spacing: CGFloat = screenHeight > 600 ? 30 : 20
         if playerControlsStackView.spacing != spacing { playerControlsStackView.spacing = spacing }
 
-        let height: CGFloat = screenHeight > 710 ? 100 : 80
+        let height: CGFloat = displayTranscript ? 40 : screenHeight > 710 ? 100 : 80
         if playPauseHeightConstraint.constant != height { playPauseHeightConstraint.constant = height }
+
+        view.layoutIfNeeded()
     }
 
     override func willBeAddedToPlayer() {
@@ -329,5 +350,66 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         navController.modalPresentationStyle = .fullScreen
 
         present(navController, animated: true, completion: nil)
+    }
+
+    private func toggleTranscript() {
+        let isShowing = displayTranscript
+
+        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        playPauseBtn.prepareForAnimateTransition()
+
+        playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1
+
+        episodeImage.layer.opacity = 1
+
+        if isShowing {
+            playerContainer?.showTranscript()
+        }
+
+        UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 1, animations: { [weak self] in
+            guard let self else { return }
+
+            // Hide/show shelf
+            shelfBg.isHidden = isShowing
+            shelfBg.layer.opacity = isShowing ? 0 : 1
+
+            // Show/hide transcript container view
+            playerContainer?.transcriptContainerView.isHidden = false
+            playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 1 : 0
+
+            // Change the stack view that contains the player button
+            bottomControlsStackView.distribution = isShowing ? .fill : .equalSpacing
+            bottomControlsStackView.spacing = isShowing ? 10 : 30
+
+            // Display/hide the view that will fill the empty space
+            fillView.isHidden = !isShowing
+
+            // Change skip back and forward size
+            let skipButtonSize: SkipButton.Size = isShowing ? .small : .large
+            skipBackBtn.changeSize(to: skipButtonSize)
+            skipFwdBtn.changeSize(to: skipButtonSize)
+            skipBackBtn.layoutIfNeeded()
+            skipFwdBtn.layoutIfNeeded()
+
+            // Ask parent VC to hide/show tabs
+            playerContainer?.scrollView(isEnabled: !isShowing)
+
+            resizeControls()
+        }, completion: { [weak self] _ in
+            guard let self else { return }
+
+            playerContainer?.transcriptContainerView.isHidden = isShowing ? false : true
+
+            if !isShowing {
+                playerContainer?.hideTranscript()
+            } else {
+                episodeImage.layer.opacity = 0
+            }
+
+            playPauseBtn.finishedTransition()
+            skipBackBtn.finishedTransition()
+            skipFwdBtn.finishedTransition()
+        })
     }
 }

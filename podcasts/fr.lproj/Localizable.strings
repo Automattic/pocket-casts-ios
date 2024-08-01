@@ -377,6 +377,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Êtes-vous sûr de vouloir supprimer votre file d’attente ?</string>
     <key>client_error_token_deauth</key>
     <string>Échec du jeton d’authentification.</string>
+    <key>clip</key>
+    <string>Clip</string>
     <key>close</key>
     <string>Fermer</string>
     <key>color</key>
@@ -405,6 +407,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Gratuit</string>
     <key>create_account_plus_details</key>
     <string>Tout est déverrouillé</string>
+    <key>create_clip</key>
+    <string>Créer un clip</string>
     <key>create_filter</key>
     <string>Créer un filtre</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Arrêter tous les téléchargements</string>
     <key>edit</key>
     <string>Modifier</string>
+    <key>edit_clip</key>
+    <string>Modifier le clip</string>
     <key>enable_it_now</key>
     <string>Activez-la maintenant</string>
     <key>eoy_card_description</key>
@@ -1851,8 +1857,14 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Seuls les auditeurs de ce podcast peuvent l’évaluer. Écoutez quelques épisodes et revenez l’évaluer. Nous sommes impatients de connaître votre avis !</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Veuillez écouter ce podcast avant</string>
+    <key>rating_login_required</key>
+    <string>Vous devez vous connecter pour laisser une évaluation</string>
+    <key>rating_no_ratings</key>
+    <string>Aucune évaluation</string>
     <key>rating_submitted</key>
     <string>Votre évaluation a été envoyée !</string>
+    <key>rating_thank_you</key>
+    <string>Merci pour cette évaluation !</string>
     <key>rating_title</key>
     <string>Évaluer %1$@</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,11 +2379,29 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Si cette fonction est activée, la mise en veille redémarrera si vous secouez votre téléphone.</string>
     <key>share</key>
     <string>Partager</string>
+    <key>share_clip</key>
+    <string>Partager le clip</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Lien copié dans le presse-papiers</string>
+    <key>share_copy_link</key>
+    <string>Copier le lien</string>
     <key>share_current_position</key>
     <string>Position actuelle</string>
+    <key>share_description</key>
+    <string>Choisir un format et une plateforme pour le partage</string>
+    <key>share_episode</key>
+    <string>Partager l’épisode</string>
+    <key>share_episode_at</key>
+    <string>Partager l’épisode à partir de %1$@</string>
+    <key>share_episode_title</key>
+    <string>Partager l’épisode</string>
     <key>share_list_subscribing</key>
     <string>Abonnement...</string>
+    <key>share_more_actions</key>
+    <string>Plus</string>
     <key>share_podcast</key>
+    <string>Partager le podcast</string>
+    <key>share_podcast_title</key>
     <string>Partager le podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>TOUS SÉLECTIONNÉS</string>
@@ -2635,6 +2665,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Aujourd'hui</string>
     <key>top</key>
     <string>Haut</string>
+    <key>transcript</key>
+    <string>Transcription</string>
     <key>trial_finished</key>
     <string>Essai terminé</string>
     <key>trim_silence</key>
@@ -2709,6 +2741,8 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
 Impossible de se tromper. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Aucune lecture en cours</string>
+    <key>watch_play_source</key>
+    <string>Lire Source</string>
     <key>watch_source_msg</key>
     <string>Les podcasts seront diffusés sur l’enceinte à laquelle le périphérique choisi est connecté.</string>
     <key>watch_source_plus_info</key>
@@ -2766,9 +2800,9 @@ Vous pouvez donc avoir l’esprit tranquille, sachant que le dur labeur consacr�
     <key>widgets_app_icon_name</key>
     <string>Icône</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Consulter l’onglet Découvrir</string>
+    <string>Appuyez sur Découvrir pour en savoir plus</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Vos oreilles en redemandent ?</string>
+    <string>Rien dans la file d’attente</string>
     <key>widgets_nothing_playing</key>
     <string>Aucune lecture en cours</string>
     <key>widgets_now_playing_desc</key>

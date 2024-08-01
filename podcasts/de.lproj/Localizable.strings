@@ -377,6 +377,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Bist du sicher, dass du deine Warteschlange löschen möchtest?</string>
     <key>client_error_token_deauth</key>
     <string>Token-Authentifizierung fehlgeschlagen.</string>
+    <key>clip</key>
+    <string>Clip</string>
     <key>close</key>
     <string>Schließen</string>
     <key>color</key>
@@ -405,6 +407,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Kostenlos</string>
     <key>create_account_plus_details</key>
     <string>Alle Vorteile</string>
+    <key>create_clip</key>
+    <string>Clip erstellen</string>
     <key>create_filter</key>
     <string>Filter erstellen</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Alle Downloads anhalten</string>
     <key>edit</key>
     <string>Bearbeiten</string>
+    <key>edit_clip</key>
+    <string>Clip bearbeiten</string>
     <key>enable_it_now</key>
     <string>Jetzt aktivieren</string>
     <key>eoy_card_description</key>
@@ -1851,8 +1857,14 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Nur Hörer dieses Podcasts können ihn bewerten. Hör dir ein paar Folgen an und komm dann wieder, um eine Bewertung abzugeben. Wir freuen uns auf deine Meinung!</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Bitte hör dir diesen Podcast zuerst an</string>
+    <key>rating_login_required</key>
+    <string>Bitte melde dich an, um eine Bewertung abzugeben</string>
+    <key>rating_no_ratings</key>
+    <string>Keine Bewertungen</string>
     <key>rating_submitted</key>
     <string>Deine Bewertung wurde gesendet!</string>
+    <key>rating_thank_you</key>
+    <string>Danke für deine Bewertung!</string>
     <key>rating_title</key>
     <string>Bewerte %1$@</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,11 +2379,29 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Wenn die Schlummerfunktion aktiviert ist, wird sie neu gestartet, wenn du dein Handy schüttelst.</string>
     <key>share</key>
     <string>Teilen</string>
+    <key>share_clip</key>
+    <string>Clip teilen</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Link in Zwischenablage kopiert</string>
+    <key>share_copy_link</key>
+    <string>Link kopieren</string>
     <key>share_current_position</key>
     <string>Aktuelle Position</string>
+    <key>share_description</key>
+    <string>Wähle ein Format und eine Plattform aus, auf der der Inhalt geteilt werden soll</string>
+    <key>share_episode</key>
+    <string>Folge teilen</string>
+    <key>share_episode_at</key>
+    <string>Folge bei %1$@ teilen</string>
+    <key>share_episode_title</key>
+    <string>Folge teilen</string>
     <key>share_list_subscribing</key>
     <string>Werden abonniert …</string>
+    <key>share_more_actions</key>
+    <string>Mehr</string>
     <key>share_podcast</key>
+    <string>Podcast teilen</string>
+    <key>share_podcast_title</key>
     <string>Podcast teilen</string>
     <key>share_podcasts_all_selected</key>
     <string>ALLE AUSGEWÄHLT</string>
@@ -2635,6 +2665,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Heute</string>
     <key>top</key>
     <string>Anfang</string>
+    <key>transcript</key>
+    <string>Transkript</string>
     <key>trial_finished</key>
     <string>Testzeitraum abgelaufen</string>
     <key>trim_silence</key>
@@ -2709,6 +2741,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
 Beides klingt gut. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Aktuell keine Wiedergabe</string>
+    <key>watch_play_source</key>
+    <string>Quelle der Wiedergabe</string>
     <key>watch_source_msg</key>
     <string>Podcasts werden über den Lautsprecher abgespielt, mit dem das ausgewählte Gerät verbunden ist</string>
     <key>watch_source_plus_info</key>
@@ -2766,9 +2800,9 @@ D. h., deine Podcasts-Seite mit allen Anordnungen, die du vorgenommen hast, wir
     <key>widgets_app_icon_name</key>
     <string>Icon</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Sieh dir den „Entdecken“-Tab an</string>
+    <string>Unter „Entdecken“ erfährst du mehr</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Wollen deine Ohren mehr?</string>
+    <string>Keine Inhalte in „Als Nächstes“</string>
     <key>widgets_nothing_playing</key>
     <string>Keine aktuelle Wiedergabe</string>
     <key>widgets_now_playing_desc</key>

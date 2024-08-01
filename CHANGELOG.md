@@ -1,6 +1,22 @@
+7.70
+-----
+- A new button is added under Account Settings: "Change Avatar". It opens the in-app Safari with Gravatar's Avatar Quick Editor. [#1770](https://github.com/Automattic/pocket-casts-ios/pull/1770)
+- Adds the ability to rate podcasts [#1879](https://github.com/Automattic/pocket-casts-ios/issues/1879)
+- Improve the sort by name algorithm [#1959](https://github.com/Automattic/pocket-casts-ios/issues/1959)
+
+7.69
+-----
+- Fix an issue for show notes not loading. [#1928](https://github.com/Automattic/pocket-casts-ios/pull/1928)
+- Fix scrolling drift on Podcasts list grid view. [#1930](https://github.com/Automattic/pocket-casts-ios/issues/1930)
+- Fix UpNext on the tab bar multi-select action bar display. [#1913](https://github.com/Automattic/pocket-casts-ios/issues/1913)
+- Fix a crash caused by the Categories redesign. [#1968](https://github.com/Automattic/pocket-casts-ios/pull/1968)
+- Fix handling /get/?args. [#1977](https://github.com/Automattic/pocket-casts-ios/pull/1977)
+
 7.68
 -----
 - New designs for Widgets. [#1343](https://github.com/Automattic/pocket-casts-ios/pull/1343)
+- Search: fix an issue with scroll when tapping an episode [#1874](https://github.com/Automattic/pocket-casts-ios/pull/1874)
+- Fixes video playback on mp4 files [#1918](https://github.com/Automattic/pocket-casts-ios/pull/1918)
 
 7.67
 -----

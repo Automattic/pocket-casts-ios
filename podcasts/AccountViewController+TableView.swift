@@ -1,14 +1,12 @@
 import PocketCastsDataModel
+import SafariServices
 import PocketCastsServer
 import UIKit
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard section == 0 else {
-            return UITableView.automaticDimension
-        }
 
-        return headerViewModel.contentSize?.height ?? UITableView.automaticDimension
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        UITableView.automaticDimension
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -81,6 +79,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.counterView.isHidden = true
             }
             cell.showsDisclosureIndicator = true
+            return cell
+        case .changeAvatar:
+            let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
+            cell.cellLabel.text = L10n.settingsChangeAvatar
+            cell.cellImage.image = UIImage(named: "settings-avatar")?.withRenderingMode(.alwaysTemplate)
+            cell.iconStyle = .primaryInteractive01
+            cell.counterView.isHidden = true
+            cell.showsDisclosureIndicator = false
             return cell
         case .changeEmail:
             let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewController.actionCellId, for: indexPath) as! AccountActionCell
@@ -172,6 +178,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .supporterContributions:
             let supporterVC = SupporterContributionsViewController()
             navigationController?.pushViewController(supporterVC, animated: true)
+        case .changeAvatar:
+            guard let email = headerViewModel.profile.email,
+                  let safariViewController = GravatarSafariViewController(destination: .avatarUpdate(email: email)) else { return }
+            safariViewController.modalPresentationStyle = .automatic
+            present(safariViewController, animated: true)
+            Analytics.track(.accountDetailsChangeAvatar)
         case .changeEmail:
             let changeEmailVC = ChangeEmailViewController()
             changeEmailVC.delegate = self

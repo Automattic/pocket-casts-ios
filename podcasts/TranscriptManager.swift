@@ -1,65 +1,49 @@
 import Foundation
-import SwiftSubtitles
 import PocketCastsDataModel
+
+enum TranscriptError: Error {
+    case notAvailable
+    case failedToLoad
+    case notSupported(format: String)
+    case failedToParse
+    case empty
+
+    var localizedDescription: String {
+        switch self {
+        case .notAvailable:
+            return "Transcript not available"
+        case .failedToLoad:
+            return "Transcript failed to load"
+        case .notSupported(let format):
+            return "Transcript format not supported: \(format)"
+        case .failedToParse:
+            return "Transcript failed to parse"
+        case .empty:
+            return "Transcript is empty"
+        }
+    }
+}
 
 class TranscriptManager {
 
     typealias Transcript = Episode.Metadata.Transcript
 
-    enum TranscriptFormat: String {
-        case srt = "application/srt"
-        case vtt = "text/vtt"
+    let episodeUUID: String
 
-        var fileExtension: String {
-            switch self {
-            case .srt:
-                return "srt"
-            case .vtt:
-                return "vtt"
-            }
-        }
+    let podcastUUID: String
+
+    let showCoordinator: ShowInfoCoordinating
+
+    init(episodeUUID: String, podcastUUID: String, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
+        self.episodeUUID = episodeUUID
+        self.podcastUUID = podcastUUID
+        self.showCoordinator = showCoordinator
     }
 
-    // Transcript formats we support in order of priority of use
-    static let supportedFormats: [TranscriptFormat] = [.srt, .vtt]
-
-    enum TranscriptError: Error {
-        case notAvailable
-        case failedToLoad
-        case notSupported(format: String)
-
-        var localizedDescription: String {
-            switch self {
-            case .notAvailable:
-                return "Transcript not available"
-            case .failedToLoad:
-                return "Transcript failed to load"
-            case .notSupported(let format):
-                return "Transcript format not supported: \(format)"
-            }
-        }
-    }
-
-    let playbackManager: PlaybackManager
-
-    init(playbackManager: PlaybackManager) {
-        self.playbackManager  = playbackManager
-    }
-
-    private func bestTranscript(from available: [Transcript]) -> Transcript? {
-        for format in Self.supportedFormats {
-            if let transcript = available.first(where: { $0.type == format.rawValue}) {
-                return transcript
-            }
-        }
-        return available.first
-    }
-
-    public func loadTranscript() async throws -> String {
+    public func loadTranscript() async throws -> TranscriptModel {
         guard
-            let episode = self.playbackManager.currentEpisode(), let podcast = self.playbackManager.currentPodcast,
-            let transcripts = try? await ShowInfoCoordinator.shared.loadTranscripts(podcastUuid: podcast.uuid, episodeUuid: episode.uuid),
-            let transcript = bestTranscript(from: transcripts) else {
+            let transcripts = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID, cacheTranscript: false),
+            let transcript = TranscriptFormat.bestTranscript(from: transcripts) else {
             throw TranscriptError.notAvailable
         }
 
@@ -69,19 +53,23 @@ class TranscriptManager {
 
         guard
             let transcriptURL = URL(string: transcript.url),
-            let transcriptText = try? String(contentsOf: transcriptURL)
+            let transcriptText = try? await dataRetriever.loadTranscript(url: transcriptURL)
         else {
             throw TranscriptError.failedToLoad
         }
 
-        let subtitle = try Subtitles(content: transcriptText, expectedExtension: transcriptFormat.fileExtension)
-        return String(subtitle.text.joined(separator: "\n"))
-    }
-}
+        guard let model = TranscriptModel.makeModel(from: transcriptText, format: transcriptFormat) else {
+            throw TranscriptError.failedToParse
+        }
 
-extension Episode.Metadata.Transcript {
+        if model.isEmtpy {
+            throw TranscriptError.empty
+        }
 
-    var transcriptFormat: TranscriptManager.TranscriptFormat? {
-        return TranscriptManager.TranscriptFormat(rawValue: self.type)
+        return model
     }
+
+    private lazy var dataRetriever: TranscriptsDataRetriever = {
+        return TranscriptsDataRetriever()
+    }()
 }

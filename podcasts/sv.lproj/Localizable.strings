@@ -377,6 +377,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Är du säker på att du vill rensa din Nästa-kö?</string>
     <key>client_error_token_deauth</key>
     <string>Tokenautentiseringen misslyckades.</string>
+    <key>clip</key>
+    <string>Klipp</string>
     <key>close</key>
     <string>Stäng</string>
     <key>color</key>
@@ -405,6 +407,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Gratis</string>
     <key>create_account_plus_details</key>
     <string>Allt upplåst</string>
+    <key>create_clip</key>
+    <string>Skapa klipp</string>
     <key>create_filter</key>
     <string>Skapa filter</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Stoppa alla nedladdningar</string>
     <key>edit</key>
     <string>Redigera</string>
+    <key>edit_clip</key>
+    <string>Redigera klipp</string>
     <key>enable_it_now</key>
     <string>Aktivera det nu</string>
     <key>eoy_card_description</key>
@@ -1851,8 +1857,14 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Det är bara lyssnare på den här podcasten som kan ge den ett betyg. Lyssna på ett par avsnitt och återkom sedan med ditt betyg. Vi ser fram emot att få höra vad du tycker.</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Lyssna på den här podcasten först</string>
+    <key>rating_login_required</key>
+    <string>Du måste logga in för att ge ett betyg</string>
+    <key>rating_no_ratings</key>
+    <string>Inga betyg</string>
     <key>rating_submitted</key>
     <string>Ditt betyg har skickats.</string>
+    <key>rating_thank_you</key>
+    <string>Tack för betyget!</string>
     <key>rating_title</key>
     <string>Betygsätt %1$@</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,11 +2379,29 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Om det här alternativet är aktiverat kommer sömntimern att starta om när du skakar din telefon.</string>
     <key>share</key>
     <string>Dela</string>
+    <key>share_clip</key>
+    <string>Dela klipp</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Länk kopierad till urklipp</string>
+    <key>share_copy_link</key>
+    <string>Kopiera länk</string>
     <key>share_current_position</key>
     <string>Nuvarande position</string>
+    <key>share_description</key>
+    <string>Välj ett format och en plattform att dela till</string>
+    <key>share_episode</key>
+    <string>Dela avsnitt</string>
+    <key>share_episode_at</key>
+    <string>Dela avsnitt vid %1$@</string>
+    <key>share_episode_title</key>
+    <string>Dela avsnitt</string>
     <key>share_list_subscribing</key>
     <string>Prenumererar …</string>
+    <key>share_more_actions</key>
+    <string>Mer</string>
     <key>share_podcast</key>
+    <string>Dela podcast</string>
+    <key>share_podcast_title</key>
     <string>Dela podcast</string>
     <key>share_podcasts_all_selected</key>
     <string>ALLA HAR VALTS</string>
@@ -2635,6 +2665,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Idag</string>
     <key>top</key>
     <string>Längst upp</string>
+    <key>transcript</key>
+    <string>Transkription</string>
     <key>trial_finished</key>
     <string>Provperioden har löpt ut</string>
     <key>trim_silence</key>
@@ -2709,6 +2741,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
 Båda alternativen är ärligt talat riktigt bra. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>Inget spelas</string>
+    <key>watch_play_source</key>
+    <string>Spela källa</string>
     <key>watch_source_msg</key>
     <string>Podcasts spelas upp från den högtalare som den valda enheten är ansluten till</string>
     <key>watch_source_plus_info</key>
@@ -2766,9 +2800,9 @@ Detta innebär att du kan koppla av med vetskapen om att allt det hårda arbete 
     <key>widgets_app_icon_name</key>
     <string>Ikon</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Kolla in fliken Upptäck</string>
+    <string>Kolla in Upptäck för mer</string>
     <key>widgets_discover_prompt_title</key>
-    <string>Vill du höra mer?</string>
+    <string>Inget i Nästa</string>
     <key>widgets_nothing_playing</key>
     <string>Ingenting spelas upp</string>
     <key>widgets_now_playing_desc</key>

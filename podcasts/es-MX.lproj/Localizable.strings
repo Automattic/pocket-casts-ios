@@ -377,6 +377,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>¿Estás seguro de que quieres borrar la cola de A continuación?</string>
     <key>client_error_token_deauth</key>
     <string>Error de autenticación del token.</string>
+    <key>clip</key>
+    <string>Clip</string>
     <key>close</key>
     <string>Cerrar</string>
     <key>color</key>
@@ -405,6 +407,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Gratis</string>
     <key>create_account_plus_details</key>
     <string>Todo desbloqueado</string>
+    <key>create_clip</key>
+    <string>Crear clip</string>
     <key>create_filter</key>
     <string>Crear filtro</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Detener todas las descargas</string>
     <key>edit</key>
     <string>Editar</string>
+    <key>edit_clip</key>
+    <string>Editar clip</string>
     <key>enable_it_now</key>
     <string>Activar esta opción ahora</string>
     <key>eoy_card_description</key>
@@ -1851,8 +1857,14 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Solo los oyentes de este podcast pueden puntuarlo. Escucha algunos episodios y vuelve para dejar tu puntuación. Nos gustaría saber qué te han parecido.</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Primero escucha este podcast</string>
+    <key>rating_login_required</key>
+    <string>Debes acceder para dejar una valoración</string>
+    <key>rating_no_ratings</key>
+    <string>Sin valoraciones</string>
     <key>rating_submitted</key>
     <string>Tu puntuación se ha enviado.</string>
+    <key>rating_thank_you</key>
+    <string>¡Gracias por la valoración!</string>
     <key>rating_title</key>
     <string>Puntuar %1$@</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,12 +2379,30 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Si está activado, el tempoprizador se reiniciará cuando agites tu teléfono.</string>
     <key>share</key>
     <string>Compartir</string>
+    <key>share_clip</key>
+    <string>Compartir clip</string>
+    <key>share_copied_to_clipboard</key>
+    <string>Enlace copiado al portapapeles</string>
+    <key>share_copy_link</key>
+    <string>Copiar enlace</string>
     <key>share_current_position</key>
     <string>Posición actual</string>
+    <key>share_description</key>
+    <string>Elegir un formato y una plataforma a la que compartir</string>
+    <key>share_episode</key>
+    <string>Compartir episodio</string>
+    <key>share_episode_at</key>
+    <string>Compartir episodio en %1$@</string>
+    <key>share_episode_title</key>
+    <string>Compartir episodio</string>
     <key>share_list_subscribing</key>
     <string>Suscribiendo...</string>
+    <key>share_more_actions</key>
+    <string>Más</string>
     <key>share_podcast</key>
     <string>Compartir podcast</string>
+    <key>share_podcast_title</key>
+    <string>Compartir pódcast</string>
     <key>share_podcasts_all_selected</key>
     <string>TODOS LOS SELECCIONADOS</string>
     <key>share_podcasts_create_list</key>
@@ -2635,6 +2665,8 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>hoy</string>
     <key>top</key>
     <string>Principales</string>
+    <key>transcript</key>
+    <string>Transcripción</string>
     <key>trial_finished</key>
     <string>La prueba ha finalizado</string>
     <key>trim_silence</key>
@@ -2709,6 +2741,8 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
 Las dos cosas están genial. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>No se está reproduciendo nada</string>
+    <key>watch_play_source</key>
+    <string>Reproducir original</string>
     <key>watch_source_msg</key>
     <string>Los podcasts se reproducirán desde el altavoz al que está conectado el dispositivo elegido</string>
     <key>watch_source_plus_info</key>
@@ -2766,9 +2800,9 @@ Con esta función, el trabajo que has hecho para organizar tu página de podcast
     <key>widgets_app_icon_name</key>
     <string>Icono</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>Echa un vistazo a la pestaña Descubrir</string>
+    <string>Consulta Discover para obtener más información</string>
     <key>widgets_discover_prompt_title</key>
-    <string>¿Tienes ganas de escuchar más?</string>
+    <string>Nada en Próximamente</string>
     <key>widgets_nothing_playing</key>
     <string>Ningún episodio en reproducción</string>
     <key>widgets_now_playing_desc</key>

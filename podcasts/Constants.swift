@@ -96,6 +96,9 @@ struct Constants {
 
         // End of Year
         static let profileSeen = NSNotification.Name(rawValue: "profileSeen")
+
+        // Gravatar
+        static let avatarNeedsRefreshing = NSNotification.Name(rawValue: "avatarNeedsRefreshing")
     }
 
     enum UserDefaults {
@@ -186,6 +189,10 @@ struct Constants {
         enum appearance {
             static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
         }
+
+        enum kidsProfile {
+            static let shouldHideBanner = "ShouldHideKidsBannerKey"
+        }
     }
 
     enum Values {
@@ -211,6 +218,8 @@ struct Constants {
         public static let offerEligibilityDefaultValue = true
 
         static let bookmarkMaxTitleLength = 100
+
+        static let numberOfEpisodesListenedRequiredToRate = 2
     }
 
     enum Limits {

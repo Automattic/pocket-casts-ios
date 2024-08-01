@@ -2,36 +2,112 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 
+class ClipTime: ObservableObject {
+    @Published var start: TimeInterval
+    @Published var end: TimeInterval
+    @Published var playback: TimeInterval
+
+    init(start: TimeInterval, end: TimeInterval) {
+        self.start = start
+        self.end = end
+        self.playback = start
+    }
+}
+
 struct SharingView: View {
+
+    @EnvironmentObject var theme: Theme
 
     private enum Constants {
         static let descriptionMaxWidth: CGFloat = 200
     }
 
     let destinations: [ShareDestination]
-    let selectedOption: SharingModal.Option
 
-    @State private var selectedMedia: ShareImageStyle = .large
+    @State var selectedOption: SharingModal.Option
+
+    @State private var selectedMedia: ShareImageStyle
+
+    @ObservedObject var clipTime: ClipTime
+
+    init(destinations: [ShareDestination], selectedOption: SharingModal.Option, selectedMedia: ShareImageStyle = .large) {
+        self.destinations = destinations
+        self.selectedOption = selectedOption
+        self.selectedMedia = selectedMedia
+
+        switch selectedOption {
+        case .clip(_, let time):
+            self.clipTime = ClipTime(start: time, end: time + 60)
+        default:
+            self.clipTime = ClipTime(start: 0, end: 0)
+        }
+    }
 
     var body: some View {
         VStack {
             title
             image
-            buttons
+            switch selectedOption {
+            case .episode, .podcast, .currentPosition:
+                buttons
+            case .clip(let episode, _):
+                VStack(spacing: 16) {
+                    MediaTrimBar(clipTime: clipTime)
+                        .frame(height: 72)
+                        .tint(color)
+                    Button(L10n.clip, action: {
+                        withAnimation {
+                            selectedOption = .clipShare(episode, clipTime)
+                        }
+                    }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
+                }
+                .padding(.horizontal, 16)
+            case .clipShare:
+                buttons
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
+    }
+
+    var color: Color {
+        switch selectedOption {
+        case .clip(let episode, _):
+            PlayerColorHelper.backgroundColor(for: episode)?.color ?? PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
+        default:
+            PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
+        }
     }
 
     @ViewBuilder var title: some View {
         VStack {
             Text(selectedOption.shareTitle)
                 .font(.headline)
-            Text(L10n.shareDescription)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: Constants.descriptionMaxWidth)
+            switch selectedOption {
+            case .clip:
+                EmptyView() // Don't show the description to give extra space for trim view
+            case .clipShare(let episode, let clipTime):
+                Button(action: {
+                    withAnimation {
+                        selectedOption = .clip(episode, clipTime.playback)
+                    }
+                }) {
+                    Text(L10n.editClip)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 10)
+                        .background(
+                            Capsule()
+                                .fill(.white.opacity(0.2))
+                        )
+                }
+                .padding(.top, 14)
+            default:
+                Text(L10n.shareDescription)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: Constants.descriptionMaxWidth)
+            }
         }
     }
 

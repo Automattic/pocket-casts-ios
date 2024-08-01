@@ -10,7 +10,6 @@ enum PlayerTabs: Int {
     case showNotes
     case chapters
     case bookmarks
-    case transcript
 
     var description: String {
         switch self {
@@ -22,8 +21,6 @@ enum PlayerTabs: Int {
             return L10n.chapters
         case .bookmarks:
             return L10n.bookmarks
-        case .transcript:
-            return L10n.transcript
         }
     }
 }
@@ -53,8 +50,6 @@ class PlayerTabsView: UIScrollView {
             case .chapters:
                 AnalyticsHelper.chaptersOpened()
             case .bookmarks:
-                break
-            case .transcript:
                 break
             }
         }
@@ -262,8 +257,6 @@ private extension PlayerTabsView {
             tabName = "chapters"
         case .bookmarks:
             tabName = "bookmarks"
-        case .transcript:
-            tabName = "transcript"
         }
 
         Analytics.track(.playerTabSelected, properties: ["tab": tabName])

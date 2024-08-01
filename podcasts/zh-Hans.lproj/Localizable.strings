@@ -377,6 +377,8 @@
     <string>是否确定要清除您的“接下来播放”队列？</string>
     <key>client_error_token_deauth</key>
     <string>令牌身份验证失败。</string>
+    <key>clip</key>
+    <string>片段</string>
     <key>close</key>
     <string>关闭</string>
     <key>color</key>
@@ -405,6 +407,8 @@
     <string>免费</string>
     <key>create_account_plus_details</key>
     <string>已全部解锁</string>
+    <key>create_clip</key>
+    <string>创建片段</string>
     <key>create_filter</key>
     <string>创建过滤器</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@
     <string>停止所有下载</string>
     <key>edit</key>
     <string>编辑</string>
+    <key>edit_clip</key>
+    <string>编辑片段</string>
     <key>enable_it_now</key>
     <string>立即启用</string>
     <key>eoy_card_description</key>
@@ -1851,8 +1857,14 @@
     <string>只有听众能为此播客评分。 请先收听几集，然后再来评分。 我们期待了解您的所思所想！</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>请先收听此播客</string>
+    <key>rating_login_required</key>
+    <string>您必须登录后才可以给予评分</string>
+    <key>rating_no_ratings</key>
+    <string>无评分</string>
     <key>rating_submitted</key>
     <string>您的评分已提交！</string>
+    <key>rating_thank_you</key>
+    <string>感谢您的评分！</string>
     <key>rating_title</key>
     <string>为 %1$@ 评分</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,11 +2379,29 @@
     <string>如果打开，则当您摇晃手机时，睡眠计时器将重启。</string>
     <key>share</key>
     <string>共享</string>
+    <key>share_clip</key>
+    <string>共享片段</string>
+    <key>share_copied_to_clipboard</key>
+    <string>已将链接复制到剪贴板</string>
+    <key>share_copy_link</key>
+    <string>复制链接</string>
     <key>share_current_position</key>
     <string>当前位置</string>
+    <key>share_description</key>
+    <string>选择格式和共享平台</string>
+    <key>share_episode</key>
+    <string>共享剧集</string>
+    <key>share_episode_at</key>
+    <string>在 %1$@ 共享剧集</string>
+    <key>share_episode_title</key>
+    <string>共享剧集</string>
     <key>share_list_subscribing</key>
     <string>正在订阅...</string>
+    <key>share_more_actions</key>
+    <string>更多</string>
     <key>share_podcast</key>
+    <string>共享播客</string>
+    <key>share_podcast_title</key>
     <string>共享播客</string>
     <key>share_podcasts_all_selected</key>
     <string>已全选</string>
@@ -2635,6 +2665,8 @@
     <string>今天</string>
     <key>top</key>
     <string>顶部</string>
+    <key>transcript</key>
+    <string>文字转录稿</string>
     <key>trial_finished</key>
     <string>试用完成</string>
     <key>trim_silence</key>
@@ -2709,6 +2741,8 @@
 抓紧行动吧。🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>未播放任何内容</string>
+    <key>watch_play_source</key>
+    <string>播放源</string>
     <key>watch_source_msg</key>
     <string>所选设备所连接的扬声器将播放播客</string>
     <key>watch_source_plus_info</key>
@@ -2766,9 +2800,9 @@
     <key>widgets_app_icon_name</key>
     <string>图标</string>
     <key>widgets_discover_prompt_msg</key>
-    <string>查看“发现”选项卡</string>
+    <string>查看“发现”，了解更多信息</string>
     <key>widgets_discover_prompt_title</key>
-    <string>渴望收听更多内容？</string>
+    <string>“接下来播放”列表无内容</string>
     <key>widgets_nothing_playing</key>
     <string>未播放任何内容</string>
     <key>widgets_now_playing_desc</key>
