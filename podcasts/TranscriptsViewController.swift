@@ -165,8 +165,8 @@ class TranscriptsViewController: PlayerItemViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             refreshText()
-            updateTextMargins()
         }
+        updateTextMargins()
     }
 
     public override func viewDidLayoutSubviews() {
