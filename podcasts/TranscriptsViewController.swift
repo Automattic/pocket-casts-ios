@@ -13,6 +13,8 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private var searchIndicesResult: [Int] = []
 
+    private var currentSearchIndex = 0
+
     private let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
     init(playbackManager: PlaybackManager) {
@@ -264,6 +266,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func resetSearch() {
         searchIndicesResult = []
+        currentSearchIndex = 0
         searchView.textField.text = ""
     }
 
