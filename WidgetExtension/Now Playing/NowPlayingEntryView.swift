@@ -28,13 +28,22 @@ struct NowPlayingWidgetEntryView: View {
         }
         else if !showsWidgetBackground {
             nothingPlaying
-        } else {
-            ZStack {
-                Image(CommonWidgetHelper.loadAppIconName())
-                    .resizable()
+        }
+        else {
+            switch family {
+            case .systemSmall:
+                ZStack {
+                    Rectangle()
+                        .fill(PCWidgetColorScheme.bold.topBackgroundColor)
+                    Image(CommonWidgetHelper.loadAppIconName())
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                }
+                .widgetURL(URL(string: "pktc://last_opened"))
+                .clearBackground()
+            default:
+                nothingPlayingMedium
             }
-            .widgetURL(URL(string: "pktc://last_opened"))
-            .clearBackground()
         }
     }
 
@@ -174,6 +183,58 @@ struct NowPlayingWidgetEntryView: View {
         }
     }
 
+    private var nothingPlayingMedium: some View {
+        ZStack {
+            if showsWidgetBackground {
+                Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
+            }
+
+            HStack(alignment: .top) {
+                LargeArtworkView(size: .infinity)
+                    .opacity(0.5)
+
+                VStack(alignment: .leading) {
+                    HStack(alignment: .top) {
+                        Spacer()
+                        Image(widgetColorScheme.iconAssetName)
+                            .frame(width: 28, height: 28)
+                            .unredacted()
+                    }
+
+                    nothingPlayingText
+                }
+                .frame(maxHeight: 128)
+            }
+            .padding(16)
+        }
+        .widgetURL(URL(string: "pktc://discover"))
+        .clearBackground()
+        .if(!showsWidgetBackground) { view in
+            view
+                .padding(.top)
+                .padding(.bottom)
+        }
+    }
+
+    private var nothingPlayingText: some View {
+        Group {
+            Text(L10n.widgetsDiscoverPromptTitle)
+                .font(.footnote)
+                .fontWeight(.semibold)
+                .foregroundColor(widgetColorScheme.bottomTextColor)
+                .lineLimit(2)
+                .frame(height: 38, alignment: .center)
+                .layoutPriority(1)
+                .padding(episodeTitlePadding)
+            Text(L10n.widgetsDiscoverPromptMsg)
+                .font(.caption2)
+                .fontWeight(.medium)
+                .foregroundColor(widgetColorScheme.bottomTextColor)
+                .lineLimit(2)
+                .padding(bottomTextPadding)
+                .layoutPriority(1)
+        }
+    }
 
     private var nothingPlaying: some View {
         VStack(alignment: .leading, spacing: 3) {
@@ -186,21 +247,7 @@ struct NowPlayingWidgetEntryView: View {
                         .frame(width: 28, height: 28)
                 }.padding(topPadding)
             }
-            Text(L10n.widgetsDiscoverPromptTitle)
-                .font(.footnote)
-                .fontWeight(.semibold)
-                .foregroundColor(Color.primary)
-                .lineLimit(2)
-                .frame(height: 38, alignment: .center)
-                .layoutPriority(1)
-                .padding(episodeTitlePadding)
-
-            Text(L10n.widgetsDiscoverPromptMsg)
-                .font(.caption2)
-                .fontWeight(.medium)
-                .foregroundColor(Color.secondary)
-                .padding(bottomTextPadding)
-                .layoutPriority(1)
+            nothingPlayingText
         }
         .widgetURL(URL(string: "pktc://discover"))
         .clearBackground()
