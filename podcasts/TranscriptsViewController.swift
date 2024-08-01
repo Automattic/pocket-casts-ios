@@ -3,11 +3,13 @@ import PocketCastsUtils
 
 class TranscriptsViewController: PlayerItemViewController {
 
-    let playbackManager: PlaybackManager
-    var transcript: TranscriptModel?
-    var previousRange: NSRange?
+    private let playbackManager: PlaybackManager
+    private var transcript: TranscriptModel?
+    private var previousRange: NSRange?
 
-    var canScrollToDismiss = true
+    private var canScrollToDismiss = true
+
+    private var isSearching = false
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
@@ -103,8 +105,12 @@ class TranscriptsViewController: PlayerItemViewController {
         ])
     }
 
+    // Only return the searchView as the input acessory view
+    // if search has been enabled.
+    // This prevents the input acessory view from appearing
+    // when selecting text
     override var inputAccessoryView: UIView? {
-        searchView
+        isSearching ? searchView : nil
     }
 
     lazy var searchView: TranscriptSearchAccessoryView = {
@@ -115,6 +121,8 @@ class TranscriptsViewController: PlayerItemViewController {
     }()
 
     @objc private func search() {
+        isSearching = true
+
         // Keep the inputAccessoryView dark
         parent?.view.overrideUserInterfaceStyle = .dark
 
@@ -125,6 +133,8 @@ class TranscriptsViewController: PlayerItemViewController {
     }
 
     private func dismissSearch() {
+        isSearching = false
+
         searchView.textField.resignFirstResponder()
 
         resignFirstResponder()
@@ -136,6 +146,7 @@ class TranscriptsViewController: PlayerItemViewController {
         textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false
         textView.showsVerticalScrollIndicator = true
+        textView.inputAccessoryView = nil
         return textView
     }()
 
