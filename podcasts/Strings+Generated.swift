@@ -2288,6 +2288,10 @@ internal enum L10n {
   internal static var searchPodcasts: String { return L10n.tr("Localizable", "search_podcasts") }
   /// Recent searches
   internal static var searchRecent: String { return L10n.tr("Localizable", "search_recent") }
+  /// %1$@ of %2$@
+  internal static func searchResults(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "search_results", String(describing: p1), String(describing: p2))
+  }
   /// Season
   internal static var season: String { return L10n.tr("Localizable", "season") }
   /// S%1$@ E%2$@
