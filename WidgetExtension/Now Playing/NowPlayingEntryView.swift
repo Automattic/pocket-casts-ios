@@ -19,9 +19,10 @@ struct NowPlayingWidgetEntryView: View {
 
     var body: some View {
         if let playingEpisode = entry.episode {
-            if family == .systemSmall {
+            switch family {
+            case .systemSmall:
                 smallWidget(playingEpisode: playingEpisode)
-            } else {
+            default:
                 mediumWidget(playingEpisode: playingEpisode)
             }
         }
