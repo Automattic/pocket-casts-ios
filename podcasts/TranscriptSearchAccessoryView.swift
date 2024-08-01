@@ -24,6 +24,7 @@ class TranscriptSearchAccessoryView: UIInputView {
     lazy var textField: CustomTextField = {
         let textField = CustomTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         configureTextField(textField)
         return textField
     }()
@@ -101,6 +102,10 @@ class TranscriptSearchAccessoryView: UIInputView {
 
     @objc private func nextMatch() {
         delegate?.nextMatch()
+    }
+
+    @objc func editingChanged() {
+        delegate?.search(textField.text ?? "")
     }
 }
 

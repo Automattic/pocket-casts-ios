@@ -10,10 +10,9 @@ class TranscriptsViewController: PlayerItemViewController {
     private var canScrollToDismiss = true
 
     private var isSearching = false
-
     private var searchIndicesResult: [Int] = []
-
     private var currentSearchIndex = 0
+    private var searchTerm: String?
 
     private let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
@@ -268,6 +267,7 @@ class TranscriptsViewController: PlayerItemViewController {
         searchIndicesResult = []
         currentSearchIndex = 0
         searchView.textField.text = ""
+        searchTerm = nil
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -325,6 +325,24 @@ class TranscriptsViewController: PlayerItemViewController {
             formattedText.addAttributes(highlightStyle, range: range)
         }
 
+        if let searchTerm {
+            let length = formattedText.length
+            let searchTermLength = searchTerm.count
+            searchIndicesResult.enumerated().forEach { index, indice in
+                if indice + searchTermLength <= length {
+                    let highlightStyle: [NSAttributedString.Key: Any] = [
+                        .backgroundColor: UIColor.white.withAlphaComponent(index == 0 ? 1 : 0.4),
+                        .foregroundColor: index == 0 ? UIColor.black : ThemeColor.playerContrast01()
+                    ]
+
+                    formattedText.addAttributes(highlightStyle, range: NSRange(location: indice, length: searchTermLength))
+                }
+
+            }
+        }
+
+
+
         return formattedText
     }
 
@@ -364,6 +382,36 @@ class TranscriptsViewController: PlayerItemViewController {
         }
     }
 
+    // MARK: - Search
+
+    func performSearch(_ term: String) {
+        Task {
+            findOccurrences(of: term)
+            highlightSearchMatches()
+        }
+    }
+
+    func findOccurrences(of term: String) {
+        guard let transcriptText = transcript?.attributedText.string,
+              !term.isEmpty else {
+            resetSearch()
+            return
+        }
+
+        let kmpSearch = KMPSearch(pattern: term)
+        searchIndicesResult = kmpSearch.search(in: transcriptText)
+        searchTerm = term
+    }
+
+    @MainActor
+    func highlightSearchMatches() {
+        guard let transcript else { return }
+
+        transcriptView.attributedText = styleText(transcript: transcript)
+    }
+
+    // MARK: - Constants
+
     private enum Sizes {
         static let topGradientHeight: CGFloat = 60
         static let bottomGradientHeight: CGFloat = 60
@@ -402,19 +450,8 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
 
     func search(_ term: String) {
         debounce.call { [weak self] in
-            self?.findOccurrences(of: term)
+            self?.performSearch(term)
         }
-    }
-
-    func findOccurrences(of term: String) {
-        guard let transcriptText = transcript?.attributedText.string,
-              !term.isEmpty else {
-            searchIndicesResult = []
-            return
-        }
-
-        let kmpSearch = KMPSearch(pattern: term)
-        searchIndicesResult = kmpSearch.search(in: transcriptText)
     }
 
     func previousMatch() {
