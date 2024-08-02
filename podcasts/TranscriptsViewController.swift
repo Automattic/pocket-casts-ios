@@ -53,12 +53,12 @@ class TranscriptsViewController: PlayerItemViewController {
             [
                 transcriptView.topAnchor.constraint(equalTo: view.topAnchor),
                 transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-                transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
+                transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
         )
 
-        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: bottomContainerInset, right: 0)
+        updateTextMargins()
         transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: bottomContainerInset, right: 0)
 
         view.addSubview(activityIndicatorView)
@@ -282,6 +282,17 @@ class TranscriptsViewController: PlayerItemViewController {
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             refreshText()
         }
+        updateTextMargins()
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateTextMargins()
+    }
+
+    private func updateTextMargins() {
+        let margin = self.view.readableContentGuide.layoutFrame.minX + 8
+        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: margin, bottom: bottomContainerInset, right: margin)
     }
 
     @MainActor
@@ -299,7 +310,7 @@ class TranscriptsViewController: PlayerItemViewController {
             transcriptView.attributedText = styleText(transcript: transcript)
     }
 
-    private func styleText(transcript: TranscriptModel, position: Double = 0) -> NSAttributedString {
+    private func styleText(transcript: TranscriptModel, position: Double = -1) -> NSAttributedString {
         let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
 
         let paragraphStyle = NSMutableParagraphStyle()
@@ -330,7 +341,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
         formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
 
-        if let range = transcript.firstCue(containing: position)?.characterRange {
+        if position != -1, let range = transcript.firstCue(containing: position)?.characterRange {
             formattedText.addAttributes(highlightStyle, range: range)
         }
 

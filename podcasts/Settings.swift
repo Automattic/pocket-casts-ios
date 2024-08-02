@@ -1261,6 +1261,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Kids Profile
+
+    static var shouldHideBanner: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.kidsProfile.shouldHideBanner)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.kidsProfile.shouldHideBanner)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {
