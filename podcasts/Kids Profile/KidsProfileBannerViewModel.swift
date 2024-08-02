@@ -6,7 +6,7 @@ class KidsProfileBannerViewModel {
 
     func closeButtonTap() {
         Settings.shouldHideBanner = true
-        Analytics.track(.kidsProfileEarlyAccessRequested)
+        Analytics.track(.kidsProfileBannerDismissed)
         onCloseButtonTap?()
     }
 
