@@ -522,14 +522,24 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     func previousMatch() {
-        currentSearchIndex = currentSearchIndex - 1 < 0 ? searchIndicesResult.count - 1 : currentSearchIndex - 1
-        updateNumberOfResults()
-        refreshText()
-        transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
+        updateCurrentSearchIndex(decrement: true)
+        processMatch()
     }
 
     func nextMatch() {
-        currentSearchIndex = currentSearchIndex + 1 > searchIndicesResult.count - 1 ? 0 : currentSearchIndex + 1
+        updateCurrentSearchIndex(decrement: false)
+        processMatch()
+    }
+
+    private func updateCurrentSearchIndex(decrement: Bool) {
+        if decrement {
+            currentSearchIndex = (currentSearchIndex - 1 < 0) ? searchIndicesResult.count - 1 : currentSearchIndex - 1
+        } else {
+            currentSearchIndex = (currentSearchIndex + 1 >= searchIndicesResult.count) ? 0 : currentSearchIndex + 1
+        }
+    }
+
+    private func processMatch() {
         updateNumberOfResults()
         refreshText()
         transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
