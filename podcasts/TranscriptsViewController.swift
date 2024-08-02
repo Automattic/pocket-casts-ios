@@ -33,6 +33,7 @@ class TranscriptsViewController: PlayerItemViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        addObservers()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,8 +58,8 @@ class TranscriptsViewController: PlayerItemViewController {
             ]
         )
 
-        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
-        transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
+        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: bottomContainerInset, right: 0)
+        transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: bottomContainerInset, right: 0)
 
         view.addSubview(activityIndicatorView)
         NSLayoutConstraint.activate(
@@ -208,6 +209,10 @@ class TranscriptsViewController: PlayerItemViewController {
     private lazy var bottomGradient: GradientView = {
         GradientView(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
     }()
+
+    var bottomContainerInset: CGFloat {
+        0.7 * Sizes.bottomGradientHeight
+    }
 
     override func willBeAddedToPlayer() {
         updateColors()
@@ -360,6 +365,8 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func addObservers() {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         //We disabled the method bellow until we find a way to resync/shift transcript positions
         //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
     }
@@ -423,6 +430,36 @@ class TranscriptsViewController: PlayerItemViewController {
             return
         }
         transcriptView.scrollToRange(firstResultRange)
+    }
+
+    // MARK: - Keyboard
+
+
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: true)
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: false)
+    }
+
+    func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            return
+        }
+
+        let keyboardHeight = keyboardFrame.height
+        let adjustmentHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
+
+        UIView.animate(withDuration: animationDuration) { [weak self] in
+            guard let self else { return }
+
+            transcriptView.contentInset.bottom = adjustmentHeight
+            transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
+        }
     }
 
     // MARK: - Constants
@@ -495,28 +532,5 @@ private class RoundButton: UIButton {
         super.layoutSubviews()
 
         layer.cornerRadius = bounds.height / 2
-    }
-}
-
-extension UITextView {
-    func scrollToRange(_ range: NSRange) {
-        // Ensure layout is up-to-date
-        textStorage.addLayoutManager(layoutManager)
-        layoutManager.ensureLayout(for: textContainer)
-
-        let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
-
-        layoutManager.enumerateEnclosingRects(forGlyphRange: glyphRange, withinSelectedGlyphRange: NSRange(location: NSNotFound, length: 0), in: textContainer) { rect, _ in
-            let finalRect = rect.offsetBy(dx: self.textContainerInset.left, dy: self.textContainerInset.top)
-
-            // Calculate the rectangle to scroll to such that the finalRect is centered
-            let visibleRect = CGRect(
-                x: finalRect.origin.x - (self.bounds.width / 2) + (finalRect.width / 2),
-                y: finalRect.origin.y - (self.bounds.height / 2) + (finalRect.height / 2),
-                width: self.bounds.width,
-                height: self.bounds.height
-            )
-            self.scrollRectToVisible(visibleRect, animated: true)
-        }
     }
 }
