@@ -79,6 +79,20 @@ struct Announcements {
             },
             isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
             fullModal: true
+        ),
+
+        // Give Ratings
+        .init(
+            version: "7.69",
+            header: AnyView(GiveRatingsWhatsNewHeader()),
+            title: "Rating podcasts  available now!",
+            message: "You can start rating any show in Pocket Casts. Make sure you give it a few listens first and go support your favorite creators!",
+            buttonTitle: "Got it",
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: FeatureFlag.giveRatings.enabled,
+            fullModal: true
         )
     ]
 }
