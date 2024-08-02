@@ -25,7 +25,7 @@ class KidsProfileSheetViewModel: ObservableObject {
         Analytics.track(.kidsProfileFeedbackSent)
         Toast.show(L10n.kidsProfileSubmitSuccess)
 
-        dismissScreen()
+        onDismissScreenTap?()
     }
 
     enum SheetScreen {
