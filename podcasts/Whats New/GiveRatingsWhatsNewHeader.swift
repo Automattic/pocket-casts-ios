@@ -5,11 +5,12 @@ struct GiveRatingsWhatsNewHeader: View {
     @State private var show = false
 
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             ForEach(1..<6) { i in
                 getStar(delay: 0.2 + Double(i)*0.1)
             }
         }
+        .frame(width: 200.0)
         .onAppear {
             moving.toggle()
             show.toggle()
@@ -27,7 +28,7 @@ struct GiveRatingsWhatsNewHeader: View {
     }
 
     private func getStar(delay: Double) -> some View {
-        HStack {
+        VStack {
             star
                 .animation(
                     .interpolatingSpring(stiffness: 300, damping: 10)
@@ -35,6 +36,7 @@ struct GiveRatingsWhatsNewHeader: View {
                     value: moving
                 )
         }
+        .frame(width: 40.0, height: 40.0)
         .opacity(show ? 1 : 0)
         .animation(
             .linear(duration: 0.2)
