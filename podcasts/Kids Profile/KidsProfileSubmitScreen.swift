@@ -29,6 +29,7 @@ struct KidsProfileSubmitScreen: View {
         .padding(Constants.contentinset)
         .onAppear {
             isFocused = true
+            Analytics.track(.kidsProfileFeedbackFormSeen)
         }
     }
 

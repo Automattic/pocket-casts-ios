@@ -695,4 +695,13 @@ enum AnalyticsEvent: String {
     case deselectChaptersChapterSelected
     case deselectChaptersChapterDeselected
 
+    // MARK: - Kids Profile
+    case kidsProfileBannerSeen
+    case kidsProfileEarlyAccessRequested
+    case kidsProfileBannerDismissed
+    case kidsProfileSendFeedbackTapped
+    case kidsProfileNoThankYouTapped
+    case kidsProfileThankYouForYourInterestSeen
+    case kidsProfileFeedbackFormSeen
+    case kidsProfileFeedbackSent
 }

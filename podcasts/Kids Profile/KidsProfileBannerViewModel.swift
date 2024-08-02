@@ -6,10 +6,12 @@ class KidsProfileBannerViewModel {
 
     func closeButtonTap() {
         Settings.shouldHideBanner = true
+        Analytics.track(.kidsProfileEarlyAccessRequested)
         onCloseButtonTap?()
     }
 
     func requestEarlyAccessTap() {
+        Analytics.track(.kidsProfileEarlyAccessRequested)
         onRequestEarlyAccessTap?()
     }
 }
