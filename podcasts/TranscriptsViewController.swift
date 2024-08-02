@@ -391,6 +391,7 @@ class TranscriptsViewController: PlayerItemViewController {
             findOccurrences(of: term)
             updateNumberOfResults()
             refreshText()
+            scrollToFirstResult()
         }
     }
 
@@ -414,6 +415,14 @@ class TranscriptsViewController: PlayerItemViewController {
         }
 
         searchView.updateLabel(L10n.searchResults(currentSearchIndex + 1, searchIndicesResult.count))
+    }
+
+    func scrollToFirstResult() {
+        guard let searchTerm,
+              let firstResultRange = searchIndicesResult.first.map({ NSRange(location: $0, length: searchTerm.count)}) else {
+            return
+        }
+        transcriptView.scrollToRange(firstResultRange)
     }
 
     // MARK: - Constants
@@ -470,14 +479,14 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
         currentSearchIndex = currentSearchIndex - 1 < 0 ? searchIndicesResult.count - 1 : currentSearchIndex - 1
         updateNumberOfResults()
         refreshText()
-        transcriptView.scrollRangeToVisible(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
+        transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
     }
 
     func nextMatch() {
         currentSearchIndex = currentSearchIndex + 1 > searchIndicesResult.count - 1 ? 0 : currentSearchIndex + 1
         updateNumberOfResults()
         refreshText()
-        transcriptView.scrollRangeToVisible(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
+        transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
     }
 }
 
@@ -486,5 +495,28 @@ private class RoundButton: UIButton {
         super.layoutSubviews()
 
         layer.cornerRadius = bounds.height / 2
+    }
+}
+
+extension UITextView {
+    func scrollToRange(_ range: NSRange) {
+        // Ensure layout is up-to-date
+        textStorage.addLayoutManager(layoutManager)
+        layoutManager.ensureLayout(for: textContainer)
+
+        let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+
+        layoutManager.enumerateEnclosingRects(forGlyphRange: glyphRange, withinSelectedGlyphRange: NSRange(location: NSNotFound, length: 0), in: textContainer) { rect, _ in
+            let finalRect = rect.offsetBy(dx: self.textContainerInset.left, dy: self.textContainerInset.top)
+
+            // Calculate the rectangle to scroll to such that the finalRect is centered
+            let visibleRect = CGRect(
+                x: finalRect.origin.x - (self.bounds.width / 2) + (finalRect.width / 2),
+                y: finalRect.origin.y - (self.bounds.height / 2) + (finalRect.height / 2),
+                width: self.bounds.width,
+                height: self.bounds.height
+            )
+            self.scrollRectToVisible(visibleRect, animated: true)
+        }
     }
 }
