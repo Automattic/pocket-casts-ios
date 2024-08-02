@@ -445,8 +445,6 @@ class TranscriptsViewController: PlayerItemViewController {
 
     // MARK: - Keyboard
 
-
-
     @objc func keyboardWillShow(_ notification: Notification) {
         adjustTextViewForKeyboard(notification: notification, show: true)
     }
