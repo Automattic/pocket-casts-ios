@@ -85,9 +85,9 @@ struct Announcements {
         .init(
             version: "7.69",
             header: AnyView(GiveRatingsWhatsNewHeader()),
-            title: "Rating podcasts  available now!",
-            message: "You can start rating any show in Pocket Casts. Make sure you give it a few listens first and go support your favorite creators!",
-            buttonTitle: "Got it",
+            title: L10n.ratingWhatsNewTitle,
+            message: L10n.ratingWhatsNewMessage,
+            buttonTitle: L10n.ratingWhatsNewButtonTitle,
             action: {
                 SceneHelper.rootViewController()?.dismiss(animated: true)
             },
