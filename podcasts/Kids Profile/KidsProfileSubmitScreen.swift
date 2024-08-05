@@ -39,6 +39,8 @@ struct KidsProfileSubmitScreen: View {
         }
         .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
         .frame(height: Constants.buttonHeight)
+        .disabled(!viewModel.canSendFeedback)
+        .opacity(viewModel.buttonOpacity)
     }
 
     enum Constants {
