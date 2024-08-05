@@ -12,7 +12,7 @@ public class KMPSearch {
     }
 
     private func computeLPSArray() {
-        guard lps.count > 0 else {
+        if lps.isEmpty {
             return
         }
 
