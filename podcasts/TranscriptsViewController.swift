@@ -512,7 +512,7 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     func search(_ term: String) {
-        guard !term.isEmpty else {
+        if term.isEmpty {
             resetSearch()
             return
         }
