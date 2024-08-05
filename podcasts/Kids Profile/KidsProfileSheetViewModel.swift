@@ -10,24 +10,22 @@ class KidsProfileSheetViewModel: ObservableObject {
     var onSendFeedbackTap: (() -> Void)? = nil
 
     func dismissScreen() {
+        Analytics.track(.kidsProfileNoThankYouTapped)
         onDismissScreenTap?()
     }
 
     func sendFeedback() {
+        Analytics.track(.kidsProfileSendFeedbackTapped)
         onSendFeedbackTap?()
         currentScreen = .submit
     }
 
     func submitFeedback() {
-        // Send message
-
-        //If message sent succeded
+        // Send message in optimistic way
+        Analytics.track(.kidsProfileFeedbackSent)
         Toast.show(L10n.kidsProfileSubmitSuccess)
 
-        //If message sent fail
-//        Toast.show(L10n.serverErrorUnknown)
-
-        dismissScreen()
+        onDismissScreenTap?()
     }
 
     enum SheetScreen {
