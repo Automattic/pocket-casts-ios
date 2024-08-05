@@ -10,6 +10,11 @@ class TranscriptsViewController: PlayerItemViewController {
     private var canScrollToDismiss = true
 
     private var isSearching = false
+    private var searchIndicesResult: [Int] = []
+    private var currentSearchIndex = 0
+    private var searchTerm: String?
+
+    private let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
@@ -28,12 +33,14 @@ class TranscriptsViewController: PlayerItemViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        addObservers()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
+        resetSearch()
     }
 
     override var canBecomeFirstResponder: Bool {
@@ -50,8 +57,9 @@ class TranscriptsViewController: PlayerItemViewController {
                 transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
         )
+
         updateTextMargins()
-        transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: 0.7 * Sizes.bottomGradientHeight, right: 0)
+        transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: bottomContainerInset, right: 0)
 
         view.addSubview(activityIndicatorView)
         NSLayoutConstraint.activate(
@@ -119,7 +127,7 @@ class TranscriptsViewController: PlayerItemViewController {
         return view
     }()
 
-    @objc private func search() {
+    @objc private func displaySearch() {
         isSearching = true
 
         // Keep the inputAccessoryView dark
@@ -171,7 +179,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
         let searchButton = RoundButton(type: .system)
         searchButton.setTitle(L10n.search, for: .normal)
-        searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(displaySearch), for: .touchUpInside)
         searchButton.setTitleColor(.white, for: .normal)
         searchButton.tintColor = .white.withAlphaComponent(0.2)
         searchButton.layer.masksToBounds = true
@@ -201,6 +209,10 @@ class TranscriptsViewController: PlayerItemViewController {
     private lazy var bottomGradient: GradientView = {
         GradientView(firstColor: Colors.gradientColor.withAlphaComponent(0), secondColor: Colors.gradientColor)
     }()
+
+    var bottomContainerInset: CGFloat {
+        0.7 * Sizes.bottomGradientHeight
+    }
 
     override func willBeAddedToPlayer() {
         updateColors()
@@ -233,6 +245,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
     @objc private func update() {
         updateColors()
+        resetSearch()
         loadTranscript()
     }
 
@@ -256,6 +269,15 @@ class TranscriptsViewController: PlayerItemViewController {
         }
     }
 
+    private func resetSearch() {
+        searchIndicesResult = []
+        currentSearchIndex = 0
+        searchView.textField.text = ""
+        searchTerm = nil
+        updateNumberOfResults()
+        refreshText()
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             refreshText()
@@ -270,9 +292,10 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func updateTextMargins() {
         let margin = self.view.readableContentGuide.layoutFrame.minX + 8
-        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: margin, bottom: 0.7 * Sizes.bottomGradientHeight, right: margin)
+        transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: margin, bottom: bottomContainerInset, right: margin)
     }
 
+    @MainActor
     private func refreshText() {
         guard let transcript else {
             return
@@ -322,6 +345,22 @@ class TranscriptsViewController: PlayerItemViewController {
             formattedText.addAttributes(highlightStyle, range: range)
         }
 
+        if let searchTerm {
+            let length = formattedText.length
+            let searchTermLength = searchTerm.count
+            searchIndicesResult.enumerated().forEach { index, indice in
+                if indice + searchTermLength <= length {
+                    let highlightStyle: [NSAttributedString.Key: Any] = [
+                        .backgroundColor: UIColor.white.withAlphaComponent(index == currentSearchIndex ? 1 : 0.4),
+                        .foregroundColor: index == currentSearchIndex ? UIColor.black : ThemeColor.playerContrast01()
+                    ]
+
+                    formattedText.addAttributes(highlightStyle, range: NSRange(location: indice, length: searchTermLength))
+                }
+
+            }
+        }
+
         return formattedText
     }
 
@@ -337,6 +376,8 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func addObservers() {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         //We disabled the method bellow until we find a way to resync/shift transcript positions
         //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
     }
@@ -360,6 +401,78 @@ class TranscriptsViewController: PlayerItemViewController {
             transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
     }
+
+    // MARK: - Search
+
+    func performSearch(_ term: String) {
+        Task {
+            findOccurrences(of: term)
+            updateNumberOfResults()
+            refreshText()
+            scrollToFirstResult()
+        }
+    }
+
+    func findOccurrences(of term: String) {
+        guard let transcriptText = transcript?.attributedText.string,
+              !term.isEmpty else {
+            resetSearch()
+            return
+        }
+
+        let kmpSearch = KMPSearch(pattern: term)
+        searchIndicesResult = kmpSearch.search(in: transcriptText)
+        currentSearchIndex = 0
+        searchTerm = term
+    }
+
+    @MainActor
+    func updateNumberOfResults() {
+        if searchIndicesResult.isEmpty {
+            searchView.updateLabel("")
+            return
+        }
+
+        searchView.updateLabel(L10n.searchResults(currentSearchIndex + 1, searchIndicesResult.count))
+    }
+
+    func scrollToFirstResult() {
+        guard let searchTerm,
+              let firstResultRange = searchIndicesResult.first.map({ NSRange(location: $0, length: searchTerm.count)}) else {
+            return
+        }
+        transcriptView.scrollToRange(firstResultRange)
+    }
+
+    // MARK: - Keyboard
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: true)
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        adjustTextViewForKeyboard(notification: notification, show: false)
+    }
+
+    func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            return
+        }
+
+        let keyboardHeight = keyboardFrame.height
+        let adjustmentHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
+
+        UIView.animate(withDuration: animationDuration) { [weak self] in
+            guard let self else { return }
+
+            transcriptView.contentInset.bottom = adjustmentHeight
+            transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
+        }
+    }
+
+    // MARK: - Constants
 
     private enum Sizes {
         static let topGradientHeight: CGFloat = 60
@@ -390,11 +503,47 @@ extension TranscriptsViewController: UIScrollViewDelegate {
 extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     func doneTapped() {
         dismissSearch()
+        resetSearch()
         searchView.removeFromSuperview()
     }
 
     func searchButtonTapped() {
         becomeFirstResponder()
+    }
+
+    func search(_ term: String) {
+        if term.isEmpty {
+            resetSearch()
+            return
+        }
+
+        debounce.call { [weak self] in
+            self?.performSearch(term)
+        }
+    }
+
+    func previousMatch() {
+        updateCurrentSearchIndex(decrement: true)
+        processMatch()
+    }
+
+    func nextMatch() {
+        updateCurrentSearchIndex(decrement: false)
+        processMatch()
+    }
+
+    private func updateCurrentSearchIndex(decrement: Bool) {
+        if decrement {
+            currentSearchIndex = (currentSearchIndex - 1 < 0) ? searchIndicesResult.count - 1 : currentSearchIndex - 1
+        } else {
+            currentSearchIndex = (currentSearchIndex + 1 >= searchIndicesResult.count) ? 0 : currentSearchIndex + 1
+        }
+    }
+
+    private func processMatch() {
+        updateNumberOfResults()
+        refreshText()
+        transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
     }
 }
 
