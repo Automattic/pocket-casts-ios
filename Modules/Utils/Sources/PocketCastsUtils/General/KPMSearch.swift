@@ -37,7 +37,7 @@ public class KMPSearch {
     }
 
     public func search(in text: String) -> [Int] {
-        guard pattern.count > 0 else {
+        if pattern.isEmpty {
             return []
         }
 
