@@ -3,16 +3,15 @@ import UIKit
 
 extension UIView {
     public func distanceFromBottom() -> CGFloat? {
-        guard let window = self.window else {
+        guard let window else {
             return nil
         }
 
-        let viewFrameInWindow = self.convert(self.bounds, to: window)
+        let viewFrameInWindow = convert(self.bounds, to: window)
 
         let screenHeight = UIScreen.main.bounds.height
-        let distanceFromBottom = screenHeight - viewFrameInWindow.maxY
 
-        return distanceFromBottom
+        return screenHeight - viewFrameInWindow.maxY
     }
 }
 #endif
