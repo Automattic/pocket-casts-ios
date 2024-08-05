@@ -422,6 +422,7 @@ class TranscriptsViewController: PlayerItemViewController {
 
         let kmpSearch = KMPSearch(pattern: term)
         searchIndicesResult = kmpSearch.search(in: transcriptText)
+        currentSearchIndex = 0
         searchTerm = term
     }
 
