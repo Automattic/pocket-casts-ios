@@ -40,6 +40,7 @@ steps:
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: lint_localized_strings_format
+        agents: *common_agents
         plugins: *common_plugins
         env: *common_env
 
