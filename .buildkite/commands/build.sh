@@ -1,7 +1,6 @@
 #!/bin/bash -u
 
-echo "--- :swift: Installing Swift Package Manager Dependencies"
-install_swiftpm_dependencies
+"$(dirname "${BASH_SOURCE[0]}")/install_swift_dependencies.sh"
 
 echo "--- Setup Ruby tooling"
 
