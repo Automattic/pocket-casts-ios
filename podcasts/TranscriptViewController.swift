@@ -546,11 +546,13 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     func previousMatch() {
+        track(.transcriptSearchPreviousResult)
         updateCurrentSearchIndex(decrement: true)
         processMatch()
     }
 
     func nextMatch() {
+        track(.transcriptSearchNextResult)
         updateCurrentSearchIndex(decrement: false)
         processMatch()
     }
