@@ -1524,8 +1524,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Plus 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@免費試用</string>
-    <key>plus_lifetime_membership</key>
-    <string>終身會員</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>桌面和網頁應用程式</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>

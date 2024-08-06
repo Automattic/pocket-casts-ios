@@ -1524,8 +1524,6 @@ UPDATES</string>
     <string>FUNCTIES VAN PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ Gratis Proefversie</string>
-    <key>plus_lifetime_membership</key>
-    <string>Levenslang lid</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Desktop- en web-apps</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>

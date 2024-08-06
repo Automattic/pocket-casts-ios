@@ -1524,8 +1524,6 @@ AGGIORNAMENTI</string>
     <string>FUNZIONALITÀ PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ di prova gratuita</string>
-    <key>plus_lifetime_membership</key>
-    <string>Membro a vita</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>App per desktop e web</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -1851,6 +1849,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Tempo totale rimanente: %1$@</string>
     <key>rate</key>
     <string>Valuta</string>
+    <key>rate_pocket_casts</key>
+    <string>Valuta Pocket Casts</string>
     <key>rating_error</key>
     <string>Siamo spiacenti. Si è verificato un errore</string>
     <key>rating_listen_to_this_podcast_message</key>

@@ -1524,8 +1524,6 @@ UPPDATERINGAR</string>
     <string>PLUS-FUNKTIONER</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ gratis provperiod</string>
-    <key>plus_lifetime_membership</key>
-    <string>Livstidsmedlem</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Dator- och webbappar</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
