@@ -2216,6 +2216,12 @@ internal enum L10n {
   internal static func ratingTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "rating_title", String(describing: p1))
   }
+  /// Got it
+  internal static var ratingWhatsNewButtonTitle: String { return L10n.tr("Localizable", "rating_whats_new_button_title") }
+  /// You can start rating any show in Pocket Casts. Make sure you give it a few listens first and go support your favorite creators!
+  internal static var ratingWhatsNewMessage: String { return L10n.tr("Localizable", "rating_whats_new_message") }
+  /// Rating podcasts available now!
+  internal static var ratingWhatsNewTitle: String { return L10n.tr("Localizable", "rating_whats_new_title") }
   /// FINDING NEW PODCAST EPISODES
   internal static var refreshControlFetchingEpisodes: String { return L10n.tr("Localizable", "refresh_control_fetching_episodes") }
   /// PULL TO REFRESH
@@ -2574,7 +2580,7 @@ internal enum L10n {
   internal static var settingsGeneralOpenInBrowser: String { return L10n.tr("Localizable", "settings_general_open_in_browser") }
   /// Extra Playback Actions
   internal static var settingsGeneralPlayBackActions: String { return L10n.tr("Localizable", "settings_general_play_back_actions") }
-  /// Adds a mark played and star option to your phone lock screen and CarPlay. Note: on the lock screen this will replace the skip back button.
+  /// Adds a star option to your phone lock screen.
   internal static var settingsGeneralPlayBackActionsSubtitle: String { return L10n.tr("Localizable", "settings_general_play_back_actions_subtitle") }
   /// PLAYER
   internal static var settingsGeneralPlayerHeader: String { return L10n.tr("Localizable", "settings_general_player_header") }
