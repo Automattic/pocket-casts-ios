@@ -1,7 +1,7 @@
 import UIKit
 import PocketCastsUtils
 
-class TranscriptsViewController: PlayerItemViewController {
+class TranscriptViewController: PlayerItemViewController {
 
     private let playbackManager: PlaybackManager
     private var transcript: TranscriptModel?
@@ -486,7 +486,7 @@ class TranscriptsViewController: PlayerItemViewController {
     }
 }
 
-extension TranscriptsViewController: UIScrollViewDelegate {
+extension TranscriptViewController: UIScrollViewDelegate {
 
     // Only allow scroll to dismiss if scrolling bottom from the top
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -500,7 +500,7 @@ extension TranscriptsViewController: UIScrollViewDelegate {
     }
 }
 
-extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
+extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
     func doneTapped() {
         dismissSearch()
         resetSearch()

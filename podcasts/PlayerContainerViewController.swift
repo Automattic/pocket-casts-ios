@@ -64,9 +64,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
 
-    lazy var transcriptsItem: TranscriptsViewController = {
+    lazy var transcriptsItem: TranscriptViewController = {
         let playbackManager = PlaybackManager.shared
-        let item = TranscriptsViewController(playbackManager: playbackManager)
+        let item = TranscriptViewController(playbackManager: playbackManager)
 
         item.view.translatesAutoresizingMaskIntoConstraints = false
         item.scrollViewHandler = self
