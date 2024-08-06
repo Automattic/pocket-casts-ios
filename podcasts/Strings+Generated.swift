@@ -2570,7 +2570,7 @@ internal enum L10n {
   internal static var settingsGeneralOpenInBrowser: String { return L10n.tr("Localizable", "settings_general_open_in_browser") }
   /// Extra Playback Actions
   internal static var settingsGeneralPlayBackActions: String { return L10n.tr("Localizable", "settings_general_play_back_actions") }
-  /// Adds a mark played and star option to your phone lock screen and CarPlay. Note: on the lock screen this will replace the skip back button.
+  /// Adds a star option to your phone lock screen.
   internal static var settingsGeneralPlayBackActionsSubtitle: String { return L10n.tr("Localizable", "settings_general_play_back_actions_subtitle") }
   /// PLAYER
   internal static var settingsGeneralPlayerHeader: String { return L10n.tr("Localizable", "settings_general_player_header") }
