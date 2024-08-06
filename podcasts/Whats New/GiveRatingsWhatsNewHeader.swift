@@ -53,13 +53,13 @@ struct GiveRatingsWhatsNewHeader: View {
             show.toggle()
         }
     }
-    
+
     private enum Constants {
         static let starSize = 40.0
         static let starMinY = -7.0
 
         static let frameW = 200.0
-        
+
         static let animationInDelay = 0.2
         static let animationInDelay2 = 0.1
         static let animationOutDelay = 4.0
