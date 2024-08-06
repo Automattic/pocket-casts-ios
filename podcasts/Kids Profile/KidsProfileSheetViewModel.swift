@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import PocketCastsServer
 
 class KidsProfileSheetViewModel: ObservableObject {
     @Published private(set) var currentScreen: SheetScreen = .thankYou
@@ -8,6 +9,14 @@ class KidsProfileSheetViewModel: ObservableObject {
 
     var onDismissScreenTap: (() -> Void)? = nil
     var onSendFeedbackTap: (() -> Void)? = nil
+
+    var canSendFeedback: Bool {
+        !textToSend.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+
+    var buttonOpacity: Double {
+        return canSendFeedback ? 1 : 0.8
+    }
 
     func dismissScreen() {
         Analytics.track(.kidsProfileNoThankYouTapped)
@@ -21,7 +30,9 @@ class KidsProfileSheetViewModel: ObservableObject {
     }
 
     func submitFeedback() {
-        // Send message in optimistic way
+        //Optimistic feedback sent
+        ApiServerHandler.shared.sendFeedback(message: textToSend)
+
         Analytics.track(.kidsProfileFeedbackSent)
         Toast.show(L10n.kidsProfileSubmitSuccess)
 

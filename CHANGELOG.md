@@ -1,6 +1,6 @@
 7.71
 -----
-
+- Kids Profile banner implementation [#1935](https://github.com/Automattic/pocket-casts-ios/issues/1935)
 
 7.70
 -----
