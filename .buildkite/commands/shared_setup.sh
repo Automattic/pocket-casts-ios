@@ -15,7 +15,13 @@ echo "--- :xcode: :hammer: Delete Package.resolved from xcodeproj folder"
 #
 # To avoid this issue, let's remove the file project file, if any.
 EXTRA_RESOLVED_FILE_PATH="$(dirname "${BASH_SOURCE[0]}")/../../podcasts.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
-rm "$EXTRA_RESOLVED_FILE_PATH" || echo "No resolved file found at $EXTRA_RESOLVED_FILE_PATH"
+if [[ -f $EXTRA_RESOLVED_FILE_PATH ]]; then
+  rm "$EXTRA_RESOLVED_FILE_PATH"
+  # It's useful to print a confirmation here, otherwise we'll have an empty logs section, which might be misleading
+  echo "Successfully deleted $EXTRA_RESOLVED_FILE_PATH"
+else
+  echo "No resolved file found at $EXTRA_RESOLVED_FILE_PATH"
+fi
 
 echo "--- :swift: Installing Swift Package Manager Dependencies"
 install_swiftpm_dependencies
