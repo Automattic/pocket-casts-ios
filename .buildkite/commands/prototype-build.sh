@@ -5,9 +5,6 @@ brew upgrade sentry-cli
 
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
-echo "--- :cocoapods: Setting up Pods"
-install_cocoapods
-
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply
 
