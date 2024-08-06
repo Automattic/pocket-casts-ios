@@ -241,7 +241,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
         }
 
-        if FeatureFlag.kidsProfile.enabled, row == .kidsProfile {
+        if row == .kidsProfile {
             let cell = tableView.dequeueReusableCell(withIdentifier: KidsProfileBannerTableCell.identifier, for: indexPath) as! KidsProfileBannerTableCell
             cell.onCloseButtonTap = { [weak self] cell in
                 if let cell, let indexPath = tableView.indexPath(for: cell) {
@@ -296,17 +296,14 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         let row = tableData[indexPath.section][indexPath.row]
-        if FeatureFlag.kidsProfile.enabled, row == .kidsProfile {
-            return false
-        }
-        return true
+        return row != .kidsProfile
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
 
         if EndOfYear.isEligible && row == .endOfYearPrompt ||
-            FeatureFlag.kidsProfile.enabled && row == .kidsProfile {
+            row == .kidsProfile {
             return UITableView.automaticDimension
         } else {
             return 70
@@ -369,7 +366,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             data[0].insert(.endOfYearPrompt, at: 0)
         }
 
-        if FeatureFlag.kidsProfile.enabled {
+        if FeatureFlag.kidsProfile.enabled && !Settings.shouldHideBanner {
             data[0].insert(.kidsProfile, at: 0)
         }
 
