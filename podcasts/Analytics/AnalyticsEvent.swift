@@ -706,7 +706,9 @@ enum AnalyticsEvent: String {
     case kidsProfileFeedbackSent
 
     // MARK: - Transcript
+
     case transcriptShown
     case transcriptError
     case transcriptDismissed
+    case transcriptSearch
 }

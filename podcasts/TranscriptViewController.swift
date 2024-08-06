@@ -141,6 +141,8 @@ class TranscriptViewController: PlayerItemViewController {
 
         // Move focus to the textView on the input accessory view
         searchView.textField.becomeFirstResponder()
+
+        track(.transcriptSearch)
     }
 
     private func dismissSearch() {
