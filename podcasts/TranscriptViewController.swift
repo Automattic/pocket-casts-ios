@@ -43,6 +43,10 @@ class TranscriptViewController: PlayerItemViewController {
         resetSearch()
     }
 
+    func didDisappear() {
+        track(.transcriptDismissed)
+    }
+
     override var canBecomeFirstResponder: Bool {
         true
     }
@@ -264,13 +268,10 @@ class TranscriptViewController: PlayerItemViewController {
 
             do {
                 let transcript = try await transcriptManager.loadTranscript()
-
-                Analytics.track(.transcriptShown, properties: ["episode_uuid": episode.uuid, "podcast_uuid": episode.parentIdentifier()])
-
+                await track(.transcriptShown)
                 await show(transcript: transcript)
             } catch {
-                Analytics.track(.transcriptError, properties: ["episode_uuid": episode.uuid, "podcast_uuid": episode.parentIdentifier(), "error_code": (error as NSError).code])
-
+                await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
             }
         }
@@ -477,6 +478,19 @@ class TranscriptViewController: PlayerItemViewController {
             transcriptView.contentInset.bottom = adjustmentHeight
             transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
         }
+    }
+
+    // MARK: - Tracks
+
+    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+        var properties = properties
+
+        if let episode = playbackManager.currentEpisode() {
+            properties["episode_uuid"] = episode.uuid
+            properties["podcast_uuid"] = episode.parentIdentifier()
+        }
+
+        Analytics.track(event, properties: properties)
     }
 
     // MARK: - Constants

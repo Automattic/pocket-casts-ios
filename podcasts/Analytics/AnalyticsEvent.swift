@@ -708,4 +708,5 @@ enum AnalyticsEvent: String {
     // MARK: - Transcript
     case transcriptShown
     case transcriptError
+    case transcriptDismissed
 }
