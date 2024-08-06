@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-"$(dirname "${BASH_SOURCE[0]}")/install_swift_dependencies.sh"
+"$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
 echo "--- :rubygems: Setting up Gems"
 install_gems
