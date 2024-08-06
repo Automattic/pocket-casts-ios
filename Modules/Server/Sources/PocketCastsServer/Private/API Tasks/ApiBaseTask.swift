@@ -9,8 +9,8 @@ class ApiBaseTask: Operation {
 
     let dataManager: DataManager
 
-    private let urlConnection: URLConnection
-    private let tokenHelper: TokenHelper
+    let urlConnection: URLConnection
+    let tokenHelper: TokenHelper
 
     init(dataManager: DataManager = .sharedManager, urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.dataManager = dataManager
@@ -26,20 +26,27 @@ class ApiBaseTask: Operation {
     }
 
     func runTaskSynchronously() {
-        if let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
-            apiTokenAcquired(token: token)
-        } else if let token = tokenHelper.acquireToken() {
+        if let token = acquiredToken() {
             apiTokenAcquired(token: token)
         } else {
             apiTokenAcquisitionFailed()
         }
     }
 
+    func acquiredToken() -> String? {
+        if let token = try? KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey) {
+            return token
+        } else if let token = tokenHelper.acquireToken() {
+            return token
+        }
+        return nil
+    }
+
     func postToServer(url: String, token: String, data: Data) -> (Data?, Int) {
         return performPostToServer(url: url, token: token, data: data)
     }
 
-    private func performPostToServer(url: String, token: String, data: Data, retryOnUnauthorized: Bool = true) -> (Data?, Int) {
+    func performPostToServer(url: String, token: String?, data: Data, retryOnUnauthorized: Bool = true) -> (Data?, Int) {
         let requestUrl = ServerHelper.asUrl(url)
         let method = "POST"
         var request = createRequest(url: requestUrl, method: method, token: token)

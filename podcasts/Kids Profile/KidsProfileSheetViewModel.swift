@@ -30,20 +30,13 @@ class KidsProfileSheetViewModel: ObservableObject {
     }
 
     func submitFeedback() {
-        Task { @MainActor [weak self] in
-            guard let self else { return }
+        //Optimistic feedback sent
+        ApiServerHandler.shared.sendFeedback(message: textToSend)
 
-            if SyncManager.isUserLoggedIn() {
-                await ApiServerHandler.shared.sendFeedback(message: textToSend)
-            } else {
-                await ApiServerHandler.shared.sendAnonymousFeedback(message: textToSend)
-            }
+        Analytics.track(.kidsProfileFeedbackSent)
+        Toast.show(L10n.kidsProfileSubmitSuccess)
 
-            Analytics.track(.kidsProfileFeedbackSent)
-            Toast.show(L10n.kidsProfileSubmitSuccess)
-
-            onDismissScreenTap?()
-        }
+        onDismissScreenTap?()
     }
 
     enum SheetScreen {

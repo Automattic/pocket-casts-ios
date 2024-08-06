@@ -6,14 +6,22 @@ class SupportFeedbackTask: ApiBaseTask {
     var completion: ((Bool) -> Void)?
 
     private let message: String
-    private let feedbackType: FeedbackType
 
-    init(message: String, feedbackType: FeedbackType) {
+    init(message: String) {
         self.message = message
-        self.feedbackType = feedbackType
     }
 
-    override func apiTokenAcquired(token: String) {
+    override func main() {
+        autoreleasepool {
+            if SyncManager.isUserLoggedIn(), let token = acquiredToken() {
+                startRequest(token: token, feedbackType: .authenticated)
+            } else {
+                startRequest(feedbackType: .anonymous)
+            }
+        }
+    }
+
+    func startRequest(token: String? = nil, feedbackType: FeedbackType) {
         do {
             let urlString = "\(ServerConstants.Urls.api())\(feedbackType.endpoint)"
 
@@ -24,7 +32,7 @@ class SupportFeedbackTask: ApiBaseTask {
 
             let data = try request.serializedData()
 
-            let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
+            let (response, httpStatus) = performPostToServer(url: urlString, token: token, data: data)
 
             if response == nil {
                 FileLog.shared.addMessage("Failed to send the feedback message because response is empty")
