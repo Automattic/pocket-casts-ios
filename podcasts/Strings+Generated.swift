@@ -1388,6 +1388,12 @@ internal enum L10n {
   internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
   /// Kids Profile
   internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }
+  /// Send
+  internal static var kidsProfileSubmitFeedbackSendButton: String { return L10n.tr("Localizable", "kids_profile_submit_feedback_send_button") }
+  /// What would you like to see in a Kids profile for Pocket Casts?
+  internal static var kidsProfileSubmitFeedbackTitle: String { return L10n.tr("Localizable", "kids_profile_submit_feedback_title") }
+  /// Thank you for your feedback!
+  internal static var kidsProfileSubmitSuccess: String { return L10n.tr("Localizable", "kids_profile_submit_success") }
   /// No, thank you
   internal static var kidsProfileThankyouButtonClose: String { return L10n.tr("Localizable", "kids_profile_thankyou_button_close") }
   /// Send Feedback
@@ -2282,6 +2288,10 @@ internal enum L10n {
   internal static var searchPodcasts: String { return L10n.tr("Localizable", "search_podcasts") }
   /// Recent searches
   internal static var searchRecent: String { return L10n.tr("Localizable", "search_recent") }
+  /// %1$@ of %2$@
+  internal static func searchResults(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "search_results", String(describing: p1), String(describing: p2))
+  }
   /// Season
   internal static var season: String { return L10n.tr("Localizable", "season") }
   /// S%1$@ E%2$@

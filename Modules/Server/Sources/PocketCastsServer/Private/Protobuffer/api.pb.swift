@@ -138,6 +138,8 @@ struct Api_SupportFeedbackRequest {
 
   var debug: String = String()
 
+  var inbox: String = String()
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -7824,6 +7826,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
     2: .same(proto: "email"),
     3: .same(proto: "subject"),
     4: .same(proto: "debug"),
+    5: .same(proto: "inbox"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -7836,6 +7839,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
       case 2: try { try decoder.decodeSingularStringField(value: &self.email) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.subject) }()
       case 4: try { try decoder.decodeSingularStringField(value: &self.debug) }()
+      case 5: try { try decoder.decodeSingularStringField(value: &self.inbox) }()
       default: break
       }
     }
@@ -7854,6 +7858,9 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
     if !self.debug.isEmpty {
       try visitor.visitSingularStringField(value: self.debug, fieldNumber: 4)
     }
+    if !self.inbox.isEmpty {
+      try visitor.visitSingularStringField(value: self.inbox, fieldNumber: 5)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -7862,6 +7869,7 @@ extension Api_SupportFeedbackRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
     if lhs.email != rhs.email {return false}
     if lhs.subject != rhs.subject {return false}
     if lhs.debug != rhs.debug {return false}
+    if lhs.inbox != rhs.inbox {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

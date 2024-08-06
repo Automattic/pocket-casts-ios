@@ -10,7 +10,7 @@ struct KidsProfileSheet: View {
     var body: some View {
         VStack {
             if viewModel.currentScreen == .submit {
-                submitScreen
+                KidsProfileSubmitScreen(viewModel: viewModel, theme: theme)
                     .transition(transition)
             } else {
                 KidsProfileThankYouScreen(viewModel: viewModel, theme: theme)
@@ -20,19 +20,6 @@ struct KidsProfileSheet: View {
         }
         .animation(.easeOut, value: viewModel.currentScreen)
         .background(theme.primaryUi01)
-    }
-
-    private var submitScreen: some View {
-        // this will be replaced by the next screen
-        ZStack {
-            Rectangle().background(.black)
-                .padding(.leading, 20.0)
-                .padding(.top, 20.0)
-                .padding(.trailing, 20.0)
-                .frame(height: 330)
-            Text("Placeholder")
-                .foregroundStyle(.white)
-        }
     }
 }
 

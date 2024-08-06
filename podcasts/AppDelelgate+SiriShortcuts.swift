@@ -23,7 +23,8 @@ extension AppDelegate {
                 let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
                 let path = components.path,
                 let controller = SceneHelper.rootViewController(),
-                path != "/get"
+                path != "/get",
+                path != "/get/"
             else { return }
 
             // Also pass any query params from the share URL to the server to allow support for episode position handling

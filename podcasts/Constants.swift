@@ -189,6 +189,10 @@ struct Constants {
         enum appearance {
             static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
         }
+
+        enum kidsProfile {
+            static let shouldHideBanner = "ShouldHideKidsBannerKey"
+        }
     }
 
     enum Values {
