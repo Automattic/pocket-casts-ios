@@ -1524,8 +1524,6 @@
     <string>PLUS 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ 免费试用</string>
-    <key>plus_lifetime_membership</key>
-    <string>终身会员</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>桌面和 Web 应用程序</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
