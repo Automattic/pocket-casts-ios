@@ -269,6 +269,8 @@ class TranscriptViewController: PlayerItemViewController {
 
                 await show(transcript: transcript)
             } catch {
+                Analytics.track(.transcriptError, properties: ["episode_uuid": episode.uuid, "podcast_uuid": episode.parentIdentifier(), "error_code": (error as NSError).code])
+
                 await show(error: error)
             }
         }
