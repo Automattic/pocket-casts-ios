@@ -2,9 +2,6 @@
 
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
-echo "--- :rubygems: Setting up Gems"
-install_gems
-
 echo "--- :cocoapods: Setting up Pods"
 install_cocoapods
 
