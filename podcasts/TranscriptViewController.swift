@@ -259,9 +259,14 @@ class TranscriptViewController: PlayerItemViewController {
             guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
                 return
             }
+
             let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
+
             do {
                 let transcript = try await transcriptManager.loadTranscript()
+
+                Analytics.track(.transcriptShown, properties: ["episode_uuid": episode.uuid, "podcast_uuid": episode.parentIdentifier()])
+
                 await show(transcript: transcript)
             } catch {
                 await show(error: error)
