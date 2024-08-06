@@ -83,7 +83,7 @@ struct Announcements {
 
         // Give Ratings
         .init(
-            version: "7.69",
+            version: "7.70",
             header: AnyView(GiveRatingsWhatsNewHeader()),
             title: L10n.ratingWhatsNewTitle,
             message: L10n.ratingWhatsNewMessage,
