@@ -1,7 +1,7 @@
 import UIKit
 import PocketCastsUtils
 
-class TranscriptsViewController: PlayerItemViewController {
+class TranscriptViewController: PlayerItemViewController {
 
     private let playbackManager: PlaybackManager
     private var transcript: TranscriptModel?
@@ -41,6 +41,10 @@ class TranscriptsViewController: PlayerItemViewController {
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
         resetSearch()
+    }
+
+    func didDisappear() {
+        track(.transcriptDismissed)
     }
 
     override var canBecomeFirstResponder: Bool {
@@ -137,6 +141,8 @@ class TranscriptsViewController: PlayerItemViewController {
 
         // Move focus to the textView on the input accessory view
         searchView.textField.becomeFirstResponder()
+
+        track(.transcriptSearch)
     }
 
     private func dismissSearch() {
@@ -259,11 +265,15 @@ class TranscriptsViewController: PlayerItemViewController {
             guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
                 return
             }
+
             let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
+
             do {
                 let transcript = try await transcriptManager.loadTranscript()
+                await track(.transcriptShown)
                 await show(transcript: transcript)
             } catch {
+                await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
             }
         }
@@ -472,6 +482,19 @@ class TranscriptsViewController: PlayerItemViewController {
         }
     }
 
+    // MARK: - Tracks
+
+    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+        var properties = properties
+
+        if let episode = playbackManager.currentEpisode() {
+            properties["episode_uuid"] = episode.uuid
+            properties["podcast_uuid"] = episode.parentIdentifier()
+        }
+
+        Analytics.track(event, properties: properties)
+    }
+
     // MARK: - Constants
 
     private enum Sizes {
@@ -486,7 +509,7 @@ class TranscriptsViewController: PlayerItemViewController {
     }
 }
 
-extension TranscriptsViewController: UIScrollViewDelegate {
+extension TranscriptViewController: UIScrollViewDelegate {
 
     // Only allow scroll to dismiss if scrolling bottom from the top
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -500,7 +523,7 @@ extension TranscriptsViewController: UIScrollViewDelegate {
     }
 }
 
-extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
+extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
     func doneTapped() {
         dismissSearch()
         resetSearch()
@@ -523,11 +546,13 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     func previousMatch() {
+        track(.transcriptSearchPreviousResult)
         updateCurrentSearchIndex(decrement: true)
         processMatch()
     }
 
     func nextMatch() {
+        track(.transcriptSearchNextResult)
         updateCurrentSearchIndex(decrement: false)
         processMatch()
     }
