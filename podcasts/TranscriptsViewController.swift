@@ -148,7 +148,13 @@ class TranscriptsViewController: PlayerItemViewController {
     }
 
     private lazy var transcriptView: UITextView = {
-        let textView = UITextView()
+        let textView: UITextView
+        if #available(iOS 16.0, *) {
+            textView = UITextView(usingTextLayoutManager: false)
+        } else {
+            // Fallback on earlier versions
+            textView = UITextView()
+        }
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false
