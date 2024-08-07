@@ -542,9 +542,10 @@ extension TranscriptsViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     private func processMatch() {
-        guard !searchIndicesResult.isEmpty, currentSearchIndex >= 0, currentSearchIndex < searchIndicesResult.count else {
+        if searchIndicesResult.isEmpty {
             return
         }
+
         updateNumberOfResults()
         refreshText()
         transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
