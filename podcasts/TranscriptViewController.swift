@@ -519,8 +519,13 @@ class TranscriptViewController: PlayerItemViewController {
 
     @MainActor
     func updateNumberOfResults() {
-        if searchIndicesResult.isEmpty {
+        if searchTerm == nil {
             searchView.updateLabel("")
+            return
+        }
+
+        if searchIndicesResult.isEmpty {
+            searchView.updateLabel("0")
             return
         }
 
