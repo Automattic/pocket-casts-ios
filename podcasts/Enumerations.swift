@@ -409,7 +409,7 @@ extension PlayerAction: AnalyticsDescribable {
         case .addBookmark:
             return "bookmarks-shelf-icon"
         case .transcript:
-            return "show_notes"
+            return "transcript"
         }
     }
 
