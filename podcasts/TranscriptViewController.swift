@@ -181,13 +181,19 @@ class TranscriptViewController: PlayerItemViewController {
     }()
 
     private lazy var errorView: UIView = {
-        let view = UIStackView(arrangedSubviews: [errorMessage, errorRetryButton])
+        let view = UIStackView(arrangedSubviews: [errorIcon, errorMessage, errorRetryButton])
         view.spacing = 16
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
-        view.distribution = .equalSpacing
+        view.distribution = .equalCentering
         view.alignment = .center
         view.isHidden = true
+        return view
+    }()
+
+    private lazy var errorIcon: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "yield_scaled"))
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
@@ -304,6 +310,7 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func loadTranscript() {
+        transcriptView.text = ""
         searchButton.isHidden = true
         errorView.isHidden = true
         activityIndicatorView.startAnimating()
@@ -358,13 +365,14 @@ class TranscriptViewController: PlayerItemViewController {
 
     @MainActor
     private func refreshText() {
+        if let errorText = errorMessage.text {
+            errorMessage.attributedText = NSAttributedString(string: errorText, attributes: makeStyle())
+        }
+
         guard let transcript else {
             return
         }
         transcriptView.attributedText = styleText(transcript: transcript)
-        if let errorText = errorMessage.text {
-            errorMessage.attributedText = NSAttributedString(string: errorText, attributes: makeStyle())
-        }
     }
 
     private func show(transcript: TranscriptModel) {
