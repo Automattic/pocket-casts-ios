@@ -78,7 +78,7 @@ class TranscriptViewController: PlayerItemViewController {
             [
                 errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                errorView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor)
+                errorView.widthAnchor.constraint(equalTo: view.readableContentGuide.widthAnchor, constant: -Sizes.textMargin)
             ]
         )
 
@@ -352,7 +352,7 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func updateTextMargins() {
-        let margin = self.view.readableContentGuide.layoutFrame.minX + 8
+        let margin = self.view.readableContentGuide.layoutFrame.minX + Sizes.textMargin
         transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: margin, bottom: bottomContainerInset, right: margin)
     }
 
@@ -362,6 +362,9 @@ class TranscriptViewController: PlayerItemViewController {
             return
         }
         transcriptView.attributedText = styleText(transcript: transcript)
+        if let errorText = errorMessage.text {
+            errorMessage.attributedText = NSAttributedString(string: errorText, attributes: makeStyle())
+        }
     }
 
     private func show(transcript: TranscriptModel) {
@@ -579,6 +582,7 @@ class TranscriptViewController: PlayerItemViewController {
         static let topGradientHeight: CGFloat = 60
         static let bottomGradientHeight: CGFloat = 60
         static let activityIndicatorSize: CGFloat = 30
+        static let textMargin: CGFloat = 8
     }
 
     private enum Colors {
