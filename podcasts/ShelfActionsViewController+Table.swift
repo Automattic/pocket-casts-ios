@@ -52,10 +52,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
                 cell.actionIcon.tintColor = ThemeColor.playerContrast02()
             }
 
-            if !action.isEnabled {
-                cell.actionIcon.layer.opacity = 0.8
-                cell.actionName.layer.opacity = 0.5
-            }
+            // Disable transcript if not available
+            var isTranscriptsAndIsDisable = action == .transcript && !isTranscriptEnabled
+            cell.actionIcon.layer.opacity = isTranscriptsAndIsDisable ? 0.8 : 1
+            cell.actionName.layer.opacity = isTranscriptsAndIsDisable ? 0.5 : 1
         } else {
             cell.actionName.text = action.title(episode: nil)
             cell.actionIcon.image = UIImage(named: action.iconName(episode: nil))
@@ -74,7 +74,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
 
-        guard action.isEnabled else {
+        if action == .transcript && !isTranscriptEnabled {
             return
         }
 
