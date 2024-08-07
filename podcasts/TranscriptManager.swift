@@ -11,15 +11,15 @@ enum TranscriptError: Error {
     var localizedDescription: String {
         switch self {
         case .notAvailable:
-            return "Transcript not available"
+            return "Sorry, but transcrips are not available for this podcast"
         case .failedToLoad:
-            return "Transcript failed to load"
+            return "Sorry, but something went wrong while loading this transcript"
         case .notSupported(let format):
-            return "Transcript format not supported: \(format)"
+            return "Sorry, but this transcript format is not supported: \(format)"
         case .failedToParse:
-            return "Transcript failed to parse"
+            return "Sorry, but something went wrong while parsing this transcript"
         case .empty:
-            return "Transcript is empty"
+            return "Sorry, but it looks this transcript is empty"
         }
     }
 }
