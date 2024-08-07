@@ -378,7 +378,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>client_error_token_deauth</key>
     <string>代碼驗證失敗。</string>
     <key>clip</key>
-    <string>短片</string>
+    <string>片段</string>
     <key>close</key>
     <string>關閉</string>
     <key>color</key>
@@ -408,7 +408,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>create_account_plus_details</key>
     <string>解鎖全部功能</string>
     <key>create_clip</key>
-    <string>建立短片</string>
+    <string>建立片段</string>
     <key>create_filter</key>
     <string>建立篩選器</string>
     <key>current_email_prompt</key>
@@ -690,7 +690,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>edit</key>
     <string>編輯</string>
     <key>edit_clip</key>
-    <string>編輯短片</string>
+    <string>編輯片段</string>
     <key>enable_it_now</key>
     <string>立即啟用</string>
     <key>eoy_card_description</key>
@@ -1524,8 +1524,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Plus 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@免費試用</string>
-    <key>plus_lifetime_membership</key>
-    <string>終身會員</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>桌面和網頁應用程式</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2380,7 +2378,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>share</key>
     <string>分享</string>
     <key>share_clip</key>
-    <string>分享短片</string>
+    <string>分享片段</string>
     <key>share_copied_to_clipboard</key>
     <string>連結已複製到剪貼簿</string>
     <key>share_copy_link</key>

@@ -377,6 +377,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Desideri cancellare la tua coda Successivo?</string>
     <key>client_error_token_deauth</key>
     <string>Autenticazione token non riuscita.</string>
+    <key>clip</key>
+    <string>Clip</string>
     <key>close</key>
     <string>Chiudi</string>
     <key>color</key>
@@ -405,6 +407,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Gratuito</string>
     <key>create_account_plus_details</key>
     <string>Tutto sbloccato</string>
+    <key>create_clip</key>
+    <string>Crea clip</string>
     <key>create_filter</key>
     <string>Crea filtro</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Interrompi tutti i download</string>
     <key>edit</key>
     <string>Modifica</string>
+    <key>edit_clip</key>
+    <string>Modifica clip</string>
     <key>enable_it_now</key>
     <string>Attiva ora</string>
     <key>eoy_card_description</key>
@@ -1518,8 +1524,6 @@ AGGIORNAMENTI</string>
     <string>FUNZIONALITÀ PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ di prova gratuita</string>
-    <key>plus_lifetime_membership</key>
-    <string>Membro a vita</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>App per desktop e web</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -1845,14 +1849,22 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Tempo totale rimanente: %1$@</string>
     <key>rate</key>
     <string>Valuta</string>
+    <key>rate_pocket_casts</key>
+    <string>Valuta Pocket Casts</string>
     <key>rating_error</key>
     <string>Siamo spiacenti. Si è verificato un errore</string>
     <key>rating_listen_to_this_podcast_message</key>
     <string>Solo gli ascoltatori di questo podcast possono dare una valutazione. Ascolta qualche episodio e poi torna per lasciare una valutazione. Non vediamo l'ora di sapere cosa pensi!</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Ascolta prima questo podcast</string>
+    <key>rating_login_required</key>
+    <string>Devi accedere per lasciare una valutazione</string>
+    <key>rating_no_ratings</key>
+    <string>Nessuna valutazione</string>
     <key>rating_submitted</key>
     <string>La valutazione è stata inviata!</string>
+    <key>rating_thank_you</key>
+    <string>Ti ringraziamo per la tua valutazione.</string>
     <key>rating_title</key>
     <string>Valuta %1$@</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,6 +2379,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Quando è attivato, l'autospegnimento si riavvia quando scuoti il telefono.</string>
     <key>share</key>
     <string>Condividi</string>
+    <key>share_clip</key>
+    <string>Condividi clip</string>
     <key>share_copied_to_clipboard</key>
     <string>Link copiato negli appunti</string>
     <key>share_copy_link</key>

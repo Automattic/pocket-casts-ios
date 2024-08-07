@@ -1524,8 +1524,6 @@ MISES À JOUR</string>
     <string>FONCTIONNALITÉS PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ d’essai gratuit</string>
-    <key>plus_lifetime_membership</key>
-    <string>Membre à vie</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Applications Web et de bureau</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
