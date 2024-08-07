@@ -4,6 +4,7 @@ import UIKit
 extension UITextView {
     public func scrollToRange(_ range: NSRange) {
         // Ensure layout is up-to-date
+        textStorage.addLayoutManager(layoutManager)
         layoutManager.ensureLayout(for: textContainer)
 
         let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
