@@ -53,7 +53,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             }
 
             // Disable transcript if not available
-            var isTranscriptsAndIsDisable = action == .transcript && !isTranscriptEnabled
+            let isTranscriptsAndIsDisable = action == .transcript && !isTranscriptEnabled
             cell.actionIcon.layer.opacity = isTranscriptsAndIsDisable ? 0.8 : 1
             cell.actionName.layer.opacity = isTranscriptsAndIsDisable ? 0.5 : 1
         } else {
@@ -61,6 +61,9 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             cell.actionIcon.image = UIImage(named: action.iconName(episode: nil))
             cell.customViewContainer.removeAllSubviews()
             cell.actionIcon.tintColor = ThemeColor.playerContrast02()
+
+            cell.actionIcon.layer.opacity = 1
+            cell.actionName.layer.opacity = 1
         }
 
         cell.actionSubtitle.text = (tableView.isEditing && playingEpisode is UserEpisode) ? action.subtitle() : nil
