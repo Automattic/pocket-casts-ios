@@ -78,6 +78,7 @@ class TranscriptViewController: PlayerItemViewController {
             [
                 errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                errorView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor)
             ]
         )
 
@@ -186,6 +187,7 @@ class TranscriptViewController: PlayerItemViewController {
         view.axis = .vertical
         view.distribution = .equalSpacing
         view.alignment = .center
+        view.isHidden = true
         return view
     }()
 
@@ -361,6 +363,7 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func show(transcript: TranscriptModel) {
+            errorView.isHidden = true
             activityIndicatorView.stopAnimating()
             self.previousRange = nil
             self.transcript = transcript
