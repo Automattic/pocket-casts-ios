@@ -310,7 +310,7 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func loadTranscript() {
-        transcriptView.text = ""
+        transcriptView.isHidden = true
         searchButton.isHidden = true
         errorView.isHidden = true
         activityIndicatorView.startAnimating()
@@ -376,12 +376,13 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func show(transcript: TranscriptModel) {
-            searchButton.isHidden = false
-            errorView.isHidden = true
-            activityIndicatorView.stopAnimating()
-            self.previousRange = nil
-            self.transcript = transcript
-            transcriptView.attributedText = styleText(transcript: transcript)
+        searchButton.isHidden = false
+        errorView.isHidden = true
+        activityIndicatorView.stopAnimating()
+        self.previousRange = nil
+        self.transcript = transcript
+        transcriptView.attributedText = styleText(transcript: transcript)
+        transcriptView.isHidden = false
     }
 
     private func makeStyle() -> [NSAttributedString.Key: Any] {
