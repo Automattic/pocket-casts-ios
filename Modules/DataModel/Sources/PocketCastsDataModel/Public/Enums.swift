@@ -289,17 +289,6 @@ public enum PlayerAction: String, Codable, Equatable {
     case transcript = "transcript"
 }
 
-extension PlayerAction {
-    public var isEnabled: Bool {
-        switch self {
-        case .transcript:
-            false
-        default:
-            true
-        }
-    }
-}
-
 extension Array: RawRepresentable where Element: RawRepresentable<String> {
     public typealias RawValue = String
 
