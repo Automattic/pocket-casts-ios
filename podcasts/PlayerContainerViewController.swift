@@ -64,9 +64,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
 
-    lazy var transcriptsItem: TranscriptsViewController = {
+    lazy var transcriptsItem: TranscriptViewController = {
         let playbackManager = PlaybackManager.shared
-        let item = TranscriptsViewController(playbackManager: playbackManager)
+        let item = TranscriptViewController(playbackManager: playbackManager)
 
         item.view.translatesAutoresizingMaskIntoConstraints = false
         item.scrollViewHandler = self
@@ -121,6 +121,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+
+        if nowPlayingItem.displayTranscript {
+            transcriptsItem.didDisappear()
+        }
 
         if !FeatureFlag.newPlayerTransition.enabled {
             Analytics.track(.playerDismissed)
@@ -295,8 +299,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     func hideTranscript() {
+        transcriptsItem.willMove(toParent: nil)
         transcriptsItem.removeFromParent()
         transcriptsItem.view.removeFromSuperview()
+        transcriptsItem.didDisappear()
     }
 
     private func configureTranscriptView() {
