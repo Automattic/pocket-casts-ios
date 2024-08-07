@@ -52,7 +52,7 @@ struct SharingView: View {
                 buttons
             case .clip(let episode, _):
                 VStack(spacing: 16) {
-                    MediaTrimBar(clipTime: clipTime)
+                    MediaTrimBar(clipTime: clipTime, episode: episode)
                         .frame(height: 72)
                         .tint(color)
                     Button(L10n.clip, action: {
