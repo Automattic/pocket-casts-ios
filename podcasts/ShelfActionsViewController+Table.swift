@@ -51,6 +51,11 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             } else {
                 cell.actionIcon.tintColor = ThemeColor.playerContrast02()
             }
+
+            if !action.isEnabled {
+                cell.actionIcon.layer.opacity = 0.8
+                cell.actionName.layer.opacity = 0.5
+            }
         } else {
             cell.actionName.text = action.title(episode: nil)
             cell.actionIcon.image = UIImage(named: action.iconName(episode: nil))
@@ -68,6 +73,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: true)
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
+
+        guard action.isEnabled else {
+            return
+        }
 
         Analytics.track(.playerShelfActionTapped, properties: ["action": action.analyticsDescription, "from": "overflow_menu"])
 
