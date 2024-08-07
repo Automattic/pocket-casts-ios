@@ -69,6 +69,14 @@ class TranscriptsViewController: PlayerItemViewController {
             ]
         )
 
+        view.addSubview(errorView)
+        NSLayoutConstraint.activate(
+            [
+                errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            ]
+        )
+
         view.addSubview(topGradient)
         topGradient.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
@@ -163,6 +171,40 @@ class TranscriptsViewController: PlayerItemViewController {
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicatorView
+    }()
+
+    private lazy var errorView: UIView = {
+        let view = UIStackView(arrangedSubviews: [errorMessage, errorRetryButton])
+        view.spacing = 16
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .center
+        return view
+    }()
+
+    private lazy var errorRetryButton: UIView = {
+        var configuration = UIButton.Configuration.filled()
+        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+
+        let retryButton = RoundButton(type: .system)
+        retryButton.setTitle(L10n.tryAgain, for: .normal)
+        retryButton.addTarget(self, action: #selector(retryLoad), for: .touchUpInside)
+
+        retryButton.setTitleColor(.white, for: .normal)
+        retryButton.tintColor = .white.withAlphaComponent(0.2)
+        retryButton.layer.masksToBounds = true
+        retryButton.configuration = configuration
+        retryButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        retryButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        return retryButton
+    }()
+
+    private lazy var errorMessage: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        return label
     }()
 
     private lazy var closeButton: TintableImageButton! = {
@@ -269,6 +311,11 @@ class TranscriptsViewController: PlayerItemViewController {
         }
     }
 
+    @objc func retryLoad() {
+        errorView.isHidden = true
+        loadTranscript()
+    }
+
     private func resetSearch() {
         searchIndicesResult = []
         currentSearchIndex = 0
@@ -308,6 +355,31 @@ class TranscriptsViewController: PlayerItemViewController {
             self.previousRange = nil
             self.transcript = transcript
             transcriptView.attributedText = styleText(transcript: transcript)
+    }
+
+    private func makeStyle() -> [NSAttributedString.Key: Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.2
+        paragraphStyle.paragraphSpacing = 10
+        paragraphStyle.lineBreakMode = .byWordWrapping
+        paragraphStyle.alignment = .center
+
+        var standardFont = UIFont.preferredFont(forTextStyle: .body)
+
+        if let descriptor = UIFontDescriptor.preferredFontDescriptor(
+          withTextStyle: .body)
+          .withDesign(.serif) {
+            standardFont =  UIFont(descriptor: descriptor, size: 0)
+        }
+
+
+        let normalStyle: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .font: standardFont,
+            .foregroundColor: ThemeColor.playerContrast02()
+        ]
+
+        return normalStyle
     }
 
     private func styleText(transcript: TranscriptModel, position: Double = -1) -> NSAttributedString {
@@ -366,12 +438,12 @@ class TranscriptsViewController: PlayerItemViewController {
 
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
-        guard let transcriptError = error as? TranscriptError else {
-            transcriptView.text = "Transcript unknow error"
-            return
+        var message = "Sorry, but something went wrong while loading this transcript"
+        if let transcriptError = error as? TranscriptError {
+            message = transcriptError.localizedDescription
         }
-
-        transcriptView.text = transcriptError.localizedDescription
+        errorView.isHidden = false
+        errorMessage.attributedText = NSAttributedString(string: message, attributes: makeStyle())
     }
 
     private func addObservers() {
