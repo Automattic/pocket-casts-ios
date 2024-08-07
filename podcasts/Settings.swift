@@ -738,8 +738,8 @@ class Settings: NSObject {
         }
 
         // Show transcript as the 4th item if it's not present
-        if !playerActions.contains(.transcript) {
-            playerActions.insert(.transcript, at: 3)
+        if FeatureFlag.transcripts.enabled && !playerActions.contains(.transcript) {
+            playerActions.insert(.transcript, safelyAt: 3)
         }
 
         return playerActions + defaultActions.filter { !playerActions.contains($0) }
