@@ -304,6 +304,8 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func loadTranscript() {
+        searchButton.isHidden = true
+        errorView.isHidden = true
         activityIndicatorView.startAnimating()
         Task.detached { [weak self] in
             guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
@@ -363,6 +365,7 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func show(transcript: TranscriptModel) {
+            searchButton.isHidden = false
             errorView.isHidden = true
             activityIndicatorView.stopAnimating()
             self.previousRange = nil
