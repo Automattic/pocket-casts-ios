@@ -171,9 +171,9 @@ class TranscriptViewController: PlayerItemViewController {
         return textView
     }()
 
-    private lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let activityIndicatorView = UIActivityIndicatorView()
-        activityIndicatorView.style = .medium
+    private lazy var activityIndicatorView: AngularActivityIndicator = {
+        let activityIndicatorView = AngularActivityIndicator(size: CGSize(width: Sizes.activityIndicatorSize, height: Sizes.activityIndicatorSize), lineWidth: 2.0, duration: 1.0)
+        activityIndicatorView.color = ThemeColor.playerContrast02()
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicatorView
@@ -282,7 +282,7 @@ class TranscriptViewController: PlayerItemViewController {
         transcriptView.backgroundColor =  PlayerColorHelper.playerBackgroundColor01()
         transcriptView.textColor = ThemeColor.playerContrast02()
         transcriptView.indicatorStyle = .white
-        activityIndicatorView.color = ThemeColor.playerContrast01()
+        activityIndicatorView.color = ThemeColor.playerContrast02()
         updateGradientColors()
     }
 
@@ -572,6 +572,7 @@ class TranscriptViewController: PlayerItemViewController {
     private enum Sizes {
         static let topGradientHeight: CGFloat = 60
         static let bottomGradientHeight: CGFloat = 60
+        static let activityIndicatorSize: CGFloat = 30
     }
 
     private enum Colors {
