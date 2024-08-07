@@ -447,6 +447,7 @@ class TranscriptViewController: PlayerItemViewController {
 
         if searchIndicesResult.isEmpty {
             searchView.updateLabel("0")
+            searchView.enableUpDownButtons(false)
             return
         }
 
