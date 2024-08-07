@@ -430,9 +430,10 @@ class TranscriptsViewController: PlayerItemViewController {
     func updateNumberOfResults() {
         if searchIndicesResult.isEmpty {
             searchView.updateLabel("")
+            searchView.enableUpDownButtons(false)
             return
         }
-
+        searchView.enableUpDownButtons(true)
         searchView.updateLabel(L10n.searchResults(currentSearchIndex + 1, searchIndicesResult.count))
     }
 
