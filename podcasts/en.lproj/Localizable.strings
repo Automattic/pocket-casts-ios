@@ -4237,3 +4237,6 @@
 
 /* Kids Profile Toast message if feedback sent succeeded */
 "kids_profile_submit_success" = "Thank you for your feedback!";
+
+/* Kids Profile Toast message if feedback sent failed */
+"kids_profile_submit_error" = "Something went wrong. Please try submitting your feedback again";
