@@ -377,6 +377,8 @@
     <string>次のエピソード待機リストをクリアしてもよろしいですか ?</string>
     <key>client_error_token_deauth</key>
     <string>トークンを認証できませんでした。</string>
+    <key>clip</key>
+    <string>クリップ</string>
     <key>close</key>
     <string>閉じる</string>
     <key>color</key>
@@ -405,6 +407,8 @@
     <string>無料</string>
     <key>create_account_plus_details</key>
     <string>すべてのロックを解除済み</string>
+    <key>create_clip</key>
+    <string>クリップを作成</string>
     <key>create_filter</key>
     <string>フィルターを作成</string>
     <key>current_email_prompt</key>
@@ -685,6 +689,8 @@
     <string>すべてのダウンロードを停止</string>
     <key>edit</key>
     <string>編集する</string>
+    <key>edit_clip</key>
+    <string>クリップを編集</string>
     <key>enable_it_now</key>
     <string>すぐに有効化</string>
     <key>eoy_card_description</key>
@@ -1851,8 +1857,14 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>このポッドキャストを評価できるのは、リスナーのみです。 いくつかエピソードを聴いた後、こちらで評価してください。 ご意見をお待ちしています。</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>まずこちらのポッドキャストをお聴きください</string>
+    <key>rating_login_required</key>
+    <string>評価を残すにはログインする必要があります</string>
+    <key>rating_no_ratings</key>
+    <string>評価なし</string>
     <key>rating_submitted</key>
     <string>評価を送信しました。</string>
+    <key>rating_thank_you</key>
+    <string>ご評価いただきありがとうございます !</string>
     <key>rating_title</key>
     <string>%1$@ を評価</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2367,6 +2379,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>オンにすると、スマートフォンをシェイクした際にスリープタイマーが再開されます。</string>
     <key>share</key>
     <string>共有</string>
+    <key>share_clip</key>
+    <string>クリップを共有</string>
     <key>share_copied_to_clipboard</key>
     <string>リンクがクリップボードにコピーされました</string>
     <key>share_copy_link</key>

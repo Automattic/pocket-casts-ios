@@ -30,6 +30,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.updateNavBarButtons()
+                contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
                 if !self.isMultiSelectEnabled {
                     self.multiSelectActionBar.isHidden = true
                     self.selectedPlayListEpisodes.removeAll()

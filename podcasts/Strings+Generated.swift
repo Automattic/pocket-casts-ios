@@ -1388,6 +1388,12 @@ internal enum L10n {
   internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
   /// Kids Profile
   internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }
+  /// Send
+  internal static var kidsProfileSubmitFeedbackSendButton: String { return L10n.tr("Localizable", "kids_profile_submit_feedback_send_button") }
+  /// What would you like to see in a Kids profile for Pocket Casts?
+  internal static var kidsProfileSubmitFeedbackTitle: String { return L10n.tr("Localizable", "kids_profile_submit_feedback_title") }
+  /// Thank you for your feedback!
+  internal static var kidsProfileSubmitSuccess: String { return L10n.tr("Localizable", "kids_profile_submit_success") }
   /// No, thank you
   internal static var kidsProfileThankyouButtonClose: String { return L10n.tr("Localizable", "kids_profile_thankyou_button_close") }
   /// Send Feedback
