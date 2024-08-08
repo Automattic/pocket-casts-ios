@@ -444,7 +444,7 @@ class TranscriptViewController: PlayerItemViewController {
 
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
-        var message = "Sorry, but something went wrong while loading this transcript"
+        var message = L10n.transcriptErrorFailedToLoad
         if let transcriptError = error as? TranscriptError {
             message = transcriptError.localizedDescription
         }
