@@ -545,6 +545,7 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
 
     func search(_ term: String) {
         if term.isEmpty {
+            debounce.cancel()
             resetSearch()
             return
         }
