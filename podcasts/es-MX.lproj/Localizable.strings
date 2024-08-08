@@ -1524,8 +1524,6 @@ ACTUALIZACIONES</string>
     <string>FUNCIONES PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Prueba gratuita de %1$@</string>
-    <key>plus_lifetime_membership</key>
-    <string>Miembro vitalicio</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Aplicaciones web y para ordenador</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>

@@ -22,7 +22,12 @@ struct KidsProfileBannerView: View {
                         Spacer()
 
                         Image("kids-profile-banner-face")
-                            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadiusBig))
+                            .clipShape(
+                                PCUnevenRoundedRectangle(topLeadingRadius: 0,
+                                                         bottomLeadingRadius: 0,
+                                                         bottomTrailingRadius: Constants.cornerRadiusBig,
+                                                         topTrailingRadius: 0)
+                            )
                     }
 
                     VStack {
@@ -62,10 +67,11 @@ struct KidsProfileBannerView: View {
 
             Button(action: viewModel.requestEarlyAccessTap) {
                 Text(L10n.kidsProfileBannerRequestButton)
-                    .font(size: Constants.textSize, style: .body, weight: .medium)
+                    .font(size: Constants.buttonTitleSize, style: .body, weight: .medium)
                     .foregroundStyle(theme.primaryInteractive01)
                     .opacity(Constants.opacity)
             }
+            .buttonStyle(.plain)
         }
     }
 
@@ -86,6 +92,7 @@ struct KidsProfileBannerView: View {
         static let opacity = 0.8
         static let titleSize = 15.0
         static let textSize = 11.0
+        static let buttonTitleSize = 13.0
 
         static let minHeight = 105.0
         static let buttonSize = 24.0

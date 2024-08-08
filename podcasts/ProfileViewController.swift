@@ -299,6 +299,13 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return row != .kidsProfile
     }
 
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let row = tableData[indexPath.section][indexPath.row]
+        if row == .kidsProfile {
+            Analytics.track(.kidsProfileBannerSeen)
+        }
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = tableData[indexPath.section][indexPath.row]
 

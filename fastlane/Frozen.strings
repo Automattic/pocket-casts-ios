@@ -1562,8 +1562,11 @@
 /* Account detail message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
 "plus_free_membership_format" = "%1$@ Free Trial";
 
-/* Account detail message informing the user that they have been granted a lifetime membership. */
-"plus_lifetime_membership" = "Lifetime Member";
+/* Account detail message informing the user that they have been granted a lifetime membership, don't translate "Pocket Casts Champion" */
+"plus_champion" = "Pocket Casts Champion";
+
+/* Message displayed when teh user tap "Pocket Casts Champion" button */
+"plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
 /* Pocket Casts Plus marketing page, description of the Cloud Storage feature */
 "plus_marketing_updated_cloud_storage_description" = "Upload your files to cloud storage and have it available everywhere";
@@ -2442,7 +2445,7 @@
 "settings_general_play_back_actions" = "Extra Playback Actions";
 
 /* Subtitle explaining the toggle to modify what controls are available on the lock screen. */
-"settings_general_play_back_actions_subtitle" = "Adds a mark played and star option to your phone lock screen and CarPlay. Note: on the lock screen this will replace the skip back button.";
+"settings_general_play_back_actions_subtitle" = "Adds a star option to your phone lock screen.";
 
 /* Section header for the general settings that are more player related. */
 "settings_general_player_header" = "PLAYER";
@@ -2584,6 +2587,9 @@
 
 /* Fun informational message about the skip options available in the settings. */
 "settings_skip_msg" = "Skip intro and outro music like the power user you were born to be.";
+
+/* Title for the button that open a page to change the avatar(a.k.a. profile picture). */
+"settings_change_avatar" = "Change Avatar";
 
 /* A common string used throughout the app. Refers to the Stats settings menu */
 "settings_stats" = "Stats";
@@ -4017,6 +4023,15 @@
 /* Toast message to alert a user to log in to leave a rating */
 "rating_login_required" = "You must log in to leave a rating";
 
+/* What's New sheet title */
+"rating_whats_new_title" = "Rating podcasts available now!";
+
+/* What's New sheet message */
+"rating_whats_new_message" = "You can start rating any show in Pocket Casts. Make sure you give it a few listens first and go support your favorite creators!";
+
+/* What's New sheet button title */
+"rating_whats_new_button_title" = "Got it";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 
@@ -4181,6 +4196,48 @@
 
 /* A title shown after editing a clip but before sharing */
 "share_clip" = "Share clip";
+
+/* Title of the Pocket Casts champion screen, greeting an user that has been using Pocket Casts for a long time */
+"champion_title" = "You’re a true champion of Pocket Casts!";
+
+/* Subtitle of the Pocket Casts champion screen */
+"champion_description" = "Thanks for being with us since the beginning! If you enjoy using our app, we’d love to hear your feedback.";
+
+/* Title of a button that allows the user to rate the app */
+"rate_pocket_casts" = "Rate Pocket Casts";
+
+/* Kids Profile banner title */
+"kids_profile_banner_title" = "Kids Profile";
+
+/* Kids Profile banner badge title */
+"kids_profile_banner_badge" = "Soon";
+
+/* Kids Profile banner text */
+"kids_profile_banner_text" = "A new profile with only content for kids to keep you subscriptions tidy.";
+
+/* Kids Profile banner action button title */
+"kids_profile_banner_request_button" = "Request Early Access ";
+
+/* Kids Profile Thank You screen title*/
+"kids_profile_thankyou_title" = "Thank you for your interest";
+
+/* Kids Profile Thank You screen text*/
+"kids_profile_thankyou_text" = "You’ll get a notification via the app when the new Kids profile is ready! Want to let us know what you’d like to see?";
+
+/* Kids Profile Thank You screen send button title */
+"kids_profile_thankyou_button_send" = "Send Feedback";
+
+/* Kids Profile Thank You screen close button title */
+"kids_profile_thankyou_button_close" = "No, thank you";
+
+/* Kids Profile Submit screen title */
+"kids_profile_submit_feedback_title" = "What would you like to see in a Kids profile for Pocket Casts?";
+
+/* Kids Profile Submit screen send button title */
+"kids_profile_submit_feedback_send_button" = "Send";
+
+/* Kids Profile Toast message if feedback sent succeeded */
+"kids_profile_submit_success" = "Thank you for your feedback!";
 
 /* MARK: - InfoPlist.strings */
 
