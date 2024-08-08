@@ -181,45 +181,8 @@ class TranscriptViewController: PlayerItemViewController {
         return activityIndicatorView
     }()
 
-    private lazy var errorView: UIView = {
-        let view = UIStackView(arrangedSubviews: [errorIcon, errorLabel, errorRetryButton])
-        view.spacing = 16
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
-        view.distribution = .equalCentering
-        view.alignment = .center
-        view.isHidden = true
-        return view
-    }()
-
-    private lazy var errorIcon: UIImageView = {
-        let view = UIImageView(image: UIImage(named: "yield_scaled"))
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private lazy var errorRetryButton: UIView = {
-        var configuration = UIButton.Configuration.filled()
-        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
-
-        let retryButton = RoundButton(type: .system)
-        retryButton.setTitle(L10n.tryAgain, for: .normal)
-        retryButton.addTarget(self, action: #selector(retryLoad), for: .touchUpInside)
-
-        retryButton.setTitleColor(.white, for: .normal)
-        retryButton.tintColor = .white.withAlphaComponent(0.2)
-        retryButton.layer.masksToBounds = true
-        retryButton.configuration = configuration
-        retryButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        retryButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        return retryButton
-    }()
-
-    private lazy var errorLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        return label
+    private lazy var errorView: TranscriptErrorView = {
+        return TranscriptErrorView()
     }()
 
     private lazy var closeButton: TintableImageButton! = {
@@ -350,6 +313,7 @@ class TranscriptViewController: PlayerItemViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             refreshText()
+            refreshError()
         }
         updateTextMargins()
     }
@@ -365,11 +329,12 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     @MainActor
-    private func refreshText() {
-        if let errorText = errorLabel.text {
-            errorLabel.attributedText = NSAttributedString(string: errorText, attributes: makeStyle())
-        }
+    private func refreshError() {
+        errorView.setTextAttributes(makeStyle(alignment: .center))
+    }
 
+    @MainActor
+    private func refreshText() {
         guard let transcript else {
             return
         }
@@ -450,7 +415,7 @@ class TranscriptViewController: PlayerItemViewController {
             message = transcriptError.localizedDescription
         }
         errorView.isHidden = false
-        errorLabel.attributedText = NSAttributedString(string: message, attributes: makeStyle(alignment: .center))
+        errorView.setMessage(message, attributes: makeStyle(alignment: .center))
     }
 
     private func addObservers() {
@@ -655,7 +620,7 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
     }
 }
 
-private class RoundButton: UIButton {
+class RoundButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
 
