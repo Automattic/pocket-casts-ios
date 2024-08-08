@@ -322,7 +322,7 @@ class TranscriptViewController: PlayerItemViewController {
 
     private func styleText(transcript: TranscriptModel, position: Double = -1) -> NSAttributedString {
         let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
-
+        formattedText.beginEditing()
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.2
         paragraphStyle.paragraphSpacing = 10
@@ -370,7 +370,7 @@ class TranscriptViewController: PlayerItemViewController {
 
             }
         }
-
+        formattedText.endEditing()
         return formattedText
     }
 
