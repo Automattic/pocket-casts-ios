@@ -15,7 +15,7 @@ class Debounce {
         }
     }
 
-    func cancel(){
+    func cancel() {
         timer?.invalidate()
     }
 }
