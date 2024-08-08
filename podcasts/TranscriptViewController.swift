@@ -349,10 +349,19 @@ class TranscriptViewController: PlayerItemViewController {
             .foregroundColor: ThemeColor.playerContrast01()
         ]
 
-        formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
+        let fullLength = NSRange(location: 0, length: formattedText.length)
+        formattedText.addAttributes(normalStyle, range: fullLength)
 
         if position != -1, let range = transcript.firstCue(containing: position)?.characterRange {
             formattedText.addAttributes(highlightStyle, range: range)
+        }
+
+        let speakerFont = UIFont.font(ofSize: 12, scalingWith: .footnote)
+        formattedText.enumerateAttribute(.transcriptSpeaker, in: fullLength, options: [.reverse, .longestEffectiveRangeNotRequired]) { value, range, _ in
+            if value == nil {
+                return
+            }
+            formattedText.addAttribute(.font, value: speakerFont, range: range)
         }
 
         if let searchTerm {
