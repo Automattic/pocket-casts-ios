@@ -273,11 +273,22 @@ class TranscriptViewController: PlayerItemViewController {
         containerDelegate?.dismissTranscript()
     }
 
-    private func loadTranscript() {
+    private func setupLoadingState() {
         transcriptView.isHidden = true
         searchButton.isHidden = true
         errorView.isHidden = true
         activityIndicatorView.startAnimating()
+    }
+
+    private func setupShowTranscriptState() {
+        transcriptView.isHidden = false
+        searchButton.isHidden = false
+        errorView.isHidden = true
+        activityIndicatorView.stopAnimating()
+    }
+
+    private func loadTranscript() {
+        setupLoadingState()
         Task.detached { [weak self] in
             guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
                 return
@@ -342,13 +353,10 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func show(transcript: TranscriptModel) {
-        searchButton.isHidden = false
-        errorView.isHidden = true
-        activityIndicatorView.stopAnimating()
-        self.previousRange = nil
+        setupShowTranscriptState()
+        previousRange = nil
         self.transcript = transcript
         transcriptView.attributedText = styleText(transcript: transcript)
-        transcriptView.isHidden = false
     }
 
     private func makeStyle(alignment: NSTextAlignment = .natural) -> [NSAttributedString.Key: Any] {
