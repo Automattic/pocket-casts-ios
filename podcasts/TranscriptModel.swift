@@ -42,7 +42,9 @@ struct TranscriptModel: Sendable {
             let text = cue.text
 
             let filteredText: String = ComposeFilter.transcriptFilter.filter(text)
-
+            if filteredText.trim().isEmpty {
+                continue
+            }
             let attributedText = NSAttributedString(string: filteredText)
             let startPosition = resultText.length
             let endPosition = attributedText.length
