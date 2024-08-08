@@ -182,7 +182,9 @@ class TranscriptViewController: PlayerItemViewController {
     }()
 
     private lazy var errorView: TranscriptErrorView = {
-        return TranscriptErrorView()
+        return TranscriptErrorView {[weak self] in
+            self?.retryLoad()
+        }
     }()
 
     private lazy var closeButton: TintableImageButton! = {
@@ -307,7 +309,7 @@ class TranscriptViewController: PlayerItemViewController {
         }
     }
 
-    @objc func retryLoad() {
+    private func retryLoad() {
         errorView.isHidden = true
         loadTranscript()
     }

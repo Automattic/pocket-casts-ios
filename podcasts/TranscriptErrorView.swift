@@ -4,6 +4,28 @@ import PocketCastsUtils
 
 class TranscriptErrorView: UIView {
 
+    private var retryCallback: (() -> ())?
+
+    init(retryCallback: (() -> ())?) {
+        self.retryCallback = retryCallback
+        super.init(frame: CGRect.zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubview(containerView)
+        NSLayoutConstraint.activate(
+            [
+                containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                containerView.widthAnchor.constraint(equalTo: widthAnchor),
+                containerView.heightAnchor.constraint(equalTo: heightAnchor)
+            ]
+        )
+
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     private lazy var containerView: UIView = {
         let view = UIStackView(arrangedSubviews: [icon, label, retryButton])
         view.spacing = 16
@@ -44,25 +66,6 @@ class TranscriptErrorView: UIView {
         return label
     }()
 
-    init() {
-        super.init(frame: CGRect.zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubview(containerView)
-        NSLayoutConstraint.activate(
-            [
-                containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                containerView.widthAnchor.constraint(equalTo: widthAnchor),
-                containerView.heightAnchor.constraint(equalTo: heightAnchor)
-            ]
-        )
-
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     func setMessage(_ message: String, attributes: [NSAttributedString.Key: Any]) {
         label.attributedText = NSAttributedString(string: message, attributes: attributes)
     }
@@ -74,7 +77,7 @@ class TranscriptErrorView: UIView {
     }
 
     @objc func retryLoad() {
-
+        retryCallback?()
     }
 
     override var intrinsicContentSize: CGSize {
