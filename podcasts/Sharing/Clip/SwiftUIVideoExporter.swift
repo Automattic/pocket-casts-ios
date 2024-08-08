@@ -277,7 +277,6 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
 }
 
 extension AVAssetWriterInput {
-
     func fillMediaData(output: AVAssetReaderOutput) async {
         for await _ in requestMediaDataWhenReady(on: DispatchQueue.main) {
             guard let sampleBuffer = output.copyNextSampleBuffer()
@@ -293,7 +292,6 @@ extension AVAssetWriterInput {
 
     func requestMediaDataWhenReady(on queue: DispatchQueue) -> AsyncStream<Void> {
         AsyncStream { continuation in
-
             requestMediaDataWhenReady(on: queue, using: {
                 continuation.yield()
             })
@@ -301,14 +299,6 @@ extension AVAssetWriterInput {
             continuation.onTermination = { @Sendable [weak self] _ in
                 self?.markAsFinished()
             }
-
-//            monitor.quakeHandler = { quake in
-//                continuation.yield(quake)
-//            }
-//            continuation.onTermination = { @Sendable _ in
-//                 monitor.stopMonitoring()
-//            }
-//            monitor.startMonitoring()
         }
     }
 }
