@@ -36,7 +36,7 @@ struct TranscriptModel: Sendable {
             if let currentSpeaker = extractSpeaker(from: cue, format: format) {
                 if currentSpeaker != previousSpeaker {
                     previousSpeaker = currentSpeaker
-                    resultText.append(NSAttributedString(string: "\(currentSpeaker)\n", attributes: [.transcriptSpeaker: currentSpeaker]))
+                    resultText.append(NSAttributedString(string: "\n\(currentSpeaker)\n", attributes: [.transcriptSpeaker: currentSpeaker]))
                 }
             }
             let text = cue.text
