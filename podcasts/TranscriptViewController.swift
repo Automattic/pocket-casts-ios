@@ -141,6 +141,7 @@ class TranscriptViewController: PlayerItemViewController {
 
         // Move focus to the textView on the input accessory view
         searchView.textField.becomeFirstResponder()
+        searchView.enableUpDownButtons(false)
 
         track(.transcriptSearch)
     }
@@ -440,14 +441,17 @@ class TranscriptViewController: PlayerItemViewController {
     func updateNumberOfResults() {
         if searchTerm == nil {
             searchView.updateLabel("")
+            searchView.enableUpDownButtons(false)
             return
         }
 
         if searchIndicesResult.isEmpty {
             searchView.updateLabel("0")
+            searchView.enableUpDownButtons(false)
             return
         }
 
+        searchView.enableUpDownButtons(true)
         searchView.updateLabel(L10n.searchResults(currentSearchIndex + 1, searchIndicesResult.count))
     }
 
@@ -571,6 +575,10 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     private func processMatch() {
+        if searchIndicesResult.isEmpty {
+            return
+        }
+
         updateNumberOfResults()
         refreshText()
         transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
