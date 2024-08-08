@@ -385,12 +385,12 @@ class TranscriptViewController: PlayerItemViewController {
         transcriptView.isHidden = false
     }
 
-    private func makeStyle() -> [NSAttributedString.Key: Any] {
+    private func makeStyle(alignment: NSTextAlignment = .natural) -> [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.2
         paragraphStyle.paragraphSpacing = 10
         paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.alignment = .center
+        paragraphStyle.alignment = alignment
 
         var standardFont = UIFont.preferredFont(forTextStyle: .body)
 
@@ -413,31 +413,9 @@ class TranscriptViewController: PlayerItemViewController {
     private func styleText(transcript: TranscriptModel, position: Double = -1) -> NSAttributedString {
         let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.2
-        paragraphStyle.paragraphSpacing = 10
-        paragraphStyle.lineBreakMode = .byWordWrapping
-
-        var standardFont = UIFont.preferredFont(forTextStyle: .body)
-
-        if let descriptor = UIFontDescriptor.preferredFontDescriptor(
-          withTextStyle: .body)
-          .withDesign(.serif) {
-            standardFont =  UIFont(descriptor: descriptor, size: 0)
-        }
-
-
-        let normalStyle: [NSAttributedString.Key: Any] = [
-            .paragraphStyle: paragraphStyle,
-            .font: standardFont,
-            .foregroundColor: ThemeColor.playerContrast02()
-        ]
-
-        let highlightStyle: [NSAttributedString.Key: Any] = [
-            .paragraphStyle: paragraphStyle,
-            .font: standardFont,
-            .foregroundColor: ThemeColor.playerContrast01()
-        ]
+        let normalStyle = makeStyle()
+        var highlightStyle = normalStyle
+        highlightStyle[.foregroundColor] = ThemeColor.playerContrast01()
 
         formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
 
