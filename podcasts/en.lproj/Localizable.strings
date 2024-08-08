@@ -4196,6 +4196,12 @@
 /* A title shown after editing a clip but before sharing */
 "share_clip" = "Share clip";
 
+/* A label shown with the clip start time */
+"clip_start_label" = "%@ Start";
+
+/* A label shown with the duration time of a clip */
+"clip_duration_label" = "%@ Duration";
+
 /* Title of the Pocket Casts champion screen, greeting an user that has been using Pocket Casts for a long time */
 "champion_title" = "You’re a true champion of Pocket Casts!";
 

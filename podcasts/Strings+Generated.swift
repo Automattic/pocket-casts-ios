@@ -440,6 +440,14 @@ internal enum L10n {
   internal static var clientErrorTokenDeauth: String { return L10n.tr("Localizable", "client_error_token_deauth") }
   /// Clip
   internal static var clip: String { return L10n.tr("Localizable", "clip") }
+  /// %@ Duration
+  internal static func clipDurationLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "clip_duration_label", String(describing: p1))
+  }
+  /// %@ Start
+  internal static func clipStartLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "clip_start_label", String(describing: p1))
+  }
   /// Close
   internal static var close: String { return L10n.tr("Localizable", "close") }
   /// Color
