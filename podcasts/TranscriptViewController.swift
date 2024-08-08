@@ -68,8 +68,8 @@ class TranscriptViewController: PlayerItemViewController {
         view.addSubview(activityIndicatorView)
         NSLayoutConstraint.activate(
             [
-                activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+                activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -Sizes.activityIndicatorSize / 2),
+                activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -Sizes.activityIndicatorSize / 2)
             ]
         )
 
