@@ -1,6 +1,6 @@
 import UIKit
 
-class ShelfActionsViewController: UIViewController {
+class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability {
     @IBOutlet var actionsTable: UITableView! {
         didSet {
             registerCells()
@@ -50,6 +50,12 @@ class ShelfActionsViewController: UIViewController {
 
     private var sheetPresentationDismissalBlocker: ShelfActionsSheetDismissalBlocker?
 
+    var isTranscriptEnabled = false {
+        didSet {
+            reloadActions()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,6 +66,9 @@ class ShelfActionsViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: Constants.Notifications.themeChanged, object: nil)
+
+        addTranscriptObservers()
+        checkTranscriptAvailability()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -146,6 +155,14 @@ class ShelfActionsViewController: UIViewController {
         actionsTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         headingView.backgroundColor = PlayerColorHelper.playerBackgroundColor02()
         actionsTable.reloadData()
+    }
+
+    @objc private func episodeTranscriptAvailabilityChanged(notification: NSNotification) {
+        guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
+              let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
+              episodeUuid == PlaybackManager.shared.currentEpisode()?.uuid else {
+            return
+        }
     }
 
     func updateAvailableActions() {

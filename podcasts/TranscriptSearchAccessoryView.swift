@@ -63,6 +63,11 @@ class TranscriptSearchAccessoryView: UIInputView {
         contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8)
     )
 
+    func enableUpDownButtons(_ enable: Bool) {
+        upButton.isEnabled = enable
+        downButton.isEnabled = enable
+    }
+
     override var intrinsicContentSize: CGSize {
         return .zero
     }

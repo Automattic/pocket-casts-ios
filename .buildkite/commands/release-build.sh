@@ -1,13 +1,6 @@
 #!/bin/bash -eu
 
-echo "--- :swift: Installing Swift Package Manager Dependencies"
-install_swiftpm_dependencies
-
-echo "--- :rubygems: Setting up Gems"
-install_gems
-
-echo "--- :cocoapods: Setting up Pods"
-install_cocoapods
+"$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
 echo "--- :closed_lock_with_key: Installing Secrets"
 bundle exec fastlane run configure_apply
