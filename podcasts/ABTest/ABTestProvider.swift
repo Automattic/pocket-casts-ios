@@ -3,14 +3,8 @@ import AutomatticTracks
 struct ABTestProvider: ABTestProviding {
     static let shared = ABTestProvider()
 
-    private let exPlat: ExPlat
-
-    init(exPlat: ExPlat = ExPlat.shared) {
-        self.exPlat = exPlat
-    }
-
     func variation(for abTest: ABTest) -> Variation {
-        exPlat.experiment(abTest.rawValue) ?? .control
+        ExPlat.shared.experiment(abTest.rawValue) ?? .control
     }
 
     func start() async {
@@ -20,10 +14,14 @@ struct ABTestProvider: ABTestProviding {
                 return continuation.resume()
             }
 
-            exPlat.register(experiments: experiments)
-            exPlat.refresh {
+            ExPlat.shared.register(experiments: experiments)
+            ExPlat.shared.refresh {
                 continuation.resume()
             }
         }
+    }
+
+    func reloadExPlat(platform: String, oAuthToken: String? = nil, userAgent: String? = nil, anonId: String? = nil) {
+        ExPlat.configure(platform: platform, oAuthToken: oAuthToken, userAgent: userAgent, anonId: anonId)
     }
 }

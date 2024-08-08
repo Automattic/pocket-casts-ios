@@ -9,6 +9,7 @@ class TracksAdapter: AnalyticsAdapter {
     private let userDefaults: UserDefaults
     private let subscriptionData: TracksSubscriptionData
     private let notificationCenter: NotificationCenter
+    private let abTestProvider: ABTestProviding
 
     // Config
     private let tracksService: TracksService
@@ -17,6 +18,7 @@ class TracksAdapter: AnalyticsAdapter {
         static let prefix = "pcios"
         static let userKey = "pocketcasts:user_id"
         static let anonymousUUIDKey = "TracksAnonymousUUID"
+        static let platform = "pocketcasts"
     }
 
     /// Returns a UUID id to use if the user is in a logged out state
@@ -40,19 +42,23 @@ class TracksAdapter: AnalyticsAdapter {
 
     init(userDefaults: UserDefaults = .standard,
          subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
-         notificationCenter: NotificationCenter = .default) {
+         notificationCenter: NotificationCenter = .default,
+         abTestProvider: ABTestProviding = ABTestProvider.shared) {
         self.userDefaults = userDefaults
         self.subscriptionData = subscriptionData
         self.notificationCenter = notificationCenter
+        self.abTestProvider = abTestProvider
 
         let context = TracksContextManager()
         tracksService = TracksService(contextManager: context)
+        tracksService.platform = TracksConfig.platform
         tracksService.eventNamePrefix = TracksConfig.prefix
         tracksService.authenticatedUserTypeKey = TracksConfig.userKey
 
         TracksLogging.delegate = TracksAdapterLoggingDelegate.shared
 
         // Setup the rest of the properties
+        reloadExPlat()
         updateUserProperties()
         addNotificationObservers()
         updateAuthenticationState()
@@ -111,20 +117,21 @@ private extension TracksAdapter {
     }
 
     func updateAuthenticationState() {
-        guard let userId = ServerSettings.userId else {
+        if let userId = ServerSettings.userId {
+            tracksService.switchToAuthenticatedUser(withUsername: nil, userID: userId, skipAliasEventCreation: false)
+        } else {
             tracksService.switchToAnonymousUser(withAnonymousID: anonymousUUID)
-            reloadABTest()
-            return
         }
-
-        tracksService.switchToAuthenticatedUser(withUsername: nil, userID: userId, skipAliasEventCreation: false)
-
         reloadABTest()
     }
 
+    func reloadExPlat() {
+        abTestProvider.reloadExPlat(platform: tracksService.platform, oAuthToken: nil, userAgent: nil, anonId: anonymousUUID)
+    }
+
     func reloadABTest() {
-        Task { @MainActor in
-            await ABTestProvider.shared.start()
+        Task { @MainActor [weak self] in
+            await self?.abTestProvider.start()
         }
     }
 }

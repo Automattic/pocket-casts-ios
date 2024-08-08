@@ -108,11 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
         setupSignOutListener()
-
-        Task { @MainActor in
-            await ABTestProvider.shared.start()
-        }
-
+        
         return true
     }
 
