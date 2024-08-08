@@ -181,7 +181,7 @@ class TranscriptViewController: PlayerItemViewController {
     }()
 
     private lazy var errorView: UIView = {
-        let view = UIStackView(arrangedSubviews: [errorIcon, errorMessage, errorRetryButton])
+        let view = UIStackView(arrangedSubviews: [errorIcon, errorLabel, errorRetryButton])
         view.spacing = 16
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
@@ -214,7 +214,7 @@ class TranscriptViewController: PlayerItemViewController {
         return retryButton
     }()
 
-    private lazy var errorMessage: UILabel = {
+    private lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -365,8 +365,8 @@ class TranscriptViewController: PlayerItemViewController {
 
     @MainActor
     private func refreshText() {
-        if let errorText = errorMessage.text {
-            errorMessage.attributedText = NSAttributedString(string: errorText, attributes: makeStyle())
+        if let errorText = errorLabel.text {
+            errorLabel.attributedText = NSAttributedString(string: errorText, attributes: makeStyle())
         }
 
         guard let transcript else {
@@ -471,7 +471,7 @@ class TranscriptViewController: PlayerItemViewController {
             message = transcriptError.localizedDescription
         }
         errorView.isHidden = false
-        errorMessage.attributedText = NSAttributedString(string: message, attributes: makeStyle())
+        errorLabel.attributedText = NSAttributedString(string: message, attributes: makeStyle(alignment: .center))
     }
 
     private func addObservers() {
