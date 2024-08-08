@@ -432,6 +432,7 @@ class TranscriptViewController: PlayerItemViewController {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
         //We disabled the method bellow until we find a way to resync/shift transcript positions
         //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
     }
@@ -513,7 +514,14 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
+        transcriptView.isScrollEnabled = false
         adjustTextViewForKeyboard(notification: notification, show: false)
+    }
+
+    @objc func keyboardDidHide(_ notification: Notification) {
+        Task { [weak self] in
+            self?.transcriptView.isScrollEnabled = true
+        }
     }
 
     func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
