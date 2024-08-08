@@ -182,7 +182,7 @@ class TranscriptViewController: PlayerItemViewController {
     }()
 
     private lazy var errorView: TranscriptErrorView = {
-        return TranscriptErrorView {[weak self] in
+       TranscriptErrorView { [weak self] in
             self?.retryLoad()
         }
     }()
