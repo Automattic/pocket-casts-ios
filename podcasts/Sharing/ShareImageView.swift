@@ -47,9 +47,7 @@ struct ShareImageView: View {
     var body: some View {
         ZStack {
             LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
-            let normalizedAngle = angle.truncatingRemainder(dividingBy: 360)
-            let rotationFactor = sin(Angle(degrees: normalizedAngle).radians)
-
+            let rotationFactor = sin(Angle(degrees: angle).radians)
             KidneyShape()
                 .fill(info.gradient.stops.first?.color ?? .black)
                 .blur(radius: 50)
@@ -69,34 +67,28 @@ struct ShareImageView: View {
                 VStack(spacing: 32) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
-//                        .frame(width: 200, height: 200)
                     text()
                     PocketCastsLogoPill()
                 }
                 .padding(24)
                 .aspectRatio(0.66, contentMode: .fit)
-//                .frame(width: 292, height: 438)
             case .medium:
                 VStack(spacing: 24) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
-//                        .frame(width: 120, height: 120)
                     text()
                         .frame(alignment: .leading)
                 }
                 .padding(24)
                 .aspectRatio(0.99, contentMode: .fit)
-//                .frame(width: 292, height: 293)
             case .small:
                 HStack(spacing: 18) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
-//                        .frame(width: 120, height: 120)
                     text(alignment: .leading, textAlignment: .leading, lineLimit: 3)
                 }
                 .padding(24)
                 .aspectRatio(1.97, contentMode: .fit)
-//                .frame(width: 324, height: 169)
             }
         }
         .frame(width: style.videoSize.width, height: style.videoSize.height)
