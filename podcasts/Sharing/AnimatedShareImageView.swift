@@ -28,7 +28,7 @@ struct AnimatedShareImageView: AnimatableContent {
     }
 
     func calculateAngle(progress: Float) -> Float {
-        let angle = (progress * 1800).truncatingRemainder(dividingBy: 360)
+        let angle = (progress * 180).truncatingRemainder(dividingBy: 360)
         return angle
     }
 }

@@ -40,6 +40,8 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
 
     @MainActor func exportToMP4(outputURL: URL, progress: Progress, completion: @escaping (Result<Void, Error>) -> Void) {
         let frameCount = Int(duration * Double(fps))
+        let loopDuration: Double = 10
+        let loopFrameCount = Int(loopDuration * Double(fps))
 
         guard let videoWriter = try? AVAssetWriter(outputURL: outputURL, fileType: .mp4) else {
             completion(.failure(ExportError.failedToCreateAssetWriter))
@@ -76,35 +78,55 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         let group = DispatchGroup()
         group.enter()
 
-        videoWriterInput.requestMediaDataWhenReady(on: queue) { [view, size] in
-            progress.totalUnitCount = Int64(frameCount)
+        Task.detached { [weak self] in
+            guard let self else { return }
 
-            while progress.fractionCompleted < 1 && videoWriterInput.isReadyForMoreMediaData {
-                let time = Double(progress.completedUnitCount) / Double(self.fps)
-                    view.update(for: Double(progress.completedUnitCount) / Double(frameCount))
-                let buffer: CVPixelBuffer?
-                if #available(iOS 16.0, *) {
-                    buffer = self.pixelBuffer(from: view.frame(width: size.width, height: size.height), size: size)
-                } else {
-                    let image = view.frame(width: size.width, height: size.height).snapshot()
-                    buffer = self.pixelBuffer(from: image)
-                }
-                    if let buffer {
-                        let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            var buffers: [CVPixelBuffer] = []
+
+            videoWriterInput.requestMediaDataWhenReady(on: queue) { [view, size] in
+                progress.totalUnitCount = Int64(frameCount)
+
+                while progress.fractionCompleted < 1 && videoWriterInput.isReadyForMoreMediaData {
+                    let frameIndex = Int(progress.completedUnitCount)
+                    let loopFrameIndex = frameIndex % loopFrameCount
+
+                    let buffer: CVPixelBuffer?
+
+                    if frameIndex < loopFrameCount {
+                        let progress = Double(loopFrameIndex) / Double(loopFrameCount)
+                        view.update(for: progress)
+                        if #available(iOS 16.0, *) {
+                            buffer = self.pixelBuffer(from: view.frame(width: size.width, height: size.height), size: size)
+                        } else {
+                            let image = view.frame(width: size.width, height: size.height).snapshot()
+                            buffer = self.pixelBuffer(from: image)
+                        }
+                        if let buffer = buffer {
+                            buffers.append(buffer)
+                        }
+                    } else {
+                        // After 10 seconds, reuse existing buffers
+                        buffer = buffers[loopFrameIndex]
+                    }
+
+                    if let buffer = buffer {
+                        let frameTime = CMTime(seconds: Double(frameIndex) / Double(self.fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
                         adaptor.append(buffer, withPresentationTime: frameTime)
                         progress.completedUnitCount = Int64(progress.completedUnitCount + 1)
                     }
+                }
+
+                if progress.fractionCompleted == 1 {
+                    videoWriterInput.markAsFinished()
+                    group.leave()
+                }
             }
 
-            if progress.fractionCompleted == 1 {
-                videoWriterInput.markAsFinished()
-                group.leave()
-            }
+            group.wait()
         }
 
         // Handle audio export if audioPlayerItem is provided
         if let audioPlayerItem = audioPlayerItem, let audioWriterInput = audioWriterInput {
-
             group.enter()
 
             Task.detached {
