@@ -24,6 +24,17 @@ enum ShareImageStyle: CaseIterable {
             return "small"
         }
     }
+
+    var videoSize: CGSize {
+        switch self {
+        case .large:
+            CGSize(width: 292, height: 438)
+        case .medium:
+            CGSize(width: 292, height: 293)
+        case .small:
+            CGSize(width: 324, height: 169)
+        }
+    }
 }
 
 struct ShareImageView: View {
@@ -36,6 +47,22 @@ struct ShareImageView: View {
     var body: some View {
         ZStack {
             LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
+            let normalizedAngle = angle.truncatingRemainder(dividingBy: 360)
+            let rotationFactor = sin(Angle(degrees: normalizedAngle).radians)
+
+            KidneyShape()
+                .fill(info.gradient.stops.first?.color ?? .black)
+                .blur(radius: 50)
+                .opacity(0.15 + 0.5 * abs(rotationFactor))
+                .offset(x: -50, y: 0)
+                .rotationEffect(.degrees(180 * rotationFactor))
+            KidneyShape()
+                .fill(.white)
+                .blur(radius: 50)
+                .offset(x: 50, y: 0)
+                .opacity(0.15 + 0.5 * abs(rotationFactor))
+                .rotationEffect(.degrees(-180 * rotationFactor))
+                .blendMode(.softLight)
             Color.black.opacity(0.2)
             switch style {
             case .large:
@@ -44,7 +71,7 @@ struct ShareImageView: View {
                         .aspectRatio(1, contentMode: .fit)
 //                        .frame(width: 200, height: 200)
                     text()
-                    PocketCastsLogoPill(angle: $angle)
+                    PocketCastsLogoPill()
                 }
                 .padding(24)
                 .aspectRatio(0.66, contentMode: .fit)
@@ -72,6 +99,8 @@ struct ShareImageView: View {
 //                .frame(width: 324, height: 169)
             }
         }
+        .frame(width: style.videoSize.width, height: style.videoSize.height)
+        .fixedSize()
     }
 
     @ViewBuilder func image() -> some View {
@@ -96,6 +125,45 @@ struct ShareImageView: View {
                 .foregroundStyle(.white.opacity(0.5))
         }
         .multilineTextAlignment(textAlignment)
+    }
+
+    func animatedOpacity(from input: Double) -> Double {
+        // Ensure the input is within the 0-360 range
+        let clampedInput = max(0, min(360, input))
+
+        // Linear interpolation formula
+        let output = 0.15 + (0.5 - 0.15) * (clampedInput / 360.0)
+
+        return output
+    }
+}
+
+struct KidneyShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.midY))
+        path.addCurve(
+            to: CGPoint(x: rect.maxX, y: rect.midY),
+            control1: CGPoint(x: rect.minX + rect.width * 0.2, y: rect.minY),
+            control2: CGPoint(x: rect.maxX - rect.width * 0.2, y: rect.minY)
+        )
+        path.addCurve(
+            to: CGPoint(x: rect.minX, y: rect.midY),
+            control1: CGPoint(x: rect.maxX, y: rect.maxY),
+            control2: CGPoint(x: rect.minX, y: rect.maxY)
+        )
+
+        // Indentation
+        let indentWidth = rect.width * 0.2
+        let indentHeight = rect.height * 0.3
+        path.move(to: CGPoint(x: rect.midX - indentWidth, y: rect.minY + rect.height * 0.3))
+        path.addCurve(
+            to: CGPoint(x: rect.midX + indentWidth, y: rect.minY + rect.height * 0.3),
+            control1: CGPoint(x: rect.midX - indentWidth / 2, y: rect.minY + indentHeight),
+            control2: CGPoint(x: rect.midX + indentWidth / 2, y: rect.minY + indentHeight)
+        )
+
+        return path
     }
 }
 
