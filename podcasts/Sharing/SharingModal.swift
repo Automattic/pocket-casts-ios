@@ -10,7 +10,7 @@ enum SharingModal {
         case podcast(Podcast)
         case currentPosition(Episode, TimeInterval)
         case clip(Episode, TimeInterval)
-        case clipShare(Episode, ClipTime)
+        case clipShare(Episode, ClipTime, ShareImageStyle, Progress)
 
         var buttonTitle: String {
             switch self {
@@ -110,7 +110,7 @@ enum SharingModal {
 extension SharingModal.Option {
     private var description: String {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
             if let date = episode.publishedDate {
                 return date.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted))
             } else {
@@ -123,7 +123,7 @@ extension SharingModal.Option {
 
     private var title: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
             episode.title
         case .podcast(let podcast):
             podcast.title
@@ -132,7 +132,7 @@ extension SharingModal.Option {
 
     private var name: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
             episode.parentPodcast()?.title
         case .podcast(let podcast):
             podcast.author
@@ -141,7 +141,7 @@ extension SharingModal.Option {
 
     private var podcast: Podcast {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
             return episode.parentPodcast()!
         case .podcast(let podcast):
             return podcast
@@ -166,8 +166,16 @@ extension SharingModal.Option {
         switch self {
         case .clip(let episode, let time):
             AnimatedShareImageView(info: imageInfo, style: style).itemProvider(episode: episode, startTime: CMTime(seconds: time, preferredTimescale: 600), duration: CMTime(seconds: 60, preferredTimescale: 600))
-        case .clipShare(let episode, let clipTime):
-            AnimatedShareImageView(info: imageInfo, style: style).itemProvider(episode: episode, startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600), duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600))
+        case .clipShare(let episode, let clipTime, let style, let progress):
+            NSItemProvider(contentsOf: progress.fileURL)!
+//            let itemProvider = NSItemProvider()
+//            if #available(iOS 16.0, *) {
+//                itemProvider.registerFileRepresentation(for: .mpeg4Movie) { completion in
+//                }
+//            } else {
+//                itemProvider.registerFil
+//            }
+//            AnimatedShareImageView(info: imageInfo, style: style).itemProvider(episode: episode, startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600), duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600))
         default:
             ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()
         }
@@ -183,7 +191,7 @@ extension SharingModal.Option {
             return episode.shareURL + "?t=\(round(timeInterval))"
         case .clip(let episode, let timeInterval):
             return episode.shareURL + "?t=\(round(timeInterval))"
-        case .clipShare(let episode, let clipTime):
+        case .clipShare(let episode, let clipTime, _, _):
             return episode.shareURL + "?t=\(clipTime.start),\(clipTime.end)"
         }
     }

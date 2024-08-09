@@ -25,7 +25,7 @@ struct SharingView: View {
     let destinations: [ShareDestination]
 
     @State var selectedOption: SharingModal.Option
-
+    @State private var isExporting: Bool = false
     @State private var selectedMedia: ShareImageStyle
 
     @ObservedObject var clipTime: ClipTime
@@ -64,22 +64,52 @@ struct SharingView: View {
                     .font(.caption.weight(.semibold))
                     Button(L10n.clip, action: {
                         withAnimation {
-                            selectedOption = .clipShare(episode, clipTime)
+                            selectedOption = .clipShare(episode, clipTime, selectedMedia, Progress())
+                            isExporting = true
                         }
                     }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
                 }
                 .padding(.horizontal, 16)
-            case .clipShare:
-                buttons
+            case .clipShare(_, _, _, let progress):
+                if progress.fileURL == nil && progress.fractionCompleted != 1 {
+                    ProgressView(progress)
+                        .tint(color)
+                        .padding()
+                } else {
+                    buttons
+                }
             }
         }
+        .task(id: isExporting, {
+            guard isExporting,
+                  case let .clipShare(episode, clipTime, shareImageStyle, progress) = selectedOption
+            else {
+                return
+            }
+            defer {
+                isExporting = false
+            }
+            do {
+                let url = try await exportVideo(info: selectedOption.imageInfo,
+                                                style: selectedMedia,
+                                                episode: episode,
+                                                startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
+                                                duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
+                                                progress: progress
+                )
+                progress.fileURL = url
+                selectedOption = .clipShare(episode, clipTime, shareImageStyle, progress)
+            } catch let error {
+                FileLog.shared.addMessage("Failed Clip Export: \(error)")
+            }
+        })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
     }
 
     var color: Color {
         switch selectedOption {
-        case .clip(let episode, _):
+        case .clip(let episode, _), .clipShare(let episode, _, _, _):
             PlayerColorHelper.backgroundColor(for: episode)?.color ?? PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
         default:
             PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
@@ -93,7 +123,7 @@ struct SharingView: View {
             switch selectedOption {
             case .clip:
                 EmptyView() // Don't show the description to give extra space for trim view
-            case .clipShare(let episode, let clipTime):
+            case .clipShare(let episode, let clipTime, _, _):
                 Button(action: {
                     withAnimation {
                         selectedOption = .clip(episode, clipTime.playback)
@@ -152,6 +182,27 @@ struct SharingView: View {
                 }
             }
         }
+    }
+
+    enum VideoExportError: Error {
+        case failedToDownload
+    }
+
+    private func exportVideo(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
+        guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
+            throw VideoExportError.failedToDownload
+        }
+        let size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
+        let video = SwiftUIVideoExporter(view: AnimatedShareImageView(info: info, style: style), duration: CMTimeGetSeconds(duration), size: size, audioPlayerItem: playerItem, audioStartTime: startTime, audioDuration: duration)
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
+
+        do {
+            try await video.exportToMP4(outputURL: url, progress: progress)
+        } catch let error {
+            throw error
+        }
+
+        return url
     }
 }
 
