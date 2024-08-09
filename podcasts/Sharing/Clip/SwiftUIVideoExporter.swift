@@ -46,73 +46,32 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         let start = Date()
         print("SwiftUIVideoExporter Started: \(start)")
 
-        // Create AVMutableComposition
-        let composition = AVMutableComposition()
-        guard let videoTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) else {
-            completion(.failure(ExportError.failedToCreateCompositionTrack))
-            return
-        }
-
-        // Create AVAssetExportSession
-        guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
-            completion(.failure(ExportError.failedToCreateExportSession))
-            return
-        }
-
-        exportSession.outputURL = outputURL
-        exportSession.outputFileType = .mp4
-
         // Create a temporary file URL for the initial 10-second video
         let temporaryDirectoryURL = FileManager.default.temporaryDirectory
         let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent(UUID().uuidString).appendingPathExtension("mp4")
 
         // Export initial 10-second video
-        exportInitialVideo(to: temporaryFileURL, loopFrameCount: loopFrameCount) { result in
-            switch result {
-            case .success:
-                print("SwiftUIVideoExporter Video Loop Ended: \(start.timeIntervalSinceNow)")
-                // Add the initial video to the composition and scale it
-                Task {
+        exportInitialVideo(to: temporaryFileURL, frameCount: loopFrameCount) { result in
+            Task {
+                switch result {
+                case .success:
                     do {
-                        let asset = AVAsset(url: temporaryFileURL)
-                        let assetTrack = try await asset.loadTracks(withMediaType: .video).first!
-                        let timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: loopDuration, preferredTimescale: 600))
-                        try videoTrack.insertTimeRange(timeRange, of: assetTrack, at: .zero)
-                        videoTrack.scaleTimeRange(CMTimeRange(start: .zero, end: videoTrack.timeRange.end), toDuration: CMTime(seconds: self.duration, preferredTimescale: 600))
-
-                        // Handle audio if provided
-                        if let audioPlayerItem = self.audioPlayerItem,
-                           let audioTrack = try await asset.loadTracks(withMediaType: .audio).first {
-                            self.add(audioTrack: assetTrack, to: composition, from: audioPlayerItem)
-                        }
-
-                        print("SwiftUIVideoExporter Audio Track Added: \(start.timeIntervalSinceNow)")
-
-                        // Export the final composition
-                        self.exportFinalComposition(exportSession: exportSession, progress: progress) { exportResult in
-                            // Clean up temporary file
-                            try? FileManager.default.removeItem(at: temporaryFileURL)
-
-                            switch exportResult {
-                            case .success:
-                                print("SwiftUIVideoExporter Video Export Ended: \(start.timeIntervalSinceNow)")
-                                completion(.success(()))
-                            case .failure(let error):
-                                print("SwiftUIVideoExporter Video Export Failed: \(start.timeIntervalSinceNow) error: \(error)")
-                                completion(.failure(error))
-                            }
-                        }
-                    } catch {
+                        // Export final composition at full length
+                        try await self.createFinalComposition(from: temporaryFileURL, outputURL: outputURL, progress: progress)
+                        // Clean up temporary file
+                        try? FileManager.default.removeItem(at: temporaryFileURL)
+                        completion(.success(()))
+                    } catch let error {
                         completion(.failure(error))
                     }
+                case .failure(let error):
+                    completion(.failure(error))
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
     }
 
-    private func exportInitialVideo(to outputURL: URL, loopFrameCount: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+    private func exportInitialVideo(to outputURL: URL, frameCount: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let videoWriter = try? AVAssetWriter(outputURL: outputURL, fileType: .mp4) else {
             completion(.failure(ExportError.failedToCreateAssetWriter))
             return
@@ -131,25 +90,30 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         videoWriter.startWriting()
         videoWriter.startSession(atSourceTime: .zero)
 
+        var frameIndex = 0
+
         videoWriterInput.requestMediaDataWhenReady(on: .main) { [weak self] in
             guard let self = self else { return }
 
-            for frameIndex in 0..<loopFrameCount {
+            while frameIndex <= frameCount, videoWriterInput.isReadyForMoreMediaData {
                 autoreleasepool {
-                    let progress = Double(frameIndex) / Double(loopFrameCount)
-                    self.view.update(for: progress)
+                    do {
+                        let progress = Double(frameIndex) / Double(frameCount)
+                        self.view.update(for: progress)
 
-                    let buffer: CVPixelBuffer?
-                    if #available(iOS 16.0, *) {
-                        buffer = self.pixelBuffer(from: self.view.frame(width: self.size.width, height: self.size.height), size: self.size)
-                    } else {
-                        let image = self.view.frame(width: self.size.width, height: self.size.height).snapshot()
-                        buffer = self.pixelBuffer(from: image)
-                    }
+                        let buffer: CVPixelBuffer
+                        if #available(iOS 16.0, *) {
+                            buffer = try self.pixelBuffer(from: self.view.frame(width: self.size.width, height: self.size.height), size: self.size)
+                        } else {
+                            let image = self.view.frame(width: self.size.width, height: self.size.height).snapshot()
+                            buffer = try self.pixelBuffer(from: image)
+                        }
 
-                    if let buffer = buffer {
                         let frameTime = CMTime(seconds: Double(frameIndex) / Double(self.fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
                         adaptor.append(buffer, withPresentationTime: frameTime)
+                        frameIndex += 1
+                    } catch let error {
+                        completion(.failure(error))
                     }
                 }
             }
@@ -161,33 +125,72 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         }
     }
 
-    private func add(audioTrack: AVAssetTrack, to composition: AVMutableComposition, from audioPlayerItem: AVPlayerItem) {
-        guard let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid)) else {
-            print("Failed to create audio track")
-            return
+    private func createFinalComposition(from sourceURL: URL, outputURL: URL, progress: Progress) async throws {
+        let asset = AVAsset(url: sourceURL)
+        let composition = AVMutableComposition()
+
+        guard let compositionVideoTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid),
+              let sourceVideoTrack = try? await asset.loadTracks(withMediaType: .video).first else {
+            throw ExportError.failedToCreateCompositionTrack
         }
 
         do {
-            let timeRange = CMTimeRangeMake(start: audioStartTime, duration: audioDuration)
-            try compositionAudioTrack.insertTimeRange(timeRange, of: audioTrack, at: .zero)
+            let sourceTimeRange = try await asset.load(.duration)
+            let loopDuration = sourceTimeRange
+            var currentTime: CMTime = .zero
+
+            while currentTime < CMTime(seconds: duration, preferredTimescale: 600) {
+                try compositionVideoTrack.insertTimeRange(CMTimeRange(start: .zero, duration: loopDuration),
+                                                          of: sourceVideoTrack,
+                                                          at: currentTime)
+                currentTime = CMTimeAdd(currentTime, loopDuration)
+            }
+
+            // Add audio if available
+            if let audioPlayerItem = audioPlayerItem,
+               let audioTrack = try await audioPlayerItem.asset.loadTracks(withMediaType: .audio).first {
+                try add(audioTrack: audioTrack, to: composition)
+            }
+
+            // Export the final composition
+            try await exportFinalComposition(composition: composition, outputURL: outputURL, progress: progress)
         } catch {
-            print("Failed to insert audio track: \(error)")
+            throw error
         }
     }
 
-    private func exportFinalComposition(exportSession: AVAssetExportSession, progress: Progress, completion: @escaping (Result<Void, Error>) -> Void) {
+    private func add(audioTrack: AVAssetTrack, to composition: AVMutableComposition) throws {
+        guard let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) else {
+            throw ExportError.failedToAddAudioTrack
+        }
+
+        let timeRange = CMTimeRange(start: audioStartTime, duration: audioDuration)
+        try compositionAudioTrack.insertTimeRange(timeRange, of: audioTrack, at: .zero)
+    }
+
+    private func exportFinalComposition(composition: AVMutableComposition, outputURL: URL, progress: Progress) async throws {
+        guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
+            throw ExportError.failedToCreateExportSession
+        }
+
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = .mp4
+        exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
+
         progress.totalUnitCount = 100
 
-        exportSession.exportAsynchronously {
-            switch exportSession.status {
-            case .completed:
-                completion(.success(()))
-            case .failed:
-                completion(.failure(exportSession.error ?? ExportError.unknownError))
-            case .cancelled:
-                completion(.failure(ExportError.exportCancelled))
-            default:
-                completion(.failure(ExportError.unknownError))
+        try await withCheckedThrowingContinuation { continuation in
+            exportSession.exportAsynchronously {
+                switch exportSession.status {
+                case .completed:
+                    continuation.resume()
+                case .failed:
+                    continuation.resume(throwing: exportSession.error ?? ExportError.unknownError)
+                case .cancelled:
+                    continuation.resume(throwing: ExportError.exportCancelled)
+                default:
+                    continuation.resume(throwing: ExportError.unknownError)
+                }
             }
         }
 
@@ -202,7 +205,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
     }
 
     @MainActor @available(iOS 16.0, *)
-    func pixelBuffer<V: View>(from view: V, size: CGSize) -> CVPixelBuffer? {
+    func pixelBuffer<V: View>(from view: V, size: CGSize) throws -> CVPixelBuffer {
         let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
                      kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
         var pixelBuffer: CVPixelBuffer?
@@ -214,7 +217,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
                                          &pixelBuffer)
 
         guard status == kCVReturnSuccess, let buffer = pixelBuffer else {
-            return nil
+            throw CVPixelBufferError.failedToCreateBuffer(status)
         }
 
         CVPixelBufferLockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
@@ -228,7 +231,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
                                       bytesPerRow: CVPixelBufferGetBytesPerRow(buffer),
                                       space: rgbColorSpace,
                                       bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
-            return nil
+            throw CVPixelBufferError.failedToCreateContext
         }
 
         let renderer = ImageRenderer(content: view)
@@ -241,7 +244,12 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         return buffer
     }
 
-    private func pixelBuffer(from image: UIImage) -> CVPixelBuffer? {
+    enum CVPixelBufferError: Error {
+        case failedToCreateBuffer(CVReturn)
+        case failedToCreateContext
+    }
+
+    private func pixelBuffer(from image: UIImage) throws -> CVPixelBuffer {
         let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
                      kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
         var pixelBuffer: CVPixelBuffer?
@@ -253,7 +261,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
                                          &pixelBuffer)
 
         guard status == kCVReturnSuccess, let buffer = pixelBuffer else {
-            return nil
+            throw CVPixelBufferError.failedToCreateBuffer(status)
         }
 
         CVPixelBufferLockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
@@ -267,7 +275,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
                                       bytesPerRow: CVPixelBufferGetBytesPerRow(buffer),
                                       space: rgbColorSpace,
                                       bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
-            return nil
+            throw CVPixelBufferError.failedToCreateContext
         }
 
         context.translateBy(x: 0, y: size.height)
@@ -285,6 +293,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         case failedToCreateAssetWriter
         case failedToCreateCompositionTrack
         case failedToCreateExportSession
+        case failedToAddAudioTrack
         case exportFailed(Error?)
         case exportCancelled
         case unknownError
