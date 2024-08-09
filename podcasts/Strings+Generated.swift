@@ -3112,6 +3112,18 @@ internal enum L10n {
   internal static var top: String { return L10n.tr("Localizable", "top") }
   /// Transcript
   internal static var transcript: String { return L10n.tr("Localizable", "transcript") }
+  /// Sorry, but it looks this transcript is empty
+  internal static var transcriptErrorEmpty: String { return L10n.tr("Localizable", "transcript_error_empty") }
+  /// Sorry, but something went wrong while loading this transcript
+  internal static var transcriptErrorFailedToLoad: String { return L10n.tr("Localizable", "transcript_error_failed_to_load") }
+  /// Sorry, but something went wrong while parsing this transcript
+  internal static var transcriptErrorFailedToParse: String { return L10n.tr("Localizable", "transcript_error_failed_to_parse") }
+  /// Sorry, but a transcript is not available for this podcast
+  internal static var transcriptErrorNotAvailable: String { return L10n.tr("Localizable", "transcript_error_not_available") }
+  /// Sorry, but this transcript format is not supported: %1$@
+  internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1))
+  }
   /// Trial Finished
   internal static var trialFinished: String { return L10n.tr("Localizable", "trial_finished") }
   /// Trim Silence

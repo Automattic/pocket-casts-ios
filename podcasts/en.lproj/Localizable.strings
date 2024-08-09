@@ -4240,3 +4240,18 @@
 
 /* Kids Profile Toast message if feedback sent failed */
 "kids_profile_submit_error" = "Something went wrong. Please try submitting your feedback again";
+
+/* Transcript error message when no transcript is available*/
+"transcript_error_not_available" = "Sorry, but a transcript is not available for this podcast";
+
+/* Transcript error message when transcript failed to load*/
+"transcript_error_failed_to_load" = "Sorry, but something went wrong while loading this transcript";
+
+/* Transcript error message when transcript format is not supported. %1$@ variable represents the format type not supported. Ex: "srt"*/
+"transcript_error_not_supported" = "Sorry, but this transcript format is not supported: %1$@";
+
+/* Transcript error message when transcript failed to parse*/
+"transcript_error_failed_to_parse" = "Sorry, but something went wrong while parsing this transcript";
+
+/* Transcript error message when transcript is empty*/
+"transcript_error_empty" = "Sorry, but it looks this transcript is empty";
