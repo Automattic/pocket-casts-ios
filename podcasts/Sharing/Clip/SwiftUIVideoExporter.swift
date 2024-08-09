@@ -59,16 +59,14 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
 
         // Add audio input if audioPlayerItem is provided
         var audioWriterInput: AVAssetWriterInput?
-        if let audioPlayerItem = audioPlayerItem {
-            let audioSettings: [String: Any] = [
-                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                AVSampleRateKey: 44100,
-                AVNumberOfChannelsKey: 2,
-                AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-            ]
-            audioWriterInput = AVAssetWriterInput(mediaType: .audio, outputSettings: audioSettings)
-            videoWriter.add(audioWriterInput!)
-        }
+        let audioSettings: [String: Any] = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 44100,
+            AVNumberOfChannelsKey: 2,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        audioWriterInput = AVAssetWriterInput(mediaType: .audio, outputSettings: audioSettings)
+        videoWriter.add(audioWriterInput!)
 
         videoWriter.startWriting()
         videoWriter.startSession(atSourceTime: .zero)
@@ -78,15 +76,12 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         let group = DispatchGroup()
         group.enter()
 
-        var currentFrame: Int = 0
-
         videoWriterInput.requestMediaDataWhenReady(on: queue) { [view, size] in
             progress.totalUnitCount = Int64(frameCount)
 
-            while currentFrame < frameCount && videoWriterInput.isReadyForMoreMediaData {
-//                if videoWriterInput.isReadyForMoreMediaData {
-                    let time = Double(currentFrame) / Double(self.fps)
-                    view.update(for: Double(currentFrame) / Double(frameCount))
+            while progress.fractionCompleted < 1 && videoWriterInput.isReadyForMoreMediaData {
+                let time = Double(progress.completedUnitCount) / Double(self.fps)
+                    view.update(for: Double(progress.completedUnitCount) / Double(frameCount))
                 let buffer: CVPixelBuffer?
                 if #available(iOS 16.0, *) {
                     buffer = self.pixelBuffer(from: view.frame(width: size.width, height: size.height), size: size)
@@ -97,26 +92,11 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
                     if let buffer {
                         let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
                         adaptor.append(buffer, withPresentationTime: frameTime)
-                        currentFrame += 1
-                        progress.completedUnitCount = Int64(currentFrame)
+                        progress.completedUnitCount = Int64(progress.completedUnitCount + 1)
                     }
-//                }
             }
-//            for frameNumber in 0..<frameCount {
-//                if videoWriterInput.isReadyForMoreMediaData {
-//                    let time = Double(frameNumber) / Double(self.fps)
-//                    view.update(for: Double(frameNumber) / Double(frameCount))
-//                    let image = view.snapshot()
-//                    if let buffer = self.pixelBuffer(from: image) {
-//                        let frameTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-//                        adaptor.append(buffer, withPresentationTime: frameTime)
-//                        progress.completedUnitCount = Int64(frameNumber)
-//                    }
-//                }
-//
-//            }
 
-            if currentFrame == frameCount {
+            if progress.fractionCompleted == 1 {
                 videoWriterInput.markAsFinished()
                 group.leave()
             }
@@ -187,7 +167,6 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
             }
         }
     }
-
 
     @MainActor @available(iOS 16.0, *)
     func pixelBuffer<V: View>(from view: V, size: CGSize) -> CVPixelBuffer? {
