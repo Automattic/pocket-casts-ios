@@ -1,6 +1,7 @@
 import SwiftUI
 import AVFoundation
 import UIKit
+import PocketCastsUtils
 
 protocol AnimatableContent: View {
     func update(for progress: Double)
@@ -25,56 +26,34 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         self.audioDuration = audioDuration
     }
 
-    @MainActor func exportToMP4(outputURL: URL, progress: Progress) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            exportToMP4(outputURL: outputURL, progress: progress, completion: { result in
-                switch result {
-                case .success:
-                    continuation.resume()
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
-            })
-        }
-    }
-
-    @MainActor func exportToMP4(outputURL: URL, progress: Progress, completion: @escaping (Result<Void, Error>) -> Void) {
-        let frameCount = Int(duration * Double(fps))
+    @MainActor
+    func exportToMP4(outputURL: URL, progress: Progress) async throws {
         let loopDuration: Double = 10
         let loopFrameCount = Int(loopDuration * Double(fps))
 
         let start = Date()
-        print("SwiftUIVideoExporter Started: \(start)")
+        FileLog.shared.addMessage("SwiftUIVideoExporter Started: \(start)")
 
         // Create a temporary file URL for the initial 10-second video
         let temporaryDirectoryURL = FileManager.default.temporaryDirectory
         let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent(UUID().uuidString).appendingPathExtension("mp4")
 
+        progress.totalUnitCount = Int64(loopFrameCount) + 50
+
         // Export initial 10-second video
-        exportInitialVideo(to: temporaryFileURL, frameCount: loopFrameCount) { result in
-            Task {
-                switch result {
-                case .success:
-                    do {
-                        // Export final composition at full length
-                        try await self.createFinalComposition(from: temporaryFileURL, outputURL: outputURL, progress: progress)
-                        // Clean up temporary file
-                        try? FileManager.default.removeItem(at: temporaryFileURL)
-                        completion(.success(()))
-                    } catch let error {
-                        completion(.failure(error))
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-        }
+        try await exportInitialVideo(to: temporaryFileURL, frameCount: loopFrameCount, progress: progress)
+        FileLog.shared.addMessage("SwiftUIVideoExporter Initial Video Ended: \(start.timeIntervalSinceNow)")
+        // Export final composition at full length
+        try await self.createFinalComposition(from: temporaryFileURL, outputURL: outputURL, progress: progress)
+        // Clean up temporary file
+        try? FileManager.default.removeItem(at: temporaryFileURL)
+        progress.completedUnitCount = progress.totalUnitCount
+        FileLog.shared.addMessage("SwiftUIVideoExporter Ended: \(start.timeIntervalSinceNow)")
     }
 
-    private func exportInitialVideo(to outputURL: URL, frameCount: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+    private func exportInitialVideo(to outputURL: URL, frameCount: Int, progress: Progress) async throws {
         guard let videoWriter = try? AVAssetWriter(outputURL: outputURL, fileType: .mp4) else {
-            completion(.failure(ExportError.failedToCreateAssetWriter))
-            return
+            throw ExportError.failedToCreateAssetWriter
         }
 
         let videoSettings: [String: Any] = [
@@ -90,39 +69,46 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         videoWriter.startWriting()
         videoWriter.startSession(atSourceTime: .zero)
 
-        var frameIndex = 0
+        try await writeFrames(videoWriterInput: videoWriterInput, videoWriter: videoWriter, adaptor: adaptor, progress: progress, frameCount: frameCount)
+    }
 
-        videoWriterInput.requestMediaDataWhenReady(on: .main) { [weak self] in
-            guard let self = self else { return }
+    private func writeFrames(videoWriterInput: AVAssetWriterInput, videoWriter: AVAssetWriter, adaptor: AVAssetWriterInputPixelBufferAdaptor, progress: Progress, frameCount: Int) async throws {
+        let counter = Counter()
 
-            while frameIndex <= frameCount, videoWriterInput.isReadyForMoreMediaData {
-                autoreleasepool {
-                    do {
-                        let progress = Double(frameIndex) / Double(frameCount)
-                        self.view.update(for: progress)
+        try await videoWriterInput.unsafeRequestMediaDataWhenReady { [weak self] continuation in
+            guard let self else { return }
+            while await counter.count <= frameCount, videoWriterInput.isReadyForMoreMediaData {
+                do {
+                    try await counter.run {
+                        let frameProgress = Double(await counter.count) / Double(frameCount)
+                        self.view.update(for: frameProgress)
 
-                        let buffer: CVPixelBuffer
-                        if #available(iOS 16.0, *) {
-                            buffer = try self.pixelBuffer(from: self.view.frame(width: self.size.width, height: self.size.height), size: self.size)
-                        } else {
-                            let image = self.view.frame(width: self.size.width, height: self.size.height).snapshot()
-                            buffer = try self.pixelBuffer(from: image)
-                        }
+                        let buffer: UnsafeTransfer<CVPixelBuffer>
 
-                        let frameTime = CMTime(seconds: Double(frameIndex) / Double(self.fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                        adaptor.append(buffer, withPresentationTime: frameTime)
-                        frameIndex += 1
-                    } catch let error {
-                        completion(.failure(error))
+                        buffer = try await self.pixelBuffer(for: self.view, size: self.size)
+
+                        let frameTime = CMTime(seconds: Double(await counter.count) / Double(self.fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+                        adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
+                        progress.completedUnitCount += 1
                     }
+                } catch let error {
+                    continuation.resume(throwing: error)
                 }
             }
 
-            videoWriterInput.markAsFinished()
-            videoWriter.finishWriting {
-                completion(.success(()))
+            let frameIndex = await counter.count
+            if frameIndex >= frameCount {
+                videoWriterInput.markAsFinished()
+                videoWriter.finishWriting {
+                    continuation.resume()
+                }
             }
         }
+    }
+
+    @MainActor
+    private func pixelBuffer(for view: some View, size: CGSize) throws -> UnsafeTransfer<CVPixelBuffer> {
+        try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: size))
     }
 
     private func createFinalComposition(from sourceURL: URL, outputURL: URL, progress: Progress) async throws {
@@ -139,6 +125,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
             let loopDuration = sourceTimeRange
             var currentTime: CMTime = .zero
 
+            // Add the same loop repeatedly until we reach the duration
             while currentTime < CMTime(seconds: duration, preferredTimescale: 600) {
                 try compositionVideoTrack.insertTimeRange(CMTimeRange(start: .zero, duration: loopDuration),
                                                           of: sourceVideoTrack,
@@ -177,116 +164,24 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
         exportSession.outputFileType = .mp4
         exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
 
-        progress.totalUnitCount = 100
+        let timer = track(progress: progress, for: exportSession)
 
-        try await withCheckedThrowingContinuation { continuation in
-            exportSession.exportAsynchronously {
-                switch exportSession.status {
-                case .completed:
-                    continuation.resume()
-                case .failed:
-                    continuation.resume(throwing: exportSession.error ?? ExportError.unknownError)
-                case .cancelled:
-                    continuation.resume(throwing: ExportError.exportCancelled)
-                default:
-                    continuation.resume(throwing: ExportError.unknownError)
-                }
-            }
-        }
+        await exportSession.export()
 
-        // Update progress
-        let timer = Timer(timeInterval: 0.1, repeats: true) { timer in
-            progress.completedUnitCount = Int64(exportSession.progress * 100)
+        timer.invalidate()
+    }
+
+    private func track(progress: Progress, for exportSession: AVAssetExportSession) -> Timer {
+        // Progress updates
+        let timer = Timer(timeInterval: 0.05, repeats: true) { timer in
+            progress.completedUnitCount = (progress.totalUnitCount - 50) + Int64((50 * exportSession.progress))
             if exportSession.status != .exporting {
                 timer.invalidate()
             }
         }
         RunLoop.main.add(timer, forMode: .common)
-    }
 
-    @MainActor @available(iOS 16.0, *)
-    func pixelBuffer<V: View>(from view: V, size: CGSize) throws -> CVPixelBuffer {
-        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
-                     kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-        var pixelBuffer: CVPixelBuffer?
-        let status = CVPixelBufferCreate(kCFAllocatorDefault,
-                                         Int(size.width),
-                                         Int(size.height),
-                                         kCVPixelFormatType_32ARGB,
-                                         attrs,
-                                         &pixelBuffer)
-
-        guard status == kCVReturnSuccess, let buffer = pixelBuffer else {
-            throw CVPixelBufferError.failedToCreateBuffer(status)
-        }
-
-        CVPixelBufferLockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
-        let pixelData = CVPixelBufferGetBaseAddress(buffer)
-
-        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-        guard let context = CGContext(data: pixelData,
-                                      width: Int(size.width),
-                                      height: Int(size.height),
-                                      bitsPerComponent: 8,
-                                      bytesPerRow: CVPixelBufferGetBytesPerRow(buffer),
-                                      space: rgbColorSpace,
-                                      bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
-            throw CVPixelBufferError.failedToCreateContext
-        }
-
-        let renderer = ImageRenderer(content: view)
-        renderer.render { size, render in
-            render(context)
-        }
-
-        CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
-
-        return buffer
-    }
-
-    enum CVPixelBufferError: Error {
-        case failedToCreateBuffer(CVReturn)
-        case failedToCreateContext
-    }
-
-    private func pixelBuffer(from image: UIImage) throws -> CVPixelBuffer {
-        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
-                     kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-        var pixelBuffer: CVPixelBuffer?
-        let status = CVPixelBufferCreate(kCFAllocatorDefault,
-                                         Int(size.width),
-                                         Int(size.height),
-                                         kCVPixelFormatType_32ARGB,
-                                         attrs,
-                                         &pixelBuffer)
-
-        guard status == kCVReturnSuccess, let buffer = pixelBuffer else {
-            throw CVPixelBufferError.failedToCreateBuffer(status)
-        }
-
-        CVPixelBufferLockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
-        let pixelData = CVPixelBufferGetBaseAddress(buffer)
-
-        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-        guard let context = CGContext(data: pixelData,
-                                      width: Int(size.width),
-                                      height: Int(size.height),
-                                      bitsPerComponent: 8,
-                                      bytesPerRow: CVPixelBufferGetBytesPerRow(buffer),
-                                      space: rgbColorSpace,
-                                      bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
-            throw CVPixelBufferError.failedToCreateContext
-        }
-
-        context.translateBy(x: 0, y: size.height)
-        context.scaleBy(x: 1.0, y: -1.0)
-
-        UIGraphicsPushContext(context)
-        image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        UIGraphicsPopContext()
-        CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
-
-        return buffer
+        return timer
     }
 
     enum ExportError: Error {
@@ -300,28 +195,27 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
     }
 }
 
-extension AVAssetWriterInput {
-    func fillMediaData(output: AVAssetReaderOutput) async {
-        for await _ in requestMediaDataWhenReady(on: DispatchQueue.main) {
-            guard let sampleBuffer = output.copyNextSampleBuffer()
-            else {
-                return
-            }
+/// Used to safely increment a counter from within an async context
+actor Counter {
+    var count: Int = 0
 
-            if isReadyForMoreMediaData {
-                append(sampleBuffer)
-            }
-        }
+    func run(block: () async throws -> Void) async throws {
+        try await block()
+        await increment()
     }
 
-    func requestMediaDataWhenReady(on queue: DispatchQueue) -> AsyncStream<Void> {
-        AsyncStream { continuation in
-            requestMediaDataWhenReady(on: queue, using: {
-                continuation.yield()
-            })
+    func increment() async {
+        count += 1
+    }
+}
 
-            continuation.onTermination = { @Sendable [weak self] _ in
-                self?.markAsFinished()
+extension AVAssetWriterInput {
+    func unsafeRequestMediaDataWhenReady(_ block: @escaping (CheckedContinuation<Void, Error>) async -> Void) async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            requestMediaDataWhenReady(on: .global(qos: .userInitiated)) { [weak self] in
+                _unsafeWait { [weak self] in
+                    await block(continuation)
+                }
             }
         }
     }
