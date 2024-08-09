@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TrimPlayButton: View {
-    @State var isPlaying: Bool
+    @Binding var isPlaying: Bool
 
     var body: some View {
         Button(action: {
@@ -14,6 +14,9 @@ struct TrimPlayButton: View {
                 Image(systemName: "pause.fill")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+        }
+        .onReceive(ClipPlaybackManager.shared.$isPlaying) { playerIsPlaying in
+            isPlaying = playerIsPlaying
         }
     }
 }

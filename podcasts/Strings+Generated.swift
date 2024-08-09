@@ -1388,6 +1388,8 @@ internal enum L10n {
   internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
   /// Kids Profile
   internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }
+  /// Something went wrong. Please try submitting your feedback again
+  internal static var kidsProfileSubmitError: String { return L10n.tr("Localizable", "kids_profile_submit_error") }
   /// Send
   internal static var kidsProfileSubmitFeedbackSendButton: String { return L10n.tr("Localizable", "kids_profile_submit_feedback_send_button") }
   /// What would you like to see in a Kids profile for Pocket Casts?
@@ -2216,6 +2218,12 @@ internal enum L10n {
   internal static func ratingTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "rating_title", String(describing: p1))
   }
+  /// Got it
+  internal static var ratingWhatsNewButtonTitle: String { return L10n.tr("Localizable", "rating_whats_new_button_title") }
+  /// You can start rating any show in Pocket Casts. Make sure you give it a few listens first and go support your favorite creators!
+  internal static var ratingWhatsNewMessage: String { return L10n.tr("Localizable", "rating_whats_new_message") }
+  /// Rating podcasts available now!
+  internal static var ratingWhatsNewTitle: String { return L10n.tr("Localizable", "rating_whats_new_title") }
   /// FINDING NEW PODCAST EPISODES
   internal static var refreshControlFetchingEpisodes: String { return L10n.tr("Localizable", "refresh_control_fetching_episodes") }
   /// PULL TO REFRESH
@@ -2574,7 +2582,7 @@ internal enum L10n {
   internal static var settingsGeneralOpenInBrowser: String { return L10n.tr("Localizable", "settings_general_open_in_browser") }
   /// Extra Playback Actions
   internal static var settingsGeneralPlayBackActions: String { return L10n.tr("Localizable", "settings_general_play_back_actions") }
-  /// Adds a mark played and star option to your phone lock screen and CarPlay. Note: on the lock screen this will replace the skip back button.
+  /// Adds a star option to your phone lock screen.
   internal static var settingsGeneralPlayBackActionsSubtitle: String { return L10n.tr("Localizable", "settings_general_play_back_actions_subtitle") }
   /// PLAYER
   internal static var settingsGeneralPlayerHeader: String { return L10n.tr("Localizable", "settings_general_player_header") }
@@ -3104,6 +3112,18 @@ internal enum L10n {
   internal static var top: String { return L10n.tr("Localizable", "top") }
   /// Transcript
   internal static var transcript: String { return L10n.tr("Localizable", "transcript") }
+  /// Sorry, but it looks this transcript is empty
+  internal static var transcriptErrorEmpty: String { return L10n.tr("Localizable", "transcript_error_empty") }
+  /// Sorry, but something went wrong while loading this transcript
+  internal static var transcriptErrorFailedToLoad: String { return L10n.tr("Localizable", "transcript_error_failed_to_load") }
+  /// Sorry, but something went wrong while parsing this transcript
+  internal static var transcriptErrorFailedToParse: String { return L10n.tr("Localizable", "transcript_error_failed_to_parse") }
+  /// Sorry, but a transcript is not available for this podcast
+  internal static var transcriptErrorNotAvailable: String { return L10n.tr("Localizable", "transcript_error_not_available") }
+  /// Sorry, but this transcript format is not supported: %1$@
+  internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1))
+  }
   /// Trial Finished
   internal static var trialFinished: String { return L10n.tr("Localizable", "trial_finished") }
   /// Trim Silence

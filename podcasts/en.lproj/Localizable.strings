@@ -2441,7 +2441,7 @@
 "settings_general_play_back_actions" = "Extra Playback Actions";
 
 /* Subtitle explaining the toggle to modify what controls are available on the lock screen. */
-"settings_general_play_back_actions_subtitle" = "Adds a mark played and star option to your phone lock screen and CarPlay. Note: on the lock screen this will replace the skip back button.";
+"settings_general_play_back_actions_subtitle" = "Adds a star option to your phone lock screen.";
 
 /* Section header for the general settings that are more player related. */
 "settings_general_player_header" = "PLAYER";
@@ -4019,6 +4019,15 @@
 /* Toast message to alert a user to log in to leave a rating */
 "rating_login_required" = "You must log in to leave a rating";
 
+/* What's New sheet title */
+"rating_whats_new_title" = "Rating podcasts available now!";
+
+/* What's New sheet message */
+"rating_whats_new_message" = "You can start rating any show in Pocket Casts. Make sure you give it a few listens first and go support your favorite creators!";
+
+/* What's New sheet button title */
+"rating_whats_new_button_title" = "Got it";
+
 /* Title of a message shown when the users data is being exported */
 "exporting_database" = "Exporting Database...";
 
@@ -4228,3 +4237,21 @@
 
 /* Kids Profile Toast message if feedback sent succeeded */
 "kids_profile_submit_success" = "Thank you for your feedback!";
+
+/* Kids Profile Toast message if feedback sent failed */
+"kids_profile_submit_error" = "Something went wrong. Please try submitting your feedback again";
+
+/* Transcript error message when no transcript is available*/
+"transcript_error_not_available" = "Sorry, but a transcript is not available for this podcast";
+
+/* Transcript error message when transcript failed to load*/
+"transcript_error_failed_to_load" = "Sorry, but something went wrong while loading this transcript";
+
+/* Transcript error message when transcript format is not supported. %1$@ variable represents the format type not supported. Ex: "srt"*/
+"transcript_error_not_supported" = "Sorry, but this transcript format is not supported: %1$@";
+
+/* Transcript error message when transcript failed to parse*/
+"transcript_error_failed_to_parse" = "Sorry, but something went wrong while parsing this transcript";
+
+/* Transcript error message when transcript is empty*/
+"transcript_error_empty" = "Sorry, but it looks this transcript is empty";
