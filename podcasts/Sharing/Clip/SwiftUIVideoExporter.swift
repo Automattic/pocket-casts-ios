@@ -40,11 +40,24 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
 
         progress.totalUnitCount = Int64(loopFrameCount) + 50
 
+        guard Task.isCancelled == false else {
+            progress.cancel()
+            return
+        }
+
         // Export initial 10-second video
         try await exportInitialVideo(to: temporaryFileURL, frameCount: loopFrameCount, progress: progress)
         FileLog.shared.addMessage("SwiftUIVideoExporter Initial Video Ended: \(start.timeIntervalSinceNow)")
+        guard Task.isCancelled == false else {
+            progress.cancel()
+            return
+        }
         // Export final composition at full length
         try await self.createFinalComposition(from: temporaryFileURL, outputURL: outputURL, progress: progress)
+        guard Task.isCancelled == false else {
+            progress.cancel()
+            return
+        }
         // Clean up temporary file
         try? FileManager.default.removeItem(at: temporaryFileURL)
         progress.completedUnitCount = progress.totalUnitCount
@@ -77,7 +90,17 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
 
         try await videoWriterInput.unsafeRequestMediaDataWhenReady { [weak self] continuation in
             guard let self else { return }
+            guard Task.isCancelled == false else {
+                videoWriter.cancelWriting()
+                progress.cancel()
+                return
+            }
             while await counter.count <= frameCount, videoWriterInput.isReadyForMoreMediaData {
+                guard Task.isCancelled == false else {
+                    videoWriter.cancelWriting()
+                    progress.cancel()
+                    return
+                }
                 do {
                     try await counter.run {
                         let frameProgress = Double(await counter.count) / Double(frameCount)
