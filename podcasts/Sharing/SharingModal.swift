@@ -168,14 +168,6 @@ extension SharingModal.Option {
             AnimatedShareImageView(info: imageInfo, style: style).itemProvider(episode: episode, startTime: CMTime(seconds: time, preferredTimescale: 600), duration: CMTime(seconds: 60, preferredTimescale: 600))
         case .clipShare(let episode, let clipTime, let style, let progress):
             NSItemProvider(contentsOf: progress.fileURL)!
-//            let itemProvider = NSItemProvider()
-//            if #available(iOS 16.0, *) {
-//                itemProvider.registerFileRepresentation(for: .mpeg4Movie) { completion in
-//                }
-//            } else {
-//                itemProvider.registerFil
-//            }
-//            AnimatedShareImageView(info: imageInfo, style: style).itemProvider(episode: episode, startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600), duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600))
         default:
             ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()
         }
