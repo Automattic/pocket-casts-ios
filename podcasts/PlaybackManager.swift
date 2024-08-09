@@ -263,7 +263,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
         wasPlayingBeforeInterruption = false
 
-        FileLog.shared.addMessage("pausing playback \(currentEpisode()?.title ?? "unknown episode")")
+        FileLog.shared.addMessage("PlaybackManager pausing playback \(currentEpisode()?.title ?? "unknown episode")")
 
         recordPlaybackPosition(sendToServerImmediately: playing(), fireNotifications: true)
 
