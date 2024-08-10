@@ -432,7 +432,6 @@ class TranscriptViewController: PlayerItemViewController {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
         //We disabled the method bellow until we find a way to resync/shift transcript positions
         //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
     }
@@ -514,14 +513,7 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
-        transcriptView.isScrollEnabled = false
         adjustTextViewForKeyboard(notification: notification, show: false)
-    }
-
-    @objc func keyboardDidHide(_ notification: Notification) {
-        Task { [weak self] in
-            self?.transcriptView.isScrollEnabled = true
-        }
     }
 
     func adjustTextViewForKeyboard(notification: Notification, show: Bool) {
@@ -533,13 +525,16 @@ class TranscriptViewController: PlayerItemViewController {
 
         let keyboardHeight = keyboardFrame.height
         let adjustmentHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
-
-        UIView.animate(withDuration: animationDuration) { [weak self] in
+        let previousContentOffset = transcriptView.contentOffset
+        UIView.animate(withDuration: animationDuration, animations: { [weak self] in
             guard let self else { return }
-
-            transcriptView.contentInset.bottom = adjustmentHeight
+            transcriptView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: adjustmentHeight, right: 0)
+            transcriptView.setContentOffset(previousContentOffset, animated: false)
             transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
-        }
+        }, completion: { [weak self] _ in
+            guard let self else { return }
+            transcriptView.setContentOffset(previousContentOffset, animated: false)
+        })
     }
 
     // MARK: - Tracks
