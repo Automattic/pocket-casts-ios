@@ -7,6 +7,7 @@ protocol AnimatableContent: View {
     func update(for progress: Double)
 }
 
+@available(iOS 16, *)
 class VideoExporter<Content: AnimatableContent> {
     private let view: Content
     private let duration: TimeInterval
@@ -108,6 +109,7 @@ class VideoExporter<Content: AnimatableContent> {
         }
     }
 
+    @available(iOS 16, *)
     @MainActor
     private func pixelBuffer(for view: some View, size: CGSize) throws -> UnsafeTransfer<CVPixelBuffer> {
         try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: size))
