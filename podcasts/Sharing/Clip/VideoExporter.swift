@@ -162,12 +162,7 @@ class VideoExporter<Content: AnimatableContent> {
         exportSession.outputFileType = fileType
         exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
 
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [additionalLoadingCount] _ in
-            progress.completedUnitCount = (progress.totalUnitCount - additionalLoadingCount) + Int64((Float(additionalLoadingCount) * exportSession.progress))
-        }
-
         await exportSession.export()
-        timer.invalidate()
 
         guard exportSession.status == .completed else {
             throw ExportError.exportFailed(exportSession.error)
