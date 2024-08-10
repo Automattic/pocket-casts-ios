@@ -81,27 +81,7 @@ struct SharingView: View {
             }
         }
         .task(id: isExporting, {
-            guard isExporting,
-                  case let .clipShare(episode, clipTime, shareImageStyle, progress) = selectedOption
-            else {
-                return
-            }
-            defer {
-                isExporting = false
-            }
-            do {
-                let url = try await exportVideo(info: selectedOption.imageInfo,
-                                                style: selectedMedia,
-                                                episode: episode,
-                                                startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
-                                                duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
-                                                progress: progress
-                )
-                progress.fileURL = url
-                selectedOption = .clipShare(episode, clipTime, shareImageStyle, progress)
-            } catch let error {
-                FileLog.shared.addMessage("Failed Clip Export: \(error)")
-            }
+            await exportIfNeeded()
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
@@ -188,17 +168,41 @@ struct SharingView: View {
         case failedToDownload
     }
 
+    private func exportIfNeeded() async {
+        guard isExporting,
+              case let .clipShare(episode, clipTime, shareImageStyle, progress) = selectedOption
+        else {
+            return
+        }
+        defer {
+            isExporting = false
+        }
+        do {
+            let url = try await exportVideo(info: selectedOption.imageInfo,
+                                            style: selectedMedia,
+                                            episode: episode,
+                                            startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
+                                            duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
+                                            progress: progress
+            )
+            progress.fileURL = url
+            selectedOption = .clipShare(episode, clipTime, shareImageStyle, progress)
+        } catch let error {
+            FileLog.shared.addMessage("Failed Clip Export: \(error)")
+        }
+    }
+
     private func exportVideo(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             throw VideoExportError.failedToDownload
         }
         let size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
-        guard #available(iOS 16, *) else {
+        guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
             throw VideoExportError.failedToDownload
         }
-        let video = VideoExporter(view: AnimatedShareImageView(info: info, style: style), duration: CMTimeGetSeconds(duration), size: size, audioPlayerItem: playerItem, audioStartTime: startTime, audioDuration: duration)
+        let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, audioPlayerItem: playerItem, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
-        try await video.exportTo(outputURL: url, fileType: .mp4, progress: progress)
+        try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
         return url
     }
 }
