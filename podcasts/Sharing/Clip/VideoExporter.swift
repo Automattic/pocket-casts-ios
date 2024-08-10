@@ -16,6 +16,7 @@ class VideoExporter<Content: AnimatableContent> {
     private let audioPlayerItem: AVPlayerItem?
     private let audioStartTime: CMTime
     private let audioDuration: CMTime
+    private let additionalLoadingCount: Int64 = 50
 
     init(view: Content, duration: TimeInterval, size: CGSize, fps: Int = 60, audioPlayerItem: AVPlayerItem, audioStartTime: CMTime, audioDuration: CMTime) {
         self.view = view
@@ -33,27 +34,27 @@ class VideoExporter<Content: AnimatableContent> {
         let loopFrameCount = Int(loopDuration * Double(fps))
 
         let start = Date()
-        FileLog.shared.addMessage("SwiftUIVideoExporter Started: \(start)")
+        FileLog.shared.addMessage("VideoExporter Started: \(start)")
 
         let temporaryFileURL = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString)
             .appendingPathExtension(UTType(fileType.rawValue)?.preferredFilenameExtension ?? ".mp4")
 
-        progress.totalUnitCount = Int64(loopFrameCount) + 50
+        progress.totalUnitCount = Int64(loopFrameCount) + additionalLoadingCount
 
         try await withTaskCancellationHandler {
-            // Export initial 10-second video
+            // Export initial seconds long video
             try await exportInitialVideo(to: temporaryFileURL, fileType: fileType, frameCount: loopFrameCount, progress: progress)
-            FileLog.shared.addMessage("SwiftUIVideoExporter Initial Video Ended: \(start.timeIntervalSinceNow)")
+            FileLog.shared.addMessage("VideoExporter Initial Video Ended: \(start.timeIntervalSinceNow)")
 
-            // Create & export final composition at full length
+            // Create & export final composition at full length by concatenating seconds long video from above until duration
             let composition = try await createFinalComposition(from: temporaryFileURL, outputURL: outputURL, progress: progress)
             try await exportFinalComposition(composition: composition, outputURL: outputURL, fileType: fileType, progress: progress)
 
             // Clean up temporary file
             try? FileManager.default.removeItem(at: temporaryFileURL)
             progress.completedUnitCount = progress.totalUnitCount
-            FileLog.shared.addMessage("SwiftUIVideoExporter Ended: \(start.timeIntervalSinceNow)")
+            FileLog.shared.addMessage("VideoExporter Ended: \(start.timeIntervalSinceNow)")
         } onCancel: {
             progress.cancel()
         }
@@ -161,8 +162,8 @@ class VideoExporter<Content: AnimatableContent> {
         exportSession.outputFileType = fileType
         exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
 
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
-            progress.completedUnitCount = (progress.totalUnitCount - 50) + Int64((50 * exportSession.progress))
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [additionalLoadingCount] _ in
+            progress.completedUnitCount = (progress.totalUnitCount - additionalLoadingCount) + Int64((Float(additionalLoadingCount) * exportSession.progress))
         }
 
         await exportSession.export()

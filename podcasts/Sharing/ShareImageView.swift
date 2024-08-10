@@ -118,16 +118,6 @@ struct ShareImageView: View {
         }
         .multilineTextAlignment(textAlignment)
     }
-
-    func animatedOpacity(from input: Double) -> Double {
-        // Ensure the input is within the 0-360 range
-        let clampedInput = max(0, min(360, input))
-
-        // Linear interpolation formula
-        let output = 0.15 + (0.5 - 0.15) * (clampedInput / 360.0)
-
-        return output
-    }
 }
 
 struct KidneyShape: Shape {
