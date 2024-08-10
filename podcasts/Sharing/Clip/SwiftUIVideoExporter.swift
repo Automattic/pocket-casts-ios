@@ -28,7 +28,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
 
     @MainActor
     func exportToMP4(outputURL: URL, progress: Progress) async throws {
-        let loopDuration: Double = 10
+        let loopDuration: Double = 5
         let loopFrameCount = Int(loopDuration * Double(fps))
 
         let start = Date()
