@@ -193,15 +193,9 @@ struct SharingView: View {
             throw VideoExportError.failedToDownload
         }
         let size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
-        let video = SwiftUIVideoExporter(view: AnimatedShareImageView(info: info, style: style), duration: CMTimeGetSeconds(duration), size: size, audioPlayerItem: playerItem, audioStartTime: startTime, audioDuration: duration)
+        let video = VideoExporter(view: AnimatedShareImageView(info: info, style: style), duration: CMTimeGetSeconds(duration), size: size, audioPlayerItem: playerItem, audioStartTime: startTime, audioDuration: duration)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
-
-        do {
-            try await video.exportToMP4(outputURL: url, progress: progress)
-        } catch let error {
-            throw error
-        }
-
+        try await video.exportTo(outputURL: url, fileType: .mp4, progress: progress)
         return url
     }
 }

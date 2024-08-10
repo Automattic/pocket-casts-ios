@@ -7,7 +7,7 @@ protocol AnimatableContent: View {
     func update(for progress: Double)
 }
 
-class SwiftUIVideoExporter<Content: AnimatableContent> {
+class VideoExporter<Content: AnimatableContent> {
     private let view: Content
     private let duration: TimeInterval
     private let size: CGSize
@@ -27,7 +27,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
     }
 
     @MainActor
-    func exportToMP4(outputURL: URL, progress: Progress) async throws {
+    func exportTo(outputURL: URL, fileType: AVFileType, progress: Progress) async throws {
         let loopDuration: Double = 5
         let loopFrameCount = Int(loopDuration * Double(fps))
 
@@ -36,17 +36,18 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
 
         let temporaryFileURL = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString)
-            .appendingPathExtension("mp4")
+            .appendingPathExtension(UTType(fileType.rawValue)?.preferredFilenameExtension ?? ".mp4")
 
         progress.totalUnitCount = Int64(loopFrameCount) + 50
 
         try await withTaskCancellationHandler {
             // Export initial 10-second video
-            try await exportInitialVideo(to: temporaryFileURL, frameCount: loopFrameCount, progress: progress)
+            try await exportInitialVideo(to: temporaryFileURL, fileType: fileType, frameCount: loopFrameCount, progress: progress)
             FileLog.shared.addMessage("SwiftUIVideoExporter Initial Video Ended: \(start.timeIntervalSinceNow)")
 
-            // Export final composition at full length
-            try await createFinalComposition(from: temporaryFileURL, outputURL: outputURL, progress: progress)
+            // Create & export final composition at full length
+            let composition = try await createFinalComposition(from: temporaryFileURL, outputURL: outputURL, progress: progress)
+            try await exportFinalComposition(composition: composition, outputURL: outputURL, fileType: fileType, progress: progress)
 
             // Clean up temporary file
             try? FileManager.default.removeItem(at: temporaryFileURL)
@@ -58,8 +59,8 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
     }
 
     // Step 1 of video export
-    private func exportInitialVideo(to outputURL: URL, frameCount: Int, progress: Progress) async throws {
-        let videoWriter = try AVAssetWriter(outputURL: outputURL, fileType: .mp4)
+    private func exportInitialVideo(to outputURL: URL, fileType: AVFileType, frameCount: Int, progress: Progress) async throws {
+        let videoWriter = try AVAssetWriter(outputURL: outputURL, fileType: fileType)
         let videoSettings: [String: Any] = [
             AVVideoCodecKey: AVVideoCodecType.h264,
             AVVideoWidthKey: size.width,
@@ -113,7 +114,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
     }
 
     // Part 2 of video export, creating the final track from the initial video loop
-    private func createFinalComposition(from sourceURL: URL, outputURL: URL, progress: Progress) async throws {
+    private func createFinalComposition(from sourceURL: URL, outputURL: URL, progress: Progress) async throws -> AVComposition {
         let asset = AVAsset(url: sourceURL)
         let composition = AVMutableComposition()
 
@@ -137,7 +138,7 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
             try add(audioTrack: audioTrack, to: composition)
         }
 
-        try await exportFinalComposition(composition: composition, outputURL: outputURL, progress: progress)
+        return composition
     }
 
     // Part of Step 2 of video export to add the audio track
@@ -149,13 +150,13 @@ class SwiftUIVideoExporter<Content: AnimatableContent> {
     }
 
     // Part of Step 2 of video export to export the final file
-    private func exportFinalComposition(composition: AVMutableComposition, outputURL: URL, progress: Progress) async throws {
+    private func exportFinalComposition(composition: AVComposition, outputURL: URL, fileType: AVFileType, progress: Progress) async throws {
         guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
             throw ExportError.failedToCreateExportSession
         }
 
         exportSession.outputURL = outputURL
-        exportSession.outputFileType = .mp4
+        exportSession.outputFileType = fileType
         exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
 
         let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
