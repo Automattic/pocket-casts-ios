@@ -47,6 +47,10 @@ class TranscriptManager {
             throw TranscriptError.notAvailable
         }
 
+        return try await loadTranscript(transcript)
+    }
+
+    private func loadTranscript(_ transcript: Transcript) async throws -> TranscriptModel {
         guard let transcriptFormat = transcript.transcriptFormat else {
             throw TranscriptError.notSupported(format: transcript.type)
         }
