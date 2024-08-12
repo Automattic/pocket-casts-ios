@@ -26,26 +26,29 @@ final class TranscriptModelFilterTests: XCTestCase {
         0:00:41.610 --> 0:00:44.490
         <v Speaker 1>those who do not know how to pursue pleasure rationally encounter consequences
 
-        0:00:45.050 --> 0:00:49.050
-        <v Speaker 1>that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain
+        0:00:45.050 --> 0:00:46.050
+        <v Speaker 1>that are extremely painful.
+
+        0:00:46.051 --> 0:00:49.050
+        <v Speaker 2>Nor again is there anyone who loves or pursues or desires to obtain pain
 
         0:00:49.050 --> 0:00:52.450
-        <v Speaker 1>of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure
+        <v Speaker 2>of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure
 
         0:00:52.610 --> 0:00:57.850
-        <v Speaker 1>him some great pleasure. To take a trivial example, which of us ever undertakes laborious
+        <v Speaker 2>him some great pleasure. To take a trivial example, which of us ever undertakes laborious
 
         0:00:57.850 --> 0:01:02.530
-        <v Speaker 1>physical exercise, except to obtain some advantage from it? But who has any right
+        <v Speaker 2>physical exercise, except to obtain some advantage from it? But who has any right
 
         0:01:02.610 --> 0:01:07.610
-        <v Speaker 1>to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences,
+        <v Speaker 2>to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences,
 
         0:01:07.650 --> 0:01:11.810
-        <v Speaker 1>or one who avoids a pain
+        <v Speaker 2>or one who avoids a pain
 
         0:01:11.890 --> 0:01:15.490
-        <v Speaker 1>that produces no resultant pleasure?
+        <v Speaker 2>that produces no resultant pleasure?
         """
 
         guard let model = TranscriptModel.makeModel(from: transcript, format: .vtt) else {
@@ -55,9 +58,12 @@ final class TranscriptModelFilterTests: XCTestCase {
         let filtered = model.attributedText.string
 
         let expected = """
+        Speaker 1
         But I must explain to you how all this mistaken idea of reprobating pleasure and extolling pain arose.
         To do so, I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
         No one rejects, dislikes or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.
+
+        Speaker 2
         Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure.
         To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?
         But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?
@@ -92,32 +98,36 @@ final class TranscriptModelFilterTests: XCTestCase {
         Speaker 1: those who do not know how to pursue pleasure rationally encounter consequences
 
         7
-        0:00:45,050 --> 0:00:49,050
-        Speaker 1: that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain
+        0:00:45,050 --> 0:00:46,050
+        Speaker 1: that are extremely painful.
 
         8
-        0:00:49,050 --> 0:00:52,450
-        Speaker 1: of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure
+        0:00:46,051 --> 0:00:49,050
+        Speaker 2:Nor again is there anyone who loves or pursues or desires to obtain pain
 
         9
-        0:00:52,610 --> 0:00:57,850
-        Speaker 1: him some great pleasure. To take a trivial example, which of us ever undertakes laborious
+        0:00:49,050 --> 0:00:52,450
+        Speaker 2: of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure
 
         10
-        0:00:57,850 --> 0:01:02,530
-        Speaker 1: physical exercise, except to obtain some advantage from it? But who has any right
-
-        11
-        0:01:02,610 --> 0:01:07,610
-        Speaker 1: to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences,
+        0:00:52,610 --> 0:00:57,850
+        Speaker 2: him some great pleasure. To take a trivial example, which of us ever undertakes laborious
 
         12
-        0:01:07,650 --> 0:01:11,810
-        Speaker 1: or one who avoids a pain
+        0:00:57,850 --> 0:01:02,530
+        Speaker 2: physical exercise, except to obtain some advantage from it? But who has any right
+
+        12
+        0:01:02,610 --> 0:01:07,610
+        Speaker 2: to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences,
 
         13
+        0:01:07,650 --> 0:01:11,810
+        Speaker 2: or one who avoids a pain
+
+        14
         0:01:11,890 --> 0:01:15,490
-        Speaker 1: that produces no resultant pleasure?
+        Speaker 2: that produces no resultant pleasure?
         """
 
         guard let model = TranscriptModel.makeModel(from: transcript, format: .srt) else {
@@ -127,9 +137,12 @@ final class TranscriptModelFilterTests: XCTestCase {
         let filtered = model.attributedText.string
 
         let expected = """
+        Speaker 1
         But I must explain to you how all this mistaken idea of reprobating pleasure and extolling pain arose.
         To do so, I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
         No one rejects, dislikes or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.
+
+        Speaker 2
         Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure.
         To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?
         But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?

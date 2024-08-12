@@ -22,7 +22,7 @@ public enum TranscriptFormat: String {
     }
 
     // Transcript formats we support in order of priority of use
-    public static let supportedFormats: [TranscriptFormat] = [.vtt, .srt, .jsonPodcastIndex, .textHTML]
+    public static let supportedFormats: [TranscriptFormat] = [.vtt, .jsonPodcastIndex, .srt, .textHTML]
 
     public static func bestTranscript(from available: [Episode.Metadata.Transcript]) -> Episode.Metadata.Transcript? {
         for format in Self.supportedFormats {
