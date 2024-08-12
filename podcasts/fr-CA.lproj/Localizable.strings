@@ -2191,8 +2191,6 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Ouvrir les liens dans un navigateur</string>
     <key>settings_general_play_back_actions</key>
     <string>Actions de lecture supplémentaires</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Ajoute une marque « lu » et une option « favori » à l’écran de verrouillage de votre téléphone ou à CarPlay. Remarque : cela remplacera le bouton Saut vers l’arrière sur votre écran de verrouillage.</string>
     <key>settings_general_player_header</key>
     <string>LECTEUR</string>
     <key>settings_general_publish_chapter_titles</key>

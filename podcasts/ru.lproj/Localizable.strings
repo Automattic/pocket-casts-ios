@@ -2191,8 +2191,6 @@
     <string>Открыть ссылки в браузере</string>
     <key>settings_general_play_back_actions</key>
     <string>Дополнительные действия при воспроизведении</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Добавляет на экран блокировки телефона и CarPlay отметку воспроизведения и опцию включения в избранное. Примечание: на экране блокировки эта кнопка заменит кнопку перехода назад.</string>
     <key>settings_general_player_header</key>
     <string>ПЛЕЕР</string>
     <key>settings_general_publish_chapter_titles</key>

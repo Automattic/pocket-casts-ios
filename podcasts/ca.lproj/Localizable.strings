@@ -335,6 +335,10 @@
     <string>Velocitat de reproducció</string>
     <key>carplay_up_next_queue</key>
     <string>Llista 'Tot seguit'</string>
+    <key>champion_description</key>
+    <string>Gràcies per estar amb nosaltres des del principi! Si t'agrada fer servir la nostra app, ens encantaria saber la teva opinió.</string>
+    <key>champion_title</key>
+    <string>Ets un veritable campió de Pocket Casts!</string>
     <key>change_app_icon</key>
     <string>Canvia la icona de l'app</string>
     <key>change_bookmark_subtitle</key>
@@ -698,7 +702,7 @@
     <key>edit</key>
     <string>Editar</string>
     <key>edit_clip</key>
-    <string>Editar el clip</string>
+    <string>Editar clip</string>
     <key>enable_it_now</key>
     <string>Activar-ho ara</string>
     <key>eoy_card_description</key>
@@ -1205,6 +1209,28 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <string>Obrir el reproductor</string>
     <key>keycommand_play_pause</key>
     <string>Reproduir / Pausar</string>
+    <key>kids_profile_banner_badge</key>
+    <string>Aviat</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>Sol·licita accés anticipat</string>
+    <key>kids_profile_banner_text</key>
+    <string>Un nou perfil només amb contingut per a nens per mantenir les teves subscripcions ordenades.</string>
+    <key>kids_profile_banner_title</key>
+    <string>Perfil per a nens</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>Enviar</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Què t'agradaria veure en un perfil de nens per a Pocket Casts?</string>
+    <key>kids_profile_submit_success</key>
+    <string>Gràcies per la teva aportació!</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>No, gràcies</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>Enviar comentaris</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>Rebràs una notificació a través de l'app quan el nou perfil de nens estigui llest! Vols fer-nos saber què t'agradaria veure?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>Gràcies pel teu interès</string>
     <key>learn_more</key>
     <string>Més informació</string>
     <key>listening_history</key>
@@ -1508,6 +1534,10 @@ ACTUALITZACIONS</string>
     <string>Desbloqueja totes les funcions</string>
     <key>plus_cancel_terms</key>
     <string>Es pot cancel·lar en qualsevol moment</string>
+    <key>plus_champion</key>
+    <string>Campió de Pocket Casts</string>
+    <key>plus_champion_message</key>
+    <string>Gràcies per estar amb Pocket Casts des del principi. Ets un veritable campió!</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB d'emmagatzematge al núvol</string>
     <key>plus_discount_yearly_membership</key>
@@ -1852,6 +1882,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Queda en total: %1$@</string>
     <key>rate</key>
     <string>Puntuació</string>
+    <key>rate_pocket_casts</key>
+    <string>Valora Pocket Casts</string>
     <key>rating_error</key>
     <string>Ep! Hi ha hagut un error.</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1868,6 +1900,12 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Gràcies per la puntuació!</string>
     <key>rating_title</key>
     <string>Puntuació  %1$@</string>
+    <key>rating_whats_new_button_title</key>
+    <string>Entesos</string>
+    <key>rating_whats_new_message</key>
+    <string>Pots començar a valorar qualsevol programa a Pocket Casts. Assegura't de fer-li unes quantes escoltes primer i dona suport als teus creadors favorits!</string>
+    <key>rating_whats_new_title</key>
+    <string>La valoració dels pòdcasts ja està disponible!</string>
     <key>refresh_control_fetching_episodes</key>
     <string>CERCANT NOUS EPISODIS DELS PODCASTS</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2088,6 +2126,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>So de confirmació de marcadors</string>
     <key>settings_bookmark_sound_footer</key>
     <string>Reprodueix un so de confirmació en crear un marcador amb els auriculars.</string>
+    <key>settings_change_avatar</key>
+    <string>Canviar l'avatar</string>
     <key>settings_collect_information</key>
     <string>Recopilar la informació</string>
     <key>settings_collect_information_additional_information</key>
@@ -2195,7 +2235,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>settings_general_play_back_actions</key>
     <string>Altres accions de reproducció</string>
     <key>settings_general_play_back_actions_subtitle</key>
-    <string>Afegeix una opció per marcar els reproduïts i destacats a la pantalla de bloqueig del mòbil i a CarPlay. Nota: a la pantalla de bloqueig, aquesta opció substitueix el botó de saltar enrere.</string>
+    <string>Afegeix una opció d'estrella a la pantalla de bloqueig del teu telèfon.</string>
     <key>settings_general_player_header</key>
     <string>REPRODUCTOR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2381,7 +2421,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>share</key>
     <string>Compartir</string>
     <key>share_clip</key>
-    <string>Comparteix el clip</string>
+    <string>Compartir clip</string>
     <key>share_copied_to_clipboard</key>
     <string>S'ha copiat l'enllaç al porta-retalls</string>
     <key>share_copy_link</key>

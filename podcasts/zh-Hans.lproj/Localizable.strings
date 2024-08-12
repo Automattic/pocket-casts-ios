@@ -2191,8 +2191,6 @@
     <string>在浏览器中打开链接</string>
     <key>settings_general_play_back_actions</key>
     <string>额外播放操作</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>在手机锁定屏幕和 CarPlay 中添加“已播放”标记和“星标”选项。 注意：在锁定屏幕上，这将取代后跳按钮。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>

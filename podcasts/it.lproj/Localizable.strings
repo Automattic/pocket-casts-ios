@@ -2193,8 +2193,6 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Apri i link nel browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Azioni di riproduzione aggiuntive</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Aggiunge un contrassegno Riprodotto e l'opzione Assegna una stella alla schermata di blocco del telefono e a CarPlay. Nota: nella schermata di blocco questa opzione sostituirà il pulsante Salta indietro.</string>
     <key>settings_general_player_header</key>
     <string>LETTORE</string>
     <key>settings_general_publish_chapter_titles</key>
