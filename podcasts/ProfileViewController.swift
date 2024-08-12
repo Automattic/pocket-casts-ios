@@ -287,7 +287,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .endOfYearPrompt:
             return EndOfYearPromptCell()
         case .bookmarks:
-            cell.settingsImage.image = UIImage(named: "bookmarks-shelf-icon")
+            cell.settingsImage.image = UIImage(named: "bookmarks-profile")
             cell.settingsLabel.text = L10n.bookmarks
         }
 
