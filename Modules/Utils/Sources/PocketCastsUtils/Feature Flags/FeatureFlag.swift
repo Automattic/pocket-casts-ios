@@ -144,7 +144,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newSharing:
             false
         case .transcripts:
-            false
+            true
         case .gravatarChangeAvatar:
             true
         case .kidsProfile:
