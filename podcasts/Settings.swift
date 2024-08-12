@@ -720,7 +720,7 @@ class Settings: NSObject {
     class func playerActions() -> [PlayerAction] {
         let defaultActions = PlayerAction.defaultActions.filter { $0.isAvailable }
 
-        let playerActions: [PlayerAction]
+        var playerActions: [PlayerAction]
 
         if FeatureFlag.newSettingsStorage.enabled {
             playerActions = SettingsStore.appSettings.playerShelf
@@ -736,6 +736,12 @@ class Settings: NSObject {
         } else {
             playerActions = UserDefaults.standard.playerActions ?? defaultActions
         }
+
+        // Show transcript as the 4th item if it's not present
+        if FeatureFlag.transcripts.enabled && !playerActions.contains(.transcript) {
+            playerActions.insert(.transcript, safelyAt: 3)
+        }
+
         return playerActions + defaultActions.filter { !playerActions.contains($0) }
     }
 

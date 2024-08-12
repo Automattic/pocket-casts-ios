@@ -51,10 +51,17 @@ struct SharingView: View {
             case .episode, .podcast, .currentPosition:
                 buttons
             case .clip(let episode, _):
-                VStack(spacing: 16) {
+                VStack(spacing: 12) {
                     MediaTrimBar(clipTime: clipTime, episode: episode)
                         .frame(height: 72)
                         .tint(color)
+                    HStack {
+                        Text(L10n.clipStartLabel(TimeFormatter.shared.playTimeFormat(time: clipTime.start)))
+                        Spacer()
+                        Text(L10n.clipDurationLabel(TimeFormatter.shared.playTimeFormat(time: clipTime.end - clipTime.start)))
+                    }
+                    .foregroundStyle(.white.opacity(0.5))
+                    .font(.caption.weight(.semibold))
                     Button(L10n.clip, action: {
                         withAnimation {
                             selectedOption = .clipShare(episode, clipTime)

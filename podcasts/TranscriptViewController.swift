@@ -68,8 +68,17 @@ class TranscriptViewController: PlayerItemViewController {
         view.addSubview(activityIndicatorView)
         NSLayoutConstraint.activate(
             [
-                activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+                activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -Sizes.activityIndicatorSize / 2),
+                activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -Sizes.activityIndicatorSize / 2)
+            ]
+        )
+
+        view.addSubview(errorView)
+        NSLayoutConstraint.activate(
+            [
+                errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                errorView.widthAnchor.constraint(equalTo: view.readableContentGuide.widthAnchor, constant: -Sizes.textMargin)
             ]
         )
 
@@ -141,6 +150,7 @@ class TranscriptViewController: PlayerItemViewController {
 
         // Move focus to the textView on the input accessory view
         searchView.textField.becomeFirstResponder()
+        searchView.enableUpDownButtons(false)
 
         track(.transcriptSearch)
     }
@@ -163,12 +173,18 @@ class TranscriptViewController: PlayerItemViewController {
         return textView
     }()
 
-    private lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let activityIndicatorView = UIActivityIndicatorView()
-        activityIndicatorView.style = .medium
+    private lazy var activityIndicatorView: AngularActivityIndicator = {
+        let activityIndicatorView = AngularActivityIndicator(size: CGSize(width: Sizes.activityIndicatorSize, height: Sizes.activityIndicatorSize), lineWidth: 2.0, duration: 1.0)
+        activityIndicatorView.color = ThemeColor.playerContrast02()
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicatorView
+    }()
+
+    private lazy var errorView: TranscriptErrorView = {
+       TranscriptErrorView { [weak self] in
+            self?.retryLoad()
+        }
     }()
 
     private lazy var closeButton: TintableImageButton! = {
@@ -240,7 +256,7 @@ class TranscriptViewController: PlayerItemViewController {
         transcriptView.backgroundColor =  PlayerColorHelper.playerBackgroundColor01()
         transcriptView.textColor = ThemeColor.playerContrast02()
         transcriptView.indicatorStyle = .white
-        activityIndicatorView.color = ThemeColor.playerContrast01()
+        activityIndicatorView.color = ThemeColor.playerContrast02()
         updateGradientColors()
     }
 
@@ -259,8 +275,22 @@ class TranscriptViewController: PlayerItemViewController {
         containerDelegate?.dismissTranscript()
     }
 
-    private func loadTranscript() {
+    private func setupLoadingState() {
+        transcriptView.isHidden = true
+        searchButton.isHidden = true
+        errorView.isHidden = true
         activityIndicatorView.startAnimating()
+    }
+
+    private func setupShowTranscriptState() {
+        transcriptView.isHidden = false
+        searchButton.isHidden = false
+        errorView.isHidden = true
+        activityIndicatorView.stopAnimating()
+    }
+
+    private func loadTranscript() {
+        setupLoadingState()
         Task.detached { [weak self] in
             guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
                 return
@@ -279,6 +309,11 @@ class TranscriptViewController: PlayerItemViewController {
         }
     }
 
+    private func retryLoad() {
+        errorView.isHidden = true
+        loadTranscript()
+    }
+
     private func resetSearch() {
         searchIndicesResult = []
         currentSearchIndex = 0
@@ -291,6 +326,7 @@ class TranscriptViewController: PlayerItemViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             refreshText()
+            refreshError()
         }
         updateTextMargins()
     }
@@ -301,8 +337,13 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func updateTextMargins() {
-        let margin = self.view.readableContentGuide.layoutFrame.minX + 8
+        let margin = self.view.readableContentGuide.layoutFrame.minX + Sizes.textMargin
         transcriptView.textContainerInset = .init(top: 0.75 * Sizes.topGradientHeight, left: margin, bottom: bottomContainerInset, right: margin)
+    }
+
+    @MainActor
+    private func refreshError() {
+        errorView.setTextAttributes(makeStyle(alignment: .center))
     }
 
     @MainActor
@@ -314,19 +355,18 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     private func show(transcript: TranscriptModel) {
-            activityIndicatorView.stopAnimating()
-            self.previousRange = nil
-            self.transcript = transcript
-            transcriptView.attributedText = styleText(transcript: transcript)
+        setupShowTranscriptState()
+        previousRange = nil
+        self.transcript = transcript
+        transcriptView.attributedText = styleText(transcript: transcript)
     }
 
-    private func styleText(transcript: TranscriptModel, position: Double = -1) -> NSAttributedString {
-        let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
-
+    private func makeStyle(alignment: NSTextAlignment = .natural) -> [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.2
         paragraphStyle.paragraphSpacing = 10
         paragraphStyle.lineBreakMode = .byWordWrapping
+        paragraphStyle.alignment = alignment
 
         var standardFont = UIFont.preferredFont(forTextStyle: .body)
 
@@ -343,11 +383,15 @@ class TranscriptViewController: PlayerItemViewController {
             .foregroundColor: ThemeColor.playerContrast02()
         ]
 
-        let highlightStyle: [NSAttributedString.Key: Any] = [
-            .paragraphStyle: paragraphStyle,
-            .font: standardFont,
-            .foregroundColor: ThemeColor.playerContrast01()
-        ]
+        return normalStyle
+    }
+
+    private func styleText(transcript: TranscriptModel, position: Double = -1) -> NSAttributedString {
+        let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
+        formattedText.beginEditing()
+        let normalStyle = makeStyle()
+        var highlightStyle = normalStyle
+        highlightStyle[.foregroundColor] = ThemeColor.playerContrast01()
 
         formattedText.addAttributes(normalStyle, range: NSRange(location: 0, length: formattedText.length))
 
@@ -370,18 +414,18 @@ class TranscriptViewController: PlayerItemViewController {
 
             }
         }
-
+        formattedText.endEditing()
         return formattedText
     }
 
     private func show(error: Error) {
         activityIndicatorView.stopAnimating()
-        guard let transcriptError = error as? TranscriptError else {
-            transcriptView.text = "Transcript unknow error"
-            return
+        var message = L10n.transcriptErrorFailedToLoad
+        if let transcriptError = error as? TranscriptError {
+            message = transcriptError.localizedDescription
         }
-
-        transcriptView.text = transcriptError.localizedDescription
+        errorView.isHidden = false
+        errorView.setMessage(message, attributes: makeStyle(alignment: .center))
     }
 
     private func addObservers() {
@@ -440,14 +484,17 @@ class TranscriptViewController: PlayerItemViewController {
     func updateNumberOfResults() {
         if searchTerm == nil {
             searchView.updateLabel("")
+            searchView.enableUpDownButtons(false)
             return
         }
 
         if searchIndicesResult.isEmpty {
             searchView.updateLabel("0")
+            searchView.enableUpDownButtons(false)
             return
         }
 
+        searchView.enableUpDownButtons(true)
         searchView.updateLabel(L10n.searchResults(currentSearchIndex + 1, searchIndicesResult.count))
     }
 
@@ -505,6 +552,8 @@ class TranscriptViewController: PlayerItemViewController {
     private enum Sizes {
         static let topGradientHeight: CGFloat = 60
         static let bottomGradientHeight: CGFloat = 60
+        static let activityIndicatorSize: CGFloat = 30
+        static let textMargin: CGFloat = 8
     }
 
     private enum Colors {
@@ -541,6 +590,7 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
 
     func search(_ term: String) {
         if term.isEmpty {
+            debounce.cancel()
             resetSearch()
             return
         }
@@ -571,13 +621,17 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
     }
 
     private func processMatch() {
+        if searchIndicesResult.isEmpty {
+            return
+        }
+
         updateNumberOfResults()
         refreshText()
         transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
     }
 }
 
-private class RoundButton: UIButton {
+class RoundButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
 

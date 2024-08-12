@@ -2191,8 +2191,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ブラウザーでリンクを開く</string>
     <key>settings_general_play_back_actions</key>
     <string>他の再生操作</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>スマートフォンのロックスクリーンと CarPlay に再生済みマークと星オプションを追加します。 注意: ロックスクリーンでは「巻き戻し」ボタンの代わりにこれらのオプションが追加されます。</string>
     <key>settings_general_player_header</key>
     <string>プレーヤー</string>
     <key>settings_general_publish_chapter_titles</key>
