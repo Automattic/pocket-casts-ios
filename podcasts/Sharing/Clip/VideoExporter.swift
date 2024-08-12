@@ -8,7 +8,7 @@ protocol AnimatableContent: View {
 }
 
 @available(iOS 16, *)
-class VideoExporter {
+enum VideoExporter {
 
     struct Parameters {
         let duration: TimeInterval

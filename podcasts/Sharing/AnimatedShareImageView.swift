@@ -27,7 +27,7 @@ struct AnimatedShareImageView: AnimatableContent {
         animationProgress.progress = progress
     }
 
-    func calculateAngle(progress: Float) -> Float {
+    private func calculateAngle(progress: Float) -> Float {
         let speed: Float = 1
         let angle = (progress * 360 * speed).truncatingRemainder(dividingBy: 360)
         return angle
