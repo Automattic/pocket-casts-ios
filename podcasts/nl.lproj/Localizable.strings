@@ -2191,8 +2191,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Links openen in browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Extra afspeelacties</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Voegt aan het vergrendelscherm van je telefoon en CarPlay een optie voor het markeren van afleveringen toe die zijn afgespeeld en aan favorieten zijn toegevoegd. Let op: op het vergrendelscherm vervangt deze de knop voor terugspoelen.</string>
     <key>settings_general_player_header</key>
     <string>SPELER</string>
     <key>settings_general_publish_chapter_titles</key>

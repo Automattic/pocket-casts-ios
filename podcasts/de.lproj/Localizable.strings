@@ -2193,8 +2193,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Links in Browser öffnen</string>
     <key>settings_general_play_back_actions</key>
     <string>Zusätzliche Wiedergabeaktionen</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Fügt zum Sperrbildschirm deines Handys und zu CarPlay die Option „Angehört und mit Stern markieren“ hinzu. Hinweis: Auf dem Sperrbildschirm ersetzt dies den „Zurück“-Button.</string>
     <key>settings_general_player_header</key>
     <string>PLAYER</string>
     <key>settings_general_publish_chapter_titles</key>

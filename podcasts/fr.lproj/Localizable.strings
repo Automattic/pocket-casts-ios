@@ -2191,8 +2191,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Ouvrir les liens dans le navigateur</string>
     <key>settings_general_play_back_actions</key>
     <string>Actions de lecture supplémentaires</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Ajoute une option de marquage de lecture et de favori (étoile) à l’écran de verrouillage de votre téléphone et à CarPlay. Remarque : sur l’écran de verrouillage, ce bouton remplacera le bouton de retour rapide.</string>
     <key>settings_general_player_header</key>
     <string>LECTEUR</string>
     <key>settings_general_publish_chapter_titles</key>

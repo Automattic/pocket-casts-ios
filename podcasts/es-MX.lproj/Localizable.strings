@@ -2191,8 +2191,6 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Abrir enlaces en el navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Acciones de reproducción adicionales</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Agrega una opción de marca reproducida y estrella a la pantalla de bloqueo de tu teléfono y CarPlay. Nota: En la pantalla de bloqueo, esto reemplazará el botón "Retroceder".</string>
     <key>settings_general_player_header</key>
     <string>REPRODUCTOR</string>
     <key>settings_general_publish_chapter_titles</key>

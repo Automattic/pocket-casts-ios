@@ -2191,8 +2191,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Öppna länkar i webbläsare</string>
     <key>settings_general_play_back_actions</key>
     <string>Flera uppspelningsåtgärder</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Lägger till möjligheten att Stjärnmarkera och Markera som spelad på din telefon när den är låst och på CarPlay. Kom ihåg att detta kommer att ersätta Hoppa tillbaka knappen på din telefonskärm .</string>
     <key>settings_general_player_header</key>
     <string>SPELARE</string>
     <key>settings_general_publish_chapter_titles</key>

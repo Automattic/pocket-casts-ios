@@ -3774,7 +3774,7 @@
 "login_subtitle" = "Create an account to sync your listening experience across all your devices.";
 
 /* Title of the plus marketing view */
-"plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
+"plus_marketing_title" = "Unlock exclusive features with Pocket Casts Plus";
 
 /* Subtitle of the plus marketing view */
 "plus_marketing_subtitle" = "Get access to exclusive features and customisation options";
@@ -4020,10 +4020,10 @@
 "rating_login_required" = "You must log in to leave a rating";
 
 /* What's New sheet title */
-"rating_whats_new_title" = "Rating podcasts available now!";
+"rating_whats_new_title" = "Now Available: Podcast Ratings 🎉";
 
 /* What's New sheet message */
-"rating_whats_new_message" = "You can start rating any show in Pocket Casts. Make sure you give it a few listens first and go support your favorite creators!";
+"rating_whats_new_message" = "Rate your top podcasts and let creators know how much you appreciate their work. Plus, your ratings help others find new favorite shows!";
 
 /* What's New sheet button title */
 "rating_whats_new_button_title" = "Got it";

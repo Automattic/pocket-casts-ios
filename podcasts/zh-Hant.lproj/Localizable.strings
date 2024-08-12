@@ -2191,8 +2191,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在瀏覽器開啟連結</string>
     <key>settings_general_play_back_actions</key>
     <string>其他播放動作</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>在手機鎖定螢幕和 CarPlay 中新增已播放標示和星號選項。注意：該設定會在鎖定螢幕上取代倒轉跳過按鈕。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>
