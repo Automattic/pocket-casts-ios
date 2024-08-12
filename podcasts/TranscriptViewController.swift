@@ -525,13 +525,16 @@ class TranscriptViewController: PlayerItemViewController {
 
         let keyboardHeight = keyboardFrame.height
         let adjustmentHeight = (show ? keyboardHeight - (view.distanceFromBottom() ?? 0) : 0)
-
-        UIView.animate(withDuration: animationDuration) { [weak self] in
+        let previousContentOffset = transcriptView.contentOffset
+        UIView.animate(withDuration: animationDuration, animations: { [weak self] in
             guard let self else { return }
-
-            transcriptView.contentInset.bottom = adjustmentHeight
+            transcriptView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: adjustmentHeight, right: 0)
+            transcriptView.setContentOffset(previousContentOffset, animated: false)
             transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
-        }
+        }, completion: { [weak self] _ in
+            guard let self else { return }
+            transcriptView.setContentOffset(previousContentOffset, animated: false)
+        })
     }
 
     // MARK: - Tracks
