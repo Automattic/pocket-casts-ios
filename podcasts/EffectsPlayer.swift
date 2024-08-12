@@ -41,8 +41,6 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     // this lock is to avoid race conditions where you're destroying the player while in the middle of setting it up (since the play method does its work asynchronously)
     private lazy var playerLock = NSLock()
 
-    private let serialSeekQueue = DispatchQueue(label: "effectsplayer.serial.queue")
-
     private lazy var episodeArtwork = EpisodeArtwork()
 
     // MARK: - PlaybackProtocol Impl
@@ -211,23 +209,19 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     func seekTo(_ time: TimeInterval, completion: (() -> Void)?) {
         guard let readOperation = audioReadTask else { return }
 
-        serialSeekQueue.async { [weak self] in
-            guard let self else { return }
+        lastSeekTime = max(0.1, time)
+        seeking = true
+        readOperation.seekTo(time, completion: { [weak self] seekedToEnd in
+            if !seekedToEnd {
+                completion?()
+            } else if !(self?.playBufferManager?.haveNotifiedPlayer.value ?? false) {
+                self?.playBufferManager?.haveNotifiedPlayer.value = true
+                FileLog.shared.addMessage("EffectsPlayer seeked passed end of episode, calling finished playing")
+                PlaybackManager.shared.playerDidFinishPlayingEpisode()
+            }
 
-            lastSeekTime = max(0.1, time)
-            seeking = true
-            readOperation.seekTo(time, completion: { [weak self] seekedToEnd in
-                if !seekedToEnd {
-                    completion?()
-                } else if !(self?.playBufferManager?.haveNotifiedPlayer.value ?? false) {
-                    self?.playBufferManager?.haveNotifiedPlayer.value = true
-                    FileLog.shared.addMessage("EffectsPlayer seeked passed end of episode, calling finished playing")
-                    PlaybackManager.shared.playerDidFinishPlayingEpisode()
-                }
-
-                self?.seeking = false
-            })
-        }
+            self?.seeking = false
+        })
     }
 
     func currentTime() -> TimeInterval {
