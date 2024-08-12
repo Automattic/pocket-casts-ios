@@ -13,6 +13,76 @@ struct ShareDestination: Hashable {
         hasher.combine(name)
     }
 
+    enum Destination: CaseIterable {
+        case instagram
+
+        var name: String {
+            switch self {
+            case .instagram:
+                "Stories"
+            }
+        }
+
+        var icon: Image {
+            switch self {
+            case .instagram:
+                Image("instagram")
+            }
+        }
+
+        func share(_ option: SharingModal.Option, style: ShareImageStyle) async {
+            switch self {
+            case .instagram:
+                await instagramShare(image: Self.shareImage(option, style: style), url: option.shareURL)
+            }
+        }
+
+        @MainActor
+        static fileprivate func shareImage(_ option: SharingModal.Option, style: ShareImageStyle) -> UIImage {
+            let imageView = ShareImageView(info: option.imageInfo, style: style)
+            return imageView.snapshot()
+        }
+
+        @MainActor
+        private func instagramShare(image: UIImage, url: String) {
+            guard let pngImage = image.pngData() else {
+                return
+            }
+
+            let backgroundImage = pngImage
+            let attributionURL = url
+            let appID = ApiCredentials.instagramAppID
+
+            guard let urlScheme = URL(string: "instagram-stories://share?source_application=\(appID)"),
+                UIApplication.shared.canOpenURL(urlScheme) else {
+                return
+            }
+
+            let pasteboardItems = [["com.instagram.sharedSticker.backgroundImage": backgroundImage,
+                                    "com.instagram.sharedSticker.contentURL": attributionURL]]
+            let pasteboardOptions: [UIPasteboard.OptionsKey: Any] = [.expirationDate: Date().addingTimeInterval(60 * 5)]
+
+            UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
+
+            UIApplication.shared.open(urlScheme)
+        }
+
+        var isIncluded: Bool {
+            return true
+        }
+    }
+
+    static var apps: [ShareDestination] {
+        return Destination.allCases.compactMap({ destination in
+            guard destination.isIncluded else { return nil }
+            return ShareDestination(name: destination.name, icon: destination.icon, action: { option, style in
+                Task.detached {
+                    await destination.share(option, style: style)
+                }
+            })
+        })
+    }
+
     static func moreOption(vc: UIViewController) -> ShareDestination {
         let icon = Image(systemName: "ellipsis")
         return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: { option, style in
