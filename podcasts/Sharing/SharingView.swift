@@ -16,6 +16,11 @@ class ClipTime: ObservableObject {
 
 struct SharingView: View {
 
+    struct Shareable {
+        var option: SharingModal.Option
+        var style: ShareImageStyle
+    }
+
     @EnvironmentObject var theme: Theme
 
     private enum Constants {
@@ -24,16 +29,14 @@ struct SharingView: View {
 
     let destinations: [ShareDestination]
 
-    @State var selectedOption: SharingModal.Option
+    @State private var shareable: Shareable
     @State private var isExporting: Bool = false
-    @State private var selectedMedia: ShareImageStyle
 
     @ObservedObject var clipTime: ClipTime
 
-    init(destinations: [ShareDestination], selectedOption: SharingModal.Option, selectedMedia: ShareImageStyle = .large) {
+    init(destinations: [ShareDestination], selectedOption: SharingModal.Option, selectedStyle: ShareImageStyle = .large) {
         self.destinations = destinations
-        self.selectedOption = selectedOption
-        self.selectedMedia = selectedMedia
+        self.shareable = Shareable(option: selectedOption, style: selectedStyle)
 
         switch selectedOption {
         case .clip(_, let time):
@@ -47,7 +50,7 @@ struct SharingView: View {
         VStack {
             title
             image
-            switch selectedOption {
+            switch shareable.option {
             case .episode, .podcast, .currentPosition:
                 buttons
             case .clip(let episode, _):
@@ -64,7 +67,7 @@ struct SharingView: View {
                     .font(.caption.weight(.semibold))
                     Button(L10n.clip, action: {
                         withAnimation {
-                            selectedOption = .clipShare(episode, clipTime, selectedMedia, Progress())
+                            shareable.option = .clipShare(episode, clipTime, shareable.style, Progress())
                             isExporting = true
                         }
                     }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
@@ -88,7 +91,7 @@ struct SharingView: View {
     }
 
     var color: Color {
-        switch selectedOption {
+        switch shareable.option {
         case .clip(let episode, _), .clipShare(let episode, _, _, _):
             PlayerColorHelper.backgroundColor(for: episode)?.color ?? PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
         default:
@@ -98,15 +101,15 @@ struct SharingView: View {
 
     @ViewBuilder var title: some View {
         VStack {
-            Text(selectedOption.shareTitle)
+            Text(shareable.option.shareTitle)
                 .font(.headline)
-            switch selectedOption {
+            switch shareable.option {
             case .clip:
                 EmptyView() // Don't show the description to give extra space for trim view
             case .clipShare(let episode, let clipTime, _, _):
                 Button(action: {
                     withAnimation {
-                        selectedOption = .clip(episode, clipTime.playback)
+                        shareable.option = .clip(episode, clipTime.playback)
                     }
                 }) {
                     Text(L10n.editClip)
@@ -129,9 +132,9 @@ struct SharingView: View {
     }
 
     @ViewBuilder var image: some View {
-        TabView(selection: $selectedMedia) {
+        TabView(selection: $shareable.style) {
             ForEach(ShareImageStyle.allCases, id: \.self) { style in
-                ShareImageView(info: selectedOption.imageInfo, style: style, angle: .constant(0))
+                ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .tabItem { Text(style.tabString) }
             }
@@ -141,26 +144,49 @@ struct SharingView: View {
 
     @ViewBuilder var buttons: some View {
         HStack(spacing: 24) {
-            ForEach(destinations, id: \.self) { option in
-                Button {
-                    option.action(selectedOption, selectedMedia)
-                } label: {
-                    VStack {
-                        option.icon
-                            .renderingMode(.template)
-                            .font(size: 20, style: .body, weight: .bold)
-                            .frame(width: 24, height: 24)
-                            .padding(15)
-                            .background {
-                                Circle()
-                                    .foregroundStyle(.white.opacity(0.1))
-                            }
-                        Text(option.name)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+            ForEach(destinations, id: \.self) { destination in
+                if let action = destination.action {
+                    button(destination: destination, style: shareable.style, action: action)
+                } else {
+                    if #available(iOS 16, *) {
+                        shareLink(option: shareable.option, destination: destination, style: shareable.style)
                     }
                 }
             }
+        }
+    }
+
+    @ViewBuilder func button(destination: ShareDestination, style: ShareImageStyle, action: @escaping ((SharingModal.Option, ShareImageStyle) -> Void)) -> some View {
+        Button {
+            action(shareable.option, shareable.style)
+        } label: {
+            view(for: destination)
+        }
+    }
+
+    @available(iOS 16.0, *)
+    @ViewBuilder func shareLink(option: SharingModal.Option, destination: ShareDestination, style: ShareImageStyle) -> some View {
+        ShareLink(item: shareable, preview: {
+            SharePreview(option.imageInfo.title, image: ShareImageView(info: option.imageInfo, style: style, angle: .constant(0)))
+        }()) {
+            view(for: destination)
+        }
+    }
+
+    @ViewBuilder func view(for destination: ShareDestination) -> some View {
+        VStack {
+            destination.icon
+                .renderingMode(.template)
+                .font(size: 20, style: .body, weight: .bold)
+                .frame(width: 24, height: 24)
+                .padding(15)
+                .background {
+                    Circle()
+                        .foregroundStyle(.white.opacity(0.1))
+                }
+            Text(destination.name)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 
@@ -170,7 +196,7 @@ struct SharingView: View {
 
     private func exportIfNeeded() async {
         guard isExporting,
-              case let .clipShare(episode, clipTime, shareImageStyle, progress) = selectedOption
+              case let .clipShare(episode, clipTime, shareable.style, progress) = shareable.option
         else {
             return
         }
@@ -178,15 +204,15 @@ struct SharingView: View {
             isExporting = false
         }
         do {
-            let url = try await exportVideo(info: selectedOption.imageInfo,
-                                            style: selectedMedia,
+            let url = try await exportVideo(info: shareable.option.imageInfo,
+                                            style: shareable.style,
                                             episode: episode,
                                             startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
                                             duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
                                             progress: progress
             )
             progress.fileURL = url
-            selectedOption = .clipShare(episode, clipTime, shareImageStyle, progress)
+            shareable.option = .clipShare(episode, clipTime, shareable.style, progress)
         } catch let error {
             FileLog.shared.addMessage("Failed Clip Export: \(error)")
         }
@@ -204,6 +230,41 @@ struct SharingView: View {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
         try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
         return url
+    }
+}
+
+@available(iOS 16.0, *)
+extension SharingView.Shareable: Transferable {
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .url, exporting: { shareable in
+            shareable.option.shareURL.data(using: .utf8)!
+        })
+        FileRepresentation<Self>(exportedContentType: .mpeg4Movie) { shareable in
+            switch shareable.option {
+            case .clipShare(_, _, _, let progress):
+                let fileURL = progress.fileURL!
+                return SentTransferredFile(fileURL)
+            default:
+                return SentTransferredFile(URL(fileURLWithPath: "/"))
+            }
+        }.exportingCondition({ shareable in
+            switch shareable.option {
+            case .clipShare:
+                return true
+            default:
+                return false
+            }
+        })
+        DataRepresentation<Self>(exportedContentType: .png) { shareable in
+            return await ShareImageView(info: shareable.option.imageInfo, style: shareable.style, angle: .constant(0)).snapshot().pngData()!
+        }.exportingCondition({ shareable in
+            switch shareable.option {
+            case .clipShare:
+                return false
+            default:
+                return true
+            }
+        })
     }
 }
 
