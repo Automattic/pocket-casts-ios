@@ -43,11 +43,23 @@ class TranscriptManager {
     public func loadTranscript() async throws -> TranscriptModel {
         guard
             let transcripts = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID, cacheTranscript: false),
-            let transcript = TranscriptFormat.bestTranscript(from: transcripts) else {
+            !transcripts.isEmpty else {
             throw TranscriptError.notAvailable
         }
-
-        return try await loadTranscript(transcript)
+        var transcriptsAvailable = transcripts
+        while let transcript = TranscriptFormat.bestTranscript(from: transcriptsAvailable) {
+            do {
+                let model = try await loadTranscript(transcript)
+                return model
+            } catch TranscriptError.empty, TranscriptError.failedToParse {
+                transcriptsAvailable.removeAll { other in
+                    other.transcriptFormat == transcript.transcriptFormat
+                }
+            } catch {
+                throw error
+            }
+        }
+        throw TranscriptError.failedToLoad
     }
 
     private func loadTranscript(_ transcript: Transcript) async throws -> TranscriptModel {
