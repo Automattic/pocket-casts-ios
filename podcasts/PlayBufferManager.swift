@@ -17,10 +17,10 @@ class PlayBufferManager {
         let itemThatWouldHavePlayedNext = playBuffer.pop()
         removeAll()
         // if possible, leave the next item that would have played on the buffer, so we can fade it out
-        if var item = itemThatWouldHavePlayedNext {
-            item.shouldFadeOut = true
-            playBuffer.push(item)
-        }
+//        if var item = itemThatWouldHavePlayedNext {
+//            item.shouldFadeOut = true
+//            playBuffer.push(item)
+//        }
     }
 
     func push(_ item: BufferedAudio) {
