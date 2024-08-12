@@ -42,7 +42,7 @@ class TranscriptManager {
 
     public func loadTranscript() async throws -> TranscriptModel {
         guard
-            let transcripts = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID, cacheTranscript: false),
+            let transcripts = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
             !transcripts.isEmpty else {
             throw TranscriptError.notAvailable
         }
