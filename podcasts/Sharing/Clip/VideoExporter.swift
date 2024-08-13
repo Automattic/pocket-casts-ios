@@ -14,7 +14,7 @@ enum VideoExporter {
         let duration: TimeInterval
         let size: CGSize
         let fps: Int = 60
-        let audioPlayerItem: AVPlayerItem
+        let episodeAsset: AVAsset
         let audioStartTime: CMTime
         let audioDuration: CMTime
         let additionalLoadingCount: Int64 = 50
@@ -143,7 +143,7 @@ enum VideoExporter {
             currentTime = CMTimeAdd(currentTime, sourceTimeRange)
         }
 
-        if let audioTrack = try await parameters.audioPlayerItem.asset.loadTracks(withMediaType: .audio).first {
+        if let audioTrack = try await asset.loadTracks(withMediaType: .audio).first {
             try add(audioTrack: audioTrack, at: CMTimeRange(start: parameters.audioStartTime, duration: parameters.audioDuration), to: composition)
         }
 

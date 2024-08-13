@@ -238,7 +238,7 @@ struct SharingView: View {
         guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
             throw VideoExportError.failedToDownload
         }
-        let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, audioPlayerItem: playerItem, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
+        let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
         try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
         return url
