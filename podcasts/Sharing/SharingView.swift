@@ -256,7 +256,7 @@ extension SharingView.Shareable: Transferable {
             }
         })
         DataRepresentation<Self>(exportedContentType: .png) { shareable in
-            return await ShareImageView(info: shareable.option.imageInfo, style: shareable.style, angle: .constant(0)).snapshot().pngData()!
+            return try await ShareImageView(info: shareable.option.imageInfo, style: shareable.style, angle: .constant(0)).snapshot().pngData().throwOnNil()
         }.exportingCondition({ shareable in
             switch shareable.option {
             case .clipShare:

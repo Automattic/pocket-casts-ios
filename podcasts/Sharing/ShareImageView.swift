@@ -153,7 +153,7 @@ struct KidneyShape: Shape {
 extension ShareImageView: Transferable {
     static var transferRepresentation: some TransferRepresentation {
         DataRepresentation<Self>(exportedContentType: .png) { view in
-            await view.snapshot().pngData()!
+            try await view.snapshot().pngData().throwOnNil()
         }
     }
 }
