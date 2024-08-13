@@ -33,6 +33,8 @@ extension AppLifecycleAnalytics {
         applicationOpenedTime = Date()
 
         analytics.track(.applicationOpened)
+
+        WidgetAnalytics().track()
     }
 
     func didEnterBackground() {
