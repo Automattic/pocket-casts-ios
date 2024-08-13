@@ -166,9 +166,9 @@ struct SharingView: View {
 
     @available(iOS 16.0, *)
     @ViewBuilder func shareLink(option: SharingModal.Option, destination: ShareDestination, style: ShareImageStyle) -> some View {
-        ShareLink(item: shareable, preview: {
-            SharePreview(option.imageInfo.title, image: ShareImageView(info: option.imageInfo, style: style, angle: .constant(0)))
-        }()) {
+        ShareLink(items: shareItems, preview: { _ in
+            SharePreview(option.imageInfo.title, image: Image(uiImage: ShareImageView(info: option.imageInfo, style: style, angle: .constant(0)).snapshot()))
+        }) {
             view(for: destination)
         }
     }
