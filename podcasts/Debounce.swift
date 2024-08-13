@@ -15,3 +15,22 @@ class Debounce {
         }
     }
 }
+
+class Throttle {
+    private let frequency: Double
+    private weak var timer: Timer?
+
+    init(frequency: TimeInterval) {
+        self.frequency = frequency
+    }
+
+    func call(_ callback: @escaping (() -> Void)) {
+        if timer?.isValid == true {
+            return
+        }
+        callback()
+        timer = Timer.scheduledTimer(withTimeInterval: frequency, repeats: false) { obj in
+            obj.invalidate()
+        }
+    }
+}

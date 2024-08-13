@@ -291,12 +291,16 @@ class PlaybackManager: ServerPlaybackDelegate {
         skipBack(amount: skipBackAmount)
     }
 
+    lazy var throttle = Throttle (frequency: 0.5)
     private func skipBack(amount: TimeInterval) {
-        analyticsPlaybackHelper.skipBack()
+        throttle.call { [weak self] in
+            guard let self else { return }
+            analyticsPlaybackHelper.skipBack()
 
-        let currPos = currentTime()
-        let backTime = max(currPos - amount, 0)
-        seekTo(time: backTime)
+            let currPos = currentTime()
+            let backTime = max(currPos - amount, 0)
+            seekTo(time: backTime, goingBack: true)
+        }
     }
 
     func skipForward() {
@@ -399,8 +403,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekingTo != PlaybackManager.notSeeking
     }
 
-    func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false) {
-        seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek)
+    func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false, goingBack: Bool = false) {
+        seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek, goingBack: goingBack)
     }
 
     func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
@@ -408,7 +412,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
 
-    func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false) {
+    func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false, goingBack: Bool = false) {
         guard let playingEpisode = currentEpisode() else { return } // nothing to actually seek
 
         // if we're seeking an episode, and it's not in progress, it should be
@@ -418,8 +422,14 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let currentTime = playingEpisode.playedUpTo
         seekingTo = time
-        FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
-        if let player = player {
+        if seekingTo > currentTime {
+            if goingBack {
+                return
+            }
+            print("seek forward")
+        }
+        FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek) - current: \(currentTime)")
+        if let player = player {            
             player.seekTo(time, completion: { [weak self] () in
                 guard let strongSelf = self else { return }
 
