@@ -19,6 +19,7 @@ struct SharingView: View {
     struct Shareable {
         var option: SharingModal.Option
         var style: ShareImageStyle
+        var shareType: UTType? = nil
     }
 
     @EnvironmentObject var theme: Theme
@@ -173,6 +174,17 @@ struct SharingView: View {
         }
     }
 
+    private var shareItems: [Shareable] {
+        var video = shareable
+        video.shareType = .video
+        var image = shareable
+        image.shareType = .image
+        var url = shareable
+        url.shareType = .url
+
+        return [video, image, url]
+    }
+
     @ViewBuilder func view(for destination: ShareDestination) -> some View {
         VStack {
             destination.icon
@@ -242,28 +254,35 @@ extension SharingView.Shareable: Transferable {
                 let fileURL = progress.fileURL!
                 return SentTransferredFile(fileURL)
             default:
-                return SentTransferredFile(URL(fileURLWithPath: "/"))
+                assertionFailure("This should never run due to exporting conditions below")
+                throw Optional<Void>.OptionalNil()
             }
-        }.exportingCondition({ shareable in
+        }.exportingCondition { shareable in
+            guard shareable.shareType == .video,
+                  case .clipShare = shareable.option else { return false }
             switch shareable.option {
             case .clipShare:
                 return true
             default:
                 return false
             }
-        })
+        }
         DataRepresentation<Self>(exportedContentType: .png) { shareable in
             return try await ShareImageView(info: shareable.option.imageInfo, style: shareable.style, angle: .constant(0)).snapshot().pngData().throwOnNil()
-        }.exportingCondition({ shareable in
+        }.exportingCondition { shareable in
+            guard shareable.shareType == .image else { return false }
             switch shareable.option {
             case .clipShare:
                 return false
             default:
                 return true
             }
-        })
+        }
         ProxyRepresentation { shareable in
             try URL(string: shareable.option.shareURL).throwOnNil()
+        }
+        .exportingCondition { shareable in
+            return shareable.shareType == .url
         }
     }
 }
