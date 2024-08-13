@@ -92,7 +92,7 @@ enum SharingModal {
     }
 
     static func show(option: Option, in viewController: UIViewController) {
-        let sharingDestinations: [ShareDestination] = ShareDestination.apps.prefix(3) + [.copyLinkOption, .moreOption(vc: viewController)]
+        let sharingDestinations: [ShareDestination] = ShareDestination.displayedApps + [.copyLinkOption, .moreOption(vc: viewController)]
         let sharingView = SharingView(destinations: sharingDestinations, selectedOption: option)
         let modalView = ModalView {
             sharingView

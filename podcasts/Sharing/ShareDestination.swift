@@ -5,6 +5,10 @@ struct ShareDestination: Hashable {
     let icon: Image
     let action: (SharingModal.Option, ShareImageStyle) -> Void
 
+    enum Constants {
+        static let displayedAppsCount = 3
+    }
+
     static func ==(lhs: ShareDestination, rhs: ShareDestination) -> Bool {
         lhs.name == rhs.name && lhs.icon == rhs.icon
     }
@@ -72,7 +76,11 @@ struct ShareDestination: Hashable {
         }
     }
 
-    static var apps: [ShareDestination] {
+    static var displayedApps: Array<ShareDestination>.SubSequence {
+        apps.prefix(Constants.displayedAppsCount)
+    }
+
+    private static var apps: [ShareDestination] {
         return Destination.allCases.compactMap({ destination in
             guard destination.isIncluded else { return nil }
             return ShareDestination(name: destination.name, icon: destination.icon, action: { option, style in
