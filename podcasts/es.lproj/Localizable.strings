@@ -1524,8 +1524,6 @@ ACTUALIZACIONES</string>
     <string>FUNCIONES PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Prueba gratuita de %1$@</string>
-    <key>plus_lifetime_membership</key>
-    <string>Miembro vitalicio</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Aplicaciones web y para ordenador</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2193,8 +2191,6 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Abrir enlaces en el navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Otras acciones de la reproducción</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Añade una opción para marcar los reproducidos y destacados en la pantalla de bloqueo del móvil y en CarPlay. Nota: en la pantalla de bloqueo, esta opción sustituye al botón de saltar atrás.</string>
     <key>settings_general_player_header</key>
     <string>REPRODUCTOR</string>
     <key>settings_general_publish_chapter_titles</key>

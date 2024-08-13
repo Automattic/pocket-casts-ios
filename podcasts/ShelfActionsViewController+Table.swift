@@ -51,11 +51,19 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             } else {
                 cell.actionIcon.tintColor = ThemeColor.playerContrast02()
             }
+
+            // Disable transcript if not available
+            let isTranscriptsAndIsDisable = action == .transcript && !isTranscriptEnabled
+            cell.actionIcon.layer.opacity = isTranscriptsAndIsDisable ? 0.8 : 1
+            cell.actionName.layer.opacity = isTranscriptsAndIsDisable ? 0.5 : 1
         } else {
             cell.actionName.text = action.title(episode: nil)
             cell.actionIcon.image = UIImage(named: action.iconName(episode: nil))
             cell.customViewContainer.removeAllSubviews()
             cell.actionIcon.tintColor = ThemeColor.playerContrast02()
+
+            cell.actionIcon.layer.opacity = 1
+            cell.actionName.layer.opacity = 1
         }
 
         cell.actionSubtitle.text = (tableView.isEditing && playingEpisode is UserEpisode) ? action.subtitle() : nil
@@ -68,6 +76,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: true)
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
+
+        if action == .transcript && !isTranscriptEnabled {
+            return
+        }
 
         Analytics.track(.playerShelfActionTapped, properties: ["action": action.analyticsDescription, "from": "overflow_menu"])
 

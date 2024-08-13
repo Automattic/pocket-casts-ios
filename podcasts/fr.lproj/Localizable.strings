@@ -1524,8 +1524,6 @@ MISES À JOUR</string>
     <string>FONCTIONNALITÉS EXCLUSIVES PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ d’essai gratuit</string>
-    <key>plus_lifetime_membership</key>
-    <string>Membre à vie</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Applications Web et de bureau</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2193,8 +2191,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Ouvrir les liens dans le navigateur</string>
     <key>settings_general_play_back_actions</key>
     <string>Actions de lecture supplémentaires</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Ajoute une option de marquage de lecture et de favori (étoile) à l’écran de verrouillage de votre téléphone et à CarPlay. Remarque : sur l’écran de verrouillage, ce bouton remplacera le bouton de retour rapide.</string>
     <key>settings_general_player_header</key>
     <string>LECTEUR</string>
     <key>settings_general_publish_chapter_titles</key>

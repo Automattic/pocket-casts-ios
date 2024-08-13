@@ -15,15 +15,6 @@ actor TranscriptsDataRetriever {
         cache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 100.megabytes, diskPath: "transcripts")
     }
 
-    public func loadBestTranscript(from transcripts: [Transcript]) async throws -> String? {
-        guard let transcript = TranscriptFormat.bestTranscript(from: transcripts),
-              let url = URL(string: transcript.url) else {
-            return nil
-        }
-
-        return try await loadTranscript(url: url)
-    }
-
     public func loadTranscript(url: URL) async throws -> String? {
         let request = URLRequest(url: url)
 

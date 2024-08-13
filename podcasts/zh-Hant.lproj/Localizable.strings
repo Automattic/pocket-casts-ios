@@ -1524,8 +1524,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Plus 功能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@免費試用</string>
-    <key>plus_lifetime_membership</key>
-    <string>終身會員</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>桌面和網頁應用程式</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2193,8 +2191,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在瀏覽器開啟連結</string>
     <key>settings_general_play_back_actions</key>
     <string>其他播放動作</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>在手機鎖定螢幕和 CarPlay 中新增已播放標示和星號選項。注意：該設定會在鎖定螢幕上取代倒轉跳過按鈕。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>

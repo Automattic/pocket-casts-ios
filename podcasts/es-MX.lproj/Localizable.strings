@@ -1524,8 +1524,6 @@ ACTUALIZACIONES</string>
     <string>FUNCIONES PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Prueba gratuita de %1$@</string>
-    <key>plus_lifetime_membership</key>
-    <string>Miembro vitalicio</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Aplicaciones web y para ordenador</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2193,8 +2191,6 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Abrir enlaces en el navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Acciones de reproducción adicionales</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Agrega una opción de marca reproducida y estrella a la pantalla de bloqueo de tu teléfono y CarPlay. Nota: En la pantalla de bloqueo, esto reemplazará el botón "Retroceder".</string>
     <key>settings_general_player_header</key>
     <string>REPRODUCTOR</string>
     <key>settings_general_publish_chapter_titles</key>

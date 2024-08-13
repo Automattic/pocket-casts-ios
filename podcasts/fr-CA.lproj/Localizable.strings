@@ -1524,8 +1524,6 @@ MISES À JOUR</string>
     <string>FONCTIONNALITÉS PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ d’essai gratuit</string>
-    <key>plus_lifetime_membership</key>
-    <string>Membre à vie</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Applications Web et de bureau</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2193,8 +2191,6 @@ Si vous voulez obtenir des suggestions, essayez l’onglet Découvertes.</string
     <string>Ouvrir les liens dans un navigateur</string>
     <key>settings_general_play_back_actions</key>
     <string>Actions de lecture supplémentaires</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Ajoute une marque « lu » et une option « favori » à l’écran de verrouillage de votre téléphone ou à CarPlay. Remarque : cela remplacera le bouton Saut vers l’arrière sur votre écran de verrouillage.</string>
     <key>settings_general_player_header</key>
     <string>LECTEUR</string>
     <key>settings_general_publish_chapter_titles</key>

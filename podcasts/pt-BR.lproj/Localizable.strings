@@ -1524,8 +1524,6 @@ ATUALIZAÇÕES</string>
     <string>FUNCIONALIDADES PLUS</string>
     <key>plus_free_membership_format</key>
     <string>Teste gratuito de %1$@</string>
-    <key>plus_lifetime_membership</key>
-    <string>Membro vitalício</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Aplicativos para desktop e web</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2193,8 +2191,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Abrir links no navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Mais ações de reprodução</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Adiciona uma marca de reproduzido e opção de favorito à sua tela de bloqueio do celular e CarPlay. Observação: na tela de bloqueio, isso substituirá o botão de voltar.</string>
     <key>settings_general_player_header</key>
     <string>REPRODUTOR</string>
     <key>settings_general_publish_chapter_titles</key>

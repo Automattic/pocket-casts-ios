@@ -79,6 +79,20 @@ struct Announcements {
             },
             isEnabled: chaptersViewModel.isPlusFreeAnnouncementEnabled,
             fullModal: true
+        ),
+
+        // Give Ratings
+        .init(
+            version: "7.70",
+            header: AnyView(GiveRatingsWhatsNewHeader()),
+            title: L10n.ratingWhatsNewTitle,
+            message: L10n.ratingWhatsNewMessage,
+            buttonTitle: L10n.ratingWhatsNewButtonTitle,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: FeatureFlag.giveRatings.enabled,
+            fullModal: true
         )
     ]
 }

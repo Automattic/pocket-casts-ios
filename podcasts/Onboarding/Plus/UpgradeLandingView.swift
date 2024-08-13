@@ -73,6 +73,7 @@ struct UpgradeLandingView: View {
                                     .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
+                                    .multilineTextAlignment(.center)
                                 UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
                                     .padding(.bottom, 24)
 

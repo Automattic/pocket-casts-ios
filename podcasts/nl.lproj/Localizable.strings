@@ -1524,8 +1524,6 @@ UPDATES</string>
     <string>FUNCTIES VAN PLUS</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ Gratis Proefversie</string>
-    <key>plus_lifetime_membership</key>
-    <string>Levenslang lid</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>Desktop- en web-apps</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2193,8 +2191,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Links openen in browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Extra afspeelacties</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Voegt aan het vergrendelscherm van je telefoon en CarPlay een optie voor het markeren van afleveringen toe die zijn afgespeeld en aan favorieten zijn toegevoegd. Let op: op het vergrendelscherm vervangt deze de knop voor terugspoelen.</string>
     <key>settings_general_player_header</key>
     <string>SPELER</string>
     <key>settings_general_publish_chapter_titles</key>

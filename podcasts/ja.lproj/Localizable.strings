@@ -1524,8 +1524,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Plus の機能</string>
     <key>plus_free_membership_format</key>
     <string>%1$@ の無料お試し</string>
-    <key>plus_lifetime_membership</key>
-    <string>無期限メンバー</string>
     <key>plus_marketing_desktop_apps_title</key>
     <string>デスクトップアプリとウェブアプリ</string>
     <key>plus_marketing_folders_and_bookmarks_title</key>
@@ -2193,8 +2191,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ブラウザーでリンクを開く</string>
     <key>settings_general_play_back_actions</key>
     <string>他の再生操作</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>スマートフォンのロックスクリーンと CarPlay に再生済みマークと星オプションを追加します。 注意: ロックスクリーンでは「巻き戻し」ボタンの代わりにこれらのオプションが追加されます。</string>
     <key>settings_general_player_header</key>
     <string>プレーヤー</string>
     <key>settings_general_publish_chapter_titles</key>
