@@ -236,9 +236,6 @@ struct SharingView: View {
 @available(iOS 16.0, *)
 extension SharingView.Shareable: Transferable {
     static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation(exportedContentType: .url, exporting: { shareable in
-            shareable.option.shareURL.data(using: .utf8)!
-        })
         FileRepresentation<Self>(exportedContentType: .mpeg4Movie) { shareable in
             switch shareable.option {
             case .clipShare(_, _, _, let progress):
@@ -265,6 +262,9 @@ extension SharingView.Shareable: Transferable {
                 return true
             }
         })
+        ProxyRepresentation { shareable in
+            try URL(string: shareable.option.shareURL).throwOnNil()
+        }
     }
 }
 
