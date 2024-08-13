@@ -251,7 +251,7 @@ extension SharingView.Shareable: Transferable {
         FileRepresentation<Self>(exportedContentType: .mpeg4Movie) { shareable in
             switch shareable.option {
             case .clipShare(_, _, _, let progress):
-                let fileURL = progress.fileURL!
+                let fileURL = progress.fileURL.throwOnNil()
                 return SentTransferredFile(fileURL)
             default:
                 assertionFailure("This should never run due to exporting conditions below")
