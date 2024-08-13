@@ -29,6 +29,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if #available(iOS 18.0, *) {
+            traitOverrides.horizontalSizeClass = .compact
+            tabBar.traitOverrides.horizontalSizeClass = .regular
+        }
+
         if FeatureFlag.upNextOnTabBar.enabled {
             pcTabs = [.podcasts, .filter, .discover, .upNext, .profile]
         } else {
