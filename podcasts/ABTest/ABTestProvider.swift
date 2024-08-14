@@ -26,7 +26,7 @@ struct ABTestProvider: ABTestProviding {
             }
         }
     }
-    
+
     /// Reload the `ExPlat` instance
     /// - Parameters:
     ///   - platform: A given platform name
