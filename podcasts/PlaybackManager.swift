@@ -1352,6 +1352,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 } else {
                     FileLog.shared.addMessage("Skipping last \(timeRemaining) seconds of episode because podcast has skip last of \(skipLast) set.")
                     StatsManager.shared.addAutoSkipTime(timeRemaining)
+                    playerDidFinishPlayingEpisode()
                     EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
                 }
                 return
