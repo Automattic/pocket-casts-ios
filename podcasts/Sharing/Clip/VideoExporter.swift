@@ -143,7 +143,7 @@ enum VideoExporter {
             currentTime = CMTimeAdd(currentTime, sourceTimeRange)
         }
 
-        if let audioTrack = try await asset.loadTracks(withMediaType: .audio).first {
+        if let audioTrack = try await parameters.episodeAsset.loadTracks(withMediaType: .audio).first {
             try add(audioTrack: audioTrack, at: CMTimeRange(start: parameters.audioStartTime, duration: parameters.audioDuration), to: composition)
         }
 
