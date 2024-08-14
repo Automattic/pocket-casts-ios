@@ -327,6 +327,10 @@
     <string>再生速度</string>
     <key>carplay_up_next_queue</key>
     <string>次のエピソード待機リスト</string>
+    <key>champion_description</key>
+    <string>最初からご利用いただきありがとうございます ! アプリを気に入っていただけましたら、ぜひフィードバックをお寄せください。</string>
+    <key>champion_title</key>
+    <string>あなたは Pocket Casts の真のサポーターです !</string>
     <key>change_app_icon</key>
     <string>アプリアイコンを変更</string>
     <key>change_bookmark_subtitle</key>
@@ -1201,6 +1205,28 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>プレーヤーを開く</string>
     <key>keycommand_play_pause</key>
     <string>再生 / 一時停止</string>
+    <key>kids_profile_banner_badge</key>
+    <string>すぐに</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>早期アクセスをリクエスト </string>
+    <key>kids_profile_banner_text</key>
+    <string>子ども向けコンテンツのみのプロフィールを新規に作成して、サブスクリプションを整理しておくことができます。</string>
+    <key>kids_profile_banner_title</key>
+    <string>キッズプロフィール</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>送信</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Pocket Casts のキッズプロフィールに表示したいものは何ですか ?</string>
+    <key>kids_profile_submit_success</key>
+    <string>フィードバックをありがとうございます。</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>結構です</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>フィードバックを送る</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>新しいキッズプロフィールの準備ができたら、アプリから通知が届きます ! ご覧になりたいものは何ですか ?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>ご検討いただきありがとうございます</string>
     <key>learn_more</key>
     <string>もっと詳しく知る</string>
     <key>listening_history</key>
@@ -1504,6 +1530,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>すべての機能のロックを解除</string>
     <key>plus_cancel_terms</key>
     <string>いつでもキャンセルできます</string>
+    <key>plus_champion</key>
+    <string>Pocket Casts の真のサポーター</string>
+    <key>plus_champion_message</key>
+    <string>Pocket Casts を最初からご利用いただきありがとうございます。 あなたは真のサポーターです !</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@GB のクラウドストレージ</string>
     <key>plus_discount_yearly_membership</key>
@@ -1542,8 +1572,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>限定機能とカスタマイズオプションへのアクセス権を取得しましょう</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>テーマとアイコン</string>
-    <key>plus_marketing_title</key>
-    <string>お気に入りの Pocket Casts の機能に加え、さらなる機能を利用できます</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>ファイルをクラウドストレージにアップロードしてどこからでも利用できるようにします</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1849,6 +1877,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>合計残り時間: %1$@</string>
     <key>rate</key>
     <string>評価する</string>
+    <key>rate_pocket_casts</key>
+    <string>Pocket Casts を評価</string>
     <key>rating_error</key>
     <string>エラー。 エラーが発生しました。</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1865,6 +1895,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ご評価いただきありがとうございます !</string>
     <key>rating_title</key>
     <string>%1$@ を評価</string>
+    <key>rating_whats_new_button_title</key>
+    <string>OK</string>
     <key>refresh_control_fetching_episodes</key>
     <string>新しいポッドキャストエピソードを検索しています</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2085,6 +2117,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>確認音声をブックマーク</string>
     <key>settings_bookmark_sound_footer</key>
     <string>ヘッドフォンでブックマークを作成したら、確認音声を再生します。</string>
+    <key>settings_change_avatar</key>
+    <string>アバターを変更</string>
     <key>settings_collect_information</key>
     <string>情報を収集</string>
     <key>settings_collect_information_additional_information</key>
@@ -2191,6 +2225,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ブラウザーでリンクを開く</string>
     <key>settings_general_play_back_actions</key>
     <string>他の再生操作</string>
+    <key>settings_general_play_back_actions_subtitle</key>
+    <string>スマートフォンのロック画面に星オプションを追加します。</string>
     <key>settings_general_player_header</key>
     <string>プレーヤー</string>
     <key>settings_general_publish_chapter_titles</key>

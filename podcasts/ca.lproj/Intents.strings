@@ -26,7 +26,7 @@
     <key>G0iCil</key>
     <string>No es pot saltar el capítol</string>
     <key>G3J6fP</key>
-    <string>Reproduir podcast</string>
+    <string>Reproduir pòdcast</string>
     <key>IyhbAH</key>
     <string>Obrir filtre</string>
     <key>LdrEPN</key>
@@ -64,7 +64,7 @@
     <key>dBTobY</key>
     <string>Saltar capítol</string>
     <key>emhqzv</key>
-    <string>El podcast no admet capítols</string>
+    <string>El pòdcast no admet capítols</string>
     <key>gD0dlx</key>
     <string>Següent</string>
     <key>iQo0yQ-0YXvyS</key>
@@ -76,7 +76,7 @@
     <key>mCAocc</key>
     <string>no aleatori</string>
     <key>nAv25k</key>
-    <string> Reproduir aleatòriament ${mediaContainer} </string>
+    <string>Reproduir aleatòriament ${mediaContainer}</string>
     <key>nNozW1</key>
     <string>Reproduir aleatòriament ${mediaContainer}</string>
     <key>nR0neu</key>
