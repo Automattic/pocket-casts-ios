@@ -19,14 +19,25 @@ class AudioPlayTask {
 
     private let queueingSemaphone = DispatchSemaphore(value: 0)
 
-    var isSeeking = false
-
     init(player: AVAudioPlayerNode, bufferManager: PlayBufferManager) {
         updateQueue = DispatchQueue(label: "au.com.pocketcasts.PlayVariablesQueue")
         audioQueue = DispatchQueue(label: "au.com.pocketcasts.AudioPlayQueue", qos: DispatchQoS(qosClass: .userInitiated, relativePriority: 0), attributes: [], autoreleaseFrequency: .never, target: nil)
 
         self.player = player
         self.bufferManager = bufferManager
+    }
+
+    private var isSeeking = false
+    private var seekPosition: AVAudioFramePosition? = nil
+    
+    func startSeek(position: AVAudioFramePosition) {
+        isSeeking = true
+        seekPosition = position
+    }
+
+    func endSeek() {
+        isSeeking = false
+        seekPosition = nil
     }
 
     func startup() {
@@ -97,7 +108,11 @@ class AudioPlayTask {
 
             updateQueue.sync {
                 framesScheduled += 1
-                lastFramePlayed = nextBuffer.framePosition
+                if isSeeking {
+                    lastFramePlayed = seekPosition
+                } else {
+                    lastFramePlayed = nextBuffer.framePosition
+                }
 
                 // if we haven't scheduled enough frames yet signal an extra time each time through this loop until we have
                 if framesScheduled < AudioPlayTask.minFramesToSchedule {

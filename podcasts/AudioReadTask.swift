@@ -331,7 +331,7 @@ class AudioReadTask {
         }
     }
 
-    private func framePositionForTime(_ time: TimeInterval) -> (framePosition: Int64, passedEndOfFile: Bool) {
+    func framePositionForTime(_ time: TimeInterval) -> (framePosition: Int64, passedEndOfFile: Bool) {
         let totalFrames = Double(cachedFrameCount)
         let totalSeconds = totalFrames / audioFile.fileFormat.sampleRate
         let percentSeek = time / totalSeconds
