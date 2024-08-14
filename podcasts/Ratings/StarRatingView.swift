@@ -37,6 +37,9 @@ struct StarRatingView: View {
                 ratingView(rating: viewModel.rating)
                     .frame(height: 16)
                     .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
+                    .onTapGesture {
+                        viewModel.didTapRating()
+                    }
 
                 Spacer()
 
