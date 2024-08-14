@@ -211,6 +211,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         lastSeekTime = max(0.1, time)
         seeking = true
+        audioPlayTask?.isSeeking = true
         readOperation.seekTo(time, completion: { [weak self] seekedToEnd in
             if !seekedToEnd {
                 completion?()
@@ -221,6 +222,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             }
 
             self?.seeking = false
+            self?.audioPlayTask?.isSeeking = false
         })
     }
 
