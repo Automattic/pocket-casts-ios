@@ -19,6 +19,8 @@ class AudioPlayTask {
 
     private let queueingSemaphone = DispatchSemaphore(value: 0)
 
+    var isSeeking = false
+
     init(player: AVAudioPlayerNode, bufferManager: PlayBufferManager) {
         updateQueue = DispatchQueue(label: "au.com.pocketcasts.PlayVariablesQueue")
         audioQueue = DispatchQueue(label: "au.com.pocketcasts.AudioPlayQueue", qos: DispatchQoS(qosClass: .userInitiated, relativePriority: 0), attributes: [], autoreleaseFrequency: .never, target: nil)
@@ -58,6 +60,10 @@ class AudioPlayTask {
     }
 
     private func scheduleNextBuffer() {
+        guard !isSeeking else {
+            return
+        }
+
         while !cancelled.value, bufferManager.bufferLength() == 0 {
             // if the read thread has gotten to the end of the file and we haven't scheduled anything in the last second, playback is done
             if bufferManager.readToEOFSuccessfully.value, Date().timeIntervalSince1970 > (lastTimeFrameScheduled + 1) {
