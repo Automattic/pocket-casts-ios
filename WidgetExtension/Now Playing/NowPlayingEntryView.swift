@@ -84,7 +84,7 @@ struct NowPlayingWidgetEntryView: View {
                             .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
                         Spacer()
                         Image(widgetColorScheme.iconAssetName)
-                            .frame(width: 28, height: 28)
+                            .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                             .unredacted()
                     }
 
@@ -114,7 +114,7 @@ struct NowPlayingWidgetEntryView: View {
                 .frame(width: 64, height: 64)
             Spacer()
             Image(widgetColorScheme.iconAssetName)
-                .frame(width: 28, height: 28)
+                .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                 .unredacted()
         }
         .padding(topPadding)
@@ -194,7 +194,7 @@ struct NowPlayingWidgetEntryView: View {
                     HStack(alignment: .top) {
                         Spacer()
                         Image(widgetColorScheme.iconAssetName)
-                            .frame(width: 28, height: 28)
+                            .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                             .unredacted()
                     }
 
@@ -241,7 +241,7 @@ struct NowPlayingWidgetEntryView: View {
                         .opacity(0.5)
                     Spacer()
                     Image("logo-transparent")
-                        .frame(width: 28, height: 28)
+                        .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                 }.padding(topPadding)
             }
             nothingPlayingText
