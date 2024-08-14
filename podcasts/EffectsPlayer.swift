@@ -209,6 +209,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     func seekTo(_ time: TimeInterval, completion: (() -> Void)?) {
         guard let readOperation = audioReadTask else { return }
 
+        try? FeatureFlagOverrideStore().override(FeatureFlag.accelerateEffects, withValue: false)
+
         lastSeekTime = max(0.1, time)
         seeking = true
         readOperation.seekTo(time, completion: { [weak self] seekedToEnd in
@@ -221,6 +223,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             }
 
             self?.seeking = false
+            try? FeatureFlagOverrideStore().override(FeatureFlag.accelerateEffects, withValue: true)
         })
     }
 
