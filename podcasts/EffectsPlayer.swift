@@ -208,6 +208,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     func seekTo(_ time: TimeInterval, completion: (() -> Void)?) {
         guard let readOperation = audioReadTask else { return }
+        let previousPlaybackSpeed = playbackSpeed
         playbackSpeed = 0
         lastSeekTime = max(0.1, time)
         seeking = true
@@ -219,7 +220,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 FileLog.shared.addMessage("EffectsPlayer seeked passed end of episode, calling finished playing")
                 PlaybackManager.shared.playerDidFinishPlayingEpisode()
             }
-            self?.playbackSpeed = 1
+            self?.playbackSpeed = previousPlaybackSpeed
             self?.seeking = false
         })
     }
