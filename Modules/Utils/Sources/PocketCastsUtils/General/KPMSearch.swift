@@ -7,7 +7,7 @@ public class KMPSearch {
     private var textArray: [String.Element]
 
     public init(text: String) {
-        textArray = Array(text.lowercased().folding(options: .diacriticInsensitive, locale: nil).replacingOccurrences(of: "ł", with: "l"))
+        textArray = Array(text.lowercaseAndDiacriticInsensitive)
     }
 
     private func computeLPSArray() {
@@ -40,7 +40,7 @@ public class KMPSearch {
             return []
         }
 
-        let pattern = Array(pattern.lowercased().folding(options: .diacriticInsensitive, locale: nil).replacingOccurrences(of: "ł", with: "l"))
+        let pattern = Array(pattern.lowercaseAndDiacriticInsensitive)
         let lps = Array(repeating: 0, count: pattern.count)
         computeLPSArray()
 
@@ -67,5 +67,14 @@ public class KMPSearch {
         }
 
         return result
+    }
+}
+
+private extension String {
+    var lowercaseAndDiacriticInsensitive: String {
+        self
+            .lowercased()
+            .folding(options: .diacriticInsensitive, locale: nil)
+            .replacingOccurrences(of: "ł", with: "l") // diacriticInsensitive doesn't handle this one
     }
 }
