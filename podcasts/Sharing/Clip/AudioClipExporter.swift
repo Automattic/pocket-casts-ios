@@ -9,11 +9,10 @@ class AudioClipExporter {
         case exportSessionFailed(Error)
     }
 
-    //TODO: Add Progress reporting
     static func exportAudioClip(from asset: AVAsset, startTime: CMTime, duration: CMTime, to outputURL: URL, progress: Progress) async throws {
         let composition = AVMutableComposition()
 
-        progress.totalUnitCount = 1
+        progress.totalUnitCount = 100
 
         guard let compositionAudioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid)),
               let tracks = try? await asset.loadTracks(withMediaType: .audio),
@@ -39,12 +38,21 @@ class AudioClipExporter {
         exportSession.outputFileType = .m4a
         exportSession.timeRange = CMTimeRangeMake(start: .zero, duration: duration)
 
+        let progressObserver = Task {
+            while !Task.isCancelled {
+                progress.completedUnitCount = Int64(exportSession.progress * 100)
+                try await Task.sleep(nanoseconds: 100*1000)
+            }
+        }
+
         await exportSession.export()
+
+        progressObserver.cancel()
 
         switch exportSession.status {
         case .completed:
             progress.fileURL = outputURL
-            progress.completedUnitCount = 1
+            progress.completedUnitCount = 100
         case .failed:
             progress.cancel()
             if let error = exportSession.error {
@@ -54,8 +62,7 @@ class AudioClipExporter {
         case .cancelled:
             progress.cancel()
         default:
-            print("Export ended with status: \(exportSession.status.rawValue)")
-//            return false
+            FileLog.shared.addMessage("AudioClipExporter: Export ended with status: \(exportSession.status.rawValue)")
         }
     }
 }
