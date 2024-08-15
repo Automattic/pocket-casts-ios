@@ -254,11 +254,11 @@ struct SharingView: View {
 @available(iOS 16.0, *)
 extension SharingView.Shareable: Transferable {
     static var transferRepresentation: some TransferRepresentation {
-        FileRepresentation<Self>(exportedContentType: .m4a) { shareable in
+        DataRepresentation<Self>(exportedContentType: .m4a) { shareable in
             switch shareable.option {
             case .clipShare(_, _, _, let progress):
                 let fileURL = try progress.fileURL.throwOnNil()
-                return SentTransferredFile(fileURL)
+                return try Data(contentsOf: fileURL)
             default:
                 assertionFailure("This should never run due to exporting conditions below")
                 throw Optional<Void>.OptionalNil()
@@ -273,6 +273,7 @@ extension SharingView.Shareable: Transferable {
                 return false
             }
         }
+        .suggestedFileName("clip")
         FileRepresentation<Self>(exportedContentType: .mpeg4Movie) { shareable in
             switch shareable.option {
             case .clipShare(_, _, _, let progress):
