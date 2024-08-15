@@ -43,7 +43,7 @@ struct ShareDestination: Hashable {
 
         @MainActor
         static fileprivate func shareImage(_ option: SharingModal.Option, style: ShareImageStyle) -> UIImage {
-            let imageView = ShareImageView(info: option.imageInfo, style: style)
+            let imageView = ShareImageView(info: option.imageInfo, style: style, angle: .constant(0))
             return imageView.snapshot()
         }
 
