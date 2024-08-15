@@ -167,22 +167,20 @@ struct SharingView: View {
 
     @available(iOS 16.0, *)
     @ViewBuilder func shareLink(option: SharingModal.Option, destination: ShareDestination, style: ShareImageStyle) -> some View {
-        ShareLink(items: shareItems, preview: { _ in
+        ShareLink(items: shareItems(style: style), preview: { _ in
             SharePreview(option.imageInfo.title, image: Image(uiImage: ShareImageView(info: option.imageInfo, style: style, angle: .constant(0)).snapshot()))
         }) {
             view(for: destination)
         }
     }
 
-    private var shareItems: [Shareable] {
-        var video = shareable
-        video.shareType = .video
+    private func shareItems(style: ShareImageStyle) -> [Shareable] {
+        var media = shareable
+        media.shareType = style == .audio ? .audio : .video
         var image = shareable
         image.shareType = .image
-        var url = shareable
-        url.shareType = .url
 
-        return [video, image, url]
+        return [media, (style != .audio ? image : nil)].compactMap { $0 }
     }
 
     @ViewBuilder func view(for destination: ShareDestination) -> some View {
@@ -256,6 +254,25 @@ struct SharingView: View {
 @available(iOS 16.0, *)
 extension SharingView.Shareable: Transferable {
     static var transferRepresentation: some TransferRepresentation {
+        FileRepresentation<Self>(exportedContentType: .m4a) { shareable in
+            switch shareable.option {
+            case .clipShare(_, _, _, let progress):
+                let fileURL = try progress.fileURL.throwOnNil()
+                return SentTransferredFile(fileURL)
+            default:
+                assertionFailure("This should never run due to exporting conditions below")
+                throw Optional<Void>.OptionalNil()
+            }
+        }.exportingCondition { shareable in
+            guard shareable.shareType == .audio,
+                  case .clipShare = shareable.option else { return false }
+            switch shareable.option {
+            case .clipShare:
+                return true
+            default:
+                return false
+            }
+        }
         FileRepresentation<Self>(exportedContentType: .mpeg4Movie) { shareable in
             switch shareable.option {
             case .clipShare(_, _, _, let progress):
