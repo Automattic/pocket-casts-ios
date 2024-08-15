@@ -78,6 +78,8 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
             self?.export(sender)
         }))
 
+        controller.addAction(.init(title: L10n.cancel, style: .destructive))
+
         present(controller, animated: true)
     }
 
