@@ -713,4 +713,9 @@ enum AnalyticsEvent: String {
     case transcriptSearch
     case transcriptSearchNextResult
     case transcriptSearchPreviousResult
+
+    // MARK: - Widgets
+
+    case widgetInstalled
+    case widgetUninstalled
 }

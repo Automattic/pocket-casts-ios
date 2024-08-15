@@ -23,8 +23,7 @@ class WidgetAnalytics {
                 let installed = previousWidgets[widgetKey(widget)] ?? false
                 currentWidgets.append(widgetKey(widget))
                 if !installed {
-                    // Installed
-                    print("$$ \(widget.kind) \(widget.family) installed")
+                    Analytics.track(.widgetInstalled, properties: ["kind": widget.kind, "family": "\(widget.family)"])
                     previousWidgets[widgetKey(widget)] = true
                 }
             }
@@ -34,7 +33,7 @@ class WidgetAnalytics {
             unninstalledWidgets.forEach { widget in
                 let components = widget.key.split(separator: "$")
                 if let kind = components[safe: 1], let family = components[safe: 2] {
-                    print("$$ \(kind) \(family) unninstalled")
+                    Analytics.track(.widgetUninstalled, properties: ["kind": kind, "family": "\(family)"])
                 }
                 previousWidgets.removeValue(forKey: widget.key)
             }
