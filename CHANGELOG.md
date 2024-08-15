@@ -1,6 +1,7 @@
 7.71
 -----
 - Kids Profile banner implementation [#1935](https://github.com/Automattic/pocket-casts-ios/issues/1935)
+- Fix rapidly tapping skio back resulting in skip forward [#2041](https://github.com/Automattic/pocket-casts-ios/issues/2041)
 
 7.70
 -----
