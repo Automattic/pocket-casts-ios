@@ -28,9 +28,9 @@ class WidgetAnalytics {
                 }
             }
 
-            // Track unninstalled widgets
-            let unninstalledWidgets = previousWidgets.filter { !currentWidgets.contains($0.key) }
-            unninstalledWidgets.forEach { widget in
+            // Track uninstalled widgets
+            let uninstalledWidgets = previousWidgets.filter { !currentWidgets.contains($0.key) }
+            uninstalledWidgets.forEach { widget in
                 let components = widget.key.split(separator: "$")
                 if let kind = components[safe: 1], let family = components[safe: 2] {
                     Analytics.track(.widgetUninstalled, properties: ["kind": kind, "family": "\(family)"])
