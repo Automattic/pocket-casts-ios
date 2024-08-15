@@ -1671,6 +1671,7 @@
 		F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5B6F0DF2C18DF0900AF5150 /* AudioUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */; };
 		F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */; };
+		F5CFDB622C6DA2D600DE57B2 /* AudioClipExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
 		F5DBA58A2B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */; };
 		F5E3DAA72BDD5567002BD4E4 /* PCBundleDoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E3DAA62BDD5567002BD4E4 /* PCBundleDoc.swift */; };
@@ -3546,6 +3547,7 @@
 		F5B312B32BF5B6D400290696 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUtilsTests.swift; sourceTree = "<group>"; };
 		F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ThrowOnNil.swift"; sourceTree = "<group>"; };
+		F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioClipExporter.swift; sourceTree = "<group>"; };
 		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
 		F5DBA5892B756A8700AED77F /* PodcastSettings+ImportUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PodcastSettings+ImportUserDefaultsTests.swift"; sourceTree = "<group>"; };
 		F5E3DAA62BDD5567002BD4E4 /* PCBundleDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCBundleDoc.swift; sourceTree = "<group>"; };
@@ -7629,6 +7631,7 @@
 		F5235EDA2C3CCAA100C98739 /* Clip */ = {
 			isa = PBXGroup;
 			children = (
+				F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */,
 				F5954D5F2C3F2864004A8C04 /* TrimHandle.swift */,
 				F5954D5D2C3F284D004A8C04 /* TrimSelectionView.swift */,
 				F5235EED2C3DF95C00C98739 /* PlayButton.swift */,
@@ -9130,6 +9133,7 @@
 				4067563124D7B163003684FC /* CategorySponsoredCell.swift in Sources */,
 				C7A654032991A7C900BB84C1 /* CarPlayListData.swift in Sources */,
 				8BC0600B2AB1FB8100A4FEC6 /* AppPlayEpisodeIntentExtension.swift in Sources */,
+				F5CFDB622C6DA2D600DE57B2 /* AudioClipExporter.swift in Sources */,
 				BD9FF6121B8EC90C009F075E /* ImageManager.swift in Sources */,
 				BD6B432C27561EA8005E4017 /* PCHostingController.swift in Sources */,
 				BDCA84F21C1FB7260022ED4D /* DownloadSettingsViewController.swift in Sources */,

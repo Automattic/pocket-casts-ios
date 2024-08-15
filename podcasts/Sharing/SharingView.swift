@@ -216,7 +216,7 @@ struct SharingView: View {
             isExporting = false
         }
         do {
-            let url = try await exportVideo(info: shareable.option.imageInfo,
+            let url = try await export(info: shareable.option.imageInfo,
                                             style: shareable.style,
                                             episode: episode,
                                             startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
@@ -230,18 +230,26 @@ struct SharingView: View {
         }
     }
 
-    private func exportVideo(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
+    private func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             throw VideoExportError.failedToDownload
         }
-        let size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
-        guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
-            throw VideoExportError.failedToDownload
+
+        switch style {
+        case .audio:
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("audio_export-\(UUID().uuidString)", conformingTo: .m4a)
+            try await AudioClipExporter.exportAudioClip(from: playerItem.asset, startTime: startTime, duration: duration, to: url, progress: progress)
+            return url
+        default:
+            let size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
+            guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
+                throw VideoExportError.failedToDownload
+            }
+            let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
+            try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
+            return url
         }
-        let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
-        try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
-        return url
     }
 }
 

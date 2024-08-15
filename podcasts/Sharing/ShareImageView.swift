@@ -13,6 +13,7 @@ enum ShareImageStyle: CaseIterable {
     case large
     case medium
     case small
+    case audio
 
     var tabString: String {
         switch self {
@@ -22,6 +23,8 @@ enum ShareImageStyle: CaseIterable {
             return "medium"
         case .small:
             return "small"
+        case .audio:
+            return "audio"
         }
     }
 
@@ -33,6 +36,8 @@ enum ShareImageStyle: CaseIterable {
             CGSize(width: 292, height: 293)
         case .small:
             CGSize(width: 324, height: 169)
+        case .audio:
+            CGSize(width: 100, height: 100)
         }
     }
 }
@@ -46,24 +51,9 @@ struct ShareImageView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
-            let rotationFactor = sin(Angle(degrees: angle).radians)
-            KidneyShape()
-                .fill(info.gradient.stops.first?.color ?? .black)
-                .blur(radius: 50)
-                .opacity(0.15 + 0.5 * abs(rotationFactor))
-                .offset(x: -50, y: 0)
-                .rotationEffect(.degrees(180 * rotationFactor))
-            KidneyShape()
-                .fill(.white)
-                .blur(radius: 50)
-                .offset(x: 50, y: 0)
-                .opacity(0.15 + 0.5 * abs(rotationFactor))
-                .rotationEffect(.degrees(-180 * rotationFactor))
-                .blendMode(.softLight)
-            Color.black.opacity(0.2)
             switch style {
             case .large:
+                background()
                 VStack(spacing: 32) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
@@ -73,6 +63,7 @@ struct ShareImageView: View {
                 .padding(24)
                 .aspectRatio(0.66, contentMode: .fit)
             case .medium:
+                background()
                 VStack(spacing: 24) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
@@ -82,6 +73,7 @@ struct ShareImageView: View {
                 .padding(24)
                 .aspectRatio(0.99, contentMode: .fit)
             case .small:
+                background()
                 HStack(spacing: 18) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
@@ -89,10 +81,31 @@ struct ShareImageView: View {
                 }
                 .padding(24)
                 .aspectRatio(1.97, contentMode: .fit)
+            case .audio:
+                Image("music")
             }
         }
         .frame(width: style.videoSize.width, height: style.videoSize.height)
         .fixedSize()
+    }
+
+    @ViewBuilder func background() -> some View {
+        LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
+        let rotationFactor = sin(Angle(degrees: angle).radians)
+        KidneyShape()
+            .fill(info.gradient.stops.first?.color ?? .black)
+            .blur(radius: 50)
+            .opacity(0.15 + 0.5 * abs(rotationFactor))
+            .offset(x: -50, y: 0)
+            .rotationEffect(.degrees(180 * rotationFactor))
+        KidneyShape()
+            .fill(.white)
+            .blur(radius: 50)
+            .offset(x: 50, y: 0)
+            .opacity(0.15 + 0.5 * abs(rotationFactor))
+            .rotationEffect(.degrees(-180 * rotationFactor))
+            .blendMode(.softLight)
+        Color.black.opacity(0.2)
     }
 
     @ViewBuilder func image() -> some View {
