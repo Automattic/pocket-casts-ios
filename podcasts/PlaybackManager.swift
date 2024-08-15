@@ -415,18 +415,26 @@ class PlaybackManager: ServerPlaybackDelegate {
         case forward
     }
 
+    let debouncer = Debounce(delay: 1.second)
+
     func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false, seekHint: SeekHint? = nil) {
         guard let playingEpisode = currentEpisode() else { return } // nothing to actually seek
 
         if seekHint == .back {
-            if let previousSeekTime, time > previousSeekTime {
-                print("aborting seek because it's moving forward")
+            if time > currentTime() {
+                print("aborting seek because it's moving forward (currentTime)")
                 return
             }
 
-            if time > currentTime() {
-                print("aborting seek because it's moving forward")
+            if let previousSeekTime, time > previousSeekTime {
+                print("aborting seek because it's moving forward (previousSeekTime)")
                 return
+            }
+
+            previousSeekTime = time
+
+            debouncer.call { [weak self] in
+                self?.previousSeekTime = nil
             }
         }
 
@@ -438,8 +446,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         let currentTime = playingEpisode.playedUpTo
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
-
-        previousSeekTime = time
 
         if let player = player {
             player.seekTo(time, completion: { [weak self] () in
