@@ -26,6 +26,7 @@ struct SharingView: View {
 
     private enum Constants {
         static let descriptionMaxWidth: CGFloat = 200
+        static let tabViewPadding: CGFloat = 80 // A value which represents extra padding for UIPageControl of the TabView
     }
 
     let destinations: [ShareDestination]
@@ -133,14 +134,17 @@ struct SharingView: View {
     }
 
     @ViewBuilder var image: some View {
-        TabView(selection: $shareable.style) {
-            ForEach(ShareImageStyle.allCases, id: \.self) { style in
-                ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .tabItem { Text(style.tabString) }
+        GeometryReader { proxy in
+            TabView(selection: $shareable.style) {
+                ForEach(ShareImageStyle.allCases, id: \.self) { style in
+                    ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .tabItem { Text(style.tabString) }
+                        .scaleEffect((proxy.size.height - Constants.tabViewPadding) / ShareImageStyle.large.videoSize.height)
+                }
             }
+            .tabViewStyle(.page)
         }
-        .tabViewStyle(.page)
     }
 
     @ViewBuilder var buttons: some View {
