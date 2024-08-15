@@ -2,13 +2,12 @@ import Foundation
 
 // An implementation of the Knuth-Morris-Pratt algorithm
 public class KMPSearch {
-    private var pattern: [Character]
-    private var lps: [Int]
+    private var pattern: [Character] = []
+    private var lps: [Int] = []
+    private var textArray: [String.Element]
 
-    public init(pattern: String) {
-        self.pattern = Array(pattern.lowercased())
-        self.lps = Array(repeating: 0, count: pattern.count)
-        computeLPSArray()
+    public init(text: String) {
+        textArray = Array(text.lowercased().folding(options: .diacriticInsensitive, locale: nil).replacingOccurrences(of: "ł", with: "l"))
     }
 
     private func computeLPSArray() {
@@ -36,12 +35,15 @@ public class KMPSearch {
         }
     }
 
-    public func search(in text: String) -> [Int] {
+    public func search(for pattern: String) -> [Int] {
         if pattern.isEmpty {
             return []
         }
 
-        let textArray = Array(text.lowercased())
+        let pattern = Array(pattern.lowercased().folding(options: .diacriticInsensitive, locale: nil).replacingOccurrences(of: "ł", with: "l"))
+        let lps = Array(repeating: 0, count: pattern.count)
+        computeLPSArray()
+
         var result = [Int]()
         var i = 0 // index for textArray
         var j = 0 // index for pattern
