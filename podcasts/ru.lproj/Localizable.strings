@@ -1572,6 +1572,8 @@
     <string>Получите доступ к эксклюзивным функциям и опциям настройки</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Темы и значки</string>
+    <key>plus_marketing_title</key>
+    <string>Получите эксклюзивные возможности в Pocket Casts Plus</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Загрузите файлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1897,6 +1899,10 @@
     <string>Оценить %1$@</string>
     <key>rating_whats_new_button_title</key>
     <string>Понятно</string>
+    <key>rating_whats_new_message</key>
+    <string>Оцените лучшие подкасты, чтобы авторы знали, как вам важна их работа. Кроме того, ваши оценки помогут остальным найти новые интересные материалы!</string>
+    <key>rating_whats_new_title</key>
+    <string>Уже доступно: оценки подкастов 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>ПОИСК НОВЫХ ВЫПУСКОВ ПОДКАСТА</string>
     <key>refresh_control_pull_to_refresh</key>
