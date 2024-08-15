@@ -621,7 +621,6 @@
 		8BDE43082AC34A7600C2D5C9 /* RatePodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */; };
 		8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */; };
 		8BE091932C6BDD39005CDD13 /* WidgetAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE091922C6BDD39005CDD13 /* WidgetAnalytics.swift */; };
-		8BE091942C6BDD39005CDD13 /* WidgetAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE091922C6BDD39005CDD13 /* WidgetAnalytics.swift */; };
 		8BE091962C6BDE70005CDD13 /* WidgetAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE091952C6BDE70005CDD13 /* WidgetAnalyticsTests.swift */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
@@ -9889,7 +9888,6 @@
 			files = (
 				BD455D8827F17C330041AE3D /* NowPlayingControls.swift in Sources */,
 				BDE48A202410D0A000ECA6CA /* DownloadProgressManager.swift in Sources */,
-				8BE091942C6BDD39005CDD13 /* WidgetAnalytics.swift in Sources */,
 				8B1B782C2BC7104000DC3373 /* SleepTimerManager.swift in Sources */,
 				FF47245B2BA4749F00EA916B /* MenuRow.swift in Sources */,
 				BD74F15A27F2956800222785 /* FolderViewModel.swift in Sources */,
