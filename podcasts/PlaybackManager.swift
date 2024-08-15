@@ -296,7 +296,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let currPos = currentTime()
         let backTime = max(currPos - amount, 0)
-        seekTo(time: backTime)
+        seekTo(time: backTime, seekHint: .back)
     }
 
     func skipForward() {
@@ -399,8 +399,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekingTo != PlaybackManager.notSeeking
     }
 
-    func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false) {
-        seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek)
+    func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false, seekHint: SeekHint? = nil) {
+        seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek, seekHint: seekHint)
     }
 
     func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
@@ -408,8 +408,27 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
 
-    func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false) {
+    var previousSeekTime: TimeInterval?
+
+    enum SeekHint {
+        case back
+        case forward
+    }
+
+    func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false, seekHint: SeekHint? = nil) {
         guard let playingEpisode = currentEpisode() else { return } // nothing to actually seek
+
+        if seekHint == .back {
+            if let previousSeekTime, time > previousSeekTime {
+                print("aborting seek because it's moving forward")
+                return
+            }
+
+            if time > currentTime() {
+                print("aborting seek because it's moving forward")
+                return
+            }
+        }
 
         // if we're seeking an episode, and it's not in progress, it should be
         if !playingEpisode.inProgress() {
@@ -419,6 +438,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         let currentTime = playingEpisode.playedUpTo
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
+
+        previousSeekTime = time
+
         if let player = player {
             player.seekTo(time, completion: { [weak self] () in
                 guard let strongSelf = self else { return }
@@ -455,10 +477,29 @@ class PlaybackManager: ServerPlaybackDelegate {
         analyticsPlaybackHelper.seek(from: currentTime, to: time, duration: playingEpisode.duration)
     }
 
-    func currentTime() -> TimeInterval {
-        guard let episode = currentEpisode() else { return -1 }
+    var previousCurrentTime: TimeInterval? {
+        willSet {
+            if isSeeking() {
+                print("$$ \(newValue ?? -100)")
+            }
+        }
+    }
 
-        if seekingTo >= 0, seekingTo <= duration(), !playing() { return seekingTo }
+    func currentTime() -> TimeInterval {
+        guard let episode = currentEpisode() else {
+            previousCurrentTime = -1
+            return -1
+        }
+
+        if seekingTo >= 0, seekingTo <= duration() {
+            previousCurrentTime = seekingTo
+            return seekingTo
+        }
+
+        if seekingTo >= 0, seekingTo <= duration(), !playing() {
+            previousCurrentTime = -1
+            return seekingTo
+        }
 
         let playerTime = !aboutToPlay.value ? player?.currentTime() ?? 0 : 0
 
@@ -467,6 +508,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return episode.playedUpTo < 1 ? startFromTime : episode.playedUpTo
         }
 
+        previousCurrentTime = playerTime
         return playerTime
     }
 
