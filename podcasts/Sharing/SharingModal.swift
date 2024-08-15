@@ -162,19 +162,26 @@ extension SharingModal.Option {
         return imageInfo
     }
 
-    func itemProvider(style: ShareImageStyle) -> NSItemProvider {
+    func itemProviders(style: ShareImageStyle) -> [NSItemProvider] {
         switch self {
         case .clipShare(_, _, _, let progress):
             guard let fileURL = progress.fileURL else {
-                return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()
+                return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()]
             }
             if #available(iOS 16.0, *) {
-                return NSItemProvider(contentsOf: fileURL, contentType: UTType(filenameExtension: fileURL.pathExtension) ?? .mpeg4Movie)
+                let mediaItemProvider = NSItemProvider()
+                mediaItemProvider.suggestedName = "\(imageInfo.title) - \(imageInfo.description)"
+                mediaItemProvider.registerDataRepresentation(for: UTType(filenameExtension: fileURL.pathExtension) ?? .mpeg4Movie) { completion in
+                    completion(try! Data(contentsOf: progress.fileURL!), nil)
+                    return nil
+                }
+                let urlItemProvider = NSItemProvider(object: URL(string: shareURL)! as NSURL)
+                return [mediaItemProvider]//, urlItemProvider]
             } else {
-                return NSItemProvider(contentsOf: fileURL)!
+                return [NSItemProvider(contentsOf: fileURL)!]
             }
         default:
-            return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()
+            return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()]
         }
     }
 

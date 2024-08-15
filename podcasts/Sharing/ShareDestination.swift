@@ -94,17 +94,13 @@ struct ShareDestination: Hashable {
     static func moreOption(vc: UIViewController) -> ShareDestination {
         let icon = Image(systemName: "ellipsis")
 
-        if #available(iOS 16, *) {
-            return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: nil)
-        } else {
             return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: { option, style in
                 Task.detached {
-                    let activityItems = [option.shareURL, option.itemProvider(style: style)]
+                    let activityItems = option.itemProviders(style: style)
                     let activityViewController = await UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
                     await vc.presentedViewController?.present(activityViewController, animated: true, completion: nil)
                 }
             })
-        }
     }
 
     static var copyLinkOption: ShareDestination {
