@@ -172,13 +172,23 @@ extension SharingModal.Option {
                 let mediaItemProvider = NSItemProvider()
                 mediaItemProvider.suggestedName = "\(imageInfo.title) - \(imageInfo.description)"
                 mediaItemProvider.registerDataRepresentation(for: UTType(filenameExtension: fileURL.pathExtension) ?? .mpeg4Movie) { completion in
-                    completion(try! Data(contentsOf: progress.fileURL!), nil)
+                    
+                    if let fileURL = progress.fileURL {
+                        do {
+                            let data = try Data(contentsOf: fileURL)
+                            completion(data, nil)
+                        } catch {
+                            completion(nil, error)
+                        }
+                    } else {
+                        completion(nil, nil)
+                    }
                     return nil
                 }
                 let urlItemProvider = NSItemProvider(object: URL(string: shareURL)! as NSURL)
-                return [mediaItemProvider]//, urlItemProvider]
+                return [mediaItemProvider]
             } else {
-                return [NSItemProvider(contentsOf: fileURL)!]
+                return [NSItemProvider(contentsOf: fileURL)].compactMap({ $0 })
             }
         default:
             return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()]
