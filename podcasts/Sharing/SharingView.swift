@@ -50,7 +50,7 @@ struct SharingView: View {
     var body: some View {
         VStack {
             title
-            image
+            tabView
             switch shareable.option {
             case .episode, .podcast, .currentPosition:
                 buttons
@@ -132,15 +132,25 @@ struct SharingView: View {
         }
     }
 
-    @ViewBuilder var image: some View {
+    @ViewBuilder var tabView: some View {
         TabView(selection: $shareable.style) {
-            ForEach(ShareImageStyle.allCases, id: \.self) { style in
-                ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .tabItem { Text(style.tabString) }
+            switch shareable.option {
+            case .clipShare(_, _, let style, _):
+                image(style: style)
+            default:
+                ForEach(ShareImageStyle.allCases, id: \.self) { style in
+                    image(style: style)
+                }
             }
         }
         .tabViewStyle(.page)
+    }
+
+    @ViewBuilder func image(style: ShareImageStyle) -> some View {
+        ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .tabItem { Text(style.tabString) }
+            .id(style)
     }
 
     @ViewBuilder var buttons: some View {
