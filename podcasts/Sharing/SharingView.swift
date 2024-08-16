@@ -109,6 +109,7 @@ struct SharingView: View {
                 EmptyView() // Don't show the description to give extra space for trim view
             case .clipShare(let episode, let clipTime, _, _):
                 Button(action: {
+                    isExporting = false
                     withAnimation {
                         shareable.option = .clip(episode, clipTime.playback)
                     }

@@ -7,10 +7,14 @@ class AudioClipExporter {
         case failedToInsertTimeRange
         case failedToCreateExportSession
         case exportSessionFailed(Error)
+        case cancelledTask
     }
 
     static func exportAudioClip(from asset: AVAsset, startTime: CMTime, duration: CMTime, to outputURL: URL, progress: Progress) async throws {
         let composition = AVMutableComposition()
+
+        let date = Date()
+        FileLog.shared.addMessage("AudioClipExporter Started: \(date)")
 
         progress.totalUnitCount = 100
 
@@ -45,7 +49,13 @@ class AudioClipExporter {
             }
         }
 
-        await exportSession.export()
+        await withTaskCancellationHandler {
+            FileLog.shared.addMessage("AudioClipExporter Started Audio Export: \(date.timeIntervalSinceNow)")
+            await exportSession.export()
+            FileLog.shared.addMessage("AudioClipExporter Ended Audio Export: \(date.timeIntervalSinceNow)")
+        } onCancel: {
+            exportSession.cancelExport()
+        }
 
         progressObserver.cancel()
 
@@ -53,6 +63,7 @@ class AudioClipExporter {
         case .completed:
             progress.fileURL = outputURL
             progress.completedUnitCount = 100
+            FileLog.shared.addMessage("AudioClipExporter Finished: \(date.timeIntervalSinceNow)")
         case .failed:
             progress.cancel()
             if let error = exportSession.error {
@@ -61,6 +72,7 @@ class AudioClipExporter {
             }
         case .cancelled:
             progress.cancel()
+            throw AudioExportError.cancelledTask
         default:
             FileLog.shared.addMessage("AudioClipExporter: Export ended with status: \(exportSession.status.rawValue)")
         }
