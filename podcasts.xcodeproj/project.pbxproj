@@ -624,6 +624,7 @@
 		8BDE43062AC33BEE00C2D5C9 /* RatePodcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */; };
 		8BDE43082AC34A7600C2D5C9 /* RatePodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */; };
 		8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */; };
+		8BE091932C6BDD39005CDD13 /* WidgetAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE091922C6BDD39005CDD13 /* WidgetAnalytics.swift */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
 		8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -2526,6 +2527,7 @@
 		8BDE43052AC33BEE00C2D5C9 /* RatePodcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatePodcastView.swift; sourceTree = "<group>"; };
 		8BDE43072AC34A7600C2D5C9 /* RatePodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatePodcastViewModel.swift; sourceTree = "<group>"; };
 		8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween-152@2x.png"; sourceTree = "<group>"; };
+		8BE091922C6BDD39005CDD13 /* WidgetAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetAnalytics.swift; sourceTree = "<group>"; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
 		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
@@ -6939,6 +6941,7 @@
 				C72CED2E289DA1650017883A /* String+Analytics.swift */,
 				C741D9D328ADBA23006CFBE7 /* AppLifecyleAnalytics.swift */,
 				C750EF7E28E3475600E06BA9 /* AnalyticsDescribable+Modules.swift */,
+				8BE091922C6BDD39005CDD13 /* WidgetAnalytics.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -9602,6 +9605,7 @@
 				BD7BCF111F6A4F110006E008 /* SharingHelper.swift in Sources */,
 				8BF9CC0C2ADDA90F004E9B65 /* YearOverYearStory.swift in Sources */,
 				BDF15A3E1B54E053000EC323 /* PlaybackManager.swift in Sources */,
+				8BE091932C6BDD39005CDD13 /* WidgetAnalytics.swift in Sources */,
 				BD40987C1B9ED731007F36BD /* SynchronizedAudioStack.swift in Sources */,
 				BD77E9031B9D2CF600DC4ADF /* AngularProgressIndicator.swift in Sources */,
 				BD8032D32123EAD600BFBB03 /* EffectsButton.swift in Sources */,
