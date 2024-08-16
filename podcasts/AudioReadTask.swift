@@ -2,6 +2,7 @@ import AVFoundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import Speech
 
 class AudioReadTask {
     private let maxSilenceAmountToSave = 1000
@@ -33,6 +34,21 @@ class AudioReadTask {
     private var currentFramePosition: AVAudioFramePosition = 0
     private let endOfFileSemaphore = DispatchSemaphore(value: 0)
 
+    private lazy var request: SFSpeechAudioBufferRecognitionRequest? = {
+        let request = SFSpeechAudioBufferRecognitionRequest()
+        request.shouldReportPartialResults = false
+        request.requiresOnDeviceRecognition = true
+        request.taskHint = .dictation
+        return request
+    }()
+
+    private var task: SFSpeechRecognitionTask?
+    private lazy var recognizer: SFSpeechRecognizer? = {
+        let recognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
+        recognizer?.defaultTaskHint = .dictation
+        return recognizer
+    }()
+
     init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64) {
         self.trimSilence = trimSilence
         self.audioFile = audioFile
@@ -50,9 +66,19 @@ class AudioReadTask {
         }
     }
 
+    var offset: TimeInterval = 0
+
     func startup() {
         readQueue.async { [weak self] in
             guard let self = self else { return }
+
+            guard let recognizer, let request else { return }
+
+            offset = PlaybackManager.shared.currentTime()
+            print("$$ Starting task")
+            task = recognizer.recognitionTask(with: request, resultHandler: { [weak self] result, error in
+                self?.recognitionHandler(result: result, error: error)
+            })
 
             // there are some Core Audio errors that aren't marked as throws in the Swift code, so they'll crash the app
             // that's why we have an Objective-C try/catch block here to catch them (see https://github.com/shiftyjelly/pocketcasts-ios/issues/1493 for more details)
@@ -81,6 +107,23 @@ class AudioReadTask {
                 self.bufferManager.readErrorOccurred.value = true
                 FileLog.shared.addMessage("Audio Read failed (obj-c): \(error.localizedDescription)")
             }
+        }
+    }
+
+    nonisolated private func recognitionHandler(result: SFSpeechRecognitionResult?, error: Error?) {
+        let receivedFinalResult = result?.isFinal ?? false
+        let receivedError = error != nil
+
+        if result?.isFinal == true {
+            print("$$ SFSpeechRecognition finished")
+        }
+
+        if let error {
+            print("$$ SFSpeechRecognition error \(error)")
+        }
+
+        if let result {
+            print("$$ \(result.bestTranscription)")
         }
     }
 
@@ -177,6 +220,8 @@ class AudioReadTask {
 
             return nil
         }
+
+        request?.append(audioPCMBuffer!)
 
         currentFramePosition = audioFile.framePosition
         fadeInNextFrame = false
