@@ -51,14 +51,14 @@ class RatePodcastViewModel: ObservableObject {
         return isButtonEnabled ? 1 : 0.8
     }
 
-    private var onDismiss: () -> Void
+    private var onRate: () -> Void
 
-    init(presented: Binding<Bool>, dismissAction: Binding<DismissAction>, podcast: Podcast, dataManager: DataManager = .sharedManager, onDismiss: @escaping () -> Void) {
+    init(presented: Binding<Bool>, dismissAction: Binding<DismissAction>, podcast: Podcast, dataManager: DataManager = .sharedManager, onRate: @escaping () -> Void) {
         self._presented = presented
         self._dismissAction = dismissAction
         self.podcast = podcast
         self.dataManager = dataManager
-        self.onDismiss = onDismiss
+        self.onRate = onRate
         checkIfUserCanRatePodcast(id: podcast.id, uuid: podcast.uuid)
     }
 
@@ -76,7 +76,7 @@ class RatePodcastViewModel: ObservableObject {
             let success = await ApiServerHandler.shared.addRating(uuid: self.podcast.uuid, rating: Int(self.stars))
             self.isSubmitting = false
             if success {
-                self.onDismiss()
+                self.onRate()
                 self.dismiss(trackingEvent: false)
                 Toast.show(L10n.ratingThankYou)
             }

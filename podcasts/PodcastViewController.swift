@@ -177,7 +177,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     lazy var ratingView: UIView = {
         let view = StarRatingView(viewModel: podcastRatingViewModel,
-                                  onDismiss: { [weak self] in
+                                  onRate: { [weak self] in
             self?.podcastRatingViewModel.update(podcast: self?.podcast, ignoringCache: true)
         })
             .padding(.top, 10)
