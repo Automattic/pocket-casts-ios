@@ -75,6 +75,7 @@ struct NowPlayingControls: View {
                 .playGroupStlyed()
         }
         .accessibilityLabel(viewModel.isPlaying ? L10n.pause : L10n.play)
+        .modifier(HandGestureShortcutPrimaryAction())
     }
 
     private var navigationGroup: some View {
@@ -124,6 +125,17 @@ struct NowPlayingView_Previews: PreviewProvider {
         ForEach(PreviewDevice.previewDevices) {
             NowPlayingControls(viewModel: NowPlayingViewModel(), presentView: .constant(nil))
                 .previewDevice($0)
+        }
+    }
+}
+
+struct HandGestureShortcutPrimaryAction: ViewModifier {
+    public func body(content: Content) -> some View {
+        if #available(watchOS 11.0, *) {
+            content
+                .handGestureShortcut(.primaryAction)
+        } else {
+            content
         }
     }
 }
