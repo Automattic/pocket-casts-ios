@@ -26,6 +26,7 @@ enum VideoExporter {
         case failedToCreateExportSession
         case failedToAddAudioTrack
         case exportFailed(Error?)
+        case taskCancelled
     }
 
     @MainActor
@@ -77,42 +78,43 @@ enum VideoExporter {
         videoWriter.startWriting()
         videoWriter.startSession(atSourceTime: .zero)
 
-        try await writeFrames(of: view,
-                              size: parameters.size,
-                              fps: parameters.fps,
-                              videoWriterInput: videoWriterInput,
-                              videoWriter: videoWriter,
-                              adaptor: adaptor,
-                              progress: progress,
-                              frameCount: frameCount)
+        try await withTaskCancellationHandler {
+            try await writeFrames(of: view,
+                                  size: parameters.size,
+                                  fps: parameters.fps,
+                                  videoWriterInput: videoWriterInput,
+                                  videoWriter: videoWriter,
+                                  adaptor: adaptor,
+                                  progress: progress,
+                                  frameCount: frameCount)
+        } onCancel: {
+            videoWriter.cancelWriting()
+        }
     }
 
     // Part of Step 1
     private static func writeFrames<Content: AnimatableContent>(of view: Content, size: CGSize, fps: Int, videoWriterInput: AVAssetWriterInput, videoWriter: AVAssetWriter, adaptor: AVAssetWriterInputPixelBufferAdaptor, progress: Progress, frameCount: Int) async throws {
         let counter = Counter()
-        try await videoWriterInput.unsafeRequestMediaDataWhenReady { continuation in
+        try await videoWriterInput.unsafeRequestMediaDataWhenReady {
             while await counter.count <= frameCount, videoWriterInput.isReadyForMoreMediaData {
-                do {
-                    try await counter.run {
-                        let frameProgress = Double(await counter.count) / Double(frameCount)
-                        view.update(for: frameProgress)
-
-                        let buffer = try await self.pixelBuffer(for: view, size: size)
-                        let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                        adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
-                        progress.completedUnitCount += 1
-                    }
-                } catch {
-                    continuation.resume(throwing: error)
-                    return
+                guard videoWriter.status != .cancelled else {
+                    throw ExportError.taskCancelled
                 }
+
+                let frameProgress = Double(await counter.count) / Double(frameCount)
+                view.update(for: frameProgress)
+
+                let buffer = try await self.pixelBuffer(for: view, size: size)
+                let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+                adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
+                progress.completedUnitCount += 1
+
+                await counter.increment()
             }
 
             if await counter.count >= frameCount {
                 videoWriterInput.markAsFinished()
-                videoWriter.finishWriting {
-                    continuation.resume()
-                }
+                await videoWriter.finishWriting()
             }
         }
     }
@@ -125,6 +127,10 @@ enum VideoExporter {
 
     // Part 2 of video export, creating the final track from the initial video loop
     private static func createFinalComposition(from sourceURL: URL, with parameters: Parameters, to outputURL: URL, progress: Progress) async throws -> AVComposition {
+        guard Task.isCancelled == false else {
+            throw ExportError.taskCancelled
+        }
+
         let asset = AVAsset(url: sourceURL)
         let composition = AVMutableComposition()
 
@@ -152,6 +158,10 @@ enum VideoExporter {
 
     // Part of Step 2 of video export to export the final file
     private static func exportFinalComposition(_ composition: AVComposition, to outputURL: URL, duration: Double, fileType: AVFileType, progress: Progress) async throws {
+        guard Task.isCancelled == false else {
+            throw ExportError.taskCancelled
+        }
+
         guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
             throw ExportError.failedToCreateExportSession
         }
@@ -160,7 +170,12 @@ enum VideoExporter {
         exportSession.outputFileType = fileType
         exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
 
-        await exportSession.export()
+        await withTaskCancellationHandler {
+            await exportSession.export()
+        } onCancel: {
+            exportSession.cancelExport()
+            progress.cancel()
+        }
 
         guard exportSession.status == .completed else {
             throw ExportError.exportFailed(exportSession.error)
@@ -191,11 +206,16 @@ fileprivate actor Counter {
 }
 
 fileprivate extension AVAssetWriterInput {
-    func unsafeRequestMediaDataWhenReady(_ block: @escaping (CheckedContinuation<Void, Error>) async -> Void) async throws {
+    func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Void) async throws {
         try await withCheckedThrowingContinuation { continuation in
             requestMediaDataWhenReady(on: .global(qos: .userInitiated)) {
                 _unsafeWait {
-                    await block(continuation)
+                    do {
+                        try await block()
+                        continuation.resume()
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
         }
