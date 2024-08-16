@@ -1572,6 +1572,8 @@
     <string>使用专享功能和定制选项</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>主题和图标</string>
+    <key>plus_marketing_title</key>
+    <string>通过 Pocket Casts Plus 解锁独家功能</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>将文件上传到云存储空间，在任何地方都能访问这些文件</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1897,6 +1899,10 @@
     <string>为 %1$@ 评分</string>
     <key>rating_whats_new_button_title</key>
     <string>知道了</string>
+    <key>rating_whats_new_message</key>
+    <string>为您喜爱的播客评分，让创作者知道您有多欣赏他们的作品。 此外，您的评分还能帮助他人找到节目新宠！</string>
+    <key>rating_whats_new_title</key>
+    <string>现已上线：播客评分功能 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>查找新的播客剧集</string>
     <key>refresh_control_pull_to_refresh</key>

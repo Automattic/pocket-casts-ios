@@ -28,11 +28,15 @@ struct MediaTrimView: View {
             ScrollableScrollView(scale: $scale, duration: duration, geometry: geometry) { scrollable in
                 AudioWaveformView(scale: scale, width: geometry.size.width * scale)
                 borderView(in: geometry)
-                PlayheadView(position: scaledPosition($playPosition), onChanged: {
-                    print("Moved playhead to: \($0)")
-                })
+                PlayheadView(position: scaledPosition($playPosition), validRange: scaledPosition($startPosition).wrappedValue...scaledPosition($endPosition).wrappedValue)
+                    .onChange(of: playTime) { playTime in
+                        playPosition = durationRelative(value: playTime, for: geometry.size.width)
+                    }
+                    .onChange(of: playPosition) { playPosition in
+                        playTime = (playPosition * duration) / geometry.size.width
+                    }
                     .frame(width: Constants.playLineWidth)
-                TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), changed: { position, side in
+                TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), indicatorWidth: Constants.playLineWidth, changed: { position, side in
                     update(position: position, for: side, in: geometry.size.width)
                 })
                 .onAppear {
@@ -45,7 +49,7 @@ struct MediaTrimView: View {
                 .onAppear {
                     initializePositions(in: geometry)
                     DispatchQueue.main.async {
-                        let currentSecond = Int(startTime)
+                        let currentSecond = Int(startTime + (endTime - startTime) / 2)
                         scrollable.scrollTo("\(currentSecond)", anchor: .center)
                     }
                 }
@@ -88,7 +92,7 @@ struct MediaTrimView: View {
         let durationRatio = fullDuration / visibleDuration
 
         // The scale should make the visible duration fit the view width
-        let scale = durationRatio / 2
+        let scale = durationRatio
 
         return max(scale, 1.0)
     }
@@ -125,6 +129,8 @@ struct MediaTrimView: View {
             endTime = time
             endPosition = newPosition
         }
+
+        playTime = playTime.clamped(to: startTime...endTime)
     }
 }
 

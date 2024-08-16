@@ -1572,6 +1572,8 @@ AGGIORNAMENTI</string>
     <string>Ottieni l'accesso a esclusive funzionalità e opzioni di personalizzazione</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Temi e icone</string>
+    <key>plus_marketing_title</key>
+    <string>Sblocca funzioni esclusive con Pocket Casts Plus</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Carica i tuoi file sull'archiviazione su cloud e rendili disponibili per qualsiasi postazione</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1897,6 +1899,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Valuta %1$@</string>
     <key>rating_whats_new_button_title</key>
     <string>Fatto</string>
+    <key>rating_whats_new_message</key>
+    <string>Valuta i tuoi podcast preferiti e fai sapere agli autori quanto apprezzi il loro lavoro. Le tue valutazioni aiuteranno altre persone a trovare i loro programmi preferiti!</string>
+    <key>rating_whats_new_title</key>
+    <string>Ora disponibile: Valutazioni dei podcast 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>RICERCA DI NUOVI EPISODI DEL PODCAST</string>
     <key>refresh_control_pull_to_refresh</key>

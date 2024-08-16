@@ -440,6 +440,14 @@ internal enum L10n {
   internal static var clientErrorTokenDeauth: String { return L10n.tr("Localizable", "client_error_token_deauth") }
   /// Clip
   internal static var clip: String { return L10n.tr("Localizable", "clip") }
+  /// %@ Duration
+  internal static func clipDurationLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "clip_duration_label", String(describing: p1))
+  }
+  /// %@ Start
+  internal static func clipStartLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "clip_start_label", String(describing: p1))
+  }
   /// Close
   internal static var close: String { return L10n.tr("Localizable", "close") }
   /// Color
@@ -1388,6 +1396,8 @@ internal enum L10n {
   internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
   /// Kids Profile
   internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }
+  /// Something went wrong. Please try submitting your feedback again
+  internal static var kidsProfileSubmitError: String { return L10n.tr("Localizable", "kids_profile_submit_error") }
   /// Send
   internal static var kidsProfileSubmitFeedbackSendButton: String { return L10n.tr("Localizable", "kids_profile_submit_feedback_send_button") }
   /// What would you like to see in a Kids profile for Pocket Casts?
@@ -2294,6 +2304,10 @@ internal enum L10n {
   internal static var searchPodcasts: String { return L10n.tr("Localizable", "search_podcasts") }
   /// Recent searches
   internal static var searchRecent: String { return L10n.tr("Localizable", "search_recent") }
+  /// %1$@ of %2$@
+  internal static func searchResults(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "search_results", String(describing: p1), String(describing: p2))
+  }
   /// Season
   internal static var season: String { return L10n.tr("Localizable", "season") }
   /// S%1$@ E%2$@
@@ -3106,6 +3120,18 @@ internal enum L10n {
   internal static var top: String { return L10n.tr("Localizable", "top") }
   /// Transcript
   internal static var transcript: String { return L10n.tr("Localizable", "transcript") }
+  /// Sorry, but it looks this transcript is empty
+  internal static var transcriptErrorEmpty: String { return L10n.tr("Localizable", "transcript_error_empty") }
+  /// Sorry, but something went wrong while loading this transcript
+  internal static var transcriptErrorFailedToLoad: String { return L10n.tr("Localizable", "transcript_error_failed_to_load") }
+  /// Sorry, but something went wrong while parsing this transcript
+  internal static var transcriptErrorFailedToParse: String { return L10n.tr("Localizable", "transcript_error_failed_to_parse") }
+  /// Sorry, but a transcript is not available for this podcast
+  internal static var transcriptErrorNotAvailable: String { return L10n.tr("Localizable", "transcript_error_not_available") }
+  /// Sorry, but this transcript format is not supported: %1$@
+  internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1))
+  }
   /// Trial Finished
   internal static var trialFinished: String { return L10n.tr("Localizable", "trial_finished") }
   /// Trim Silence

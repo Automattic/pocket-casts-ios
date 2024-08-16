@@ -7,6 +7,15 @@ protocol TranscriptSearchAccessoryViewDelegate: AnyObject {
 
     // When "Search" is tapped on the keyboard
     func searchButtonTapped()
+
+    // Text to search for
+    func search(_ term: String)
+
+    // Previous match requested
+    func previousMatch()
+
+    // Next match requested
+    func nextMatch()
 }
 
 class TranscriptSearchAccessoryView: UIInputView {
@@ -15,6 +24,7 @@ class TranscriptSearchAccessoryView: UIInputView {
     lazy var textField: CustomTextField = {
         let textField = CustomTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         configureTextField(textField)
         return textField
     }()
@@ -43,15 +53,20 @@ class TranscriptSearchAccessoryView: UIInputView {
 
     private lazy var downButton: UIButton = createSymbolButton(
         imageName: "chevron.down",
-        action: #selector(done),
+        action: #selector(nextMatch),
         contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8)
     )
 
     private lazy var upButton: UIButton = createSymbolButton(
         imageName: "chevron.up",
-        action: #selector(done),
+        action: #selector(previousMatch),
         contentInsets: .init(top: 8, leading: 8, bottom: 8, trailing: 8)
     )
+
+    func enableUpDownButtons(_ enable: Bool) {
+        upButton.isEnabled = enable
+        downButton.isEnabled = enable
+    }
 
     override var intrinsicContentSize: CGSize {
         return .zero
@@ -85,6 +100,23 @@ class TranscriptSearchAccessoryView: UIInputView {
         textField.resignFirstResponder()
         delegate?.doneTapped()
     }
+
+    @objc private func previousMatch() {
+        delegate?.previousMatch()
+    }
+
+    @objc private func nextMatch() {
+        delegate?.nextMatch()
+    }
+
+    @objc private func editingChanged() {
+        delegate?.search(textField.text ?? "")
+    }
+
+    func updateLabel(_ text: String) {
+        textField.rightLabel.text = text
+        textField.rightLabel.sizeToFit()
+    }
 }
 
 extension TranscriptSearchAccessoryView: UITextFieldDelegate {
@@ -104,7 +136,6 @@ private extension TranscriptSearchAccessoryView {
         textField.clearButtonMode = .whileEditing
         textField.layer.cornerRadius = 8
         textField.backgroundColor = .systemGray3
-        textField.rightLabel.text = "1/10"
         textField.rightLabel.textColor = .secondaryLabel
         textField.delegate = self
         textField.font = UIFont.preferredFont(forTextStyle: .body)

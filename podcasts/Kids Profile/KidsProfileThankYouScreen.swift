@@ -30,6 +30,9 @@ struct KidsProfileThankYouScreen: View {
                 .padding(.leading, Constants.hPadding)
                 .padding(.trailing, Constants.hPadding)
         }
+        .onAppear {
+            Analytics.track(.kidsProfileThankYouForYourInterestSeen)
+        }
     }
 
     private var sendButton: some View {

@@ -20,7 +20,6 @@ protocol ShowInfoCoordinating {
 
     func loadTranscriptsMetadata(
         podcastUuid: String,
-        episodeUuid: String,
-        cacheTranscript: Bool
+        episodeUuid: String
     ) async throws -> [Episode.Metadata.Transcript]
 }
