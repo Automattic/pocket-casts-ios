@@ -88,10 +88,10 @@ struct AudioWaveformView: View {
     }
 
     private func getLineHeight(for index: Int) -> LineHeight {
-        switch index % 16 {
+        switch index % 20 {
         case 0:
             return .tallest
-        case 4, 8, 12:
+        case 5, 10, 15:
             return .medium
         default:
             return .shortest
