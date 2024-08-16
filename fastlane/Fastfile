@@ -382,7 +382,7 @@ platform :ios do
     after_confirming_push(push_merge_branch: true) do
       trigger_beta_build(branch_to_build: release_branch_name)
 
-      set_branch_protection(repository: GHHELPER_REPO, branch: release_branch_name)
+      copy_branch_protection(repository: GHHELPER_REPO, from_branch: DEFAULT_BRANCH, to_branch: release_branch_name)
       set_milestone_frozen_marker(repository: GHHELPER_REPO, milestone: release_version_current)
     end
   end
