@@ -548,6 +548,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
         }
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
+            autoplayIfNeeded()
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: playing())
             } else {
