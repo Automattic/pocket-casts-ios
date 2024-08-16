@@ -8,6 +8,7 @@
 - Adds the ability to rate podcasts [#1879](https://github.com/Automattic/pocket-casts-ios/issues/1879)
 - Improve the sort by name algorithm [#1959](https://github.com/Automattic/pocket-casts-ios/issues/1959)
 - Attempt fixing rapidly tapping skip back results in skipping forward [#1950](https://github.com/Automattic/pocket-casts-ios/issues/1950)
+- Add the Cancel button to dismiss the Alert Controller in Help & Support [#2035](https://github.com/Automattic/pocket-casts-ios/issues/2035)
 
 7.69
 -----
