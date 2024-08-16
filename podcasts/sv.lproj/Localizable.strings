@@ -1572,6 +1572,8 @@ UPPDATERINGAR</string>
     <string>Få tillgång till exklusiva funktioner och anpassningsalternativ</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Teman och ikoner</string>
+    <key>plus_marketing_title</key>
+    <string>Lås upp exklusiva funktioner med Pocket Casts Plus</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Ladda upp dina filer till molnlagringen och ha dem tillgängliga överallt</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1897,6 +1899,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Betygsätt %1$@</string>
     <key>rating_whats_new_button_title</key>
     <string>Uppfattat</string>
+    <key>rating_whats_new_message</key>
+    <string>Betygsätt dina favoritpodcasts och låt kreatörerna få veta hur mycket du uppskattar deras arbete. Dina betyg hjälper dessutom andra att hitta nya favoritshower.</string>
+    <key>rating_whats_new_title</key>
+    <string>Nu tillgängligt: Podcastbetyg 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>HÄMTAR NYA PODCASTAVSNITT</string>
     <key>refresh_control_pull_to_refresh</key>

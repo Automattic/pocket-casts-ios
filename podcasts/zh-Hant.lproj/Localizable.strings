@@ -1572,6 +1572,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>使用獨家功能和自訂選項</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>主題和圖示</string>
+    <key>plus_marketing_title</key>
+    <string>解鎖 Pocket Casts Plus 的獨家功能</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>將你的檔案上傳至雲端儲存空間，隨時隨地使用</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1897,6 +1899,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>對「%1$@」評分</string>
     <key>rating_whats_new_button_title</key>
     <string>知道了</string>
+    <key>rating_whats_new_message</key>
+    <string>為你最愛的 Podcast 評分，讓創作者知道你有多欣賞他們的作品。 此外，你的評分也能幫其他人找到節目新歡！</string>
+    <key>rating_whats_new_title</key>
+    <string>全新推出：Podcast 評分 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>正在尋找新的 Podcast 單集</string>
     <key>refresh_control_pull_to_refresh</key>
