@@ -143,6 +143,6 @@ struct RatePodcastView: View {
 }
 
 #Preview {
-    RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true), dismissAction: .constant(.default), podcast: Podcast.previewPodcast()))
+    RatePodcastView(viewModel: RatePodcastViewModel(presented: .constant(true), dismissAction: .constant(.default), podcast: Podcast.previewPodcast(), onDismiss: {}))
         .environmentObject(Theme.sharedTheme)
 }
