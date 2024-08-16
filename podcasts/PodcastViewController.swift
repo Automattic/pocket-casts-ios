@@ -176,10 +176,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var cancellables = Set<AnyCancellable>()
 
     lazy var ratingView: UIView = {
-        let view = StarRatingView(viewModel: podcastRatingViewModel)
+        let view = StarRatingView(viewModel: podcastRatingViewModel,
+                                  onDismiss: { [weak self] in
+            self?.podcastRatingViewModel.update(podcast: self?.podcast, ignoringCache: true)
+        })
             .padding(.top, 10)
             .themedUIView
-
         view.backgroundColor = .clear
         return view
     }()

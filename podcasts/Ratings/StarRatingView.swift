@@ -8,6 +8,9 @@ struct StarRatingView: View {
 
     @State private var dismissAction: RatePodcastViewModel.DismissAction = .default
 
+    // To reload the view after dismissing the rating sheet
+    private var onDismiss: () -> Void
+
     /// Keeps track of when we appear to determine if we should animate
     private var startDate: Date = .now
 
@@ -18,8 +21,9 @@ struct StarRatingView: View {
         viewModel.rating != nil && Date().timeIntervalSince(startDate) > Constants.minTimeBeforeAnimating
     }
 
-    init(viewModel: PodcastRatingViewModel) {
+    init(viewModel: PodcastRatingViewModel, onDismiss: @escaping () -> Void) {
         self.viewModel = viewModel
+        self.onDismiss = onDismiss
     }
 
     var body: some View {
@@ -60,7 +64,7 @@ struct StarRatingView: View {
                 dismissAction = .default
             }, content: {
                 if let podcast = viewModel.podcast {
-                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, dismissAction: $dismissAction, podcast: podcast))
+                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, dismissAction: $dismissAction, podcast: podcast, onDismiss: onDismiss))
                 }
             })
 
