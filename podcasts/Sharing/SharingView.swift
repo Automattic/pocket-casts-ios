@@ -51,7 +51,7 @@ struct SharingView: View {
     var body: some View {
         VStack {
             title
-            image
+            tabView
             switch shareable.option {
             case .episode, .podcast, .currentPosition:
                 buttons
@@ -110,6 +110,7 @@ struct SharingView: View {
                 EmptyView() // Don't show the description to give extra space for trim view
             case .clipShare(let episode, let clipTime, _, _):
                 Button(action: {
+                    isExporting = false
                     withAnimation {
                         shareable.option = .clip(episode, clipTime.playback)
                     }
@@ -133,18 +134,28 @@ struct SharingView: View {
         }
     }
 
-    @ViewBuilder var image: some View {
+    @ViewBuilder var tabView: some View {
         GeometryReader { proxy in
             TabView(selection: $shareable.style) {
-                ForEach(ShareImageStyle.allCases, id: \.self) { style in
-                    ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .tabItem { Text(style.tabString) }
-                        .scaleEffect((proxy.size.height - Constants.tabViewPadding) / ShareImageStyle.large.videoSize.height)
+                switch shareable.option {
+                case .clipShare(_, _, let style, _):
+                    image(style: style, containerHeight: proxy.size.height)
+                default:
+                    ForEach(ShareImageStyle.allCases, id: \.self) { style in
+                        image(style: style, containerHeight: proxy.size.height)
+                    }
                 }
             }
             .tabViewStyle(.page)
         }
+    }
+
+    @ViewBuilder func image(style: ShareImageStyle, containerHeight: CGFloat) -> some View {
+        ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .tabItem { Text(style.tabString) }
+            .id(style)
+			.scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.videoSize.height)
     }
 
     @ViewBuilder var buttons: some View {
@@ -171,22 +182,20 @@ struct SharingView: View {
 
     @available(iOS 16.0, *)
     @ViewBuilder func shareLink(option: SharingModal.Option, destination: ShareDestination, style: ShareImageStyle) -> some View {
-        ShareLink(items: shareItems, preview: { _ in
+        ShareLink(items: shareItems(style: style), preview: { _ in
             SharePreview(option.imageInfo.title, image: Image(uiImage: ShareImageView(info: option.imageInfo, style: style, angle: .constant(0)).snapshot()))
         }) {
             view(for: destination)
         }
     }
 
-    private var shareItems: [Shareable] {
-        var video = shareable
-        video.shareType = .video
+    private func shareItems(style: ShareImageStyle) -> [Shareable] {
+        var media = shareable
+        media.shareType = style == .audio ? .audio : .video
         var image = shareable
         image.shareType = .image
-        var url = shareable
-        url.shareType = .url
 
-        return [video, image, url]
+        return [media, (style != .audio ? image : nil)].compactMap { $0 }
     }
 
     @ViewBuilder func view(for destination: ShareDestination) -> some View {
@@ -220,7 +229,7 @@ struct SharingView: View {
             isExporting = false
         }
         do {
-            let url = try await exportVideo(info: shareable.option.imageInfo,
+            let url = try await export(info: shareable.option.imageInfo,
                                             style: shareable.style,
                                             episode: episode,
                                             startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
@@ -234,24 +243,52 @@ struct SharingView: View {
         }
     }
 
-    private func exportVideo(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
+    private func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             throw VideoExportError.failedToDownload
         }
-        let size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
-        guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
-            throw VideoExportError.failedToDownload
+
+        switch style {
+        case .audio:
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("audio_export-\(UUID().uuidString)", conformingTo: .m4a)
+            try await AudioClipExporter.exportAudioClip(from: playerItem.asset, startTime: startTime, duration: duration, to: url, progress: progress)
+            return url
+        default:
+            let size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
+            guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
+                throw VideoExportError.failedToDownload
+            }
+            let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
+            try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
+            return url
         }
-        let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
-        try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
-        return url
     }
 }
 
 @available(iOS 16.0, *)
 extension SharingView.Shareable: Transferable {
     static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation<Self>(exportedContentType: .m4a) { shareable in
+            switch shareable.option {
+            case .clipShare(_, _, _, let progress):
+                let fileURL = try progress.fileURL.throwOnNil()
+                return try Data(contentsOf: fileURL)
+            default:
+                assertionFailure("This should never run due to exporting conditions below")
+                throw Optional<Void>.OptionalNil()
+            }
+        }.exportingCondition { shareable in
+            guard shareable.shareType == .audio,
+                  case .clipShare = shareable.option else { return false }
+            switch shareable.option {
+            case .clipShare:
+                return true
+            default:
+                return false
+            }
+        }
+        .suggestedFileName("clip")
         FileRepresentation<Self>(exportedContentType: .mpeg4Movie) { shareable in
             switch shareable.option {
             case .clipShare(_, _, _, let progress):
