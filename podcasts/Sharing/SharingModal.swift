@@ -172,7 +172,6 @@ extension SharingModal.Option {
                 let mediaItemProvider = NSItemProvider()
                 mediaItemProvider.suggestedName = "\(imageInfo.title) - \(imageInfo.description)"
                 mediaItemProvider.registerDataRepresentation(for: UTType(filenameExtension: fileURL.pathExtension) ?? .mpeg4Movie) { completion in
-                    
                     if let fileURL = progress.fileURL {
                         do {
                             let data = try Data(contentsOf: fileURL)
@@ -185,7 +184,6 @@ extension SharingModal.Option {
                     }
                     return nil
                 }
-                let urlItemProvider = NSItemProvider(object: URL(string: shareURL)! as NSURL)
                 return [mediaItemProvider]
             } else {
                 return [NSItemProvider(contentsOf: fileURL)].compactMap({ $0 })
