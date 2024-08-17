@@ -40,7 +40,7 @@ struct ShareDestination: Hashable {
         }
 
         func share(_ option: SharingModal.Option, style: ShareImageStyle) async throws {
-            let itemProviders = option.itemProviders(style: style)
+            let itemProviders = option.itemProviders(style: style, destination: self)
             let (type, data) = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<(UTType, Data), Error>) in
                 if let itemProvider = itemProviders.first(where: { $0.hasItemConformingToTypeIdentifier(UTType.mpeg4Movie.identifier) }) {
                     let type = UTType.mpeg4Movie

@@ -54,7 +54,6 @@ enum VideoExporter {
 
             // Clean up temporary file
             try? FileManager.default.removeItem(at: temporaryFileURL)
-            progress.completedUnitCount = progress.totalUnitCount
             FileLog.shared.addMessage("VideoExporter Ended: \(start.timeIntervalSinceNow)")
         } onCancel: {
             progress.cancel()

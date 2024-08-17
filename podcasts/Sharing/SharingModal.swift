@@ -10,7 +10,7 @@ enum SharingModal {
         case podcast(Podcast)
         case currentPosition(Episode, TimeInterval)
         case clip(Episode, TimeInterval)
-        case clipShare(Episode, ClipTime, ShareImageStyle, Progress)
+        case clipShare(Episode, ClipTime, ShareImageStyle, ClipResult)
 
         var buttonTitle: String {
             switch self {
@@ -162,25 +162,32 @@ extension SharingModal.Option {
         return imageInfo
     }
 
-    func itemProviders(style: ShareImageStyle) -> [NSItemProvider] {
+    func itemProviders(style: ShareImageStyle, destination: ShareDestination.Destination? = nil) -> [NSItemProvider] {
         switch self {
         case .clipShare(_, _, _, let progress):
-            guard let fileURL = progress.fileURL else {
+
+            let url: URL?
+            switch destination {
+            case .instagram:
+                url = progress.exportURL
+            default:
+                url = progress.croppedURL
+            }
+
+            guard let fileURL = url else {
                 return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()]
             }
             if #available(iOS 16.0, *) {
                 let mediaItemProvider = NSItemProvider()
                 mediaItemProvider.suggestedName = "\(imageInfo.title) - \(imageInfo.description)"
                 mediaItemProvider.registerDataRepresentation(for: UTType(filenameExtension: fileURL.pathExtension) ?? .mpeg4Movie) { completion in
-                    if let fileURL = progress.fileURL {
+                    Task {
                         do {
                             let data = try Data(contentsOf: fileURL)
                             completion(data, nil)
                         } catch {
                             completion(nil, error)
                         }
-                    } else {
-                        completion(nil, nil)
                     }
                     return nil
                 }
@@ -189,7 +196,7 @@ extension SharingModal.Option {
                 return [NSItemProvider(contentsOf: fileURL)].compactMap({ $0 })
             }
         default:
-            return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()]
+            return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).itemProvider()]
         }
     }
 

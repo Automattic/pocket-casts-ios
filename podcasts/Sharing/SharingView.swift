@@ -2,6 +2,12 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 
+class ClipResult: ObservableObject {
+    @MainActor @Published var progress: Float = 0
+    @Published var exportURL: URL?
+    @Published var croppedURL: URL?
+}
+
 class ClipTime: ObservableObject {
     @Published var start: TimeInterval
     @Published var end: TimeInterval
@@ -35,6 +41,7 @@ struct SharingView: View {
     @State private var isExporting: Bool = false
 
     @ObservedObject var clipTime: ClipTime
+    @StateObject var clipResult = ClipResult()
 
     init(destinations: [ShareDestination], selectedOption: SharingModal.Option, selectedStyle: ShareImageStyle = .large) {
         self.destinations = destinations
@@ -69,18 +76,21 @@ struct SharingView: View {
                     .font(.caption.weight(.semibold))
                     Button(L10n.clip, action: {
                         withAnimation {
-                            shareable.option = .clipShare(episode, clipTime, shareable.style, Progress())
+                            shareable.option = .clipShare(episode, clipTime, shareable.style, clipResult)
                             isExporting = true
                         }
                     }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
                 }
                 .padding(.horizontal, 16)
-            case .clipShare(_, _, _, let progress):
-                if progress.fileURL == nil && progress.fractionCompleted != 1 {
-                    ProgressView(progress)
-                        .tint(color)
-                        .padding()
-                } else {
+            case .clipShare:
+                if clipResult.progress != 1 {
+                    ProgressView(value: clipResult.progress) {
+                        Text("Creating Clip...")
+                    }
+                    .tint(color)
+                    .padding()
+                }
+                else {
                     buttons
                 }
             }
@@ -152,10 +162,12 @@ struct SharingView: View {
 
     @ViewBuilder func image(style: ShareImageStyle, containerHeight: CGFloat) -> some View {
         ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
+            .frame(width: style.previewSize.width, height: style.previewSize.height)
+            .fixedSize()
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .tabItem { Text(style.tabString) }
             .id(style)
-			.scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.videoSize.height)
+			.scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.previewSize.height)
     }
 
     @ViewBuilder var buttons: some View {
@@ -206,7 +218,7 @@ struct SharingView: View {
 
     private func exportIfNeeded() async {
         guard isExporting,
-              case let .clipShare(episode, clipTime, shareable.style, progress) = shareable.option
+              case let .clipShare(episode, clipTime, shareable.style, _) = shareable.option
         else {
             return
         }
@@ -214,6 +226,13 @@ struct SharingView: View {
             isExporting = false
         }
         do {
+            let progress = Progress()
+            let observation = progress.observe(\.completedUnitCount) { progress, change in
+                Task.detached { @MainActor in
+                    clipResult.progress = Float(progress.completedUnitCount) / Float(progress.totalUnitCount)
+                }
+            }
+
             let url = try await export(info: shareable.option.imageInfo,
                                             style: shareable.style,
                                             episode: episode,
@@ -221,8 +240,17 @@ struct SharingView: View {
                                             duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
                                             progress: progress
             )
-            progress.fileURL = url
-            shareable.option = .clipShare(episode, clipTime, shareable.style, progress)
+
+            //TODO: Do this in parallel to speed up?
+            let fittedSize = CGSize(width: shareable.style.videoSize.width * 2, height: shareable.style.videoSize.height * 2).fitting(aspectRatio: shareable.style.previewSize)
+            let croppedURL = try await AVAsset(url: url).crop(to: fittedSize)
+
+            clipResult.exportURL = url
+            clipResult.croppedURL = croppedURL
+
+            shareable.option = .clipShare(episode, clipTime, shareable.style, clipResult)
+
+            progress.completedUnitCount = progress.totalUnitCount
         } catch let error {
             FileLog.shared.addMessage("Failed Clip Export: \(error)")
         }
