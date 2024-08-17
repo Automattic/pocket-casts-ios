@@ -162,15 +162,6 @@ struct KidneyShape: Shape {
     }
 }
 
-@available(iOS 16.0, *)
-extension ShareImageView: Transferable {
-    static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation<Self>(exportedContentType: .png) { view in
-            try await view.snapshot().pngData().throwOnNil()
-        }
-    }
-}
-
 extension View {
     func itemProvider() -> NSItemProvider {
         let itemProvider = NSItemProvider()

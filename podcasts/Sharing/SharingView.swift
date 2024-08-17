@@ -161,13 +161,7 @@ struct SharingView: View {
     @ViewBuilder var buttons: some View {
         HStack(spacing: 24) {
             ForEach(destinations, id: \.self) { destination in
-                if let action = destination.action {
-                    button(destination: destination, style: shareable.style, action: action)
-                } else {
-                    if #available(iOS 16, *) {
-                        shareLink(option: shareable.option, destination: destination, style: shareable.style)
-                    }
-                }
+                button(destination: destination, style: shareable.style, action: destination.action)
             }
         }
     }
@@ -176,15 +170,6 @@ struct SharingView: View {
         Button {
             action(shareable.option, shareable.style)
         } label: {
-            view(for: destination)
-        }
-    }
-
-    @available(iOS 16.0, *)
-    @ViewBuilder func shareLink(option: SharingModal.Option, destination: ShareDestination, style: ShareImageStyle) -> some View {
-        ShareLink(items: shareItems(style: style), preview: { _ in
-            SharePreview(option.imageInfo.title, image: Image(uiImage: ShareImageView(info: option.imageInfo, style: style, angle: .constant(0)).snapshot()))
-        }) {
             view(for: destination)
         }
     }
@@ -262,68 +247,6 @@ struct SharingView: View {
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
             try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
             return url
-        }
-    }
-}
-
-@available(iOS 16.0, *)
-extension SharingView.Shareable: Transferable {
-    static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation<Self>(exportedContentType: .m4a) { shareable in
-            switch shareable.option {
-            case .clipShare(_, _, _, let progress):
-                let fileURL = try progress.fileURL.throwOnNil()
-                return try Data(contentsOf: fileURL)
-            default:
-                assertionFailure("This should never run due to exporting conditions below")
-                throw Optional<Void>.OptionalNil()
-            }
-        }.exportingCondition { shareable in
-            guard shareable.shareType == .audio,
-                  case .clipShare = shareable.option else { return false }
-            switch shareable.option {
-            case .clipShare:
-                return true
-            default:
-                return false
-            }
-        }
-        .suggestedFileName("clip")
-        FileRepresentation<Self>(exportedContentType: .mpeg4Movie) { shareable in
-            switch shareable.option {
-            case .clipShare(_, _, _, let progress):
-                let fileURL = try progress.fileURL.throwOnNil()
-                return SentTransferredFile(fileURL)
-            default:
-                assertionFailure("This should never run due to exporting conditions below")
-                throw Optional<Void>.OptionalNil()
-            }
-        }.exportingCondition { shareable in
-            guard shareable.shareType == .video,
-                  case .clipShare = shareable.option else { return false }
-            switch shareable.option {
-            case .clipShare:
-                return true
-            default:
-                return false
-            }
-        }
-        DataRepresentation<Self>(exportedContentType: .png) { shareable in
-            return try await ShareImageView(info: shareable.option.imageInfo, style: shareable.style, angle: .constant(0)).snapshot().pngData().throwOnNil()
-        }.exportingCondition { shareable in
-            guard shareable.shareType == .image else { return false }
-            switch shareable.option {
-            case .clipShare:
-                return false
-            default:
-                return true
-            }
-        }
-        ProxyRepresentation { shareable in
-            try URL(string: shareable.option.shareURL).throwOnNil()
-        }
-        .exportingCondition { shareable in
-            return shareable.shareType == .url
         }
     }
 }
