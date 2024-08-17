@@ -40,6 +40,15 @@ enum ShareImageStyle: CaseIterable {
             CGSize(width: 100, height: 100)
         }
     }
+
+    var shareDescription: String? {
+        switch self {
+        case .audio:
+            L10n.createAudioClipDescription
+        default:
+            nil
+        }
+    }
 }
 
 struct ShareImageView: View {

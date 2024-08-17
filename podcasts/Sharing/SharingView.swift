@@ -103,11 +103,9 @@ struct SharingView: View {
 
     @ViewBuilder var title: some View {
         VStack {
-            Text(shareable.option.shareTitle)
+            Text(shareable.option.shareTitle(style: shareable.style))
                 .font(.headline)
             switch shareable.option {
-            case .clip:
-                EmptyView() // Don't show the description to give extra space for trim view
             case .clipShare(let episode, let clipTime, _, _):
                 Button(action: {
                     isExporting = false
@@ -125,12 +123,13 @@ struct SharingView: View {
                 }
                 .padding(.top, 14)
             default:
-                Text(L10n.shareDescription)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: Constants.descriptionMaxWidth)
+                EmptyView()
             }
+            Text(shareable.style.shareDescription ?? "‏")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: Constants.descriptionMaxWidth)
         }
     }
 
