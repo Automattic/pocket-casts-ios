@@ -34,10 +34,40 @@ struct ShareDestination: Hashable {
             }
         }
 
-        func share(_ option: SharingModal.Option, style: ShareImageStyle) async {
+        enum ShareError: Error {
+            case noMatchingItemIdentifier
+            case loadFailed(Error?)
+        }
+
+        func share(_ option: SharingModal.Option, style: ShareImageStyle) async throws {
+            let itemProviders = option.itemProviders(style: style)
+            let (type, data) = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<(UTType, Data), Error>) in
+                if let itemProvider = itemProviders.first(where: { $0.hasItemConformingToTypeIdentifier(UTType.mpeg4Movie.identifier) }) {
+                    let type = UTType.mpeg4Movie
+                    itemProvider.loadDataRepresentation(forTypeIdentifier: type.identifier) { data, error in
+                        guard let data else {
+                            continuation.resume(throwing: ShareError.loadFailed(error))
+                            return
+                        }
+                        continuation.resume(returning: (type, data))
+                    }
+                } else if let itemProvider = itemProviders.first(where: { $0.hasItemConformingToTypeIdentifier(UTType.png.identifier) }) {
+                    let type = UTType.png
+                    itemProvider.loadDataRepresentation(forTypeIdentifier: type.identifier) { data, error in
+                        guard let data else {
+                            continuation.resume(throwing: ShareError.loadFailed(error))
+                            return
+                        }
+                        continuation.resume(returning: (type, data))
+                    }
+                } else {
+                    continuation.resume(throwing: ShareError.noMatchingItemIdentifier)
+                }
+            }
+
             switch self {
             case .instagram:
-                await instagramShare(image: Self.shareImage(option, style: style), url: option.shareURL)
+                await instagramShare(data: data, type: type, url: option.shareURL)
             }
         }
 
@@ -48,12 +78,7 @@ struct ShareDestination: Hashable {
         }
 
         @MainActor
-        private func instagramShare(image: UIImage, url: String) {
-            guard let pngImage = image.pngData() else {
-                return
-            }
-
-            let backgroundImage = pngImage
+        private func instagramShare(data: Data, type: UTType, url: String) {
             let attributionURL = url
             let appID = ApiCredentials.instagramAppID
 
@@ -62,7 +87,8 @@ struct ShareDestination: Hashable {
                 return
             }
 
-            let pasteboardItems = [["com.instagram.sharedSticker.backgroundImage": backgroundImage,
+            let dataKey = type == .mpeg4Movie ? "com.instagram.sharedSticker.backgroundVideo" : "com.instagram.sharedSticker.backgroundImage"
+            let pasteboardItems = [[dataKey: data,
                                     "com.instagram.sharedSticker.contentURL": attributionURL]]
             let pasteboardOptions: [UIPasteboard.OptionsKey: Any] = [.expirationDate: Date().addingTimeInterval(60 * 5)]
 
@@ -85,7 +111,7 @@ struct ShareDestination: Hashable {
             guard destination.isIncluded else { return nil }
             return ShareDestination(name: destination.name, icon: destination.icon, action: { option, style in
                 Task.detached {
-                    await destination.share(option, style: style)
+                    try await destination.share(option, style: style)
                 }
             })
         })
