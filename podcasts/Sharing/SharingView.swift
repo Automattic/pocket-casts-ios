@@ -140,8 +140,13 @@ struct SharingView: View {
                 switch shareable.option {
                 case .clipShare(_, _, let style, _):
                     image(style: style, containerHeight: proxy.size.height)
-                default:
+                case .clip:
                     ForEach(ShareImageStyle.allCases, id: \.self) { style in
+                        image(style: style, containerHeight: proxy.size.height)
+                    }
+                default:
+                    let styles = ShareImageStyle.allCases.filter { $0 != .audio }
+                    ForEach(styles, id: \.self) { style in
                         image(style: style, containerHeight: proxy.size.height)
                     }
                 }
