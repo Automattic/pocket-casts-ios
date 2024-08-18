@@ -4202,6 +4202,9 @@
 /* A label shown with the duration time of a clip */
 "clip_duration_label" = "%@ Duration";
 
+/* A label shown while the clip is being created */
+"clip_loading_label" = "Creating Clip...";
+
 /* Title of the Pocket Casts champion screen, greeting an user that has been using Pocket Casts for a long time */
 "champion_title" = "You’re a true champion of Pocket Casts!";
 

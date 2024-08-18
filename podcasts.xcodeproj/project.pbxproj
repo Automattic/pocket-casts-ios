@@ -1638,6 +1638,7 @@
 		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F51D90722C70FF7800F0A232 /* AVAsset+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */; };
+		F51D90742C71A0A100F0A232 /* SharingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90732C71A0A100F0A232 /* SharingFooterView.swift */; };
 		F5235EE02C3CCB1D00C98739 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5235EDF2C3CCB1D00C98739 /* RoundedCorner.swift */; };
 		F5235EE22C3CE5B300C98739 /* MediaTrimBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5235EE12C3CE5B300C98739 /* MediaTrimBar.swift */; };
 		F5235EE82C3DE13100C98739 /* ScrollableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5235EE72C3DE13100C98739 /* ScrollableScrollView.swift */; };
@@ -3519,6 +3520,7 @@
 		F508F0FA2C4F1EC000822159 /* ClipPlaybackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPlaybackManager.swift; sourceTree = "<group>"; };
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Crop.swift"; sourceTree = "<group>"; };
+		F51D90732C71A0A100F0A232 /* SharingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingFooterView.swift; sourceTree = "<group>"; };
 		F5235EDF2C3CCB1D00C98739 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		F5235EE12C3CE5B300C98739 /* MediaTrimBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTrimBar.swift; sourceTree = "<group>"; };
 		F5235EE72C3DE13100C98739 /* ScrollableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableScrollView.swift; sourceTree = "<group>"; };
@@ -7674,6 +7676,7 @@
 			children = (
 				F5235EDA2C3CCAA100C98739 /* Clip */,
 				F52ADE432BD8B0F300AC647F /* SharingView.swift */,
+				F51D90732C71A0A100F0A232 /* SharingFooterView.swift */,
 				F5FF61282BD6D88C00190711 /* SharingModal.swift */,
 				F5FF61222BD07E3A00190711 /* ShareImageView.swift */,
 				F555980E2C503F1700C02EEB /* AnimatedShareImageView.swift */,
@@ -9252,6 +9255,7 @@
 				C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */,
 				C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */,
 				BDE7409A2060CE1B00FB22C7 /* EpisodeManager.swift in Sources */,
+				F51D90742C71A0A100F0A232 /* SharingFooterView.swift in Sources */,
 				BD240C43231F46F400FB2CDD /* PCSearchBarController+TextFieldDelegate.swift in Sources */,
 				4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */,
 				BDF5FD1E1FD8D38900F2A339 /* DownloadsViewController+Table.swift in Sources */,

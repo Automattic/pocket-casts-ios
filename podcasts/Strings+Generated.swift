@@ -444,6 +444,8 @@ internal enum L10n {
   internal static func clipDurationLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "clip_duration_label", String(describing: p1))
   }
+  /// Creating Clip...
+  internal static var clipLoadingLabel: String { return L10n.tr("Localizable", "clip_loading_label") }
   /// %@ Start
   internal static func clipStartLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "clip_start_label", String(describing: p1))

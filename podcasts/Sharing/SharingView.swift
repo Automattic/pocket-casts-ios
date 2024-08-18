@@ -28,8 +28,6 @@ struct SharingView: View {
         var shareType: UTType? = nil
     }
 
-    @EnvironmentObject var theme: Theme
-
     private enum Constants {
         static let descriptionMaxWidth: CGFloat = 200
         static let tabViewPadding: CGFloat = 80 // A value which represents extra padding for UIPageControl of the TabView
@@ -59,56 +57,13 @@ struct SharingView: View {
         VStack {
             title
             tabView
-            switch shareable.option {
-            case .episode, .podcast, .currentPosition:
-                buttons
-            case .clip(let episode, _):
-                VStack(spacing: 12) {
-                    MediaTrimBar(clipTime: clipTime, episode: episode)
-                        .frame(height: 72)
-                        .tint(color)
-                    HStack {
-                        Text(L10n.clipStartLabel(TimeFormatter.shared.playTimeFormat(time: clipTime.start)))
-                        Spacer()
-                        Text(L10n.clipDurationLabel(TimeFormatter.shared.playTimeFormat(time: clipTime.end - clipTime.start)))
-                    }
-                    .foregroundStyle(.white.opacity(0.5))
-                    .font(.caption.weight(.semibold))
-                    Button(L10n.clip, action: {
-                        withAnimation {
-                            shareable.option = .clipShare(episode, clipTime, shareable.style, clipResult)
-                            isExporting = true
-                        }
-                    }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
-                }
-                .padding(.horizontal, 16)
-            case .clipShare:
-                if clipResult.progress != 1 {
-                    ProgressView(value: clipResult.progress) {
-                        Text("Creating Clip...")
-                    }
-                    .tint(color)
-                    .padding()
-                }
-                else {
-                    buttons
-                }
-            }
+            SharingFooterView(clipTime: clipTime, option: $shareable.option, isExporting: $isExporting, clipResult: clipResult, destinations: destinations, style: shareable.style)
         }
         .task(id: isExporting, {
             await exportIfNeeded()
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
-    }
-
-    var color: Color {
-        switch shareable.option {
-        case .clip(let episode, _), .clipShare(let episode, _, _, _):
-            PlayerColorHelper.backgroundColor(for: episode)?.color ?? PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
-        default:
-            PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
-        }
     }
 
     @ViewBuilder var title: some View {
@@ -167,23 +122,7 @@ struct SharingView: View {
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .tabItem { Text(style.tabString) }
             .id(style)
-			.scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.previewSize.height)
-    }
-
-    @ViewBuilder var buttons: some View {
-        HStack(spacing: 24) {
-            ForEach(destinations, id: \.self) { destination in
-                button(destination: destination, style: shareable.style, action: destination.action)
-            }
-        }
-    }
-
-    @ViewBuilder func button(destination: ShareDestination, style: ShareImageStyle, action: @escaping ((SharingModal.Option, ShareImageStyle) -> Void)) -> some View {
-        Button {
-            action(shareable.option, shareable.style)
-        } label: {
-            view(for: destination)
-        }
+            .scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.previewSize.height)
     }
 
     private func shareItems(style: ShareImageStyle) -> [Shareable] {
@@ -193,23 +132,6 @@ struct SharingView: View {
         image.shareType = .image
 
         return [media, (style != .audio ? image : nil)].compactMap { $0 }
-    }
-
-    @ViewBuilder func view(for destination: ShareDestination) -> some View {
-        VStack {
-            destination.icon
-                .renderingMode(.template)
-                .font(size: 20, style: .body, weight: .bold)
-                .frame(width: 24, height: 24)
-                .padding(15)
-                .background {
-                    Circle()
-                        .foregroundStyle(.white.opacity(0.1))
-                }
-            Text(destination.name)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
     }
 
     enum VideoExportError: Error {
@@ -226,6 +148,8 @@ struct SharingView: View {
             isExporting = false
         }
         do {
+            try await Task.sleep(nanoseconds: 500_000_000) // Delay by half a second to let the UI update
+            clipResult.progress = Float.leastNormalMagnitude
             let progress = Progress()
             let observation = progress.observe(\.completedUnitCount) { progress, change in
                 Task.detached { @MainActor in
