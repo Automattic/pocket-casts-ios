@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 
 class PlusLandingViewModel: PlusPurchaseModel {
@@ -137,7 +138,15 @@ extension PlusLandingViewModel {
 
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
-        UpgradeLandingView(viewModel: viewModel)
-            .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
+        if FeatureFlag.upgradeExperiment.enabled {
+            //Include here the A/B test experiment:
+            // Control variant: UpgradeLandingView
+            // Features: PlusPaywallContainer(viewModel: viewModel, type: .features)
+            // Social: Social variant
+            PlusPaywallContainer(viewModel: viewModel, type: .features)
+        } else {
+            UpgradeLandingView(viewModel: viewModel)
+                .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
+        }
     }
 }
