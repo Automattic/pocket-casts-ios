@@ -145,6 +145,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             traitOverrides.horizontalSizeClass = .compact
             if let rootHorizontalSizeClass = view.window?.traitCollection.horizontalSizeClass {
                 tabBar.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
+                if let viewControllers {
+                    for vc in viewControllers {
+                        vc.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
+                    }
+                }
             }
         }
     }
