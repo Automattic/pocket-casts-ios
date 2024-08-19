@@ -29,6 +29,10 @@ enum ShareImageStyle: CaseIterable {
     }
 
     var videoSize: CGSize {
+        CGSize(width: 390, height: 694)
+    }
+
+    var previewSize: CGSize {
         switch self {
         case .large:
             CGSize(width: 292, height: 438)
@@ -68,6 +72,7 @@ struct ShareImageView: View {
                 VStack(spacing: 32) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
+                        .frame(maxWidth: 270)
                     text()
                     PocketCastsLogoPill()
                 }
@@ -96,8 +101,6 @@ struct ShareImageView: View {
                 Image("music")
             }
         }
-        .frame(width: style.videoSize.width, height: style.videoSize.height)
-        .fixedSize()
     }
 
     @ViewBuilder func background() -> some View {
@@ -170,15 +173,6 @@ struct KidneyShape: Shape {
         )
 
         return path
-    }
-}
-
-@available(iOS 16.0, *)
-extension ShareImageView: Transferable {
-    static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation<Self>(exportedContentType: .png) { view in
-            try await view.snapshot().pngData().throwOnNil()
-        }
     }
 }
 

@@ -10,7 +10,7 @@ enum SharingModal {
         case podcast(Podcast)
         case currentPosition(Episode, TimeInterval)
         case clip(Episode, TimeInterval)
-        case clipShare(Episode, ClipTime, ShareImageStyle, Progress)
+        case clipShare(Episode, ClipTime, ShareImageStyle, ClipResult)
 
         var buttonTitle: String {
             switch self {
@@ -167,34 +167,40 @@ extension SharingModal.Option {
         return imageInfo
     }
 
-    func itemProviders(style: ShareImageStyle) -> [NSItemProvider] {
+    @MainActor
+    func shareData(style: ShareImageStyle, destination: ShareDestination.Destination? = nil) -> [Any] {
+        let url = URL(string: shareURL) as NSURL?
+        let media = mediaData(style: style, destination: destination)
+        return [url, media].compactMap({ $0 })
+    }
+
+    @MainActor
+    func mediaData(style: ShareImageStyle, destination: ShareDestination.Destination?) -> Any? {
         switch self {
         case .clipShare(_, _, _, let progress):
-            guard let fileURL = progress.fileURL else {
-                return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()]
+            // Share video/audio clip. If sending to instagram or audio, send full file, otherwise send cropped version.
+            let fileURL: URL?
+            switch (destination, style) {
+            case (.instagram, _):
+                fileURL = progress.exportURL
+            case (_, .audio):
+                fileURL = progress.exportURL
+            default:
+                fileURL = progress.croppedURL
             }
-            if #available(iOS 16.0, *) {
-                let mediaItemProvider = NSItemProvider()
-                mediaItemProvider.suggestedName = "\(imageInfo.title) - \(imageInfo.description)"
-                mediaItemProvider.registerDataRepresentation(for: UTType(filenameExtension: fileURL.pathExtension) ?? .mpeg4Movie) { completion in
-                    if let fileURL = progress.fileURL {
-                        do {
-                            let data = try Data(contentsOf: fileURL)
-                            completion(data, nil)
-                        } catch {
-                            completion(nil, error)
-                        }
-                    } else {
-                        completion(nil, nil)
-                    }
-                    return nil
-                }
-                return [mediaItemProvider]
+
+            guard let fileURL else {
+                return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
+            }
+
+            if destination == .instagram {
+                return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
             } else {
-                return [NSItemProvider(contentsOf: fileURL)].compactMap({ $0 })
+                return fileURL as NSURL // Third party apps need URLs and won't accept Data
             }
         default:
-            return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()]
+            // Share image
+            return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
         }
     }
 

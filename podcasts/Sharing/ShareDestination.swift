@@ -3,7 +3,7 @@ import SwiftUI
 struct ShareDestination: Hashable {
     let name: String
     let icon: Image
-    let action: ((SharingModal.Option, ShareImageStyle) -> Void)?
+    let action: (SharingModal.Option, ShareImageStyle) -> Void
 
     enum Constants {
         static let displayedAppsCount = 3
@@ -34,10 +34,29 @@ struct ShareDestination: Hashable {
             }
         }
 
-        func share(_ option: SharingModal.Option, style: ShareImageStyle) async {
+        enum ShareError: Error {
+            case noMatchingItemIdentifier
+            case loadFailed(Error?)
+        }
+
+        func share(_ option: SharingModal.Option, style: ShareImageStyle) async throws {
+            let item: (Data, UTType)? = await option.shareData(style: style, destination: self).mapFirst { shareItem in
+                if let data = shareItem as? Data {
+                    return (data, style == .audio ? .m4a : .mpeg4Movie)
+                } else if let image = shareItem as? UIImage, let data = image.pngData() {
+                    return (data, .png)
+                } else {
+                    return nil
+                }
+            }
+
+            guard let item else {
+                throw ShareError.noMatchingItemIdentifier
+            }
+
             switch self {
             case .instagram:
-                await instagramShare(image: Self.shareImage(option, style: style), url: option.shareURL)
+                await instagramShare(data: item.0, type: item.1, url: option.shareURL)
             }
         }
 
@@ -48,12 +67,7 @@ struct ShareDestination: Hashable {
         }
 
         @MainActor
-        private func instagramShare(image: UIImage, url: String) {
-            guard let pngImage = image.pngData() else {
-                return
-            }
-
-            let backgroundImage = pngImage
+        private func instagramShare(data: Data, type: UTType, url: String) {
             let attributionURL = url
             let appID = ApiCredentials.instagramAppID
 
@@ -62,9 +76,10 @@ struct ShareDestination: Hashable {
                 return
             }
 
-            let pasteboardItems = [["com.instagram.sharedSticker.backgroundImage": backgroundImage,
+            let dataKey = type == .mpeg4Movie ? "com.instagram.sharedSticker.backgroundVideo" : "com.instagram.sharedSticker.backgroundImage"
+            let pasteboardItems = [[dataKey: data,
                                     "com.instagram.sharedSticker.contentURL": attributionURL]]
-            let pasteboardOptions: [UIPasteboard.OptionsKey: Any] = [.expirationDate: Date().addingTimeInterval(60 * 5)]
+            let pasteboardOptions: [UIPasteboard.OptionsKey: Any] = [.expirationDate: Date().addingTimeInterval(5.minutes)]
 
             UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
 
@@ -72,7 +87,16 @@ struct ShareDestination: Hashable {
         }
 
         var isIncluded: Bool {
-            return true
+            switch self {
+            case .instagram:
+                if let url = URL(string: "instagram-stories://share"), UIApplication.shared.canOpenURL(url) {
+                    return true
+                } else {
+                    return false
+                }
+            default:
+                return true
+            }
         }
     }
 
@@ -85,7 +109,7 @@ struct ShareDestination: Hashable {
             guard destination.isIncluded else { return nil }
             return ShareDestination(name: destination.name, icon: destination.icon, action: { option, style in
                 Task.detached {
-                    await destination.share(option, style: style)
+                    try await destination.share(option, style: style)
                 }
             })
         })
@@ -94,17 +118,13 @@ struct ShareDestination: Hashable {
     static func moreOption(vc: UIViewController) -> ShareDestination {
         let icon = Image(systemName: "ellipsis")
 
-        if #available(iOS 16, *) {
-            return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: nil)
-        } else {
-            return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: { option, style in
-                Task.detached {
-                    let activityItems = option.itemProviders(style: style)
-                    let activityViewController = await UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-                    await vc.presentedViewController?.present(activityViewController, animated: true, completion: nil)
-                }
-            })
-        }
+        return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: { option, style in
+            Task.detached {
+                let data = await option.shareData(style: style)
+                let activityViewController = await UIActivityViewController(activityItems: data, applicationActivities: nil)
+                await vc.presentedViewController?.present(activityViewController, animated: true, completion: nil)
+            }
+        })
     }
 
     static var copyLinkOption: ShareDestination {
