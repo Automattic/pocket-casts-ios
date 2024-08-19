@@ -41,7 +41,7 @@ struct PlusPaywallContainer: View {
             .padding(.horizontal, Constants.buttonHPadding)
 
             if let offer = subscriptionInfo?.offer {
-                Text(offer.title)
+                Text(offer.experimentDescription)
                     .font(size: Constants.offerTextSize, style: .body)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white)
@@ -107,6 +107,17 @@ struct PlusPaywallContainer: View {
         static let offerTextTopPadding = 12.0
 
         static let buttonHPadding = 20.0
+    }
+}
+
+extension PlusPricingInfoModel.ProductOfferInfo {
+    fileprivate var experimentDescription: String {
+        switch type {
+        case .freeTrial:
+            return L10n.upgradeExperimentFreeMembershipFormat(duration)
+        case .discount:
+            return L10n.upgradeExperimentDiscountYearlyMembership
+        }
     }
 }
 
