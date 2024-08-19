@@ -1,3 +1,7 @@
+7.72
+-----
+
+
 7.71
 -----
 - Fix auto-play when Skip Last setting is working [#2019](https://github.com/Automattic/pocket-casts-ios/pull/2037)
