@@ -1,13 +1,11 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
+---
+
+# Variables used in this pipeline are defined in `shared-pipeline-vars`, which is `source`'d before calling `buidkite-agent pipeline upload`
 # This pipeline is meant to be run via the Buildkite API, and is only used for release builds
 
-# Nodes with values to reuse in the pipeline.
-common_params:
-  # Common plugin settings to use with the `plugins` key.
-  - &common_plugins
-    - automattic/a8c-ci-toolkit#2.15.1
-  # Common environment values to use with the `env` key.
-  - &common_env
-    IMAGE_ID: xcode-15.4
+env:
+  IMAGE_ID: $IMAGE_ID
 
 steps:
 
@@ -16,7 +14,6 @@ steps:
     priority: 1
     agents:
       queue: mac
-    env: *common_env
-    plugins: *common_plugins
+    plugins: [$CI_TOOLKIT]
     notify:
     - slack: "#build-and-ship"
