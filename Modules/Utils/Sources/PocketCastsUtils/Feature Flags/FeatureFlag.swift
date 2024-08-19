@@ -84,7 +84,7 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enables the Kids banner
     case kidsProfile
-    
+
     /// Enable the new Upgrade Experiments
     case upgradeExperiment
 
