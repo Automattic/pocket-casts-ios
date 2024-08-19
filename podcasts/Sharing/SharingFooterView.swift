@@ -40,6 +40,8 @@ struct SharingFooterView: View {
             if clipResult.progress != 1 {
                 ProgressView(value: clipResult.progress) {
                     Text(L10n.clipLoadingLabel)
+                        .font(.headline)
+                        .padding(8)
                 }
                 .tint(color)
                 .padding()
