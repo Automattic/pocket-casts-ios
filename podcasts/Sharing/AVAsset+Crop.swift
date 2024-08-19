@@ -4,6 +4,7 @@ extension AVAsset {
     enum CropError: Error {
         case failedVideoTrackCreation
         case failedExportSession
+        case missingVideoTrack
     }
 
     func crop(to size: CGSize) async throws -> URL {
@@ -12,7 +13,9 @@ extension AVAsset {
             throw CropError.failedVideoTrackCreation
         }
 
-        let assetTrack = try await loadTracks(withMediaType: .video)[0]
+        guard let assetTrack = try await loadTracks(withMediaType: .video).first else {
+          throw CropError.missingVideoTrack
+        }
         try compositionTrack.insertTimeRange(CMTimeRangeMake(start: .zero, duration: duration), of: assetTrack, at: .zero)
 
         let videoComposition = AVMutableVideoComposition()
@@ -49,5 +52,9 @@ extension AVAsset {
         await export.export()
 
         return outputURL
+    }
+
+    func trim(start: TimeInterval, end: TimeInterval) -> URL {
+        
     }
 }

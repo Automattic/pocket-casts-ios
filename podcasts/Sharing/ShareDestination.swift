@@ -79,7 +79,7 @@ struct ShareDestination: Hashable {
             let dataKey = type == .mpeg4Movie ? "com.instagram.sharedSticker.backgroundVideo" : "com.instagram.sharedSticker.backgroundImage"
             let pasteboardItems = [[dataKey: data,
                                     "com.instagram.sharedSticker.contentURL": attributionURL]]
-            let pasteboardOptions: [UIPasteboard.OptionsKey: Any] = [.expirationDate: Date().addingTimeInterval(60 * 5)]
+            let pasteboardOptions: [UIPasteboard.OptionsKey: Any] = [.expirationDate: Date().addingTimeInterval(5.minutes)]
 
             UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
 
