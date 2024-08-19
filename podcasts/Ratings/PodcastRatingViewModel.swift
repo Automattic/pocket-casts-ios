@@ -30,7 +30,12 @@ class PodcastRatingViewModel: ObservableObject {
 
     /// Updates the rating for the podcast.
     ///
-    func update(podcast: Podcast?) {
+    func update(podcast: Podcast?, ignoringCache: Bool = false) {
+        // If we want to reload and ignore the cache, let's reset the state to waiting and reload
+        if ignoringCache, state == .done {
+            state = .waiting
+        }
+
         self.podcast = podcast
 
         // Don't update if we have already finished or are currently updating
@@ -40,7 +45,7 @@ class PodcastRatingViewModel: ObservableObject {
         state = .loading
 
         Task {
-            let rating = try? await PodcastRatingTask().retrieve(for: uuid)
+            let rating = try? await PodcastRatingTask().retrieve(for: uuid, ignoringCache: ignoringCache)
 
             // Publish on main thread only
             await MainActor.run {

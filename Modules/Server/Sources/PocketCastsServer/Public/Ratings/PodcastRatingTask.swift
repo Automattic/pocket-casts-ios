@@ -14,10 +14,10 @@ public struct PodcastRatingTask {
     }
 
     /// Retrieves the star rating and total for a single podcast
-    public func retrieve(for podcastUuid: String) async throws -> PodcastRating? {
+    public func retrieve(for podcastUuid: String, ignoringCache: Bool) async throws -> PodcastRating? {
         let urlString = "\(ServerConstants.Urls.cache())podcast/rating/\(podcastUuid)"
         let task = JSONDecodableURLTask<PodcastRating>(session: session)
-
-        return try await task.get(urlString: urlString)
+        let cachePolicy: URLRequest.CachePolicy = ignoringCache ? .reloadIgnoringLocalAndRemoteCacheData : .useProtocolCachePolicy
+        return try await task.get(urlString: urlString, cachePolicy: cachePolicy)
     }
 }

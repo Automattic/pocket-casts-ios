@@ -969,6 +969,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>instagram-stories</string>
 		<string>org-appextension-feature-password-management</string>
 		<string>fb</string>
 		<string>tweetbot</string>

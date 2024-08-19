@@ -26,7 +26,7 @@ struct MediaTrimView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollableScrollView(scale: $scale, duration: duration, geometry: geometry) { scrollable in
-                AudioWaveformView(scale: scale, width: geometry.size.width * scale)
+                AudioWaveformView(width: geometry.size.width * scale)
                 borderView(in: geometry)
                 PlayheadView(position: scaledPosition($playPosition), validRange: scaledPosition($startPosition).wrappedValue...scaledPosition($endPosition).wrappedValue)
                     .onChange(of: playTime) { playTime in
