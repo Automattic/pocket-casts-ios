@@ -476,6 +476,10 @@ internal enum L10n {
   internal static var createAccountFreePrice: String { return L10n.tr("Localizable", "create_account_free_price") }
   /// Everything unlocked
   internal static var createAccountPlusDetails: String { return L10n.tr("Localizable", "create_account_plus_details") }
+  /// Create a .m4a audio file
+  internal static var createAudioClipDescription: String { return L10n.tr("Localizable", "create_audio_clip_description") }
+  /// Create audio file
+  internal static var createAudioClipTitle: String { return L10n.tr("Localizable", "create_audio_clip_title") }
   /// Create clip
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip") }
   /// Create Filter

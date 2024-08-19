@@ -4184,8 +4184,14 @@
 /* Current search results being displayed and the total number of results. Eg.: 1 of 10. %1$@ is the current result being shown, %2$@ is the total number of results */
 "search_results" = "%1$@ of %2$@";
 
-/* A title shown for a share option which creates an audio clip of an episode */
+/* A title shown for a share option which creates an animated video clip with audio of an episode */
 "create_clip" = "Create clip";
+
+/* A title shown for a share option which creates an audio clip of an episode */
+"create_audio_clip_title" = "Create audio file";
+
+/* A description shown for a share option which creates an audio clip of an episode. This produces a ".m4a" file which is like an mp3 */
+"create_audio_clip_description" = "Create a .m4a audio file";
 
 /* Shown in a button when creating a shareable audio clip of an episode */
 "clip" = "Clip";

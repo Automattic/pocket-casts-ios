@@ -40,6 +40,17 @@ enum ShareImageStyle: CaseIterable {
             CGSize(width: 100, height: 100)
         }
     }
+
+    func shareDescription(option: SharingModal.Option) -> String? {
+        switch (option, self) {
+        case (.episode, _), (.podcast, _):
+            L10n.shareDescription
+        case (.clip, .audio):
+            L10n.createAudioClipDescription
+        default:
+            nil
+        }
+    }
 }
 
 struct ShareImageView: View {

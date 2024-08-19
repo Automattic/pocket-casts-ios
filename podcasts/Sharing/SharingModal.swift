@@ -25,7 +25,7 @@ enum SharingModal {
             }
         }
 
-        var shareTitle: String {
+        func shareTitle(style: ShareImageStyle) -> String {
             switch self {
             case .episode:
                 L10n.shareEpisode
@@ -34,7 +34,12 @@ enum SharingModal {
             case .podcast:
                 L10n.sharePodcast
             case .clip:
-                L10n.createClip
+                switch style {
+                case .audio:
+                    L10n.createAudioClipTitle
+                default:
+                    L10n.createClip
+                }
             case .clipShare:
                 L10n.shareClip
             }
