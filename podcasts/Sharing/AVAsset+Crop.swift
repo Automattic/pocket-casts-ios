@@ -53,8 +53,4 @@ extension AVAsset {
 
         return outputURL
     }
-
-    func trim(start: TimeInterval, end: TimeInterval) -> URL {
-        
-    }
 }
