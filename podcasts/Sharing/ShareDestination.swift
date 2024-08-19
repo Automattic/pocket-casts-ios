@@ -87,7 +87,16 @@ struct ShareDestination: Hashable {
         }
 
         var isIncluded: Bool {
-            return true
+            switch self {
+            case .instagram:
+                if let url = URL(string: "instagram-stories://share"), UIApplication.shared.canOpenURL(url) {
+                    return true
+                } else {
+                    return false
+                }
+            default:
+                return true
+            }
         }
     }
 
