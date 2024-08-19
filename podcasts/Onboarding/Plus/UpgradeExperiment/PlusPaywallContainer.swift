@@ -35,17 +35,17 @@ struct PlusPaywallContainer: View {
             Button(action: {
                 presentSubscriptionView.toggle()
             }, label: {
-                Text("Get Pocket Casts Plus")
+                Text(L10n.upgradeExperimentPaywallButton)
             })
             .buttonStyle(PlusOpaqueButtonStyle(isLoading: false, plan: .plus))
-            .padding(.horizontal, 20)
+            .padding(.horizontal, Constants.buttonHPadding)
 
             if let offer = subscriptionInfo?.offer {
                 Text(offer.title)
-                    .font(size: 14.0, style: .body)
+                    .font(size: Constants.offerTextSize, style: .body)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white)
-                    .padding(.top, 12)
+                    .padding(.top, Constants.offerTextTopPadding)
             }
         }
     }
@@ -68,12 +68,11 @@ struct PlusPaywallContainer: View {
                 Spacer()
                 footer
             }
-            .padding(.bottom, hasBottomSafeArea ? 0 : 16)
+            .padding(.bottom, hasBottomSafeArea ? 0 : Constants.bottomPadding)
         }
         .background(.black)
         .sheet(isPresented: $presentSubscriptionView) {
-            Rectangle()
-                .fill(Color(hex: "282829"))
+            PlusPaywallSubscriptions(viewModel: viewModel)
                 .modify {
                     if #available(iOS 16.0, *) {
                         $0.presentationDetents([.medium])
@@ -99,6 +98,15 @@ struct PlusPaywallContainer: View {
     enum ContainerType {
         case features
         case social
+    }
+
+    private enum Constants {
+        static let bottomPadding = 16.0
+
+        static let offerTextSize = 14.0
+        static let offerTextTopPadding = 12.0
+
+        static let buttonHPadding = 20.0
     }
 }
 

@@ -8,17 +8,17 @@ struct PlusPaywallFeaturesCarousell: View {
 
     private var title: some View {
         Text(tier.header)
-            .font(size: 22.0, style: .body, weight: .bold)
+            .font(size: Constants.titleSize, style: .body, weight: .bold)
             .foregroundStyle(.white)
             .multilineTextAlignment(.center)
-            .lineLimit(2)
-            .padding(.horizontal, 32)
-            .padding(.bottom, 40)
+            .lineLimit(Constants.titleLineLimit)
+            .padding(.horizontal, Constants.titleHPadding)
+            .padding(.bottom, Constants.bottomPadding)
     }
 
     private var badge: some View {
         SubscriptionBadge(tier: tier.tier, displayMode: .gradient, foregroundColor: .black)
-            .padding(.bottom, 12)
+            .padding(.bottom, Constants.badgeBottomPadding)
     }
 
     var body: some View {
@@ -29,6 +29,17 @@ struct PlusPaywallFeaturesCarousell: View {
                 .fill(.red)
                 .frame(height: 394)
         }
+    }
+
+    private enum Constants {
+        static let bottomPadding = 16.0
+
+        static let badgeBottomPadding = 12.0
+
+        static let titleSize = 22.0
+        static let titleLineLimit = 2
+        static let titleHPadding = 32.0
+        static let titleBottomPadding = 40.0
     }
 }
 
