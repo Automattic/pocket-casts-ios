@@ -162,41 +162,40 @@ extension SharingModal.Option {
         return imageInfo
     }
 
-    func itemProviders(style: ShareImageStyle, destination: ShareDestination.Destination? = nil) -> [NSItemProvider] {
+    @MainActor
+    func shareData(style: ShareImageStyle, destination: ShareDestination.Destination? = nil) -> [Any] {
+        let url = URL(string: shareURL) as NSURL?
+        let media = mediaData(style: style, destination: destination)
+        return [url, media].compactMap({ $0 })
+    }
+
+    @MainActor
+    func mediaData(style: ShareImageStyle, destination: ShareDestination.Destination?) -> Any? {
         switch self {
         case .clipShare(_, _, _, let progress):
-
-            let url: URL?
-            switch destination {
-            case .instagram:
-                url = progress.exportURL
+            // Share video/audio clip. If sending to instagram or audio, send full file, otherwise send cropped version.
+            let fileURL: URL?
+            switch (destination, style) {
+            case (.instagram, _):
+                fileURL = progress.exportURL
+            case (_, .audio):
+                fileURL = progress.exportURL
             default:
-                url = progress.croppedURL
+                fileURL = progress.croppedURL
             }
 
-            guard let fileURL = url else {
-                return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).itemProvider()]
+            guard let fileURL else {
+                return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
             }
-            if #available(iOS 16.0, *) {
-                let mediaItemProvider = NSItemProvider()
-                mediaItemProvider.suggestedName = "\(imageInfo.title) - \(imageInfo.description)"
-                mediaItemProvider.registerDataRepresentation(for: UTType(filenameExtension: fileURL.pathExtension) ?? .mpeg4Movie) { completion in
-                    Task {
-                        do {
-                            let data = try Data(contentsOf: fileURL)
-                            completion(data, nil)
-                        } catch {
-                            completion(nil, error)
-                        }
-                    }
-                    return nil
-                }
-                return [mediaItemProvider]
+
+            if destination == .instagram {
+                return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
             } else {
-                return [NSItemProvider(contentsOf: fileURL)].compactMap({ $0 })
+                return fileURL as NSURL // Third party apps need URLs and won't accept Data
             }
         default:
-            return [ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).itemProvider()]
+            // Share image
+            return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
         }
     }
 

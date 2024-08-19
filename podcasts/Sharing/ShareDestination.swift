@@ -40,34 +40,23 @@ struct ShareDestination: Hashable {
         }
 
         func share(_ option: SharingModal.Option, style: ShareImageStyle) async throws {
-            let itemProviders = option.itemProviders(style: style, destination: self)
-            let (type, data) = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<(UTType, Data), Error>) in
-                if let itemProvider = itemProviders.first(where: { $0.hasItemConformingToTypeIdentifier(UTType.mpeg4Movie.identifier) }) {
-                    let type = UTType.mpeg4Movie
-                    itemProvider.loadDataRepresentation(forTypeIdentifier: type.identifier) { data, error in
-                        guard let data else {
-                            continuation.resume(throwing: ShareError.loadFailed(error))
-                            return
-                        }
-                        continuation.resume(returning: (type, data))
-                    }
-                } else if let itemProvider = itemProviders.first(where: { $0.hasItemConformingToTypeIdentifier(UTType.png.identifier) }) {
-                    let type = UTType.png
-                    itemProvider.loadDataRepresentation(forTypeIdentifier: type.identifier) { data, error in
-                        guard let data else {
-                            continuation.resume(throwing: ShareError.loadFailed(error))
-                            return
-                        }
-                        continuation.resume(returning: (type, data))
-                    }
+            let item: (Data, UTType)? = await option.shareData(style: style, destination: self).mapFirst { shareItem in
+                if let data = shareItem as? Data {
+                    return (data, style == .audio ? .m4a : .mpeg4Movie)
+                } else if let image = shareItem as? UIImage, let data = image.pngData() {
+                    return (data, .png)
                 } else {
-                    continuation.resume(throwing: ShareError.noMatchingItemIdentifier)
+                    return nil
                 }
+            }
+
+            guard let item else {
+                throw ShareError.noMatchingItemIdentifier
             }
 
             switch self {
             case .instagram:
-                await instagramShare(data: data, type: type, url: option.shareURL)
+                await instagramShare(data: item.0, type: item.1, url: option.shareURL)
             }
         }
 
@@ -122,8 +111,8 @@ struct ShareDestination: Hashable {
 
         return ShareDestination(name: L10n.shareMoreActions, icon: icon, action: { option, style in
             Task.detached {
-                let activityItems = option.itemProviders(style: style)
-                let activityViewController = await UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+                let data = await option.shareData(style: style)
+                let activityViewController = await UIActivityViewController(activityItems: data, applicationActivities: nil)
                 await vc.presentedViewController?.present(activityViewController, animated: true, completion: nil)
             }
         })

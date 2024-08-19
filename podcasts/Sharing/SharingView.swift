@@ -157,7 +157,7 @@ struct SharingView: View {
                 }
             }
 
-            let url = try await export(info: shareable.option.imageInfo,
+            let (fullURL, croppedURL) = try await export(info: shareable.option.imageInfo,
                                             style: shareable.style,
                                             episode: episode,
                                             startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
@@ -165,11 +165,7 @@ struct SharingView: View {
                                             progress: progress
             )
 
-            //TODO: Do this in parallel to speed up?
-            let fittedSize = CGSize(width: shareable.style.videoSize.width * 2, height: shareable.style.videoSize.height * 2).fitting(aspectRatio: shareable.style.previewSize)
-            let croppedURL = try await AVAsset(url: url).crop(to: fittedSize)
-
-            clipResult.exportURL = url
+            clipResult.exportURL = fullURL
             clipResult.croppedURL = croppedURL
 
             shareable.option = .clipShare(episode, clipTime, shareable.style, clipResult)
@@ -180,7 +176,7 @@ struct SharingView: View {
         }
     }
 
-    private func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
+    private func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> (URL, URL?) {
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             throw VideoExportError.failedToDownload
         }
@@ -189,7 +185,7 @@ struct SharingView: View {
         case .audio:
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("audio_export-\(UUID().uuidString)", conformingTo: .m4a)
             try await AudioClipExporter.exportAudioClip(from: playerItem.asset, startTime: startTime, duration: duration, to: url, progress: progress)
-            return url
+            return (url, nil)
         default:
             let size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
             guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
@@ -198,7 +194,11 @@ struct SharingView: View {
             let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
             try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style), with: parameters, to: url, progress: progress)
-            return url
+
+            let fittedSize = CGSize(width: shareable.style.videoSize.width * 2, height: shareable.style.videoSize.height * 2).fitting(aspectRatio: shareable.style.previewSize)
+            let croppedURL = try await AVAsset(url: url).crop(to: fittedSize)
+
+            return (url, croppedURL)
         }
     }
 }
