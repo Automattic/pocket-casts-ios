@@ -1639,6 +1639,7 @@
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F51D90722C70FF7800F0A232 /* AVAsset+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */; };
 		F51D90742C71A0A100F0A232 /* SharingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90732C71A0A100F0A232 /* SharingFooterView.swift */; };
+		F51D90762C73141B00F0A232 /* CGSize+FittingSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90752C73141B00F0A232 /* CGSize+FittingSize.swift */; };
 		F5235EE02C3CCB1D00C98739 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5235EDF2C3CCB1D00C98739 /* RoundedCorner.swift */; };
 		F5235EE22C3CE5B300C98739 /* MediaTrimBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5235EE12C3CE5B300C98739 /* MediaTrimBar.swift */; };
 		F5235EE82C3DE13100C98739 /* ScrollableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5235EE72C3DE13100C98739 /* ScrollableScrollView.swift */; };
@@ -3521,6 +3522,7 @@
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Crop.swift"; sourceTree = "<group>"; };
 		F51D90732C71A0A100F0A232 /* SharingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingFooterView.swift; sourceTree = "<group>"; };
+		F51D90752C73141B00F0A232 /* CGSize+FittingSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+FittingSize.swift"; sourceTree = "<group>"; };
 		F5235EDF2C3CCB1D00C98739 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		F5235EE12C3CE5B300C98739 /* MediaTrimBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTrimBar.swift; sourceTree = "<group>"; };
 		F5235EE72C3DE13100C98739 /* ScrollableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableScrollView.swift; sourceTree = "<group>"; };
@@ -6719,6 +6721,7 @@
 				FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */,
 				F55598102C534D4100C02EEB /* CMTimeScale+Common.swift */,
 				F57D8F172C66CDF40004C4DF /* View+CVPixelBuffer.swift */,
+				F51D90752C73141B00F0A232 /* CGSize+FittingSize.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -9403,6 +9406,7 @@
 				BDF9DDDB1B8AD29C00E77B35 /* TimeSliderLayer.swift in Sources */,
 				BDB1E4ED1B8C5BCF009AD30F /* FeaturedSummaryViewController.swift in Sources */,
 				BDD3018E1EFB9574004A9972 /* WatchConstants.swift in Sources */,
+				F51D90762C73141B00F0A232 /* CGSize+FittingSize.swift in Sources */,
 				8BD7A2382C04F0DD00CF84E8 /* UpNextHistoryViewController.swift in Sources */,
 				463538AE26E8F4AE00BA9D35 /* Server+Strings.swift in Sources */,
 				BD674B0B1F68F2BD00AC1B2B /* PlaylistManager.swift in Sources */,
