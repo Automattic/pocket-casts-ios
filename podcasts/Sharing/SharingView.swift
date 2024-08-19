@@ -125,7 +125,7 @@ struct SharingView: View {
             default:
                 EmptyView()
             }
-            Text(shareable.style.shareDescription ?? "‏")
+            Text(shareable.style.shareDescription(option: shareable.option) ?? "‏")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
