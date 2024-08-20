@@ -4,7 +4,8 @@ import PocketCastsUtils
 struct PlusPaywallContainer: View {
     @ObservedObject var viewModel: PlusLandingViewModel
 
-    @State var presentSubscriptionView = false
+    @State private var presentSubscriptionView = false
+    @State private var showingOverlay = false
 
     private let type: ContainerType
     private let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
@@ -33,6 +34,9 @@ struct PlusPaywallContainer: View {
     private var footer: some View {
         VStack(spacing: 0) {
             Button(action: {
+                withAnimation {
+                    showingOverlay.toggle()
+                }
                 presentSubscriptionView.toggle()
             }, label: {
                 Text(L10n.upgradeExperimentPaywallButton)
@@ -69,18 +73,37 @@ struct PlusPaywallContainer: View {
                 footer
             }
             .padding(.bottom, hasBottomSafeArea ? 0 : Constants.bottomPadding)
+
+            if showingOverlay {
+                Rectangle()
+                    .fill(.black)
+                    .opacity(0.7)
+            }
         }
         .background(.black)
-        .sheet(isPresented: $presentSubscriptionView) {
-            PlusPaywallSubscriptions(viewModel: viewModel)
-                .modify {
-                    if #available(iOS 16.0, *) {
-                        $0.presentationDetents([.medium])
-                            .presentationDragIndicator(.visible)
-                    } else {
-                        $0
-                    }
-                }
+        .sheet(isPresented: $presentSubscriptionView, onDismiss: {
+            withAnimation {
+                showingOverlay.toggle()
+            }
+        }, content: {
+            purchaseModal
+        })
+    }
+
+    @ViewBuilder private var purchaseModal: some View {
+        ZStack {
+            Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
+                .edgesIgnoringSafeArea(.all)
+            PlusPurchaseModal(coordinator: PlusPurchaseModel(), selectedPrice: .yearly)
+                .setupDefaultEnvironment()
+        }
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
+            }
         }
     }
 
