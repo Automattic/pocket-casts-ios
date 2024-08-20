@@ -4270,3 +4270,12 @@
 
 /* Transcript error message when transcript is empty*/
 "transcript_error_empty" = "Sorry, but it looks this transcript is empty";
+
+/* Upgrade Experiment Paywall button title */
+"upgrade_experiment_paywall_button" = "Get Pocket Casts Plus";
+
+/* Upgrade Experiment message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
+"upgrade_experiment_free_membership_format" = "Free %1$@ Plus trial";
+
+/* Upgrade Experiment message informing the user that they have been granted 50% discount. */
+"upgrade_experiment_discount_yearly_membership" = "Save 50%% off your first year";
