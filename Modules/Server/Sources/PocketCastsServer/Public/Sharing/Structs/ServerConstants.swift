@@ -39,7 +39,7 @@ public enum ServerConstants {
         }
 
         public static let support = "https://support.pocketcasts.com/ios/"
-        public static let cancelSubscription = "https://support.pocketcasts.com/article/subscription-info/"
+        public static let cancelSubscription = "https://support.pocketcasts.com/knowledge-base/how-to-cancel-a-subscription/"
         public static let termsOfUse = "https://support.pocketcasts.com/article/terms-of-use/"
         public static let privacyPolicy = "https://support.pocketcasts.com/article/privacy-policy/"
         public static let plusInfo = "https://pocketcasts.com/plus/"
