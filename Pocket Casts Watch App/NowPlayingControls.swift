@@ -131,11 +131,15 @@ struct NowPlayingView_Previews: PreviewProvider {
 
 struct HandGestureShortcutPrimaryAction: ViewModifier {
     public func body(content: Content) -> some View {
+        #if XCODE1600
         if #available(watchOS 11.0, *) {
             content
                 .handGestureShortcut(.primaryAction)
         } else {
             content
         }
+        #else
+            content
+        #endif
     }
 }
