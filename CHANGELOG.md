@@ -7,6 +7,7 @@
 - Fix auto-play when Skip Last setting is working [#2019](https://github.com/Automattic/pocket-casts-ios/pull/2037)
 - Kids Profile banner implementation [#1935](https://github.com/Automattic/pocket-casts-ios/issues/1935)
 - Fix rapidly tapping skip back resulting in skip forward [#2041](https://github.com/Automattic/pocket-casts-ios/issues/2041)
+- Subscription cancellation redirects now to a correct page. [#2070](https://github.com/Automattic/pocket-casts-ios/pull/2070)
 
 7.70
 -----
