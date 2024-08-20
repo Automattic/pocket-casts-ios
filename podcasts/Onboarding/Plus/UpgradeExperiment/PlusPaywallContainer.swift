@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsUtils
+import PocketCastsServer
 
 struct PlusPaywallContainer: View {
     @ObservedObject var viewModel: PlusLandingViewModel
@@ -33,15 +34,30 @@ struct PlusPaywallContainer: View {
 
     private var footer: some View {
         VStack(spacing: 0) {
+            let isLoading = viewModel.priceAvailability == .loading
             Button(action: {
-                withAnimation {
-                    showingOverlay.toggle()
+                guard SyncManager.isUserLoggedIn() else {
+                    viewModel.presentLogin()
+                    return
                 }
-                presentSubscriptionView.toggle()
+
+                viewModel.loadPrices { [weak viewModel] in
+                    switch viewModel?.priceAvailability {
+                    case .available:
+                        withAnimation {
+                            showingOverlay.toggle()
+                        }
+                        presentSubscriptionView.toggle()
+                    case .failed:
+                        viewModel?.showError()
+                    default:
+                        break
+                    }
+                }
             }, label: {
                 Text(L10n.upgradeExperimentPaywallButton)
             })
-            .buttonStyle(PlusOpaqueButtonStyle(isLoading: false, plan: .plus))
+            .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: .plus))
             .padding(.horizontal, Constants.buttonHPadding)
 
             if let offer = subscriptionInfo?.offer {
@@ -50,6 +66,23 @@ struct PlusPaywallContainer: View {
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white)
                     .padding(.top, Constants.offerTextTopPadding)
+            }
+        }
+    }
+
+    @ViewBuilder private var purchaseModal: some View {
+        ZStack {
+            Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
+                .edgesIgnoringSafeArea(.all)
+            PlusPurchaseModal(coordinator: viewModel, selectedPrice: .yearly)
+                .setupDefaultEnvironment()
+        }
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
             }
         }
     }
@@ -88,23 +121,6 @@ struct PlusPaywallContainer: View {
         }, content: {
             purchaseModal
         })
-    }
-
-    @ViewBuilder private var purchaseModal: some View {
-        ZStack {
-            Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
-                .edgesIgnoringSafeArea(.all)
-            PlusPurchaseModal(coordinator: PlusPurchaseModel(), selectedPrice: .yearly)
-                .setupDefaultEnvironment()
-        }
-        .modify {
-            if #available(iOS 16.0, *) {
-                $0.presentationDetents([.medium])
-                    .presentationDragIndicator(.visible)
-            } else {
-                $0
-            }
-        }
     }
 
     @ViewBuilder
