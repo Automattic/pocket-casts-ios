@@ -33,8 +33,8 @@
 		10756F882C59449C0089D34F /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
 		10756F892C59449C0089D34F /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
 		10756F8B2C5945C00089D34F /* KidsProfileSubmitScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F8A2C5945C00089D34F /* KidsProfileSubmitScreen.swift */; };
-		107836262C62816900DA3FF0 /* ABTestProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107836252C62816900DA3FF0 /* ABTestProviderTests.swift */; };
 		107836232C5CDD5000DA3FF0 /* GiveRatingsWhatsNewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107836222C5CDD5000DA3FF0 /* GiveRatingsWhatsNewHeader.swift */; };
+		107836262C62816900DA3FF0 /* ABTestProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107836252C62816900DA3FF0 /* ABTestProviderTests.swift */; };
 		10A4F7532C515D720084D783 /* KidsProfile.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A4F7522C515D720084D783 /* KidsProfile.xcassets */; };
 		10A4F7562C5162C90084D783 /* KidsProfileBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */; };
 		10A4F7582C52635F0084D783 /* KidsProfileBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */; };
@@ -1921,8 +1921,8 @@
 		10756F842C5944660089D34F /* Podcast+Sortable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Podcast+Sortable.swift"; sourceTree = "<group>"; };
 		10756F872C59449C0089D34F /* Folder+Sortable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+Sortable.swift"; sourceTree = "<group>"; };
 		10756F8A2C5945C00089D34F /* KidsProfileSubmitScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileSubmitScreen.swift; path = "Kids Profile/KidsProfileSubmitScreen.swift"; sourceTree = "<group>"; };
-		107836252C62816900DA3FF0 /* ABTestProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestProviderTests.swift; sourceTree = "<group>"; };
 		107836222C5CDD5000DA3FF0 /* GiveRatingsWhatsNewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiveRatingsWhatsNewHeader.swift; sourceTree = "<group>"; };
+		107836252C62816900DA3FF0 /* ABTestProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestProviderTests.swift; sourceTree = "<group>"; };
 		10A4F7522C515D720084D783 /* KidsProfile.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = KidsProfile.xcassets; sourceTree = "<group>"; };
 		10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerTableCell.swift; path = "Kids Profile/KidsProfileBannerTableCell.swift"; sourceTree = "<group>"; };
 		10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerView.swift; path = "Kids Profile/KidsProfileBannerView.swift"; sourceTree = "<group>"; };
@@ -10457,6 +10457,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D STAGING -D DEBUG -D XCODE$(XCODE_VERSION_MAJOR)";
 				SDKROOT = iphoneos;
 				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
@@ -11555,6 +11556,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D XCODE$(XCODE_VERSION_MAJOR)";
 				SDKROOT = iphoneos;
 				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
@@ -11791,6 +11793,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D XCODE$(XCODE_VERSION_MAJOR)";
 				SDKROOT = iphoneos;
 				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
@@ -11841,6 +11844,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_SWIFT_FLAGS = "-D XCODE$(XCODE_VERSION_MAJOR)";
 				SDKROOT = iphoneos;
 				SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/pocket_casts_credentials.json";
 				SWIFT_COMPILATION_MODE = singlefile;
