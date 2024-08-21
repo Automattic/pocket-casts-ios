@@ -9,6 +9,7 @@
 - Fix rapidly tapping skip back resulting in skip forward [#2041](https://github.com/Automattic/pocket-casts-ios/issues/2041)
 - Subscription cancellation redirects now to a correct page. [#2070](https://github.com/Automattic/pocket-casts-ios/pull/2070)
 - watchOS 11: add double-tap gesture to play/pause. [#2054](https://github.com/Automattic/pocket-casts-ios/pull/2054)
+- Build the app using Xcode 16. If you face any crashes or issues please let us know. [#2078](https://github.com/Automattic/pocket-casts-ios/pull/2078)
 
 7.70
 -----
