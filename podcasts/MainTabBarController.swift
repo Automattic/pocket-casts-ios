@@ -280,6 +280,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         switchToTab(.discover)
     }
 
+    func navigateToUpNext(_ animated: Bool) {
+        switchToTab(.upNext)
+    }
+
     func navigateToProfile(_ animated: Bool) {
         switchToTab(.profile)
     }
