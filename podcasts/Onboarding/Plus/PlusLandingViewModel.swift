@@ -26,8 +26,7 @@ class PlusLandingViewModel: PlusPurchaseModel {
         OnboardingFlow.shared.track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
-            let controller = LoginCoordinator.make(in: navigationController, continuePurchasing: product)
-            navigationController?.pushViewController(controller, animated: true)
+            presentLogin(with: product)
             return
         }
 
@@ -51,6 +50,11 @@ class PlusLandingViewModel: PlusPurchaseModel {
         OnboardingFlow.shared.track(.plusPromotionDismissed)
     }
 
+    func presentLogin(with product: ProductInfo? = nil) {
+        let controller = LoginCoordinator.make(in: navigationController, continuePurchasing: product)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
     func dismissTapped() {
         OnboardingFlow.shared.track(.plusPromotionDismissed)
 
@@ -68,6 +72,10 @@ class PlusLandingViewModel: PlusPurchaseModel {
             return nil
         }
         return pricingInfo
+    }
+
+    func showError() {
+        SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: navigationController)
     }
 
     private func product(for plan: Plan, frequency: PlanFrequency) -> PlusProductPricingInfo? {
@@ -111,10 +119,6 @@ private extension PlusLandingViewModel {
         purchase(product: product.identifier)
         return
     }
-
-    func showError() {
-        SJUIUtils.showAlert(title: L10n.plusUpgradeNoInternetTitle, message: L10n.plusUpgradeNoInternetMessage, from: navigationController)
-    }
 }
 
 extension PlusLandingViewModel {
@@ -138,7 +142,7 @@ extension PlusLandingViewModel {
 
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
-        if FeatureFlag.upgradeExperiment.enabled {
+        if FeatureFlag.upgradeExperiment.enabled, !SubscriptionHelper.hasActiveSubscription() {
             //Include here the A/B test experiment:
             // Control variant: UpgradeLandingView
             // Features: PlusPaywallContainer(viewModel: viewModel, type: .features)
