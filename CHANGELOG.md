@@ -1,6 +1,12 @@
+7.72
+-----
+
+
 7.71
 -----
+- Fix auto-play when Skip Last setting is working [#2019](https://github.com/Automattic/pocket-casts-ios/pull/2037)
 - Kids Profile banner implementation [#1935](https://github.com/Automattic/pocket-casts-ios/issues/1935)
+- Fix rapidly tapping skip back resulting in skip forward [#2041](https://github.com/Automattic/pocket-casts-ios/issues/2041)
 
 7.70
 -----
@@ -8,6 +14,7 @@
 - Adds the ability to rate podcasts [#1879](https://github.com/Automattic/pocket-casts-ios/issues/1879)
 - Improve the sort by name algorithm [#1959](https://github.com/Automattic/pocket-casts-ios/issues/1959)
 - Attempt fixing rapidly tapping skip back results in skipping forward [#1950](https://github.com/Automattic/pocket-casts-ios/issues/1950)
+- Add the Cancel button to dismiss the Alert Controller in Help & Support [#2035](https://github.com/Automattic/pocket-casts-ios/issues/2035)
 
 7.69
 -----

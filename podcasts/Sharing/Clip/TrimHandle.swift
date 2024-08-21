@@ -8,6 +8,7 @@ struct TrimHandle: View {
 
     @Binding var position: CGFloat
     let side: Side
+    let indicatorWidth: CGFloat
     let onChanged: (CGFloat) -> Void
 
     private enum Constants {
@@ -59,7 +60,7 @@ struct TrimHandle: View {
         case .leading:
             position - Constants.width
         case .trailing:
-            position
+            position + indicatorWidth
         }
     }
 

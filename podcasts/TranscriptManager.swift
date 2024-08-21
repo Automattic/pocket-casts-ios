@@ -11,15 +11,15 @@ enum TranscriptError: Error {
     var localizedDescription: String {
         switch self {
         case .notAvailable:
-            return "Transcript not available"
+            return L10n.transcriptErrorNotAvailable
         case .failedToLoad:
-            return "Transcript failed to load"
+            return L10n.transcriptErrorFailedToLoad
         case .notSupported(let format):
-            return "Transcript format not supported: \(format)"
+            return L10n.transcriptErrorNotSupported(format)
         case .failedToParse:
-            return "Transcript failed to parse"
+            return L10n.transcriptErrorFailedToParse
         case .empty:
-            return "Transcript is empty"
+            return L10n.transcriptErrorEmpty
         }
     }
 }
@@ -42,11 +42,27 @@ class TranscriptManager {
 
     public func loadTranscript() async throws -> TranscriptModel {
         guard
-            let transcripts = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID, cacheTranscript: false),
-            let transcript = TranscriptFormat.bestTranscript(from: transcripts) else {
+            let transcripts = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
+            !transcripts.isEmpty else {
             throw TranscriptError.notAvailable
         }
+        var transcriptsAvailable = transcripts
+        while let transcript = TranscriptFormat.bestTranscript(from: transcriptsAvailable) {
+            do {
+                let model = try await loadTranscript(transcript)
+                return model
+            } catch TranscriptError.empty, TranscriptError.failedToParse {
+                transcriptsAvailable.removeAll { other in
+                    other.transcriptFormat == transcript.transcriptFormat
+                }
+            } catch {
+                throw error
+            }
+        }
+        throw TranscriptError.failedToLoad
+    }
 
+    private func loadTranscript(_ transcript: Transcript) async throws -> TranscriptModel {
         guard let transcriptFormat = transcript.transcriptFormat else {
             throw TranscriptError.notSupported(format: transcript.type)
         }

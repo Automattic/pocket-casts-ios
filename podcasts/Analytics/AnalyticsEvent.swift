@@ -704,4 +704,18 @@ enum AnalyticsEvent: String {
     case kidsProfileThankYouForYourInterestSeen
     case kidsProfileFeedbackFormSeen
     case kidsProfileFeedbackSent
+
+    // MARK: - Transcript
+
+    case transcriptShown
+    case transcriptError
+    case transcriptDismissed
+    case transcriptSearch
+    case transcriptSearchNextResult
+    case transcriptSearchPreviousResult
+
+    // MARK: - Widgets
+
+    case widgetInstalled
+    case widgetUninstalled
 }

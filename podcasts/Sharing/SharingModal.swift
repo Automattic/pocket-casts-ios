@@ -10,7 +10,7 @@ enum SharingModal {
         case podcast(Podcast)
         case currentPosition(Episode, TimeInterval)
         case clip(Episode, TimeInterval)
-        case clipShare(Episode, ClipTime)
+        case clipShare(Episode, ClipTime, ShareImageStyle, ClipResult)
 
         var buttonTitle: String {
             switch self {
@@ -25,7 +25,7 @@ enum SharingModal {
             }
         }
 
-        var shareTitle: String {
+        func shareTitle(style: ShareImageStyle) -> String {
             switch self {
             case .episode:
                 L10n.shareEpisode
@@ -34,7 +34,12 @@ enum SharingModal {
             case .podcast:
                 L10n.sharePodcast
             case .clip:
-                L10n.createClip
+                switch style {
+                case .audio:
+                    L10n.createAudioClipTitle
+                default:
+                    L10n.createClip
+                }
             case .clipShare:
                 L10n.shareClip
             }
@@ -92,7 +97,7 @@ enum SharingModal {
     }
 
     static func show(option: Option, in viewController: UIViewController) {
-        let sharingDestinations: [ShareDestination] = [.copyLinkOption, .moreOption(vc: viewController)]
+        let sharingDestinations: [ShareDestination] = ShareDestination.displayedApps + [.copyLinkOption, .moreOption(vc: viewController)]
         let sharingView = SharingView(destinations: sharingDestinations, selectedOption: option)
         let modalView = ModalView {
             sharingView
@@ -110,7 +115,7 @@ enum SharingModal {
 extension SharingModal.Option {
     private var description: String {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
             if let date = episode.publishedDate {
                 return date.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted))
             } else {
@@ -123,7 +128,7 @@ extension SharingModal.Option {
 
     private var title: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
             episode.title
         case .podcast(let podcast):
             podcast.title
@@ -132,7 +137,7 @@ extension SharingModal.Option {
 
     private var name: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
             episode.parentPodcast()?.title
         case .podcast(let podcast):
             podcast.author
@@ -141,7 +146,7 @@ extension SharingModal.Option {
 
     private var podcast: Podcast {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
             return episode.parentPodcast()!
         case .podcast(let podcast):
             return podcast
@@ -162,6 +167,43 @@ extension SharingModal.Option {
         return imageInfo
     }
 
+    @MainActor
+    func shareData(style: ShareImageStyle, destination: ShareDestination.Destination? = nil) -> [Any] {
+        let url = URL(string: shareURL) as NSURL?
+        let media = mediaData(style: style, destination: destination)
+        return [url, media].compactMap({ $0 })
+    }
+
+    @MainActor
+    func mediaData(style: ShareImageStyle, destination: ShareDestination.Destination?) -> Any? {
+        switch self {
+        case .clipShare(_, _, _, let progress):
+            // Share video/audio clip. If sending to instagram or audio, send full file, otherwise send cropped version.
+            let fileURL: URL?
+            switch (destination, style) {
+            case (.instagram, _):
+                fileURL = progress.exportURL
+            case (_, .audio):
+                fileURL = progress.exportURL
+            default:
+                fileURL = progress.croppedURL
+            }
+
+            guard let fileURL else {
+                return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
+            }
+
+            if destination == .instagram {
+                return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
+            } else {
+                return fileURL as NSURL // Third party apps need URLs and won't accept Data
+            }
+        default:
+            // Share image
+            return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
+        }
+    }
+
     var shareURL: String {
         switch self {
         case .episode(let episode):
@@ -172,7 +214,7 @@ extension SharingModal.Option {
             return episode.shareURL + "?t=\(round(timeInterval))"
         case .clip(let episode, let timeInterval):
             return episode.shareURL + "?t=\(round(timeInterval))"
-        case .clipShare(let episode, let clipTime):
+        case .clipShare(let episode, let clipTime, _, _):
             return episode.shareURL + "?t=\(clipTime.start),\(clipTime.end)"
         }
     }

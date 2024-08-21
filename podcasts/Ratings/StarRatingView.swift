@@ -8,6 +8,9 @@ struct StarRatingView: View {
 
     @State private var dismissAction: RatePodcastViewModel.DismissAction = .default
 
+    // To reload the view after rate and dismiss the rating sheet
+    private var onRate: () -> Void
+
     /// Keeps track of when we appear to determine if we should animate
     private var startDate: Date = .now
 
@@ -18,8 +21,9 @@ struct StarRatingView: View {
         viewModel.rating != nil && Date().timeIntervalSince(startDate) > Constants.minTimeBeforeAnimating
     }
 
-    init(viewModel: PodcastRatingViewModel) {
+    init(viewModel: PodcastRatingViewModel, onRate: @escaping () -> Void) {
         self.viewModel = viewModel
+        self.onRate = onRate
     }
 
     var body: some View {
@@ -37,6 +41,9 @@ struct StarRatingView: View {
                 ratingView(rating: viewModel.rating)
                     .frame(height: 16)
                     .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
+                    .onTapGesture {
+                        viewModel.didTapRating()
+                    }
 
                 Spacer()
 
@@ -57,7 +64,7 @@ struct StarRatingView: View {
                 dismissAction = .default
             }, content: {
                 if let podcast = viewModel.podcast {
-                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, dismissAction: $dismissAction, podcast: podcast))
+                    RatePodcastView(viewModel: RatePodcastViewModel(presented: $viewModel.presentingGiveRatings, dismissAction: $dismissAction, podcast: podcast, onRate: onRate))
                 }
             })
 
