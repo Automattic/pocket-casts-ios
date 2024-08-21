@@ -2,8 +2,6 @@ import SwiftUI
 import PocketCastsServer
 
 struct PlusPaywallFeaturesCarousell: View {
-    @ObservedObject var viewModel: PlusLandingViewModel
-
     let tier: UpgradeTier
 
     private var cards: [FeatureCards] {
@@ -30,14 +28,18 @@ struct PlusPaywallFeaturesCarousell: View {
     }
 
     private var carousel: some View {
-        HorizontalCarousel(items: cards) { item in
-            Rectangle()
-                .fill(.red)
-                .frame(height: 394)
+        GeometryReader { proxy in
+            HorizontalCarousel(items: cards) { item in
+                Rectangle()
+                    .fill(.red)
+                    .frame(height: 394)
+                    .id(item.id)
+            }
+            .carouselItemSpacing(16)
+            .carouselPeekAmount(.constant(proxy.size.width - 349))
+            .carouselScrollEnabled(!cards.isEmpty)
+            .padding(.leading, 20)
         }
-        .carouselItemSpacing(16)
-        .carouselPeekAmount(.constant(20))
-        .carouselScrollEnabled(!cards.isEmpty)
     }
 
     var body: some View {
@@ -66,5 +68,6 @@ struct PlusPaywallFeaturesCarousell: View {
 }
 
 #Preview {
-    PlusPaywallFeaturesCarousell(viewModel: PlusLandingViewModel(source: .login), tier: .plus)
+    PlusPaywallFeaturesCarousell(tier: .plus)
+        .background(.black)
 }
