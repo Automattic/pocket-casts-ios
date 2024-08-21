@@ -1,6 +1,6 @@
 7.72
 -----
-
+- Fix keyboard shortcuts order for MainTabBarController [#1951](https://github.com/Automattic/pocket-casts-ios/issues/1951)
 
 7.71
 -----
