@@ -1,6 +1,6 @@
 7.72
 -----
-
+- Fix playback when switching from iPhone speaker to other audio outputs with trim silence enabled [#2049](https://github.com/Automattic/pocket-casts-ios/issues/2049)
 
 7.71
 -----
