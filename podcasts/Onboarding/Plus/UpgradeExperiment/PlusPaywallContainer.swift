@@ -1,10 +1,12 @@
 import SwiftUI
 import PocketCastsUtils
+import PocketCastsServer
 
 struct PlusPaywallContainer: View {
     @ObservedObject var viewModel: PlusLandingViewModel
 
-    @State var presentSubscriptionView = false
+    @State private var presentSubscriptionView = false
+    @State private var showingOverlay = false
 
     private let type: ContainerType
     private let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
@@ -32,12 +34,30 @@ struct PlusPaywallContainer: View {
 
     private var footer: some View {
         VStack(spacing: 0) {
+            let isLoading = viewModel.priceAvailability == .loading
             Button(action: {
-                presentSubscriptionView.toggle()
+                guard SyncManager.isUserLoggedIn() else {
+                    viewModel.presentLogin()
+                    return
+                }
+
+                viewModel.loadPrices { [weak viewModel] in
+                    switch viewModel?.priceAvailability {
+                    case .available:
+                        withAnimation {
+                            showingOverlay.toggle()
+                        }
+                        presentSubscriptionView.toggle()
+                    case .failed:
+                        viewModel?.showError()
+                    default:
+                        break
+                    }
+                }
             }, label: {
                 Text(L10n.upgradeExperimentPaywallButton)
             })
-            .buttonStyle(PlusOpaqueButtonStyle(isLoading: false, plan: .plus))
+            .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: .plus))
             .padding(.horizontal, Constants.buttonHPadding)
 
             if let offer = subscriptionInfo?.offer {
@@ -46,6 +66,25 @@ struct PlusPaywallContainer: View {
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white)
                     .padding(.top, Constants.offerTextTopPadding)
+            }
+        }
+    }
+
+    @ViewBuilder private var purchaseModal: some View {
+        ZStack {
+            if #unavailable(iOS 16.4) {
+                Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
+                    .edgesIgnoringSafeArea(.all)
+            }
+            PlusPurchaseModal(coordinator: viewModel, selectedPrice: .yearly)
+                .setupDefaultEnvironment()
+        }
+        .modify {
+            if #available(iOS 16.0, *) {
+                $0.presentationDetents([.custom(PlusPurchaseModalDetent.self)])
+                    .presentationDragIndicator(.visible)
+            } else {
+                $0
             }
         }
     }
@@ -69,19 +108,30 @@ struct PlusPaywallContainer: View {
                 footer
             }
             .padding(.bottom, hasBottomSafeArea ? 0 : Constants.bottomPadding)
+
+            if showingOverlay {
+                Rectangle()
+                    .fill(.black)
+                    .opacity(0.7)
+            }
         }
         .background(.black)
-        .sheet(isPresented: $presentSubscriptionView) {
-            PlusPaywallSubscriptions(viewModel: viewModel)
+        .sheet(isPresented: $presentSubscriptionView, onDismiss: {
+            withAnimation {
+                showingOverlay.toggle()
+            }
+        }, content: {
+            purchaseModal
                 .modify {
-                    if #available(iOS 16.0, *) {
-                        $0.presentationDetents([.medium])
-                            .presentationDragIndicator(.visible)
+                    if #available(iOS 16.4, *) {
+                        $0.presentationBackground {
+                            Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
+                        }
                     } else {
                         $0
                     }
                 }
-        }
+        })
     }
 
     @ViewBuilder
@@ -107,6 +157,13 @@ struct PlusPaywallContainer: View {
         static let offerTextTopPadding = 12.0
 
         static let buttonHPadding = 20.0
+    }
+
+    @available(iOS 16.0, *)
+    struct PlusPurchaseModalDetent: CustomPresentationDetent {
+        static func height(in context: Context) -> CGFloat? {
+            min(460, context.maxDetentValue)
+        }
     }
 }
 

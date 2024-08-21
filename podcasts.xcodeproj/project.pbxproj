@@ -45,7 +45,6 @@
 		10A4F7692C540EBE0084D783 /* KidsProfileSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7682C540EBE0084D783 /* KidsProfileSheetViewModel.swift */; };
 		10C1D5502C737EEF009E1E98 /* PlusPaywallContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1D54E2C737EEF009E1E98 /* PlusPaywallContainer.swift */; };
 		10C1D5522C738725009E1E98 /* PlusPaywallFeaturesCarousell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1D5512C738725009E1E98 /* PlusPaywallFeaturesCarousell.swift */; };
-		10C1D5542C739043009E1E98 /* PlusPaywallSubscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1D5532C739043009E1E98 /* PlusPaywallSubscriptions.swift */; };
 		10DFE9312C5A889700957D0A /* CategoryPodcastsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9302C5A889700957D0A /* CategoryPodcastsTable.swift */; };
 		10DFE9362C5A8D1300957D0A /* ABTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9322C5A8D1300957D0A /* ABTest.swift */; };
 		10DFE9372C5A8D1300957D0A /* ABTestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */; };
@@ -1943,7 +1942,6 @@
 		10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10C1D54E2C737EEF009E1E98 /* PlusPaywallContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusPaywallContainer.swift; sourceTree = "<group>"; };
 		10C1D5512C738725009E1E98 /* PlusPaywallFeaturesCarousell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallFeaturesCarousell.swift; sourceTree = "<group>"; };
-		10C1D5532C739043009E1E98 /* PlusPaywallSubscriptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallSubscriptions.swift; sourceTree = "<group>"; };
 		10DFE9302C5A889700957D0A /* CategoryPodcastsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPodcastsTable.swift; sourceTree = "<group>"; };
 		10DFE9322C5A8D1300957D0A /* ABTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTest.swift; sourceTree = "<group>"; };
 		10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABTestProvider.swift; sourceTree = "<group>"; };
@@ -3819,7 +3817,6 @@
 			children = (
 				10C1D54E2C737EEF009E1E98 /* PlusPaywallContainer.swift */,
 				10C1D5512C738725009E1E98 /* PlusPaywallFeaturesCarousell.swift */,
-				10C1D5532C739043009E1E98 /* PlusPaywallSubscriptions.swift */,
 			);
 			path = UpgradeExperiment;
 			sourceTree = "<group>";
@@ -9281,7 +9278,6 @@
 				4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */,
 				BDF5FD1E1FD8D38900F2A339 /* DownloadsViewController+Table.swift in Sources */,
 				C72CED32289DA1900017883A /* TracksAdapter.swift in Sources */,
-				10C1D5542C739043009E1E98 /* PlusPaywallSubscriptions.swift in Sources */,
 				8BA55A0D28CA4540002BECC5 /* AnalyticsPlaybackHelper.swift in Sources */,
 				FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */,
 				BDBD2AC5202D64D700E0A79E /* OptionsPicker.swift in Sources */,
