@@ -6,7 +6,6 @@ struct PlusPaywallContainer: View {
     @ObservedObject var viewModel: PlusLandingViewModel
 
     @State private var presentSubscriptionView = false
-    @State private var showingOverlay = false
 
     private let type: ContainerType
     private let subscriptionInfo: PlusPricingInfoModel.PlusProductPricingInfo?
@@ -44,9 +43,6 @@ struct PlusPaywallContainer: View {
                 viewModel.loadPrices { [weak viewModel] in
                     switch viewModel?.priceAvailability {
                     case .available:
-                        withAnimation {
-                            showingOverlay.toggle()
-                        }
                         presentSubscriptionView.toggle()
                     case .failed:
                         viewModel?.showError()
@@ -59,6 +55,7 @@ struct PlusPaywallContainer: View {
             })
             .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: .plus))
             .padding(.horizontal, Constants.buttonHPadding)
+            .frame(maxWidth: 500)
 
             if let offer = subscriptionInfo?.offer {
                 Text(offer.experimentDescription)
@@ -73,7 +70,7 @@ struct PlusPaywallContainer: View {
     @ViewBuilder private var purchaseModal: some View {
         ZStack {
             if #unavailable(iOS 16.4) {
-                Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
+                Constants.sheetBackgroundColor
                     .edgesIgnoringSafeArea(.all)
             }
             PlusPurchaseModal(coordinator: viewModel, selectedPrice: .yearly)
@@ -108,37 +105,27 @@ struct PlusPaywallContainer: View {
                 footer
             }
             .padding(.bottom, hasBottomSafeArea ? 0 : Constants.bottomPadding)
-
-            if showingOverlay {
-                Rectangle()
-                    .fill(.black)
-                    .opacity(0.7)
-            }
         }
         .background(.black)
-        .sheet(isPresented: $presentSubscriptionView, onDismiss: {
-            withAnimation {
-                showingOverlay.toggle()
-            }
-        }, content: {
+        .sheet(isPresented: $presentSubscriptionView) {
             purchaseModal
                 .modify {
                     if #available(iOS 16.4, *) {
                         $0.presentationBackground {
-                            Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
+                            Constants.sheetBackgroundColor
                         }
                     } else {
                         $0
                     }
                 }
-        })
+        }
     }
 
     @ViewBuilder
     private func container() -> some View {
         switch type {
         case .features:
-            PlusPaywallFeaturesCarousell(viewModel: viewModel, tier: tier)
+            PlusPaywallFeaturesCarousell(tier: tier)
         case .social:
             Rectangle()
                 .fill(.yellow)
@@ -157,6 +144,8 @@ struct PlusPaywallContainer: View {
         static let offerTextTopPadding = 12.0
 
         static let buttonHPadding = 20.0
+
+        static let sheetBackgroundColor = Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
     }
 
     @available(iOS 16.0, *)
