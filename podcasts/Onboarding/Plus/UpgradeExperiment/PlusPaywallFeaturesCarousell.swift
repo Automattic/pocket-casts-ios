@@ -6,6 +6,14 @@ struct PlusPaywallFeaturesCarousell: View {
 
     let tier: UpgradeTier
 
+    private var cards: [FeatureCards] {
+        return [
+            FeatureCards(id: UUID()),
+            FeatureCards(id: UUID()),
+            FeatureCards(id: UUID())
+        ]
+    }
+
     private var title: some View {
         Text(tier.header)
             .font(size: Constants.titleSize, style: .body, weight: .bold)
@@ -21,12 +29,22 @@ struct PlusPaywallFeaturesCarousell: View {
             .padding(.bottom, Constants.badgeBottomPadding)
     }
 
+    private var carousel: some View {
+        HorizontalCarousel(items: cards) { item in
+            Rectangle()
+                .fill(.red)
+                .frame(height: 394)
+        }
+        .carouselItemSpacing(16)
+        .carouselPeekAmount(.constant(20))
+        .carouselScrollEnabled(!cards.isEmpty)
+    }
+
     var body: some View {
         ScrollView {
             badge
             title
-            Rectangle()
-                .fill(.red)
+            carousel
                 .frame(height: 394)
         }
     }
@@ -40,6 +58,10 @@ struct PlusPaywallFeaturesCarousell: View {
         static let titleLineLimit = 2
         static let titleHPadding = 32.0
         static let titleBottomPadding = 40.0
+    }
+
+    private struct FeatureCards: Identifiable {
+        var id: UUID
     }
 }
 
