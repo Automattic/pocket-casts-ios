@@ -427,6 +427,11 @@ platform :ios do
   lane :finalize_release do |options|
     UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead') if ios_current_branch_is_hotfix
 
+    # Temporarily: we should remove after moving to Xcode 16 in definitive
+    if !UI.confirm('Please ensure Xcode image is set to xcode-15.4 before moving forward, if it is, type y. If not, type n.')
+      UI.user_error!('Before submitting the app to release please change the CI image to xcode-15.4')
+    end
+
     require_env_vars!('GITHUB_TOKEN')
 
     # Verify that there's nothing in progress in the working copy
