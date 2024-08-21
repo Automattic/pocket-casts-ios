@@ -72,14 +72,16 @@ struct PlusPaywallContainer: View {
 
     @ViewBuilder private var purchaseModal: some View {
         ZStack {
-            Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
-                .edgesIgnoringSafeArea(.all)
+            if #unavailable(iOS 16.4) {
+                Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
+                    .edgesIgnoringSafeArea(.all)
+            }
             PlusPurchaseModal(coordinator: viewModel, selectedPrice: .yearly)
                 .setupDefaultEnvironment()
         }
         .modify {
             if #available(iOS 16.0, *) {
-                $0.presentationDetents([.medium])
+                $0.presentationDetents([.custom(PlusPurchaseModalDetent.self)])
                     .presentationDragIndicator(.visible)
             } else {
                 $0
@@ -120,6 +122,15 @@ struct PlusPaywallContainer: View {
             }
         }, content: {
             purchaseModal
+                .modify {
+                    if #available(iOS 16.4, *) {
+                        $0.presentationBackground {
+                            Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
+                        }
+                    } else {
+                        $0
+                    }
+                }
         })
     }
 
@@ -146,6 +157,13 @@ struct PlusPaywallContainer: View {
         static let offerTextTopPadding = 12.0
 
         static let buttonHPadding = 20.0
+    }
+
+    @available(iOS 16.0, *)
+    struct PlusPurchaseModalDetent: CustomPresentationDetent {
+        static func height(in context: Context) -> CGFloat? {
+            min(460, context.maxDetentValue)
+        }
     }
 }
 
