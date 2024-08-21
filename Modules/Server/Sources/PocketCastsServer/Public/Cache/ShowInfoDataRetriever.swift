@@ -51,7 +51,7 @@ public actor ShowInfoDataRetriever {
 
         FileLog.shared.addMessage("Show Info: requesting info for podcast \(podcastUuid)")
 
-        let task = Task<Data, Error> { [weak self] in
+        let task = Task<Data, Error> { [weak self, request] in
             guard let self else { throw TaskError.nilSelf }
 
             do {
