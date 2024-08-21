@@ -7,6 +7,7 @@
 - Fix auto-play when Skip Last setting is working [#2019](https://github.com/Automattic/pocket-casts-ios/pull/2037)
 - Kids Profile banner implementation [#1935](https://github.com/Automattic/pocket-casts-ios/issues/1935)
 - Fix rapidly tapping skip back resulting in skip forward [#2041](https://github.com/Automattic/pocket-casts-ios/issues/2041)
+- Fix profile header view when using iPad multitask modes [#2074](https://github.com/Automattic/pocket-casts-ios/pull/2074) 
 
 7.70
 -----
