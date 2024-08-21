@@ -89,7 +89,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         }
 
         let task = Task<Episode.Metadata?, Error> { [weak self] in
-            guard let self else { return nil }
+            guard let self else { throw TaskError.nilSelf }
 
             do {
                 let data = try await dataRetriever.loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid)

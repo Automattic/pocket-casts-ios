@@ -110,6 +110,6 @@ public actor ShowInfoDataRetriever {
     }
 }
 
-enum TaskError: Error {
+public enum TaskError: Error {
     case nilSelf
 }
