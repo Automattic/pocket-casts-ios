@@ -164,8 +164,55 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
     }
 
-    @objc private func referralsTapped() {
+    private var numberOfReferralsAvailable: Int = 3
 
+    private lazy var referralsBadge: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.text = "\(numberOfReferralsAvailable)"
+        label.backgroundColor = UIColor.init(hex: "#DE2324")
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 8
+        label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+        return label
+    }()
+
+    private lazy var referralsButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "gift"), for: .normal)
+        button.addTarget(self, action: #selector(referralsTapped), for: .touchUpInside)
+        button.addSubview(referralsBadge)
+        NSLayoutConstraint.activate(
+            [
+                button.widthAnchor.constraint(equalToConstant: 24),
+                button.heightAnchor.constraint(equalToConstant: 24),
+                referralsBadge.widthAnchor.constraint(equalToConstant: 16),
+                referralsBadge.heightAnchor.constraint(equalToConstant: 16),
+                referralsBadge.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: -8),
+                referralsBadge.topAnchor.constraint(equalTo: button.topAnchor, constant: -4)
+            ]
+        )
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = false
+        button.bringSubviewToFront(referralsBadge)
+        return button
+    }()
+
+    private func updateReferrals() {
+        if numberOfReferralsAvailable > 0 {
+            numberOfReferralsAvailable -= 1
+        } else {
+            numberOfReferralsAvailable = 3
+        }
+        referralsBadge.text = "\(numberOfReferralsAvailable)"
+        referralsBadge.isHidden = numberOfReferralsAvailable == 0
+    }
+
+    @objc private func referralsTapped() {
+        updateReferrals()
     }
 
     private func showAccountController() {
@@ -213,7 +260,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func updateLastRefreshDetails() {
         if areReferralsAvailable {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "gift"), style: .plain, target: self, action: #selector(referralsTapped))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: referralsButton)
         } else {
             navigationItem.leftBarButtonItem = nil
         }
