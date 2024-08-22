@@ -230,7 +230,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         if let index = notification.object as? Int, index == tabBarItem.tag, podcastsCollectionView.contentOffset.y.rounded(.down) > topOffset.rounded(.down) {
             podcastsCollectionView.setContentOffset(CGPoint(x: -horizontalMargin, y: topOffset), animated: true)
         } else {
-            searchController.searchTextField.becomeFirstResponder()
+            // When double-tapping on tab bar, dismiss the search if already active
+            // else give focus to the search field
+            if searchController.cancelButtonShowing {
+                searchController.cancelTapped(self)
+            } else {
+                searchController.searchTextField.becomeFirstResponder()
+            }
         }
     }
 
