@@ -4279,3 +4279,45 @@
 
 /* Upgrade Experiment message informing the user that they have been granted 50% discount. */
 "upgrade_experiment_discount_yearly_membership" = "Save 50%% off your first year";
+
+/* Upgraade Experiment - Features Variation: Desktop feature card title*/
+"plus_feature_card_title_desktop" = "Desktop and web apps";
+
+/* Upgraade Experiment - Features Variation: Folders feature card title*/
+"plus_feature_card_title_folders" = "Folders";
+
+/* Upgraade Experiment - Features Variation: Bokmarks feature card title*/
+"plus_feature_card_title_bookmarks" = "Bookmarks";
+
+/* Upgraade Experiment - Features Variation: Wear OS feature card title*/
+"plus_feature_card_title_wear_os" = "Apple Watch and Wear OS playback";
+
+/* Upgraade Experiment - Features Variation: Slumber Studio feature card title*/
+"plus_feature_card_title_slumber_studio" = "Dream with Slumber Studios";
+
+/* Upgraade Experiment - Features Variation: Storage feature card title*/
+"plus_feature_card_title_storage" = "20 GB of storage";
+
+/* Upgraade Experiment - Features Variation: Extra feature card title*/
+"plus_feature_card_title_extra_themes" = "Extra themes and icons";
+
+/* Upgraade Experiment - Features Variation: Desktop feature card text*/
+"plus_feature_card_text_desktop" = "Listen in more places with our Windows, macOS and Web apps.";
+
+/* Upgraade Experiment - Features Variation: Folders feature card text*/
+"plus_feature_card_text_folders" = "Organize your podcasts in folders, and keep them in sync across all your devices.";
+
+/* Upgraade Experiment - Features Variation: Bokmarks feature card text*/
+"plus_feature_card_text_bookmarks" = "Save your favorite bits from any episode and go back to them.";
+
+/* Upgraade Experiment - Features Variation: Wear OS feature card text*/
+"plus_feature_card_text_wear_os" = "Ditch the phone and go for a run.";
+
+/* Upgraade Experiment - Features Variation: Slumber Studio feature card text*/
+"plus_feature_card_text_slumber_studio" = "Get 1 year of premium content from Slumber Studios.";
+
+/* Upgraade Experiment - Features Variation: Storage feature card text*/
+"plus_feature_card_text_storage" = "Upload your audio files to cloud storage and have them available everywhere.";
+
+/* Upgraade Experiment - Features Variation: Extra feature card text*/
+"plus_feature_card_text_extra_themes" = "Fly your true colors. Exclusive icons and themes for our subscribers.";
