@@ -439,17 +439,17 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private lazy var referralsButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: Constants.giftIcon), for: .normal)
+        button.setImage(UIImage(named: ReferralsConstants.giftIcon), for: .normal)
         button.addTarget(self, action: #selector(referralsTapped), for: .touchUpInside)
         button.addSubview(referralsBadge)
         NSLayoutConstraint.activate(
             [
-                button.widthAnchor.constraint(equalToConstant: Constants.giftSize),
-                button.heightAnchor.constraint(equalToConstant: Constants.giftSize),
-                referralsBadge.widthAnchor.constraint(equalToConstant: Constants.giftBadgeSize),
-                referralsBadge.heightAnchor.constraint(equalToConstant: Constants.giftBadgeSize),
-                referralsBadge.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: -Constants.giftBadgeSize / 2),
-                referralsBadge.topAnchor.constraint(equalTo: button.topAnchor, constant: -Constants.giftBadgeSize / 4)
+                button.widthAnchor.constraint(equalToConstant: ReferralsConstants.giftSize),
+                button.heightAnchor.constraint(equalToConstant: ReferralsConstants.giftSize),
+                referralsBadge.widthAnchor.constraint(equalToConstant: ReferralsConstants.giftBadgeSize),
+                referralsBadge.heightAnchor.constraint(equalToConstant: ReferralsConstants.giftBadgeSize),
+                referralsBadge.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: -ReferralsConstants.giftBadgeSize / 2),
+                referralsBadge.topAnchor.constraint(equalTo: button.topAnchor, constant: -ReferralsConstants.giftBadgeSize / 4)
             ]
         )
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -472,7 +472,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateReferrals()
     }
 
-    private enum Constants {
+    private enum ReferralsConstants {
         static let giftIcon = "gift"
         static let giftSize = CGFloat(24)
         static let giftBadgeSize = CGFloat(16)
