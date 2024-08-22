@@ -88,6 +88,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new Upgrade Experiments
     case upgradeExperiment
 
+    ///
+    case ignoreRouteDisconnectedInterruption
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -154,6 +157,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .upgradeExperiment:
             false
+        case .ignoreRouteDisconnectedInterruption:
+            true
         }
     }
 
@@ -185,6 +190,8 @@ public enum FeatureFlag: String, CaseIterable {
             "default_player_filter_callback_fix"
         case .upNextOnTabBar:
             "up_next_on_tab_bar"
+        case .ignoreRouteDisconnectedInterruption:
+            "ignore_route_disconnected_interruption"
         default:
             rawValue.lowerSnakeCased()
         }
