@@ -161,7 +161,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private var areReferralsAvailable: Bool {
-        return FeatureFlag.referrals.enabled
+        return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
     }
 
     @objc private func referralsTapped() {
