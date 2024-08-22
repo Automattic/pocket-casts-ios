@@ -53,9 +53,10 @@ struct PlusPaywallContainer: View {
             }, label: {
                 Text(L10n.upgradeExperimentPaywallButton)
             })
-            .buttonStyle(PlusOpaqueButtonStyle(isLoading: isLoading, plan: .plus))
+            .buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: .plus))
             .padding(.horizontal, Constants.buttonHPadding)
-            .frame(maxWidth: 500)
+            .padding(.top, Constants.buttonTopPadding)
+            .frame(maxWidth: Constants.buttonmaxWidth)
 
             if let offer = subscriptionInfo?.offer {
                 Text(offer.experimentDescription)
@@ -65,6 +66,7 @@ struct PlusPaywallContainer: View {
                     .padding(.top, Constants.offerTextTopPadding)
             }
         }
+        .background(Constants.backgroundColor)
     }
 
     @ViewBuilder private var purchaseModal: some View {
@@ -106,7 +108,7 @@ struct PlusPaywallContainer: View {
             }
             .padding(.bottom, hasBottomSafeArea ? 0 : Constants.bottomPadding)
         }
-        .background(.black)
+        .background(Constants.backgroundColor)
         .sheet(isPresented: $presentSubscriptionView) {
             purchaseModal
                 .modify {
@@ -138,12 +140,16 @@ struct PlusPaywallContainer: View {
     }
 
     private enum Constants {
+        static let backgroundColor = Color.black
+
         static let bottomPadding = 16.0
 
         static let offerTextSize = 14.0
         static let offerTextTopPadding = 12.0
 
         static let buttonHPadding = 20.0
+        static let buttonTopPadding = 10.0
+        static let buttonmaxWidth = 500.0
 
         static let sheetBackgroundColor = Color(hex: PlusPurchaseModal.Config.backgroundColorHex)
     }

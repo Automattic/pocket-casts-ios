@@ -4,13 +4,7 @@ import PocketCastsServer
 struct PlusPaywallFeaturesCarousell: View {
     let tier: UpgradeTier
 
-    private var cards: [FeatureCards] {
-        return [
-            FeatureCards(id: UUID()),
-            FeatureCards(id: UUID()),
-            FeatureCards(id: UUID())
-        ]
-    }
+    private let cards = FeatureCardItem.allCases
 
     private var title: some View {
         Text(tier.header)
@@ -30,15 +24,14 @@ struct PlusPaywallFeaturesCarousell: View {
     private var carousel: some View {
         GeometryReader { proxy in
             HorizontalCarousel(items: cards) { item in
-                Rectangle()
-                    .fill(.red)
-                    .frame(height: 394)
+                PlusPaywallFeatureCard(item: item)
+                    .frame(height: Constants.cardHeight)
                     .id(item.id)
             }
-            .carouselItemSpacing(16)
-            .carouselPeekAmount(.constant(proxy.size.width - 349))
+            .carouselItemSpacing(Constants.bottomPadding)
+            .carouselPeekAmount(.constant(proxy.size.width - Constants.carouselTotalWSpace))
             .carouselScrollEnabled(!cards.isEmpty)
-            .padding(.leading, 20)
+            .padding(.leading, Constants.carouselLeadingPadding)
         }
     }
 
@@ -47,7 +40,7 @@ struct PlusPaywallFeaturesCarousell: View {
             badge
             title
             carousel
-                .frame(height: 394)
+                .frame(height: Constants.cardHeight)
         }
     }
 
@@ -60,10 +53,10 @@ struct PlusPaywallFeaturesCarousell: View {
         static let titleLineLimit = 2
         static let titleHPadding = 32.0
         static let titleBottomPadding = 40.0
-    }
 
-    private struct FeatureCards: Identifiable {
-        var id: UUID
+        static var cardHeight = 394.0
+        static var carouselLeadingPadding = 20.0
+        static var carouselTotalWSpace = 349.0
     }
 }
 
