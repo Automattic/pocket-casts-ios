@@ -79,7 +79,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         super.viewDidLoad()
         navigationItem.title = L10n.profile
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "gift"), style: .plain, target: self, action: #selector(referralsTapped))
 
         profileTable.tableFooterView = footerView
 
@@ -161,6 +160,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         navigationController?.pushViewController(settingsController, animated: true)
     }
 
+    private var areReferralsAvailable: Bool {
+        return FeatureFlag.referrals.enabled
+    }
+
     @objc private func referralsTapped() {
 
     }
@@ -209,6 +212,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateLastRefreshDetails() {
+        if areReferralsAvailable {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "gift"), style: .plain, target: self, action: #selector(referralsTapped))
+        } else {
+            navigationItem.leftBarButtonItem = nil
+        }
+
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
             lastRefreshTime.text = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
             refreshBtn.buttonTitle = L10n.tryAgain
