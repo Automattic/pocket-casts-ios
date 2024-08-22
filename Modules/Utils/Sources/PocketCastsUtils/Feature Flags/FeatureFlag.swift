@@ -190,8 +190,6 @@ public enum FeatureFlag: String, CaseIterable {
             "default_player_filter_callback_fix"
         case .upNextOnTabBar:
             "up_next_on_tab_bar"
-        case .ignoreRouteDisconnectedInterruption:
-            "ignore_route_disconnected_interruption"
         default:
             rawValue.lowerSnakeCased()
         }
