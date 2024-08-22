@@ -415,7 +415,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         AnnouncementFlow.current = .none
     }
 
-    // MARK - Referrals
+    // MARK: - Referrals
 
     private var numberOfReferralsAvailable: Int = 3
 
