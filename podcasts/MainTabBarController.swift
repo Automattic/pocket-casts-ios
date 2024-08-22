@@ -29,6 +29,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        fixTarBarTraitCollectionOnIpadForiOS18()
+
         if FeatureFlag.upNextOnTabBar.enabled {
             pcTabs = [.podcasts, .filter, .discover, .upNext, .profile]
         } else {
@@ -137,9 +139,24 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         Settings.shouldShowInitialOnboardingFlow = false
     }
 
+    private func fixTarBarTraitCollectionOnIpadForiOS18() {
+        if #available(iOS 18.0, *),
+            UIDevice.current.userInterfaceIdiom == .pad {
+            traitOverrides.horizontalSizeClass = .compact
+            if let rootHorizontalSizeClass = view.window?.traitCollection.horizontalSizeClass {
+                tabBar.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
+                if let viewControllers {
+                    for vc in viewControllers {
+                        vc.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
+                    }
+                }
+            }
+        }
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-
+        fixTarBarTraitCollectionOnIpadForiOS18()
         fireSystemThemeMayHaveChanged()
     }
 
