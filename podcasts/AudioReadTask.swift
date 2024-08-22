@@ -123,7 +123,7 @@ class AudioReadTask {
         }
 
         if let result {
-            print("$$ \(result.bestTranscription)")
+            TranscriptSyncModel.shared.update(result.bestTranscription, offset: offset)
         }
     }
 
