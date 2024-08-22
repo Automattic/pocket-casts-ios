@@ -2,12 +2,18 @@
 -----
 - Fix playback when switching from iPhone speaker to other audio outputs with trim silence enabled [#2049](https://github.com/Automattic/pocket-casts-ios/issues/2049)
 - Update podcast list when episode is archived or marked as played from player [#1976](https://github.com/Automattic/pocket-casts-ios/issues/1976)
+- Dismiss search if already active when double tap is performed on tab bar [#1652](https://github.com/Automattic/pocket-casts-ios/issues/1652)
 
 7.71
 -----
 - Fix auto-play when Skip Last setting is working [#2019](https://github.com/Automattic/pocket-casts-ios/pull/2037)
 - Kids Profile banner implementation [#1935](https://github.com/Automattic/pocket-casts-ios/issues/1935)
 - Fix rapidly tapping skip back resulting in skip forward [#2041](https://github.com/Automattic/pocket-casts-ios/issues/2041)
+- Fix profile header view when using iPad multitask modes [#2074](https://github.com/Automattic/pocket-casts-ios/pull/2074) 
+- Subscription cancellation redirects now to a correct page. [#2070](https://github.com/Automattic/pocket-casts-ios/pull/2070)
+- watchOS 11: add double-tap gesture to play/pause. [#2054](https://github.com/Automattic/pocket-casts-ios/pull/2054)
+- Build the app using Xcode 16. If you face any crashes or issues please let us know. [#2078](https://github.com/Automattic/pocket-casts-ios/pull/2078)
+- Fix crash on the iPad when running iOS18. [#2077](https://github.com/Automattic/pocket-casts-ios/pull/2077)
 
 7.70
 -----
