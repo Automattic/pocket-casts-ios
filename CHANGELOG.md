@@ -1,6 +1,7 @@
 7.72
 -----
 - Fix playback when switching from iPhone speaker to other audio outputs with trim silence enabled [#2049](https://github.com/Automattic/pocket-casts-ios/issues/2049)
+- Update podcast list when episode is archived or marked as played from player [#1976](https://github.com/Automattic/pocket-casts-ios/issues/1976)
 
 7.71
 -----
