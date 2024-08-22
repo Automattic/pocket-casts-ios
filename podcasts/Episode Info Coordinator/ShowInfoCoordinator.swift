@@ -88,13 +88,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             return try await task.value
         }
 
-        let task = Task<Episode.Metadata?, Error> { [unowned self] in
+        let task = Task<Episode.Metadata?, Error> { [weak self] in
+            guard let self else { throw TaskError.nilSelf }
+
             do {
                 let data = try await dataRetriever.loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid)
-                requestingShowInfo[episodeUuid] = nil
+                await setRequestingShowInfoToNil(for: episodeUuid)
                 return await getShowInfo(for: data?.data(using: .utf8))
             } catch {
-                requestingShowInfo[episodeUuid] = nil
+                await setRequestingShowInfoToNil(for: episodeUuid)
                 throw error
             }
         }
@@ -102,6 +104,10 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         requestingShowInfo[episodeUuid] = task
 
         return try await task.value
+    }
+
+    private func setRequestingShowInfoToNil(for episodeUuid: String) {
+        requestingShowInfo[episodeUuid] = nil
     }
 
     private func getShowInfo(for data: Data?) async -> Episode.Metadata? {
