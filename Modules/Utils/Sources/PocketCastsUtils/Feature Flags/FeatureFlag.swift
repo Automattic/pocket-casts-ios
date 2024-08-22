@@ -88,6 +88,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the new Upgrade Experiments
     case upgradeExperiment
 
+    /// Enable the Referrals feature
+    case referrals
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -153,6 +156,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .kidsProfile:
             false
         case .upgradeExperiment:
+            false
+        case .referrals:
             false
         }
     }
