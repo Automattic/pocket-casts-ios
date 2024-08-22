@@ -79,6 +79,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         super.viewDidLoad()
         navigationItem.title = L10n.profile
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "gift"), style: .plain, target: self, action: #selector(referralsTapped))
 
         profileTable.tableFooterView = footerView
 
@@ -158,6 +159,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
+    }
+
+    @objc private func referralsTapped() {
+
     }
 
     private func showAccountController() {
