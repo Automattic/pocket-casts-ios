@@ -4184,8 +4184,14 @@
 /* Current search results being displayed and the total number of results. Eg.: 1 of 10. %1$@ is the current result being shown, %2$@ is the total number of results */
 "search_results" = "%1$@ of %2$@";
 
-/* A title shown for a share option which creates an audio clip of an episode */
+/* A title shown for a share option which creates an animated video clip with audio of an episode */
 "create_clip" = "Create clip";
+
+/* A title shown for a share option which creates an audio clip of an episode */
+"create_audio_clip_title" = "Create audio file";
+
+/* A description shown for a share option which creates an audio clip of an episode. This produces a ".m4a" file which is like an mp3 */
+"create_audio_clip_description" = "Create a .m4a audio file";
 
 /* Shown in a button when creating a shareable audio clip of an episode */
 "clip" = "Clip";
@@ -4201,6 +4207,9 @@
 
 /* A label shown with the duration time of a clip */
 "clip_duration_label" = "%@ Duration";
+
+/* A label shown while the clip is being created */
+"clip_loading_label" = "Creating Clip...";
 
 /* Title of the Pocket Casts champion screen, greeting an user that has been using Pocket Casts for a long time */
 "champion_title" = "You’re a true champion of Pocket Casts!";
@@ -4261,3 +4270,12 @@
 
 /* Transcript error message when transcript is empty*/
 "transcript_error_empty" = "Sorry, but it looks this transcript is empty";
+
+/* Upgrade Experiment Paywall button title */
+"upgrade_experiment_paywall_button" = "Get Pocket Casts Plus";
+
+/* Upgrade Experiment message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
+"upgrade_experiment_free_membership_format" = "Free %1$@ Plus trial";
+
+/* Upgrade Experiment message informing the user that they have been granted 50% discount. */
+"upgrade_experiment_discount_yearly_membership" = "Save 50%% off your first year";

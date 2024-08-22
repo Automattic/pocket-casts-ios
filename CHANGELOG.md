@@ -1,5 +1,6 @@
 7.72
 -----
+- Update podcast list when episode is archived or marked as played from player [#1976](https://github.com/Automattic/pocket-casts-ios/issues/1976)
 
 
 7.71

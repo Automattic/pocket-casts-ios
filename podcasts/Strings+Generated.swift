@@ -444,6 +444,8 @@ internal enum L10n {
   internal static func clipDurationLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "clip_duration_label", String(describing: p1))
   }
+  /// Creating Clip...
+  internal static var clipLoadingLabel: String { return L10n.tr("Localizable", "clip_loading_label") }
   /// %@ Start
   internal static func clipStartLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "clip_start_label", String(describing: p1))
@@ -476,6 +478,10 @@ internal enum L10n {
   internal static var createAccountFreePrice: String { return L10n.tr("Localizable", "create_account_free_price") }
   /// Everything unlocked
   internal static var createAccountPlusDetails: String { return L10n.tr("Localizable", "create_account_plus_details") }
+  /// Create a .m4a audio file
+  internal static var createAudioClipDescription: String { return L10n.tr("Localizable", "create_audio_clip_description") }
+  /// Create audio file
+  internal static var createAudioClipTitle: String { return L10n.tr("Localizable", "create_audio_clip_title") }
   /// Create clip
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip") }
   /// Create Filter
@@ -3162,6 +3168,14 @@ internal enum L10n {
   internal static var upNextHistoryExplanation: String { return L10n.tr("Localizable", "up_next_history_explanation") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
+  /// Save 50%% off your first year
+  internal static var upgradeExperimentDiscountYearlyMembership: String { return L10n.tr("Localizable", "upgrade_experiment_discount_yearly_membership") }
+  /// Free %1$@ Plus trial
+  internal static func upgradeExperimentFreeMembershipFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "upgrade_experiment_free_membership_format", String(describing: p1))
+  }
+  /// Get Pocket Casts Plus
+  internal static var upgradeExperimentPaywallButton: String { return L10n.tr("Localizable", "upgrade_experiment_paywall_button") }
   /// Upgrade to %1$@
   internal static func upgradeToPlan(_ p1: Any) -> String {
     return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))
