@@ -1,5 +1,6 @@
 7.72
 -----
+- Fix keyboard shortcuts order for MainTabBarController [#1951](https://github.com/Automattic/pocket-casts-ios/issues/1951)
 - Update podcast list when episode is archived or marked as played from player [#1976](https://github.com/Automattic/pocket-casts-ios/issues/1976)
 - Dismiss search if already active when double tap is performed on tab bar [#1652](https://github.com/Automattic/pocket-casts-ios/issues/1652)
 
