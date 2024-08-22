@@ -80,7 +80,7 @@ struct PlusPaywallFeatureCard: View {
                      weight: .regular,
                      lineLimit: Constants.textLineLimit,
                      color: Constants.textColor)
-                .padding(.top, 4.0)
+                .padding(.top, Constants.textpaddingTop)
                 Spacer()
             }
         }
@@ -109,6 +109,7 @@ struct PlusPaywallFeatureCard: View {
 
         static let textSize = 14.0
         static let textLineLimit = 3
+        static let textpaddingTop = 4.0
     }
 }
 
