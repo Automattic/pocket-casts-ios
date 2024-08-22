@@ -78,17 +78,19 @@ struct PlusPaywallFeatureCard: View {
                 text(item.text,
                      size: Constants.textSize,
                      weight: .regular,
-                     lineLimit: Constants.textLineLimit)
+                     lineLimit: Constants.textLineLimit,
+                     color: Constants.textColor)
+                .padding(.top, 4.0)
                 Spacer()
             }
         }
     }
 
     @ViewBuilder
-    private func text(_ text: String, size: Double, weight: Font.Weight, lineLimit: Int) -> some View {
+    private func text(_ text: String, size: Double, weight: Font.Weight, lineLimit: Int, color: Color = .white) -> some View {
         Text(text)
             .font(size: size, style: .body, weight: weight)
-            .foregroundStyle(.white)
+            .foregroundStyle(color)
             .multilineTextAlignment(.leading)
             .lineLimit(lineLimit)
             .padding(.horizontal, 24.0)
@@ -96,6 +98,7 @@ struct PlusPaywallFeatureCard: View {
 
     enum Constants {
         static let backgroundColor = Color(hex: "#161718")
+        static let textColor = Color(hex: "#B8C3C9")
 
         static let cornerRadius = 10.0
 
