@@ -4,7 +4,11 @@ import PocketCastsUtils
 class TranscriptViewController: PlayerItemViewController {
 
     private let playbackManager: PlaybackManager
-    private var transcript: TranscriptModel?
+    private var transcript: TranscriptModel? {
+        didSet {
+            syncModel.reference = transcript?.attributedText.string ?? ""
+        }
+    }
     private var previousRange: NSRange?
 
     private var canScrollToDismiss = true
@@ -17,6 +21,8 @@ class TranscriptViewController: PlayerItemViewController {
     private let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
     private var kmpSearch: KMPSearch?
+
+    private let syncModel: TranscriptSyncModel = .shared
 
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
