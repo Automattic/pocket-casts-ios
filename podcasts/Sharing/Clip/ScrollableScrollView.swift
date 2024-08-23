@@ -14,12 +14,16 @@ struct Scrollable {
 struct ScrollableScrollView<Content: View>: View {
 
     @Binding var scale: CGFloat
+    @Binding var startTime: TimeInterval
+    @Binding var endTime: TimeInterval
     var duration: TimeInterval
     let geometry: GeometryProxy
 
-    @State private var lastScale: CGFloat?
+    let additionalEdgeOffsets: UIEdgeInsets
 
     @ViewBuilder let content: (Scrollable) -> Content
+
+    @State private var lastScale: CGFloat?
 
     private let scrollIDPrefix = "tick"
 
@@ -31,9 +35,34 @@ struct ScrollableScrollView<Content: View>: View {
                         .frame(width: geometry.size.width * scale)
                     content(Scrollable(prefix: scrollIDPrefix, scrollProxy: scrollProxy))
                 }
+                .offset(x: leftOffset)
+                .padding(.trailing, rightOffset)
+                .frame(width: totalWidth)
             }
             .clipped()
         }
+    }
+
+    private var contentWidth: CGFloat {
+        geometry.size.width * scale
+    }
+
+    private var leftOffset: CGFloat {
+        max(additionalEdgeOffsets.left - startTime, 0)
+    }
+
+    private var rightOffset: CGFloat {
+        let offset: CGFloat
+        if scale != 0 {
+            offset = max((endTime - (duration - additionalEdgeOffsets.right)), 0)
+        } else {
+            offset = 0
+        }
+        return offset
+    }
+
+    private var totalWidth: CGFloat {
+        contentWidth + leftOffset
     }
 
     /// A series of invisible "tick marks" used to mark positions in the scrollable view
