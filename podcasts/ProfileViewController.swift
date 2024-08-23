@@ -138,6 +138,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func handleThemeChanged() {
         updateRefreshFooterColors()
+        updateReferralsColors()
     }
 
     private func updateRefreshFooterColors() {
@@ -207,6 +208,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func updateLastRefreshDetails() {
         if areReferralsAvailable {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: referralsButton)
+            updateReferralsColors()
         } else {
             navigationItem.leftBarButtonItem = nil
         }
@@ -429,9 +431,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.text = "\(numberOfReferralsAvailable)"
-        label.backgroundColor = UIColor.init(hex: "#DE2324")
-        label.textColor = UIColor.white
         label.textAlignment = .center
+        label.layer.borderWidth = 1
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 8
         label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
@@ -467,6 +468,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
         referralsBadge.text = "\(numberOfReferralsAvailable)"
         referralsBadge.isHidden = numberOfReferralsAvailable == 0
+    }
+
+    private func updateReferralsColors() {
+        referralsBadge.backgroundColor = ThemeColor.secondaryIcon01()
+        referralsBadge.textColor = ThemeColor.secondaryUi01()
+        referralsBadge.layer.borderColor = ThemeColor.secondaryUi01().cgColor
     }
 
     @objc private func referralsTapped() {
