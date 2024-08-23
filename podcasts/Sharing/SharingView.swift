@@ -13,10 +13,10 @@ class ClipTime: ObservableObject {
     @Published var end: TimeInterval
     @Published var playback: TimeInterval
 
-    init(start: TimeInterval, end: TimeInterval) {
+    init(start: TimeInterval, end: TimeInterval, playback: TimeInterval? = nil) {
         self.start = start
         self.end = end
-        self.playback = start
+        self.playback = playback ?? start
     }
 }
 
@@ -46,8 +46,15 @@ struct SharingView: View {
         self.shareable = Shareable(option: selectedOption, style: selectedStyle)
 
         switch selectedOption {
-        case .clip(_, let time):
-            self.clipTime = ClipTime(start: time, end: time + 60)
+        case .clip(let episode, let time):
+            let clipDuration: TimeInterval = 60
+            var startTime = time
+            var endTime = time + clipDuration
+            if endTime > episode.duration {
+                startTime = episode.duration - clipDuration
+                endTime = episode.duration
+            }
+            self.clipTime = ClipTime(start: startTime, end: endTime, playback: time)
         default:
             self.clipTime = ClipTime(start: 0, end: 0)
         }
