@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import SwiftUI
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
@@ -470,6 +471,89 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         updateReferrals()
+        showReferralsHint()
+    }
+
+    private func showReferralsHint() {
+        let vc = UIHostingController(rootView: TipView(title: "You have 3 passes to share", message: "Gift 30 days of Plus to friends and family"))
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = CGSizeMake(362, 83)
+        if let popoverPresentationController = vc.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.permittedArrowDirections = .up
+            popoverPresentationController.sourceView = referralsButton
+            popoverPresentationController.sourceRect = referralsButton.bounds
+            popoverPresentationController.popoverBackgroundViewClass = TipBackgroundView.self
+            //popoverPresentationController.backgroundColor = .clear
+        }
+        present(vc, animated: true, completion: nil)
+
+    }
+
+    private struct TipView: View {
+        let title: String
+        let message: String
+
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text(title)
+                    .font(.title)
+                Text(message)
+                    .font(.title2)
+            }
+            .background { Color.clear }
+            .shadow(color: .black.opacity(0.2), radius: 30, x: 0, y: 2)
+        }
+    }
+
+    private class TipBackgroundView: UIPopoverBackgroundView {
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            clipsToBounds = false
+            backgroundColor = .yellow
+            //layer.cornerRadius  = 10
+            //layer.masksToBounds = true
+            layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8).cgColor
+            layer.shadowOpacity = 1
+            layer.shadowRadius = 60
+            layer.shadowOffset = CGSize(width: 0, height: 2)
+        }
+
+        override class func contentViewInsets() -> UIEdgeInsets {
+            return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        }
+
+        override class func arrowHeight() -> CGFloat {
+            return 10
+        }
+
+        override class func arrowBase() -> CGFloat {
+            return 10
+        }
+
+        override var arrowDirection: UIPopoverArrowDirection {
+            get {
+                return .up
+            }
+            set {
+
+            }
+        }
+
+        override var arrowOffset: CGFloat {
+            get {
+                return 50
+            }
+            set {
+
+            }
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
 
     private enum ReferralsConstants {
@@ -479,6 +563,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 }
 
+extension ProfileViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // Return no adaptive presentation style, use default presentation behaviour
+        return .none
+    }
+}
 // MARK: - PlusLockedInfoDelegate
 
 extension ProfileViewController: PlusLockedInfoDelegate {
