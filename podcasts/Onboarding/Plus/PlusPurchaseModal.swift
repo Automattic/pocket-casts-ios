@@ -72,6 +72,7 @@ struct PlusPurchaseModal: View {
                                     }
                                 }
                             )
+                            .frame(maxWidth: 500)
                         }
                     }
                 }
@@ -96,7 +97,9 @@ struct PlusPurchaseModal: View {
                 }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
 
                 TermsView()
-            }.padding(.top, 23)
+            }
+            .padding(.top, 23)
+            .frame(maxWidth: 500)
         }
         .padding([.leading, .trailing])
         .background(Color.backgroundColor.ignoresSafeArea())
