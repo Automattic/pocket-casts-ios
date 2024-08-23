@@ -471,7 +471,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func updateReferralsColors() {
         referralsBadge.backgroundColor = ThemeColor.secondaryIcon01()
-        referralsBadge.textColor = ThemeColor.primaryText01()
+        referralsBadge.textColor = ThemeColor.secondaryUi01()
         referralsBadge.layer.borderColor = ThemeColor.secondaryUi01().cgColor
     }
 
