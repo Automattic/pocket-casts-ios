@@ -95,6 +95,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// See: https://github.com/Automattic/pocket-casts-ios/issues/2049
     case ignoreRouteDisconnectedInterruption
 
+    /// Enable the Referrals feature
+    case referrals
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -163,6 +166,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .ignoreRouteDisconnectedInterruption:
             true
+        case .referrals:
+            false
         }
     }
 
