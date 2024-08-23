@@ -4321,3 +4321,9 @@
 
 /* Upgraade Experiment - Features Variation: Extra feature card text*/
 "plus_feature_card_text_extra_themes" = "Fly your true colors. Exclusive icons and themes for our subscribers.";
+
+/* Referrals - Tip Title. '%1$@' is a placeholder for the number of referrals passes available to share*/
+"referrals_tip_title" = "You have %1$@ passes to share";
+
+/* Referrals - Tip Message '%1$@' is a placeholder for the duration of free days on the Plus subscription*/
+"referrals_tip_message" = "Gift %1$@ days of Plus to friends and family";

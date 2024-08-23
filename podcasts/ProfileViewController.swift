@@ -482,7 +482,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func showReferralsHint() {
-        let vc = UIHostingController(rootView: TipView(title: "You have 3 passes to share", message: "Gift 30 days of Plus to friends and family").setupDefaultEnvironment())
+        let vc = UIHostingController(rootView:
+                                        TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
+                                                       message: L10n.referralsTipMessage(30))
+                                        .setupDefaultEnvironment()
+        )
         vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
