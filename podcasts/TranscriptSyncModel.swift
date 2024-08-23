@@ -16,9 +16,9 @@ class TranscriptSyncModel {
     func update(_ reference: SFTranscription, offset: TimeInterval) {
         reference.segments.forEach {
             words.append((offset + $0.timestamp, $0.duration, $0.substring))
-
-            wordByWord()
         }
+
+        wordByWord()
     }
 
     func reset() {
