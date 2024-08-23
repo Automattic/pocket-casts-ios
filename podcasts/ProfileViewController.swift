@@ -137,6 +137,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func handleThemeChanged() {
         updateRefreshFooterColors()
+        updateReferralsColors()
     }
 
     private func updateRefreshFooterColors() {
@@ -428,7 +429,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.text = "\(numberOfReferralsAvailable)"
-        label.backgroundColor = ReferralsConstants.giftBadgeColor
+        label.backgroundColor = ThemeColor.primaryIcon01()
         label.textColor = UIColor.white
         label.textAlignment = .center
         label.layer.masksToBounds = true
@@ -468,6 +469,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         referralsBadge.isHidden = numberOfReferralsAvailable == 0
     }
 
+    private func updateReferralsColors() {
+        referralsBadge.backgroundColor = ThemeColor.primaryIcon01()
+    }
+
     @objc private func referralsTapped() {
         updateReferrals()
     }
@@ -476,7 +481,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         static let giftIcon = "gift"
         static let giftSize = CGFloat(24)
         static let giftBadgeSize = CGFloat(16)
-        static let giftBadgeColor = UIColor.init(hex: "#DE2324")
     }
 }
 
