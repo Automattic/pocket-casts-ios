@@ -128,6 +128,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
+        showReferralsHintIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -478,7 +479,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         updateReferrals()
+        hideReferralsHint()
+    }
+
+    private func showReferralsHintIfNeeded() {
+        guard areReferralsAvailable, numberOfReferralsAvailable > 0 else {
+            return
+        }
         showReferralsHint()
+    }
+
+    private func hideReferralsHint() {
+        self.dismiss(animated: true)
     }
 
     private func showReferralsHint() {
@@ -497,6 +509,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             popoverPresentationController.sourceView = referralsButton
             popoverPresentationController.sourceRect = referralsButton.bounds
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            popoverPresentationController.passthroughViews = [view]
         }
         present(vc, animated: true, completion: nil)
     }
