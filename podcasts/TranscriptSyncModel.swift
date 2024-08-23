@@ -208,9 +208,46 @@ class TranscriptSyncModel {
         }
     }
 
+    var previousWord: Word?
+
     public func firstWord(containing secondsValue: TimeInterval) -> Word? {
-        matchedWords
-            .first { $0.contains(timeInSeconds: secondsValue) }
+        if let word = matchedWords
+            .first(where: { $0.contains(timeInSeconds: secondsValue) }) {
+                previousWord = word
+                return word
+            } else {
+
+                // In this case here we don't have any match
+                // We have a lot of things we can do:
+                // Improve the detection algorithm
+                // Or we can just optimistically highlight something in the hopes
+                // that is the correct word
+
+                // Check what is the next word we'll highlight
+                if let nextOne = matchedWords.first(where: { $0.timestamp > secondsValue }) {
+
+                    // Calculate the time difference between the next one and the current time
+                    let difference = nextOne.timestamp - secondsValue
+
+                    if let previousWord {
+                        let location = previousWord.characterRange.location + previousWord.characterRange.length
+
+                        let nextOneLocation = nextOne.characterRange.location
+
+                        let range = NSRange(location: location, length: nextOneLocation - location)
+
+                        let test = reference[range]
+
+                        // Highlight whatever is in between
+                        if test.count > 2 {
+                            return Word(timestamp: 0, duration: 0, characterRange: range)
+                        }
+
+                    }
+                }
+
+                return nil
+            }
     }
 }
 
@@ -228,4 +265,44 @@ class Word {
     func contains(timeInSeconds seconds: TimeInterval) -> Bool {
         seconds >= timestamp && seconds <= (timestamp + duration)
     }
+}
+
+public extension String {
+  subscript(value: Int) -> Character {
+    self[index(at: value)]
+  }
+}
+
+public extension String {
+  subscript(value: NSRange) -> Substring {
+    self[value.lowerBound..<value.upperBound]
+  }
+}
+
+public extension String {
+  subscript(value: CountableClosedRange<Int>) -> Substring {
+    self[index(at: value.lowerBound)...index(at: value.upperBound)]
+  }
+
+  subscript(value: CountableRange<Int>) -> Substring {
+    self[index(at: value.lowerBound)..<index(at: value.upperBound)]
+  }
+
+  subscript(value: PartialRangeUpTo<Int>) -> Substring {
+    self[..<index(at: value.upperBound)]
+  }
+
+  subscript(value: PartialRangeThrough<Int>) -> Substring {
+    self[...index(at: value.upperBound)]
+  }
+
+  subscript(value: PartialRangeFrom<Int>) -> Substring {
+    self[index(at: value.lowerBound)...]
+  }
+}
+
+private extension String {
+  func index(at offset: Int) -> String.Index {
+    index(startIndex, offsetBy: offset)
+  }
 }
