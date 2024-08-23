@@ -44,11 +44,18 @@ class TranscriptViewController: PlayerItemViewController {
         addObservers()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        PlaybackManager.shared.showingTranscript = true
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
         resetSearch()
+        PlaybackManager.shared.showingTranscript = false
     }
 
     func didDisappear() {

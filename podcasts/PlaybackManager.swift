@@ -72,6 +72,12 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private(set) var transcriptsAvailable = false
 
+    var showingTranscript = false {
+        didSet {
+            handleTranscriptToggle()
+        }
+    }
+
     init() {
         queue = PlaybackQueue()
         queue.loadPersistedQueue()
@@ -858,6 +864,19 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackEffectsChanged)
     }
 
+    private func handleTranscriptToggle() {
+        guard let episode = currentEpisode(), showingTranscript else { return }
+
+        if playerSwitchRequired() {
+            load(episode: episode, autoPlay: playing(), overrideUpNext: false)
+        }
+
+        if let player = player {
+            player.effectsDidChange()
+        }
+        updateAllNowPlayingData()
+    }
+
     func silenceRemovalAvailable() -> Bool {
         #if !os(watchOS)
             if let episode = currentEpisode() {
@@ -1193,7 +1212,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return possiblePlayers // for Google Cast, only the Google Cast player is allowed
             }
 
-            if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
+            if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() || showingTranscript {
                 possiblePlayers.append(EffectsPlayer.self)
             }
         #endif
