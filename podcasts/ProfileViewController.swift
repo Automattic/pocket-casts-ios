@@ -137,6 +137,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         refreshControl?.parentViewControllerDidDisappear()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideReferralsHint()
+    }
+
     override func handleThemeChanged() {
         updateRefreshFooterColors()
         updateReferralsColors()
@@ -509,7 +514,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             popoverPresentationController.sourceView = referralsButton
             popoverPresentationController.sourceRect = referralsButton.bounds
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
-            popoverPresentationController.passthroughViews = [view]
+            popoverPresentationController.passthroughViews = [referralsButton, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
         }
         present(vc, animated: true, completion: nil)
     }
