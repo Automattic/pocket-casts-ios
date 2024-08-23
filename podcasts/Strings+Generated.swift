@@ -1809,6 +1809,34 @@ internal enum L10n {
   internal static func plusExpirationFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_expiration_format", String(describing: p1))
   }
+  /// Save your favorite bits from any episode and go back to them.
+  internal static var plusFeatureCardTextBookmarks: String { return L10n.tr("Localizable", "plus_feature_card_text_bookmarks") }
+  /// Listen in more places with our Windows, macOS and Web apps.
+  internal static var plusFeatureCardTextDesktop: String { return L10n.tr("Localizable", "plus_feature_card_text_desktop") }
+  /// Fly your true colors. Exclusive icons and themes for our subscribers.
+  internal static var plusFeatureCardTextExtraThemes: String { return L10n.tr("Localizable", "plus_feature_card_text_extra_themes") }
+  /// Organize your podcasts in folders, and keep them in sync across all your devices.
+  internal static var plusFeatureCardTextFolders: String { return L10n.tr("Localizable", "plus_feature_card_text_folders") }
+  /// Get 1 year of premium content from Slumber Studios.
+  internal static var plusFeatureCardTextSlumberStudio: String { return L10n.tr("Localizable", "plus_feature_card_text_slumber_studio") }
+  /// Upload your audio files to cloud storage and have them available everywhere.
+  internal static var plusFeatureCardTextStorage: String { return L10n.tr("Localizable", "plus_feature_card_text_storage") }
+  /// Ditch the phone and go for a run.
+  internal static var plusFeatureCardTextWearOs: String { return L10n.tr("Localizable", "plus_feature_card_text_wear_os") }
+  /// Bookmarks
+  internal static var plusFeatureCardTitleBookmarks: String { return L10n.tr("Localizable", "plus_feature_card_title_bookmarks") }
+  /// Desktop and web apps
+  internal static var plusFeatureCardTitleDesktop: String { return L10n.tr("Localizable", "plus_feature_card_title_desktop") }
+  /// Extra themes and icons
+  internal static var plusFeatureCardTitleExtraThemes: String { return L10n.tr("Localizable", "plus_feature_card_title_extra_themes") }
+  /// Folders
+  internal static var plusFeatureCardTitleFolders: String { return L10n.tr("Localizable", "plus_feature_card_title_folders") }
+  /// Dream with Slumber Studios
+  internal static var plusFeatureCardTitleSlumberStudio: String { return L10n.tr("Localizable", "plus_feature_card_title_slumber_studio") }
+  /// 20 GB of storage
+  internal static var plusFeatureCardTitleStorage: String { return L10n.tr("Localizable", "plus_feature_card_title_storage") }
+  /// Apple Watch and Wear OS playback
+  internal static var plusFeatureCardTitleWearOs: String { return L10n.tr("Localizable", "plus_feature_card_title_wear_os") }
   /// The undying gratitude of everyone here at Pocket Casts
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
   /// 1 year of exclusive content from Slumber Studios

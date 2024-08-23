@@ -2,9 +2,9 @@ import SwiftUI
 import PocketCastsServer
 
 struct PlusPaywallFeaturesCarousell: View {
-    @ObservedObject var viewModel: PlusLandingViewModel
-
     let tier: UpgradeTier
+
+    private let cards = FeatureCardItem.allCases
 
     private var title: some View {
         Text(tier.header)
@@ -21,13 +21,26 @@ struct PlusPaywallFeaturesCarousell: View {
             .padding(.bottom, Constants.badgeBottomPadding)
     }
 
+    private var carousel: some View {
+        GeometryReader { proxy in
+            HorizontalCarousel(items: cards) { item in
+                PlusPaywallFeatureCard(item: item)
+                    .frame(height: Constants.cardHeight)
+                    .id(item.id)
+            }
+            .carouselItemSpacing(Constants.bottomPadding)
+            .carouselPeekAmount(.constant(proxy.size.width - Constants.carouselTotalWSpace))
+            .carouselScrollEnabled(!cards.isEmpty)
+            .padding(.leading, Constants.carouselLeadingPadding)
+        }
+    }
+
     var body: some View {
         ScrollView {
             badge
             title
-            Rectangle()
-                .fill(.red)
-                .frame(height: 394)
+            carousel
+                .frame(height: Constants.cardHeight)
         }
     }
 
@@ -40,9 +53,14 @@ struct PlusPaywallFeaturesCarousell: View {
         static let titleLineLimit = 2
         static let titleHPadding = 32.0
         static let titleBottomPadding = 40.0
+
+        static var cardHeight = 394.0
+        static var carouselLeadingPadding = 20.0
+        static var carouselTotalWSpace = 349.0
     }
 }
 
 #Preview {
-    PlusPaywallFeaturesCarousell(viewModel: PlusLandingViewModel(source: .login), tier: .plus)
+    PlusPaywallFeaturesCarousell(tier: .plus)
+        .background(.black)
 }
