@@ -285,6 +285,7 @@ class TranscriptViewController: PlayerItemViewController {
         resetKmp()
         resetSearch()
         loadTranscript()
+        syncModel.reset()
     }
 
     @objc private func closeTapped() {

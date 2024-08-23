@@ -21,6 +21,13 @@ class TranscriptSyncModel {
         }
     }
 
+    func reset() {
+        words = []
+        reference = ""
+        matchedWords = []
+        timestamps = []
+    }
+
     // MARK: - Alignment algorithm
 
     var matchedWords: [Word] = []
