@@ -292,19 +292,25 @@ class TranscriptViewController: PlayerItemViewController {
         activityIndicatorView.stopAnimating()
     }
 
+    private var previousEpisodeUUID: String?
+
     private func loadTranscript() {
         setupLoadingState()
+        guard let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
+            return
+        }
+        let shouldResetPosition = previousEpisodeUUID != episode.uuid
+        previousEpisodeUUID = episode.uuid
         Task.detached { [weak self] in
-            guard let self, let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
+            guard let self else {
                 return
             }
-
             let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: podcast.uuid)
 
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 await track(.transcriptShown)
-                await show(transcript: transcript)
+                await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
@@ -361,11 +367,14 @@ class TranscriptViewController: PlayerItemViewController {
         transcriptView.attributedText = styleText(transcript: transcript)
     }
 
-    private func show(transcript: TranscriptModel) {
+    private func show(transcript: TranscriptModel, resetPosition: Bool) {
         setupShowTranscriptState()
         previousRange = nil
         self.transcript = transcript
         transcriptView.attributedText = styleText(transcript: transcript)
+        if resetPosition {
+            transcriptView.setContentOffset(.zero, animated: false)
+        }
     }
 
     private func makeStyle(alignment: NSTextAlignment = .natural) -> [NSAttributedString.Key: Any] {
