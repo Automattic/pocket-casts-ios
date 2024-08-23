@@ -399,7 +399,7 @@ class TranscriptViewController: PlayerItemViewController {
         return normalStyle
     }
 
-    private func styleText(transcript: TranscriptModel, position: Double = -1) -> NSAttributedString {
+    private func styleText(transcript: TranscriptModel, position: NSRange? = nil) -> NSAttributedString {
         let formattedText = NSMutableAttributedString(attributedString: transcript.attributedText)
         formattedText.beginEditing()
         let normalStyle = makeStyle()
@@ -409,7 +409,7 @@ class TranscriptViewController: PlayerItemViewController {
         let fullLength = NSRange(location: 0, length: formattedText.length)
         formattedText.addAttributes(normalStyle, range: fullLength)
 
-        if position != -1, let range = transcript.firstCue(containing: position)?.characterRange {
+        if let range = position {
             formattedText.addAttributes(highlightStyle, range: range)
         }
 
@@ -454,27 +454,25 @@ class TranscriptViewController: PlayerItemViewController {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(update))
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        //We disabled the method bellow until we find a way to resync/shift transcript positions
-        //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+            self?.updateTranscriptPosition()
+        }
     }
 
     @objc private func updateTranscriptPosition() {
         let position = playbackManager.currentTime()
+
         guard let transcript else {
             return
         }
-        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
-            let range = cue.characterRange
-            //Comment this line out if you want to check the player position and cues in range
-            //print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
-            previousRange = range
-            transcriptView.attributedText = styleText(transcript: transcript, position: position)
+
+        if let word = syncModel.firstWord(containing: position) {
+            transcriptView.attributedText = styleText(transcript: transcript, position: word.characterRange)
+
             // adjusting the scroll to range so it shows more text
-            let scrollRange = NSRange(location: range.location, length: range.length * 2)
+            let scrollRange = NSRange(location: word.characterRange.location, length: word.characterRange.length)
             transcriptView.scrollRangeToVisible(scrollRange)
-        } else if let startTime = transcript.cues.first?.startTime, position < startTime {
-            previousRange = nil
-            transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
     }
 

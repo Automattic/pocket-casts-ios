@@ -8,8 +8,6 @@ class TranscriptSyncModel {
     var words: [(TimeInterval, TimeInterval, String)] = [] {
         didSet {
             timestamps = words.map { ($0.0, $0.1) }
-
-            wordByWord()
         }
     }
 
@@ -195,8 +193,10 @@ class TranscriptSyncModel {
             return (alignedSubtitle.reversed(), alignedTranscript.reversed(), alignedTimestamps.reversed())
         }
 
-        // Example usage
-        let subtitle = reference
+        // We need to do A LOT of work in performance
+        // For testing purposed I limit the transcript to just 500 words
+        // otherwise the app crashes, becomes slow, etc etc
+        let subtitle = String(reference.prefix(500))
         let transcript = words.map { $0.2 }
 
         let (alignedSubtitle, alignedTranscript, alignedTimestamps) = alignSequences(subtitle: subtitle, transcript: transcript, transcriptTimestamps: timestamps)
@@ -206,6 +206,11 @@ class TranscriptSyncModel {
 
             return Word(timestamp: alignedTimestamps[index].timestamp, duration: alignedTimestamps[index].duration, characterRange: range)
         }
+    }
+
+    public func firstWord(containing secondsValue: TimeInterval) -> Word? {
+        matchedWords
+            .first { $0.contains(timeInSeconds: secondsValue) }
     }
 }
 
