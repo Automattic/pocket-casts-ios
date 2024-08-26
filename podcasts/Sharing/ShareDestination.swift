@@ -8,7 +8,7 @@ enum ShareDestination: Hashable {
     var name: String {
         switch self {
         case .instagram:
-            "Stories"
+            L10n.shareInstagramStories
         case .copyLink:
             L10n.shareCopyLink
         case .systemSheet:
