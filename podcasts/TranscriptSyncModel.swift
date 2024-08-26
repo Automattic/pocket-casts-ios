@@ -35,39 +35,6 @@ class TranscriptSyncModel {
     var timestamps: [(TimeInterval, TimeInterval)] = []
 
     func wordByWord() {
-        // Calculate Levenshtein distance
-        func levenshtein(aStr: String, bStr: String) -> Int {
-            let a = Array(aStr)
-            let b = Array(bStr)
-            let m = a.count
-            let n = b.count
-
-            var dist = [[Int]](repeating: [Int](repeating: 0, count: n + 1), count: m + 1)
-
-            for i in 0...m {
-                dist[i][0] = i
-            }
-            for j in 0...n {
-                dist[0][j] = j
-            }
-
-            for i in 1...m {
-                for j in 1...n {
-                    if a[i-1] == b[j-1] {
-                        dist[i][j] = dist[i-1][j-1]
-                    } else {
-                        dist[i][j] = min(
-                            dist[i-1][j] + 1,
-                            dist[i][j-1] + 1,
-                            dist[i-1][j-1] + 1
-                        )
-                    }
-                }
-            }
-
-            return dist[m][n]
-        }
-
         // Define constants
         let matchScore = 1
         let mismatchScore = -1
@@ -121,8 +88,7 @@ class TranscriptSyncModel {
 
         // Define the scoring function
         func score(word1: String, word2: String) -> Int {
-            let distance = levenshtein(aStr: word1, bStr: word2)
-            return distance == 0 ? 1 : -distance
+            return word1 == word2 ? matchScore : mismatchScore
         }
 
         // Perform sequence alignment
@@ -203,7 +169,7 @@ class TranscriptSyncModel {
         // We need to do A LOT of work in performance
         // For testing purposed I limit the transcript to just 500 words
         // otherwise the app crashes, becomes slow, etc etc
-        let subtitle = String(reference.prefix(500))
+        let subtitle = String(reference)
         let transcript = words.map { $0.2 }
 
         let (alignedSubtitle, alignedTranscript, alignedTimestamps) = alignSequences(subtitle: subtitle, transcript: transcript, transcriptTimestamps: timestamps)
