@@ -18,7 +18,7 @@ class TranscriptSyncModel {
             words.append((offset + $0.timestamp, $0.duration, $0.substring))
         }
 
-        wordByWord()
+        alignSequences()
     }
 
     func reset() {
@@ -35,7 +35,7 @@ class TranscriptSyncModel {
 
     var timestamps: [(TimeInterval, TimeInterval)] = []
 
-    func wordByWord() {
+    func alignSequences() {
         // Define constants
         let matchScore = 1
         let mismatchScore = -1
