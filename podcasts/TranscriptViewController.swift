@@ -292,15 +292,18 @@ class TranscriptViewController: PlayerItemViewController {
         activityIndicatorView.stopAnimating()
     }
 
-    private var previousEpisodeUUID: String?
+    private var currentEpisodeUUID: String?
 
     private func loadTranscript() {
-        setupLoadingState()
         guard let episode = playbackManager.currentEpisode(), let podcast = playbackManager.currentPodcast else {
             return
         }
-        let shouldResetPosition = previousEpisodeUUID != episode.uuid
-        previousEpisodeUUID = episode.uuid
+
+        let shouldResetPosition = currentEpisodeUUID != episode.uuid
+        currentEpisodeUUID = episode.uuid
+
+        setupLoadingState()
+
         Task.detached { [weak self] in
             guard let self else {
                 return
