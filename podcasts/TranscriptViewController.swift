@@ -478,9 +478,7 @@ class TranscriptViewController: PlayerItemViewController {
         if let word = syncModel.firstWord(containing: position) {
             transcriptView.attributedText = styleText(transcript: transcript, position: word.characterRange)
 
-            // adjusting the scroll to range so it shows more text
-            let scrollRange = NSRange(location: word.characterRange.location, length: word.characterRange.length)
-            transcriptView.scrollRangeToVisible(scrollRange)
+            transcriptView.scrollToRange(word.characterRange)
         }
     }
 
