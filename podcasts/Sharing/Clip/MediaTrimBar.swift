@@ -49,7 +49,7 @@ struct MediaTrimBar: View {
                     } else {
                         playbackManager.stop()
                     }
-                    let event: AnalyticsEvent = isPlaying ? .shareScreenPauseTapped : .shareScreenPlayTapped
+                    let event: AnalyticsEvent = isPlaying ? .shareScreenPlayTapped : .shareScreenPauseTapped
                     Analytics.track(event, source: analyticsSource, properties: ["podcast_uuid": episode.parentIdentifier(), "episode_uuid": episode.uuid, "clip_uuid": clipUUID])
                 }
                 .onDisappear {
