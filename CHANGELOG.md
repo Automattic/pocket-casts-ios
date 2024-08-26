@@ -1,5 +1,6 @@
 7.72
 -----
+- Adds a medium size for the Now Playing widget [#1876](https://github.com/Automattic/pocket-casts-ios/pull/1876)
 - Fix playback when switching from iPhone speaker to other audio outputs with trim silence enabled [#2049](https://github.com/Automattic/pocket-casts-ios/issues/2049)
 - Fix keyboard shortcuts order for MainTabBarController [#1951](https://github.com/Automattic/pocket-casts-ios/issues/1951)
 - Update podcast list when episode is archived or marked as played from player [#1976](https://github.com/Automattic/pocket-casts-ios/issues/1976)

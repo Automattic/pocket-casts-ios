@@ -35,7 +35,7 @@ struct MediumUpNextView: View {
                         EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                         Spacer()
                         Image(colorScheme.iconAssetName)
-                            .frame(width: 28, height: 28)
+                            .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                             .accessibility(hidden: true)
                             .unredacted()
                     }
@@ -85,7 +85,7 @@ struct MediumFilterView: View {
                         .frame(height: 18)
                     Spacer()
                     Image(colorScheme.filterViewIconAssetName)
-                        .frame(width: 28, height: 28)
+                        .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                         .unredacted()
                 }
                 .frame(height: 32)
