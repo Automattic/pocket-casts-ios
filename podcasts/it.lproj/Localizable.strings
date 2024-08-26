@@ -153,6 +153,12 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>I segnalibri sono disponibili.</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Unisciti a noi per il beta test della funzionalità dei segnalibri.</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Iscriviti a Plus ora per preselezionare e saltare i capitoli automaticamente in qualsiasi episodio che li supporta.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Grazie al tuo abbonamento a Patron, ora puoi preselezionare e saltare i capitoli automaticamente in qualsiasi episodio che li supporta.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Grazie al tuo abbonamento a Plus, ora puoi preselezionare e saltare i capitoli automaticamente in qualsiasi episodio che li supporta.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Codice copiato negli appunti</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Grafica podcast</string>
     <key>appearance_dark_theme</key>
     <string>Tema scuro</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Usa la grafica dell'episodio</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>Alcuni programmi hanno grafiche personalizzate per certi episodi. Abilita questa opzione e Pocket Casts le mostrerà al posto della grafica del programma.</string>
     <key>appearance_light_theme</key>
@@ -327,6 +335,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Velocità di riproduzione</string>
     <key>carplay_up_next_queue</key>
     <string>Coda Successivo</string>
+    <key>champion_description</key>
+    <string>Grazie per essere con noi fin dall'inizio! Se ti piace utilizzare la nostra app, gradiremmo sapere il tuo feedback.</string>
+    <key>champion_title</key>
+    <string>Sei un campione di Pocket Casts!</string>
     <key>change_app_icon</key>
     <string>Modifica icona app</string>
     <key>change_bookmark_subtitle</key>
@@ -1201,6 +1213,28 @@ pocast con te</string>
     <string>Apri lettore</string>
     <key>keycommand_play_pause</key>
     <string>Riproduci/Sospendi</string>
+    <key>kids_profile_banner_badge</key>
+    <string>Presto</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>Richiedi l'accesso anticipato </string>
+    <key>kids_profile_banner_text</key>
+    <string>Un nuovo profilo con solo contenuti per bambini per mantenere in ordine i tuoi abbonamenti.</string>
+    <key>kids_profile_banner_title</key>
+    <string>Profilo Bambini</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>Invia</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Cosa vorresti vedere in un profilo Bambini in Pocket Casts?</string>
+    <key>kids_profile_submit_success</key>
+    <string>Grazie per il feedback.</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>No, grazie</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>Invia feedback</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>Riceverai una notifica tramite l'app quando il profilo Bambini sarà pronto! Vuoi dirci cosa vorresti vedere?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>Grazie per il tuo interesse</string>
     <key>learn_more</key>
     <string>Scopri di più</string>
     <key>listening_history</key>
@@ -1504,6 +1538,10 @@ AGGIORNAMENTI</string>
     <string>Sblocca tutte le funzionalità</string>
     <key>plus_cancel_terms</key>
     <string>Può essere annullato in qualsiasi momento</string>
+    <key>plus_champion</key>
+    <string>Campione di Pocket Casts</string>
+    <key>plus_champion_message</key>
+    <string>Grazie per essere con Pocket Casts fin dall'inizio! Sei un vero campione!</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB di archiviazione su cloud</string>
     <key>plus_discount_yearly_membership</key>
@@ -1543,7 +1581,7 @@ AGGIORNAMENTI</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Temi e icone</string>
     <key>plus_marketing_title</key>
-    <string>Tutto ciò che ti piace di Pocket Casts e molto altro</string>
+    <string>Sblocca funzioni esclusive con Pocket Casts Plus</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Carica i tuoi file sull'archiviazione su cloud e rendili disponibili per qualsiasi postazione</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1867,6 +1905,12 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Ti ringraziamo per la tua valutazione.</string>
     <key>rating_title</key>
     <string>Valuta %1$@</string>
+    <key>rating_whats_new_button_title</key>
+    <string>Fatto</string>
+    <key>rating_whats_new_message</key>
+    <string>Valuta i tuoi podcast preferiti e fai sapere agli autori quanto apprezzi il loro lavoro. Le tue valutazioni aiuteranno altre persone a trovare i loro programmi preferiti!</string>
+    <key>rating_whats_new_title</key>
+    <string>Ora disponibile: Valutazioni dei podcast 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>RICERCA DI NUOVI EPISODI DEL PODCAST</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2087,6 +2131,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Suono di conferma del segnalibro</string>
     <key>settings_bookmark_sound_footer</key>
     <string>Riproduci un suono di conferma dopo aver creato un segnalibro con le cuffie.</string>
+    <key>settings_change_avatar</key>
+    <string>Cambia avatar</string>
     <key>settings_collect_information</key>
     <string>Raccogli informazioni</string>
     <key>settings_collect_information_additional_information</key>
@@ -2193,6 +2239,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Apri i link nel browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Azioni di riproduzione aggiuntive</string>
+    <key>settings_general_play_back_actions_subtitle</key>
+    <string>Aggiunge un'opzione stella alla schermata di blocco del telefono.</string>
     <key>settings_general_player_header</key>
     <string>LETTORE</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2487,6 +2535,10 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Salta indietro</string>
     <key>skip_chapters</key>
     <string>Preseleziona i capitoli</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Preseleziona capitoli e altro ancora con Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Preseleziona capitoli e altro ancora con Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Salta in avanti</string>
     <key>sleep_timer</key>

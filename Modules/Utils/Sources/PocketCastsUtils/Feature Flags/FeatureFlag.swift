@@ -85,6 +85,19 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enables the Kids banner
     case kidsProfile
 
+    /// Enable the new Upgrade Experiments
+    case upgradeExperiment
+
+    /// When enabled, we ignore audio interruptions with InterruptionReason set to routeDisconnected
+    /// (introduced in iOS 17 and watchOS 10) because these are not really interruptions as we have
+    /// implemented them previously. If the route is disconnected, audio stops indefinitely
+    /// until a new route connects (for which we'll received a different notification and handle accordingly)
+    /// See: https://github.com/Automattic/pocket-casts-ios/issues/2049
+    case ignoreRouteDisconnectedInterruption
+
+    /// Enable the Referrals feature
+    case referrals
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -148,6 +161,12 @@ public enum FeatureFlag: String, CaseIterable {
         case .gravatarChangeAvatar:
             true
         case .kidsProfile:
+            false
+        case .upgradeExperiment:
+            false
+        case .ignoreRouteDisconnectedInterruption:
+            true
+        case .referrals:
             false
         }
     }

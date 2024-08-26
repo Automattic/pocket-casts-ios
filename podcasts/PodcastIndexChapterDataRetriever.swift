@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsServer
 
 public struct PodcastIndexEvelope: Decodable {
     let chapters: [PodcastIndexChapter]
@@ -36,18 +37,23 @@ public actor PodcastIndexChapterDataRetriever {
             return try chapters(from: cachedResponse.data)
         }
 
-        let task = Task<PodcastIndexEvelope, Error> {
+        let task = Task<PodcastIndexEvelope, Error> { [weak self] in
+            guard let self else { throw TaskError.nilSelf }
             let (data, response) = try await URLSession.shared.data(for: request)
             let responseToCache = CachedURLResponse(response: response, data: data)
             podcastIndexChaptersCache.storeCachedResponse(responseToCache, for: request)
-            dataRequestMap[urlString] = nil
+            await setDataRequestMapToNil(for: urlString)
 
-            return try chapters(from: data)
+            return try await chapters(from: data)
         }
 
         dataRequestMap[urlString] = task
 
         return try await task.value
+    }
+
+    private func setDataRequestMapToNil(for urlString: String) {
+        dataRequestMap[urlString] = nil
     }
 
     private func chapters(from data: Data) throws -> PodcastIndexEvelope {

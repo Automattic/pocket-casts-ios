@@ -1,7 +1,7 @@
 {
   "project_name": "pocketcasts-ios",
   "branch": "trunk",
-  "pinned_hash": "90cc94470fb6faed3f5fc309f0dd0045de082240",
+  "pinned_hash": "126ffacbbfc7abf1f4bf14670d72418846f04673",
   "files_to_copy": [
     {
       "file": "iOS/pocket-casts/fastlane_match_pwd.txt",

@@ -51,7 +51,9 @@ public actor ShowInfoDataRetriever {
 
         FileLog.shared.addMessage("Show Info: requesting info for podcast \(podcastUuid)")
 
-        let task = Task<Data, Error> {
+        let task = Task<Data, Error> { [weak self, request] in
+            guard let self else { throw TaskError.nilSelf }
+
             do {
                 let (data, response) = try await URLSession.shared.data(for: request)
 
@@ -60,22 +62,26 @@ public actor ShowInfoDataRetriever {
                     cache.storeCachedResponse(responseToCache, for: request)
                     FileLog.shared.addMessage("Show Info: request succeeded for podcast \(podcastUuid).")
                 } else if let data = cache.cachedResponse(for: request)?.data {
-                    dataRequestMap[podcastUuid] = nil
+                    await setDataRequestMapToNil(for: podcastUuid)
                     FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid). Returning cached data")
                     return data
                 }
 
-                dataRequestMap[podcastUuid] = nil
+                await setDataRequestMapToNil(for: podcastUuid)
                 return data
             } catch {
                 FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid): \(error.localizedDescription). Returning cached data")
-                dataRequestMap[podcastUuid] = nil
+                await setDataRequestMapToNil(for: podcastUuid)
                 throw error
             }
         }
         dataRequestMap[podcastUuid] = task
 
         return try await task.value
+    }
+
+    private func setDataRequestMapToNil(for podcastUuid: String) {
+        dataRequestMap[podcastUuid] = nil
     }
 
     private func loadEpisodeData(
@@ -102,4 +108,8 @@ public actor ShowInfoDataRetriever {
 
         return nil
     }
+}
+
+public enum TaskError: Error {
+    case nilSelf
 }

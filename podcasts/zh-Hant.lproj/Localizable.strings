@@ -153,6 +153,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>書籤登場！</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>加入我們的書籤 Beta 測試！</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>立即訂閱 Plus，就能在支援章節功能的節目中自動預先選取並跳過章節。</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>你已訂閱 Patron，現在可以在支援章節功能的節目中自動預先選取並跳過章節。</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>你已訂閱 Plus，現在可以在支援章節功能的節目中自動預先選取並跳過章節。</string>
     <key>announcement_slumber_code_copied</key>
     <string>代碼已複製到剪貼簿</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Podcast 封面作品</string>
     <key>appearance_dark_theme</key>
     <string>深色佈景主題</string>
+    <key>appearance_embedded_artwork</key>
+    <string>使用單集封面圖片</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>有些節目會針對特定單集推出自訂封面圖片。 若啟用此選項，Pocket Casts 就會顯示這些封面圖片，而非節目的封面圖片。</string>
     <key>appearance_light_theme</key>
@@ -327,6 +335,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>播放速度</string>
     <key>carplay_up_next_queue</key>
     <string>「接下來播放」佇列</string>
+    <key>champion_description</key>
+    <string>感謝你從一開始就選擇我們！ 若你滿意我們的應用程式，我們很樂意聽聽你的意見回饋。</string>
+    <key>champion_title</key>
+    <string>你是 Pocket Casts 真正的支持者！</string>
     <key>change_app_icon</key>
     <string>變更應用程式圖示</string>
     <key>change_bookmark_subtitle</key>
@@ -1201,6 +1213,28 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>開啟播放器</string>
     <key>keycommand_play_pause</key>
     <string>播放/暫停</string>
+    <key>kids_profile_banner_badge</key>
+    <string>即將推出</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>申請搶先使用 </string>
+    <key>kids_profile_banner_text</key>
+    <string>新版個人檔案僅包含適合兒童的內容，可維持訂閱項目畫面清楚有條理。</string>
+    <key>kids_profile_banner_title</key>
+    <string>兒童個人檔案</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>傳送</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>你想要在 Pocket Casts 的兒童個人檔案中看到哪些內容？</string>
+    <key>kids_profile_submit_success</key>
+    <string>感謝你的意見回饋！</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>不，謝謝</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>傳送意見回饋</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>待新的兒童個人檔案準備就緒後，你就會透過應用程式收到通知！ 想讓我們了解你想看的內容嗎？</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>感謝你對本產品的青睞。</string>
     <key>learn_more</key>
     <string>了解詳情</string>
     <key>listening_history</key>
@@ -1504,6 +1538,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>解鎖所有功能</string>
     <key>plus_cancel_terms</key>
     <string>可以隨時取消</string>
+    <key>plus_champion</key>
+    <string>Pocket Casts 支持者</string>
+    <key>plus_champion_message</key>
+    <string>感謝你對 Pocket Casts 始終支持不懈。 你是真正的支持者！</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB 雲端儲存空間</string>
     <key>plus_discount_yearly_membership</key>
@@ -1543,7 +1581,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>主題和圖示</string>
     <key>plus_marketing_title</key>
-    <string>包含所有你喜愛的 Pocket Casts 功能，以及更多好康</string>
+    <string>解鎖 Pocket Casts Plus 的獨家功能</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>將你的檔案上傳至雲端儲存空間，隨時隨地使用</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1849,6 +1887,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>總計剩餘時間：%1$@</string>
     <key>rate</key>
     <string>稅率</string>
+    <key>rate_pocket_casts</key>
+    <string>為 Pocket Casts 評分</string>
     <key>rating_error</key>
     <string>糟糕！ 發生錯誤。</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1865,6 +1905,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>謝謝你的評分！</string>
     <key>rating_title</key>
     <string>對「%1$@」評分</string>
+    <key>rating_whats_new_button_title</key>
+    <string>知道了</string>
+    <key>rating_whats_new_message</key>
+    <string>為你最愛的 Podcast 評分，讓創作者知道你有多欣賞他們的作品。 此外，你的評分也能幫其他人找到節目新歡！</string>
+    <key>rating_whats_new_title</key>
+    <string>全新推出：Podcast 評分 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>正在尋找新的 Podcast 單集</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2085,6 +2131,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>書籤確認音效</string>
     <key>settings_bookmark_sound_footer</key>
     <string>在透過耳機建立書籤後播放確認音效。</string>
+    <key>settings_change_avatar</key>
+    <string>變更個人頭像</string>
     <key>settings_collect_information</key>
     <string>收集資訊</string>
     <key>settings_collect_information_additional_information</key>
@@ -2191,6 +2239,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在瀏覽器開啟連結</string>
     <key>settings_general_play_back_actions</key>
     <string>其他播放動作</string>
+    <key>settings_general_play_back_actions_subtitle</key>
+    <string>可在手機鎖定畫面新增星級評分選項。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2485,6 +2535,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>倒轉跳過</string>
     <key>skip_chapters</key>
     <string>預先選取的章節</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>訂閱 Pocket Casts Patron，就能預先選取章節並享有更多功能</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>訂閱 Pocket Casts Plus，就能預先選取章節並享有更多功能</string>
     <key>skip_forward</key>
     <string>快轉跳過</string>
     <key>sleep_timer</key>

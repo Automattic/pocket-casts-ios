@@ -153,6 +153,12 @@
     <string>ブックマークはこちら !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>ブックマークのベータテストに参加してください !</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>今すぐ Plus に登録すると、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできます。</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Patron サブスクリプションの一環として、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできるようになりました。</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Plus サブスクリプションの一環として、チャプターに対応するどのエピソードでも、事前に選択したチャプターを自動でスキップできるようになりました。</string>
     <key>announcement_slumber_code_copied</key>
     <string>コードをクリップボードにコピーしました</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,8 @@
     <string>ポッドキャストのアートワーク</string>
     <key>appearance_dark_theme</key>
     <string>ダークテーマ</string>
+    <key>appearance_embedded_artwork</key>
+    <string>エピソードのアートワークを使用</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>一部の番組には特定のエピソードにカスタムのアートワークがあります。 このオプションを有効化すると、Pocket Casts は番組のアートワークではなく、そのカスタムのアートワークを表示します。</string>
     <key>appearance_light_theme</key>
@@ -327,6 +335,10 @@
     <string>再生速度</string>
     <key>carplay_up_next_queue</key>
     <string>次のエピソード待機リスト</string>
+    <key>champion_description</key>
+    <string>最初からご利用いただきありがとうございます ! アプリを気に入っていただけましたら、ぜひフィードバックをお寄せください。</string>
+    <key>champion_title</key>
+    <string>あなたは Pocket Casts の真のサポーターです !</string>
     <key>change_app_icon</key>
     <string>アプリアイコンを変更</string>
     <key>change_bookmark_subtitle</key>
@@ -1201,6 +1213,28 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>プレーヤーを開く</string>
     <key>keycommand_play_pause</key>
     <string>再生 / 一時停止</string>
+    <key>kids_profile_banner_badge</key>
+    <string>すぐに</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>早期アクセスをリクエスト </string>
+    <key>kids_profile_banner_text</key>
+    <string>子ども向けコンテンツのみのプロフィールを新規に作成して、サブスクリプションを整理しておくことができます。</string>
+    <key>kids_profile_banner_title</key>
+    <string>キッズプロフィール</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>送信</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Pocket Casts のキッズプロフィールに表示したいものは何ですか ?</string>
+    <key>kids_profile_submit_success</key>
+    <string>フィードバックをありがとうございます。</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>結構です</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>フィードバックを送る</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>新しいキッズプロフィールの準備ができたら、アプリから通知が届きます ! ご覧になりたいものは何ですか ?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>ご検討いただきありがとうございます</string>
     <key>learn_more</key>
     <string>もっと詳しく知る</string>
     <key>listening_history</key>
@@ -1504,6 +1538,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>すべての機能のロックを解除</string>
     <key>plus_cancel_terms</key>
     <string>いつでもキャンセルできます</string>
+    <key>plus_champion</key>
+    <string>Pocket Casts の真のサポーター</string>
+    <key>plus_champion_message</key>
+    <string>Pocket Casts を最初からご利用いただきありがとうございます。 あなたは真のサポーターです !</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@GB のクラウドストレージ</string>
     <key>plus_discount_yearly_membership</key>
@@ -1543,7 +1581,7 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>plus_marketing_themes_icons_title</key>
     <string>テーマとアイコン</string>
     <key>plus_marketing_title</key>
-    <string>お気に入りの Pocket Casts の機能に加え、さらなる機能を利用できます</string>
+    <string>Pocket Casts Plus で限定機能を利用しましょう</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>ファイルをクラウドストレージにアップロードしてどこからでも利用できるようにします</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1849,6 +1887,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>合計残り時間: %1$@</string>
     <key>rate</key>
     <string>評価する</string>
+    <key>rate_pocket_casts</key>
+    <string>Pocket Casts を評価</string>
     <key>rating_error</key>
     <string>エラー。 エラーが発生しました。</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1865,6 +1905,12 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ご評価いただきありがとうございます !</string>
     <key>rating_title</key>
     <string>%1$@ を評価</string>
+    <key>rating_whats_new_button_title</key>
+    <string>OK</string>
+    <key>rating_whats_new_message</key>
+    <string>お気に入りのポッドキャストを評価して、作品をどの程度気に入っているかをクリエイターに伝えましょう。 さらに、あなたの評価は他のユーザーが新しいお気に入り番組を見つけるのに役立ちます !</string>
+    <key>rating_whats_new_title</key>
+    <string>ポッドキャストの評価が利用可能になりました 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>新しいポッドキャストエピソードを検索しています</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2085,6 +2131,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>確認音声をブックマーク</string>
     <key>settings_bookmark_sound_footer</key>
     <string>ヘッドフォンでブックマークを作成したら、確認音声を再生します。</string>
+    <key>settings_change_avatar</key>
+    <string>アバターを変更</string>
     <key>settings_collect_information</key>
     <string>情報を収集</string>
     <key>settings_collect_information_additional_information</key>
@@ -2191,6 +2239,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ブラウザーでリンクを開く</string>
     <key>settings_general_play_back_actions</key>
     <string>他の再生操作</string>
+    <key>settings_general_play_back_actions_subtitle</key>
+    <string>スマートフォンのロック画面に星オプションを追加します。</string>
     <key>settings_general_player_header</key>
     <string>プレーヤー</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2485,6 +2535,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>巻き戻し</string>
     <key>skip_chapters</key>
     <string>チャプターを事前に選択</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Pocket Casts Patron でチャプターの事前選択やその他の機能を利用</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Pocket Casts Plus でチャプターの事前選択やその他の機能を利用</string>
     <key>skip_forward</key>
     <string>早送り</string>
     <key>sleep_timer</key>

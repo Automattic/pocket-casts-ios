@@ -16,6 +16,8 @@ class TranscriptViewController: PlayerItemViewController {
 
     private let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
+    private var kmpSearch: KMPSearch?
+
     init(playbackManager: PlaybackManager) {
         self.playbackManager = playbackManager
         super.init()
@@ -267,6 +269,7 @@ class TranscriptViewController: PlayerItemViewController {
 
     @objc private func update() {
         updateColors()
+        resetKmp()
         resetSearch()
         loadTranscript()
     }
@@ -321,6 +324,10 @@ class TranscriptViewController: PlayerItemViewController {
         searchTerm = nil
         updateNumberOfResults()
         refreshText()
+    }
+
+    private func resetKmp() {
+        kmpSearch = nil
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -483,8 +490,10 @@ class TranscriptViewController: PlayerItemViewController {
             return
         }
 
-        let kmpSearch = KMPSearch(pattern: term)
-        searchIndicesResult = kmpSearch.search(in: transcriptText)
+        if kmpSearch == nil {
+            kmpSearch = KMPSearch(text: transcriptText)
+        }
+        searchIndicesResult = kmpSearch?.search(for: term) ?? []
         currentSearchIndex = 0
         searchTerm = term
     }
@@ -537,12 +546,19 @@ class TranscriptViewController: PlayerItemViewController {
         let previousContentOffset = transcriptView.contentOffset
         UIView.animate(withDuration: animationDuration, animations: { [weak self] in
             guard let self else { return }
+
+            if isSearching {
+                transcriptView.setContentOffset(previousContentOffset, animated: false)
+            }
+
             transcriptView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: adjustmentHeight, right: 0)
-            transcriptView.setContentOffset(previousContentOffset, animated: false)
             transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
         }, completion: { [weak self] _ in
             guard let self else { return }
-            transcriptView.setContentOffset(previousContentOffset, animated: false)
+
+            if isSearching {
+                transcriptView.setContentOffset(previousContentOffset, animated: false)
+            }
         })
     }
 

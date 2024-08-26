@@ -137,6 +137,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func handleThemeChanged() {
         updateRefreshFooterColors()
+        updateReferralsColors()
     }
 
     private func updateRefreshFooterColors() {
@@ -204,6 +205,13 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateLastRefreshDetails() {
+        if areReferralsAvailable {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: referralsButton)
+            updateReferralsColors()
+        } else {
+            navigationItem.leftBarButtonItem = nil
+        }
+
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
             lastRefreshTime.text = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
             refreshBtn.buttonTitle = L10n.tryAgain
@@ -407,6 +415,74 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         let controller = HeadphoneSettingsViewController()
         navigationController?.pushViewController(controller, animated: true)
         AnnouncementFlow.current = .none
+    }
+
+    // MARK: - Referrals
+
+    private var numberOfReferralsAvailable: Int = 3
+
+    private var areReferralsAvailable: Bool {
+        return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
+    }
+
+    private lazy var referralsBadge: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.text = "\(numberOfReferralsAvailable)"
+        label.textAlignment = .center
+        label.layer.borderWidth = 1
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 8
+        label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+        return label
+    }()
+
+    private lazy var referralsButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: ReferralsConstants.giftIcon), for: .normal)
+        button.addTarget(self, action: #selector(referralsTapped), for: .touchUpInside)
+        button.addSubview(referralsBadge)
+        NSLayoutConstraint.activate(
+            [
+                button.widthAnchor.constraint(equalToConstant: ReferralsConstants.giftSize),
+                button.heightAnchor.constraint(equalToConstant: ReferralsConstants.giftSize),
+                referralsBadge.widthAnchor.constraint(equalToConstant: ReferralsConstants.giftBadgeSize),
+                referralsBadge.heightAnchor.constraint(equalToConstant: ReferralsConstants.giftBadgeSize),
+                referralsBadge.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: -ReferralsConstants.giftBadgeSize / 2),
+                referralsBadge.topAnchor.constraint(equalTo: button.topAnchor, constant: -ReferralsConstants.giftBadgeSize / 4)
+            ]
+        )
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = false
+        button.bringSubviewToFront(referralsBadge)
+        return button
+    }()
+
+    private func updateReferrals() {
+        if numberOfReferralsAvailable > 0 {
+            numberOfReferralsAvailable -= 1
+        } else {
+            numberOfReferralsAvailable = 3
+        }
+        referralsBadge.text = "\(numberOfReferralsAvailable)"
+        referralsBadge.isHidden = numberOfReferralsAvailable == 0
+    }
+
+    private func updateReferralsColors() {
+        referralsBadge.backgroundColor = ThemeColor.secondaryIcon01()
+        referralsBadge.textColor = ThemeColor.secondaryUi01()
+        referralsBadge.layer.borderColor = ThemeColor.secondaryUi01().cgColor
+    }
+
+    @objc private func referralsTapped() {
+        updateReferrals()
+    }
+
+    private enum ReferralsConstants {
+        static let giftIcon = "gift"
+        static let giftSize = CGFloat(24)
+        static let giftBadgeSize = CGFloat(16)
     }
 }
 

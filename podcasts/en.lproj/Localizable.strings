@@ -4184,8 +4184,14 @@
 /* Current search results being displayed and the total number of results. Eg.: 1 of 10. %1$@ is the current result being shown, %2$@ is the total number of results */
 "search_results" = "%1$@ of %2$@";
 
-/* A title shown for a share option which creates an audio clip of an episode */
+/* A title shown for a share option which creates an animated video clip with audio of an episode */
 "create_clip" = "Create clip";
+
+/* A title shown for a share option which creates an audio clip of an episode */
+"create_audio_clip_title" = "Create audio file";
+
+/* A description shown for a share option which creates an audio clip of an episode. This produces a ".m4a" file which is like an mp3 */
+"create_audio_clip_description" = "Create a .m4a audio file";
 
 /* Shown in a button when creating a shareable audio clip of an episode */
 "clip" = "Clip";
@@ -4201,6 +4207,9 @@
 
 /* A label shown with the duration time of a clip */
 "clip_duration_label" = "%@ Duration";
+
+/* A label shown while the clip is being created */
+"clip_loading_label" = "Creating Clip...";
 
 /* Title of the Pocket Casts champion screen, greeting an user that has been using Pocket Casts for a long time */
 "champion_title" = "You’re a true champion of Pocket Casts!";
@@ -4261,3 +4270,54 @@
 
 /* Transcript error message when transcript is empty*/
 "transcript_error_empty" = "Sorry, but it looks this transcript is empty";
+
+/* Upgrade Experiment Paywall button title */
+"upgrade_experiment_paywall_button" = "Get Pocket Casts Plus";
+
+/* Upgrade Experiment message informing the user that they have been granted a limited free membership. '%1$@' is a placeholder for a localized string for the free time period. */
+"upgrade_experiment_free_membership_format" = "Free %1$@ Plus trial";
+
+/* Upgrade Experiment message informing the user that they have been granted 50% discount. */
+"upgrade_experiment_discount_yearly_membership" = "Save 50%% off your first year";
+
+/* Upgraade Experiment - Features Variation: Desktop feature card title*/
+"plus_feature_card_title_desktop" = "Desktop and web apps";
+
+/* Upgraade Experiment - Features Variation: Folders feature card title*/
+"plus_feature_card_title_folders" = "Folders";
+
+/* Upgraade Experiment - Features Variation: Bokmarks feature card title*/
+"plus_feature_card_title_bookmarks" = "Bookmarks";
+
+/* Upgraade Experiment - Features Variation: Wear OS feature card title*/
+"plus_feature_card_title_wear_os" = "Apple Watch and Wear OS playback";
+
+/* Upgraade Experiment - Features Variation: Slumber Studio feature card title*/
+"plus_feature_card_title_slumber_studio" = "Dream with Slumber Studios";
+
+/* Upgraade Experiment - Features Variation: Storage feature card title*/
+"plus_feature_card_title_storage" = "20 GB of storage";
+
+/* Upgraade Experiment - Features Variation: Extra feature card title*/
+"plus_feature_card_title_extra_themes" = "Extra themes and icons";
+
+/* Upgraade Experiment - Features Variation: Desktop feature card text*/
+"plus_feature_card_text_desktop" = "Listen in more places with our Windows, macOS and Web apps.";
+
+/* Upgraade Experiment - Features Variation: Folders feature card text*/
+"plus_feature_card_text_folders" = "Organize your podcasts in folders, and keep them in sync across all your devices.";
+
+/* Upgraade Experiment - Features Variation: Bokmarks feature card text*/
+"plus_feature_card_text_bookmarks" = "Save your favorite bits from any episode and go back to them.";
+
+/* Upgraade Experiment - Features Variation: Wear OS feature card text*/
+"plus_feature_card_text_wear_os" = "Ditch the phone and go for a run.";
+
+/* Upgraade Experiment - Features Variation: Slumber Studio feature card text*/
+"plus_feature_card_text_slumber_studio" = "Get 1 year of premium content from Slumber Studios.";
+
+/* Upgraade Experiment - Features Variation: Storage feature card text*/
+"plus_feature_card_text_storage" = "Upload your audio files to cloud storage and have them available everywhere.";
+
+/* Upgraade Experiment - Features Variation: Extra feature card text*/
+"plus_feature_card_text_extra_themes" = "Fly your true colors. Exclusive icons and themes for our subscribers.";
