@@ -182,9 +182,12 @@ class TranscriptSyncModel {
     var previousWord: Word?
 
     public func firstWord(containing secondsValue: TimeInterval) -> Word? {
+        let transcripted = words.first { secondsValue >= $0.0 && secondsValue <= ($0.0 + $0.1) }
+
         if let word = matchedWords
             .first(where: { $0.contains(timeInSeconds: secondsValue) }) {
                 previousWord = word
+                print("🗣️ \(transcripted?.2 ?? "-"); \(reference[word.characterRange])")
                 return word
             } else {
 
@@ -202,7 +205,8 @@ class TranscriptSyncModel {
 
                     // Only highlight something if there was a previousWord
                     // And if the time difference is less than a second
-                    if let previousWord, difference < 1.second {
+                    // And if we have something from the audio -> text transcription
+                    if let previousWord, difference < 1.second, let transcripted {
                         let location = previousWord.characterRange.location + previousWord.characterRange.length
 
                         let nextOneLocation = nextOne.characterRange.location
@@ -214,12 +218,15 @@ class TranscriptSyncModel {
                         // Highlight whatever is in between if it's bigger than 2 chars
                         // This avoid highlighting breaklines and commas
                         if test.count > 2 {
+                            print("🗣️ \(transcripted?.2 ?? "-"); \(test)*")
+
                             return Word(timestamp: 0, duration: 0, characterRange: range)
                         }
 
                     }
                 }
 
+                print("🗣️ \(transcripted?.2 ?? "-"); -")
                 return nil
             }
     }
