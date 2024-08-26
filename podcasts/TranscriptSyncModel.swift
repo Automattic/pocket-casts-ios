@@ -166,9 +166,6 @@ class TranscriptSyncModel {
             return (alignedSubtitle.reversed(), alignedTranscript.reversed(), alignedTimestamps.reversed())
         }
 
-        // We need to do A LOT of work in performance
-        // For testing purposed I limit the transcript to just 500 words
-        // otherwise the app crashes, becomes slow, etc etc
         let subtitle = String(reference)
         let transcript = words.map { $0.2 }
 
