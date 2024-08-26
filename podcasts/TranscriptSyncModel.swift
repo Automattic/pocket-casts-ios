@@ -26,6 +26,7 @@ class TranscriptSyncModel {
         reference = ""
         matchedWords = []
         timestamps = []
+        previousWord = nil
     }
 
     // MARK: - Alignment algorithm
