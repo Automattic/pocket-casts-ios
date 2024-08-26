@@ -199,7 +199,9 @@ class TranscriptSyncModel {
                     // Calculate the time difference between the next one and the current time
                     let difference = nextOne.timestamp - secondsValue
 
-                    if let previousWord {
+                    // Only highlight something if there was a previousWord
+                    // And if the time difference is less than a second
+                    if let previousWord, difference < 1.second {
                         let location = previousWord.characterRange.location + previousWord.characterRange.length
 
                         let nextOneLocation = nextOne.characterRange.location
@@ -208,7 +210,8 @@ class TranscriptSyncModel {
 
                         let test = reference[range]
 
-                        // Highlight whatever is in between
+                        // Highlight whatever is in between if it's bigger than 2 chars
+                        // This avoid highlighting breaklines and commas
                         if test.count > 2 {
                             return Word(timestamp: 0, duration: 0, characterRange: range)
                         }
