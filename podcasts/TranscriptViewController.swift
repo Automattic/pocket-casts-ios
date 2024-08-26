@@ -469,11 +469,11 @@ class TranscriptViewController: PlayerItemViewController {
     }
 
     @objc private func updateTranscriptPosition() {
-        let position = playbackManager.currentTime()
-
-        guard let transcript else {
+        guard playbackManager.playing(), let transcript else {
             return
         }
+
+        let position = playbackManager.currentTime()
 
         if let word = syncModel.firstWord(containing: position) {
             transcriptView.attributedText = styleText(transcript: transcript, position: word.characterRange)
