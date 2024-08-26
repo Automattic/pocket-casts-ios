@@ -180,52 +180,6 @@ struct SharingView: View {
             .scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.previewSize.height)
 	}
 
-    private func logShareAction(option: SharingModal.Option, style: ShareImageStyle) {
-        var properties: Dictionary<String, Any> = [:]
-
-        switch option {
-        case .clip(let episode, _):
-            properties["episode_uuid"] = episode.uuid
-        case .clipShare(let episode, let clipTime, _, _):
-            properties["episode_uuid"] = episode.uuid
-            properties["start"] = Int(clipTime.start)
-            properties["end"] = Int(clipTime.end)
-            properties["start_modified"] = clipTime.startChanged
-            properties["end_modified"] = clipTime.endChanged
-        case .episode(let episode):
-            properties["episode_uuid"] = episode.uuid
-        case .podcast(let podcast):
-            properties["podcast_uuid"] = podcast.uuid
-        case .currentPosition(let episode, _):
-            properties["episode_uuid"] = episode.uuid
-        }
-        properties["clip_uuid"] = clipUUID
-
-        switch style {
-        case .large:
-            properties["card_type"] = "vertical"
-        case .medium:
-            properties["card_type"] = "square"
-        case .small:
-            properties["card_type"] = "horizontal"
-        case .audio:
-            properties["card_type"] = "audio"
-        }
-
-        let shareType: String
-        switch (style, option) {
-        case (.audio, _):
-            shareType = "audio"
-        case (_, .clip), (_, .clipShare):
-            shareType = "video"
-        default:
-            shareType = "link"
-        }
-        properties["type"] = shareType
-
-        Analytics.track(.shareScreenClipShared, source: source, properties: properties)
-    }
-
     private func shareItems(style: ShareImageStyle) -> [Shareable] {
         var media = shareable
         media.shareType = style == .audio ? .audio : .video
@@ -305,6 +259,6 @@ struct SharingView: View {
 }
 
 #Preview {
-    SharingView(destinations: [.copyLinkOption], selectedOption: .podcast(Podcast.previewPodcast()), source: .player)
+    SharingView(destinations: [.copyLink], selectedOption: .podcast(Podcast.previewPodcast()), source: .player)
         .background(Color.black)
 }

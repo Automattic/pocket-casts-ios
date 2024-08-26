@@ -97,7 +97,7 @@ enum SharingModal {
     }
 
     static func show(option: Option, from source: AnalyticsSource, in viewController: UIViewController) {
-        let sharingDestinations: [ShareDestination] = ShareDestination.displayedApps + [.copyLinkOption, .moreOption(vc: viewController)]
+        let sharingDestinations: [ShareDestination] = ShareDestination.displayedApps + [.copyLink, .systemSheet(vc: viewController)]
         let sharingView = SharingView(destinations: sharingDestinations, selectedOption: option, source: source)
         let modalView = ModalView {
             sharingView
@@ -168,14 +168,14 @@ extension SharingModal.Option {
     }
 
     @MainActor
-    func shareData(style: ShareImageStyle, destination: ShareDestination.Destination? = nil) -> [Any] {
+    func shareData(style: ShareImageStyle, destination: ShareDestination? = nil) -> [Any] {
         let url = URL(string: shareURL) as NSURL?
         let media = mediaData(style: style, destination: destination)
         return [url, media].compactMap({ $0 })
     }
 
     @MainActor
-    func mediaData(style: ShareImageStyle, destination: ShareDestination.Destination?) -> Any? {
+    func mediaData(style: ShareImageStyle, destination: ShareDestination?) -> Any? {
         switch self {
         case .clipShare(_, _, _, let progress):
             // Share video/audio clip. If sending to instagram or audio, send full file, otherwise send cropped version.
