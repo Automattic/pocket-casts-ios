@@ -83,8 +83,9 @@ struct ShareImageView: View {
                 VStack(spacing: 24) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
-                    text()
+                    text(lineLimit: 1)
                         .frame(alignment: .leading)
+                    PocketCastsLogoPill()
                 }
                 .padding(24)
                 .aspectRatio(0.99, contentMode: .fit)
@@ -97,6 +98,12 @@ struct ShareImageView: View {
                 }
                 .padding(24)
                 .aspectRatio(1.97, contentMode: .fit)
+                Image("family_pc_logo")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .padding(.top, 10)
+                    .padding(.trailing, 10)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             case .audio:
                 Image("music")
             }
