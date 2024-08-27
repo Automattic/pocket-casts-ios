@@ -391,6 +391,10 @@
     <string>Ha fallat l'autenticació.</string>
     <key>clip</key>
     <string>Clip</string>
+    <key>clip_duration_label</key>
+    <string>%@ Durada</string>
+    <key>clip_start_label</key>
+    <string>%@ Inici</string>
     <key>close</key>
     <string>Tancar</string>
     <key>color</key>
@@ -1217,6 +1221,8 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <string>Un nou perfil només amb contingut per a nens per mantenir les teves subscripcions ordenades.</string>
     <key>kids_profile_banner_title</key>
     <string>Perfil per a nens</string>
+    <key>kids_profile_submit_error</key>
+    <string>Alguna cosa ha anat malament. Prova de tornar a enviar un comentari</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>Enviar</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1881,31 +1887,31 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>queue_total_time_remaining</key>
     <string>Queda en total: %1$@</string>
     <key>rate</key>
-    <string>Puntuació</string>
+    <string>Valora-ho</string>
     <key>rate_pocket_casts</key>
     <string>Valora Pocket Casts</string>
     <key>rating_error</key>
     <string>Ep! Hi ha hagut un error.</string>
     <key>rating_listen_to_this_podcast_message</key>
-    <string>Només els oients d'aquest pòdcast poden donar-li una puntuació. Escolta uns quants episodis i després torna per donar la teva puntuació. Estem desitjant saber què penses!</string>
+    <string>Només els oients d'aquest pòdcast poden donar-li una valoració. Escolta uns quants episodis i després torna per donar la teva. Estem desitjant saber què et sembla!</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Per favor, escolta aquest pòdcast primer.</string>
     <key>rating_login_required</key>
     <string>Has d'iniciar sessió per deixar una valoració</string>
     <key>rating_no_ratings</key>
-    <string>Sense puntuacions</string>
+    <string>Sense valoracions</string>
     <key>rating_submitted</key>
-    <string>La teva puntuació s'ha enviat!</string>
+    <string>La teva valoració s'ha enviat!</string>
     <key>rating_thank_you</key>
-    <string>Gràcies per la puntuació!</string>
+    <string>Gràcies per la valoració!</string>
     <key>rating_title</key>
-    <string>Puntuació  %1$@</string>
+    <string>Valora  %1$@</string>
     <key>rating_whats_new_button_title</key>
     <string>Entesos</string>
     <key>rating_whats_new_message</key>
     <string>Valora els teus pòdcasts preferits i fes saber als creadors com valores la seva feina. A més, les teves valoracions ajuden altres a trobar nous programes favorits!</string>
     <key>rating_whats_new_title</key>
-    <string>Disponible ja: Valoracions de pòdcasts 🎉</string>
+    <string>Ja està disponible: Valoracions dels pòdcasts 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>CERCANT NOUS EPISODIS DELS PÒDCASTS</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1976,6 +1982,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Cercar pòdcasts</string>
     <key>search_recent</key>
     <string>Darreres cerques</string>
+    <key>search_results</key>
+    <string>%1$@ de %2$@</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>
@@ -2415,7 +2423,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>setup_account</key>
     <string>Configurar el compte</string>
     <key>shake_to_restart_sleep_timer</key>
-    <string>Remena-ho per a reiniciar el temporitzador de son</string>
+    <string>Remena per a reiniciar el temporitzador de son</string>
     <key>shake_to_restart_sleep_timer_description</key>
     <string>Si està activat, el temporitzador de son es reiniciarà quan moguis el telèfon.</string>
     <key>share</key>
@@ -2632,7 +2640,7 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>stop_download</key>
     <string>Atura la descàrrega</string>
     <key>subscribe</key>
-    <string>Subscriure'm</string>
+    <string>Subscriu-me</string>
     <key>subscribe_all</key>
     <string>Subscriure's a tot</string>
     <key>subscribed</key>
@@ -2711,6 +2719,16 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Primer</string>
     <key>transcript</key>
     <string>Transcripció</string>
+    <key>transcript_error_empty</key>
+    <string>Ho sento, però sembla que aquesta transcripció està buida.</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Ho sento, però alguna cosa ha anat malament mentre es carregava aquesta transcripció</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Ho sento, però hi ha hagut un error mentre s'analitzava aquesta transcripció</string>
+    <key>transcript_error_not_available</key>
+    <string>Ho sento, però no hi ha cap transcripció disponible per a aquest pòdcast.</string>
+    <key>transcript_error_not_supported</key>
+    <string>Ho sento, però aquest format de transcripció no és compatible: %1$@</string>
     <key>trial_finished</key>
     <string>Prova acabada</string>
     <key>trim_silence</key>
