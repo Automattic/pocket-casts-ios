@@ -182,6 +182,10 @@ class TranscriptSyncModel {
     var previousWord: Word?
 
     public func firstWord(containing secondsValue: TimeInterval) -> Word? {
+        if previousWord?.contains(timeInSeconds: secondsValue) == true {
+            return nil
+        }
+
         let transcripted = words.first { secondsValue >= $0.0 && secondsValue <= ($0.0 + $0.1) }
 
         if let word = matchedWords
@@ -218,7 +222,7 @@ class TranscriptSyncModel {
                         // Highlight whatever is in between if it's bigger than 2 chars
                         // This avoid highlighting breaklines and commas
                         if test.count > 2 {
-                            print("🗣️ \(transcripted?.2 ?? "-"); \(test)*")
+                            print("🗣️ \(transcripted.2); \(test)*")
 
                             return Word(timestamp: 0, duration: 0, characterRange: range)
                         }
