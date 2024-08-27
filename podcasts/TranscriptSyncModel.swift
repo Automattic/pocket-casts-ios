@@ -35,6 +35,8 @@ class TranscriptSyncModel {
 
     var timestamps: [(TimeInterval, TimeInterval)] = []
 
+    // This is the part that aligns the transcripted audio to text with
+    // the reference (the Transcript)
     func alignSequences() {
         // Define constants
         let matchScore = 1
