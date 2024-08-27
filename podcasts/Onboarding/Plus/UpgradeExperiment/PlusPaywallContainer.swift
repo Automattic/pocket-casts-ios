@@ -129,8 +129,7 @@ struct PlusPaywallContainer: View {
         case .features:
             PlusPaywallFeaturesCarousell(tier: tier)
         case .social:
-            Rectangle()
-                .fill(.yellow)
+            PlusPaywallReviews(tier: .plus)
         }
     }
 
@@ -175,4 +174,8 @@ extension PlusPricingInfoModel.ProductOfferInfo {
 
 #Preview {
     PlusPaywallContainer(viewModel: PlusLandingViewModel(source: .login), type: .features)
+}
+
+#Preview {
+    PlusPaywallContainer(viewModel: PlusLandingViewModel(source: .login), type: .social)
 }

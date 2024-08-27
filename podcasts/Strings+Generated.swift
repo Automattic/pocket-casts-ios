@@ -1841,6 +1841,8 @@ internal enum L10n {
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
   /// 1 year of exclusive content from Slumber Studios
   internal static var plusFeatureSlumber: String { return L10n.tr("Localizable", "plus_feature_slumber") }
+  /// Dream with Slumber Studios content
+  internal static var plusFeatureSlumberNew: String { return L10n.tr("Localizable", "plus_feature_slumber_new") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// PLUS FEATURES
