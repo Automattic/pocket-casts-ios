@@ -143,8 +143,13 @@ extension AppDelegate {
         }
 
         // Open to discover
-        JLRoutes.global().addRoute("/discover") { _ -> Bool in
+        JLRoutes.global().addRoute("/discover") { paramDict -> Bool in
+            if let sourceString = paramDict["source"] as? String, sourceString == "widget" {
+                Analytics.track(.widgetInteraction, properties: ["action": "discover"])
+            }
+
             NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
+
             return true
         }
         // developer features:
