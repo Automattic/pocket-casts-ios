@@ -222,7 +222,9 @@ extension AppDelegate {
 
             if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: baseEpisode.uuid) {
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
+                Analytics.track(.widgetInteraction, properties: ["action": "now_playing"])
             } else {
+                Analytics.track(.widgetInteraction, properties: ["action": "episode"])
                 if let episode = baseEpisode as? Episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid])
                 } else if baseEpisode is UserEpisode {
