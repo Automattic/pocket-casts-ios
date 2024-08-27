@@ -46,7 +46,7 @@ struct UpNextCircularWidgetView: View {
     }
 
     var widgetURL: String {
-        return numberOfEpisodeInUpNext != 0 ? "pktc://upnext?source=lock_screen_widget" : "pktc://discover"
+        return numberOfEpisodeInUpNext != 0 ? "pktc://upnext?source=lock_screen_widget" : "pktc://discover?source=widget"
     }
 
     var font: Font {
