@@ -100,7 +100,7 @@ struct UpNextRectangularWidgetView: View {
     }
 
     var widgetURL: String {
-        return nextEpisode != nil ? "pktc://upnext?source=lock_screen_widget" : "pktc://discover"
+        return nextEpisode != nil ? "pktc://upnext?source=lock_screen_widget" : "pktc://discover?source=widget"
     }
 
     var body: some View {
