@@ -245,6 +245,7 @@ extension AppDelegate {
         }
 
         JLRoutes.global().addRoute("/show_player") { [weak self] _ -> Bool in
+            Analytics.track(.widgetInteraction, properties: ["action": "now_playing"])
             self?.openPlayerWhenReadyFromExternalEvent()
             return true
         }
@@ -337,6 +338,7 @@ extension AppDelegate {
             var source: UpNextViewSource = .unknown
 
             if let sourceString = paramDict["source"] as? String {
+                Analytics.track(.widgetInteraction, properties: ["action": "up_next"])
                 source = UpNextViewSource(rawValue: sourceString) ?? .unknown
             }
 
