@@ -234,7 +234,10 @@ extension AppDelegate {
             return true
         }
 
-        JLRoutes.global().addRoute("/last_opened/*")
+        JLRoutes.global().addRoute("/last_opened/*") { _ in
+            Analytics.track(.widgetInteraction, properties: ["action": "open_app"])
+            return true
+        }
 
         JLRoutes.global().addRoute("/show_player") { [weak self] _ -> Bool in
             self?.openPlayerWhenReadyFromExternalEvent()
