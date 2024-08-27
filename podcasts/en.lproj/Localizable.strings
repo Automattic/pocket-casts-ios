@@ -4178,6 +4178,9 @@
 /* A title shown for a share option which copies a link to a podcast or episode */
 "share_copy_link" = "Copy link";
 
+/* A button title shown for a share option which shares a image or video clip to Instagram Stories */
+"share_instagram_stories" = "Stories";
+
 /* A common string used throughout the app. Often refers to the Transcript tab in the player. */
 "transcript" = "Transcript";
 

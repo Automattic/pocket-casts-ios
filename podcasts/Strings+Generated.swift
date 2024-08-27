@@ -2846,6 +2846,8 @@ internal enum L10n {
   }
   /// Share episode
   internal static var shareEpisodeTitle: String { return L10n.tr("Localizable", "share_episode_title") }
+  /// Stories
+  internal static var shareInstagramStories: String { return L10n.tr("Localizable", "share_instagram_stories") }
   /// Subscribing...
   internal static var shareListSubscribing: String { return L10n.tr("Localizable", "share_list_subscribing") }
   /// More
