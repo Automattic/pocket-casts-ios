@@ -3206,6 +3206,10 @@ internal enum L10n {
   }
   /// Get Pocket Casts Plus
   internal static var upgradeExperimentPaywallButton: String { return L10n.tr("Localizable", "upgrade_experiment_paywall_button") }
+  /// See why people have upgraded to Plus
+  internal static var upgradeExperimentReviewsText: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_text") }
+  /// Quite simply the best way to listen to podcasts
+  internal static var upgradeExperimentReviewsTitle: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_title") }
   /// Upgrade to %1$@
   internal static func upgradeToPlan(_ p1: Any) -> String {
     return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))

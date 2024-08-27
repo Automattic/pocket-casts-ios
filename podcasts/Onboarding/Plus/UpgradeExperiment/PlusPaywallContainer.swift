@@ -128,14 +128,14 @@ struct PlusPaywallContainer: View {
         switch type {
         case .features:
             PlusPaywallFeaturesCarousell(tier: tier)
-        case .social:
+        case .reviews:
             PlusPaywallReviews(tier: .plus)
         }
     }
 
     enum ContainerType {
         case features
-        case social
+        case reviews
     }
 
     private enum Constants {
@@ -177,5 +177,5 @@ extension PlusPricingInfoModel.ProductOfferInfo {
 }
 
 #Preview {
-    PlusPaywallContainer(viewModel: PlusLandingViewModel(source: .login), type: .social)
+    PlusPaywallContainer(viewModel: PlusLandingViewModel(source: .login), type: .reviews)
 }
