@@ -391,6 +391,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>代碼驗證失敗。</string>
     <key>clip</key>
     <string>片段</string>
+    <key>clip_duration_label</key>
+    <string>%@ 時間長度</string>
+    <key>clip_start_label</key>
+    <string>%@ 開始</string>
     <key>close</key>
     <string>關閉</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>新版個人檔案僅包含適合兒童的內容，可維持訂閱項目畫面清楚有條理。</string>
     <key>kids_profile_banner_title</key>
     <string>兒童個人檔案</string>
+    <key>kids_profile_submit_error</key>
+    <string>發生錯誤。 請重新提交你的意見回饋</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>傳送</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>搜尋 Podcast</string>
     <key>search_recent</key>
     <string>最近搜尋的內容</string>
+    <key>search_results</key>
+    <string>已完成 %1$@，共 %2$@</string>
     <key>season</key>
     <string>季別</string>
     <key>season_episode_shorthand_format</key>
@@ -2717,6 +2725,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>頂端</string>
     <key>transcript</key>
     <string>文字稿</string>
+    <key>transcript_error_empty</key>
+    <string>不好意思，看起來這份逐字稿為空白</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>不好意思，載入此逐字稿時發生錯誤</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>不好意思，解析此逐字稿時發生錯誤</string>
+    <key>transcript_error_not_available</key>
+    <string>不好意思，此 Podcast 不提供逐字稿</string>
+    <key>transcript_error_not_supported</key>
+    <string>不好意思，不支援此逐字稿格式：%1$@</string>
     <key>trial_finished</key>
     <string>試用已結束</string>
     <key>trim_silence</key>
