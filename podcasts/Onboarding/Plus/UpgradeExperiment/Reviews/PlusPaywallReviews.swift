@@ -6,6 +6,8 @@ struct PlusPaywallReviews: View {
 
     @Environment(\.openURL) private var openURL
 
+    @StateObject var viewModel: PlusPaywallReviewsViewModel
+
     private var header: some View {
         VStack(alignment: .center, spacing: 0) {
             Text("“\(L10n.upgradeExperimentReviewsTitle)”")
@@ -26,34 +28,43 @@ struct PlusPaywallReviews: View {
             LazyVStack(alignment: .center, spacing: 0) {
                 header
                 PlusPaywallReviewsPlusFeatures(tier: tier)
-                PlusPaywallReviewsStars()
-                    .padding(.vertical, Constants.starsBottomPadding)
+                if let appStoreInfo = viewModel.appStoreInfo {
+                    PlusPaywallReviewsStars(appStoreInfo: appStoreInfo)
+                        .padding(.vertical, Constants.starsBottomPadding)
+                }
                 VStack(spacing: 16.0) {
-                    ForEach(PlusPaywallReview.reviews, id: \.id) { review in
-                        PlusPaywallReviewCard(
-                            review: PlusPaywallReview(
-                                title: review.title,
-                                review: review.review, date: review.date)
-                        )
+                    if let reviews = viewModel.appStoreInfo?.reviews {
+                        ForEach(reviews, id: \.id) { review in
+                            PlusPaywallReviewCard(
+                                review: AppStoreReview(
+                                    id: review.id,
+                                    title: review.title,
+                                    review: review.review,
+                                    date: review.date)
+                            )
+                        }
                     }
                 }
                 Button {
                     openURL(URL(string: ServerConstants.Urls.appStore)!)
                 } label: {
-                    Text("See all reviews in the App Store")
+                    Text(L10n.upgradeExperimentReviewsAppStoreButton)
                         .font(size: 13.0, style: .body)
-                        .foregroundStyle(Color(hex: "#FED443"))
+                        .foregroundStyle(Constants.buttonTitleColor)
                 }
                 .padding(.vertical, 32.0)
-
             }
             .padding(.horizontal, Constants.containerHPadding)
         }
         .background(.black)
+        .onAppear {
+            viewModel.parseAppStoreReview()
+        }
     }
 
     private enum Constants {
         static let textColor = Color(hex: "#B8C3C9")
+        static let buttonTitleColor = Color(hex: "#FED443")
         static let containerHPadding = 20.0
         static let starsBottomPadding = 24.0
         static let titleSize = 22.0
@@ -64,5 +75,6 @@ struct PlusPaywallReviews: View {
 }
 
 #Preview {
-    PlusPaywallReviews(tier: .plus)
+    PlusPaywallReviews(tier: .plus,
+                       viewModel: PlusPaywallReviewsViewModel())
 }

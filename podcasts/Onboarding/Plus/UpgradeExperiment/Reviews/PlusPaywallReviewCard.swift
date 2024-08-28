@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlusPaywallReviewCard: View {
-    let review: PlusPaywallReview
+    let review: AppStoreReview
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -48,9 +48,15 @@ struct PlusPaywallReviewCard: View {
 #Preview {
     ScrollView {
         LazyVStack(alignment: .center, spacing: 16.0) {
-            ForEach(PlusPaywallReview.reviews, id: \.id) { review in
+            ForEach([AppStoreReview(
+                id: 0,
+                title: "The essential podcast app",
+                review: "8 years of excellence and continuous improvement",
+                date: "15/06/2024"
+            )], id: \.id) { review in
                 PlusPaywallReviewCard(
-                    review: PlusPaywallReview(
+                    review: AppStoreReview(
+                        id: review.id,
                         title: review.title,
                         review: review.review,
                         date: review.date)

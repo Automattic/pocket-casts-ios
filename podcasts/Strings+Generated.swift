@@ -3206,6 +3206,12 @@ internal enum L10n {
   }
   /// Get Pocket Casts Plus
   internal static var upgradeExperimentPaywallButton: String { return L10n.tr("Localizable", "upgrade_experiment_paywall_button") }
+  /// See all reviews in the App Store
+  internal static var upgradeExperimentReviewsAppStoreButton: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_app_store_button") }
+  /// %1$@ Rating (%2$@K Reviews)
+  internal static func upgradeExperimentReviewsAppStoreInfo(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "upgrade_experiment_reviews_app_store_info", String(describing: p1), String(describing: p2))
+  }
   /// See why people have upgraded to Plus
   internal static var upgradeExperimentReviewsText: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_text") }
   /// Quite simply the best way to listen to podcasts

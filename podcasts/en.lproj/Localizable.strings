@@ -4330,3 +4330,9 @@
 
 /* Upgrade Experiment - Reviews Variation: Screen text*/
 "upgrade_experiment_reviews_text" = "See why people have upgraded to Plus";
+
+/* Upgrade Experiment - Reviews Variation: Title for the button that redirects the user to the AppStore page */
+"upgrade_experiment_reviews_app_store_button" = "See all reviews in the App Store";
+
+/* Upgrade Experiment - Reviews Variation: the text that represents the avg stars rating and the number of reviews. The %1$@ placeholder indicates the avg rating, like 4.3. The %2$@ placeholder indicates the abbreviated number of reviews, like 5.7K. */
+"upgrade_experiment_reviews_app_store_info" = "%1$@ Rating (%2$@K Reviews)";

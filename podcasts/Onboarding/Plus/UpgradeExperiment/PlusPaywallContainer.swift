@@ -129,7 +129,7 @@ struct PlusPaywallContainer: View {
         case .features:
             PlusPaywallFeaturesCarousell(tier: tier)
         case .reviews:
-            PlusPaywallReviews(tier: .plus)
+            PlusPaywallReviews(tier: .plus, viewModel: PlusPaywallReviewsViewModel())
         }
     }
 

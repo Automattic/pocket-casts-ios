@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct PlusPaywallReviewsStars: View {
+    let appStoreInfo: AppStoreInfo
+
     var body: some View {
         VStack(spacing: 0) {
             Rectangle()
@@ -20,7 +22,7 @@ struct PlusPaywallReviewsStars: View {
                 .frame(width: Constants.containerSize.width, height: Constants.containerSize.height)
                 .padding(.bottom, Constants.containerBottomPadding)
 
-            Text("4.1 Rating (5.7K Reviews)")
+            Text(L10n.upgradeExperimentReviewsAppStoreInfo(appStoreInfo.rating, appStoreInfo.reviewCount))
                 .font(size: Constants.textSize, style: .body, weight: .medium)
                 .foregroundStyle(.white)
         }
@@ -36,6 +38,6 @@ struct PlusPaywallReviewsStars: View {
 }
 
 #Preview {
-    PlusPaywallReviewsStars()
+    PlusPaywallReviewsStars(appStoreInfo: AppStoreInfo(rating: "4.3", reviewCount: "5.7", reviews: []))
         .background(.black)
 }
