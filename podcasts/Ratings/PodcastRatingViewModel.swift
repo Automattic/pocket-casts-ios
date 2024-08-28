@@ -59,12 +59,20 @@ class PodcastRatingViewModel: ObservableObject {
     private enum LoadingState {
         case waiting, loading, done
     }
+
+    enum RatingSource: String {
+        case button
+        case stars
+    }
 }
 
 // MARK: - View Interactions
 extension PodcastRatingViewModel {
-    func didTapRating() {
+    func didTapRating(source: RatingSource = .button) {
         if FeatureFlag.giveRatings.enabled {
+            Analytics.shared.track(.ratingStarsTapped,
+                                   properties: ["uuid": uuid ?? "unknown",
+                                                "source": source.rawValue])
             if SyncManager.isUserLoggedIn() {
                 presentingGiveRatings = true
             } else {
@@ -74,8 +82,8 @@ extension PodcastRatingViewModel {
             }
         } else {
             presentingGiveRatings = true
-        }
 
-        Analytics.shared.track(.ratingStarsTapped, properties: ["uuid": uuid ?? "unknown"])
+            Analytics.shared.track(.ratingStarsTapped, properties: ["uuid": uuid ?? "unknown"])
+        }
     }
 }

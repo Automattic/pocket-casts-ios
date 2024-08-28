@@ -1362,7 +1362,7 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <key>now_playing_item</key>
     <string>%1$@ ara sonant</string>
     <key>now_playing_short_title</key>
-    <string>Reproduint</string>
+    <string>Ara sona</string>
     <key>number_of_chapters</key>
     <string>%1$@ capítols</string>
     <key>number_of_hidden_chapters</key>
