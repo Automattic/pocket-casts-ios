@@ -1852,7 +1852,25 @@ class PlaybackManager: ServerPlaybackDelegate {
                 wasPlayingBeforeInterruption = false
             }
         } else if interruptionType.uintValue == AVAudioSession.InterruptionType.began.rawValue {
-            interruptInProgress = true
+            // See https://github.com/Automattic/pocket-casts-ios/issues/2049
+            // Since iOS 17 and watchOS 10, we receive an interruption when audio routes are disconnected.
+            // Previous app logic relied on the fact that InterruptionType.began would always be followed by a
+            // subsequent InterruptionType.ended notification, to set interruptInProgress correctly.
+            // When routes are disconnected, there is no associated end event though. If the route reconnects, we'll
+            // receive a different notification which is already handled elsewhere.
+            // Also put this new check behind a feature flag so we can remotely revert to the old logic if
+            // we run into any issues
+            if #available(iOS 17, watchOS 10, *), FeatureFlag.ignoreRouteDisconnectedInterruption.enabled {
+                if interruptionReason != AVAudioSession.InterruptionReason.routeDisconnected.rawValue {
+                    interruptInProgress = true
+                }
+            } else {
+                // We do not get the InterruptionReason.routeDisconnected notification on older versions, so
+                // no need to perform the same check for older versions.
+                // Also, will default to the old behaviour if the feature flag is disabled on newer versions.
+                interruptInProgress = true
+            }
+
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began reason: \(interruptionReason?.description ?? "unknown")")
             if let player = player {
                 wasPlayingBeforeInterruption = player.shouldBePlaying()

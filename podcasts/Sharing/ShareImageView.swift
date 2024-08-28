@@ -29,6 +29,10 @@ enum ShareImageStyle: CaseIterable {
     }
 
     var videoSize: CGSize {
+        CGSize(width: 390, height: 694)
+    }
+
+    var previewSize: CGSize {
         switch self {
         case .large:
             CGSize(width: 292, height: 438)
@@ -38,6 +42,17 @@ enum ShareImageStyle: CaseIterable {
             CGSize(width: 324, height: 169)
         case .audio:
             CGSize(width: 100, height: 100)
+        }
+    }
+
+    func shareDescription(option: SharingModal.Option) -> String? {
+        switch (option, self) {
+        case (.episode, _), (.podcast, _):
+            L10n.shareDescription
+        case (.clip, .audio):
+            L10n.createAudioClipDescription
+        default:
+            nil
         }
     }
 }
@@ -57,6 +72,7 @@ struct ShareImageView: View {
                 VStack(spacing: 32) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
+                        .frame(maxWidth: 270)
                     text()
                     PocketCastsLogoPill()
                 }
@@ -67,26 +83,33 @@ struct ShareImageView: View {
                 VStack(spacing: 24) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
-                    text()
+                    text(lineLimit: 1)
                         .frame(alignment: .leading)
+                    PocketCastsLogoPill()
                 }
                 .padding(24)
                 .aspectRatio(0.99, contentMode: .fit)
             case .small:
                 background()
-                HStack(spacing: 18) {
-                    image()
-                        .aspectRatio(1, contentMode: .fit)
-                    text(alignment: .leading, textAlignment: .leading, lineLimit: 3)
+                ZStack {
+                    HStack(spacing: 18) {
+                        image()
+                            .aspectRatio(1, contentMode: .fit)
+                        text(alignment: .leading, textAlignment: .leading, lineLimit: 3)
+                    }
+                    .padding(24)
+                    Image("family_pc_logo")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .padding(.top, 10)
+                        .padding(.trailing, 10)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 }
-                .padding(24)
                 .aspectRatio(1.97, contentMode: .fit)
             case .audio:
                 Image("music")
             }
         }
-        .frame(width: style.videoSize.width, height: style.videoSize.height)
-        .fixedSize()
     }
 
     @ViewBuilder func background() -> some View {
@@ -159,15 +182,6 @@ struct KidneyShape: Shape {
         )
 
         return path
-    }
-}
-
-@available(iOS 16.0, *)
-extension ShareImageView: Transferable {
-    static var transferRepresentation: some TransferRepresentation {
-        DataRepresentation<Self>(exportedContentType: .png) { view in
-            try await view.snapshot().pngData().throwOnNil()
-        }
     }
 }
 

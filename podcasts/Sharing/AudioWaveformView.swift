@@ -1,11 +1,10 @@
 import SwiftUI
 
 struct AudioWaveformView: View {
-    let scale: CGFloat
     let width: CGFloat
 
     private let baseLineWidth: CGFloat = 2
-    private let baseLineSpacing: CGFloat = 2
+    private let baseLineSpacing: CGFloat = 6
 
     enum LineHeight: CaseIterable {
         case shortest
@@ -29,11 +28,6 @@ struct AudioWaveformView: View {
             case .tallest: return 0.5
             }
         }
-
-        /// Determines how quickly each line type fades out
-        var fadeDuration: CGFloat {
-            return 0.5
-        }
     }
 
     var body: some View {
@@ -46,13 +40,11 @@ struct AudioWaveformView: View {
                     let x = CGFloat(index) * (lineWidth + lineSpacing)
                     let lineHeight = getLineHeight(for: index)
                     let barHeight = size.height * lineHeight.fraction
-                    let opacity = opacityForLine(at: index)
 
                     var path = Path()
                     path.move(to: CGPoint(x: x, y: midY - barHeight / 2))
                     path.addLine(to: CGPoint(x: x, y: midY + barHeight / 2))
 
-                    context.opacity = opacity
                     context.stroke(path, with: .color(.gray), lineWidth: lineWidth)
                 }
             }
@@ -65,26 +57,11 @@ struct AudioWaveformView: View {
     }
 
     private var lineSpacing: CGFloat {
-        baseLineSpacing * scale
+        baseLineSpacing
     }
 
     private var lineCount: Int {
         Int(width / (lineWidth + lineSpacing))
-    }
-
-    private func opacityForLine(at index: Int) -> Double {
-        let lineHeight = getLineHeight(for: index)
-
-        let fadeStartScale = lineHeight.fadeStartScale
-        let fadeEndScale = fadeStartScale + lineHeight.fadeDuration
-
-        if scale >= fadeEndScale {
-            return 1.0
-        } else if scale <= fadeStartScale {
-            return 0.0
-        } else {
-            return Double((scale - fadeStartScale) / lineHeight.fadeDuration)
-        }
     }
 
     private func getLineHeight(for index: Int) -> LineHeight {
