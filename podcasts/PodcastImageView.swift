@@ -34,7 +34,7 @@ class PodcastImageView: UIView {
 
          Task {
              if let image = episode.image {
-                 ImageManager.sharedManager.loadImage(url: episodeArtworkUrl, imageView: imageView, size: size, showPlaceHolder: true)
+                 ImageManager.sharedManager.loadImage(url: image, imageView: imageView, size: size, showPlaceHolder: true)
                  adjustForSize(size)
              } else {
                  setPodcast(uuid: episode.parentIdentifier(), size: size)

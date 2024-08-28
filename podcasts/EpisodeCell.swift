@@ -237,6 +237,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
                 if let userEpisode = episode as? UserEpisode {
                     episodeImage.setUserEpisode(uuid: userEpisode.uuid, size: .list)
+                } else if let episode = episode as? Episode {
+                    episodeImage.setEpisode(episode, size: .list)
                 } else {
                     episodeImage.setPodcast(uuid: episode.parentIdentifier(), size: .list)
                 }
