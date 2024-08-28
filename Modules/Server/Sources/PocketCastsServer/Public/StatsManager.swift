@@ -216,7 +216,7 @@ public class StatsManager {
     }
 
     private func saveTime(_ time: TimeInterval, key: String) {
-        if time < 0 { return }
+        if time < 0, time < timeForKey(key) { return }
 
         UserDefaults.standard.set(time, forKey: key)
     }
