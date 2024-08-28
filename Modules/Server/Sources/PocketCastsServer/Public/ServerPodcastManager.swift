@@ -244,6 +244,8 @@ public class ServerPodcastManager: NSObject {
         // we don't accept podcasts with no episodes
         guard let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return false }
 
+        let showNotesInfo = loadFrom(url: ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+
         // save the podcast so that it gets and ID
         DataManager.sharedManager.save(podcast: podcast)
 
@@ -257,6 +259,8 @@ public class ServerPodcastManager: NSObject {
             episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
             if let uuid = episodeJson["uuid"] as? String {
                 episode.uuid = uuid
+
+                episode.image = (((showNotesInfo?["podcast"] as? [String: Any])?["episodes"] as? [[String: Any]])?.first { $0["uuid"] as? String == uuid } as? [String: Any])?["image"] as? String
             }
             if let title = episodeJson["title"] as? String {
                 episode.title = title
