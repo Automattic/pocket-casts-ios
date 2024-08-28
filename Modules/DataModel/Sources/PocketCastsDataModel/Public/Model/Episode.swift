@@ -46,6 +46,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var hasOnlyUuid = false
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64
+    @objc public var image: String?
 
     public var hasBookmarks: Bool {
         // This wil cause a regression in which the bookmarks won't be displayed

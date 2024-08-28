@@ -42,7 +42,8 @@ class EpisodeDataManager {
         "excludeFromEpisodeLimit",
         "starredModified",
         "deselectedChapters",
-        "deselectedChaptersModified"
+        "deselectedChaptersModified",
+        "image"
     ]
 
     // MARK: - Query
@@ -1005,6 +1006,7 @@ class EpisodeDataManager {
         values.append(episode.starredModified)
         values.append(DBUtils.nullIfNil(value: episode.deselectedChapters))
         values.append(episode.deselectedChaptersModified)
+        values.append(episode.image)
 
         if includeIdForWhere {
             values.append(episode.id)

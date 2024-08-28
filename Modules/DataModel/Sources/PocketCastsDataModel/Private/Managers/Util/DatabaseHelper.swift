@@ -775,6 +775,17 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 53 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN image TEXT;", values: nil)
+
+                schemaVersion = 53
+            } catch {
+                failedAt(53)
+                return
+            }
+        }
+
         db.commit()
     }
 }
