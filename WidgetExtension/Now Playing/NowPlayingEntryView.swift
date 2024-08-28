@@ -204,7 +204,7 @@ struct NowPlayingWidgetEntryView: View {
             }
             .padding(16)
         }
-        .widgetURL(URL(string: "pktc://discover"))
+        .widgetURL(URL(string: "pktc://discover?source=widget"))
         .clearBackground()
         .if(!showsWidgetBackground) { view in
             view
@@ -246,7 +246,7 @@ struct NowPlayingWidgetEntryView: View {
             }
             nothingPlayingText
         }
-        .widgetURL(URL(string: "pktc://discover"))
+        .widgetURL(URL(string: "pktc://discover?source=widget"))
         .clearBackground()
         .if(!showsWidgetBackground) { view in
             view
