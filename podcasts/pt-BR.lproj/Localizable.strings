@@ -391,6 +391,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Falha na autenticação do token.</string>
     <key>clip</key>
     <string>Clipe</string>
+    <key>clip_duration_label</key>
+    <string>Duração de %@</string>
+    <key>clip_start_label</key>
+    <string>Início %@</string>
     <key>close</key>
     <string>Fechar</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@ podcasts com você</string>
     <string>Um novo perfil com conteúdo exclusivo para crianças para manter suas assinaturas organizadas.</string>
     <key>kids_profile_banner_title</key>
     <string>Perfil infantil</string>
+    <key>kids_profile_submit_error</key>
+    <string>Ocorreu um erro. Tente enviar seu feedback novamente</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>Enviar</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Pesquisar podcasts</string>
     <key>search_recent</key>
     <string>Pesquisas recentes</string>
+    <key>search_results</key>
+    <string>%1$@ de %2$@</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>
@@ -2717,6 +2725,16 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Topo da lista</string>
     <key>transcript</key>
     <string>Transcrição</string>
+    <key>transcript_error_empty</key>
+    <string>Esta transcrição parece estar vazia</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Ocorreu um erro ao carregar esta transcrição</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Ocorreu um erro ao analisar esta transcrição</string>
+    <key>transcript_error_not_available</key>
+    <string>Não há transcrição disponível para este podcast</string>
+    <key>transcript_error_not_supported</key>
+    <string>Este formato de transcrição não é aceito: %1$@</string>
     <key>trial_finished</key>
     <string>Período de teste expirado</string>
     <key>trim_silence</key>
