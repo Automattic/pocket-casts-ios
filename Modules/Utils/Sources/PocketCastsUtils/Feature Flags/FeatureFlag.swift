@@ -98,6 +98,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Referrals feature
     case referrals
 
+    /// Enable the refactored discover collection view
+    case discoverCollectionView
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -167,6 +170,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignoreRouteDisconnectedInterruption:
             true
         case .referrals:
+            false
+        case .discoverCollectionView:
             false
         }
     }
