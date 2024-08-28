@@ -73,6 +73,8 @@ extension ServerPodcastManager {
 
         DataManager.sharedManager.save(podcast: podcast)
 
+        let showNotesInfo = loadFrom(url: ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+
         var latestEpisodeWasMissing: Bool?
 
         var missingEpisodesThatIsNotTheLatestOnes = false
@@ -81,6 +83,8 @@ extension ServerPodcastManager {
 
         for episodeJson in episodesJson {
             guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else { continue }
+
+            episode.image = (((showNotesInfo?["podcast"] as? [String: Any])?["episodes"] as? [[String: Any]])?.first { $0["uuid"] as? String == uuid } as? [String: Any])?["image"] as? String
 
             // for existing episodes, update the fields we want to pick up when they change
             if let existingEpisode = DataManager.sharedManager.findEpisode(uuid: uuid) {
