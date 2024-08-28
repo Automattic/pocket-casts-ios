@@ -29,6 +29,19 @@ class PodcastImageView: UIView {
         adjustForSize(size)
     }
 
+    func setEpisode(_ episode: Episode, size: PodcastThumbnailSize) {
+         guard let imageView = imageView else { return }
+
+         Task {
+             if let image = episode.image {
+                 ImageManager.sharedManager.loadImage(url: episodeArtworkUrl, imageView: imageView, size: size, showPlaceHolder: true)
+                 adjustForSize(size)
+             } else {
+                 setPodcast(uuid: episode.parentIdentifier(), size: size)
+             }
+         }
+     }
+
     func setUserEpisode(uuid: String, size: PodcastThumbnailSize) {
         guard let imageView = imageView else { return }
 
