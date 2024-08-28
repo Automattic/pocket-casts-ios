@@ -48,6 +48,7 @@ struct UpNextWidgetEntryView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .background(widgetColorScheme.filterViewBackgroundColor)
+                .widgetURL(URL(string: "pktc://last_opened"))
             }
         }
         .environment(\.widgetColorScheme, widgetColorScheme)
