@@ -313,6 +313,8 @@ public class ServerPodcastManager: NSObject {
             return episode // we already have this episode
         }
 
+        let showNotesInfo = loadFrom(url: ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+
         let episode = Episode()
         episode.addedDate = Date()
         episode.podcast_id = podcast.id
@@ -347,6 +349,8 @@ public class ServerPodcastManager: NSObject {
         if let type = firstEpisode["type"] as? String {
             episode.episodeType = type
         }
+
+        episode.image = (((showNotesInfo?["podcast"] as? [String: Any])?["episodes"] as? [[String: Any]])?.first { $0["uuid"] as? String == uuid } as? [String: Any])?["image"] as? String
 
         DataManager.sharedManager.save(episode: episode)
 
