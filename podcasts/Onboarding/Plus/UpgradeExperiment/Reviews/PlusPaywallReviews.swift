@@ -32,7 +32,7 @@ struct PlusPaywallReviews: View {
                     PlusPaywallReviewsStars(appStoreInfo: appStoreInfo)
                         .padding(.vertical, Constants.starsBottomPadding)
                 }
-                VStack(spacing: 16.0) {
+                VStack(spacing: Constants.cardsSpacing) {
                     if let reviews = viewModel.appStoreInfo?.reviews {
                         ForEach(reviews, id: \.id) { review in
                             PlusPaywallReviewCard(
@@ -49,10 +49,10 @@ struct PlusPaywallReviews: View {
                     openURL(URL(string: ServerConstants.Urls.appStore)!)
                 } label: {
                     Text(L10n.upgradeExperimentReviewsAppStoreButton)
-                        .font(size: 13.0, style: .body)
+                        .font(size: Constants.buttonTitleSize, style: .body)
                         .foregroundStyle(Constants.buttonTitleColor)
                 }
-                .padding(.vertical, 32.0)
+                .padding(.vertical, Constants.buttonVPadding)
             }
             .padding(.horizontal, Constants.containerHPadding)
         }
@@ -71,6 +71,9 @@ struct PlusPaywallReviews: View {
         static let textSize = 14.0
         static let textTopPadding = 8.0
         static let textBottomPadding = 8.0
+        static let cardsSpacing = 16.0
+        static let buttonTitleSize = 13.0
+        static let buttonVPadding = 32.0
     }
 }
 
