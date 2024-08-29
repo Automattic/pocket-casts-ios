@@ -357,7 +357,7 @@ public class ServerPodcastManager: NSObject {
         return episode
     }
 
-    private func loadFrom(url: String) -> [String: Any]? {
+    func loadFrom(url: String) -> [String: Any]? {
         let url = ServerHelper.asUrl(url)
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         request.httpMethod = "GET"

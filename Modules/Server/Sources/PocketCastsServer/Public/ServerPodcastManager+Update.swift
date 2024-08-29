@@ -73,7 +73,7 @@ extension ServerPodcastManager {
 
         DataManager.sharedManager.save(podcast: podcast)
 
-        let showNotesInfo = loadFrom(url: ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+        let showNotesInfo = loadFrom(url: ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcast.uuid)")
 
         var latestEpisodeWasMissing: Bool?
 
@@ -83,8 +83,6 @@ extension ServerPodcastManager {
 
         for episodeJson in episodesJson {
             guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else { continue }
-
-            episode.image = (((showNotesInfo?["podcast"] as? [String: Any])?["episodes"] as? [[String: Any]])?.first { $0["uuid"] as? String == uuid } as? [String: Any])?["image"] as? String
 
             // for existing episodes, update the fields we want to pick up when they change
             if let existingEpisode = DataManager.sharedManager.findEpisode(uuid: uuid) {
@@ -111,6 +109,11 @@ extension ServerPodcastManager {
                 }
                 if let type = episodeJson["type"] as? String, existingEpisode.episodeType != type {
                     existingEpisode.episodeType = type
+                    episodeChanged = true
+                }
+
+                if let image = (((showNotesInfo?["podcast"] as? [String: Any])?["episodes"] as? [[String: Any]])?.first { $0["uuid"] as? String == uuid } as? [String: Any])?["image"] as? String, existingEpisode.image != image {
+                    existingEpisode.image = image
                     episodeChanged = true
                 }
 
@@ -175,6 +178,8 @@ extension ServerPodcastManager {
             if let type = episodeJson["type"] as? String {
                 episode.episodeType = type
             }
+
+            episode.image = (((showNotesInfo?["podcast"] as? [String: Any])?["episodes"] as? [[String: Any]])?.first { $0["uuid"] as? String == uuid } as? [String: Any])?["image"] as? String
 
             DataManager.sharedManager.save(episode: episode)
         }
