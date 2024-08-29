@@ -4,38 +4,38 @@
     "reviews": [
         {
             "id": 0,
-            "title": "Best Podcast App By FAR",
-            "review": "I've been a long time user and the amount of functionality and customization you get with the free version is astounding. I love that it syncs across devices so I can start listening on my phone and then pick up on an Alexa device. It's my recommendation for anyone who listens to podcasts. Also love the stats!",
+            "title": "upgrade_experiment_reviews_review_title_0",
+            "review": "upgrade_experiment_reviews_review_text_0",
             "date": "2024-07-10"
         },
         {
             "id": 1,
-            "title": "The essential podcast app",
-            "review": "8 years of excellence and continuous improvement",
+            "title": "upgrade_experiment_reviews_review_title_1",
+            "review": "upgrade_experiment_reviews_review_text_1",
             "date": "2024-06-15"
         },
         {
             "id": 2,
-            "title": "Best podcasat app out there",
-            "review": "I've been a Pocket Casts user since 2017.\n\nThis is hands down the best app to listen to podcasts. It's feature rich and actively developed. There have been some complaints about the Ul change but I haven't really noticed it too much.\n\nThis app can be as simple or difficult to use as you'd like it to be. So either let it be a plug and play or set up skip outro and intro timers and any other little feature you want to enable.",
+            "title": "upgrade_experiment_reviews_review_title_2",
+            "review": "upgrade_experiment_reviews_review_text_2",
             "date": "2024-06-09"
         },
         {
             "id": 3,
-            "title": "Fantastic app",
-            "review": "The sync function is magic. Don't know what special magic this app has going on but it's better than any other app l've used.",
+            "title": "upgrade_experiment_reviews_review_title_3",
+            "review": "upgrade_experiment_reviews_review_text_3",
             "date": "2024-06-01"
         },
         {
             "id": 4,
-            "title": "Works great and easy to find or add new pods",
-            "review": "Been using this app for 6 years or better, started on android and now l've been on iOS for almost a year. Works the same on both platforms. Easy to find new podcasts to listen to, very nice Ul, can add podcasts by rss feed url too. The watch app is functional, but I mostly use for my play/pause. Sign in with an account to sync across devices but no requirement to do so.",
+            "title": "upgrade_experiment_reviews_review_title_4",
+            "review": "upgrade_experiment_reviews_review_text_4",
             "date": "2024-05-06"
         },
         {
             "id": 5,
-            "title": "Go-To Podcast App",
-            "review": "PC has been my go-to for years. l've tried other podcast apps and always come back to PC for their simplicity, Ul and support. Definitely worth checking it out, especially if you have grown tired of your current podcast app.",
+            "title": "upgrade_experiment_reviews_review_title_5",
+            "review": "upgrade_experiment_reviews_review_text_5",
             "date": "2024-03-08"
         }
     ]

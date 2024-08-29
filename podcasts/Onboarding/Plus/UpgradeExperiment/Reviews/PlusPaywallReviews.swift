@@ -38,8 +38,8 @@ struct PlusPaywallReviews: View {
                             PlusPaywallReviewCard(
                                 review: AppStoreReview(
                                     id: review.id,
-                                    title: review.title,
-                                    review: review.review,
+                                    title: L10n.localizedFormat(review.title, nil),
+                                    review: L10n.localizedFormat(review.review, nil),
                                     date: review.date)
                             )
                         }
