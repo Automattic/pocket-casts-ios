@@ -184,6 +184,10 @@ public class StatsManager {
                 }
             }
 
+            if didChange {
+                persistTimes()
+            }
+
             completion?(didChange)
         }
     }
