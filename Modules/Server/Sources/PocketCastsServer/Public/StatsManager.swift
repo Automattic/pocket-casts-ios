@@ -143,6 +143,51 @@ public class StatsManager {
         }
     }
 
+    public func updateLocalStatsIfNeeded(completion: ((Bool) -> Void)?) {
+        ApiServerHandler.shared.loadStatsRequest(getFullData: true) { [weak self] remoteStats in
+            guard let self, let remoteStats = remoteStats else { return }
+
+            var didChange = false
+
+            if Int64(timeSavedDynamicSpeedInclusive()) < remoteStats.silenceRemovalTime {
+                didChange = true
+                updateQueue.sync {
+                    self.savedDynamicSpeed = Double(remoteStats.silenceRemovalTime) - self.timeSavedDynamicSpeedInclusive()
+                }
+            }
+
+            if Int64(totalAutoSkippedTimeInclusive()) < remoteStats.autoSkipTime {
+                didChange = true
+                updateQueue.sync {
+                    self.savedAutoSkipping = Double(remoteStats.autoSkipTime) - self.totalAutoSkippedTimeInclusive()
+                }
+            }
+
+            if Int64(totalSkippedTimeInclusive()) < remoteStats.skipTime {
+                didChange = true
+                updateQueue.sync {
+                    self.totalSkipped = Double(remoteStats.skipTime) - self.totalSkippedTimeInclusive()
+                }
+            }
+
+            if Int64(totalListeningTimeInclusive()) < remoteStats.totalListenTime {
+                didChange = true
+                updateQueue.sync {
+                    self.totalListenedTo = Double(remoteStats.totalListenTime) - self.totalListeningTimeInclusive()
+                }
+            }
+
+            if Int64(timeSavedVariableSpeedInclusive()) < remoteStats.variableSpeedTime {
+                didChange = true
+                updateQueue.sync {
+                    self.savedVariableSpeed = Double(remoteStats.variableSpeedTime) - self.timeSavedVariableSpeedInclusive()
+                }
+            }
+
+            completion?(didChange)
+        }
+    }
+
     public func statsStartedAt() -> Int64 {
         Int64(UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.statsStartedDateServer))
     }
