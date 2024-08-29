@@ -60,6 +60,8 @@ extension BookmarkEpisodeListController: BookmarkListRouter {
         }
         let controller = SharingHelper.shared.createActivityController(episode: episode, shareTime: bookmark.time)
 
+        Analytics.track(.podcastShared, source: "multi_select", properties: ["type": "bookmark_time"])
+
         present(controller, animated: true)
     }
 

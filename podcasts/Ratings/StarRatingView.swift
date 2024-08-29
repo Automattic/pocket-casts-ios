@@ -42,7 +42,7 @@ struct StarRatingView: View {
                     .frame(height: 16)
                     .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
                     .onTapGesture {
-                        viewModel.didTapRating()
+                        viewModel.didTapRating(source: .stars)
                     }
 
                 Spacer()

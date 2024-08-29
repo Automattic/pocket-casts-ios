@@ -391,6 +391,10 @@
     <string>Сбой токена аутентификации</string>
     <key>clip</key>
     <string>Клип</string>
+    <key>clip_duration_label</key>
+    <string>Продолжительность: %@</string>
+    <key>clip_start_label</key>
+    <string>Начать: %@</string>
     <key>close</key>
     <string>Закрыть</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@
     <string>Новый профиль исключительно с детским контентом, не затрагивающим ваши подписки.</string>
     <key>kids_profile_banner_title</key>
     <string>Профиль «Дети»</string>
+    <key>kids_profile_submit_error</key>
+    <string>Что-то пошло не так. Попробуйте отправить отзыв ещё раз.</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>Отправить</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@
     <string>Поиск подкастов</string>
     <key>search_recent</key>
     <string>Последний поиск</string>
+    <key>search_results</key>
+    <string>%1$@ из %2$@</string>
     <key>season</key>
     <string>Сезон</string>
     <key>season_episode_shorthand_format</key>
@@ -2717,6 +2725,16 @@
     <string>Вверх</string>
     <key>transcript</key>
     <string>Расшифровка</string>
+    <key>transcript_error_empty</key>
+    <string>Кажется, эта расшифровка пуста.</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>К сожалению, во время загрузки этой расшифровки что-то пошло не так.</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>К сожалению, во время анализа этой расшифровки что-то пошло не так.</string>
+    <key>transcript_error_not_available</key>
+    <string>К сожалению, в этом подкасте нет расшифровки.</string>
+    <key>transcript_error_not_supported</key>
+    <string>К сожалению, этот формат расшифровки не поддерживается: %1$@</string>
     <key>trial_finished</key>
     <string>Пробный период завершен</string>
     <key>trim_silence</key>
