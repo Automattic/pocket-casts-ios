@@ -77,7 +77,8 @@ struct ShareImageView: View {
                     PocketCastsLogoPill()
                 }
                 .padding(24)
-                .aspectRatio(0.66, contentMode: .fit)
+                .frame(height: style.previewSize.height)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .medium:
                 background()
                 VStack(spacing: 24) {
@@ -88,7 +89,8 @@ struct ShareImageView: View {
                     PocketCastsLogoPill()
                 }
                 .padding(24)
-                .aspectRatio(0.99, contentMode: .fit)
+                .frame(height: style.previewSize.height)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .small:
                 background()
                 ZStack {
@@ -105,7 +107,8 @@ struct ShareImageView: View {
                         .padding(.trailing, 10)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 }
-                .aspectRatio(1.97, contentMode: .fit)
+                .frame(width: style.previewSize.width, height: style.previewSize.height)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .audio:
                 Image("music")
             }

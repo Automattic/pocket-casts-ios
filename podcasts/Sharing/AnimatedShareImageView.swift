@@ -8,21 +8,20 @@ class AnimationProgress: ObservableObject {
 struct AnimatedShareImageView: AnimatableContent {
     let info: ShareImageInfo
     let style: ShareImageStyle
+    let size: CGSize
 
     @State var angle: Double = 0
     @ObservedObject var animationProgress: AnimationProgress = .init()
 
     var body: some View {
-        ZStack {
-            ShareImageView(info: info, style: style, angle: $angle)
-                .frame(width: style.previewSize.width * 2, height: style.previewSize.height)
-                .fixedSize()
-                .onReceive(animationProgress.$progress) { progress in
-                    let calculatedAngle = calculateAngle(progress: Float(progress))
-                    angle = Double(calculatedAngle)
-                }
-                .scaleEffect(CGSize(width: 2.0, height: 2.0))
-        }
+        ShareImageView(info: info, style: style, angle: $angle)
+            .frame(width: size.width, height: size.height)
+            .fixedSize()
+            .onReceive(animationProgress.$progress) { progress in
+                let calculatedAngle = calculateAngle(progress: Float(progress))
+                angle = Double(calculatedAngle)
+            }
+            .scaleEffect(CGSize(width: 2.0, height: 2.0))
     }
 
     func update(for progress: Double) {
