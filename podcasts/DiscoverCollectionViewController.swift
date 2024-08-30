@@ -11,7 +11,9 @@ class DiscoverCollectionViewController: UIViewController, UICollectionViewDelega
         }
     }
 
-    private var collectionView: UICollectionView!
+    private lazy var collectionView: UICollectionView = {
+        return UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout())
+    }()
 
     private let coordinator: DiscoverCoordinator
 
@@ -27,13 +29,14 @@ class DiscoverCollectionViewController: UIViewController, UICollectionViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout())
+        setupCollectionView()
+    }
+
+    private func setupCollectionView() {
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
-
         collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: Cell.list.reuseIdentifier)
-
         view.addSubview(collectionView)
     }
 
