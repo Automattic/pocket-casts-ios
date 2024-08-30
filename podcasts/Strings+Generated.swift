@@ -450,6 +450,12 @@ internal enum L10n {
   internal static func clipStartLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "clip_start_label", String(describing: p1))
   }
+  /// Got it
+  internal static var clipsWhatsNewButtonTitle: String { return L10n.tr("Localizable", "clips_whats_new_button_title") }
+  /// You can now share clips of your favorite bits from any episode. We’ve also made easier to share any content to all social media apps.
+  internal static var clipsWhatsNewMessage: String { return L10n.tr("Localizable", "clips_whats_new_message") }
+  /// Clip sharing available now!
+  internal static var clipsWhatsNewTitle: String { return L10n.tr("Localizable", "clips_whats_new_title") }
   /// Close
   internal static var close: String { return L10n.tr("Localizable", "close") }
   /// Color

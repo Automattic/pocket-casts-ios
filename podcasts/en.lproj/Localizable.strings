@@ -4324,3 +4324,12 @@
 
 /* Upgraade Experiment - Features Variation: Extra feature card text*/
 "plus_feature_card_text_extra_themes" = "Fly your true colors. Exclusive icons and themes for our subscribers.";
+
+/* Clips - Title to show in What's New screen announcing the Clips feature */
+"clips_whats_new_title" = "Clip sharing available now!";
+
+/* Clips - Message to show in What's New screen announcing the Clips feature */
+"clips_whats_new_message" = "You can now share clips of your favorite bits from any episode. We’ve also made easier to share any content to all social media apps.";
+
+/* Clips - Button title to show in What's New screen announcing the Clips feature */
+"clips_whats_new_button_title" = "Got it";
