@@ -28,6 +28,10 @@ enum ShareImageStyle: CaseIterable {
         }
     }
 
+    var videoSize: CGSize {
+        CGSize(width: 390, height: 694)
+    }
+
     var previewSize: CGSize {
         switch self {
         case .large:
