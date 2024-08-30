@@ -186,7 +186,7 @@ extension SharingModal.Option {
             case (_, .audio):
                 fileURL = progress.exportURL
             default:
-                fileURL = progress.croppedURL
+                fileURL = progress.exportURL
             }
 
             guard let fileURL else {

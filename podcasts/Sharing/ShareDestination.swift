@@ -84,8 +84,13 @@ enum ShareDestination: Hashable {
             return
         }
 
+        let backgroundTopColor = UIColor.black
+        let backgroundBottomColor = UIColor.white
+
         let dataKey = type == .mpeg4Movie ? "com.instagram.sharedSticker.backgroundVideo" : "com.instagram.sharedSticker.backgroundImage"
         let pasteboardItems = [[dataKey: data,
+                                "com.instagram.sharedSticker.backgroundTopColor": backgroundTopColor.hexString(),
+                                "com.instagram.sharedSticker.backgroundBottomColor": backgroundBottomColor.hexString(),
                                 "com.instagram.sharedSticker.contentURL": attributionURL]]
         let pasteboardOptions: [UIPasteboard.OptionsKey: Any] = [.expirationDate: Date().addingTimeInterval(5.minutes)]
 
