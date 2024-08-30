@@ -6,6 +6,8 @@ import SwiftProtobuf
 class RetrieveStatsTask: ApiBaseTask {
     var completion: ((RemoteStats?) -> Void)?
 
+    var getFullStatsData = false
+
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "user/stats/summary"
 
@@ -16,7 +18,7 @@ class RetrieveStatsTask: ApiBaseTask {
                 return
             }
 
-            statsRequest.deviceID = uniqueAppId
+            statsRequest.deviceID = getFullStatsData ? "" : uniqueAppId
             statsRequest.deviceType = ServerConstants.Values.deviceTypeiOS
             let data = try statsRequest.serializedData()
 
