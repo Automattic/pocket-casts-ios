@@ -1677,6 +1677,7 @@
 		F5AD9C4D2C3C705200A01896 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */; };
 		F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5B6F0DF2C18DF0900AF5150 /* AudioUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */; };
+		F5BA5C9A2C7F701900BDA5B9 /* DiscoverCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */; };
 		F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */; };
 		F5CFDB622C6DA2D600DE57B2 /* AudioClipExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */; };
 		F5D3A0D92B70950100EED067 /* MockURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D3A0D82B70950100EED067 /* MockURLHandler.swift */; };
@@ -3561,6 +3562,7 @@
 		F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
 		F5B312B32BF5B6D400290696 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUtilsTests.swift; sourceTree = "<group>"; };
+		F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCollectionViewController.swift; sourceTree = "<group>"; };
 		F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ThrowOnNil.swift"; sourceTree = "<group>"; };
 		F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioClipExporter.swift; sourceTree = "<group>"; };
 		F5D3A0D82B70950100EED067 /* MockURLHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLHandler.swift; sourceTree = "<group>"; };
@@ -7635,6 +7637,7 @@
 				BD9FF6281B8EFC6F009F075E /* DiscoverSummaryProtocol.swift */,
 				40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */,
 				C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */,
+				F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */,
 			);
 			name = Discovery;
 			sourceTree = "<group>";
@@ -9326,6 +9329,7 @@
 				8B67A26329A7D6B60076886D /* SearchHistoryCell.swift in Sources */,
 				BD9A2B521C851577003BA898 /* NavigationManager.swift in Sources */,
 				BDEC9AB32051118900088D76 /* PCViewController.swift in Sources */,
+				F5BA5C9A2C7F701900BDA5B9 /* DiscoverCollectionViewController.swift in Sources */,
 				BD3C19301C27B4EC00B7847D /* PodcastListCell.swift in Sources */,
 				BD5AE6831FE0E9A20009B8A1 /* PodcastViewController+TableData.swift in Sources */,
 				BD2F5928204687BC00AD3767 /* BadgeHelper.swift in Sources */,

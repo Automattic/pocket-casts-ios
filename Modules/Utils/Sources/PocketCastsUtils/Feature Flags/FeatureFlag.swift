@@ -103,6 +103,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// This is meant to fix an issue for users that were losing stats
     case syncStats
 
+    /// Enable the refactored discover collection view
+    case discoverCollectionView
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -175,6 +178,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .syncStats:
             true
+        case .discoverCollectionView:
+            false
         }
     }
 
