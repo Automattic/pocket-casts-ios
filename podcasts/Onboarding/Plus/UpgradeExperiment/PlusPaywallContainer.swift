@@ -120,6 +120,9 @@ struct PlusPaywallContainer: View {
                         $0
                     }
                 }
+                .onAppear {
+                    OnboardingFlow.shared.track(.selectPaymentFrequencyShown)
+                }
         }
     }
 
