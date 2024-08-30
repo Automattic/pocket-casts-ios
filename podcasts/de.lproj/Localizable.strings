@@ -391,6 +391,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Token-Authentifizierung fehlgeschlagen.</string>
     <key>clip</key>
     <string>Clip</string>
+    <key>clip_duration_label</key>
+    <string>Dauer: %@</string>
+    <key>clip_start_label</key>
+    <string>Start: %@</string>
     <key>close</key>
     <string>Schließen</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@ Podcasts mit</string>
     <string>Ein neues Profil, das ausschließlich aus Inhalten für Kinder besteht – so bleiben deine Abonnements aufgeräumt.</string>
     <key>kids_profile_banner_title</key>
     <string>Kinderprofil</string>
+    <key>kids_profile_submit_error</key>
+    <string>Etwas ist schiefgegangen. Bitte versuche erneut, dein Feedback einzureichen</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>Senden</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Podcasts durchsuchen</string>
     <key>search_recent</key>
     <string>Aktuelle Suchen</string>
+    <key>search_results</key>
+    <string>%1$@ von %2$@</string>
     <key>season</key>
     <string>Staffel</string>
     <key>season_episode_shorthand_format</key>
@@ -2717,6 +2725,16 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Anfang</string>
     <key>transcript</key>
     <string>Transkript</string>
+    <key>transcript_error_empty</key>
+    <string>Dieses Transkript scheint leer zu sein</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Beim Laden dieses Transkripts ist ein Fehler aufgetreten</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Beim Parsen dieses Transkripts ist ein Fehler aufgetreten</string>
+    <key>transcript_error_not_available</key>
+    <string>Für diesen Podcast ist kein Transkript verfügbar</string>
+    <key>transcript_error_not_supported</key>
+    <string>Dieses Transkriptformat wird nicht unterstützt: %1$@</string>
     <key>trial_finished</key>
     <string>Testzeitraum abgelaufen</string>
     <key>trim_silence</key>

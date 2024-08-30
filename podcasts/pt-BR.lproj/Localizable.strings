@@ -394,7 +394,7 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <key>clip_duration_label</key>
     <string>Duração de %@</string>
     <key>clip_start_label</key>
-    <string>Início %@</string>
+    <string>Início de %@</string>
     <key>close</key>
     <string>Fechar</string>
     <key>color</key>
