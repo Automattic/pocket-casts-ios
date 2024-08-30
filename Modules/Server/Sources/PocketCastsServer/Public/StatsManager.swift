@@ -36,7 +36,7 @@ public class StatsManager {
 
     public func addTimeSavedDynamicSpeed(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedDynamicSpeed += seconds
+            self?.savedDynamicSpeed += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -49,7 +49,7 @@ public class StatsManager {
 
     public func addTimeSavedVariableSpeed(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedVariableSpeed += seconds
+            self?.savedVariableSpeed += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -62,7 +62,7 @@ public class StatsManager {
 
     public func addTotalListeningTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.totalListenedTo += seconds
+            self?.totalListenedTo += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -75,7 +75,7 @@ public class StatsManager {
 
     public func addSkippedTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.totalSkipped += seconds
+            self?.totalSkipped += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -88,7 +88,7 @@ public class StatsManager {
 
     public func addAutoSkipTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedAutoSkipping += seconds
+            self?.savedAutoSkipping += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -216,7 +216,7 @@ public class StatsManager {
     }
 
     private func saveTime(_ time: TimeInterval, key: String) {
-        if time < 0 { return }
+        if time < 0, time < timeForKey(key) { return }
 
         UserDefaults.standard.set(time, forKey: key)
     }
