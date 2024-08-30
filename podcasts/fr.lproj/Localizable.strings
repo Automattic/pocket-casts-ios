@@ -391,6 +391,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Échec du jeton d’authentification.</string>
     <key>clip</key>
     <string>Clip</string>
+    <key>clip_duration_label</key>
+    <string>Durée %@</string>
+    <key>clip_start_label</key>
+    <string>Début %@</string>
     <key>close</key>
     <string>Fermer</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@ podcasts partout avec</string>
     <string>Un nouveau profil composé uniquement de contenu adapté aux enfants pour préserver l’organisation de vos abonnements.</string>
     <key>kids_profile_banner_title</key>
     <string>Profil enfants</string>
+    <key>kids_profile_submit_error</key>
+    <string>Un problème est survenu. Veuillez réessayer d’envoyer votre commentaire</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>Envoyer</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Rechercher des podcasts</string>
     <key>search_recent</key>
     <string>Recherches récentes</string>
+    <key>search_results</key>
+    <string>%1$@ sur %2$@</string>
     <key>season</key>
     <string>Saison</string>
     <key>season_episode_shorthand_format</key>
@@ -2717,6 +2725,16 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Haut</string>
     <key>transcript</key>
     <string>Transcription</string>
+    <key>transcript_error_empty</key>
+    <string>Veuillez nous excuser. Cette transcription semble vide</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Veuillez nous excuser. Un problème s’est produit lors du chargement de cette transcription</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Veuillez nous excuser. Un problème s’est produit lors de l’analyse de cette transcription</string>
+    <key>transcript_error_not_available</key>
+    <string>Veuillez nous excuser. Aucune transcription n’est disponible pour ce podcast</string>
+    <key>transcript_error_not_supported</key>
+    <string>Veuillez nous excuser. Ce format de transcription n’est pas pris en charge : %1$@</string>
     <key>trial_finished</key>
     <string>Essai terminé</string>
     <key>trim_silence</key>

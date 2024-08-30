@@ -5,7 +5,7 @@ struct HungryForMoreView: View {
     @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
-        Link(destination: URL(string: "pktc://discover")!) {
+        Link(destination: URL(string: "pktc://discover?source=widget")!) {
             VStack(alignment: .center, spacing: 3) {
                 Text(L10n.widgetsDiscoverPromptTitle)
                     .font(.footnote)
@@ -25,7 +25,7 @@ struct HungryForMoreLargeView: View {
     @Environment(\.widgetColorScheme) var colorScheme
 
     var body: some View {
-        Link(destination: URL(string: "pktc://discover")!) {
+        Link(destination: URL(string: "pktc://discover?source=widget")!) {
             VStack(alignment: .center, spacing: 4) {
                 Text(L10n.widgetsDiscoverPromptTitle)
                     .font(.footnote)

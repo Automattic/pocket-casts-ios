@@ -113,16 +113,12 @@ enum SharingModal {
 }
 
 extension SharingModal.Option {
-    private var description: String {
+    private var description: String? {
         switch self {
         case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
-            if let date = episode.publishedDate {
-                return date.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted))
-            } else {
-                return ""
-            }
+            episode.parentPodcast()?.title
         case .podcast(let podcast):
-            return [podcast.episodeCount, podcast.frequency].compactMap { $0 }.joined(separator: " ⋅ ")
+            [podcast.episodeCount, podcast.frequency].compactMap { $0 }.joined(separator: " ⋅ ")
         }
     }
 
@@ -138,9 +134,13 @@ extension SharingModal.Option {
     private var name: String? {
         switch self {
         case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
-            episode.parentPodcast()?.title
+            if let date = episode.publishedDate {
+                return date.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted))
+            } else {
+                return ""
+            }
         case .podcast(let podcast):
-            podcast.author
+            return podcast.author
         }
     }
 
@@ -161,7 +161,7 @@ extension SharingModal.Option {
         let artwork = ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcast.uuid)
         let imageInfo = ShareImageInfo(name: name ?? "",
                                        title: title ?? "",
-                                       description: description,
+                                       description: description ?? "",
                                        artwork: artwork,
                                        gradient: gradient)
         return imageInfo

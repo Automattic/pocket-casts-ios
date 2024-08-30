@@ -391,6 +391,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Tokenautentiseringen misslyckades.</string>
     <key>clip</key>
     <string>Klipp</string>
+    <key>clip_duration_label</key>
+    <string>%@ Längd</string>
+    <key>clip_start_label</key>
+    <string>%@ Start</string>
     <key>close</key>
     <string>Stäng</string>
     <key>color</key>
@@ -2721,6 +2725,16 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Längst upp</string>
     <key>transcript</key>
     <string>Transkription</string>
+    <key>transcript_error_empty</key>
+    <string>Den här transkriptionen verkar vara tom</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Något gick fel vid inläsningen av den här transkriptionen</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Något gick fel vid tolkningen av den här transkriptionen</string>
+    <key>transcript_error_not_available</key>
+    <string>Det finns ingen transkription tillgänglig för den här podcasten</string>
+    <key>transcript_error_not_supported</key>
+    <string>Formatet på den här transkriptionen stöds inte: %1$@</string>
     <key>trial_finished</key>
     <string>Provperioden har löpt ut</string>
     <key>trim_silence</key>

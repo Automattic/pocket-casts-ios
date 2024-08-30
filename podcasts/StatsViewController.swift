@@ -159,6 +159,14 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 self?.statsTable.reloadData()
                 self?.requestReviewIfPossible()
             }
+
+            StatsManager.shared.updateLocalStatsIfNeeded { updated in
+                if updated {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.statsTable.reloadData()
+                    }
+                }
+            }
         }
     }
 

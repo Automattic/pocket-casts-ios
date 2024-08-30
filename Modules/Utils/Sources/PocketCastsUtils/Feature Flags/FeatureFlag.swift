@@ -98,6 +98,11 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Referrals feature
     case referrals
 
+    /// When accessing Stats, it checks if the local stats are behind remote
+    /// If it is, it updates it
+    /// This is meant to fix an issue for users that were losing stats
+    case syncStats
+
     /// Enable the refactored discover collection view
     case discoverCollectionView
 
@@ -160,7 +165,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newSharing:
             false
         case .transcripts:
-            false
+            true
         case .gravatarChangeAvatar:
             true
         case .kidsProfile:
@@ -171,6 +176,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .referrals:
             false
+        case .syncStats:
+            true
         case .discoverCollectionView:
             false
         }

@@ -391,6 +391,10 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Autenticazione token non riuscita.</string>
     <key>clip</key>
     <string>Clip</string>
+    <key>clip_duration_label</key>
+    <string>Durata: %@</string>
+    <key>clip_start_label</key>
+    <string>Inizio: %@</string>
     <key>close</key>
     <string>Chiudi</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@ pocast con te</string>
     <string>Un nuovo profilo con solo contenuti per bambini per mantenere in ordine i tuoi abbonamenti.</string>
     <key>kids_profile_banner_title</key>
     <string>Profilo Bambini</string>
+    <key>kids_profile_submit_error</key>
+    <string>Si è verificato un problema. Riprova a inviare il tuo feedback</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>Invia</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Cerca podcast</string>
     <key>search_recent</key>
     <string>Ricerche recenti</string>
+    <key>search_results</key>
+    <string>%1$@ di %2$@</string>
     <key>season</key>
     <string>Stagione</string>
     <key>season_episode_shorthand_format</key>
@@ -2717,6 +2725,16 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Principale</string>
     <key>transcript</key>
     <string>Trascrizione</string>
+    <key>transcript_error_empty</key>
+    <string>Siamo spiacenti, ma sembra che questa trascrizione sia vuota</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Siamo spiacenti, ma qualcosa è andato storto durante il caricamento di questa trascrizione</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Siamo spiacenti, ma qualcosa è andato storto durante l'analisi di questa trascrizione</string>
+    <key>transcript_error_not_available</key>
+    <string>Siamo spiacenti, ma non è disponibile una trascrizione per questo podcast</string>
+    <key>transcript_error_not_supported</key>
+    <string>Siamo spiacenti, ma questo formato della trascrizione non è supportato: %1$@</string>
     <key>trial_finished</key>
     <string>Prova terminata</string>
     <key>trim_silence</key>
