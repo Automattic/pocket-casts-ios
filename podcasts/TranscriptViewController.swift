@@ -558,12 +558,19 @@ class TranscriptViewController: PlayerItemViewController {
         let previousContentOffset = transcriptView.contentOffset
         UIView.animate(withDuration: animationDuration, animations: { [weak self] in
             guard let self else { return }
+
+            if isSearching {
+                transcriptView.setContentOffset(previousContentOffset, animated: false)
+            }
+
             transcriptView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: adjustmentHeight, right: 0)
-            transcriptView.setContentOffset(previousContentOffset, animated: false)
             transcriptView.verticalScrollIndicatorInsets.bottom = show ? adjustmentHeight : bottomContainerInset
         }, completion: { [weak self] _ in
             guard let self else { return }
-            transcriptView.setContentOffset(previousContentOffset, animated: false)
+
+            if isSearching {
+                transcriptView.setContentOffset(previousContentOffset, animated: false)
+            }
         })
     }
 

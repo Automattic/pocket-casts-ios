@@ -148,6 +148,8 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshGridItems))
+        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshGridItems))
+        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshGridItems))
 
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(refreshGridItems))
         addCustomObserver(Constants.Notifications.folderDeleted, selector: #selector(refreshGridItems))
@@ -228,7 +230,13 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         if let index = notification.object as? Int, index == tabBarItem.tag, podcastsCollectionView.contentOffset.y.rounded(.down) > topOffset.rounded(.down) {
             podcastsCollectionView.setContentOffset(CGPoint(x: -horizontalMargin, y: topOffset), animated: true)
         } else {
-            searchController.searchTextField.becomeFirstResponder()
+            // When double-tapping on tab bar, dismiss the search if already active
+            // else give focus to the search field
+            if searchController.cancelButtonShowing {
+                searchController.cancelTapped(self)
+            } else {
+                searchController.searchTextField.becomeFirstResponder()
+            }
         }
     }
 

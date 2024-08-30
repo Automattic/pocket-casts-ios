@@ -15,6 +15,8 @@ struct AnimatedShareImageView: AnimatableContent {
     var body: some View {
         ZStack {
             ShareImageView(info: info, style: style, angle: $angle)
+                .frame(width: style.videoSize.width, height: style.videoSize.height)
+                .fixedSize()
                 .onReceive(animationProgress.$progress) { progress in
                     let calculatedAngle = calculateAngle(progress: Float(progress))
                     angle = Double(calculatedAngle)
@@ -28,7 +30,7 @@ struct AnimatedShareImageView: AnimatableContent {
     }
 
     private func calculateAngle(progress: Float) -> Float {
-        let speed: Float = 1
+        let speed: Float = 0.5
         let angle = (progress * 360 * speed).truncatingRemainder(dividingBy: 360)
         return angle
     }

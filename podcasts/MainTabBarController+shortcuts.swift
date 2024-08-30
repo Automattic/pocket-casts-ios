@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 extension MainTabBarController {
     func setupKeyboardShortcuts() {
@@ -33,8 +34,18 @@ extension MainTabBarController {
         let discoverCommand = UIKeyCommand(title: L10n.discover, action: #selector(handleDiscover), input: "3", modifierFlags: [.command])
         addKeyCommand(discoverCommand)
 
-        let profileCommand = UIKeyCommand(title: L10n.profile, action: #selector(handleProfile), input: "4", modifierFlags: [.command])
-        addKeyCommand(profileCommand)
+        // If the feature flag is enabled then Up Next is in position 4 and Profile in position 5 on the tab bar.
+        // If disabled, then Profile remains in the original position 4. Set the keyboard shortcuts accordingly.
+        if FeatureFlag.upNextOnTabBar.enabled {
+            let upNextCommand = UIKeyCommand(title: L10n.upNext, action: #selector(handleUpNext), input: "4", modifierFlags: [.command])
+            addKeyCommand(upNextCommand)
+
+            let profileCommand = UIKeyCommand(title: L10n.profile, action: #selector(handleProfile), input: "5", modifierFlags: [.command])
+            addKeyCommand(profileCommand)
+        } else {
+            let profileCommand = UIKeyCommand(title: L10n.profile, action: #selector(handleProfile), input: "4", modifierFlags: [.command])
+            addKeyCommand(profileCommand)
+        }
 
         let searchCommand = UIKeyCommand(title: L10n.search, action: #selector(handleSearch), input: "f", modifierFlags: [.command])
         addKeyCommand(searchCommand)
@@ -66,6 +77,10 @@ extension MainTabBarController {
 
     @objc private func handleDiscover() {
         navigateToDiscover(true)
+    }
+
+    @objc private func handleUpNext() {
+        navigateToUpNext(true)
     }
 
     @objc private func handleProfile() {

@@ -31,7 +31,7 @@ struct UpNextWidgetEntryView: View {
                             .lineLimit(1)
                         Spacer()
                         Image(widgetColorScheme.filterViewIconAssetName)
-                            .frame(width: 28, height: 28, alignment: .topTrailing)
+                            .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize, alignment: .topTrailing)
                             .accessibility(hidden: true)
                     }
                     .padding(.init(top: 16, leading: 16, bottom: 0, trailing: 16))
@@ -48,6 +48,7 @@ struct UpNextWidgetEntryView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .background(widgetColorScheme.filterViewBackgroundColor)
+                .widgetURL(URL(string: "pktc://last_opened"))
             }
         }
         .environment(\.widgetColorScheme, widgetColorScheme)
