@@ -2836,7 +2836,7 @@
     <key>welcome_discover_title</key>
     <string>发现新事物</string>
     <key>welcome_import_button</key>
-    <string>导入博客</string>
+    <string>导入播客</string>
     <key>welcome_import_description</key>
     <string>来自其他应用？ 随时随地访问您的播客。</string>
     <key>welcome_import_title</key>
