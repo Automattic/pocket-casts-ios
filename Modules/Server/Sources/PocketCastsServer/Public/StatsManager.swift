@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 public class StatsManager {
     public static let shared = StatsManager()
@@ -144,6 +145,11 @@ public class StatsManager {
     }
 
     public func updateLocalStatsIfNeeded(completion: ((Bool) -> Void)?) {
+        guard FeatureFlag.syncStats.enabled else {
+            completion?(false)
+            return
+        }
+
         ApiServerHandler.shared.loadStatsRequest(getFullData: true) { [weak self] remoteStats in
             guard let self, let remoteStats = remoteStats else { return }
 
