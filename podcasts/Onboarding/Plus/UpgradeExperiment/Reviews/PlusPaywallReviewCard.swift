@@ -52,7 +52,7 @@ struct PlusPaywallReviewCard: View {
                 id: 0,
                 title: "The essential podcast app",
                 review: "8 years of excellence and continuous improvement",
-                date: "15/06/2024"
+                date: "2024-06-15"
             )], id: \.id) { review in
                 PlusPaywallReviewCard(
                     review: AppStoreReview(
