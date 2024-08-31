@@ -96,7 +96,7 @@ struct Announcements {
         ),
         .init(
             version: "7.72",
-            header: AnyView(GiveRatingsWhatsNewHeader()),
+            header: AnyView(ClipsWhatsNewView()),
             title: L10n.clipsWhatsNewTitle,
             message: L10n.clipsWhatsNewMessage,
             buttonTitle: L10n.clipsWhatsNewButtonTitle,
