@@ -195,13 +195,16 @@ extension SharingModal.Option {
     func mediaData(imageInfo: ShareImageInfo, style: ShareImageStyle, episode: Episode, clipTime: ClipTime, destination: ShareDestination, progress: Binding<Float?>) async throws -> Any? {
         switch self {
         case .clipShare:
-            let nsProgress = Progress()
-            let observation = nsProgress.observe(\.completedUnitCount) { [progress] inProgress, change in
+            let nsProgress = Progress(totalUnitCount: 100)
+            let observation = nsProgress.observe(\.fractionCompleted) { [progress] inProgress, change in
                 Task.detached { @MainActor in
                     guard Task.isCancelled == false && inProgress.isCancelled == false else { return }
-                    progress.wrappedValue = Float(inProgress.completedUnitCount) / Float(inProgress.totalUnitCount)
+                    print("Fraction completed: \(inProgress.fractionCompleted)")
+                    progress.wrappedValue = Float(inProgress.fractionCompleted)
                 }
             }
+
+            progress.wrappedValue = 0.01
 
             let fileURL = try await destination.export(info: imageInfo,
                                             style: style,
