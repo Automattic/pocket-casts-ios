@@ -37,6 +37,7 @@ extension View {
         }
 
         let renderer = ImageRenderer(content: self)
+        renderer.scale = 2
         renderer.render { size, render in
             render(context)
         }
