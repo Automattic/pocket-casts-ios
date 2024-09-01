@@ -116,7 +116,10 @@ enum VideoExporter {
             if await counter.count >= frameCount {
                 videoWriterInput.markAsFinished()
                 await videoWriter.finishWriting()
+                return true
             }
+
+            return false
         }
     }
 
@@ -220,14 +223,17 @@ fileprivate actor Counter {
 }
 
 fileprivate extension AVAssetWriterInput {
-    func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Void) async throws {
+    func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Bool) async throws {
         try await withCheckedThrowingContinuation { continuation in
             requestMediaDataWhenReady(on: .global(qos: .userInitiated)) {
                 _unsafeWait {
                     do {
-                        try await block()
-                        continuation.resume()
+                        let finished = try await block()
+                        if finished {
+                            continuation.resume()
+                        }
                     } catch {
+                        self.markAsFinished()
                         continuation.resume(throwing: error)
                     }
                 }
