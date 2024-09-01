@@ -185,7 +185,7 @@ extension SharingModal.Option {
         case .clipShare(let episode, let clipTime, _):
             media = try await mediaData(imageInfo: imageInfo, style: style, episode: episode, clipTime: clipTime, destination: destination, progress: progress)
         default:
-            media = nil
+            media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
         }
 
         return [url, media].compactMap({ $0 })
@@ -193,37 +193,31 @@ extension SharingModal.Option {
 
     @MainActor
     func mediaData(imageInfo: ShareImageInfo, style: ShareImageStyle, episode: Episode, clipTime: ClipTime, destination: ShareDestination, progress: Binding<Float?>) async throws -> Any? {
-        switch self {
-        case .clipShare:
-            let nsProgress = Progress(totalUnitCount: 100)
-            let observation = nsProgress.observe(\.fractionCompleted) { [progress] inProgress, change in
-                Task.detached { @MainActor in
-                    guard Task.isCancelled == false && inProgress.isCancelled == false else { return }
-                    print("Fraction completed: \(inProgress.fractionCompleted)")
-                    progress.wrappedValue = Float(inProgress.fractionCompleted)
-                }
+        let nsProgress = Progress(totalUnitCount: 100)
+        let observation = nsProgress.observe(\.fractionCompleted) { [progress] inProgress, change in
+            Task.detached { @MainActor in
+                guard Task.isCancelled == false && inProgress.isCancelled == false else { return }
+                print("Fraction completed: \(inProgress.fractionCompleted)")
+                progress.wrappedValue = Float(inProgress.fractionCompleted)
             }
+        }
 
-            progress.wrappedValue = 0.01
+        progress.wrappedValue = 0.01
 
-            let fileURL = try await destination.export(info: imageInfo,
-                                            style: style,
-                                            episode: episode,
-                                            startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
-                                            duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
-                                            progress: nsProgress
-            )
+        let fileURL = try await destination.export(info: imageInfo,
+                                        style: style,
+                                        episode: episode,
+                                        startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
+                                        duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
+                                        progress: nsProgress
+        )
 
-            progress.wrappedValue = nil
+        progress.wrappedValue = nil
 
-            if destination == .instagram {
-                return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
-            } else {
-                return fileURL as NSURL // Third party apps need URLs and won't accept Data
-            }
-        default:
-            // Share image
-            return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
+        if destination == .instagram {
+            return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
+        } else {
+            return fileURL as NSURL // Third party apps need URLs and won't accept Data
         }
     }
 

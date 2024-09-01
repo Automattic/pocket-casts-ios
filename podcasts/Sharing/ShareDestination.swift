@@ -39,7 +39,7 @@ enum ShareDestination: Hashable {
         case .instagram:
             let item = try await option.shareData(style: style, destination: self, progress: progress).mapFirst { shareItem -> (Data, UTType)? in
                 if let data = shareItem as? Data {
-                    return (data, style == .audio ? UTType.m4a : .mpeg4Movie)
+                    return (data, .mpeg4Movie)
                 } else if let image = shareItem as? UIImage, let data = image.pngData() {
                     return (data, .png)
                 } else {
@@ -239,12 +239,7 @@ extension ShareDestination {
             throw VideoExportError.failedToDownload
         }
 
-        switch style {
-        case .audio:
-            let url = FileManager.default.temporaryDirectory.appendingPathComponent("audio_export-\(UUID().uuidString)", conformingTo: .m4a)
-            try await AudioClipExporter.exportAudioClip(from: playerItem.asset, startTime: startTime, duration: duration, to: url, progress: progress)
-            return url
-        default:
+        func exportVideo() async throws -> URL {
             let size: CGSize
             switch self {
             case .instagram:
@@ -261,6 +256,21 @@ extension ShareDestination {
             try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style, size: size), with: parameters, to: url, progress: progress)
 
             return url
+        }
+
+        switch style {
+        case .audio:
+            switch self {
+            case .instagram:
+                // Instagram will not accept a straight m4a file for sharing so we need to generate a video clip to share
+                return try await exportVideo()
+            default:
+                let url = FileManager.default.temporaryDirectory.appendingPathComponent("audio_export-\(UUID().uuidString)", conformingTo: .m4a)
+                try await AudioClipExporter.exportAudioClip(from: playerItem.asset, startTime: startTime, duration: duration, to: url, progress: progress)
+                return url
+            }
+        default:
+            return try await exportVideo()
         }
     }
 }
