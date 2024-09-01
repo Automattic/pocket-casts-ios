@@ -32,7 +32,7 @@ struct SharingFooterView: View {
                 }
                 .foregroundStyle(.white.opacity(0.5))
                 .font(.caption.weight(.semibold))
-                Button(L10n.clip, action: {
+                Button(L10n.next, action: {
                     withAnimation {
                         option = .clipShare(episode, clipTime, style)
                     }
