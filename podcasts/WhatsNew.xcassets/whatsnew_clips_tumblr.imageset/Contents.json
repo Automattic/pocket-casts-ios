@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "whatsnew_tumblr.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -93,6 +93,18 @@ struct Announcements {
             },
             isEnabled: FeatureFlag.giveRatings.enabled,
             fullModal: true
+        ),
+        .init(
+            version: "7.72",
+            header: AnyView(ClipsWhatsNewView()),
+            title: L10n.clipsWhatsNewTitle,
+            message: L10n.clipsWhatsNewMessage,
+            buttonTitle: L10n.clipsWhatsNewButtonTitle,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: FeatureFlag.newSharing.enabled,
+            fullModal: true
         )
     ]
 }
