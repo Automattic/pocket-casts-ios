@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 
+@MainActor
 class AnimationProgress: ObservableObject {
     @Published var progress: Double = 0 // O-1
 }
