@@ -202,6 +202,10 @@ extension SharingModal.Option {
             }
         }
 
+        defer {
+            observation.invalidate()
+        }
+
         progress.wrappedValue = 0.01
 
         let fileURL = try await destination.export(info: imageInfo,
