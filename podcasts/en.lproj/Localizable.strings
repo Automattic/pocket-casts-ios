@@ -1656,6 +1656,9 @@
 /* Message about the exclusive content from Slumber Studios. Please don't translate "Slumber Studios". */
 "plus_feature_slumber" = "1 year of exclusive content from Slumber Studios";
 
+/* Message about the exclusive content from Slumber Studios. This is used with our Paywall Experiment. Please don't translate "Slumber Studios". */
+"plus_feature_slumber_new" = "Dream with Slumber Studios content";
+
 /* Label of a button to subscribe to Patron. Do not translate "Plus". */
 "plus_subscribe_to" = "Subscribe to Plus";
 
@@ -4178,6 +4181,9 @@
 /* A title shown for a share option which copies a link to a podcast or episode */
 "share_copy_link" = "Copy link";
 
+/* A button title shown for a share option which shares a image or video clip to Instagram Stories */
+"share_instagram_stories" = "Stories";
+
 /* A common string used throughout the app. Often refers to the Transcript tab in the player. */
 "transcript" = "Transcript";
 
@@ -4280,47 +4286,95 @@
 /* Upgrade Experiment message informing the user that they have been granted 50% discount. */
 "upgrade_experiment_discount_yearly_membership" = "Save 50%% off your first year";
 
-/* Upgraade Experiment - Features Variation: Desktop feature card title*/
+/* Upgrade Experiment - Features Variation: Desktop feature card title*/
 "plus_feature_card_title_desktop" = "Desktop and web apps";
 
-/* Upgraade Experiment - Features Variation: Folders feature card title*/
+/* Upgrade Experiment - Features Variation: Folders feature card title*/
 "plus_feature_card_title_folders" = "Folders";
 
-/* Upgraade Experiment - Features Variation: Bokmarks feature card title*/
+/* Upgrade Experiment - Features Variation: Bokmarks feature card title*/
 "plus_feature_card_title_bookmarks" = "Bookmarks";
 
-/* Upgraade Experiment - Features Variation: Wear OS feature card title*/
+/* Upgrade Experiment - Features Variation: Wear OS feature card title*/
 "plus_feature_card_title_wear_os" = "Apple Watch and Wear OS playback";
 
-/* Upgraade Experiment - Features Variation: Slumber Studio feature card title*/
+/* Upgrade Experiment - Features Variation: Slumber Studio feature card title*/
 "plus_feature_card_title_slumber_studio" = "Dream with Slumber Studios";
 
-/* Upgraade Experiment - Features Variation: Storage feature card title*/
+/* Upgrade Experiment - Features Variation: Storage feature card title*/
 "plus_feature_card_title_storage" = "20 GB of storage";
 
-/* Upgraade Experiment - Features Variation: Extra feature card title*/
+/* Upgrade Experiment - Features Variation: Extra feature card title*/
 "plus_feature_card_title_extra_themes" = "Extra themes and icons";
 
-/* Upgraade Experiment - Features Variation: Desktop feature card text*/
+/* Upgrade Experiment - Features Variation: Desktop feature card text*/
 "plus_feature_card_text_desktop" = "Listen in more places with our Windows, macOS and Web apps.";
 
-/* Upgraade Experiment - Features Variation: Folders feature card text*/
+/* Upgrade Experiment - Features Variation: Folders feature card text*/
 "plus_feature_card_text_folders" = "Organize your podcasts in folders, and keep them in sync across all your devices.";
 
-/* Upgraade Experiment - Features Variation: Bokmarks feature card text*/
+/* Upgrade Experiment - Features Variation: Bokmarks feature card text*/
 "plus_feature_card_text_bookmarks" = "Save your favorite bits from any episode and go back to them.";
 
-/* Upgraade Experiment - Features Variation: Wear OS feature card text*/
+/* Upgrade Experiment - Features Variation: Wear OS feature card text*/
 "plus_feature_card_text_wear_os" = "Ditch the phone and go for a run.";
 
-/* Upgraade Experiment - Features Variation: Slumber Studio feature card text*/
+/* Upgrade Experiment - Features Variation: Slumber Studio feature card text*/
 "plus_feature_card_text_slumber_studio" = "Get 1 year of premium content from Slumber Studios.";
 
-/* Upgraade Experiment - Features Variation: Storage feature card text*/
+/* Upgrade Experiment - Features Variation: Storage feature card text*/
 "plus_feature_card_text_storage" = "Upload your audio files to cloud storage and have them available everywhere.";
 
-/* Upgraade Experiment - Features Variation: Extra feature card text*/
+/* Upgrade Experiment - Features Variation: Extra feature card text*/
 "plus_feature_card_text_extra_themes" = "Fly your true colors. Exclusive icons and themes for our subscribers.";
+
+/* Upgrade Experiment - Reviews Variation: Screen title*/
+"upgrade_experiment_reviews_title" = "Quite simply the best way to listen to podcasts";
+
+/* Upgrade Experiment - Reviews Variation: Screen text*/
+"upgrade_experiment_reviews_text" = "See why people have upgraded to Plus";
+
+/* Upgrade Experiment - Reviews Variation: Title for the button that redirects the user to the AppStore page */
+"upgrade_experiment_reviews_app_store_button" = "See all reviews in the App Store";
+
+/* Upgrade Experiment - Reviews Variation: the text that represents the avg stars rating and the number of reviews. The %1$@ placeholder indicates the avg rating, like 4.3. The %2$@ placeholder indicates the abbreviated number of reviews, like 5.7K. */
+"upgrade_experiment_reviews_app_store_info" = "%1$@ Rating (%2$@K Reviews)";
+
+/* Upgrade Experiment - Reviews Variation: title for Review card 0 */
+"upgrade_experiment_reviews_review_title_0" = "Best Podcast App By FAR";
+
+/* Upgrade Experiment - Reviews Variation: text for Review card 0 */
+"upgrade_experiment_reviews_review_text_0" = "I've been a long time user and the amount of functionality and customization you get with the free version is astounding. I love that it syncs across devices so I can start listening on my phone and then pick up on an Alexa device. It's my recommendation for anyone who listens to podcasts. Also love the stats!";
+
+/* Upgrade Experiment - Reviews Variation: title for Review card 1 */
+"upgrade_experiment_reviews_review_title_1" = "The essential podcast app";
+
+/* Upgrade Experiment - Reviews Variation: text for Review card 1 */
+"upgrade_experiment_reviews_review_text_1" = "8 years of excellence and continuous improvement";
+
+/* Upgrade Experiment - Reviews Variation: title for Review card 2 */
+"upgrade_experiment_reviews_review_title_2" = "Best podcasat app out there";
+
+/* Upgrade Experiment - Reviews Variation: text for Review card 2 */
+"upgrade_experiment_reviews_review_text_2" = "I've been a Pocket Casts user since 2017.\n\nThis is hands down the best app to listen to podcasts. It's feature rich and actively developed. There have been some complaints about the Ul change but I haven't really noticed it too much.\n\nThis app can be as simple or difficult to use as you'd like it to be. So either let it be a plug and play or set up skip outro and intro timers and any other little feature you want to enable.";
+
+/* Upgrade Experiment - Reviews Variation: title for Review card 3 */
+"upgrade_experiment_reviews_review_title_3" = "Fantastic app";
+
+/* Upgrade Experiment - Reviews Variation: text for Review card 3 */
+"upgrade_experiment_reviews_review_text_3" = "The sync function is magic. Don't know what special magic this app has going on but it's better than any other app l've used.";
+
+/* Upgrade Experiment - Reviews Variation: title for Review card 4 */
+"upgrade_experiment_reviews_review_title_4" = "Works great and easy to find or add new pods";
+
+/* Upgrade Experiment - Reviews Variation: text for Review card 4 */
+"upgrade_experiment_reviews_review_text_4" = "Been using this app for 6 years or better, started on android and now l've been on iOS for almost a year. Works the same on both platforms. Easy to find new podcasts to listen to, very nice Ul, can add podcasts by rss feed url too. The watch app is functional, but I mostly use for my play/pause. Sign in with an account to sync across devices but no requirement to do so.";
+
+/* Upgrade Experiment - Reviews Variation: title for Review card 5 */
+"upgrade_experiment_reviews_review_title_5" = "Go-To Podcast App";
+
+/* Upgrade Experiment - Reviews Variation: text for Review card 5 */
+"upgrade_experiment_reviews_review_text_5" = "PC has been my go-to for years. l've tried other podcast apps and always come back to PC for their simplicity, Ul and support. Definitely worth checking it out, especially if you have grown tired of your current podcast app.";
 
 /* Referrals - Tip Title. '%1$@' is a placeholder for the number of referrals passes available to share*/
 "referrals_tip_title" = "You have %1$@ passes to share";

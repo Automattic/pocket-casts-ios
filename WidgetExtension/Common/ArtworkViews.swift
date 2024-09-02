@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LargeArtworkView: View {
     @State var imageData: Data?
+    var size: CGFloat = 74
 
     var showShadow: Bool = true
 
@@ -11,7 +12,7 @@ struct LargeArtworkView: View {
                 Rectangle()
                     .foregroundColor(Color.nowPlayingShadowColor)
                     .aspectRatio(1, contentMode: .fit)
-                    .frame(maxHeight: 74)
+                    .frame(maxHeight: size)
                     .cornerRadius(9)
                     .secondaryShadow()
             }
@@ -20,7 +21,7 @@ struct LargeArtworkView: View {
                 Image(uiImage: uiImage)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
-                    .frame(maxHeight: 74)
+                    .frame(maxHeight: size)
                     .cornerRadius(8)
                     .if(showShadow) { view in
                         view.artworkShadow()
@@ -29,7 +30,7 @@ struct LargeArtworkView: View {
                 Image("no-podcast-artwork")
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
-                    .frame(maxHeight: 74)
+                    .frame(maxHeight: size)
                     .cornerRadius(8)
                     .if(showShadow) { view in
                         view.artworkShadow()

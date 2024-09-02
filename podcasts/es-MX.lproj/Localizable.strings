@@ -391,6 +391,10 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Error de autenticación del token.</string>
     <key>clip</key>
     <string>Clip</string>
+    <key>clip_duration_label</key>
+    <string>%@ Duración</string>
+    <key>clip_start_label</key>
+    <string>%@ Inicio</string>
     <key>close</key>
     <string>Cerrar</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@ pódcast contigo</string>
     <string>Un perfil nuevo solo con contenido para niños para mantener organizadas tus suscripciones.</string>
     <key>kids_profile_banner_title</key>
     <string>Perfil para niños</string>
+    <key>kids_profile_submit_error</key>
+    <string>Se ha producido un error. Prueba a enviar tus comentarios de nuevo</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>Enviar</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Buscar podcasts</string>
     <key>search_recent</key>
     <string>Búsquedas recientes</string>
+    <key>search_results</key>
+    <string>%1$@ de %2$@</string>
     <key>season</key>
     <string>Temporada</string>
     <key>season_episode_shorthand_format</key>
@@ -2717,6 +2725,16 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Principales</string>
     <key>transcript</key>
     <string>Transcripción</string>
+    <key>transcript_error_empty</key>
+    <string>Lo sentimos, pero parece que esta transcripción está vacía</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Lo sentimos, pero algo ha ido mal al cargar esta transcripción</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Lo sentimos, pero algo ha ido mal al analizar esta transcripción</string>
+    <key>transcript_error_not_available</key>
+    <string>Lo sentimos, pero no hay transcripción disponible para este podcast</string>
+    <key>transcript_error_not_supported</key>
+    <string>Lo sentimos, pero este formato de transcripción no es compatible: %1$@</string>
     <key>trial_finished</key>
     <string>La prueba ha finalizado</string>
     <key>trim_silence</key>

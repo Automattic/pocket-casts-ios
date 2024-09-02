@@ -9,6 +9,8 @@ struct SharingFooterView: View {
 
     let destinations: [ShareDestination]
     let style: ShareImageStyle
+    let clipUUID: String
+    let source: AnalyticsSource
 
     @EnvironmentObject var theme: Theme
 
@@ -18,7 +20,7 @@ struct SharingFooterView: View {
             buttons
         case .clip(let episode, _):
             VStack(spacing: 12) {
-                MediaTrimBar(clipTime: clipTime, episode: episode)
+                MediaTrimBar(clipTime: clipTime, episode: episode, clipUUID: clipUUID, analyticsSource: source)
                     .frame(height: 72)
                     .tint(color)
                 HStack {
@@ -55,14 +57,16 @@ struct SharingFooterView: View {
     @ViewBuilder var buttons: some View {
         HStack(spacing: 24) {
             ForEach(destinations, id: \.self) { destination in
-                button(destination: destination, style: style, action: destination.action)
+                button(destination: destination, style: style, clipUUID: clipUUID, source: source)
             }
         }
     }
 
-    @ViewBuilder func button(destination: ShareDestination, style: ShareImageStyle, action: @escaping ((SharingModal.Option, ShareImageStyle) -> Void)) -> some View {
+    @ViewBuilder func button(destination: ShareDestination, style: ShareImageStyle, clipUUID: String, source: AnalyticsSource) -> some View {
         Button {
-            action(option, style)
+            Task.detached {
+                try await destination.share(option, style: style, clipUUID: clipUUID, source: source)
+            }
         } label: {
             view(for: destination)
         }

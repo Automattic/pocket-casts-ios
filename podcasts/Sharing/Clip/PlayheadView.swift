@@ -9,28 +9,31 @@ struct PlayheadView: View {
     @State private var lastTranslation: CGFloat?
 
     var body: some View {
-        Rectangle()
-            .fill(Color.white)
-            .offset(x: realPosition)
-            .onTapGesture {} // This is needed to ensure parent ScrollView doesn't intercept
-            .highPriorityGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        let currentTranslation = value.translation.width
-                        let delta = currentTranslation - (lastTranslation ?? 0)
-                        realPosition = (realPosition + delta).clamped(to: validRange)
-                        lastTranslation = currentTranslation
+        GeometryReader { proxy in
+            Rectangle()
+                .fill(Color.white)
+                .offset(x: realPosition)
+                .onTapGesture {} // This is needed to ensure parent ScrollView doesn't intercept
+                .highPriorityGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { value in
+                            let currentTranslation = value.translation.width
+                            let delta = currentTranslation - (lastTranslation ?? 0)
+                            let adjustedRange = validRange.lowerBound...(validRange.upperBound - proxy.size.width)
+                            realPosition = (realPosition + delta).clamped(to: adjustedRange)
+                            lastTranslation = currentTranslation
+                        }
+                        .onEnded { _ in
+                            lastTranslation = nil
+                            position = realPosition
+                        }
+                )
+                .onChange(of: position) { position in
+                    // Only update playhead when not dragging
+                    if lastTranslation == nil {
+                        realPosition = position
                     }
-                    .onEnded { _ in
-                        lastTranslation = nil
-                        position = realPosition
-                    }
-            )
-            .onChange(of: position) { position in
-                // Only update playhead when not dragging
-                if lastTranslation == nil {
-                    realPosition = position
                 }
-            }
+        }
     }
 }

@@ -718,4 +718,11 @@ enum AnalyticsEvent: String {
 
     case widgetInstalled
     case widgetUninstalled
+    case widgetInteraction
+
+    // MARK: - Share Screen
+    case shareScreenShown
+    case shareScreenPlayTapped
+    case shareScreenPauseTapped
+    case shareScreenClipShared
 }

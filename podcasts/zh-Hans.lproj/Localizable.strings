@@ -391,6 +391,10 @@
     <string>令牌身份验证失败。</string>
     <key>clip</key>
     <string>片段</string>
+    <key>clip_duration_label</key>
+    <string>%@ 时长</string>
+    <key>clip_start_label</key>
+    <string>%@ 开始时间</string>
     <key>close</key>
     <string>关闭</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@
     <string>仅包含儿童相关内容的新个人资料，可保持订阅界面整洁有序。</string>
     <key>kids_profile_banner_title</key>
     <string>儿童个人资料</string>
+    <key>kids_profile_submit_error</key>
+    <string>出错了。 请尝试重新提交您的反馈</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>发送</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@
     <string>搜索播客</string>
     <key>search_recent</key>
     <string>最近搜索</string>
+    <key>search_results</key>
+    <string>第 %1$@ 个，共 %2$@ 个</string>
     <key>season</key>
     <string>季</string>
     <key>season_episode_shorthand_format</key>
@@ -2717,6 +2725,16 @@
     <string>顶部</string>
     <key>transcript</key>
     <string>文字转录稿</string>
+    <key>transcript_error_empty</key>
+    <string>很抱歉，此文字转录稿似乎为空</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>很抱歉，加载此文字转录稿时出现错误</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>很抱歉，解析此文字转录稿时出现错误</string>
+    <key>transcript_error_not_available</key>
+    <string>很抱歉，本播客没有文字转录稿</string>
+    <key>transcript_error_not_supported</key>
+    <string>很抱歉，此文字转录稿格式不受支持：%1$@</string>
     <key>trial_finished</key>
     <string>试用完成</string>
     <key>trim_silence</key>
@@ -2818,7 +2836,7 @@
     <key>welcome_discover_title</key>
     <string>发现新事物</string>
     <key>welcome_import_button</key>
-    <string>导入博客</string>
+    <string>导入播客</string>
     <key>welcome_import_description</key>
     <string>来自其他应用？ 随时随地访问您的播客。</string>
     <key>welcome_import_title</key>

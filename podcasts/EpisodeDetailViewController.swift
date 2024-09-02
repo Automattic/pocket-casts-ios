@@ -450,7 +450,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @objc private func shareTapped(_ sender: UIButton) {
         guard FeatureFlag.newSharing.enabled == false else {
-            SharingModal.showModal(episode: episode, in: self)
+            SharingModal.showModal(episode: episode, from: analyticsSource, in: self)
             return
         }
 

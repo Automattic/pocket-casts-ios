@@ -391,6 +391,10 @@
     <string>トークンを認証できませんでした。</string>
     <key>clip</key>
     <string>クリップ</string>
+    <key>clip_duration_label</key>
+    <string>%@ 所要時間</string>
+    <key>clip_start_label</key>
+    <string>%@ 開始</string>
     <key>close</key>
     <string>閉じる</string>
     <key>color</key>
@@ -1221,6 +1225,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>子ども向けコンテンツのみのプロフィールを新規に作成して、サブスクリプションを整理しておくことができます。</string>
     <key>kids_profile_banner_title</key>
     <string>キッズプロフィール</string>
+    <key>kids_profile_submit_error</key>
+    <string>問題が発生しました。 フィードバックをもう一度送信してください</string>
     <key>kids_profile_submit_feedback_send_button</key>
     <string>送信</string>
     <key>kids_profile_submit_feedback_title</key>
@@ -1981,6 +1987,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ポッドキャストを検索</string>
     <key>search_recent</key>
     <string>最近の検索</string>
+    <key>search_results</key>
+    <string>%1$@ / %2$@</string>
     <key>season</key>
     <string>シーズン</string>
     <key>season_episode_shorthand_format</key>
@@ -2713,6 +2721,16 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>一番上</string>
     <key>transcript</key>
     <string>トランスクリプト</string>
+    <key>transcript_error_empty</key>
+    <string>申し訳ありません、このトランスクリプトは空のようです</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>申し訳ありません、このトランスクリプトの読み込み中に問題が発生しました</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>申し訳ありません、このトランスクリプトの解析中に問題が発生しました</string>
+    <key>transcript_error_not_available</key>
+    <string>申し訳ありません、このポッドキャストではトランスクリプトを利用できません</string>
+    <key>transcript_error_not_supported</key>
+    <string>申し訳ありません、このトランスクリプトのフォーマットはサポートされていません: %1$@</string>
     <key>trial_finished</key>
     <string>トライアルが終了しました</string>
     <key>trim_silence</key>

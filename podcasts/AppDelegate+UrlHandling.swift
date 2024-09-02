@@ -143,8 +143,13 @@ extension AppDelegate {
         }
 
         // Open to discover
-        JLRoutes.global().addRoute("/discover") { _ -> Bool in
+        JLRoutes.global().addRoute("/discover") { paramDict -> Bool in
+            if let sourceString = paramDict["source"] as? String, sourceString == "widget" {
+                Analytics.track(.widgetInteraction, properties: ["action": "discover"])
+            }
+
             NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
+
             return true
         }
         // developer features:
@@ -222,7 +227,9 @@ extension AppDelegate {
 
             if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: baseEpisode.uuid) {
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
+                Analytics.track(.widgetInteraction, properties: ["action": "now_playing"])
             } else {
+                Analytics.track(.widgetInteraction, properties: ["action": "episode"])
                 if let episode = baseEpisode as? Episode {
                     NavigationManager.sharedManager.navigateTo(NavigationManager.episodePageKey, data: [NavigationManager.episodeUuidKey: episode.uuid])
                 } else if baseEpisode is UserEpisode {
@@ -232,9 +239,13 @@ extension AppDelegate {
             return true
         }
 
-        JLRoutes.global().addRoute("/last_opened/*")
+        JLRoutes.global().addRoute("/last_opened/*") { _ in
+            Analytics.track(.widgetInteraction, properties: ["action": "open_app"])
+            return true
+        }
 
         JLRoutes.global().addRoute("/show_player") { [weak self] _ -> Bool in
+            Analytics.track(.widgetInteraction, properties: ["action": "now_playing"])
             self?.openPlayerWhenReadyFromExternalEvent()
             return true
         }
@@ -327,6 +338,7 @@ extension AppDelegate {
             var source: UpNextViewSource = .unknown
 
             if let sourceString = paramDict["source"] as? String {
+                Analytics.track(.widgetInteraction, properties: ["action": "up_next"])
                 source = UpNextViewSource(rawValue: sourceString) ?? .unknown
             }
 

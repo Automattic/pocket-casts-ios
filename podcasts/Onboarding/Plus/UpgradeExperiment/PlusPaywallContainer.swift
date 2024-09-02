@@ -120,6 +120,9 @@ struct PlusPaywallContainer: View {
                         $0
                     }
                 }
+                .onAppear {
+                    OnboardingFlow.shared.track(.selectPaymentFrequencyShown)
+                }
         }
     }
 
@@ -128,15 +131,14 @@ struct PlusPaywallContainer: View {
         switch type {
         case .features:
             PlusPaywallFeaturesCarousell(tier: tier)
-        case .social:
-            Rectangle()
-                .fill(.yellow)
+        case .reviews:
+            PlusPaywallReviews(tier: .plus, viewModel: PlusPaywallReviewsViewModel())
         }
     }
 
     enum ContainerType {
         case features
-        case social
+        case reviews
     }
 
     private enum Constants {
@@ -175,4 +177,8 @@ extension PlusPricingInfoModel.ProductOfferInfo {
 
 #Preview {
     PlusPaywallContainer(viewModel: PlusLandingViewModel(source: .login), type: .features)
+}
+
+#Preview {
+    PlusPaywallContainer(viewModel: PlusLandingViewModel(source: .login), type: .reviews)
 }
