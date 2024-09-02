@@ -432,6 +432,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
     }
 
+    private let numberOfFreeDaysOffered: Int = 30
+
     private lazy var referralsBadge: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -487,27 +489,40 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         hideReferralsHint()
     }
 
+    private enum ReferralsConstants {
+        static let giftIcon = "gift"
+        static let giftSize = CGFloat(24)
+        static let giftBadgeSize = CGFloat(16)
+        static let defaultTipSize = CGSizeMake(300, 50)
+    }
+
+    private var referralsTipVC: UIViewController?
+
     private func showReferralsHintIfNeeded() {
         guard areReferralsAvailable, numberOfReferralsAvailable > 0 else {
             return
         }
-        showReferralsHint()
+        let vc = makeReferralsHint()
+        present(vc, animated: true, completion: nil)
+        self.referralsTipVC = vc
     }
 
     private func hideReferralsHint() {
-        self.dismiss(animated: true)
+        self.referralsTipVC?.dismiss(animated: true)
     }
 
-    private func showReferralsHint() {
-        let vc = UIHostingController(rootView:
-                                        TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
-                                                       message: L10n.referralsTipMessage(30))
-                                        .setupDefaultEnvironment()
-        )
+    private func makeReferralsHint() -> UIViewController {
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
+                              message: L10n.referralsTipMessage(numberOfFreeDaysOffered),
+                              sizeChanged: { size in
+            vc.preferredContentSize = size
+        } ).setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
         vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false
         vc.modalPresentationStyle = .popover
-        vc.preferredContentSize = CGSizeMake(362, 83)
+        vc.preferredContentSize = ReferralsConstants.defaultTipSize
         if let popoverPresentationController = vc.popoverPresentationController {
             popoverPresentationController.delegate = self
             popoverPresentationController.permittedArrowDirections = .up
@@ -516,40 +531,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
             popoverPresentationController.passthroughViews = [referralsButton, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
         }
-        present(vc, animated: true, completion: nil)
+        return vc
     }
 
-    private struct TipView: View {
-        let title: String
-        let message: String
-        @EnvironmentObject var theme: Theme
-
-        var body: some View {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(title)
-                        .font(size: 15, style: .body, weight: .bold)
-                        .foregroundColor(theme.primaryText01)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text(message)
-                        .font(size: 14, style: .body, weight: .regular)
-                        .foregroundColor(theme.primaryText02)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                Spacer()
-            }.padding(16)
-        }
-    }
-
-    private enum ReferralsConstants {
-        static let giftIcon = "gift"
-        static let giftSize = CGFloat(24)
-        static let giftBadgeSize = CGFloat(16)
-    }
 }
 
 extension ProfileViewController: UIPopoverPresentationControllerDelegate {
