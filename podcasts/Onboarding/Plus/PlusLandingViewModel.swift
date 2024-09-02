@@ -146,8 +146,8 @@ extension PlusLandingViewModel {
             //Include here the A/B test experiment:
             // Control variant: UpgradeLandingView
             // Features: PlusPaywallContainer(viewModel: viewModel, type: .features)
-            // Social: Social variant
-            PlusPaywallContainer(viewModel: viewModel, type: .features)
+            // Social: Reviews variant
+            PlusPaywallContainer(viewModel: viewModel, type: .reviews)
         } else {
             UpgradeLandingView(viewModel: viewModel)
                 .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
