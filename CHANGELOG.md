@@ -6,6 +6,7 @@
 - Update podcast list when episode is archived or marked as played from player [#1976](https://github.com/Automattic/pocket-casts-ios/issues/1976)
 - Dismiss search if already active when double tap is performed on tab bar [#1652](https://github.com/Automattic/pocket-casts-ios/issues/1652)
 - Show transcript for episodes that support it [#2102](https://github.com/Automattic/pocket-casts-ios/issues/2102)
+- Adds new Sharing experience with clip creation [#1910](https://github.com/Automattic/pocket-casts-ios/issues/1910)
 
 7.71
 -----
