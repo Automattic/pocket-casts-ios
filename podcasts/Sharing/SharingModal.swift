@@ -197,7 +197,7 @@ extension SharingModal.Option {
         let observation = nsProgress.observe(\.fractionCompleted) { [progress] inProgress, change in
             Task.detached { @MainActor in
                 guard Task.isCancelled == false && inProgress.isCancelled == false else { return }
-                print("Fraction completed: \(inProgress.fractionCompleted)")
+                FileLog.shared.addMessage("Media Exporter: Fraction completed: \(inProgress.fractionCompleted)")
                 progress.wrappedValue = Float(inProgress.fractionCompleted)
             }
         }
