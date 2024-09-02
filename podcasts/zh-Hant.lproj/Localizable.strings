@@ -392,9 +392,9 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>clip</key>
     <string>片段</string>
     <key>clip_duration_label</key>
-    <string>%@ 時間長度</string>
+    <string>時間長度：%@</string>
     <key>clip_start_label</key>
-    <string>%@ 開始</string>
+    <string>開始時間：%@</string>
     <key>close</key>
     <string>關閉</string>
     <key>color</key>
@@ -1988,7 +1988,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>search_recent</key>
     <string>最近搜尋的內容</string>
     <key>search_results</key>
-    <string>已完成 %1$@，共 %2$@</string>
+    <string>已顯示 %1$@ 筆，共 %2$@ 筆</string>
     <key>season</key>
     <string>季別</string>
     <key>season_episode_shorthand_format</key>
@@ -2726,7 +2726,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>transcript</key>
     <string>文字稿</string>
     <key>transcript_error_empty</key>
-    <string>不好意思，看起來這份逐字稿為空白</string>
+    <string>不好意思，這份逐字稿似乎沒有內容</string>
     <key>transcript_error_failed_to_load</key>
     <string>不好意思，載入此逐字稿時發生錯誤</string>
     <key>transcript_error_failed_to_parse</key>

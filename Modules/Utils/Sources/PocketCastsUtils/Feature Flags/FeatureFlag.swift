@@ -98,6 +98,14 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Referrals feature
     case referrals
 
+    /// When accessing Stats, it checks if the local stats are behind remote
+    /// If it is, it updates it
+    /// This is meant to fix an issue for users that were losing stats
+    case syncStats
+
+    /// Enable the refactored discover collection view
+    case discoverCollectionView
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -167,6 +175,10 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignoreRouteDisconnectedInterruption:
             true
         case .referrals:
+            false
+        case .syncStats:
+            true
+        case .discoverCollectionView:
             false
         }
     }

@@ -43,8 +43,9 @@ extension UpgradeTier {
             PaidFeature.deselectChapters.tier == .plus ? TierFeature(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             TierFeature(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             TierFeature(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
+            FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? slumber : nil,
             TierFeature(iconName: "plus-feature-extra", title: L10n.plusFeatureThemesIcons),
-            slumberOrUndyingGratitude
+            FeatureFlag.upgradeExperiment.enabled ? nil : slumberOrUndyingGratitude
         ].compactMap { $0 },
         background: RadialGradient(colors: [Color(hex: "FFDE64").opacity(0.5), Color(hex: "121212")], center: .leading, startRadius: 0, endRadius: 500))
     }
@@ -72,7 +73,11 @@ extension UpgradeTier {
     }
 
     static var slumberOrUndyingGratitude: TierFeature {
-        FeatureFlag.slumber.enabled ? TierFeature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+        FeatureFlag.slumber.enabled ? slumber : TierFeature(iconName: "plus-feature-love", title: L10n.plusFeatureGratitude)
+    }
+
+    static var slumber: TierFeature {
+        TierFeature(iconName: "plus-feature-slumber", title: FeatureFlag.upgradeExperiment.enabled ? L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl : L10n.plusFeatureSlumber.slumberStudiosWithUrl)
     }
 }
 
