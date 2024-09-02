@@ -487,6 +487,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     @objc private func referralsTapped() {
         updateReferrals()
         hideReferralsHint()
+        Settings.shouldShowReferralsTip = false
     }
 
     private enum ReferralsConstants {
@@ -499,7 +500,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private var referralsTipVC: UIViewController?
 
     private func showReferralsHintIfNeeded() {
-        guard areReferralsAvailable, numberOfReferralsAvailable > 0 else {
+        guard areReferralsAvailable, numberOfReferralsAvailable > 0, Settings.shouldShowReferralsTip else {
             return
         }
         let vc = makeReferralsHint()

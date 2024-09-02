@@ -1278,6 +1278,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Referrals Show Tip
+
+    static var shouldShowReferralsTip: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.referrals.showTip) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.referrals.showTip)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {
