@@ -4376,6 +4376,15 @@
 /* Upgrade Experiment - Reviews Variation: text for Review card 5 */
 "upgrade_experiment_reviews_review_text_5" = "PC has been my go-to for years. l've tried other podcast apps and always come back to PC for their simplicity, Ul and support. Definitely worth checking it out, especially if you have grown tired of your current podcast app.";
 
+/* Clips - Title to show in What's New screen announcing the Clips feature */
+"clips_whats_new_title" = "Clip sharing available now!";
+
+/* Clips - Message to show in What's New screen announcing the Clips feature */
+"clips_whats_new_message" = "You can now share clips of your favorite bits from any episode. We’ve also made easier to share any content to all social media apps.";
+
+/* Clips - Button title to show in What's New screen announcing the Clips feature */
+"clips_whats_new_button_title" = "Got it";
+
 /* Referrals - Tip Title. '%1$@' is a placeholder for the number of referrals passes available to share*/
 "referrals_tip_title" = "You have %1$@ passes to share";
 
