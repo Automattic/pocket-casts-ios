@@ -74,7 +74,7 @@ struct SharingFooterView: View {
                 do {
                     try await destination.share(option, style: style, clipTime: clipTime, clipUUID: clipUUID, progress: $progress, source: source)
                 } catch let error {
-                    guard Task.isCancelled == false  else { return }
+                    if Task.isCancelled { return }
                     await MainActor.run {
                         Toast.show("Failed clip export: \(error.localizedDescription)")
                     }
