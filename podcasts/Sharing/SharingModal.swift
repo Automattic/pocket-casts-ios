@@ -194,16 +194,14 @@ extension SharingModal.Option {
     @MainActor
     func mediaData(imageInfo: ShareImageInfo, style: ShareImageStyle, episode: Episode, clipTime: ClipTime, destination: ShareDestination, progress: Binding<Float?>) async throws -> Any? {
         let nsProgress = Progress(totalUnitCount: 100)
-        let observation = nsProgress.observe(\.fractionCompleted) { [progress] inProgress, change in
-            Task.detached { @MainActor in
-                guard Task.isCancelled == false && inProgress.isCancelled == false else { return }
-                FileLog.shared.addMessage("Media Exporter: Fraction completed: \(inProgress.fractionCompleted)")
-                progress.wrappedValue = Float(inProgress.fractionCompleted)
-            }
-        }
+        let observation = nsProgress.publisher(for: \.fractionCompleted).receive(on: DispatchQueue.main).sink(receiveValue: { fractionCompleted in
+            guard Task.isCancelled == false && nsProgress.isCancelled == false else { return }
+            FileLog.shared.addMessage("Media Exporter: Fraction completed: \(fractionCompleted)")
+            progress.wrappedValue = Float(fractionCompleted)
+        })
 
         defer {
-            observation.invalidate()
+            observation.cancel()
         }
 
         progress.wrappedValue = 0.01

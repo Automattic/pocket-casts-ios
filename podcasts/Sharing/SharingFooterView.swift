@@ -70,7 +70,7 @@ struct SharingFooterView: View {
     @ViewBuilder func button(destination: ShareDestination, style: ShareImageStyle, clipUUID: String, source: AnalyticsSource) -> some View {
         Button {
             isExporting = true
-            shareTask = Task.detached {
+            shareTask = Task.detached { @MainActor in
                 do {
                     try await destination.share(option, style: style, clipTime: clipTime, clipUUID: clipUUID, progress: $progress, source: source)
                 } catch let error {
