@@ -2274,6 +2274,12 @@ internal enum L10n {
   internal static var ratingWhatsNewMessage: String { return L10n.tr("Localizable", "rating_whats_new_message") }
   /// Now Available: Podcast Ratings 🎉
   internal static var ratingWhatsNewTitle: String { return L10n.tr("Localizable", "rating_whats_new_title") }
+  /// %1$@-Day Guest Pass
+  internal static func referralsGuestPassOffer(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))
+  }
+  /// Share Guest Pass
+  internal static var referralsShareGuestPass: String { return L10n.tr("Localizable", "referrals_share_guest_pass") }
   /// Gift %1$@ days of Plus to friends and family
   internal static func referralsTipMessage(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_tip_message", String(describing: p1))
