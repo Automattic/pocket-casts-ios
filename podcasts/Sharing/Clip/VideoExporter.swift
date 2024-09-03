@@ -107,10 +107,12 @@ enum VideoExporter {
 
                 let buffer = try await self.pixelBuffer(for: view, size: size)
                 let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
-                progress.completedUnitCount += 1
+                if videoWriterInput.isReadyForMoreMediaData {
+                    adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
+                    progress.completedUnitCount += 1
 
-                await counter.increment()
+                    await counter.increment()
+                }
             }
 
             if await counter.count >= frameCount {
