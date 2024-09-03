@@ -31,7 +31,7 @@ struct ReferralCardView: View {
     }
 
     enum Constants {
-        static let cardRadius = Double(13)
+        static let cardRadius = CGFloat(13)
         static let cardBackgroundColor = Color(red: 0.08, green: 0.03, blue: 0.3)
         static let cardStrokeColor = Color(red: 0.23, green: 0.23, blue: 0.23)
     }
@@ -39,4 +39,5 @@ struct ReferralCardView: View {
 
 #Preview {
     ReferralCardView(numberOfDaysOffered: 30)
+        .frame(width: 315, height: 200)
 }

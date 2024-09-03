@@ -6,7 +6,7 @@ struct ReferralSendPass: View {
 
     var body: some View {
         VStack {
-            VStack(spacing: 24) {
+            VStack(spacing: Constants.verticalSpacing) {
                 SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
                 Text(L10n.referralsTipMessage(numberOfDaysOffered))
                     .font(size: 31, style: .title, weight: .bold)
@@ -19,8 +19,8 @@ struct ReferralSendPass: View {
                 ZStack {
                     ForEach(0..<numberOfPasses, id: \.self) { i in
                         ReferralCardView(numberOfDaysOffered: numberOfDaysOffered)
-                            .frame(width: 315.0 - (Double(numberOfPasses-1-i) * 40.0), height: 200.0)
-                            .offset(CGSize(width: 0, height: Double(numberOfPasses * i) * 5.0))
+                            .frame(width: Constants.defaultCardSize.width - (CGFloat(numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
+                            .offset(CGSize(width: 0, height: CGFloat(numberOfPasses * i) * Constants.cardInset.height))
                     }
                 }
             }
@@ -31,6 +31,12 @@ struct ReferralSendPass: View {
         }
         .padding()
         .background(.black)
+    }
+
+    enum Constants {
+        static let verticalSpacing = CGFloat(24)
+        static let defaultCardSize = CGSize(width: 315, height: 200)
+        static let cardInset = CGSize(width: 40, height: 5)
     }
 }
 
