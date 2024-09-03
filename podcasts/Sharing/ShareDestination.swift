@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 enum ShareDestination: Hashable {
     case instagram
@@ -33,12 +34,12 @@ enum ShareDestination: Hashable {
     }
 
     @MainActor
-    func share(_ option: SharingModal.Option, style: ShareImageStyle, clipUUID: String, source: AnalyticsSource) async throws {
+    func share(_ option: SharingModal.Option, style: ShareImageStyle, clipTime: ClipTime, clipUUID: String, progress: Binding<Float?>, source: AnalyticsSource) async throws {
         switch self {
         case .instagram:
-            let item = option.shareData(style: style, destination: self).mapFirst { shareItem -> (Data, UTType)? in
+            let item = try await option.shareData(style: style, destination: self, progress: progress).mapFirst { shareItem -> (Data, UTType)? in
                 if let data = shareItem as? Data {
-                    return (data, style == .audio ? UTType.m4a : .mpeg4Movie)
+                    return (data, .mpeg4Movie)
                 } else if let image = shareItem as? UIImage, let data = image.pngData() {
                     return (data, .png)
                 } else {
@@ -59,7 +60,7 @@ enum ShareDestination: Hashable {
             ShareDestination.logClipShared(option: option, style: style, clipUUID: clipUUID, source: source)
             ShareDestination.logPodcastShared(style: style, option: option, destination: self, source: source)
         case .systemSheet(let vc):
-            let data = option.shareData(style: style)
+            let data = try await option.shareData(style: style, destination: self, progress: progress)
             let activityViewController = UIActivityViewController(activityItems: data, applicationActivities: nil)
             vc.presentedViewController?.present(activityViewController, animated: true, completion: {
                 ShareDestination.logClipShared(option: option, style: style, clipUUID: clipUUID, source: source)
@@ -84,8 +85,13 @@ enum ShareDestination: Hashable {
             return
         }
 
+        let backgroundTopColor = UIColor.green
+        let backgroundBottomColor = UIColor.systemPink
+
         let dataKey = type == .mpeg4Movie ? "com.instagram.sharedSticker.backgroundVideo" : "com.instagram.sharedSticker.backgroundImage"
         let pasteboardItems = [[dataKey: data,
+                                "com.instagram.sharedSticker.backgroundTopColor": backgroundTopColor.hexString(),
+                                "com.instagram.sharedSticker.backgroundBottomColor": backgroundBottomColor.hexString(),
                                 "com.instagram.sharedSticker.contentURL": attributionURL]]
         let pasteboardOptions: [UIPasteboard.OptionsKey: Any] = [.expirationDate: Date().addingTimeInterval(5.minutes)]
 
@@ -148,7 +154,7 @@ enum ShareDestination: Hashable {
 extension ShareDestination {
     private static func logClipShared(option: SharingModal.Option, style: ShareImageStyle, clipUUID: String, source: AnalyticsSource) {
         // This event is specifically for clip shares and not other shares. These are handled by `podcastShared`
-        guard case let .clipShare(episode, clipTime, _, _) = option else {
+        guard case let .clipShare(episode, clipTime, _) = option else {
             return
         }
 
@@ -220,5 +226,51 @@ extension ShareDestination {
         ]
 
         Analytics.track(.podcastShared, source: source, properties: properties)
+    }
+}
+
+extension ShareDestination {
+    enum VideoExportError: Error {
+        case failedToDownload
+    }
+
+    func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
+        guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
+            throw VideoExportError.failedToDownload
+        }
+
+        func exportVideo() async throws -> URL {
+            let size: CGSize
+            switch self {
+            case .instagram:
+                size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
+            default:
+                size = CGSize(width: style.previewSize.width * 2, height: style.previewSize.height * 2)
+            }
+
+            guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
+                throw VideoExportError.failedToDownload
+            }
+            let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
+            try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style, size: size), with: parameters, to: url, progress: progress)
+
+            return url
+        }
+
+        switch style {
+        case .audio:
+            switch self {
+            case .instagram:
+                // Instagram will not accept a straight m4a file for sharing so we need to generate a video clip to share
+                return try await exportVideo()
+            default:
+                let url = FileManager.default.temporaryDirectory.appendingPathComponent("audio_export-\(UUID().uuidString)", conformingTo: .m4a)
+                try await AudioClipExporter.exportAudioClip(from: playerItem.asset, startTime: startTime, duration: duration, to: url, progress: progress)
+                return url
+            }
+        default:
+            return try await exportVideo()
+        }
     }
 }

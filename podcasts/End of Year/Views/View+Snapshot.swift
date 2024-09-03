@@ -3,10 +3,10 @@ import SwiftUI
 extension View {
     /// Returns a `UIImage` from a SwiftUI View
     @MainActor
-    public func snapshot() -> UIImage {
+    public func snapshot(scale: CGFloat = 2) -> UIImage {
         if #available(iOS 16.0, *) {
             let renderer = ImageRenderer(content: self)
-            renderer.scale = 3
+            renderer.scale = scale
             guard let renderedImage = renderer.uiImage else {
                 assertionFailure("Rendered ImageRenderer image shouldn't be `nil`")
                 return UIImage()
@@ -20,7 +20,9 @@ extension View {
             view?.bounds = CGRect(origin: .zero, size: targetSize)
             view?.backgroundColor = .clear
 
-            let renderer = UIGraphicsImageRenderer(size: targetSize)
+            let format = UIGraphicsImageRendererFormat()
+            format.scale = scale
+            let renderer = UIGraphicsImageRenderer(size: targetSize, format: format)
 
             return renderer.image { _ in
                 view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)

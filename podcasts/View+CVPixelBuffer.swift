@@ -7,7 +7,7 @@ enum CVPixelBufferError: Error {
 
 extension View {
     @MainActor @available(iOS 16.0, *)
-    func pixelBuffer(size: CGSize) throws -> CVPixelBuffer {
+    func pixelBuffer(size: CGSize, scale: CGFloat = 3) throws -> CVPixelBuffer {
         let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
                      kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
         var pixelBuffer: CVPixelBuffer?
@@ -37,6 +37,7 @@ extension View {
         }
 
         let renderer = ImageRenderer(content: self)
+        renderer.scale = scale
         renderer.render { size, render in
             render(context)
         }

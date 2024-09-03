@@ -77,7 +77,8 @@ struct ShareImageView: View {
                     PocketCastsLogoPill()
                 }
                 .padding(24)
-                .aspectRatio(0.66, contentMode: .fit)
+                .frame(height: style.previewSize.height)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .medium:
                 background()
                 VStack(spacing: 24) {
@@ -88,7 +89,8 @@ struct ShareImageView: View {
                     PocketCastsLogoPill()
                 }
                 .padding(24)
-                .aspectRatio(0.99, contentMode: .fit)
+                .frame(height: style.previewSize.height)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .small:
                 background()
                 ZStack {
@@ -105,7 +107,8 @@ struct ShareImageView: View {
                         .padding(.trailing, 10)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 }
-                .aspectRatio(1.97, contentMode: .fit)
+                .frame(width: style.previewSize.width, height: style.previewSize.height)
+                .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .audio:
                 Image("music")
             }
@@ -113,22 +116,26 @@ struct ShareImageView: View {
     }
 
     @ViewBuilder func background() -> some View {
-        LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
-        let rotationFactor = sin(Angle(degrees: angle).radians)
-        KidneyShape()
-            .fill(info.gradient.stops.first?.color ?? .black)
-            .blur(radius: 50)
-            .opacity(0.15 + 0.5 * abs(rotationFactor))
-            .offset(x: -50, y: 0)
-            .rotationEffect(.degrees(180 * rotationFactor))
-        KidneyShape()
-            .fill(.white)
-            .blur(radius: 50)
-            .offset(x: 50, y: 0)
-            .opacity(0.15 + 0.5 * abs(rotationFactor))
-            .rotationEffect(.degrees(-180 * rotationFactor))
-            .blendMode(.softLight)
-        Color.black.opacity(0.2)
+        ZStack {
+            LinearGradient(gradient: info.gradient, startPoint: .top, endPoint: .bottom)
+            let rotationFactor = sin(Angle(degrees: angle).radians)
+            KidneyShape()
+                .fill(info.gradient.stops.first?.color ?? .black)
+                .blur(radius: 100)
+                .opacity(0.15 + 0.5 * abs(rotationFactor))
+                .frame(width: 230, height: 350)
+                .offset(x: -50, y: -20)
+                .rotationEffect(.degrees(180 * rotationFactor))
+            KidneyShape()
+                .fill(.white)
+                .blur(radius: 50)
+                .opacity(0.15 + 0.5 * abs(rotationFactor))
+                .frame(width: 300, height: 350)
+                .offset(x: 50, y: 40)
+                .rotationEffect(.degrees(-180 * rotationFactor))
+                .blendMode(.softLight)
+            Color.black.opacity(0.2)
+        }
     }
 
     @ViewBuilder func image() -> some View {
