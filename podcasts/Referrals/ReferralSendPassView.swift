@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ReferralSendPass: View {
+struct ReferralSendPassView: View {
     let numberOfDaysOffered: Int
     let numberOfPasses: Int
 
@@ -41,5 +41,5 @@ struct ReferralSendPass: View {
 }
 
 #Preview {
-    ReferralSendPass(numberOfDaysOffered: 30, numberOfPasses: 2)
+    ReferralSendPassView(numberOfDaysOffered: 30, numberOfPasses: 2)
 }
