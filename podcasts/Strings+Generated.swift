@@ -450,6 +450,12 @@ internal enum L10n {
   internal static func clipStartLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "clip_start_label", String(describing: p1))
   }
+  /// Got it
+  internal static var clipsWhatsNewButtonTitle: String { return L10n.tr("Localizable", "clips_whats_new_button_title") }
+  /// You can now share clips of your favorite bits from any episode. We’ve also made easier to share any content to all social media apps.
+  internal static var clipsWhatsNewMessage: String { return L10n.tr("Localizable", "clips_whats_new_message") }
+  /// Clip sharing available now!
+  internal static var clipsWhatsNewTitle: String { return L10n.tr("Localizable", "clips_whats_new_title") }
   /// Close
   internal static var close: String { return L10n.tr("Localizable", "close") }
   /// Color
@@ -1841,6 +1847,8 @@ internal enum L10n {
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
   /// 1 year of exclusive content from Slumber Studios
   internal static var plusFeatureSlumber: String { return L10n.tr("Localizable", "plus_feature_slumber") }
+  /// Dream with Slumber Studios content
+  internal static var plusFeatureSlumberNew: String { return L10n.tr("Localizable", "plus_feature_slumber_new") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// PLUS FEATURES
@@ -3206,6 +3214,44 @@ internal enum L10n {
   }
   /// Get Pocket Casts Plus
   internal static var upgradeExperimentPaywallButton: String { return L10n.tr("Localizable", "upgrade_experiment_paywall_button") }
+  /// See all reviews in the App Store
+  internal static var upgradeExperimentReviewsAppStoreButton: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_app_store_button") }
+  /// %1$@ Rating (%2$@K Reviews)
+  internal static func upgradeExperimentReviewsAppStoreInfo(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "upgrade_experiment_reviews_app_store_info", String(describing: p1), String(describing: p2))
+  }
+  /// I've been a long time user and the amount of functionality and customization you get with the free version is astounding. I love that it syncs across devices so I can start listening on my phone and then pick up on an Alexa device. It's my recommendation for anyone who listens to podcasts. Also love the stats!
+  internal static var upgradeExperimentReviewsReviewText0: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_0") }
+  /// 8 years of excellence and continuous improvement
+  internal static var upgradeExperimentReviewsReviewText1: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_1") }
+  /// I've been a Pocket Casts user since 2017.
+  /// 
+  /// This is hands down the best app to listen to podcasts. It's feature rich and actively developed. There have been some complaints about the Ul change but I haven't really noticed it too much.
+  /// 
+  /// This app can be as simple or difficult to use as you'd like it to be. So either let it be a plug and play or set up skip outro and intro timers and any other little feature you want to enable.
+  internal static var upgradeExperimentReviewsReviewText2: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_2") }
+  /// The sync function is magic. Don't know what special magic this app has going on but it's better than any other app l've used.
+  internal static var upgradeExperimentReviewsReviewText3: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_3") }
+  /// Been using this app for 6 years or better, started on android and now l've been on iOS for almost a year. Works the same on both platforms. Easy to find new podcasts to listen to, very nice Ul, can add podcasts by rss feed url too. The watch app is functional, but I mostly use for my play/pause. Sign in with an account to sync across devices but no requirement to do so.
+  internal static var upgradeExperimentReviewsReviewText4: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_4") }
+  /// PC has been my go-to for years. l've tried other podcast apps and always come back to PC for their simplicity, Ul and support. Definitely worth checking it out, especially if you have grown tired of your current podcast app.
+  internal static var upgradeExperimentReviewsReviewText5: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_5") }
+  /// Best Podcast App By FAR
+  internal static var upgradeExperimentReviewsReviewTitle0: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_0") }
+  /// The essential podcast app
+  internal static var upgradeExperimentReviewsReviewTitle1: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_1") }
+  /// Best podcasat app out there
+  internal static var upgradeExperimentReviewsReviewTitle2: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_2") }
+  /// Fantastic app
+  internal static var upgradeExperimentReviewsReviewTitle3: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_3") }
+  /// Works great and easy to find or add new pods
+  internal static var upgradeExperimentReviewsReviewTitle4: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_4") }
+  /// Go-To Podcast App
+  internal static var upgradeExperimentReviewsReviewTitle5: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_5") }
+  /// See why people have upgraded to Plus
+  internal static var upgradeExperimentReviewsText: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_text") }
+  /// Quite simply the best way to listen to podcasts
+  internal static var upgradeExperimentReviewsTitle: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_title") }
   /// Upgrade to %1$@
   internal static func upgradeToPlan(_ p1: Any) -> String {
     return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))
