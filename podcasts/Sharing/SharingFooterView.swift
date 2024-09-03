@@ -5,12 +5,14 @@ struct SharingFooterView: View {
     @ObservedObject var clipTime: ClipTime
     @Binding var option: SharingModal.Option
     @Binding var isExporting: Bool
-    @ObservedObject var clipResult: ClipResult
+    @State var progress: Float?
 
     let destinations: [ShareDestination]
     let style: ShareImageStyle
     let clipUUID: String
     let source: AnalyticsSource
+
+    @State var shareTask: Task<Void, Error>?
 
     @EnvironmentObject var theme: Theme
 
@@ -30,25 +32,28 @@ struct SharingFooterView: View {
                 }
                 .foregroundStyle(.white.opacity(0.5))
                 .font(.caption.weight(.semibold))
-                Button(L10n.clip, action: {
+                Button(L10n.next, action: {
                     withAnimation {
-                        option = .clipShare(episode, clipTime, style, clipResult)
-                        isExporting = true
+                        option = .clipShare(episode, clipTime, style)
                     }
                 }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
             }
             .padding(.horizontal, 16)
+            .onAppear {
+                shareTask?.cancel()
+                progress = nil
+                isExporting = false
+            }
         case .clipShare:
-            if clipResult.progress != 1 {
-                ProgressView(value: clipResult.progress) {
+            if let progress {
+                ProgressView(value: progress) {
                     Text(L10n.clipLoadingLabel)
                         .font(.headline)
                         .padding(8)
                 }
                 .tint(color)
                 .padding()
-            }
-            else {
+            } else {
                 buttons
             }
         }
@@ -64,8 +69,16 @@ struct SharingFooterView: View {
 
     @ViewBuilder func button(destination: ShareDestination, style: ShareImageStyle, clipUUID: String, source: AnalyticsSource) -> some View {
         Button {
-            Task.detached {
-                try await destination.share(option, style: style, clipUUID: clipUUID, source: source)
+            isExporting = true
+            shareTask = Task.detached { @MainActor in
+                do {
+                    try await destination.share(option, style: style, clipTime: clipTime, clipUUID: clipUUID, progress: $progress, source: source)
+                } catch let error {
+                    if Task.isCancelled { return }
+                    await MainActor.run {
+                        Toast.show("Failed clip export: \(error.localizedDescription)")
+                    }
+                }
             }
         } label: {
             view(for: destination)
@@ -74,7 +87,7 @@ struct SharingFooterView: View {
 
     var color: Color {
         switch option {
-        case .clip(let episode, _), .clipShare(let episode, _, _, _):
+        case .clip(let episode, _), .clipShare(let episode, _, _):
             PlayerColorHelper.backgroundColor(for: episode)?.color ?? PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
         default:
             PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color

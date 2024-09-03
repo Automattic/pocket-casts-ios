@@ -1,3 +1,7 @@
+7.73
+-----
+
+
 7.72
 -----
 - Adds a medium size for the Now Playing widget [#1876](https://github.com/Automattic/pocket-casts-ios/pull/1876)

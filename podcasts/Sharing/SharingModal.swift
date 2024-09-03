@@ -10,7 +10,7 @@ enum SharingModal {
         case podcast(Podcast)
         case currentPosition(Episode, TimeInterval)
         case clip(Episode, TimeInterval)
-        case clipShare(Episode, ClipTime, ShareImageStyle, ClipResult)
+        case clipShare(Episode, ClipTime, ShareImageStyle)
 
         var buttonTitle: String {
             switch self {
@@ -115,7 +115,7 @@ enum SharingModal {
 extension SharingModal.Option {
     private var description: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _):
             episode.parentPodcast()?.title
         case .podcast(let podcast):
             [podcast.episodeCount, podcast.frequency].compactMap { $0 }.joined(separator: " ⋅ ")
@@ -124,7 +124,7 @@ extension SharingModal.Option {
 
     private var title: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _):
             episode.title
         case .podcast(let podcast):
             podcast.title
@@ -133,7 +133,7 @@ extension SharingModal.Option {
 
     private var name: String? {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _):
             if let date = episode.publishedDate {
                 return date.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted))
             } else {
@@ -146,10 +146,19 @@ extension SharingModal.Option {
 
     private var podcast: Podcast {
         switch self {
-        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _, _):
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _):
             return episode.parentPodcast()!
         case .podcast(let podcast):
             return podcast
+        }
+    }
+
+    private var episode: Episode? {
+        switch self {
+        case .episode(let episode), .currentPosition(let episode, _), .clip(let episode, _), .clipShare(let episode, _, _):
+            episode
+        default:
+            nil
         }
     }
 
@@ -168,39 +177,49 @@ extension SharingModal.Option {
     }
 
     @MainActor
-    func shareData(style: ShareImageStyle, destination: ShareDestination? = nil) -> [Any] {
+    func shareData(style: ShareImageStyle, destination: ShareDestination, progress: Binding<Float?>) async throws -> [Any] {
         let url = URL(string: shareURL) as NSURL?
-        let media = mediaData(style: style, destination: destination)
+
+        let media: Any?
+        switch self {
+        case .clipShare(let episode, let clipTime, _):
+            media = try await mediaData(imageInfo: imageInfo, style: style, episode: episode, clipTime: clipTime, destination: destination, progress: progress)
+        default:
+            media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot(scale: 3)
+        }
+
         return [url, media].compactMap({ $0 })
     }
 
     @MainActor
-    func mediaData(style: ShareImageStyle, destination: ShareDestination?) -> Any? {
-        switch self {
-        case .clipShare(_, _, _, let progress):
-            // Share video/audio clip. If sending to instagram or audio, send full file, otherwise send cropped version.
-            let fileURL: URL?
-            switch (destination, style) {
-            case (.instagram, _):
-                fileURL = progress.exportURL
-            case (_, .audio):
-                fileURL = progress.exportURL
-            default:
-                fileURL = progress.croppedURL
-            }
+    func mediaData(imageInfo: ShareImageInfo, style: ShareImageStyle, episode: Episode, clipTime: ClipTime, destination: ShareDestination, progress: Binding<Float?>) async throws -> Any? {
+        let nsProgress = Progress(totalUnitCount: 100)
+        let observation = nsProgress.publisher(for: \.fractionCompleted).receive(on: DispatchQueue.main).sink(receiveValue: { fractionCompleted in
+            guard Task.isCancelled == false && nsProgress.isCancelled == false else { return }
+            FileLog.shared.addMessage("Media Exporter: Fraction completed: \(fractionCompleted)")
+            progress.wrappedValue = Float(fractionCompleted)
+        })
 
-            guard let fileURL else {
-                return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
-            }
+        defer {
+            observation.cancel()
+        }
 
-            if destination == .instagram {
-                return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
-            } else {
-                return fileURL as NSURL // Third party apps need URLs and won't accept Data
-            }
-        default:
-            // Share image
-            return ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot()
+        progress.wrappedValue = 0.01
+
+        let fileURL = try await destination.export(info: imageInfo,
+                                        style: style,
+                                        episode: episode,
+                                        startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
+                                        duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
+                                        progress: nsProgress
+        )
+
+        progress.wrappedValue = nil
+
+        if destination == .instagram {
+            return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
+        } else {
+            return fileURL as NSURL // Third party apps need URLs and won't accept Data
         }
     }
 
@@ -214,7 +233,7 @@ extension SharingModal.Option {
             return episode.shareURL + "?t=\(round(timeInterval))"
         case .clip(let episode, let timeInterval):
             return episode.shareURL + "?t=\(round(timeInterval))"
-        case .clipShare(let episode, let clipTime, _, _):
+        case .clipShare(let episode, let clipTime, _):
             return episode.shareURL + "?t=\(clipTime.start),\(clipTime.end)"
         }
     }

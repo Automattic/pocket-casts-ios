@@ -41,16 +41,18 @@ enum VideoExporter {
             .appendingPathComponent(UUID().uuidString)
             .appendingPathExtension(UTType(parameters.fileType.rawValue)?.preferredFilenameExtension ?? ".mp4")
 
-        progress.totalUnitCount = Int64(loopFrameCount) + parameters.additionalLoadingCount
-
         try await withTaskCancellationHandler {
+            let initialExportProgress = Progress(totalUnitCount: Int64(loopFrameCount), parent: progress, pendingUnitCount: 60)
             // Export initial seconds long video
-            try await exportInitialVideo(of: view, to: temporaryFileURL, with: parameters, frameCount: loopFrameCount, progress: progress)
+            try await exportInitialVideo(of: view, to: temporaryFileURL, with: parameters, frameCount: loopFrameCount, progress: initialExportProgress)
             FileLog.shared.addMessage("VideoExporter Initial Video Ended: \(start.timeIntervalSinceNow)")
 
+            let compositionProgress = Progress(totalUnitCount: 100, parent: progress, pendingUnitCount: 10)
             // Create & export final composition at full length by concatenating seconds long video from above until duration
-            let composition = try await createFinalComposition(from: temporaryFileURL, with: parameters, to: outputURL, progress: progress)
-            try await exportFinalComposition(composition, to: outputURL, duration: parameters.duration, fileType: parameters.fileType, progress: progress)
+            let composition = try await createFinalComposition(from: temporaryFileURL, with: parameters, to: outputURL, progress: compositionProgress)
+
+            let exportProgress = Progress(totalUnitCount: 100, parent: progress, pendingUnitCount: 30)
+            try await exportFinalComposition(composition, to: outputURL, duration: parameters.duration, fileType: parameters.fileType, progress: exportProgress)
 
             // Clean up temporary file
             try? FileManager.default.removeItem(at: temporaryFileURL)
@@ -105,16 +107,21 @@ enum VideoExporter {
 
                 let buffer = try await self.pixelBuffer(for: view, size: size)
                 let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-                adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
-                progress.completedUnitCount += 1
+                if videoWriterInput.isReadyForMoreMediaData {
+                    adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
+                    progress.completedUnitCount += 1
 
-                await counter.increment()
+                    await counter.increment()
+                }
             }
 
             if await counter.count >= frameCount {
                 videoWriterInput.markAsFinished()
                 await videoWriter.finishWriting()
+                return true
             }
+
+            return false
         }
     }
 
@@ -139,13 +146,26 @@ enum VideoExporter {
         }
 
         let sourceTimeRange = try await asset.load(.duration)
+        let totalDuration = parameters.duration
         var currentTime: CMTime = .zero
 
-        while currentTime < CMTime(seconds: parameters.duration, preferredTimescale: 600) {
+        // Set the total unit count for progress reporting
+        progress.totalUnitCount = Int64(totalDuration)
+
+        while currentTime < CMTime(seconds: totalDuration, preferredTimescale: 600) {
             try compositionVideoTrack.insertTimeRange(CMTimeRange(start: .zero, duration: sourceTimeRange),
                                                       of: sourceVideoTrack,
                                                       at: currentTime)
             currentTime = CMTimeAdd(currentTime, sourceTimeRange)
+
+            // Update progress
+            let completedUnits = Int(currentTime.seconds)
+            progress.completedUnitCount = Int64(completedUnits)
+
+            // Check for cancellation
+            if Task.isCancelled {
+                throw ExportError.taskCancelled
+            }
         }
 
         if let audioTrack = try await parameters.episodeAsset.loadTracks(withMediaType: .audio).first {
@@ -205,14 +225,17 @@ fileprivate actor Counter {
 }
 
 fileprivate extension AVAssetWriterInput {
-    func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Void) async throws {
+    func unsafeRequestMediaDataWhenReady(_ block: @escaping () async throws -> Bool) async throws {
         try await withCheckedThrowingContinuation { continuation in
             requestMediaDataWhenReady(on: .global(qos: .userInitiated)) {
                 _unsafeWait {
                     do {
-                        try await block()
-                        continuation.resume()
+                        let finished = try await block()
+                        if finished {
+                            continuation.resume()
+                        }
                     } catch {
+                        self.markAsFinished()
                         continuation.resume(throwing: error)
                     }
                 }
