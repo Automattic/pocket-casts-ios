@@ -488,6 +488,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateReferrals()
         hideReferralsHint()
         Settings.shouldShowReferralsTip = false
+        let vc = ReferralSendPassVC()
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private enum ReferralsConstants {

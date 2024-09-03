@@ -1,32 +1,43 @@
 import SwiftUI
 
-struct ReferralSendPassView: View {
+class ReferralSendPassModel {
     let numberOfDaysOffered: Int
     let numberOfPasses: Int
+    var onShareGuestPassTap: (() -> ())?
+
+    init(numberOfDaysOffered: Int = 30, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil) {
+        self.numberOfDaysOffered = numberOfDaysOffered
+        self.numberOfPasses = numberOfPasses
+        self.onShareGuestPassTap = nil
+    }
+}
+
+struct ReferralSendPassView: View {
+    let viewModel: ReferralSendPassModel
 
     var body: some View {
         VStack {
             VStack(spacing: Constants.verticalSpacing) {
                 SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
-                Text(L10n.referralsTipMessage(numberOfDaysOffered))
+                Text(L10n.referralsTipMessage(viewModel.numberOfDaysOffered))
                     .font(size: 31, style: .title, weight: .bold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
-                Text(L10n.referralsTipTitle(numberOfPasses))
+                Text(L10n.referralsTipTitle(viewModel.numberOfPasses))
                     .font(size: 14, style: .body, weight: .medium)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
                 ZStack {
-                    ForEach(0..<numberOfPasses, id: \.self) { i in
-                        ReferralCardView(numberOfDaysOffered: numberOfDaysOffered)
-                            .frame(width: Constants.defaultCardSize.width - (CGFloat(numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
-                            .offset(CGSize(width: 0, height: CGFloat(numberOfPasses * i) * Constants.cardInset.height))
+                    ForEach(0..<viewModel.numberOfPasses, id: \.self) { i in
+                        ReferralCardView(numberOfDaysOffered: viewModel.numberOfDaysOffered)
+                            .frame(width: Constants.defaultCardSize.width - (CGFloat(viewModel.numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
+                            .offset(CGSize(width: 0, height: CGFloat(viewModel.numberOfPasses * i) * Constants.cardInset.height))
                     }
                 }
             }
             Spacer()
             Button(L10n.referralsShareGuestPass) {
-
+                viewModel.onShareGuestPassTap?()
             }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
         }
         .padding()
@@ -41,5 +52,5 @@ struct ReferralSendPassView: View {
 }
 
 #Preview {
-    ReferralSendPassView(numberOfDaysOffered: 30, numberOfPasses: 2)
+    ReferralSendPassView(viewModel: ReferralSendPassModel())
 }
