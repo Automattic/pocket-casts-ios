@@ -1,5 +1,5 @@
 PODS:
-  - google-cast-sdk-no-bluetooth (1.1.0)
+  - google-cast-sdk-no-bluetooth (1.2.0)
   - PulseCore (4.2.4)
   - PulseUI (4.2.4):
     - PulseCore (~> 4.2)
@@ -30,7 +30,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   google-cast-sdk-no-bluetooth:
-    :commit: 5c7c5f91ef84a5c45d8edbfec1def6f117bc64b5
+    :commit: 6992eaf3fe4353e6992a2c35b5a879c490bba2d4
     :git: https://github.com/Automattic/google-cast
   PulseCore:
     :git: https://github.com/kean/Pulse.git
@@ -40,7 +40,7 @@ CHECKOUT OPTIONS:
     :tag: 4.2.4
 
 SPEC CHECKSUMS:
-  google-cast-sdk-no-bluetooth: 6ec820fdeea77ebaf18ea2c5d73418edfa2ec0b0
+  google-cast-sdk-no-bluetooth: 97f3b1286fa2fa158ec47975b4bb758908a27b2d
   PulseCore: a40e40555e355948829a4d3b5f997578098a49c4
   PulseUI: f7464009d4fca0c88de41f6153d7aef4ae0a906a
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
