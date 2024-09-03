@@ -4384,3 +4384,9 @@
 
 /* Clips - Button title to show in What's New screen announcing the Clips feature */
 "clips_whats_new_button_title" = "Got it";
+
+/* Referrals - Tip Title. '%1$@' is a placeholder for the number of referrals passes available to share*/
+"referrals_tip_title" = "You have %1$@ passes to share";
+
+/* Referrals - Tip Message '%1$@' is a placeholder for the duration of free days on the Plus subscription*/
+"referrals_tip_message" = "Gift %1$@ days of Plus to friends and family";

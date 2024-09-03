@@ -193,6 +193,10 @@ struct Constants {
         enum kidsProfile {
             static let shouldHideBanner = "ShouldHideKidsBannerKey"
         }
+
+        enum referrals {
+            static let showTip = "referrals.showtip"
+        }
     }
 
     enum Values {

@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import SwiftUI
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
@@ -127,12 +128,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
+        showReferralsHintIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
         refreshControl?.parentViewControllerDidDisappear()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideReferralsHint()
     }
 
     override func handleThemeChanged() {
@@ -425,6 +432,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
     }
 
+    private let numberOfFreeDaysOffered: Int = 30
+
     private lazy var referralsBadge: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -477,15 +486,63 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         updateReferrals()
+        hideReferralsHint()
+        Settings.shouldShowReferralsTip = false
     }
 
     private enum ReferralsConstants {
         static let giftIcon = "gift"
         static let giftSize = CGFloat(24)
         static let giftBadgeSize = CGFloat(16)
+        static let defaultTipSize = CGSizeMake(300, 50)
     }
+
+    private var referralsTipVC: UIViewController?
+
+    private func showReferralsHintIfNeeded() {
+        guard areReferralsAvailable, numberOfReferralsAvailable > 0, Settings.shouldShowReferralsTip else {
+            return
+        }
+        let vc = makeReferralsHint()
+        present(vc, animated: true, completion: nil)
+        self.referralsTipVC = vc
+    }
+
+    private func hideReferralsHint() {
+        self.referralsTipVC?.dismiss(animated: true)
+    }
+
+    private func makeReferralsHint() -> UIViewController {
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
+                              message: L10n.referralsTipMessage(numberOfFreeDaysOffered),
+                              sizeChanged: { size in
+            vc.preferredContentSize = size
+        } ).setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = ReferralsConstants.defaultTipSize
+        if let popoverPresentationController = vc.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.permittedArrowDirections = .up
+            popoverPresentationController.sourceView = referralsButton
+            popoverPresentationController.sourceRect = referralsButton.bounds
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            popoverPresentationController.passthroughViews = [referralsButton, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
+        }
+        return vc
+    }
+
 }
 
+extension ProfileViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // Return no adaptive presentation style, use default presentation behaviour
+        return .none
+    }
+}
 // MARK: - PlusLockedInfoDelegate
 
 extension ProfileViewController: PlusLockedInfoDelegate {
