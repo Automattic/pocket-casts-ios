@@ -45,6 +45,7 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
 
     var allActions = Settings.playerActions()
     var extraActions = Settings.playerActions()
+    var maxShelfActionsAdjustment: Int = 0
 
     weak var playerActionsDelegate: NowPlayingActionsDelegate?
 

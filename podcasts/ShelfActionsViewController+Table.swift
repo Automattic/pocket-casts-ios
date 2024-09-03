@@ -18,10 +18,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.isEditing {
             if section == ShelfActionsViewController.shortcutSection {
-                return Constants.Limits.maxShelfActions
+                return Constants.Limits.maxShelfActions + maxShelfActionsAdjustment
             }
 
-            return allActions.count - Constants.Limits.maxShelfActions
+            return allActions.count - ( Constants.Limits.maxShelfActions + maxShelfActionsAdjustment)
         } else {
             return extraActions.count
         }
@@ -143,17 +143,21 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
         // if someone has moved something into the shortcut section, move the bottom item out. Done async so that this method can return first
         if destinationIndexPath.section == ShelfActionsViewController.shortcutSection, sourceIndexPath.section != ShelfActionsViewController.shortcutSection {
-            DispatchQueue.main.async {
+            maxShelfActionsAdjustment = 1
+            DispatchQueue.main.async { [weak self] in
                 tableView.beginUpdates()
-                tableView.moveRow(at: IndexPath(row: 4, section: ShelfActionsViewController.shortcutSection), to: IndexPath(row: 0, section: ShelfActionsViewController.menuSection))
+                tableView.moveRow(at: IndexPath(row: Constants.Limits.maxShelfActions, section: ShelfActionsViewController.shortcutSection), to: IndexPath(row: 0, section: ShelfActionsViewController.menuSection))
+                self?.maxShelfActionsAdjustment = 0
                 tableView.endUpdates()
             }
         }
         // another option is they could move something out of the shortcut section into the menu section, which also requires a re-shuffle
         else if destinationIndexPath.section == ShelfActionsViewController.menuSection, sourceIndexPath.section == ShelfActionsViewController.shortcutSection {
-            DispatchQueue.main.async {
+            maxShelfActionsAdjustment = -1
+            DispatchQueue.main.async { [weak self] in
                 tableView.beginUpdates()
-                tableView.moveRow(at: IndexPath(row: 0, section: ShelfActionsViewController.menuSection), to: IndexPath(row: 3, section: ShelfActionsViewController.shortcutSection))
+                tableView.moveRow(at: IndexPath(row: 0, section: ShelfActionsViewController.menuSection), to: IndexPath(row: Constants.Limits.maxShelfActions-1, section: ShelfActionsViewController.shortcutSection))
+                self?.maxShelfActionsAdjustment = 0
                 tableView.endUpdates()
             }
         }
