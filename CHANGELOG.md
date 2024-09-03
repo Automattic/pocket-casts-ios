@@ -12,6 +12,7 @@
 - Show transcript for episodes that support it [#2102](https://github.com/Automattic/pocket-casts-ios/issues/2102)
 - Add a check to prevent stats from decreasing [#2106](https://github.com/Automattic/pocket-casts-ios/issues/2106)
 - Updated the Google Cast library to 4.8.3
+- Adds new Sharing experience with clip creation [#1910](https://github.com/Automattic/pocket-casts-ios/issues/1910)
 
 7.71
 -----
