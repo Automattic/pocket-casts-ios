@@ -163,7 +163,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .accelerateEffects:
             true
         case .newSharing:
-            false
+            true
         case .transcripts:
             true
         case .gravatarChangeAvatar:
