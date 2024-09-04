@@ -21,7 +21,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
                 return Constants.Limits.maxShelfActions + maxShelfActionsAdjustment
             }
 
-            return allActions.count - ( Constants.Limits.maxShelfActions + maxShelfActionsAdjustment)
+            return allActions.count - (Constants.Limits.maxShelfActions + maxShelfActionsAdjustment)
         } else {
             return extraActions.count
         }
