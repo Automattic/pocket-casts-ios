@@ -33,7 +33,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return cell }
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
-
+        cell.actionIcon.tintColor = ThemeColor.playerContrast02()
+        cell.actionName.textColor = ThemeColor.playerContrast02()
         if !tableView.isEditing {
             cell.actionName.text = action.title(episode: playingEpisode)
             if action != .routePicker {
@@ -54,8 +55,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
             // Disable transcript if not available
             let isTranscriptsAndIsDisable = action == .transcript && !isTranscriptEnabled
-            cell.actionIcon.layer.opacity = isTranscriptsAndIsDisable ? 0.8 : 1
-            cell.actionName.layer.opacity = isTranscriptsAndIsDisable ? 0.5 : 1
+            if isTranscriptsAndIsDisable {
+                cell.actionIcon.tintColor = ThemeColor.playerContrast06()
+                cell.actionName.textColor = ThemeColor.playerContrast06()
+            }
         } else {
             cell.actionName.text = action.title(episode: nil)
             cell.actionIcon.image = UIImage(named: action.iconName(episode: nil))
