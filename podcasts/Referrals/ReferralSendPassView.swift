@@ -4,7 +4,8 @@ class ReferralSendPassModel {
     let numberOfDaysOffered: Int
     let numberOfPasses: Int
     var onShareGuestPassTap: (() -> ())?
-
+    var onCloseTap: (() -> ())?
+    
     init(numberOfDaysOffered: Int = 30, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil) {
         self.numberOfDaysOffered = numberOfDaysOffered
         self.numberOfPasses = numberOfPasses
@@ -17,6 +18,7 @@ struct ReferralSendPassView: View {
 
     var body: some View {
         VStack {
+            ModalCloseButton(background: Color.gray.opacity(0.2), foreground: Color.white.opacity(0.5), action: { viewModel.onCloseTap?() })
             VStack(spacing: Constants.verticalSpacing) {
                 SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
                 Text(L10n.referralsTipMessage(viewModel.numberOfDaysOffered))

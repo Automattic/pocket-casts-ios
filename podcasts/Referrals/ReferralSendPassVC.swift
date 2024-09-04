@@ -23,22 +23,14 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
 
     private func setupUI() {
         view.backgroundColor = .clear
-        self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.hidesBottomBarWhenPushed = true
-        self.tabBarController?.tabBar.isHidden = true
-        NavigationManager.sharedManager.miniPlayer?.hideMiniPlayer(false)
     }
 
     private func prepareToDismiss() {
-        self.navigationController?.navigationBar.isHidden = false
-        self.tabBarController?.hidesBottomBarWhenPushed = false
-        self.tabBarController?.tabBar.isHidden = false
-        NavigationManager.sharedManager.miniPlayer?.showMiniPlayer()
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
 
     private func setupViewModel() {
-        viewModel.onShareGuestPassTap = { [weak self] in
+        viewModel.onCloseTap = { [weak self] in
             self?.prepareToDismiss()
         }
     }
