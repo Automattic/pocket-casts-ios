@@ -500,9 +500,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         let shareTime = sharePosition ? episode.playedUpTo : 0
 
         let type = shareTime == 0 ? "episode" : "current_position"
-        Analytics.track(.podcastShared, properties: ["type": type, "source": analyticsSource])
 
-        SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view)
+        SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view, fromSource: analyticsSource, analyticsType: type)
     }
 
     func episodeFileAction(from sourceRect: CGRect) -> OptionAction? {
