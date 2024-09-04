@@ -3,16 +3,13 @@ import PocketCastsDataModel
 
 class TranscriptShelfButton: UIButton, CheckTranscriptAvailability {
     var isTranscriptEnabled: Bool {
-        get {
-            isEnabled
-        }
-
-        set {
-            isEnabled = newValue
+        didSet {
+            imageView?.tintColor = isTranscriptEnabled ? ThemeColor.playerContrast02() : ThemeColor.playerContrast06()
         }
     }
 
     override init(frame: CGRect) {
+        isTranscriptEnabled = false
         super.init(frame: frame)
         addObservers()
         checkTranscriptAvailability()

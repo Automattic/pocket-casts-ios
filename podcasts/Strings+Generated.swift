@@ -3170,7 +3170,7 @@ internal enum L10n {
   internal static var transcriptErrorFailedToLoad: String { return L10n.tr("Localizable", "transcript_error_failed_to_load") }
   /// Sorry, but something went wrong while parsing this transcript
   internal static var transcriptErrorFailedToParse: String { return L10n.tr("Localizable", "transcript_error_failed_to_parse") }
-  /// Sorry, but a transcript is not available for this podcast
+  /// Sorry, but a transcript is not available for this episode.
   internal static var transcriptErrorNotAvailable: String { return L10n.tr("Localizable", "transcript_error_not_available") }
   /// Sorry, but this transcript format is not supported: %1$@
   internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
