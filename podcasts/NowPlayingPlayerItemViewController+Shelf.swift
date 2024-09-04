@@ -435,9 +435,9 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
         let type = fromTime == 0 ? "episode" : "current_position"
 
-        Analytics.track(.podcastShared, properties: ["type": type, "source": "player"])
-
         if FeatureFlag.newSharing.enabled {
+            Analytics.track(.podcastShared, properties: ["type": type, "source": "player"])
+
             if fromTime == 0 {
                 SharingModal.show(option: .episode(episode), from: analyticsSource, in: self)
             } else {
@@ -445,7 +445,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             }
         } else {
             let sourceRect = buttonSuperview.convert(source.frame, to: view)
-            SharingHelper.shared.shareLinkTo(episode: episode, shareTime: fromTime, fromController: self, sourceRect: sourceRect, sourceView: view)
+            SharingHelper.shared.shareLinkTo(episode: episode, shareTime: fromTime, fromController: self, sourceRect: sourceRect, sourceView: view, fromSource: .player, analyticsType: type)
         }
     }
 
