@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import Combine
 
 enum ShareDestination: Hashable {
     case instagram
@@ -39,7 +40,7 @@ enum ShareDestination: Hashable {
                clipTime: ClipTime,
                clipUUID: String,
                progress: Binding<Float?>,
-               presentFrom rect: CGRect,
+               presentFrom rect: CurrentValueSubject<CGRect, Never>,
                source: AnalyticsSource) async throws {
         switch self {
         case .instagram:
@@ -69,7 +70,13 @@ enum ShareDestination: Hashable {
             let data = try await option.shareData(style: style, destination: self, progress: progress)
             let activityViewController = UIActivityViewController(activityItems: data, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = vc.view
-            activityViewController.popoverPresentationController?.sourceRect = rect
+            activityViewController.popoverPresentationController?.sourceRect = rect.value
+            let receiver = rect.sink { rect in
+                activityViewController.popoverPresentationController?.sourceRect = rect
+            }
+            activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
+                receiver.cancel()
+            }
             vc.presentedViewController?.present(activityViewController, animated: true, completion: {
                 ShareDestination.logClipShared(option: option, style: style, clipUUID: clipUUID, source: source)
                 ShareDestination.logPodcastShared(style: style, option: option, destination: self, source: source)

@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct ShareButton: View {
     @Binding var isExporting: Bool
@@ -12,7 +13,7 @@ struct ShareButton: View {
     let clipUUID: String
     let source: AnalyticsSource
 
-    @State var frame: CGRect?
+    var frame: CurrentValueSubject<CGRect, Never> = .init(.zero)
 
     private let frameID = UUID()
 
@@ -21,8 +22,7 @@ struct ShareButton: View {
             isExporting = true
             shareTask = Task.detached { @MainActor in
                 do {
-                    let sourceRect = frame ?? .zero
-                    try await destination.share(option, style: style, clipTime: clipTime, clipUUID: clipUUID, progress: $progress, presentFrom: CGRect(origin: sourceRect.origin, size: CGSize(width: sourceRect.width, height: -sourceRect.height)), source: source)
+                    try await destination.share(option, style: style, clipTime: clipTime, clipUUID: clipUUID, progress: $progress, presentFrom: frame, source: source)
                 } catch let error {
                     if Task.isCancelled { return }
                     await MainActor.run {
@@ -35,7 +35,9 @@ struct ShareButton: View {
         }
         .measureFrame(in: .global, id: frameID)
         .onPreferenceChange(FrameKey.self, perform: { value in
-            frame = value[frameID]
+            let rect = value[frameID] ?? .zero
+            let sourceRect = CGRect(origin: rect.origin, size: CGSize(width: rect.width, height: -rect.height))
+            frame.value = sourceRect
         })
     }
 
