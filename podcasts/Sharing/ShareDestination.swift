@@ -34,7 +34,13 @@ enum ShareDestination: Hashable {
     }
 
     @MainActor
-    func share(_ option: SharingModal.Option, style: ShareImageStyle, clipTime: ClipTime, clipUUID: String, progress: Binding<Float?>, source: AnalyticsSource) async throws {
+    func share(_ option: SharingModal.Option,
+               style: ShareImageStyle,
+               clipTime: ClipTime,
+               clipUUID: String,
+               progress: Binding<Float?>,
+               presentFrom rect: CGRect,
+               source: AnalyticsSource) async throws {
         switch self {
         case .instagram:
             let item = try await option.shareData(style: style, destination: self, progress: progress).mapFirst { shareItem -> (Data, UTType)? in
@@ -62,6 +68,8 @@ enum ShareDestination: Hashable {
         case .systemSheet(let vc):
             let data = try await option.shareData(style: style, destination: self, progress: progress)
             let activityViewController = UIActivityViewController(activityItems: data, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = vc.view
+            activityViewController.popoverPresentationController?.sourceRect = rect
             vc.presentedViewController?.present(activityViewController, animated: true, completion: {
                 ShareDestination.logClipShared(option: option, style: style, clipUUID: clipUUID, source: source)
                 ShareDestination.logPodcastShared(style: style, option: option, destination: self, source: source)
