@@ -81,6 +81,7 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
 
         if action == .transcript && !isTranscriptEnabled {
+            Toast.show(TranscriptError.notAvailable.localizedDescription)
             return
         }
 

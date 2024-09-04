@@ -310,6 +310,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     @objc private func transcriptTapped(_ sender: UIButton) {
+        guard let transcriptButton = sender as? TranscriptShelfButton, transcriptButton.isTranscriptEnabled else {
+            Toast.show(TranscriptError.notAvailable.localizedDescription)
+            return
+        }
         shelfButtonTapped(.transcript)
 
         displayTranscript = true
