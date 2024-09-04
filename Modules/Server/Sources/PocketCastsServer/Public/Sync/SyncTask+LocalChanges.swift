@@ -157,23 +157,24 @@ extension SyncTask {
     }
 
     func changedStats() -> Api_Record? {
-        guard StatsManager.shared.syncStatus() == .notSynced,
-              let timeSavedDynamicSpeed = convertStat(StatsManager.shared.timeSavedDynamicSpeed()),
-              let totalSkippedTime = convertStat(StatsManager.shared.totalSkippedTime()),
-              let totalIntroSkippedTime = convertStat(StatsManager.shared.totalAutoSkippedTime()),
-              let timeSavedVariableSpeed = convertStat(StatsManager.shared.timeSavedVariableSpeed()),
-              let totalListeningTime = convertStat(StatsManager.shared.totalListeningTime()) else {
+        let timeSavedDynamicSpeed = convertStat(StatsManager.shared.timeSavedDynamicSpeed())
+        let totalSkippedTime = convertStat(StatsManager.shared.totalSkippedTime())
+        let totalIntroSkippedTime = convertStat(StatsManager.shared.totalAutoSkippedTime())
+        let timeSavedVariableSpeed = convertStat(StatsManager.shared.timeSavedVariableSpeed())
+        let totalListeningTime = convertStat(StatsManager.shared.totalListeningTime())
+        let startSyncTime = Int64(StatsManager.shared.statsStartDate().timeIntervalSince1970)
+
+        // check to see if there's actually any stats we need to sync
+        if StatsManager.shared.syncStatus() != .notSynced || (timeSavedDynamicSpeed == nil && totalSkippedTime == nil && totalSkippedTime == nil && timeSavedVariableSpeed == nil && totalListeningTime == nil) {
             return nil
         }
 
-        let startSyncTime = Int64(StatsManager.shared.statsStartDate().timeIntervalSince1970)
-
         var deviceRecord = Api_SyncUserDevice()
-        deviceRecord.timeSilenceRemoval.value = timeSavedDynamicSpeed
-        deviceRecord.timeSkipping.value = totalSkippedTime
-        deviceRecord.timeIntroSkipping.value = totalIntroSkippedTime
-        deviceRecord.timeVariableSpeed.value = timeSavedVariableSpeed
-        deviceRecord.timeListened.value = totalListeningTime
+        deviceRecord.timeSilenceRemoval.value = timeSavedDynamicSpeed ?? 0
+        deviceRecord.timeSkipping.value = totalSkippedTime ?? 0
+        deviceRecord.timeIntroSkipping.value = totalIntroSkippedTime ?? 0
+        deviceRecord.timeVariableSpeed.value = timeSavedVariableSpeed ?? 0
+        deviceRecord.timeListened.value = totalListeningTime ?? 0
         deviceRecord.timesStartedAt.value = startSyncTime
         deviceRecord.deviceID.value = ServerConfig.shared.syncDelegate?.uniqueAppId() ?? ""
         deviceRecord.deviceType.value = ServerConstants.Values.deviceTypeiOS
