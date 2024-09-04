@@ -5,7 +5,7 @@ class ReferralSendPassModel {
     let numberOfPasses: Int
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
-    
+
     init(numberOfDaysOffered: Int = 30, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil) {
         self.numberOfDaysOffered = numberOfDaysOffered
         self.numberOfPasses = numberOfPasses
