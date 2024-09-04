@@ -13,6 +13,7 @@
 - Add a check to prevent stats from decreasing [#2106](https://github.com/Automattic/pocket-casts-ios/issues/2106)
 - Updated the Google Cast library to 4.8.3
 - Adds new Sharing experience with clip creation [#1910](https://github.com/Automattic/pocket-casts-ios/issues/1910)
+- Fix crash when reordering shelf items on the player [#2122](https://github.com/Automattic/pocket-casts-ios/issues/2122)
 
 7.71
 -----
