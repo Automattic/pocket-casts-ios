@@ -105,7 +105,14 @@ class SharingHelper: NSObject {
         activityController.popoverPresentationController?.barButtonItem = barButtonItem
     }
 
-    func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView?, showArrow: Bool = true) {
+    func shareLinkTo(episode: Episode, shareTime: TimeInterval, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView?, showArrow: Bool = true, fromSource: AnalyticsSource, analyticsType: String = "episode") {
+        Analytics.track(.podcastShared, source: fromSource, properties: ["type": analyticsType])
+
+        guard FeatureFlag.newSharing.enabled == false else {
+            SharingModal.show(option: .episode(episode), from: fromSource, in: fromController)
+            return
+        }
+
         activityController = createActivityController(episode: episode, shareTime: shareTime)
         activityController?.completionWithItemsHandler = { _, _, _, _ in
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
