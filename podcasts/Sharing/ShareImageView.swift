@@ -68,7 +68,6 @@ struct ShareImageView: View {
         ZStack {
             switch style {
             case .large:
-                background()
                 VStack(spacing: 32) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
@@ -79,7 +78,6 @@ struct ShareImageView: View {
                 .padding(24)
                 .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .medium:
-                background()
                 VStack(spacing: 24) {
                     image()
                         .aspectRatio(1, contentMode: .fit)
@@ -90,7 +88,6 @@ struct ShareImageView: View {
                 .padding(24)
                 .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .small:
-                background()
                 ZStack {
                     HStack(spacing: 18) {
                         image()
@@ -108,6 +105,13 @@ struct ShareImageView: View {
                 .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .audio:
                 Image("music")
+            }
+        }.background {
+            switch style {
+            case .audio:
+                EmptyView()
+            default:
+                background()
             }
         }
     }
