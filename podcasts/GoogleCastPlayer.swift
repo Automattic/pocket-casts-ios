@@ -23,6 +23,10 @@ class GoogleCastPlayer: PlaybackProtocol {
         castManager.playSingleEpisode(episode)
     }
 
+    func isReadyToPlay() -> Bool {
+        castManager.hasCastSession()
+    }
+
     func playing() -> Bool {
         castManager.playing()
     }
