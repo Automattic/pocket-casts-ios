@@ -45,47 +45,6 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     private lazy var episodeArtwork = EpisodeArtwork()
 
-    func readyToPlay(_ episode: BaseEpisode) {
-        episodePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
-        self.episode = episode
-
-        DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self, let episode = strongSelf.episode else { return }
-
-            strongSelf.playerLock.lock()
-
-            strongSelf.effects = PlaybackManager.shared.effects()
-            strongSelf.playBufferManager = PlayBufferManager()
-
-            let fileURL = URL(fileURLWithPath: strongSelf.episodePath!)
-            do {
-                strongSelf.audioFile = try AVAudioFile(forReading: fileURL, commonFormat: AVAudioCommonFormat.pcmFormatFloat32, interleaved: false)
-
-                // AVAudioFile.length is an expensive operation (often in the seconds) so here we attempt to load a cached value instead
-                strongSelf.cachedFrameCount = DataManager.sharedManager.findFrameCount(episode: episode)
-                if strongSelf.cachedFrameCount == 0 {
-                    // we haven't cached a frame count for this episode, do that now
-                    strongSelf.cachedFrameCount = strongSelf.audioFile!.length
-                    if strongSelf.cachedFrameCount == 0 {
-                        // If don't have a frameCount we cannot use the effect player
-                        throw AVError(_nsError: NSError(domain: AVFoundationErrorDomain, code: AVError.fileFailedToParse.rawValue))
-                    }
-                    DataManager.sharedManager.saveFrameCount(episode: episode, frameCount: strongSelf.cachedFrameCount)
-                }
-                guard let audioFile = strongSelf.audioFile, let playBufferManager = strongSelf.playBufferManager else {
-                    strongSelf.playerLock.unlock()
-                    return
-                }
-                let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-                strongSelf.audioReadTask = AudioReadTask(trimSilence: strongSelf.effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: strongSelf.cachedFrameCount)
-                strongSelf.playerLock.unlock()
-            } catch {
-                strongSelf.playerLock.unlock()
-                return
-            }
-        }
-    }
-    
     // MARK: - PlaybackProtocol Impl
 
     func loadEpisode(_ episode: BaseEpisode) {

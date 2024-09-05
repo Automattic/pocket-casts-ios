@@ -1169,11 +1169,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 player = GoogleCastPlayer()
             } else if playersSupported.first == EffectsPlayer.self {
                 FileLog.shared.addMessage("Using EffectsPlayer")
-                let player = EffectsPlayer()
-                if !aboutToPlay.value {
-                    player.readyToPlay(currEpisode)
-                }
-                self.player = player
+                player = EffectsPlayer()
             } else {
                 FileLog.shared.addMessage("Using DefaultPlayer")
                 player = DefaultPlayer()
