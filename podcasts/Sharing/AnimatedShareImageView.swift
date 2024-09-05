@@ -17,12 +17,10 @@ struct AnimatedShareImageView: AnimatableContent {
     var body: some View {
         ShareImageView(info: info, style: style, angle: $angle)
             .frame(width: size.width, height: size.height)
-            .fixedSize()
             .onReceive(animationProgress.$progress) { progress in
                 let calculatedAngle = calculateAngle(progress: Float(progress))
                 angle = Double(calculatedAngle)
             }
-            .scaleEffect(CGSize(width: 2.0, height: 2.0))
     }
 
     func update(for progress: Double) {

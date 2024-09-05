@@ -185,7 +185,14 @@ extension SharingModal.Option {
         case .clipShare(let episode, let clipTime, _):
             media = try await mediaData(imageInfo: imageInfo, style: style, episode: episode, clipTime: clipTime, destination: destination, progress: progress)
         default:
-            media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot(scale: 3)
+            let size: CGSize
+            switch destination {
+            case .instagram:
+                size = CGSize(width: style.videoSize.width, height: style.videoSize.height)
+            default:
+                size = CGSize(width: style.previewSize.width, height: style.previewSize.height)
+            }
+            media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: size.width, height: size.height).snapshot(scale: 3)
         }
 
         return [url, media].compactMap({ $0 })
