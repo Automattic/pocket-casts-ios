@@ -177,13 +177,13 @@ extension SharingModal.Option {
     }
 
     @MainActor
-    func shareData(style: ShareImageStyle, destination: ShareDestination, progress: Binding<Float?>) async throws -> [Any] {
+    func shareData(style: ShareImageStyle, destination: ShareDestination, clipUUID: String, progress: Binding<Float?>) async throws -> [Any] {
         let url = URL(string: shareURL) as NSURL?
 
         let media: Any?
         switch self {
         case .clipShare(let episode, let clipTime, _):
-            media = try await mediaData(imageInfo: imageInfo, style: style, episode: episode, clipTime: clipTime, destination: destination, progress: progress)
+            media = try await mediaData(imageInfo: imageInfo, style: style, episode: episode, clipTime: clipTime, destination: destination, clipUUID: clipUUID, progress: progress)
         default:
             media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot(scale: 3)
         }
@@ -192,7 +192,7 @@ extension SharingModal.Option {
     }
 
     @MainActor
-    func mediaData(imageInfo: ShareImageInfo, style: ShareImageStyle, episode: Episode, clipTime: ClipTime, destination: ShareDestination, progress: Binding<Float?>) async throws -> Any? {
+    func mediaData(imageInfo: ShareImageInfo, style: ShareImageStyle, episode: Episode, clipTime: ClipTime, destination: ShareDestination, clipUUID: String, progress: Binding<Float?>) async throws -> Any? {
         let nsProgress = Progress(totalUnitCount: 100)
         let observation = nsProgress.publisher(for: \.fractionCompleted).receive(on: DispatchQueue.main).sink(receiveValue: { fractionCompleted in
             guard Task.isCancelled == false && nsProgress.isCancelled == false else { return }
@@ -206,20 +206,46 @@ extension SharingModal.Option {
 
         progress.wrappedValue = 0.01
 
-        let fileURL = try await destination.export(info: imageInfo,
-                                        style: style,
-                                        episode: episode,
-                                        startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
-                                        duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
-                                        progress: nsProgress
-        )
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(clipUUID)-\(style.hashValue)-\(clipTime.start)-\(clipTime.end)-\(destination.hashValue)", conformingTo: .mpeg4Movie)
+        let fileURL: URL
+        if FileManager.default.fileExistsAtURL(url) {
+            fileURL = url
+        } else {
+            fileURL = try await destination.export(info: imageInfo,
+                                            style: style,
+                                            episode: episode,
+                                            startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
+                                            duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
+                                            progress: nsProgress,
+                                            to: url
+            )
+        }
 
         progress.wrappedValue = nil
 
         if destination == .instagram {
             return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
         } else {
-            return fileURL as NSURL // Third party apps need URLs and won't accept Data
+            func format(time: TimeInterval) -> String {
+                let hhmmss = TimeFormatter.shared.playTimeFormat(time: time, showSeconds: true)
+                let milliseconds = Int((time.truncatingRemainder(dividingBy: 1)) * 1000)
+                return "\(hhmmss).\(milliseconds)"
+            }
+
+            let components = [
+                episode.parentPodcast()?.title,
+                episode.title,
+                "\(format(time: clipTime.start))-\(format(time: clipTime.end))"
+            ].compactMap { $0 }
+            let fileName = components.joined(separator: " - ").appending(".\(fileURL.pathExtension)")
+            var newURL = fileURL
+            newURL.deleteLastPathComponent()
+            newURL.appendPathComponent(fileName)
+            if FileManager.default.fileExistsAtURL(newURL) {
+                try FileManager.default.removeItem(at: newURL)
+            }
+            try FileManager.default.copyItem(at: fileURL, to: newURL)
+            return newURL as NSURL // Third party apps need URLs and won't accept Data
         }
     }
 
