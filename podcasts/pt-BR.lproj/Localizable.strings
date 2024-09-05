@@ -2731,8 +2731,6 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Ocorreu um erro ao carregar esta transcrição</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Ocorreu um erro ao analisar esta transcrição</string>
-    <key>transcript_error_not_available</key>
-    <string>Não há transcrição disponível para este podcast</string>
     <key>transcript_error_not_supported</key>
     <string>Este formato de transcrição não é aceito: %1$@</string>
     <key>trial_finished</key>
