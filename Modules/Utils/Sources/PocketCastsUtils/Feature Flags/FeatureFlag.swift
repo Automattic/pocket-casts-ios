@@ -106,6 +106,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the refactored discover collection view
     case discoverCollectionView
 
+    /// Preload the `EffectsPlayer` read task when assigned
+    case playerIsReadyToPlay
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -179,6 +182,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .syncStats:
             true
         case .discoverCollectionView:
+            false
+        case .playerIsReadyToPlay:
             false
         }
     }
