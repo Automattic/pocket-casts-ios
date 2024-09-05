@@ -203,7 +203,6 @@ extension SharingModal.Option {
         let nsProgress = Progress(totalUnitCount: 100)
         let observation = nsProgress.publisher(for: \.fractionCompleted).receive(on: DispatchQueue.main).sink(receiveValue: { fractionCompleted in
             guard Task.isCancelled == false && nsProgress.isCancelled == false else { return }
-            FileLog.shared.addMessage("Media Exporter: Fraction completed: \(fractionCompleted)")
             progress.wrappedValue = Float(fractionCompleted)
         })
 
