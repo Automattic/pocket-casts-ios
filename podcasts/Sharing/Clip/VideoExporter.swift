@@ -192,12 +192,19 @@ enum VideoExporter {
         exportSession.outputFileType = fileType
         exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
 
+        let timer = Timer(timeInterval: 0.01, repeats: true) { _ in
+            progress.completedUnitCount = Int64(exportSession.progress * 100)
+        }
+        RunLoop.main.add(timer, forMode: .common)
+
         await withTaskCancellationHandler {
             await exportSession.export()
         } onCancel: {
             exportSession.cancelExport()
             progress.cancel()
         }
+
+        timer.invalidate()
 
         guard exportSession.status == .completed else {
             throw ExportError.exportFailed(exportSession.error)
