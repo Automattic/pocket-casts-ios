@@ -249,7 +249,7 @@ extension ShareDestination {
         case failedToDownload
     }
 
-    func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress, to url: URL) async throws -> URL {
+    func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, scale: CGFloat, progress: Progress, to url: URL) async throws -> URL {
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             throw VideoExportError.failedToDownload
         }
@@ -258,15 +258,15 @@ extension ShareDestination {
             let size: CGSize
             switch self {
             case .instagram:
-                size = CGSize(width: style.videoSize.width * 2, height: style.videoSize.height * 2)
+                size = CGSize(width: style.videoSize.width, height: style.videoSize.height)
             default:
-                size = CGSize(width: style.previewSize.width * 2, height: style.previewSize.height * 2)
+                size = CGSize(width: style.previewSize.width, height: style.previewSize.height)
             }
 
             guard #available(iOS 16, *) else { // iOS 15 support will be added in a separate PR just to keep the line count down
                 throw VideoExportError.failedToDownload
             }
-            let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
+            let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, scale: scale, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
             try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style, size: size), with: parameters, to: url, progress: progress)
 
             return url

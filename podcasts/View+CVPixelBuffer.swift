@@ -7,16 +7,22 @@ enum CVPixelBufferError: Error {
 
 extension View {
     @MainActor @available(iOS 16.0, *)
-    func pixelBuffer(size: CGSize, scale: CGFloat = 3) throws -> CVPixelBuffer {
+    func pixelBuffer(size: CGSize, scale: CGFloat, pool: CVPixelBufferPool? = nil) throws -> CVPixelBuffer {
         let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
-                     kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+             kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
         var pixelBuffer: CVPixelBuffer?
-        let status = CVPixelBufferCreate(kCFAllocatorDefault,
+
+        let status: CVReturn
+        if let pool {
+            status = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pool, &pixelBuffer)
+        } else {
+            status = CVPixelBufferCreate(kCFAllocatorDefault,
                                          Int(size.width),
                                          Int(size.height),
                                          kCVPixelFormatType_32ARGB,
                                          attrs,
                                          &pixelBuffer)
+        }
 
         guard status == kCVReturnSuccess, let buffer = pixelBuffer else {
             throw CVPixelBufferError.failedToCreateBuffer(status)
@@ -37,10 +43,11 @@ extension View {
         }
 
         let renderer = ImageRenderer(content: self)
+        renderer.isOpaque = true
         renderer.scale = scale
-        renderer.render { size, render in
-            render(context)
-        }
+
+        let cgImage = renderer.cgImage!
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
 
         CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
 

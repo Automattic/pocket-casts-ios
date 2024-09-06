@@ -12,6 +12,10 @@ enum SharingModal {
         case clip(Episode, TimeInterval)
         case clipShare(Episode, ClipTime, ShareImageStyle)
 
+        enum Constants {
+            static let exportedAssetScale: CGFloat = 3
+        }
+
         var buttonTitle: String {
             switch self {
             case .episode:
@@ -183,16 +187,23 @@ extension SharingModal.Option {
         let media: Any?
         switch self {
         case .clipShare(let episode, let clipTime, _):
-            media = try await mediaData(imageInfo: imageInfo, style: style, episode: episode, clipTime: clipTime, destination: destination, clipUUID: clipUUID, progress: progress)
+            media = try await mediaData(imageInfo: imageInfo, style: style, episode: episode, clipTime: clipTime, destination: destination, clipUUID: clipUUID, scale: Constants.exportedAssetScale, progress: progress)
         default:
-            media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: style.previewSize.width, height: style.previewSize.height).snapshot(scale: 3)
+            let size: CGSize
+            switch destination {
+            case .instagram:
+                size = CGSize(width: style.videoSize.width, height: style.videoSize.height)
+            default:
+                size = CGSize(width: style.previewSize.width, height: style.previewSize.height)
+            }
+            media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: size.width, height: size.height).snapshot(scale: Constants.exportedAssetScale)
         }
 
         return [url, media].compactMap({ $0 })
     }
 
     @MainActor
-    func mediaData(imageInfo: ShareImageInfo, style: ShareImageStyle, episode: Episode, clipTime: ClipTime, destination: ShareDestination, clipUUID: String, progress: Binding<Float?>) async throws -> Any? {
+    func mediaData(imageInfo: ShareImageInfo, style: ShareImageStyle, episode: Episode, clipTime: ClipTime, destination: ShareDestination, clipUUID: String, scale: CGFloat, progress: Binding<Float?>) async throws -> Any? {
         let nsProgress = Progress(totalUnitCount: 100)
         let observation = nsProgress.publisher(for: \.fractionCompleted).receive(on: DispatchQueue.main).sink(receiveValue: { fractionCompleted in
             guard Task.isCancelled == false && nsProgress.isCancelled == false else { return }
@@ -216,6 +227,7 @@ extension SharingModal.Option {
                                             episode: episode,
                                             startTime: CMTime(seconds: clipTime.start, preferredTimescale: 600),
                                             duration: CMTime(seconds: clipTime.end - clipTime.start, preferredTimescale: 600),
+                                            scale: scale,
                                             progress: nsProgress,
                                             to: url
             )
