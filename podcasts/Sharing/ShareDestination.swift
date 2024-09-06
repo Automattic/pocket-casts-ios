@@ -249,13 +249,12 @@ extension ShareDestination {
         case failedToDownload
     }
 
-    func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress, to url: URL) async throws -> URL {
+    func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, scale: CGFloat, progress: Progress, to url: URL) async throws -> URL {
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             throw VideoExportError.failedToDownload
         }
 
         func exportVideo() async throws -> URL {
-            let scale: CGFloat = 3
             let size: CGSize
             switch self {
             case .instagram:
