@@ -136,7 +136,7 @@
     <key>account_welcome_plus</key>
     <string>Benvingut a Pocket Casts Plus!</string>
     <key>add_bookmark</key>
-    <string>Afegeix un favorit</string>
+    <string>Afegeix un marcador</string>
     <key>add_bookmark_subtitle</key>
     <string>Afegeix un títol opcional per identificar aquest marcador</string>
     <key>add_to_up_next</key>
@@ -292,7 +292,7 @@
     <key>bookmark_updated_notification</key>
     <string>Marcador "%1$@" actualitzat</string>
     <key>bookmarks</key>
-    <string>Favorits</string>
+    <string>Marcadors</string>
     <key>bookmarks_count_plural</key>
     <string>%1$@ marcadors</string>
     <key>bookmarks_count_singular</key>
@@ -395,6 +395,12 @@
     <string>%@ Durada</string>
     <key>clip_start_label</key>
     <string>%@ Inici</string>
+    <key>clips_whats_new_button_title</key>
+    <string>Som-hi</string>
+    <key>clips_whats_new_message</key>
+    <string>Ja pots compartir clips dels teus moments preferits de qualsevol episodi. També hem facilitat compartir qualsevol contingut a totes les aplicacions de xarxes socials.</string>
+    <key>clips_whats_new_title</key>
+    <string>Ja pots compartir clips!</string>
     <key>close</key>
     <string>Tancar</string>
     <key>color</key>
@@ -2725,8 +2731,6 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Ho sento, però alguna cosa ha anat malament mentre es carregava aquesta transcripció</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Ho sento, però hi ha hagut un error mentre s'analitzava aquesta transcripció</string>
-    <key>transcript_error_not_available</key>
-    <string>Ho sento, però no hi ha cap transcripció disponible per a aquest pòdcast.</string>
     <key>transcript_error_not_supported</key>
     <string>Ho sento, però aquest format de transcripció no és compatible: %1$@</string>
     <key>trial_finished</key>
@@ -2759,6 +2763,34 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Una llista d'actualitzacions recents a 'Tot seguit' a causa de canvis a altres dispositius. Per veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
     <key>upgrade_account</key>
     <string>Actualizar el compte</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>He estat un usuari durant molt de temps i la quantitat de funcionalitats i personalització que es té amb la versió gratuïta és sorprenent. M'encanta que es sincronitzi entre dispositius, així puc començar a escoltar al meu telèfon i després continuar en un dispositiu Alexa. És la meva recomanació per a qualsevol que escolti pòdcasts. També m'encanten les estadístiques!</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>8 anys d'excel·lència i millora contínua</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>He estat usuari de Pocket Casts des del 2017.
+
+Aquesta és, sense dubte, la millor app per escoltar pòdcasts. Té moltes funcions i es desenvolupa activament. Hi ha hagut algunes queixes sobre el canvi d'interfície, però jo no ho he notat massa.
+
+Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així que pots fer que sigui un 'plug and play' o configurar temporitzadors per saltar les intros i els temps finals i qualsevol altra petita funció que vulguis activar.</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>La funció de sincronització és màgica. No sé quina màgia especial té aquesta app, però és millor que qualsevol altra app que he utilitzat.</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>He estat utilitzant aquesta app durant 6 anys o més, vaig començar amb Android i ara fa gairebé un any que estic a iOS. Funciona igual a les dues plataformes. És fàcil trobar nous pòdcasts per escoltar, té una interfície molt bonica, també es poden afegir pòdcasts mitjançant la URL del feed RSS. L'app per a rellotge és funcional, però la faig servir sobretot per reproduir/pausar. Inicia sessió amb un compte per sincronitzar entre dispositius, però no és obligatori fer-ho.</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>El PC ha estat el meu preferit durant anys. He provat altres aplicacions de pòdcast i sempre torno a PC per la seva simplicitat, interfície i suport. Definitivament, val la pena provar-ho, especialment si t'has cansat de la teva actual aplicació de pòdcast.</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>La millor aplicació de pòdcast DE LLUNY</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>L'aplicació de pòdcast essencial</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>La millor app de pòdcasts que hi ha</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>Una aplicació fantàstica</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>Funciona genial i és fàcil trobar o afegir nous pòdcasts</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>Ves a l'aplicació de Pòdcasts</string>
     <key>upgrade_to_plan</key>
     <string>Actualitza a %1$@</string>
     <key>upgrade_to_plus</key>

@@ -53,6 +53,10 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         self.episode = episode
     }
 
+    func isReadyToPlay() -> Bool {
+        audioReadTask != nil && audioPlayTask != nil
+    }
+
     func playing() -> Bool {
         if aboutToPlay.value { return true }
 

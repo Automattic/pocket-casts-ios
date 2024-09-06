@@ -2731,8 +2731,6 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Siamo spiacenti, ma qualcosa è andato storto durante il caricamento di questa trascrizione</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Siamo spiacenti, ma qualcosa è andato storto durante l'analisi di questa trascrizione</string>
-    <key>transcript_error_not_available</key>
-    <string>Siamo spiacenti, ma non è disponibile una trascrizione per questo podcast</string>
     <key>transcript_error_not_supported</key>
     <string>Siamo spiacenti, ma questo formato della trascrizione non è supportato: %1$@</string>
     <key>trial_finished</key>
