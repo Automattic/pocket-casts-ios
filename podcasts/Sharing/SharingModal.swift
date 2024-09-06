@@ -226,14 +226,10 @@ extension SharingModal.Option {
         if destination == .instagram {
             return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
         } else {
-            func format(time: TimeInterval) -> String {
-                String(format: "%.3f", time)
-            }
-
             let components = [
                 episode.parentPodcast()?.title,
                 episode.title,
-                "\(format(time: clipTime.start))-\(format(time: clipTime.end))"
+                "\(clipTime.start.secondsFormatted())-\(clipTime.end.secondsFormatted())"
             ].compactMap { $0 }
 
             let fileName = components.joined(separator: " - ").appending(".\(fileURL.pathExtension)").sanitizedFileName()
@@ -282,16 +278,8 @@ fileprivate extension Podcast {
     }
 }
 
-fileprivate extension String {
-    // Further explanation on character choices: https://superuser.com/a/358861
-    func sanitizedFileName() -> String {
-        let invalidCharacters = CharacterSet(charactersIn: "\\/:*?\"<>|")
-            .union(.newlines)
-            .union(.illegalCharacters)
-            .union(.controlCharacters)
-
-        return self
-            .components(separatedBy: invalidCharacters)
-            .joined(separator: "")
+fileprivate extension TimeInterval {
+    func secondsFormatted() -> String {
+        String(format: "%.3f", self)
     }
 }
