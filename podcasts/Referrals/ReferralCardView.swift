@@ -5,8 +5,11 @@ struct ReferralCardView: View {
 
     var body: some View {
         Rectangle()
+            .background {
+                ReferralCardAnimatedGradientView()
+            }
             .cornerRadius(Constants.cardRadius)
-            .foregroundColor(Constants.cardBackgroundColor)
+            .foregroundColor(.clear)
             .overlay(alignment: .bottomLeading) {
                 Text(L10n.referralsGuestPassOffer(numberOfDaysOffered))
                     .font(size: 12, style: .body, weight: .semibold)
