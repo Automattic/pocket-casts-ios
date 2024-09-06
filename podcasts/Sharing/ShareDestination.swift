@@ -44,7 +44,7 @@ enum ShareDestination: Hashable {
                source: AnalyticsSource) async throws {
         switch self {
         case .instagram:
-            let item = try await option.shareData(style: style, destination: self, progress: progress).mapFirst { shareItem -> (Data, UTType)? in
+            let item = try await option.shareData(style: style, destination: self, clipUUID: clipUUID, progress: progress).mapFirst { shareItem -> (Data, UTType)? in
                 if let data = shareItem as? Data {
                     return (data, .mpeg4Movie)
                 } else if let image = shareItem as? UIImage, let data = image.pngData() {
@@ -67,7 +67,7 @@ enum ShareDestination: Hashable {
             ShareDestination.logClipShared(option: option, style: style, clipUUID: clipUUID, source: source)
             ShareDestination.logPodcastShared(style: style, option: option, destination: self, source: source)
         case .systemSheet(let vc):
-            let data = try await option.shareData(style: style, destination: self, progress: progress)
+            let data = try await option.shareData(style: style, destination: self, clipUUID: clipUUID, progress: progress)
             let activityViewController = UIActivityViewController(activityItems: data, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = vc.view
             activityViewController.popoverPresentationController?.sourceRect = rect.value
@@ -249,7 +249,7 @@ extension ShareDestination {
         case failedToDownload
     }
 
-    func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress) async throws -> URL {
+    func export(info: ShareImageInfo, style: ShareImageStyle, episode: some BaseEpisode, startTime: CMTime, duration: CMTime, progress: Progress, to url: URL) async throws -> URL {
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             throw VideoExportError.failedToDownload
         }
@@ -267,7 +267,6 @@ extension ShareDestination {
                 throw VideoExportError.failedToDownload
             }
             let parameters = VideoExporter.Parameters(duration: CMTimeGetSeconds(duration), size: size, episodeAsset: playerItem.asset, audioStartTime: startTime, audioDuration: duration, fileType: .mp4)
-            let url = FileManager.default.temporaryDirectory.appendingPathComponent("video_export-\(UUID().uuidString)", conformingTo: .mpeg4Movie)
             try await VideoExporter.export(view: AnimatedShareImageView(info: info, style: style, size: size), with: parameters, to: url, progress: progress)
 
             return url
