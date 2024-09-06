@@ -106,7 +106,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the refactored discover collection view
     case discoverCollectionView
 
-    /// Preload the `EffectsPlayer` read task when assigned
+    /// Uses the `isReadyToPlay` function to decide what logic to use when skipping.
+    /// There's some scenario when the Default player switched to the Effects player when the stream is paused.
+    /// This makes the skip unusable as the player doesn't have its task set yet.
+    /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
 
     public var enabled: Bool {
@@ -184,7 +187,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .discoverCollectionView:
             false
         case .playerIsReadyToPlay:
-            false
+            true
         }
     }
 
