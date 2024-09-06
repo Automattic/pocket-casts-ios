@@ -432,7 +432,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
 
-        if let player = player {
+        let isReadyToPlay = FeatureFlag.playerIsReadyToPlay.enabled ? (player?.isReadyToPlay() == true) : true
+        if let player = player, isReadyToPlay {
             player.seekTo(time, completion: { [weak self] () in
                 guard let strongSelf = self else { return }
 

@@ -19,6 +19,8 @@ import PocketCastsDataModel
 
     func effectsDidChange()
 
+    func isReadyToPlay() -> Bool
+
     func supportsSilenceRemoval() -> Bool
     func supportsVolumeBoost() -> Bool
     func supportsGoogleCast() -> Bool
