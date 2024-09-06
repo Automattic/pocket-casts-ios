@@ -19,7 +19,7 @@ struct ReferralCardView: View {
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 12, height: 12)
+                    .frame(width: Constants.plusIconSize, height: Constants.plusIconSize)
                     .foregroundColor(.white)
                     .padding()
             }
@@ -34,6 +34,7 @@ struct ReferralCardView: View {
         static let cardRadius = CGFloat(13)
         static let cardBackgroundColor = Color(red: 0.08, green: 0.03, blue: 0.3)
         static let cardStrokeColor = Color(red: 0.23, green: 0.23, blue: 0.23)
+        static let plusIconSize = CGFloat(12)
     }
 }
 
