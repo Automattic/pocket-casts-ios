@@ -227,9 +227,7 @@ extension SharingModal.Option {
             return try? Data(contentsOf: fileURL) // For some reason, I couldn't get this to work with just a URL
         } else {
             func format(time: TimeInterval) -> String {
-                let hhmmss = TimeFormatter.shared.playTimeFormat(time: time, showSeconds: true)
-                let milliseconds = Int((time.truncatingRemainder(dividingBy: 1)) * 1000)
-                return "\(hhmmss).\(milliseconds)"
+                String(format: "%.3f", time)
             }
 
             let components = [
@@ -237,10 +235,12 @@ extension SharingModal.Option {
                 episode.title,
                 "\(format(time: clipTime.start))-\(format(time: clipTime.end))"
             ].compactMap { $0 }
-            let fileName = components.joined(separator: " - ").appending(".\(fileURL.pathExtension)")
+
+            let fileName = components.joined(separator: " - ").appending(".\(fileURL.pathExtension)").sanitizedFileName()
             var newURL = fileURL
             newURL.deleteLastPathComponent()
             newURL.appendPathComponent(fileName)
+
             if FileManager.default.fileExistsAtURL(newURL) {
                 try FileManager.default.removeItem(at: newURL)
             }
@@ -279,5 +279,19 @@ fileprivate extension Podcast {
             return nil
         }
         return L10n.paidPodcastReleaseFrequencyFormat(frequency)
+    }
+}
+
+fileprivate extension String {
+    // Further explanation on character choices: https://superuser.com/a/358861
+    func sanitizedFileName() -> String {
+        let invalidCharacters = CharacterSet(charactersIn: "\\/:*?\"<>|")
+            .union(.newlines)
+            .union(.illegalCharacters)
+            .union(.controlCharacters)
+
+        return self
+            .components(separatedBy: invalidCharacters)
+            .joined(separator: "")
     }
 }
