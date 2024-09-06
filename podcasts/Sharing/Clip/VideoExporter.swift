@@ -7,7 +7,6 @@ protocol AnimatableContent: View {
     func update(for progress: Double)
 }
 
-@available(iOS 16, *)
 enum VideoExporter {
 
     struct Parameters {
@@ -128,7 +127,6 @@ enum VideoExporter {
         }
     }
 
-    @available(iOS 16, *)
     @MainActor
     private static func pixelBuffer(for view: some View, size: CGSize, scale: CGFloat, with adaptor: AVAssetWriterInputPixelBufferAdaptor) throws -> UnsafeTransfer<CVPixelBuffer> {
         try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: CGSize(width: size.width * scale, height: size.height * scale), scale: scale))

@@ -6,7 +6,7 @@ enum CVPixelBufferError: Error {
 }
 
 extension View {
-    @MainActor @available(iOS 16.0, *)
+    @MainActor
     func pixelBuffer(size: CGSize, scale: CGFloat, pool: CVPixelBufferPool? = nil) throws -> CVPixelBuffer {
         let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
              kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
@@ -42,12 +42,25 @@ extension View {
             throw CVPixelBufferError.failedToCreateContext
         }
 
-        let renderer = ImageRenderer(content: self)
-        renderer.isOpaque = true
-        renderer.scale = scale
+        if #available(iOS 16, *) {
+            let renderer = ImageRenderer(content: self)
+            renderer.isOpaque = true
+            renderer.scale = scale
 
-        let cgImage = renderer.cgImage!
-        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            let cgImage = renderer.cgImage!
+            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        } else {
+            let image = self.snapshot()
+            UIGraphicsPushContext(context)
+
+            let flipTransform = CGAffineTransform(scaleX: 1, y: -1)
+            let offsetTransform = CGAffineTransform(translationX: 0, y: -size.height)
+            context.concatenate(flipTransform)
+            context.concatenate(offsetTransform)
+
+            image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            UIGraphicsPopContext()
+        }
 
         CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
 
