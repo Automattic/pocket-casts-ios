@@ -14,6 +14,7 @@
 - Updated the Google Cast library to 4.8.3
 - Adds new Sharing experience with clip creation [#1910](https://github.com/Automattic/pocket-casts-ios/issues/1910)
 - Fix crash when reordering shelf items on the player [#2122](https://github.com/Automattic/pocket-casts-ios/issues/2122)
+- Fix Skip button when switch player [#2141](https://github.com/Automattic/pocket-casts-ios/issues/2141)
 
 7.71
 -----
