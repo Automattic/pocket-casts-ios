@@ -35,9 +35,9 @@ enum ShareImageStyle: CaseIterable {
     var previewSize: CGSize {
         switch self {
         case .large:
-            CGSize(width: 292, height: 438)
+            CGSize(width: 292, height: 422)
         case .medium:
-            CGSize(width: 292, height: 293)
+            CGSize(width: 292, height: 292)
         case .small:
             CGSize(width: 324, height: 169)
         case .audio:
@@ -77,7 +77,6 @@ struct ShareImageView: View {
                     PocketCastsLogoPill()
                 }
                 .padding(24)
-                .frame(height: style.previewSize.height)
                 .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .medium:
                 background()
@@ -89,7 +88,6 @@ struct ShareImageView: View {
                     PocketCastsLogoPill()
                 }
                 .padding(24)
-                .frame(height: style.previewSize.height)
                 .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .small:
                 background()
@@ -107,7 +105,6 @@ struct ShareImageView: View {
                         .padding(.trailing, 10)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 }
-                .frame(width: style.previewSize.width, height: style.previewSize.height)
                 .aspectRatio(style.previewSize.width/style.previewSize.height, contentMode: .fit)
             case .audio:
                 Image("music")

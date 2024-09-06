@@ -1671,6 +1671,7 @@
 		F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56295282C0FC14900C44E8A /* DBTestCase.swift */; };
 		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
 		F56ADE562B7FE37500ADFE31 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD75442B7FDC2800D65C55 /* SettingsTests.swift */; };
+		F57626B62C8B56C7009C8225 /* String+SanitizedFileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57626B52C8B56C7009C8225 /* String+SanitizedFileName.swift */; };
 		F57BAC672C00CD9C007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F57BAC682C00E7E6007B24BD /* URLSession+Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */; };
 		F57CD7D92C2624AD0035269A /* MediaTrimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CD7D82C2624AD0035269A /* MediaTrimView.swift */; };
@@ -3570,6 +3571,7 @@
 		F55C4C752BCF064500A10352 /* DiscoverViewController+CategoryRedesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+CategoryRedesign.swift"; sourceTree = "<group>"; };
 		F56295282C0FC14900C44E8A /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
+		F57626B52C8B56C7009C8225 /* String+SanitizedFileName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SanitizedFileName.swift"; sourceTree = "<group>"; };
 		F57BAC662C00CD9C007B24BD /* URLSession+Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Episode.swift"; sourceTree = "<group>"; };
 		F57CD7D82C2624AD0035269A /* MediaTrimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTrimView.swift; sourceTree = "<group>"; };
 		F57D8F132C66CA230004C4DF /* UnsafeWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsafeWait.swift; sourceTree = "<group>"; };
@@ -6797,6 +6799,7 @@
 				F55598102C534D4100C02EEB /* CMTimeScale+Common.swift */,
 				F57D8F172C66CDF40004C4DF /* View+CVPixelBuffer.swift */,
 				F51D90752C73141B00F0A232 /* CGSize+FittingSize.swift */,
+				F57626B52C8B56C7009C8225 /* String+SanitizedFileName.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -9894,6 +9897,7 @@
 				10DFE9372C5A8D1300957D0A /* ABTestProvider.swift in Sources */,
 				400AB301220BA8DC0003EE21 /* UploadedViewController+Table.swift in Sources */,
 				4647623128F70CD0006D005A /* AuthenticationHelper.swift in Sources */,
+				F57626B62C8B56C7009C8225 /* String+SanitizedFileName.swift in Sources */,
 				BDDF8AA2240CE240009BA263 /* PlaylistViewController+Swipe.swift in Sources */,
 				BD9324742398BB6B004F19A1 /* TourViewController.swift in Sources */,
 				FF4A73D62C8745D200587128 /* ReferralSendPassView.swift in Sources */,

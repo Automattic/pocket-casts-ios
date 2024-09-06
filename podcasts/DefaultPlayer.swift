@@ -75,6 +75,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         configurePlayer(videoPodcast: episode.videoPodcast())
     }
 
+    func isReadyToPlay() -> Bool {
+        player != nil
+    }
+
     func playing() -> Bool {
         (player?.rate ?? 0) != 0
     }

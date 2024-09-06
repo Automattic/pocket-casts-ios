@@ -33,8 +33,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return cell }
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
-        cell.actionIcon.tintColor = ThemeColor.playerContrast02()
-        cell.actionName.textColor = ThemeColor.playerContrast02()
+        cell.actionIcon.tintColor = ThemeColor.playerContrast01()
+        cell.actionName.textColor = ThemeColor.playerContrast01()
         if !tableView.isEditing {
             cell.actionName.text = action.title(episode: playingEpisode)
             if action != .routePicker {
