@@ -2731,8 +2731,6 @@
     <string>很抱歉，加载此文字转录稿时出现错误</string>
     <key>transcript_error_failed_to_parse</key>
     <string>很抱歉，解析此文字转录稿时出现错误</string>
-    <key>transcript_error_not_available</key>
-    <string>很抱歉，本播客没有文字转录稿</string>
     <key>transcript_error_not_supported</key>
     <string>很抱歉，此文字转录稿格式不受支持：%1$@</string>
     <key>trial_finished</key>
