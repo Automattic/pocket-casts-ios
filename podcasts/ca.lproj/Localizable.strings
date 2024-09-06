@@ -2423,9 +2423,9 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>settings_watch_episode_limit</key>
     <string>Número d'episodis</string>
     <key>settings_watch_episode_limit_subtitle</key>
-    <string>Pocket Casts descarregarà al teu rellotge els %1$@ millors episodis de la llista 'Tot seguit' perquè puguis reproduir-los sense connexió.</string>
+    <string>Pocket Casts descarregarà al teu rellotge els %1$@ principals episodis de la llista 'Tot seguit' perquè puguis reproduir-los sense connexió.</string>
     <key>settings_watch_episode_number_option_format</key>
-    <string>Els  %1$@ millors</string>
+    <string>Els  %1$@ principals</string>
     <key>setup_account</key>
     <string>Configurar el compte</string>
     <key>shake_to_restart_sleep_timer</key>
