@@ -4,8 +4,8 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
 
     private let viewModel: ReferralSendPassModel
 
-    init() {
-        self.viewModel = ReferralSendPassModel()
+    init(viewModel: ReferralSendPassModel) {
+        self.viewModel = viewModel
         let screen = ReferralSendPassView(viewModel: viewModel)
         super.init(rootView: screen)
     }
