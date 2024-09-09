@@ -5,7 +5,7 @@ class ReferralClaimPassModel {
     var onClaimGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(numberOfDaysOffered: Int = 2, onClaimGuestPassTap: (() -> ())? = nil, onClosetap: (() -> (()))? = nil) {
+    init(numberOfDaysOffered: Int = 30, onClaimGuestPassTap: (() -> ())? = nil, onClosetap: (() -> (()))? = nil) {
         self.numberOfDaysOffered = numberOfDaysOffered
         self.onClaimGuestPassTap = onClaimGuestPassTap
         self.onCloseTap = onClosetap
