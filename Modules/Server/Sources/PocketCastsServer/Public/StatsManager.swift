@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 public class StatsManager {
     public static let shared = StatsManager()
@@ -36,7 +37,7 @@ public class StatsManager {
 
     public func addTimeSavedDynamicSpeed(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedDynamicSpeed += seconds
+            self?.savedDynamicSpeed += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -49,7 +50,7 @@ public class StatsManager {
 
     public func addTimeSavedVariableSpeed(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedVariableSpeed += seconds
+            self?.savedVariableSpeed += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -62,7 +63,7 @@ public class StatsManager {
 
     public func addTotalListeningTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.totalListenedTo += seconds
+            self?.totalListenedTo += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -75,7 +76,7 @@ public class StatsManager {
 
     public func addSkippedTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.totalSkipped += seconds
+            self?.totalSkipped += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -88,7 +89,7 @@ public class StatsManager {
 
     public func addAutoSkipTime(_ seconds: TimeInterval) {
         updateQueue.async { [weak self] in
-            self?.savedAutoSkipping += seconds
+            self?.savedAutoSkipping += max(seconds, 0)
             self?.isSynced = false
         }
     }
@@ -140,6 +141,60 @@ public class StatsManager {
             UserDefaults.standard.setValue(remoteStats.startedStatsAt, forKey: ServerConstants.UserDefaults.statsStartedDateServer)
 
             completion?(true)
+        }
+    }
+
+    public func updateLocalStatsIfNeeded(completion: ((Bool) -> Void)?) {
+        guard FeatureFlag.syncStats.enabled else {
+            completion?(false)
+            return
+        }
+
+        ApiServerHandler.shared.loadStatsRequest(getFullData: true) { [weak self] remoteStats in
+            guard let self, let remoteStats = remoteStats else { return }
+
+            var didChange = false
+
+            if Int64(timeSavedDynamicSpeedInclusive()) < remoteStats.silenceRemovalTime {
+                didChange = true
+                updateQueue.sync {
+                    self.savedDynamicSpeed = Double(remoteStats.silenceRemovalTime) - self.timeSavedDynamicSpeedInclusive()
+                }
+            }
+
+            if Int64(totalAutoSkippedTimeInclusive()) < remoteStats.autoSkipTime {
+                didChange = true
+                updateQueue.sync {
+                    self.savedAutoSkipping = Double(remoteStats.autoSkipTime) - self.totalAutoSkippedTimeInclusive()
+                }
+            }
+
+            if Int64(totalSkippedTimeInclusive()) < remoteStats.skipTime {
+                didChange = true
+                updateQueue.sync {
+                    self.totalSkipped = Double(remoteStats.skipTime) - self.totalSkippedTimeInclusive()
+                }
+            }
+
+            if Int64(totalListeningTimeInclusive()) < remoteStats.totalListenTime {
+                didChange = true
+                updateQueue.sync {
+                    self.totalListenedTo = Double(remoteStats.totalListenTime) - self.totalListeningTimeInclusive()
+                }
+            }
+
+            if Int64(timeSavedVariableSpeedInclusive()) < remoteStats.variableSpeedTime {
+                didChange = true
+                updateQueue.sync {
+                    self.savedVariableSpeed = Double(remoteStats.variableSpeedTime) - self.timeSavedVariableSpeedInclusive()
+                }
+            }
+
+            if didChange {
+                persistTimes()
+            }
+
+            completion?(didChange)
         }
     }
 
@@ -216,7 +271,7 @@ public class StatsManager {
     }
 
     private func saveTime(_ time: TimeInterval, key: String) {
-        if time < 0 { return }
+        if time < 0, time < timeForKey(key) { return }
 
         UserDefaults.standard.set(time, forKey: key)
     }

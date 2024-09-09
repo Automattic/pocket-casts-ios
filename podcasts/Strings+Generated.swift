@@ -440,6 +440,22 @@ internal enum L10n {
   internal static var clientErrorTokenDeauth: String { return L10n.tr("Localizable", "client_error_token_deauth") }
   /// Clip
   internal static var clip: String { return L10n.tr("Localizable", "clip") }
+  /// %@ Duration
+  internal static func clipDurationLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "clip_duration_label", String(describing: p1))
+  }
+  /// Creating Clip...
+  internal static var clipLoadingLabel: String { return L10n.tr("Localizable", "clip_loading_label") }
+  /// %@ Start
+  internal static func clipStartLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "clip_start_label", String(describing: p1))
+  }
+  /// Got it
+  internal static var clipsWhatsNewButtonTitle: String { return L10n.tr("Localizable", "clips_whats_new_button_title") }
+  /// You can now share clips of your favorite bits from any episode. We’ve also made easier to share any content to all social media apps.
+  internal static var clipsWhatsNewMessage: String { return L10n.tr("Localizable", "clips_whats_new_message") }
+  /// Clip sharing available now!
+  internal static var clipsWhatsNewTitle: String { return L10n.tr("Localizable", "clips_whats_new_title") }
   /// Close
   internal static var close: String { return L10n.tr("Localizable", "close") }
   /// Color
@@ -468,6 +484,10 @@ internal enum L10n {
   internal static var createAccountFreePrice: String { return L10n.tr("Localizable", "create_account_free_price") }
   /// Everything unlocked
   internal static var createAccountPlusDetails: String { return L10n.tr("Localizable", "create_account_plus_details") }
+  /// Create a .m4a audio file
+  internal static var createAudioClipDescription: String { return L10n.tr("Localizable", "create_audio_clip_description") }
+  /// Create audio file
+  internal static var createAudioClipTitle: String { return L10n.tr("Localizable", "create_audio_clip_title") }
   /// Create clip
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip") }
   /// Create Filter
@@ -1388,6 +1408,8 @@ internal enum L10n {
   internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
   /// Kids Profile
   internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }
+  /// Something went wrong. Please try submitting your feedback again
+  internal static var kidsProfileSubmitError: String { return L10n.tr("Localizable", "kids_profile_submit_error") }
   /// Send
   internal static var kidsProfileSubmitFeedbackSendButton: String { return L10n.tr("Localizable", "kids_profile_submit_feedback_send_button") }
   /// What would you like to see in a Kids profile for Pocket Casts?
@@ -1793,10 +1815,40 @@ internal enum L10n {
   internal static func plusExpirationFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_expiration_format", String(describing: p1))
   }
+  /// Save your favorite bits from any episode and go back to them.
+  internal static var plusFeatureCardTextBookmarks: String { return L10n.tr("Localizable", "plus_feature_card_text_bookmarks") }
+  /// Listen in more places with our Windows, macOS and Web apps.
+  internal static var plusFeatureCardTextDesktop: String { return L10n.tr("Localizable", "plus_feature_card_text_desktop") }
+  /// Fly your true colors. Exclusive icons and themes for our subscribers.
+  internal static var plusFeatureCardTextExtraThemes: String { return L10n.tr("Localizable", "plus_feature_card_text_extra_themes") }
+  /// Organize your podcasts in folders, and keep them in sync across all your devices.
+  internal static var plusFeatureCardTextFolders: String { return L10n.tr("Localizable", "plus_feature_card_text_folders") }
+  /// Get 1 year of premium content from Slumber Studios.
+  internal static var plusFeatureCardTextSlumberStudio: String { return L10n.tr("Localizable", "plus_feature_card_text_slumber_studio") }
+  /// Upload your audio files to cloud storage and have them available everywhere.
+  internal static var plusFeatureCardTextStorage: String { return L10n.tr("Localizable", "plus_feature_card_text_storage") }
+  /// Ditch the phone and go for a run.
+  internal static var plusFeatureCardTextWearOs: String { return L10n.tr("Localizable", "plus_feature_card_text_wear_os") }
+  /// Bookmarks
+  internal static var plusFeatureCardTitleBookmarks: String { return L10n.tr("Localizable", "plus_feature_card_title_bookmarks") }
+  /// Desktop and web apps
+  internal static var plusFeatureCardTitleDesktop: String { return L10n.tr("Localizable", "plus_feature_card_title_desktop") }
+  /// Extra themes and icons
+  internal static var plusFeatureCardTitleExtraThemes: String { return L10n.tr("Localizable", "plus_feature_card_title_extra_themes") }
+  /// Folders
+  internal static var plusFeatureCardTitleFolders: String { return L10n.tr("Localizable", "plus_feature_card_title_folders") }
+  /// Dream with Slumber Studios
+  internal static var plusFeatureCardTitleSlumberStudio: String { return L10n.tr("Localizable", "plus_feature_card_title_slumber_studio") }
+  /// 20 GB of storage
+  internal static var plusFeatureCardTitleStorage: String { return L10n.tr("Localizable", "plus_feature_card_title_storage") }
+  /// Apple Watch and Wear OS playback
+  internal static var plusFeatureCardTitleWearOs: String { return L10n.tr("Localizable", "plus_feature_card_title_wear_os") }
   /// The undying gratitude of everyone here at Pocket Casts
   internal static var plusFeatureGratitude: String { return L10n.tr("Localizable", "plus_feature_gratitude") }
   /// 1 year of exclusive content from Slumber Studios
   internal static var plusFeatureSlumber: String { return L10n.tr("Localizable", "plus_feature_slumber") }
+  /// Dream with Slumber Studios content
+  internal static var plusFeatureSlumberNew: String { return L10n.tr("Localizable", "plus_feature_slumber_new") }
   /// Extra Themes & App Icons
   internal static var plusFeatureThemesIcons: String { return L10n.tr("Localizable", "plus_feature_themes_icons") }
   /// PLUS FEATURES
@@ -1823,7 +1875,7 @@ internal enum L10n {
   internal static var plusMarketingSubtitle: String { return L10n.tr("Localizable", "plus_marketing_subtitle") }
   /// Themes & Icons
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
-  /// Everything you love about Pocket Casts, plus more
+  /// Unlock exclusive features with Pocket Casts Plus
   internal static var plusMarketingTitle: String { return L10n.tr("Localizable", "plus_marketing_title") }
   /// Upload your files to cloud storage and have it available everywhere
   internal static var plusMarketingUpdatedCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_cloud_storage_description") }
@@ -2218,10 +2270,24 @@ internal enum L10n {
   }
   /// Got it
   internal static var ratingWhatsNewButtonTitle: String { return L10n.tr("Localizable", "rating_whats_new_button_title") }
-  /// You can start rating any show in Pocket Casts. Make sure you give it a few listens first and go support your favorite creators!
+  /// Rate your top podcasts and let creators know how much you appreciate their work. Plus, your ratings help others find new favorite shows!
   internal static var ratingWhatsNewMessage: String { return L10n.tr("Localizable", "rating_whats_new_message") }
-  /// Rating podcasts available now!
+  /// Now Available: Podcast Ratings 🎉
   internal static var ratingWhatsNewTitle: String { return L10n.tr("Localizable", "rating_whats_new_title") }
+  /// %1$@-Day Guest Pass
+  internal static func referralsGuestPassOffer(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))
+  }
+  /// Share Guest Pass
+  internal static var referralsShareGuestPass: String { return L10n.tr("Localizable", "referrals_share_guest_pass") }
+  /// Gift %1$@ days of Plus to friends and family
+  internal static func referralsTipMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_tip_message", String(describing: p1))
+  }
+  /// You have %1$@ passes to share
+  internal static func referralsTipTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_tip_title", String(describing: p1))
+  }
   /// FINDING NEW PODCAST EPISODES
   internal static var refreshControlFetchingEpisodes: String { return L10n.tr("Localizable", "refresh_control_fetching_episodes") }
   /// PULL TO REFRESH
@@ -2802,6 +2868,8 @@ internal enum L10n {
   }
   /// Share episode
   internal static var shareEpisodeTitle: String { return L10n.tr("Localizable", "share_episode_title") }
+  /// Stories
+  internal static var shareInstagramStories: String { return L10n.tr("Localizable", "share_instagram_stories") }
   /// Subscribing...
   internal static var shareListSubscribing: String { return L10n.tr("Localizable", "share_list_subscribing") }
   /// More
@@ -3110,6 +3178,18 @@ internal enum L10n {
   internal static var top: String { return L10n.tr("Localizable", "top") }
   /// Transcript
   internal static var transcript: String { return L10n.tr("Localizable", "transcript") }
+  /// Sorry, but it looks this transcript is empty
+  internal static var transcriptErrorEmpty: String { return L10n.tr("Localizable", "transcript_error_empty") }
+  /// Sorry, but something went wrong while loading this transcript
+  internal static var transcriptErrorFailedToLoad: String { return L10n.tr("Localizable", "transcript_error_failed_to_load") }
+  /// Sorry, but something went wrong while parsing this transcript
+  internal static var transcriptErrorFailedToParse: String { return L10n.tr("Localizable", "transcript_error_failed_to_parse") }
+  /// Sorry, but a transcript is not available for this episode.
+  internal static var transcriptErrorNotAvailable: String { return L10n.tr("Localizable", "transcript_error_not_available") }
+  /// Sorry, but this transcript format is not supported: %1$@
+  internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1))
+  }
   /// Trial Finished
   internal static var trialFinished: String { return L10n.tr("Localizable", "trial_finished") }
   /// Trim Silence
@@ -3140,6 +3220,52 @@ internal enum L10n {
   internal static var upNextHistoryExplanation: String { return L10n.tr("Localizable", "up_next_history_explanation") }
   /// Upgrade Account
   internal static var upgradeAccount: String { return L10n.tr("Localizable", "upgrade_account") }
+  /// Save 50%% off your first year
+  internal static var upgradeExperimentDiscountYearlyMembership: String { return L10n.tr("Localizable", "upgrade_experiment_discount_yearly_membership") }
+  /// Free %1$@ Plus trial
+  internal static func upgradeExperimentFreeMembershipFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "upgrade_experiment_free_membership_format", String(describing: p1))
+  }
+  /// Get Pocket Casts Plus
+  internal static var upgradeExperimentPaywallButton: String { return L10n.tr("Localizable", "upgrade_experiment_paywall_button") }
+  /// See all reviews in the App Store
+  internal static var upgradeExperimentReviewsAppStoreButton: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_app_store_button") }
+  /// %1$@ Rating (%2$@K Reviews)
+  internal static func upgradeExperimentReviewsAppStoreInfo(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "upgrade_experiment_reviews_app_store_info", String(describing: p1), String(describing: p2))
+  }
+  /// I've been a long time user and the amount of functionality and customization you get with the free version is astounding. I love that it syncs across devices so I can start listening on my phone and then pick up on an Alexa device. It's my recommendation for anyone who listens to podcasts. Also love the stats!
+  internal static var upgradeExperimentReviewsReviewText0: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_0") }
+  /// 8 years of excellence and continuous improvement
+  internal static var upgradeExperimentReviewsReviewText1: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_1") }
+  /// I've been a Pocket Casts user since 2017.
+  /// 
+  /// This is hands down the best app to listen to podcasts. It's feature rich and actively developed. There have been some complaints about the Ul change but I haven't really noticed it too much.
+  /// 
+  /// This app can be as simple or difficult to use as you'd like it to be. So either let it be a plug and play or set up skip outro and intro timers and any other little feature you want to enable.
+  internal static var upgradeExperimentReviewsReviewText2: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_2") }
+  /// The sync function is magic. Don't know what special magic this app has going on but it's better than any other app l've used.
+  internal static var upgradeExperimentReviewsReviewText3: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_3") }
+  /// Been using this app for 6 years or better, started on android and now l've been on iOS for almost a year. Works the same on both platforms. Easy to find new podcasts to listen to, very nice Ul, can add podcasts by rss feed url too. The watch app is functional, but I mostly use for my play/pause. Sign in with an account to sync across devices but no requirement to do so.
+  internal static var upgradeExperimentReviewsReviewText4: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_4") }
+  /// PC has been my go-to for years. l've tried other podcast apps and always come back to PC for their simplicity, Ul and support. Definitely worth checking it out, especially if you have grown tired of your current podcast app.
+  internal static var upgradeExperimentReviewsReviewText5: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_text_5") }
+  /// Best Podcast App By FAR
+  internal static var upgradeExperimentReviewsReviewTitle0: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_0") }
+  /// The essential podcast app
+  internal static var upgradeExperimentReviewsReviewTitle1: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_1") }
+  /// Best podcasat app out there
+  internal static var upgradeExperimentReviewsReviewTitle2: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_2") }
+  /// Fantastic app
+  internal static var upgradeExperimentReviewsReviewTitle3: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_3") }
+  /// Works great and easy to find or add new pods
+  internal static var upgradeExperimentReviewsReviewTitle4: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_4") }
+  /// Go-To Podcast App
+  internal static var upgradeExperimentReviewsReviewTitle5: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_review_title_5") }
+  /// See why people have upgraded to Plus
+  internal static var upgradeExperimentReviewsText: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_text") }
+  /// Quite simply the best way to listen to podcasts
+  internal static var upgradeExperimentReviewsTitle: String { return L10n.tr("Localizable", "upgrade_experiment_reviews_title") }
   /// Upgrade to %1$@
   internal static func upgradeToPlan(_ p1: Any) -> String {
     return L10n.tr("Localizable", "upgrade_to_plan", String(describing: p1))

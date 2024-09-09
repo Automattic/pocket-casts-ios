@@ -153,6 +153,12 @@
     <string>Закладки уже готовы!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Примите участие в бета-тестировании закладок!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Подпишитесь на Plus, и вы сможете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>В рамках подписки на Patron вы теперь можете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>В рамках подписки на Plus вы теперь можете предварительно выбирать и автоматически пропускать главы во всех выпусках, поддерживающих эту функцию.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Код скопирован в буфер обмена</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,8 @@
     <string>Тема подкаста</string>
     <key>appearance_dark_theme</key>
     <string>Тёмная тема</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Отображать оформление выпусков</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>В некоторых шоу есть специальное оформление отдельных выпусков. Включите эту опцию, и Pocket Casts будет отображать его вместо общего оформления шоу.</string>
     <key>appearance_light_theme</key>
@@ -327,6 +335,10 @@
     <string>Скорость воспроизведения</string>
     <key>carplay_up_next_queue</key>
     <string>Очередь «Следующие»</string>
+    <key>champion_description</key>
+    <string>Благодарим за то, что вы с нами с самого начала! Если вам нравится наше приложение, мы будем рады получить ваш отзыв.</string>
+    <key>champion_title</key>
+    <string>Вы просто чемпион Pocket Casts!</string>
     <key>change_app_icon</key>
     <string>Изменить значок приложения</string>
     <key>change_bookmark_subtitle</key>
@@ -379,6 +391,10 @@
     <string>Сбой токена аутентификации</string>
     <key>clip</key>
     <string>Клип</string>
+    <key>clip_duration_label</key>
+    <string>Продолжительность: %@</string>
+    <key>clip_start_label</key>
+    <string>Начало: %@</string>
     <key>close</key>
     <string>Закрыть</string>
     <key>color</key>
@@ -1201,6 +1217,30 @@
     <string>Открыть плеер</string>
     <key>keycommand_play_pause</key>
     <string>Воспроизведение/пауза</string>
+    <key>kids_profile_banner_badge</key>
+    <string>Уже скоро</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>Запросить ранний доступ </string>
+    <key>kids_profile_banner_text</key>
+    <string>Новый профиль исключительно с детским контентом, не затрагивающим ваши подписки.</string>
+    <key>kids_profile_banner_title</key>
+    <string>Профиль «Дети»</string>
+    <key>kids_profile_submit_error</key>
+    <string>Что-то пошло не так. Попробуйте отправить отзыв ещё раз</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>Отправить</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Что бы вы хотели видеть в профиле «Дети» Pocket Casts?</string>
+    <key>kids_profile_submit_success</key>
+    <string>Спасибо за ваш отзыв!</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>Нет, спасибо</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>Отправить отзыв</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>Когда новый профиль «Дети» будет готов, вы получите уведомление в приложении. Желаете сообщить нам, что вы хотели бы увидеть?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>Благодарим за проявленный интерес!</string>
     <key>learn_more</key>
     <string>Подробнее</string>
     <key>listening_history</key>
@@ -1504,6 +1544,10 @@
     <string>Разблокировать все функции</string>
     <key>plus_cancel_terms</key>
     <string>Можно отменить в любое время</string>
+    <key>plus_champion</key>
+    <string>Чемпион Pocket Casts</string>
+    <key>plus_champion_message</key>
+    <string>Благодарим за то, что вы с Pocket Casts с самого начала! Вы настоящий чемпион!</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>Облачное хранилище %1$@ ГБ</string>
     <key>plus_discount_yearly_membership</key>
@@ -1543,7 +1587,7 @@
     <key>plus_marketing_themes_icons_title</key>
     <string>Темы и значки</string>
     <key>plus_marketing_title</key>
-    <string>Всё, что вам нравится в Pocket Casts, и ещё больше</string>
+    <string>Получите эксклюзивные возможности в Pocket Casts Plus</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Загрузите файлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1849,6 +1893,8 @@
     <string>Оставшееся время %1$@</string>
     <key>rate</key>
     <string>Оценить</string>
+    <key>rate_pocket_casts</key>
+    <string>Оценить Pocket Casts</string>
     <key>rating_error</key>
     <string>Ой! Произошла ошибка.</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1865,6 +1911,12 @@
     <string>Благодарим за оценку!</string>
     <key>rating_title</key>
     <string>Оценить %1$@</string>
+    <key>rating_whats_new_button_title</key>
+    <string>Понятно</string>
+    <key>rating_whats_new_message</key>
+    <string>Оцените лучшие подкасты, чтобы авторы знали, как вам важна их работа. Кроме того, ваши оценки помогут остальным найти новые интересные материалы!</string>
+    <key>rating_whats_new_title</key>
+    <string>Уже доступно: оценки подкастов 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>ПОИСК НОВЫХ ВЫПУСКОВ ПОДКАСТА</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1935,6 +1987,8 @@
     <string>Поиск подкастов</string>
     <key>search_recent</key>
     <string>Последний поиск</string>
+    <key>search_results</key>
+    <string>%1$@ из %2$@</string>
     <key>season</key>
     <string>Сезон</string>
     <key>season_episode_shorthand_format</key>
@@ -2085,6 +2139,8 @@
     <string>Звук добавления в закладки</string>
     <key>settings_bookmark_sound_footer</key>
     <string>Звук подтверждения при создании закладки с помощью наушников.</string>
+    <key>settings_change_avatar</key>
+    <string>Изменить аватар</string>
     <key>settings_collect_information</key>
     <string>Сбор информации</string>
     <key>settings_collect_information_additional_information</key>
@@ -2192,7 +2248,7 @@
     <key>settings_general_play_back_actions</key>
     <string>Дополнительные действия при воспроизведении</string>
     <key>settings_general_play_back_actions_subtitle</key>
-    <string>Добавляет на экран блокировки телефона и CarPlay отметку воспроизведения и опцию включения в избранное. Примечание: на экране блокировки эта кнопка заменит кнопку перехода назад.</string>
+    <string>Добавляет на экран блокировки телефона возможность оценки (в звездах).</string>
     <key>settings_general_player_header</key>
     <string>ПЛЕЕР</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2487,6 +2543,10 @@
     <string>Перейти назад</string>
     <key>skip_chapters</key>
     <string>Предварительный выбор глав</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Возможность предварительно выбирать главы и множество других функций с Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Возможность предварительно выбирать главы и множество других функций с Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Перейти дальше</string>
     <key>sleep_timer</key>
@@ -2665,6 +2725,14 @@
     <string>Вверх</string>
     <key>transcript</key>
     <string>Расшифровка</string>
+    <key>transcript_error_empty</key>
+    <string>Кажется, эта расшифровка пуста</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>К сожалению, во время загрузки этой расшифровки что-то пошло не так</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>К сожалению, во время анализа этой расшифровки что-то пошло не так</string>
+    <key>transcript_error_not_supported</key>
+    <string>К сожалению, этот формат расшифровки не поддерживается: %1$@</string>
     <key>trial_finished</key>
     <string>Пробный период завершен</string>
     <key>trim_silence</key>

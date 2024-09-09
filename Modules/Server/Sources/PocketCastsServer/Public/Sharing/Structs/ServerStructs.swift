@@ -417,12 +417,12 @@ public struct DiscoverCategoryPromotion: Decodable {
 }
 
 public struct RemoteStats {
-    var silenceRemovalTime: Int64
-    var totalListenTime: Int64
-    var autoSkipTime: Int64
-    var variableSpeedTime: Int64
-    var skipTime: Int64
-    var startedStatsAt: Int64
+    public var silenceRemovalTime: Int64
+    public var totalListenTime: Int64
+    public var autoSkipTime: Int64
+    public var variableSpeedTime: Int64
+    public var skipTime: Int64
+    public var startedStatsAt: Int64
 }
 
 public struct PodcastCollectionColors: Codable {

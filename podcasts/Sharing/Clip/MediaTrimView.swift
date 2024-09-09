@@ -15,6 +15,7 @@ struct MediaTrimView: View {
     @State private var playPosition: CGFloat = 0
 
     private enum Constants {
+        static let trimHandleWidth: CGFloat = 17
         static let trimLineWidth: CGFloat = 4
         static let playLineWidth: CGFloat = 3
     }
@@ -25,14 +26,23 @@ struct MediaTrimView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            ScrollableScrollView(scale: $scale, duration: duration, geometry: geometry) { scrollable in
-                AudioWaveformView(scale: scale, width: geometry.size.width * scale)
-                borderView(in: geometry)
-                PlayheadView(position: scaledPosition($playPosition), onChanged: {
-                    print("Moved playhead to: \($0)")
-                })
+            ScrollableScrollView(scale: $scale,
+                                 startTime: $startTime,
+                                 endTime: $endTime,
+                                 duration: duration,
+                                 geometry: geometry,
+                                 additionalEdgeOffsets: UIEdgeInsets(top: 0, left: Constants.trimHandleWidth, bottom: 0, right: (Constants.trimHandleWidth * 2) + Constants.trimLineWidth + Constants.playLineWidth)) { scrollable in
+                AudioWaveformView(width: geometry.size.width * scale)
+                    .border(Colors.trimBorderColor, width: Constants.trimLineWidth)
+                PlayheadView(position: scaledPosition($playPosition), validRange: scaledPosition($startPosition).wrappedValue...scaledPosition($endPosition).wrappedValue)
+                    .onChange(of: playTime) { playTime in
+                        playPosition = durationRelative(value: playTime, for: geometry.size.width).clamped(to: startPosition...endPosition)
+                    }
+                    .onChange(of: playPosition) { playPosition in
+                        playTime = (playPosition * duration) / geometry.size.width
+                    }
                     .frame(width: Constants.playLineWidth)
-                TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), changed: { position, side in
+                TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), handleWidth: Constants.trimHandleWidth, indicatorWidth: Constants.playLineWidth, changed: { position, side in
                     update(position: position, for: side, in: geometry.size.width)
                 })
                 .onAppear {
@@ -45,18 +55,12 @@ struct MediaTrimView: View {
                 .onAppear {
                     initializePositions(in: geometry)
                     DispatchQueue.main.async {
-                        let currentSecond = Int(startTime)
+                        let currentSecond = Int(startTime + (endTime - startTime) / 2)
                         scrollable.scrollTo("\(currentSecond)", anchor: .center)
                     }
                 }
             }
         }
-    }
-
-    private func borderView(in geometry: GeometryProxy) -> some View {
-        RoundedRectangle(cornerRadius: 20)
-            .fill(Color.clear)
-            .border(Colors.trimBorderColor, width: Constants.trimLineWidth)
     }
 
     private func scaledPosition(_ position: Binding<CGFloat>) -> Binding<CGFloat> {
@@ -88,7 +92,7 @@ struct MediaTrimView: View {
         let durationRatio = fullDuration / visibleDuration
 
         // The scale should make the visible duration fit the view width
-        let scale = durationRatio / 2
+        let scale = durationRatio
 
         return max(scale, 1.0)
     }
@@ -105,14 +109,24 @@ struct MediaTrimView: View {
     private func update(position: CGFloat, for side: TrimHandle.Side, in width: CGFloat) {
         let range: ClosedRange<CGFloat>
 
+        let playIndicatorWidth = Constants.playLineWidth / scale
+
         switch side {
         case .leading:
-            range = 0...endPosition
+            range = 0...(endPosition - playIndicatorWidth)
         case .trailing:
-            range = startPosition...width
+            range = (startPosition + playIndicatorWidth)...width
         }
 
-        let scaledPosition = position / scale
+        let modifier: CGFloat
+        switch side {
+        case .leading:
+            modifier = (Constants.trimHandleWidth / 2)
+        case .trailing:
+            modifier = -(Constants.trimHandleWidth / 2)
+        }
+
+        let scaledPosition = (position + modifier) / scale
         let newPosition = scaledPosition.clamped(to: range)
 
         let time = Double(newPosition / width) * duration
@@ -124,6 +138,11 @@ struct MediaTrimView: View {
         case .trailing:
             endTime = time
             endPosition = newPosition
+        }
+
+        let endValue = (endPosition - playIndicatorWidth)
+        if startPosition <= endValue {
+            playPosition = playPosition.clamped(to: startPosition...endValue)
         }
     }
 }

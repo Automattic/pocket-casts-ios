@@ -153,6 +153,12 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>De bladwijzers zijn er!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Doe mee met de bètatests voor bladwijzers!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Neem een Plus-abonnement om waar mogelijk hoofdstukken van afleveringen automatisch voor te selecteren en over te slaan bij aflevering waarbij dit kan.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Met het Patron-abonnement kan je waar mogelijk hoofdstukken van afleveringen automatisch voorselecteren en overslaan.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Met het Plus-abonnement kan je waar mogelijk hoofdstukken van afleveringen automatisch voorselecteren en overslaan.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code gekopieerd naar klembord</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Podcast-artwork</string>
     <key>appearance_dark_theme</key>
     <string>Donker thema</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Artwork van afleveringen gebruiken</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>Sommige shows hebben apart artwork voor bepaalde afleveringen Als je deze optie inschakelt, zal dit worden weergegeven in plaats van het artwork van de show.</string>
     <key>appearance_light_theme</key>
@@ -327,6 +335,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Afspeelsnelheid</string>
     <key>carplay_up_next_queue</key>
     <string>Wachtrij Hierna</string>
+    <key>champion_description</key>
+    <string>Bedankt dat je al sinds het begin op ons vertrouwt! Als je onze app graag gebruikt, horen wij graag je feedback.</string>
+    <key>champion_title</key>
+    <string>Je bent een echte Pocket Casts-kampioen!</string>
     <key>change_app_icon</key>
     <string>App-pictogram veranderen</string>
     <key>change_bookmark_subtitle</key>
@@ -379,6 +391,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Token-authenticatie mislukt.</string>
     <key>clip</key>
     <string>Clip</string>
+    <key>clip_duration_label</key>
+    <string>Duur %@</string>
+    <key>clip_start_label</key>
+    <string>Start %@</string>
     <key>close</key>
     <string>Sluiten</string>
     <key>color</key>
@@ -1201,6 +1217,30 @@ podcasts mee</string>
     <string>Speler openen</string>
     <key>keycommand_play_pause</key>
     <string>Afspelen/pauzeren</string>
+    <key>kids_profile_banner_badge</key>
+    <string>Binnenkort</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>Vroegtijdige toegang aanvragen </string>
+    <key>kids_profile_banner_text</key>
+    <string>Een nieuw profiel met alleen content voor kinderen, om je abonnementen overzichtelijk te houden.</string>
+    <key>kids_profile_banner_title</key>
+    <string>Kids-profiel</string>
+    <key>kids_profile_submit_error</key>
+    <string>Er is iets fout gegaan. Probeer je feedback opnieuw in te dienen</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>Verzenden</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Wat zijn je wensen voor een Kids-profiel voor Pocket Casts?</string>
+    <key>kids_profile_submit_success</key>
+    <string>Bedankt voor je feedback!</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>Nee, bedankt</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>Geef feedback</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>Je ontvangt een melding via de app wanneer het nieuwe Kids-profiel klaar is! Wil je ons je wensen vertellen?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>Bedankt voor je interesse</string>
     <key>learn_more</key>
     <string>Meer weten</string>
     <key>listening_history</key>
@@ -1504,6 +1544,10 @@ UPDATES</string>
     <string>Ontgrendel alle functies</string>
     <key>plus_cancel_terms</key>
     <string>Kan op elk moment worden opgezegd</string>
+    <key>plus_champion</key>
+    <string>Pocket Casts-kampioen</string>
+    <key>plus_champion_message</key>
+    <string>Hartstikke bedankt dat je al vanaf het begin bij Pocket Casts bent. Je bent een kampioen!</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB cloud-opslagruimte</string>
     <key>plus_discount_yearly_membership</key>
@@ -1543,7 +1587,7 @@ UPDATES</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Thema's en pictogrammen</string>
     <key>plus_marketing_title</key>
-    <string>Alles wat je geweldig vindt aan Pocket Casts en meer</string>
+    <string>Ontgrendel exclusieve functies met Pocket Casts Plus</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Wanneer je je bestanden naar een cloudopslag uploadt, zijn ze overal beschikbaar</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1849,6 +1893,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>%1$@ totale resterende tijd</string>
     <key>rate</key>
     <string>Beoordelen</string>
+    <key>rate_pocket_casts</key>
+    <string>Pocket Casts beoordelen</string>
     <key>rating_error</key>
     <string>Oeps! Er was een fout.</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1865,6 +1911,12 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Bedankt voor het beoordelen!</string>
     <key>rating_title</key>
     <string>Beoordeel %1$@</string>
+    <key>rating_whats_new_button_title</key>
+    <string>Duidelijk</string>
+    <key>rating_whats_new_message</key>
+    <string>Beoordeel je favoriete podcasts en laat makers weten wat je van hun werk vindt. Daarnaast kan je met je beoordelingen anderen helpen nieuwe favoriete shows te ontdekken!</string>
+    <key>rating_whats_new_title</key>
+    <string>Nu beschikbaar: podcastbeoordelingen 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>NIEUWE PODCASTAFLEVERINGEN ZOEKEN</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1935,6 +1987,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Podcasts zoeken</string>
     <key>search_recent</key>
     <string>Recente zoekopdrachten</string>
+    <key>search_results</key>
+    <string>%1$@ van %2$@</string>
     <key>season</key>
     <string>Seizoen</string>
     <key>season_episode_shorthand_format</key>
@@ -2085,6 +2139,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Bevestigingsgeluid bladwijzer</string>
     <key>settings_bookmark_sound_footer</key>
     <string>Speel een bevestigingsgeluid op je koptelefoon af nadat een bladwijzer is aangemaakt.</string>
+    <key>settings_change_avatar</key>
+    <string>Avatar wijzigen</string>
     <key>settings_collect_information</key>
     <string>Gegevens verzamelen</string>
     <key>settings_collect_information_additional_information</key>
@@ -2192,7 +2248,7 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <key>settings_general_play_back_actions</key>
     <string>Extra afspeelacties</string>
     <key>settings_general_play_back_actions_subtitle</key>
-    <string>Voegt aan het vergrendelscherm van je telefoon en CarPlay een optie voor het markeren van afleveringen toe die zijn afgespeeld en aan favorieten zijn toegevoegd. Let op: op het vergrendelscherm vervangt deze de knop voor terugspoelen.</string>
+    <string>Voegt aan het vergrendelscherm van je telefoon een optie voor afleveringen als favoriet markeren toe.</string>
     <key>settings_general_player_header</key>
     <string>SPELER</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2487,6 +2543,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Terugspoelen</string>
     <key>skip_chapters</key>
     <string>Hoofdstukken voorselecteren</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Selecteer hoofdstukken voor en geniet van extra functies met Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Selecteer hoofdstukken voor en geniet van extra functies met Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Doorspoelen</string>
     <key>sleep_timer</key>
@@ -2661,6 +2721,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Boven</string>
     <key>transcript</key>
     <string>Transcriptie</string>
+    <key>transcript_error_empty</key>
+    <string>Deze transcriptie blijkt helaas leeg te zijn</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Er is helaas iets misgegaan bij het laden van deze transcriptie</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Er is helaas iets misgegaan met de parsing van deze transcriptie</string>
+    <key>transcript_error_not_supported</key>
+    <string>Deze transcriptie-indeling wordt helaas niet ondersteund: %1$@</string>
     <key>trial_finished</key>
     <string>Proefperiode afgelopen</string>
     <key>trim_silence</key>

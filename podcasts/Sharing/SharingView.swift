@@ -7,89 +7,115 @@ class ClipTime: ObservableObject {
     @Published var end: TimeInterval
     @Published var playback: TimeInterval
 
-    init(start: TimeInterval, end: TimeInterval) {
+    private let originalStart: TimeInterval
+    private let originalEnd: TimeInterval
+
+    var startChanged: Bool {
+        return start != originalStart
+    }
+
+    var endChanged: Bool {
+        return end != originalEnd
+    }
+
+    init(start: TimeInterval, end: TimeInterval, playback: TimeInterval? = nil) {
         self.start = start
         self.end = end
         self.playback = start
+        self.originalStart = start
+        self.originalEnd = end
     }
 }
 
 struct SharingView: View {
 
-    @EnvironmentObject var theme: Theme
+    struct Shareable {
+        var option: SharingModal.Option
+        var style: ShareImageStyle
+        var shareType: UTType? = nil
+    }
 
     private enum Constants {
         static let descriptionMaxWidth: CGFloat = 200
+        static let tabViewPadding: CGFloat = 80 // A value which represents extra padding for UIPageControl of the TabView
     }
 
     let destinations: [ShareDestination]
+    let source: AnalyticsSource
 
-    @State var selectedOption: SharingModal.Option
-
-    @State private var selectedMedia: ShareImageStyle
+    @State private var shareable: Shareable
+    @State private var isExporting: Bool = false
 
     @ObservedObject var clipTime: ClipTime
 
-    init(destinations: [ShareDestination], selectedOption: SharingModal.Option, selectedMedia: ShareImageStyle = .large) {
+    private let clipUUID = UUID().uuidString
+
+    init(destinations: [ShareDestination], selectedOption: SharingModal.Option, selectedStyle: ShareImageStyle = .large, source: AnalyticsSource) {
         self.destinations = destinations
-        self.selectedOption = selectedOption
-        self.selectedMedia = selectedMedia
+        self.shareable = Shareable(option: selectedOption, style: selectedStyle)
 
         switch selectedOption {
-        case .clip(_, let time):
-            self.clipTime = ClipTime(start: time, end: time + 60)
+        case .clip(let episode, let time):
+            let clipDuration: TimeInterval = 60
+            var startTime = time
+            var endTime = time + clipDuration
+            if endTime > episode.duration {
+                startTime = episode.duration - clipDuration
+                endTime = episode.duration
+            }
+            self.clipTime = ClipTime(start: startTime, end: endTime, playback: time)
         default:
             self.clipTime = ClipTime(start: 0, end: 0)
         }
+
+        self.source = source
     }
 
     var body: some View {
         VStack {
             title
-            image
-            switch selectedOption {
-            case .episode, .podcast, .currentPosition:
-                buttons
+            tabView
+            SharingFooterView(clipTime: clipTime, option: $shareable.option, isExporting: $isExporting, destinations: destinations, style: shareable.style, clipUUID: clipUUID, source: source)
+        }
+        .onAppear {
+            var properties = [:]
+            let type: String
+
+            switch shareable.option {
             case .clip(let episode, _):
-                VStack(spacing: 16) {
-                    MediaTrimBar(clipTime: clipTime)
-                        .frame(height: 72)
-                        .tint(color)
-                    Button(L10n.clip, action: {
-                        withAnimation {
-                            selectedOption = .clipShare(episode, clipTime)
-                        }
-                    }).buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: color))
-                }
-                .padding(.horizontal, 16)
-            case .clipShare:
-                buttons
+                properties["episode_uuid"] = episode.uuid
+                type = "clip"
+            case .clipShare(let episode, _, _):
+                properties["episode_uuid"] = episode.uuid
+                type = "clip"
+            case .episode(let episode):
+                properties["episode_uuid"] = episode.uuid
+                type = "episode"
+            case .podcast(let podcast):
+                properties["podcast_uuid"] = podcast.uuid
+                type = "podcast"
+            case .currentPosition(let episode, _):
+                properties["episode_uuid"] = episode.uuid
+                type = "episode_timestamp"
             }
+            properties["clip_uuid"] = clipUUID
+            properties["type"] = type
+
+            Analytics.track(.shareScreenShown, source: source, properties: properties)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
     }
 
-    var color: Color {
-        switch selectedOption {
-        case .clip(let episode, _):
-            PlayerColorHelper.backgroundColor(for: episode)?.color ?? PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
-        default:
-            PlayerColorHelper.playerBackgroundColor01(for: theme.activeTheme).color
-        }
-    }
-
     @ViewBuilder var title: some View {
         VStack {
-            Text(selectedOption.shareTitle)
+            Text(shareable.option.shareTitle(style: shareable.style))
                 .font(.headline)
-            switch selectedOption {
-            case .clip:
-                EmptyView() // Don't show the description to give extra space for trim view
-            case .clipShare(let episode, let clipTime):
+            switch shareable.option {
+            case .clipShare(let episode, let clipTime, _):
                 Button(action: {
                     withAnimation {
-                        selectedOption = .clip(episode, clipTime.playback)
+                        shareable.option = .clip(episode, clipTime.playback)
                     }
                 }) {
                     Text(L10n.editClip)
@@ -102,53 +128,58 @@ struct SharingView: View {
                 }
                 .padding(.top, 14)
             default:
-                Text(L10n.shareDescription)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: Constants.descriptionMaxWidth)
+                EmptyView()
             }
+            Text(shareable.style.shareDescription(option: shareable.option) ?? "‏")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: Constants.descriptionMaxWidth)
         }
     }
 
-    @ViewBuilder var image: some View {
-        TabView(selection: $selectedMedia) {
-            ForEach(ShareImageStyle.allCases, id: \.self) { style in
-                ShareImageView(info: selectedOption.imageInfo, style: style)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .tabItem { Text(style.tabString) }
-            }
-        }
-        .tabViewStyle(.page)
-    }
-
-    @ViewBuilder var buttons: some View {
-        HStack(spacing: 24) {
-            ForEach(destinations, id: \.self) { option in
-                Button {
-                    option.action(selectedOption, selectedMedia)
-                } label: {
-                    VStack {
-                        option.icon
-                            .renderingMode(.template)
-                            .font(size: 20, style: .body, weight: .bold)
-                            .frame(width: 24, height: 24)
-                            .padding(15)
-                            .background {
-                                Circle()
-                                    .foregroundStyle(.white.opacity(0.1))
-                            }
-                        Text(option.name)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+    @ViewBuilder var tabView: some View {
+        GeometryReader { proxy in
+            TabView(selection: $shareable.style) {
+                switch shareable.option {
+                case .clipShare(_, _, let style):
+                    image(style: style, containerHeight: proxy.size.height)
+                case .clip:
+                    ForEach(ShareImageStyle.allCases, id: \.self) { style in
+                        image(style: style, containerHeight: proxy.size.height)
+                    }
+                default:
+                    let styles = ShareImageStyle.allCases.filter { $0 != .audio }
+                    ForEach(styles, id: \.self) { style in
+                        image(style: style, containerHeight: proxy.size.height)
                     }
                 }
             }
+            .tabViewStyle(.page)
         }
+    }
+
+    @ViewBuilder func image(style: ShareImageStyle, containerHeight: CGFloat) -> some View {
+        ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
+            .frame(width: style.previewSize.width, height: style.previewSize.height)
+            .fixedSize()
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .tabItem { Text(style.tabString) }
+            .id(style)
+            .scaleEffect((containerHeight - Constants.tabViewPadding) / ShareImageStyle.large.previewSize.height)
+	}
+
+    private func shareItems(style: ShareImageStyle) -> [Shareable] {
+        var media = shareable
+        media.shareType = style == .audio ? .audio : .video
+        var image = shareable
+        image.shareType = .image
+
+        return [media, (style != .audio ? image : nil)].compactMap { $0 }
     }
 }
 
 #Preview {
-    SharingView(destinations: [.copyLinkOption], selectedOption: .podcast(Podcast.previewPodcast()))
+    SharingView(destinations: [.copyLink], selectedOption: .podcast(Podcast.previewPodcast()), source: .player)
         .background(Color.black)
 }

@@ -211,6 +211,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     func play(completion: (() -> Void)? = nil, userInitiated: Bool = true) {
         guard let currEpisode = currentEpisode() else { return }
 
+        FileLog.shared.addMessage("PlaybackManager Play \(currentEpisode()?.title ?? "unknown episode") userInitiated: \(userInitiated)")
+
         if userInitiated {
             analyticsPlaybackHelper.play()
         }
@@ -261,7 +263,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         // one kind of interruption would be to launch siri and ask it to pause, handle this here
         wasPlayingBeforeInterruption = false
 
-        FileLog.shared.addMessage("pausing playback")
+        FileLog.shared.addMessage("PlaybackManager pausing playback \(currentEpisode()?.title ?? "unknown episode")")
 
         recordPlaybackPosition(sendToServerImmediately: playing(), fireNotifications: true)
 
@@ -296,7 +298,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let currPos = currentTime()
         let backTime = max(currPos - amount, 0)
-        seekTo(time: backTime)
+        seekTo(time: backTime, seekHint: .back)
     }
 
     func skipForward() {
@@ -399,8 +401,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekingTo != PlaybackManager.notSeeking
     }
 
-    func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false) {
-        seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek)
+    func seekTo(time: TimeInterval, startPlaybackAfterSeek: Bool = false, seekHint: SeekHint? = nil) {
+        seekTo(time: time, syncChanges: SyncManager.isUserLoggedIn(), startPlaybackAfterSeek: startPlaybackAfterSeek, seekHint: seekHint)
     }
 
     func seekToFromSync(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool) {
@@ -408,8 +410,18 @@ class PlaybackManager: ServerPlaybackDelegate {
         seekTo(time: time, syncChanges: syncChanges, startPlaybackAfterSeek: startPlaybackAfterSeek)
     }
 
-    func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false) {
+    enum SeekHint {
+        case back
+        case forward
+    }
+
+    func seekTo(time: TimeInterval, syncChanges: Bool, startPlaybackAfterSeek: Bool = false, seekHint: SeekHint? = nil) {
         guard let playingEpisode = currentEpisode() else { return } // nothing to actually seek
+
+        if seekHint == .back, !isValidSeek(time: time) {
+            print("aborting seek because it's moving forward")
+            return
+        }
 
         // if we're seeking an episode, and it's not in progress, it should be
         if !playingEpisode.inProgress() {
@@ -419,7 +431,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         let currentTime = playingEpisode.playedUpTo
         seekingTo = time
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
-        if let player = player {
+
+        let isReadyToPlay = FeatureFlag.playerIsReadyToPlay.enabled ? (player?.isReadyToPlay() == true) : true
+        if let player = player, isReadyToPlay {
             player.seekTo(time, completion: { [weak self] () in
                 guard let strongSelf = self else { return }
 
@@ -453,6 +467,27 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         analyticsPlaybackHelper.seek(from: currentTime, to: time, duration: playingEpisode.duration)
+    }
+
+    private var previousSeekTime: TimeInterval?
+    private let debouncer = Debounce(delay: 1.second)
+
+    // When using EffectsPlayer we have an issue in which rapidly tapping
+    // skip back results (sometimes) in skipping forward
+    // Here we handle that to avoid this issue
+    // See https://github.com/Automattic/pocket-casts-ios/issues/1950
+    private func isValidSeek(time: TimeInterval) -> Bool {
+        if let previousSeekTime, time > previousSeekTime {
+            return false
+        }
+
+        previousSeekTime = time
+
+        debouncer.call { [weak self] in
+            self?.previousSeekTime = nil
+        }
+
+        return true
     }
 
     func currentTime() -> TimeInterval {
@@ -546,6 +581,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             AnalyticsEpisodeHelper.shared.episodeRemovedFromUpNext(episode: episode)
         }
         if isNowPlayingEpisode(episodeUuid: episode?.uuid) {
+            autoplayIfNeeded()
             if queue.upNextCount() > 0 {
                 playNextEpisode(autoPlay: playing())
             } else {
@@ -1807,17 +1843,36 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let userInfo = notification.userInfo else { return }
 
         let interruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as! NSNumber
+        let interruptionReason = userInfo[AVAudioSessionInterruptionReasonKey] as? UInt
         if interruptionType.uintValue == AVAudioSession.InterruptionType.ended.rawValue {
             interruptInProgress = false
             let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as! NSNumber
-            FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio = \(interruptionOption) )")
+            FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio: \(interruptionOption) reason: \(interruptionReason?.description ?? "unknown")")
             if interruptionOption.uintValue == AVAudioSession.InterruptionOptions.shouldResume.rawValue, wasPlayingBeforeInterruption {
                 play(userInitiated: false)
                 wasPlayingBeforeInterruption = false
             }
         } else if interruptionType.uintValue == AVAudioSession.InterruptionType.began.rawValue {
-            interruptInProgress = true
-            FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began")
+            // See https://github.com/Automattic/pocket-casts-ios/issues/2049
+            // Since iOS 17 and watchOS 10, we receive an interruption when audio routes are disconnected.
+            // Previous app logic relied on the fact that InterruptionType.began would always be followed by a
+            // subsequent InterruptionType.ended notification, to set interruptInProgress correctly.
+            // When routes are disconnected, there is no associated end event though. If the route reconnects, we'll
+            // receive a different notification which is already handled elsewhere.
+            // Also put this new check behind a feature flag so we can remotely revert to the old logic if
+            // we run into any issues
+            if #available(iOS 17, watchOS 10, *), FeatureFlag.ignoreRouteDisconnectedInterruption.enabled {
+                if interruptionReason != AVAudioSession.InterruptionReason.routeDisconnected.rawValue {
+                    interruptInProgress = true
+                }
+            } else {
+                // We do not get the InterruptionReason.routeDisconnected notification on older versions, so
+                // no need to perform the same check for older versions.
+                // Also, will default to the old behaviour if the feature flag is disabled on newer versions.
+                interruptInProgress = true
+            }
+
+            FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began reason: \(interruptionReason?.description ?? "unknown")")
             if let player = player {
                 wasPlayingBeforeInterruption = player.shouldBePlaying()
                 player.interruptionDidStart()

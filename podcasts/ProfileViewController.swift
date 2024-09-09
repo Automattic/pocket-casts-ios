@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import SwiftUI
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
@@ -127,6 +128,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
+        showReferralsHintIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -135,8 +137,14 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         refreshControl?.parentViewControllerDidDisappear()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideReferralsHint()
+    }
+
     override func handleThemeChanged() {
         updateRefreshFooterColors()
+        updateReferralsColors()
     }
 
     private func updateRefreshFooterColors() {
@@ -204,6 +212,13 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateLastRefreshDetails() {
+        if areReferralsAvailable {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: referralsButton)
+            updateReferralsColors()
+        } else {
+            navigationItem.leftBarButtonItem = nil
+        }
+
         if !ServerSettings.lastRefreshSucceeded() || !ServerSettings.lastSyncSucceeded() {
             lastRefreshTime.text = !ServerSettings.lastRefreshSucceeded() ? L10n.refreshFailed : L10n.syncFailed
             refreshBtn.buttonTitle = L10n.tryAgain
@@ -287,7 +302,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .endOfYearPrompt:
             return EndOfYearPromptCell()
         case .bookmarks:
-            cell.settingsImage.image = UIImage(named: "bookmarks-shelf-icon")
+            cell.settingsImage.image = UIImage(named: "bookmarks-profile")
             cell.settingsLabel.text = L10n.bookmarks
         }
 
@@ -408,8 +423,128 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         navigationController?.pushViewController(controller, animated: true)
         AnnouncementFlow.current = .none
     }
+
+    // MARK: - Referrals
+
+    private var numberOfReferralsAvailable: Int = 3
+
+    private var areReferralsAvailable: Bool {
+        return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
+    }
+
+    private let numberOfFreeDaysOffered: Int = 30
+
+    private lazy var referralsBadge: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.text = "\(numberOfReferralsAvailable)"
+        label.textAlignment = .center
+        label.layer.borderWidth = 1
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 8
+        label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+        return label
+    }()
+
+    private lazy var referralsButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: ReferralsConstants.giftIcon), for: .normal)
+        button.addTarget(self, action: #selector(referralsTapped), for: .touchUpInside)
+        button.addSubview(referralsBadge)
+        NSLayoutConstraint.activate(
+            [
+                button.widthAnchor.constraint(equalToConstant: ReferralsConstants.giftSize),
+                button.heightAnchor.constraint(equalToConstant: ReferralsConstants.giftSize),
+                referralsBadge.widthAnchor.constraint(equalToConstant: ReferralsConstants.giftBadgeSize),
+                referralsBadge.heightAnchor.constraint(equalToConstant: ReferralsConstants.giftBadgeSize),
+                referralsBadge.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: -ReferralsConstants.giftBadgeSize / 2),
+                referralsBadge.topAnchor.constraint(equalTo: button.topAnchor, constant: -ReferralsConstants.giftBadgeSize / 4)
+            ]
+        )
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = false
+        button.bringSubviewToFront(referralsBadge)
+        return button
+    }()
+
+    private func updateReferrals() {
+        if numberOfReferralsAvailable > 0 {
+            numberOfReferralsAvailable -= 1
+        } else {
+            numberOfReferralsAvailable = 3
+        }
+        referralsBadge.text = "\(numberOfReferralsAvailable)"
+        referralsBadge.isHidden = numberOfReferralsAvailable == 0
+    }
+
+    private func updateReferralsColors() {
+        referralsBadge.backgroundColor = ThemeColor.secondaryIcon01()
+        referralsBadge.textColor = ThemeColor.secondaryUi01()
+        referralsBadge.layer.borderColor = ThemeColor.secondaryUi01().cgColor
+    }
+
+    @objc private func referralsTapped() {
+        updateReferrals()
+        hideReferralsHint()
+        Settings.shouldShowReferralsTip = false
+        let vc = ReferralSendPassVC()
+        present(vc, animated: true)
+    }
+
+    private enum ReferralsConstants {
+        static let giftIcon = "gift"
+        static let giftSize = CGFloat(24)
+        static let giftBadgeSize = CGFloat(16)
+        static let defaultTipSize = CGSizeMake(300, 50)
+    }
+
+    private var referralsTipVC: UIViewController?
+
+    private func showReferralsHintIfNeeded() {
+        guard areReferralsAvailable, numberOfReferralsAvailable > 0, Settings.shouldShowReferralsTip else {
+            return
+        }
+        let vc = makeReferralsHint()
+        present(vc, animated: true, completion: nil)
+        self.referralsTipVC = vc
+    }
+
+    private func hideReferralsHint() {
+        self.referralsTipVC?.dismiss(animated: true)
+    }
+
+    private func makeReferralsHint() -> UIViewController {
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
+                              message: L10n.referralsTipMessage(numberOfFreeDaysOffered),
+                              sizeChanged: { size in
+            vc.preferredContentSize = size
+        } ).setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = ReferralsConstants.defaultTipSize
+        if let popoverPresentationController = vc.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.permittedArrowDirections = .up
+            popoverPresentationController.sourceView = referralsButton
+            popoverPresentationController.sourceRect = referralsButton.bounds
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            popoverPresentationController.passthroughViews = [referralsButton, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
+        }
+        return vc
+    }
+
 }
 
+extension ProfileViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // Return no adaptive presentation style, use default presentation behaviour
+        return .none
+    }
+}
 // MARK: - PlusLockedInfoDelegate
 
 extension ProfileViewController: PlusLockedInfoDelegate {

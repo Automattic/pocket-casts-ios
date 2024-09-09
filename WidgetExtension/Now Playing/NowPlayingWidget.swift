@@ -10,6 +10,6 @@ struct NowPlayingWidget: Widget {
         .contentMarginsDisabledIfAvailable()
         .configurationDisplayName(L10n.nowPlaying)
         .description(L10n.widgetsNowPlayingDesc)
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

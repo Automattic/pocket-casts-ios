@@ -31,10 +31,16 @@ class KidsProfileSheetViewModel: ObservableObject {
 
     func submitFeedback() {
         //Optimistic feedback sent
-        ApiServerHandler.shared.sendFeedback(message: textToSend)
+        Task { @MainActor in
+            let success = await ApiServerHandler.shared.sendFeedback(message: textToSend)
+            if success {
+                Toast.show(L10n.kidsProfileSubmitSuccess)
+            } else {
+                Toast.show(L10n.kidsProfileSubmitError)
+            }
+        }
 
         Analytics.track(.kidsProfileFeedbackSent)
-        Toast.show(L10n.kidsProfileSubmitSuccess)
 
         onDismissScreenTap?()
     }

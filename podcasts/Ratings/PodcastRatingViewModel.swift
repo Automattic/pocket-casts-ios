@@ -30,7 +30,12 @@ class PodcastRatingViewModel: ObservableObject {
 
     /// Updates the rating for the podcast.
     ///
-    func update(podcast: Podcast?) {
+    func update(podcast: Podcast?, ignoringCache: Bool = false) {
+        // If we want to reload and ignore the cache, let's reset the state to waiting and reload
+        if ignoringCache, state == .done {
+            state = .waiting
+        }
+
         self.podcast = podcast
 
         // Don't update if we have already finished or are currently updating
@@ -40,7 +45,7 @@ class PodcastRatingViewModel: ObservableObject {
         state = .loading
 
         Task {
-            let rating = try? await PodcastRatingTask().retrieve(for: uuid)
+            let rating = try? await PodcastRatingTask().retrieve(for: uuid, ignoringCache: ignoringCache)
 
             // Publish on main thread only
             await MainActor.run {
@@ -54,12 +59,20 @@ class PodcastRatingViewModel: ObservableObject {
     private enum LoadingState {
         case waiting, loading, done
     }
+
+    enum RatingSource: String {
+        case button
+        case stars
+    }
 }
 
 // MARK: - View Interactions
 extension PodcastRatingViewModel {
-    func didTapRating() {
+    func didTapRating(source: RatingSource = .button) {
         if FeatureFlag.giveRatings.enabled {
+            Analytics.shared.track(.ratingStarsTapped,
+                                   properties: ["uuid": uuid ?? "unknown",
+                                                "source": source.rawValue])
             if SyncManager.isUserLoggedIn() {
                 presentingGiveRatings = true
             } else {
@@ -69,8 +82,8 @@ extension PodcastRatingViewModel {
             }
         } else {
             presentingGiveRatings = true
-        }
 
-        Analytics.shared.track(.ratingStarsTapped, properties: ["uuid": uuid ?? "unknown"])
+            Analytics.shared.track(.ratingStarsTapped, properties: ["uuid": uuid ?? "unknown"])
+        }
     }
 }

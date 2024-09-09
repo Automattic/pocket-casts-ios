@@ -116,6 +116,10 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
         return false
     }
 
+    func hasCastSession() -> Bool {
+        return GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil
+    }
+
     func buffering() -> Bool {
         if bufferingInitialPartOfEpisode { return true }
 

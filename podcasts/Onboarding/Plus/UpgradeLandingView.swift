@@ -73,6 +73,7 @@ struct UpgradeLandingView: View {
                                     .lineLimit(2)
                                     .padding(.bottom, 16)
                                     .padding(.horizontal, 32)
+                                    .multilineTextAlignment(.center)
                                 UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
                                     .padding(.bottom, 24)
 
@@ -211,5 +212,9 @@ struct UpgradeLandingView_Previews: PreviewProvider {
 extension String {
     var slumberStudiosWithUrl: String {
         self.replacingOccurrences(of: "Slumber Studios", with: "[Slumber Studios](https://slumberstudios.com)")
+    }
+
+    var newSlumberStudiosWithUrl: String {
+        self.replacingOccurrences(of: self, with: "[\(self)](https://slumberstudios.com)")
     }
 }

@@ -153,6 +153,12 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Les favoris sont là !</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Rejoignez-nous pour le bêta-test des favoris !</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Abonnez-vous à Plus dès maintenant pour pouvoir présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Dans le cadre de votre abonnement Patron, vous pouvez maintenant présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Dans le cadre de votre abonnement Plus, vous pouvez maintenant présélectionner et passer automatiquement des chapitres dans n’importe quel épisode qui en comporte.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Code copié dans le presse-papiers</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Illustration du podcast</string>
     <key>appearance_dark_theme</key>
     <string>Thème sombre</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Utiliser l’illustration de l’épisode</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>Certaines émissions ont des illustrations personnalisées pour certains épisodes. Activez cette option et Pocket Casts les affichera à la place de l’illustration de l’émission.</string>
     <key>appearance_light_theme</key>
@@ -327,6 +335,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Vitesse de lecture</string>
     <key>carplay_up_next_queue</key>
     <string>File d’attente</string>
+    <key>champion_description</key>
+    <string>Merci d’être à nos côtés depuis le début ! Si vous aimez utiliser notre application, nous aimerions avoir votre avis.</string>
+    <key>champion_title</key>
+    <string>Vous êtes un véritable soutien de Pocket Casts !</string>
     <key>change_app_icon</key>
     <string>Icône Changer d’application</string>
     <key>change_bookmark_subtitle</key>
@@ -379,6 +391,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Échec du jeton d’authentification.</string>
     <key>clip</key>
     <string>Clip</string>
+    <key>clip_duration_label</key>
+    <string>Durée %@</string>
+    <key>clip_start_label</key>
+    <string>Début %@</string>
     <key>close</key>
     <string>Fermer</string>
     <key>color</key>
@@ -1201,6 +1217,30 @@ podcasts partout avec</string>
     <string>Ouvrir le lecteur</string>
     <key>keycommand_play_pause</key>
     <string>Lecture/Pause</string>
+    <key>kids_profile_banner_badge</key>
+    <string>Bientôt disponible</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>Demande d’accès anticipé </string>
+    <key>kids_profile_banner_text</key>
+    <string>Un nouveau profil composé uniquement de contenu adapté aux enfants pour préserver l’organisation de vos abonnements.</string>
+    <key>kids_profile_banner_title</key>
+    <string>Profil enfants</string>
+    <key>kids_profile_submit_error</key>
+    <string>Un problème est survenu. Veuillez réessayer d’envoyer votre commentaire</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>Envoyer</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Qu’aimeriez-vous voir dans un profil enfants sur Pocket Casts ?</string>
+    <key>kids_profile_submit_success</key>
+    <string>Merci de votre retour !</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>Non, merci</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>Envoyer un commentaire</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>Vous recevrez une notification via l’application lorsque le nouveau profil enfants sera disponible ! Vous désirez nous dire ce que vous aimeriez voir ?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>Merci de votre intérêt</string>
     <key>learn_more</key>
     <string>En savoir plus</string>
     <key>listening_history</key>
@@ -1504,6 +1544,10 @@ MISES À JOUR</string>
     <string>Profiter de toutes les fonctionnalités</string>
     <key>plus_cancel_terms</key>
     <string>Annulation possible à tout moment.</string>
+    <key>plus_champion</key>
+    <string>Soutien Pocket Casts</string>
+    <key>plus_champion_message</key>
+    <string>Merci d’être aux côtés de Pocket Casts depuis le début. Vous êtes un vrai soutien !</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ Go de stockage Cloud</string>
     <key>plus_discount_yearly_membership</key>
@@ -1543,7 +1587,7 @@ MISES À JOUR</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Thèmes et icônes</string>
     <key>plus_marketing_title</key>
-    <string>Tout ce que vous aimez à propos de Pocket Casts, et bien plus encore</string>
+    <string>Accédez à des fonctionnalités exclusives avec Pocket Casts Plus</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Chargez vos fichiers dans le stockage Cloud afin de pouvoir y accéder n’importe où</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1849,6 +1893,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Temps total restant : %1$@</string>
     <key>rate</key>
     <string>Évaluer</string>
+    <key>rate_pocket_casts</key>
+    <string>Évaluer Pocket Casts</string>
     <key>rating_error</key>
     <string>Oups ! Une erreur est survenue.</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1865,6 +1911,12 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Merci pour cette évaluation !</string>
     <key>rating_title</key>
     <string>Évaluer %1$@</string>
+    <key>rating_whats_new_button_title</key>
+    <string>J’ai compris</string>
+    <key>rating_whats_new_message</key>
+    <string>Évaluez vos podcasts préférés et faites savoir aux créateurs à quel point vous appréciez leur travail. De plus, vos évaluations aident les autres utilisateurs à découvrir leurs nouvelles émissions préférées !</string>
+    <key>rating_whats_new_title</key>
+    <string>Nouveauté : évaluations de podcasts 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>RECHERCHE DE NOUVEAUX ÉPISODES DE PODCAST</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1935,6 +1987,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Rechercher des podcasts</string>
     <key>search_recent</key>
     <string>Recherches récentes</string>
+    <key>search_results</key>
+    <string>%1$@ sur %2$@</string>
     <key>season</key>
     <string>Saison</string>
     <key>season_episode_shorthand_format</key>
@@ -2085,6 +2139,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Son de confirmation lors de l’ajout d’un signet</string>
     <key>settings_bookmark_sound_footer</key>
     <string>Émettez un son de confirmation dans votre casque après la création d’un signet.</string>
+    <key>settings_change_avatar</key>
+    <string>Modifier l’avatar</string>
     <key>settings_collect_information</key>
     <string>Collecter des informations</string>
     <key>settings_collect_information_additional_information</key>
@@ -2192,7 +2248,7 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <key>settings_general_play_back_actions</key>
     <string>Actions de lecture supplémentaires</string>
     <key>settings_general_play_back_actions_subtitle</key>
-    <string>Ajoute une option de marquage de lecture et de favori (étoile) à l’écran de verrouillage de votre téléphone et à CarPlay. Remarque : sur l’écran de verrouillage, ce bouton remplacera le bouton de retour rapide.</string>
+    <string>Ajoute une option étoile sur l’écran de verrouillage de votre téléphone.</string>
     <key>settings_general_player_header</key>
     <string>LECTEUR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2487,6 +2543,10 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Retour rapide</string>
     <key>skip_chapters</key>
     <string>Présélectionner des chapitres</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Présélectionner des chapitres et plus encore avec Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Présélectionner des chapitres et plus encore avec Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Avance rapide</string>
     <key>sleep_timer</key>
@@ -2665,6 +2725,14 @@ Votre adresse e-mail, votre mot de passe et d’autres éléments sensibles ne s
     <string>Haut</string>
     <key>transcript</key>
     <string>Transcription</string>
+    <key>transcript_error_empty</key>
+    <string>Veuillez nous excuser. Cette transcription semble vide</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Veuillez nous excuser. Un problème s’est produit lors du chargement de cette transcription</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Veuillez nous excuser. Un problème s’est produit lors de l’analyse de cette transcription</string>
+    <key>transcript_error_not_supported</key>
+    <string>Veuillez nous excuser. Ce format de transcription n’est pas pris en charge : %1$@</string>
     <key>trial_finished</key>
     <string>Essai terminé</string>
     <key>trim_silence</key>

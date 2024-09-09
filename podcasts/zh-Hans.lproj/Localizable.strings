@@ -153,6 +153,12 @@
     <string>书签在这里！</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>加入我们的 Beta 测试，试用书签功能！</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>立即订阅 Plus，然后您就能在任何支持相应功能的剧集中自动预选和跳过章节。</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>订阅 Patron 后，您就能在任何支持相应功能的剧集中自动预选和跳过章节。</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>订阅 Plus 后，您就能在任何支持相应功能的剧集中自动预选和跳过章节。</string>
     <key>announcement_slumber_code_copied</key>
     <string>代码已复制到剪贴板</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,8 @@
     <string>播客插图</string>
     <key>appearance_dark_theme</key>
     <string>深色主题</string>
+    <key>appearance_embedded_artwork</key>
+    <string>使用剧集插图</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>有些节目会为特定剧集定制插图。 启用此选项后，Pocket Casts 将显示剧集的插图，而非节目的插图。</string>
     <key>appearance_light_theme</key>
@@ -327,6 +335,10 @@
     <string>播放速度</string>
     <key>carplay_up_next_queue</key>
     <string>“接下来播放”队列</string>
+    <key>champion_description</key>
+    <string>感谢您从一开始就与我们同在！ 如果您喜欢使用我们的应用程序，我们很乐意听取您的反馈意见。</string>
+    <key>champion_title</key>
+    <string>您是 Pocket Casts 真正的拥护者！</string>
     <key>change_app_icon</key>
     <string>更改应用图标</string>
     <key>change_bookmark_subtitle</key>
@@ -379,6 +391,10 @@
     <string>令牌身份验证失败。</string>
     <key>clip</key>
     <string>片段</string>
+    <key>clip_duration_label</key>
+    <string>%@ 时长</string>
+    <key>clip_start_label</key>
+    <string>%@ 开始时间</string>
     <key>close</key>
     <string>关闭</string>
     <key>color</key>
@@ -1201,6 +1217,30 @@
     <string>打开播放器</string>
     <key>keycommand_play_pause</key>
     <string>播放/暂停</string>
+    <key>kids_profile_banner_badge</key>
+    <string>即将推出</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>请求抢先体验 </string>
+    <key>kids_profile_banner_text</key>
+    <string>仅包含儿童相关内容的新个人资料，可保持订阅界面整洁有序。</string>
+    <key>kids_profile_banner_title</key>
+    <string>儿童个人资料</string>
+    <key>kids_profile_submit_error</key>
+    <string>出错了。 请尝试重新提交您的反馈</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>发送</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>您希望在 Pocket Casts 的儿童个人资料中看到什么内容？</string>
+    <key>kids_profile_submit_success</key>
+    <string>感谢您的反馈！</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>不用，谢谢</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>发送反馈</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>当新的儿童个人资料准备就绪时，您会通过应用程序收到通知！ 想告诉我们您想看到的内容？</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>感谢您的关注</string>
     <key>learn_more</key>
     <string>了解更多</string>
     <key>listening_history</key>
@@ -1504,6 +1544,10 @@
     <string>解锁所有功能</string>
     <key>plus_cancel_terms</key>
     <string>可随时取消</string>
+    <key>plus_champion</key>
+    <string>Pocket Casts 拥护者</string>
+    <key>plus_champion_message</key>
+    <string>感谢您从一开始就与 Pocket Casts 同在。 您是真正的拥护者！</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB 云存储</string>
     <key>plus_discount_yearly_membership</key>
@@ -1543,7 +1587,7 @@
     <key>plus_marketing_themes_icons_title</key>
     <string>主题和图标</string>
     <key>plus_marketing_title</key>
-    <string>您喜欢的 Pocket Casts 的一切，还有更多内容</string>
+    <string>通过 Pocket Casts Plus 解锁独家功能</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>将文件上传到云存储空间，在任何地方都能访问这些文件</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1849,6 +1893,8 @@
     <string>总剩余时间为 %1$@</string>
     <key>rate</key>
     <string>评分</string>
+    <key>rate_pocket_casts</key>
+    <string>为 Pocket Casts 评分</string>
     <key>rating_error</key>
     <string>糟糕！ 出现错误。</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1865,6 +1911,12 @@
     <string>感谢您的评分！</string>
     <key>rating_title</key>
     <string>为 %1$@ 评分</string>
+    <key>rating_whats_new_button_title</key>
+    <string>知道了</string>
+    <key>rating_whats_new_message</key>
+    <string>为您喜爱的播客评分，让创作者知道您有多欣赏他们的作品。 此外，您的评分还能帮助他人找到节目新宠！</string>
+    <key>rating_whats_new_title</key>
+    <string>现已上线：播客评分功能 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>查找新的播客剧集</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1935,6 +1987,8 @@
     <string>搜索播客</string>
     <key>search_recent</key>
     <string>最近搜索</string>
+    <key>search_results</key>
+    <string>第 %1$@ 个，共 %2$@ 个</string>
     <key>season</key>
     <string>季</string>
     <key>season_episode_shorthand_format</key>
@@ -2085,6 +2139,8 @@
     <string>书签确认声</string>
     <key>settings_bookmark_sound_footer</key>
     <string>在使用耳机创建书签后播放确认声。</string>
+    <key>settings_change_avatar</key>
+    <string>更改头像</string>
     <key>settings_collect_information</key>
     <string>收集信息</string>
     <key>settings_collect_information_additional_information</key>
@@ -2192,7 +2248,7 @@
     <key>settings_general_play_back_actions</key>
     <string>额外播放操作</string>
     <key>settings_general_play_back_actions_subtitle</key>
-    <string>在手机锁定屏幕和 CarPlay 中添加“已播放”标记和“星标”选项。 注意：在锁定屏幕上，这将取代后跳按钮。</string>
+    <string>在手机锁定屏幕中添加“星标”选项。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2487,6 +2543,10 @@
     <string>后跳</string>
     <key>skip_chapters</key>
     <string>预选章节</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>使用 Pocket Casts Patron，享受预选章节等更多功能</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>使用 Pocket Casts Plus，享受预选章节等更多功能</string>
     <key>skip_forward</key>
     <string>前跳</string>
     <key>sleep_timer</key>
@@ -2665,6 +2725,14 @@
     <string>顶部</string>
     <key>transcript</key>
     <string>文字转录稿</string>
+    <key>transcript_error_empty</key>
+    <string>很抱歉，此文字转录稿似乎为空</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>很抱歉，加载此文字转录稿时出现错误</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>很抱歉，解析此文字转录稿时出现错误</string>
+    <key>transcript_error_not_supported</key>
+    <string>很抱歉，此文字转录稿格式不受支持：%1$@</string>
     <key>trial_finished</key>
     <string>试用完成</string>
     <key>trim_silence</key>
@@ -2766,7 +2834,7 @@
     <key>welcome_discover_title</key>
     <string>发现新事物</string>
     <key>welcome_import_button</key>
-    <string>导入博客</string>
+    <string>导入播客</string>
     <key>welcome_import_description</key>
     <string>来自其他应用？ 随时随地访问您的播客。</string>
     <key>welcome_import_title</key>

@@ -176,10 +176,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var cancellables = Set<AnyCancellable>()
 
     lazy var ratingView: UIView = {
-        let view = StarRatingView(viewModel: podcastRatingViewModel)
+        let view = StarRatingView(viewModel: podcastRatingViewModel,
+                                  onRate: { [weak self] in
+            self?.podcastRatingViewModel.update(podcast: self?.podcast, ignoringCache: true)
+        })
             .padding(.top, 10)
             .themedUIView
-
         view.backgroundColor = .clear
         return view
     }()
@@ -438,7 +440,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let podcast = podcast else { return }
 
         let sourceRect = sender.superview!.convert(sender.frame, to: view)
-        SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, sourceRect: sourceRect, sourceView: view)
+        SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, fromSource: analyticsSource, sourceRect: sourceRect, sourceView: view)
         Analytics.track(.podcastScreenShareTapped)
         Analytics.track(.podcastShared, properties: ["type": "podcast", "source": analyticsSource])
     }

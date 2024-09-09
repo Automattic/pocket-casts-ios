@@ -109,8 +109,9 @@ struct PlusAccountUpgradePrompt: View {
             PaidFeature.deselectChapters.tier == .plus ? .init(iconName: "rounded-selected", title: L10n.skipChapters) : nil,
             .init(iconName: "plus-feature-cloud", title: L10n.plusCloudStorageLimit),
             .init(iconName: "plus-feature-watch", title: L10n.plusMarketingWatchPlaybackTitle),
+            FeatureFlag.slumber.enabled && FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumberNew.newSlumberStudiosWithUrl) : nil,
             .init(iconName: "plus-feature-themes", title: L10n.plusFeatureThemesIcons),
-            FeatureFlag.slumber.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : nil
+            FeatureFlag.slumber.enabled && !FeatureFlag.upgradeExperiment.enabled ? Feature(iconName: "plus-feature-slumber", title: L10n.plusFeatureSlumber.slumberStudiosWithUrl) : nil
         ]
             .compactMap { $0 }),
 

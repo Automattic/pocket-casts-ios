@@ -1,8 +1,15 @@
 import UIKit
 import PocketCastsDataModel
 
-class TranscriptShelfButton: UIButton {
+class TranscriptShelfButton: UIButton, CheckTranscriptAvailability {
+    var isTranscriptEnabled: Bool {
+        didSet {
+            imageView?.tintColor = isTranscriptEnabled ? ThemeColor.playerContrast02() : ThemeColor.playerContrast06()
+        }
+    }
+
     override init(frame: CGRect) {
+        isTranscriptEnabled = false
         super.init(frame: frame)
         addObservers()
         checkTranscriptAvailability()
@@ -13,26 +20,36 @@ class TranscriptShelfButton: UIButton {
     }
 
     func addObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(episodeTranscriptAvailabilityChanged), name: Constants.Notifications.episodeTranscriptAvailabilityChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(playbackTrackChanged), name: Constants.Notifications.playbackTrackChanged, object: nil)
+        addTranscriptObservers()
     }
+}
 
-    @objc func playbackTrackChanged() {
-        checkTranscriptAvailability()
-    }
+protocol CheckTranscriptAvailability: AnyObject {
+    var isTranscriptEnabled: Bool { get set }
 
-    @objc func episodeTranscriptAvailabilityChanged(notification: NSNotification) {
-        guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
-              let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
-              episodeUuid == PlaybackManager.shared.currentEpisode()?.uuid else {
-            return
+    func addTranscriptObservers()
+    func checkTranscriptAvailability()
+}
+
+extension CheckTranscriptAvailability {
+    func addTranscriptObservers() {
+        NotificationCenter.default.addObserver(forName: Constants.Notifications.episodeTranscriptAvailabilityChanged, object: nil, queue: .main) { [weak self] notification in
+            guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
+                  let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
+                  episodeUuid == PlaybackManager.shared.currentEpisode()?.uuid else {
+                return
+            }
+
+            self?.isTranscriptEnabled = isAvailable
         }
 
-        isEnabled = isAvailable
+        NotificationCenter.default.addObserver(forName: Constants.Notifications.playbackTrackChanged, object: nil, queue: .main) { [weak self] notification in
+            self?.checkTranscriptAvailability()
+        }
     }
 
-    private func checkTranscriptAvailability() {
-        isEnabled = false
+    func checkTranscriptAvailability() {
+        isTranscriptEnabled = false
         let currentEpisode = PlaybackManager.shared.currentEpisode() as? Episode
         currentEpisode?.checkTranscriptAvailability()
     }

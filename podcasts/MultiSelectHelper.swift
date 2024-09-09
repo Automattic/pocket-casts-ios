@@ -326,8 +326,6 @@ class MultiSelectHelper {
             return
         }
 
-        Analytics.track(.podcastShared, properties: ["type": "episode", "source": "multi_select"])
-
         guard let sourceView = view ?? actionDelegate.multiSelectPresentingViewController().view else {
             return
         }
@@ -337,7 +335,9 @@ class MultiSelectHelper {
                                          fromController: actionDelegate.multiSelectPresentingViewController(),
                                          sourceRect: sourceView.bounds,
                                          sourceView: sourceView,
-                                         showArrow: view != nil)
+                                         showArrow: view != nil,
+                                         fromSource: .multiSelect
+        )
     }
 
     // MARK: - Selection Helpers

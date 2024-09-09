@@ -18,10 +18,10 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.isEditing {
             if section == ShelfActionsViewController.shortcutSection {
-                return Constants.Limits.maxShelfActions
+                return Constants.Limits.maxShelfActions + maxShelfActionsAdjustment
             }
 
-            return allActions.count - Constants.Limits.maxShelfActions
+            return allActions.count - (Constants.Limits.maxShelfActions + maxShelfActionsAdjustment)
         } else {
             return extraActions.count
         }
@@ -33,7 +33,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return cell }
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
-
+        cell.actionIcon.tintColor = ThemeColor.playerContrast01()
+        cell.actionName.textColor = ThemeColor.playerContrast01()
         if !tableView.isEditing {
             cell.actionName.text = action.title(episode: playingEpisode)
             if action != .routePicker {
@@ -51,11 +52,21 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
             } else {
                 cell.actionIcon.tintColor = ThemeColor.playerContrast02()
             }
+
+            // Disable transcript if not available
+            let isTranscriptsAndIsDisable = action == .transcript && !isTranscriptEnabled
+            if isTranscriptsAndIsDisable {
+                cell.actionIcon.tintColor = ThemeColor.playerContrast06()
+                cell.actionName.textColor = ThemeColor.playerContrast06()
+            }
         } else {
             cell.actionName.text = action.title(episode: nil)
             cell.actionIcon.image = UIImage(named: action.iconName(episode: nil))
             cell.customViewContainer.removeAllSubviews()
             cell.actionIcon.tintColor = ThemeColor.playerContrast02()
+
+            cell.actionIcon.layer.opacity = 1
+            cell.actionName.layer.opacity = 1
         }
 
         cell.actionSubtitle.text = (tableView.isEditing && playingEpisode is UserEpisode) ? action.subtitle() : nil
@@ -68,6 +79,11 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: true)
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
+
+        if action == .transcript && !isTranscriptEnabled {
+            Toast.show(TranscriptError.notAvailable.localizedDescription)
+            return
+        }
 
         Analytics.track(.playerShelfActionTapped, properties: ["action": action.analyticsDescription, "from": "overflow_menu"])
 
@@ -131,17 +147,21 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
         // if someone has moved something into the shortcut section, move the bottom item out. Done async so that this method can return first
         if destinationIndexPath.section == ShelfActionsViewController.shortcutSection, sourceIndexPath.section != ShelfActionsViewController.shortcutSection {
-            DispatchQueue.main.async {
+            maxShelfActionsAdjustment = 1
+            DispatchQueue.main.async { [weak self] in
                 tableView.beginUpdates()
-                tableView.moveRow(at: IndexPath(row: 4, section: ShelfActionsViewController.shortcutSection), to: IndexPath(row: 0, section: ShelfActionsViewController.menuSection))
+                tableView.moveRow(at: IndexPath(row: Constants.Limits.maxShelfActions, section: ShelfActionsViewController.shortcutSection), to: IndexPath(row: 0, section: ShelfActionsViewController.menuSection))
+                self?.maxShelfActionsAdjustment = 0
                 tableView.endUpdates()
             }
         }
         // another option is they could move something out of the shortcut section into the menu section, which also requires a re-shuffle
         else if destinationIndexPath.section == ShelfActionsViewController.menuSection, sourceIndexPath.section == ShelfActionsViewController.shortcutSection {
-            DispatchQueue.main.async {
+            maxShelfActionsAdjustment = -1
+            DispatchQueue.main.async { [weak self] in
                 tableView.beginUpdates()
-                tableView.moveRow(at: IndexPath(row: 0, section: ShelfActionsViewController.menuSection), to: IndexPath(row: 3, section: ShelfActionsViewController.shortcutSection))
+                tableView.moveRow(at: IndexPath(row: 0, section: ShelfActionsViewController.menuSection), to: IndexPath(row: Constants.Limits.maxShelfActions-1, section: ShelfActionsViewController.shortcutSection))
+                self?.maxShelfActionsAdjustment = 0
                 tableView.endUpdates()
             }
         }

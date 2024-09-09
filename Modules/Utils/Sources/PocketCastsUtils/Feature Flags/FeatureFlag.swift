@@ -85,6 +85,33 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enables the Kids banner
     case kidsProfile
 
+    /// Enable the new Upgrade Experiments
+    case upgradeExperiment
+
+    /// When enabled, we ignore audio interruptions with InterruptionReason set to routeDisconnected
+    /// (introduced in iOS 17 and watchOS 10) because these are not really interruptions as we have
+    /// implemented them previously. If the route is disconnected, audio stops indefinitely
+    /// until a new route connects (for which we'll received a different notification and handle accordingly)
+    /// See: https://github.com/Automattic/pocket-casts-ios/issues/2049
+    case ignoreRouteDisconnectedInterruption
+
+    /// Enable the Referrals feature
+    case referrals
+
+    /// When accessing Stats, it checks if the local stats are behind remote
+    /// If it is, it updates it
+    /// This is meant to fix an issue for users that were losing stats
+    case syncStats
+
+    /// Enable the refactored discover collection view
+    case discoverCollectionView
+
+    /// Uses the `isReadyToPlay` function to decide what logic to use when skipping.
+    /// There's some scenario when the Default player switched to the Effects player when the stream is paused.
+    /// This makes the skip unusable as the player doesn't have its task set yet.
+    /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
+    case playerIsReadyToPlay
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -142,13 +169,25 @@ public enum FeatureFlag: String, CaseIterable {
         case .accelerateEffects:
             true
         case .newSharing:
-            false
+            true
         case .transcripts:
-            false
+            true
         case .gravatarChangeAvatar:
             true
         case .kidsProfile:
             false
+        case .upgradeExperiment:
+            false
+        case .ignoreRouteDisconnectedInterruption:
+            true
+        case .referrals:
+            false
+        case .syncStats:
+            true
+        case .discoverCollectionView:
+            false
+        case .playerIsReadyToPlay:
+            true
         }
     }
 

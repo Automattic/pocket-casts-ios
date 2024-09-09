@@ -57,8 +57,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         return (metadata?.chapters, nil)
     }
 
-    public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String, cacheTranscript: Bool = false
-    ) async throws -> [Episode.Metadata.Transcript] {
+    public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> [Episode.Metadata.Transcript] {
 #if os(watchOS)
         return []
 #else
@@ -68,9 +67,6 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             return []
         }
 
-        if cacheTranscript {
-            let _ = try? await transcriptDataRetriever.loadBestTranscript(from: transcripts)
-        }
         return transcripts
 #endif
     }
@@ -92,13 +88,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             return try await task.value
         }
 
-        let task = Task<Episode.Metadata?, Error> { [unowned self] in
+        let task = Task<Episode.Metadata?, Error> { [weak self] in
+            guard let self else { throw TaskError.nilSelf }
+
             do {
                 let data = try await dataRetriever.loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid)
-                requestingShowInfo[episodeUuid] = nil
+                await setRequestingShowInfoToNil(for: episodeUuid)
                 return await getShowInfo(for: data?.data(using: .utf8))
             } catch {
-                requestingShowInfo[episodeUuid] = nil
+                await setRequestingShowInfoToNil(for: episodeUuid)
                 throw error
             }
         }
@@ -106,6 +104,10 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         requestingShowInfo[episodeUuid] = task
 
         return try await task.value
+    }
+
+    private func setRequestingShowInfoToNil(for episodeUuid: String) {
+        requestingShowInfo[episodeUuid] = nil
     }
 
     private func getShowInfo(for data: Data?) async -> Episode.Metadata? {

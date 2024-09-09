@@ -29,6 +29,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        fixTarBarTraitCollectionOnIpadForiOS18()
+
         if FeatureFlag.upNextOnTabBar.enabled {
             pcTabs = [.podcasts, .filter, .discover, .upNext, .profile]
         } else {
@@ -43,7 +45,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let filtersViewController = PlaylistsViewController()
         filtersViewController.tabBarItem = UITabBarItem(title: L10n.filters, image: UIImage(named: "filters_tab"), tag: pcTabs.firstIndex(of: .filter)!)
 
-        let discoverViewController = DiscoverViewController(coordinator: DiscoverCoordinator())
+        let discoverViewController: UIViewController
+        if FeatureFlag.discoverCollectionView.enabled {
+            discoverViewController = DiscoverCollectionViewController(coordinator: DiscoverCoordinator())
+        } else {
+            discoverViewController = DiscoverViewController(coordinator: DiscoverCoordinator())
+        }
         discoverViewController.tabBarItem = UITabBarItem(title: L10n.discover, image: UIImage(named: "discover_tab"), tag: pcTabs.firstIndex(of: .discover)!)
 
         let profileViewController = ProfileViewController()
@@ -137,9 +144,24 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         Settings.shouldShowInitialOnboardingFlow = false
     }
 
+    private func fixTarBarTraitCollectionOnIpadForiOS18() {
+        if #available(iOS 18.0, *),
+            UIDevice.current.userInterfaceIdiom == .pad {
+            traitOverrides.horizontalSizeClass = .compact
+            if let rootHorizontalSizeClass = view.window?.traitCollection.horizontalSizeClass {
+                tabBar.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
+                if let viewControllers {
+                    for vc in viewControllers {
+                        vc.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
+                    }
+                }
+            }
+        }
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-
+        fixTarBarTraitCollectionOnIpadForiOS18()
         fireSystemThemeMayHaveChanged()
     }
 
@@ -278,6 +300,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func navigateToDiscover(_ animated: Bool) {
         switchToTab(.discover)
+    }
+
+    func navigateToUpNext(_ animated: Bool) {
+        switchToTab(.upNext)
     }
 
     func navigateToProfile(_ animated: Bool) {

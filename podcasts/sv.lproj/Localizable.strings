@@ -153,6 +153,12 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Bokmärkena är här!</string>
     <key>announcement_bookmarks_title_beta</key>
     <string>Var med och betatesta bokmärken!</string>
+    <key>announcement_deselect_chapters_free</key>
+    <string>Prenumerera på Plus nu så att du kan välja och hoppa över kapitel automatiskt i avsnitt som stöder detta.</string>
+    <key>announcement_deselect_chapters_patron</key>
+    <string>Som en del av din Patron-prenumeration kan du nu välja och hoppa över kapitel automatiskt i avsnitt som stöder detta.</string>
+    <key>announcement_deselect_chapters_plus</key>
+    <string>Som en del av din Plus-prenumeration kan du nu välja och hoppa över kapitel automatiskt i avsnitt som stöder detta.</string>
     <key>announcement_slumber_code_copied</key>
     <string>Kod kopierad till urklipp</string>
     <key>announcement_slumber_non_plus_description</key>
@@ -213,6 +219,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Podcastomslag</string>
     <key>appearance_dark_theme</key>
     <string>Mörkt tema</string>
+    <key>appearance_embedded_artwork</key>
+    <string>Använd avsnittsomslag</string>
     <key>appearance_embedded_artwork_subtitle</key>
     <string>Vissa serier har anpassade omslag för specifika avsnitt. Aktivera det här alternativet så visar Pocket Casts dem istället för seriens omslag.</string>
     <key>appearance_light_theme</key>
@@ -327,6 +335,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Uppspelningshastighet</string>
     <key>carplay_up_next_queue</key>
     <string>Nästa-kö</string>
+    <key>champion_description</key>
+    <string>Tack för att du varit med oss sedan starten. Om du tycker om att använda vår app vill vi gärna höra din feedback.</string>
+    <key>champion_title</key>
+    <string>Du är en sann förespråkare för Pocket Casts.</string>
     <key>change_app_icon</key>
     <string>Ändra appikon</string>
     <key>change_bookmark_subtitle</key>
@@ -379,6 +391,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Tokenautentiseringen misslyckades.</string>
     <key>clip</key>
     <string>Klipp</string>
+    <key>clip_duration_label</key>
+    <string>%@ Längd</string>
+    <key>clip_start_label</key>
+    <string>%@ Start</string>
     <key>close</key>
     <string>Stäng</string>
     <key>color</key>
@@ -1201,6 +1217,30 @@ podcasts med dig</string>
     <string>Öppna spelare</string>
     <key>keycommand_play_pause</key>
     <string>Spela upp/pausa</string>
+    <key>kids_profile_banner_badge</key>
+    <string>Snart</string>
+    <key>kids_profile_banner_request_button</key>
+    <string>Begär tidig åtkomst </string>
+    <key>kids_profile_banner_text</key>
+    <string>En ny profil med endast innehåll för barn för att hålla ordning på dina prenumerationer.</string>
+    <key>kids_profile_banner_title</key>
+    <string>Barnprofil</string>
+    <key>kids_profile_submit_error</key>
+    <string>Något gick fel. Försök skicka din feedback igen</string>
+    <key>kids_profile_submit_feedback_send_button</key>
+    <string>Skicka</string>
+    <key>kids_profile_submit_feedback_title</key>
+    <string>Vad skulle du vilja se i en barnprofil för Pocket Casts?</string>
+    <key>kids_profile_submit_success</key>
+    <string>Tack för din feedback!</string>
+    <key>kids_profile_thankyou_button_close</key>
+    <string>Nej tack</string>
+    <key>kids_profile_thankyou_button_send</key>
+    <string>Skicka feedback</string>
+    <key>kids_profile_thankyou_text</key>
+    <string>Du kommer att få en notis via appen när barnprofilen är redo. Vill du berätta för oss vad du skulle vilja se?</string>
+    <key>kids_profile_thankyou_title</key>
+    <string>Tack för ditt intresse</string>
     <key>learn_more</key>
     <string>Lär dig mer</string>
     <key>listening_history</key>
@@ -1504,6 +1544,10 @@ UPPDATERINGAR</string>
     <string>Lås upp alla funktioner</string>
     <key>plus_cancel_terms</key>
     <string>Kan avslutas när som helst</string>
+    <key>plus_champion</key>
+    <string>Pocket Casts-förespråkare</string>
+    <key>plus_champion_message</key>
+    <string>Tack för att du har varit med Pocket Casts sedan starten. Du är en sann förespråkare.</string>
     <key>plus_cloud_storage_limit_format</key>
     <string>%1$@ GB molnlagring</string>
     <key>plus_discount_yearly_membership</key>
@@ -1543,7 +1587,7 @@ UPPDATERINGAR</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Teman och ikoner</string>
     <key>plus_marketing_title</key>
-    <string>Allt du älskar med Pocket Casts och mer därtill</string>
+    <string>Lås upp exklusiva funktioner med Pocket Casts Plus</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Ladda upp dina filer till molnlagringen och ha dem tillgängliga överallt</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1849,6 +1893,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>%1$@ återstår</string>
     <key>rate</key>
     <string>Omdöme</string>
+    <key>rate_pocket_casts</key>
+    <string>Betygsätt Pocket Casts</string>
     <key>rating_error</key>
     <string>Hoppsan. Det uppstod ett fel.</string>
     <key>rating_listen_to_this_podcast_message</key>
@@ -1865,6 +1911,12 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Tack för betyget!</string>
     <key>rating_title</key>
     <string>Betygsätt %1$@</string>
+    <key>rating_whats_new_button_title</key>
+    <string>Uppfattat</string>
+    <key>rating_whats_new_message</key>
+    <string>Betygsätt dina favoritpodcasts och låt kreatörerna få veta hur mycket du uppskattar deras arbete. Dina betyg hjälper dessutom andra att hitta nya favoritshower.</string>
+    <key>rating_whats_new_title</key>
+    <string>Nu tillgängligt: Podcastbetyg 🎉</string>
     <key>refresh_control_fetching_episodes</key>
     <string>HÄMTAR NYA PODCASTAVSNITT</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -1935,6 +1987,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Sök podcasts</string>
     <key>search_recent</key>
     <string>Senaste sökningar</string>
+    <key>search_results</key>
+    <string>%1$@ av %2$@</string>
     <key>season</key>
     <string>Säsong</string>
     <key>season_episode_shorthand_format</key>
@@ -2085,6 +2139,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Bekräftelseljud för bokmärke</string>
     <key>settings_bookmark_sound_footer</key>
     <string>Spela upp ett bekräftelseljud när ett bokmärke har skapats med dina hörlurar.</string>
+    <key>settings_change_avatar</key>
+    <string>Ändra profilbild</string>
     <key>settings_collect_information</key>
     <string>Samla information</string>
     <key>settings_collect_information_additional_information</key>
@@ -2192,7 +2248,7 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <key>settings_general_play_back_actions</key>
     <string>Flera uppspelningsåtgärder</string>
     <key>settings_general_play_back_actions_subtitle</key>
-    <string>Lägger till möjligheten att Stjärnmarkera och Markera som spelad på din telefon när den är låst och på CarPlay. Kom ihåg att detta kommer att ersätta Hoppa tillbaka knappen på din telefonskärm .</string>
+    <string>Lägger till alternativet Stjärnmärk på din telefons låsskärm.</string>
     <key>settings_general_player_header</key>
     <string>SPELARE</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -2487,6 +2543,10 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Hoppa tillbaka</string>
     <key>skip_chapters</key>
     <string>Förvalda kapitel</string>
+    <key>skip_chapters_patron_prompt</key>
+    <string>Välj kapitel och mer i förväg med Pocket Casts Patron</string>
+    <key>skip_chapters_plus_prompt</key>
+    <string>Välj kapitel och mer i förväg med Pocket Casts Plus</string>
     <key>skip_forward</key>
     <string>Hoppa framåt</string>
     <key>sleep_timer</key>
@@ -2665,6 +2725,14 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Längst upp</string>
     <key>transcript</key>
     <string>Transkription</string>
+    <key>transcript_error_empty</key>
+    <string>Den här transkriptionen verkar vara tom</string>
+    <key>transcript_error_failed_to_load</key>
+    <string>Något gick fel vid inläsningen av den här transkriptionen</string>
+    <key>transcript_error_failed_to_parse</key>
+    <string>Något gick fel vid tolkningen av den här transkriptionen</string>
+    <key>transcript_error_not_supported</key>
+    <string>Formatet på den här transkriptionen stöds inte: %1$@</string>
     <key>trial_finished</key>
     <string>Provperioden har löpt ut</string>
     <key>trim_silence</key>

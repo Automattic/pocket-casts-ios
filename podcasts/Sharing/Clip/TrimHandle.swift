@@ -8,12 +8,12 @@ struct TrimHandle: View {
 
     @Binding var position: CGFloat
     let side: Side
+    let width: CGFloat
     let onChanged: (CGFloat) -> Void
 
     private enum Constants {
         static let innerLineColor = Color(hex: "281313").opacity(0.2)
         static let innerLineWidth = 1.5
-        static let width: CGFloat = 17
         static let cornerRadius: CGFloat = 8
     }
 
@@ -36,7 +36,7 @@ struct TrimHandle: View {
                 }
             handleLine
         }
-        .frame(width: Constants.width)
+        .frame(width: width)
         .offset(x: offset)
         .onTapGesture {}
         .highPriorityGesture(
@@ -51,13 +51,13 @@ struct TrimHandle: View {
         RoundedRectangle(cornerRadius: Constants.cornerRadius)
             .fill(Constants.innerLineColor)
             .frame(width: Constants.innerLineWidth)
-            .padding(.vertical, Constants.width)
+            .padding(.vertical, width)
     }
 
     var offset: CGFloat {
         switch side {
         case .leading:
-            position - Constants.width
+            position - width
         case .trailing:
             position
         }
