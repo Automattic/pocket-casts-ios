@@ -11,6 +11,30 @@ class ReferralSendPassModel {
         self.numberOfPasses = numberOfPasses
         self.onShareGuestPassTap = nil
     }
+
+    var title: String {
+        if numberOfPasses > 0 {
+            L10n.referralsTipMessage(numberOfDaysOffered)
+        } else {
+            L10n.referralsShareNoGuestPassTitle
+        }
+    }
+
+    var message: String {
+        if numberOfPasses > 0 {
+            L10n.referralsTipTitle(numberOfPasses)
+        } else {
+            L10n.referralsShareNoGuestPassMessage
+        }
+    }
+
+    var buttonTitle: String {
+        if numberOfPasses > 0 {
+            return L10n.referralsShareGuestPass
+        } else {
+            return L10n.gotIt
+        }
+    }
 }
 
 struct ReferralSendPassView: View {
@@ -21,11 +45,11 @@ struct ReferralSendPassView: View {
             ModalCloseButton(background: Color.gray.opacity(0.2), foreground: Color.white.opacity(0.5), action: { viewModel.onCloseTap?() })
             VStack(spacing: Constants.verticalSpacing) {
                 SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
-                Text(L10n.referralsTipMessage(viewModel.numberOfDaysOffered))
+                Text(viewModel.title)
                     .font(size: 31, style: .title, weight: .bold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
-                Text(L10n.referralsTipTitle(viewModel.numberOfPasses))
+                Text(viewModel.message)
                     .font(size: 14, style: .body, weight: .medium)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
@@ -38,8 +62,12 @@ struct ReferralSendPassView: View {
                 }
             }
             Spacer()
-            Button(L10n.referralsShareGuestPass) {
-                viewModel.onShareGuestPassTap?()
+            Button(viewModel.buttonTitle) {
+                if viewModel.numberOfPasses > 0 {
+                    viewModel.onShareGuestPassTap?()
+                } else {
+                    viewModel.onCloseTap?()
+                }
             }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
         }
         .padding()
@@ -53,6 +81,14 @@ struct ReferralSendPassView: View {
     }
 }
 
-#Preview {
-    ReferralSendPassView(viewModel: ReferralSendPassModel())
+#Preview("With Passes") {
+    Group {
+        ReferralSendPassView(viewModel: ReferralSendPassModel())
+    }
+}
+
+#Preview("Without Passes") {
+    Group {
+        ReferralSendPassView(viewModel: ReferralSendPassModel(numberOfPasses: 0))
+    }
 }

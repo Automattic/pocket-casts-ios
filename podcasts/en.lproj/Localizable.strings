@@ -4396,3 +4396,9 @@
 
 /* Referrals - Share Guest Pass button title*/
 "referrals_share_guest_pass" = "Share Guest Pass";
+
+/* Referrals - Share Guest Pass no more passes title*/
+"referrals_share_no_guest_pass_title" = "You've shared all yours guest passes!";
+
+/* Referrals - Share Guest Pass no more passes message*/
+"referrals_share_no_guest_pass_message" = "Thanks for sharing Pocket Casts! We'll let you know when you have more passes to give.";
