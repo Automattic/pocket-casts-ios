@@ -1712,6 +1712,7 @@
 		FF05C9922C0E044C00E41EB3 /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */; };
 		FF0A1D522C580CF5003931E6 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
 		FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */; };
+		FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
@@ -3608,6 +3609,7 @@
 		FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Helper.swift"; sourceTree = "<group>"; };
 		FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardAnimatedGradientView.swift; sourceTree = "<group>"; };
+		FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimPass.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -7779,6 +7781,7 @@
 				FF4A73D72C87694300587128 /* ReferralCardView.swift */,
 				FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */,
 				FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */,
+				FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */,
 			);
 			path = Referrals;
 			sourceTree = "<group>";
@@ -9844,6 +9847,7 @@
 				40251CEC22BB0F6E00551C51 /* CancelledAcknowledgeViewController.swift in Sources */,
 				BDD3579527BCD6DF0000D155 /* GridHelper.swift in Sources */,
 				BD023C672251C192008A9C6F /* HeadingCell.swift in Sources */,
+				FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */,
 				BDF15A401B54E064000EC323 /* PlaybackQueue.swift in Sources */,
 				F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */,
 				46AA2E032767EF92001D647A /* PlayPauseLabeledButton.swift in Sources */,

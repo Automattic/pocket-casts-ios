@@ -4396,3 +4396,13 @@
 
 /* Referrals - Share Guest Pass button title*/
 "referrals_share_guest_pass" = "Share Guest Pass";
+
+/* Referrals - Claim Guest Pass screen title. `%1$@' is a placeholder for the duration of free days offered on the Plus subscription*/
+"referrals_claim_guest_pass_title" = "Claim your %1$@-Day Guest Pass";
+
+/* Referrals - Claim Guest Pass screen detail message. `%1$@' is a placeholder for the localized cost of the subscription after the free day period*/
+"referrals_claim_guest_pass_detail" = "This offer is for new members only. Membership will automatically renew to a paid annual membership at %1$@'.";
+
+/* Referrals - Claim Guest Pass action button title*/
+"referrals_claim_guest_pass_action" = "Activate my pass";
+
