@@ -1404,7 +1404,7 @@ internal enum L10n {
   internal static var kidsProfileBannerBadge: String { return L10n.tr("Localizable", "kids_profile_banner_badge") }
   /// Request Early Access 
   internal static var kidsProfileBannerRequestButton: String { return L10n.tr("Localizable", "kids_profile_banner_request_button") }
-  /// A new profile with only content for kids to keep you subscriptions tidy.
+  /// A new profile with only content for kids to keep your subscriptions tidy.
   internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
   /// Kids Profile
   internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }

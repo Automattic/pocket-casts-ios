@@ -22,5 +22,5 @@ class ReferralClaimPassVC: ThemedHostingController<ReferralClaimPassView> {
 
     private func setupUI() {
         view.backgroundColor = .clear
-    }    
+    }
 }

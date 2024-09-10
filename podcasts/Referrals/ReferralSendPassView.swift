@@ -76,7 +76,7 @@ struct ReferralSendPassView: View {
 
     enum Constants {
         static let verticalSpacing = CGFloat(24)
-        static let defaultCardSize = CGSize(width: 315, height: 200)
+        static let defaultCardSize = ReferralCardView.Constants.defaultCardSize
         static let cardInset = CGSize(width: 40, height: 5)
     }
 }

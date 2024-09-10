@@ -19,8 +19,8 @@ struct ReferralsClaimBannerView: View {
                         .foregroundStyle(theme.primaryText01.opacity(0.8))
                 }
                 Spacer(minLength: 24)
-                ReferralCardView(numberOfDaysOffered: viewModel.numberOfDaysOffered, cardRadius: Constants.cornerRadiusSmall)
-                    .frame(width: 80, height: 52)
+                ReferralCardMiniView()
+                    .frame(width: ReferralCardMiniView.Constants.defaultCardSize.width, height: ReferralCardMiniView.Constants.defaultCardSize.height)
             }
             .padding()
             .background(theme.primaryUi02Active)
