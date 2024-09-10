@@ -1714,6 +1714,7 @@
 		FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */; };
 		FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */; };
 		FF1DF0222C8F4D160028B8D8 /* ReferralClaimPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */; };
+		FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
@@ -3612,6 +3613,7 @@
 		FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardAnimatedGradientView.swift; sourceTree = "<group>"; };
 		FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimPass.swift; sourceTree = "<group>"; };
 		FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralClaimPassVC.swift; sourceTree = "<group>"; };
+		FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerView.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -7776,9 +7778,18 @@
 			path = Sharing;
 			sourceTree = "<group>";
 		};
+		FF1DF0232C8F4DBF0028B8D8 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
 		FF4A73D42C8745AE00587128 /* Referrals */ = {
 			isa = PBXGroup;
 			children = (
+				FF1DF0232C8F4DBF0028B8D8 /* Banner */,
 				FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */,
 				FF4A73D72C87694300587128 /* ReferralCardView.swift */,
 				FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */,
@@ -9642,6 +9653,7 @@
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
 				FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */,
 				C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */,
+				FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */,
 				BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */,
 				4007B053230E3115008DDCF5 /* WhatsNewPageView.swift in Sources */,
 				BDCF3C8024283B0F005B6933 /* ListeningHistoryViewController+Swipe.swift in Sources */,

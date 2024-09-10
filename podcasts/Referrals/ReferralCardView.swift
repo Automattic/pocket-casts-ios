@@ -2,13 +2,19 @@ import SwiftUI
 
 struct ReferralCardView: View {
     let numberOfDaysOffered: Int
+    let cardRadius: CGFloat
+
+    init(numberOfDaysOffered: Int, cardRadius: CGFloat = Constants.cardRadius) {
+        self.numberOfDaysOffered = numberOfDaysOffered
+        self.cardRadius = cardRadius
+    }
 
     var body: some View {
         Rectangle()
             .background {
                 ReferralCardAnimatedGradientView()
             }
-            .cornerRadius(Constants.cardRadius)
+            .cornerRadius(cardRadius)
             .foregroundColor(.clear)
             .overlay(alignment: .bottomLeading) {
                 Text(L10n.referralsGuestPassOffer(numberOfDaysOffered))
@@ -27,7 +33,7 @@ struct ReferralCardView: View {
                     .padding()
             }
             .overlay(
-                RoundedRectangle(cornerRadius: Constants.cardRadius)
+                RoundedRectangle(cornerRadius: cardRadius)
                     .inset(by: -0.5)
                     .stroke(Constants.cardStrokeColor, lineWidth: 1)
             )
