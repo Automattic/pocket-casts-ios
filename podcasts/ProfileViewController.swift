@@ -504,11 +504,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     @objc private func referralsTapped() {
-        updateReferrals()
         hideReferralsHint()
         Settings.shouldShowReferralsTip = false
-        let vc = ReferralSendPassVC()
+        let vc = ReferralSendPassVC(viewModel: ReferralSendPassModel(numberOfPasses: numberOfReferralsAvailable))
         present(vc, animated: true)
+        updateReferrals()
     }
 
     private enum ReferralsConstants {

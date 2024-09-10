@@ -4,10 +4,10 @@ import UIKit
 import PocketCastsUtils
 
 protocol AnimatableContent: View {
+    @MainActor
     func update(for progress: Double)
 }
 
-@available(iOS 16, *)
 enum VideoExporter {
 
     struct Parameters {
@@ -106,7 +106,7 @@ enum VideoExporter {
                 }
 
                 let frameProgress = Double(await counter.count) / Double(frameCount)
-                view.update(for: frameProgress)
+                await view.update(for: frameProgress)
 
                 let buffer = try await self.pixelBuffer(for: view, size: size, scale: scale, with: adaptor)
                 let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
@@ -128,7 +128,6 @@ enum VideoExporter {
         }
     }
 
-    @available(iOS 16, *)
     @MainActor
     private static func pixelBuffer(for view: some View, size: CGSize, scale: CGFloat, with adaptor: AVAssetWriterInputPixelBufferAdaptor) throws -> UnsafeTransfer<CVPixelBuffer> {
         try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: CGSize(width: size.width * scale, height: size.height * scale), scale: scale))

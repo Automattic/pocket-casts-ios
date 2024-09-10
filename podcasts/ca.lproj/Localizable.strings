@@ -1560,6 +1560,8 @@ ACTUALITZACIONS</string>
     <string>Gràcies pel teu suport, però lamentablement això significa que no pots participar en aquesta promoció.</string>
     <key>plus_expiration_format</key>
     <string>Caduca %1$@</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>Mostra't tal i com ets. Icones i temes exlusius per als nostres subscriptors.</string>
     <key>plus_feature_gratitude</key>
     <string>L'etern agraïment de l'equip de Pocket Casts</string>
     <key>plus_feature_slumber</key>
@@ -2731,6 +2733,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Ho sento, però alguna cosa ha anat malament mentre es carregava aquesta transcripció</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Ho sento, però hi ha hagut un error mentre s'analitzava aquesta transcripció</string>
+    <key>transcript_error_not_available</key>
+    <string>Ho sento, però no hi ha cap transcripció disponible per a aquest episodi.</string>
     <key>transcript_error_not_supported</key>
     <string>Ho sento, però aquest format de transcripció no és compatible: %1$@</string>
     <key>trial_finished</key>
@@ -2763,6 +2767,10 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Una llista d'actualitzacions recents a 'Tot seguit' a causa de canvis a altres dispositius. Per veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
     <key>upgrade_account</key>
     <string>Actualizar el compte</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>Veure totes les ressenyes a l'App Store</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>%1$@ Puntuació (%2$@K ressenyes)</string>
     <key>upgrade_experiment_reviews_review_text_0</key>
     <string>He estat un usuari durant molt de temps i la quantitat de funcionalitats i personalització que es té amb la versió gratuïta és sorprenent. M'encanta que es sincronitzi entre dispositius, així puc començar a escoltar al meu telèfon i després continuar en un dispositiu Alexa. És la meva recomanació per a qualsevol que escolti pòdcasts. També m'encanten les estadístiques!</string>
     <key>upgrade_experiment_reviews_review_text_1</key>
@@ -2791,6 +2799,10 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <string>Funciona genial i és fàcil trobar o afegir nous pòdcasts</string>
     <key>upgrade_experiment_reviews_review_title_5</key>
     <string>Ves a l'aplicació de Pòdcasts</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>Veure per què la gent ha actualitzat a Plus</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>Simplement la millor manera d'escoltar pòdcasts</string>
     <key>upgrade_to_plan</key>
     <string>Actualitza a %1$@</string>
     <key>upgrade_to_plus</key>
