@@ -393,8 +393,16 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Clipe</string>
     <key>clip_duration_label</key>
     <string>Duração de %@</string>
+    <key>clip_loading_label</key>
+    <string>Criando clipe…</string>
     <key>clip_start_label</key>
     <string>Início de %@</string>
+    <key>clips_whats_new_button_title</key>
+    <string>Entendi</string>
+    <key>clips_whats_new_message</key>
+    <string>Agora você pode compartilhar clipes das suas partes favoritas de cada episódio. Facilitamos a forma de compartilhar conteúdo em todos os aplicativos de rede social.</string>
+    <key>clips_whats_new_title</key>
+    <string>O compartilhamento de clipes agora está disponível!</string>
     <key>close</key>
     <string>Fechar</string>
     <key>color</key>
@@ -423,6 +431,10 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Gratuito</string>
     <key>create_account_plus_details</key>
     <string>Tudo disponível</string>
+    <key>create_audio_clip_description</key>
+    <string>Crie um arquivo de áudio .m4a</string>
+    <key>create_audio_clip_title</key>
+    <string>Criar arquivo de áudio</string>
     <key>create_clip</key>
     <string>Criar clipe</string>
     <key>create_filter</key>
@@ -1558,10 +1570,40 @@ ATUALIZAÇÕES</string>
     <string>Obrigada pelo seu apoio, mas infelizmente isso significa que você não pode fazer parte da promoção.</string>
     <key>plus_expiration_format</key>
     <string>Expira em %1$@</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>Salve suas partes favoritas de qualquer episódio e volte a elas.</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>Ouça em mais lugares com os aplicativos para Windows, macOS e Web.</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>Expresse sua individualidade. Temas e ícones exclusivos para nossos assinantes.</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>Organize seus podcasts em pastas e mantenha a sincronização em todos os seus dispositivos.</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>Obtenha um ano de conteúdo premium do Slumber Studios.</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>Faça upload dos seus arquivos de áudio na nuvem para acessá-los em qualquer lugar.</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>Deixe o telefone em casa e saia para uma corrida.</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>Favoritos</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>Aplicativos para desktop e Web</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>Ícones e temas extras</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>Pastas</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Sonhe com o Slumber Studios</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20 GB de armazenamento</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Reprodução no Apple Watch e no Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>A eterna gratidão de todos aqui no Pocket Casts</string>
     <key>plus_feature_slumber</key>
     <string>Um ano de conteúdo exclusivo do Slumber Studios</string>
+    <key>plus_feature_slumber_new</key>
+    <string>Sonhe com o conteúdo do Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
     <string>Ícones de aplicativo e temas extras</string>
     <key>plus_features</key>
@@ -2449,6 +2491,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Compartilhar episódio em %1$@</string>
     <key>share_episode_title</key>
     <string>Compartilhar episódio</string>
+    <key>share_instagram_stories</key>
+    <string>Stories</string>
     <key>share_list_subscribing</key>
     <string>Assinando...</string>
     <key>share_more_actions</key>
@@ -2731,6 +2775,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Ocorreu um erro ao carregar esta transcrição</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Ocorreu um erro ao analisar esta transcrição</string>
+    <key>transcript_error_not_available</key>
+    <string>Não há transcrição disponível para este episódio.</string>
     <key>transcript_error_not_supported</key>
     <string>Este formato de transcrição não é aceito: %1$@</string>
     <key>trial_finished</key>
@@ -2763,6 +2809,48 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Uma lista de atualizações recentes na lista de Próximos devido a alterações em outros dispositivos. Para ver os episódios e poder restaurá-los, toque em alguma entrada.</string>
     <key>upgrade_account</key>
     <string>Fazer upgrade de conta</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>Economize 50%% no primeiro ano</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>Teste gratuito de %1$@ do Plus</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>Venha para o Pocket Casts Plus</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>Ver todas as avaliações na App Store</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>Classificação de %1$@ (%2$@ mil avaliações)</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>Eu uso este aplicativo há muito tempo e a quantidade de funcionalidades e personalizações que você recebe com a versão gratuita é incrível. Eu amo a sincronização entre dispositivos. Posso começar a ouvir no meu telefone e depois continuar na Alexa. É a minha recomendação para qualquer um que escuta podcasts. Também amo as estatísticas!</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>Oito anos de excelência e melhoria contínua</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>Eu uso o Pocket Casts desde 2017.
+
+Este é sem dúvidas o melhor aplicativo para ouvir podcasts. Sua funcionalidade é excelente e muito bem desenvolvida. Houve algumas reclamações sobre a mudança na interface do usuário, mas eu não notei muita diferença.
+
+Dá para personalizar o aplicativo como você quiser. Então, você pode optar por usar uma configuração mais simples, ou pular a introdução e a conclusão e configurar qualquer outra funcionalidade que quiser ativar.</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>A função de sincronização é mágica. Não sei que magia esse aplicativo usa, mas é melhor do que qualquer outro que já usei.</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>Uso esse aplicativo há seis anos ou mais. Comecei no Android e agora estou no iOS por quase um ano. Funciona da mesma forma nas duas plataformas. É fácil de achar novos podcasts para ouvir, tem uma ótima interface de usuário e você ainda pode adicionar podcasts por URL de feed RSS. O aplicativo para smartwatch é funcional, mas eu uso mais para reproduzir/pausar. Você pode fazer login com uma conta para sincronizar dispositivos, mas não é obrigatório.</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>O PC tem sido meu preferido por anos. Já testei outros aplicativos de podcast, mas sempre volto para o PC pela simplicidade, interface de usuário e suporte. Vale a pena conferir, principalmente se você está cansado do seu aplicativo de podcast atual.</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>De longe é o melhor aplicativo de podcast</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>O aplicativo de podcast indispensável</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>O melhor aplicativo de podcast</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>Aplicativo fantástico</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>Funciona muito bem, e é fácil de achar ou adicionar novos podcasts</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>O aplicativo ideal para podcast</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>Veja por que as pessoas estão mudando para o Plus</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>Simplesmente a melhor forma de ouvir podcasts</string>
     <key>upgrade_to_plan</key>
     <string>Fazer upgrade para %1$@</string>
     <key>upgrade_to_plus</key>

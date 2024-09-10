@@ -48,13 +48,6 @@ struct MediaTrimView: View {
                 .onAppear {
                     initializePositions(in: geometry)
                     DispatchQueue.main.async {
-                        let currentSecond = Int(playTime)
-                        scrollable.scrollTo("\(currentSecond)", anchor: .center)
-                    }
-                }
-                .onAppear {
-                    initializePositions(in: geometry)
-                    DispatchQueue.main.async {
                         let currentSecond = Int(startTime + (endTime - startTime) / 2)
                         scrollable.scrollTo("\(currentSecond)", anchor: .center)
                     }

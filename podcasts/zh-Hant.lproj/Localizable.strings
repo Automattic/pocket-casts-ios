@@ -393,8 +393,16 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>片段</string>
     <key>clip_duration_label</key>
     <string>時間長度：%@</string>
+    <key>clip_loading_label</key>
+    <string>正在建立片段…</string>
     <key>clip_start_label</key>
     <string>開始時間：%@</string>
+    <key>clips_whats_new_button_title</key>
+    <string>知道了</string>
+    <key>clips_whats_new_message</key>
+    <string>你現在可以分享任何單集中最愛的片段。 我們簡化了分享功能，方便你輕鬆將任何內容分享到所有社群媒體應用程式。</string>
+    <key>clips_whats_new_title</key>
+    <string>現已推出片段分享功能！</string>
     <key>close</key>
     <string>關閉</string>
     <key>color</key>
@@ -423,6 +431,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>免費</string>
     <key>create_account_plus_details</key>
     <string>解鎖全部功能</string>
+    <key>create_audio_clip_description</key>
+    <string>建立 .m4a 音訊檔</string>
+    <key>create_audio_clip_title</key>
+    <string>建立音訊檔</string>
     <key>create_clip</key>
     <string>建立片段</string>
     <key>create_filter</key>
@@ -1558,10 +1570,40 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>感謝你的支持，但很抱歉你無法使用此優惠。</string>
     <key>plus_expiration_format</key>
     <string>於 %1$@ 到期</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>儲存任何單集的最愛段落，方便返回聆聽。</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>使用我們的 Windows、macOS 和網頁版應用程式，在更多地方收聽。</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>展現你最真實的色彩。 自家訂閱者的專屬圖示和佈景主題。</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>在資料夾中整理你的 Podcast，並在所有裝置間同步。</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>獲得 1 年份 Slumber Studios 的 Premium 版內容。</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>可將音訊檔案上傳至雲端儲存空間，隨時隨地使用。</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>拋開手機出門跑步。</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>書籤</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>桌面和網頁版應用程式</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>其他佈景主題和圖示</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>資料夾</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Slumber Studios 伴你進入夢鄉</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20 GB 儲存空間</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Apple Watch 和 Wear OS 播放</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 所有使用者向你表達誠摯的謝意</string>
     <key>plus_feature_slumber</key>
     <string>1 年份的 Slumber Studios 獨家內容</string>
+    <key>plus_feature_slumber_new</key>
+    <string>「Slumber Studios 伴你進入夢鄉」內容</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主題和應用程式圖示</string>
     <key>plus_features</key>
@@ -2449,6 +2491,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>在「%1$@」分享單集</string>
     <key>share_episode_title</key>
     <string>分享單集</string>
+    <key>share_instagram_stories</key>
+    <string>限時動態</string>
     <key>share_list_subscribing</key>
     <string>正在訂閱...</string>
     <key>share_more_actions</key>
@@ -2731,6 +2775,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>不好意思，載入此逐字稿時發生錯誤</string>
     <key>transcript_error_failed_to_parse</key>
     <string>不好意思，解析此逐字稿時發生錯誤</string>
+    <key>transcript_error_not_available</key>
+    <string>不好意思，此單集不提供逐字稿。</string>
     <key>transcript_error_not_supported</key>
     <string>不好意思，不支援此逐字稿格式：%1$@</string>
     <key>trial_finished</key>
@@ -2763,6 +2809,48 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>因其他裝置變更，因此在「接下來播放」進行的近期更新清單。 若要檢視單集並提供還原選項，請點選任意條目。</string>
     <key>upgrade_account</key>
     <string>升級帳號</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>首年享五折優惠%%</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>Plus 免費試用 %1$@</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>取得 Pocket Casts Plus</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>在 App Store 上查看所有評論</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>評分：%1$@ (%2$@K 個評論)</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>我用這款應用程式好一段時間了，很驚訝免費版的功能和自訂選項竟如此完善。 我認為可以同步到所有裝置的功能非常棒，讓我能在聆聽時從手機轉換到 Alexa 裝置。 我推薦任何 Podcast 聽眾使用這款應用程式。 統計功能也非常優秀！</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>累積 8 年卓越經驗並且不懈地提升品質</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>我從 2017 起就是 Pocket Casts 使用者。
+
+這無疑是聆聽 Podcast 最棒的應用程式。 功能豐富，並且積極開發更新。 部分使用者對於 UI 變更有一些抱怨，但我還沒有意識到太多改變。
+
+你可以依照喜好調整此應用程式的使用複雜度。 可以隨插播放，或設定跳過尾奏和前奏、設定計時器以及任何其他供你啟用的小功能。</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>同步功能非常神奇。 不知道這款應用程式有什麼魔法，但這比我用過的任何其他應用程式都還更棒。</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>使用此應用程式 6 年以上了，起初是用 Android，現在則是用 iOS 一年了。 兩個平台上的運作方式都一樣。 可以輕鬆找到新 Podcast 來聽，具有十分出色的 UI 設計，也能夠透過 RSS 摘要 URL 來新增 Podcast。 Watch 應用程式功能強大，但我大部分都只有用播放/暫停功能。 登入帳號就能同步不同裝置，不過這非必要。</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>這幾年來電腦一直是我的必備工具。我嘗試過其他 Podcast 應用程式，但總是會回頭使用電腦，因為電腦用起來較簡單，加上其 UI 設計及支援服務。 絕對值得一試，要是你對目前的 Podcast 應用程式感到厭倦，那尤其更該試試。</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>至今最讚的 Podcast 應用程式</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>必備的 Podcast 應用程式</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>最出色的 Podcast 應用程式</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>這款應用程式超棒</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>功能完美，也能輕鬆找到或新增新的 Podcast</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>必備 Podcast 應用程式</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>了解其他使用者升級至 Plus 的原因</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>直接就是 Podcast 最棒的聆聽方式</string>
     <key>upgrade_to_plan</key>
     <string>升級至 %1$@</string>
     <key>upgrade_to_plus</key>
