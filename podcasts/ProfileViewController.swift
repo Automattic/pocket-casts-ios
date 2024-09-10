@@ -40,13 +40,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case kidsProfile, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    private enum TableRow { case kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
             profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
             profileTable.register(KidsProfileBannerTableCell.self, forCellReuseIdentifier: KidsProfileBannerTableCell.identifier)
+            if FeatureFlag.referrals.enabled {
+                profileTable.register(ReferralsClaimBannerTableCell.self, forCellReuseIdentifier: ReferralsClaimBannerTableCell.identifier)
+            }
         }
     }
 
@@ -272,6 +275,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return cell
         }
 
+        if row == .referralsClaim {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReferralsClaimBannerTableCell.identifier, for: indexPath) as! ReferralsClaimBannerTableCell
+            return cell
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId, for: indexPath) as! TopLevelSettingsCell
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
@@ -281,6 +289,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         switch row {
         case .kidsProfile:
             return KidsProfileBannerTableCell()
+        case .referralsClaim:
+            return ReferralsClaimBannerTableCell()
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -325,7 +335,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         let row = tableData[indexPath.section][indexPath.row]
 
         if EndOfYear.isEligible && row == .endOfYearPrompt ||
-            row == .kidsProfile {
+            row == .kidsProfile || row == .referralsClaim {
             return UITableView.automaticDimension
         } else {
             return 70
@@ -339,6 +349,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         switch row {
         case .kidsProfile:
             break
+        case .referralsClaim:
+            let referralClaimPassVC = ReferralClaimPassVC()
+            present(referralClaimPassVC, animated: true)
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -391,6 +404,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if FeatureFlag.kidsProfile.enabled && !Settings.shouldHideBanner {
             data[0].insert(.kidsProfile, at: 0)
         }
+
+        if FeatureFlag.referrals.enabled {
+            data[0].insert(.referralsClaim, at: 0)
+        }
+
 
         tableData = data
         profileTable.reloadData()
