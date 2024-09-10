@@ -23,7 +23,7 @@ struct ReferralsClaimBannerView: View {
                     .frame(width: 80, height: 52)
             }
             .padding()
-            .background(theme.primaryUi05)
+            .background(theme.primaryUi02Active)
             .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadiusBig))
         }
         .frame(minHeight: Constants.minHeight)

@@ -4,8 +4,8 @@ class ReferralClaimPassVC: ThemedHostingController<ReferralClaimPassView> {
 
     private let viewModel: ReferralClaimPassModel
 
-    init() {
-        self.viewModel = ReferralClaimPassModel()
+    init(viewModel: ReferralClaimPassModel) {
+        self.viewModel = viewModel
         let screen = ReferralClaimPassView(viewModel: viewModel)
         super.init(rootView: screen)
     }
@@ -18,20 +18,9 @@ class ReferralClaimPassVC: ThemedHostingController<ReferralClaimPassView> {
         super.viewDidLoad()
 
         setupUI()
-        setupViewModel()
     }
 
     private func setupUI() {
         view.backgroundColor = .clear
-    }
-
-    private func prepareToDismiss() {
-        self.dismiss(animated: true)
-    }
-
-    private func setupViewModel() {
-        viewModel.onCloseTap = { [weak self] in
-            self?.prepareToDismiss()
-        }
-    }
+    }    
 }
