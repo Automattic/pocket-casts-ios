@@ -7792,15 +7792,31 @@
 		FF4A73D42C8745AE00587128 /* Referrals */ = {
 			isa = PBXGroup;
 			children = (
-				FF1DF0232C8F4DBF0028B8D8 /* Banner */,
-				FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */,
+				FF5381AC2C90F2FF00829525 /* SendPass */,
+				FF5381AB2C90F2D400829525 /* ClaimPass */,
 				FF4A73D72C87694300587128 /* ReferralCardView.swift */,
-				FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */,
 				FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */,
+			);
+			path = Referrals;
+			sourceTree = "<group>";
+		};
+		FF5381AB2C90F2D400829525 /* ClaimPass */ = {
+			isa = PBXGroup;
+			children = (
+				FF1DF0232C8F4DBF0028B8D8 /* Banner */,
 				FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */,
 				FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */,
 			);
-			path = Referrals;
+			name = ClaimPass;
+			sourceTree = "<group>";
+		};
+		FF5381AC2C90F2FF00829525 /* SendPass */ = {
+			isa = PBXGroup;
+			children = (
+				FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */,
+				FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */,
+			);
+			name = SendPass;
 			sourceTree = "<group>";
 		};
 		FF7F89E82C2979C000FC0ED5 /* Transcripts */ = {
