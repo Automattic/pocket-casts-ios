@@ -71,11 +71,21 @@ struct ScrollableScrollView<Content: View>: View {
     @ViewBuilder private func invisibleTickMarks(for geometry: GeometryProxy) -> some View {
         let totalSeconds = Int(duration)
         let width = ((geometry.size.width * scale) / CGFloat(totalSeconds) / 2)
-        HStack(spacing: width) {
-            ForEach(0...totalSeconds, id: \.self) { second in
-                Color.clear
-                    .frame(width: width, height: geometry.size.height)
-                    .id("\(scrollIDPrefix)_\(second)")
+        if #available(iOS 17, *) {
+            LazyHStack(spacing: width) {
+                ForEach(0...totalSeconds, id: \.self) { second in
+                    Color.clear
+                        .frame(width: width, height: geometry.size.height)
+                        .id("\(scrollIDPrefix)_\(second)")
+                }
+            }
+        } else {
+            HStack(spacing: width) {
+                ForEach(0...totalSeconds, id: \.self) { second in
+                    Color.clear
+                        .frame(width: width, height: geometry.size.height)
+                        .id("\(scrollIDPrefix)_\(second)")
+                }
             }
         }
     }
