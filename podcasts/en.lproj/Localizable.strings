@@ -4406,3 +4406,9 @@
 /* Referrals - Claim Guest Pass action button title*/
 "referrals_claim_guest_pass_action" = "Activate my pass";
 
+/* Referrals - Claim Guest Pass banner title. `%1$@' is a placeholder for the duration of free days offered on the Plus subscription*/
+"referrals_claim_guest_pass_banner_title" = "Claim your %1$@-Day Guest Pass to Plus";
+
+/* Referrals - Claim Guest Pass banner message.*/
+"referrals_claim_guest_pass_banner_detail" = "Unlock the full listening experience";
+

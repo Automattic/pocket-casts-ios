@@ -2276,6 +2276,12 @@ internal enum L10n {
   internal static var ratingWhatsNewTitle: String { return L10n.tr("Localizable", "rating_whats_new_title") }
   /// Activate my pass
   internal static var referralsClaimGuestPassAction: String { return L10n.tr("Localizable", "referrals_claim_guest_pass_action") }
+  /// Unlock the full listening experience
+  internal static var referralsClaimGuestPassBannerDetail: String { return L10n.tr("Localizable", "referrals_claim_guest_pass_banner_detail") }
+  /// Claim your %1$@-Day Guest Pass to Plus
+  internal static func referralsClaimGuestPassBannerTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_claim_guest_pass_banner_title", String(describing: p1))
+  }
   /// This offer is for new members only. Membership will automatically renew to a paid annual membership at %1$@'.
   internal static func referralsClaimGuestPassDetail(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_claim_guest_pass_detail", String(describing: p1))

@@ -9,17 +9,17 @@ struct ReferralsClaimBannerView: View {
         ZStack {
             HStack {
                 VStack(alignment: .leading) {
-                    Text("Claim your 30-Day Guest Pass to Plus")
+                    Text(L10n.referralsClaimGuestPassBannerTitle(viewModel.numberOfDaysOffered))
                         .font(size: Constants.titleSize, style: .body, weight: .bold)
                         .frame(alignment: .topLeading)
                         .foregroundStyle(theme.primaryText01)
-                    Text("Unlock the full listening experience")
+                    Text(L10n.referralsClaimGuestPassBannerDetail)
                         .font(size: Constants.textSize, style: .body, weight: .semibold)
                         .frame(alignment: .topLeading)
                         .foregroundStyle(theme.primaryText01.opacity(0.8))
                 }
                 Spacer(minLength: 24)
-                ReferralCardView(numberOfDaysOffered: 30, cardRadius: Constants.cornerRadiusSmall)
+                ReferralCardView(numberOfDaysOffered: viewModel.numberOfDaysOffered, cardRadius: Constants.cornerRadiusSmall)
                     .frame(width: 80, height: 52)
             }
             .padding()
