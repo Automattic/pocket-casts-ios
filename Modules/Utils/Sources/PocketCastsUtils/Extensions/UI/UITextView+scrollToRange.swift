@@ -19,7 +19,7 @@ extension UITextView {
             width: bounds.width,
             height: bounds.height
         ).inset(by: contentInset)
-        visibleRect = .init(x: visibleRect.origin.x, y: visibleRect.origin.y + (contentInset.bottom / 2), width: visibleRect.width, height: visibleRect.height)
+        visibleRect.origin.y += contentInset.bottom / 2
 
         if visibleRect.origin.y + visibleRect.height > contentSize.height {
             let location = text.count - 1
