@@ -4237,7 +4237,7 @@
 "kids_profile_banner_badge" = "Soon";
 
 /* Kids Profile banner text */
-"kids_profile_banner_text" = "A new profile with only content for kids to keep you subscriptions tidy.";
+"kids_profile_banner_text" = "A new profile with only content for kids to keep your subscriptions tidy.";
 
 /* Kids Profile banner action button title */
 "kids_profile_banner_request_button" = "Request Early Access ";
