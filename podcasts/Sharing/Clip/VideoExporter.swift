@@ -4,6 +4,7 @@ import UIKit
 import PocketCastsUtils
 
 protocol AnimatableContent: View {
+    @MainActor
     func update(for progress: Double)
 }
 
@@ -105,7 +106,7 @@ enum VideoExporter {
                 }
 
                 let frameProgress = Double(await counter.count) / Double(frameCount)
-                view.update(for: frameProgress)
+                await view.update(for: frameProgress)
 
                 let buffer = try await self.pixelBuffer(for: view, size: size, scale: scale, with: adaptor)
                 let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
