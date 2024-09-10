@@ -393,8 +393,16 @@
     <string>片段</string>
     <key>clip_duration_label</key>
     <string>%@ 时长</string>
+    <key>clip_loading_label</key>
+    <string>正在创建片段…</string>
     <key>clip_start_label</key>
     <string>%@ 开始时间</string>
+    <key>clips_whats_new_button_title</key>
+    <string>知道了</string>
+    <key>clips_whats_new_message</key>
+    <string>您现在可以共享您在任何剧集中的喜爱片段。 我们还简化了将任何内容共享到各社交媒体应用程序的操作流程。</string>
+    <key>clips_whats_new_title</key>
+    <string>片段共享功能现已推出！</string>
     <key>close</key>
     <string>关闭</string>
     <key>color</key>
@@ -423,6 +431,10 @@
     <string>免费</string>
     <key>create_account_plus_details</key>
     <string>已全部解锁</string>
+    <key>create_audio_clip_description</key>
+    <string>创建 .m4a 音频文件</string>
+    <key>create_audio_clip_title</key>
+    <string>创建音频文件</string>
     <key>create_clip</key>
     <string>创建片段</string>
     <key>create_filter</key>
@@ -1558,10 +1570,40 @@
     <string>感谢您的支持，但遗憾的是，您无法参加本次促销活动。</string>
     <key>plus_expiration_format</key>
     <string>到期日期：%1$@</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>保存任何剧集中的喜爱片段，然后回看。</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>借助我们的 Windows、macOS 和 Web 应用程序，在更多地方收听播客。</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>表现出您的真实一面。 为我们的订阅者提供的独家图标和主题。</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>将播客整理到文件夹中，并让它们在所有设备中保持同步。</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>获得由 Slumber Studios 提供的 1 年高级版内容。</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>将音频文件上传到云存储空间，以便随时随地访问。</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>放下手机，出去跑步。</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>书签</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>桌面和 Web 应用程序</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>其他主题和图标</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>文件夹</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>通过 Slumber Studios 圆梦</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20GB 存储空间</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Apple Watch 和 Wear OS 播放功能</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts 的每个人都对您感激不尽</string>
     <key>plus_feature_slumber</key>
     <string>由 Slumber Studios 提供的一年独家内容</string>
+    <key>plus_feature_slumber_new</key>
+    <string>通过 Slumber Studios 的内容圆梦</string>
     <key>plus_feature_themes_icons</key>
     <string>其他主题和应用程序图标</string>
     <key>plus_features</key>
@@ -2449,6 +2491,8 @@
     <string>在 %1$@ 共享剧集</string>
     <key>share_episode_title</key>
     <string>共享剧集</string>
+    <key>share_instagram_stories</key>
+    <string>故事</string>
     <key>share_list_subscribing</key>
     <string>正在订阅...</string>
     <key>share_more_actions</key>
@@ -2731,6 +2775,8 @@
     <string>很抱歉，加载此文字转录稿时出现错误</string>
     <key>transcript_error_failed_to_parse</key>
     <string>很抱歉，解析此文字转录稿时出现错误</string>
+    <key>transcript_error_not_available</key>
+    <string>很抱歉，本集没有文字转录稿。</string>
     <key>transcript_error_not_supported</key>
     <string>很抱歉，此文字转录稿格式不受支持：%1$@</string>
     <key>trial_finished</key>
@@ -2763,6 +2809,48 @@
     <string>由于其他设备上的更改而处于“即将播出”状态的最新更新列表。 要查看剧集并选择恢复，请轻点任意条目。</string>
     <key>upgrade_account</key>
     <string>升级账户</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>首年享 5%% 折优惠</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>免费试用 Plus %1$@</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>获取 Pocket Casts Plus</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>查看 App Store 中的所有评论</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>%1$@ 评分（%2$@K 条评论）</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>我是该应用程序的长期用户，免费版支持的功能和自定义设置之多令人震惊。 我喜欢它的设备间同步功能，这样即使我从手机切换到 Alexa 设备，也可以实现无缝收听。 我会向所有播客听众推荐这款应用程序。 我还很喜欢它的统计信息功能！</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>8 年来表现卓越且在持续改进</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>我从 2017 年开始使用 Pocket Casts。
+
+毫无疑问，这是用来听播客的最佳应用程序。 它功能丰富，并且仍然在积极地开发完善。 有些人对 Ul 的改动表示不满，但对我来说好像没有太大影响。
+
+根据你的需求，你可以采用简单或复杂的方式使用这款应用程序。 因此，你可以让它即插即用，也可以设置跳过结尾和开头计时器，以及任何其他您想启用的小功能。</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>同步功能非常神奇。 虽然不知道这个应用程序有什么特别的魔力，但它比我用过的其他任何应用程序都要好。</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>我使用该应用程序至少有 6 年了，刚开始在安卓系统上使用，如今在 iOS 系统上也已经使用快一年。 在两个平台上，它都能提供同样卓越的性能。 我可以轻松找到要听的新播客，还可以通过 RSS 源 URL 添加播客，它的 UI 也非常好用。 Watch 应用程序很实用，但我主要用来进行播放/暂停。 使用账户登录即可在设备间同步，但这并非强制性要求。</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>多年来，PC 一直是我的首选。我也尝试过其他的播客应用程序，但因为它们在简洁性、Ul 和支持方面的不足，我最终总是会回到 PC。 如果您已经厌倦了当前所用的播客应用程序，这将尤其值得一试。</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>迄今为止最好的播客应用程序</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>必不可少的播客应用程序</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>目前市面上最好的播客应用程序</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>非常棒的应用程序</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>不仅使用效果好，还易于查找或添加新的播客</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>首选播客应用程序</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>了解用户升级到 Plus 的原因</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>简直是收听播客的最佳方式</string>
     <key>upgrade_to_plan</key>
     <string>升级至 %1$@</string>
     <key>upgrade_to_plus</key>

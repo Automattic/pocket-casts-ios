@@ -393,8 +393,16 @@
     <string>クリップ</string>
     <key>clip_duration_label</key>
     <string>%@ 所要時間</string>
+    <key>clip_loading_label</key>
+    <string>クリップを作成中…</string>
     <key>clip_start_label</key>
     <string>%@ 開始</string>
+    <key>clips_whats_new_button_title</key>
+    <string>OK</string>
+    <key>clips_whats_new_message</key>
+    <string>どのエピソードからでも、お気に入りの部分のクリップを共有できるようになりました。 また、すべてのソーシャルメディアアプリにコンテンツを簡単に共有できるようになりました。</string>
+    <key>clips_whats_new_title</key>
+    <string>クリップの共有が利用できるようになりました !</string>
     <key>close</key>
     <string>閉じる</string>
     <key>color</key>
@@ -423,6 +431,10 @@
     <string>無料</string>
     <key>create_account_plus_details</key>
     <string>すべてのロックを解除済み</string>
+    <key>create_audio_clip_description</key>
+    <string>.m4a 音声ファイルを作成</string>
+    <key>create_audio_clip_title</key>
+    <string>音声ファイルを作成</string>
     <key>create_clip</key>
     <string>クリップを作成</string>
     <key>create_filter</key>
@@ -1558,10 +1570,40 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ご支援をありがとうございます。このプロモーションには残念ながらご参加いただけません。</string>
     <key>plus_expiration_format</key>
     <string>%1$@に期限切れ</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>どのエピソードでもお気に入りの部分を保存して、後で見返すことができます。</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>Pocket Casts の Windows 版、macOS 版、ウェブ版アプリを使用して、さらに多くの場所で聴きましょう。</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>あなたの個性を表現しましょう。 購読者限定のアイコンとテーマです。</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>ポッドキャストをフォルダーに整理し、すべての端末間で同期させます。</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>Slumber Studios のプレミアムコンテンツ1年分をご利用ください。</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>音声ファイルをクラウドストレージにアップロードしてどこからでも利用できるようにします。</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>スマートフォンを手放してランニングに出かけましょう。</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>ブックマーク</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>デスクトップアプリとウェブアプリ</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>追加のテーマとアイコン</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>フォルダー</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Slumber Studios でぐっすり眠る</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20GB のストレージ</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Apple Watch と Wear OS での再生</string>
     <key>plus_feature_gratitude</key>
     <string>Pocket Casts をお使いの皆さまに感謝の気持ちを込めて</string>
     <key>plus_feature_slumber</key>
     <string>Slumber Studios の限定コンテンツを1年間聴取可能</string>
+    <key>plus_feature_slumber_new</key>
+    <string>「Slumber Studios でぐっすり眠る」のコンテンツ</string>
     <key>plus_feature_themes_icons</key>
     <string>追加のテーマとアプリアイコン</string>
     <key>plus_features</key>
@@ -2449,6 +2491,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>%1$@ でエピソードを共有</string>
     <key>share_episode_title</key>
     <string>エピソードを共有</string>
+    <key>share_instagram_stories</key>
+    <string>ストーリー</string>
     <key>share_list_subscribing</key>
     <string>フォローしています...</string>
     <key>share_more_actions</key>
@@ -2727,6 +2771,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>申し訳ありません、このトランスクリプトの読み込み中に問題が発生しました</string>
     <key>transcript_error_failed_to_parse</key>
     <string>申し訳ありません、このトランスクリプトの解析中に問題が発生しました</string>
+    <key>transcript_error_not_available</key>
+    <string>申し訳ありません、このエピソードではトランスクリプトを利用できません。</string>
     <key>transcript_error_not_supported</key>
     <string>申し訳ありません、このトランスクリプトのフォーマットはサポートされていません: %1$@</string>
     <key>trial_finished</key>
@@ -2759,6 +2805,48 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>他端末での変更により、「次に再生」に生じた最近の更新のリスト。 エピソードを表示し、それらを復元するオプションを利用するには、任意のエントリーをタップします。</string>
     <key>upgrade_account</key>
     <string>アカウントをアップグレード</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>初年度は50%% オフ。</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>%1$@ の Plus 無料トライアル</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>Pocket Casts Plus を入手</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>App ストアのレビューをすべて見る</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>%1$@ 評価 (%2$@K 件のレビュー)</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>長い間愛用していますが、無料版の機能性とカスタマイズの多さには驚かされます。 端末間で同期されるので、スマートフォンで聴き始めたあとに Alexa 端末で続きを聴くことができるのも気に入っています。 ポッドキャストを聴く人全員におすすめのアプリです。 また、統計機能も気に入っています !</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>8年間の卓越性と継続的な改善</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>2017年から Pocket Casts のユーザーです。
+
+Pocket Casts は間違いなく、ポッドキャストを聴くための最高のアプリです。 機能が豊富で、積極的な開発が行われています。 Ul の変更について不満の声があるようですが、私はあまり気になっていません。
+
+このアプリは自分の思いどおりにシンプルにも複雑にもできます。 すぐに使い始めることも、アウトロのスキップやイントロのタイマーを設定することも、その他の細かい機能を有効にすることも可能です。</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>同期機能は魔法のようです。 このアプリでどんな特別な魔法が使われているかはわかりませんが、今まで使ったどのアプリよりも優れています。</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>このアプリを6年以上使っています。使い始めたのは Android 版で、今は iOS 版を1年近く使っています。 両方のプラットフォームで同じように動作します。 新しいポッドキャストを簡単に見つけて再生できます。Ul が使いやすく、RSS フィードの URL でもポッドキャストを追加できます。 Watch アプリも便利ですが、私はほとんど再生や一時停止のために使っています。 端末間での同期にはアカウントでサインインする必要がありますが、そうしなくても使えます。</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>PC は長年のお気に入りです。他のポッドキャストアプリも試しましたが、PC はシンプルさ、Ul、サポートが優れているため、いつも PC に戻ってきます。 特に、今使っているポッドキャストアプリに飽きてしまった人は、PC をチェックする価値があります。</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>今までで一番のポッドキャストアプリ</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>必須のポッドキャストアプリ</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>最高のポッドキャストアプリ</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>素晴らしいアプリ</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>使いやすく、新しいポッドキャストを簡単に見つけて再生できる</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>お気に入りのポッドキャストアプリ</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>Plus にアップグレードした理由を見る</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>ポッドキャストを聴くのにまさに最適な方法</string>
     <key>upgrade_to_plan</key>
     <string>%1$@ にアップグレード</string>
     <key>upgrade_to_plus</key>
