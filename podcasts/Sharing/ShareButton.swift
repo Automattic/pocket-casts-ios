@@ -27,6 +27,7 @@ struct ShareButton: View {
                     if Task.isCancelled { return }
                     await MainActor.run {
                         Toast.show("Failed clip export: \(error.localizedDescription)")
+                        progress = nil
                     }
                 }
             }

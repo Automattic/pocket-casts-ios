@@ -4,15 +4,16 @@ import UIKit
 import PocketCastsUtils
 
 protocol AnimatableContent: View {
+    @MainActor
     func update(for progress: Double)
 }
 
-@available(iOS 16, *)
 enum VideoExporter {
 
     struct Parameters {
         let duration: TimeInterval
         let size: CGSize
+        let scale: CGFloat
         let fps: Int = 60
         let episodeAsset: AVAsset
         let audioStartTime: CMTime
@@ -66,11 +67,12 @@ enum VideoExporter {
 
     // Step 1 of video export
     private static func exportInitialVideo<Content: AnimatableContent>(of view: Content, to outputURL: URL, with parameters: Parameters, frameCount: Int, progress: Progress) async throws {
+        let videoSize = CGSize(width: parameters.size.width * parameters.scale, height: parameters.size.height * parameters.scale)
         let videoWriter = try AVAssetWriter(outputURL: outputURL, fileType: parameters.fileType)
         let videoSettings: [String: Any] = [
             AVVideoCodecKey: AVVideoCodecType.h264,
-            AVVideoWidthKey: parameters.size.width,
-            AVVideoHeightKey: parameters.size.height
+            AVVideoWidthKey: videoSize.width,
+            AVVideoHeightKey: videoSize.height,
         ]
         let videoWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
         let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: videoWriterInput, sourcePixelBufferAttributes: nil)
@@ -82,6 +84,7 @@ enum VideoExporter {
         try await withTaskCancellationHandler {
             try await writeFrames(of: view,
                                   size: parameters.size,
+                                  scale: parameters.scale,
                                   fps: parameters.fps,
                                   videoWriterInput: videoWriterInput,
                                   videoWriter: videoWriter,
@@ -94,7 +97,7 @@ enum VideoExporter {
     }
 
     // Part of Step 1
-    private static func writeFrames<Content: AnimatableContent>(of view: Content, size: CGSize, fps: Int, videoWriterInput: AVAssetWriterInput, videoWriter: AVAssetWriter, adaptor: AVAssetWriterInputPixelBufferAdaptor, progress: Progress, frameCount: Int) async throws {
+    private static func writeFrames<Content: AnimatableContent>(of view: Content, size: CGSize, scale: CGFloat, fps: Int, videoWriterInput: AVAssetWriterInput, videoWriter: AVAssetWriter, adaptor: AVAssetWriterInputPixelBufferAdaptor, progress: Progress, frameCount: Int) async throws {
         let counter = Counter()
         try await videoWriterInput.unsafeRequestMediaDataWhenReady {
             while await counter.count <= frameCount, videoWriterInput.isReadyForMoreMediaData {
@@ -103,9 +106,9 @@ enum VideoExporter {
                 }
 
                 let frameProgress = Double(await counter.count) / Double(frameCount)
-                view.update(for: frameProgress)
+                await view.update(for: frameProgress)
 
-                let buffer = try await self.pixelBuffer(for: view, size: size)
+                let buffer = try await self.pixelBuffer(for: view, size: size, scale: scale, with: adaptor)
                 let frameTime = CMTime(seconds: Double(await counter.count) / Double(fps), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
                 if videoWriterInput.isReadyForMoreMediaData {
                     adaptor.append(buffer.wrappedValue, withPresentationTime: frameTime)
@@ -125,10 +128,9 @@ enum VideoExporter {
         }
     }
 
-    @available(iOS 16, *)
     @MainActor
-    private static func pixelBuffer(for view: some View, size: CGSize) throws -> UnsafeTransfer<CVPixelBuffer> {
-        try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: size))
+    private static func pixelBuffer(for view: some View, size: CGSize, scale: CGFloat, with adaptor: AVAssetWriterInputPixelBufferAdaptor) throws -> UnsafeTransfer<CVPixelBuffer> {
+        try UnsafeTransfer(view.frame(width: size.width, height: size.height).pixelBuffer(size: CGSize(width: size.width * scale, height: size.height * scale), scale: scale))
     }
 
     // Part 2 of video export, creating the final track from the initial video loop
@@ -189,12 +191,19 @@ enum VideoExporter {
         exportSession.outputFileType = fileType
         exportSession.timeRange = CMTimeRange(start: .zero, duration: CMTime(seconds: duration, preferredTimescale: 600))
 
+        let timer = Timer(timeInterval: 0.01, repeats: true) { _ in
+            progress.completedUnitCount = Int64(exportSession.progress * 100)
+        }
+        RunLoop.main.add(timer, forMode: .common)
+
         await withTaskCancellationHandler {
             await exportSession.export()
         } onCancel: {
             exportSession.cancelExport()
             progress.cancel()
         }
+
+        timer.invalidate()
 
         guard exportSession.status == .completed else {
             throw ExportError.exportFailed(exportSession.error)
