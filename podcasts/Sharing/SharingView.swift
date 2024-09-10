@@ -138,21 +138,22 @@ struct SharingView: View {
         }
     }
 
+    private func styles(for option: SharingModal.Option) -> [ShareImageStyle] {
+        switch shareable.option {
+        case .clipShare(_, _, let style):
+            [style]
+        case .clip:
+            ShareImageStyle.allCases
+        default:
+            ShareImageStyle.allCases.filter { $0 != .audio }
+        }
+    }
+
     @ViewBuilder var tabView: some View {
         GeometryReader { proxy in
             TabView(selection: $shareable.style) {
-                switch shareable.option {
-                case .clipShare(_, _, let style):
+                ForEach(styles(for: shareable.option), id: \.self) { style in
                     image(style: style, containerHeight: proxy.size.height)
-                case .clip:
-                    ForEach(ShareImageStyle.allCases, id: \.self) { style in
-                        image(style: style, containerHeight: proxy.size.height)
-                    }
-                default:
-                    let styles = ShareImageStyle.allCases.filter { $0 != .audio }
-                    ForEach(styles, id: \.self) { style in
-                        image(style: style, containerHeight: proxy.size.height)
-                    }
                 }
             }
             .tabViewStyle(.page)
