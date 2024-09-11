@@ -4388,11 +4388,11 @@
 /* Referrals - Tip Title. '%1$@' is a placeholder for the number of referrals passes available to share*/
 "referrals_tip_title" = "You have %1$@ passes to share";
 
-/* Referrals - Tip Message '%1$@' is a placeholder for the duration of free days on the Plus subscription*/
-"referrals_tip_message" = "Gift %1$@ days of Plus to friends and family";
+/* Referrals - Tip Message '%1$@' is a placeholder for the duration of free period on the Plus subscription*/
+"referrals_tip_message" = "Gift %1$@ of Plus to friends and family";
 
-/* Referrals - Guest Pass Offer Message '%1$@' is a placeholder for the duration of free days on the Plus subscription. Ex: 30-Day Guest Pass*/
-"referrals_guest_pass_offer" = "%1$@-Day Guest Pass";
+/* Referrals - Guest Pass Offer Message '%1$@' is a placeholder for the duration of free days on the Plus subscription. Ex: 2-Month Guest Pass*/
+"referrals_guest_pass_offer" = "%1$@ Guest Pass";
 
 /* Referrals - Share Guest Pass button title*/
 "referrals_share_guest_pass" = "Share Guest Pass";
@@ -4403,8 +4403,8 @@
 /* Referrals - Share Guest Pass no more passes message*/
 "referrals_share_no_guest_pass_message" = "Thanks for sharing Pocket Casts! We'll let you know when you have more passes to give.";
 
-/* Referrals - Claim Guest Pass screen title. `%1$@' is a placeholder for the duration of free days offered on the Plus subscription*/
-"referrals_claim_guest_pass_title" = "Claim your %1$@-Day Guest Pass";
+/* Referrals - Claim Guest Pass screen title. `%1$@' is a placeholder for the offer duration on the Plus subscription*/
+"referrals_claim_guest_pass_title" = "Claim your %1$@ Guest Pass";
 
 /* Referrals - Claim Guest Pass screen detail message. `%1$@' is a placeholder for the localized cost of the subscription after the free day period*/
 "referrals_claim_guest_pass_detail" = "This offer is for new members only. Membership will automatically renew to a paid annual membership at %1$@.";
@@ -4412,8 +4412,8 @@
 /* Referrals - Claim Guest Pass action button title*/
 "referrals_claim_guest_pass_action" = "Activate my pass";
 
-/* Referrals - Claim Guest Pass banner title. `%1$@' is a placeholder for the duration of free days offered on the Plus subscription*/
-"referrals_claim_guest_pass_banner_title" = "Claim your %1$@-Day Guest Pass to Plus";
+/* Referrals - Claim Guest Pass banner title. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_claim_guest_pass_banner_title" = "Claim your %1$@ Guest Pass to Plus";
 
 /* Referrals - Claim Guest Pass banner message.*/
 "referrals_claim_guest_pass_banner_detail" = "Unlock the full listening experience";

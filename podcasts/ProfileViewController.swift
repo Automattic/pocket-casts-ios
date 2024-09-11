@@ -350,7 +350,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .kidsProfile:
             break
         case .referralsClaim:
-            let viewModel = ReferralClaimPassModel(onCloseTap: {[weak self] in self?.dismiss(animated: true) })
+            let viewModel = ReferralClaimPassModel(offerDuration: "2 Months", onCloseTap: {[weak self] in self?.dismiss(animated: true) })
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
             present(referralClaimPassVC, animated: true)
         case .allStats:
@@ -506,7 +506,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     @objc private func referralsTapped() {
         hideReferralsHint()
         Settings.shouldShowReferralsTip = false
-        let vc = ReferralSendPassVC(viewModel: ReferralSendPassModel(numberOfPasses: numberOfReferralsAvailable))
+        let vc = ReferralSendPassVC(viewModel: ReferralSendPassModel(offerDuration: "2 Months", numberOfPasses: numberOfReferralsAvailable))
         present(vc, animated: true)
         updateReferrals()
     }

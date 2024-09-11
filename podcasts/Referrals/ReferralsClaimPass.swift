@@ -1,18 +1,18 @@
 import SwiftUI
 
 class ReferralClaimPassModel {
-    let numberOfDaysOffered: Int
+    let offerDuration: String
     var onClaimGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(numberOfDaysOffered: Int = 30, onClaimGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
-        self.numberOfDaysOffered = numberOfDaysOffered
+    init(offerDuration: String, onClaimGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
+        self.offerDuration = offerDuration
         self.onClaimGuestPassTap = onClaimGuestPassTap
         self.onCloseTap = onCloseTap
     }
 
     var claimPassTitle: String {
-        L10n.referralsClaimGuestPassTitle(numberOfDaysOffered)
+        L10n.referralsClaimGuestPassTitle(offerDuration)
     }
 
     var claimPassDetail: String {
@@ -40,7 +40,7 @@ struct ReferralClaimPassView: View {
                     .font(size: 31, style: .title, weight: .bold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
-                ReferralCardView(numberOfDaysOffered: viewModel.numberOfDaysOffered)
+                ReferralCardView(offerDuration: viewModel.offerDuration)
                     .frame(width: Constants.defaultCardSize.width, height: Constants.defaultCardSize.height)
                 Text(viewModel.claimPassDetail)
                     .font(size: 13, style: .body, weight: .medium)
@@ -63,5 +63,5 @@ struct ReferralClaimPassView: View {
 }
 
 #Preview {
-    ReferralClaimPassView(viewModel: ReferralClaimPassModel())
+    ReferralClaimPassView(viewModel: ReferralClaimPassModel(offerDuration: "2 Months"))
 }

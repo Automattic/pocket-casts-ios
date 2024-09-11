@@ -1,20 +1,20 @@
 import SwiftUI
 
 class ReferralSendPassModel {
-    let numberOfDaysOffered: Int
+    let offerDuration: String
     let numberOfPasses: Int
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(numberOfDaysOffered: Int = 30, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil) {
-        self.numberOfDaysOffered = numberOfDaysOffered
+    init(offerDuration: String, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil) {
+        self.offerDuration = offerDuration
         self.numberOfPasses = numberOfPasses
         self.onShareGuestPassTap = nil
     }
 
     var title: String {
         if numberOfPasses > 0 {
-            L10n.referralsTipMessage(numberOfDaysOffered)
+            L10n.referralsTipMessage(offerDuration)
         } else {
             L10n.referralsShareNoGuestPassTitle
         }
@@ -55,7 +55,7 @@ struct ReferralSendPassView: View {
                     .foregroundColor(.white)
                 ZStack {
                     ForEach(0..<viewModel.numberOfPasses, id: \.self) { i in
-                        ReferralCardView(numberOfDaysOffered: viewModel.numberOfDaysOffered)
+                        ReferralCardView(offerDuration: viewModel.offerDuration)
                             .frame(width: Constants.defaultCardSize.width - (CGFloat(viewModel.numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
                             .offset(CGSize(width: 0, height: CGFloat(viewModel.numberOfPasses * i) * Constants.cardInset.height))
                     }
@@ -83,12 +83,12 @@ struct ReferralSendPassView: View {
 
 #Preview("With Passes") {
     Group {
-        ReferralSendPassView(viewModel: ReferralSendPassModel())
+        ReferralSendPassView(viewModel: ReferralSendPassModel(offerDuration: "2 months"))
     }
 }
 
 #Preview("Without Passes") {
     Group {
-        ReferralSendPassView(viewModel: ReferralSendPassModel(numberOfPasses: 0))
+        ReferralSendPassView(viewModel: ReferralSendPassModel(offerDuration: "2 months", numberOfPasses: 0))
     }
 }
