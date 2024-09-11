@@ -7794,11 +7794,9 @@
 		FF4A73D42C8745AE00587128 /* Referrals */ = {
 			isa = PBXGroup;
 			children = (
+				FF5381AF2C91B60F00829525 /* SharedUI */,
 				FF5381AC2C90F2FF00829525 /* SendPass */,
 				FF5381AB2C90F2D400829525 /* ClaimPass */,
-				FF4A73D72C87694300587128 /* ReferralCardView.swift */,
-				FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */,
-				FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */,
 			);
 			path = Referrals;
 			sourceTree = "<group>";
@@ -7820,6 +7818,16 @@
 				FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */,
 			);
 			name = SendPass;
+			sourceTree = "<group>";
+		};
+		FF5381AF2C91B60F00829525 /* SharedUI */ = {
+			isa = PBXGroup;
+			children = (
+				FF4A73D72C87694300587128 /* ReferralCardView.swift */,
+				FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */,
+				FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */,
+			);
+			name = SharedUI;
 			sourceTree = "<group>";
 		};
 		FF7F89E82C2979C000FC0ED5 /* Transcripts */ = {
