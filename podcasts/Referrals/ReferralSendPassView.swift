@@ -1,20 +1,20 @@
 import SwiftUI
 
 class ReferralSendPassModel {
-    let offerDuration: String
+    let offerInfo: ReferralsOfferInfo
     let numberOfPasses: Int
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(offerDuration: String, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil) {
-        self.offerDuration = offerDuration
+    init(offerInfo: ReferralsOfferInfo, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil) {
+        self.offerInfo = offerInfo
         self.numberOfPasses = numberOfPasses
         self.onShareGuestPassTap = nil
     }
 
     var title: String {
         if numberOfPasses > 0 {
-            L10n.referralsTipMessage(offerDuration)
+            L10n.referralsTipMessage(offerInfo.localizedOfferDuration)
         } else {
             L10n.referralsShareNoGuestPassTitle
         }
@@ -55,7 +55,7 @@ struct ReferralSendPassView: View {
                     .foregroundColor(.white)
                 ZStack {
                     ForEach(0..<viewModel.numberOfPasses, id: \.self) { i in
-                        ReferralCardView(offerDuration: viewModel.offerDuration)
+                        ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDuration)
                             .frame(width: Constants.defaultCardSize.width - (CGFloat(viewModel.numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
                             .offset(CGSize(width: 0, height: CGFloat(viewModel.numberOfPasses * i) * Constants.cardInset.height))
                     }
@@ -83,12 +83,12 @@ struct ReferralSendPassView: View {
 
 #Preview("With Passes") {
     Group {
-        ReferralSendPassView(viewModel: ReferralSendPassModel(offerDuration: "2 months"))
+        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock()))
     }
 }
 
 #Preview("Without Passes") {
     Group {
-        ReferralSendPassView(viewModel: ReferralSendPassModel(offerDuration: "2 months", numberOfPasses: 0))
+        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock(), numberOfPasses: 0))
     }
 }

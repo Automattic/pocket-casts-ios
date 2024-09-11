@@ -9,7 +9,7 @@ struct ReferralsClaimBannerView: View {
         ZStack {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(L10n.referralsClaimGuestPassBannerTitle(viewModel.offerDuration))
+                    Text(L10n.referralsClaimGuestPassBannerTitle(viewModel.offerInfo.localizedOfferDuration))
                         .font(size: Constants.titleSize, style: .body, weight: .bold)
                         .frame(alignment: .topLeading)
                         .foregroundStyle(theme.primaryText01)
@@ -41,7 +41,7 @@ struct ReferralsClaimBannerView: View {
 }
 
 #Preview {
-    ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(offerDuration: "2 Months"))
+    ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(offerInfo: ReferralsOfferInfoMock()))
             .environmentObject(Theme(previewTheme: .light))
             .previewLayout(.sizeThatFits)
             .padding(16)
