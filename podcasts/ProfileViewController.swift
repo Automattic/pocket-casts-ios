@@ -350,7 +350,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .kidsProfile:
             break
         case .referralsClaim:
-            let viewModel = ReferralClaimPassModel(offerInfo: ReferralsOfferInfoMock(), onCloseTap: {[weak self] in self?.dismiss(animated: true) })
+            let viewModel = ReferralClaimPassModel(offerInfo: referralsOfferInfo, onCloseTap: {[weak self] in self?.dismiss(animated: true) })
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
             present(referralClaimPassVC, animated: true)
         case .allStats:
@@ -445,6 +445,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     // MARK: - Referrals
 
+    private var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoMock()
     private var numberOfReferralsAvailable: Int = 3
 
     private var areReferralsAvailable: Bool {
@@ -505,7 +506,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         hideReferralsHint()
-        let vc = ReferralSendPassVC(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock(), numberOfPasses: numberOfReferralsAvailable))
+        let vc = ReferralSendPassVC(viewModel: ReferralSendPassModel(offerInfo: referralsOfferInfo, numberOfPasses: numberOfReferralsAvailable))
         present(vc, animated: true)
         updateReferrals()
     }
@@ -535,7 +536,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func makeReferralsHint() -> UIViewController {
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
         let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
-                              message: L10n.referralsTipMessage(ReferralsOfferInfoMock().localizedOfferDuration),
+                              message: L10n.referralsTipMessage(referralsOfferInfo.localizedOfferDuration),
                               sizeChanged: { size in
             vc.preferredContentSize = size
         } ).setupDefaultEnvironment()
