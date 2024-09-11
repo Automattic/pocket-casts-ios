@@ -4384,3 +4384,9 @@
 
 /* Clips - Button title to show in What's New screen announcing the Clips feature */
 "clips_whats_new_button_title" = "Got it";
+
+/* Clips - A label used for Voice Over to indicate the start time of a clip. The time will be read as a localized version of "20 minutes 30 seconds" after this label */
+"clips_start_time_accessibility_label" = "Clip start";
+
+/* Clips - A label used for Voice Over to indicate the end time of a clip. The time will be read as a localized version of "20 minutes 30 seconds" after this label */
+"clips_end_time_accessibility_label" = "Clip end";
