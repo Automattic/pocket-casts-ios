@@ -22,5 +22,5 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
 
     private func setupUI() {
         view.backgroundColor = .clear
-    }    
+    }
 }
