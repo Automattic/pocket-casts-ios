@@ -6,10 +6,11 @@ class ReferralSendPassModel {
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(offerInfo: ReferralsOfferInfo, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil) {
+    init(offerInfo: ReferralsOfferInfo, numberOfPasses: Int = 3, onShareGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
         self.offerInfo = offerInfo
         self.numberOfPasses = numberOfPasses
-        self.onShareGuestPassTap = nil
+        self.onShareGuestPassTap = onShareGuestPassTap
+        self.onCloseTap = onCloseTap
     }
 
     var title: String {

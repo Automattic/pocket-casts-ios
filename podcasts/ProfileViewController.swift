@@ -506,9 +506,17 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         hideReferralsHint()
-        let vc = ReferralSendPassVC(viewModel: ReferralSendPassModel(offerInfo: referralsOfferInfo, numberOfPasses: numberOfReferralsAvailable))
+        let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo,
+                                              numberOfPasses: numberOfReferralsAvailable,
+                                              onShareGuestPassTap: { [weak self] in
+            self?.updateReferrals()
+            self?.dismiss(animated: true)
+        }, onCloseTap: { [weak self] in
+            self?.updateReferrals()
+            self?.dismiss(animated: true)
+        })
+        let vc = ReferralSendPassVC(viewModel: viewModel)
         present(vc, animated: true)
-        updateReferrals()
     }
 
     private enum ReferralsConstants {
