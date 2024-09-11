@@ -27,8 +27,11 @@ struct SharingFooterView: View {
                     .tint(color)
                 HStack {
                     Text(L10n.clipStartLabel(TimeFormatter.shared.playTimeFormat(time: clipTime.start)))
+                        .accessibilityLabel(L10n.clipStartLabel(clipTime.start.localizedTimeDescription ?? ""))
                     Spacer()
-                    Text(L10n.clipDurationLabel(TimeFormatter.shared.playTimeFormat(time: clipTime.end - clipTime.start)))
+                    let duration = clipTime.end - clipTime.start
+                    Text(L10n.clipDurationLabel(TimeFormatter.shared.playTimeFormat(time: duration)))
+                        .accessibilityLabel(L10n.clipDurationLabel(duration.localizedTimeDescription ?? ""))
                 }
                 .foregroundStyle(.white.opacity(0.5))
                 .font(.caption.weight(.semibold))

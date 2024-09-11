@@ -4390,3 +4390,12 @@
 
 /* Clips - A label used for Voice Over to indicate the end time of a clip. The time will be read as a localized version of "20 minutes 30 seconds" after this label */
 "clips_end_time_accessibility_label" = "Clip end";
+
+/* A Voice Over label for element which represents the Pocket Casts Logo */
+"pocket_casts_logo" = "Pocket Casts logo";
+
+/* A Voice Over label used to identify a shareable media. This represents different image and video sizes such as "large, medium, small" as well as the "audio" format */
+"clips_shareable_media_a11y_label" = "Shareable media options";
+
+/* A Voice Over label used to identify the container for the shareable media options. This contains different image and video sizes such as "large, medium, small" as well as the "audio" format */
+"clips_shareable_media_item_a11y_label" = "%1$@ format %2$@ of %3$@";
