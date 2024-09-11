@@ -15,3 +15,14 @@ struct ReferralsOfferInfoMock: ReferralsOfferInfo {
         return "$39.99 USD"
     }
 }
+
+struct ReferralsOfferInfoIAP: ReferralsOfferInfo {
+
+    var localizedOfferDuration: String {
+        return IAPHelper.shared.localizedFreeTrialDuration(.yearlyReferral) ?? "N/A"
+    }
+
+    var localizedPriceAfterOffer: String {
+        return IAPHelper.shared.getPrice(for: .yearlyReferral)
+    }
+}

@@ -8,7 +8,7 @@ class IAPHelper: NSObject {
     static let shared = IAPHelper(settings: SettingsProxy(), networking: ApiServerHandler.shared)
 
     private var productIdentifiers: [IAPProductID] {
-        [.monthly, .yearly, .patronMonthly, .patronYearly]
+        [.monthly, .yearly, .patronMonthly, .patronYearly, .yearlyReferral]
     }
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
@@ -115,7 +115,7 @@ class IAPHelper: NSObject {
         switch identifier {
         case .monthly, .patronMonthly:
             return L10n.month
-        case .yearly, .patronYearly:
+        case .yearly, .patronYearly, .yearlyReferral:
             return L10n.year
         }
     }
@@ -127,7 +127,7 @@ class IAPHelper: NSObject {
         }
 
         switch identifier {
-        case .yearly, .patronYearly:
+        case .yearly, .patronYearly, .yearlyReferral:
             return L10n.plusYearlyFrequencyPricingFormat(price)
         case .monthly, .patronMonthly:
             return L10n.plusMonthlyFrequencyPricingFormat(price)
