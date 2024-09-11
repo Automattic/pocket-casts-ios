@@ -451,8 +451,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
     }
 
-    private let numberOfFreeDaysOffered: Int = 30
-
     private lazy var referralsBadge: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -490,7 +488,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func updateReferrals() {
         if numberOfReferralsAvailable > 0 {
             numberOfReferralsAvailable -= 1
+            Settings.shouldShowReferralsTip = false
         } else {
+            Settings.shouldShowReferralsTip = true
             numberOfReferralsAvailable = 3
         }
         referralsBadge.text = "\(numberOfReferralsAvailable)"
@@ -505,7 +505,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         hideReferralsHint()
-        Settings.shouldShowReferralsTip = false
         let vc = ReferralSendPassVC(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock(), numberOfPasses: numberOfReferralsAvailable))
         present(vc, animated: true)
         updateReferrals()
@@ -536,7 +535,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func makeReferralsHint() -> UIViewController {
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
         let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
-                              message: L10n.referralsTipMessage(numberOfFreeDaysOffered),
+                              message: L10n.referralsTipMessage(ReferralsOfferInfoMock().localizedOfferDuration),
                               sizeChanged: { size in
             vc.preferredContentSize = size
         } ).setupDefaultEnvironment()
