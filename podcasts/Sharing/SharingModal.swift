@@ -2,6 +2,27 @@ import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
 
+class ActivityItemSourceItem: NSObject, UIActivityItemSource {
+    let item: Any
+    let disallowedActivityTypes: [UIActivity.ActivityType]?
+
+    init(item: Any, disallowedActivityTypes: [UIActivity.ActivityType]? = nil) {
+        self.item = item
+        self.disallowedActivityTypes = disallowedActivityTypes
+    }
+
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        return item
+    }
+
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        guard disallowedActivityTypes?.contains(where: { $0 == activityType }) != true else {
+            return nil
+        }
+        return item
+    }
+}
+
 enum SharingModal {
 
     /// Share options including which type of content will be shared
@@ -181,7 +202,7 @@ extension SharingModal.Option {
     }
 
     @MainActor
-    func shareData(style: ShareImageStyle, destination: ShareDestination, clipUUID: String, progress: Binding<Float?>) async throws -> [Any] {
+    func shareData(style: ShareImageStyle, destination: ShareDestination, clipUUID: String, progress: Binding<Float?>) async throws -> [ActivityItemSourceItem] {
         let url = URL(string: shareURL) as NSURL?
 
         let media: Any?
@@ -199,7 +220,8 @@ extension SharingModal.Option {
             media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: size.width, height: size.height).snapshot(scale: Constants.exportedAssetScale)
         }
 
-        return [url, media].compactMap({ $0 })
+        return [url.map { ActivityItemSourceItem(item: $0, disallowedActivityTypes: [.airDrop]) },
+                media.map { ActivityItemSourceItem(item: $0) }].compactMap({ $0 })
     }
 
     @MainActor

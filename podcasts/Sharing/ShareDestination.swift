@@ -45,9 +45,9 @@ enum ShareDestination: Hashable {
         switch self {
         case .instagram:
             let item = try await option.shareData(style: style, destination: self, clipUUID: clipUUID, progress: progress).mapFirst { shareItem -> (Data, UTType)? in
-                if let data = shareItem as? Data {
+                if let data = shareItem.item as? Data {
                     return (data, .mpeg4Movie)
-                } else if let image = shareItem as? UIImage, let data = image.pngData() {
+                } else if let image = shareItem.item as? UIImage, let data = image.pngData() {
                     return (data, .png)
                 } else {
                     return nil
