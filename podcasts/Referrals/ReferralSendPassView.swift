@@ -15,7 +15,7 @@ class ReferralSendPassModel {
 
     var title: String {
         if numberOfPasses > 0 {
-            L10n.referralsTipMessage(offerInfo.localizedOfferDuration)
+            L10n.referralsTipMessage(offerInfo.localizedOfferDurationNoun)
         } else {
             L10n.referralsShareNoGuestPassTitle
         }
@@ -56,7 +56,7 @@ struct ReferralSendPassView: View {
                     .foregroundColor(.white)
                 ZStack {
                     ForEach(0..<viewModel.numberOfPasses, id: \.self) { i in
-                        ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDuration)
+                        ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
                             .frame(width: Constants.defaultCardSize.width - (CGFloat(viewModel.numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
                             .offset(CGSize(width: 0, height: CGFloat(viewModel.numberOfPasses * i) * Constants.cardInset.height))
                     }

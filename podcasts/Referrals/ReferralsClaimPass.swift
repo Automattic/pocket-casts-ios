@@ -12,7 +12,7 @@ class ReferralClaimPassModel {
     }
 
     var claimPassTitle: String {
-        L10n.referralsClaimGuestPassTitle(offerInfo.localizedOfferDuration)
+        L10n.referralsClaimGuestPassTitle(offerInfo.localizedOfferDurationAdjective)
     }
 
     var claimPassDetail: String {
@@ -40,7 +40,7 @@ struct ReferralClaimPassView: View {
                     .font(size: 31, style: .title, weight: .bold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
-                ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDuration)
+                ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
                     .frame(width: Constants.defaultCardSize.width, height: Constants.defaultCardSize.height)
                 Text(viewModel.claimPassDetail)
                     .font(size: 13, style: .body, weight: .medium)
