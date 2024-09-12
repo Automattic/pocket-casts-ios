@@ -1,6 +1,6 @@
 import SwiftUI
 
-class ReferralSendPassModel {
+class ReferralSendPassModel: NSObject {
     let offerInfo: ReferralsOfferInfo
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
@@ -20,8 +20,24 @@ class ReferralSendPassModel {
     }
 }
 
+extension ReferralSendPassModel: UIActivityItemSource {
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        return "Hey! Use the link below to claim your 2-month guest pass for Pocket Casts Plus and enjoy podcasts across all your devices!"
+    }
+
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        return URL(string: "http://pocketcasts.com")
+    }
+
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivity.ActivityType?) -> String {
+        return "Hey! Use the link below to claim your 2-month guest pass for Pocket Casts Plus and enjoy podcasts across all your devices!"
+    }
+}
+
 struct ReferralSendPassView: View {
     let viewModel: ReferralSendPassModel
+
+    @State var showShareView: Bool = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -46,11 +62,17 @@ struct ReferralSendPassView: View {
             }
             Spacer()
             Button(viewModel.buttonTitle) {
-                viewModel.onShareGuestPassTap?()
+                showShareView.toggle()
             }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
         }
         .padding()
         .background(.black)
+        .sheet(isPresented: $showShareView) {
+            viewModel.onShareGuestPassTap?()
+        } content: {
+            ActivityView([viewModel])
+        }
+
     }
 
     enum Constants {
