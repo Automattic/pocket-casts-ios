@@ -544,7 +544,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func makeReferralsHint() -> UIViewController {
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
         let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
-                              message: L10n.referralsTipMessage(referralsOfferInfo.localizedOfferDurationNoun),
+                              message: L10n.referralsTipMessage(referralsOfferInfo.localizedOfferDurationNoun.lowercased()),
                               sizeChanged: { size in
             vc.preferredContentSize = size
         } ).setupDefaultEnvironment()
