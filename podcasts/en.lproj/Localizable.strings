@@ -4389,7 +4389,7 @@
 "referrals_tip_title" = "You have %1$@ passes to share";
 
 /* Referrals - Tip Message '%1$@' is a placeholder for the duration of free period on the Plus subscription*/
-"referrals_tip_message" = "Gift %1$@ of Plus to friends and family";
+"referrals_tip_message" = "Gift %1$@ of Pocket Casts Plus!";
 
 /* Referrals - Guest Pass Offer Message '%1$@' is a placeholder for the duration of free days on the Plus subscription. Ex: 2-Month Guest Pass*/
 "referrals_guest_pass_offer" = "%1$@ Guest Pass";
