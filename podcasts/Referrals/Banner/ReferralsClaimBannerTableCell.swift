@@ -14,8 +14,8 @@ class ReferralsClaimBannerTableCell: ThemeableCell {
 
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            bannerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.0),
-            bannerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.0),
+            bannerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalMargin),
+            bannerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.horizontalMargin),
             bannerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             bannerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
@@ -26,5 +26,9 @@ class ReferralsClaimBannerTableCell: ThemeableCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private enum Constants {
+        static let horizontalMargin = CGFloat(16.0)
     }
 }
