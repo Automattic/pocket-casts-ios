@@ -24,8 +24,12 @@ struct ReferralSendPassView: View {
     let viewModel: ReferralSendPassModel
 
     var body: some View {
-        VStack {
-            ModalCloseButton(background: Color.gray.opacity(0.2), foreground: Color.white.opacity(0.5), action: { viewModel.onCloseTap?() })
+        VStack(alignment: .leading) {
+            Button(action: {
+                viewModel.onCloseTap?()
+            }, label: {
+                Image("close").foregroundColor(Color.white)
+            })
             VStack(spacing: Constants.verticalSpacing) {
                 SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
                 Text(viewModel.title)
