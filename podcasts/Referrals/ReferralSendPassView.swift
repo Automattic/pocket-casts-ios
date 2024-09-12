@@ -24,12 +24,15 @@ struct ReferralSendPassView: View {
     let viewModel: ReferralSendPassModel
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Button(action: {
-                viewModel.onCloseTap?()
-            }, label: {
-                Image("close").foregroundColor(Color.white)
-            })
+        VStack {
+            HStack {
+                Button(action: {
+                    viewModel.onCloseTap?()
+                }, label: {
+                    Image("close").foregroundColor(Color.white)
+                })
+                Spacer()
+            }
             VStack(spacing: Constants.verticalSpacing) {
                 SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
                 Text(viewModel.title)
