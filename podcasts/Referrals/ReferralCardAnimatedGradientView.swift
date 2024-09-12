@@ -35,7 +35,7 @@ struct ReferralCardAnimatedGradientView: View {
         }
     }
 
-    let animationSequence: [AnimationPosition] = [.topLeading, .topTrailing, .bottomTrailing, .bottomLeading]
+    let animationSequence: [AnimationPosition] = [.topLeading, .topTrailing, .bottomTrailing, .bottomLeading, .topLeading, .bottomLeading, .bottomTrailing, .topTrailing]
 
     @State private var currentAnimationPosition: Int = 0
     @State private var currentAnimation: AnimationPosition = .topLeading

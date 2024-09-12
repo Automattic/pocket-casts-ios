@@ -2278,7 +2278,7 @@ internal enum L10n {
   internal static var referralsClaimGuestPassAction: String { return L10n.tr("Localizable", "referrals_claim_guest_pass_action") }
   /// Unlock the full listening experience
   internal static var referralsClaimGuestPassBannerDetail: String { return L10n.tr("Localizable", "referrals_claim_guest_pass_banner_detail") }
-  /// Claim your %1$@-Day Guest Pass to Plus
+  /// Claim your %1$@ Guest Pass to Plus
   internal static func referralsClaimGuestPassBannerTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_claim_guest_pass_banner_title", String(describing: p1))
   }
@@ -2286,11 +2286,11 @@ internal enum L10n {
   internal static func referralsClaimGuestPassDetail(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_claim_guest_pass_detail", String(describing: p1))
   }
-  /// Claim your %1$@-Day Guest Pass
+  /// Claim your %1$@ Guest Pass
   internal static func referralsClaimGuestPassTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_claim_guest_pass_title", String(describing: p1))
   }
-  /// %1$@-Day Guest Pass
+  /// %1$@ Guest Pass
   internal static func referralsGuestPassOffer(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))
   }
@@ -2300,7 +2300,7 @@ internal enum L10n {
   internal static var referralsShareNoGuestPassMessage: String { return L10n.tr("Localizable", "referrals_share_no_guest_pass_message") }
   /// You've shared all yours guest passes!
   internal static var referralsShareNoGuestPassTitle: String { return L10n.tr("Localizable", "referrals_share_no_guest_pass_title") }
-  /// Gift %1$@ days of Plus to friends and family
+  /// Gift %1$@ of Plus to friends and family
   internal static func referralsTipMessage(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_tip_message", String(describing: p1))
   }

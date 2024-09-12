@@ -6,7 +6,7 @@ class ReferralsClaimBannerTableCell: ThemeableCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        let viewModel = ReferralClaimPassModel()
+        let viewModel = ReferralClaimPassModel(offerInfo: ReferralsOfferInfoMock())
 
         let bannerView = ReferralsClaimBannerView(viewModel: viewModel).themedUIView
         bannerView.backgroundColor = .clear

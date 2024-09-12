@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct ReferralCardView: View {
-    let numberOfDaysOffered: Int
+    let offerDuration: String
 
-    init(numberOfDaysOffered: Int) {
-        self.numberOfDaysOffered = numberOfDaysOffered
+    init(offerDuration: String) {
+        self.offerDuration = offerDuration
     }
 
     var body: some View {
@@ -15,7 +15,7 @@ struct ReferralCardView: View {
             .cornerRadius(Constants.cardRadius)
             .foregroundColor(.clear)
             .overlay(alignment: .bottomLeading) {
-                Text(L10n.referralsGuestPassOffer(numberOfDaysOffered))
+                Text(L10n.referralsGuestPassOffer(offerDuration))
                     .font(size: 12, style: .body, weight: .semibold)
                     .foregroundColor(.white)
                     .padding()
@@ -46,6 +46,6 @@ struct ReferralCardView: View {
 }
 
 #Preview {
-    ReferralCardView(numberOfDaysOffered: 30)
+    ReferralCardView(offerDuration: "2-Month")
         .frame(width: 315, height: 200)
 }

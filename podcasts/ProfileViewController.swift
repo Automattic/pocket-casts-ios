@@ -350,7 +350,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .kidsProfile:
             break
         case .referralsClaim:
-            let viewModel = ReferralClaimPassModel(onCloseTap: {[weak self] in self?.dismiss(animated: true) })
+            let viewModel = ReferralClaimPassModel(offerInfo: referralsOfferInfo, onCloseTap: {[weak self] in self?.dismiss(animated: true) })
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
             present(referralClaimPassVC, animated: true)
         case .allStats:
@@ -445,13 +445,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     // MARK: - Referrals
 
+    private var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoMock()
     private var numberOfReferralsAvailable: Int = 3
 
     private var areReferralsAvailable: Bool {
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
     }
-
-    private let numberOfFreeDaysOffered: Int = 30
 
     private lazy var referralsBadge: UILabel = {
         let label = UILabel()
@@ -490,7 +489,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func updateReferrals() {
         if numberOfReferralsAvailable > 0 {
             numberOfReferralsAvailable -= 1
+            Settings.shouldShowReferralsTip = false
         } else {
+            Settings.shouldShowReferralsTip = true
             numberOfReferralsAvailable = 3
         }
         referralsBadge.text = "\(numberOfReferralsAvailable)"
@@ -505,10 +506,17 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         hideReferralsHint()
-        Settings.shouldShowReferralsTip = false
-        let vc = ReferralSendPassVC(viewModel: ReferralSendPassModel(numberOfPasses: numberOfReferralsAvailable))
+        let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo,
+                                              numberOfPasses: numberOfReferralsAvailable,
+                                              onShareGuestPassTap: { [weak self] in
+            self?.updateReferrals()
+            self?.dismiss(animated: true)
+        }, onCloseTap: { [weak self] in
+            self?.updateReferrals()
+            self?.dismiss(animated: true)
+        })
+        let vc = ReferralSendPassVC(viewModel: viewModel)
         present(vc, animated: true)
-        updateReferrals()
     }
 
     private enum ReferralsConstants {
@@ -536,7 +544,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func makeReferralsHint() -> UIViewController {
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
         let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
-                              message: L10n.referralsTipMessage(numberOfFreeDaysOffered),
+                              message: L10n.referralsTipMessage(referralsOfferInfo.localizedOfferDurationNoun.lowercased()),
                               sizeChanged: { size in
             vc.preferredContentSize = size
         } ).setupDefaultEnvironment()

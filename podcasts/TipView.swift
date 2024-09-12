@@ -41,7 +41,7 @@ struct TipView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            TipView(title: L10n.referralsTipTitle(3), message: L10n.referralsTipMessage(30), sizeChanged: { size in }).setupDefaultEnvironment()
+            TipView(title: L10n.referralsTipTitle(3), message: L10n.referralsTipMessage("2 Months"), sizeChanged: { size in }).setupDefaultEnvironment()
             Spacer()
         }
     }
