@@ -59,7 +59,7 @@ struct ReferralCardAnimatedGradientView: View {
                     endPoint: UnitPoint(x: 0.89, y: 0.95)
                 )
                 .clipShape(Circle())
-                .blur(radius: 30)
+                .blur(radius: geometry.size.width / 10)
                 .opacity(0.75)
                 .ignoresSafeArea()
                 .offset(x: currentAnimation.horizontalPosition * geometry.size.width / 2,
@@ -70,7 +70,7 @@ struct ReferralCardAnimatedGradientView: View {
                     endPoint: UnitPoint(x: 0.87, y: 1.18)
                 )
                 .clipShape(Circle())
-                .blur(radius: 30)
+                .blur(radius: geometry.size.width / 10)
                 .opacity(0.75)
                 .ignoresSafeArea()
                 .offset(x: -1 * currentAnimation.horizontalPosition * geometry.size.width / 2,

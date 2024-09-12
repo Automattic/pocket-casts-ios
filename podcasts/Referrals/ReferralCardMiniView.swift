@@ -1,11 +1,6 @@
 import SwiftUI
 
-struct ReferralCardView: View {
-    let numberOfDaysOffered: Int
-
-    init(numberOfDaysOffered: Int) {
-        self.numberOfDaysOffered = numberOfDaysOffered
-    }
+struct ReferralCardMiniView: View {
 
     var body: some View {
         Rectangle()
@@ -14,12 +9,6 @@ struct ReferralCardView: View {
             }
             .cornerRadius(Constants.cardRadius)
             .foregroundColor(.clear)
-            .overlay(alignment: .bottomLeading) {
-                Text(L10n.referralsGuestPassOffer(numberOfDaysOffered))
-                    .font(size: 12, style: .body, weight: .semibold)
-                    .foregroundColor(.white)
-                    .padding()
-            }
             .overlay(alignment: .topTrailing) {
                 Image("plusGold")
                     .renderingMode(.template)
@@ -27,7 +16,7 @@ struct ReferralCardView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: Constants.plusIconSize, height: Constants.plusIconSize)
                     .foregroundColor(.white)
-                    .padding()
+                    .padding(4)
             }
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.cardRadius)
@@ -37,15 +26,15 @@ struct ReferralCardView: View {
     }
 
     enum Constants {
-        static let cardRadius = CGFloat(13)
+        static let cardRadius = CGFloat(4)
         static let cardBackgroundColor = Color(red: 0.08, green: 0.03, blue: 0.3)
         static let cardStrokeColor = Color(red: 0.23, green: 0.23, blue: 0.23)
-        static let plusIconSize = CGFloat(12)
-        static let defaultCardSize = CGSize(width: 315, height: 200)
+        static let plusIconSize = CGFloat(6)
+        static let defaultCardSize = CGSize(width: 80, height: 50)
     }
 }
 
 #Preview {
-    ReferralCardView(numberOfDaysOffered: 30)
-        .frame(width: 315, height: 200)
+    ReferralCardMiniView()
+        .frame(width: ReferralCardMiniView.Constants.defaultCardSize.width, height: ReferralCardMiniView.Constants.defaultCardSize.height)
 }

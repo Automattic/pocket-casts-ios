@@ -1712,6 +1712,9 @@
 		FF05C9922C0E044C00E41EB3 /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */; };
 		FF0A1D522C580CF5003931E6 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
 		FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */; };
+		FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */; };
+		FF1DF0222C8F4D160028B8D8 /* ReferralClaimPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */; };
+		FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
@@ -1728,6 +1731,8 @@
 		FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */; };
 		FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */; };
 		FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */; };
+		FF5381A62C90A06400829525 /* ReferralsClaimBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */; };
+		FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */; };
 		FF54BCA92C5A2F3900A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF5B2A442BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */; };
@@ -3608,6 +3613,9 @@
 		FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Helper.swift"; sourceTree = "<group>"; };
 		FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardAnimatedGradientView.swift; sourceTree = "<group>"; };
+		FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimPass.swift; sourceTree = "<group>"; };
+		FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralClaimPassVC.swift; sourceTree = "<group>"; };
+		FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerView.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -3619,6 +3627,8 @@
 		FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSendPassVC.swift; sourceTree = "<group>"; };
 		FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFilter.swift; sourceTree = "<group>"; };
 		FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerGradientView.swift; sourceTree = "<group>"; };
+		FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerTableCell.swift; sourceTree = "<group>"; };
+		FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralCardMiniView.swift; sourceTree = "<group>"; };
 		FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFormat.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -7772,15 +7782,52 @@
 			path = Sharing;
 			sourceTree = "<group>";
 		};
+		FF1DF0232C8F4DBF0028B8D8 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */,
+				FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
 		FF4A73D42C8745AE00587128 /* Referrals */ = {
 			isa = PBXGroup;
 			children = (
-				FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */,
-				FF4A73D72C87694300587128 /* ReferralCardView.swift */,
-				FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */,
-				FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */,
+				FF5381AF2C91B60F00829525 /* SharedUI */,
+				FF5381AC2C90F2FF00829525 /* SendPass */,
+				FF5381AB2C90F2D400829525 /* ClaimPass */,
 			);
 			path = Referrals;
+			sourceTree = "<group>";
+		};
+		FF5381AB2C90F2D400829525 /* ClaimPass */ = {
+			isa = PBXGroup;
+			children = (
+				FF1DF0232C8F4DBF0028B8D8 /* Banner */,
+				FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */,
+				FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */,
+			);
+			name = ClaimPass;
+			sourceTree = "<group>";
+		};
+		FF5381AC2C90F2FF00829525 /* SendPass */ = {
+			isa = PBXGroup;
+			children = (
+				FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */,
+				FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */,
+			);
+			name = SendPass;
+			sourceTree = "<group>";
+		};
+		FF5381AF2C91B60F00829525 /* SharedUI */ = {
+			isa = PBXGroup;
+			children = (
+				FF4A73D72C87694300587128 /* ReferralCardView.swift */,
+				FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */,
+				FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */,
+			);
+			name = SharedUI;
 			sourceTree = "<group>";
 		};
 		FF7F89E82C2979C000FC0ED5 /* Transcripts */ = {
@@ -9484,6 +9531,7 @@
 				BD5945291D8A7F1700020B12 /* IncomingShareListViewController.swift in Sources */,
 				BDEC9AB720511F8900088D76 /* SettingsOptionsViewController.swift in Sources */,
 				40D6CD20247CD79400F1E665 /* SupporterPodcastViewController.swift in Sources */,
+				FF1DF0222C8F4D160028B8D8 /* ReferralClaimPassVC.swift in Sources */,
 				8BBE19F02BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift in Sources */,
 				4041FEA4218FE6A70089D4A1 /* PodcastSettingsViewController+VoiceShortcuts.swift in Sources */,
 				C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */,
@@ -9635,6 +9683,7 @@
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
 				FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */,
 				C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */,
+				FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */,
 				BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */,
 				4007B053230E3115008DDCF5 /* WhatsNewPageView.swift in Sources */,
 				BDCF3C8024283B0F005B6933 /* ListeningHistoryViewController+Swipe.swift in Sources */,
@@ -9723,8 +9772,10 @@
 				BD40987C1B9ED731007F36BD /* SynchronizedAudioStack.swift in Sources */,
 				BD77E9031B9D2CF600DC4ADF /* AngularProgressIndicator.swift in Sources */,
 				BD8032D32123EAD600BFBB03 /* EffectsButton.swift in Sources */,
+				FF5381A62C90A06400829525 /* ReferralsClaimBannerTableCell.swift in Sources */,
 				4030D4682498579D00BEC7D9 /* MultiSelectActionProtocol.swift in Sources */,
 				8B44446229785287007E0AA8 /* AppleSocialLogin.swift in Sources */,
+				FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */,
 				BD86D94F217EB81C0010FA1B /* FilterDownloadCell.swift in Sources */,
 				BD6B432A2755F516005E4017 /* AboutViewLogos.swift in Sources */,
 				C7AF7B992926B307002F0025 /* OnboardingHostingViewController.swift in Sources */,
@@ -9844,6 +9895,7 @@
 				40251CEC22BB0F6E00551C51 /* CancelledAcknowledgeViewController.swift in Sources */,
 				BDD3579527BCD6DF0000D155 /* GridHelper.swift in Sources */,
 				BD023C672251C192008A9C6F /* HeadingCell.swift in Sources */,
+				FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */,
 				BDF15A401B54E064000EC323 /* PlaybackQueue.swift in Sources */,
 				F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */,
 				46AA2E032767EF92001D647A /* PlayPauseLabeledButton.swift in Sources */,
