@@ -16,7 +16,7 @@ struct ActivityView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
         let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
-        controller.view.backgroundColor = .clear
+        controller.view.backgroundColor = .black
         controller.completionWithItemsHandler = { _, _, _, _ in
             dismissAction()
             completion?()
