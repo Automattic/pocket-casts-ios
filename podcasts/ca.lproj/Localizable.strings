@@ -393,6 +393,8 @@
     <string>Clip</string>
     <key>clip_duration_label</key>
     <string>%@ Durada</string>
+    <key>clip_loading_label</key>
+    <string>Creant Clip...</string>
     <key>clip_start_label</key>
     <string>%@ Inici</string>
     <key>clips_whats_new_button_title</key>
@@ -429,6 +431,10 @@
     <string>De franc</string>
     <key>create_account_plus_details</key>
     <string>Tot desbloquejat</string>
+    <key>create_audio_clip_description</key>
+    <string>Crear un fitxer d'àudio .m4a</string>
+    <key>create_audio_clip_title</key>
+    <string>Crear un fitxer d'àudio</string>
     <key>create_clip</key>
     <string>Crear clip</string>
     <key>create_filter</key>
@@ -1224,7 +1230,7 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <key>kids_profile_banner_request_button</key>
     <string>Sol·licita accés anticipat </string>
     <key>kids_profile_banner_text</key>
-    <string>Un nou perfil només amb contingut per a nens per mantenir les teves subscripcions ordenades.</string>
+    <string>Un nou perfil només amb contingut per a nens per a mantenir les teves subscripcions ordenades.</string>
     <key>kids_profile_banner_title</key>
     <string>Perfil per a nens</string>
     <key>kids_profile_submit_error</key>
@@ -1560,12 +1566,40 @@ ACTUALITZACIONS</string>
     <string>Gràcies pel teu suport, però lamentablement això significa que no pots participar en aquesta promoció.</string>
     <key>plus_expiration_format</key>
     <string>Caduca %1$@</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>Desa els teus fragments favorits de qualsevol episodi i recupera'ls.</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>Escolta en més llocs amb les nostres aplicacions per a Windows, macOS i Web.</string>
     <key>plus_feature_card_text_extra_themes</key>
     <string>Mostra't tal i com ets. Icones i temes exlusius per als nostres subscriptors.</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>Organitza els teus pòdcasts en carpetes i mantingues-los sincronitzats en tots els teus dispositius.</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>Aconsegueix 1 any de contingut premium de Slumber Studios.</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>Carrega els teus arxius a l'emmagatzematge al núvol per poder accedir-hi des de qualsevol lloc.</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>Deixa el telèfon i ves a córrer.</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>Marcadors</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>Aplicacions d'escriptori i web</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>Temes extra i imatges d'icones</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>Carpetes</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Somnia amb Slumber Studios</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20 GB d'emmagatzematge</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Reproducció d'Apple Watch i Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>L'etern agraïment de l'equip de Pocket Casts</string>
     <key>plus_feature_slumber</key>
     <string>1 any de contingut exclusiu de Slumber Studios</string>
+    <key>plus_feature_slumber_new</key>
+    <string>Somia amb el contingut de Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
     <string>Més temes i icones de l'aplicació</string>
     <key>plus_features</key>
@@ -2452,6 +2486,8 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Compartir l'episodi a %1$@</string>
     <key>share_episode_title</key>
     <string>Compartir l'episodi</string>
+    <key>share_instagram_stories</key>
+    <string>Històries</string>
     <key>share_list_subscribing</key>
     <string>Subscrivint-te…</string>
     <key>share_more_actions</key>
@@ -2767,6 +2803,12 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Una llista d'actualitzacions recents a 'Tot seguit' a causa de canvis a altres dispositius. Per veure els episodis i tenir l'opció de restaurar-los, toca qualsevol entrada.</string>
     <key>upgrade_account</key>
     <string>Actualizar el compte</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>Estalvia un 50%% en el teu primer any</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>Prova gratuïta de %1$@ Plus</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>Aconsegueix Pocket Casts Plus</string>
     <key>upgrade_experiment_reviews_app_store_button</key>
     <string>Veure totes les ressenyes a l'App Store</string>
     <key>upgrade_experiment_reviews_app_store_info</key>
