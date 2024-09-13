@@ -35,7 +35,6 @@ class TranscriptViewController: PlayerItemViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        addObservers()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
