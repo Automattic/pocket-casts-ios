@@ -43,7 +43,7 @@ extension ReferralSendPassModel: UIActivityItemSource {
     }
 
     var content: String {
-        "Hey! Use the link below to claim your 2-month guest pass for Pocket Casts Plus and enjoy podcasts across all your devices!\n\n\(referralURL.absoluteString)"
+        "\(L10n.referralsSharePassMessage(self.offerInfo.localizedOfferDurationAdjective))\n\n\(referralURL.absoluteString)"
     }
 
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
@@ -55,7 +55,7 @@ extension ReferralSendPassModel: UIActivityItemSource {
     }
 
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivity.ActivityType?) -> String {
-        return "2-month Guest Pass for Pocket Casts Plus!"
+        return L10n.referralsSharePassSubject(self.offerInfo.localizedOfferDurationAdjective)
     }
 
 }
