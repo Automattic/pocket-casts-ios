@@ -135,6 +135,7 @@ struct SharingView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: Constants.descriptionMaxWidth)
+                .accessibilityHidden(shareable.style.shareDescription(option: shareable.option) == nil)
         }
     }
 
@@ -150,13 +151,31 @@ struct SharingView: View {
     }
 
     @ViewBuilder var tabView: some View {
+        let styles = styles(for: shareable.option)
         GeometryReader { proxy in
+            let currentIndex = styles.firstIndex(of: shareable.style) ?? 0
             TabView(selection: $shareable.style) {
-                ForEach(styles(for: shareable.option), id: \.self) { style in
+                ForEach(styles, id: \.self) { style in
                     image(style: style, containerHeight: proxy.size.height)
                 }
             }
             .tabViewStyle(.page)
+            .accessibilityElement()
+            .accessibilityLabel(L10n.clipsShareableMediaA11yLabel)
+            .accessibilityValue(L10n.clipsShareableMediaItemA11yLabel(shareable.style.tabString, currentIndex + 1, styles.count))
+            .accessibilityAdjustableAction { direction in
+                let nextIndex: Int?
+                switch direction {
+                case .increment:
+                    nextIndex = currentIndex.advanced(by: 1) % styles.count
+                case .decrement:
+                    nextIndex = currentIndex.advanced(by: -1) % styles.count
+                default:
+                    nextIndex = nil
+                }
+
+                shareable.style = styles[nextIndex ?? 0]
+            }
         }
     }
 

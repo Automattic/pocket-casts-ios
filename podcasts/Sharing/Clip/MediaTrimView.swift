@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import PocketCastsUtils
 
 struct MediaTrimView: View {
     let duration: TimeInterval
@@ -42,7 +43,7 @@ struct MediaTrimView: View {
                         playTime = (playPosition * duration) / geometry.size.width
                     }
                     .frame(width: Constants.playLineWidth)
-                TrimSelectionView(leading: scaledPosition($startPosition), trailing: scaledPosition($endPosition), handleWidth: Constants.trimHandleWidth, indicatorWidth: Constants.playLineWidth, changed: { position, side in
+                TrimSelectionView(leading: scaledPosition($startPosition), leadingA11yValue: a11yLabel(time: $startTime), trailing: scaledPosition($endPosition), trailingA11yValue: a11yLabel(time: $endTime), handleWidth: Constants.trimHandleWidth, indicatorWidth: Constants.playLineWidth, changed: { position, side in
                     update(position: position, for: side, in: geometry.size.width)
                 })
                 .onAppear {
@@ -61,6 +62,15 @@ struct MediaTrimView: View {
             get: { position.wrappedValue * scale },
             set: { newValue in
                 position.wrappedValue = newValue / scale
+            }
+        )
+    }
+
+    private func a11yLabel(time: Binding<TimeInterval>) -> Binding<String> {
+        Binding<String>(
+            get: { time.wrappedValue.localizedTimeDescription ?? "Unknown" },
+            set: { newValue in
+                () // Read-only
             }
         )
     }
