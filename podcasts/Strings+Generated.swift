@@ -450,6 +450,16 @@ internal enum L10n {
   internal static func clipStartLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "clip_start_label", String(describing: p1))
   }
+  /// Clip end
+  internal static var clipsEndTimeAccessibilityLabel: String { return L10n.tr("Localizable", "clips_end_time_accessibility_label") }
+  /// Shareable media options
+  internal static var clipsShareableMediaA11yLabel: String { return L10n.tr("Localizable", "clips_shareable_media_a11y_label") }
+  /// %1$@ format %2$@ of %3$@
+  internal static func clipsShareableMediaItemA11yLabel(_ p1: Any, _ p2: Any, _ p3: Any) -> String {
+    return L10n.tr("Localizable", "clips_shareable_media_item_a11y_label", String(describing: p1), String(describing: p2), String(describing: p3))
+  }
+  /// Clip start
+  internal static var clipsStartTimeAccessibilityLabel: String { return L10n.tr("Localizable", "clips_start_time_accessibility_label") }
   /// Got it
   internal static var clipsWhatsNewButtonTitle: String { return L10n.tr("Localizable", "clips_whats_new_button_title") }
   /// You can now share clips of your favorite bits from any episode. We’ve also made easier to share any content to all social media apps.
@@ -1949,6 +1959,8 @@ internal enum L10n {
   internal static func plusYearlyFrequencyPricingFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_yearly_frequency_pricing_format", String(describing: p1))
   }
+  /// Pocket Casts logo
+  internal static var pocketCastsLogo: String { return L10n.tr("Localizable", "pocket_casts_logo") }
   /// Pocket Casts Newsletter
   internal static var pocketCastsNewsletter: String { return L10n.tr("Localizable", "pocket_casts_newsletter") }
   /// Receive news, app updates, themed playlists, interviews, and more.

@@ -1233,8 +1233,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>すぐに</string>
     <key>kids_profile_banner_request_button</key>
     <string>早期アクセスをリクエスト </string>
-    <key>kids_profile_banner_text</key>
-    <string>子ども向けコンテンツのみのプロフィールを新規に作成して、サブスクリプションを整理しておくことができます。</string>
     <key>kids_profile_banner_title</key>
     <string>キッズプロフィール</string>
     <key>kids_profile_submit_error</key>
@@ -2814,7 +2812,7 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>upgrade_experiment_reviews_app_store_button</key>
     <string>App ストアのレビューをすべて見る</string>
     <key>upgrade_experiment_reviews_app_store_info</key>
-    <string>%1$@ 評価 (%2$@K 件のレビュー)</string>
+    <string>%1$@ 評価 (%2$@千件のレビュー)</string>
     <key>upgrade_experiment_reviews_review_text_0</key>
     <string>長い間愛用していますが、無料版の機能性とカスタマイズの多さには驚かされます。 端末間で同期されるので、スマートフォンで聴き始めたあとに Alexa 端末で続きを聴くことができるのも気に入っています。 ポッドキャストを聴く人全員におすすめのアプリです。 また、統計機能も気に入っています !</string>
     <key>upgrade_experiment_reviews_review_text_1</key>
