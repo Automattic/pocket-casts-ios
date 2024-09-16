@@ -1233,8 +1233,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>即將推出</string>
     <key>kids_profile_banner_request_button</key>
     <string>申請搶先使用 </string>
-    <key>kids_profile_banner_text</key>
-    <string>新版個人檔案僅包含適合兒童的內容，可維持訂閱項目畫面清楚有條理。</string>
     <key>kids_profile_banner_title</key>
     <string>兒童個人檔案</string>
     <key>kids_profile_submit_error</key>
@@ -1575,7 +1573,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>plus_feature_card_text_desktop</key>
     <string>使用我們的 Windows、macOS 和網頁版應用程式，在更多地方收聽。</string>
     <key>plus_feature_card_text_extra_themes</key>
-    <string>展現你最真實的色彩。 自家訂閱者的專屬圖示和佈景主題。</string>
+    <string>展現你的真實本色。 自家訂閱者的專屬圖示和佈景主題。</string>
     <key>plus_feature_card_text_folders</key>
     <string>在資料夾中整理你的 Podcast，並在所有裝置間同步。</string>
     <key>plus_feature_card_text_slumber_studio</key>

@@ -299,6 +299,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     func hideTranscript() {
+        transcriptsItem.willBeRemovedFromPlayer()
         transcriptsItem.willMove(toParent: nil)
         transcriptsItem.removeFromParent()
         transcriptsItem.view.removeFromSuperview()

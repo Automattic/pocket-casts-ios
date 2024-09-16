@@ -393,8 +393,16 @@
     <string>Клип</string>
     <key>clip_duration_label</key>
     <string>Продолжительность: %@</string>
+    <key>clip_loading_label</key>
+    <string>Идёт создание клипа…</string>
     <key>clip_start_label</key>
     <string>Начало: %@</string>
+    <key>clips_whats_new_button_title</key>
+    <string>Понятно</string>
+    <key>clips_whats_new_message</key>
+    <string>Теперь вы можете публиковать клипы из ваших любимых фрагментов любого выпуска. Мы также упростили публикацию контента во всех социальных сетях.</string>
+    <key>clips_whats_new_title</key>
+    <string>Теперь можно делиться клипами!</string>
     <key>close</key>
     <string>Закрыть</string>
     <key>color</key>
@@ -423,6 +431,10 @@
     <string>Бесплатно</string>
     <key>create_account_plus_details</key>
     <string>Все разблокировано</string>
+    <key>create_audio_clip_description</key>
+    <string>Создать аудиофайл .m4a</string>
+    <key>create_audio_clip_title</key>
+    <string>Создать аудиофайл</string>
     <key>create_clip</key>
     <string>Создать клип</string>
     <key>create_filter</key>
@@ -1221,8 +1233,6 @@
     <string>Уже скоро</string>
     <key>kids_profile_banner_request_button</key>
     <string>Запросить ранний доступ </string>
-    <key>kids_profile_banner_text</key>
-    <string>Новый профиль исключительно с детским контентом, не затрагивающим ваши подписки.</string>
     <key>kids_profile_banner_title</key>
     <string>Профиль «Дети»</string>
     <key>kids_profile_submit_error</key>
@@ -1558,10 +1568,40 @@
     <string>Спасибо за вашу поддержку, но, к сожалению, это означает, что вы не можете участвовать в этой акции.</string>
     <key>plus_expiration_format</key>
     <string>Истекает %1$@</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>Сохраняйте ваши любимые фрагменты любого выпуска и возвращайтесь к ним.</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>Слушайте повсюду: в приложениях для Windows, для macOS и в веб-приложении.</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>Покажите себя во всей красе. Эксклюзивные значки и темы для наших подписчиков.</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>Распределите подкасты по папкам и синхронизируйте их на всех устройствах.</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>Получите годовую подписку на премиум-контент от Slumber Studios.</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>Загрузите аудиофайлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>Отправляйтесь на лёгкую пробежку без телефона.</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>Закладки</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>Приложения для ПК и веб-приложения</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>Дополнительные темы и значки</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>Папки</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Slumber Studios — мы помогаем вам мечтать</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20 ГБ дискового пространства</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Воспроизведение на Apple Watch и Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>Бесконечная благодарность от всей команды Pocket Casts</string>
     <key>plus_feature_slumber</key>
     <string>Эксклюзивный контент от Slumber Studios на 1 год</string>
+    <key>plus_feature_slumber_new</key>
+    <string>Содержание: Slumber Studios — мы помогаем вам мечтать</string>
     <key>plus_feature_themes_icons</key>
     <string>Дополнительные темы и значки приложения</string>
     <key>plus_features</key>
@@ -2449,6 +2489,8 @@
     <string>Поделиться выпуском в %1$@</string>
     <key>share_episode_title</key>
     <string>Поделиться выпуском</string>
+    <key>share_instagram_stories</key>
+    <string>Истории</string>
     <key>share_list_subscribing</key>
     <string>Подписка...</string>
     <key>share_more_actions</key>
@@ -2731,6 +2773,8 @@
     <string>К сожалению, во время загрузки этой расшифровки что-то пошло не так</string>
     <key>transcript_error_failed_to_parse</key>
     <string>К сожалению, во время анализа этой расшифровки что-то пошло не так</string>
+    <key>transcript_error_not_available</key>
+    <string>К сожалению, в этом выпуске нет расшифровки.</string>
     <key>transcript_error_not_supported</key>
     <string>К сожалению, этот формат расшифровки не поддерживается: %1$@</string>
     <key>trial_finished</key>
@@ -2763,6 +2807,48 @@
     <string>Список последних обновлений Up Next, вызванных изменениями на других устройствах. Нажмите любую запись, чтобы просмотреть и при желании восстановить выпуски.</string>
     <key>upgrade_account</key>
     <string>Перейти на платный план</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>Скидка 50%% на первый год</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>Бесплатный пробный период Plus: %1$@</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>Получите Pocket Casts Plus</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>Читать другие отзывы в App Store</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>Оценка: %1$@ (Отзывов: %2$@K)</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>Как давний пользователь, я могу сказать, что набор функций и возможности настройки даже в бесплатной версии просто безграничны. Мне нравится, что приложение синхронизируется на всех устройствах, и я могу начать прослушивание с телефона, а затем продолжить при помощи Alexa. Я рекомендую его всем, кто слушает подкасты. А ещё здесь крутая статистика!</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>Пользуюсь 8 лет, и за это время отличное приложение стало ещё лучше.</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>Я пользуюсь Pocket Casts с 2017 года.
+
+Могу поклясться, что это лучшее приложение для прослушивания подкастов. В нём много полезных функций, и оно активно развивается. Были жалобы на то, что изменился интерфейс, но я не заметил никаких серьёзных изменений.
+
+Приложение может быть настолько простым или сложным, насколько это вам нужно. Так что вы можете либо пользоваться только функцией plug and play, либо настроить пропуск заставок, либо включить любую другую функцию, которая вам нравится.</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>Синхронизация просто супер. Не знаю, что там за волшебство, но это приложение определённо лучше всех, которыми я пользовался.</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>Пользуюсь приложением уже 6 лет или даже больше, начинал на Android, а теперь уже почти год — на iOS. Работает одинаково на обеих платформах. Легко искать и находить новые подкасты, отличный пользовательский интерфейс, можно добавлять подкасты по URL-адресу в RSS-ленте. Приложение в часах тоже работает, но я чаще всего пользуюсь им как кнопкой воспроизведения или паузы. Можно войти с данными учётной записи, чтобы синхронизировать приложение на всех устройствах, но это делать необязательно.</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>PC уже много лет остаётся моим любимым приложением. Я пробовал другие приложения для подкастов, но всегда возвращался к PC: это самый простой вариант с лучшим пользовательским интерфейсом и поддержкой. Безусловно, стоит попробовать, особенно если вам надоело ваше нынешнее приложение для подкастов.</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>САМОЕ лучшее приложение для подкастов</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>Всё, что нужно любителям подкастов</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>Лучшее приложение для подкастов</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>Потрясающая штука.</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>Работает отлично, легко находить и добавлять новые подкасты.</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>Лучшее приложение для подкастов</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>Почему люди переходят на версию Plus</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>Просто это лучший способ слушать подкасты</string>
     <key>upgrade_to_plan</key>
     <string>Обновить до %1$@</string>
     <key>upgrade_to_plus</key>

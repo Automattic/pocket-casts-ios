@@ -1233,8 +1233,6 @@
     <string>即将推出</string>
     <key>kids_profile_banner_request_button</key>
     <string>请求抢先体验 </string>
-    <key>kids_profile_banner_text</key>
-    <string>仅包含儿童相关内容的新个人资料，可保持订阅界面整洁有序。</string>
     <key>kids_profile_banner_title</key>
     <string>儿童个人资料</string>
     <key>kids_profile_submit_error</key>
@@ -2776,7 +2774,7 @@
     <key>transcript_error_failed_to_parse</key>
     <string>很抱歉，解析此文字转录稿时出现错误</string>
     <key>transcript_error_not_available</key>
-    <string>很抱歉，本集没有文字转录稿。</string>
+    <string>很抱歉，本剧集没有文字转录稿。</string>
     <key>transcript_error_not_supported</key>
     <string>很抱歉，此文字转录稿格式不受支持：%1$@</string>
     <key>trial_finished</key>
@@ -2810,7 +2808,7 @@
     <key>upgrade_account</key>
     <string>升级账户</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
-    <string>首年享 5%% 折优惠</string>
+    <string>首年享 50%% 优惠</string>
     <key>upgrade_experiment_free_membership_format</key>
     <string>免费试用 Plus %1$@</string>
     <key>upgrade_experiment_paywall_button</key>
@@ -2828,7 +2826,7 @@
 
 毫无疑问，这是用来听播客的最佳应用程序。 它功能丰富，并且仍然在积极地开发完善。 有些人对 Ul 的改动表示不满，但对我来说好像没有太大影响。
 
-根据你的需求，你可以采用简单或复杂的方式使用这款应用程序。 因此，你可以让它即插即用，也可以设置跳过结尾和开头计时器，以及任何其他您想启用的小功能。</string>
+根据你的需求，你可以采用简单或复杂的方式使用这款应用程序。 因此，你可以让它即插即用，也可以设置跳过结尾和开头计时器，以及任何其他你想启用的小功能。</string>
     <key>upgrade_experiment_reviews_review_text_3</key>
     <string>同步功能非常神奇。 虽然不知道这个应用程序有什么特别的魔力，但它比我用过的其他任何应用程序都要好。</string>
     <key>upgrade_experiment_reviews_review_text_4</key>
