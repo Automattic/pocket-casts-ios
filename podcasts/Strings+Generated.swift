@@ -1414,7 +1414,7 @@ internal enum L10n {
   internal static var kidsProfileBannerBadge: String { return L10n.tr("Localizable", "kids_profile_banner_badge") }
   /// Request Early Access 
   internal static var kidsProfileBannerRequestButton: String { return L10n.tr("Localizable", "kids_profile_banner_request_button") }
-  /// A new profile with only content for kids to keep you subscriptions tidy.
+  /// A new profile with only content for kids to keep your subscriptions tidy.
   internal static var kidsProfileBannerText: String { return L10n.tr("Localizable", "kids_profile_banner_text") }
   /// Kids Profile
   internal static var kidsProfileBannerTitle: String { return L10n.tr("Localizable", "kids_profile_banner_title") }
@@ -2286,6 +2286,40 @@ internal enum L10n {
   internal static var ratingWhatsNewMessage: String { return L10n.tr("Localizable", "rating_whats_new_message") }
   /// Now Available: Podcast Ratings 🎉
   internal static var ratingWhatsNewTitle: String { return L10n.tr("Localizable", "rating_whats_new_title") }
+  /// Activate my pass
+  internal static var referralsClaimGuestPassAction: String { return L10n.tr("Localizable", "referrals_claim_guest_pass_action") }
+  /// Unlock the full listening experience
+  internal static var referralsClaimGuestPassBannerDetail: String { return L10n.tr("Localizable", "referrals_claim_guest_pass_banner_detail") }
+  /// Claim your %1$@ Guest Pass to Plus
+  internal static func referralsClaimGuestPassBannerTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_claim_guest_pass_banner_title", String(describing: p1))
+  }
+  /// This offer is for new members only. Membership will automatically renew to a paid annual membership at %1$@.
+  internal static func referralsClaimGuestPassDetail(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_claim_guest_pass_detail", String(describing: p1))
+  }
+  /// Claim your %1$@ Guest Pass
+  internal static func referralsClaimGuestPassTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_claim_guest_pass_title", String(describing: p1))
+  }
+  /// %1$@ Guest Pass
+  internal static func referralsGuestPassOffer(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))
+  }
+  /// Share Guest Pass
+  internal static var referralsShareGuestPass: String { return L10n.tr("Localizable", "referrals_share_guest_pass") }
+  /// Thanks for sharing Pocket Casts! We'll let you know when you have more passes to give.
+  internal static var referralsShareNoGuestPassMessage: String { return L10n.tr("Localizable", "referrals_share_no_guest_pass_message") }
+  /// You've shared all yours guest passes!
+  internal static var referralsShareNoGuestPassTitle: String { return L10n.tr("Localizable", "referrals_share_no_guest_pass_title") }
+  /// Gift %1$@ of Plus to friends and family
+  internal static func referralsTipMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_tip_message", String(describing: p1))
+  }
+  /// You have %1$@ passes to share
+  internal static func referralsTipTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_tip_title", String(describing: p1))
+  }
   /// FINDING NEW PODCAST EPISODES
   internal static var refreshControlFetchingEpisodes: String { return L10n.tr("Localizable", "refresh_control_fetching_episodes") }
   /// PULL TO REFRESH

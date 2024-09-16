@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import SwiftUI
 
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
@@ -39,13 +40,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    private enum TableRow { case kidsProfile, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    private enum TableRow { case kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
     @IBOutlet var profileTable: UITableView! {
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
             profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
             profileTable.register(KidsProfileBannerTableCell.self, forCellReuseIdentifier: KidsProfileBannerTableCell.identifier)
+            if FeatureFlag.referrals.enabled {
+                profileTable.register(ReferralsClaimBannerTableCell.self, forCellReuseIdentifier: ReferralsClaimBannerTableCell.identifier)
+            }
         }
     }
 
@@ -127,12 +131,18 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         }
 
         whatsNewDismissed()
+        showReferralsHintIfNeeded()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
         refreshControl?.parentViewControllerDidDisappear()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideReferralsHint()
     }
 
     override func handleThemeChanged() {
@@ -265,6 +275,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return cell
         }
 
+        if row == .referralsClaim {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReferralsClaimBannerTableCell.identifier, for: indexPath) as! ReferralsClaimBannerTableCell
+            return cell
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId, for: indexPath) as! TopLevelSettingsCell
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
@@ -274,6 +289,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         switch row {
         case .kidsProfile:
             return KidsProfileBannerTableCell()
+        case .referralsClaim:
+            return ReferralsClaimBannerTableCell()
         case .allStats:
             cell.settingsImage.image = UIImage(named: "profile-stats")
             cell.settingsLabel.text = L10n.settingsStats
@@ -318,7 +335,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         let row = tableData[indexPath.section][indexPath.row]
 
         if EndOfYear.isEligible && row == .endOfYearPrompt ||
-            row == .kidsProfile {
+            row == .kidsProfile || row == .referralsClaim {
             return UITableView.automaticDimension
         } else {
             return 70
@@ -332,6 +349,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         switch row {
         case .kidsProfile:
             break
+        case .referralsClaim:
+            let viewModel = ReferralClaimPassModel(offerInfo: referralsOfferInfo, onCloseTap: {[weak self] in self?.dismiss(animated: true) })
+            let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
+            present(referralClaimPassVC, animated: true)
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -385,6 +406,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             data[0].insert(.kidsProfile, at: 0)
         }
 
+        if FeatureFlag.referrals.enabled {
+            data[0].insert(.referralsClaim, at: 0)
+        }
+
+
         tableData = data
         profileTable.reloadData()
     }
@@ -419,6 +445,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     // MARK: - Referrals
 
+    private var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoMock()
     private var numberOfReferralsAvailable: Int = 3
 
     private var areReferralsAvailable: Bool {
@@ -462,7 +489,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func updateReferrals() {
         if numberOfReferralsAvailable > 0 {
             numberOfReferralsAvailable -= 1
+            Settings.shouldShowReferralsTip = false
         } else {
+            Settings.shouldShowReferralsTip = true
             numberOfReferralsAvailable = 3
         }
         referralsBadge.text = "\(numberOfReferralsAvailable)"
@@ -476,16 +505,73 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     @objc private func referralsTapped() {
-        updateReferrals()
+        hideReferralsHint()
+        let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo,
+                                              numberOfPasses: numberOfReferralsAvailable,
+                                              onShareGuestPassTap: { [weak self] in
+            self?.updateReferrals()
+            self?.dismiss(animated: true)
+        }, onCloseTap: { [weak self] in
+            self?.updateReferrals()
+            self?.dismiss(animated: true)
+        })
+        let vc = ReferralSendPassVC(viewModel: viewModel)
+        present(vc, animated: true)
     }
 
     private enum ReferralsConstants {
         static let giftIcon = "gift"
         static let giftSize = CGFloat(24)
         static let giftBadgeSize = CGFloat(16)
+        static let defaultTipSize = CGSizeMake(300, 50)
     }
+
+    private var referralsTipVC: UIViewController?
+
+    private func showReferralsHintIfNeeded() {
+        guard areReferralsAvailable, numberOfReferralsAvailable > 0, Settings.shouldShowReferralsTip else {
+            return
+        }
+        let vc = makeReferralsHint()
+        present(vc, animated: true, completion: nil)
+        self.referralsTipVC = vc
+    }
+
+    private func hideReferralsHint() {
+        self.referralsTipVC?.dismiss(animated: true)
+    }
+
+    private func makeReferralsHint() -> UIViewController {
+        let vc = UIHostingController(rootView: AnyView (EmptyView()) )
+        let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
+                              message: L10n.referralsTipMessage(referralsOfferInfo.localizedOfferDurationNoun.lowercased()),
+                              sizeChanged: { size in
+            vc.preferredContentSize = size
+        } ).setupDefaultEnvironment()
+        vc.rootView = AnyView(tipView)
+        vc.view.backgroundColor = .clear
+        vc.view.clipsToBounds = false
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = ReferralsConstants.defaultTipSize
+        if let popoverPresentationController = vc.popoverPresentationController {
+            popoverPresentationController.delegate = self
+            popoverPresentationController.permittedArrowDirections = .up
+            popoverPresentationController.sourceView = referralsButton
+            popoverPresentationController.sourceRect = referralsButton.bounds
+            popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
+            popoverPresentationController.passthroughViews = [referralsButton, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
+        }
+        return vc
+    }
+
 }
 
+extension ProfileViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // Return no adaptive presentation style, use default presentation behaviour
+        return .none
+    }
+}
 // MARK: - PlusLockedInfoDelegate
 
 extension ProfileViewController: PlusLockedInfoDelegate {

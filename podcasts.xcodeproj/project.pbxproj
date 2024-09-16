@@ -1711,6 +1711,10 @@
 		FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF05C9922C0E044C00E41EB3 /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */; };
 		FF0A1D522C580CF5003931E6 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
+		FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */; };
+		FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */; };
+		FF1DF0222C8F4D160028B8D8 /* ReferralClaimPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */; };
+		FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
@@ -1722,8 +1726,14 @@
 		FF4724612BA48CAA00EA916B /* FiltersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724602BA48CA900EA916B /* FiltersListView.swift */; };
 		FF4724632BA48E8D00EA916B /* FiltersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724622BA48E8D00EA916B /* FiltersListViewModel.swift */; };
 		FF4724652BA721D300EA916B /* InterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4724642BA721D200EA916B /* InterfaceView.swift */; };
+		FF4A73D62C8745D200587128 /* ReferralSendPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */; };
+		FF4A73D82C87694300587128 /* ReferralCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D72C87694300587128 /* ReferralCardView.swift */; };
+		FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */; };
 		FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */; };
 		FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */; };
+		FF5381A62C90A06400829525 /* ReferralsClaimBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */; };
+		FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */; };
+		FF5381B12C91C6EF00829525 /* ReferralsOfferInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381B02C91C6EF00829525 /* ReferralsOfferInfo.swift */; };
 		FF54BCA92C5A2F3900A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF5B2A442BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B2A432BB1859B009F3DC2 /* SourceInterfaceNavigationView.swift */; };
@@ -1741,6 +1751,7 @@
 		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
 		FF91A0FC2B6BC1D2002A0590 /* UpgradePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */; };
 		FF91A0FE2B6BC4BD002A0590 /* FeaturesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */; };
+		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
 		FFC293992B6173400059F3BB /* IAPTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293982B6173400059F3BB /* IAPTypes.swift */; };
 		FFD044192C4FE9F400CCB192 /* TranscriptModelFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD044182C4FE9F400CCB192 /* TranscriptModelFilterTests.swift */; };
@@ -3602,14 +3613,24 @@
 		FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceModel.swift; sourceTree = "<group>"; };
 		FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Helper.swift"; sourceTree = "<group>"; };
 		FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
+		FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardAnimatedGradientView.swift; sourceTree = "<group>"; };
+		FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimPass.swift; sourceTree = "<group>"; };
+		FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralClaimPassVC.swift; sourceTree = "<group>"; };
+		FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerView.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
 		FF47245A2BA4749F00EA916B /* MenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
 		FF4724602BA48CA900EA916B /* FiltersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersListView.swift; sourceTree = "<group>"; };
 		FF4724622BA48E8D00EA916B /* FiltersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersListViewModel.swift; sourceTree = "<group>"; };
 		FF4724642BA721D200EA916B /* InterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceView.swift; sourceTree = "<group>"; };
+		FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSendPassView.swift; sourceTree = "<group>"; };
+		FF4A73D72C87694300587128 /* ReferralCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardView.swift; sourceTree = "<group>"; };
+		FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSendPassVC.swift; sourceTree = "<group>"; };
 		FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFilter.swift; sourceTree = "<group>"; };
 		FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerGradientView.swift; sourceTree = "<group>"; };
+		FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerTableCell.swift; sourceTree = "<group>"; };
+		FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralCardMiniView.swift; sourceTree = "<group>"; };
+		FF5381B02C91C6EF00829525 /* ReferralsOfferInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsOfferInfo.swift; sourceTree = "<group>"; };
 		FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFormat.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -3627,6 +3648,7 @@
 		FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCard.swift; sourceTree = "<group>"; };
 		FF91A0FB2B6BC1D2002A0590 /* UpgradePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompt.swift; sourceTree = "<group>"; };
 		FF91A0FD2B6BC4BD002A0590 /* FeaturesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesCarousel.swift; sourceTree = "<group>"; };
+		FF9ED3542C86010F00B6E630 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
 		FFC293982B6173400059F3BB /* IAPTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTypes.swift; sourceTree = "<group>"; };
 		FFD044182C4FE9F400CCB192 /* TranscriptModelFilterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscriptModelFilterTests.swift; sourceTree = "<group>"; };
@@ -5553,6 +5575,7 @@
 		BD55C9F11FB9200C0084A7CB /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				FF4A73D42C8745AE00587128 /* Referrals */,
 				10A4F7542C51627C0084D783 /* Kids Profile */,
 				C76400542A0EDFB90092A74B /* UserInfo.swift */,
 				C713D4EB2A04C8D700A78468 /* Profile - SwiftUI */,
@@ -5564,6 +5587,7 @@
 				400AB2FF220BA3110003EE21 /* Files */,
 				40542E292265600200046330 /* Account Management */,
 				BD8139D01FB95C3900DBF0EC /* ProfileViewController.swift */,
+				FF9ED3542C86010F00B6E630 /* TipView.swift */,
 				BD8139D11FB95C3900DBF0EC /* ProfileViewController.xib */,
 				40164A6D23E19C9A0043907B /* ProfileViewController+Promotion.swift */,
 			);
@@ -7760,6 +7784,55 @@
 			path = Sharing;
 			sourceTree = "<group>";
 		};
+		FF1DF0232C8F4DBF0028B8D8 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */,
+				FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		FF4A73D42C8745AE00587128 /* Referrals */ = {
+			isa = PBXGroup;
+			children = (
+				FF5381AF2C91B60F00829525 /* SharedUI */,
+				FF5381AC2C90F2FF00829525 /* SendPass */,
+				FF5381AB2C90F2D400829525 /* ClaimPass */,
+				FF5381B02C91C6EF00829525 /* ReferralsOfferInfo.swift */,
+			);
+			path = Referrals;
+			sourceTree = "<group>";
+		};
+		FF5381AB2C90F2D400829525 /* ClaimPass */ = {
+			isa = PBXGroup;
+			children = (
+				FF1DF0232C8F4DBF0028B8D8 /* Banner */,
+				FF1DF01F2C8F411E0028B8D8 /* ReferralsClaimPass.swift */,
+				FF1DF0212C8F4D160028B8D8 /* ReferralClaimPassVC.swift */,
+			);
+			name = ClaimPass;
+			sourceTree = "<group>";
+		};
+		FF5381AC2C90F2FF00829525 /* SendPass */ = {
+			isa = PBXGroup;
+			children = (
+				FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */,
+				FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */,
+			);
+			name = SendPass;
+			sourceTree = "<group>";
+		};
+		FF5381AF2C91B60F00829525 /* SharedUI */ = {
+			isa = PBXGroup;
+			children = (
+				FF4A73D72C87694300587128 /* ReferralCardView.swift */,
+				FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */,
+				FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */,
+			);
+			name = SharedUI;
+			sourceTree = "<group>";
+		};
 		FF7F89E82C2979C000FC0ED5 /* Transcripts */ = {
 			isa = PBXGroup;
 			children = (
@@ -9357,6 +9430,7 @@
 				4053CDFB214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift in Sources */,
 				BD26AFD427BDFD18008CC973 /* Folder+Formatting.swift in Sources */,
 				40F0DE8922E42AD2001DAA52 /* PlusLockedInfoView.swift in Sources */,
+				FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */,
 				C7318EA42A61E40800EAFA9C /* BookmarkEditTitleView.swift in Sources */,
 				BDF4D30B2175A9E90086463E /* StarredViewController.swift in Sources */,
 				C75BB06829B954B100F2DF63 /* EpisodeLoadingController.swift in Sources */,
@@ -9380,6 +9454,7 @@
 				BD3C19301C27B4EC00B7847D /* PodcastListCell.swift in Sources */,
 				BD5AE6831FE0E9A20009B8A1 /* PodcastViewController+TableData.swift in Sources */,
 				BD2F5928204687BC00AD3767 /* BadgeHelper.swift in Sources */,
+				FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */,
 				C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */,
 				4022A4C0236BA15800900734 /* SleepTimerViewController.swift in Sources */,
 				40F0DE8D22E45236001DAA52 /* PlusLockedInfoCell.swift in Sources */,
@@ -9409,6 +9484,7 @@
 				BDFF77301C9929660086282A /* NavigationProtocol.swift in Sources */,
 				BD96575E2469053600873BB5 /* GoogleCastCell.swift in Sources */,
 				C71C04C929243F7D00F2858A /* ImportViewModel.swift in Sources */,
+				FF4A73D82C87694300587128 /* ReferralCardView.swift in Sources */,
 				8B9D459C28F9A6260034219E /* TopFivePodcastsStory.swift in Sources */,
 				8BC060102AB35D0D00A4FEC6 /* View+if.swift in Sources */,
 				BDD3018C1EFB94C9004A9972 /* WatchManager.swift in Sources */,
@@ -9458,6 +9534,7 @@
 				BD5945291D8A7F1700020B12 /* IncomingShareListViewController.swift in Sources */,
 				BDEC9AB720511F8900088D76 /* SettingsOptionsViewController.swift in Sources */,
 				40D6CD20247CD79400F1E665 /* SupporterPodcastViewController.swift in Sources */,
+				FF1DF0222C8F4D160028B8D8 /* ReferralClaimPassVC.swift in Sources */,
 				8BBE19F02BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift in Sources */,
 				4041FEA4218FE6A70089D4A1 /* PodcastSettingsViewController+VoiceShortcuts.swift in Sources */,
 				C7F4BABF28DB7F7C001C9785 /* DiscoverItem+Helper.swift in Sources */,
@@ -9609,6 +9686,7 @@
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
 				FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */,
 				C797D7C32A7A13AA004D7419 /* BookmarkCardTitleView.swift in Sources */,
+				FF1DF0252C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift in Sources */,
 				BD2B50B0201077150099B79D /* PodcastSettingsViewController+Table.swift in Sources */,
 				4007B053230E3115008DDCF5 /* WhatsNewPageView.swift in Sources */,
 				BDCF3C8024283B0F005B6933 /* ListeningHistoryViewController+Swipe.swift in Sources */,
@@ -9697,8 +9775,10 @@
 				BD40987C1B9ED731007F36BD /* SynchronizedAudioStack.swift in Sources */,
 				BD77E9031B9D2CF600DC4ADF /* AngularProgressIndicator.swift in Sources */,
 				BD8032D32123EAD600BFBB03 /* EffectsButton.swift in Sources */,
+				FF5381A62C90A06400829525 /* ReferralsClaimBannerTableCell.swift in Sources */,
 				4030D4682498579D00BEC7D9 /* MultiSelectActionProtocol.swift in Sources */,
 				8B44446229785287007E0AA8 /* AppleSocialLogin.swift in Sources */,
+				FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */,
 				BD86D94F217EB81C0010FA1B /* FilterDownloadCell.swift in Sources */,
 				BD6B432A2755F516005E4017 /* AboutViewLogos.swift in Sources */,
 				C7AF7B992926B307002F0025 /* OnboardingHostingViewController.swift in Sources */,
@@ -9800,6 +9880,7 @@
 				BD8139D21FB95C3900DBF0EC /* ProfileViewController.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
 				C7D6551428E5153200AD7174 /* Debounce.swift in Sources */,
+				FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */,
 				C7E99F002A5E099100E7CBAF /* MultiSelectListViewModel.swift in Sources */,
 				BD1C46DD27B9DD9C00B1D8BB /* FolderListCell.swift in Sources */,
 				BD998AD127B25A3300B38857 /* PodcastPickerModel.swift in Sources */,
@@ -9817,6 +9898,7 @@
 				40251CEC22BB0F6E00551C51 /* CancelledAcknowledgeViewController.swift in Sources */,
 				BDD3579527BCD6DF0000D155 /* GridHelper.swift in Sources */,
 				BD023C672251C192008A9C6F /* HeadingCell.swift in Sources */,
+				FF1DF0202C8F411E0028B8D8 /* ReferralsClaimPass.swift in Sources */,
 				BDF15A401B54E064000EC323 /* PlaybackQueue.swift in Sources */,
 				F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */,
 				46AA2E032767EF92001D647A /* PlayPauseLabeledButton.swift in Sources */,
@@ -9873,6 +9955,7 @@
 				F57626B62C8B56C7009C8225 /* String+SanitizedFileName.swift in Sources */,
 				BDDF8AA2240CE240009BA263 /* PlaylistViewController+Swipe.swift in Sources */,
 				BD9324742398BB6B004F19A1 /* TourViewController.swift in Sources */,
+				FF4A73D62C8745D200587128 /* ReferralSendPassView.swift in Sources */,
 				8BDDD2AC29770479009E4DD3 /* SyncLoadingAlert.swift in Sources */,
 				46CD3C9B2715E25800F5EB8F /* SupportLogsView.swift in Sources */,
 				BD2F3BAD2366CA5600416633 /* NowPlayingPlayerItemViewController+Seek.swift in Sources */,
@@ -9929,6 +10012,7 @@
 				F5FF61252BD0831200190711 /* PocketCastsLogoPill.swift in Sources */,
 				403B5B02217D5F1500821A54 /* TitleViewWithCollapseButton.swift in Sources */,
 				F52ADE472BD9698B00AC647F /* ModalView.swift in Sources */,
+				FF5381B12C91C6EF00829525 /* ReferralsOfferInfo.swift in Sources */,
 				C713D4FD2A05168B00A78468 /* Theme+AppColors.swift in Sources */,
 				4084262B2134CBCD0076D82E /* LargeListSummaryViewController.swift in Sources */,
 				C7F605132A69CAD400795F3C /* BookmarkEpisodeListViewModel.swift in Sources */,
