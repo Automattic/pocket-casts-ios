@@ -4,6 +4,8 @@
 
 7.73
 -----
+- Fix Sharing with AirDrop fails [#2165](https://github.com/Automattic/pocket-casts-ios/issues/2165)
+- Transcripts: Refactor scroll to range textKit code [#2155](https://github.com/Automattic/pocket-casts-ios/pull/2155)
 
 
 7.72
