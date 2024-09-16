@@ -73,7 +73,7 @@ class PodcastEpisodeListViewModel: ObservableObject {
             podcast.settings.episodesSortOrder = option
             podcast.syncStatus = SyncStatus.notSynced.rawValue
         }
-        podcast.episodeSortOrder = option.rawValue
+        podcast.episodeSortOrder = option.old.rawValue
         DataManager.sharedManager.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
     }
