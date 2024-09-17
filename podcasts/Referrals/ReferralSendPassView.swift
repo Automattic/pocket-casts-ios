@@ -84,6 +84,6 @@ struct ReferralSendPassView: View {
 
 #Preview("With Passes") {
     Group {
-        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock(), referralURL: URL(string:"https://pocketcasts.com")))
+        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock(), referralURL: URL(string: "https://pocketcasts.com")))
     }
 }
