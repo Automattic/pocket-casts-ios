@@ -21,10 +21,6 @@ class ReferralSendPassModel {
         L10n.referralsShareGuestPass
     }
 
-//    var referralURL: URL { URL(string: //"https://pocketcasts.com/redeem-guest-pass")!
-//        "https://pocketcasts.com")!
-//    }
-
     var shareText: String {
         L10n.referralsSharePassMessage(self.offerInfo.localizedOfferDurationAdjective)
     }
