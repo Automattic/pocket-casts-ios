@@ -89,6 +89,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
+        updateReferrals()
         setupRefreshControl()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: profileTable)
     }
@@ -446,7 +447,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     // MARK: - Referrals
 
     private var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoMock()
-    private var numberOfReferralsAvailable: Int = 3
 
     private var areReferralsAvailable: Bool {
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
@@ -456,7 +456,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
-        label.text = "\(numberOfReferralsAvailable)"
+        label.text = nil
         label.textAlignment = .center
         label.layer.borderWidth = 1
         label.layer.masksToBounds = true
@@ -487,15 +487,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }()
 
     private func updateReferrals() {
-        if numberOfReferralsAvailable > 0 {
-            numberOfReferralsAvailable -= 1
-            Settings.shouldShowReferralsTip = false
-        } else {
-            Settings.shouldShowReferralsTip = true
-            numberOfReferralsAvailable = 3
-        }
-        referralsBadge.text = "\(numberOfReferralsAvailable)"
-        referralsBadge.isHidden = numberOfReferralsAvailable == 0
+        Settings.shouldShowReferralsTip = !Settings.shouldShowReferralsTip
+        referralsBadge.text = ""
+        referralsBadge.isHidden = true
     }
 
     private func updateReferralsColors() {
@@ -507,12 +501,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     @objc private func referralsTapped() {
         hideReferralsHint()
         let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo,
-                                              numberOfPasses: numberOfReferralsAvailable,
                                               onShareGuestPassTap: { [weak self] in
             self?.updateReferrals()
             self?.dismiss(animated: true)
         }, onCloseTap: { [weak self] in
-            self?.updateReferrals()
             self?.dismiss(animated: true)
         })
         let vc = ReferralSendPassVC(viewModel: viewModel)
@@ -529,7 +521,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private var referralsTipVC: UIViewController?
 
     private func showReferralsHintIfNeeded() {
-        guard areReferralsAvailable, numberOfReferralsAvailable > 0, Settings.shouldShowReferralsTip else {
+        guard areReferralsAvailable, Settings.shouldShowReferralsTip else {
             return
         }
         let vc = makeReferralsHint()
@@ -543,8 +535,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func makeReferralsHint() -> UIViewController {
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
-        let tipView = TipView(title: L10n.referralsTipTitle(numberOfReferralsAvailable),
-                              message: L10n.referralsTipMessage(referralsOfferInfo.localizedOfferDurationNoun.lowercased()),
+        let tipView = TipView(title: L10n.referralsTipMessage(referralsOfferInfo.localizedOfferDurationNoun.lowercased()),
+                              message: nil,
                               sizeChanged: { size in
             vc.preferredContentSize = size
         } ).setupDefaultEnvironment()
