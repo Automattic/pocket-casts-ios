@@ -1,12 +1,14 @@
 import SwiftUI
 
-class ReferralSendPassModel: NSObject {
+class ReferralSendPassModel {
     let offerInfo: ReferralsOfferInfo
+    let referralURL: URL?
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(offerInfo: ReferralsOfferInfo, onShareGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
+    init(offerInfo: ReferralsOfferInfo, referralURL: URL?, onShareGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
         self.offerInfo = offerInfo
+        self.referralURL = referralURL
         self.onShareGuestPassTap = onShareGuestPassTap
         self.onCloseTap = onCloseTap
     }
@@ -18,6 +20,19 @@ class ReferralSendPassModel: NSObject {
     var buttonTitle: String {
         L10n.referralsShareGuestPass
     }
+
+//    var referralURL: URL { URL(string: //"https://pocketcasts.com/redeem-guest-pass")!
+//        "https://pocketcasts.com")!
+//    }
+
+    var shareText: String {
+        L10n.referralsSharePassMessage(self.offerInfo.localizedOfferDurationAdjective)
+    }
+
+    var shareSubject: String {
+        L10n.referralsSharePassSubject(self.offerInfo.localizedOfferDurationAdjective)
+    }
+
 }
 
 struct ReferralSendPassView: View {
@@ -69,6 +84,6 @@ struct ReferralSendPassView: View {
 
 #Preview("With Passes") {
     Group {
-        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock()))
+        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock(), referralURL: URL(string:"https://pocketcasts.com")))
     }
 }

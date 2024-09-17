@@ -22,13 +22,17 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
     }
 
     private func setupUI() {
-        let originalDismiss = viewModel.onShareGuestPassTap
+        let originalOnShareGuestPassTap = viewModel.onShareGuestPassTap
         viewModel.onShareGuestPassTap = { [weak self] in
             guard let self else { return }
-            let viewController = UIActivityViewController(activityItems: [viewModel, viewModel.referralURL], applicationActivities: nil)
+            var items: [Any] = [TextAndURLShareSource.makeFrom(viewModel: viewModel)]
+            if let url = viewModel.referralURL {
+                items.append(url)
+            }
+            let viewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
             viewController.completionWithItemsHandler = { _, completed, _, _ in
                 if completed {
-                    originalDismiss?()
+                    originalOnShareGuestPassTap?()
                 }
             }
             present(viewController, animated: true)
@@ -37,25 +41,34 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
     }
 }
 
-extension ReferralSendPassModel: UIActivityItemSource {
-    var referralURL: URL { URL(string: //"https://pocketcasts.com/redeem-guest-pass")!
-        "https://pocketcasts.com")!
-    }
+class TextAndURLShareSource: NSObject, UIActivityItemSource {
 
-    var content: String {
-        "\(L10n.referralsSharePassMessage(self.offerInfo.localizedOfferDurationAdjective))\n\n\(referralURL.absoluteString)"
+    let url: URL?
+    let text: String
+    let subject: String
+
+    init(url: URL?, text: String, subject: String) {
+        self.url = url
+        self.text = text
+        self.subject = subject
     }
 
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
-       return content
+        return "\(text)\n\n\(url?.absoluteString ?? "")"
     }
 
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
-        return content
+        return "\(text)\n\n\(url?.absoluteString ?? "")"
     }
 
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivity.ActivityType?) -> String {
-        return L10n.referralsSharePassSubject(self.offerInfo.localizedOfferDurationAdjective)
+        return subject
     }
+}
 
+extension TextAndURLShareSource {
+
+    static func makeFrom(viewModel: ReferralSendPassModel) -> TextAndURLShareSource {
+        return TextAndURLShareSource(url: viewModel.referralURL, text: viewModel.shareText, subject: viewModel.shareSubject)
+    }
 }
