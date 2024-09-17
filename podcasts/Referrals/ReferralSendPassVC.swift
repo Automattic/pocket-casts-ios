@@ -21,6 +21,8 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
         setupUI()
     }
 
+    private weak var popoverVC: UIPopoverPresentationController?
+
     private func setupUI() {
         let originalOnShareGuestPassTap = viewModel.onShareGuestPassTap
         viewModel.onShareGuestPassTap = { [weak self] in
@@ -35,9 +37,19 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
                     originalOnShareGuestPassTap?()
                 }
             }
+            if let popoverVC  = viewController.popoverPresentationController {
+                self.popoverVC = popoverVC
+                popoverVC.sourceView = self.view
+                popoverVC.sourceRect = CGRect(x: self.view.bounds.width / 2, y: self.view.bounds.height - 20, width: 5, height: 5)
+            }
             present(viewController, animated: true)
         }
         view.backgroundColor = .clear
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        popoverVC?.sourceRect = CGRect(x: self.view.bounds.width / 2, y: self.view.bounds.height - 25, width: 5, height: 5)
     }
 }
 
