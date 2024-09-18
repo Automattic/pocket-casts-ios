@@ -59,24 +59,24 @@ struct ReferralCardAnimatedGradientView: View {
                     endPoint: UnitPoint(x: 0.89, y: 0.95)
                 )
                 .clipShape(Circle())
-                .blur(radius: geometry.size.width / 10)
-                .opacity(0.75)
+                .blur(radius: geometry.size.width / 5)
+                .opacity(0.8)
                 .ignoresSafeArea()
-                .offset(x: currentAnimation.horizontalPosition * geometry.size.width / 2,
-                        y: currentAnimation.verticalPosition * geometry.size.height / 2)
+                .offset(x: currentAnimation.horizontalPosition * geometry.size.width / 3,
+                        y: currentAnimation.verticalPosition * geometry.size.height / 3)
                 LinearGradient(
                     stops: Constants.gradientStops,
                     startPoint: UnitPoint(x: 0.29, y: 0.19),
                     endPoint: UnitPoint(x: 0.87, y: 1.18)
                 )
                 .clipShape(Circle())
-                .blur(radius: geometry.size.width / 10)
+                .blur(radius: geometry.size.width / 5)
                 .opacity(0.75)
                 .ignoresSafeArea()
-                .offset(x: -1 * currentAnimation.horizontalPosition * geometry.size.width / 2,
-                        y: -1 * currentAnimation.verticalPosition * geometry.size.height / 2)
+                .offset(x: -1 * currentAnimation.horizontalPosition * geometry.size.width / 3,
+                        y: -1 * currentAnimation.verticalPosition * geometry.size.height / 3)
                 .rotationEffect(Angle(degrees: 1.45))
-                .opacity(0.75)
+                .opacity(0.8)
             }
             .animation(.easeInOut(duration: Constants.animationDuration), value: currentAnimation)
             .task {
