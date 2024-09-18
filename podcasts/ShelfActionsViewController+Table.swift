@@ -198,7 +198,8 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
     private func actionAt(indexPath: IndexPath, isEditing: Bool) -> PlayerAction {
         let action: PlayerAction
         if isEditing {
-            action = allActions[indexPath.row + (indexPath.section == ShelfActionsViewController.menuSection ? Constants.Limits.maxShelfActions : 0)]
+            let pos = indexPath.row + (indexPath.section == ShelfActionsViewController.menuSection ? Constants.Limits.maxShelfActions + maxShelfActionsAdjustment : 0)
+            action = allActions[pos]
         } else {
             action = extraActions[indexPath.row]
         }
