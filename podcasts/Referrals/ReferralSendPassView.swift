@@ -1,12 +1,15 @@
 import SwiftUI
+import PocketCastsServer
 
 class ReferralSendPassModel {
     let offerInfo: ReferralsOfferInfo
+    let referralURL: URL?
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(offerInfo: ReferralsOfferInfo, onShareGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
+    init(offerInfo: ReferralsOfferInfo, referralURL: URL?, onShareGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
         self.offerInfo = offerInfo
+        self.referralURL = referralURL
         self.onShareGuestPassTap = onShareGuestPassTap
         self.onCloseTap = onCloseTap
     }
@@ -18,10 +21,21 @@ class ReferralSendPassModel {
     var buttonTitle: String {
         L10n.referralsShareGuestPass
     }
+
+    var shareText: String {
+        L10n.referralsSharePassMessage(self.offerInfo.localizedOfferDurationAdjective)
+    }
+
+    var shareSubject: String {
+        L10n.referralsSharePassSubject(self.offerInfo.localizedOfferDurationAdjective)
+    }
+
 }
 
 struct ReferralSendPassView: View {
     let viewModel: ReferralSendPassModel
+
+    @State var showShareView: Bool = false
 
     var body: some View {
         VStack {
@@ -50,7 +64,8 @@ struct ReferralSendPassView: View {
             Spacer()
             Button(viewModel.buttonTitle) {
                 viewModel.onShareGuestPassTap?()
-            }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
+            }
+            .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
         }
         .padding()
         .background(.black)
@@ -66,6 +81,6 @@ struct ReferralSendPassView: View {
 
 #Preview("With Passes") {
     Group {
-        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock()))
+        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock(), referralURL: URL(string: ServerConstants.Urls.pocketcastsDotCom)))
     }
 }

@@ -47,9 +47,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
             profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
             profileTable.register(KidsProfileBannerTableCell.self, forCellReuseIdentifier: KidsProfileBannerTableCell.identifier)
-            if FeatureFlag.referrals.enabled {
-                profileTable.register(ReferralsClaimBannerTableCell.self, forCellReuseIdentifier: ReferralsClaimBannerTableCell.identifier)
-            }
+            profileTable.register(ReferralsClaimBannerTableCell.self, forCellReuseIdentifier: ReferralsClaimBannerTableCell.identifier)
         }
     }
 
@@ -500,7 +498,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         hideReferralsHint()
-        let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo,
+        let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo, referralURL: URL(string: ServerConstants.Urls.pocketcastsDotCom),
                                               onShareGuestPassTap: { [weak self] in
             self?.updateReferrals()
             self?.dismiss(animated: true)
