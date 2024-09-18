@@ -437,6 +437,21 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
+    func showRedeemGuestPass(url: URL) {
+        switchToTab(.profile)
+
+        guard let navController = selectedViewController as? UINavigationController else {
+            return
+        }
+
+        navController.popToRootViewController(animated: false)
+        navController.dismiss(animated: true)
+        let referralsOfferInfo = ReferralsOfferInfoMock()
+        let viewModel = ReferralClaimPassModel(offerInfo: referralsOfferInfo, onCloseTap: {[weak self] in self?.dismiss(animated: true) })
+        let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
+        navController.present(referralClaimPassVC, animated: true)
+    }
+
     func showHeadphoneSettings() {
         let state = NavigationManager.sharedManager.miniPlayer?.playerOpenState
 
