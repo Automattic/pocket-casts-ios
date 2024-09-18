@@ -145,7 +145,7 @@
 		403B5B0021796F2F00821A54 /* DownloadFilterOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B5AFF21796F2F00821A54 /* DownloadFilterOverlayController.swift */; };
 		403B5B02217D5F1500821A54 /* TitleViewWithCollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B5B01217D5F1500821A54 /* TitleViewWithCollapseButton.swift */; };
 		403B5B04217D5F7500821A54 /* TitleViewWithCollapseButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 403B5B03217D5F7500821A54 /* TitleViewWithCollapseButton.xib */; };
-		403B5B0621812E6000821A54 /* AppDelelgate+SiriShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B5B0521812E6000821A54 /* AppDelelgate+SiriShortcuts.swift */; };
+		403B5B0621812E6000821A54 /* AppDelegate+SiriShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B5B0521812E6000821A54 /* AppDelegate+SiriShortcuts.swift */; };
 		403B5B1B21813FFA00821A54 /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403B5B1A21813FFA00821A54 /* IntentsUI.framework */; };
 		403B5B1E21813FFA00821A54 /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B5B1D21813FFA00821A54 /* IntentViewController.swift */; };
 		403B5B2121813FFA00821A54 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 403B5B1F21813FFA00821A54 /* MainInterface.storyboard */; };
@@ -2067,7 +2067,7 @@
 		403B5AFF21796F2F00821A54 /* DownloadFilterOverlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadFilterOverlayController.swift; sourceTree = "<group>"; };
 		403B5B01217D5F1500821A54 /* TitleViewWithCollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleViewWithCollapseButton.swift; sourceTree = "<group>"; };
 		403B5B03217D5F7500821A54 /* TitleViewWithCollapseButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleViewWithCollapseButton.xib; sourceTree = "<group>"; };
-		403B5B0521812E6000821A54 /* AppDelelgate+SiriShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelelgate+SiriShortcuts.swift"; sourceTree = "<group>"; };
+		403B5B0521812E6000821A54 /* AppDelegate+SiriShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+SiriShortcuts.swift"; sourceTree = "<group>"; };
 		403B5B1021813FFA00821A54 /* PodcastsIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PodcastsIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		403B5B1421813FFA00821A54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		403B5B1921813FFA00821A54 /* PodcastsIntentsUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PodcastsIntentsUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -6315,7 +6315,7 @@
 				C73CD7A72916E8A900EAE879 /* SwiftUI+Previews.swift */,
 				BD585C1E2047887700AC842C /* AppDelegate+UrlHandling.swift */,
 				BD585C242047C74D00AC842C /* AppDelegate+Defaults.swift */,
-				403B5B0521812E6000821A54 /* AppDelelgate+SiriShortcuts.swift */,
+				403B5B0521812E6000821A54 /* AppDelegate+SiriShortcuts.swift */,
 				C72CED35289DB8690017883A /* AppDelegate+Analytics.swift */,
 				404A080924E4C78000308722 /* SceneDelegate.swift */,
 				8B317B9F28906A8900A26A13 /* main.swift */,
@@ -9783,7 +9783,7 @@
 				BD6B432A2755F516005E4017 /* AboutViewLogos.swift in Sources */,
 				C7AF7B992926B307002F0025 /* OnboardingHostingViewController.swift in Sources */,
 				462EE0AD26FCC081003D67DC /* ZenDeskHelpers.swift in Sources */,
-				403B5B0621812E6000821A54 /* AppDelelgate+SiriShortcuts.swift in Sources */,
+				403B5B0621812E6000821A54 /* AppDelegate+SiriShortcuts.swift in Sources */,
 				BD9086AC204E413800C0C78D /* PodcastSearchCell.swift in Sources */,
 				BD2F3BA42366C0F900416633 /* PlayerContainerViewController+Gestures.swift in Sources */,
 				BDDA72D21C9B898C003A3BEB /* StorageAndDataUseViewController.swift in Sources */,
