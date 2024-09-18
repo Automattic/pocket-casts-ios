@@ -1233,6 +1233,8 @@ podcasts com você</string>
     <string>Em breve</string>
     <key>kids_profile_banner_request_button</key>
     <string>Solicitar acesso antecipado </string>
+    <key>kids_profile_banner_text</key>
+    <string>Um novo perfil com conteúdo exclusivo para crianças para manter suas assinaturas organizadas.</string>
     <key>kids_profile_banner_title</key>
     <string>Perfil infantil</string>
     <key>kids_profile_submit_error</key>
@@ -1690,6 +1692,8 @@ ATUALIZAÇÕES</string>
     <string>Não foi possível carregar</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ por ano</string>
+    <key>pocket_casts_logo</key>
+    <string>Logotipo do Pocket Casts</string>
     <key>pocket_casts_newsletter</key>
     <string>Newsletter do Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>

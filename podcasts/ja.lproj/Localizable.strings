@@ -1233,6 +1233,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>すぐに</string>
     <key>kids_profile_banner_request_button</key>
     <string>早期アクセスをリクエスト </string>
+    <key>kids_profile_banner_text</key>
+    <string>子ども向けコンテンツのみのプロフィールを新規に作成して、サブスクリプションを整理しておくことができます。</string>
     <key>kids_profile_banner_title</key>
     <string>キッズプロフィール</string>
     <key>kids_profile_submit_error</key>
@@ -1690,6 +1692,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>読み込めません</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@/ 年</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts ロゴ</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts ニュースレター</string>
     <key>pocket_casts_newsletter_description</key>

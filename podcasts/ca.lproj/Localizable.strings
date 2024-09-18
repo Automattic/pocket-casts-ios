@@ -397,6 +397,14 @@
     <string>Creant Clip...</string>
     <key>clip_start_label</key>
     <string>%@ Inici</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Clip final</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Opcions de formats per a compartir</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ format %2$@ de %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Inici del clip</string>
     <key>clips_whats_new_button_title</key>
     <string>Som-hi</string>
     <key>clips_whats_new_message</key>
@@ -1688,6 +1696,8 @@ ACTUALITZACIONS</string>
     <string>No es pot carregar</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ a l'any</string>
+    <key>pocket_casts_logo</key>
+    <string>Logotip de Pocket Casts</string>
     <key>pocket_casts_newsletter</key>
     <string>Butlletí de Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1954,6 +1964,28 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Valora els teus pòdcasts preferits i fes saber als creadors com valores la seva feina. A més, les teves valoracions ajuden altres a trobar nous programes favorits!</string>
     <key>rating_whats_new_title</key>
     <string>Ja està disponible: Valoracions dels pòdcasts 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Activa la meva invitació</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Desbloqueja l'experiència d'escolta completa</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Reclama la teva invitació de convidat a Plus de  %1$@</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Aquesta oferta és només per a nous membres. La subscripció es renovarà automàticament a una subscripció anual de pagament a %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Reclama la teva invitació de convidat de %1$@</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>Invitació per a convidats de %1$@</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Comparteix les invitacions per a convidats</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Gràcies per compartir Pocket Casts! Et farem saber quan tinguis més invitacions per a donar.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Has compartit totes les teves invitacions!</string>
+    <key>referrals_tip_message</key>
+    <string>Regala %1$@ de Plus a amics i família</string>
+    <key>referrals_tip_title</key>
+    <string>Tens %1$@ invitacions per a compartir</string>
     <key>refresh_control_fetching_episodes</key>
     <string>CERCANT NOUS EPISODIS DELS PÒDCASTS</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2694,7 +2726,7 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>subscription_cancelled_msg</key>
     <string>La teva subscripció es cancel·larà el %1$@ </string>
     <key>subscription_expires_in</key>
-    <string>Expira el %1$@</string>
+    <string>Expira en %1$@</string>
     <key>subscription_frequency_pricing_format</key>
     <string>%1$@ per %2$@</string>
     <key>subscriptions_thank_you</key>

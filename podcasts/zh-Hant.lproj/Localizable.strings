@@ -1233,6 +1233,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>即將推出</string>
     <key>kids_profile_banner_request_button</key>
     <string>申請搶先使用 </string>
+    <key>kids_profile_banner_text</key>
+    <string>新版個人資料僅包含適合兒童的內容，可為訂閱項目保持條理。</string>
     <key>kids_profile_banner_title</key>
     <string>兒童個人檔案</string>
     <key>kids_profile_submit_error</key>
@@ -1690,6 +1692,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>無法載入</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>每年 %1$@</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts 標誌</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts 電子報</string>
     <key>pocket_casts_newsletter_description</key>
