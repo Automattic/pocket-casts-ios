@@ -1233,6 +1233,8 @@
     <string>Уже скоро</string>
     <key>kids_profile_banner_request_button</key>
     <string>Запросить ранний доступ </string>
+    <key>kids_profile_banner_text</key>
+    <string>Новый профиль исключительно с детским контентом, не затрагивающий ваши подписки.</string>
     <key>kids_profile_banner_title</key>
     <string>Профиль «Дети»</string>
     <key>kids_profile_submit_error</key>
@@ -1690,6 +1692,8 @@
     <string>Не удалось загрузить</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ в год</string>
+    <key>pocket_casts_logo</key>
+    <string>Логотип Pocket Casts</string>
     <key>pocket_casts_newsletter</key>
     <string>Новостная рассылка Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>

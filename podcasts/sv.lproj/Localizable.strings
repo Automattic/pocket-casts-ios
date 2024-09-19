@@ -1692,6 +1692,8 @@ UPPDATERINGAR</string>
     <string>Hämtningen kunde inte genomföras</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ per år</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts-logotyp</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts-nyhetsbrev</string>
     <key>pocket_casts_newsletter_description</key>

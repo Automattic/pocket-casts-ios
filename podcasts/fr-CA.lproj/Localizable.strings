@@ -1690,6 +1690,8 @@ MISES À JOUR</string>
     <string>Chargement impossible</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ par an</string>
+    <key>pocket_casts_logo</key>
+    <string>Logo Pocket Casts</string>
     <key>pocket_casts_newsletter</key>
     <string>Bulletin d’information Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
