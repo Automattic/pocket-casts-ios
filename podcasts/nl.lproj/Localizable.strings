@@ -1233,6 +1233,8 @@ podcasts mee</string>
     <string>Binnenkort</string>
     <key>kids_profile_banner_request_button</key>
     <string>Vroegtijdige toegang aanvragen </string>
+    <key>kids_profile_banner_text</key>
+    <string>Een nieuw profiel met alleen content voor kinderen, om je abonnementen overzichtelijk te houden.</string>
     <key>kids_profile_banner_title</key>
     <string>Kids-profiel</string>
     <key>kids_profile_submit_error</key>
@@ -1690,6 +1692,8 @@ UPDATES</string>
     <string>Kan niet laden</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ per jaar</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts logo</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts-nieuwsbrief</string>
     <key>pocket_casts_newsletter_description</key>
@@ -2599,6 +2603,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Timer annuleren</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Einde van de aflevering</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Na %1$@ aflevering</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Slaapstand inschakelen na %1$@ aflevering</string>
     <key>sleep_timer_sleeping_after_current_episode</key>
     <string>Slaapstand inschakelen aan het einde van de huidige aflevering</string>
     <key>sleep_timer_time_remaining</key>

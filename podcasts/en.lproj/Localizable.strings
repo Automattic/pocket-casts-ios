@@ -4432,3 +4432,10 @@
 
 /* Referrals - Claim Guest Pass banner message.*/
 "referrals_claim_guest_pass_banner_detail" = "Unlock the full listening experience";
+
+/* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_share_pass_message" = "Hey! Use the link below to claim your %1$@ guest pass for Pocket Casts Plus and enjoy podcasts across all your devices!";
+
+/* Referrals - Share Pass subject title for sharing to email. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_share_pass_subject" = "%1$@ Guest Pass for Pocket Casts Plus!";
+
