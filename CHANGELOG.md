@@ -1,6 +1,6 @@
 7.74
 -----
-
+- Add Title episode sort options to iPhone app [2175](https://github.com/Automattic/pocket-casts-ios/pull/2175)
 
 7.73
 -----
