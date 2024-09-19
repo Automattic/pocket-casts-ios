@@ -27,7 +27,7 @@ extension AppDelegate {
                 path != "/get/"
             else { return }
 
-            if path.startsWith(string: "/redeem-guest-pass") {
+            if path.startsWith(string: "/redeem") {
                 handleReferralsDeepLink(url: incomingURL)
                 return
             }
