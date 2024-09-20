@@ -36,7 +36,7 @@ struct ReferralCardView: View {
     }
 
     enum Constants {
-        static let cardRadius = CGFloat(13)        
+        static let cardRadius = CGFloat(13)
         static let cardStrokeColor = Color(red: 0.23, green: 0.23, blue: 0.23)
         static let plusIconSize = CGFloat(12)
         static let defaultCardSize = CGSize(width: 315, height: 200)

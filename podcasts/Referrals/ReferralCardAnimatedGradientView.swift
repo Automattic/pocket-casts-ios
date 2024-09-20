@@ -59,7 +59,7 @@ struct ReferralCardAnimatedGradientView: View {
             Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.76),
             Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
         ]
-        static let animationDuration: TimeInterval = 4        
+        static let animationDuration: TimeInterval = 4
         static let blurFactor = CGFloat(10)
     }
 }
