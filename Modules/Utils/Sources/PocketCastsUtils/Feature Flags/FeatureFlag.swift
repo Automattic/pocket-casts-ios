@@ -111,7 +111,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// This makes the skip unusable as the player doesn't have its task set yet.
     /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
-    
+
+    /// Use the Mimetype library to check the file mimetype
     case useMimetypePackage
 
     public var enabled: Bool {
