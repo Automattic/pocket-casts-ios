@@ -136,7 +136,18 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        let contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
+        let contentType: String?
+
+        if FeatureFlag.useMimetypePackage.enabled {
+            contentType = MimetypeHelper.contetType(for: location)
+
+            if let contentType, contentType != episode.contentType {
+                DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
+            }
+        } else {
+            contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
+        }
+
         let fileSize = FileManager.default.fileSize(of: location) ?? 0
         guard isEpisodeFileValid(contentType: contentType, fileSize: fileSize) else {
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))

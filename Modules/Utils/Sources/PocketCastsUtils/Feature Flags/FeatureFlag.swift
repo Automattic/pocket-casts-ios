@@ -111,6 +111,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// This makes the skip unusable as the player doesn't have its task set yet.
     /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
+    
+    case useMimetypePackage
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -188,6 +190,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .playerIsReadyToPlay:
             true
+        case .useMimetypePackage:
+            false
         }
     }
 
