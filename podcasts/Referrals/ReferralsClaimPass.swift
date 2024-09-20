@@ -2,11 +2,13 @@ import SwiftUI
 
 class ReferralClaimPassModel {
     let offerInfo: ReferralsOfferInfo
+    var canClaimPass: Bool
     var onClaimGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(offerInfo: ReferralsOfferInfo, onClaimGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
+    init(offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, onClaimGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
         self.offerInfo = offerInfo
+        self.canClaimPass = canClaimPass
         self.onClaimGuestPassTap = onClaimGuestPassTap
         self.onCloseTap = onCloseTap
     }
@@ -24,36 +26,43 @@ struct ReferralClaimPassView: View {
     let viewModel: ReferralClaimPassModel
 
     var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Button(L10n.eoyNotNow) {
-                    viewModel.onCloseTap?()
+        if viewModel.canClaimPass{
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(L10n.eoyNotNow) {
+                        viewModel.onCloseTap?()
+                    }
+                    .foregroundColor(.white)
+                    .font(style: .body, weight: .medium)
                 }
-                .foregroundColor(.white)
-                .font(style: .body, weight: .medium)
+                .padding()
+                VStack(spacing: Constants.verticalSpacing) {
+                    SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
+                    Text(viewModel.claimPassTitle)
+                        .font(size: 31, style: .title, weight: .bold)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
+                    ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
+                        .frame(width: Constants.defaultCardSize.width, height: Constants.defaultCardSize.height)
+                    Text(viewModel.claimPassDetail)
+                        .font(size: 13, style: .body, weight: .medium)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+                Spacer()
+                Button(L10n.referralsClaimGuestPassAction) {
+                    viewModel.onClaimGuestPassTap?()
+                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
             }
             .padding()
-            VStack(spacing: Constants.verticalSpacing) {
-                SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
-                Text(viewModel.claimPassTitle)
-                    .font(size: 31, style: .title, weight: .bold)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.white)
-                ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
-                    .frame(width: Constants.defaultCardSize.width, height: Constants.defaultCardSize.height)
-                Text(viewModel.claimPassDetail)
-                    .font(size: 13, style: .body, weight: .medium)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.white.opacity(0.8))
+            .background(.black)
+        } else {
+            ReferralsMessageView(title: L10n.referralsOfferNotAvailableTitle,
+                                 detail: L10n.referralsOfferNotAvailableDetail) {
+                viewModel.onCloseTap?()
             }
-            Spacer()
-            Button(L10n.referralsClaimGuestPassAction) {
-                viewModel.onClaimGuestPassTap?()
-            }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
         }
-        .padding()
-        .background(.black)
     }
 
     enum Constants {
@@ -63,5 +72,5 @@ struct ReferralClaimPassView: View {
 }
 
 #Preview {
-    ReferralClaimPassView(viewModel: ReferralClaimPassModel(offerInfo: ReferralsOfferInfoMock()))
+    ReferralClaimPassView(viewModel: ReferralClaimPassModel(offerInfo: ReferralsOfferInfoMock(), canClaimPass: false))
 }

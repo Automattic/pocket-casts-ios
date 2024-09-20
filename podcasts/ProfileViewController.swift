@@ -349,7 +349,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .kidsProfile:
             break
         case .referralsClaim:
-            let viewModel = ReferralClaimPassModel(offerInfo: referralsOfferInfo, onCloseTap: {[weak self] in self?.dismiss(animated: true) })
+            dismiss(animated: true)
+            let viewModel = ReferralClaimPassModel(offerInfo: referralsOfferInfo, canClaimPass: !SubscriptionHelper.hasActiveSubscription(), onCloseTap: {[weak self] in self?.dismiss(animated: true) })
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
             present(referralClaimPassVC, animated: true)
         case .allStats:

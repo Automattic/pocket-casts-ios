@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct ReferralMessageView: View {
+struct ReferralsMessageView: View {
     let title: String
     let detail: String
     let onDismiss: (() -> ())?
@@ -34,7 +34,7 @@ struct ReferralMessageView: View {
 }
 
 #Preview {
-    ReferralMessageView(title: L10n.referralsOfferNotAvailableTitle,
+    ReferralsMessageView(title: L10n.referralsOfferNotAvailableTitle,
                         detail: L10n.referralsOfferNotAvailableDetail,
                         onDismiss: nil)
 }
