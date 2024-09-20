@@ -6,7 +6,7 @@ class ReferralsCoordinator {
 
     var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoMock()
 
-    var areReferralsAvailable: Bool {
+    var areReferralsAvailableToSend: Bool {
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
     }
 

@@ -214,7 +214,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateLastRefreshDetails() {
-        if ReferralsCoordinator.shared.areReferralsAvailable {
+        if ReferralsCoordinator.shared.areReferralsAvailableToSend {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: referralsButton)
             updateReferralsColors()
         } else {
@@ -512,7 +512,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private var referralsTipVC: UIViewController?
 
     private func showReferralsHintIfNeeded() {
-        guard ReferralsCoordinator.shared.areReferralsAvailable, Settings.shouldShowReferralsTip else {
+        guard ReferralsCoordinator.shared.areReferralsAvailableToSend, Settings.shouldShowReferralsTip else {
             return
         }
         let vc = makeReferralsHint()
