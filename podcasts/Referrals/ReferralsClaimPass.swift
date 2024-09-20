@@ -1,12 +1,14 @@
 import SwiftUI
 
 class ReferralClaimPassModel {
+    let referralURL: URL?
     let offerInfo: ReferralsOfferInfo
     var canClaimPass: Bool
     var onClaimGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, onClaimGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
+    init(referralURL: URL? = nil, offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, onClaimGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
+        self.referralURL = referralURL
         self.offerInfo = offerInfo
         self.canClaimPass = canClaimPass
         self.onClaimGuestPassTap = onClaimGuestPassTap
@@ -26,7 +28,7 @@ struct ReferralClaimPassView: View {
     let viewModel: ReferralClaimPassModel
 
     var body: some View {
-        if viewModel.canClaimPass{
+        if viewModel.canClaimPass {
             VStack {
                 HStack {
                     Spacer()
@@ -72,5 +74,5 @@ struct ReferralClaimPassView: View {
 }
 
 #Preview {
-    ReferralClaimPassView(viewModel: ReferralClaimPassModel(offerInfo: ReferralsOfferInfoMock(), canClaimPass: false))
+    ReferralClaimPassView(viewModel: ReferralClaimPassModel(referralURL: nil, offerInfo: ReferralsOfferInfoMock(), canClaimPass: true))
 }

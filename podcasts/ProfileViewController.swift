@@ -214,7 +214,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     private func updateLastRefreshDetails() {
-        if areReferralsAvailable {
+        if ReferralsCoordinator.shared.areReferralsAvailable {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: referralsButton)
             updateReferralsColors()
         } else {
@@ -350,9 +350,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             break
         case .referralsClaim:
             dismiss(animated: true)
-            let viewModel = ReferralClaimPassModel(offerInfo: referralsOfferInfo, canClaimPass: !SubscriptionHelper.hasActiveSubscription(), onCloseTap: {[weak self] in self?.dismiss(animated: true) })
-            let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
-            present(referralClaimPassVC, animated: true)
+            ReferralsCoordinator.shared.startClaimFlow(from: self)
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -445,12 +443,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     // MARK: - Referrals
 
-    private var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoMock()
-
-    private var areReferralsAvailable: Bool {
-        return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
-    }
-
     private lazy var referralsBadge: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -499,15 +491,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         hideReferralsHint()
-        let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo, referralURL: URL(string: ServerConstants.Urls.pocketcastsDotCom),
-                                              onShareGuestPassTap: { [weak self] in
-            self?.updateReferrals()
-            self?.dismiss(animated: true)
-        }, onCloseTap: { [weak self] in
-            self?.dismiss(animated: true)
-        })
-        let vc = ReferralSendPassVC(viewModel: viewModel)
-        present(vc, animated: true)
+        ReferralsCoordinator.shared.startClaimFlow(from: self)
     }
 
     private enum ReferralsConstants {
@@ -520,7 +504,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private var referralsTipVC: UIViewController?
 
     private func showReferralsHintIfNeeded() {
-        guard areReferralsAvailable, Settings.shouldShowReferralsTip else {
+        guard ReferralsCoordinator.shared.areReferralsAvailable, Settings.shouldShowReferralsTip else {
             return
         }
         let vc = makeReferralsHint()
@@ -534,7 +518,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func makeReferralsHint() -> UIViewController {
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
-        let tipView = TipView(title: L10n.referralsTipMessage(referralsOfferInfo.localizedOfferDurationNoun.lowercased()),
+        let tipView = TipView(title: L10n.referralsTipMessage(ReferralsCoordinator.shared.referralsOfferInfo.localizedOfferDurationNoun.lowercased()),
                               message: nil,
                               sizeChanged: { size in
             vc.preferredContentSize = size

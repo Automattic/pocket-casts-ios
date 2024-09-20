@@ -446,10 +446,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         navController.popToRootViewController(animated: false)
         navController.dismiss(animated: true)
-        let referralsOfferInfo = ReferralsOfferInfoMock()
-        let viewModel = ReferralClaimPassModel(offerInfo: referralsOfferInfo, onCloseTap: {[weak self] in self?.dismiss(animated: true) })
-        let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
-        navController.present(referralClaimPassVC, animated: true)
+
+        ReferralsCoordinator.shared.startClaimFlow(from: navController, referralURL: url)
     }
 
     func showHeadphoneSettings() {
