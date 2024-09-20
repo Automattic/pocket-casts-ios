@@ -12,38 +12,40 @@ struct ReferralCardAnimatedGradientView: View {
 
     var body: some View {
         GeometryReader(content: { geometry in
-            let offsetX = geometry.size.width / 2.5
+            let offsetX = geometry.size.width / 1.8
             let offsetY = geometry.size.height / 4
-            let motionScale = geometry.size.width / 5
-            ZStack() {
-                LinearGradient(
-                    stops: Constants.gradientStops,
-                    startPoint: UnitPoint(x: 0.12, y: 0),
-                    endPoint: UnitPoint(x: 0.89, y: 0.95)
-                )
-                .clipShape(Circle())
-                .blur(radius: geometry.size.height / Constants.blurFactor)
-                .opacity(Constants.opacity)
-                .ignoresSafeArea()
-                .offset(x: -1 * offsetX + (position.width * motionScale),
-                        y: -1 * offsetY + (position.height * motionScale))
-                LinearGradient(
-                    stops: Constants.gradientStops,
-                    startPoint: UnitPoint(x: 0.29, y: 0.19),
-                    endPoint: UnitPoint(x: 0.87, y: 1.18)
-                )
-                .clipShape(Circle())
-                .blur(radius: geometry.size.height / Constants.blurFactor)
-                .rotationEffect(Angle(degrees: 1.45))
-                .opacity(Constants.opacity)
-                .ignoresSafeArea()
-                .offset(x: offsetX - (position.width * motionScale),
-                        y: offsetY - (position.height * motionScale))
-            }
+            let offsetX2 = geometry.size.width / 1.7
+            let offsetY2 = geometry.size.height / 3.5
+            let motionScale = geometry.size.width / 4
+            let circleSize = geometry.size.height * 1.3
+            Rectangle()
+                .overlay {
+                    LinearGradient(
+                        stops: Constants.gradientStops,
+                        startPoint: UnitPoint(x: 0.12, y: 0),
+                        endPoint: UnitPoint(x: 0.89, y: 0.95)
+                    )
+                    .frame(width: circleSize, height: circleSize)
+                    .clipShape(Circle())
+                    .opacity(Constants.opacity)
+                    .offset(x: -1 * offsetX + (position.width * motionScale),
+                            y: -1 * offsetY + (position.height * motionScale))
+                    LinearGradient(
+                        stops: Constants.gradientStops,
+                        startPoint: UnitPoint(x: 0.29, y: 0.19),
+                        endPoint: UnitPoint(x: 0.87, y: 1.18)
+                    )
+                    .clipShape(Circle())
+                    .rotationEffect(Angle(degrees: 1.45))
+                    .opacity(Constants.opacity)
+                    .offset(x: offsetX2 - (position.width * motionScale),
+                            y: offsetY2 - (position.height * motionScale))
+                }
             .animation(.easeInOut(duration: Constants.animationDuration), value: motion.pitch)
+            .blur(radius: geometry.size.width / Constants.blurFactor)
             .background(Constants.backgroundColor)
+            .clipped()
         })
-        .clipped()
         .onAppear() {
             motion.start()
         }
@@ -60,10 +62,9 @@ struct ReferralCardAnimatedGradientView: View {
             Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.76),
             Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
         ]
-        static let backgroundColor = Color.black
-        static let animationDuration: TimeInterval = 5
+        static let backgroundColor = Color(red: 0.08, green: 0.03, blue: 0.3)
+        static let animationDuration: TimeInterval = 4
         static let opacity = CGFloat(0.75)
-        static let positionFactor = CGFloat(2.0)
         static let blurFactor = CGFloat(10)
     }
 }
@@ -75,7 +76,9 @@ struct ReferralCardAnimatedGradientView: View {
             ReferralCardAnimatedGradientView()
         }
         .overlay(alignment: .bottomLeading) {
-            Text("Sergio").padding()
+            Text("2-Month")
+                .foregroundColor(.white)
+                .padding()
         }
         .cornerRadius(15)
         .frame(width: 315, height: 200)
