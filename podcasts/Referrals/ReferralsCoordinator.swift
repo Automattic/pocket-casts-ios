@@ -11,7 +11,7 @@ class ReferralsCoordinator {
     }
 
     var isReferralAvailableToClaim: Bool {
-        return !SubscriptionHelper.hasActiveSubscription() && Settings.referralURL != nil
+        return FeatureFlag.referrals.enabled && !SubscriptionHelper.hasActiveSubscription() && Settings.referralURL != nil
     }
 
     static var shared: ReferralsCoordinator = {
