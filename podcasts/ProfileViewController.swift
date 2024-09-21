@@ -478,7 +478,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }()
 
     private func updateReferrals() {
-        Settings.shouldShowReferralsTip = !Settings.shouldShowReferralsTip
+        Settings.shouldShowReferralsTip = false
         referralsBadge.text = ""
         referralsBadge.isHidden = true
     }
