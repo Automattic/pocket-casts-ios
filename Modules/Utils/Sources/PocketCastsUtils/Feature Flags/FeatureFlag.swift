@@ -192,7 +192,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .playerIsReadyToPlay:
             true
         case .useMimetypePackage:
-            false
+            true
         }
     }
 
