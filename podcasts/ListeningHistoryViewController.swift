@@ -1,6 +1,7 @@
 import DifferenceKit
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class ListeningHistoryViewController: PCViewController {
@@ -9,6 +10,7 @@ class ListeningHistoryViewController: PCViewController {
     var cellHeights: [IndexPath: CGFloat] = [:]
 
     private let episodesDataManager = EpisodesDataManager()
+    private var searchController: PCSearchBarController?
 
     @IBOutlet var listeningHistoryTable: UITableView! {
         didSet {
@@ -65,6 +67,10 @@ class ListeningHistoryViewController: PCViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if FeatureFlag.listeningHistorySearch.enabled {
+            setupSearchController()
+        }
 
         operationQueue.maxConcurrentOperationCount = 1
         title = L10n.listeningHistory
@@ -179,5 +185,56 @@ class ListeningHistoryViewController: PCViewController {
 extension ListeningHistoryViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .listeningHistory
+    }
+}
+
+// MARK: - Analytics
+
+extension ListeningHistoryViewController: PCSearchBarDelegate {
+    func searchDidBegin() {
+
+    }
+
+    func searchDidEnd() {
+
+    }
+
+    func searchWasCleared() {
+
+    }
+
+    func searchTermChanged(_ searchTerm: String) { }
+
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+        completion()
+    }
+
+    private func setupSearchController() {
+        searchController = PCSearchBarController()
+
+        guard let searchController else {
+            return
+        }
+
+        searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
+        view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
+
+        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        NSLayoutConstraint.activate([
+            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
+            topAnchor
+        ])
+
+        searchController.placeholderText = L10n.search
+        searchController.searchControllerTopConstant = topAnchor
+        searchController.setupScrollView(listeningHistoryTable, hideSearchInitially: false)
+        searchController.searchDebounce = Settings.podcastSearchDebounceTime()
+        searchController.searchDelegate = self
+
+        listeningHistoryTable.verticalScrollIndicatorInsets.top = PCSearchBarController.defaultHeight
     }
 }
