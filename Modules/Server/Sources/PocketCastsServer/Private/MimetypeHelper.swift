@@ -5,7 +5,7 @@ public struct MimetypeHelper {
     // The max number of bytes required to cover all the mimetypes
     // needed by `Swime`.
     private static let maxFileSize: Int = 4500
-    
+
     public static func contetType(for url: URL) -> String? {
         do {
             guard let fileSize = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize,
