@@ -8,6 +8,7 @@
 - Transcripts: Refactor scroll to range textKit code [#2155](https://github.com/Automattic/pocket-casts-ios/pull/2155)
 - Fix sorting of Episode list on WatchOS [#2172](https://github.com/Automattic/pocket-casts-ios/pull/2172)
 - Fix issue when HTTP contentType and real file type do not match [#1933](https://github.com/Automattic/pocket-casts-ios/issues/1933)
+- Fix issue when transcript type have an alternative valid mime type [#2185](https://github.com/Automattic/pocket-casts-ios/issues/2185)
 
 7.72
 -----
