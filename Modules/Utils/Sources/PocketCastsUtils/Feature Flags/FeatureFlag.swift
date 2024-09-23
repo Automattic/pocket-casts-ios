@@ -112,6 +112,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
 
+    /// Use the Mimetype library to check the file mimetype
+    case useMimetypePackage
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -187,6 +190,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .discoverCollectionView:
             false
         case .playerIsReadyToPlay:
+            true
+        case .useMimetypePackage:
             true
         }
     }
