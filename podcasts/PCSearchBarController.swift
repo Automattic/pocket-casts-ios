@@ -43,7 +43,11 @@ class PCSearchBarController: UIViewController {
     var searchDebounce = 1.seconds
     var searchTimer: Timer?
 
-    var placeholderText = L10n.searchLabel
+    var placeholderText = L10n.searchLabel {
+        didSet {
+            updatePlaceholderColor()
+        }
+    }
 
     var backgroundColorOverride: UIColor?
 
@@ -93,12 +97,16 @@ class PCSearchBarController: UIViewController {
         searchTextField.textColor = textColor
         cancelButton.setTitleColor(textColor, for: .normal)
 
-        let placeholderColor = backgroundColorOverride == nil ? ThemeColor.secondaryText02() : ThemeColor.primaryText02()
-        searchTextField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: placeholderColor])
+        updatePlaceholderColor()
 
         let iconColor = backgroundColorOverride == nil ? ThemeColor.secondaryIcon02() : ThemeColor.primaryIcon02()
         searchIcon.tintColor = iconColor
         clearSearchBtn.tintColor = iconColor
+    }
+
+    private func updatePlaceholderColor() {
+        let placeholderColor = backgroundColorOverride == nil ? ThemeColor.secondaryText02() : ThemeColor.primaryText02()
+        searchTextField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: placeholderColor])
     }
 
     @IBAction func cancelTapped(_ sender: Any) {
