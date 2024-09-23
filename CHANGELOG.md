@@ -7,6 +7,7 @@
 - Fix Sharing with AirDrop fails [#2165](https://github.com/Automattic/pocket-casts-ios/issues/2165)
 - Transcripts: Refactor scroll to range textKit code [#2155](https://github.com/Automattic/pocket-casts-ios/pull/2155)
 - Fix sorting of Episode list on WatchOS [#2172](https://github.com/Automattic/pocket-casts-ios/pull/2172)
+- Fix issue when HTTP contentType and real file type do not match [#1933](https://github.com/Automattic/pocket-casts-ios/issues/1933)
 
 7.72
 -----
