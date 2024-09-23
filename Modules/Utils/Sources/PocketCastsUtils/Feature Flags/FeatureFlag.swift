@@ -112,6 +112,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// If the player is not ready to play, we should use the same logic we use when the player doesn't exist yet.
     case playerIsReadyToPlay
 
+    // Shows the searchbar in Listening History view
+    case listeningHistorySearch
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -188,6 +191,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .playerIsReadyToPlay:
             true
+        case .listeningHistorySearch:
+            false
         }
     }
 
