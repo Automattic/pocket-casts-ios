@@ -15,7 +15,7 @@
 		<string>webcredentials:play.pocketcasts.com</string>
 		<string>applinks:pcast.pocketcasts.net</string>
 		<string>applinks:pca.st</string>
-		<string>applinks:pocketcasts.com</string>
+		<string>applinks:pocketcasts.com?mode=developer</string>
 		<string>applinks:pocket-casts-main-development.mystagingwebsite.com</string>
 	</array>
 	<key>com.apple.developer.carplay-audio</key>

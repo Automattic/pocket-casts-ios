@@ -4439,3 +4439,9 @@
 /* Referrals - Share Pass subject title for sharing to email. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
 "referrals_share_pass_subject" = "%1$@ Guest Pass for Pocket Casts Plus!";
 
+/* Referrals - Title for screen saying that referral offer isn't available for user*/
+"referrals_offer_not_available_title" = "This offer isn’t available";
+
+/* Referrals - Detail message for screen saying that referral offer isn't available for user*/
+"referrals_offer_not_available_detail" = "This guest pass can only be redeemed once and is available for those without an active Plus or Patron subscription. Thanks for listening!";
+
