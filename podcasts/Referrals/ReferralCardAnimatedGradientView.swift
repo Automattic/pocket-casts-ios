@@ -2,94 +2,53 @@ import SwiftUI
 
 struct ReferralCardAnimatedGradientView: View {
 
-    enum AnimationPosition {
-        case topLeading
-        case bottomLeading
-        case bottomTrailing
-        case topTrailing
+    @StateObject var motion = MotionManager(options: .attitude)
 
-        var verticalPosition: CGFloat {
-            switch self {
-            case .topLeading:
-                return -1
-            case .bottomLeading:
-                return +1
-            case .bottomTrailing:
-                return +1
-            case .topTrailing:
-                return -1
-            }
-        }
-
-        var horizontalPosition: CGFloat {
-            switch self {
-            case .topLeading:
-                return -1
-            case .bottomLeading:
-                return -1
-            case .bottomTrailing:
-                return +1
-            case .topTrailing:
-                return +1
-            }
-        }
-    }
-
-    let animationSequence: [AnimationPosition] = [.topLeading, .topTrailing, .bottomTrailing, .bottomLeading, .topLeading, .bottomLeading, .bottomTrailing, .topTrailing]
-
-    @State private var currentAnimationPosition: Int = 0
-    @State private var currentAnimation: AnimationPosition = .topLeading
-
-    private func nextAnimation() {
-        currentAnimationPosition += 1
-        if currentAnimationPosition < animationSequence.count {
-            currentAnimation = animationSequence[currentAnimationPosition]
-            return
-        }
-        currentAnimationPosition = 0
-        currentAnimation = animationSequence[currentAnimationPosition]
+    private var position: CGSize {
+        let size = CGSize(width: motion.roll / (.pi / 2),
+                          height: motion.pitch / (.pi / 2))
+        return size
     }
 
     var body: some View {
         GeometryReader(content: { geometry in
-            ZStack() {
+            let offsetX = geometry.size.width / 1.8
+            let offsetY = geometry.size.height / 4
+            let offsetX2 = geometry.size.width / 1.7
+            let offsetY2 = geometry.size.height / 3.5
+            let motionScale = geometry.size.width / 10
+            let circleSize = geometry.size.height * 1.3
+            Rectangle()
+            .background(.black)
+            .overlay {
                 LinearGradient(
                     stops: Constants.gradientStops,
                     startPoint: UnitPoint(x: 0.12, y: 0),
                     endPoint: UnitPoint(x: 0.89, y: 0.95)
                 )
+                .frame(width: circleSize, height: circleSize)
                 .clipShape(Circle())
-                .blur(radius: geometry.size.width / 10)
-                .opacity(0.75)
-                .ignoresSafeArea()
-                .offset(x: currentAnimation.horizontalPosition * geometry.size.width / 2,
-                        y: currentAnimation.verticalPosition * geometry.size.height / 2)
+                .offset(x: -1 * offsetX + (position.width * motionScale),
+                        y: -1 * offsetY + (position.height * motionScale))
                 LinearGradient(
                     stops: Constants.gradientStops,
                     startPoint: UnitPoint(x: 0.29, y: 0.19),
                     endPoint: UnitPoint(x: 0.87, y: 1.18)
                 )
                 .clipShape(Circle())
-                .blur(radius: geometry.size.width / 10)
-                .opacity(0.75)
-                .ignoresSafeArea()
-                .offset(x: -1 * currentAnimation.horizontalPosition * geometry.size.width / 2,
-                        y: -1 * currentAnimation.verticalPosition * geometry.size.height / 2)
                 .rotationEffect(Angle(degrees: 1.45))
-                .opacity(0.75)
+                .offset(x: offsetX2 - (position.width * motionScale),
+                        y: offsetY2 - (position.height * motionScale))
             }
-            .animation(.easeInOut(duration: Constants.animationDuration), value: currentAnimation)
-            .task {
-                Task {
-                    while true {
-                        nextAnimation()
-                        try await Task.sleep(nanoseconds: UInt64(Constants.animationDuration) * 1_000_000_000)
-                    }
-                }
-            }
-            .background(.black)
+            .animation(.easeInOut(duration: Constants.animationDuration), value: motion.pitch)
+            .blur(radius: geometry.size.width / Constants.blurFactor)
         })
-        .clipped()
+        .onAppear() {
+            motion.start()
+        }
+        .onDisappear() {
+            motion.stop()
+        }
     }
 
     enum Constants {
@@ -100,19 +59,20 @@ struct ReferralCardAnimatedGradientView: View {
             Gradient.Stop(color: Color(red: 0.91, green: 0.35, blue: 0.26), location: 0.76),
             Gradient.Stop(color: Color(red: 0.1, green: 0.1, blue: 0.1), location: 1.00),
         ]
-
         static let animationDuration: TimeInterval = 5
+        static let blurFactor = CGFloat(10)
     }
 }
 
 #Preview {
     Rectangle()
-        .foregroundColor(.blue.opacity(0.2))
-        .background {
+        .overlay {
             ReferralCardAnimatedGradientView()
         }
         .overlay(alignment: .bottomLeading) {
-            Text("Sergio").padding()
+            Text("2-Month")
+                .foregroundColor(.white)
+                .padding()
         }
         .cornerRadius(15)
         .frame(width: 315, height: 200)
