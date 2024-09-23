@@ -1233,6 +1233,8 @@ pocast con te</string>
     <string>Presto</string>
     <key>kids_profile_banner_request_button</key>
     <string>Richiedi l'accesso anticipato </string>
+    <key>kids_profile_banner_text</key>
+    <string>Un nuovo profilo con solo contenuti per bambini per mantenere in ordine i tuoi abbonamenti.</string>
     <key>kids_profile_banner_title</key>
     <string>Profilo Bambini</string>
     <key>kids_profile_submit_error</key>
