@@ -1233,6 +1233,8 @@
     <string>即将推出</string>
     <key>kids_profile_banner_request_button</key>
     <string>请求抢先体验 </string>
+    <key>kids_profile_banner_text</key>
+    <string>仅包含儿童相关内容的新个人资料，可保持订阅界面整洁有序。</string>
     <key>kids_profile_banner_title</key>
     <string>儿童个人资料</string>
     <key>kids_profile_submit_error</key>
@@ -1690,6 +1692,8 @@
     <string>无法加载</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@/年</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts 徽标</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts 简报</string>
     <key>pocket_casts_newsletter_description</key>

@@ -1,10 +1,12 @@
 7.74
 -----
-
+- Add Title episode sort options to iPhone app [2175](https://github.com/Automattic/pocket-casts-ios/pull/2175)
 
 7.73
 -----
-
+- Fix Sharing with AirDrop fails [#2165](https://github.com/Automattic/pocket-casts-ios/issues/2165)
+- Transcripts: Refactor scroll to range textKit code [#2155](https://github.com/Automattic/pocket-casts-ios/pull/2155)
+- Fix sorting of Episode list on WatchOS [#2172](https://github.com/Automattic/pocket-casts-ios/pull/2172)
 
 7.72
 -----

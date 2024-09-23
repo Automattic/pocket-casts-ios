@@ -1690,6 +1690,8 @@ AGGIORNAMENTI</string>
     <string>Impossibile caricare</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ all'anno</string>
+    <key>pocket_casts_logo</key>
+    <string>Logo Pocket Casts</string>
     <key>pocket_casts_newsletter</key>
     <string>Newsletter Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
