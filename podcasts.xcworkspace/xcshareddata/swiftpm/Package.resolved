@@ -254,6 +254,15 @@
         }
       },
       {
+        "package": "Swime",
+        "repositoryURL": "https://github.com/danielebogo/Swime",
+        "state": {
+          "branch": "master",
+          "revision": "51200c73c04cc9a8718d7d9ad70a3bf6c6f87dd1",
+          "version": null
+        }
+      },
+      {
         "package": "SwipeCellKit",
         "repositoryURL": "https://github.com/shiftyjelly/SwipeCellKit",
         "state": {

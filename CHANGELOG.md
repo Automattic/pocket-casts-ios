@@ -8,6 +8,9 @@
 - Transcripts: Refactor scroll to range textKit code [#2155](https://github.com/Automattic/pocket-casts-ios/pull/2155)
 - Fix sorting of Episode list on WatchOS [#2172](https://github.com/Automattic/pocket-casts-ios/pull/2172)
 - Fix skip back button on lock screen media controls [#2186](https://github.com/Automattic/pocket-casts-ios/pull/2186)
+- Fix crash on shelf actions [#2174](https://github.com/Automattic/pocket-casts-ios/pull/2174)
+- Fix display of html entities on transcripts [#2192](https://github.com/Automattic/pocket-casts-ios/pull/2192)
+- Fix issue when HTTP contentType and real file type do not match [#1933](https://github.com/Automattic/pocket-casts-ios/issues/1933)
 
 7.72
 -----
