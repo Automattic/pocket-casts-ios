@@ -457,6 +457,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPositionSaved, object: playingEpisode.uuid)
                 checkForChapterChange()
                 fireProgressNotification()
+                updateNowPlayingInfo()
             } else {
                 seekingTo = PlaybackManager.notSeeking
             }
