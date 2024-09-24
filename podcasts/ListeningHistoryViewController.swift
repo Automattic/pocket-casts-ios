@@ -6,6 +6,7 @@ import UIKit
 
 class ListeningHistoryViewController: PCViewController {
     var episodes = [ArraySection<String, ListEpisode>]()
+    var tempEpisodes = [ArraySection<String, ListEpisode>]()
     private let operationQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
 
@@ -192,20 +193,31 @@ extension ListeningHistoryViewController: AnalyticsSourceProvider {
 
 extension ListeningHistoryViewController: PCSearchBarDelegate {
     func searchDidBegin() {
-
+        tempEpisodes = episodes
     }
 
     func searchDidEnd() {
-
+        listeningHistoryTable.isHidden = tempEpisodes.isEmpty
+        episodes = tempEpisodes
+        listeningHistoryTable.reloadData()
+        tempEpisodes.removeAll()
     }
 
     func searchWasCleared() {
-
+        listeningHistoryTable.isHidden = tempEpisodes.isEmpty
+        episodes = tempEpisodes
+        listeningHistoryTable.reloadData()
     }
 
     func searchTermChanged(_ searchTerm: String) { }
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+        let newData = episodesDataManager.searchEpisodes(for: searchTerm)
+
+        listeningHistoryTable.isHidden = newData.isEmpty
+        episodes = newData
+        listeningHistoryTable.reloadData()
+
         completion()
     }
 
