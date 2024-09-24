@@ -79,7 +79,9 @@ class WatchManager: NSObject, WCSessionDelegate {
             }
         } else if WatchConstants.Messages.SkipBackRequest.type == messageType {
             AnalyticsPlaybackHelper.shared.currentSource = .watch
-            PlaybackManager.shared.skipBack()
+            DispatchQueue.main.async {
+                PlaybackManager.shared.skipBack()
+            }
         } else if WatchConstants.Messages.SkipForwardRequest.type == messageType {
             AnalyticsPlaybackHelper.shared.currentSource = .watch
             PlaybackManager.shared.skipForward()
