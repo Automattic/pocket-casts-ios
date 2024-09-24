@@ -1,15 +1,16 @@
 import SwiftUI
 import PocketCastsServer
 
-class ReferralSendPassModel {
+class ReferralSendPassModel: ObservableObject {
     let offerInfo: ReferralsOfferInfo
-    let referralURL: URL?
+    @Published var referralURL: URL?
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(offerInfo: ReferralsOfferInfo, referralURL: URL?, onShareGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
+    @Published var isLoading: Bool = false
+
+    init(offerInfo: ReferralsOfferInfo, onShareGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
         self.offerInfo = offerInfo
-        self.referralURL = referralURL
         self.onShareGuestPassTap = onShareGuestPassTap
         self.onCloseTap = onCloseTap
     }
@@ -30,6 +31,14 @@ class ReferralSendPassModel {
         L10n.referralsSharePassSubject(self.offerInfo.localizedOfferDurationAdjective)
     }
 
+    func loadData() async {
+        isLoading = true
+        let code = await ApiServerHandler.shared.getReferralCode()
+        if let code {
+            referralURL = URL(string: code.url)
+        }
+        isLoading = false
+    }
 }
 
 struct ReferralSendPassView: View {
@@ -69,6 +78,9 @@ struct ReferralSendPassView: View {
         }
         .padding()
         .background(.black)
+        .task {
+            await viewModel.loadData()
+        }
     }
 
     enum Constants {
@@ -81,6 +93,6 @@ struct ReferralSendPassView: View {
 
 #Preview("With Passes") {
     Group {
-        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock(), referralURL: URL(string: ServerConstants.Urls.pocketcastsDotCom)))
+        ReferralSendPassView(viewModel: ReferralSendPassModel(offerInfo: ReferralsOfferInfoMock()))
     }
 }
