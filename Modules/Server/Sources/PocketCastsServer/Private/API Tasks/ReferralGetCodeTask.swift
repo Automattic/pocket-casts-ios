@@ -3,8 +3,8 @@ import PocketCastsUtils
 import SwiftProtobuf
 
 public struct ReferralCode: Codable {
-    let code: String
-    let url: String
+    public let code: String
+    public let url: String
 }
 
 class ReferralGetCodeTask: ApiBaseTask, @unchecked Sendable {
@@ -26,7 +26,7 @@ class ReferralGetCodeTask: ApiBaseTask, @unchecked Sendable {
                 completion?(nil)
                 return
             }
-            let apiCode = try Api_ReferralCode(jsonUTF8Data: responseData)
+            let apiCode = try Api_ReferralCode(serializedBytes: responseData)
             completion?(ReferralCode(code: apiCode.code, url: apiCode.url))
         } catch {
             FileLog.shared.addMessage("Failed to parse  Api_GetRererralCodeRequest \(error.localizedDescription)")
