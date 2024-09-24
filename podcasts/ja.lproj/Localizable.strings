@@ -2497,8 +2497,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ストーリー</string>
     <key>share_list_subscribing</key>
     <string>フォローしています...</string>
-    <key>share_more_actions</key>
-    <string>詳細</string>
     <key>share_podcast</key>
     <string>ポッドキャストを共有</string>
     <key>share_podcast_title</key>

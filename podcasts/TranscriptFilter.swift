@@ -24,7 +24,7 @@ struct ComposeFilter: TranscriptFilter {
 
     static let htmlFilter = ComposeFilter(filters: [
         RegexFilter.breakLineFilter,
-        RegexFilter.nbspFilter,
+        HTMLEntititiesFilter(),
         RegexFilter.vttTagsFilter,
         RegexFilter.soundDescriptorFilter,
         RegexFilter.htmlSpeakerFilter,
@@ -93,4 +93,30 @@ struct SuffixFilter: TranscriptFilter {
 
 extension SuffixFilter {
     static let addSpaceWhenNotEndofLine = SuffixFilter(condition: ".\n", replacement: " ")
+}
+
+struct HTMLEntititiesFilter: TranscriptFilter {
+
+    private static let htmlEntities: [(String, String)] = [
+        ("&nbsp;", " "),
+        ("&#160;", " "),
+        ("&quot;", "\""),
+        ("&#34;", "\""),
+        ("&apos;", "'"),
+        ("&#39;", "'"),
+        ("&lt;", "<"),
+        ("&#60;", "<"),
+        ("&gt;", ">"),
+        ("&#62;", ">"),
+        ("&#38;", "&"),
+        ("&amp;", "&") // Do this last so that, e.g. @"&amp;lt;" goes to @"&lt;" not @"<"
+    ]
+
+    func filter(_ input: String) -> String {
+        var result = input
+        for entity in Self.htmlEntities {
+            result = result.replacingOccurrences(of: entity.0, with: entity.1)
+        }
+        return result
+    }
 }

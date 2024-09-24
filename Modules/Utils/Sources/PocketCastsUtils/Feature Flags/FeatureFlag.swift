@@ -115,6 +115,9 @@ public enum FeatureFlag: String, CaseIterable {
     // Shows the searchbar in Listening History view
     case listeningHistorySearch
 
+    /// Use the Mimetype library to check the file mimetype
+    case useMimetypePackage
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -193,6 +196,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .listeningHistorySearch:
             false
+        case .useMimetypePackage:
+            true
         }
     }
 

@@ -41,7 +41,7 @@ struct ReferralsClaimBannerView: View {
 }
 
 #Preview {
-    ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(offerInfo: ReferralsOfferInfoMock()))
+    ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(referralURL: nil, offerInfo: ReferralsOfferInfoMock()))
             .environmentObject(Theme(previewTheme: .light))
             .previewLayout(.sizeThatFits)
             .padding(16)

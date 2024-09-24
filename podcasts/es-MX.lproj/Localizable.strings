@@ -1233,6 +1233,8 @@ pódcast contigo</string>
     <string>Pronto</string>
     <key>kids_profile_banner_request_button</key>
     <string>Solicitar acceso anticipado </string>
+    <key>kids_profile_banner_text</key>
+    <string>Un perfil nuevo solo con contenido para niños para mantener organizadas tus suscripciones.</string>
     <key>kids_profile_banner_title</key>
     <string>Perfil para niños</string>
     <key>kids_profile_submit_error</key>
