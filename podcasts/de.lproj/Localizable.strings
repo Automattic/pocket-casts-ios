@@ -1233,6 +1233,8 @@ Podcasts mit</string>
     <string>Bald</string>
     <key>kids_profile_banner_request_button</key>
     <string>Frühzeitigen Zugriff anfordern </string>
+    <key>kids_profile_banner_text</key>
+    <string>Ein neues Profil, das ausschließlich aus Inhalten für Kinder besteht – so bleiben deine Abonnements aufgeräumt.</string>
     <key>kids_profile_banner_title</key>
     <string>Kinderprofil</string>
     <key>kids_profile_submit_error</key>

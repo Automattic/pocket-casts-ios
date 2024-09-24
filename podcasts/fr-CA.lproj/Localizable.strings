@@ -1233,6 +1233,8 @@ podcasts partout avec</string>
     <string>Bientôt disponible</string>
     <key>kids_profile_banner_request_button</key>
     <string>Demande d’accès anticipé </string>
+    <key>kids_profile_banner_text</key>
+    <string>Un nouveau profil composé uniquement de contenu adapté aux enfants pour préserver l’organisation de vos abonnements.</string>
     <key>kids_profile_banner_title</key>
     <string>Profil enfants</string>
     <key>kids_profile_submit_error</key>
