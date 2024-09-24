@@ -11,6 +11,7 @@
 - Fix crash on shelf actions [#2174](https://github.com/Automattic/pocket-casts-ios/pull/2174)
 - Fix display of html entities on transcripts [#2192](https://github.com/Automattic/pocket-casts-ios/pull/2192)
 - Fix issue when HTTP contentType and real file type do not match [#1933](https://github.com/Automattic/pocket-casts-ios/issues/1933)
+- Fix issue when transcript type have an alternative valid mime type [#2185](https://github.com/Automattic/pocket-casts-ios/issues/2185)
 - Fix skip back issue after skipping back on the Apple Watch [#2197](https://github.com/Automattic/pocket-casts-ios/pull/2197)
 
 7.72
