@@ -129,6 +129,19 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(columnName) IS NOT NULL", values: nil, dbQueue: dbQueue)
     }
 
+    func findEpisodesAndPodcastsWhere(customWhere: String, dbQueue: FMDatabaseQueue) -> [Episode] {
+        let query = """
+        SELECT episode.* FROM \(DataManager.episodeTableName) episode
+        LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id
+        WHERE lastPlaybackInteractionDate IS NOT NULL
+        AND lastPlaybackInteractionDate > 0
+        AND (UPPER(episode.title) LIKE '%' || UPPER(?) || '%'  ESCAPE '\\'
+         OR UPPER(podcast.title) LIKE '%' || UPPER(?) || '%'  ESCAPE '\\')
+        ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000
+        """
+        return loadMultiple(query: query, values: [customWhere, customWhere], dbQueue: dbQueue)
+    }
+
     func findEpisodesWhere(customWhere: String, arguments: [Any]?, dbQueue: FMDatabaseQueue) -> [Episode] {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE \(customWhere)", values: arguments, dbQueue: dbQueue)
     }
