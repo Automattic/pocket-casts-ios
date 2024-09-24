@@ -1438,6 +1438,10 @@ internal enum L10n {
   internal static var learnMore: String { return L10n.tr("Localizable", "learn_more") }
   /// Listening History
   internal static var listeningHistory: String { return L10n.tr("Localizable", "listening_history") }
+  /// We couldn't find any episode for that search. Try another keyword.
+  internal static var listeningHistorySearchNoEpisodesText: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_text") }
+  /// No episodes found
+  internal static var listeningHistorySearchNoEpisodesTitle: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_title") }
   /// Loading...
   internal static var loading: String { return L10n.tr("Localizable", "loading") }
   /// Create an account to sync your listening experience across all your devices.

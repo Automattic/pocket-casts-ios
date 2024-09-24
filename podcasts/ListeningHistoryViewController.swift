@@ -13,6 +13,26 @@ class ListeningHistoryViewController: PCViewController {
     private let episodesDataManager = EpisodesDataManager()
     private var searchController: PCSearchBarController?
 
+    @IBOutlet weak var emptyStateView: ThemeableView! {
+        didSet {
+            emptyStateView.isHidden = true
+        }
+    }
+
+    @IBOutlet weak var emptyStateTitle: ThemeableLabel! {
+        didSet {
+            emptyStateTitle.style = .primaryText01
+            emptyStateTitle.text = L10n.listeningHistorySearchNoEpisodesTitle
+        }
+    }
+
+    @IBOutlet weak var emptyStateText: ThemeableLabel! {
+        didSet {
+            emptyStateText.style = .primaryText02
+            emptyStateText.text = L10n.listeningHistorySearchNoEpisodesText
+        }
+    }
+
     @IBOutlet var listeningHistoryTable: UITableView! {
         didSet {
             registerCells()
@@ -198,6 +218,7 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
 
     func searchDidEnd() {
         listeningHistoryTable.isHidden = tempEpisodes.isEmpty
+        emptyStateView.isHidden = true
         episodes = tempEpisodes
         listeningHistoryTable.reloadData()
         tempEpisodes.removeAll()
@@ -205,6 +226,7 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
 
     func searchWasCleared() {
         listeningHistoryTable.isHidden = tempEpisodes.isEmpty
+        emptyStateView.isHidden = true
         episodes = tempEpisodes
         listeningHistoryTable.reloadData()
     }
@@ -212,12 +234,16 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
     func searchTermChanged(_ searchTerm: String) { }
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+        let oldData = episodes
         let newData = episodesDataManager.searchEpisodes(for: searchTerm)
 
         listeningHistoryTable.isHidden = newData.isEmpty
-        episodes = newData
-        listeningHistoryTable.reloadData()
+        emptyStateView.isHidden = !newData.isEmpty
 
+        let changeSet = StagedChangeset(source: oldData, target: newData)
+        self.listeningHistoryTable.reload(using: changeSet, with: .none, setData: { data in
+            self.episodes = data
+        })
         completion()
     }
 
