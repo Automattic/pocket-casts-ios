@@ -49,11 +49,6 @@ public enum TranscriptFormat: String, CaseIterable {
 
 extension Episode.Metadata.Transcript {
     public var transcriptFormat: TranscriptFormat? {
-        for format in TranscriptFormat.allCases {
-            if format.possibleTypes.contains(type) {
-                return format
-            }
-        }
-        return nil
+        TranscriptFormat.allCases.first { $0.possibleTypes.contains(type) }
     }
 }
