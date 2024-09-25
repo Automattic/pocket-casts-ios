@@ -3,12 +3,21 @@ import PocketCastsServer
 
 @MainActor
 class ReferralSendPassModel: ObservableObject {
+
+    enum LoadingState {
+        case idle
+        case loading
+        case failed
+        case loaded
+    }
+
     let offerInfo: ReferralsOfferInfo
     @Published var referralURL: URL?
+
     var onShareGuestPassTap: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    @Published var isLoading: Bool = false
+    @Published var state: LoadingState = .idle
 
     init(offerInfo: ReferralsOfferInfo, onShareGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> ())? = nil) {
         self.offerInfo = offerInfo
@@ -33,12 +42,15 @@ class ReferralSendPassModel: ObservableObject {
     }
 
     func loadData() async {
-        isLoading = true
+        state = .loading
+        try? await Task.sleep(nanoseconds: 2_000_000_000 )
         let code = await ApiServerHandler.shared.getReferralCode()
-        if let code {
-            referralURL = URL(string: code.url)
+        if let code, let referralURL = URL(string: code.url) {
+            self.referralURL = referralURL
+            state = .loaded
+        } else {
+            state = .failed
         }
-        isLoading = false
     }
 }
 
@@ -58,48 +70,53 @@ struct ReferralSendPassView: View {
             }
             Spacer()
         }
+        .background(.black)
     }
 
     var body: some View {
-        Group {
-            if viewModel.isLoading {
-                loadingView
-            } else {
-                VStack {
-                    HStack {
-                        Button(action: {
-                            viewModel.onCloseTap?()
-                        }, label: {
-                            Image("close").foregroundColor(Color.white)
-                        })
-                        Spacer()
-                    }
-                    VStack(spacing: Constants.verticalSpacing) {
-                        SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
-                        Text(viewModel.title)
-                            .font(size: 31, style: .title, weight: .bold)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
-                        ZStack {
-                            ForEach(0..<Constants.numberOfPasses, id: \.self) { i in
-                                ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
-                                    .frame(width: Constants.defaultCardSize.width - (CGFloat(Constants.numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
-                                    .offset(CGSize(width: 0, height: CGFloat(Constants.numberOfPasses * i) * Constants.cardInset.height))
-                            }
+        switch viewModel.state {
+        case .idle:
+            Color.black.task {
+                await viewModel.loadData()
+            }
+        case .loading:
+            loadingView
+        case .failed:
+            ReferralsMessageView(title: L10n.referralsNotAvailableToSend, detail: L10n.pleaseTryAgainLater) {
+                viewModel.onCloseTap?()
+            }
+        case .loaded:
+            VStack {
+                HStack {
+                    Button(action: {
+                        viewModel.onCloseTap?()
+                    }, label: {
+                        Image("close").foregroundColor(Color.white)
+                    })
+                    Spacer()
+                }
+                VStack(spacing: Constants.verticalSpacing) {
+                    SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
+                    Text(viewModel.title)
+                        .font(size: 31, style: .title, weight: .bold)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
+                    ZStack {
+                        ForEach(0..<Constants.numberOfPasses, id: \.self) { i in
+                            ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
+                                .frame(width: Constants.defaultCardSize.width - (CGFloat(Constants.numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
+                                .offset(CGSize(width: 0, height: CGFloat(Constants.numberOfPasses * i) * Constants.cardInset.height))
                         }
                     }
-                    Spacer()
-                    Button(viewModel.buttonTitle) {
-                        viewModel.onShareGuestPassTap?()
-                    }
-                    .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
                 }
+                Spacer()
+                Button(viewModel.buttonTitle) {
+                    viewModel.onShareGuestPassTap?()
+                }
+                .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
             }
-        }
-        .padding()
-        .background(.black)
-        .task {
-            await viewModel.loadData()
+            .padding()
+            .background(.black)
         }
     }
 

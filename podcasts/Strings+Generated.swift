@@ -2306,6 +2306,8 @@ internal enum L10n {
   internal static func referralsGuestPassOffer(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))
   }
+  /// Guest Pass not available at the moment
+  internal static var referralsNotAvailableToSend: String { return L10n.tr("Localizable", "referrals_not_available_to_send") }
   /// This guest pass can only be redeemed once and is available for those without an active Plus or Patron subscription. Thanks for listening!
   internal static var referralsOfferNotAvailableDetail: String { return L10n.tr("Localizable", "referrals_offer_not_available_detail") }
   /// This offer isn’t available
