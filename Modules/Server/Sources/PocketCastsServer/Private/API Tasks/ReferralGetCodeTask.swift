@@ -10,9 +10,6 @@ public struct ReferralCode: Codable {
 class ReferralGetCodeTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((ReferralCode?) -> Void)?
 
-    init() {
-    }
-
     override func apiTokenAcquired(token: String) {
         let urlString = "\(ServerConstants.Urls.api())referrals/code"
 
