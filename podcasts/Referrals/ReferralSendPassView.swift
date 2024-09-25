@@ -42,8 +42,7 @@ class ReferralSendPassModel: ObservableObject {
     }
 
     func loadData() async {
-        state = .loading
-        try? await Task.sleep(nanoseconds: 2_000_000_000 )
+        state = .loading        
         let code = await ApiServerHandler.shared.getReferralCode()
         if let code, let referralURL = URL(string: code.url) {
             self.referralURL = referralURL
