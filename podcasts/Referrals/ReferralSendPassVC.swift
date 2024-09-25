@@ -84,6 +84,7 @@ class TextAndURLShareSource: NSObject, UIActivityItemSource {
 
 extension TextAndURLShareSource {
 
+    @MainActor
     static func makeFrom(viewModel: ReferralSendPassModel) -> TextAndURLShareSource {
         return TextAndURLShareSource(url: viewModel.referralURL, text: viewModel.shareText, subject: viewModel.shareSubject)
     }

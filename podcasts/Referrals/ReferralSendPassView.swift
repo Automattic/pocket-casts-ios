@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 
+@MainActor
 class ReferralSendPassModel: ObservableObject {
     let offerInfo: ReferralsOfferInfo
     @Published var referralURL: URL?
@@ -42,14 +43,27 @@ class ReferralSendPassModel: ObservableObject {
 }
 
 struct ReferralSendPassView: View {
-    let viewModel: ReferralSendPassModel
+    @StateObject var viewModel: ReferralSendPassModel
 
     @State var showShareView: Bool = false
+
+    @ViewBuilder
+    var loadingView: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                ProgressView().tint(.white)
+                Spacer()
+            }
+            Spacer()
+        }
+    }
 
     var body: some View {
         Group {
             if viewModel.isLoading {
-                ProgressView()
+                loadingView
             } else {
                 VStack {
                     HStack {
@@ -80,10 +94,10 @@ struct ReferralSendPassView: View {
                     }
                     .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
                 }
-                .padding()
-                .background(.black)
             }
         }
+        .padding()
+        .background(.black)
         .task {
             await viewModel.loadData()
         }
