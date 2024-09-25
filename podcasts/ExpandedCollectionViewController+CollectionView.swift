@@ -51,7 +51,6 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
 
         let headerView: DiscoverCollectionHeader = DiscoverCollectionHeader.fromNib()
         headerView.populate(podcastCollection: podcastCollection)
-        headerView.linkDelegate = self
 
         return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height),
                                                   withHorizontalFittingPriority: .required, // Width is fixed
