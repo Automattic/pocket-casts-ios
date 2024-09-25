@@ -249,6 +249,7 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
 
     private func setupSearchController() {
         searchController = PCSearchBarController()
+        searchController?.searchDebounce = 0.2
 
         guard let searchController else {
             return
