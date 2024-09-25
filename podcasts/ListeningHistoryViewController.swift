@@ -225,6 +225,8 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
     }
 
     func searchWasCleared() {
+        Analytics.track(.searchCleared, source: analyticsSource)
+
         listeningHistoryTable.isHidden = tempEpisodes.isEmpty
         emptyStateView.isHidden = true
         episodes = tempEpisodes
@@ -234,6 +236,8 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
     func searchTermChanged(_ searchTerm: String) { }
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+        Analytics.track(.searchPerformed, source: analyticsSource)
+
         let oldData = episodes
         let newData = episodesDataManager.searchEpisodes(for: searchTerm)
 
