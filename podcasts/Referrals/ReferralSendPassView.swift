@@ -47,37 +47,43 @@ struct ReferralSendPassView: View {
     @State var showShareView: Bool = false
 
     var body: some View {
-        VStack {
-            HStack {
-                Button(action: {
-                    viewModel.onCloseTap?()
-                }, label: {
-                    Image("close").foregroundColor(Color.white)
-                })
-                Spacer()
-            }
-            VStack(spacing: Constants.verticalSpacing) {
-                SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
-                Text(viewModel.title)
-                    .font(size: 31, style: .title, weight: .bold)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.white)
-                ZStack {
-                    ForEach(0..<Constants.numberOfPasses, id: \.self) { i in
-                        ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
-                            .frame(width: Constants.defaultCardSize.width - (CGFloat(Constants.numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
-                            .offset(CGSize(width: 0, height: CGFloat(Constants.numberOfPasses * i) * Constants.cardInset.height))
+        Group {
+            if viewModel.isLoading {
+                ProgressView()
+            } else {
+                VStack {
+                    HStack {
+                        Button(action: {
+                            viewModel.onCloseTap?()
+                        }, label: {
+                            Image("close").foregroundColor(Color.white)
+                        })
+                        Spacer()
                     }
+                    VStack(spacing: Constants.verticalSpacing) {
+                        SubscriptionBadge(tier: .plus, displayMode: .gradient, foregroundColor: .black)
+                        Text(viewModel.title)
+                            .font(size: 31, style: .title, weight: .bold)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white)
+                        ZStack {
+                            ForEach(0..<Constants.numberOfPasses, id: \.self) { i in
+                                ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
+                                    .frame(width: Constants.defaultCardSize.width - (CGFloat(Constants.numberOfPasses-1-i) * Constants.cardInset.width), height: Constants.defaultCardSize.height)
+                                    .offset(CGSize(width: 0, height: CGFloat(Constants.numberOfPasses * i) * Constants.cardInset.height))
+                            }
+                        }
+                    }
+                    Spacer()
+                    Button(viewModel.buttonTitle) {
+                        viewModel.onShareGuestPassTap?()
+                    }
+                    .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
                 }
+                .padding()
+                .background(.black)
             }
-            Spacer()
-            Button(viewModel.buttonTitle) {
-                viewModel.onShareGuestPassTap?()
-            }
-            .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
         }
-        .padding()
-        .background(.black)
         .task {
             await viewModel.loadData()
         }
