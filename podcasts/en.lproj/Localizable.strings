@@ -4451,3 +4451,5 @@
 /* Referrals - Detail message for screen saying that referral offer isn't available for user*/
 "referrals_offer_not_available_detail" = "This guest pass can only be redeemed once and is available for those without an active Plus or Patron subscription. Thanks for listening!";
 
+/* Referrals - Guest Pass not available*/
+"referrals_not_available_to_send" = "Guest Pass not available at the moment";

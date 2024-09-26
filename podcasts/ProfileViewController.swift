@@ -491,7 +491,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func referralsTapped() {
         hideReferralsHint()
-        let viewModel = ReferralSendPassModel(offerInfo: ReferralsCoordinator.shared.referralsOfferInfo, referralURL: URL(string: ServerConstants.Urls.pocketcastsDotCom),
+        let viewModel = ReferralSendPassModel(offerInfo: ReferralsCoordinator.shared.referralsOfferInfo,
                                               onShareGuestPassTap: { [weak self] in
             self?.updateReferrals()
             self?.dismiss(animated: true)
