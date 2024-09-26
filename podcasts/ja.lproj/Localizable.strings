@@ -1972,11 +1972,11 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>referrals_claim_guest_pass_action</key>
     <string>パスを有効化</string>
     <key>referrals_claim_guest_pass_banner_detail</key>
-    <string>リスニング体験をすべて利用しましょう</string>
+    <string>リスニング体験をすべてご利用いただけます</string>
     <key>referrals_claim_guest_pass_banner_title</key>
     <string>Plus の%1$@のゲストパスを取得しましょう</string>
     <key>referrals_claim_guest_pass_detail</key>
-    <string>このオファーは新規会員のみが対象です。 メンバーシップは%1$@の有料年間メンバーシップに自動的に更新されます。</string>
+    <string>このオファーは新規メンバーのみが対象です。 メンバーシップは%1$@の有料年間メンバーシップに自動的に更新されます。</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>%1$@のゲストパスを取得しましょう</string>
     <key>referrals_guest_pass_offer</key>
