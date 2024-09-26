@@ -99,13 +99,18 @@ class DiscoverCollectionViewController: PCViewController {
     typealias Section = Int
     typealias Item = DiscoverItem
 
-    private var collectionView: UICollectionView!
+    private lazy var collectionView: UICollectionView = {
+        UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    }()
+
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     private let coordinator: DiscoverCoordinator
     private var loadingContent = false
     private(set) var discoverLayout: DiscoverLayout?
 
-    private var searchController: PCSearchBarController!
+    private lazy var searchController: PCSearchBarController = {
+        PCSearchBarController()
+    }()
     lazy var searchResultsController = SearchResultsViewController(source: .discover)
 
     var resultsControllerDelegate: SearchResultsDelegate {
@@ -197,7 +202,7 @@ class DiscoverCollectionViewController: PCViewController {
 extension DiscoverCollectionViewController {
     private func setupCollectionView() {
         let layout = createCompositionalLayout(with: discoverLayout)
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.collectionViewLayout = layout
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         view.addSubview(collectionView)
@@ -345,7 +350,6 @@ extension DiscoverCollectionViewController {
 
 extension DiscoverCollectionViewController {
     func setupSearchBar() {
-        searchController = PCSearchBarController()
         searchController.view.translatesAutoresizingMaskIntoConstraints = false
         addChild(searchController)
         view.addSubview(searchController.view)
