@@ -263,7 +263,7 @@ platform :ios do
   # - Open backmerge PR
   # - Enables the GitHub branch protection for the new branch
   # - Move all still-opened PRs targeting current milestone to the next one and Freezes the GitHub milestone
-  #  
+  #
   # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
   desc 'Executes the initial steps needed during code freeze'
@@ -1039,7 +1039,7 @@ inal copy, and try again.")
   # - Loop though all PRs which were still open and were assigned the milestones of the code-frozen version,
   #   and move them to the next milestone + leaving a PR comment about it
   # - Add the ❄️ frozen marker to the milestone being frozen
-  def update_milestone()
+  def update_milestone
     require_env_vars!('GITHUB_TOKEN')
 
     new_version = release_version_current
@@ -1085,12 +1085,12 @@ inal copy, and try again.")
       - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
       - Otherwise if this is the first you are running the release task for this version, please investigate the error.
     MESSAGE
-  
+
     UI.error(error_message)
-  
+
     buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
   end
-  
+
   def create_backmerge_pr
     create_release_backmerge_pull_request(
       repository: GHHELPER_REPO,
