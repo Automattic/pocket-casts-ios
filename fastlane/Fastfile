@@ -230,30 +230,6 @@ platform :ios do
   # Release Lanes
   #####################################################################################
 
-  def slack_message(version:, build_number:, is_beta:)
-    build_number_split = build_number.split('.')
-
-    message_root = lambda { |tag, display_name|
-      ":announcement: <#{GITHUB_URL}/releases/tag/#{tag}|*#{display_name}*>"
-    }
-    appstoreconnect_url = 'https://appstoreconnect.apple.com/apps/414834813'
-    testflight_submit_link = "<#{appstoreconnect_url}/testflight/ios|App Store Connect>"
-    appstore_submit_link = "<#{appstoreconnect_url}/appstore/ios/version/deliverable|App Store Connect>"
-    merge_pr_link = "<#{GITHUB_URL}/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
-
-    if is_beta
-      if (build_number_split[3] || '0') == '0'
-        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link} (<https://wp.me/PdeCcb-1ju|need help?>)"
-      else
-        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_link} and #{merge_pr_link} (<https://wp.me/PdeCcb-1ku|need help?>)"
-      end
-    elsif (build_number_split[2] || '0').to_i.positive?
-      "#{message_root.call(version, version)} hotfix has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
-    else
-      "#{message_root.call(version, version)} final build has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
-    end
-  end
-
   # Executes the code freeze steps
   #
   # - Cuts a new release branch, Bumps the version
@@ -326,24 +302,57 @@ platform :ios do
     update_milestone
   end
 
-  def release_branch_name
-    "release/#{release_version_current}"
-  end
+  # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @option [String] base_version (default: _current app version_) If set, bases the beta on the specified version
+  #                  and `release/<base_version>` branch instead of the current one. Useful for triggering betas on hotfixes for example.
+  #
+  desc 'Trigger a new beta build on CI'
+  lane :new_beta_release do |options|
+    # Verify that there's nothing in progress in the working copy
+    ensure_git_status_clean
 
-  # Triggers a beta build on CI
-  #
-  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
-  #
-  lane :trigger_beta_build do |options|
-    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: true)
-  end
+    # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
+    ensure_git_branch(branch: '^release/')
 
-  # Triggers a stable release build on CI
-  #
-  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
-  #
-  lane :trigger_release_build do |options|
-    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: false)
+    # Check versions
+    message = <<-MESSAGE
+
+      Current build code: #{build_code_current}
+      New build code: #{build_code_next}
+
+    MESSAGE
+
+    # Check branch
+    unless !options[:base_version].nil? || Fastlane::Helper::GitHelper.checkout_and_pull(release: release_version_current)
+      UI.user_error!("#{message}Release branch for version #{release_version_current} doesn't exist. Abort.")
+    end
+
+    # Check user override
+    override_default_release_branch(options[:base_version]) unless options[:base_version].nil?
+
+    UI.important(message)
+    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+
+    # Re-generate the strings for GlotPress, just in case there were localization fixes.
+    generate_strings_file_for_glotpress
+
+    download_localized_strings_and_metadata_from_glotpress
+    lint_localizations
+
+    # Bump the build code
+    UI.message 'Bumping build code...'
+    # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
+    ensure_git_branch(branch: '^release/')
+    VERSION_FILE.write(version_long: build_code_next)
+    commit_version_bump
+    UI.success "Done! New Build Code: #{build_code_current}"
+
+    after_confirming_push do
+      trigger_beta_build(branch_to_build: release_branch_name)
+      create_backmerge_pr
+    end
   end
 
   # Finalizes a release at the end of a sprint to submit to the App Store
@@ -397,6 +406,96 @@ platform :ios do
       trigger_release_build(branch_to_build: release_branch_name)
       create_backmerge_pr
     end
+  end
+
+  # Sets the stage to start working on a hotfix
+  #
+  # - Cuts a new `release/x.y.z` branch from the tag from the latest (`x.y`) version
+  # - Bumps the app version numbers appropriately
+  #
+  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @option [String] version (required) The version number to use for the hotfix (`"x.y.z"`)
+  #
+  desc 'Creates a new hotfix branch for the given `version:x.y.z`. The branch will be cut from the `x.y` tag.'
+  lane :new_hotfix_release do |options|
+    # Verify that there's nothing in progress in the working copy
+    ensure_git_status_clean
+
+    new_version = options[:version] || UI.input('Version number for the new hotfix?')
+    build_code_hotfix = build_code_hotfix(release_version: new_version)
+
+    # Parse the provided version into an AppVersion object
+    parsed_version = VERSION_FORMATTER.parse(new_version)
+    previous_version = VERSION_FORMATTER.release_version(VERSION_CALCULATOR.previous_patch_version(version: parsed_version))
+
+    # Check versions
+    message = <<-MESSAGE
+
+      Current release version: #{release_version_current}
+      New hotfix version: #{new_version}
+
+      Current build code: #{build_code_current}
+      New build code: #{build_code_hotfix}
+
+      Branching from tag: #{previous_version}
+
+    MESSAGE
+
+    UI.important(message)
+    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+
+    # Check tags
+    UI.user_error!("Version #{new_version} already exists! Abort!") if git_tag_exists(tag: new_version)
+    UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
+
+    # Create the hotfix branch
+    UI.message 'Creating hotfix branch...'
+    Fastlane::Helper::GitHelper.create_branch("release/#{new_version}", from: previous_version)
+    UI.success "Done! New hotfix branch is: #{git_branch}"
+
+    # Bump the hotfix version and build code and write it to the `xcconfig` file
+    UI.message 'Bumping hotfix version and build code...'
+    VERSION_FILE.write(
+      version_short: new_version,
+      version_long: build_code_hotfix
+    )
+    UI.success "Done! New Release Version: #{release_version_current}. New Build Code: #{build_code_current}"
+
+    commit_version_bump
+  end
+
+  # Finalizes a hotfix, by triggering a release build on CI
+  #
+  desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
+  lane :finalize_hotfix_release do |options|
+    # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
+    ensure_git_branch(branch: '^release/')
+
+    # Verify that there's nothing in progress in the working copy
+    ensure_git_status_clean
+
+    UI.important("Triggering hotfix build for version: #{release_version_current}")
+    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+    push_to_git_remote(tags: false)
+    trigger_release_build(branch_to_build: "release/#{release_version_current}")
+
+    create_backmerge_pr
+  end
+
+  # Triggers a beta build on CI
+  #
+  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
+  #
+  lane :trigger_beta_build do |options|
+    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: true)
+  end
+
+  # Triggers a stable release build on CI
+  #
+  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
+  #
+  lane :trigger_release_build do |options|
+    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: false)
   end
 
   # Builds the Pocket Casts app and uploads it to TestFlight, for beta-testing or final release
@@ -487,59 +586,6 @@ platform :ios do
     )
   end
 
-  # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
-  #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
-  # @option [String] base_version (default: _current app version_) If set, bases the beta on the specified version
-  #                  and `release/<base_version>` branch instead of the current one. Useful for triggering betas on hotfixes for example.
-  #
-  desc 'Trigger a new beta build on CI'
-  lane :new_beta_release do |options|
-    # Verify that there's nothing in progress in the working copy
-    ensure_git_status_clean
-
-    # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
-    ensure_git_branch(branch: '^release/')
-
-    # Check versions
-    message = <<-MESSAGE
-
-      Current build code: #{build_code_current}
-      New build code: #{build_code_next}
-
-    MESSAGE
-
-    # Check branch
-    unless !options[:base_version].nil? || Fastlane::Helper::GitHelper.checkout_and_pull(release: release_version_current)
-      UI.user_error!("#{message}Release branch for version #{release_version_current} doesn't exist. Abort.")
-    end
-
-    # Check user override
-    override_default_release_branch(options[:base_version]) unless options[:base_version].nil?
-
-    UI.important(message)
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
-
-    # Re-generate the strings for GlotPress, just in case there were localization fixes.
-    generate_strings_file_for_glotpress
-
-    download_localized_strings_and_metadata_from_glotpress
-    lint_localizations
-
-    # Bump the build code
-    UI.message 'Bumping build code...'
-    # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
-    ensure_git_branch(branch: '^release/')
-    VERSION_FILE.write(version_long: build_code_next)
-    commit_version_bump
-    UI.success "Done! New Build Code: #{build_code_current}"
-
-    after_confirming_push do
-      trigger_beta_build(branch_to_build: release_branch_name)
-      create_backmerge_pr
-    end
-  end
-
   desc 'Builds and distributes via Enterprise account (Prototype Build)'
   lane :build_and_upload_enterprise do
     build_enterprise
@@ -588,79 +634,22 @@ platform :ios do
     annotate_buildkite_with_appcenter_link
   end
 
-  # Sets the stage to start working on a hotfix
-  #
-  # - Cuts a new `release/x.y.z` branch from the tag from the latest (`x.y`) version
-  # - Bumps the app version numbers appropriately
-  #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
-  # @option [String] version (required) The version number to use for the hotfix (`"x.y.z"`)
-  #
-  desc 'Creates a new hotfix branch for the given `version:x.y.z`. The branch will be cut from the `x.y` tag.'
-  lane :new_hotfix_release do |options|
-    # Verify that there's nothing in progress in the working copy
-    ensure_git_status_clean
+  desc 'Uploads DSYM Symbols'
+  lane :symbols_upload do |options|
+    require_env_vars!('SENTRY_AUTH_TOKEN')
 
-    new_version = options[:version] || UI.input('Version number for the new hotfix?')
-    build_code_hotfix = build_code_hotfix(release_version: new_version)
-
-    # Parse the provided version into an AppVersion object
-    parsed_version = VERSION_FORMATTER.parse(new_version)
-    previous_version = VERSION_FORMATTER.release_version(VERSION_CALCULATOR.previous_patch_version(version: parsed_version))
-
-    # Check versions
-    message = <<-MESSAGE
-
-      Current release version: #{release_version_current}
-      New hotfix version: #{new_version}
-
-      Current build code: #{build_code_current}
-      New build code: #{build_code_hotfix}
-
-      Branching from tag: #{previous_version}
-
-    MESSAGE
-
-    UI.important(message)
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
-
-    # Check tags
-    UI.user_error!("Version #{new_version} already exists! Abort!") if git_tag_exists(tag: new_version)
-    UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
-
-    # Create the hotfix branch
-    UI.message 'Creating hotfix branch...'
-    Fastlane::Helper::GitHelper.create_branch("release/#{new_version}", from: previous_version)
-    UI.success "Done! New hotfix branch is: #{git_branch}"
-
-    # Bump the hotfix version and build code and write it to the `xcconfig` file
-    UI.message 'Bumping hotfix version and build code...'
-    VERSION_FILE.write(
-      version_short: new_version,
-      version_long: build_code_hotfix
+    symbols_path = options[:dsym_path] || lane_context[SharedValues::DSYM_OUTPUT_PATH]
+    sentry_upload_dsym(
+      auth_token: get_required_env!('SENTRY_AUTH_TOKEN'),
+      org_slug: SENTRY_ORG_SLUG,
+      project_slug: SENTRY_PROJECT_SLUG,
+      dsym_path: symbols_path
     )
-    UI.success "Done! New Release Version: #{release_version_current}. New Build Code: #{build_code_current}"
-
-    commit_version_bump
   end
 
-  # Finalizes a hotfix, by triggering a release build on CI
-  #
-  desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
-  lane :finalize_hotfix_release do |options|
-    # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
-    ensure_git_branch(branch: '^release/')
-
-    # Verify that there's nothing in progress in the working copy
-    ensure_git_status_clean
-
-    UI.important("Triggering hotfix build for version: #{release_version_current}")
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
-    push_to_git_remote(tags: false)
-    trigger_release_build(branch_to_build: "release/#{release_version_current}")
-
-    create_backmerge_pr
-  end
+  #####################################################################################
+  # Localization Lanes
+  #####################################################################################
 
   # Generates the `.strings` file to be imported by GlotPress, by parsing source
   # code.
@@ -885,20 +874,57 @@ inal copy, and try again.")
     )
   end
 
-  # -----------------------------------------------------------------------------------
-  # Kicks off a Buildkite build
-  # -----------------------------------------------------------------------------------
-  def trigger_buildkite_release_build(branch:, beta:)
-    require_env_vars!('BUILDKITE_TOKEN')
+  # Generates a HTML containing the libraries acknowledgments.
+  #
+  desc 'Generates a HTML with the list of used libraries and their licenses'
+  lane :acknowledgments do
+    require 'commonmarker'
 
-    buildkite_trigger_build(
-      buildkite_organization: 'automattic',
-      buildkite_pipeline: 'pocket-casts-ios',
-      branch: branch,
-      environment: { BETA_RELEASE: beta },
-      pipeline_file: 'release-builds.yml'
-    )
+    acknowledgements = 'Acknowledgments'
+    markdown = File.read("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.md")
+    rendered_html = CommonMarker.render_html(markdown, :DEFAULT)
+    styled_html = "<head>
+                       <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+                       <style>
+                         body {
+                           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                           Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                           font-size: 16px;
+                           color: #1a1a1a;
+                           margin: 20px;
+                         }
+                        @media (prefers-color-scheme: dark) {
+                         body {
+                          background: #1a1a1a;
+                          color: white;
+                         }
+                        }
+                         pre {
+                          white-space: pre-wrap;
+                         }
+                       </style>
+                       <title>
+                         #{acknowledgements}
+                       </title>
+                     </head>
+                     <body>
+                       #{rendered_html}
+                     </body>"
+
+    ## Remove the <h1>, since we've promoted it to <title>
+    styled_html = styled_html.sub('<h1>Acknowledgements</h1>', '')
+
+    ## The glog library's license contains a URL that does not wrap in the web view,
+    ## leading to a large right-hand whitespace gutter.  Work around this by explicitly
+    ## inserting a <br> in the HTML.  Use gsub juuust in case another one sneaks in later.
+    styled_html = styled_html.gsub('p?hl=en#dR3YEbitojA/COPYING', 'p?hl=en#dR3YEbitojA/COPYING<br>')
+
+    File.write("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.html", styled_html)
   end
+
+  #####################################################################################
+  # Screenshots Automation
+  #####################################################################################
 
   # Generates localized screenshots for the iPhone, and iPad.
   # Tests run in the simulator so be sure to make any necessary Podfile changes such as
@@ -975,64 +1001,30 @@ inal copy, and try again.")
     )
   end
 
-  # Generates a HTML containing the libraries acknowledgments.
-  #
-  desc 'Generates a HTML with the list of used libraries and their licenses'
-  lane :acknowledgments do
-    require 'commonmarker'
+  #####################################################################################
+  # Helper Functions
+  #####################################################################################
 
-    acknowledgements = 'Acknowledgments'
-    markdown = File.read("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.md")
-    rendered_html = CommonMarker.render_html(markdown, :DEFAULT)
-    styled_html = "<head>
-                       <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-                       <style>
-                         body {
-                           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-                           Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                           font-size: 16px;
-                           color: #1a1a1a;
-                           margin: 20px;
-                         }
-                        @media (prefers-color-scheme: dark) {
-                         body {
-                          background: #1a1a1a;
-                          color: white;
-                         }
-                        }
-                         pre {
-                          white-space: pre-wrap;
-                         }
-                       </style>
-                       <title>
-                         #{acknowledgements}
-                       </title>
-                     </head>
-                     <body>
-                       #{rendered_html}
-                     </body>"
-
-    ## Remove the <h1>, since we've promoted it to <title>
-    styled_html = styled_html.sub('<h1>Acknowledgements</h1>', '')
-
-    ## The glog library's license contains a URL that does not wrap in the web view,
-    ## leading to a large right-hand whitespace gutter.  Work around this by explicitly
-    ## inserting a <br> in the HTML.  Use gsub juuust in case another one sneaks in later.
-    styled_html = styled_html.gsub('p?hl=en#dR3YEbitojA/COPYING', 'p?hl=en#dR3YEbitojA/COPYING<br>')
-
-    File.write("#{PROJECT_ROOT_FOLDER}/podcasts/acknowledgements.html", styled_html)
+  # Name of the `release/` branch for the current version
+  def release_branch_name
+    "release/#{release_version_current}"
   end
 
-  desc 'Uploads DSYM Symbols'
-  lane :symbols_upload do |options|
-    require_env_vars!('SENTRY_AUTH_TOKEN')
+  # Kicks off a Buildkite build using the `release-builds.yml` pipeline
+  #
+  # @param branch [String] The git branch on which to trigger the CI build on
+  # @param beta [Boolean] If true, build a beta; if false, build a final release
+  # @return [String] The URL of the build that has been triggered
+  #
+  def trigger_buildkite_release_build(branch:, beta:)
+    require_env_vars!('BUILDKITE_TOKEN')
 
-    symbols_path = options[:dsym_path] || lane_context[SharedValues::DSYM_OUTPUT_PATH]
-    sentry_upload_dsym(
-      auth_token: get_required_env!('SENTRY_AUTH_TOKEN'),
-      org_slug: SENTRY_ORG_SLUG,
-      project_slug: SENTRY_PROJECT_SLUG,
-      dsym_path: symbols_path
+    buildkite_trigger_build(
+      buildkite_organization: 'automattic',
+      buildkite_pipeline: 'pocket-casts-ios',
+      branch: branch,
+      environment: { BETA_RELEASE: beta },
+      pipeline_file: 'release-builds.yml'
     )
   end
 
@@ -1101,6 +1093,37 @@ inal copy, and try again.")
     )
   end
 
+  # Constructs the slack message body to use for a given version
+  #
+  # @param version [String] The version number this Slack message will be about
+  # @param build_number [String] The build number this Slack message will be about
+  # @param is_beta [Boolean] Set to true if the Slack message is an announcement for a beta build and not a final release/hotfix
+  # @return [String] The slack message body to use, typically in a call to the `slack()` fastlane action
+  #
+  def slack_message(version:, build_number:, is_beta:)
+    build_number_split = build_number.split('.')
+
+    message_root = lambda { |tag, display_name|
+      ":announcement: <#{GITHUB_URL}/releases/tag/#{tag}|*#{display_name}*>"
+    }
+    appstoreconnect_url = 'https://appstoreconnect.apple.com/apps/414834813'
+    testflight_submit_link = "<#{appstoreconnect_url}/testflight/ios|App Store Connect>"
+    appstore_submit_link = "<#{appstoreconnect_url}/appstore/ios/version/deliverable|App Store Connect>"
+    merge_pr_link = "<#{GITHUB_URL}/pulls?q=is%3Apr+is%3Aopen+#{build_number}+into|merge the PR>"
+
+    if is_beta
+      if (build_number_split[3] || '0') == '0'
+        "#{message_root.call(build_number, version)} code freeze is completed.\nPlease submit #{build_number} for testers on #{testflight_submit_link} and #{merge_pr_link} (<https://wp.me/PdeCcb-1ju|need help?>)"
+      else
+        "#{message_root.call(build_number, build_number)} beta has been submitted to Apple.\nPlease distribute #{build_number} to testers on #{testflight_submit_link} and #{merge_pr_link} (<https://wp.me/PdeCcb-1ku|need help?>)"
+      end
+    elsif (build_number_split[2] || '0').to_i.positive?
+      "#{message_root.call(version, version)} hotfix has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
+    else
+      "#{message_root.call(version, version)} final build has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
+    end
+  end
+
   def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
       push_to_git_remote(tags: false)
@@ -1129,9 +1152,77 @@ inal copy, and try again.")
     )
   end
 
-  # -----------------------------------------------------------------------------------
+  def upload_pocket_casts_to_appcenter
+    require_env_vars!('APPCENTER_API_TOKEN')
+
+    commit = ENV.fetch('BUILDKITE_COMMIT', 'Unknown')
+    pr = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
+    release_notes = <<~NOTES
+      - Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'Unknown')}`\n
+      - Commit: [#{commit[0...7]}](#{GITHUB_URL}/commit/#{commit})\n
+      - Pull Request: [##{pr}](#{GITHUB_URL}/pull/#{pr})\n
+    NOTES
+
+    appcenter_upload(
+      api_token: get_required_env!('APPCENTER_API_TOKEN'),
+      owner_name: APPCENTER_OWNER_NAME,
+      owner_type: APPCENTER_OWNER_TYPE,
+      app_name: APPCENTER_APP_SLUG,
+      file: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
+      dsym: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.app.dSYM.zip"),
+      release_notes: release_notes,
+      destinations: 'Collaborators',
+      notify_testers: false
+    )
+  end
+
+  def annotate_pr_with_appcenter_link
+    comment_body = prototype_build_details_comment(
+      app_display_name: 'Pocket Casts Prototype Build',
+      app_center_org_name: APPCENTER_OWNER_NAME,
+      fold: true
+    )
+
+    comment_on_pr(
+      project: GHHELPER_REPO,
+      pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
+      reuse_identifier: 'prototype-build-link-pocket-casts',
+      body: comment_body
+    )
+  end
+
+  def annotate_buildkite_with_appcenter_link
+    appcenter_id = lane_context.dig(SharedValues::APPCENTER_BUILD_INFORMATION, 'id')
+    version_data = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
+    metadata = version_data.merge(build_type: 'Prototype', 'appcenter:id': appcenter_id)
+    appcenter_install_url = "https://install.appcenter.ms/orgs/#{APPCENTER_OWNER_NAME}/apps/#{APPCENTER_APP_SLUG}/releases/#{appcenter_id}"
+    list = metadata.map { |k, v| " - **#{k}**: #{v}" }.join("\n")
+    buildkite_annotate(context: 'appcenter-info-pocket-casts', style: 'info', message: "Pocket Casts iOS [App Center Build](#{appcenter_install_url}) Info:\n\n#{list}")
+  end
+
+  # Generates a build number for Prototype Builds, based on the PR number and short commit SHA1
+  #
+  # @note This function uses Buildkite-specific ENV vars
+  #
+  def generate_prototype_build_number
+    if ENV['BUILDKITE']
+      commit = ENV.fetch('BUILDKITE_COMMIT', nil)[0, 7]
+      branch = ENV.fetch('BUILDKITE_BRANCH', nil)
+      pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
+
+      pr_num == 'false' ? "#{branch}-#{commit}" : "pr#{pr_num}-#{commit}"
+    else
+      repo = Git.open(PROJECT_ROOT_FOLDER)
+      commit = repo.current_branch
+      branch = repo.revparse('HEAD')[0, 7]
+
+      "#{branch}-#{commit}"
+    end
+  end
+
+  #####################################################################################
   # Versioning Methods
-  # -----------------------------------------------------------------------------------
+  #####################################################################################
 
   # Returns the release version of the app in the format `1.2` or `1.2.3` if it is a hotfix
   #
@@ -1196,73 +1287,5 @@ inal copy, and try again.")
     build_code_next = VERSION_CALCULATOR.next_build_number(version: build_code_current)
     # Return the formatted build code
     BUILD_CODE_FORMATTER.build_code(version: build_code_next)
-  end
-end
-
-def upload_pocket_casts_to_appcenter
-  require_env_vars!('APPCENTER_API_TOKEN')
-
-  commit = ENV.fetch('BUILDKITE_COMMIT', 'Unknown')
-  pr = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
-  release_notes = <<~NOTES
-    - Branch: `#{ENV.fetch('BUILDKITE_BRANCH', 'Unknown')}`\n
-    - Commit: [#{commit[0...7]}](#{GITHUB_URL}/commit/#{commit})\n
-    - Pull Request: [##{pr}](#{GITHUB_URL}/pull/#{pr})\n
-  NOTES
-
-  appcenter_upload(
-    api_token: get_required_env!('APPCENTER_API_TOKEN'),
-    owner_name: APPCENTER_OWNER_NAME,
-    owner_type: APPCENTER_OWNER_TYPE,
-    app_name: APPCENTER_APP_SLUG,
-    file: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.ipa"),
-    dsym: File.join(ARTIFACTS_FOLDER, "#{PROTOTYPE_BUILD_NAME}.app.dSYM.zip"),
-    release_notes: release_notes,
-    destinations: 'Collaborators',
-    notify_testers: false
-  )
-end
-
-def annotate_pr_with_appcenter_link
-  comment_body = prototype_build_details_comment(
-    app_display_name: 'Pocket Casts Prototype Build',
-    app_center_org_name: APPCENTER_OWNER_NAME,
-    fold: true
-  )
-
-  comment_on_pr(
-    project: GHHELPER_REPO,
-    pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
-    reuse_identifier: 'prototype-build-link-pocket-casts',
-    body: comment_body
-  )
-end
-
-def annotate_buildkite_with_appcenter_link
-  appcenter_id = lane_context.dig(SharedValues::APPCENTER_BUILD_INFORMATION, 'id')
-  version_data = Xcodeproj::Config.new(File.new(VERSION_XCCONFIG_PATH)).to_hash
-  metadata = version_data.merge(build_type: 'Prototype', 'appcenter:id': appcenter_id)
-  appcenter_install_url = "https://install.appcenter.ms/orgs/#{APPCENTER_OWNER_NAME}/apps/#{APPCENTER_APP_SLUG}/releases/#{appcenter_id}"
-  list = metadata.map { |k, v| " - **#{k}**: #{v}" }.join("\n")
-  buildkite_annotate(context: 'appcenter-info-pocket-casts', style: 'info', message: "Pocket Casts iOS [App Center Build](#{appcenter_install_url}) Info:\n\n#{list}")
-end
-
-# Generates a build number for Prototype Builds, based on the PR number and short commit SHA1
-#
-# @note This function uses Buildkite-specific ENV vars
-#
-def generate_prototype_build_number
-  if ENV['BUILDKITE']
-    commit = ENV.fetch('BUILDKITE_COMMIT', nil)[0, 7]
-    branch = ENV.fetch('BUILDKITE_BRANCH', nil)
-    pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
-
-    pr_num == 'false' ? "#{branch}-#{commit}" : "pr#{pr_num}-#{commit}"
-  else
-    repo = Git.open(PROJECT_ROOT_FOLDER)
-    commit = repo.current_branch
-    branch = repo.revparse('HEAD')[0, 7]
-
-    "#{branch}-#{commit}"
   end
 end
