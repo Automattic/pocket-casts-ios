@@ -314,14 +314,7 @@ platform :ios do
 
     after_confirming_push do
       trigger_beta_build(branch_to_build: release_branch_name)
-
-      create_release_backmerge_pull_request(
-        repository: GHHELPER_REPO,
-        source_branch: release_branch_name,
-        default_branch: DEFAULT_BRANCH,
-        labels: ['Releases'],
-        milestone_title: release_version_next
-      )
+      create_backmerge_pr
 
       # We cannot use the `copy_branch_protection` action here yet, as it would create a branch protection rule with the same
       # restrictions we have in `trunk`, and the release managers wouldn't be able to push due to permissions.
@@ -335,10 +328,6 @@ platform :ios do
 
   def release_branch_name
     "release/#{release_version_current}"
-  end
-
-  def merge_branch_name
-    "merge/release-#{build_code_current}-into-trunk"
   end
 
   # Triggers a beta build on CI
@@ -406,6 +395,7 @@ platform :ios do
     # Start the build
     after_confirming_push do
       trigger_release_build(branch_to_build: release_branch_name)
+      create_backmerge_pr
     end
   end
 
@@ -468,18 +458,6 @@ platform :ios do
       upload_assets: [archive_zip_path.to_s],
       is_draft: !options[:beta_release],
       is_prerelease: options[:beta_release]
-    )
-
-    # TODO: move this to a GH action
-    UI.message('Opening PR to merge changes to trunk...')
-    create_pull_request(
-      api_token: get_required_env!('GITHUB_TOKEN'),
-      repo: GHHELPER_REPO,
-      title: "#{app_version} Release: Merge changes from #{build_version} into `trunk`",
-      body: "Merge changes from #{app_version} (#{build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
-      head: options[:beta_release] ? merge_branch_name : release_branch_name,
-      base: 'trunk',
-      labels: ['Releases']
     )
 
     UI.message('Sending message to Slack...')
@@ -556,10 +534,9 @@ platform :ios do
     commit_version_bump
     UI.success "Done! New Build Code: #{build_code_current}"
 
-    create_merge_release_branch
-    push_release_branches
-
     trigger_beta_build(branch_to_build: release_branch_name)
+
+    create_backmerge_pr
   end
 
   desc 'Builds and distributes via Enterprise account (Prototype Build)'
@@ -680,6 +657,8 @@ platform :ios do
     UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
     push_to_git_remote(tags: false)
     trigger_release_build(branch_to_build: "release/#{release_version_current}")
+
+    create_backmerge_pr
   end
 
   # Generates the `.strings` file to be imported by GlotPress, by parsing source
@@ -1112,8 +1091,14 @@ inal copy, and try again.")
     buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
   end
   
-  def create_merge_release_branch
-    Fastlane::Helper::GitHelper.create_branch(merge_branch_name, from: release_branch_name)
+  def create_backmerge_pr
+    create_release_backmerge_pull_request(
+      repository: GHHELPER_REPO,
+      source_branch: release_branch_name,
+      default_branch: DEFAULT_BRANCH,
+      labels: ['Releases'],
+      milestone_title: release_version_next
+    )
   end
 
   def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
@@ -1122,12 +1107,6 @@ inal copy, and try again.")
       yield
     else
       UI.message('Aborting push as requested.')
-    end
-  end
-
-  def push_release_branches
-    [merge_branch_name, release_branch_name].each do |branch_name|
-      push_to_git_remote(local_branch: branch_name, remote_branch: branch_name, tags: false)
     end
   end
 
