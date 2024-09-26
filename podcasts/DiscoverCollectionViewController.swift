@@ -149,7 +149,7 @@ class DiscoverCollectionViewController: PCViewController {
     }
 
     private func reloadData() {
-//        showPageLoading()
+        showPageLoading()
 
         DiscoverServerHandler.shared.discoverPage { [weak self] discoverLayout, _ in
             DispatchQueue.main.async {
@@ -185,19 +185,12 @@ class DiscoverCollectionViewController: PCViewController {
         }
     }
 
-//    private func setupChildViewControllers() {
-//        // Create and add child view controllers
-//        categoryViewControllers = (0..<5).map { _ in CategoryViewController() }
-//        featuredViewControllers = (0..<3).map { _ in FeaturedViewController() }
-//        searchViewController = SearchViewController()
-//
-//        let allChildViewControllers = categoryViewControllers + featuredViewControllers + [searchViewController]
-//        allChildViewControllers.forEach { addChild($0) }
-//    }
+    private func showPageLoading() {
+        //TODO: Imlement this in a separate PR
+    }
 
     private func handleLoadFailed() {
-//        loadingIndicator.stopAnimating()
-//        noNetworkView.isHidden = false
+        //TODO: Implement this in a separate PR
     }
 }
 
