@@ -668,7 +668,7 @@ platform :ios do
   # @option [Boolean] skip_commit (default: false) If true, does not commit the changes made to the `.strings` file.
   #
   # @note Uses `genstrings` under the hood.
-  # @called_by `complete_code_freeze`.
+  # @called_by `code_freeze`.
   #
   lane :generate_strings_file_for_glotpress do |options|
     # For reference: Other apps run `cocoapods` here (equivalent to `bundle
@@ -763,8 +763,7 @@ platform :ios do
     )
 
     # Redispatch the appropriate subset of translations back to the individual
-    # `.strings` files that we merged via `ios_merge_strings_files` during
-    # `complete_code_freeze`.
+    # `.strings` files that we merged via `ios_merge_strings_files` during `code_freeze`.
     modified_files = ios_extract_keys_from_strings_files(
       source_parent_dir: download_dir,
       source_tablename: table_basename,
