@@ -1057,7 +1057,7 @@ inal copy, and try again.")
 
       # Add ❄️ marker to milestone title to indicate we entered code-freeze
       set_milestone_frozen_marker(
-        repository: GITHUB_REPO,
+        repository: GHHELPER_REPO,
         milestone: new_version
       )
     rescue StandardError => e
@@ -1073,7 +1073,7 @@ inal copy, and try again.")
                        "👍 No open PR were targeting `#{new_version}` at the time of code-freeze"
                      else
                        "#{moved_prs.count} PRs targeting `#{new_version}` were still open and thus moved to `#{next_version}`:\n" \
-                         + moved_prs.map { |pr_num| "[##{pr_num}](https://github.com/#{GITHUB_REPO}/pull/#{pr_num})" }.join(', ')
+                         + moved_prs.map { |pr_num| "[##{pr_num}](https://github.com/#{GHHELPER_REPO}/pull/#{pr_num})" }.join(', ')
                      end
 
     buildkite_annotate(style: moved_prs.empty? ? 'success' : 'warning', context: 'start-code-freeze', message: moved_prs_info) if is_ci
