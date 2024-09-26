@@ -51,10 +51,11 @@ class ViewControllerContainerContentView: UIView, UIContentView {
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
         if let vc = (configuration as? UIViewControllerContentConfiguration)?.viewController {
             vc.view.layoutSubviews()
-            var size = vc.view.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
+
+            let fittingSize = CGSize(width: targetSize.width, height: UIView.layoutFittingCompressedSize.height)
+            var size = vc.view.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
+
             if size.height == CGFloat.greatestFiniteMagnitude || size.width == CGFloat.greatestFiniteMagnitude {
-//                vc.view.setNeedsLayout()
-//                vc.view.layoutIfNeeded()
                 size = vc.view.frame.size
             }
 
