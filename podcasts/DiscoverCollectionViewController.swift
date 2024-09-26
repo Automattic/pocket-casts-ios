@@ -95,7 +95,7 @@ extension DiscoverItem {
     }
 }
 
-class DiscoverCollectionViewController: UIViewController {
+class DiscoverCollectionViewController: PCViewController {
     typealias Section = Int
     typealias Item = DiscoverItem
 
@@ -104,6 +104,13 @@ class DiscoverCollectionViewController: UIViewController {
     private let coordinator: DiscoverCoordinator
     private var loadingContent = false
     private(set) var discoverLayout: DiscoverLayout?
+
+    private var searchController: PCSearchBarController!
+    lazy var searchResultsController = SearchResultsViewController(source: .discover)
+
+    var resultsControllerDelegate: SearchResultsDelegate {
+        searchResultsController
+    }
 
     init(coordinator: DiscoverCoordinator) {
         self.coordinator = coordinator
@@ -121,8 +128,24 @@ class DiscoverCollectionViewController: UIViewController {
 
         setupCollectionView()
         configureDataSource()
+        setupSearchBar()
 
         reloadData()
+
+        addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
+        addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
+
+        addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
+        addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        AnalyticsHelper.navigatedToDiscover()
+        Analytics.track(.discoverShown)
+
+        miniPlayerStatusDidChange()
     }
 
     private func reloadData() {
@@ -130,8 +153,8 @@ class DiscoverCollectionViewController: UIViewController {
 
         DiscoverServerHandler.shared.discoverPage { [weak self] discoverLayout, _ in
             DispatchQueue.main.async {
-                guard let strongSelf = self else { return }
-                strongSelf.populateFrom(discoverLayout: discoverLayout)
+                guard let self else { return }
+                self.populateFrom(discoverLayout: discoverLayout)
             }
         }
     }
@@ -182,8 +205,15 @@ extension DiscoverCollectionViewController {
     private func setupCollectionView() {
         let layout = createCompositionalLayout(with: discoverLayout)
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
         view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     private func configureDataSource() {
@@ -198,20 +228,36 @@ extension DiscoverCollectionViewController {
             vc.populateFrom(item: item, region: currentRegion, category: nil)
         }
 
+        let footerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, elementKind, indexPath in
+
+            guard let self else { return }
+
+            let countrySummary = CountrySummaryViewController()
+            countrySummary.discoverLayout = self.discoverLayout
+            countrySummary.registerDiscoverDelegate(self)
+
+            supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(viewController: countrySummary)
+        }
+
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { collectionView, indexPath, item in
             collectionView.dequeueConfiguredReusableCell(using: viewControllerCellRegistration, for: indexPath, item: item)
+        }
+
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration,
+                                                                         for: indexPath)
         }
     }
 
     private func createCompositionalLayout(with layout: DiscoverLayout?) -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex: Int,
-                                                            layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+                                                      layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                    heightDimension: .estimated(100))
+                                                  heightDimension: .estimated(100))
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                     heightDimension: .estimated(100))
+                                                   heightDimension: .estimated(100))
             let group: NSCollectionLayoutGroup
             if #available(iOS 16, *) {
                 group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, repeatingSubitem: item, count: layout?.layout?.count ?? 0)
@@ -220,6 +266,20 @@ extension DiscoverCollectionViewController {
             }
 
             let section = NSCollectionLayoutSection(group: group)
+
+            // Create a size for the header accessory view
+            let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .estimated(44))
+
+            // Create a boundary supplementary item for the footer
+            let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: footerSize,
+                elementKind: UICollectionView.elementKindSectionFooter,
+                alignment: .bottom
+            )
+
+            // Add the header to the section's boundary supplementary items
+            section.boundarySupplementaryItems = [sectionFooter]
 
             return section
         }
@@ -261,4 +321,123 @@ private extension DiscoverItem {
             return nil
         }
     }
+}
+extension DiscoverCollectionViewController {
+    @objc private func chartRegionDidChange() {
+        reloadData()
+    }
+
+    @objc private func checkForScrollTap(_ notification: Notification) {
+        guard let index = notification.object as? Int, index == tabBarItem.tag else { return }
+
+        let defaultOffset = -PCSearchBarController.defaultHeight - view.safeAreaInsets.top
+        if collectionView.contentOffset.y.rounded(.down) > defaultOffset.rounded(.down) {
+            collectionView.setContentOffset(CGPoint(x: 0, y: defaultOffset), animated: true)
+        } else {
+            // When double-tapping on tab bar, dismiss the search if already active
+            // else give focus to the search field
+            if searchController.cancelButtonShowing {
+                searchController.cancelTapped(self)
+            } else {
+                searchController.searchTextField.becomeFirstResponder()
+            }
+        }
+    }
+
+    @objc private func searchRequested() {
+        collectionView.setContentOffset(CGPoint(x: 0, y: -PCSearchBarController.defaultHeight - view.safeAreaInsets.top), animated: false)
+        searchController.searchTextField.becomeFirstResponder()
+    }
+}
+
+extension DiscoverCollectionViewController {
+    func setupSearchBar() {
+        searchController = PCSearchBarController()
+        searchController.view.translatesAutoresizingMaskIntoConstraints = false
+        addChild(searchController)
+        view.addSubview(searchController.view)
+        searchController.didMove(toParent: self)
+
+        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -PCSearchBarController.defaultHeight)
+        NSLayoutConstraint.activate([
+            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
+            topAnchor
+        ])
+        searchController.searchControllerTopConstant = topAnchor
+
+        searchController.setupScrollView(collectionView, hideSearchInitially: false)
+        searchController.searchDebounce = Settings.podcastSearchDebounceTime()
+        searchController.searchDelegate = self
+    }
+}
+
+extension DiscoverCollectionViewController: PCSearchBarDelegate {
+    func searchDidBegin() {
+        guard let searchView = searchResultsController.view, searchView.superview == nil else {
+            return
+        }
+
+        searchView.alpha = 0
+        addChild(searchResultsController)
+        view.addSubview(searchView)
+        searchResultsController.didMove(toParent: self)
+
+
+        searchView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            searchView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            searchView.topAnchor.constraint(equalTo: searchController.view.bottomAnchor)
+        ])
+
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
+            searchView.alpha = 1
+        }
+    }
+
+    func searchDidEnd() {
+        guard let searchView = searchResultsController.view else { return }
+
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
+            searchView.alpha = 0
+        }) { _ in
+            searchView.removeFromSuperview()
+            self.resultsControllerDelegate.clearSearch()
+        }
+
+        Analytics.track(.searchDismissed, properties: ["source": AnalyticsSource.discover])
+    }
+
+    func searchWasCleared() {
+        resultsControllerDelegate.clearSearch()
+    }
+
+    func searchTermChanged(_ searchTerm: String) {}
+
+    func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
+        resultsControllerDelegate.performSearch(searchTerm: searchTerm, triggeredByTimer: triggeredByTimer, completion: completion)
+    }
+}
+
+extension DiscoverCollectionViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard searchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
+
+        searchController.parentScrollViewDidScroll(scrollView)
+    }
+}
+
+extension DiscoverCollectionViewController {
+    @objc func miniPlayerStatusDidChange() {
+        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        collectionView.contentInset = UIEdgeInsets(top: PCSearchBarController.defaultHeight, left: 0, bottom: miniPlayerOffset, right: 0)
+        collectionView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset, right: 0)
+    }
+}
+
+extension DiscoverCollectionViewController: UICollectionViewDelegate {
+
 }
