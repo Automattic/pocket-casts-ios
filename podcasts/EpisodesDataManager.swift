@@ -138,6 +138,12 @@ class EpisodesDataManager {
         })
     }
 
+    func searchEpisodes(for search: String) -> [ArraySection<String, ListEpisode>] {
+        return EpisodeTableHelper.searchSectionedEpisodes(for: search, episodeShortKey: { episode -> String in
+            episode.shortLastPlaybackInteractionDate()
+        })
+    }
+
     // MARK: - Starred
 
     func starredEpisodes() -> [ListEpisode] {

@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ListeningHistoryViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="emptyStateText" destination="lM9-WS-Rr0" id="10P-21-GfP"/>
+                <outlet property="emptyStateTitle" destination="r4T-OR-jqf" id="bkD-cu-P81"/>
+                <outlet property="emptyStateView" destination="HOd-Ww-OXE" id="jHE-xg-ZNb"/>
                 <outlet property="listeningHistoryTable" destination="A8m-ib-xHF" id="Dhh-8A-WxM"/>
                 <outlet property="multiSelectFooter" destination="QnB-mS-nOl" id="igB-hs-H6a"/>
                 <outlet property="multiSelectFooterBottomConstraint" destination="5vw-fO-ZlE" id="8ao-4W-mKu"/>
@@ -21,6 +25,32 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HOd-Ww-OXE" userLabel="EmptyStateView" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="67" y="308.5" width="241" height="70"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No episodes found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4T-OR-jqf" userLabel="Title" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="241" height="21.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We couldn't find any episode for that search. Try another keyword." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lM9-WS-Rr0" userLabel="Text" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="36.5" width="241" height="33.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="lM9-WS-Rr0" firstAttribute="leading" secondItem="HOd-Ww-OXE" secondAttribute="leading" id="A1K-JB-KJ3"/>
+                        <constraint firstAttribute="bottom" secondItem="lM9-WS-Rr0" secondAttribute="bottom" id="LAJ-nK-5ws"/>
+                        <constraint firstItem="r4T-OR-jqf" firstAttribute="leading" secondItem="HOd-Ww-OXE" secondAttribute="leading" id="TmM-ZQ-hQl"/>
+                        <constraint firstAttribute="trailing" secondItem="r4T-OR-jqf" secondAttribute="trailing" id="eup-Vg-mGh"/>
+                        <constraint firstAttribute="trailing" secondItem="lM9-WS-Rr0" secondAttribute="trailing" id="ogv-YK-OX6"/>
+                        <constraint firstItem="lM9-WS-Rr0" firstAttribute="top" secondItem="r4T-OR-jqf" secondAttribute="bottom" constant="15" id="vap-oK-hm5"/>
+                        <constraint firstItem="r4T-OR-jqf" firstAttribute="top" secondItem="HOd-Ww-OXE" secondAttribute="top" id="zlr-on-IRM"/>
+                    </constraints>
+                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="80" estimatedRowHeight="80" sectionHeaderHeight="45" estimatedSectionHeaderHeight="45" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="A8m-ib-xHF" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -32,24 +62,33 @@
                 </tableView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QnB-mS-nOl" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="8" y="603" width="359" height="64"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="RdT-wh-hYE"/>
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="A8m-ib-xHF" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="3Md-gV-ah7"/>
                 <constraint firstItem="A8m-ib-xHF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="4F5-oG-IJr"/>
                 <constraint firstItem="A8m-ib-xHF" firstAttribute="bottom" secondItem="QnB-mS-nOl" secondAttribute="bottom" id="5vw-fO-ZlE"/>
                 <constraint firstItem="A8m-ib-xHF" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="6xF-nj-xUx"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="HOd-Ww-OXE" secondAttribute="trailing" constant="67" id="VLb-ge-BND"/>
+                <constraint firstItem="HOd-Ww-OXE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="67" id="gb8-mj-eks"/>
+                <constraint firstItem="HOd-Ww-OXE" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="lUT-8O-vFx"/>
+                <constraint firstItem="HOd-Ww-OXE" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="nYv-u1-sM2"/>
                 <constraint firstItem="QnB-mS-nOl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="uQa-1R-jHE"/>
                 <constraint firstItem="A8m-ib-xHF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="z7n-3L-B2X"/>
                 <constraint firstAttribute="trailing" secondItem="QnB-mS-nOl" secondAttribute="trailing" constant="8" id="zdH-Yp-qq2"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="25.5" y="51.5"/>
+            <point key="canvasLocation" x="24.800000000000001" y="50.824587706146929"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

@@ -1168,6 +1168,12 @@
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
+/* The empty state view title when searching, and no episodes are found */
+"listening_history_search_no_episodes_title" = "No episodes found";
+
+/* The empty state view text when searching, and no episodes are found */
+"listening_history_search_no_episodes_text" = "We couldn't find any episode for that search. Try another keyword.";
+
 /* Progress indicator informing the user that the selected item is still loading. */
 "loading" = "Loading...";
 
