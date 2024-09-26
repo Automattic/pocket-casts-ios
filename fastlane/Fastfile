@@ -264,10 +264,10 @@ platform :ios do
   # - Enables the GitHub branch protection for the new branch
   # - Move all still-opened PRs targeting current milestone to the next one and Freezes the GitHub milestone
   #  
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
   desc 'Executes the initial steps needed during code freeze'
-  lane :code_freeze do |options|
+  lane :code_freeze do |skip_confirm: false|
     require_env_vars!('GITHUB_TOKEN')
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
@@ -283,7 +283,7 @@ platform :ios do
       • New release/ branch from #{DEFAULT_BRANCH} will be: release/#{release_version_next}
     MESSAGE
     UI.important(message)
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
     # Create the release branch
     UI.message 'Creating release branch...'
