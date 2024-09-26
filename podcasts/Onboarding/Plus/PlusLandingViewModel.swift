@@ -142,15 +142,25 @@ extension PlusLandingViewModel {
 
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
-        if FeatureFlag.upgradeExperiment.enabled, !SubscriptionHelper.hasActiveSubscription() {
-            //Include here the A/B test experiment:
-            // Control variant: UpgradeLandingView
-            // Features: PlusPaywallContainer(viewModel: viewModel, type: .features)
-            // Social: Reviews variant
-            PlusPaywallContainer(viewModel: viewModel, type: .reviews)
-        } else {
+        let defaultPaywall: (PlusLandingViewModel) -> some View = { viewModel in
             UpgradeLandingView(viewModel: viewModel)
                 .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
+        }
+
+        if FeatureFlag.upgradeExperiment.enabled, !SubscriptionHelper.hasActiveSubscription() {
+            let variant = ABTestProvider.shared.variation(for: .pocketcastsPaywallUpgradeIOSABTest)
+            let customTreatment = variant.getCustomTreatment()
+
+            switch customTreatment {
+            case .featuresTreatment:
+                PlusPaywallContainer(viewModel: viewModel, type: .features)
+            case .reviewsTreatment:
+                PlusPaywallContainer(viewModel: viewModel, type: .reviews)
+            default:
+                defaultPaywall(viewModel)
+            }
+        } else {
+            defaultPaywall(viewModel)
         }
     }
 }

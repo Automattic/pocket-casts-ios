@@ -20,6 +20,15 @@ final class ABTestProviderTests: XCTestCase {
         abTestProvider.reloadExPlat(platform: platform)
         XCTAssertEqual(abTestProvider.platform, platform)
     }
+
+    func testCustomTreatment() throws {
+        Task { @MainActor in
+            let abTestProvider = ABTestProviderMock()
+            await abTestProvider.start()
+            let variation = abTestProvider.variation(for: .pocketcastsPaywallAATest)
+            XCTAssertEqual(variation.getCustomTreatment(), .featuresTreatment)
+        }
+    }
 }
 
 fileprivate class ABTestProviderMock: ABTestProviding {
@@ -28,7 +37,15 @@ fileprivate class ABTestProviderMock: ABTestProviding {
     private(set) var platform: String = "default"
 
     func variation(for abTest: podcasts.ABTest) -> Variation {
-        experiments.contains(abTest.rawValue) ? .treatment : .control
+        guard experiments.contains(abTest.rawValue) else {
+            return .control
+        }
+        switch abTest {
+        case .pocketcastsPaywallAATest:
+            return .treatment
+        case .pocketcastsPaywallUpgradeIOSABTest:
+            return .customTreatment(name: "features_treatment")
+        }
     }
 
     func start() async {

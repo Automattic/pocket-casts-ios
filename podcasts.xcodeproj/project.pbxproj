@@ -43,6 +43,7 @@
 		107836232C5CDD5000DA3FF0 /* GiveRatingsWhatsNewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107836222C5CDD5000DA3FF0 /* GiveRatingsWhatsNewHeader.swift */; };
 		107836262C62816900DA3FF0 /* ABTestProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107836252C62816900DA3FF0 /* ABTestProviderTests.swift */; };
 		107AF94C2C77947600DD0FA7 /* PlusPaywallReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AF94B2C77947600DD0FA7 /* PlusPaywallReviews.swift */; };
+		1099A4AA2CA5A3C1001B96A9 /* Variation+CustomTreatment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1099A4A92CA5A3AE001B96A9 /* Variation+CustomTreatment.swift */; };
 		10A4F7532C515D720084D783 /* KidsProfile.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A4F7522C515D720084D783 /* KidsProfile.xcassets */; };
 		10A4F7562C5162C90084D783 /* KidsProfileBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */; };
 		10A4F7582C52635F0084D783 /* KidsProfileBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */; };
@@ -1963,6 +1964,7 @@
 		107836222C5CDD5000DA3FF0 /* GiveRatingsWhatsNewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiveRatingsWhatsNewHeader.swift; sourceTree = "<group>"; };
 		107836252C62816900DA3FF0 /* ABTestProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestProviderTests.swift; sourceTree = "<group>"; };
 		107AF94B2C77947600DD0FA7 /* PlusPaywallReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallReviews.swift; sourceTree = "<group>"; };
+		1099A4A92CA5A3AE001B96A9 /* Variation+CustomTreatment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Variation+CustomTreatment.swift"; sourceTree = "<group>"; };
 		10A4F7522C515D720084D783 /* KidsProfile.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = KidsProfile.xcassets; sourceTree = "<group>"; };
 		10A4F7552C5162C90084D783 /* KidsProfileBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerTableCell.swift; path = "Kids Profile/KidsProfileBannerTableCell.swift"; sourceTree = "<group>"; };
 		10A4F7572C52635F0084D783 /* KidsProfileBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileBannerView.swift; path = "Kids Profile/KidsProfileBannerView.swift"; sourceTree = "<group>"; };
@@ -3902,6 +3904,7 @@
 		10DFE9352C5A8D1300957D0A /* ABTest */ = {
 			isa = PBXGroup;
 			children = (
+				1099A4A92CA5A3AE001B96A9 /* Variation+CustomTreatment.swift */,
 				10DFE9322C5A8D1300957D0A /* ABTest.swift */,
 				10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */,
 				10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */,
@@ -9474,6 +9477,7 @@
 				FF1D0CBA2C9DC62200F600C6 /* ReferralsCoordinator.swift in Sources */,
 				4053CE092159E477001C92B1 /* CreateFilterViewController.swift in Sources */,
 				C7D8AE572A5F6D2600C9EBAF /* ActionBarOverlayView.swift in Sources */,
+				1099A4AA2CA5A3C1001B96A9 /* Variation+CustomTreatment.swift in Sources */,
 				BD86D94B217EB5060010FA1B /* FilterSelectionViewController.swift in Sources */,
 				40B26ABE213BB29200386173 /* FeaturedTableViewCell.swift in Sources */,
 				BD92323123629E1900C1E118 /* PlayerContainerViewController.swift in Sources */,
