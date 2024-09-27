@@ -112,6 +112,12 @@ class ReferralClaimPassModel: ObservableObject {
 struct ReferralClaimPassView: View {
     @StateObject var viewModel: ReferralClaimPassModel
 
+    @ViewBuilder
+    var loadingIndicator: some View {
+        ProgressView()
+            .tint(.black)
+    }
+
     var body: some View {
         switch viewModel.state {
         case .start, .claimVerify, .IAPPurchase:
@@ -147,12 +153,8 @@ struct ReferralClaimPassView: View {
                     switch viewModel.state {
                     case .start:
                         Text(L10n.referralsClaimGuestPassAction)
-                    case .claimVerify:
-                        ProgressView()
-                    case .IAPPurchase:
-                        ProgressView()
-                    case .notAvailable:
-                        ProgressView()
+                    case .claimVerify, .IAPPurchase, .notAvailable:
+                        loadingIndicator
                     }
                 })
                 .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
