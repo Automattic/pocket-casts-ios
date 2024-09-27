@@ -27,13 +27,17 @@ class ReferralsCoordinator {
     }
 
     func startClaimFlow(from viewController: UIViewController, referralURL: URL?) {
-        if let referralURL {
-            Settings.referralURL = referralURL.absoluteString
+        Task {
+            await MainActor.run {
+                if let referralURL {
+                    Settings.referralURL = referralURL.absoluteString
+                }
+                let viewModel = ReferralClaimPassModel(referralURL: referralURL, offerInfo: referralsOfferInfo, canClaimPass: isReferralAvailableToClaim, onCloseTap: {
+                    viewController.dismiss(animated: true)
+                })
+                let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
+                viewController.present(referralClaimPassVC, animated: true)
+            }
         }
-        let viewModel = ReferralClaimPassModel(referralURL: referralURL, offerInfo: referralsOfferInfo, canClaimPass: isReferralAvailableToClaim, onCloseTap: {
-            viewController.dismiss(animated: true)
-        })
-        let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
-        viewController.present(referralClaimPassVC, animated: true)
     }
 }
