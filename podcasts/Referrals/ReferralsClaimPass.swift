@@ -115,7 +115,7 @@ struct ReferralClaimPassView: View {
     @ViewBuilder
     var loadingIndicator: some View {
         ProgressView()
-            .tint(.black)
+            .progressViewStyle(CircularProgressViewStyle(tint: .black))
     }
 
     var body: some View {
