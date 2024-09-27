@@ -1,4 +1,4 @@
-class DiscoverCollectionViewController: UIViewController, UICollectionViewDelegate {
+class DiscoverCollectionViewController: PCViewController, UICollectionViewDelegate {
 
     enum Cell {
         case list
@@ -11,9 +11,19 @@ class DiscoverCollectionViewController: UIViewController, UICollectionViewDelega
         }
     }
 
-    private lazy var collectionView: UICollectionView = {
+    private(set) lazy var collectionView: UICollectionView = {
         return UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout())
     }()
+
+    private(set) lazy var searchController: PCSearchBarController = {
+        PCSearchBarController()
+    }()
+
+    lazy var searchResultsController = SearchResultsViewController(source: .discover)
+
+    var resultsControllerDelegate: SearchResultsDelegate {
+        searchResultsController
+    }
 
     private let coordinator: DiscoverCoordinator
 
@@ -30,6 +40,11 @@ class DiscoverCollectionViewController: UIViewController, UICollectionViewDelega
         super.viewDidLoad()
 
         setupCollectionView()
+        setupSearchBar()
+    }
+
+    func reloadData() {
+        // Will be implemented in a future PR
     }
 
     private func setupCollectionView() {

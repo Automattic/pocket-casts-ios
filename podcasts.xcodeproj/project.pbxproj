@@ -1648,6 +1648,7 @@
 		F51656D82C816FE6009446B4 /* ClipsWhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51656D72C816FE6009446B4 /* ClipsWhatsNewView.swift */; };
 		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
+		F51D3A0C2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */; };
 		F51D90722C70FF7800F0A232 /* AVAsset+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */; };
 		F51D90742C71A0A100F0A232 /* SharingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90732C71A0A100F0A232 /* SharingFooterView.swift */; };
 		F51D90762C73141B00F0A232 /* CGSize+FittingSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D90752C73141B00F0A232 /* CGSize+FittingSize.swift */; };
@@ -3561,6 +3562,7 @@
 		F508F0FA2C4F1EC000822159 /* ClipPlaybackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPlaybackManager.swift; sourceTree = "<group>"; };
 		F51656D72C816FE6009446B4 /* ClipsWhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipsWhatsNewView.swift; sourceTree = "<group>"; };
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
+		F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Search.swift"; sourceTree = "<group>"; };
 		F51D90712C70FF7800F0A232 /* AVAsset+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Crop.swift"; sourceTree = "<group>"; };
 		F51D90732C71A0A100F0A232 /* SharingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingFooterView.swift; sourceTree = "<group>"; };
 		F51D90752C73141B00F0A232 /* CGSize+FittingSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+FittingSize.swift"; sourceTree = "<group>"; };
@@ -7716,6 +7718,7 @@
 				40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */,
 				C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */,
 				F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */,
+				F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */,
 			);
 			name = Discovery;
 			sourceTree = "<group>";
@@ -9257,6 +9260,7 @@
 				BDF15A461B54E21B000EC323 /* PlaybackEffects.swift in Sources */,
 				8B630A332AFBF49400D65D25 /* PlayPauseAnimatableModifier.swift in Sources */,
 				F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */,
+				F51D3A0C2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift in Sources */,
 				BDED930B251DC515000BF622 /* CarPlaySceneDelegate+Interaction.swift in Sources */,
 				BD21D4A522DED77900D5888B /* ThemeableButton.swift in Sources */,
 				BDD5CA042303FC45005E133C /* ThemeableTextView.swift in Sources */,
