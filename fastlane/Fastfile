@@ -534,9 +534,10 @@ platform :ios do
     commit_version_bump
     UI.success "Done! New Build Code: #{build_code_current}"
 
-    trigger_beta_build(branch_to_build: release_branch_name)
-
-    create_backmerge_pr
+    after_confirming_push do
+      trigger_beta_build(branch_to_build: release_branch_name)
+      create_backmerge_pr
+    end
   end
 
   desc 'Builds and distributes via Enterprise account (Prototype Build)'
