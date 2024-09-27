@@ -32,7 +32,13 @@ class ReferralsCoordinator {
                 if let referralURL {
                     Settings.referralURL = referralURL.absoluteString
                 }
-                let viewModel = ReferralClaimPassModel(referralURL: referralURL, offerInfo: referralsOfferInfo, canClaimPass: isReferralAvailableToClaim, onCloseTap: {
+                let viewModel = ReferralClaimPassModel(referralURL: referralURL,
+                                                       offerInfo: referralsOfferInfo,
+                                                       canClaimPass: isReferralAvailableToClaim,
+                                                       onComplete: {
+                    viewController.dismiss(animated: true)
+                },
+                                                       onCloseTap: {
                     viewController.dismiss(animated: true)
                 })
                 let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)

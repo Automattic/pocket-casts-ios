@@ -1,12 +1,13 @@
 import SwiftUI
 import PocketCastsServer
+import Combine
 
 @MainActor
 class ReferralClaimPassModel: ObservableObject {
     let referralURL: URL?
     let offerInfo: ReferralsOfferInfo
     var canClaimPass: Bool
-    var onClaimGuestPassTap: (() -> ())?
+    var onComplete: (() -> ())?
     var onCloseTap: (() -> ())?
 
     enum State {
@@ -18,11 +19,11 @@ class ReferralClaimPassModel: ObservableObject {
 
     @Published var state: State
 
-    init(referralURL: URL? = nil, offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, onClaimGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
+    init(referralURL: URL? = nil, offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, onComplete: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
         self.referralURL = referralURL
         self.offerInfo = offerInfo
         self.canClaimPass = canClaimPass
-        self.onClaimGuestPassTap = onClaimGuestPassTap
+        self.onComplete = onComplete
         self.onCloseTap = onCloseTap
         self.state = canClaimPass ? .start : .notAvailable
 
@@ -38,33 +39,27 @@ class ReferralClaimPassModel: ObservableObject {
             return
         }
         if success {
-            state = .start
+            onComplete?()
         } else {
             state = .start
         }
     }
 
+    private var cancellables = Set<AnyCancellable>()
     private func addObservers() {
-        NotificationCenter.default.addObserver(forName: ServerNotifications.iapProductsFailed, object: nil, queue: .main) { [weak self] _ in
+        Publishers.Merge4(
+            NotificationCenter.default.publisher(for: ServerNotifications.iapProductsFailed),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseFailed),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCancelled),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCompleted)
+        )
+        .receive(on: OperationQueue.main)
+        .sink { [unowned self] notification in
             Task {
-                await self?.purchaseCompleted(success: false)
+                await purchaseCompleted(success: notification.name == ServerNotifications.iapPurchaseCompleted)
             }
         }
-        NotificationCenter.default.addObserver(forName: ServerNotifications.iapPurchaseFailed, object: nil, queue: .main) { [weak self] _ in
-            Task {
-                await self?.purchaseCompleted(success: false)
-            }
-        }
-        NotificationCenter.default.addObserver(forName: ServerNotifications.iapPurchaseCancelled, object: nil, queue: .main) { [weak self] _ in
-            Task {
-                await self?.purchaseCompleted(success: false)
-            }
-        }
-        NotificationCenter.default.addObserver(forName: ServerNotifications.iapPurchaseCompleted, object: nil, queue: .main) { [weak self] _ in
-            Task {
-                await self?.purchaseCompleted(success: true)
-            }
-        }
+        .store(in: &cancellables)
     }
 
     var claimPassTitle: String {
