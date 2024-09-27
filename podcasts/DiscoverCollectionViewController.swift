@@ -130,8 +130,8 @@ extension DiscoverCollectionViewController {
             partialResult[cellType] = cellType.createCellRegistration(region: currentRegion, delegate: self)
         }
 
-        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
-            guard let self, let cellType = item.cellType() else { return UICollectionViewCell() }
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { collectionView, indexPath, item in
+            guard let cellType = item.cellType() else { return UICollectionViewCell() }
             let cellRegistration = registrations[cellType]!
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
         }
