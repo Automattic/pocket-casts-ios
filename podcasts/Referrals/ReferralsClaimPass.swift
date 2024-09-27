@@ -1,5 +1,7 @@
 import SwiftUI
+import PocketCastsServer
 
+@MainActor
 class ReferralClaimPassModel {
     let referralURL: URL?
     let offerInfo: ReferralsOfferInfo
@@ -21,6 +23,10 @@ class ReferralClaimPassModel {
 
     var claimPassDetail: String {
         L10n.referralsClaimGuestPassDetail(offerInfo.localizedPriceAfterOffer)
+    }
+
+    func claim() async {
+        let code = await ApiServerHandler.shared.validateCode("test")
     }
 }
 
@@ -54,7 +60,7 @@ struct ReferralClaimPassView: View {
                 }
                 Spacer()
                 Button(L10n.referralsClaimGuestPassAction) {
-                    viewModel.onClaimGuestPassTap?()
+                    viewModel.claim()
                 }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
             }
             .padding()
