@@ -178,7 +178,7 @@ platform :ios do
   end
 
   desc 'Download and configure code signing certificates and provisioning profiles for the App Store build.'
-  lane :configure_code_signing_app_store do |options|
+  lane :configure_code_signing_app_store do |readonly: true|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
 
     sync_code_signing(
@@ -188,16 +188,14 @@ platform :ios do
       app_identifier: BUNDLE_IDENTIFIERS_APP_STORE,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
-      readonly: options.fetch(:readonly, true),
+      readonly: readonly,
       **CODE_SIGNING_STORAGE_OPTIONS
     )
   end
 
   desc 'Download and configure code signing certificates and provisioning profiles for the Enterprise build, i.e. Prototype Builds.'
-  lane :configure_code_signing_enterprise do |options|
+  lane :configure_code_signing_enterprise do |readonly: true|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
-
-    readonly = options.fetch(:readonly, true)
 
     if readonly
       # In readonly mode, we can use the API key.
@@ -221,7 +219,7 @@ platform :ios do
       app_identifier: BUNDLE_IDENTIFIERS_ENTERPRISE,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
-      readonly: options.fetch(:readonly, true),
+      readonly: readonly,
       **CODE_SIGNING_STORAGE_OPTIONS
     )
   end
@@ -304,12 +302,12 @@ platform :ios do
 
   # Creates a new beta by bumping the app version appropriately then triggering a beta build on CI
   #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
-  # @option [String] base_version (default: _current app version_) If set, bases the beta on the specified version
-  #                  and `release/<base_version>` branch instead of the current one. Useful for triggering betas on hotfixes for example.
+  # @param base_version [String] If set, bases the beta on the specified version and `release/<base_version>` branch
+  #                              instead of using the current app version. Useful e.g. for triggering betas on hotfixes.
+  # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
   desc 'Trigger a new beta build on CI'
-  lane :new_beta_release do |options|
+  lane :new_beta_release do |base_version: nil, skip_confirm: false|
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
 
@@ -325,15 +323,15 @@ platform :ios do
     MESSAGE
 
     # Check branch
-    unless !options[:base_version].nil? || Fastlane::Helper::GitHelper.checkout_and_pull(release: release_version_current)
+    unless !base_version.nil? || Fastlane::Helper::GitHelper.checkout_and_pull(release: release_version_current)
       UI.user_error!("#{message}Release branch for version #{release_version_current} doesn't exist. Abort.")
     end
 
     # Check user override
-    override_default_release_branch(options[:base_version]) unless options[:base_version].nil?
+    override_default_release_branch(base_version) unless base_version.nil?
 
     UI.important(message)
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
     # Re-generate the strings for GlotPress, just in case there were localization fixes.
     generate_strings_file_for_glotpress
@@ -362,10 +360,10 @@ platform :ios do
   #  - Removes branch protection and close milestone
   #  - Triggers the final release on CI
   #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
   desc 'Trigger the final release build on CI'
-  lane :finalize_release do |options|
+  lane :finalize_release do |skip_confirm: false|
     UI.user_error!('To finalize a hotfix, please use the finalize_hotfix_release lane instead') if ios_current_branch_is_hotfix
 
     require_env_vars!('GITHUB_TOKEN')
@@ -377,7 +375,7 @@ platform :ios do
     ensure_git_branch(branch: '^release/')
 
     UI.important("Finalizing release: #{release_version_current}")
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
     check_all_translations_progress(interactive: true)
 
@@ -408,26 +406,25 @@ platform :ios do
   # - Cuts a new `release/x.y.z` branch from the tag from the latest (`x.y`) version
   # - Bumps the app version numbers appropriately
   #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
-  # @option [String] version (required) The version number to use for the hotfix (`"x.y.z"`)
+  # @param version [String] (required) The version number to use for the hotfix (`"x.y.z"`)
+  # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
   desc 'Creates a new hotfix branch for the given `version:x.y.z`. The branch will be cut from the `x.y` tag.'
-  lane :new_hotfix_release do |options|
+  lane :new_hotfix_release do |version:, skip_confirm: false|
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
 
-    new_version = options[:version] || UI.input('Version number for the new hotfix?')
-    build_code_hotfix = build_code_hotfix(release_version: new_version)
+    build_code_hotfix = build_code_hotfix(release_version: version)
 
     # Parse the provided version into an AppVersion object
-    parsed_version = VERSION_FORMATTER.parse(new_version)
+    parsed_version = VERSION_FORMATTER.parse(version)
     previous_version = VERSION_FORMATTER.release_version(VERSION_CALCULATOR.previous_patch_version(version: parsed_version))
 
     # Check versions
     message = <<-MESSAGE
 
       Current release version: #{release_version_current}
-      New hotfix version: #{new_version}
+      New hotfix version: #{version}
 
       Current build code: #{build_code_current}
       New build code: #{build_code_hotfix}
@@ -437,21 +434,21 @@ platform :ios do
     MESSAGE
 
     UI.important(message)
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
     # Check tags
-    UI.user_error!("Version #{new_version} already exists! Abort!") if git_tag_exists(tag: new_version)
+    UI.user_error!("Version #{version} already exists! Abort!") if git_tag_exists(tag: version)
     UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
 
     # Create the hotfix branch
     UI.message 'Creating hotfix branch...'
-    Fastlane::Helper::GitHelper.create_branch("release/#{new_version}", from: previous_version)
+    Fastlane::Helper::GitHelper.create_branch("release/#{version}", from: previous_version)
     UI.success "Done! New hotfix branch is: #{git_branch}"
 
     # Bump the hotfix version and build code and write it to the `xcconfig` file
     UI.message 'Bumping hotfix version and build code...'
     VERSION_FILE.write(
-      version_short: new_version,
+      version_short: version,
       version_long: build_code_hotfix
     )
     UI.success "Done! New Release Version: #{release_version_current}. New Build Code: #{build_code_current}"
@@ -462,7 +459,7 @@ platform :ios do
   # Finalizes a hotfix, by triggering a release build on CI
   #
   desc 'Performs the final checks and triggers a release build for the hotfix in the current branch'
-  lane :finalize_hotfix_release do |options|
+  lane :finalize_hotfix_release do |skip_confirm: false|
     # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
     ensure_git_branch(branch: '^release/')
 
@@ -470,7 +467,7 @@ platform :ios do
     ensure_git_status_clean
 
     UI.important("Triggering hotfix build for version: #{release_version_current}")
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
     push_to_git_remote(tags: false)
     trigger_release_build(branch_to_build: "release/#{release_version_current}")
 
@@ -479,34 +476,34 @@ platform :ios do
 
   # Triggers a beta build on CI
   #
-  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
+  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
   #
-  lane :trigger_beta_build do |options|
-    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: true)
+  lane :trigger_beta_build do |branch_to_build:|
+    trigger_buildkite_release_build(branch: branch_to_build, beta: true)
   end
 
   # Triggers a stable release build on CI
   #
-  # @option [String] branch_to_build The name of the branch we want the CI to build, e.g. `release/19.3`
+  # @param branch_to_build [String] The name of the branch we want the CI to build, e.g. `release/19.3`
   #
-  lane :trigger_release_build do |options|
-    trigger_buildkite_release_build(branch: options[:branch_to_build], beta: false)
+  lane :trigger_release_build do |branch_to_build:|
+    trigger_buildkite_release_build(branch: branch_to_build, beta: false)
   end
 
   # Builds the Pocket Casts app and uploads it to TestFlight, for beta-testing or final release
   #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
-  # @option [Boolean] skip_prechecks (default: false) If true, don't run the prechecks and ios_build_preflight
-  # @option [Boolean] create_release If true, creates a GitHub Release draft after the upload, with zipped xcarchive as artefact
-  # @option [Boolean] beta_release If true, the GitHub release will be marked as being a pre-release
+  # @param beta_release [Boolean] If true, the GitHub release will be marked as being a pre-release
+  # @param skip_prechecks [Boolean] If true, don't run the prechecks and ios_build_preflight (default: false)
+  # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
+  # @param create_release [Boolean] If true, creates a GitHub Release draft after the upload, with zipped xcarchive as artefact
   #
   # @called_by CI
   #
   desc 'Builds and uploads for distribution to App Store Connect'
-  lane :build_and_upload_app_store_connect do |options|
+  lane :build_and_upload_app_store_connect do |beta_release:, skip_prechecks: false, skip_confirm: false, create_release: false|
     require_env_vars!('GITHUB_TOKEN', 'SLACK_WEBHOOK')
 
-    unless options[:skip_prechecks]
+    unless skip_prechecks
       # Verify that there's nothing in progress in the working copy
       ensure_git_status_clean unless is_ci
 
@@ -514,7 +511,7 @@ platform :ios do
     end
 
     UI.important("Building version #{release_version_current} (#{build_code_current}) and uploading to TestFlight")
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
     sentry_check_cli_installed
 
@@ -528,14 +525,14 @@ platform :ios do
 
     symbols_upload
 
-    next unless options[:create_release]
+    next unless create_release
 
     archive_zip_path = File.join(PROJECT_ROOT_FOLDER, 'PocketCasts.xcarchive.zip')
     zip(path: lane_context[SharedValues::XCODEBUILD_ARCHIVE], output_path: archive_zip_path)
 
     app_version = release_version_current
     build_version = build_code_current
-    version = options[:beta_release] ? build_version : app_version
+    version = beta_release ? build_version : app_version
 
     UI.message("Creating #{version} release on GitHub...")
     set_github_release(
@@ -550,13 +547,13 @@ platform :ios do
       end,
       commitish: Git.open(PROJECT_ROOT_FOLDER).log.first.sha,
       upload_assets: [archive_zip_path.to_s],
-      is_draft: !options[:beta_release],
-      is_prerelease: options[:beta_release]
+      is_draft: !beta_release,
+      is_prerelease: beta_release
     )
 
     UI.message('Sending message to Slack...')
     slack(
-      pretext: slack_message(version: app_version, build_number: build_version, is_beta: options[:beta_release]),
+      pretext: slack_message(version: app_version, build_number: build_version, is_beta: beta_release),
       default_payloads: [],
       slack_url: get_required_env!('SLACK_WEBHOOK'),
       fail_on_error: false
@@ -588,8 +585,8 @@ platform :ios do
   end
 
   desc 'Builds for Enterprise distribution (Prototype Build)'
-  lane :build_enterprise do |options|
-    if options[:skip_code_sign_setup]
+  lane :build_enterprise do |skip_code_sign_setup: false|
+    if skip_code_sign_setup
       UI.message('Skipping fetch certificates and provisioning profiles as requested.')
     else
       configure_code_signing_enterprise
@@ -630,10 +627,10 @@ platform :ios do
   end
 
   desc 'Uploads DSYM Symbols'
-  lane :symbols_upload do |options|
+  lane :symbols_upload do |dsym_path: nil|
     require_env_vars!('SENTRY_AUTH_TOKEN')
 
-    symbols_path = options[:dsym_path] || lane_context[SharedValues::DSYM_OUTPUT_PATH]
+    symbols_path = dsym_path || lane_context[SharedValues::DSYM_OUTPUT_PATH]
     sentry_upload_dsym(
       auth_token: get_required_env!('SENTRY_AUTH_TOKEN'),
       org_slug: SENTRY_ORG_SLUG,
@@ -649,12 +646,12 @@ platform :ios do
   # Generates the `.strings` file to be imported by GlotPress, by parsing source
   # code.
   #
-  # @option [Boolean] skip_commit (default: false) If true, does not commit the changes made to the `.strings` file.
+  # @param skip_commit [Boolean] If true, does not commit the changes made to the `.strings` file (default: false)
   #
   # @note Uses `genstrings` under the hood.
   # @called_by `code_freeze`.
   #
-  lane :generate_strings_file_for_glotpress do |options|
+  lane :generate_strings_file_for_glotpress do |skip_commit: false|
     # For reference: Other apps run `cocoapods` here (equivalent to `bundle
     # exec pod install`) because they have internal libraries that bring in
     # their own strings. Pocket Casts does not have dependencies with strings
@@ -682,7 +679,7 @@ platform :ios do
       destination: FROZEN_STRINGS_PATH
     )
 
-    next if options.fetch(:skip_commit, false)
+    next if skip_commit
 
     git_commit(
       path: FROZEN_STRINGS_PATH,
@@ -818,14 +815,13 @@ inal copy, and try again.")
   # Checks the translation progress (%) of all Mag16 for all the projects (app
   # strings and metadata) in GlotPress.
   #
-  # @option [Boolean] interactive (default: false) If true, will pause and ask
-  # confirmation to continue if it found any locale translated below the
-  # threshold
+  # @param interactive [Boolean] If true, will pause and ask confirmation to continue
+  #        if it found any locale translated below the threshold (default: false)
   #
   desc 'Check translation progress for all GlotPress projects'
-  lane :check_all_translations_progress do |options|
+  lane :check_all_translations_progress do |interactive: false|
     abort_on_violations = false
-    skip_confirm = options.fetch(:interactive, false) == false
+    skip_confirm = interactive == false
 
     UI.header('Checking app strings translation status...')
     check_translation_progress(
@@ -846,14 +842,13 @@ inal copy, and try again.")
 
   # Upload the localized metadata (from `fastlane/metadata/`) to App Store Connect
   #
-  # @option [Boolean] with_screenshots (default: false) If true, will also upload the latest screenshot files to ASC
+  # @param with_screenshots [Boolean] If true, will also upload the latest screenshot files to ASC (default: false)
   #
   desc 'Upload the localized metadata to App Store Connect, optionally including screenshots.'
-  lane :update_metadata_on_app_store_connect do |options|
+  lane :update_metadata_on_app_store_connect do |with_screenshots: false|
     # Skip screenshots by default. The naming is "with" to make it clear that
     # callers need to opt-in to adding screenshots. The naming of the deliver
     # (upload_to_app_store) parameter, on the other hand, uses the skip verb.
-    with_screenshots = options.fetch(:with_screenshots, false)
     skip_screenshots = with_screenshots == false
 
     upload_to_app_store(
