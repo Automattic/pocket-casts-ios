@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,12 +19,11 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Yf6-rN-8KF" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="408" height="198"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yf6-rN-8KF" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="408" height="132.5"/>
             <subviews>
                 <view autoresizesSubviews="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XLj-4B-d8V">
-                    <rect key="frame" x="0.0" y="0.0" width="408" height="198"/>
+                    <rect key="frame" x="0.0" y="0.0" width="408" height="132.5"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured episode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQv-lQ-Swz">
                             <rect key="frame" x="126" y="16" width="110" height="16"/>
@@ -54,7 +53,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XNc-kA-lJg" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="197" width="376" height="1"/>
+                            <rect key="frame" x="16" y="131.5" width="376" height="1"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="djY-Ct-VuE"/>
@@ -84,7 +83,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="XfO-Aq-DlI" firstAttribute="leading" secondItem="0h6-zE-KNg" secondAttribute="trailing" constant="8" id="2u2-c4-MOf"/>
-                        <constraint firstItem="XNc-kA-lJg" firstAttribute="top" relation="greaterThanOrEqual" secondItem="0h6-zE-KNg" secondAttribute="bottom" constant="16" id="2vs-ks-9Bj"/>
+                        <constraint firstItem="XNc-kA-lJg" firstAttribute="top" secondItem="0h6-zE-KNg" secondAttribute="bottom" constant="16" id="2vs-ks-9Bj"/>
                         <constraint firstAttribute="trailing" secondItem="XNc-kA-lJg" secondAttribute="trailing" constant="16" id="3kP-kw-57m"/>
                         <constraint firstItem="0h6-zE-KNg" firstAttribute="top" secondItem="ycZ-JL-S7v" secondAttribute="bottom" constant="8" id="ExO-Fb-gqZ"/>
                         <constraint firstItem="VQv-lQ-Swz" firstAttribute="top" secondItem="LZo-mu-n1i" secondAttribute="top" id="LFW-71-01m"/>
@@ -115,7 +114,7 @@
                 <constraint firstAttribute="bottom" secondItem="XLj-4B-d8V" secondAttribute="bottom" id="wMS-JU-hJo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="13" y="77"/>
+            <point key="canvasLocation" x="11.594202898550726" y="52.232142857142854"/>
         </view>
     </objects>
 </document>
