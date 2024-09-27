@@ -1663,6 +1663,7 @@
 		F533F19D2C24B8CB00EDE9AA /* ShareDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = F533F19C2C24B8CB00EDE9AA /* ShareDestination.swift */; };
 		F543F6A42C0804FA00FEC8B6 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */; };
 		F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */; };
+		F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
@@ -3580,6 +3581,7 @@
 		F533F19C2C24B8CB00EDE9AA /* ShareDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDestination.swift; sourceTree = "<group>"; };
 		F543F6A32C0804FA00FEC8B6 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
 		F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+DiscoverItem.swift"; sourceTree = "<group>"; };
+		F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCellType.swift; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F555980A2C50242800C02EEB /* VideoExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExporter.swift; sourceTree = "<group>"; };
 		F555980E2C503F1700C02EEB /* AnimatedShareImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedShareImageView.swift; sourceTree = "<group>"; };
@@ -7724,6 +7726,7 @@
 				BD9FF6281B8EFC6F009F075E /* DiscoverSummaryProtocol.swift */,
 				40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */,
 				C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */,
+				F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */,
 				F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */,
 				F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */,
 				F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */,
@@ -9430,6 +9433,7 @@
 				C7AF5791289D87CF0089E435 /* Analytics.swift in Sources */,
 				C7E99EFC2A5C856400E7CBAF /* BookmarkRow.swift in Sources */,
 				BDE7409A2060CE1B00FB22C7 /* EpisodeManager.swift in Sources */,
+				F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */,
 				F51D90742C71A0A100F0A232 /* SharingFooterView.swift in Sources */,
 				BD240C43231F46F400FB2CDD /* PCSearchBarController+TextFieldDelegate.swift in Sources */,
 				4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */,
