@@ -34,17 +34,6 @@ class ReferralClaimPassModel: ObservableObject {
         state = newState
     }
 
-    private func purchaseCompleted(success: Bool) async {
-        guard state == .IAPPurchase else {
-            return
-        }
-        if success {
-            onComplete?()
-        } else {
-            state = .start
-        }
-    }
-
     private var cancellables = Set<AnyCancellable>()
     private func addObservers() {
         Publishers.Merge4(
@@ -93,7 +82,7 @@ class ReferralClaimPassModel: ObservableObject {
         return nil
     }
 
-    func purchase(product: IAPProductID) {
+    private func purchase(product: IAPProductID) {
         let purchaseHandler = IAPHelper.shared
         guard purchaseHandler.canMakePurchases else {
             state = .notAvailable
@@ -106,6 +95,17 @@ class ReferralClaimPassModel: ObservableObject {
         }
 
         state = .IAPPurchase
+    }
+
+    private func purchaseCompleted(success: Bool) async {
+        guard state == .IAPPurchase else {
+            return
+        }
+        if success {
+            onComplete?()
+        } else {
+            state = .start
+        }
     }
 }
 
