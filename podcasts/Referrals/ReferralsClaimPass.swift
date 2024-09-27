@@ -65,6 +65,7 @@ class ReferralClaimPassModel: ObservableObject {
         }
         state = .claimVerify
         guard let result = await ApiServerHandler.shared.validateCode(code) else {
+            Settings.referralURL = nil
             state = .notAvailable
             return
         }
@@ -102,7 +103,23 @@ class ReferralClaimPassModel: ObservableObject {
             return
         }
         if success {
+            await redeemCode()
+            Settings.referralURL = nil
             onComplete?()
+        } else {
+            state = .start
+        }
+    }
+
+    private func redeemCode() async {
+        guard let components = referralURL?.pathComponents, let code = components.last else {
+            return
+        }
+        let result = await ApiServerHandler.shared.redeemCode(code)
+
+        if result {
+            onComplete?()
+            return
         } else {
             state = .start
         }
