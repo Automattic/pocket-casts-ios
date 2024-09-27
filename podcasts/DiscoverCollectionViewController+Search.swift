@@ -2,6 +2,8 @@
 
 extension DiscoverCollectionViewController {
     func setupSearchBar() {
+        collectionView.delegate = self // For the UIScrollViewDelegate callbacks
+
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
@@ -25,7 +27,7 @@ extension DiscoverCollectionViewController {
     }
 }
 
-extension DiscoverCollectionViewController {
+extension DiscoverCollectionViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard searchResultsController.view?.superview == nil else { return } // don't send scroll events while the search results are up
 

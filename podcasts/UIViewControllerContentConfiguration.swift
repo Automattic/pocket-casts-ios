@@ -36,7 +36,6 @@ class ViewControllerContainerContentView: UIView, UIContentView {
         guard let configuration = configuration as? UIViewControllerContentConfiguration else { return }
 
         let viewController = configuration.viewController
-//        viewController.view.autoresizingMask = [.flexibleWidth]
         addSubview(viewController.view)
         viewController.view.translatesAutoresizingMaskIntoConstraints = false
 

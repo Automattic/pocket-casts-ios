@@ -1,6 +1,6 @@
 import PocketCastsServer
 
-class DiscoverCollectionViewController: PCViewController, UICollectionViewDelegate {
+class DiscoverCollectionViewController: PCViewController {
 
     typealias Section = Int
     typealias Item = DiscoverItem
@@ -78,15 +78,11 @@ class DiscoverCollectionViewController: PCViewController, UICollectionViewDelega
         }
 
         self.discoverLayout = discoverLayout
-
         configureDataSource()
-
         collectionView.collectionViewLayout = createCompositionalLayout(with: discoverLayout)
 
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
-
         let snapshot = discoverLayout.layout?.makeDataSourceSnapshot(region: currentRegion, itemFilter: itemFilter)
-
         if let snapshot {
             dataSource.apply(snapshot)
         }
@@ -107,7 +103,6 @@ extension DiscoverCollectionViewController {
         let layout = createCompositionalLayout(with: discoverLayout)
         collectionView.collectionViewLayout = layout
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.delegate = self
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -165,18 +160,15 @@ extension DiscoverCollectionViewController {
 
             let section = NSCollectionLayoutSection(group: group)
 
-            // Create a size for the header accessory view
             let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                     heightDimension: .estimated(44))
 
-            // Create a boundary supplementary item for the footer
             let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: footerSize,
                 elementKind: UICollectionView.elementKindSectionFooter,
                 alignment: .bottom
             )
 
-            // Add the header to the section's boundary supplementary items
             section.boundarySupplementaryItems = [sectionFooter]
 
             return section
