@@ -397,6 +397,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Création du clip…</string>
     <key>clip_start_label</key>
     <string>Début %@</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Fin du clip</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Options de partage des médias</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ format %2$@ de %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Début du clip</string>
     <key>clips_whats_new_button_title</key>
     <string>J’ai compris</string>
     <key>clips_whats_new_message</key>
@@ -1961,6 +1969,28 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Évaluez vos podcasts préférés et faites savoir aux créateurs à quel point vous appréciez leur travail. De plus, vos évaluations aident les autres utilisateurs à découvrir leurs nouvelles émissions préférées !</string>
     <key>rating_whats_new_title</key>
     <string>Nouveauté : évaluations de podcasts 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Activer mon passe</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Découvrir une expérience d’écoute complète</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Demander votre passe invité Plus %1$@</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Cette offre est réservée aux nouveaux membres. L’adhésion sera automatiquement renouvelée sous forme d’adhésion annuelle payante au prix de %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Demander votre passe invité %1$@</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>Passe invité %1$@</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Partager le passe invité</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Merci de partager Pocket Casts ! Nous vous ferons savoir quand nous aurons d’autres passes à donner.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Vous avez partagé tous vos passes invité !</string>
+    <key>referrals_tip_message</key>
+    <string>Offrez Plus pendant %1$@ à vos amis et votre famille.</string>
+    <key>referrals_tip_title</key>
+    <string>Vous avez %1$@ passes à partager</string>
     <key>refresh_control_fetching_episodes</key>
     <string>RECHERCHE DE NOUVEAUX ÉPISODES DE PODCAST</string>
     <key>refresh_control_pull_to_refresh</key>
