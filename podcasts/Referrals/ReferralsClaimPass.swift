@@ -74,12 +74,23 @@ class ReferralClaimPassModel: ObservableObject {
         guard let components = referralURL?.pathComponents, let code = components.last else {
             return
         }
+        state = .claimVerify
         guard let result = await ApiServerHandler.shared.validateCode(code) else {
             state = .notAvailable
             return
         }
-        print(result.offer)
-        purchase(product: IAPProductID.patronYearly)
+        guard let productToBuy = translateToProduct(offer: result) else {
+            state = .notAvailable
+            return
+        }
+        purchase(product: productToBuy)
+    }
+
+    private func translateToProduct(offer: ReferralValidate) -> IAPProductID? {
+        if offer.offer == "two_months_free" {
+            return IAPProductID.patronYearly
+        }
+        return nil
     }
 
     func purchase(product: IAPProductID) {
