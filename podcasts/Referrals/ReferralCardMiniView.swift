@@ -4,6 +4,8 @@ struct ReferralCardMiniView: View {
 
     var body: some View {
         Rectangle()
+            .background(.black)
+            .foregroundColor(.black)
             .overlay {
                 ReferralCardAnimatedGradientView()
             }
