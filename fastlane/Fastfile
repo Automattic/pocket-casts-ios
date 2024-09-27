@@ -230,55 +230,6 @@ platform :ios do
   # Release Lanes
   #####################################################################################
 
-  # Executes the code freeze
-  #
-  # - Call start_code_freeze
-  # - Call complete_code_freeze
-  # - Go over PRs with the current milestone and add a comment to move them to the next
-  # - Open a PR targeting trunk
-  # - Send a message to Slack channel confirming the code freeze was finished
-  #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
-  #
-  desc 'Executes all the code freeze steps'
-  lane :code_freeze do |options|
-    start_code_freeze(options)
-    comment_on_prs(milestone: release_version_current)
-    complete_code_freeze(options)
-  end
-
-  # Go through PRs and check their milestones, leaving a message if the target milestone is being frozen
-  def comment_on_prs(milestone:)
-    require_env_vars!('GITHUB_TOKEN')
-
-    version = milestone
-    UI.message("Checking open PRs pointing to #{version} milestone...")
-
-    github_api(
-      server_url: 'https://api.github.com',
-      api_token: get_required_env!('GITHUB_TOKEN'),
-      http_method: 'GET',
-      path: "/repos/#{GHHELPER_REPO}/pulls",
-      error_handlers: {
-        '*' => proc do |_result|
-          UI.important('⚠️ Failed checking open PRs, skipping this step.')
-        end
-      }
-    ) do |result|
-      result[:json].each do |pr|
-        next if pr['milestone'].nil?
-        next unless pr['milestone']['title'].include?(version)
-
-        comment_on_pr(
-          project: GHHELPER_REPO,
-          pr_number: pr['number'],
-          body: "\nThis PR is targeting #{version} which is entering code freeze. If this needs to be included in the #{version} release please merge it into `release/#{version}` if not please move it to the next milestone.",
-          reuse_identifier: 'code-freeze-in-progress'
-        )
-      end
-    end
-  end
-
   def slack_message(version:, build_number:, is_beta:)
     build_number_split = build_number.split('.')
 
@@ -302,16 +253,22 @@ platform :ios do
       "#{message_root.call(version, version)} final build has been uploaded to Apple.\nPlease submit it for review on #{appstore_submit_link} and #{merge_pr_link}."
     end
   end
-  # Executes the initial steps of the code freeze
+
+  # Executes the code freeze steps
   #
-  # - Cuts a new release branch
+  # - Cuts a new release branch, Bumps the version
   # - Extracts the Release Notes
-  # - Freezes the GitHub milestone and enables the GitHub branch protection for the new branch
+  # - Generates `.strings` files from code then merges the other, manually-maintained `.strings` files with it
+  # - Triggers the build of the first beta on CI
+  # - Open backmerge PR
+  # - Enables the GitHub branch protection for the new branch
+  # - Move all still-opened PRs targeting current milestone to the next one and Freezes the GitHub milestone
   #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
+  # @param skip_confirm [Boolean] If true, avoids any interactive prompt (default: false)
   #
   desc 'Executes the initial steps needed during code freeze'
-  lane :start_code_freeze do |options|
+  lane :code_freeze do |skip_confirm: false|
+    require_env_vars!('GITHUB_TOKEN')
     # Verify that there's nothing in progress in the working copy
     ensure_git_status_clean
 
@@ -321,14 +278,12 @@ platform :ios do
     message = <<-MESSAGE
 
       Code Freeze:
-      • New release branch from #{DEFAULT_BRANCH}: release/#{release_version_next}
       • Current release version and build code: #{release_version_current} (#{build_code_current}).
       • New release version and build code: #{release_version_next} (#{build_code_code_freeze}).
-
+      • New release/ branch from #{DEFAULT_BRANCH} will be: release/#{release_version_next}
     MESSAGE
-
     UI.important(message)
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
+    UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
     # Create the release branch
     UI.message 'Creating release branch...'
@@ -344,6 +299,7 @@ platform :ios do
     commit_version_bump
     UI.success "Done! New Release Version: #{release_version_current}. New Build Code: #{build_code_current}."
 
+    UI.message 'Extracting release notes...'
     extract_release_notes_for_version(
       version: release_version_current,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH,
@@ -353,49 +309,25 @@ platform :ios do
       new_version: release_version_current,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
-  end
-
-  # Executes the final steps for the code freeze
-  #
-  #  - Generates `.strings` files from code then merges the other, manually-maintained `.strings` files with it
-  #  - Triggers the build of the first beta on CI
-  #
-  # @option [Boolean] skip_confirm (default: false) If true, avoids any interactive prompt
-  #
-  desc 'Completes the final steps for the code freeze'
-  desc 'Creates a new release branch from the current trunk'
-  lane :complete_code_freeze do |options|
-    require_env_vars!('GITHUB_TOKEN')
-
-    # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
-    ensure_git_branch(branch: '^release/')
-
-    # Verify that there's nothing in progress in the working copy
-    ensure_git_status_clean
-
-    UI.important("Completing code freeze for: #{release_version_current}")
-    UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
 
     generate_strings_file_for_glotpress
-    create_merge_release_branch
 
-    after_confirming_push(push_merge_branch: true) do
+    after_confirming_push do
       trigger_beta_build(branch_to_build: release_branch_name)
+      create_backmerge_pr
 
-      # We cannot use the `copy_branch_protection` action here as it would create a branch protection rule with the same
+      # We cannot use the `copy_branch_protection` action here yet, as it would create a branch protection rule with the same
       # restrictions we have in `trunk`, and the release managers wouldn't be able to push due to permissions.
       # This should be changed only when we have PCiOS releases done on CI, when the CI bot is the one running `git push`.
       set_branch_protection(repository: GHHELPER_REPO, branch: release_branch_name)
-      set_milestone_frozen_marker(repository: GHHELPER_REPO, milestone: release_version_current)
     end
+
+    # Move still-open PRs to next milestone, then add frozen marker to milestone title
+    update_milestone
   end
 
   def release_branch_name
     "release/#{release_version_current}"
-  end
-
-  def merge_branch_name
-    "merge/release-#{build_code_current}-into-trunk"
   end
 
   # Triggers a beta build on CI
@@ -456,8 +388,9 @@ platform :ios do
     close_milestone(repository: GHHELPER_REPO, milestone: release_version_current)
 
     # Start the build
-    after_confirming_push(push_merge_branch: false) do
+    after_confirming_push do
       trigger_release_build(branch_to_build: release_branch_name)
+      create_backmerge_pr
     end
   end
 
@@ -520,18 +453,6 @@ platform :ios do
       upload_assets: [archive_zip_path.to_s],
       is_draft: !options[:beta_release],
       is_prerelease: options[:beta_release]
-    )
-
-    # TODO: move this to a GH action
-    UI.message('Opening PR to merge changes to trunk...')
-    create_pull_request(
-      api_token: get_required_env!('GITHUB_TOKEN'),
-      repo: GHHELPER_REPO,
-      title: "#{app_version} Release: Merge changes from #{build_version} into `trunk`",
-      body: "Merge changes from #{app_version} (#{build_version}) to `trunk`.\n\n## To test\n\n- Ensure the build is 🟢\n- The code changes here were tested in their own PRs",
-      head: options[:beta_release] ? merge_branch_name : release_branch_name,
-      base: 'trunk',
-      labels: ['Releases']
     )
 
     UI.message('Sending message to Slack...')
@@ -608,10 +529,10 @@ platform :ios do
     commit_version_bump
     UI.success "Done! New Build Code: #{build_code_current}"
 
-    create_merge_release_branch
-    push_release_branches
-
-    trigger_beta_build(branch_to_build: release_branch_name)
+    after_confirming_push do
+      trigger_beta_build(branch_to_build: release_branch_name)
+      create_backmerge_pr
+    end
   end
 
   desc 'Builds and distributes via Enterprise account (Prototype Build)'
@@ -732,6 +653,8 @@ platform :ios do
     UI.user_error!('Aborted by user request') unless options[:skip_confirm] || UI.confirm('Do you want to continue?')
     push_to_git_remote(tags: false)
     trigger_release_build(branch_to_build: "release/#{release_version_current}")
+
+    create_backmerge_pr
   end
 
   # Generates the `.strings` file to be imported by GlotPress, by parsing source
@@ -1109,22 +1032,77 @@ inal copy, and try again.")
     )
   end
 
-  def create_merge_release_branch
-    Fastlane::Helper::GitHelper.create_branch(merge_branch_name, from: release_branch_name)
+  # - Loop though all PRs which were still open and were assigned the milestones of the code-frozen version,
+  #   and move them to the next milestone + leaving a PR comment about it
+  # - Add the ❄️ frozen marker to the milestone being frozen
+  def update_milestone
+    require_env_vars!('GITHUB_TOKEN')
+
+    new_version = release_version_current
+    next_version = release_version_next
+    begin
+      # Move PRs to next milestone
+      moved_prs = update_assigned_milestone(
+        repository: GHHELPER_REPO,
+        from_milestone: new_version,
+        to_milestone: next_version,
+        comment: <<~COMMENT
+          Version `#{new_version}` has now entered code-freeze, so the milestone of this PR has been updated to `#{next_version}`.
+        COMMENT
+      )
+
+      # Add ❄️ marker to milestone title to indicate we entered code-freeze
+      set_milestone_frozen_marker(
+        repository: GHHELPER_REPO,
+        milestone: new_version
+      )
+    rescue StandardError => e
+      moved_prs = []
+
+      report_milestone_error(error_title: "Error freezing milestone `#{new_version}`: #{e.message}")
+    end
+
+    UI.message("Moved the following PRs to milestone #{next_version}: #{moved_prs.join(', ')}")
+
+    # Annotate the build with the moved PRs
+    moved_prs_info = if moved_prs.empty?
+                       "👍 No open PR were targeting `#{new_version}` at the time of code-freeze"
+                     else
+                       "#{moved_prs.count} PRs targeting `#{new_version}` were still open and thus moved to `#{next_version}`:\n" \
+                         + moved_prs.map { |pr_num| "[##{pr_num}](https://github.com/#{GHHELPER_REPO}/pull/#{pr_num})" }.join(', ')
+                     end
+
+    buildkite_annotate(style: moved_prs.empty? ? 'success' : 'warning', context: 'start-code-freeze', message: moved_prs_info) if is_ci
   end
 
-  def after_confirming_push(push_merge_branch:, message: 'Push changes to the remote and trigger the build?')
+  def report_milestone_error(error_title:)
+    error_message = <<-MESSAGE
+      #{error_title}
+      - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
+      - Otherwise if this is the first you are running the release task for this version, please investigate the error.
+    MESSAGE
+
+    UI.error(error_message)
+
+    buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
+  end
+
+  def create_backmerge_pr
+    create_release_backmerge_pull_request(
+      repository: GHHELPER_REPO,
+      source_branch: release_branch_name,
+      default_branch: DEFAULT_BRANCH,
+      labels: ['Releases'],
+      milestone_title: release_version_next
+    )
+  end
+
+  def after_confirming_push(message: 'Push changes to the remote and trigger the build?')
     if ENV.fetch('RELEASE_TOOLKIT_SKIP_PUSH_CONFIRM', false) || UI.confirm(message)
-      push_merge_branch ? push_release_branches : push_to_git_remote(tags: false)
+      push_to_git_remote(tags: false)
       yield
     else
       UI.message('Aborting push as requested.')
-    end
-  end
-
-  def push_release_branches
-    [merge_branch_name, release_branch_name].each do |branch_name|
-      push_to_git_remote(local_branch: branch_name, remote_branch: branch_name, tags: false)
     end
   end
 
