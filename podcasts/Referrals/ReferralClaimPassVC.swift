@@ -8,6 +8,7 @@ class ReferralClaimPassVC: ThemedHostingController<ReferralClaimPassView> {
         self.viewModel = viewModel
         let screen = ReferralClaimPassView(viewModel: viewModel)
         super.init(rootView: screen)
+        viewModel.presentationController = self
     }
 
     @MainActor required dynamic init?(coder aDecoder: NSCoder) {
