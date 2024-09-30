@@ -14,7 +14,7 @@ class ReferralClaimPassModel: ObservableObject {
         case start
         case notAvailable
         case claimVerify
-        case IAPPurchase
+        case iapPurchase
     }
 
     @Published var state: State
@@ -91,11 +91,11 @@ class ReferralClaimPassModel: ObservableObject {
             return
         }
 
-        state = .IAPPurchase
+        state = .iapPurchase
     }
 
     private func purchaseCompleted(success: Bool) async {
-        guard state == .IAPPurchase else {
+        guard state == .iapPurchase else {
             return
         }
         if success {
@@ -133,7 +133,7 @@ struct ReferralClaimPassView: View {
 
     var body: some View {
         switch viewModel.state {
-        case .start, .claimVerify, .IAPPurchase:
+        case .start, .claimVerify, .iapPurchase:
             VStack {
                 HStack {
                     Spacer()
@@ -166,7 +166,7 @@ struct ReferralClaimPassView: View {
                     switch viewModel.state {
                     case .start:
                         Text(L10n.referralsClaimGuestPassAction)
-                    case .claimVerify, .IAPPurchase, .notAvailable:
+                    case .claimVerify, .iapPurchase, .notAvailable:
                         loadingIndicator
                     }
                 })
