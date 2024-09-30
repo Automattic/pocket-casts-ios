@@ -48,23 +48,23 @@ class ViewControllerContainerContentView: UIView, UIContentView {
     }
 
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        if let vc = (configuration as? UIViewControllerContentConfiguration)?.viewController {
-            vc.view.layoutSubviews()
-
-            let fittingSize = CGSize(width: targetSize.width, height: UIView.layoutFittingCompressedSize.height)
-            var size = vc.view.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
-
-            if size.height == CGFloat.greatestFiniteMagnitude || size.width == CGFloat.greatestFiniteMagnitude {
-                size = vc.view.frame.size
-            }
-
-            if horizontalFittingPriority >= UILayoutPriority.defaultHigh {
-                size.width = targetSize.width
-            }
-
-            return size
-        } else {
+        guard let vc = (configuration as? UIViewControllerContentConfiguration)?.viewController else {
             return super.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
         }
+
+        vc.view.layoutSubviews()
+
+        let fittingSize = CGSize(width: targetSize.width, height: UIView.layoutFittingCompressedSize.height)
+        var size = vc.view.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
+
+        if size.height == CGFloat.greatestFiniteMagnitude || size.width == CGFloat.greatestFiniteMagnitude {
+            size = vc.view.frame.size
+        }
+
+        if horizontalFittingPriority >= UILayoutPriority.defaultHigh {
+            size.width = targetSize.width
+        }
+
+        return size
     }
 }
