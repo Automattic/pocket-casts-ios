@@ -30,10 +30,6 @@ class ReferralClaimPassModel: ObservableObject {
         addObservers()
     }
 
-    private func updateState(to newState: State) async {
-        state = newState
-    }
-
     private var cancellables = Set<AnyCancellable>()
     private func addObservers() {
         Publishers.Merge4(
