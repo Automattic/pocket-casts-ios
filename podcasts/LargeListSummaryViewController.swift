@@ -148,7 +148,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
         podcasts = []
         collectionView.reloadData()
-        
+
         guard let source = item.source else { return }
         guard let title = item.title?.localized else { return }
 

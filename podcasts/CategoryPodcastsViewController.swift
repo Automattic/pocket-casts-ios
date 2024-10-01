@@ -31,7 +31,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     private var podcasts = [DiscoverPodcast]()
     private var promotion: DiscoverCategoryPromotion?
     fileprivate var region: String?
-    
+
     init(category: DiscoverCategory? = nil, region: String?, skipCount: Int = 0) {
         self.category = category
         self.region = region
