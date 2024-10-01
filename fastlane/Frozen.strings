@@ -1172,6 +1172,12 @@
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
+/* The empty state view title when searching, and no episodes are found */
+"listening_history_search_no_episodes_title" = "No episodes found";
+
+/* The empty state view text when searching, and no episodes are found */
+"listening_history_search_no_episodes_text" = "We couldn't find any episode for that search. Try another keyword.";
+
 /* Progress indicator informing the user that the selected item is still loading. */
 "loading" = "Loading...";
 
@@ -4408,7 +4414,7 @@
 "referrals_tip_title" = "You have %1$@ passes to share";
 
 /* Referrals - Tip Message '%1$@' is a placeholder for the duration of free period on the Plus subscription*/
-"referrals_tip_message" = "Gift %1$@ of Plus to friends and family";
+"referrals_tip_message" = "Gift %1$@ of Pocket Casts Plus!";
 
 /* Referrals - Guest Pass Offer Message '%1$@' is a placeholder for the duration of free days on the Plus subscription. Ex: 2-Month Guest Pass*/
 "referrals_guest_pass_offer" = "%1$@ Guest Pass";
@@ -4436,6 +4442,21 @@
 
 /* Referrals - Claim Guest Pass banner message.*/
 "referrals_claim_guest_pass_banner_detail" = "Unlock the full listening experience";
+
+/* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_share_pass_message" = "Hey! Use the link below to claim your %1$@ guest pass for Pocket Casts Plus and enjoy podcasts across all your devices!";
+
+/* Referrals - Share Pass subject title for sharing to email. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_share_pass_subject" = "%1$@ Guest Pass for Pocket Casts Plus!";
+
+/* Referrals - Title for screen saying that referral offer isn't available for user*/
+"referrals_offer_not_available_title" = "This offer isn’t available";
+
+/* Referrals - Detail message for screen saying that referral offer isn't available for user*/
+"referrals_offer_not_available_detail" = "This guest pass can only be redeemed once and is available for those without an active Plus or Patron subscription. Thanks for listening!";
+
+/* Referrals - Guest Pass not available*/
+"referrals_not_available_to_send" = "Guest Pass not available at the moment";
 
 /* MARK: - InfoPlist.strings */
 

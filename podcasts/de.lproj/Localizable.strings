@@ -1974,13 +1974,13 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <key>referrals_claim_guest_pass_banner_detail</key>
     <string>Profitiere vom vollständigen Audioerlebnis</string>
     <key>referrals_claim_guest_pass_banner_title</key>
-    <string>Sichere dir deinen %1$@ Plus-Gastpass</string>
+    <string>Sichere dir deinen Plus-Gastpass (Dauer: %1$@ )</string>
     <key>referrals_claim_guest_pass_detail</key>
     <string>Dieses Angebot gilt nur für neue Mitglieder. Die Mitgliedschaft wird automatisch zu einer kostenpflichtigen jährlichen Mitgliedschaft in Höhe von %1$@ verlängert.</string>
     <key>referrals_claim_guest_pass_title</key>
-    <string>Sichere dir deinen %1$@ Gastpass</string>
+    <string>Sichere dir deinen Gastpass (Dauer: %1$@)</string>
     <key>referrals_guest_pass_offer</key>
-    <string>%1$@ Gastpass</string>
+    <string>Gastpass (Dauer: %1$@)</string>
     <key>referrals_share_guest_pass</key>
     <string>Gastpass teilen</string>
     <key>referrals_share_no_guest_pass_message</key>
@@ -1988,7 +1988,7 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du hast alle deine Gastpässe geteilt!</string>
     <key>referrals_tip_message</key>
-    <string>Verschenke %1$@ Plus an Freunde und Familie</string>
+    <string>Verschenke Plus an Freunde und Familie (Dauer: %1$@)</string>
     <key>referrals_tip_title</key>
     <string>Dir stehen %1$@ Pässe zum Teilen zur Verfügung</string>
     <key>refresh_control_fetching_episodes</key>

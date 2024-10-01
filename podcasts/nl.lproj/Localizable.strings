@@ -397,6 +397,14 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Clip aanmaken …</string>
     <key>clip_start_label</key>
     <string>Start %@</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Einde clip</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Opties voor deelbare media</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ van %2$@. %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Begin clip</string>
     <key>clips_whats_new_button_title</key>
     <string>Duidelijk</string>
     <key>clips_whats_new_message</key>
@@ -1961,6 +1969,22 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Beoordeel je favoriete podcasts en laat makers weten wat je van hun werk vindt. Daarnaast kan je met je beoordelingen anderen helpen nieuwe favoriete shows te ontdekken!</string>
     <key>rating_whats_new_title</key>
     <string>Nu beschikbaar: podcastbeoordelingen 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Activeer mijn pas</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Ontgrendel de volledige luisterervaring</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Claim je %1$@ gastenpas voor Plus</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Deze aanbieding geldt alleen voor nieuwe leden. Lidmaatschap wordt automatisch verlengd met een betaald jaarlidmaatschap van %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Claim je gastenpas van %1$@ voor Plus</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Gastenpassen delen</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Bedankt dat je Pocket Casts hebt gedeeld! We laten het je weten wanneer je meer passen kan weggeven.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Je hebt al je gastenpassen al uitgedeeld</string>
     <key>refresh_control_fetching_episodes</key>
     <string>NIEUWE PODCASTAFLEVERINGEN ZOEKEN</string>
     <key>refresh_control_pull_to_refresh</key>
