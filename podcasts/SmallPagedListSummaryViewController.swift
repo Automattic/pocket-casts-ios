@@ -159,6 +159,9 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     // MARK: - DiscoverSummaryProtocol
 
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
+        podcasts = []
+        self.collectionView.reloadData()
+
         guard let source = delegate?.replaceRegionCode(string: item.source), let title = item.title?.localized else { return }
 
         self.item = item
