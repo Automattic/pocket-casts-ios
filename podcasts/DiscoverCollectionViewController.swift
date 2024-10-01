@@ -40,6 +40,7 @@ class DiscoverCollectionViewController: PCViewController {
         setupCollectionView()
         setupSearchBar()
 
+        configureDataSource()
         reloadData()
 
         setupMiniPlayerObservers()
@@ -65,7 +66,7 @@ class DiscoverCollectionViewController: PCViewController {
         }
     }
 
-    private func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil) {
+    func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil) {
         loadingContent = false
 
         guard let discoverLayout, let items = discoverLayout.layout, let _ = discoverLayout.regions, items.count > 0 else {
@@ -78,8 +79,6 @@ class DiscoverCollectionViewController: PCViewController {
         }
 
         self.discoverLayout = discoverLayout
-        configureDataSource()
-        collectionView.collectionViewLayout = createCompositionalLayout(with: discoverLayout)
 
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
         let snapshot = discoverLayout.layout?.makeDataSourceSnapshot(region: currentRegion, itemFilter: itemFilter)
@@ -100,7 +99,7 @@ class DiscoverCollectionViewController: PCViewController {
 // MARK: - Collection View
 extension DiscoverCollectionViewController {
     private func setupCollectionView() {
-        let layout = createCompositionalLayout(with: discoverLayout)
+        let layout = createCompositionalLayout()
         collectionView.collectionViewLayout = layout
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
@@ -142,7 +141,7 @@ extension DiscoverCollectionViewController {
         }
     }
 
-    private func createCompositionalLayout(with layout: DiscoverLayout?) -> UICollectionViewCompositionalLayout {
+    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex: Int,
                                                       layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -152,11 +151,7 @@ extension DiscoverCollectionViewController {
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .estimated(100))
             let group: NSCollectionLayoutGroup
-            if #available(iOS 16, *) {
-                group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, repeatingSubitem: item, count: layout?.layout?.count ?? 0)
-            } else {
-                group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: layout?.layout?.map({ _ in item }) ?? [])
-            }
+            group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
             let section = NSCollectionLayoutSection(group: group)
 
