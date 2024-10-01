@@ -2306,6 +2306,8 @@ internal enum L10n {
   internal static func referralsClaimGuestPassTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_claim_guest_pass_title", String(describing: p1))
   }
+  /// Please log in or sign up to claim your guest pass.
+  internal static var referralsClaimNeedToBeLoggedin: String { return L10n.tr("Localizable", "referrals_claim_need_to_be_loggedin") }
   /// %1$@ Guest Pass
   internal static func referralsGuestPassOffer(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))

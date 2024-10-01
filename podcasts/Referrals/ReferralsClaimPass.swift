@@ -7,6 +7,7 @@ class ReferralClaimPassModel: ObservableObject {
     let referralURL: URL?
     let offerInfo: ReferralsOfferInfo
     var canClaimPass: Bool
+    var presentationController: UIViewController?
     var onComplete: (() -> ())?
     var onCloseTap: (() -> ())?
 
@@ -15,14 +16,16 @@ class ReferralClaimPassModel: ObservableObject {
         case notAvailable
         case claimVerify
         case iapPurchase
+        case signup
     }
 
     @Published var state: State
 
-    init(referralURL: URL? = nil, offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, onComplete: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
+    init(referralURL: URL? = nil, offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, presentationController: UIViewController? = nil, onComplete: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
         self.referralURL = referralURL
         self.offerInfo = offerInfo
         self.canClaimPass = canClaimPass
+        self.presentationController = presentationController
         self.onComplete = onComplete
         self.onCloseTap = onCloseTap
         self.state = canClaimPass ? .start : .notAvailable
@@ -32,6 +35,7 @@ class ReferralClaimPassModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
     private func addObservers() {
+        // Observe IAP flows notification
         Publishers.Merge4(
             NotificationCenter.default.publisher(for: ServerNotifications.iapProductsFailed),
             NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseFailed),
@@ -45,6 +49,16 @@ class ReferralClaimPassModel: ObservableObject {
             }
         }
         .store(in: &cancellables)
+
+        //Observe Login/Signup notification
+        NotificationCenter.default.publisher(for: .onboardingFlowDidDismiss)
+        .receive(on: OperationQueue.main)
+        .sink { [unowned self] notification in
+            Task {
+                await refreshStatusAfterLogin()
+            }
+        }
+        .store(in: &cancellables)
     }
 
     var claimPassTitle: String {
@@ -55,10 +69,27 @@ class ReferralClaimPassModel: ObservableObject {
         L10n.referralsClaimGuestPassDetail(offerInfo.localizedPriceAfterOffer)
     }
 
+    func refreshStatusAfterLogin() async {
+        if state == .signup {
+            if SyncManager.isUserLoggedIn() {
+                await claim()
+            } else {
+                Toast.show(L10n.referralsClaimNeedToBeLoggedin)
+                state = .start
+            }
+        }
+    }
+
     func claim() async {
         guard let components = referralURL?.pathComponents, let code = components.last else {
             return
         }
+        if !SyncManager.isUserLoggedIn() {
+            signup()
+            state = .signup
+            return
+        }
+
         state = .claimVerify
         guard let result = await ApiServerHandler.shared.validateCode(code) else {
             Settings.referralURL = nil
@@ -70,6 +101,12 @@ class ReferralClaimPassModel: ObservableObject {
             return
         }
         purchase(product: productToBuy)
+    }
+
+    private func signup() {
+        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode)
+
+        presentationController?.present(onboardVC, animated: true)
     }
 
     private func translateToProduct(offer: ReferralValidate) -> IAPProductID? {
@@ -133,7 +170,7 @@ struct ReferralClaimPassView: View {
 
     var body: some View {
         switch viewModel.state {
-        case .start, .claimVerify, .iapPurchase:
+        case .start, .claimVerify, .iapPurchase, .signup:
             VStack {
                 HStack {
                     Spacer()
@@ -166,7 +203,7 @@ struct ReferralClaimPassView: View {
                     switch viewModel.state {
                     case .start:
                         Text(L10n.referralsClaimGuestPassAction)
-                    case .claimVerify, .iapPurchase, .notAvailable:
+                    case .claimVerify, .iapPurchase, .notAvailable, .signup:
                         loadingIndicator
                     }
                 })
