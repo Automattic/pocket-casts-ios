@@ -1987,8 +1987,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Tack för att du delar Pocket Casts! Vi meddelar dig när du har fler gästpass att ge bort.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du har delat ut alla dina gästpass.</string>
-    <key>referrals_tip_message</key>
-    <string>Ge bort %1$@ med Plus till vänner och familj</string>
     <key>referrals_tip_title</key>
     <string>Du har %1$@ gästpass att dela</string>
     <key>refresh_control_fetching_episodes</key>

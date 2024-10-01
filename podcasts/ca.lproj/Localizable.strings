@@ -1982,8 +1982,6 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Gràcies per compartir Pocket Casts! Et farem saber quan tinguis més invitacions per a donar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Has compartit totes les teves invitacions!</string>
-    <key>referrals_tip_message</key>
-    <string>Regala %1$@ de Plus a amics i família</string>
     <key>referrals_tip_title</key>
     <string>Tens %1$@ invitacions per a compartir</string>
     <key>refresh_control_fetching_episodes</key>

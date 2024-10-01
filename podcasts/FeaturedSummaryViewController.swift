@@ -243,6 +243,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     }
 
     private func updateCurrentPage() {
+        guard featuredCollectionView.frame.width != .zero else { return }
         let currentPage = Int(round(featuredCollectionView.contentOffset.x / featuredCollectionView.frame.width))
 
         if currentPage == pageControl.currentPage { return }

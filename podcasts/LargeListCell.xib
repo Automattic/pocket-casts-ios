@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="160" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="160" height="250"/>
+                <rect key="frame" x="0.0" y="0.0" width="160" height="211"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qw-eq-tYg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
@@ -75,7 +75,7 @@
                 <constraint firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" id="b7M-Bk-yhL"/>
                 <constraint firstItem="1Gb-8A-zQV" firstAttribute="bottom" secondItem="nBx-mo-aDN" secondAttribute="bottom" constant="-4" id="cOB-Ih-NY8"/>
                 <constraint firstItem="4Qw-eq-tYg" firstAttribute="leading" secondItem="nBx-mo-aDN" secondAttribute="leading" id="fPL-60-yYf"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2wE-0A-zrE" secondAttribute="bottom" constant="8" id="hvJ-wY-w6T"/>
+                <constraint firstAttribute="bottom" secondItem="2wE-0A-zrE" secondAttribute="bottom" id="hvJ-wY-w6T"/>
                 <constraint firstItem="4Qw-eq-tYg" firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" id="kfc-qw-a5d"/>
                 <constraint firstItem="1Gb-8A-zQV" firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" constant="-4" id="nHw-ba-ihn"/>
                 <constraint firstItem="2wE-0A-zrE" firstAttribute="leading" secondItem="4Qw-eq-tYg" secondAttribute="leading" id="zFW-RE-G6q"/>
@@ -86,7 +86,7 @@
                 <outlet property="podcastTitle" destination="4Qw-eq-tYg" id="Nfd-Qh-8gn"/>
                 <outlet property="subscribeButton" destination="1Gb-8A-zQV" id="0aA-kz-6Rh"/>
             </connections>
-            <point key="canvasLocation" x="139" y="154"/>
+            <point key="canvasLocation" x="137.59999999999999" y="136.28185907046478"/>
         </collectionViewCell>
     </objects>
 </document>

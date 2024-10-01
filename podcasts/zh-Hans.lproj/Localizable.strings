@@ -1987,8 +1987,6 @@
     <string>感谢您共享 Pocket Casts！ 我们会在您有更多可共享的通行证时通知您。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>您已共享您的所有访客通行证！</string>
-    <key>referrals_tip_message</key>
-    <string>向亲朋好友赠送 %1$@ 的 Plus 使用权</string>
     <key>referrals_tip_title</key>
     <string>您有 %1$@ 张通行证可共享</string>
     <key>refresh_control_fetching_episodes</key>

@@ -1987,8 +1987,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>Pocket Casts を共有いただきありがとうございます。 プレゼントできるパスが増えたらお知らせします。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>ゲストパスをすべて共有しました !</string>
-    <key>referrals_tip_message</key>
-    <string>%1$@の Plus を友達や家族にプレゼント</string>
     <key>referrals_tip_title</key>
     <string>共有できるパスが%1$@個あります</string>
     <key>refresh_control_fetching_episodes</key>

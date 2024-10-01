@@ -195,7 +195,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .playerIsReadyToPlay:
             true
         case .listeningHistorySearch:
-            false
+            true
         case .useMimetypePackage:
             true
         }
