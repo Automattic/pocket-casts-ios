@@ -81,9 +81,12 @@ class ReferralClaimPassModel: ObservableObject {
     }
 
     func claim() async {
+        Analytics.track(.referralActivateTapped)
+
         guard let components = referralURL?.pathComponents, let code = components.last else {
             return
         }
+
         if !SyncManager.isUserLoggedIn() {
             signup()
             state = .signup
@@ -123,6 +126,8 @@ class ReferralClaimPassModel: ObservableObject {
             return
         }
 
+        Analytics.track(.referralPurchaseShown)
+
         guard purchaseHandler.buyProduct(identifier: product) else {
             state = .notAvailable
             return
@@ -136,6 +141,7 @@ class ReferralClaimPassModel: ObservableObject {
             return
         }
         if success {
+            Analytics.track(.referralPurchaseSuccess)
             await redeemCode()
             Settings.referralURL = nil
             onComplete?()
@@ -175,6 +181,7 @@ struct ReferralClaimPassView: View {
                 HStack {
                     Spacer()
                     Button(L10n.eoyNotNow) {
+                        Analytics.track(.referralNotNowTapped)
                         viewModel.onCloseTap?()
                     }
                     .foregroundColor(.white)
@@ -214,6 +221,7 @@ struct ReferralClaimPassView: View {
         case .notAvailable:
             ReferralsMessageView(title: L10n.referralsOfferNotAvailableTitle,
                                  detail: L10n.referralsOfferNotAvailableDetail) {
+                Analytics.track(.referralUsedScreenShown)
                 viewModel.onCloseTap?()
             }
         }

@@ -328,6 +328,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if row == .kidsProfile {
             Analytics.track(.kidsProfileBannerSeen)
         }
+        if row == .referralsClaim {
+            Analytics.track(.referralPassBannerShown)
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -492,6 +495,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     @objc private func referralsTapped() {
+        Analytics.track(.referralTooltipTapped)
         hideReferralsHint()
         let viewModel = ReferralSendPassModel(offerInfo: ReferralsCoordinator.shared.referralsOfferInfo,
                                               onShareGuestPassTap: { [weak self] in
@@ -518,6 +522,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return
         }
         let vc = makeReferralsHint()
+        Analytics.track(.referralTooltipShow)
         present(vc, animated: true, completion: nil)
         self.referralsTipVC = vc
     }

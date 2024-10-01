@@ -18,6 +18,8 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        Analytics.track(.referralShareScreenShown)
+
         setupUI()
     }
 
@@ -27,6 +29,9 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
         let originalOnShareGuestPassTap = viewModel.onShareGuestPassTap
         viewModel.onShareGuestPassTap = { [weak self] in
             guard let self else { return }
+
+            Analytics.track(.referralPassShared)
+
             var items: [Any] = [TextAndURLShareSource.makeFrom(viewModel: viewModel)]
             if let url = viewModel.referralURL {
                 items.append(url)
