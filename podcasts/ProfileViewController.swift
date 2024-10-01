@@ -350,7 +350,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             break
         case .referralsClaim:
             dismiss(animated: true)
-            ReferralsCoordinator.shared.startClaimFlow(from: self)
+            ReferralsCoordinator.shared.startClaimFlow(from: self) {
+                tableView.reloadData()
+            }
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)

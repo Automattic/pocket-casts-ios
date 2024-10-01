@@ -1,18 +1,50 @@
 import SwiftUI
+import PocketCastsServer
+import Combine
 
-class ReferralClaimPassModel {
+@MainActor
+class ReferralClaimPassModel: ObservableObject {
     let referralURL: URL?
     let offerInfo: ReferralsOfferInfo
     var canClaimPass: Bool
-    var onClaimGuestPassTap: (() -> ())?
+    var onComplete: (() -> ())?
     var onCloseTap: (() -> ())?
 
-    init(referralURL: URL? = nil, offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, onClaimGuestPassTap: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
+    enum State {
+        case start
+        case notAvailable
+        case claimVerify
+        case iapPurchase
+    }
+
+    @Published var state: State
+
+    init(referralURL: URL? = nil, offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, onComplete: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
         self.referralURL = referralURL
         self.offerInfo = offerInfo
         self.canClaimPass = canClaimPass
-        self.onClaimGuestPassTap = onClaimGuestPassTap
+        self.onComplete = onComplete
         self.onCloseTap = onCloseTap
+        self.state = canClaimPass ? .start : .notAvailable
+
+        addObservers()
+    }
+
+    private var cancellables = Set<AnyCancellable>()
+    private func addObservers() {
+        Publishers.Merge4(
+            NotificationCenter.default.publisher(for: ServerNotifications.iapProductsFailed),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseFailed),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCancelled),
+            NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCompleted)
+        )
+        .receive(on: OperationQueue.main)
+        .sink { [unowned self] notification in
+            Task {
+                await purchaseCompleted(success: notification.name == ServerNotifications.iapPurchaseCompleted)
+            }
+        }
+        .store(in: &cancellables)
     }
 
     var claimPassTitle: String {
@@ -22,13 +54,86 @@ class ReferralClaimPassModel {
     var claimPassDetail: String {
         L10n.referralsClaimGuestPassDetail(offerInfo.localizedPriceAfterOffer)
     }
+
+    func claim() async {
+        guard let components = referralURL?.pathComponents, let code = components.last else {
+            return
+        }
+        state = .claimVerify
+        guard let result = await ApiServerHandler.shared.validateCode(code) else {
+            Settings.referralURL = nil
+            state = .notAvailable
+            return
+        }
+        guard let productToBuy = translateToProduct(offer: result) else {
+            state = .notAvailable
+            return
+        }
+        purchase(product: productToBuy)
+    }
+
+    private func translateToProduct(offer: ReferralValidate) -> IAPProductID? {
+        if offer.offer == "two_months_free" {
+            return IAPProductID.patronYearly
+        }
+        return nil
+    }
+
+    private func purchase(product: IAPProductID) {
+        let purchaseHandler = IAPHelper.shared
+        guard purchaseHandler.canMakePurchases else {
+            state = .notAvailable
+            return
+        }
+
+        guard purchaseHandler.buyProduct(identifier: product) else {
+            state = .notAvailable
+            return
+        }
+
+        state = .iapPurchase
+    }
+
+    private func purchaseCompleted(success: Bool) async {
+        guard state == .iapPurchase else {
+            return
+        }
+        if success {
+            await redeemCode()
+            Settings.referralURL = nil
+            onComplete?()
+        } else {
+            state = .start
+        }
+    }
+
+    private func redeemCode() async {
+        guard let components = referralURL?.pathComponents, let code = components.last else {
+            return
+        }
+        let result = await ApiServerHandler.shared.redeemCode(code)
+
+        if result {
+            onComplete?()
+            return
+        } else {
+            state = .start
+        }
+    }
 }
 
 struct ReferralClaimPassView: View {
-    let viewModel: ReferralClaimPassModel
+    @StateObject var viewModel: ReferralClaimPassModel
+
+    @ViewBuilder
+    var loadingIndicator: some View {
+        ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: .black))
+    }
 
     var body: some View {
-        if viewModel.canClaimPass {
+        switch viewModel.state {
+        case .start, .claimVerify, .iapPurchase:
             VStack {
                 HStack {
                     Spacer()
@@ -53,13 +158,23 @@ struct ReferralClaimPassView: View {
                         .foregroundColor(.white.opacity(0.8))
                 }
                 Spacer()
-                Button(L10n.referralsClaimGuestPassAction) {
-                    viewModel.onClaimGuestPassTap?()
-                }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
+                Button(action: {
+                    Task {
+                        await viewModel.claim()
+                    }
+                }, label: {
+                    switch viewModel.state {
+                    case .start:
+                        Text(L10n.referralsClaimGuestPassAction)
+                    case .claimVerify, .iapPurchase, .notAvailable:
+                        loadingIndicator
+                    }
+                })
+                .buttonStyle(PlusGradientFilledButtonStyle(isLoading: false, plan: .plus))
             }
             .padding()
             .background(.black)
-        } else {
+        case .notAvailable:
             ReferralsMessageView(title: L10n.referralsOfferNotAvailableTitle,
                                  detail: L10n.referralsOfferNotAvailableDetail) {
                 viewModel.onCloseTap?()

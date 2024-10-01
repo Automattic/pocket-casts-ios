@@ -7383,6 +7383,10 @@ struct Api_ReferralValidationResponse: Sendable {
 
   var offer: String = String()
 
+  var platform: Int32 = 0
+
+  var details: String = String()
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -18315,6 +18319,8 @@ extension Api_ReferralValidationResponse: SwiftProtobuf.Message, SwiftProtobuf._
   static let protoMessageName: String = _protobuf_package + ".ReferralValidationResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "offer"),
+    2: .same(proto: "platform"),
+    3: .same(proto: "details"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -18324,6 +18330,8 @@ extension Api_ReferralValidationResponse: SwiftProtobuf.Message, SwiftProtobuf._
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.offer) }()
+      case 2: try { try decoder.decodeSingularInt32Field(value: &self.platform) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.details) }()
       default: break
       }
     }
@@ -18333,11 +18341,19 @@ extension Api_ReferralValidationResponse: SwiftProtobuf.Message, SwiftProtobuf._
     if !self.offer.isEmpty {
       try visitor.visitSingularStringField(value: self.offer, fieldNumber: 1)
     }
+    if self.platform != 0 {
+      try visitor.visitSingularInt32Field(value: self.platform, fieldNumber: 2)
+    }
+    if !self.details.isEmpty {
+      try visitor.visitSingularStringField(value: self.details, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Api_ReferralValidationResponse, rhs: Api_ReferralValidationResponse) -> Bool {
     if lhs.offer != rhs.offer {return false}
+    if lhs.platform != rhs.platform {return false}
+    if lhs.details != rhs.details {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
