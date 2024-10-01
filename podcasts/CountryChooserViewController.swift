@@ -4,6 +4,7 @@ import UIKit
 class CountryChooserViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private static let cellId = "CountryCell"
 
+    var changed: ((String) -> Void)?
     var regions = [DiscoverRegion]()
     var selectedRegion = ""
 
@@ -52,6 +53,7 @@ class CountryChooserViewController: PCViewController, UITableViewDataSource, UIT
         selectedRegion = region.code
         Settings.setDiscoverRegion(region: selectedRegion)
         countriesTable.reloadData()
+        changed?(selectedRegion)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

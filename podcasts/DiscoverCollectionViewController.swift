@@ -57,13 +57,14 @@ class DiscoverCollectionViewController: PCViewController {
         miniPlayerStatusDidChange()
     }
 
-    func reloadData() {
+    func reloadData(completion: (() -> Void)? = nil) {
         showPageLoading()
 
         DiscoverServerHandler.shared.discoverPage { [weak self] discoverLayout, _ in
             DispatchQueue.main.async {
                 guard let self else { return }
                 self.populateFrom(discoverLayout: discoverLayout)
+                completion?()
             }
         }
     }
