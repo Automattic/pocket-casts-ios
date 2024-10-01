@@ -22,18 +22,21 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     fileprivate var item: DiscoverItem?
 
-    fileprivate var category: DiscoverCategory
+    fileprivate var category: DiscoverCategory? {
+        didSet {
+            title = category?.name?.localized
+        }
+    }
     private var skipCount: Int
     private var podcasts = [DiscoverPodcast]()
     private var promotion: DiscoverCategoryPromotion?
     fileprivate var region: String?
-    init(category: DiscoverCategory, region: String?, skipCount: Int = 0) {
+    
+    init(category: DiscoverCategory? = nil, region: String?, skipCount: Int = 0) {
         self.category = category
         self.region = region
         self.skipCount = skipCount
         super.init(nibName: "CategoryPodcastsViewController", bundle: nil)
-
-        title = category.name?.localized
     }
 
     @available(*, unavailable)
@@ -96,7 +99,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         if let cell = tableView.cellForRow(at: indexPath) as? DiscoverPodcastTableCell {
             let podcast = podcasts[indexPath.row]
 
-            let categoryName = category.name ?? "unknown"
+            let categoryName = category?.name ?? "unknown"
             let listUuid = "category-\(categoryName.lowercased())-\(region ?? "unknown")"
 
             delegate.show(discoverPodcast: podcast, placeholderImage: cell.podcastImage.image, isFeatured: false, listUuid: listUuid)
@@ -123,7 +126,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     // MARK: - Loading
 
     private func loadPodcasts() {
-        guard let delegate = delegate, let source = delegate.replaceRegionCode(string: category.source) else { return }
+        guard let delegate = delegate, let category, let source = delegate.replaceRegionCode(string: category.source) else { return }
         if loadingIndicator.isAnimating || podcasts.count > 0 { return }
 
         noNetworkView.isHidden = true

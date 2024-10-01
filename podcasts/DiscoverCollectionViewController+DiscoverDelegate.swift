@@ -4,8 +4,11 @@ import PocketCastsDataModel
 extension DiscoverCollectionViewController: DiscoverDelegate {
     func invalidate(item: PocketCastsServer.DiscoverItem) {
         let context = UICollectionViewLayoutInvalidationContext()
-        let item = dataSource.snapshot().itemIdentifiers.first(where: { $0.item == item })!
-        let indexPath = dataSource!.indexPath(for: item)!
+        let item = dataSource.snapshot().itemIdentifiers.first(where: { $0.item == item })
+        guard let item,
+              let indexPath = dataSource?.indexPath(for: item) else {
+            return
+        }
         context.invalidateItems(at: [indexPath])
         collectionView.collectionViewLayout.invalidateLayout(with: context)
     }
