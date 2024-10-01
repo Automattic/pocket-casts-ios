@@ -1987,8 +1987,6 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Muchas gracias por compartir Pocket Casts. Te avisaremos cuando tengas más pases para regalar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Has compartido todos tus pases de invitado.</string>
-    <key>referrals_tip_message</key>
-    <string>Regala %1$@ de Plus a amigos y familiares</string>
     <key>referrals_tip_title</key>
     <string>Tienes %1$@ pases para compartir</string>
     <key>refresh_control_fetching_episodes</key>

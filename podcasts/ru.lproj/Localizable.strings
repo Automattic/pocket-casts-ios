@@ -1987,8 +1987,6 @@
     <string>Спасибо, что поделились пропуском Pocket Casts! Мы сообщим, когда у вас появятся новые пропуска.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Вы потратили все гостевые пропуска!</string>
-    <key>referrals_tip_message</key>
-    <string>Подарите друзьям и близким %1$@ Plus.</string>
     <key>referrals_tip_title</key>
     <string>Вы можете поделиться пропусками (%1$@)</string>
     <key>refresh_control_fetching_episodes</key>

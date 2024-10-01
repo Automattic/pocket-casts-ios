@@ -1987,8 +1987,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Vielen Dank, dass du Pocket Casts teilst! Wir informieren dich, wenn dir weitere Pässe zum Teilen zur Verfügung stehen.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du hast alle deine Gastpässe geteilt!</string>
-    <key>referrals_tip_message</key>
-    <string>Verschenke Plus an Freunde und Familie (Dauer: %1$@)</string>
     <key>referrals_tip_title</key>
     <string>Dir stehen %1$@ Pässe zum Teilen zur Verfügung</string>
     <key>refresh_control_fetching_episodes</key>

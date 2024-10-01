@@ -1987,8 +1987,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>感謝你不吝分享 Pocket Casts 體驗！ 若有更多體驗券可使用，我們會再另行通知。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>你已分享完所有的訪客體驗券！</string>
-    <key>referrals_tip_message</key>
-    <string>贈送 %1$@的 Plus 體驗給親朋好友</string>
     <key>referrals_tip_title</key>
     <string>你有 %1$@ 張體驗券可分享</string>
     <key>refresh_control_fetching_episodes</key>
