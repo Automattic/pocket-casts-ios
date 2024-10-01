@@ -4455,4 +4455,4 @@
 "referrals_not_available_to_send" = "Guest Pass not available at the moment";
 
 /* Referrals - You need to be logged in before you can claim your guest pass*/
-"referrals_claim_need_to_be_loggedin" = "You need to be logged in before you can claim your guest pass";
+"referrals_claim_need_to_be_loggedin" = "Please log in or sign up to claim your guest pass.";
