@@ -89,10 +89,6 @@ class DiscoverCollectionViewController: PCViewController {
         if let snapshot {
             dataSource.apply(snapshot)
         }
-
-        let context = UICollectionViewLayoutInvalidationContext()
-        context.invalidateSupplementaryElements(ofKind: UICollectionView.elementKindSectionFooter, at: [IndexPath(row: 0, section: 0)])
-        collectionView.collectionViewLayout.invalidateLayout(with: context)
     }
 
     private func showPageLoading() {
