@@ -19,7 +19,7 @@ class ReferralClaimPassVC: ThemedHostingController<ReferralClaimPassView> {
         super.viewDidLoad()
 
         Analytics.track(.referralClaimScreenShown)
-        
+
         setupUI()
     }
 
