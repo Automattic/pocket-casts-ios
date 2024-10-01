@@ -1,5 +1,6 @@
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
     private static let cellId = "DiscoverCell"
@@ -19,11 +20,13 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     weak var delegate: DiscoverDelegate?
 
-    private var category: DiscoverCategory
+    fileprivate var item: DiscoverItem?
+
+    fileprivate var category: DiscoverCategory
     private var skipCount: Int
     private var podcasts = [DiscoverPodcast]()
     private var promotion: DiscoverCategoryPromotion?
-    private let region: String?
+    fileprivate var region: String?
     init(category: DiscoverCategory, region: String?, skipCount: Int = 0) {
         self.category = category
         self.region = region
@@ -45,7 +48,9 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        loadPodcasts()
+        if FeatureFlag.discoverCollectionView.enabled == false {
+            loadPodcasts()
+        }
     }
 
     @IBAction func tryAgainTapped(_ sender: AnyObject) {
@@ -135,6 +140,10 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 strongSelf.promotion = categoryDetails?.promotion
                 strongSelf.podcastsTable.reloadData()
 
+                if let item = strongSelf.item {
+                    strongSelf.delegate?.invalidate(item: item)
+                }
+
                 if let promotionUuid = categoryDetails?.promotion?.promotion_uuid {
                     AnalyticsHelper.listImpression(listId: promotionUuid)
                 }
@@ -157,5 +166,19 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     private func showPromotion() -> Bool {
         guard promotion != nil, !SubscriptionHelper.hasRenewingSubscription() else { return false }
         return true
+    }
+}
+
+extension CategoryPodcastsViewController: DiscoverSummaryProtocol {
+    func populateFrom(item: PocketCastsServer.DiscoverItem, region: String?, category: PocketCastsServer.DiscoverCategory?) {
+        self.item = item
+        if let category {
+            self.category = category
+        }
+        self.region = region
+
+        podcasts = []
+        podcastsTable.reloadData()
+        loadPodcasts()
     }
 }

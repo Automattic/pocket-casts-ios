@@ -18,7 +18,7 @@ extension DiscoverCollectionViewController {
             newLayout = discoverLayout
         }
 
-        populateFrom(discoverLayout: newLayout, shouldInclude: {
+        populateFrom(discoverLayout: newLayout, selectedCategory: category, shouldInclude: {
             ($0.categoryID == category?.id) || items.contains($0)
         })
     }
@@ -28,7 +28,7 @@ extension DiscoverCollectionViewController {
         let popularID = "category-popular-\(category.id ?? 0)"
 
         // Only add if we haven't already added
-        guard layout?.layout?.contains(where: { $0.id == popularID }) == false else { return layout }
+        guard let layout, layout.layout?.contains(where: { $0.id == popularID }) == false else { return layout }
 
         let source = replaceRegionCode(string: category.source)
 
@@ -39,6 +39,8 @@ extension DiscoverCollectionViewController {
             title = L10n.mostPopular
         }
 
+        let regions = layout.regions?.map({ $0.key }) ?? []
+
         let item = DiscoverItem(
             id: popularID,
             title: title,
@@ -46,12 +48,16 @@ extension DiscoverCollectionViewController {
             summaryStyle: "large_list",
             summaryItemCount: Constants.popularItemsCount,
             source: source,
-            regions: layout!.regions!.map({ $0.key }),
+            regions: regions,
             categoryID: category.id
         )
 
         var newLayout = layout
-        newLayout?.layout?.insert(item, at: layout?.layout?.startIndex.advanced(by: 1) ?? 0)
+        newLayout.layout?.insert(item, at: layout.layout?.startIndex.advanced(by: 1) ?? 0)
+
+        let categoryListItem = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, type: "category_podcast_list", source: category.source, regions: regions, categoryID: category.id)
+        newLayout.layout?.append(categoryListItem)
+
         return newLayout
     }
 }

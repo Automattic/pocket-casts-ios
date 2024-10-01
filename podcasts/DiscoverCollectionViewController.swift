@@ -1,18 +1,20 @@
 import PocketCastsServer
+import SwiftUI
 
 class DiscoverCollectionViewController: PCViewController {
 
     typealias Section = Int
-    typealias Item = DiscoverItem
+    typealias Item = DiscoverCellType.ItemType
 
     private(set) lazy var collectionView: UICollectionView = {
         UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     }()
 
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
+    private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     private let coordinator: DiscoverCoordinator
     private var loadingContent = false
     private(set) var discoverLayout: DiscoverLayout?
+    fileprivate var selectedCategory: DiscoverCategory?
 
     private(set) lazy var searchController: PCSearchBarController = {
         PCSearchBarController()
@@ -66,7 +68,8 @@ class DiscoverCollectionViewController: PCViewController {
         }
     }
 
-    func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil) {
+    func populateFrom(discoverLayout: DiscoverLayout?, selectedCategory: DiscoverCategory? = nil, shouldInclude: ((DiscoverItem) -> Bool)? = nil) {
+        self.selectedCategory = selectedCategory
         loadingContent = false
 
         guard let discoverLayout, let items = discoverLayout.layout, let _ = discoverLayout.regions, items.count > 0 else {
@@ -81,10 +84,14 @@ class DiscoverCollectionViewController: PCViewController {
         self.discoverLayout = discoverLayout
 
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
-        let snapshot = discoverLayout.layout?.makeDataSourceSnapshot(region: currentRegion, itemFilter: itemFilter)
+        let snapshot = discoverLayout.layout?.makeDataSourceSnapshot(region: currentRegion, selectedCategory: selectedCategory, itemFilter: itemFilter)
         if let snapshot {
             dataSource.apply(snapshot)
         }
+
+        let context = UICollectionViewLayoutInvalidationContext()
+        context.invalidateSupplementaryElements(ofKind: UICollectionView.elementKindSectionFooter, at: [IndexPath(row: 0, section: 0)])
+        collectionView.collectionViewLayout.invalidateLayout(with: context)
     }
 
     private func showPageLoading() {
@@ -116,21 +123,29 @@ extension DiscoverCollectionViewController {
 
             guard let self else { return }
 
-            let countrySummary = CountrySummaryViewController()
-            countrySummary.discoverLayout = self.discoverLayout
-            countrySummary.registerDiscoverDelegate(self)
+            if selectedCategory == nil {
+                let countrySummary = CountrySummaryViewController()
+                countrySummary.discoverLayout = self.discoverLayout
+                countrySummary.registerDiscoverDelegate(self)
 
-            supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(viewController: countrySummary)
+                supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(viewController: countrySummary)
+            } else {
+                if #available(iOS 16.0, *) {
+                    supplementaryView.contentConfiguration = UIHostingConfiguration {
+                        EmptyView()
+                    }
+                } else {
+                    supplementaryView.contentConfiguration = UIListContentConfiguration.plainFooter()
+                }
+            }
         }
 
-        let currentRegion = Settings.discoverRegion(discoverLayout: self.discoverLayout!)
-
         let registrations: [DiscoverCellType: UICollectionView.CellRegistration] = DiscoverCellType.allCases.reduce(into: [:]) { partialResult, cellType in
-            partialResult[cellType] = cellType.createCellRegistration(region: currentRegion, delegate: self)
+            partialResult[cellType] = cellType.createCellRegistration(delegate: self)
         }
 
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { collectionView, indexPath, item in
-            guard let cellType = item.cellType() else { return UICollectionViewCell() }
+            guard let cellType = item.item.cellType() else { return UICollectionViewCell() }
             let cellRegistration = registrations[cellType]!
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
         }
