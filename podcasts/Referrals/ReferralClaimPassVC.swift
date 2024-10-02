@@ -18,6 +18,8 @@ class ReferralClaimPassVC: ThemedHostingController<ReferralClaimPassView> {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        Analytics.track(.referralClaimScreenShown)
+
         setupUI()
     }
 
