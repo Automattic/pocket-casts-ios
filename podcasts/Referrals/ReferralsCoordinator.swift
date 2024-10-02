@@ -4,7 +4,7 @@ import PocketCastsUtils
 
 class ReferralsCoordinator {
 
-    var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoMock()
+    var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoIAP()
 
     var areReferralsAvailableToSend: Bool {
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
