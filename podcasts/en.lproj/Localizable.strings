@@ -4456,3 +4456,9 @@
 
 /* Referrals - You need to be logged in before you can claim your guest pass*/
 "referrals_claim_need_to_be_loggedin" = "Please log in or sign up to claim your guest pass.";
+
+/* day */
+"day" = "day";
+
+/* month */
+"week" = "week";

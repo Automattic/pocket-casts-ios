@@ -28,10 +28,7 @@ struct ReferralsOfferInfoIAP: ReferralsOfferInfo {
     }
 
     var localizedOfferDurationAdjective: String {
-        guard let result = IAPHelper.shared.localizedFreeTrialDuration(.yearlyReferral) else {
-            return "N/A"
-        }
-        return result.capitalized.components(separatedBy: .whitespaces).joined(separator: "-")
+        return IAPHelper.shared.localizedFreeTrialDurationAdjective(.yearlyReferral)?.capitalized ?? "N/A"
     }
 
     var localizedPriceAfterOffer: String {

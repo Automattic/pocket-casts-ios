@@ -220,6 +220,15 @@ extension IAPHelper {
         return offer.subscriptionPeriod.localizedPeriodString()
     }
 
+    func localizedFreeTrialDurationAdjective(_ identifier: IAPProductID) -> String? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+
+        return offer.subscriptionPeriod.localizedPeriodAdjective()
+    }
+
+
     /// Returns the localized offer price if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string ($1) or nil if there is no offer available
@@ -408,6 +417,24 @@ private extension SKProductSubscriptionPeriod {
 
         return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
     }
+
+    func localizedPeriodAdjective() -> String? {
+        var localizedUnit: String = "N/A"
+        switch unit {
+            case .day:
+                localizedUnit = L10n.day
+            case .week:
+                localizedUnit = L10n.week
+            case .month:
+                localizedUnit = L10n.month
+            case .year:
+                localizedUnit = L10n.year
+        @unknown default:
+            localizedUnit = "N/A"
+        }
+        return "\(self.numberOfUnits)-\(localizedUnit.capitalized)"
+    }
+
     /// Return the date when the offer price ends if an offer is available and is time bound
     var offerEndDate: Date? {
         let calendarUnit: Calendar.Component
