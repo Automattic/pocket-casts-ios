@@ -84,9 +84,23 @@ class EpisodesDataManager {
         let sortOrder = episodeSortOrder ?? PodcastEpisodeSortOrder.newestToOldest
         switch sortOrder {
         case .titleAtoZ:
-            sortStr = "ORDER BY title ASC, addedDate"
+            sortStr = """
+            ORDER BY (CASE
+            WHEN UPPER(title) LIKE 'THE %' THEN SUBSTR(UPPER(title), 5)
+            WHEN UPPER(title) LIKE 'A %' THEN SUBSTR(UPPER(title), 3)
+            WHEN UPPER(title) LIKE 'AN %' THEN SUBSTR(UPPER(title), 4)
+            ELSE UPPER(title)
+            END) ASC, addedDate
+            """
         case .titleZtoA:
-            sortStr = "ORDER BY title DESC, addedDate"
+            sortStr = """
+            ORDER BY (CASE
+            WHEN UPPER(title) LIKE 'THE %' THEN SUBSTR(UPPER(title), 5)
+            WHEN UPPER(title) LIKE 'A %' THEN SUBSTR(UPPER(title), 3)
+            WHEN UPPER(title) LIKE 'AN %' THEN SUBSTR(UPPER(title), 4)
+            ELSE UPPER(title)
+            END) DESC, addedDate
+            """
         case .newestToOldest:
             sortStr = "ORDER BY publishedDate DESC, addedDate DESC"
         case .oldestToNewest:
