@@ -23,8 +23,15 @@ struct ReferralsOfferInfoMock: ReferralsOfferInfo {
 
 struct ReferralsOfferInfoIAP: ReferralsOfferInfo {
 
-    var localizedOfferDuration: String {
-        return IAPHelper.shared.localizedFreeTrialDuration(.yearlyReferral) ?? "N/A"
+    var localizedOfferDurationNoun: String {
+        return IAPHelper.shared.localizedFreeTrialDuration(.yearlyReferral)?.capitalized ?? "N/A"
+    }
+
+    var localizedOfferDurationAdjective: String {
+        guard let result = IAPHelper.shared.localizedFreeTrialDuration(.yearlyReferral) else {
+            return "N/A"
+        }
+        return result.capitalized.components(separatedBy: .whitespaces).joined(separator: "-")
     }
 
     var localizedPriceAfterOffer: String {
