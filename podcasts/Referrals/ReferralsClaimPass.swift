@@ -114,7 +114,7 @@ class ReferralClaimPassModel: ObservableObject {
 
     private func translateToProduct(offer: ReferralValidate) -> IAPProductID? {
         if offer.offer == "two_months_free" {
-            return IAPProductID.patronYearly
+            return IAPProductID.yearlyReferral
         }
         return nil
     }
