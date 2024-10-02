@@ -1,4 +1,14 @@
 {
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
   "identifier" : "89E4D1A8",
   "nonRenewingSubscriptions" : [
 
@@ -92,7 +102,10 @@
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Plus Yearly",
           "subscriptionGroupID" : "D129D5D3",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
           "adHocOffers" : [
@@ -117,7 +130,10 @@
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Plus Monthly",
           "subscriptionGroupID" : "D129D5D3",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
           "adHocOffers" : [
@@ -146,7 +162,10 @@
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Patron Yearly",
           "subscriptionGroupID" : "D129D5D3",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
           "adHocOffers" : [
@@ -171,7 +190,10 @@
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Patron Monthly",
           "subscriptionGroupID" : "D129D5D3",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         }
       ]
     },
@@ -194,6 +216,7 @@
           "groupNumber" : 1,
           "internalID" : "683D2155",
           "introductoryOffer" : {
+            "displayPrice" : "0.99",
             "internalID" : "91A70E60",
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2M"
@@ -209,13 +232,16 @@
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Plus Year Referral",
           "subscriptionGroupID" : "5AB2A682",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         }
       ]
     }
   ],
   "version" : {
-    "major" : 3,
+    "major" : 4,
     "minor" : 0
   }
 }
