@@ -1168,6 +1168,12 @@
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
+/* The empty state view title when searching, and no episodes are found */
+"listening_history_search_no_episodes_title" = "No episodes found";
+
+/* The empty state view text when searching, and no episodes are found */
+"listening_history_search_no_episodes_text" = "We couldn't find any episode for that search. Try another keyword.";
+
 /* Progress indicator informing the user that the selected item is still loading. */
 "loading" = "Loading...";
 
@@ -4385,11 +4391,26 @@
 /* Clips - Button title to show in What's New screen announcing the Clips feature */
 "clips_whats_new_button_title" = "Got it";
 
+/* Clips - A label used for Voice Over to indicate the start time of a clip. The time will be read as a localized version of "20 minutes 30 seconds" after this label */
+"clips_start_time_accessibility_label" = "Clip start";
+
+/* Clips - A label used for Voice Over to indicate the end time of a clip. The time will be read as a localized version of "20 minutes 30 seconds" after this label */
+"clips_end_time_accessibility_label" = "Clip end";
+
+/* A Voice Over label for element which represents the Pocket Casts Logo */
+"pocket_casts_logo" = "Pocket Casts logo";
+
+/* A Voice Over label used to identify a shareable media. This represents different image and video sizes such as "large, medium, small" as well as the "audio" format */
+"clips_shareable_media_a11y_label" = "Shareable media options";
+
+/* A Voice Over label used to identify the container for the shareable media options. This contains different image and video sizes such as "large, medium, small" as well as the "audio" format */
+"clips_shareable_media_item_a11y_label" = "%1$@ format %2$@ of %3$@";
+
 /* Referrals - Tip Title. '%1$@' is a placeholder for the number of referrals passes available to share*/
 "referrals_tip_title" = "You have %1$@ passes to share";
 
 /* Referrals - Tip Message '%1$@' is a placeholder for the duration of free period on the Plus subscription*/
-"referrals_tip_message" = "Gift %1$@ of Plus to friends and family";
+"referrals_tip_message" = "Gift %1$@ of Pocket Casts Plus!";
 
 /* Referrals - Guest Pass Offer Message '%1$@' is a placeholder for the duration of free days on the Plus subscription. Ex: 2-Month Guest Pass*/
 "referrals_guest_pass_offer" = "%1$@ Guest Pass";
@@ -4418,3 +4439,20 @@
 /* Referrals - Claim Guest Pass banner message.*/
 "referrals_claim_guest_pass_banner_detail" = "Unlock the full listening experience";
 
+/* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_share_pass_message" = "Hey! Use the link below to claim your %1$@ guest pass for Pocket Casts Plus and enjoy podcasts across all your devices!";
+
+/* Referrals - Share Pass subject title for sharing to email. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
+"referrals_share_pass_subject" = "%1$@ Guest Pass for Pocket Casts Plus!";
+
+/* Referrals - Title for screen saying that referral offer isn't available for user*/
+"referrals_offer_not_available_title" = "This offer isn’t available";
+
+/* Referrals - Detail message for screen saying that referral offer isn't available for user*/
+"referrals_offer_not_available_detail" = "This guest pass can only be redeemed once and is available for those without an active Plus or Patron subscription. Thanks for listening!";
+
+/* Referrals - Guest Pass not available*/
+"referrals_not_available_to_send" = "Guest Pass not available at the moment";
+
+/* Referrals - You need to be logged in before you can claim your guest pass*/
+"referrals_claim_need_to_be_loggedin" = "Please log in or sign up to claim your guest pass.";

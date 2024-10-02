@@ -249,8 +249,17 @@
         "repositoryURL": "https://github.com/dagronf/SwiftSubtitles",
         "state": {
           "branch": null,
-          "revision": "751866f632ccf438025472eb1c1dccffbc5176a3",
-          "version": "1.5.2"
+          "revision": "3aada0274591b16c05d074073f48a16f530396f1",
+          "version": "1.6.0"
+        }
+      },
+      {
+        "package": "Swime",
+        "repositoryURL": "https://github.com/danielebogo/Swime",
+        "state": {
+          "branch": "master",
+          "revision": "51200c73c04cc9a8718d7d9ad70a3bf6c6f87dd1",
+          "version": null
         }
       },
       {

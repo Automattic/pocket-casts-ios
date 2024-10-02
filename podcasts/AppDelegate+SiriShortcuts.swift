@@ -27,6 +27,10 @@ extension AppDelegate {
                 path != "/get/"
             else { return }
 
+            if path.startsWith(string: "/redeem") {
+                handleReferralsDeepLink(url: incomingURL)
+                return
+            }
             // Also pass any query params from the share URL to the server to allow support for episode position handling
             // Ex: ?t=123
             let query = components.query.map { "?\($0)" } ?? ""
@@ -198,5 +202,9 @@ extension AppDelegate {
 
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: filter.uuid])
         }
+    }
+
+    func handleReferralsDeepLink(url: URL) {
+        NavigationManager.sharedManager.navigateTo(NavigationManager.settingsRedeemGuestPassKey, data: [NavigationManager.redeemGuestPassURLKey: url])
     }
 }

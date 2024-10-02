@@ -1,6 +1,24 @@
-7.73
+7.75
 -----
 
+
+7.74
+-----
+- Add Title episode sort options to iPhone app [2175](https://github.com/Automattic/pocket-casts-ios/pull/2175)
+- Add local search in listening history ([#2181](https://github.com/Automattic/pocket-casts-ios/issues/2181))
+
+7.73
+-----
+- Fix Sharing with AirDrop fails [#2165](https://github.com/Automattic/pocket-casts-ios/issues/2165)
+- Transcripts: Refactor scroll to range textKit code [#2155](https://github.com/Automattic/pocket-casts-ios/pull/2155)
+- Fix sorting of Episode list on WatchOS [#2172](https://github.com/Automattic/pocket-casts-ios/pull/2172)
+- Fix skip back button on lock screen media controls [#2186](https://github.com/Automattic/pocket-casts-ios/pull/2186)
+- Fix crash on shelf actions [#2174](https://github.com/Automattic/pocket-casts-ios/pull/2174)
+- Fix display of html entities on transcripts [#2192](https://github.com/Automattic/pocket-casts-ios/pull/2192)
+- Fix issue when HTTP contentType and real file type do not match [#1933](https://github.com/Automattic/pocket-casts-ios/issues/1933)
+- Fix issue when transcript type have an alternative valid mime type [#2185](https://github.com/Automattic/pocket-casts-ios/issues/2185)
+- Fix skip back issue after skipping back on the Apple Watch [#2197](https://github.com/Automattic/pocket-casts-ios/pull/2197)
+- Fix crash on discovery when tapping discover expanded section [#2206](https://github.com/Automattic/pocket-casts-ios/pull/2206)
 
 7.72
 -----

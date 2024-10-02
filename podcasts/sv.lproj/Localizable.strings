@@ -393,8 +393,24 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Klipp</string>
     <key>clip_duration_label</key>
     <string>%@ Längd</string>
+    <key>clip_loading_label</key>
+    <string>Skapar klipp...</string>
     <key>clip_start_label</key>
     <string>%@ Start</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Klippets slut</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Delbara mediaalternativ</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ format %2$@ av %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Klippets början</string>
+    <key>clips_whats_new_button_title</key>
+    <string>Uppfattat</string>
+    <key>clips_whats_new_message</key>
+    <string>Nu kan du dela med dig av dina favoritsekvenser från vilket avsnitt som helst. Vi har även gjort det enklare att dela innehåll till alla appar för sociala medier.</string>
+    <key>clips_whats_new_title</key>
+    <string>Delning av klipp tillgängligt nu!</string>
     <key>close</key>
     <string>Stäng</string>
     <key>color</key>
@@ -423,6 +439,10 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Gratis</string>
     <key>create_account_plus_details</key>
     <string>Allt upplåst</string>
+    <key>create_audio_clip_description</key>
+    <string>Skapa en .m4a-ljudfil</string>
+    <key>create_audio_clip_title</key>
+    <string>Skapa ljudfil</string>
     <key>create_clip</key>
     <string>Skapa klipp</string>
     <key>create_filter</key>
@@ -1558,10 +1578,40 @@ UPPDATERINGAR</string>
     <string>Tack för ditt stöd. Tyvärr innebär detta att du inte kan ta del av den här kampanjen.</string>
     <key>plus_expiration_format</key>
     <string>Löper ut %1$@</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>Spara dina favoritdelar från avsnitt och återkom till dem.</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>Lyssna på fler platser med våra Windows-, macOS- och webbappar.</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>Välj dina egna färger. Exklusiva ikoner och teman för våra prenumeranter.</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>Organisera dina podcasts i mappar och håll dem synkroniserade på alla dina enheter.</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>Få 1 år av premiuminnehåll från Slumber Studios.</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>Ladda upp dina ljudfiler till molnlagringen och ha dem tillgängliga överallt.</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>Lämna telefonen hemma och ta en löptur.</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>Bokmärken</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>Dator- och webbappar</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>Extra teman och ikoner</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>Mappar</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Dröm med Slumber Studios</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20 GB lagringsutrymme</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Apple Watch- och Wear OS-uppspelning</string>
     <key>plus_feature_gratitude</key>
     <string>Den eviga tacksamheten hos alla här på Pocket Casts</string>
     <key>plus_feature_slumber</key>
     <string>1 års exklusivt innehåll från Slumber Studios</string>
+    <key>plus_feature_slumber_new</key>
+    <string>Dröm med Slumber Studios-innehåll</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra ikoner för teman och appar</string>
     <key>plus_features</key>
@@ -1650,6 +1700,8 @@ UPPDATERINGAR</string>
     <string>Hämtningen kunde inte genomföras</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ per år</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts-logotyp</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts-nyhetsbrev</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1917,6 +1969,26 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Betygsätt dina favoritpodcasts och låt kreatörerna få veta hur mycket du uppskattar deras arbete. Dina betyg hjälper dessutom andra att hitta nya favoritshower.</string>
     <key>rating_whats_new_title</key>
     <string>Nu tillgängligt: Podcastbetyg 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Aktivera mitt pass</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Lås upp den fullständiga lyssningsupplevelsen</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Gör anspråk på ditt %1$@ gästpass för Plus</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Detta erbjudande gäller endast nya medlemmar. Medlemskapet förnyas automatiskt som ett årligt betalmedlemskap för %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Gör anspråk på ditt %1$@ gästpass</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>%1$@ gästpass</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Dela gästpass</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Tack för att du delar Pocket Casts! Vi meddelar dig när du har fler gästpass att ge bort.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Du har delat ut alla dina gästpass.</string>
+    <key>referrals_tip_title</key>
+    <string>Du har %1$@ gästpass att dela</string>
     <key>refresh_control_fetching_episodes</key>
     <string>HÄMTAR NYA PODCASTAVSNITT</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2449,6 +2521,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Dela avsnitt vid %1$@</string>
     <key>share_episode_title</key>
     <string>Dela avsnitt</string>
+    <key>share_instagram_stories</key>
+    <string>Berättelser</string>
     <key>share_list_subscribing</key>
     <string>Prenumererar …</string>
     <key>share_more_actions</key>
@@ -2731,6 +2805,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Något gick fel vid inläsningen av den här transkriptionen</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Något gick fel vid tolkningen av den här transkriptionen</string>
+    <key>transcript_error_not_available</key>
+    <string>Det finns ingen transkription tillgänglig för det här avsnittet.</string>
     <key>transcript_error_not_supported</key>
     <string>Formatet på den här transkriptionen stöds inte: %1$@</string>
     <key>trial_finished</key>
@@ -2763,6 +2839,48 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>En lista över de senaste uppdateringarna av Up Next som gjorts på grund av ändringar på andra enheter. Tryck på valfritt inlägg för att titta på avsnitten och få möjlighet att återställa dem.</string>
     <key>upgrade_account</key>
     <string>Uppgradera konto</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>Få 50 %% rabatt på ditt första år</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>Gratis provperiod med %1$@ Plus</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>Skaffa Pocket Casts Plus</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>Se alla recensioner i App Store</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>%1$@ i betyg (%2$@K recensioner)</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>Jag har använt appen länge och omfattningen av funktionalitet och anpassningsmöjligheter som du får med gratisversionen är häpnadsväckande. Jag älskar att den synkroniseras mellan enheter så att jag kan börja lyssna på min telefon och sedan fortsätta på en Alexa-enhet. Jag rekommenderar den till alla som lyssnar på podcaster. Jag älskar även statistiken!</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>8 år av utmärkt kvalitet och ständiga förbättringar</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>Jag har använt Pocket Casts sedan 2017.
+
+Det här är utan tvekan den bästa appen för att lyssna på podcaster. Det har många funktioner och vidareutvecklas kontinuerligt. Det har förekommit en del klagomål på Ul-bytet, men jag har faktiskt inte märkt av det så mycket.
+
+Appen kan vara så enkel eller svår att använda som du själv vill att den ska vara. Så antingen använder du den bara för att ansluta och spela upp eller så ställer du in hoppa över outro- och intro-timers och alla andra små funktioner du vill aktivera.</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>Synkroniseringsfunktionen är magisk. Jag vet inte vilken slags speciell magi den här appen har, men den är bättre än alla andra appar jag har använt.</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>Jag började med Android och nu har jag använt iOS i nästan ett år. Totalt har jag använt den här appen i minst 6 år. Fungerar lika bra på båda plattformarna. Det är enkelt att hitta nya podcaster att lyssna på, mycket trevlig Ul och man kan även lägga till podcaster via url för rss-flöde. Klockappen är funktionell, men jag använder den mest för att spela/pausa. Du kan logga in med ett konto för att synkronisera mellan enheter, men det är inget krav.</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>PC har varit min favorit i flera år. Jag har provat andra podcast-appar men kommer alltid tillbaka till PC för enkelheten, gränssnittet och supporten. Det är helt klart värt att prova, särskilt om du har tröttnat på din nuvarande podcast-app.</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>Den överlägset bästa podcast-appen</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>Den oumbärliga podcast-appen</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>Bästa podcast-appen där ute</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>Fantastisk app</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>Fungerar fint och det är enkelt att hitta eller lägga till nya poddar</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>Den bästa podcast-appen</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>Se varför många har uppgraderat till Plus</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>Helt enkelt det bästa sättet att lyssna på podcasts</string>
     <key>upgrade_to_plan</key>
     <string>Uppgradera till %1$@</string>
     <key>upgrade_to_plus</key>

@@ -393,8 +393,24 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Clip</string>
     <key>clip_duration_label</key>
     <string>Duur %@</string>
+    <key>clip_loading_label</key>
+    <string>Clip aanmaken …</string>
     <key>clip_start_label</key>
     <string>Start %@</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Einde clip</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Opties voor deelbare media</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ van %2$@. %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Begin clip</string>
+    <key>clips_whats_new_button_title</key>
+    <string>Duidelijk</string>
+    <key>clips_whats_new_message</key>
+    <string>Je kan nu clips van je favoriete stukjes uit een aflevering delen. We hebben het ook eenvoudiger gemaakt om content te delen op elke socialmedia-app.</string>
+    <key>clips_whats_new_title</key>
+    <string>Nu mogelijk: clips delen!</string>
     <key>close</key>
     <string>Sluiten</string>
     <key>color</key>
@@ -423,6 +439,10 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Gratis</string>
     <key>create_account_plus_details</key>
     <string>Alles ontgrendeld</string>
+    <key>create_audio_clip_description</key>
+    <string>.m4a audiobestand aanmaken</string>
+    <key>create_audio_clip_title</key>
+    <string>Audiobestand aanmaken</string>
     <key>create_clip</key>
     <string>Clip maken</string>
     <key>create_filter</key>
@@ -1558,10 +1578,40 @@ UPDATES</string>
     <string>Bedankt voor je ondersteuning, maar dit wil helaas zeggen dat je niet kunt deelnemen aan deze promotie.</string>
     <key>plus_expiration_format</key>
     <string>Verloopt %1$@</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>Sla je favoriete stukjes uit afleveringen op en beluister ze later opnieuw.</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>Luister op meer plekken met Windows en macOS en webapps.</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>Toon je ware aard. Exclusieve pictogrammen en thema's voor onze abonnees.</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>Organiseer je podcasts in mappen en synchroniseer ze op al je apparaten.</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>Krijg 1 jaar premium content van Slumber Studios.</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>Wanneer je je audiobestanden naar een cloudopslag uploadt, zijn ze overal beschikbaar.</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>Leg je telefoon aan de kant en ga hardlopen.</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>Bladwijzers</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>Desktop- en web-apps</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>Extra thema's en pictogrammen</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>Mappen</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Droom met Slumber Studios</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20 GB opslag</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Afspelen op Apple Watch en Wear OS</string>
     <key>plus_feature_gratitude</key>
     <string>De eeuwige dank van iedereen bij Pocket Casts</string>
     <key>plus_feature_slumber</key>
     <string>1 jaar lang exclusieve content van Slumber Studios</string>
+    <key>plus_feature_slumber_new</key>
+    <string>Droom met content van Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
     <string>Extra thema's en app-pictogrammen</string>
     <key>plus_features</key>
@@ -1650,6 +1700,8 @@ UPDATES</string>
     <string>Kan niet laden</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ per jaar</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts logo</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts-nieuwsbrief</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1917,6 +1969,22 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Beoordeel je favoriete podcasts en laat makers weten wat je van hun werk vindt. Daarnaast kan je met je beoordelingen anderen helpen nieuwe favoriete shows te ontdekken!</string>
     <key>rating_whats_new_title</key>
     <string>Nu beschikbaar: podcastbeoordelingen 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Activeer mijn pas</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Ontgrendel de volledige luisterervaring</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Claim je %1$@ gastenpas voor Plus</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Deze aanbieding geldt alleen voor nieuwe leden. Lidmaatschap wordt automatisch verlengd met een betaald jaarlidmaatschap van %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Claim je gastenpas van %1$@ voor Plus</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Gastenpassen delen</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Bedankt dat je Pocket Casts hebt gedeeld! We laten het je weten wanneer je meer passen kan weggeven.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Je hebt al je gastenpassen al uitgedeeld</string>
     <key>refresh_control_fetching_episodes</key>
     <string>NIEUWE PODCASTAFLEVERINGEN ZOEKEN</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2449,6 +2517,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Aflevering delen om %1$@</string>
     <key>share_episode_title</key>
     <string>Aflevering delen</string>
+    <key>share_instagram_stories</key>
+    <string>Verhalen</string>
     <key>share_list_subscribing</key>
     <string>Aanmelden...</string>
     <key>share_more_actions</key>
@@ -2557,6 +2627,10 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Timer annuleren</string>
     <key>sleep_timer_end_of_episode</key>
     <string>Einde van de aflevering</string>
+    <key>sleep_timer_episode_count</key>
+    <string>Na %1$@ aflevering</string>
+    <key>sleep_timer_sleeping_after</key>
+    <string>Slaapstand inschakelen na %1$@ aflevering</string>
     <key>sleep_timer_sleeping_after_current_episode</key>
     <string>Slaapstand inschakelen aan het einde van de huidige aflevering</string>
     <key>sleep_timer_time_remaining</key>
@@ -2727,6 +2801,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Er is helaas iets misgegaan bij het laden van deze transcriptie</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Er is helaas iets misgegaan met de parsing van deze transcriptie</string>
+    <key>transcript_error_not_available</key>
+    <string>Er is helaas geen transcriptie beschikbaar voor deze aflevering.</string>
     <key>transcript_error_not_supported</key>
     <string>Deze transcriptie-indeling wordt helaas niet ondersteund: %1$@</string>
     <key>trial_finished</key>
@@ -2759,6 +2835,48 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Een lijst met recente updates over Hierna dankzij wijzigingen aangebracht aan andere apparaten. Klik op een bericht om de afleveringen te bekijken en ze mogelijk te herstellen.</string>
     <key>upgrade_account</key>
     <string>Account upgraden</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>50%% korting op je eerste jaar.</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>Gratis %1$@ Plus-proefperiode</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>Neem Pocket Casts Plus</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>Bekijk alle beoordelingen in App Store</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>Beoordeling van %1$@ (%2$@K beoordelingen)</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>Ik gebruik de app al een hele lange tijd en het is echt verbazingwekkend hoeveel functies en aanpassingen je in de gratis versie krijgt. Ik vind het geweldig dat de app op al je apparaten synchroniseert. Nu kan ik op mijn telefoon beginnen met luisteren en thuis verdergaan op Alexa. Ik wil deze app aanbevelen aan iedereen die maar naar podcasts luistert. De statistieken zijn ook een van mijn favo onderdelen!</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>Al 8 jaar uitstekend en continu vernieuwend</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>Ik gebruik Pocket Casts al sinds 2017.
+
+En dit is absoluut de beste app die er bestaat om podcasts mee te luisteren. Er zijn talloze functies en de app wordt actief verder ontwikkeld. Er hebben wat mensen geklaagd over de veranderde UI maar ik heb er zelf niet zoveel van gemerkt.
+
+Deze app kan zo eenvoudig of moeilijk te gebruiken zijn als je zelf maar wilt. Dus gebruik hem als plug-and-play of stel van alles in zoals outro's overslaan, timers voor intro's en andere kleine functies die je wilt inschakelen.</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>De sync-functie is echt magisch. Ik weet niet wat voor tovenarij deze app gebruikt, maar deze app is beter dan welke andere app dan ook.</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>Ik gebruik deze app al 6 jaar, of eigenlijk ik ben ermee begonnen op Android en gebruik hem nu bijna een jaar op iOS. De app werkt op beide platforms hetzelfde. Het is makkelijk om nieuwe podcasts te vinden, de app heeft een mooie UI en je kan zelf podcasts toevoegen via een rss feed-url. De horloge-app werkt ook, maar deze gebruik voornamelijk voor afspelen/pauzeren. Maak een account aan om op verschillende apparaten te kunnen synchroniseren, maar dit is niet verplicht.</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>PC is al jaren mijn favoriet. Ik heb andere podcastapps geprobeerd, maar kwam altijd weer terug naar PC vanwege de eenvoud, UI en support. Deze app is het zeker waard om even te bekijken, vooral als je je huidige podcastapp zat bent geworden.</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>Sowieso de beste podcastapp</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>De essentiële podcastapp</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>De beste podcastapp die er is</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>Fantastische app.</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>De app werkt geweldig en je kan gemakkelijk nieuwe pods vinden en toevoegen.</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>Favoriete podcastapp</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>Ontdek waarom anderen naar Plus hebben geüpgraded</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>Simpelweg de beste manier om naar podcasts te luisteren</string>
     <key>upgrade_to_plan</key>
     <string>Upgrade naar %1$@</string>
     <key>upgrade_to_plus</key>

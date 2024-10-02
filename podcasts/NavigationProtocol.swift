@@ -32,6 +32,7 @@ protocol NavigationProtocol: AnyObject {
     func showPromotionFinishedAcknowledge()
     func showProfilePage()
     func showHeadphoneSettings()
+    func showRedeemGuestPass(url: URL)
 
     func showSupporterSignIn(podcastInfo: PodcastInfo)
     func showSupporterSignIn(bundleUuid: String)

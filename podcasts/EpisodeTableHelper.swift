@@ -69,4 +69,30 @@ struct EpisodeTableHelper {
 
         return [newData]
     }
+
+    static func searchSectionedEpisodes(for search: String, tintColor: UIColor = AppTheme.appTintColor(), episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
+        let escapedSearch = search.escapeLike(escapeChar: "\\")
+        let loadedEpisodes = DataManager.sharedManager.findEpisodesAndPodcastsWhere(customWhere: escapedSearch)
+
+        var previousSectionName = ""
+        var currSectionIndex = -1
+        var newData = [ArraySection<String, ListEpisode>]()
+        for episode in loadedEpisodes {
+            let currSectionName = episodeShortKey(episode)
+
+            let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode)
+            if previousSectionName == currSectionName {
+                var existingSection = newData[currSectionIndex]
+                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
+                existingSection.elements.append(listEpisode)
+                newData[currSectionIndex] = existingSection
+            } else {
+                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
+                newData.append(ArraySection(model: currSectionName, elements: [listEpisode]))
+                currSectionIndex += 1
+                previousSectionName = currSectionName
+            }
+        }
+        return newData
+    }
 }

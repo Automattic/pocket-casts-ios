@@ -4,11 +4,12 @@ struct ReferralCardMiniView: View {
 
     var body: some View {
         Rectangle()
-            .background {
+            .background(.black)
+            .foregroundColor(.black)
+            .overlay {
                 ReferralCardAnimatedGradientView()
             }
             .cornerRadius(Constants.cardRadius)
-            .foregroundColor(.clear)
             .overlay(alignment: .topTrailing) {
                 Image("plusGold")
                     .renderingMode(.template)
@@ -27,7 +28,6 @@ struct ReferralCardMiniView: View {
 
     enum Constants {
         static let cardRadius = CGFloat(4)
-        static let cardBackgroundColor = Color(red: 0.08, green: 0.03, blue: 0.3)
         static let cardStrokeColor = Color(red: 0.23, green: 0.23, blue: 0.23)
         static let plusIconSize = CGFloat(6)
         static let defaultCardSize = CGSize(width: 80, height: 50)

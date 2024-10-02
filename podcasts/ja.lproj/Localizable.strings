@@ -397,6 +397,14 @@
     <string>クリップを作成中…</string>
     <key>clip_start_label</key>
     <string>%@ 開始</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>クリップの終了</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>共有可能メディアのオプション</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ 形式 %2$@ / %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>クリップの開始</string>
     <key>clips_whats_new_button_title</key>
     <string>OK</string>
     <key>clips_whats_new_message</key>
@@ -1692,6 +1700,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>読み込めません</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@/ 年</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts ロゴ</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts ニュースレター</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1959,6 +1969,26 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>お気に入りのポッドキャストを評価して、作品をどの程度気に入っているかをクリエイターに伝えましょう。 さらに、あなたの評価は他のユーザーが新しいお気に入り番組を見つけるのに役立ちます !</string>
     <key>rating_whats_new_title</key>
     <string>ポッドキャストの評価が利用可能になりました 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>パスを有効化</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>リスニング体験をすべてご利用いただけます</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Plus の%1$@のゲストパスを取得しましょう</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>このオファーは新規メンバーのみが対象です。 メンバーシップは%1$@の有料年間メンバーシップに自動的に更新されます。</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>%1$@のゲストパスを取得しましょう</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>%1$@のゲストパス</string>
+    <key>referrals_share_guest_pass</key>
+    <string>ゲストパスを共有</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Pocket Casts を共有いただきありがとうございます。 プレゼントできるパスが増えたらお知らせします。</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>ゲストパスをすべて共有しました !</string>
+    <key>referrals_tip_title</key>
+    <string>共有できるパスが%1$@個あります</string>
     <key>refresh_control_fetching_episodes</key>
     <string>新しいポッドキャストエピソードを検索しています</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2495,8 +2525,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ストーリー</string>
     <key>share_list_subscribing</key>
     <string>フォローしています...</string>
-    <key>share_more_actions</key>
-    <string>詳細</string>
     <key>share_podcast</key>
     <string>ポッドキャストを共有</string>
     <key>share_podcast_title</key>
@@ -2814,7 +2842,7 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>upgrade_experiment_reviews_app_store_button</key>
     <string>App ストアのレビューをすべて見る</string>
     <key>upgrade_experiment_reviews_app_store_info</key>
-    <string>%1$@ 評価 (%2$@K 件のレビュー)</string>
+    <string>%1$@ 評価 (%2$@千件のレビュー)</string>
     <key>upgrade_experiment_reviews_review_text_0</key>
     <string>長い間愛用していますが、無料版の機能性とカスタマイズの多さには驚かされます。 端末間で同期されるので、スマートフォンで聴き始めたあとに Alexa 端末で続きを聴くことができるのも気に入っています。 ポッドキャストを聴く人全員におすすめのアプリです。 また、統計機能も気に入っています !</string>
     <key>upgrade_experiment_reviews_review_text_1</key>

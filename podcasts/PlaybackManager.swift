@@ -419,7 +419,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let playingEpisode = currentEpisode() else { return } // nothing to actually seek
 
         if seekHint == .back, !isValidSeek(time: time) {
-            print("aborting seek because it's moving forward")
+            FileLog.shared.addMessage("aborting seek because it's moving forward from \(previousSeekTime ?? 0) to \(time)")
             return
         }
 
@@ -457,6 +457,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPositionSaved, object: playingEpisode.uuid)
                 checkForChapterChange()
                 fireProgressNotification()
+                updateNowPlayingInfo()
             } else {
                 seekingTo = PlaybackManager.notSeeking
             }

@@ -393,8 +393,24 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Clip</string>
     <key>clip_duration_label</key>
     <string>Dauer: %@</string>
+    <key>clip_loading_label</key>
+    <string>Clip wird erstellt …</string>
     <key>clip_start_label</key>
     <string>Start: %@</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Clip-Ende</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Teilbare Medienoptionen</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@-Format %2$@: %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Clip-Anfang</string>
+    <key>clips_whats_new_button_title</key>
+    <string>Verstanden</string>
+    <key>clips_whats_new_message</key>
+    <string>Du kannst jetzt Clips von deinen Lieblingsstellen aus beliebigen Folgen teilen. Wir haben es außerdem einfach gemacht, jegliche Inhalte in Apps für soziale Medien zu teilen.</string>
+    <key>clips_whats_new_title</key>
+    <string>Das Teilen von Clips ist jetzt verfügbar!</string>
     <key>close</key>
     <string>Schließen</string>
     <key>color</key>
@@ -423,6 +439,10 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Kostenlos</string>
     <key>create_account_plus_details</key>
     <string>Alle Vorteile</string>
+    <key>create_audio_clip_description</key>
+    <string>Eine .m4a-Audiodatei erstellen</string>
+    <key>create_audio_clip_title</key>
+    <string>Audiodatei erstellen</string>
     <key>create_clip</key>
     <string>Clip erstellen</string>
     <key>create_filter</key>
@@ -1558,10 +1578,40 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Danke für deine Unterstützung. Leider kannst du an dieser Werbeaktion jedoch nicht teilnehmen.</string>
     <key>plus_expiration_format</key>
     <string>Läuft ab am: %1$@</string>
+    <key>plus_feature_card_text_bookmarks</key>
+    <string>Speichere deine Lieblingsstellen aus beliebigen Folgen und höre sie dir jederzeit an.</string>
+    <key>plus_feature_card_text_desktop</key>
+    <string>Mit unseren Windows-, macOS- und Web-Apps kannst du deine Podcasts jederzeit hören.</string>
+    <key>plus_feature_card_text_extra_themes</key>
+    <string>Zeit, Farbe zu bekennen. Exklusive Icons und Themes für unsere Abonnenten.</string>
+    <key>plus_feature_card_text_folders</key>
+    <string>Verwalte deine Podcasts in Ordnern und halte sie auf all deinen Geräten synchron.</string>
+    <key>plus_feature_card_text_slumber_studio</key>
+    <string>Genieße 1 Jahr lang Premium-Inhalte von Slumber Studios.</string>
+    <key>plus_feature_card_text_storage</key>
+    <string>Lade deine Audiodateien in den Cloud-Speicher. Dann kannst du von überall aus darauf zugreifen.</string>
+    <key>plus_feature_card_text_wear_os</key>
+    <string>Lass das Smartphone liegen und gehe joggen.</string>
+    <key>plus_feature_card_title_bookmarks</key>
+    <string>Lesezeichen</string>
+    <key>plus_feature_card_title_desktop</key>
+    <string>Desktop- und Web-Apps</string>
+    <key>plus_feature_card_title_extra_themes</key>
+    <string>Zusätzliche Themes und Icons</string>
+    <key>plus_feature_card_title_folders</key>
+    <string>Ordner</string>
+    <key>plus_feature_card_title_slumber_studio</key>
+    <string>Erholsamer Schlaf mit Slumber Studios</string>
+    <key>plus_feature_card_title_storage</key>
+    <string>20 GB Speicher</string>
+    <key>plus_feature_card_title_wear_os</key>
+    <string>Apple Watch- und Wear OS-Wiedergabe</string>
     <key>plus_feature_gratitude</key>
     <string>Die unendliche Dankbarkeit von allen bei Pocket Casts</string>
     <key>plus_feature_slumber</key>
     <string>1 Jahr exklusive Inhalte von Slumber Studios</string>
+    <key>plus_feature_slumber_new</key>
+    <string>Erholsamer Schlaf mit Inhalten von Slumber Studios</string>
     <key>plus_feature_themes_icons</key>
     <string>Zusätzliche Themes und App-Icons</string>
     <key>plus_features</key>
@@ -1650,6 +1700,8 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Konnte nicht geladen werden</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ pro Jahr</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts-Logo</string>
     <key>pocket_casts_newsletter</key>
     <string>Newsletter von Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1917,6 +1969,26 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Bewerte deine Top-Podcasts und lass Ersteller wissen, wie sehr du ihre Arbeit schätzt. Außerdem hilft deine Bewertung anderen, neue Lieblingspodcasts zu finden!</string>
     <key>rating_whats_new_title</key>
     <string>Jetzt verfügbar: Podcast-Bewertungen 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Meinen Pass aktivieren</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Profitiere vom vollständigen Audioerlebnis</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Sichere dir deinen Plus-Gastpass (Dauer: %1$@ )</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Dieses Angebot gilt nur für neue Mitglieder. Die Mitgliedschaft wird automatisch zu einer kostenpflichtigen jährlichen Mitgliedschaft in Höhe von %1$@ verlängert.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Sichere dir deinen Gastpass (Dauer: %1$@)</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>Gastpass (Dauer: %1$@)</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Gastpass teilen</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Vielen Dank, dass du Pocket Casts teilst! Wir informieren dich, wenn dir weitere Pässe zum Teilen zur Verfügung stehen.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Du hast alle deine Gastpässe geteilt!</string>
+    <key>referrals_tip_title</key>
+    <string>Dir stehen %1$@ Pässe zum Teilen zur Verfügung</string>
     <key>refresh_control_fetching_episodes</key>
     <string>NEUE PODCAST-FOLGEN WERDEN ABGERUFEN</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2449,6 +2521,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Folge bei %1$@ teilen</string>
     <key>share_episode_title</key>
     <string>Folge teilen</string>
+    <key>share_instagram_stories</key>
+    <string>Storys</string>
     <key>share_list_subscribing</key>
     <string>Werden abonniert …</string>
     <key>share_more_actions</key>
@@ -2731,6 +2805,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Beim Laden dieses Transkripts ist ein Fehler aufgetreten</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Beim Parsen dieses Transkripts ist ein Fehler aufgetreten</string>
+    <key>transcript_error_not_available</key>
+    <string>Für diese Folge ist kein Transkript verfügbar.</string>
     <key>transcript_error_not_supported</key>
     <string>Dieses Transkriptformat wird nicht unterstützt: %1$@</string>
     <key>trial_finished</key>
@@ -2763,6 +2839,48 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Eine Liste kürzlich vorgenommener Updates an „Als Nächstes“ aufgrund von Änderungen auf anderen Geräten. Tippe auf einen beliebigen Eintrag, um die Folgen anzuzeigen und die Wiederherstellungsfunktion zu nutzen.</string>
     <key>upgrade_account</key>
     <string>Upgrade für Konto durchführen</string>
+    <key>upgrade_experiment_discount_yearly_membership</key>
+    <string>50 %% Rabatt auf dein erstes Jahr</string>
+    <key>upgrade_experiment_free_membership_format</key>
+    <string>Kostenloser Testzeitraum für Plus von %1$@</string>
+    <key>upgrade_experiment_paywall_button</key>
+    <string>Pocket Casts Plus holen</string>
+    <key>upgrade_experiment_reviews_app_store_button</key>
+    <string>Schau dir alle Rezensionen im App Store an</string>
+    <key>upgrade_experiment_reviews_app_store_info</key>
+    <string>Bewertung von %1$@ (%2$@ Tausend Rezensionen)</string>
+    <key>upgrade_experiment_reviews_review_text_0</key>
+    <string>Ich verwende die App schon lange. Es ist wirklich erstaunlich, wie viele Funktionen und Anpassungsoptionen auch in der kostenlosen Version zur Verfügung stehen. Ich bin begeistert davon, dass sie sich über mehrere Geräte hinweg synchronisieren lässt: Ich kann einen Podcast auf meinem Handy beginnen und ihn dann auf einem Alexa-Gerät weiterhören. Meine klare Empfehlung für jeden Podcast-Fan. Die Statistiken finde ich auch super!</string>
+    <key>upgrade_experiment_reviews_review_text_1</key>
+    <string>8 Jahre exzellente Erfahrungen und kontinuierliche Verbesserungen</string>
+    <key>upgrade_experiment_reviews_review_text_2</key>
+    <string>Ich benutze Pocket Casts seit 2017.
+
+Pocket Casts ist mit Abstand die beste App zum Anhören von Podcasts. Sie bietet viele Funktionen und wird ständig weiterentwickelt. Es gab einige Beschwerden über die Änderungen an der Benutzeroberfläche, aber mir ist nichts Negatives aufgefallen.
+
+Die Nutzung dieser App kann ganz einfach oder sehr kompliziert sein – das hängt allein vom Benutzer ab. Entweder man nutzt sie einfach als „Plug &amp; Play“ oder man richtet verschiedene Funktionen ein, wie Timer für das Überspringen von Intros und Outros.</string>
+    <key>upgrade_experiment_reviews_review_text_3</key>
+    <string>Die Synchronisationsfunktion ist unglaublich gut. Ich weiß wirklich nicht, welche Magie in dieser App steckt, aber es ist die beste App, die ich je benutzt habe.</string>
+    <key>upgrade_experiment_reviews_review_text_4</key>
+    <string>Ich benutze die App seit über 6 Jahren. Damals habe ich auf Android damit angefangen und seit knapp einem Jahr nutze ich sie auf iOS. Sie funktioniert auf beiden Betriebssystemen gleich. Es ist einfach, Podcasts zu finden, die man sich anhören will. Die Benutzeroberfläche ist ansprechend und man kann sogar Podcasts über RSS-Feed-URL hinzufügen. Die Watch-App ist praktisch, aber ich nutze sie eigentlich nur zum Abspielen/Anhalten. Man kann sich mit einem Konto anmelden und eine geräteübergreifende Synchronisation durchführen. Das ist aber kein Muss.</string>
+    <key>upgrade_experiment_reviews_review_text_5</key>
+    <string>Pocket Casts ist seit Jahren meine erste Adresse. Ich habe zwar auch andere Podcast-Apps ausprobiert, aber ich kehre immer wieder zu Pocket Casts zurück. Die App ist unkompliziert, die Benutzeroberfläche ansprechend und der Support hervorragend. Man sollte sich die App auf jeden Fall angesehen haben, besonders, wenn man mit seiner derzeitigen Podcast-App nicht zufrieden ist.</string>
+    <key>upgrade_experiment_reviews_review_title_0</key>
+    <string>Die BEI WEITEM beste Podcast-App</string>
+    <key>upgrade_experiment_reviews_review_title_1</key>
+    <string>Die essenzielle Podcast-App</string>
+    <key>upgrade_experiment_reviews_review_title_2</key>
+    <string>Die beste Podcast-App, die es gibt</string>
+    <key>upgrade_experiment_reviews_review_title_3</key>
+    <string>Fantastische App</string>
+    <key>upgrade_experiment_reviews_review_title_4</key>
+    <string>Die App funktioniert wunderbar und es ist einfach, neue Podcasts zu finden und hinzuzufügen</string>
+    <key>upgrade_experiment_reviews_review_title_5</key>
+    <string>Die Go-To-Podcast-App</string>
+    <key>upgrade_experiment_reviews_text</key>
+    <string>Erfahre, warum sich Benutzer für ein Upgrade auf Plus entschieden haben</string>
+    <key>upgrade_experiment_reviews_title</key>
+    <string>Ganz einfach die beste Art und Weise, Podcasts zu hören</string>
     <key>upgrade_to_plan</key>
     <string>Upgrade auf %1$@ durchführen</string>
     <key>upgrade_to_plus</key>

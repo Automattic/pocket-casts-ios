@@ -1289,6 +1289,17 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Referrals Show Tip
+
+    static var referralURL: String? {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.referrals.claimURL) as? String
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.referrals.claimURL)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

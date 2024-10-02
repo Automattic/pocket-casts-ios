@@ -397,6 +397,14 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Creazione della clip...</string>
     <key>clip_start_label</key>
     <string>Inizio: %@</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Fine della clip</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Opzioni di media condivisibile</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ formato %2$@ di %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Inizio della clip</string>
     <key>clips_whats_new_button_title</key>
     <string>Fatto</string>
     <key>clips_whats_new_message</key>
@@ -1692,6 +1700,8 @@ AGGIORNAMENTI</string>
     <string>Impossibile caricare</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@ all'anno</string>
+    <key>pocket_casts_logo</key>
+    <string>Logo Pocket Casts</string>
     <key>pocket_casts_newsletter</key>
     <string>Newsletter Pocket Casts</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1959,6 +1969,26 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Valuta i tuoi podcast preferiti e fai sapere agli autori quanto apprezzi il loro lavoro. Le tue valutazioni aiuteranno altre persone a trovare i loro programmi preferiti!</string>
     <key>rating_whats_new_title</key>
     <string>Ora disponibile: Valutazioni dei podcast 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Attiva il mio pass</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Sblocca l'esperienza di ascolto completa</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Riscatta il tuo pass per ospiti %1$@ per Plus</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Questa offerta è esclusivamente per nuovi membri. L'iscrizione si rinnoverà automaticamente in un'iscrizione annuale a pagamento di %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Riscatta il tuo pass per ospiti %1$@</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>Pass per ospiti %1$@</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Condividi pass per ospiti</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Grazie per aver condiviso Pocket Casts. Ti avviseremo quando avrai altri pass da assegnare.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Hai condiviso tutti i tuoi pass per gli ospiti!</string>
+    <key>referrals_tip_title</key>
+    <string>Hai %1$@ pass da condividere</string>
     <key>refresh_control_fetching_episodes</key>
     <string>RICERCA DI NUOVI EPISODI DEL PODCAST</string>
     <key>refresh_control_pull_to_refresh</key>

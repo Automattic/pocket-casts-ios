@@ -3,7 +3,7 @@ import SwiftUI
 
 struct TipView: View {
     let title: String
-    let message: String
+    let message: String?
     let sizeChanged: (CGSize)->()
     @EnvironmentObject var theme: Theme
 
@@ -18,12 +18,14 @@ struct TipView: View {
                             .lineLimit(2)
                             .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
-                        Text(message)
-                            .font(size: 14, style: .body, weight: .regular)
-                            .foregroundColor(theme.primaryText02)
-                            .lineLimit(4)
-                            .multilineTextAlignment(.leading)
-                            .fixedSize(horizontal: false, vertical: true)
+                        if let message {
+                            Text(message)
+                                .font(size: 14, style: .body, weight: .regular)
+                                .foregroundColor(theme.primaryText02)
+                                .lineLimit(4)
+                                .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                     Spacer()
                 }
@@ -41,7 +43,7 @@ struct TipView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            TipView(title: L10n.referralsTipTitle(3), message: L10n.referralsTipMessage(30), sizeChanged: { size in }).setupDefaultEnvironment()
+            TipView(title: L10n.referralsTipTitle(3), message: L10n.referralsTipMessage("2 Months"), sizeChanged: { size in }).setupDefaultEnvironment()
             Spacer()
         }
     }

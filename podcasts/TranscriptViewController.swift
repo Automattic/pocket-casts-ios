@@ -35,7 +35,6 @@ class TranscriptViewController: PlayerItemViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        addObservers()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -318,7 +317,7 @@ class TranscriptViewController: PlayerItemViewController {
 
             do {
                 let transcript = try await transcriptManager.loadTranscript()
-                await track(.transcriptShown)
+                await track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])

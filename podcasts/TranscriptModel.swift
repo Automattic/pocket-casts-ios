@@ -1,6 +1,7 @@
 import Foundation
 import SwiftSubtitles
 import PocketCastsDataModel
+import PocketCastsUtils
 
 struct TranscriptCue: Sendable {
     let startTime: Double
@@ -20,13 +21,24 @@ struct TranscriptModel: Sendable {
 
     let attributedText: NSAttributedString
     let cues: [TranscriptCue]
+    let type: String
+    let hasJavascript: Bool
 
     static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
         if format == .textHTML {
             let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
-            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [])
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: transcriptText.contains("<script type=\"text/javascript\">"))
         }
-        guard let subtitles = try? Subtitles(content: transcriptText, expectedExtension: format.fileExtension) else {
+        let subtitles: Subtitles? = {
+            do {
+                return try Subtitles(content: transcriptText, expectedExtension: format.fileExtension)
+            }
+            catch {
+                FileLog.shared.addMessage("Transcripts Parsing:\(error)")
+                return nil
+            }
+        }()
+        guard let subtitles else {
             return nil
         }
         var previousSpeaker: String = ""
@@ -54,7 +66,7 @@ struct TranscriptModel: Sendable {
             cues.append(entry)
         }
 
-        return TranscriptModel(attributedText: resultText, cues: cues)
+        return TranscriptModel(attributedText: resultText, cues: cues, type: format.rawValue, hasJavascript: false)
     }
 
     @inlinable public func firstCue(containing secondsValue: Double) -> TranscriptCue? {

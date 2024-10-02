@@ -397,6 +397,14 @@
     <string>正在创建片段…</string>
     <key>clip_start_label</key>
     <string>%@ 开始时间</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>片段结束时间</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>可共享的媒体选项</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ 格式 %2$@，共 %3$@ 个</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>片段开始时间</string>
     <key>clips_whats_new_button_title</key>
     <string>知道了</string>
     <key>clips_whats_new_message</key>
@@ -1692,6 +1700,8 @@
     <string>无法加载</string>
     <key>plus_yearly_frequency_pricing_format</key>
     <string>%1$@/年</string>
+    <key>pocket_casts_logo</key>
+    <string>Pocket Casts 徽标</string>
     <key>pocket_casts_newsletter</key>
     <string>Pocket Casts 简报</string>
     <key>pocket_casts_newsletter_description</key>
@@ -1959,6 +1969,26 @@
     <string>为您喜爱的播客评分，让创作者知道您有多欣赏他们的作品。 此外，您的评分还能帮助他人找到节目新宠！</string>
     <key>rating_whats_new_title</key>
     <string>现已上线：播客评分功能 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>激活我的通行证</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>解锁完整的收听体验</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>领取您的 %1$@ Plus 访客通行证</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>此优惠仅限新会员使用。 会员资格将以 %1$@ 的价格自动续订为年度付费会员资格。</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>领取您的 %1$@ 访客通行证</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>%1$@ 访客通行证</string>
+    <key>referrals_share_guest_pass</key>
+    <string>共享访客通行证</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>感谢您共享 Pocket Casts！ 我们会在您有更多可共享的通行证时通知您。</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>您已共享您的所有访客通行证！</string>
+    <key>referrals_tip_title</key>
+    <string>您有 %1$@ 张通行证可共享</string>
     <key>refresh_control_fetching_episodes</key>
     <string>查找新的播客剧集</string>
     <key>refresh_control_pull_to_refresh</key>
@@ -2776,7 +2806,7 @@
     <key>transcript_error_failed_to_parse</key>
     <string>很抱歉，解析此文字转录稿时出现错误</string>
     <key>transcript_error_not_available</key>
-    <string>很抱歉，本集没有文字转录稿。</string>
+    <string>很抱歉，本剧集没有文字转录稿。</string>
     <key>transcript_error_not_supported</key>
     <string>很抱歉，此文字转录稿格式不受支持：%1$@</string>
     <key>trial_finished</key>
@@ -2810,7 +2840,7 @@
     <key>upgrade_account</key>
     <string>升级账户</string>
     <key>upgrade_experiment_discount_yearly_membership</key>
-    <string>首年享 5%% 折优惠</string>
+    <string>首年享 50%% 优惠</string>
     <key>upgrade_experiment_free_membership_format</key>
     <string>免费试用 Plus %1$@</string>
     <key>upgrade_experiment_paywall_button</key>
@@ -2828,7 +2858,7 @@
 
 毫无疑问，这是用来听播客的最佳应用程序。 它功能丰富，并且仍然在积极地开发完善。 有些人对 Ul 的改动表示不满，但对我来说好像没有太大影响。
 
-根据你的需求，你可以采用简单或复杂的方式使用这款应用程序。 因此，你可以让它即插即用，也可以设置跳过结尾和开头计时器，以及任何其他您想启用的小功能。</string>
+根据你的需求，你可以采用简单或复杂的方式使用这款应用程序。 因此，你可以让它即插即用，也可以设置跳过结尾和开头计时器，以及任何其他你想启用的小功能。</string>
     <key>upgrade_experiment_reviews_review_text_3</key>
     <string>同步功能非常神奇。 虽然不知道这个应用程序有什么特别的魔力，但它比我用过的其他任何应用程序都要好。</string>
     <key>upgrade_experiment_reviews_review_text_4</key>

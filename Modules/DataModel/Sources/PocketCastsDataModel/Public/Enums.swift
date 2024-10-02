@@ -92,7 +92,7 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
     case longestToShortest
 
     public enum Old: Int32 {
-        case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest
+        case newestToOldest = 1, oldestToNewest, shortestToLongest, longestToShortest, titleAtoZ, titleZtoA
     }
 
     public init(old: Old) {
@@ -105,6 +105,10 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
             self = .shortestToLongest
         case .longestToShortest:
             self = .longestToShortest
+        case .titleAtoZ:
+            self = .titleAtoZ
+        case .titleZtoA:
+            self = .titleZtoA
         }
     }
 
@@ -119,9 +123,9 @@ public enum PodcastEpisodeSortOrder: Int32, Codable, CaseIterable {
         case .longestToShortest:
             .longestToShortest
         case .titleAtoZ:
-            .newestToOldest
+            .titleAtoZ
         case .titleZtoA:
-            .newestToOldest
+            .titleZtoA
         }
     }
 }

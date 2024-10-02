@@ -450,6 +450,16 @@ internal enum L10n {
   internal static func clipStartLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "clip_start_label", String(describing: p1))
   }
+  /// Clip end
+  internal static var clipsEndTimeAccessibilityLabel: String { return L10n.tr("Localizable", "clips_end_time_accessibility_label") }
+  /// Shareable media options
+  internal static var clipsShareableMediaA11yLabel: String { return L10n.tr("Localizable", "clips_shareable_media_a11y_label") }
+  /// %1$@ format %2$@ of %3$@
+  internal static func clipsShareableMediaItemA11yLabel(_ p1: Any, _ p2: Any, _ p3: Any) -> String {
+    return L10n.tr("Localizable", "clips_shareable_media_item_a11y_label", String(describing: p1), String(describing: p2), String(describing: p3))
+  }
+  /// Clip start
+  internal static var clipsStartTimeAccessibilityLabel: String { return L10n.tr("Localizable", "clips_start_time_accessibility_label") }
   /// Got it
   internal static var clipsWhatsNewButtonTitle: String { return L10n.tr("Localizable", "clips_whats_new_button_title") }
   /// You can now share clips of your favorite bits from any episode. We’ve also made easier to share any content to all social media apps.
@@ -1428,6 +1438,10 @@ internal enum L10n {
   internal static var learnMore: String { return L10n.tr("Localizable", "learn_more") }
   /// Listening History
   internal static var listeningHistory: String { return L10n.tr("Localizable", "listening_history") }
+  /// We couldn't find any episode for that search. Try another keyword.
+  internal static var listeningHistorySearchNoEpisodesText: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_text") }
+  /// No episodes found
+  internal static var listeningHistorySearchNoEpisodesTitle: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_title") }
   /// Loading...
   internal static var loading: String { return L10n.tr("Localizable", "loading") }
   /// Create an account to sync your listening experience across all your devices.
@@ -1949,6 +1963,8 @@ internal enum L10n {
   internal static func plusYearlyFrequencyPricingFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "plus_yearly_frequency_pricing_format", String(describing: p1))
   }
+  /// Pocket Casts logo
+  internal static var pocketCastsLogo: String { return L10n.tr("Localizable", "pocket_casts_logo") }
   /// Pocket Casts Newsletter
   internal static var pocketCastsNewsletter: String { return L10n.tr("Localizable", "pocket_casts_newsletter") }
   /// Receive news, app updates, themed playlists, interviews, and more.
@@ -2290,17 +2306,33 @@ internal enum L10n {
   internal static func referralsClaimGuestPassTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_claim_guest_pass_title", String(describing: p1))
   }
+  /// Please log in or sign up to claim your guest pass.
+  internal static var referralsClaimNeedToBeLoggedin: String { return L10n.tr("Localizable", "referrals_claim_need_to_be_loggedin") }
   /// %1$@ Guest Pass
   internal static func referralsGuestPassOffer(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))
   }
+  /// Guest Pass not available at the moment
+  internal static var referralsNotAvailableToSend: String { return L10n.tr("Localizable", "referrals_not_available_to_send") }
+  /// This guest pass can only be redeemed once and is available for those without an active Plus or Patron subscription. Thanks for listening!
+  internal static var referralsOfferNotAvailableDetail: String { return L10n.tr("Localizable", "referrals_offer_not_available_detail") }
+  /// This offer isn’t available
+  internal static var referralsOfferNotAvailableTitle: String { return L10n.tr("Localizable", "referrals_offer_not_available_title") }
   /// Share Guest Pass
   internal static var referralsShareGuestPass: String { return L10n.tr("Localizable", "referrals_share_guest_pass") }
   /// Thanks for sharing Pocket Casts! We'll let you know when you have more passes to give.
   internal static var referralsShareNoGuestPassMessage: String { return L10n.tr("Localizable", "referrals_share_no_guest_pass_message") }
   /// You've shared all yours guest passes!
   internal static var referralsShareNoGuestPassTitle: String { return L10n.tr("Localizable", "referrals_share_no_guest_pass_title") }
-  /// Gift %1$@ of Plus to friends and family
+  /// Hey! Use the link below to claim your %1$@ guest pass for Pocket Casts Plus and enjoy podcasts across all your devices!
+  internal static func referralsSharePassMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_share_pass_message", String(describing: p1))
+  }
+  /// %1$@ Guest Pass for Pocket Casts Plus!
+  internal static func referralsSharePassSubject(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "referrals_share_pass_subject", String(describing: p1))
+  }
+  /// Gift %1$@ of Pocket Casts Plus!
   internal static func referralsTipMessage(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_tip_message", String(describing: p1))
   }
