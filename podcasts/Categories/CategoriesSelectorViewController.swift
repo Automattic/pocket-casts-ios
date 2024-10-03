@@ -53,8 +53,10 @@ class CategoriesSelectorViewController: ThemedHostingController<CategoriesSelect
         }
         view.backgroundColor = nil
 
-        observable.$selectedCategory.sink { [weak self] category in
-            guard let item = observable.item else { return }
+        self.observable.$selectedCategory
+            .delay(for: .milliseconds(20), scheduler: DispatchQueue.main)
+            .sink { [weak self] category in
+            guard let item = self?.observable.item else { return }
             self?.delegate?.showExpanded(item: item, category: category)
         }.store(in: &cancellables)
     }

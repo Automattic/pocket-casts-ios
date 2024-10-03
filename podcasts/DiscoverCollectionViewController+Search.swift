@@ -86,7 +86,13 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
 
 extension DiscoverCollectionViewController {
     @objc private func chartRegionDidChange() {
-        reloadData()
+        reloadData { [weak self] in
+            guard let self else { return }
+            if let item = dataSource.snapshot().itemIdentifiers.last,
+               let lastIndexPath = dataSource.indexPath(for: item) {
+                collectionView.scrollToItem(at: lastIndexPath, at: .top, animated: true)
+            }
+        }
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {

@@ -1,6 +1,12 @@
 import PocketCastsServer
 import PocketCastsUtils
 
+struct DiscoverCellModel: Hashable {
+    let item: DiscoverItem
+    let region: String
+    let selectedCategory: DiscoverCategory?
+}
+
 enum DiscoverCellType: CaseIterable {
     case categoriesSelector
     case featuredSummary
@@ -11,6 +17,9 @@ enum DiscoverCellType: CaseIterable {
     case networkSummary
     case categorySummary
     case singleEpisode
+    case categoryPodcasts
+
+    typealias ItemType = DiscoverCellModel
 
     func viewController(in region: String) -> (UIViewController & DiscoverSummaryProtocol) {
         switch self {
@@ -32,22 +41,24 @@ enum DiscoverCellType: CaseIterable {
             CategorySummaryViewController(regionCode: region)
         case .singleEpisode:
             SingleEpisodeViewController()
+        case .categoryPodcasts:
+            CategoryPodcastsViewController(region: region)
         }
     }
 
-    func createCellRegistration(region: String, delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, DiscoverItem> {
-        return UICollectionView.CellRegistration<UICollectionViewCell, DiscoverItem> { cell, indexPath, item in
+    func createCellRegistration(delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, ItemType> {
+        return UICollectionView.CellRegistration<UICollectionViewCell, ItemType> { cell, indexPath, item in
 
             let existingViewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? (UIViewController & DiscoverSummaryProtocol)
 
-            let vc = existingViewController ?? viewController(in: region)
+            let vc = existingViewController ?? viewController(in: item.region)
 
             if existingViewController == nil {
                 cell.contentConfiguration = UIViewControllerContentConfiguration(viewController: vc)
             }
 
             vc.registerDiscoverDelegate(delegate)
-            vc.populateFrom(item: item, region: region, category: nil)
+            vc.populateFrom(item: item.item, region: item.region, category: item.selectedCategory)
         }
     }
 }
@@ -75,6 +86,8 @@ extension DiscoverItem {
             return .singleEpisode
         case ("episode_list", "collection", "plain_list"):
             return .collectionSummary
+        case ("category_podcast_list", _, _):
+            return .categoryPodcasts
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
             assertionFailure("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
