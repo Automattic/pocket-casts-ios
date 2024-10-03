@@ -4,7 +4,13 @@ import PocketCastsDataModel
 extension DiscoverCollectionViewController: DiscoverDelegate {
     func invalidate(item: PocketCastsServer.DiscoverItem) {
         let context = UICollectionViewLayoutInvalidationContext()
-        let item = dataSource.snapshot().itemIdentifiers.first(where: { $0.item == item })
+        let item = dataSource.snapshot().itemIdentifiers.first(where: {
+            if case .item(let item) = $0 {
+                item == item
+            } else {
+                false
+            }
+        })
         guard let item,
               let indexPath = dataSource?.indexPath(for: item) else {
             return

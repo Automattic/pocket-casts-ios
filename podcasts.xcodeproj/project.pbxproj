@@ -1691,6 +1691,7 @@
 		F5AD9C4D2C3C705200A01896 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */; };
 		F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5B6F0DF2C18DF0900AF5150 /* AudioUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */; };
+		F5B6FDAD2CADFEFB00356909 /* ContentUnavailableConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */; };
 		F5BA5C9A2C7F701900BDA5B9 /* DiscoverCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */; };
 		F5BA5C9C2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */; };
 		F5BA5C9E2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */; };
@@ -3607,6 +3608,7 @@
 		F5AD9C4C2C3C705200A01896 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
 		F5B312B32BF5B6D400290696 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F5B6F0DD2C18DF0900AF5150 /* AudioUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUtilsTests.swift; sourceTree = "<group>"; };
+		F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUnavailableConfiguration.swift; sourceTree = "<group>"; };
 		F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCollectionViewController.swift; sourceTree = "<group>"; };
 		F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerContentConfiguration.swift; sourceTree = "<group>"; };
 		F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+DiscoverDelegate.swift"; sourceTree = "<group>"; };
@@ -5119,6 +5121,7 @@
 		BD2A49E31701A66E00C2F192 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F5B6FDAC2CADFEF200356909 /* ContentUnavailableConfiguration.swift */,
 				10DFE9352C5A8D1300957D0A /* ABTest */,
 				C7811D812A9008F500FC68B4 /* Unlockable */,
 				C7BDECAC2A15311000BECF02 /* Haptics */,
@@ -9371,6 +9374,7 @@
 				8BF622FF2C529F3C00D10F57 /* ChampionView.swift in Sources */,
 				408B932C216EFD9B00B57B78 /* TextEntryCell.swift in Sources */,
 				BDF9DDD91B8AD29C00E77B35 /* TimeSlider.swift in Sources */,
+				F5B6FDAD2CADFEFB00356909 /* ContentUnavailableConfiguration.swift in Sources */,
 				8B4881E929A3AE6D00E7C016 /* SearchHistoryView.swift in Sources */,
 				C7BDECAB2A15310800BECF02 /* SwiftUI+Accessibility.swift in Sources */,
 				403B5AFE2179670F00821A54 /* MediaFilterOverlayController.swift in Sources */,
