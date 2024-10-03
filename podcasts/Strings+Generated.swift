@@ -408,6 +408,8 @@ internal enum L10n {
   internal static var changePasswordLengthError: String { return L10n.tr("Localizable", "change_password_length_error") }
   /// Chapters
   internal static var chapters: String { return L10n.tr("Localizable", "chapters") }
+  /// Please check your Internet connection
+  internal static var checkInternetConnection: String { return L10n.tr("Localizable", "check_internet_connection") }
   /// %1$@ Podcasts Chosen
   internal static func chosenPodcastsPluralFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "chosen_podcasts_plural_format", String(describing: p1))
@@ -736,6 +738,8 @@ internal enum L10n {
   internal static var discoverSponsored: String { return L10n.tr("Localizable", "discover_sponsored") }
   /// Trending
   internal static var discoverTrending: String { return L10n.tr("Localizable", "discover_trending") }
+  /// Unable to load Discover
+  internal static var discoverUnableToLoad: String { return L10n.tr("Localizable", "discover_unable_to_load") }
   /// Done
   internal static var done: String { return L10n.tr("Localizable", "done") }
   /// Download
