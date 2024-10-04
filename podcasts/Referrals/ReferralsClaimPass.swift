@@ -103,7 +103,7 @@ class ReferralClaimPassModel: ObservableObject {
             state = .notAvailable
             return
         }
-        purchase(product: productToBuy)
+        purchase(product: .yearlyReferral)
     }
 
     private func signup() {
@@ -128,7 +128,9 @@ class ReferralClaimPassModel: ObservableObject {
 
         Analytics.track(.referralPurchaseShown)
 
-        guard purchaseHandler.buyProduct(identifier: product) else {
+        let discount = purchaseHandler.getPromoOffer(product)
+
+        guard purchaseHandler.buyProduct(identifier: product, discount: discount) else {
             state = .notAvailable
             return
         }
