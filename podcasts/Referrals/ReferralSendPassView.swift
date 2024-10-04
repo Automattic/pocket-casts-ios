@@ -82,12 +82,14 @@ struct ReferralSendPassView: View {
             loadingView
         case .failed:
             ReferralsMessageView(title: L10n.referralsNotAvailableToSend, detail: L10n.pleaseTryAgainLater) {
+                Analytics.track(.referralShareScreenDismissed)
                 viewModel.onCloseTap?()
             }
         case .loaded:
             VStack {
                 HStack {
                     Button(action: {
+                        Analytics.track(.referralShareScreenDismissed)
                         viewModel.onCloseTap?()
                     }, label: {
                         Image("close").foregroundColor(Color.white)
