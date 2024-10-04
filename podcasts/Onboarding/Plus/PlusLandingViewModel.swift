@@ -142,11 +142,6 @@ extension PlusLandingViewModel {
 
     @ViewBuilder
     private static func view(with viewModel: PlusLandingViewModel) -> some View {
-        let defaultPaywall: (PlusLandingViewModel) -> some View = { viewModel in
-            UpgradeLandingView(viewModel: viewModel)
-                .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
-        }
-
         if FeatureFlag.upgradeExperiment.enabled, !SubscriptionHelper.hasActiveSubscription() {
             let variant = ABTestProvider.shared.variation(for: .pocketcastsPaywallUpgradeIOSABTest)
             let customTreatment = variant.getCustomTreatment()
@@ -157,10 +152,16 @@ extension PlusLandingViewModel {
             case .reviewsTreatment:
                 PlusPaywallContainer(viewModel: viewModel, type: .reviews)
             default:
-                defaultPaywall(viewModel)
+                defaultPaywall(with: viewModel)
             }
         } else {
-            defaultPaywall(viewModel)
+            defaultPaywall(with: viewModel)
         }
+    }
+
+    @ViewBuilder
+    private static func defaultPaywall(with viewModel: PlusLandingViewModel) -> some View {
+            UpgradeLandingView(viewModel: viewModel)
+                .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
     }
 }
