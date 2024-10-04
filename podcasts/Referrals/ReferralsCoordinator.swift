@@ -40,7 +40,7 @@ class ReferralsCoordinator {
             }
 
             let viewModel = ReferralClaimPassModel(referralURL: url,
-                                                   offerInfo: self.referralsOfferInfo,
+                                                   coordinator: self,
                                                    canClaimPass: self.isReferralAvailableToClaim,
                                                    onComplete: {
                 viewController.dismiss(animated: true)
@@ -53,5 +53,31 @@ class ReferralsCoordinator {
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
             viewController.present(referralClaimPassVC, animated: true)
         }
+    }
+
+    private func translateToProduct(offer: ReferralValidate) -> IAPProductID? {
+        if offer.offer == "two_months_free" {
+            return IAPProductID.yearlyReferral
+        }
+        return nil
+    }
+
+    func purchase(offer: ReferralValidate) -> Bool {
+        guard let productID = translateToProduct(offer: offer) else {
+            return false
+        }
+
+        let purchaseHandler = IAPHelper.shared
+        guard purchaseHandler.canMakePurchases else {
+            return false
+        }
+        
+        let discount = purchaseHandler.getPromoOffer(productID)
+
+        guard purchaseHandler.buyProduct(identifier: productID, discount: discount) else {
+            return false
+        }
+
+        return true
     }
 }
