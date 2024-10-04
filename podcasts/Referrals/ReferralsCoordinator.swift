@@ -71,7 +71,7 @@ class ReferralsCoordinator {
         guard purchaseHandler.canMakePurchases else {
             return false
         }
-        
+
         let discount = purchaseHandler.getPromoOffer(productID)
 
         guard purchaseHandler.buyProduct(identifier: productID, discount: discount) else {
