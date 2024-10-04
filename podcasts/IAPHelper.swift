@@ -280,8 +280,7 @@ extension IAPHelper {
     /// - Parameter identifier: The product to check
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     func getPromoOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
-        guard
-            isEligibleForOffer,
+        guard            
             let offer = getProduct(for: identifier)?.discounts.filter({ discount in
                 discount.type != .introductory
             }).first,
