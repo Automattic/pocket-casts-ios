@@ -58,3 +58,11 @@ struct ProductInfo {
     let plan: Plan
     let frequency: PlanFrequency
 }
+
+struct IAPDiscountInfo {
+    let identifier: String
+    let uuid: UUID
+    let timestamp: Int
+    let key: String
+    let signature: String
+}

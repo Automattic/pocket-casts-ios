@@ -98,7 +98,7 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
-    public func buyProduct(identifier: IAPProductID, discount: SKProductDiscount? = nil) -> Bool {
+    public func buyProduct(identifier: IAPProductID, discount: IAPDiscountInfo? = nil) -> Bool {
         guard settings.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
@@ -106,8 +106,8 @@ class IAPHelper: NSObject {
 
         FileLog.shared.addMessage("IAPHelper Buying \(product.productIdentifier)")
         let payment = SKMutablePayment(product: product)
-        if let discount, let discountIdentifier = discount.identifier {
-            payment.paymentDiscount = SKPaymentDiscount(identifier: discountIdentifier, keyIdentifier: "", nonce: UUID(), signature: "", timestamp: NSNumber(0))
+        if let discount {
+            payment.paymentDiscount = SKPaymentDiscount(identifier: discount.identifier, keyIdentifier: discount.key, nonce: discount.uuid, signature: discount.signature, timestamp: NSNumber(integerLiteral: discount.timestamp))
         }
         SKPaymentQueue.default().add(payment)
 
