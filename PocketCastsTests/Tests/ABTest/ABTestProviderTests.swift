@@ -5,13 +5,12 @@ import AutomatticTracks
 
 final class ABTestProviderTests: XCTestCase {
 
-    func testVariation() throws {
-        Task { @MainActor in
-            let abTestProvider = ABTestProviderMock()
-            await abTestProvider.start()
-            let variation = abTestProvider.variation(for: .pocketcastsPaywallAATest)
-            XCTAssertEqual(variation, .treatment)
-        }
+    func testVariation() async throws {
+        let abTestProvider = ABTestProviderMock()
+        await abTestProvider.start()
+        let variation = abTestProvider.variation(for: .pocketcastsPaywallAATest)
+        XCTAssertNotNil(variation)
+        XCTAssertEqual(variation, .treatment)
     }
 
     func testReload() throws {
@@ -21,13 +20,12 @@ final class ABTestProviderTests: XCTestCase {
         XCTAssertEqual(abTestProvider.platform, platform)
     }
 
-    func testCustomTreatment() throws {
-        Task { @MainActor in
-            let abTestProvider = ABTestProviderMock()
-            await abTestProvider.start()
-            let variation = abTestProvider.variation(for: .pocketcastsPaywallAATest)
-            XCTAssertEqual(variation.getCustomTreatment(), .featuresTreatment)
-        }
+    func testCustomTreatment() async throws {
+        let abTestProvider = ABTestProviderMock()
+        await abTestProvider.start()
+        let variation = abTestProvider.variation(for: .pocketcastsPaywallUpgradeIOSABTest)
+        XCTAssertNotNil(variation)
+        XCTAssertEqual(variation.getCustomTreatment(), .featuresTreatment)
     }
 }
 
