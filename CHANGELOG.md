@@ -1,6 +1,6 @@
 7.75
 -----
-
+- Refactors the Discover view to improve impressions tracking [#2104](https://github.com/Automattic/pocket-casts-ios/issues/2104)
 
 7.74
 -----
