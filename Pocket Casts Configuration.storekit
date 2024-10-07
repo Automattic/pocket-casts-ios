@@ -18,8 +18,7 @@
   ],
   "settings" : {
     "_compatibilityTimeRate" : {
-      "3" : 6,
-      "5" : 1004
+      "3" : 6
     },
     "_failTransactionsEnabled" : false,
     "_locale" : "en_US",
@@ -71,7 +70,7 @@
         "name" : "Offer Code Redeem Sheet"
       }
     ],
-    "_timeRate" : 1005
+    "_timeRate" : 1004
   },
   "subscriptionGroups" : [
     {
