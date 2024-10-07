@@ -397,6 +397,14 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>正在建立片段…</string>
     <key>clip_start_label</key>
     <string>開始時間：%@</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>片段結束</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>可分享的媒體選項</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@格式，%2$@/%3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>片段開始</string>
     <key>clips_whats_new_button_title</key>
     <string>知道了</string>
     <key>clips_whats_new_message</key>
@@ -1961,6 +1969,26 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>為你最愛的 Podcast 評分，讓創作者知道你有多欣賞他們的作品。 此外，你的評分也能幫其他人找到節目新歡！</string>
     <key>rating_whats_new_title</key>
     <string>全新推出：Podcast 評分 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>啟用我的體驗券</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>解鎖完整聆聽體驗</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>領取你的 %1$@ Plus 訪客體驗券</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>此優惠僅供新會員使用。 會員資格會以 %1$@的價格自動續訂為付費年度會員。</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>領取你的 %1$@訪客體驗券</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>%1$@訪客體驗券</string>
+    <key>referrals_share_guest_pass</key>
+    <string>分享訪客體驗券</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>感謝你不吝分享 Pocket Casts 體驗！ 若有更多體驗券可使用，我們會再另行通知。</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>你已分享完所有的訪客體驗券！</string>
+    <key>referrals_tip_title</key>
+    <string>你有 %1$@ 張體驗券可分享</string>
     <key>refresh_control_fetching_episodes</key>
     <string>正在尋找新的 Podcast 單集</string>
     <key>refresh_control_pull_to_refresh</key>

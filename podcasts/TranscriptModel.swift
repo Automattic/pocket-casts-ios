@@ -21,11 +21,13 @@ struct TranscriptModel: Sendable {
 
     let attributedText: NSAttributedString
     let cues: [TranscriptCue]
+    let type: String
+    let hasJavascript: Bool
 
     static func makeModel(from transcriptText: String, format: TranscriptFormat) -> TranscriptModel? {
         if format == .textHTML {
             let filteredText = ComposeFilter.htmlFilter.filter(transcriptText).trim()
-            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [])
+            return TranscriptModel(attributedText: NSAttributedString(string: filteredText), cues: [], type: format.rawValue, hasJavascript: transcriptText.contains("<script type=\"text/javascript\">"))
         }
         let subtitles: Subtitles? = {
             do {
@@ -64,7 +66,7 @@ struct TranscriptModel: Sendable {
             cues.append(entry)
         }
 
-        return TranscriptModel(attributedText: resultText, cues: cues)
+        return TranscriptModel(attributedText: resultText, cues: cues, type: format.rawValue, hasJavascript: false)
     }
 
     @inlinable public func firstCue(containing secondsValue: Double) -> TranscriptCue? {

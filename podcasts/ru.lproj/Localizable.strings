@@ -397,6 +397,14 @@
     <string>Идёт создание клипа…</string>
     <key>clip_start_label</key>
     <string>Начало: %@</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Конец клипа</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Опции совместного использования медиафайлов</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ формат, %2$@ из %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Начало клипа</string>
     <key>clips_whats_new_button_title</key>
     <string>Понятно</string>
     <key>clips_whats_new_message</key>
@@ -1961,6 +1969,26 @@
     <string>Оцените лучшие подкасты, чтобы авторы знали, как вам важна их работа. Кроме того, ваши оценки помогут остальным найти новые интересные материалы!</string>
     <key>rating_whats_new_title</key>
     <string>Уже доступно: оценки подкастов 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Активировать пропуск</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Откройте невероятные возможности прослушивания</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Получите бесплатный гостевой пропуск в Plus на %1$@</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Это предложение действительно только для новых участников. По истечении бесплатного периода будет автоматически списан ежегодный членский взнос в размере %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Получите бесплатный гостевой пропуск на %1$@</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>Гостевой пропуск на %1$@</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Поделиться гостевым пропуском</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Спасибо, что поделились пропуском Pocket Casts! Мы сообщим, когда у вас появятся новые пропуска.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Вы потратили все гостевые пропуска!</string>
+    <key>referrals_tip_title</key>
+    <string>Вы можете поделиться пропусками (%1$@)</string>
     <key>refresh_control_fetching_episodes</key>
     <string>ПОИСК НОВЫХ ВЫПУСКОВ ПОДКАСТА</string>
     <key>refresh_control_pull_to_refresh</key>

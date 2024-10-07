@@ -19,6 +19,7 @@ struct ReferralCardAnimatedGradientView: View {
             let motionScale = geometry.size.width / 10
             let circleSize = geometry.size.height * 1.3
             Rectangle()
+            .foregroundColor(.black)
             .background(.black)
             .overlay {
                 LinearGradient(

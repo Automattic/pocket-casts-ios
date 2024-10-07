@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LargeListCell" translatesAutoresizingMaskIntoConstraints="NO" id="gTV-IL-0wX" customClass="LargeListCell" customModule="podcasts" customModuleProvider="target">
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LargeListCell" id="gTV-IL-0wX" customClass="LargeListCell" customModule="podcasts" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="160" height="250"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="160" height="250"/>
+                <rect key="frame" x="0.0" y="0.0" width="160" height="211"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qw-eq-tYg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
@@ -63,6 +64,7 @@
                     </label>
                 </subviews>
             </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="nBx-mo-aDN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="5wA-At-wjI"/>
@@ -73,19 +75,18 @@
                 <constraint firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" id="b7M-Bk-yhL"/>
                 <constraint firstItem="1Gb-8A-zQV" firstAttribute="bottom" secondItem="nBx-mo-aDN" secondAttribute="bottom" constant="-4" id="cOB-Ih-NY8"/>
                 <constraint firstItem="4Qw-eq-tYg" firstAttribute="leading" secondItem="nBx-mo-aDN" secondAttribute="leading" id="fPL-60-yYf"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2wE-0A-zrE" secondAttribute="bottom" constant="8" id="hvJ-wY-w6T"/>
+                <constraint firstAttribute="bottom" secondItem="2wE-0A-zrE" secondAttribute="bottom" id="hvJ-wY-w6T"/>
                 <constraint firstItem="4Qw-eq-tYg" firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" id="kfc-qw-a5d"/>
                 <constraint firstItem="1Gb-8A-zQV" firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" constant="-4" id="nHw-ba-ihn"/>
                 <constraint firstItem="2wE-0A-zrE" firstAttribute="leading" secondItem="4Qw-eq-tYg" secondAttribute="leading" id="zFW-RE-G6q"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
                 <outlet property="podcastAuthor" destination="2wE-0A-zrE" id="nPR-3i-RWZ"/>
                 <outlet property="podcastImage" destination="nBx-mo-aDN" id="CH0-cC-vIk"/>
                 <outlet property="podcastTitle" destination="4Qw-eq-tYg" id="Nfd-Qh-8gn"/>
                 <outlet property="subscribeButton" destination="1Gb-8A-zQV" id="0aA-kz-6Rh"/>
             </connections>
-            <point key="canvasLocation" x="139" y="154"/>
+            <point key="canvasLocation" x="137.59999999999999" y="136.28185907046478"/>
         </collectionViewCell>
     </objects>
 </document>

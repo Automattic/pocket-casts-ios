@@ -408,6 +408,8 @@ internal enum L10n {
   internal static var changePasswordLengthError: String { return L10n.tr("Localizable", "change_password_length_error") }
   /// Chapters
   internal static var chapters: String { return L10n.tr("Localizable", "chapters") }
+  /// Please check your Internet connection
+  internal static var checkInternetConnection: String { return L10n.tr("Localizable", "check_internet_connection") }
   /// %1$@ Podcasts Chosen
   internal static func chosenPodcastsPluralFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "chosen_podcasts_plural_format", String(describing: p1))
@@ -736,6 +738,8 @@ internal enum L10n {
   internal static var discoverSponsored: String { return L10n.tr("Localizable", "discover_sponsored") }
   /// Trending
   internal static var discoverTrending: String { return L10n.tr("Localizable", "discover_trending") }
+  /// Unable to load Discover
+  internal static var discoverUnableToLoad: String { return L10n.tr("Localizable", "discover_unable_to_load") }
   /// Done
   internal static var done: String { return L10n.tr("Localizable", "done") }
   /// Download
@@ -2306,10 +2310,14 @@ internal enum L10n {
   internal static func referralsClaimGuestPassTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_claim_guest_pass_title", String(describing: p1))
   }
+  /// Please log in or sign up to claim your guest pass.
+  internal static var referralsClaimNeedToBeLoggedin: String { return L10n.tr("Localizable", "referrals_claim_need_to_be_loggedin") }
   /// %1$@ Guest Pass
   internal static func referralsGuestPassOffer(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))
   }
+  /// Guest Pass not available at the moment
+  internal static var referralsNotAvailableToSend: String { return L10n.tr("Localizable", "referrals_not_available_to_send") }
   /// This guest pass can only be redeemed once and is available for those without an active Plus or Patron subscription. Thanks for listening!
   internal static var referralsOfferNotAvailableDetail: String { return L10n.tr("Localizable", "referrals_offer_not_available_detail") }
   /// This offer isn’t available

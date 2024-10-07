@@ -45,7 +45,9 @@ class PCSearchBarController: UIViewController {
 
     var placeholderText = L10n.searchLabel {
         didSet {
-            updatePlaceholderColor()
+            if isViewLoaded {
+                updatePlaceholderColor()
+            }
         }
     }
 

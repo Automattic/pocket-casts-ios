@@ -328,6 +328,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if row == .kidsProfile {
             Analytics.track(.kidsProfileBannerSeen)
         }
+        if row == .referralsClaim {
+            Analytics.track(.referralPassBannerShown)
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -350,7 +353,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             break
         case .referralsClaim:
             dismiss(animated: true)
-            ReferralsCoordinator.shared.startClaimFlow(from: self)
+            ReferralsCoordinator.shared.startClaimFlow(from: self) {
+                tableView.reloadData()
+            }
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -490,8 +495,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     @objc private func referralsTapped() {
+        Analytics.track(.referralTooltipTapped)
         hideReferralsHint()
-        let viewModel = ReferralSendPassModel(offerInfo: ReferralsCoordinator.shared.referralsOfferInfo, referralURL: URL(string: ServerConstants.Urls.pocketcastsDotCom),
+        let viewModel = ReferralSendPassModel(offerInfo: ReferralsCoordinator.shared.referralsOfferInfo,
                                               onShareGuestPassTap: { [weak self] in
             self?.updateReferrals()
             self?.dismiss(animated: true)
@@ -516,6 +522,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return
         }
         let vc = makeReferralsHint()
+        Analytics.track(.referralTooltipShow)
         present(vc, animated: true, completion: nil)
         self.referralsTipVC = vc
     }

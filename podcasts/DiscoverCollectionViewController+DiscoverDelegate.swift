@@ -1,10 +1,22 @@
-import Foundation
-import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsDataModel
 
-extension DiscoverViewController: DiscoverDelegate {
+extension DiscoverCollectionViewController: DiscoverDelegate {
     func invalidate(item: PocketCastsServer.DiscoverItem) {
-        // No-op for this older implementation.
+        let context = UICollectionViewLayoutInvalidationContext()
+        let item = dataSource.snapshot().itemIdentifiers.first(where: {
+            if case .item(let item) = $0 {
+                item == item
+            } else {
+                false
+            }
+        })
+        guard let item,
+              let indexPath = dataSource?.indexPath(for: item) else {
+            return
+        }
+        context.invalidateItems(at: [indexPath])
+        collectionView.collectionViewLayout.invalidateLayout(with: context)
     }
 
     func showExpanded(item: PocketCastsServer.DiscoverItem, category: PocketCastsServer.DiscoverCategory?) {

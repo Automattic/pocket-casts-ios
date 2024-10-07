@@ -1,3 +1,7 @@
+7.75
+-----
+
+
 7.74
 -----
 - Add Title episode sort options to iPhone app [2175](https://github.com/Automattic/pocket-casts-ios/pull/2175)
@@ -14,6 +18,7 @@
 - Fix issue when HTTP contentType and real file type do not match [#1933](https://github.com/Automattic/pocket-casts-ios/issues/1933)
 - Fix issue when transcript type have an alternative valid mime type [#2185](https://github.com/Automattic/pocket-casts-ios/issues/2185)
 - Fix skip back issue after skipping back on the Apple Watch [#2197](https://github.com/Automattic/pocket-casts-ios/pull/2197)
+- Fix crash on discovery when tapping discover expanded section [#2206](https://github.com/Automattic/pocket-casts-ios/pull/2206)
 
 7.72
 -----

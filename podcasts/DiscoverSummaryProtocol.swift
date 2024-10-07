@@ -24,4 +24,6 @@ protocol DiscoverDelegate: AnyObject {
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast)
 
     func failedToLoadEpisode()
+
+    func invalidate(item: DiscoverItem)
 }

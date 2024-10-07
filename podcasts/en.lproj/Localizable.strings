@@ -571,6 +571,12 @@
 /* Informative label letting the users know that the displayed podcast is a featured new podcast. */
 "discover_fresh_pick" = "FRESH PICK";
 
+/* Informative label letting users know when the Discover page has failed to load due to a network error. */
+"discover_unable_to_load" = "Unable to load Discover";
+
+/* A description and call to action to check your internet connection state when content has failed to load. */
+"check_internet_connection" = "Please check your Internet connection";
+
 /* Informational title when the search succeeds but returns no results. */
 "discover_no_podcasts_found" = "No podcasts found";
 
@@ -4451,3 +4457,8 @@
 /* Referrals - Detail message for screen saying that referral offer isn't available for user*/
 "referrals_offer_not_available_detail" = "This guest pass can only be redeemed once and is available for those without an active Plus or Patron subscription. Thanks for listening!";
 
+/* Referrals - Guest Pass not available*/
+"referrals_not_available_to_send" = "Guest Pass not available at the moment";
+
+/* Referrals - You need to be logged in before you can claim your guest pass*/
+"referrals_claim_need_to_be_loggedin" = "Please log in or sign up to claim your guest pass.";

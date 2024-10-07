@@ -397,6 +397,14 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Skapar klipp...</string>
     <key>clip_start_label</key>
     <string>%@ Start</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>Klippets slut</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>Delbara mediaalternativ</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ format %2$@ av %3$@</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>Klippets början</string>
     <key>clips_whats_new_button_title</key>
     <string>Uppfattat</string>
     <key>clips_whats_new_message</key>
@@ -1961,6 +1969,26 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Betygsätt dina favoritpodcasts och låt kreatörerna få veta hur mycket du uppskattar deras arbete. Dina betyg hjälper dessutom andra att hitta nya favoritshower.</string>
     <key>rating_whats_new_title</key>
     <string>Nu tillgängligt: Podcastbetyg 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>Aktivera mitt pass</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>Lås upp den fullständiga lyssningsupplevelsen</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>Gör anspråk på ditt %1$@ gästpass för Plus</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>Detta erbjudande gäller endast nya medlemmar. Medlemskapet förnyas automatiskt som ett årligt betalmedlemskap för %1$@.</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>Gör anspråk på ditt %1$@ gästpass</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>%1$@ gästpass</string>
+    <key>referrals_share_guest_pass</key>
+    <string>Dela gästpass</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>Tack för att du delar Pocket Casts! Vi meddelar dig när du har fler gästpass att ge bort.</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>Du har delat ut alla dina gästpass.</string>
+    <key>referrals_tip_title</key>
+    <string>Du har %1$@ gästpass att dela</string>
     <key>refresh_control_fetching_episodes</key>
     <string>HÄMTAR NYA PODCASTAVSNITT</string>
     <key>refresh_control_pull_to_refresh</key>

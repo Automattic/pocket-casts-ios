@@ -397,6 +397,14 @@
     <string>正在创建片段…</string>
     <key>clip_start_label</key>
     <string>%@ 开始时间</string>
+    <key>clips_end_time_accessibility_label</key>
+    <string>片段结束时间</string>
+    <key>clips_shareable_media_a11y_label</key>
+    <string>可共享的媒体选项</string>
+    <key>clips_shareable_media_item_a11y_label</key>
+    <string>%1$@ 格式 %2$@，共 %3$@ 个</string>
+    <key>clips_start_time_accessibility_label</key>
+    <string>片段开始时间</string>
     <key>clips_whats_new_button_title</key>
     <string>知道了</string>
     <key>clips_whats_new_message</key>
@@ -1961,6 +1969,26 @@
     <string>为您喜爱的播客评分，让创作者知道您有多欣赏他们的作品。 此外，您的评分还能帮助他人找到节目新宠！</string>
     <key>rating_whats_new_title</key>
     <string>现已上线：播客评分功能 🎉</string>
+    <key>referrals_claim_guest_pass_action</key>
+    <string>激活我的通行证</string>
+    <key>referrals_claim_guest_pass_banner_detail</key>
+    <string>解锁完整的收听体验</string>
+    <key>referrals_claim_guest_pass_banner_title</key>
+    <string>领取您的 %1$@ Plus 访客通行证</string>
+    <key>referrals_claim_guest_pass_detail</key>
+    <string>此优惠仅限新会员使用。 会员资格将以 %1$@ 的价格自动续订为年度付费会员资格。</string>
+    <key>referrals_claim_guest_pass_title</key>
+    <string>领取您的 %1$@ 访客通行证</string>
+    <key>referrals_guest_pass_offer</key>
+    <string>%1$@ 访客通行证</string>
+    <key>referrals_share_guest_pass</key>
+    <string>共享访客通行证</string>
+    <key>referrals_share_no_guest_pass_message</key>
+    <string>感谢您共享 Pocket Casts！ 我们会在您有更多可共享的通行证时通知您。</string>
+    <key>referrals_share_no_guest_pass_title</key>
+    <string>您已共享您的所有访客通行证！</string>
+    <key>referrals_tip_title</key>
+    <string>您有 %1$@ 张通行证可共享</string>
     <key>refresh_control_fetching_episodes</key>
     <string>查找新的播客剧集</string>
     <key>refresh_control_pull_to_refresh</key>
