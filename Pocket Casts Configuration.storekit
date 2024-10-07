@@ -205,7 +205,7 @@
           "adHocOffers" : [
             {
               "internalID" : "0739BC93",
-              "offerID" : "com.pocketcasts.plus.yearly.referral",
+              "offerID" : "com.pocketcasts.plus.yearly.referral.promo",
               "paymentMode" : "free",
               "referenceName" : "Referral Promotion",
               "subscriptionPeriod" : "P2M"
