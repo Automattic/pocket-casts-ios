@@ -265,9 +265,7 @@ extension IAPHelper {
     /// - Parameter identifier: The product to check
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     private func getFreeTrialOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
-        guard
-            isEligibleForOffer,
-            let offer = getProduct(for: identifier)?.introductoryPrice,
+        guard let offer = getProduct(for: identifier)?.introductoryPrice,
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
