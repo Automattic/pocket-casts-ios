@@ -5,7 +5,12 @@ import StoreKit
 
 class ReferralsCoordinator {
 
-    var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoIAP()
+    var referralsOfferInfo: ReferralsOfferInfo? {
+        guard let productInfo = IAPHelper.shared.getProduct(for: .yearlyReferral) else {
+            return nil
+        }
+        return ReferralsOfferInfoIAP()
+    }
 
     var areReferralsAvailableToSend: Bool {
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()

@@ -3,7 +3,7 @@ import SwiftUI
 struct ReferralsClaimBannerView: View {
     @EnvironmentObject var theme: Theme
 
-    let viewModel: ReferralClaimPassModel
+    @StateObject var viewModel: ReferralClaimPassModel
 
     var body: some View {
         ZStack {

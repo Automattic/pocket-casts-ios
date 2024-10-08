@@ -12,6 +12,7 @@ class ReferralClaimPassModel: ObservableObject {
     var onCloseTap: (() -> ())?
 
     enum State {
+        case loading
         case start
         case notAvailable
         case claimVerify
@@ -28,7 +29,7 @@ class ReferralClaimPassModel: ObservableObject {
         self.presentationController = presentationController
         self.onComplete = onComplete
         self.onCloseTap = onCloseTap
-        self.state = canClaimPass ? .start : .notAvailable
+        self.state = canClaimPass ? .loading : .notAvailable
 
         addObservers()
     }
@@ -59,14 +60,50 @@ class ReferralClaimPassModel: ObservableObject {
             }
         }
         .store(in: &cancellables)
+
+        //Observe Login/Signup notification
+        NotificationCenter.default.publisher(for: ServerNotifications.iapProductsUpdated)
+        .receive(on: OperationQueue.main)
+        .sink { [unowned self] notification in
+            Task {
+                await loadOfferInfo()
+            }
+        }
+        .store(in: &cancellables)
     }
 
     var claimPassTitle: String {
-        L10n.referralsClaimGuestPassTitle(coordinator.referralsOfferInfo.localizedOfferDurationAdjective)
+        guard let referralsOfferInfo = coordinator.referralsOfferInfo else {
+            return L10n.none
+        }
+        return L10n.referralsClaimGuestPassTitle(referralsOfferInfo.localizedOfferDurationAdjective)
     }
 
     var claimPassDetail: String {
-        L10n.referralsClaimGuestPassDetail(coordinator.referralsOfferInfo.localizedPriceAfterOffer)
+        guard let referralsOfferInfo = coordinator.referralsOfferInfo else {
+            return L10n.none
+        }
+        return L10n.referralsClaimGuestPassDetail(referralsOfferInfo.localizedPriceAfterOffer)
+    }
+
+    var offerDuration: String {
+        guard let referralsOfferInfo = coordinator.referralsOfferInfo else {
+            return L10n.none
+        }
+        return referralsOfferInfo.localizedOfferDurationAdjective
+    }
+
+    func loadOfferInfo(firstTime: Bool = false) async {
+        guard coordinator.referralsOfferInfo != nil else {
+            if firstTime {
+                IAPHelper.shared.requestProductInfoIfNeeded()
+            } else {
+                state = .notAvailable
+            }
+            return
+        }
+
+        state = .start
     }
 
     func refreshStatusAfterLogin() async {
@@ -162,6 +199,14 @@ struct ReferralClaimPassView: View {
 
     var body: some View {
         switch viewModel.state {
+        case .loading:
+            loadingIndicator
+            .onAppear() {
+                Task {
+                    await viewModel.loadOfferInfo(firstTime: true)
+                }
+            }
+
         case .start, .claimVerify, .iapPurchase, .signup:
             VStack {
                 HStack {
@@ -180,7 +225,7 @@ struct ReferralClaimPassView: View {
                         .font(size: 31, style: .title, weight: .bold)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
-                    ReferralCardView(offerDuration: viewModel.coordinator.referralsOfferInfo.localizedOfferDurationAdjective)
+                    ReferralCardView(offerDuration: viewModel.offerDuration)
                         .frame(width: Constants.defaultCardSize.width, height: Constants.defaultCardSize.height)
                     Text(viewModel.claimPassDetail)
                         .font(size: 13, style: .body, weight: .medium)
@@ -196,7 +241,7 @@ struct ReferralClaimPassView: View {
                     switch viewModel.state {
                     case .start:
                         Text(L10n.referralsClaimGuestPassAction)
-                    case .claimVerify, .iapPurchase, .notAvailable, .signup:
+                    case .claimVerify, .iapPurchase, .notAvailable, .signup, .loading:
                         loadingIndicator
                     }
                 })
