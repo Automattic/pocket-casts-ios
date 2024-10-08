@@ -22,7 +22,7 @@
     },
     "_failTransactionsEnabled" : false,
     "_locale" : "en_US",
-    "_storefront" : "PRT",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "current" : null,
