@@ -297,14 +297,16 @@ class DownloadManager: NSObject, FilePathProtocol {
             FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
             let exportPath = outputURL.pathComponents.joined(separator: "/")
             var exportCompleted = false
+            var downloadError: Error?
             let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { status, bytesDownloaded, bytesExpected in
                 let size = max(100, max(bytesExpected, episode.sizeInBytes))
                 switch status {
                 case .downloading:
                     self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: bytesDownloaded, totalBytesExpectedToWrite: size)
-                case .error:
+                case .failed(let error):
+                    downloadError = error
                     exportCompleted = true
-                case .complete:
+                case .completed:
                     exportCompleted = true
                 }
             }
@@ -319,9 +321,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
             removeEpisodeFromCache(episode)
-            downloadAndStreamEpisodes[downloadTaskUUID] = nil
-
-            if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
+            downloadAndStreamEpisodes[downloadTaskUUID] = nil            
+            //TODO: Ensure Content Type is updated correctly
+            if downloadError == nil, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
                     // If while the export session was running the user or auto-download system decided to download the episode, we just move the end file
                     moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
@@ -334,7 +336,7 @@ class DownloadManager: NSObject, FilePathProtocol {
                 if let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                     wasDownloadingBefore = episode.downloading()
                 }
-                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: nil, downloadTaskId: nil, episode: episode)
+                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: downloadError?.localizedDescription, downloadTaskId: nil, episode: episode)
                 DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
                 if wasDownloadingBefore {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)

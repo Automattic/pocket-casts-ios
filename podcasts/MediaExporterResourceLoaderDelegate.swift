@@ -50,8 +50,8 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
 
     enum FileExportStatus {
         case downloading
-        case complete
-        case error
+        case completed
+        case failed(Error)
     }
 
     typealias FileExporterProgressReport = (_ status: FileExportStatus, _ downloaded: Int64, _ total: Int64) -> ()
@@ -223,7 +223,7 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         isDownloadComplete = true
 
         DispatchQueue.main.async {
-            self.callback?(.complete, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
+            self.callback?(.completed, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
         }
     }
 
@@ -248,8 +248,9 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
     private func downloadFailed(with error: Error) {
         invalidateAndCancelSession()
 
-        DispatchQueue.main.async {
-            self.callback?(.error, 0, 0)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.callback?(.failed(error), 0, 0)
         }
     }
 
