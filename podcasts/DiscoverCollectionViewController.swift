@@ -129,6 +129,10 @@ class DiscoverCollectionViewController: PCViewController {
         snapshot.appendItems([CellType.noResults])
         dataSource.apply(snapshot)
     }
+
+    override var shouldAutomaticallyForwardAppearanceMethods: Bool {
+        return false
+    }
 }
 
 // MARK: - Collection View
