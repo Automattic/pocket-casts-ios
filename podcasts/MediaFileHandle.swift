@@ -13,11 +13,10 @@ final class MediaFileHandle {
     init(filePath: String) {
         self.filePath = filePath
 
-        if !FileManager.default.fileExists(atPath: filePath) {
-            FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil)
-        } else {
-            print("MediaFileHandle warning: File already exists at \(filePath). A non empty file can cause unexpected behavior.")
+        if FileManager.default.fileExists(atPath: filePath) {
+            print("MediaFileHandle warning: File already exists at \(filePath). A non empty file can cause unexpected behavior so we are overwriting it.")
         }
+        FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil)
     }
 
     deinit {
