@@ -19,6 +19,7 @@ struct LargeUpNextWidgetView: View {
     @Binding var episodes: [WidgetEpisode]
     @Binding var isPlaying: Bool
     @Environment(\.widgetColorScheme) var colorScheme
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 
     var body: some View {
         ZStack {
@@ -26,13 +27,17 @@ struct LargeUpNextWidgetView: View {
                 GeometryReader { geometry in
                     VStack(alignment: .leading, spacing: 0) {
                         ZStack {
-                            Rectangle().fill(colorScheme.topBackgroundColor)
+                            Rectangle()
+                                .fill(colorScheme.topBackgroundColor)
                                 .lightBackgroundShadow()
                                 .frame(width: .infinity, height: .infinity)
+                                .backwardWidgetAccentable(isAccentedRenderingMode)
+                                .opacity(isAccentedRenderingMode ? 0.1 : 1)
                             HStack(alignment: .top) {
                                 EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedCapitalized) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                                 Spacer()
                                 Image(colorScheme.iconAssetName)
+                                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                                     .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                                     .unredacted()
                             }
@@ -41,7 +46,10 @@ struct LargeUpNextWidgetView: View {
                         .frame(height: geometry.size.height * 82 / 345)
 
                         ZStack {
-                            Rectangle().fill(colorScheme.bottomBackgroundColor)
+                            if !isAccentedRenderingMode {
+                                Rectangle()
+                                    .fill(colorScheme.bottomBackgroundColor)
+                            }
 
                             VStack(alignment: .leading, spacing: 10) {
                                 if episodes.count > 1 {
@@ -81,6 +89,7 @@ struct LargeFilterView: View {
 
     @Environment(\.widgetColorScheme) var colorScheme
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 
     var body: some View {
         guard episodes.first != nil else {
@@ -89,7 +98,7 @@ struct LargeFilterView: View {
 
         return AnyView(
             ZStack {
-                if showsWidgetBackground {
+                if showsWidgetBackground, !isAccentedRenderingMode {
                     Rectangle().fill(colorScheme.filterViewBackgroundColor)
                 }
                 VStack(alignment: .leading, spacing: 0) {
@@ -100,9 +109,11 @@ struct LargeFilterView: View {
                                 .fontWeight(.regular)
                                 .foregroundColor(colorScheme.filterViewTextColor)
                                 .frame(height: 18)
+                                .backwardWidgetAccentable(isAccentedRenderingMode)
                         }
                         Spacer()
                         Image(colorScheme.filterViewIconAssetName)
+                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                             .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                             .unredacted()
                     }

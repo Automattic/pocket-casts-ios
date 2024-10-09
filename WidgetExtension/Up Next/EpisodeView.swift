@@ -9,6 +9,7 @@ struct EpisodeView: View {
 
     @Environment(\.dynamicTypeSize) var typeSize
     @Environment(\.widgetColorScheme) var colorScheme
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 
     var body: some View {
         let textColor = isFirstEpisode ? colorScheme.topTextColor : colorScheme.bottomTextColor
@@ -24,6 +25,7 @@ struct EpisodeView: View {
                         .foregroundColor(textColor)
                         .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
                     if isFirstEpisode, #available(iOS 17, *) {
                         Spacer()
                         Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
@@ -31,6 +33,7 @@ struct EpisodeView: View {
                                 .font(.caption)
                                 .fontWeight(.medium)
                                 .foregroundColor(colorScheme.topButtonTextColor)
+                                .backwardWidgetAccentable(isAccentedRenderingMode)
                         }
                         .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: colorScheme))
                     } else {
@@ -39,6 +42,8 @@ struct EpisodeView: View {
                         topText
                             .font(.caption2)
                             .foregroundColor(textColor.opacity(0.6))
+                            .backwardWidgetAccentable(isAccentedRenderingMode)
+                            .opacity(isAccentedRenderingMode ? 0.6 : 1.0)
                     }
                 }
                 if !isFirstEpisode, #available(iOS 17, *) {
@@ -92,6 +97,7 @@ struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
 }
 
 struct WidgetPlayToggleStyle: ToggleStyle {
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
     let colorScheme: PCWidgetColorScheme
 
     func makeBody(configuration: Configuration) -> some View {
@@ -100,14 +106,18 @@ struct WidgetPlayToggleStyle: ToggleStyle {
                 Circle()
                     .foregroundStyle(colorScheme.bottomButtonBackgroundColor)
                     .frame(width: 24, height: 24)
+                    .backwardWidgetAccentable(isAccentedRenderingMode)
+                    .opacity(isAccentedRenderingMode ? 0.2 : 1.0)
                 Group {
                     configuration.isOn ?
                     Image("icon-pause")
                         .resizable()
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
                         .foregroundStyle(colorScheme.bottomButtonTextColor)
                     :
                     Image("icon-play")
                         .resizable()
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
                         .foregroundStyle(colorScheme.bottomButtonTextColor)
                 }
                 .frame(width: 24, height: 24)
