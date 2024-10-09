@@ -58,6 +58,8 @@ struct EpisodeView: View {
 struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
     let colorScheme: PCWidgetColorScheme
 
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
+
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 0) {
             Group {
@@ -65,10 +67,12 @@ struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
                 Image("icon-pause")
                     .resizable()
                     .foregroundStyle(colorScheme.topButtonTextColor)
+                    .backwardWidgetAccentable(isAccentedRenderingMode)
                 :
                 Image("icon-play")
                     .resizable()
                     .foregroundStyle(colorScheme.topButtonTextColor)
+                    .backwardWidgetAccentable(isAccentedRenderingMode)
             }
             .frame(width: 28, height: 28)
 
@@ -81,6 +85,8 @@ struct WidgetFirstEpisodePlayToggleStyle: ToggleStyle {
         .background(
             RoundedRectangle(cornerRadius: 100)
                 .foregroundColor(colorScheme.topButtonBackgroundColor)
+                .backwardWidgetAccentable(isAccentedRenderingMode)
+                .opacity(isAccentedRenderingMode ? 0.2 : 1.0)
         )
     }
 }
