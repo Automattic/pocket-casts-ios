@@ -14,7 +14,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var downloadingEpisodesCache = [String: BaseEpisode]()
 
-    var downloadAndStreamEpisodes = Set<String>()
+    var downloadAndStreamEpisodes = [String: AVAssetResourceLoaderDelegate]()
 
     var taskFailure: [String: FailureReason] = [:]
 
@@ -263,13 +263,13 @@ class DownloadManager: NSObject, FilePathProtocol {
         else {
             return playbackItem
         }
+        var newItem: AVPlayerItem = playbackItem
         #if !os(watchOS)
-        Task {
             if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue,
-               downloadAndStreamEpisodes.contains(episode.uuid) {
+               downloadAndStreamEpisodes.keys.contains(episode.uuid) {
                 // We are already downloading this episode for streaming
                 FileLog.shared.addMessage("DownloadManager export session: skipping because we are already exporting: \(episode.uuid)")
-                return
+                return newItem
             }
             var wasDownloadingBefore = false
             if episode.downloading() || episode.queued() {
@@ -281,10 +281,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             } else {
                 episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             }
-            episode.contentType = UTType.mpeg4Audio.preferredMIMEType
+
             let downloadTaskUUID = episode.uuid
             downloadingEpisodesCache[downloadTaskUUID] = episode
-            downloadAndStreamEpisodes.insert(downloadTaskUUID)
             episode.downloadTaskId = downloadTaskUUID
 
             DataManager.sharedManager.save(episode: episode)
@@ -292,18 +291,33 @@ class DownloadManager: NSObject, FilePathProtocol {
 
             let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
             FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
-            let exportCompleted = await MediaExporter.exportMediaItem(playbackItem, to: outputURL) { progress, size in
-                let size = max(100, max(size, episode.sizeInBytes))
-                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: Int64((Double(progress) * Double(size))), totalBytesExpectedToWrite: size)
+            let exportPath = outputURL.pathComponents.joined(separator: "/")
+            var exportCompleted = false
+            let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { status, bytesDownloaded, bytesExpected in
+                let size = max(100, max(bytesExpected, episode.sizeInBytes))
+                switch status {
+                case .downloading:
+                    self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: bytesDownloaded, totalBytesExpectedToWrite: size)
+                case .error:
+                    exportCompleted = true
+                case .complete:
+                    exportCompleted = true
+                }
+            }
+            downloadAndStreamEpisodes[downloadTaskUUID] = customLoaderDelegate
+            let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
+            let newAsset = AVURLAsset(url: customURL)
+            newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
+            newItem = AVPlayerItem(asset: newAsset)
+        Task {
+            while !exportCompleted {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
             }
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
             removeEpisodeFromCache(episode)
-            downloadAndStreamEpisodes.remove(downloadTaskUUID)
+            downloadAndStreamEpisodes[downloadTaskUUID] = nil
 
             if exportCompleted, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
-                if let contentType = UTType.mpeg4Audio.preferredMIMEType {
-                    DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
-                }
                 if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
                     // If while the export session was running the user or auto-download system decided to download the episode, we just move the end file
                     moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
@@ -325,7 +339,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         }
         #endif
-        return playbackItem
+        return newItem
     }
 
     private func markUnplayedAndUnarchiveIfRequired(episode: BaseEpisode, saveChanges: Bool) {
@@ -394,7 +408,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let sessionToUse = useCellularSession ? cellularBackgroundSession : wifiOnlyBackgroundSession
         #endif
 
-        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
+        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.keys.contains(episode.uuid) {
             return
         }
 
@@ -455,7 +469,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             saveRequired = true
         }
 
-        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.contains(episode.uuid) {
+        if FeatureFlag.streamAndCachePlayingEpisode.enabled, downloadAndStreamEpisodes.keys.contains(episode.uuid) {
             episode.downloadTaskId = episode.uuid
             episode.autoDownloadStatus = AutoDownloadStatus.playerDownloadedForStreaming.rawValue
             saveRequired = true
