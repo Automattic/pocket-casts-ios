@@ -73,19 +73,10 @@ class ReferralsCoordinator {
             return false
         }
 
-        let discount = makeIAPDiscount(offer: offer, discount: purchaseHandler.getPromoOffer(productID))
-
-        guard purchaseHandler.buyProduct(identifier: productID, discount: discount) else {
+        guard purchaseHandler.buyProduct(identifier: productID) else {
             return false
         }
 
         return true
-    }
-
-    private func makeIAPDiscount(offer: ReferralValidate, discount: SKProductDiscount?) -> IAPDiscountInfo? {
-        guard let discount, let identifier = discount.identifier else {
-            return nil
-        }
-        return IAPDiscountInfo(identifier: identifier, uuid: UUID(), timestamp: Int(Date.now.timeIntervalSince1970), key: "", signature: "")
-    }
+    }    
 }
