@@ -726,4 +726,19 @@ enum AnalyticsEvent: String {
     case shareScreenPlayTapped
     case shareScreenPauseTapped
     case shareScreenClipShared
+
+    // MARK: - Referrals
+
+    case referralTooltipShow
+    case referralTooltipTapped
+    case referralShareScreenShown
+    case referralShareScreenDismissed
+    case referralPassShared
+    case referralClaimScreenShown
+    case referralActivateTapped
+    case referralNotNowTapped
+    case referralUsedScreenShown
+    case referralPassBannerShown
+    case referralPurchaseShown
+    case referralPurchaseSuccess
 }

@@ -5,13 +5,12 @@ import AutomatticTracks
 
 final class ABTestProviderTests: XCTestCase {
 
-    func testVariation() throws {
-        Task { @MainActor in
-            let abTestProvider = ABTestProviderMock()
-            await abTestProvider.start()
-            let variation = abTestProvider.variation(for: .pocketcastsPaywallAATest)
-            XCTAssertEqual(variation, .treatment)
-        }
+    func testVariation() async throws {
+        let abTestProvider = ABTestProviderMock()
+        await abTestProvider.start()
+        let variation = abTestProvider.variation(for: .pocketcastsPaywallAATest)
+        XCTAssertNotNil(variation)
+        XCTAssertEqual(variation, .treatment)
     }
 
     func testReload() throws {
@@ -19,6 +18,14 @@ final class ABTestProviderTests: XCTestCase {
         let abTestProvider = ABTestProviderMock()
         abTestProvider.reloadExPlat(platform: platform)
         XCTAssertEqual(abTestProvider.platform, platform)
+    }
+
+    func testCustomTreatment() async throws {
+        let abTestProvider = ABTestProviderMock()
+        await abTestProvider.start()
+        let variation = abTestProvider.variation(for: .pocketcastsPaywallUpgradeIOSABTest)
+        XCTAssertNotNil(variation)
+        XCTAssertEqual(variation.getCustomTreatment(), .featuresTreatment)
     }
 }
 
@@ -28,7 +35,15 @@ fileprivate class ABTestProviderMock: ABTestProviding {
     private(set) var platform: String = "default"
 
     func variation(for abTest: podcasts.ABTest) -> Variation {
-        experiments.contains(abTest.rawValue) ? .treatment : .control
+        guard experiments.contains(abTest.rawValue) else {
+            return .control
+        }
+        switch abTest {
+        case .pocketcastsPaywallAATest:
+            return .treatment
+        case .pocketcastsPaywallUpgradeIOSABTest:
+            return .customTreatment(name: "features_treatment")
+        }
     }
 
     func start() async {

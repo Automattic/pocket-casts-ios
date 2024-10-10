@@ -33,6 +33,27 @@ extension DiscoverCollectionViewController: UICollectionViewDelegate {
 
         searchController.parentScrollViewDidScroll(scrollView)
     }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let item = dataSource.itemIdentifier(for: indexPath)
+
+        switch item {
+        case .item(let item):
+            let viewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? DiscoverSummaryProtocol & UIViewController
+            viewController?.populateFrom(item: item.item, region: item.region, category: item.selectedCategory)
+            viewController?.beginAppearanceTransition(true, animated: false)
+            viewController?.endAppearanceTransition()
+        default:
+            ()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
+        let viewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController
+        viewController?.beginAppearanceTransition(false, animated: false)
+        viewController?.endAppearanceTransition()
+    }
 }
 
 extension DiscoverCollectionViewController: PCSearchBarDelegate {
@@ -86,7 +107,13 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
 
 extension DiscoverCollectionViewController {
     @objc private func chartRegionDidChange() {
-        reloadData()
+        reloadData { [weak self] in
+            guard let self else { return }
+            if let item = dataSource.snapshot().itemIdentifiers.last,
+               let lastIndexPath = dataSource.indexPath(for: item) {
+                collectionView.scrollToItem(at: lastIndexPath, at: .top, animated: true)
+            }
+        }
     }
 
     @objc private func checkForScrollTap(_ notification: Notification) {

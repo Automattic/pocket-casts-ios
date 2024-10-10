@@ -3,6 +3,10 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 extension DiscoverViewController: DiscoverDelegate {
+    func invalidate(item: PocketCastsServer.DiscoverItem) {
+        // No-op for this older implementation.
+    }
+
     func showExpanded(item: PocketCastsServer.DiscoverItem, category: PocketCastsServer.DiscoverCategory?) {
         if let category {
             if let categoryId = category.id, let categoryName = category.name, let discoverLayout {
