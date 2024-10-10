@@ -54,7 +54,7 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         case failed(Error)
     }
 
-    typealias FileExporterProgressReport = (_ status: FileExportStatus, _ downloaded: Int64, _ total: Int64) -> ()
+    typealias FileExporterProgressReport = (_ status: FileExportStatus, _ contentType: String?, _ downloaded: Int64, _ total: Int64) -> ()
 
     // MARK: Init
     init(saveFilePath: String, callback: FileExporterProgressReport?) {
@@ -100,9 +100,10 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         bufferData.append(data)
         writeBufferDataToFileIfNeeded()
         processPendingRequests()
+        let contentType = response?.mimeType
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            self.callback?(.downloading, Int64(self.fileHandle.fileSize), dataTask.countOfBytesExpectedToReceive)
+            self.callback?(.downloading, contentType, Int64(self.fileHandle.fileSize), dataTask.countOfBytesExpectedToReceive)
         }
     }
 
@@ -221,9 +222,9 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         processPendingRequests()
 
         isDownloadComplete = true
-
+        let contentType = self.response?.mimeType
         DispatchQueue.main.async {
-            self.callback?(.completed, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
+            self.callback?(.completed, contentType, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
         }
     }
 
@@ -247,10 +248,10 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
 
     private func downloadFailed(with error: Error) {
         invalidateAndCancelSession()
-
+        let contentType = self.response?.mimeType
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            self.callback?(.failed(error), 0, 0)
+            self.callback?(.failed(error), contentType, 0, 0)
         }
     }
 

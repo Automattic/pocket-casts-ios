@@ -136,30 +136,27 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        let contentType: String?
-
-        if FeatureFlag.useMimetypePackage.enabled {
-            contentType = MimetypeHelper.contetType(for: location)
-
-            if let contentType, contentType != episode.contentType {
-                DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
-            }
-        } else {
-            contentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
-        }
-
-        let fileSize = FileManager.default.fileSize(of: location) ?? 0
-        guard isEpisodeFileValid(contentType: contentType, fileSize: fileSize) else {
-            markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
-            return
-        }
-
-        moveDownloadedFile(for: episode, from: location)
+        let responseContentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
+        moveDownloadedFile(for: episode, from: location, reportedContentType: responseContentType)
     }
 
-    func moveDownloadedFile(for episode: BaseEpisode, from location: URL) {
+    func moveDownloadedFile(for episode: BaseEpisode, from location: URL, reportedContentType: String?) {
         do {
+            var contentType = reportedContentType
+
+            if FeatureFlag.useMimetypePackage.enabled {
+                contentType = MimetypeHelper.contetType(for: location)
+                if let contentType, contentType != episode.contentType {
+                    DataManager.sharedManager.saveEpisode(contentType: contentType, episode: episode)
+                }
+            }
+
             let fileSize = FileManager.default.fileSize(of: location) ?? 0
+            guard isEpisodeFileValid(contentType: contentType, fileSize: fileSize) else {
+                markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
+                return
+            }
+
             let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
             let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
             let destinationUrl = URL(fileURLWithPath: destinationPath)

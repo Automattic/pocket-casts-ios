@@ -298,7 +298,9 @@ class DownloadManager: NSObject, FilePathProtocol {
         let exportPath = outputURL.pathComponents.joined(separator: "/")
         var exportCompleted = false
         var downloadError: Error?
-        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { status, bytesDownloaded, bytesExpected in
+        var reportedContentType: String?
+        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { status, contentType, bytesDownloaded, bytesExpected in
+            reportedContentType = contentType
             let size = max(100, max(bytesExpected, episode.sizeInBytes))
             switch status {
             case .downloading:
@@ -322,9 +324,8 @@ class DownloadManager: NSObject, FilePathProtocol {
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
             removeEpisodeFromCache(episode)
             downloadAndStreamEpisodes[downloadTaskUUID] = nil
-            //TODO: Ensure Content Type is updated correctly
             if downloadError == nil, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
-                moveDownloadedFile(for: episode, from: outputURL)
+                moveDownloadedFile(for: episode, from: outputURL, reportedContentType: reportedContentType)
             } else {
                 if let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                     wasDownloadingBefore = episode.downloading()
