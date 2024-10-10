@@ -680,7 +680,7 @@
     <key>download</key>
     <string>Descarregar</string>
     <key>download_all</key>
-    <string>Descarrega-ho tot</string>
+    <string>Descarregar-ho tot</string>
     <key>download_data_warning</key>
     <string>La descàrrega emprarà dades mòbils.</string>
     <key>download_episode_plural_format</key>
@@ -1261,6 +1261,10 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <string>Més informació</string>
     <key>listening_history</key>
     <string>Historial d'episodis escoltats</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>No hem pogut trobar cap episodi per a aquesta cerca. Prova amb una altra paraula clau.</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>No s'han trobat episodis</string>
     <key>loading</key>
     <string>Carregant...</string>
     <key>login_subtitle</key>
@@ -1368,7 +1372,7 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <key>no_bookmarks_button_title</key>
     <string>Configuració dels auriculars</string>
     <key>no_bookmarks_message</key>
-    <string>Per desar les marques de temps dels episodis, aneu al menú d'accions del reproductor o configureu una acció amb els auriculars.</string>
+    <string>Per desar marques de temps dels episodis, ves al menú d'accions del reproductor o configura una acció amb els auriculars.</string>
     <key>no_bookmarks_title</key>
     <string>Encara no hi ha marcadors</string>
     <key>none</key>
@@ -1422,7 +1426,7 @@ Nota: És possible que t'hagis d'enviar el fitxer OPML a tu mateix per correu el
     <key>paid_podcast_next_episode_format</key>
     <string>Episodi següent: %1$@</string>
     <key>paid_podcast_release_frequency_format</key>
-    <string>Publicat:%1$@</string>
+    <string>Freqüència de publicació: %1$@</string>
     <key>paid_podcast_signin_prompt_msg</key>
     <string>INICIA LA SESSIÓ PER A
 ACTUALITZACIONS</string>
@@ -1715,7 +1719,7 @@ ACTUALITZACIONS</string>
     <key>podcast_and_episode</key>
     <string>Pòdcast i episodi</string>
     <key>podcast_archive_all</key>
-    <string>Arxiva-ho tot</string>
+    <string>Arxivar-ho tot</string>
     <key>podcast_archive_all_played</key>
     <string>Arxivar tots els reproduïts</string>
     <key>podcast_archive_episode_count_singular</key>
@@ -1837,7 +1841,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>podcast_tomorrow</key>
     <string>Demà</string>
     <key>podcast_unarchive_all</key>
-    <string>Desarxiva-ho tot</string>
+    <string>Desarxivar-ho tot</string>
     <key>podcast_updates_ended</key>
     <string>Actualitzacions finalitzades: %1$@</string>
     <key>podcast_updates_ends</key>
@@ -1939,7 +1943,7 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <key>queue_total_time_remaining</key>
     <string>Queda en total: %1$@</string>
     <key>rate</key>
-    <string>Valora-ho</string>
+    <string>Valorar</string>
     <key>rate_pocket_casts</key>
     <string>Valora Pocket Casts</string>
     <key>rating_error</key>
@@ -1976,12 +1980,24 @@ Si vols noves idees, vés a la pestanya Descobrir.</string>
     <string>Reclama la teva invitació de convidat de %1$@</string>
     <key>referrals_guest_pass_offer</key>
     <string>Invitació per a convidats de %1$@</string>
+    <key>referrals_not_available_to_send</key>
+    <string>L'accés com a convidat no està disponible ara mateix.</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>La invitació només es pot bescanviar una vegada i està disponible per a aquells sense una subscripció Plus o Patron activa. Gràcies per escoltar!</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>Aquesta oferta no està disponible</string>
     <key>referrals_share_guest_pass</key>
     <string>Comparteix les invitacions per a convidats</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>Gràcies per compartir Pocket Casts! Et farem saber quan tinguis més invitacions per a donar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Has compartit totes les teves invitacions!</string>
+    <key>referrals_share_pass_message</key>
+    <string>Ei! Utilitza l'enllaç a continuació per reclamar la teva %1$@ invitació per a Pocket Casts Plus i gaudeix de pòdcasts a tots els teus dispositius!</string>
+    <key>referrals_share_pass_subject</key>
+    <string>%1$@ accés convidat a Pocket Casts Plus!</string>
+    <key>referrals_tip_message</key>
+    <string>Regal %1$@ de Pocket Casts Plus!</string>
     <key>referrals_tip_title</key>
     <string>Tens %1$@ invitacions per a compartir</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2920,7 +2936,7 @@ Sincerament, totes dues són bones decisions. 🙂</string>
     <key>watch_nothing_playing_title</key>
     <string>No sona res</string>
     <key>watch_play_source</key>
-    <string>Reprodueix la font</string>
+    <string>Reprodueix des de</string>
     <key>watch_source_msg</key>
     <string>Els pòdcasts es reproduiran a través de l'altaveu en el qual està connectat el dispositiu triat</string>
     <key>watch_source_plus_info</key>

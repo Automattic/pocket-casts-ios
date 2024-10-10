@@ -30,6 +30,7 @@ class FileTypeUtil {
         else if type.contains("audio/wav") { return ".wav" }
         else if type.contains("audio/x-wav") { return ".wav" }
         else if type.contains("audio/x-m4a") { return ".m4a" }
+        else if type.contains("audio/m4a") { return ".m4a" }
         else if type.contains("audio/x-m4b") { return ".m4b" }
         else if type.contains("audio/x-m4p") { return ".m4p" }
 
