@@ -24,17 +24,26 @@ struct MediumUpNextView: View {
     var secondEpisode: WidgetEpisode?
     var isPlaying: Bool
     @Environment(\.widgetColorScheme) var colorScheme
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
+
+    private var iconAssetName: String {
+        isAccentedRenderingMode ? PCWidgetColorScheme.boldNowPlaying.iconAssetName : colorScheme.iconAssetName
+    }
 
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
                 ZStack {
-                    Rectangle().fill(colorScheme.topBackgroundColor)
+                    Rectangle()
+                        .fill(colorScheme.topBackgroundColor)
                         .lightBackgroundShadow()
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
+                        .opacity(isAccentedRenderingMode ? 0.1 : 1)
                     HStack(alignment: .top) {
                         EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                         Spacer()
-                        Image(colorScheme.iconAssetName)
+                        Image(iconAssetName)
+                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                             .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                             .accessibility(hidden: true)
                             .unredacted()
@@ -55,7 +64,7 @@ struct MediumUpNextView: View {
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height / 2)
-                .background(colorScheme.bottomBackgroundColor)
+                .background(colorScheme.bottomBackgroundColor.opacity(isAccentedRenderingMode ? 0.0 : 1))
             }
         }
     }
@@ -68,12 +77,13 @@ struct MediumFilterView: View {
 
     @Environment(\.widgetColorScheme) var colorScheme
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 
     private let logoHeight: CGFloat = 28
 
     var body: some View {
         ZStack {
-            if showsWidgetBackground {
+            if showsWidgetBackground, !isAccentedRenderingMode {
                 Rectangle().fill(colorScheme.filterViewBackgroundColor)
             }
             VStack(alignment: .leading, spacing: 0) {
@@ -83,8 +93,10 @@ struct MediumFilterView: View {
                         .fontWeight(.regular)
                         .foregroundColor(colorScheme.filterViewTextColor)
                         .frame(height: 18)
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
                     Spacer()
                     Image(colorScheme.filterViewIconAssetName)
+                        .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                         .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                         .unredacted()
                 }

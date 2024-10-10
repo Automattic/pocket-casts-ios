@@ -1265,6 +1265,10 @@ podcasts mee</string>
     <string>Meer weten</string>
     <key>listening_history</key>
     <string>Luistergeschiedenis</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>We kunnen geen aflevering vinden voor die zoekopdracht. Probeer een ander trefwoord.</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>Geen afleveringen gevonden</string>
     <key>loading</key>
     <string>Laden...</string>
     <key>login_subtitle</key>
@@ -1979,12 +1983,24 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Deze aanbieding geldt alleen voor nieuwe leden. Lidmaatschap wordt automatisch verlengd met een betaald jaarlidmaatschap van %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Claim je gastenpas van %1$@ voor Plus</string>
+    <key>referrals_not_available_to_send</key>
+    <string>Gastenpas is momenteel niet beschikbaar</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>Deze gastenpas kan eenmalig worden ingewisseld en is beschikbaar voor iedereen zonder een actief Plus- of Patron-abonnement. Bedankt voor het luisteren!</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>Deze aanbieding is niet geldig</string>
     <key>referrals_share_guest_pass</key>
     <string>Gastenpassen delen</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>Bedankt dat je Pocket Casts hebt gedeeld! We laten het je weten wanneer je meer passen kan weggeven.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Je hebt al je gastenpassen al uitgedeeld</string>
+    <key>referrals_share_pass_message</key>
+    <string>Hallo! Gebruik de onderstaande link om je gastenpas van %1$@ voor Pocket Casts Plus te claimen en op al je devices naar podcasts te luisteren!</string>
+    <key>referrals_share_pass_subject</key>
+    <string>Gastenpas van %1$@ voor Pocket Casts Plus!</string>
+    <key>referrals_tip_message</key>
+    <string>Geef %1$@ Pocket Casts Plus weg!</string>
     <key>refresh_control_fetching_episodes</key>
     <string>NIEUWE PODCASTAFLEVERINGEN ZOEKEN</string>
     <key>refresh_control_pull_to_refresh</key>

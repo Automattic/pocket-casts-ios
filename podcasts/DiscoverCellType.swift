@@ -58,7 +58,6 @@ enum DiscoverCellType: CaseIterable {
             }
 
             vc.registerDiscoverDelegate(delegate)
-            vc.populateFrom(item: item.item, region: item.region, category: item.selectedCategory)
         }
     }
 }

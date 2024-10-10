@@ -33,6 +33,27 @@ extension DiscoverCollectionViewController: UICollectionViewDelegate {
 
         searchController.parentScrollViewDidScroll(scrollView)
     }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let item = dataSource.itemIdentifier(for: indexPath)
+
+        switch item {
+        case .item(let item):
+            let viewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? DiscoverSummaryProtocol & UIViewController
+            viewController?.populateFrom(item: item.item, region: item.region, category: item.selectedCategory)
+            viewController?.beginAppearanceTransition(true, animated: false)
+            viewController?.endAppearanceTransition()
+        default:
+            ()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
+        let viewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController
+        viewController?.beginAppearanceTransition(false, animated: false)
+        viewController?.endAppearanceTransition()
+    }
 }
 
 extension DiscoverCollectionViewController: PCSearchBarDelegate {

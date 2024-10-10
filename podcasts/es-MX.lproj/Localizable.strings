@@ -1265,6 +1265,10 @@ pódcast contigo</string>
     <string>Más información</string>
     <key>listening_history</key>
     <string>Historial de escuchados</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>No hemos podido encontrar ningún episodio para esa búsqueda. Prueba con otra palabra clave.</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>No se ha encontrado ningún episodio</string>
     <key>loading</key>
     <string>Cargando...</string>
     <key>login_subtitle</key>
@@ -1981,12 +1985,24 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Solicita tu pase de invitado de %1$@</string>
     <key>referrals_guest_pass_offer</key>
     <string>Pase de invitado de %1$@</string>
+    <key>referrals_not_available_to_send</key>
+    <string>El pase de invitado no está disponible en este momento</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>Este pase de invitado solo puede canjearse una vez y está disponible para quienes no tengan una suscripción Plus o Patron activa. Gracias por escucharnos.</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>Esta oferta no está disponible</string>
     <key>referrals_share_guest_pass</key>
     <string>Compartir pase de invitado</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>Muchas gracias por compartir Pocket Casts. Te avisaremos cuando tengas más pases para regalar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Has compartido todos tus pases de invitado.</string>
+    <key>referrals_share_pass_message</key>
+    <string>¡Hola! Utiliza el siguiente enlace para solicitar tu pase de invitado de %1$@ para Pocket Casts Plus y disfrutar de podcasts en todos tus dispositivos.</string>
+    <key>referrals_share_pass_subject</key>
+    <string>Pase de invitado de %1$@ para Pocket Casts Plus.</string>
+    <key>referrals_tip_message</key>
+    <string>Regala %1$@ de Pocket Casts Plus.</string>
     <key>referrals_tip_title</key>
     <string>Tienes %1$@ pases para compartir</string>
     <key>refresh_control_fetching_episodes</key>
