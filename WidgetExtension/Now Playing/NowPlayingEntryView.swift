@@ -9,12 +9,19 @@ struct NowPlayingWidgetEntryView: View {
     @Environment(\.widgetFamily) var family
 
     @Environment(\.colorScheme) var colorScheme
+
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
+
     var widgetColorSchemeLight: PCWidgetColorScheme
     var widgetColorSchemeDark: PCWidgetColorScheme
     var widgetColorScheme: PCWidgetColorScheme {
         get {
             colorScheme == .dark ? widgetColorSchemeDark : widgetColorSchemeLight
         }
+    }
+
+    private var iconAssetName: String {
+        isAccentedRenderingMode ? PCWidgetColorScheme.boldNowPlaying.iconAssetName : widgetColorScheme.iconAssetName
     }
 
     var body: some View {
@@ -35,6 +42,7 @@ struct NowPlayingWidgetEntryView: View {
                 ZStack {
                     Image(CommonWidgetHelper.loadAppIconName())
                         .resizable()
+                        .backwardWidgetAccentedDesaturatedRenderingMode()
                 }
                 .widgetURL(URL(string: "pktc://last_opened"))
                 .clearBackground()
@@ -46,7 +54,7 @@ struct NowPlayingWidgetEntryView: View {
 
     private func smallWidget(playingEpisode: WidgetEpisode) -> some View {
         ZStack {
-            if showsWidgetBackground {
+            if showsWidgetBackground, !isAccentedRenderingMode {
                 Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
             }
             VStack(alignment: .leading, spacing: 10) {
@@ -68,7 +76,7 @@ struct NowPlayingWidgetEntryView: View {
 
     private func mediumWidget(playingEpisode: WidgetEpisode) -> some View {
         ZStack {
-            if showsWidgetBackground {
+            if showsWidgetBackground, !isAccentedRenderingMode {
                 Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
             }
 
@@ -82,8 +90,10 @@ struct NowPlayingWidgetEntryView: View {
                             .textCase(.uppercase)
                             .padding(topPadding)
                             .foregroundColor(widgetColorScheme.bottomTextColor.opacity(0.6))
+                            .backwardWidgetAccentable(isAccentedRenderingMode)
                         Spacer()
-                        Image(widgetColorScheme.iconAssetName)
+                        Image(iconAssetName)
+                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                             .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                             .unredacted()
                     }
@@ -113,7 +123,8 @@ struct NowPlayingWidgetEntryView: View {
             LargeArtworkView(imageData: playingEpisode.imageData)
                 .frame(width: 64, height: 64)
             Spacer()
-            Image(widgetColorScheme.iconAssetName)
+            Image(iconAssetName)
+                .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                 .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                 .unredacted()
         }
@@ -129,6 +140,7 @@ struct NowPlayingWidgetEntryView: View {
             .frame(height: 12, alignment: .center)
             .layoutPriority(1)
             .padding(episodeTitlePadding)
+            .backwardWidgetAccentable(isAccentedRenderingMode)
     }
 
     private func episodeTitle(playingEpisode: WidgetEpisode) -> some View {
@@ -140,6 +152,7 @@ struct NowPlayingWidgetEntryView: View {
             .frame(height: 12, alignment: .center)
             .layoutPriority(1)
             .padding(episodeTitlePadding)
+            .backwardWidgetAccentable(isAccentedRenderingMode)
     }
 
     @ViewBuilder
@@ -152,12 +165,14 @@ struct NowPlayingWidgetEntryView: View {
                         .font(.caption2)
                         .fontWeight(.bold)
                         .foregroundColor(widgetColorScheme.topButtonTextColor)
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
                 } else {
                     Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: playingEpisode.duration)))
                         .font(.caption2)
                         .fontWeight(.bold)
                         .foregroundColor(widgetColorScheme.topButtonTextColor)
                         .layoutPriority(1)
+                        .backwardWidgetAccentable(isAccentedRenderingMode)
                 }
             }
             .toggleStyle(WidgetFirstEpisodePlayToggleStyle(colorScheme: widgetColorScheme))
@@ -182,7 +197,7 @@ struct NowPlayingWidgetEntryView: View {
 
     private var nothingPlayingMedium: some View {
         ZStack {
-            if showsWidgetBackground {
+            if showsWidgetBackground, !isAccentedRenderingMode {
                 Rectangle().fill(widgetColorScheme.bottomBackgroundColor)
             }
 
@@ -193,7 +208,8 @@ struct NowPlayingWidgetEntryView: View {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
                         Spacer()
-                        Image(widgetColorScheme.iconAssetName)
+                        Image(iconAssetName)
+                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                             .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                             .unredacted()
                     }
@@ -223,6 +239,7 @@ struct NowPlayingWidgetEntryView: View {
                 .frame(height: 38, alignment: .center)
                 .layoutPriority(1)
                 .padding(episodeTitlePadding)
+                .backwardWidgetAccentable(isAccentedRenderingMode)
             Text(L10n.widgetsDiscoverPromptMsg)
                 .font(.caption2)
                 .fontWeight(.medium)
@@ -230,6 +247,7 @@ struct NowPlayingWidgetEntryView: View {
                 .lineLimit(2)
                 .padding(bottomTextPadding)
                 .layoutPriority(1)
+                .backwardWidgetAccentable(isAccentedRenderingMode)
         }
     }
 
@@ -241,8 +259,10 @@ struct NowPlayingWidgetEntryView: View {
                         .opacity(0.5)
                     Spacer()
                     Image("logo-transparent")
+                        .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                         .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
-                }.padding(topPadding)
+                }
+                .padding(topPadding)
             }
             nothingPlayingText
         }
