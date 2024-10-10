@@ -21,6 +21,10 @@ struct LargeUpNextWidgetView: View {
     @Environment(\.widgetColorScheme) var colorScheme
     @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
 
+    private var iconAssetName: String {
+        isAccentedRenderingMode ? PCWidgetColorScheme.boldNowPlaying.iconAssetName : colorScheme.iconAssetName
+    }
+
     var body: some View {
         ZStack {
             if let firstEpisode = episodes.first {
@@ -36,7 +40,7 @@ struct LargeUpNextWidgetView: View {
                             HStack(alignment: .top) {
                                 EpisodeView(episode: firstEpisode, topText: isPlaying ? Text(L10n.nowPlaying.localizedCapitalized) : Text(L10n.podcastTimeLeft(CommonWidgetHelper.durationString(duration: firstEpisode.duration))), isPlaying: isPlaying, isFirstEpisode: true)
                                 Spacer()
-                                Image(colorScheme.iconAssetName)
+                                Image(iconAssetName)
                                     .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                                     .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize)
                                     .unredacted()
