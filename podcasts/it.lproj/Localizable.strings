@@ -1265,6 +1265,10 @@ pocast con te</string>
     <string>Scopri di più</string>
     <key>listening_history</key>
     <string>Cronologia di ascolto</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>Non abbiamo trovato alcun episodio per la ricerca. Prova un'altra parola chiave.</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>Nessun episodio trovato</string>
     <key>loading</key>
     <string>Caricamento in corso...</string>
     <key>login_subtitle</key>
@@ -1981,12 +1985,24 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Riscatta il tuo pass per ospiti %1$@</string>
     <key>referrals_guest_pass_offer</key>
     <string>Pass per ospiti %1$@</string>
+    <key>referrals_not_available_to_send</key>
+    <string>Il pass per ospiti non è attualmente disponibile</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>Questo pass per ospiti può essere riscattato solo una volta ed è disponibile per chi non ha un abbonamento Plus o Patron attivo. Grazie per l'ascolto!</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>Questa offerta non è disponibile</string>
     <key>referrals_share_guest_pass</key>
     <string>Condividi pass per ospiti</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>Grazie per aver condiviso Pocket Casts. Ti avviseremo quando avrai altri pass da assegnare.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Hai condiviso tutti i tuoi pass per gli ospiti!</string>
+    <key>referrals_share_pass_message</key>
+    <string>Ciao! Utilizza il seguente link per ottenere il tuo pass per ospiti %1$@ per Pocket Casts Plus e goditi i podcast in tutti i tuoi dispositivi!</string>
+    <key>referrals_share_pass_subject</key>
+    <string>Pass per ospiti %1$@ per Pocket Casts Plus!</string>
+    <key>referrals_tip_message</key>
+    <string>Regala %1$@ di Pocket Casts Plus!</string>
     <key>referrals_tip_title</key>
     <string>Hai %1$@ pass da condividere</string>
     <key>refresh_control_fetching_episodes</key>

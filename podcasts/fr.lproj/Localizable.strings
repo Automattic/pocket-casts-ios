@@ -1986,7 +1986,7 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <key>referrals_guest_pass_offer</key>
     <string>Passe invité %1$@</string>
     <key>referrals_not_available_to_send</key>
-    <string>Passe invité non disponible pour l'instant</string>
+    <string>Passe invité non disponible pour l’instant</string>
     <key>referrals_offer_not_available_detail</key>
     <string>Ce passe invité ne peut être utilisé qu’une seule fois et est réservé aux utilisateurs qui n’ont pas d’abonnement Plus ou Patron actif. Merci pour votre écoute !</string>
     <key>referrals_offer_not_available_title</key>
@@ -1998,11 +1998,11 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Vous avez partagé tous vos passes invité !</string>
     <key>referrals_share_pass_message</key>
-    <string>Salut ! Utilisez le lien ci-dessous pour demander votre passe invité %1$@ pour Pocket Casts Plus et profitez de podcasts sur tous vos appareils !</string>
+    <string>Salut ! Utilisez le lien ci-dessous pour demander votre passe invité %1$@ de Pocket Casts Plus et profitez de podcasts sur tous vos appareils !</string>
     <key>referrals_share_pass_subject</key>
-    <string>Passe invité %1$@ pour Pocket Casts Plus !</string>
+    <string>Passe invité %1$@ de Pocket Casts Plus !</string>
     <key>referrals_tip_message</key>
-    <string>Offrir %1$@ de Pocket Casts Plus !</string>
+    <string>Offrez %1$@ de Pocket Casts Plus !</string>
     <key>referrals_tip_title</key>
     <string>Vous avez %1$@ passes à partager</string>
     <key>refresh_control_fetching_episodes</key>

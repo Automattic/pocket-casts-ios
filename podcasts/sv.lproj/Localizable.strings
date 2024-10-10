@@ -1265,6 +1265,10 @@ podcasts med dig</string>
     <string>Lär dig mer</string>
     <key>listening_history</key>
     <string>Lyssningshistorik</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>Vi kunde inte hitta något avsnitt för denna sökning. Prova med ett annat nyckelord.</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>Inga avsnitt hittades</string>
     <key>loading</key>
     <string>Läser in...</string>
     <key>login_subtitle</key>
@@ -1981,12 +1985,24 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Gör anspråk på ditt %1$@ gästpass</string>
     <key>referrals_guest_pass_offer</key>
     <string>%1$@ gästpass</string>
+    <key>referrals_not_available_to_send</key>
+    <string>Gästpasset är inte tillgängligt för tillfället</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>Detta gästpass kan endast lösas in en gång och är tillgängligt för användare utan en aktiv Plus- eller Patron-prenumeration. Tack för att du lyssnar.</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>Detta erbjudande är inte tillgängligt</string>
     <key>referrals_share_guest_pass</key>
     <string>Dela gästpass</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>Tack för att du delar Pocket Casts! Vi meddelar dig när du har fler gästpass att ge bort.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du har delat ut alla dina gästpass.</string>
+    <key>referrals_share_pass_message</key>
+    <string>Hej! Använd länken nedan för att göra anspråk på ditt %1$@ gästpass för Pocket Casts Plus och ta del av podcasts på alla dina enheter.</string>
+    <key>referrals_share_pass_subject</key>
+    <string>%1$@ gästpass för Pocket Casts Plus.</string>
+    <key>referrals_tip_message</key>
+    <string>Ge bort %1$@ med Pocket Casts Plus.</string>
     <key>referrals_tip_title</key>
     <string>Du har %1$@ gästpass att dela</string>
     <key>refresh_control_fetching_episodes</key>

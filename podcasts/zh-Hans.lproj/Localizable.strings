@@ -1265,6 +1265,10 @@
     <string>了解更多</string>
     <key>listening_history</key>
     <string>历史记录</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>我们未搜索到任何相关剧集。 请尝试使用其他关键字。</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>未找到剧集</string>
     <key>loading</key>
     <string>正在加载...</string>
     <key>login_subtitle</key>
@@ -1981,12 +1985,24 @@
     <string>领取您的 %1$@ 访客通行证</string>
     <key>referrals_guest_pass_offer</key>
     <string>%1$@ 访客通行证</string>
+    <key>referrals_not_available_to_send</key>
+    <string>访客通行证暂不可用</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>该访客通行证仅可兑换一次，适用于未激活 Plus 或 Patron 订阅的用户。 感谢收听！</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>此优惠不可用</string>
     <key>referrals_share_guest_pass</key>
     <string>共享访客通行证</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>感谢您共享 Pocket Casts！ 我们会在您有更多可共享的通行证时通知您。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>您已共享您的所有访客通行证！</string>
+    <key>referrals_share_pass_message</key>
+    <string>您好！ 点击下方链接领取 %1$@ 的 Pocket Casts Plus 访客通行证，即可在所有设备上收听播客！</string>
+    <key>referrals_share_pass_subject</key>
+    <string>%1$@ 的 Pocket Casts Plus 访客通行证！</string>
+    <key>referrals_tip_message</key>
+    <string>赠送 %1$@ Pocket Casts Plus 使用权！</string>
     <key>referrals_tip_title</key>
     <string>您有 %1$@ 张通行证可共享</string>
     <key>refresh_control_fetching_episodes</key>

@@ -2002,7 +2002,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>referrals_share_pass_subject</key>
     <string>%1$@ Pocket Casts Plus 訪客體驗券！</string>
     <key>referrals_tip_message</key>
-    <string>贈送 %1$@ 的 Pocket Casts Plus 體驗</string>
+    <string>贈送 %1$@ Pocket Casts Plus 體驗</string>
     <key>referrals_tip_title</key>
     <string>你有 %1$@ 張體驗券可分享</string>
     <key>refresh_control_fetching_episodes</key>
