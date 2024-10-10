@@ -78,5 +78,5 @@ class ReferralsCoordinator {
         }
 
         return true
-    }    
+    }
 }
