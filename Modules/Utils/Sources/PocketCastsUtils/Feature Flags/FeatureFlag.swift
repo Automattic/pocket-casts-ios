@@ -191,7 +191,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .syncStats:
             true
         case .discoverCollectionView:
-            false
+            true
         case .playerIsReadyToPlay:
             true
         case .listeningHistorySearch:

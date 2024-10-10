@@ -1265,6 +1265,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>了解詳情</string>
     <key>listening_history</key>
     <string>收聽記錄</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>找不到符合搜尋內容的單集。 請嘗試其他關鍵字。</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>找不到任何單集</string>
     <key>loading</key>
     <string>正在載入...</string>
     <key>login_subtitle</key>
@@ -1981,12 +1985,24 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>領取你的 %1$@訪客體驗券</string>
     <key>referrals_guest_pass_offer</key>
     <string>%1$@訪客體驗券</string>
+    <key>referrals_not_available_to_send</key>
+    <string>訪客體驗券目前無法使用</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>此訪客體驗券僅供兌換一次，可供尚未啟用 Plus 或 Patron 訂閱服務的使用者使用。 感謝聆聽！</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>此優惠無法使用</string>
     <key>referrals_share_guest_pass</key>
     <string>分享訪客體驗券</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>感謝你不吝分享 Pocket Casts 體驗！ 若有更多體驗券可使用，我們會再另行通知。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>你已分享完所有的訪客體驗券！</string>
+    <key>referrals_share_pass_message</key>
+    <string>嗨！ 使用下方連結領取你的 %1$@ Pocket Casts Plus 訪客體驗券，在所有裝置上盡情暢聽 Podcast！</string>
+    <key>referrals_share_pass_subject</key>
+    <string>%1$@ Pocket Casts Plus 訪客體驗券！</string>
+    <key>referrals_tip_message</key>
+    <string>贈送 %1$@ 的 Pocket Casts Plus 體驗</string>
     <key>referrals_tip_title</key>
     <string>你有 %1$@ 張體驗券可分享</string>
     <key>refresh_control_fetching_episodes</key>
