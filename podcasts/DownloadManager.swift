@@ -266,72 +266,65 @@ class DownloadManager: NSObject, FilePathProtocol {
         var newItem: AVPlayerItem = playbackItem
         #if !os(watchOS)
         if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue,
-               let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
-                // We are already downloading this episode for streaming
-                FileLog.shared.addMessage("DownloadManager export session: skipping because we are already exporting: \(episode.uuid)")
-                let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
-                let newAsset = AVURLAsset(url: customURL)
-                newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
-                newItem = AVPlayerItem(asset: newAsset)
-                return newItem
-            }
-            var wasDownloadingBefore = false
-            if episode.downloading() || episode.queued() {
-                wasDownloadingBefore = true
-                let previousStatus = episode.autoDownloadStatus
-                FileLog.shared.addMessage("DownloadManager export session: cancelling existing download for: \(episode.uuid) with status:\(previousStatus)")
-                self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
-                episode.autoDownloadStatus = previousStatus
-            } else {
-                episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
-            }
-
-            let downloadTaskUUID = episode.uuid
-            downloadingEpisodesCache[downloadTaskUUID] = episode
-            episode.downloadTaskId = downloadTaskUUID
-
-            DataManager.sharedManager.save(episode: episode)
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
-
-            let outputURL = URL(fileURLWithPath: streamingBufferPathForEpisode(episode), isDirectory: false)
-            FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
-            let exportPath = outputURL.pathComponents.joined(separator: "/")
-            var exportCompleted = false
-            var downloadError: Error?
-            let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { status, bytesDownloaded, bytesExpected in
-                let size = max(100, max(bytesExpected, episode.sizeInBytes))
-                switch status {
-                case .downloading:
-                    self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: bytesDownloaded, totalBytesExpectedToWrite: size)
-                case .failed(let error):
-                    downloadError = error
-                    exportCompleted = true
-                case .completed:
-                    exportCompleted = true
-                }
-            }
-            downloadAndStreamEpisodes[downloadTaskUUID] = customLoaderDelegate
+           let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
+            // We are already downloading this episode for streaming
+            FileLog.shared.addMessage("DownloadManager export session: skipping because we are already exporting: \(episode.uuid)")
             let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
             let newAsset = AVURLAsset(url: customURL)
-            newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
+            newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
             newItem = AVPlayerItem(asset: newAsset)
+            return newItem
+        }
+        var wasDownloadingBefore = false
+        if episode.downloading() || episode.queued() {
+            wasDownloadingBefore = true
+            let previousStatus = episode.autoDownloadStatus
+            FileLog.shared.addMessage("DownloadManager export session: cancelling existing download for: \(episode.uuid) with status:\(previousStatus)")
+            self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
+            episode.autoDownloadStatus = previousStatus
+        } else {
+            episode.autoDownloadStatus = Settings.downloadUpNextEpisodes() ? AutoDownloadStatus.autoDownloaded.rawValue :  AutoDownloadStatus.playerDownloadedForStreaming.rawValue
+        }
+
+        let downloadTaskUUID = episode.uuid
+        downloadingEpisodesCache[downloadTaskUUID] = episode
+        episode.downloadTaskId = downloadTaskUUID
+
+        DataManager.sharedManager.save(episode: episode)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
+
+        let outputURL = URL(fileURLWithPath: tempPathForEpisode(episode), isDirectory: false)
+        FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
+        let exportPath = outputURL.pathComponents.joined(separator: "/")
+        var exportCompleted = false
+        var downloadError: Error?
+        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { status, bytesDownloaded, bytesExpected in
+            let size = max(100, max(bytesExpected, episode.sizeInBytes))
+            switch status {
+            case .downloading:
+                self.reportProgress(episodeUUID: episode.uuid, totalBytesWritten: bytesDownloaded, totalBytesExpectedToWrite: size)
+            case .failed(let error):
+                downloadError = error
+                exportCompleted = true
+            case .completed:
+                exportCompleted = true
+            }
+        }
+        downloadAndStreamEpisodes[downloadTaskUUID] = customLoaderDelegate
+        let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
+        let newAsset = AVURLAsset(url: customURL)
+        newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
+        newItem = AVPlayerItem(asset: newAsset)
         Task {
             while !exportCompleted {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
             }
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
             removeEpisodeFromCache(episode)
-            downloadAndStreamEpisodes[downloadTaskUUID] = nil            
+            downloadAndStreamEpisodes[downloadTaskUUID] = nil
             //TODO: Ensure Content Type is updated correctly
             if downloadError == nil, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
-                if episode.autoDownloadStatus == AutoDownloadStatus.notSpecified.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue {
-                    // If while the export session was running the user or auto-download system decided to download the episode, we just move the end file
-                    moveBufferedEpisodeCacheToEpisodeFile(episode: episode)
-                } else {
-                    let fileSize = FileManager.default.fileSize(of: outputURL) ?? 0
-                    DataManager.sharedManager.saveEpisode(downloadStatus: DownloadStatus.downloadedForStreaming, sizeInBytes: fileSize, downloadTaskId: nil, episode: episode)
-                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
-                }
+                moveDownloadedFile(for: episode, from: outputURL)
             } else {
                 if let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                     wasDownloadingBefore = episode.downloading()

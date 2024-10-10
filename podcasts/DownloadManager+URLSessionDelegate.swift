@@ -154,10 +154,16 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
-        let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
-        let destinationUrl = URL(fileURLWithPath: destinationPath)
+        moveDownloadedFile(for: episode, from: location)
+    }
+
+    func moveDownloadedFile(for episode: BaseEpisode, from location: URL) {
         do {
+            let fileSize = FileManager.default.fileSize(of: location) ?? 0
+            let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)!
+            let destinationPath = autoDownloadStatus == .playerDownloadedForStreaming ? streamingBufferPathForEpisode(episode) : pathForEpisode(episode)
+            let destinationUrl = URL(fileURLWithPath: destinationPath)
+
             try StorageManager.moveItem(at: location, to: destinationUrl, options: .overwriteExisting)
 
             let newDownloadStatus: DownloadStatus = autoDownloadStatus == .playerDownloadedForStreaming ? .downloadedForStreaming : .downloaded
