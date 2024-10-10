@@ -271,10 +271,29 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         activityIndicatorView.isHidden = false
 
         mainButton.setTitle("", for: .normal)
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
-            DispatchQueue.main.async {
-                if !success {
-                    Analytics.track(.userSignInFailed, properties: ["source": "password", "error_code": (error ?? .UNKNOWN).rawValue])
+        Task {
+            do {
+                let response = try await AuthenticationHelper.validateLogin(username: username, password: password, scope: .mobile)
+
+                let userId = response.uuid
+                DispatchQueue.main.async {
+                    self.progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
+                    self.progressAlert?.showAlert(self, hasProgress: false, completion: {
+                        // clear any previously stored tokens as we're signing in again and we might have one in Keychain already
+                        SyncManager.clearTokensFromKeyChain()
+
+                        self.handleSuccessfulSignIn(username, password: password, userId: userId)
+                        RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+                        Settings.setPromotionFinishedAcknowledged(true)
+                        Settings.setLoginDetailsUpdated()
+
+                        NotificationCenter.postOnMainThread(notification: .userSignedIn)
+                    })
+                }
+            } catch let error {
+                DispatchQueue.main.async {
+                    let error = error as? APIError
+                    Analytics.track(.userSignInFailed, properties: ["source": "password", "error_code": (error ?? APIError.UNKNOWN).rawValue])
 
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         self.showErrorMessage(message)
@@ -289,19 +308,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
                     self.progressAlert = nil
                     return
                 }
-
-                self.progressAlert = ShiftyLoadingAlert(title: L10n.syncAccountLogin)
-                self.progressAlert?.showAlert(self, hasProgress: false, completion: {
-                    // clear any previously stored tokens as we're signing in again and we might have one in Keychain already
-                    SyncManager.clearTokensFromKeyChain()
-
-                    self.handleSuccessfulSignIn(username, password: password, userId: userId)
-                    RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
-                    Settings.setPromotionFinishedAcknowledged(true)
-                    Settings.setLoginDetailsUpdated()
-
-                    NotificationCenter.postOnMainThread(notification: .userSignedIn)
-                })
             }
         }
     }

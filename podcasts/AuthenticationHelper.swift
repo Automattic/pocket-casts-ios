@@ -58,6 +58,10 @@ class AuthenticationHelper {
     // MARK: Common
 
     private static func handleSuccessfulSignIn(_ response: AuthenticationResponse) {
+
+        let isNewUser = ServerSettings.lastSyncTime == nil
+        let userHasChanged = ServerSettings.userId != response.uuid
+
         SyncManager.clearTokensFromKeyChain()
 
         ServerSettings.userId = response.uuid
@@ -66,7 +70,9 @@ class AuthenticationHelper {
 
         // we've signed in, set all our existing podcasts to
         // be non synced if the user never logged in before
-        if (FeatureFlag.onlyMarkPodcastsUnsyncedForNewUsers.enabled && ServerSettings.lastSyncTime == nil)
+        if (FeatureFlag.onlyMarkPodcastsUnsyncedForNewUsers.enabled && isNewUser)
+            // Instead of checking that the user has never logged in before, it may make sense to check that the account has changed
+            || (FeatureFlag.onlyMarkPodcastsUnsyncedForChangedUsers.enabled && userHasChanged)
             || !FeatureFlag.onlyMarkPodcastsUnsyncedForNewUsers.enabled {
             DataManager.sharedManager.markAllPodcastsUnsynced()
         }

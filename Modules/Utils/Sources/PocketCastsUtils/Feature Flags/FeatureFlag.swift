@@ -66,6 +66,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// When `true`, we only mark podcasts as unsynced if the user never signed in before
     case onlyMarkPodcastsUnsyncedForNewUsers
 
+    /// When a user sign in, we always marked ALL podcasts as unsynced
+    /// The `onlyMarkPodcastsUnsyncedForNewUsers` flag added a check that a user was new before marking unsynced
+    /// This _also_ caused issues with users who signed out and signed in to a new account, causing podcasts to remain unsynced
+    /// When `true`, we mark podcasts as unsynced if the user accounts changed
+    case onlyMarkPodcastsUnsyncedForChangedUsers
+
     /// Only update an episode if it fails playing
     /// If set to `false`, it will use the previous mechanism that always update
     /// but can lead to a bigger time between tapping play and actually playing it
@@ -197,6 +203,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .listeningHistorySearch:
             true
         case .useMimetypePackage:
+            true
+        case .onlyMarkPodcastsUnsyncedForChangedUsers:
             true
         }
     }
