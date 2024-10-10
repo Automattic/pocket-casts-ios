@@ -131,8 +131,28 @@ class EffectsViewController: SimpleNotificationsViewController {
         }
     }
 
+    @IBOutlet weak var playbackSettingsSegmentedControl: CustomSegmentedControl! {
+        didSet {
+            playbackSettingsSegmentedControl.isHidden = !FeatureFlag.customPlaybackSettings.enabled
+
+            let firstAction = SegmentedAction(title: "All podcasts")
+            let secondAction = SegmentedAction(title: "This podcast")
+            playbackSettingsSegmentedControl.setActions([firstAction, secondAction])
+
+            playbackSettingsSegmentedControl.unselectedBgColor = UIColor.clear
+            
+//            playbackSettingsSegmentedControl.addTarget(self, action: #selector(trimSilenceAmountChanged), for: .valueChanged)
+        }
+    }
+
     @IBOutlet var minusBtn: UIButton!
     @IBOutlet var plusBtn: UIButton!
+
+    @IBOutlet weak var speedControlTopConstraint: NSLayoutConstraint! {
+        didSet {
+            speedControlTopConstraint.isActive = FeatureFlag.customPlaybackSettings.enabled
+        }
+    }
 
     @IBOutlet var trimSilenceSpeedsToLabelConstraint: NSLayoutConstraint! {
         didSet {
@@ -335,6 +355,11 @@ class EffectsViewController: SimpleNotificationsViewController {
         trimSilenceAmountControl.unselectedItemColor = ThemeColor.playerContrast01()
         trimSilenceAmountControl.selectedBgColor = ThemeColor.playerContrast01()
         trimSilenceAmountControl.selectedItemColor = PlayerColorHelper.playerBackgroundColor01()
+
+        playbackSettingsSegmentedControl.lineColor = ThemeColor.playerContrast02()
+        playbackSettingsSegmentedControl.unselectedItemColor = ThemeColor.playerContrast01()
+        playbackSettingsSegmentedControl.selectedBgColor = ThemeColor.playerContrast01()
+        playbackSettingsSegmentedControl.selectedItemColor = PlayerColorHelper.playerBackgroundColor01()
 
         updateSpeedBtn()
 
