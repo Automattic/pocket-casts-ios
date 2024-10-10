@@ -11,14 +11,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LargeListCell" id="gTV-IL-0wX" customClass="LargeListCell" customModule="podcasts" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="160" height="250"/>
+            <rect key="frame" x="0.0" y="0.0" width="199" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="160" height="211"/>
+                <rect key="frame" x="0.0" y="0.0" width="199" height="250"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qw-eq-tYg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="168" width="160" height="20"/>
+                        <rect key="frame" x="0.0" y="207" width="199" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="spU-kL-e3s"/>
                         </constraints>
@@ -27,14 +27,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBx-mo-aDN" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                        <rect key="frame" x="0.0" y="0.0" width="199" height="199"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="nBx-mo-aDN" secondAttribute="height" multiplier="1:1" id="llg-HT-uWA"/>
+                            <constraint firstAttribute="width" secondItem="nBx-mo-aDN" secondAttribute="height" multiplier="1:1" priority="999" id="llg-HT-uWA"/>
                         </constraints>
                     </view>
                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Gb-8A-zQV" customClass="BouncyButton" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="128" y="128" width="28" height="28"/>
+                        <rect key="frame" x="167" y="167" width="28" height="28"/>
                         <color key="backgroundColor" red="0.60835868120000003" green="0.8194983602" blue="0.82352894539999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="28" id="6ES-gf-noE"/>
@@ -54,7 +54,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2wE-0A-zrE" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="191" width="160" height="20"/>
+                        <rect key="frame" x="0.0" y="230" width="199" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="Nga-E5-dZf"/>
                         </constraints>
@@ -80,13 +80,14 @@
                 <constraint firstItem="1Gb-8A-zQV" firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" constant="-4" id="nHw-ba-ihn"/>
                 <constraint firstItem="2wE-0A-zrE" firstAttribute="leading" secondItem="4Qw-eq-tYg" secondAttribute="leading" id="zFW-RE-G6q"/>
             </constraints>
+            <size key="customSize" width="199" height="250"/>
             <connections>
                 <outlet property="podcastAuthor" destination="2wE-0A-zrE" id="nPR-3i-RWZ"/>
                 <outlet property="podcastImage" destination="nBx-mo-aDN" id="CH0-cC-vIk"/>
                 <outlet property="podcastTitle" destination="4Qw-eq-tYg" id="Nfd-Qh-8gn"/>
                 <outlet property="subscribeButton" destination="1Gb-8A-zQV" id="0aA-kz-6Rh"/>
             </connections>
-            <point key="canvasLocation" x="137.59999999999999" y="136.28185907046478"/>
+            <point key="canvasLocation" x="168.80000000000001" y="135.832083958021"/>
         </collectionViewCell>
     </objects>
 </document>
