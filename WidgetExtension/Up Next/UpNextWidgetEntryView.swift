@@ -5,6 +5,7 @@ struct UpNextWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) var family
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.isAccentedRenderingMode) var isAccentedRenderingMode
     var widgetColorSchemeLight: PCWidgetColorScheme
     var widgetColorSchemeDark: PCWidgetColorScheme
     var widgetColorScheme: PCWidgetColorScheme {
@@ -29,8 +30,10 @@ struct UpNextWidgetEntryView: View {
                             .fontWeight(.regular)
                             .foregroundColor(widgetColorScheme.filterViewTextColor)
                             .lineLimit(1)
+                            .backwardWidgetAccentable(isAccentedRenderingMode)
                         Spacer()
                         Image(widgetColorScheme.filterViewIconAssetName)
+                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                             .frame(width: CommonWidgetHelper.iconSize, height: CommonWidgetHelper.iconSize, alignment: .topTrailing)
                             .accessibility(hidden: true)
                     }
@@ -47,7 +50,7 @@ struct UpNextWidgetEntryView: View {
                     Spacer()
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                .background(widgetColorScheme.filterViewBackgroundColor)
+                .background(widgetColorScheme.filterViewBackgroundColor.opacity(isAccentedRenderingMode ? 0.0 : 1))
                 .widgetURL(URL(string: "pktc://last_opened"))
             }
         }
