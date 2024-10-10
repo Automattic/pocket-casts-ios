@@ -325,7 +325,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             removeEpisodeFromCache(episode)
             downloadAndStreamEpisodes[downloadTaskUUID] = nil
             if downloadError == nil, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
-                moveDownloadedFile(for: episode, from: outputURL, reportedContentType: reportedContentType)
+                processEpisode(episode, downloadedFile: outputURL, reportedContentType: reportedContentType)
             } else {
                 if let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
                     wasDownloadingBefore = episode.downloading()

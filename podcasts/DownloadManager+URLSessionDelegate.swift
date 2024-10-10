@@ -137,10 +137,10 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         let responseContentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
-        moveDownloadedFile(for: episode, from: location, reportedContentType: responseContentType)
+        processEpisode(episode, downloadedFile: location, reportedContentType: responseContentType)
     }
 
-    func moveDownloadedFile(for episode: BaseEpisode, from location: URL, reportedContentType: String?) {
+    func processEpisode(_ episode: BaseEpisode, downloadedFile location: URL, reportedContentType: String?) {
         do {
             var contentType = reportedContentType
 
