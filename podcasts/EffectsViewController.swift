@@ -131,15 +131,12 @@ class EffectsViewController: SimpleNotificationsViewController {
         }
     }
 
-    @IBOutlet weak var playbackSettingsSegmentedControl: CustomSegmentedControl! {
+    @IBOutlet weak var playbackSettingsSegmentedControl: UISegmentedControl! {
         didSet {
             playbackSettingsSegmentedControl.isHidden = !FeatureFlag.customPlaybackSettings.enabled
 
-            let firstAction = SegmentedAction(title: L10n.playbackEffectAllPodcasts)
-            let secondAction = SegmentedAction(title: L10n.playbackEffectThisPodcast)
-            playbackSettingsSegmentedControl.setActions([firstAction, secondAction])
-
-            playbackSettingsSegmentedControl.unselectedBgColor = UIColor.clear
+            playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectAllPodcasts, forSegmentAt: 0)
+            playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectThisPodcast, forSegmentAt: 1)
 
             playbackSettingsSegmentedControl.addTarget(self, action: #selector(playbackSettingsDestinationChanged), for: .valueChanged)
         }
@@ -268,7 +265,7 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @objc private func playbackSettingsDestinationChanged() {
-        
+        // TO IMPLEMENT
     }
 
     @IBAction func volumeBoostChanged(_ sender: UISwitch) {
@@ -360,10 +357,13 @@ class EffectsViewController: SimpleNotificationsViewController {
         trimSilenceAmountControl.selectedBgColor = ThemeColor.playerContrast01()
         trimSilenceAmountControl.selectedItemColor = PlayerColorHelper.playerBackgroundColor01()
 
-        playbackSettingsSegmentedControl.lineColor = ThemeColor.playerContrast02()
-        playbackSettingsSegmentedControl.unselectedItemColor = ThemeColor.playerContrast01()
-        playbackSettingsSegmentedControl.selectedBgColor = ThemeColor.playerContrast01()
-        playbackSettingsSegmentedControl.selectedItemColor = PlayerColorHelper.playerBackgroundColor01()
+        playbackSettingsSegmentedControl.backgroundColor = ThemeColor.playerContrast06()
+        playbackSettingsSegmentedControl.selectedSegmentTintColor = ThemeColor.playerContrast01()
+
+        let normalAttribute = [NSAttributedString.Key.foregroundColor: ThemeColor.playerContrast02()]
+        playbackSettingsSegmentedControl.setTitleTextAttributes(normalAttribute, for: .normal)
+        let selectedAttribute = [NSAttributedString.Key.foregroundColor: PlayerColorHelper.playerBackgroundColor01()]
+        playbackSettingsSegmentedControl.setTitleTextAttributes(selectedAttribute, for: .selected)
 
         updateSpeedBtn()
 
