@@ -44,7 +44,7 @@ class ReferralsCoordinator {
 
             let viewModel = ReferralClaimPassModel(referralURL: url,
                                                    coordinator: self,
-                                                   canClaimPass: self.isReferralAvailableToClaim,
+                                                   canClaimPass: true,
                                                    onComplete: {
                 viewController.dismiss(animated: true)
                 onComplete?()
