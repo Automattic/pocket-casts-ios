@@ -69,20 +69,33 @@ final class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoader
         invalidateAndCancelSession(shouldResetData: false)
     }
 
+    static let schemePrefix = "custom-"
+
+    static func makeCustomURL(_ original: URL) -> URL? {
+        return URL(string: "\(Self.schemePrefix)\(original.absoluteString)")
+    }
+
+    static func resolveOriginalURL(from url: URL) -> URL? {
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return nil
+        }
+        components.scheme = components.scheme?.replacingOccurrences(of: Self.schemePrefix, with: "")
+        return components.url
+    }
+
     // MARK: AVAssetResourceLoaderDelegate
 
     func resourceLoader(_ resourceLoader: AVAssetResourceLoader, shouldWaitForLoadingOfRequestedResource loadingRequest: AVAssetResourceLoadingRequest) -> Bool {
-        guard let url = loadingRequest.request.url else {
+        guard let url = loadingRequest.request.url,
+              let originalURL = Self.resolveOriginalURL(from: url)
+        else {
             return false
         }
 
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.scheme = "https"
-        let realURL = components.url!
         if session == nil {
             // If we're playing from an url, we need to download the file.
             // We start loading the file on first request only.
-            startDataRequest(with: realURL)
+            startDataRequest(with: originalURL)
         }
 
         pendingRequests.insert(loadingRequest)

@@ -313,7 +313,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         }
         downloadAndStreamEpisodes[downloadTaskUUID] = customLoaderDelegate
-        let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
+        guard let customURL = MediaExporterResourceLoaderDelegate.makeCustomURL(urlAsset.url) else {
+            return newItem
+        }
         let newAsset = AVURLAsset(url: customURL)
         newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
         newItem = AVPlayerItem(asset: newAsset)
