@@ -2821,8 +2821,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>不好意思，載入此逐字稿時發生錯誤</string>
     <key>transcript_error_failed_to_parse</key>
     <string>不好意思，解析此逐字稿時發生錯誤</string>
-    <key>transcript_error_not_available</key>
-    <string>不好意思，此單集不提供逐字稿。</string>
     <key>transcript_error_not_supported</key>
     <string>不好意思，不支援此逐字稿格式：%1$@</string>
     <key>trial_finished</key>
