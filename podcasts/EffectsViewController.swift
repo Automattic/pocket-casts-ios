@@ -135,13 +135,13 @@ class EffectsViewController: SimpleNotificationsViewController {
         didSet {
             playbackSettingsSegmentedControl.isHidden = !FeatureFlag.customPlaybackSettings.enabled
 
-            let firstAction = SegmentedAction(title: "All podcasts")
-            let secondAction = SegmentedAction(title: "This podcast")
+            let firstAction = SegmentedAction(title: L10n.playbackEffectAllPodcasts)
+            let secondAction = SegmentedAction(title: L10n.playbackEffectThisPodcast)
             playbackSettingsSegmentedControl.setActions([firstAction, secondAction])
 
             playbackSettingsSegmentedControl.unselectedBgColor = UIColor.clear
-            
-//            playbackSettingsSegmentedControl.addTarget(self, action: #selector(trimSilenceAmountChanged), for: .valueChanged)
+
+            playbackSettingsSegmentedControl.addTarget(self, action: #selector(playbackSettingsDestinationChanged), for: .valueChanged)
         }
     }
 
@@ -265,6 +265,10 @@ class EffectsViewController: SimpleNotificationsViewController {
 
         analyticsPlaybackHelper.currentSource = analyticsSource
         analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount)
+    }
+
+    @objc private func playbackSettingsDestinationChanged() {
+        
     }
 
     @IBAction func volumeBoostChanged(_ sender: UISwitch) {
