@@ -11,11 +11,11 @@ public struct ReferralValidate: Codable {
 public struct ReferralOfferDetail: Codable {
     public let type: String
     public let iap: String
-    public let offerID: String?
-    public let timestamp: Int?
-    public let uuid: String?
+    public let offer: String?
+    public let timestampMs: Int?
+    public let nonce: String?
     public let signature: String?
-    public let key: String?
+    public let keyIdentifier: String?
 
 }
 
