@@ -324,12 +324,13 @@ class DownloadManager: NSObject, FilePathProtocol {
             downloadingEpisodesCache.removeValue(forKey: downloadTaskUUID)
             removeEpisodeFromCache(episode)
             downloadAndStreamEpisodes[downloadTaskUUID] = nil
-            if downloadError == nil, let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
+            guard let episode = dataManager.findBaseEpisode(uuid: episode.uuid) else {
+                return
+            }
+            if downloadError == nil {
                 processEpisode(episode, downloadedFile: outputURL, reportedContentType: reportedContentType)
             } else {
-                if let episode = dataManager.findBaseEpisode(uuid: episode.uuid) {
-                    wasDownloadingBefore = episode.downloading()
-                }
+                wasDownloadingBefore = episode.downloading()
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: downloadError?.localizedDescription, downloadTaskId: nil, episode: episode)
                 DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
                 if wasDownloadingBefore {
