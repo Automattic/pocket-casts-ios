@@ -12,7 +12,9 @@ class ReferralsCoordinator {
     }
 
     var isReferralAvailableToClaim: Bool {
-        return FeatureFlag.referrals.enabled && !SubscriptionHelper.hasActiveSubscription() && Settings.referralURL != nil
+        return //FeatureFlag.referrals.enabled &&
+        !SubscriptionHelper.hasActiveSubscription() &&
+        Settings.referralURL != nil
     }
 
     static var shared: ReferralsCoordinator = {
@@ -57,10 +59,10 @@ class ReferralsCoordinator {
     }
 
     private func translateToProduct(offer: ReferralValidate) -> IAPProductID? {
-        if offer.offer == "two_months_free" {
-            return IAPProductID.yearlyReferral
+        guard let iap = offer.details?.iap else {
+            return nil
         }
-        return nil
+        return IAPProductID(rawValue: iap)
     }
 
     func purchase(offer: ReferralValidate) -> Bool {
@@ -73,10 +75,26 @@ class ReferralsCoordinator {
             return false
         }
 
-        guard purchaseHandler.buyProduct(identifier: productID) else {
+        let discountInfo = makeDiscountInfo(from: offer)
+
+        guard purchaseHandler.buyProduct(identifier: productID, discount: discountInfo) else {
             return false
         }
 
         return true
+    }
+
+    func makeDiscountInfo(from offer: ReferralValidate) -> IAPDiscountInfo? {
+        guard let details = offer.details,
+              details.type == "promo",
+              let offerID = details.offerID,
+              let uuidString = details.uuid,
+              let uuid = UUID(uuidString: uuidString),
+              let timestamp = details.timestamp,
+              let key = details.key,
+              let signature = details.signature else {
+            return nil
+        }
+        return IAPDiscountInfo(identifier: offerID, uuid: uuid, timestamp: timestamp, key: key, signature: signature)
     }
 }

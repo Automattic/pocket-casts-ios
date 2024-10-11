@@ -5,7 +5,18 @@ import SwiftProtobuf
 public struct ReferralValidate: Codable {
     public let offer: String
     public let platform: Int
-    public let details: String
+    public let details: ReferralOfferDetail?
+}
+
+public struct ReferralOfferDetail: Codable {
+    public let type: String
+    public let iap: String
+    public let offerID: String?
+    public let timestamp: Int?
+    public let uuid: String?
+    public let signature: String?
+    public let key: String?
+
 }
 
 class ReferralValidateTask: ApiBaseTask, @unchecked Sendable {
@@ -32,7 +43,8 @@ class ReferralValidateTask: ApiBaseTask, @unchecked Sendable {
                 return
             }
             let validationResponse = try Api_ReferralValidationResponse(serializedBytes: responseData)
-            completion?(ReferralValidate(offer: validationResponse.offer, platform: Int(validationResponse.platform), details: validationResponse.details))
+            let details = try? JSONDecoder().decode(ReferralOfferDetail.self, from: validationResponse.details.data(using: .utf8)!)
+            completion?(ReferralValidate(offer: validationResponse.offer, platform: Int(validationResponse.platform), details: details))
         } catch {
             FileLog.shared.addMessage("Failed to parse  Api_ReferralValidationResponse \(error.localizedDescription)")
             completion?(nil)
