@@ -11,7 +11,7 @@ public struct ReferralValidate: Codable {
 public struct ReferralOfferDetail: Codable {
     public let type: String
     public let iap: String
-    public let offer: String?
+    public let offerId: String?
     public let timestampMs: Int?
     public let nonce: String?
     public let signature: String?
