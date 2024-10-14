@@ -1426,6 +1426,12 @@
 /* A common string used throughout the app. Generic message informing the user that playback failed. */
 "playback_failed" = "Playback Failed";
 
+/* Playback settings option in the Effects Player panel */
+"playback_effect_all_podcasts" = "All podcasts";
+
+/* Playback settings option in the Effects Player panel */
+"playback_effect_this_podcast" = "This podcast";
+
 /* Label indicating the current value for the playback speed. '%1$@' is a placeholder for the playback speed and 'x' is meant to read as 'times' as in '1.1 times' for '1.1x' */
 "playback_speed" = "%1$@x";
 
@@ -4275,7 +4281,7 @@
 "kids_profile_submit_error" = "Something went wrong. Please try submitting your feedback again";
 
 /* Transcript error message when a transcript is not available*/
-"transcript_error_not_available" = "Sorry, but a transcript is not available for this episode.";
+"transcript_error_not_available" = "Sorry, but this episode has no transcript available";
 
 /* Transcript error message when transcript failed to load*/
 "transcript_error_failed_to_load" = "Sorry, but something went wrong while loading this transcript";

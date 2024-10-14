@@ -1265,6 +1265,10 @@ Podcasts mit</string>
     <string>Weitere Informationen</string>
     <key>listening_history</key>
     <string>Hörverlauf</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>Wir konnten keine Folge für diese Suche finden. Versuche es mit einem anderen Stichwort.</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>Keine Folgen gefunden</string>
     <key>loading</key>
     <string>Wird geladen ...</string>
     <key>login_subtitle</key>
@@ -1981,12 +1985,24 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Sichere dir deinen Gastpass (Dauer: %1$@)</string>
     <key>referrals_guest_pass_offer</key>
     <string>Gastpass (Dauer: %1$@)</string>
+    <key>referrals_not_available_to_send</key>
+    <string>Der Gastpass ist derzeit nicht verfügbar</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>Dieser Gastpass kann nur einmal eingelöst werden und steht nur Personen ohne aktives Plus- oder Patron-Abonnement zur Verfügung. Danke fürs Zuhören!</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>Dieses Angebot ist nicht verfügbar</string>
     <key>referrals_share_guest_pass</key>
     <string>Gastpass teilen</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>Vielen Dank, dass du Pocket Casts teilst! Wir informieren dich, wenn dir weitere Pässe zum Teilen zur Verfügung stehen.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du hast alle deine Gastpässe geteilt!</string>
+    <key>referrals_share_pass_message</key>
+    <string>Hallo! Über den unten stehenden Link kannst du deinen Gastpass (Zeitraum: %1$@) für Pocket Casts Plus anfordern und dir auf all deinen Geräten Podcasts anhören!</string>
+    <key>referrals_share_pass_subject</key>
+    <string>Gastpass (Zeitraum: %1$@) für Pocket Casts Plus!</string>
+    <key>referrals_tip_message</key>
+    <string>Verschenke Pocket Casts Plus (Zeitraum: %1$@)!</string>
     <key>referrals_tip_title</key>
     <string>Dir stehen %1$@ Pässe zum Teilen zur Verfügung</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2805,8 +2821,6 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Beim Laden dieses Transkripts ist ein Fehler aufgetreten</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Beim Parsen dieses Transkripts ist ein Fehler aufgetreten</string>
-    <key>transcript_error_not_available</key>
-    <string>Für diese Folge ist kein Transkript verfügbar.</string>
     <key>transcript_error_not_supported</key>
     <string>Dieses Transkriptformat wird nicht unterstützt: %1$@</string>
     <key>trial_finished</key>

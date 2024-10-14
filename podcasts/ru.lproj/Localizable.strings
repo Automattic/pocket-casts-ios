@@ -1265,6 +1265,10 @@
     <string>Подробнее</string>
     <key>listening_history</key>
     <string>История прослушивания</string>
+    <key>listening_history_search_no_episodes_text</key>
+    <string>Не удалось найти выпуск по этому запросу. Попробуйте поискать по другому ключевому слову.</string>
+    <key>listening_history_search_no_episodes_title</key>
+    <string>Выпуски не найдены</string>
     <key>loading</key>
     <string>Загрузка…</string>
     <key>login_subtitle</key>
@@ -1981,12 +1985,24 @@
     <string>Получите бесплатный гостевой пропуск на %1$@</string>
     <key>referrals_guest_pass_offer</key>
     <string>Гостевой пропуск на %1$@</string>
+    <key>referrals_not_available_to_send</key>
+    <string>В данный момент гостевой пропуск недоступен</string>
+    <key>referrals_offer_not_available_detail</key>
+    <string>Гостевым пропуском могут воспользоваться только те, у кого нет подписки Plus или Patron, и только один раз. Благодарим за прослушивание!</string>
+    <key>referrals_offer_not_available_title</key>
+    <string>Это предложение недействительно</string>
     <key>referrals_share_guest_pass</key>
     <string>Поделиться гостевым пропуском</string>
     <key>referrals_share_no_guest_pass_message</key>
     <string>Спасибо, что поделились пропуском Pocket Casts! Мы сообщим, когда у вас появятся новые пропуска.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Вы потратили все гостевые пропуска!</string>
+    <key>referrals_share_pass_message</key>
+    <string>Привет! По ссылке ниже лежит ваш гостевой пропуск в Pocket Casts Plus сроком на %1$@. Воспользуйтесь им и слушайте подкасты на любом из ваших устройств!</string>
+    <key>referrals_share_pass_subject</key>
+    <string>Гостевой пропуск Pocket Casts Plus на %1$@</string>
+    <key>referrals_tip_message</key>
+    <string>%1$@ пользования Pocket Casts Plus в подарок!</string>
     <key>referrals_tip_title</key>
     <string>Вы можете поделиться пропусками (%1$@)</string>
     <key>refresh_control_fetching_episodes</key>
@@ -2805,8 +2821,6 @@
     <string>К сожалению, во время загрузки этой расшифровки что-то пошло не так</string>
     <key>transcript_error_failed_to_parse</key>
     <string>К сожалению, во время анализа этой расшифровки что-то пошло не так</string>
-    <key>transcript_error_not_available</key>
-    <string>К сожалению, в этом выпуске нет расшифровки.</string>
     <key>transcript_error_not_supported</key>
     <string>К сожалению, этот формат расшифровки не поддерживается: %1$@</string>
     <key>trial_finished</key>

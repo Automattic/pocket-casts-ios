@@ -151,24 +151,24 @@ extension DiscoverCollectionViewController {
     }
 
     private func configureDataSource() {
-        let footerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, elementKind, indexPath in
 
-            guard let self else { return }
+        let footerRegistrationCountrySummary = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, elementKind, indexPath in
+            guard let self = self else { return }
 
-            if selectedCategory == nil && discoverLayout != nil {
-                let countrySummary = CountrySummaryViewController()
-                countrySummary.discoverLayout = self.discoverLayout
-                countrySummary.registerDiscoverDelegate(self)
+            let countrySummary = CountrySummaryViewController()
+            countrySummary.discoverLayout = self.discoverLayout
+            countrySummary.registerDiscoverDelegate(self)
 
-                supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(viewController: countrySummary)
-            } else {
-                if #available(iOS 16.0, *) {
-                    supplementaryView.contentConfiguration = UIHostingConfiguration {
-                        EmptyView()
-                    }
-                } else {
-                    supplementaryView.contentConfiguration = UIListContentConfiguration.plainFooter()
+            supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(viewController: countrySummary)
+        }
+
+        let footerRegistrationEmpty = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, elementKind, indexPath in
+            if #available(iOS 16.0, *) {
+                supplementaryView.contentConfiguration = UIHostingConfiguration {
+                    EmptyView()
                 }
+            } else {
+                supplementaryView.contentConfiguration = UIListContentConfiguration.plainFooter()
             }
         }
 
@@ -225,9 +225,17 @@ extension DiscoverCollectionViewController {
             }
         }
 
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration,
-                                                                         for: indexPath)
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, elementKind, indexPath in
+            guard let self = self else { return nil }
+
+            if elementKind == UICollectionView.elementKindSectionFooter {
+                if self.selectedCategory == nil && self.discoverLayout != nil {
+                    return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistrationCountrySummary, for: indexPath)
+                } else {
+                    return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistrationEmpty, for: indexPath)
+                }
+            }
+            return nil
         }
     }
 

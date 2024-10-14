@@ -2815,8 +2815,6 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>申し訳ありません、このトランスクリプトの読み込み中に問題が発生しました</string>
     <key>transcript_error_failed_to_parse</key>
     <string>申し訳ありません、このトランスクリプトの解析中に問題が発生しました</string>
-    <key>transcript_error_not_available</key>
-    <string>申し訳ありません、このエピソードではトランスクリプトを利用できません。</string>
     <key>transcript_error_not_supported</key>
     <string>申し訳ありません、このトランスクリプトのフォーマットはサポートされていません: %1$@</string>
     <key>trial_finished</key>

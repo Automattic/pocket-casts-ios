@@ -89,9 +89,6 @@ class ReferralsCoordinator {
         }
 
         let purchaseHandler = IAPHelper.shared
-        guard purchaseHandler.canMakePurchases else {
-            return false
-        }
 
         let discountInfo = makeDiscountInfo(from: offer)
 

@@ -125,14 +125,36 @@ class EffectsViewController: SimpleNotificationsViewController {
             let highAction = SegmentedAction(title: TrimSilenceAmount.high.description)
             trimSilenceAmountControl.setActions([lowAction, mediumAction, highAction])
 
-            trimSilenceAmountControl.unselectedBgColor = UIColor.clear
+            if FeatureFlag.customPlaybackSettings.enabled {
+                trimSilenceAmountControl.backgroundColor = ThemeColor.playerContrast06()
+            } else {
+                trimSilenceAmountControl.backgroundColor = .clear
+                trimSilenceAmountControl.unselectedBgColor = .clear
+            }
 
             trimSilenceAmountControl.addTarget(self, action: #selector(trimSilenceAmountChanged), for: .valueChanged)
         }
     }
 
+    @IBOutlet weak var playbackSettingsSegmentedControl: UISegmentedControl! {
+        didSet {
+            playbackSettingsSegmentedControl.isHidden = !FeatureFlag.customPlaybackSettings.enabled
+
+            playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectAllPodcasts, forSegmentAt: 0)
+            playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectThisPodcast, forSegmentAt: 1)
+
+            playbackSettingsSegmentedControl.addTarget(self, action: #selector(playbackSettingsDestinationChanged), for: .valueChanged)
+        }
+    }
+
     @IBOutlet var minusBtn: UIButton!
     @IBOutlet var plusBtn: UIButton!
+
+    @IBOutlet weak var speedControlTopConstraint: NSLayoutConstraint! {
+        didSet {
+            speedControlTopConstraint.isActive = FeatureFlag.customPlaybackSettings.enabled
+        }
+    }
 
     @IBOutlet var trimSilenceSpeedsToLabelConstraint: NSLayoutConstraint! {
         didSet {
@@ -247,6 +269,10 @@ class EffectsViewController: SimpleNotificationsViewController {
         analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount)
     }
 
+    @objc private func playbackSettingsDestinationChanged() {
+        // TO IMPLEMENT
+    }
+
     @IBAction func volumeBoostChanged(_ sender: UISwitch) {
         let effects = PlaybackManager.shared.effects()
         effects.volumeBoost = sender.isOn
@@ -331,10 +357,25 @@ class EffectsViewController: SimpleNotificationsViewController {
         volumeBoostSwitch.onTintColor = PlayerColorHelper.playerHighlightColor02(for: .dark)
         trimSilenceSwitch.onTintColor = PlayerColorHelper.playerHighlightColor02(for: .dark)
 
-        trimSilenceAmountControl.lineColor = ThemeColor.playerContrast02()
-        trimSilenceAmountControl.unselectedItemColor = ThemeColor.playerContrast01()
-        trimSilenceAmountControl.selectedBgColor = ThemeColor.playerContrast01()
-        trimSilenceAmountControl.selectedItemColor = PlayerColorHelper.playerBackgroundColor01()
+        if FeatureFlag.customPlaybackSettings.enabled {
+            trimSilenceAmountControl.lineColor = .clear
+            trimSilenceAmountControl.unselectedItemColor = ThemeColor.playerContrast02()
+            trimSilenceAmountControl.selectedBgColor = ThemeColor.playerContrast01()
+            trimSilenceAmountControl.selectedItemColor = PlayerColorHelper.playerBackgroundColor01()
+
+            playbackSettingsSegmentedControl.backgroundColor = ThemeColor.playerContrast06()
+            playbackSettingsSegmentedControl.selectedSegmentTintColor = ThemeColor.playerContrast01()
+
+            let normalAttribute = [NSAttributedString.Key.foregroundColor: ThemeColor.playerContrast02()]
+            playbackSettingsSegmentedControl.setTitleTextAttributes(normalAttribute, for: .normal)
+            let selectedAttribute = [NSAttributedString.Key.foregroundColor: PlayerColorHelper.playerBackgroundColor01()]
+            playbackSettingsSegmentedControl.setTitleTextAttributes(selectedAttribute, for: .selected)
+        } else {
+            trimSilenceAmountControl.lineColor = ThemeColor.playerContrast02()
+            trimSilenceAmountControl.unselectedItemColor = ThemeColor.playerContrast01()
+            trimSilenceAmountControl.selectedBgColor = ThemeColor.playerContrast01()
+            trimSilenceAmountControl.selectedItemColor = PlayerColorHelper.playerBackgroundColor01()
+        }
 
         updateSpeedBtn()
 

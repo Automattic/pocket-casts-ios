@@ -7,6 +7,7 @@
 - Add Title episode sort options to iPhone app [#2175](https://github.com/Automattic/pocket-casts-ios/pull/2175)
 - Add local search in listening history [#2181](https://github.com/Automattic/pocket-casts-ios/issues/2181)
 - Fix missing content type [#2241](https://github.com/Automattic/pocket-casts-ios/pull/2241)
+- Fix tint mode in iOS 18 widgets [#2212](https://github.com/Automattic/pocket-casts-ios/issues/2212)
 
 7.73
 -----
