@@ -5,6 +5,7 @@ require 'json'
 require 'open3'
 
 STRINGS_FILE = File.join('podcasts', 'en.lproj', 'Localizable.strings')
+CHECK_LANG = 'en-US'
 KNOWN_WORDS = %w[
   Pocketcasts Automattic
   OPML opml URL url RSS rss
@@ -24,10 +25,10 @@ YELLOW_BOLD = "\e[33;1m"
 RED = "\e[31;1m"
 RESET = "\e[0m"
 
-def parse_strings_as_dict
-  out, err, status = Open3.capture3('plutil', '-convert', 'json', '-o', '-', STRINGS_FILE)
+def parse_strings_as_dict(strings_file:)
+  out, err, status = Open3.capture3('plutil', '-convert', 'json', '-o', '-', strings_file)
   unless status.success?
-    puts "Encountered an error while trying to convert #{STRINGS_FILE} to JSON: #{err}"
+    puts "Encountered an error while trying to convert #{strings_file} to JSON: #{err}"
     exit 1
   end
   JSON.parse(out)
@@ -39,7 +40,7 @@ end
 # @return [Integer] The number of typos found
 #
 def spellcheck(key:, text:)
-  out, err, status = Open3.capture3('aspell', 'list', '--lang=en-us', stdin_data: text)
+  out, err, status = Open3.capture3('aspell', 'list', "--lang=#{CHECK_LANG}", stdin_data: text)
   raise " ! Error spellchecking key `#{key}`: #{err}" unless err.empty? && status.success?
 
   typos = out.split("\n") - KNOWN_WORDS
@@ -58,7 +59,7 @@ end
 _, status = Open3.capture2e('which', 'aspell')
 raise 'Please install the `aspell` utility using `brew install aspell` first' unless status.success?
 
-dict = parse_strings_as_dict
+dict = parse_strings_as_dict(strings_file: STRINGS_FILE)
 typos_count = 0
 dict.each do |key, str|
   typos_count += spellcheck(key: key, text: str)
