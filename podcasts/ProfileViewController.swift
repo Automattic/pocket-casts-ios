@@ -142,7 +142,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        hideReferralsHint()
+        hideReferralsHint(dontShowAgain: false)
     }
 
     override func handleThemeChanged() {
@@ -488,7 +488,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }()
 
     private func updateReferrals() {
-        Settings.shouldShowReferralsTip = false
         referralsBadge.text = ""
         referralsBadge.isHidden = true
     }
@@ -500,14 +499,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     @objc private func referralsTapped() {
-        Analytics.track(.referralTooltipTapped)
-        hideReferralsHint()
         guard let referralsOfferInfo = ReferralsCoordinator.shared.referralsOfferInfo else {
             return
         }
+        hideReferralsHint(dontShowAgain: true)
         let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo,
                                               onShareGuestPassTap: { [weak self] in
-            self?.updateReferrals()
             self?.dismiss(animated: true)
         }, onCloseTap: { [weak self] in
             self?.dismiss(animated: true)
@@ -538,7 +535,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         self.referralsTipVC = vc
     }
 
-    private func hideReferralsHint() {
+    private func hideReferralsHint(dontShowAgain: Bool) {
+        if dontShowAgain {
+            Settings.shouldShowReferralsTip = false
+        }
         self.referralsTipVC?.dismiss(animated: true)
     }
 
@@ -551,7 +551,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                               message: nil,
                               sizeChanged: { size in
             vc.preferredContentSize = size
-        } ).setupDefaultEnvironment()
+        }, onTap: { [weak self] in
+            Analytics.track(.referralTooltipTapped)
+            self?.hideReferralsHint(dontShowAgain: true)
+        }).setupDefaultEnvironment()
         vc.rootView = AnyView(tipView)
         vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false

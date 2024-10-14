@@ -17,7 +17,7 @@ class ReferralsCoordinator {
     }
 
     var isReferralAvailableToClaim: Bool {
-        return //FeatureFlag.referrals.enabled &&
+        return FeatureFlag.referrals.enabled &&
         !SubscriptionHelper.hasActiveSubscription() &&
         Settings.referralURL != nil
     }

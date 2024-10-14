@@ -5,6 +5,8 @@ struct TipView: View {
     let title: String
     let message: String?
     let sizeChanged: (CGSize)->()
+    let onTap: (()->())?
+
     @EnvironmentObject var theme: Theme
 
     var body: some View {
@@ -31,6 +33,9 @@ struct TipView: View {
                 }
                 .padding(16)
                 .frame(maxHeight: .infinity)
+                .onTapGesture {
+                    onTap?()
+                }
             }
         } contentSizeUpdated: { size in
             sizeChanged(size)
@@ -43,7 +48,7 @@ struct TipView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            TipView(title: L10n.referralsTipTitle(3), message: L10n.referralsTipMessage("2 Months"), sizeChanged: { size in }).setupDefaultEnvironment()
+            TipView(title: L10n.referralsTipTitle(3), message: L10n.referralsTipMessage("2 Months"), sizeChanged: { size in }, onTap: nil).setupDefaultEnvironment()
             Spacer()
         }
     }
