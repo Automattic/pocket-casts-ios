@@ -25,6 +25,9 @@ struct ReferralsClaimBannerView: View {
             .padding()
             .background(theme.primaryUi02Active)
             .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadiusBig))
+            .onLongPressGesture {
+                viewModel.onCloseTap?()
+            }
         }
         .frame(minHeight: Constants.minHeight)
     }
