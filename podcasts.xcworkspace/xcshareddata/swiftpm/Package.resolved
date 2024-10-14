@@ -128,6 +128,15 @@
         }
       },
       {
+        "package": "Gravatar",
+        "repositoryURL": "https://github.com/Automattic/Gravatar-SDK-iOS.git",
+        "state": {
+          "branch": null,
+          "revision": "0c3059578d02f36fe6e9a75bd32e1f52f3dd5353",
+          "version": "3.0.0-rc.1"
+        }
+      },
+      {
         "package": "gRPC",
         "repositoryURL": "https://github.com/google/grpc-binary.git",
         "state": {
@@ -242,6 +251,15 @@
           "branch": null,
           "revision": "4f9164a0a2c9a6a7ff53a2833d54a5c79c957342",
           "version": "0.9.1"
+        }
+      },
+      {
+        "package": "SwiftLintPlugins",
+        "repositoryURL": "https://github.com/SimplyDanny/SwiftLintPlugins",
+        "state": {
+          "branch": null,
+          "revision": "6c3d6c32a37224179dc290f21e03d1238f3d963b",
+          "version": "0.56.2"
         }
       },
       {

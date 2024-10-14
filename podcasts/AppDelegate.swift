@@ -6,6 +6,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import Combine
+import Gravatar
 #if canImport(Pulse)
 import Pulse
 #endif
@@ -406,6 +407,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func setupSecrets() {
         ServerCredentials.sharing = ApiCredentials.sharingServerSecret
+        setupGravatarSecrets()
+    }
+
+    private func setupGravatarSecrets() {
+        Task {
+            await Configuration.shared.configure(
+                with: GravatarSecrets.apiKey,
+                oauthSecrets: .init(
+                    clientID: GravatarSecrets.clientID,
+                    clientSecret: GravatarSecrets.clientSecret,
+                    redirectURI: GravatarSecrets.redirectURI
+                )
+            )
+        }
     }
 
     private func setupSignOutListener() {
@@ -415,4 +430,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: SceneHelper.rootViewController())
     }
+}
+
+// Temporarely definition for tests purposes.
+// This should be replaced with a proper integration of the Gravatar secrets
+struct GravatarSecrets {
+    static let apiKey: String? = nil
+    static let clientID: String = ""
+    static let clientSecret: String = ""
+    static let redirectURI: String = ""
 }

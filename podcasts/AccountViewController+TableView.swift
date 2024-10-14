@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import SafariServices
 import PocketCastsServer
 import UIKit
+import GravatarUI
 
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 
@@ -179,10 +180,22 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             let supporterVC = SupporterContributionsViewController()
             navigationController?.pushViewController(supporterVC, animated: true)
         case .changeAvatar:
-            guard let email = headerViewModel.profile.email,
-                  let safariViewController = GravatarSafariViewController(destination: .avatarUpdate(email: email)) else { return }
-            safariViewController.modalPresentationStyle = .automatic
-            present(safariViewController, animated: true)
+            guard let email = headerViewModel.profile.email else { return }
+
+            let quickEditor = QuickEditorPresenter(
+                email: .init(email),
+                scope: .avatarPicker(.init(contentLayout: .horizontal(presentationStyle: .intrinsicHeight)))
+            )
+
+            quickEditor.present(
+                in: self,
+                onAvatarUpdated: {
+                    NotificationCenter.default.post(name: Constants.Notifications.avatarNeedsRefreshing, object: nil)
+                },
+                onDismiss: {}
+            )
+
+
             Analytics.track(.accountDetailsChangeAvatar)
         case .changeEmail:
             let changeEmailVC = ChangeEmailViewController()
