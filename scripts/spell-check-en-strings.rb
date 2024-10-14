@@ -22,7 +22,8 @@ KNOWN_WORDS = %w[
 ].freeze
 
 YELLOW_BOLD = "\e[33;1m"
-RED = "\e[31;1m"
+CYAN = "\e[36m"
+RED_UNDERSCORE = "\e[31;1;4m"
 RESET = "\e[0m"
 
 def parse_strings_as_dict(strings_file:)
@@ -46,8 +47,8 @@ def spellcheck(key:, text:)
   typos = out.split("\n") - KNOWN_WORDS
   return 0 if typos.empty?
 
-  highlighted = typos.reduce(text) { |str, typo| str.gsub(typo, "#{RED}#{typo}#{RESET}") }
-  puts "#{YELLOW_BOLD}Key#{RESET}: #{key}"
+  highlighted = typos.reduce(text) { |str, typo| str.gsub(typo, "#{RED_UNDERSCORE}#{typo}#{RESET}") }
+  puts "#{YELLOW_BOLD}Key#{RESET}: #{CYAN}#{key}#{RESET}"
   puts "#{YELLOW_BOLD}Text#{RESET}: #{highlighted}"
   puts '------'
   typos.count
