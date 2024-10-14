@@ -2821,8 +2821,6 @@ Nunca compartimos tu dirección de correo electrónico, tu contraseña ni otros 
     <string>Lo sentimos, pero algo ha ido mal al cargar esta transcripción</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Lo sentimos, pero algo ha ido mal al analizar esta transcripción</string>
-    <key>transcript_error_not_available</key>
-    <string>Lo sentimos, pero no hay transcripción disponible para este episodio.</string>
     <key>transcript_error_not_supported</key>
     <string>Lo sentimos, pero este formato de transcripción no es compatible: %1$@</string>
     <key>trial_finished</key>

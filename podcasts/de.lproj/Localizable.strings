@@ -2821,8 +2821,6 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Beim Laden dieses Transkripts ist ein Fehler aufgetreten</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Beim Parsen dieses Transkripts ist ein Fehler aufgetreten</string>
-    <key>transcript_error_not_available</key>
-    <string>Für diese Folge ist kein Transkript verfügbar.</string>
     <key>transcript_error_not_supported</key>
     <string>Dieses Transkriptformat wird nicht unterstützt: %1$@</string>
     <key>trial_finished</key>
