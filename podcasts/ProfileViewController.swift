@@ -118,6 +118,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(.whatsNewDismissed, selector: #selector(whatsNewDismissed))
         addCustomObserver(EndOfYear.eoyEligibilityDidChange, selector: #selector(handleDataChangedNotification))
         addCustomObserver(ServerNotifications.iapProductsUpdated, selector: #selector(refreshReferrals))
+        addCustomObserver(.referralURLChanged, selector: #selector(refreshReferrals))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         if promoRedeemedMessage != nil {

@@ -132,7 +132,7 @@ class ReferralClaimPassModel: ObservableObject {
 
         state = .claimVerify
         guard let result = await ApiServerHandler.shared.validateCode(code) else {
-            Settings.referralURL = nil
+            coordinator.cleanReferalURL()
             state = .notAvailable
             return
         }
@@ -166,7 +166,7 @@ class ReferralClaimPassModel: ObservableObject {
         if success {
             Analytics.track(.referralPurchaseSuccess)
             await redeemCode()
-            Settings.referralURL = nil
+            coordinator.cleanReferalURL()
             onComplete?()
         } else {
             state = .start
