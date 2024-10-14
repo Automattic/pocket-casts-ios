@@ -7,21 +7,21 @@ require 'open3'
 STRINGS_FILE = File.join('podcasts', 'en.lproj', 'Localizable.strings')
 KNOWN_WORDS = %w[
   Pocketcasts Automattic
-  OPML opml
+  OPML opml URL url RSS rss
   Preselect preselect
   Unplayed unplayed
   Autoplay autoplay
-  Unarchive Unarchived unarchive unarchived Unarchiving unarchiving
+  Unarchive unarchive Unarchived unarchived Unarchiving unarchiving
   Unstar unstar Unstarring unstarring
   EP
   Alexa Siri Sonos Castbox castbox
-  uuid VPN RSS macOS
-  outro
-  Bazinga
+  uuid VPN macOS
+  outro Rosé
+  Bazinga Wahhh Aaaah Heyooo Ew
 ].freeze
 
 YELLOW_BOLD = "\e[33;1m"
-RED = "\e[31m"
+RED = "\e[31;1m"
 RESET = "\e[0m"
 
 def parse_strings_as_dict
