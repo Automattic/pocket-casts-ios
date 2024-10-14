@@ -197,7 +197,7 @@ private extension PlusPurchaseModel {
         let frequency: SubscriptionFrequency
         switch purchasedProduct {
 
-        case .yearly, .patronYearly:
+        case .yearly, .patronYearly, .yearlyReferral:
             frequency = .yearly
             dateComponent.year = 1
 

@@ -5,10 +5,11 @@ enum IAPProductID: String {
     case monthly = "com.pocketcasts.plus.monthly"
     case patronYearly = "com.pocketcasts.patron_yearly"
     case patronMonthly = "com.pocketcasts.patron_monthly"
+    case yearlyReferral = "com.pocketcasts.plus.yearly.referral"
 
     var renewalPrompt: String {
         switch self {
-        case .yearly, .patronYearly:
+        case .yearly, .patronYearly, .yearlyReferral:
             return L10n.accountPaymentRenewsYearly
         case .monthly, .patronMonthly:
             return L10n.accountPaymentRenewsMonthly
@@ -56,4 +57,12 @@ enum PlanFrequency {
 struct ProductInfo {
     let plan: Plan
     let frequency: PlanFrequency
+}
+
+struct IAPDiscountInfo {
+    let identifier: String
+    let uuid: UUID
+    let timestamp: Int
+    let key: String
+    let signature: String
 }

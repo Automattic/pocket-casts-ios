@@ -139,7 +139,7 @@ struct PlusAccountUpgradePrompt: View {
 extension IAPProductID {
     var subscriptionTier: SubscriptionTier {
         switch self {
-        case .monthly, .yearly:
+        case .monthly, .yearly, .yearlyReferral:
             return .plus
         case .patronYearly, .patronMonthly:
             return .patron
@@ -148,7 +148,7 @@ extension IAPProductID {
 
     var plan: Plan {
         switch self {
-        case .monthly, .yearly:
+        case .monthly, .yearly, .yearlyReferral:
             return .plus
         case .patronYearly, .patronMonthly:
             return .patron
@@ -159,7 +159,7 @@ extension IAPProductID {
         switch self {
         case .monthly, .patronMonthly:
             return .monthly
-        case .yearly, .patronYearly:
+        case .yearly, .patronYearly, .yearlyReferral:
             return .yearly
         }
     }

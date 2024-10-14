@@ -5,7 +5,7 @@ import Combine
 @MainActor
 class ReferralClaimPassModel: ObservableObject {
     let referralURL: URL?
-    let offerInfo: ReferralsOfferInfo
+    let coordinator: ReferralsCoordinator
     var canClaimPass: Bool
     var presentationController: UIViewController?
     var onComplete: (() -> ())?
@@ -21,9 +21,9 @@ class ReferralClaimPassModel: ObservableObject {
 
     @Published var state: State
 
-    init(referralURL: URL? = nil, offerInfo: ReferralsOfferInfo, canClaimPass: Bool = true, presentationController: UIViewController? = nil, onComplete: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
+    init(referralURL: URL? = nil, coordinator: ReferralsCoordinator = ReferralsCoordinator.shared, canClaimPass: Bool = true, presentationController: UIViewController? = nil, onComplete: (() -> ())? = nil, onCloseTap: (() -> (()))? = nil) {
         self.referralURL = referralURL
-        self.offerInfo = offerInfo
+        self.coordinator = coordinator
         self.canClaimPass = canClaimPass
         self.presentationController = presentationController
         self.onComplete = onComplete
@@ -62,11 +62,11 @@ class ReferralClaimPassModel: ObservableObject {
     }
 
     var claimPassTitle: String {
-        L10n.referralsClaimGuestPassTitle(offerInfo.localizedOfferDurationAdjective)
+        L10n.referralsClaimGuestPassTitle(coordinator.referralsOfferInfo.localizedOfferDurationAdjective)
     }
 
     var claimPassDetail: String {
-        L10n.referralsClaimGuestPassDetail(offerInfo.localizedPriceAfterOffer)
+        L10n.referralsClaimGuestPassDetail(coordinator.referralsOfferInfo.localizedPriceAfterOffer)
     }
 
     func refreshStatusAfterLogin() async {
@@ -99,11 +99,8 @@ class ReferralClaimPassModel: ObservableObject {
             state = .notAvailable
             return
         }
-        guard let productToBuy = translateToProduct(offer: result) else {
-            state = .notAvailable
-            return
-        }
-        purchase(product: productToBuy)
+
+        purchase(offer: result)
     }
 
     private func signup() {
@@ -112,23 +109,12 @@ class ReferralClaimPassModel: ObservableObject {
         presentationController?.present(onboardVC, animated: true)
     }
 
-    private func translateToProduct(offer: ReferralValidate) -> IAPProductID? {
-        if offer.offer == "two_months_free" {
-            return IAPProductID.patronYearly
-        }
-        return nil
-    }
-
-    private func purchase(product: IAPProductID) {
-        let purchaseHandler = IAPHelper.shared
-        guard purchaseHandler.canMakePurchases else {
-            state = .notAvailable
-            return
-        }
-
+    private func purchase(offer: ReferralValidate) {
         Analytics.track(.referralPurchaseShown)
 
-        guard purchaseHandler.buyProduct(identifier: product) else {
+        let coordinator = ReferralsCoordinator.shared
+
+        guard coordinator.purchase(offer: offer) else {
             state = .notAvailable
             return
         }
@@ -194,7 +180,7 @@ struct ReferralClaimPassView: View {
                         .font(size: 31, style: .title, weight: .bold)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
-                    ReferralCardView(offerDuration: viewModel.offerInfo.localizedOfferDurationAdjective)
+                    ReferralCardView(offerDuration: viewModel.coordinator.referralsOfferInfo.localizedOfferDurationAdjective)
                         .frame(width: Constants.defaultCardSize.width, height: Constants.defaultCardSize.height)
                     Text(viewModel.claimPassDetail)
                         .font(size: 13, style: .body, weight: .medium)
@@ -234,5 +220,5 @@ struct ReferralClaimPassView: View {
 }
 
 #Preview {
-    ReferralClaimPassView(viewModel: ReferralClaimPassModel(referralURL: nil, offerInfo: ReferralsOfferInfoMock(), canClaimPass: true))
+    ReferralClaimPassView(viewModel: ReferralClaimPassModel(referralURL: nil, coordinator: ReferralsCoordinator.shared, canClaimPass: true))
 }

@@ -1,17 +1,20 @@
 import Foundation
 import PocketCastsServer
 import PocketCastsUtils
+import StoreKit
 
 class ReferralsCoordinator {
 
-    var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoMock()
+    var referralsOfferInfo: ReferralsOfferInfo = ReferralsOfferInfoIAP()
 
     var areReferralsAvailableToSend: Bool {
         return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
     }
 
     var isReferralAvailableToClaim: Bool {
-        return FeatureFlag.referrals.enabled && !SubscriptionHelper.hasActiveSubscription() && Settings.referralURL != nil
+        return //FeatureFlag.referrals.enabled &&
+        !SubscriptionHelper.hasActiveSubscription() &&
+        Settings.referralURL != nil
     }
 
     static var shared: ReferralsCoordinator = {
@@ -40,8 +43,8 @@ class ReferralsCoordinator {
             }
 
             let viewModel = ReferralClaimPassModel(referralURL: url,
-                                                   offerInfo: self.referralsOfferInfo,
-                                                   canClaimPass: self.isReferralAvailableToClaim,
+                                                   coordinator: self,
+                                                   canClaimPass: true,
                                                    onComplete: {
                 viewController.dismiss(animated: true)
                 onComplete?()
@@ -53,5 +56,46 @@ class ReferralsCoordinator {
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
             viewController.present(referralClaimPassVC, animated: true)
         }
+    }
+
+    private func translateToProduct(offer: ReferralValidate) -> IAPProductID? {
+        guard let iap = offer.details?.iap else {
+            return nil
+        }
+        return IAPProductID(rawValue: iap)
+    }
+
+    func purchase(offer: ReferralValidate) -> Bool {
+        guard let productID = translateToProduct(offer: offer) else {
+            return false
+        }
+
+        let purchaseHandler = IAPHelper.shared
+
+        let discountInfo = makeDiscountInfo(from: offer)
+
+        guard purchaseHandler.buyProduct(identifier: productID, discount: discountInfo) else {
+            return false
+        }
+
+        return true
+    }
+
+    func makeDiscountInfo(from offer: ReferralValidate) -> IAPDiscountInfo? {
+        guard let details = offer.details,
+              details.type == "offer",
+              let offerID = details.offerId,
+              let uuidString = details.nonce,
+              let uuid = UUID(uuidString: uuidString),
+              let timestamp = details.timestampMs,
+              let key = details.keyIdentifier,
+              let signature = details.signature
+              //let dataDecoded = Data(base64Encoded: signatureEncoded),
+              //let signature = String(data: dataDecoded, encoding: .utf8)
+        else {
+            return nil
+        }
+
+        return IAPDiscountInfo(identifier: offerID, uuid: uuid, timestamp: timestamp, key: key, signature: signature)
     }
 }

@@ -8,7 +8,7 @@ class IAPHelper: NSObject {
     static let shared = IAPHelper(settings: SettingsProxy(), networking: ApiServerHandler.shared)
 
     private var productIdentifiers: [IAPProductID] {
-        [.monthly, .yearly, .patronMonthly, .patronYearly]
+        [.monthly, .yearly, .patronMonthly, .patronYearly, .yearlyReferral]
     }
     private var productsArray = [SKProduct]()
     private var requestedPurchase: String!
@@ -98,14 +98,17 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
-    public func buyProduct(identifier: IAPProductID) -> Bool {
+    public func buyProduct(identifier: IAPProductID, discount: IAPDiscountInfo? = nil) -> Bool {
         guard settings.isLoggedIn, let product = getProduct(for: identifier) else {
             FileLog.shared.addMessage("IAPHelper Failed to initiate purchase of \(identifier)")
             return false
         }
 
         FileLog.shared.addMessage("IAPHelper Buying \(product.productIdentifier)")
-        let payment = SKPayment(product: product)
+        let payment = SKMutablePayment(product: product)
+        if let discount {
+            payment.paymentDiscount = SKPaymentDiscount(identifier: discount.identifier, keyIdentifier: discount.key, nonce: discount.uuid, signature: discount.signature, timestamp: NSNumber(integerLiteral: discount.timestamp))
+        }
         SKPaymentQueue.default().add(payment)
 
         return true
@@ -115,7 +118,7 @@ class IAPHelper: NSObject {
         switch identifier {
         case .monthly, .patronMonthly:
             return L10n.month
-        case .yearly, .patronYearly:
+        case .yearly, .patronYearly, .yearlyReferral:
             return L10n.year
         }
     }
@@ -127,7 +130,7 @@ class IAPHelper: NSObject {
         }
 
         switch identifier {
-        case .yearly, .patronYearly:
+        case .yearly, .patronYearly, .yearlyReferral:
             return L10n.plusYearlyFrequencyPricingFormat(price)
         case .monthly, .patronMonthly:
             return L10n.plusMonthlyFrequencyPricingFormat(price)
@@ -220,6 +223,15 @@ extension IAPHelper {
         return offer.subscriptionPeriod.localizedPeriodString()
     }
 
+    func localizedFreeTrialDurationAdjective(_ identifier: IAPProductID) -> String? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+
+        return offer.subscriptionPeriod.localizedPeriodAdjective()
+    }
+
+
     /// Returns the localized offer price if there is one
     /// - Parameter identifier: The product to check
     /// - Returns: A formatted string ($1) or nil if there is no offer available
@@ -253,9 +265,23 @@ extension IAPHelper {
     /// - Parameter identifier: The product to check
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     private func getFreeTrialOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
+        guard let offer = getProduct(for: identifier)?.introductoryPrice,
+            offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
+        else {
+            return nil
+        }
+
+        return offer
+    }
+
+    /// Checks if there is a promotional offer for this given product
+    /// - Parameter identifier: The product to check
+    /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
+    func getPromoOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
         guard
-            isEligibleForOffer,
-            let offer = getProduct(for: identifier)?.introductoryPrice,
+            let offer = getProduct(for: identifier)?.discounts.filter({ discount in
+                discount.type != .introductory
+            }).first,
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
@@ -408,6 +434,24 @@ private extension SKProductSubscriptionPeriod {
 
         return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
     }
+
+    func localizedPeriodAdjective() -> String? {
+        var localizedUnit: String = "N/A"
+        switch unit {
+            case .day:
+                localizedUnit = L10n.day
+            case .week:
+                localizedUnit = L10n.week
+            case .month:
+                localizedUnit = L10n.month
+            case .year:
+                localizedUnit = L10n.year
+        @unknown default:
+            localizedUnit = "N/A"
+        }
+        return "\(self.numberOfUnits)-\(localizedUnit.capitalized)"
+    }
+
     /// Return the date when the offer price ends if an offer is available and is time bound
     var offerEndDate: Date? {
         let calendarUnit: Calendar.Component
