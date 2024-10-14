@@ -87,15 +87,18 @@ class ReferralsCoordinator {
     func makeDiscountInfo(from offer: ReferralValidate) -> IAPDiscountInfo? {
         guard let details = offer.details,
               details.type == "offer",
+              let offerID = details.offerId,
               let uuidString = details.nonce,
               let uuid = UUID(uuidString: uuidString),
               let timestamp = details.timestampMs,
               let key = details.keyIdentifier,
               let signature = details.signature
+              //let dataDecoded = Data(base64Encoded: signatureEncoded),
+              //let signature = String(data: dataDecoded, encoding: .utf8)
         else {
             return nil
         }
-        let offerID = details.offer ?? "com.pocketcasts.plus.yearly.referral.promo"
+
         return IAPDiscountInfo(identifier: offerID, uuid: uuid, timestamp: timestamp, key: key, signature: signature)
     }
 }
