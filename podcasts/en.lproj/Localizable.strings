@@ -1426,6 +1426,12 @@
 /* A common string used throughout the app. Generic message informing the user that playback failed. */
 "playback_failed" = "Playback Failed";
 
+/* Playback settings option in the Effects Player panel */
+"playback_effect_all_podcasts" = "All podcasts";
+
+/* Playback settings option in the Effects Player panel */
+"playback_effect_this_podcast" = "This podcast";
+
 /* Label indicating the current value for the playback speed. '%1$@' is a placeholder for the playback speed and 'x' is meant to read as 'times' as in '1.1 times' for '1.1x' */
 "playback_speed" = "%1$@x";
 

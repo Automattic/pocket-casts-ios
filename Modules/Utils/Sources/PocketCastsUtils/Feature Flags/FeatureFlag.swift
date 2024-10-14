@@ -118,6 +118,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the Mimetype library to check the file mimetype
     case useMimetypePackage
 
+    /// Enable the Segmented Control into the Effects Player panel
+    /// to apply the Global or local settings
+    case customPlaybackSettings
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -198,6 +202,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .useMimetypePackage:
             true
+        case .customPlaybackSettings:
+            false
         }
     }
 
