@@ -41,7 +41,7 @@ struct LogFileWriter: PersistentTextWriting {
 
         do {
             try fileHandle.seekToEnd()
-            fileHandle.write(encodedText)
+            try fileHandle.write(contentsOf: encodedText)
         } catch {
             logger?.error("Failed to seek to end of file at path <\(targetFilePath)>. Error: \(error)")
         }
