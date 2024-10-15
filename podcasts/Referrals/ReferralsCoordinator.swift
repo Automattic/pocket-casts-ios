@@ -10,10 +10,10 @@ extension NSNotification.Name {
 class ReferralsCoordinator {
 
     var referralsOfferInfo: ReferralsOfferInfo? {
-        guard let productInfo = IAPHelper.shared.getProduct(for: .yearlyReferral) else {
+        guard IAPHelper.shared.getProduct(for: .yearlyReferral) != nil else {
             return nil
         }
-        return ReferralsOfferInfoIAP()
+        return ReferralsOfferInfoIAP(productID: .yearlyReferral)
     }
 
     var areReferralsAvailableToSend: Bool {
