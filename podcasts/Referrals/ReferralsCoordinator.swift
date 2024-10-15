@@ -107,7 +107,7 @@ class ReferralsCoordinator {
               let uuid = UUID(uuidString: uuidString),
               let timestamp = details.timestampMs,
               let key = details.keyIdentifier,
-              let signature = details.signature              
+              let signature = details.signature
         else {
             return nil
         }
