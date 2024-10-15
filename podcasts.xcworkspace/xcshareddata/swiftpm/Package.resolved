@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/Automattic/Gravatar-SDK-iOS.git",
         "state": {
           "branch": null,
-          "revision": "0c3059578d02f36fe6e9a75bd32e1f52f3dd5353",
-          "version": "3.0.0-rc.1"
+          "revision": "ca27d707e672811f72c72b4d8a95e59505995a60",
+          "version": "3.0.0-rc.2"
         }
       },
       {

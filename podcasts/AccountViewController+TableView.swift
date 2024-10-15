@@ -182,19 +182,15 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .changeAvatar:
             guard let email = headerViewModel.profile.email else { return }
 
-            let quickEditor = QuickEditorPresenter(
+            QuickEditorPresenter(
                 email: .init(email),
-                scope: .avatarPicker(.init(contentLayout: .horizontal(presentationStyle: .intrinsicHeight)))
-            )
-
-            quickEditor.present(
+                scope: .avatarPicker(.horizontalInstrinsicHeight)
+            ).present(
                 in: self,
                 onAvatarUpdated: {
                     NotificationCenter.default.post(name: Constants.Notifications.avatarNeedsRefreshing, object: nil)
-                },
-                onDismiss: {}
+                }
             )
-
 
             Analytics.track(.accountDetailsChangeAvatar)
         case .changeEmail:

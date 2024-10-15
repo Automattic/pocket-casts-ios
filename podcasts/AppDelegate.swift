@@ -416,7 +416,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 with: GravatarSecrets.apiKey,
                 oauthSecrets: .init(
                     clientID: GravatarSecrets.clientID,
-                    clientSecret: GravatarSecrets.clientSecret,
                     redirectURI: GravatarSecrets.redirectURI
                 )
             )
@@ -437,6 +436,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 struct GravatarSecrets {
     static let apiKey: String? = nil
     static let clientID: String = ""
-    static let clientSecret: String = ""
     static let redirectURI: String = ""
 }
