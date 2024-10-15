@@ -24,7 +24,7 @@ class IAPHelper: NSObject {
     private var isRequestingProducts = false
 
     /// Whether purchasing is allowed in the current environment or not
-    private (set) var canMakePurchases = BuildEnvironment.current != .testFlight
+    private (set) var canMakePurchases = true
 
     private var settings: IAPHelperSettings
     private var networking: IAPHelperNetworking
