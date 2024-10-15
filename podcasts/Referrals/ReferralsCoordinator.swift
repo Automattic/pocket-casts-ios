@@ -3,6 +3,10 @@ import PocketCastsServer
 import PocketCastsUtils
 import StoreKit
 
+extension NSNotification.Name {
+    static let referralURLChanged = NSNotification.Name("referralURLChanged")
+}
+
 class ReferralsCoordinator {
 
     var referralsOfferInfo: ReferralsOfferInfo? {
@@ -17,7 +21,7 @@ class ReferralsCoordinator {
     }
 
     var isReferralAvailableToClaim: Bool {
-        return //FeatureFlag.referrals.enabled &&
+        return FeatureFlag.referrals.enabled &&
         !SubscriptionHelper.hasActiveSubscription() &&
         Settings.referralURL != nil
     }
@@ -25,6 +29,16 @@ class ReferralsCoordinator {
     static var shared: ReferralsCoordinator = {
         ReferralsCoordinator()
     }()
+
+    func cleanReferalURL() {
+        Settings.referralURL = nil
+        NotificationCenter.default.post(name: .referralURLChanged, object: nil)
+    }
+
+    func setReferralURL(_ url: URL) {
+        Settings.referralURL = url.absoluteString
+        NotificationCenter.default.post(name: .referralURLChanged, object: nil)
+    }
 
     func startClaimFlow(from viewController: UIViewController) {
         var referralURL: URL?
@@ -39,8 +53,7 @@ class ReferralsCoordinator {
             guard let self else { return }
             var url: URL?
             if let referralURL {
-                Settings.referralURL = referralURL.absoluteString
-                url = referralURL
+                setReferralURL(referralURL)
             } else {
                 if let urlString = Settings.referralURL {
                     url = URL(string: urlString)
