@@ -107,7 +107,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         } else {
             accountOptions = [upgradeRow, .newsletter].compactMap { $0 }
         }
-        if FeatureFlag.gravatarChangeAvatar.enabled && headerViewModel.profile.isLoggedIn {
+        if headerViewModel.profile.isLoggedIn {
             accountOptions.insert(.changeAvatar, safelyAt: 0)
         }
         if SubscriptionHelper.hasActiveSubscription() {
