@@ -222,8 +222,8 @@
         "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
         "state": {
           "branch": null,
-          "revision": "5421f94cc859eb65f5ae3866165a053aa634431e",
-          "version": "8.32.0"
+          "revision": "54cc2e3e4fcbf9d4c7708ce00d3b6eee29aecbb1",
+          "version": "8.38.0"
         }
       },
       {
@@ -231,8 +231,8 @@
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {
           "branch": null,
-          "revision": "e17d61f26df0f0e06f58f6977ba05a097a720106",
-          "version": "1.27.1"
+          "revision": "ebc7251dd5b37f627c93698e4374084d98409633",
+          "version": "1.28.2"
         }
       },
       {
@@ -249,8 +249,8 @@
         "repositoryURL": "https://github.com/dagronf/SwiftSubtitles",
         "state": {
           "branch": null,
-          "revision": "3aada0274591b16c05d074073f48a16f530396f1",
-          "version": "1.6.0"
+          "revision": "7cfb9cea6d7b85212de4f445dda17b8f5026c4ff",
+          "version": "1.7.0"
         }
       },
       {
@@ -258,7 +258,7 @@
         "repositoryURL": "https://github.com/danielebogo/Swime",
         "state": {
           "branch": "master",
-          "revision": "51200c73c04cc9a8718d7d9ad70a3bf6c6f87dd1",
+          "revision": "6a507c6480de4603bc5b6f178d4b1855b9c05a8c",
           "version": null
         }
       },
@@ -285,8 +285,8 @@
         "repositoryURL": "https://github.com/dagronf/TinyCSV",
         "state": {
           "branch": null,
-          "revision": "a354f61664eef13236f20c4eb5400b50a8844d5a",
-          "version": "1.0.0"
+          "revision": "05d691ee7bab64f5ff075b97f47ef41d36a81f6f",
+          "version": "1.0.1"
         }
       },
       {
