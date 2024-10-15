@@ -53,6 +53,7 @@ class ReferralsCoordinator {
             guard let self else { return }
             var url: URL?
             if let referralURL {
+                url = referralURL
                 setReferralURL(referralURL)
             } else {
                 if let urlString = Settings.referralURL {
