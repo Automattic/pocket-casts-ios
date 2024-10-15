@@ -43,7 +43,7 @@ struct LogFileWriter: PersistentTextWriting {
             try fileHandle.seekToEnd()
             try fileHandle.write(contentsOf: encodedText)
         } catch {
-            logger?.error("Failed to seek to end of file at path <\(targetFilePath)>. Error: \(error)")
+            handle(fileHandleWriteError: error, encounteredWriting: text)
         }
 
         do {
@@ -70,6 +70,8 @@ struct LogFileWriter: PersistentTextWriting {
             } catch {
                 logger?.error("Failed to create directory structure for logs at <\(targetFilePath)>. Error: \(error)")
             }
+        case NSFileWriteOutOfSpaceError:
+            logger?.debug("Attempted to write to log file but disk is full. Error: \(fileHandleWriteError)")
 
         default:
             logger?.debug("Unable to write to file. Error: \(fileHandleWriteError)")
