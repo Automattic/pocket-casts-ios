@@ -461,6 +461,8 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Ladda upp till molnet</string>
     <key>database_migration</key>
     <string>Vi flyttar på lite dittan och dattan så att appen ska bli snabbare ...</string>
+    <key>day</key>
+    <string>dag</string>
     <key>day_listened</key>
     <string>Dag lyssnad</string>
     <key>day_saved</key>
@@ -2821,6 +2823,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Något gick fel vid inläsningen av den här transkriptionen</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Något gick fel vid tolkningen av den här transkriptionen</string>
+    <key>transcript_error_not_available</key>
+    <string>Det finns ingen transkription tillgänglig för det här avsnittet</string>
     <key>transcript_error_not_supported</key>
     <string>Formatet på den här transkriptionen stöds inte: %1$@</string>
     <key>trial_finished</key>
@@ -2959,6 +2963,8 @@ Båda alternativen är ärligt talat riktigt bra. 🙂</string>
     <string>Du kan placera avsnitt i kö för uppspelning via skärmen Avsnittsinformation, eller så kan du lägga till dem på din telefon.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Inget i Nästa</string>
+    <key>week</key>
+    <string>vecka</string>
     <key>welcome_discover_button</key>
     <string>Hitta min nästa podcast</string>
     <key>welcome_discover_description</key>

@@ -30,7 +30,7 @@
     <key>IyhbAH</key>
     <string>Obrir filtre</string>
     <key>LdrEPN</key>
-    <string>Una petició per reproduir contingut multimèdia</string>
+    <string>Una petició per a reproduir contingut multimèdia</string>
     <key>MbU5ep</key>
     <string>Reproduir aleatòriament ${mediaItems}</string>
     <key>No0K9w</key>
@@ -90,7 +90,7 @@
     <key>rnkZnd</key>
     <string>Saltar capítol</string>
     <key>rvNMpm</key>
-    <string>Reanudar</string>
+    <string>Reprendre</string>
     <key>sLPQxZ</key>
     <string>Reproduir ${mediaContainer}</string>
     <key>xdnqvn</key>
