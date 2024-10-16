@@ -23,7 +23,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="420" height="193"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="193" id="nYf-BO-wnO"/>
+                        <constraint firstAttribute="height" priority="999" constant="193" id="nYf-BO-wnO"/>
                     </constraints>
                     <collectionViewLayout key="collectionViewLayout" id="08u-0C-oHP" customClass="GridLayout" customModule="podcasts" customModuleProvider="target"/>
                     <connections>

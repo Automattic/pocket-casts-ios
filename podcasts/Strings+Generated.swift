@@ -518,6 +518,8 @@ internal enum L10n {
   internal static var customEpisodeUpload: String { return L10n.tr("Localizable", "custom_episode_upload") }
   /// We're moving a few bits and bytes so the app runs faster...
   internal static var databaseMigration: String { return L10n.tr("Localizable", "database_migration") }
+  /// day
+  internal static var day: String { return L10n.tr("Localizable", "day") }
   /// Day listened
   internal static var dayListened: String { return L10n.tr("Localizable", "day_listened") }
   /// Day saved
@@ -1721,6 +1723,10 @@ internal enum L10n {
   internal static var playLast: String { return L10n.tr("Localizable", "play_last") }
   /// Play Next
   internal static var playNext: String { return L10n.tr("Localizable", "play_next") }
+  /// All podcasts
+  internal static var playbackEffectAllPodcasts: String { return L10n.tr("Localizable", "playback_effect_all_podcasts") }
+  /// This podcast
+  internal static var playbackEffectThisPodcast: String { return L10n.tr("Localizable", "playback_effect_this_podcast") }
   /// Mad Max
   internal static var playbackEffectTrimSilenceMax: String { return L10n.tr("Localizable", "playback_effect_trim_silence_max") }
   /// Medium
@@ -3240,7 +3246,7 @@ internal enum L10n {
   internal static var transcriptErrorFailedToLoad: String { return L10n.tr("Localizable", "transcript_error_failed_to_load") }
   /// Sorry, but something went wrong while parsing this transcript
   internal static var transcriptErrorFailedToParse: String { return L10n.tr("Localizable", "transcript_error_failed_to_parse") }
-  /// Sorry, but a transcript is not available for this episode.
+  /// Sorry, but this episode has no transcript available
   internal static var transcriptErrorNotAvailable: String { return L10n.tr("Localizable", "transcript_error_not_available") }
   /// Sorry, but this transcript format is not supported: %1$@
   internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
@@ -3388,6 +3394,8 @@ internal enum L10n {
   internal static var watchUpNextNoItemsSubtitle: String { return L10n.tr("Localizable", "watch_up_next_no_items_subtitle") }
   /// Nothing in Up Next
   internal static var watchUpNextNoItemsTitle: String { return L10n.tr("Localizable", "watch_up_next_no_items_title") }
+  /// week
+  internal static var week: String { return L10n.tr("Localizable", "week") }
   /// Find My Next Podcast
   internal static var welcomeDiscoverButton: String { return L10n.tr("Localizable", "welcome_discover_button") }
   /// Find under-the-radar and trending podcasts in our hand-curated Discover page.
