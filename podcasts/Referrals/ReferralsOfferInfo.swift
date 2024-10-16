@@ -20,3 +20,18 @@ struct ReferralsOfferInfoMock: ReferralsOfferInfo {
         return "$39.99 USD"
     }
 }
+
+struct ReferralsOfferInfoIAP: ReferralsOfferInfo {
+
+    var localizedOfferDurationNoun: String {
+        return IAPHelper.shared.localizedFreeTrialDuration(.yearlyReferral)?.capitalized ?? "N/A"
+    }
+
+    var localizedOfferDurationAdjective: String {
+        return IAPHelper.shared.localizedFreeTrialDurationAdjective(.yearlyReferral)?.capitalized ?? "N/A"
+    }
+
+    var localizedPriceAfterOffer: String {
+        return IAPHelper.shared.getPrice(for: .yearlyReferral)
+    }
+}

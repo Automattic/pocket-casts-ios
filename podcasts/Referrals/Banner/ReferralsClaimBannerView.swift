@@ -3,13 +3,13 @@ import SwiftUI
 struct ReferralsClaimBannerView: View {
     @EnvironmentObject var theme: Theme
 
-    let viewModel: ReferralClaimPassModel
+    @StateObject var viewModel: ReferralClaimPassModel
 
     var body: some View {
         ZStack {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(L10n.referralsClaimGuestPassBannerTitle(viewModel.offerInfo.localizedOfferDurationAdjective))
+                    Text(viewModel.claimPassTitle)
                         .font(size: Constants.titleSize, style: .body, weight: .bold)
                         .frame(alignment: .topLeading)
                         .foregroundStyle(theme.primaryText01)
@@ -41,7 +41,7 @@ struct ReferralsClaimBannerView: View {
 }
 
 #Preview {
-    ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(referralURL: nil, offerInfo: ReferralsOfferInfoMock()))
+    ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(referralURL: nil, coordinator: ReferralsCoordinator.shared))
             .environmentObject(Theme(previewTheme: .light))
             .previewLayout(.sizeThatFits)
             .padding(16)

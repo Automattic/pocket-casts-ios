@@ -79,9 +79,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the transcripts feature on podcasts episodes
     case transcripts
 
-    /// Makes the "Change Avatar" button visible in the Account Settings.
-    case gravatarChangeAvatar
-
     /// Enables the Kids banner
     case kidsProfile
 
@@ -117,6 +114,10 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Use the Mimetype library to check the file mimetype
     case useMimetypePackage
+
+    /// Enable the Segmented Control into the Effects Player panel
+    /// to apply the Global or local settings
+    case customPlaybackSettings
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -178,8 +179,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .transcripts:
             true
-        case .gravatarChangeAvatar:
-            true
         case .kidsProfile:
             false
         case .upgradeExperiment:
@@ -198,6 +197,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .useMimetypePackage:
             true
+        case .customPlaybackSettings:
+            false
         }
     }
 
