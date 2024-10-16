@@ -119,6 +119,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// to apply the Global or local settings
     case customPlaybackSettings
 
+    /// Enables Gravatar native quick editor for Avatar  updates, replacing the web-view Gravatar editor.
+    case gravatarNativeQuickEditor
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -199,6 +202,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .customPlaybackSettings:
             false
+        case .gravatarNativeQuickEditor:
+            true
         }
     }
 
