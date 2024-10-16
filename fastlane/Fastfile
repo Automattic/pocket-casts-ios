@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dotenv'
+require 'open3'
 
 fastlane_version '2.0'
 
@@ -104,6 +105,22 @@ MANUALLY_MAINTAINED_STRINGS_FILES = {
   File.join(EN_LPROJ_FOLDER, 'InfoPlist.strings') => 'infoplist_',
   File.join(EN_LPROJ_FOLDER, 'Intents.strings') => 'siri_intent_definition_key_'
 }.freeze
+
+# List of exceptions / known words during spell-checking. Used by the `spellcheck_strings` lane.
+SPELLCHECK_KNOWN_WORDS = %w[
+  Pocketcasts Automattic
+  OPML opml URL url RSS rss
+  Preselect preselect
+  Unplayed unplayed
+  Autoplay autoplay
+  Unarchive unarchive Unarchived unarchived Unarchiving unarchiving
+  Unstar unstar Unstarring unstarring
+  EP
+  Alexa Siri Sonos Castbox castbox
+  uuid VPN macOS
+  outro Rosé
+  Bazinga Wahhh Aaaah Heyooo Ew
+].freeze
 
 # URL of the GlotPress project containing the strings used in the app
 GLOTPRESS_APP_STRINGS_PROJECT_URL = 'https://translate.wordpress.com/projects/pocket-casts/ios/'
@@ -686,6 +703,53 @@ platform :ios do
       message: 'Freeze strings for localization',
       allow_nothing_to_commit: true
     )
+  end
+
+  # Run `aspell` tool on `en.lproj/*.strings` files to spell-check their values
+  #
+  # Prints the found typos to stdout (using ANSI colors in the terminal output to highlight them in context).
+  #
+  # @param fail_on_typos [Boolean] If true, will exit with `UI.user_error!` if typos are found, thus interrupting fastlane.
+  #                                If false (the default), will just return the number of typos without raising an exception
+  # @return the number of typos found (0 if none)
+  # @raise if `aspell` or `plutil` tools are not installed, or if typos are found and `fail_on_typos` was `true`
+  #
+  lane :spellcheck_strings do |fail_on_typos: false|
+    spellcheck_locale = 'en-US'
+
+    _, status = Open3.capture2e('which', 'aspell')
+    UI.user_error!('Please install the `aspell` utility using `brew install aspell` first') unless status.success?
+
+    typos_count = 0
+    MANUALLY_MAINTAINED_STRINGS_FILES.each_key do |strings_file|
+      # Parse strings file as dictionary
+      out, err, status = Open3.capture3('plutil', '-convert', 'json', '-o', '-', strings_file)
+      UI.shell_error!("Encountered an error while trying to convert #{strings_file} to JSON: #{err}") unless status.success?
+
+      dict = JSON.parse(out)
+      dict.each do |key, text|
+        # Spell-check each entry
+        text.gsub!(/\${[a-zA-Z]+}/, 'this') # To avoid `${variable}` placeholders in Intents.strings to be seen as typos
+        out, err, status = Open3.capture3('aspell', 'list', "--lang=#{spellcheck_locale}", stdin_data: text)
+        UI.shell_error!("Error spellchecking key `#{key}`: #{err}") unless err.empty? && status.success?
+
+        typos = out.split("\n") - SPELLCHECK_KNOWN_WORDS
+        next if typos.empty?
+
+        highlighted = typos.reduce(text.cyan) { |str, typo| str.gsub(typo, typo.red.underline + Colored.color(:cyan)) }
+        UI.important("Typo found in key `#{key}` (`#{File.basename(strings_file)}`)")
+        UI.message("« #{highlighted} »")
+
+        typos_count += typos.count
+      end
+    end
+
+    if typos_count.zero?
+      UI.success('No typo found!')
+    else
+      UI.send(fail_on_typos ? :user_error! : :error, "#{typos_count} typo(s) found")
+    end
+    typos_count
   end
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
