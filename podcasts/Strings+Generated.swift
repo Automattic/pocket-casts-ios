@@ -408,6 +408,8 @@ internal enum L10n {
   internal static var changePasswordLengthError: String { return L10n.tr("Localizable", "change_password_length_error") }
   /// Chapters
   internal static var chapters: String { return L10n.tr("Localizable", "chapters") }
+  /// Please check your Internet connection
+  internal static var checkInternetConnection: String { return L10n.tr("Localizable", "check_internet_connection") }
   /// %1$@ Podcasts Chosen
   internal static func chosenPodcastsPluralFormat(_ p1: Any) -> String {
     return L10n.tr("Localizable", "chosen_podcasts_plural_format", String(describing: p1))
@@ -516,6 +518,8 @@ internal enum L10n {
   internal static var customEpisodeUpload: String { return L10n.tr("Localizable", "custom_episode_upload") }
   /// We're moving a few bits and bytes so the app runs faster...
   internal static var databaseMigration: String { return L10n.tr("Localizable", "database_migration") }
+  /// day
+  internal static var day: String { return L10n.tr("Localizable", "day") }
   /// Day listened
   internal static var dayListened: String { return L10n.tr("Localizable", "day_listened") }
   /// Day saved
@@ -736,6 +740,8 @@ internal enum L10n {
   internal static var discoverSponsored: String { return L10n.tr("Localizable", "discover_sponsored") }
   /// Trending
   internal static var discoverTrending: String { return L10n.tr("Localizable", "discover_trending") }
+  /// Unable to load Discover
+  internal static var discoverUnableToLoad: String { return L10n.tr("Localizable", "discover_unable_to_load") }
   /// Done
   internal static var done: String { return L10n.tr("Localizable", "done") }
   /// Download
@@ -1717,6 +1723,10 @@ internal enum L10n {
   internal static var playLast: String { return L10n.tr("Localizable", "play_last") }
   /// Play Next
   internal static var playNext: String { return L10n.tr("Localizable", "play_next") }
+  /// All podcasts
+  internal static var playbackEffectAllPodcasts: String { return L10n.tr("Localizable", "playback_effect_all_podcasts") }
+  /// This podcast
+  internal static var playbackEffectThisPodcast: String { return L10n.tr("Localizable", "playback_effect_this_podcast") }
   /// Mad Max
   internal static var playbackEffectTrimSilenceMax: String { return L10n.tr("Localizable", "playback_effect_trim_silence_max") }
   /// Medium
@@ -1889,7 +1899,7 @@ internal enum L10n {
   internal static var plusMarketingSubtitle: String { return L10n.tr("Localizable", "plus_marketing_subtitle") }
   /// Themes & Icons
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
-  /// Unlock exclusive features with Pocket Casts Plus
+  /// Everything you love about Pocket Casts, plus more
   internal static var plusMarketingTitle: String { return L10n.tr("Localizable", "plus_marketing_title") }
   /// Upload your files to cloud storage and have it available everywhere
   internal static var plusMarketingUpdatedCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_cloud_storage_description") }
@@ -2306,6 +2316,8 @@ internal enum L10n {
   internal static func referralsClaimGuestPassTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_claim_guest_pass_title", String(describing: p1))
   }
+  /// Please log in or sign up to claim your guest pass.
+  internal static var referralsClaimNeedToBeLoggedin: String { return L10n.tr("Localizable", "referrals_claim_need_to_be_loggedin") }
   /// %1$@ Guest Pass
   internal static func referralsGuestPassOffer(_ p1: Any) -> String {
     return L10n.tr("Localizable", "referrals_guest_pass_offer", String(describing: p1))
@@ -3382,6 +3394,8 @@ internal enum L10n {
   internal static var watchUpNextNoItemsSubtitle: String { return L10n.tr("Localizable", "watch_up_next_no_items_subtitle") }
   /// Nothing in Up Next
   internal static var watchUpNextNoItemsTitle: String { return L10n.tr("Localizable", "watch_up_next_no_items_title") }
+  /// week
+  internal static var week: String { return L10n.tr("Localizable", "week") }
   /// Find My Next Podcast
   internal static var welcomeDiscoverButton: String { return L10n.tr("Localizable", "welcome_discover_button") }
   /// Find under-the-radar and trending podcasts in our hand-curated Discover page.

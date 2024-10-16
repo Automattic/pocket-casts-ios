@@ -124,13 +124,15 @@ struct OnboardingFlow {
 
         case promoCode = "promo_code"
 
+        case referralCode = "referral_code"
+
         var analyticsDescription: String { rawValue }
 
         /// If after a successful sign in or sign up the onboarding flow
         /// should be dismissed right away
         var shouldDismiss: Bool {
             switch self {
-            case .sonosLink, .forcedLoggedOut, .promoCode:
+            case .sonosLink, .forcedLoggedOut, .promoCode, .referralCode:
                 return true
             default:
                 return false

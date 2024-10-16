@@ -1,18 +1,27 @@
 import PocketCastsServer
+import SwiftUI
 
 class DiscoverCollectionViewController: PCViewController {
 
+    enum CellType: Hashable {
+        case loading
+        case noNetwork
+        case noResults
+        case item(DiscoverCellType.ItemType)
+    }
+
     typealias Section = Int
-    typealias Item = DiscoverItem
+    typealias Item = CellType
 
     private(set) lazy var collectionView: UICollectionView = {
         UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     }()
 
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
+    private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     private let coordinator: DiscoverCoordinator
     private var loadingContent = false
     private(set) var discoverLayout: DiscoverLayout?
+    fileprivate var selectedCategory: DiscoverCategory?
 
     private(set) lazy var searchController: PCSearchBarController = {
         PCSearchBarController()
@@ -37,9 +46,11 @@ class DiscoverCollectionViewController: PCViewController {
 
         title = L10n.discover
 
+        handleThemeChanged()
         setupCollectionView()
         setupSearchBar()
 
+        configureDataSource()
         reloadData()
 
         setupMiniPlayerObservers()
@@ -54,22 +65,34 @@ class DiscoverCollectionViewController: PCViewController {
         miniPlayerStatusDidChange()
     }
 
-    func reloadData() {
+    func reloadData(completion: (() -> Void)? = nil) {
         showPageLoading()
 
         DiscoverServerHandler.shared.discoverPage { [weak self] discoverLayout, _ in
             DispatchQueue.main.async {
                 guard let self else { return }
                 self.populateFrom(discoverLayout: discoverLayout)
+                completion?()
             }
         }
     }
 
-    private func populateFrom(discoverLayout: DiscoverLayout?, shouldInclude: ((DiscoverItem) -> Bool)? = nil) {
+    override func handleThemeChanged() {
+        collectionView.backgroundColor = ThemeColor.primaryUi02()
+        collectionView.reloadData()
+    }
+
+    func populateFrom(discoverLayout: DiscoverLayout?, selectedCategory: DiscoverCategory? = nil, shouldInclude: ((DiscoverItem) -> Bool)? = nil) {
+        self.selectedCategory = selectedCategory
         loadingContent = false
 
-        guard let discoverLayout, let items = discoverLayout.layout, let _ = discoverLayout.regions, items.count > 0 else {
+        guard let discoverLayout, let items = discoverLayout.layout, let _ = discoverLayout.regions else {
             handleLoadFailed()
+            return
+        }
+
+        guard items.count > 0 else {
+            handleEmptyResults()
             return
         }
 
@@ -78,29 +101,44 @@ class DiscoverCollectionViewController: PCViewController {
         }
 
         self.discoverLayout = discoverLayout
-        configureDataSource()
-        collectionView.collectionViewLayout = createCompositionalLayout(with: discoverLayout)
 
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
-        let snapshot = discoverLayout.layout?.makeDataSourceSnapshot(region: currentRegion, itemFilter: itemFilter)
+        let snapshot = discoverLayout.layout?.makeDataSourceSnapshot(region: currentRegion, selectedCategory: selectedCategory, itemFilter: itemFilter)
         if let snapshot {
             dataSource.apply(snapshot)
         }
     }
 
     private func showPageLoading() {
-        //TODO: Imlement this in a separate PR
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        snapshot.appendSections([0])
+        snapshot.appendItems([CellType.loading])
+        dataSource.apply(snapshot)
     }
 
     private func handleLoadFailed() {
-        //TODO: Implement this in a separate PR
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        snapshot.appendSections([0])
+        snapshot.appendItems([CellType.noNetwork])
+        dataSource.apply(snapshot)
+    }
+
+    private func handleEmptyResults() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        snapshot.appendSections([0])
+        snapshot.appendItems([CellType.noResults])
+        dataSource.apply(snapshot)
+    }
+
+    override var shouldAutomaticallyForwardAppearanceMethods: Bool {
+        return false
     }
 }
 
 // MARK: - Collection View
 extension DiscoverCollectionViewController {
     private func setupCollectionView() {
-        let layout = createCompositionalLayout(with: discoverLayout)
+        let layout = createCompositionalLayout()
         collectionView.collectionViewLayout = layout
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
@@ -113,9 +151,9 @@ extension DiscoverCollectionViewController {
     }
 
     private func configureDataSource() {
-        let footerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, elementKind, indexPath in
 
-            guard let self else { return }
+        let footerRegistrationCountrySummary = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, elementKind, indexPath in
+            guard let self = self else { return }
 
             let countrySummary = CountrySummaryViewController()
             countrySummary.discoverLayout = self.discoverLayout
@@ -124,39 +162,94 @@ extension DiscoverCollectionViewController {
             supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(viewController: countrySummary)
         }
 
-        let currentRegion = Settings.discoverRegion(discoverLayout: self.discoverLayout!)
+        let footerRegistrationEmpty = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, elementKind, indexPath in
+            if #available(iOS 16.0, *) {
+                supplementaryView.contentConfiguration = UIHostingConfiguration {
+                    EmptyView()
+                }
+            } else {
+                supplementaryView.contentConfiguration = UIListContentConfiguration.plainFooter()
+            }
+        }
 
         let registrations: [DiscoverCellType: UICollectionView.CellRegistration] = DiscoverCellType.allCases.reduce(into: [:]) { partialResult, cellType in
-            partialResult[cellType] = cellType.createCellRegistration(region: currentRegion, delegate: self)
+            partialResult[cellType] = cellType.createCellRegistration(delegate: self)
+        }
+
+        let nonItemRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+            if #available(iOS 16, *) {
+                let contentConfiguration: UIContentConfiguration
+                switch item {
+                case .loading:
+                    contentConfiguration = ContentUnavailableConfiguration.loading()
+                case .noNetwork:
+                    contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
+                        self?.reloadData()
+                    }
+                case .noResults:
+                    contentConfiguration = ContentUnavailableConfiguration.noResults()
+                case .item:
+                    ()
+                    fatalError("Should never happen")
+                }
+                cell.contentConfiguration = contentConfiguration
+            } else {
+                let view: any View
+                switch item {
+                case .loading:
+                    view = LoadingView()
+                case .noNetwork:
+                    view = NoNetworkView { [weak self] in
+                        self?.reloadData()
+                    }
+                case .noResults:
+                    view = NoResultsView()
+                case .item:
+                    ()
+                    fatalError("Should never happen")
+                }
+                let uiView = view.environmentObject(Theme.sharedTheme).uiView
+                cell.contentView.addSubview(uiView)
+                uiView.anchorToAllSidesOf(view: cell.contentView)
+            }
         }
 
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { collectionView, indexPath, item in
-            guard let cellType = item.cellType() else { return UICollectionViewCell() }
-            let cellRegistration = registrations[cellType]!
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+            switch item {
+            case .loading, .noResults, .noNetwork:
+                return collectionView.dequeueConfiguredReusableCell(using: nonItemRegistration, for: indexPath, item: item)
+            case .item(let item):
+                guard let cellType = item.item.cellType() else { return UICollectionViewCell() }
+                let cellRegistration = registrations[cellType]!
+                return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+            }
         }
 
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration,
-                                                                         for: indexPath)
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, elementKind, indexPath in
+            guard let self = self else { return nil }
+
+            if elementKind == UICollectionView.elementKindSectionFooter {
+                if self.selectedCategory == nil && self.discoverLayout != nil {
+                    return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistrationCountrySummary, for: indexPath)
+                } else {
+                    return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistrationEmpty, for: indexPath)
+                }
+            }
+            return nil
         }
     }
 
-    private func createCompositionalLayout(with layout: DiscoverLayout?) -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { (sectionIndex: Int,
+    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex: Int,
                                                       layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .estimated(100))
+                                                  heightDimension: self?.discoverLayout == nil ? .fractionalHeight(0.8) : .estimated(100))
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .estimated(100))
+            let groupSize = NSCollectionLayoutSize(widthDimension: itemSize.widthDimension,
+                                                   heightDimension: itemSize.heightDimension)
             let group: NSCollectionLayoutGroup
-            if #available(iOS 16, *) {
-                group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, repeatingSubitem: item, count: layout?.layout?.count ?? 0)
-            } else {
-                group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: layout?.layout?.map({ _ in item }) ?? [])
-            }
+            group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
             let section = NSCollectionLayoutSection(group: group)
 

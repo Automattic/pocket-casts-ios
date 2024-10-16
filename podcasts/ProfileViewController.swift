@@ -117,6 +117,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(.serverUserWillBeSignedOut, selector: #selector(handleDataChangedNotification))
         addCustomObserver(.whatsNewDismissed, selector: #selector(whatsNewDismissed))
         addCustomObserver(EndOfYear.eoyEligibilityDidChange, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(ServerNotifications.iapProductsUpdated, selector: #selector(refreshReferrals))
+        addCustomObserver(.referralURLChanged, selector: #selector(refreshReferrals))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
         if promoRedeemedMessage != nil {
@@ -141,7 +143,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        hideReferralsHint()
+        hideReferralsHint(dontShowAgain: false)
     }
 
     override func handleThemeChanged() {
@@ -328,6 +330,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if row == .kidsProfile {
             Analytics.track(.kidsProfileBannerSeen)
         }
+        if row == .referralsClaim {
+            Analytics.track(.referralPassBannerShown)
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -350,7 +355,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             break
         case .referralsClaim:
             dismiss(animated: true)
-            ReferralsCoordinator.shared.startClaimFlow(from: self)
+            ReferralsCoordinator.shared.startClaimFlow(from: self) {
+                tableView.reloadData()
+            }
         case .allStats:
             let statsViewController = StatsViewController()
             navigationController?.pushViewController(statsViewController, animated: true)
@@ -442,6 +449,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     // MARK: - Referrals
+    @objc func refreshReferrals() {
+        showReferralsHintIfNeeded()
+        updateDisplayedData()
+    }
 
     private lazy var referralsBadge: UILabel = {
         let label = UILabel()
@@ -478,7 +489,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }()
 
     private func updateReferrals() {
-        Settings.shouldShowReferralsTip = false
         referralsBadge.text = ""
         referralsBadge.isHidden = true
     }
@@ -490,10 +500,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     @objc private func referralsTapped() {
-        hideReferralsHint()
-        let viewModel = ReferralSendPassModel(offerInfo: ReferralsCoordinator.shared.referralsOfferInfo,
+        guard let referralsOfferInfo = ReferralsCoordinator.shared.referralsOfferInfo else {
+            return
+        }
+        hideReferralsHint(dontShowAgain: true)
+        let viewModel = ReferralSendPassModel(offerInfo: referralsOfferInfo,
                                               onShareGuestPassTap: { [weak self] in
-            self?.updateReferrals()
             self?.dismiss(animated: true)
         }, onCloseTap: { [weak self] in
             self?.dismiss(animated: true)
@@ -512,25 +524,38 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private var referralsTipVC: UIViewController?
 
     private func showReferralsHintIfNeeded() {
-        guard ReferralsCoordinator.shared.areReferralsAvailableToSend, Settings.shouldShowReferralsTip else {
+        guard ReferralsCoordinator.shared.areReferralsAvailableToSend,
+              Settings.shouldShowReferralsTip,
+              let vc = makeReferralsHint()
+        else {
             return
         }
-        let vc = makeReferralsHint()
+
+        Analytics.track(.referralTooltipShow)
         present(vc, animated: true, completion: nil)
         self.referralsTipVC = vc
     }
 
-    private func hideReferralsHint() {
+    private func hideReferralsHint(dontShowAgain: Bool) {
+        if dontShowAgain {
+            Settings.shouldShowReferralsTip = false
+        }
         self.referralsTipVC?.dismiss(animated: true)
     }
 
-    private func makeReferralsHint() -> UIViewController {
+    private func makeReferralsHint() -> UIViewController? {
+        guard let referralOfferInfo = ReferralsCoordinator.shared.referralsOfferInfo else {
+            return nil
+        }
         let vc = UIHostingController(rootView: AnyView (EmptyView()) )
-        let tipView = TipView(title: L10n.referralsTipMessage(ReferralsCoordinator.shared.referralsOfferInfo.localizedOfferDurationNoun.lowercased()),
+        let tipView = TipView(title: L10n.referralsTipMessage(referralOfferInfo.localizedOfferDurationNoun.lowercased()),
                               message: nil,
                               sizeChanged: { size in
             vc.preferredContentSize = size
-        } ).setupDefaultEnvironment()
+        }, onTap: { [weak self] in
+            Analytics.track(.referralTooltipTapped)
+            self?.hideReferralsHint(dontShowAgain: true)
+        }).setupDefaultEnvironment()
         vc.rootView = AnyView(tipView)
         vc.view.backgroundColor = .clear
         vc.view.clipsToBounds = false

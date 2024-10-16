@@ -1,5 +1,6 @@
 import PocketCastsServer
 import UIKit
+import PocketCastsUtils
 
 class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
     private static let cellId = "DiscoverCell"
@@ -19,18 +20,23 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     weak var delegate: DiscoverDelegate?
 
-    private var category: DiscoverCategory
+    fileprivate var item: DiscoverItem?
+
+    fileprivate var category: DiscoverCategory? {
+        didSet {
+            title = category?.name?.localized
+        }
+    }
     private var skipCount: Int
     private var podcasts = [DiscoverPodcast]()
     private var promotion: DiscoverCategoryPromotion?
-    private let region: String?
-    init(category: DiscoverCategory, region: String?, skipCount: Int = 0) {
+    fileprivate var region: String?
+
+    init(category: DiscoverCategory? = nil, region: String?, skipCount: Int = 0) {
         self.category = category
         self.region = region
         self.skipCount = skipCount
         super.init(nibName: "CategoryPodcastsViewController", bundle: nil)
-
-        title = category.name?.localized
     }
 
     @available(*, unavailable)
@@ -45,7 +51,9 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        loadPodcasts()
+        if FeatureFlag.discoverCollectionView.enabled == false {
+            loadPodcasts()
+        }
     }
 
     @IBAction func tryAgainTapped(_ sender: AnyObject) {
@@ -91,7 +99,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         if let cell = tableView.cellForRow(at: indexPath) as? DiscoverPodcastTableCell {
             let podcast = podcasts[indexPath.row]
 
-            let categoryName = category.name ?? "unknown"
+            let categoryName = category?.name ?? "unknown"
             let listUuid = "category-\(categoryName.lowercased())-\(region ?? "unknown")"
 
             delegate.show(discoverPodcast: podcast, placeholderImage: cell.podcastImage.image, isFeatured: false, listUuid: listUuid)
@@ -118,7 +126,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     // MARK: - Loading
 
     private func loadPodcasts() {
-        guard let delegate = delegate, let source = delegate.replaceRegionCode(string: category.source) else { return }
+        guard let delegate = delegate, let category, let source = delegate.replaceRegionCode(string: category.source) else { return }
         if loadingIndicator.isAnimating || podcasts.count > 0 { return }
 
         noNetworkView.isHidden = true
@@ -134,6 +142,10 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 strongSelf.podcasts = Array(podcasts.dropFirst(strongSelf.skipCount))
                 strongSelf.promotion = categoryDetails?.promotion
                 strongSelf.podcastsTable.reloadData()
+
+                if let item = strongSelf.item {
+                    strongSelf.delegate?.invalidate(item: item)
+                }
 
                 if let promotionUuid = categoryDetails?.promotion?.promotion_uuid {
                     AnalyticsHelper.listImpression(listId: promotionUuid)
@@ -157,5 +169,19 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     private func showPromotion() -> Bool {
         guard promotion != nil, !SubscriptionHelper.hasRenewingSubscription() else { return false }
         return true
+    }
+}
+
+extension CategoryPodcastsViewController: DiscoverSummaryProtocol {
+    func populateFrom(item: PocketCastsServer.DiscoverItem, region: String?, category: PocketCastsServer.DiscoverCategory?) {
+        self.item = item
+        if let category {
+            self.category = category
+        }
+        self.region = region
+
+        podcasts = []
+        podcastsTable.reloadData()
+        loadPodcasts()
     }
 }

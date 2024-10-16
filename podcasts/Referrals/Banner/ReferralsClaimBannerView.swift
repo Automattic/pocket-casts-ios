@@ -3,13 +3,13 @@ import SwiftUI
 struct ReferralsClaimBannerView: View {
     @EnvironmentObject var theme: Theme
 
-    let viewModel: ReferralClaimPassModel
+    @StateObject var viewModel: ReferralClaimPassModel
 
     var body: some View {
         ZStack {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(L10n.referralsClaimGuestPassBannerTitle(viewModel.offerInfo.localizedOfferDurationAdjective))
+                    Text(viewModel.claimPassTitle)
                         .font(size: Constants.titleSize, style: .body, weight: .bold)
                         .frame(alignment: .topLeading)
                         .foregroundStyle(theme.primaryText01)
@@ -22,9 +22,22 @@ struct ReferralsClaimBannerView: View {
                 ReferralCardMiniView()
                     .frame(width: ReferralCardMiniView.Constants.defaultCardSize.width, height: ReferralCardMiniView.Constants.defaultCardSize.height)
             }
-            .padding()
+            .padding(.horizontal, 24)
+            .padding(.vertical, 16)
             .background(theme.primaryUi02Active)
-            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadiusBig))
+            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+        }
+        .overlay(alignment: .topTrailing) {
+            Button(action: { viewModel.onCloseTap?() }) {
+                Image(systemName: "xmark")
+                    .imageScale(.small)
+                    .foregroundStyle(theme.secondaryIcon02)
+            }
+            .padding(.top, 4)
+            .padding(.trailing, 4)
+        }
+        .onLongPressGesture {
+            viewModel.onCloseTap?()
         }
         .frame(minHeight: Constants.minHeight)
     }
@@ -35,13 +48,12 @@ struct ReferralsClaimBannerView: View {
         static let textSize = 11.0
 
         static let minHeight = 105.0
-        static let cornerRadiusBig = 15.0
-        static let cornerRadiusSmall = 4.0
+        static let cornerRadius = CGFloat(8)
     }
 }
 
 #Preview {
-    ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(referralURL: nil, offerInfo: ReferralsOfferInfoMock()))
+    ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(referralURL: nil, coordinator: ReferralsCoordinator.shared))
             .environmentObject(Theme(previewTheme: .light))
             .previewLayout(.sizeThatFits)
             .padding(16)
