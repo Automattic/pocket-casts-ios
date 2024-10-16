@@ -268,7 +268,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue,
            let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
             // We are already downloading this episode for streaming
-            FileLog.shared.addMessage("DownloadManager export session: skipping because we are already exporting: \(episode.uuid)")
+            FileLog.shared.addMessage("DownloadManager stream and download: skipping because we are already exporting: \(episode.uuid)")
             let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
             let newAsset = AVURLAsset(url: customURL)
             newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
@@ -279,7 +279,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         if episode.downloading() || episode.queued() {
             wasDownloadingBefore = true
             let previousStatus = episode.autoDownloadStatus
-            FileLog.shared.addMessage("DownloadManager export session: cancelling existing download for: \(episode.uuid) with status:\(previousStatus)")
+            FileLog.shared.addMessage("DownloadManager stream and download: cancelling existing download for: \(episode.uuid) with status:\(previousStatus)")
             self.removeFromQueue(episodeUuid: episode.uuid, fireNotification: false, userInitiated: false)
             episode.autoDownloadStatus = previousStatus
         } else {
@@ -294,7 +294,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
 
         let outputURL = URL(fileURLWithPath: tempPathForEpisode(episode), isDirectory: false)
-        FileLog.shared.addMessage("DownloadManager export session: start exporting \(episode.uuid)")
+        FileLog.shared.addMessage("DownloadManager stream and download: start downloading \(episode.uuid)")
         let exportPath = outputURL.pathComponents.joined(separator: "/")
         var exportCompleted = false
         var downloadError: Error?
@@ -330,8 +330,10 @@ class DownloadManager: NSObject, FilePathProtocol {
                 return
             }
             if downloadError == nil {
+                FileLog.shared.addMessage("DownloadManager stream and download: end downloading \(episode.uuid) successfully")
                 processEpisode(episode, downloadedFile: outputURL, reportedContentType: reportedContentType)
             } else {
+                FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(downloadError?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()
                 DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: downloadError?.localizedDescription, downloadTaskId: nil, episode: episode)
                 DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
