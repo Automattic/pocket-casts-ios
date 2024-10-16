@@ -51,6 +51,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var showArchived = false
     @objc public var refreshAvailable = false
     @objc public var folderUuid: String?
+    @objc public var usedCustomEffectsBefore = false
 
     public var settings: PodcastSettings = PodcastSettings.defaults
 
