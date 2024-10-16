@@ -11,6 +11,8 @@ class ReferralClaimPassModel: ObservableObject {
     var onComplete: (() -> ())?
     var onCloseTap: (() -> ())?
 
+    private(set) var accountCreated: Bool = false
+
     enum State {
         case loading
         case start
@@ -141,7 +143,9 @@ class ReferralClaimPassModel: ObservableObject {
     }
 
     private func signup() {
-        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode)
+        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode) { [weak self] accountCreated in
+            self?.accountCreated = accountCreated
+        }
 
         presentationController?.present(onboardVC, animated: true)
     }
