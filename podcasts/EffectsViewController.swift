@@ -275,7 +275,6 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     @objc private func playbackSettingsDestinationChanged() {
         let applyLocalSettings = playbackSettingsSegmentedControl.selectedSegmentIndex == 1
-        PlaybackManager.shared.effectsChangedExternally()
         PlaybackManager.shared.overrideEffectsToggled(applyLocalSettings: applyLocalSettings)
         updateControls()
     }
