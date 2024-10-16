@@ -707,9 +707,13 @@ platform :ios do
 
   # Run `aspell` tool on `en.lproj/*.strings` files to spell-check their values
   #
-  # Requires `aspell` and `plutil` to be installed. Prints the found typos in context to stdout.
+  # Prints the found typos to stdout (using ANSI colors in the terminal output to highlight them in context).
   #
-  # @raise if `aspell` or `plutil` tools are not installed, or if any typo is found
+  # @return the number of typos found (0 if none)
+  # @raise if `aspell` or `plutil` tools are not installed
+  #
+  # @note The lane will _not_ fail (will always `exit 0`) _even_ if typos are found. It's up to the caller of the lane
+  #       to exit with a non-zero code (or call `UI.user_error!`) if they want to e.g. fail CI when typos are found.
   #
   lane :spellcheck_strings do
     spellcheck_locale = 'en-US'
@@ -744,8 +748,9 @@ platform :ios do
     if typos_count.zero?
       UI.success('No typo found!')
     else
-      UI.user_error!("#{typos_count} typo(s) found")
+      UI.error("#{typos_count} typo(s) found")
     end
+    typos_count
   end
 
   desc 'Downloads localized strings and App Store Connect metadata from GlotPress'
