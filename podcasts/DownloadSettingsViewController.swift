@@ -13,9 +13,9 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         }
     }
 
-    private enum TableRow { case upNext, podcastAutoDownload, podcastSelection, filterSelection, onlyOnWifi }
+    private enum TableRow { case upNext, podcastAutoDownload, podcastSelection, downloadLimits, filterSelection, onlyOnWifi }
     private let podcastDownloadOffData: [[TableRow]] = [[.upNext], [.podcastAutoDownload], [.filterSelection], [.onlyOnWifi]]
-    private let podcastDownloadOnData: [[TableRow]] = [[.upNext], [.podcastAutoDownload, .podcastSelection], [.filterSelection], [.onlyOnWifi]]
+    private let podcastDownloadOnData: [[TableRow]] = [[.upNext], [.podcastAutoDownload, .podcastSelection, .downloadLimits], [.filterSelection], [.onlyOnWifi]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,6 +101,16 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
             cell.cellLabel.text = L10n.selectedPodcastCount(allWithAutoDownloadOn.count)
             cell.cellSecondaryLabel.text = ""
+
+            return cell
+        case .downloadLimits:
+            let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
+
+            let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+            let allWithAutoDownloadOn = allPodcasts.filter { $0.autoDownloadOn() }
+
+            cell.cellLabel.text = L10n.autoDownloadLimitDownloads
+            cell.cellSecondaryLabel.text = L10n.autoDownloadLimitNumberOfEpisode(2)
 
             return cell
         case .filterSelection:
