@@ -122,6 +122,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// to apply the Global or local settings
     case customPlaybackSettings
 
+    /// Enable the End of Year 2024 recap
+    case endOfYear2024
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -203,6 +206,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .useMimetypePackage:
             true
         case .customPlaybackSettings:
+            false
+        case .endOfYear2024:
             false
         }
     }
