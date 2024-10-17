@@ -13,9 +13,9 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         }
     }
 
-    private enum TableRow { case upNext, podcastAutoDownload, podcastSelection, filterSelection, onlyOnWifi }
+    private enum TableRow { case upNext, podcastAutoDownload, podcastSelection, downloadLimits, filterSelection, onlyOnWifi }
     private let podcastDownloadOffData: [[TableRow]] = [[.upNext], [.podcastAutoDownload], [.filterSelection], [.onlyOnWifi]]
-    private let podcastDownloadOnData: [[TableRow]] = [[.upNext], [.podcastAutoDownload, .podcastSelection], [.filterSelection], [.onlyOnWifi]]
+    private let podcastDownloadOnData: [[TableRow]] = [[.upNext], [.podcastAutoDownload, .podcastSelection, .downloadLimits], [.filterSelection], [.onlyOnWifi]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +103,13 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             cell.cellSecondaryLabel.text = ""
 
             return cell
+        case .downloadLimits:
+            let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
+
+            cell.cellLabel.text = L10n.autoDownloadLimitDownloads
+            cell.cellSecondaryLabel.text = Settings.autoDownloadLimits().localizedDescriptionForRow
+
+            return cell
         case .filterSelection:
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
@@ -132,7 +139,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
         let row = tableRows()[indexPath.section][indexPath.row]
 
-        if row == .podcastSelection {
+        switch row {
+        case .podcastSelection:
             podcastChooserController = PodcastChooserViewController()
             if let podcastSelectController = podcastChooserController {
                 podcastSelectController.delegate = self
@@ -140,29 +148,42 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 podcastSelectController.selectedUuids = allPodcasts.filter { $0.autoDownloadOn() }.map(\.uuid)
                 navigationController?.pushViewController(podcastSelectController, animated: true)
             }
-        } else if row == .filterSelection {
-            let filterSelectionViewController = FilterSelectionViewController()
-            filterSelectionViewController.allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
-            let selectedFilters = DataManager.sharedManager.allFilters(includeDeleted: false).compactMap { filter -> String? in
-                filter.autoDownloadEpisodes ? filter.uuid : nil
-            }
-            filterSelectionViewController.selectedFilters = selectedFilters
-            filterSelectionViewController.filterSelected = { filter in
-                filter.autoDownloadEpisodes = true
-                filter.autoDownloadLimit = filter.maxAutoDownloadEpisodes()
-                DataManager.sharedManager.save(filter: filter)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-            }
-            filterSelectionViewController.filterUnselected = { filter in
-                filter.autoDownloadEpisodes = false
-                DataManager.sharedManager.save(filter: filter)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-            }
-            filterSelectionViewController.didChangeFilters = {
-                Analytics.track(.settingsAutoDownloadFiltersChanged)
-            }
+        case .filterSelection:
+                let filterSelectionViewController = FilterSelectionViewController()
+                filterSelectionViewController.allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+                let selectedFilters = DataManager.sharedManager.allFilters(includeDeleted: false).compactMap { filter -> String? in
+                    filter.autoDownloadEpisodes ? filter.uuid : nil
+                }
+                filterSelectionViewController.selectedFilters = selectedFilters
+                filterSelectionViewController.filterSelected = { filter in
+                    filter.autoDownloadEpisodes = true
+                    filter.autoDownloadLimit = filter.maxAutoDownloadEpisodes()
+                    DataManager.sharedManager.save(filter: filter)
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
+                }
+                filterSelectionViewController.filterUnselected = { filter in
+                    filter.autoDownloadEpisodes = false
+                    DataManager.sharedManager.save(filter: filter)
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
+                }
+                filterSelectionViewController.didChangeFilters = {
+                    Analytics.track(.settingsAutoDownloadFiltersChanged)
+                }
 
-            navigationController?.pushViewController(filterSelectionViewController, animated: true)
+                navigationController?.pushViewController(filterSelectionViewController, animated: true)
+        case .downloadLimits:
+            let picker = OptionsPicker(title: L10n.autoDownloadLimitAutoDownloads)
+            let limitOptions = AutoDownloadLimit.allCases
+            for limit in limitOptions {
+                let selectAction = OptionAction(label: limit.localizedDescriptionForOption, selected: Settings.autoDownloadLimits() == limit) {
+                    Settings.setAutoDownloadLimits(limit)
+                    tableView.reloadData()
+                }
+                picker.addAction(action: selectAction)
+            }
+            picker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        default:
+            break
         }
     }
 
@@ -220,4 +241,26 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
         return autoDownloadPodcastsEnabled ? podcastDownloadOnData : podcastDownloadOffData
     }
+}
+
+extension AutoDownloadLimit {
+
+    var localizedDescriptionForRow: String {
+        switch self {
+        case .one:
+            return L10n.autoDownloadLimitOneEpisode
+        default:
+            return L10n.autoDownloadLimitNumberOfEpisodes(self.rawValue)
+        }
+    }
+
+    var localizedDescriptionForOption: String {
+        switch self {
+        case .one:
+            return L10n.autoDownloadLimitOneEpisodeShow
+        default:
+            return L10n.autoDownloadLimitNumberOfEpisodesShow(self.rawValue)
+        }
+    }
+
 }
