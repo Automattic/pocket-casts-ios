@@ -110,7 +110,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let allWithAutoDownloadOn = allPodcasts.filter { $0.autoDownloadOn() }
 
             cell.cellLabel.text = L10n.autoDownloadLimitDownloads
-            cell.cellSecondaryLabel.text = L10n.autoDownloadLimitNumberOfEpisode(2)
+            cell.cellSecondaryLabel.text = L10n.autoDownloadLimitNumberOfEpisodes(2)
 
             return cell
         case .filterSelection:
@@ -142,7 +142,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
         let row = tableRows()[indexPath.section][indexPath.row]
 
-        if row == .podcastSelection {
+        switch row {
+        case .podcastSelection:
             podcastChooserController = PodcastChooserViewController()
             if let podcastSelectController = podcastChooserController {
                 podcastSelectController.delegate = self
@@ -150,29 +151,42 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 podcastSelectController.selectedUuids = allPodcasts.filter { $0.autoDownloadOn() }.map(\.uuid)
                 navigationController?.pushViewController(podcastSelectController, animated: true)
             }
-        } else if row == .filterSelection {
-            let filterSelectionViewController = FilterSelectionViewController()
-            filterSelectionViewController.allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
-            let selectedFilters = DataManager.sharedManager.allFilters(includeDeleted: false).compactMap { filter -> String? in
-                filter.autoDownloadEpisodes ? filter.uuid : nil
-            }
-            filterSelectionViewController.selectedFilters = selectedFilters
-            filterSelectionViewController.filterSelected = { filter in
-                filter.autoDownloadEpisodes = true
-                filter.autoDownloadLimit = filter.maxAutoDownloadEpisodes()
-                DataManager.sharedManager.save(filter: filter)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-            }
-            filterSelectionViewController.filterUnselected = { filter in
-                filter.autoDownloadEpisodes = false
-                DataManager.sharedManager.save(filter: filter)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
-            }
-            filterSelectionViewController.didChangeFilters = {
-                Analytics.track(.settingsAutoDownloadFiltersChanged)
-            }
+        case .filterSelection:
+                let filterSelectionViewController = FilterSelectionViewController()
+                filterSelectionViewController.allFilters = DataManager.sharedManager.allFilters(includeDeleted: false)
+                let selectedFilters = DataManager.sharedManager.allFilters(includeDeleted: false).compactMap { filter -> String? in
+                    filter.autoDownloadEpisodes ? filter.uuid : nil
+                }
+                filterSelectionViewController.selectedFilters = selectedFilters
+                filterSelectionViewController.filterSelected = { filter in
+                    filter.autoDownloadEpisodes = true
+                    filter.autoDownloadLimit = filter.maxAutoDownloadEpisodes()
+                    DataManager.sharedManager.save(filter: filter)
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
+                }
+                filterSelectionViewController.filterUnselected = { filter in
+                    filter.autoDownloadEpisodes = false
+                    DataManager.sharedManager.save(filter: filter)
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
+                }
+                filterSelectionViewController.didChangeFilters = {
+                    Analytics.track(.settingsAutoDownloadFiltersChanged)
+                }
 
-            navigationController?.pushViewController(filterSelectionViewController, animated: true)
+                navigationController?.pushViewController(filterSelectionViewController, animated: true)
+        case .downloadLimits:
+            let picker = OptionsPicker(title: L10n.autoDownloadLimitAutoDownloads)
+            let limitOptions = [1, 2, 3, 5, 10]
+            for limit in limitOptions {
+                let selectAction = OptionAction(label: L10n.autoDownloadLimitNumberOfEpisodesShow(limit), selected: false) {
+                    //Settings.setDefaultPodcastGrouping(.none)
+                    tableView.reloadData()
+                }
+                picker.addAction(action: selectAction)
+            }
+            picker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        default:
+            break
         }
     }
 

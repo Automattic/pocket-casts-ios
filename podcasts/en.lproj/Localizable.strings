@@ -4478,5 +4478,19 @@
 /* Auto Downloads Setting - Limits downloads row title*/
 "auto_download_limit_downloads" = "Limit downloads";
 
+/* Auto Downloads Setting - Limits downloads picker title*/
+"auto_download_limit_auto_downloads" = "Limit auto downloads";
+
 /* Auto Downloads Setting - Limits downloads to a number of episodes. `%1$@' is a placeholder for the number of episodes*/
-"auto_download_limit_number_of_episode" = "%1$@ episodes";
+"auto_download_limit_number_of_episodes" = "%1$@ episodes";
+
+/* Auto Downloads Setting - Limits downloads to one episodes. */
+"auto_download_limit_one_episode" = "latest episode";
+
+/* Auto Downloads Setting - Limits downloads to the latest episode*/
+"auto_download_limit_one_episode_show" = "Latest episode per Show";
+
+/* Auto Downloads Setting - Limits downloads to a number of show episodes. `%1$@' is a placeholder for the number of episodes*/
+"auto_download_limit_number_of_episodes_show" = "%1$@ Latest episode per Show";
+
+
