@@ -9,8 +9,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         }
     }
 
-    private var podcasts = [DiscoverPodcast]()
-    private var sponsoredPodcasts = [DiscoverPodcast]()
+    private(set) var podcasts = [DiscoverPodcast]()
+    private(set) var sponsoredPodcasts = [DiscoverPodcast]()
     private var lists: [PodcastCollection] = []
 
     private static let cellId = "FeaturedCollectionViewCell"
@@ -212,14 +212,16 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             self.podcasts = Array(podcastsToShow.prefix(self.maxFeaturedItems))
 
             // Add sponsored podcasts
-            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
+            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd.sorted(by: { $0.key < $1.key }) {
                 self.podcasts.insert(sponsoredPodcastToAdd.value, safelyAt: sponsoredPodcastToAdd.key)
             }
             self.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }
 
             // Update and reload
-            self.updatePageCount()
-            self.featuredCollectionView.reloadData()
+            if isViewLoaded {
+                self.updatePageCount()
+                self.featuredCollectionView.reloadData()
+            }
         }
     }
 
