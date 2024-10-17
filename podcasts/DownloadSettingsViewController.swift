@@ -107,7 +107,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
             cell.cellLabel.text = L10n.autoDownloadLimitDownloads
-            cell.cellSecondaryLabel.text = L10n.autoDownloadLimitNumberOfEpisodes(Settings.autoDownloadLimits())
+            cell.cellSecondaryLabel.text = Settings.autoDownloadLimits().localizedDescriptionForRow
 
             return cell
         case .filterSelection:
@@ -173,9 +173,9 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 navigationController?.pushViewController(filterSelectionViewController, animated: true)
         case .downloadLimits:
             let picker = OptionsPicker(title: L10n.autoDownloadLimitAutoDownloads)
-            let limitOptions = [1, 2, 3, 5, 10]
+            let limitOptions = AutoDownloadLimit.allCases
             for limit in limitOptions {
-                let selectAction = OptionAction(label: L10n.autoDownloadLimitNumberOfEpisodesShow(limit), selected: Settings.autoDownloadLimits() == limit) {
+                let selectAction = OptionAction(label: limit.localizedDescriptionForOption, selected: Settings.autoDownloadLimits() == limit) {
                     Settings.setAutoDownloadLimits(limit)
                     tableView.reloadData()
                 }
@@ -241,4 +241,26 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
         return autoDownloadPodcastsEnabled ? podcastDownloadOnData : podcastDownloadOffData
     }
+}
+
+extension AutoDownloadLimit {
+
+    var localizedDescriptionForRow: String {
+        switch self {
+        case .one:
+            return L10n.autoDownloadLimitOneEpisode
+        default:
+            return L10n.autoDownloadLimitNumberOfEpisodes(self.rawValue)
+        }
+    }
+
+    var localizedDescriptionForOption: String {
+        switch self {
+        case .one:
+            return L10n.autoDownloadLimitOneEpisodeShow
+        default:
+            return L10n.autoDownloadLimitNumberOfEpisodesShow(self.rawValue)
+        }
+    }
+
 }
