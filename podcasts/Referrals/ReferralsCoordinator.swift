@@ -10,10 +10,10 @@ extension NSNotification.Name {
 class ReferralsCoordinator {
 
     var referralsOfferInfo: ReferralsOfferInfo? {
-        guard let productInfo = IAPHelper.shared.getProduct(for: .yearlyReferral) else {
+        guard IAPHelper.shared.getProduct(for: .yearlyReferral) != nil else {
             return nil
         }
-        return ReferralsOfferInfoIAP()
+        return ReferralsOfferInfoIAP(productID: .yearlyReferral)
     }
 
     var areReferralsAvailableToSend: Bool {
@@ -53,6 +53,7 @@ class ReferralsCoordinator {
             guard let self else { return }
             var url: URL?
             if let referralURL {
+                url = referralURL
                 setReferralURL(referralURL)
             } else {
                 if let urlString = Settings.referralURL {
@@ -108,8 +109,6 @@ class ReferralsCoordinator {
               let timestamp = details.timestampMs,
               let key = details.keyIdentifier,
               let signature = details.signature
-              //let dataDecoded = Data(base64Encoded: signatureEncoded),
-              //let signature = String(data: dataDecoded, encoding: .utf8)
         else {
             return nil
         }
