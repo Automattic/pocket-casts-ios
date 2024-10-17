@@ -142,6 +142,15 @@ class Settings: NSObject {
         trackValueToggled(.settingsAutoDownloadNewEpisodesToggled, enabled: allow)
     }
 
+    private static let autoDownloadLimitKey = "AutoDownloadLimit"
+    class func autoDownloadLimits() -> Int {
+        UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)
+    }
+
+    class func setAutoDownloadLimits(_ limit: Int) {
+        UserDefaults.standard.set(limit, forKey: Settings.autoDownloadLimitKey)
+    }
+
     class func shouldDeleteWhenPlayed() -> Bool {
         let finishedAction = UserDefaults.standard.integer(forKey: Constants.UserDefaults.episodeFinishedAction)
 

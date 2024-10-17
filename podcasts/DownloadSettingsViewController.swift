@@ -106,11 +106,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         case .downloadLimits:
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
-            let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-            let allWithAutoDownloadOn = allPodcasts.filter { $0.autoDownloadOn() }
-
             cell.cellLabel.text = L10n.autoDownloadLimitDownloads
-            cell.cellSecondaryLabel.text = L10n.autoDownloadLimitNumberOfEpisodes(2)
+            cell.cellSecondaryLabel.text = L10n.autoDownloadLimitNumberOfEpisodes(Settings.autoDownloadLimits())
 
             return cell
         case .filterSelection:
@@ -178,8 +175,8 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let picker = OptionsPicker(title: L10n.autoDownloadLimitAutoDownloads)
             let limitOptions = [1, 2, 3, 5, 10]
             for limit in limitOptions {
-                let selectAction = OptionAction(label: L10n.autoDownloadLimitNumberOfEpisodesShow(limit), selected: false) {
-                    //Settings.setDefaultPodcastGrouping(.none)
+                let selectAction = OptionAction(label: L10n.autoDownloadLimitNumberOfEpisodesShow(limit), selected: Settings.autoDownloadLimits() == limit) {
+                    Settings.setAutoDownloadLimits(limit)
                     tableView.reloadData()
                 }
                 picker.addAction(action: selectAction)
