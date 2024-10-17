@@ -4488,9 +4488,9 @@
 "auto_download_limit_one_episode" = "latest episode";
 
 /* Auto Downloads Setting - Limits downloads to the latest episode*/
-"auto_download_limit_one_episode_show" = "Latest episode per Show";
+"auto_download_limit_one_episode_show" = "Latest Episode per Show";
 
 /* Auto Downloads Setting - Limits downloads to a number of show episodes. `%1$@' is a placeholder for the number of episodes*/
-"auto_download_limit_number_of_episodes_show" = "%1$@ Latest episode per Show";
+"auto_download_limit_number_of_episodes_show" = "%1$@ Latest Episodes per Show";
 
 
