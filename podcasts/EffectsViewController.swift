@@ -176,6 +176,8 @@ class EffectsViewController: SimpleNotificationsViewController {
 
     private var didChangePlaybackSpeed: Bool = false
 
+    private var playbackSpeedDebouncer: Debounce = .init(delay: 1)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -217,6 +219,11 @@ class EffectsViewController: SimpleNotificationsViewController {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(updateControls))
         addCustomObserver(Constants.Notifications.playbackEffectsChanged, selector: #selector(updateControls))
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(updateColors))
+
+        if FeatureFlag.customPlaybackSettings.enabled {
+            analyticsPlaybackHelper.currentSource = analyticsSource
+            analyticsPlaybackHelper.viewDidAppear(currentSettings: currentPlaybackSettings())
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -232,20 +239,30 @@ class EffectsViewController: SimpleNotificationsViewController {
             return
         }
 
-        analyticsPlaybackHelper.currentSource = analyticsSource
+        if !FeatureFlag.customPlaybackSettings.enabled {
+            analyticsPlaybackHelper.currentSource = analyticsSource
 
-        let speed = PlaybackManager.shared.effects().playbackSpeed
-        AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: speed)
+            let speed = PlaybackManager.shared.effects().playbackSpeed
+            analyticsPlaybackHelper.playbackSpeedChanged(to: speed)
+        }
     }
 
     @IBAction func minusTapped(_ sender: Any) {
         didChangePlaybackSpeed = true
         PlaybackManager.shared.decreasePlaybackSpeed()
+
+        if FeatureFlag.customPlaybackSettings.enabled {
+            trackPlaybackSpeedChanged()
+        }
     }
 
     @IBAction func plusTapped(_ sender: Any) {
         didChangePlaybackSpeed = true
         PlaybackManager.shared.increasePlaybackSpeed()
+
+        if FeatureFlag.customPlaybackSettings.enabled {
+            trackPlaybackSpeedChanged()
+        }
     }
 
     @IBAction func trimSilenceChanged(_ sender: UISwitch) {
@@ -259,7 +276,11 @@ class EffectsViewController: SimpleNotificationsViewController {
         PlaybackManager.shared.changeEffects(effects)
 
         analyticsPlaybackHelper.currentSource = analyticsSource
-        analyticsPlaybackHelper.trimSilenceToggled(enabled: sender.isOn)
+        if FeatureFlag.customPlaybackSettings.enabled {
+            analyticsPlaybackHelper.trimSilenceToggled(enabled: sender.isOn, currentSettings: currentPlaybackSettings())
+        } else {
+            analyticsPlaybackHelper.trimSilenceToggled(enabled: sender.isOn)
+        }
     }
 
     @objc private func trimSilenceAmountChanged() {
@@ -270,13 +291,19 @@ class EffectsViewController: SimpleNotificationsViewController {
         PlaybackManager.shared.changeEffects(effects)
 
         analyticsPlaybackHelper.currentSource = analyticsSource
-        analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount)
+        if FeatureFlag.customPlaybackSettings.enabled {
+            analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount, currentSettings: currentPlaybackSettings())
+        } else {
+            analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount)
+        }
     }
 
     @objc private func playbackSettingsDestinationChanged() {
         let applyLocalSettings = playbackSettingsSegmentedControl.selectedSegmentIndex == 1
         PlaybackManager.shared.overrideEffectsToggled(applyLocalSettings: applyLocalSettings)
         updateControls()
+        analyticsPlaybackHelper.currentSource = analyticsSource
+        analyticsPlaybackHelper.effectSettingsChanged(currentSettings: currentPlaybackSettings())
     }
 
     @IBAction func volumeBoostChanged(_ sender: UISwitch) {
@@ -286,7 +313,11 @@ class EffectsViewController: SimpleNotificationsViewController {
         PlaybackManager.shared.changeEffects(effects)
 
         analyticsPlaybackHelper.currentSource = analyticsSource
-        analyticsPlaybackHelper.volumeBoostToggled(enabled: sender.isOn)
+        if FeatureFlag.customPlaybackSettings.enabled {
+            analyticsPlaybackHelper.volumeBoostToggled(enabled: sender.isOn, currentSettings: currentPlaybackSettings())
+        } else {
+            analyticsPlaybackHelper.volumeBoostToggled(enabled: sender.isOn)
+        }
     }
 
     @IBAction func clearForPodcastTapped(_ sender: Any) {
@@ -296,6 +327,15 @@ class EffectsViewController: SimpleNotificationsViewController {
         DataManager.sharedManager.save(podcast: podcast)
         PlaybackManager.shared.effectsChangedExternally()
         updateClearView()
+    }
+
+    private func trackPlaybackSpeedChanged() {
+        playbackSpeedDebouncer.call { [weak self] in
+            guard let self else { return }
+            analyticsPlaybackHelper.currentSource = analyticsSource
+            let speed = PlaybackManager.shared.effects().playbackSpeed
+            analyticsPlaybackHelper.playbackSpeedChanged(to: speed, currentSettings: currentPlaybackSettings())
+        }
     }
 
     @objc private func updateControls() {
@@ -412,6 +452,10 @@ class EffectsViewController: SimpleNotificationsViewController {
         } else {
             return .low
         }
+    }
+
+    private func currentPlaybackSettings() -> String {
+        playbackSettingsSegmentedControl.selectedSegmentIndex == 0 ? "global" : "local"
     }
 
     @IBAction func closeTapped(_ sender: Any) {

@@ -223,6 +223,8 @@ enum AnalyticsEvent: String {
     case playbackSkipForward
     case playbackSeek
 
+    case playbackEffectSettingsViewAppeared
+    case playbackEffectSettingsChanged
     case playbackEffectSpeedChanged
     case playbackEffectTrimSilenceToggled
     case playbackEffectTrimSilenceAmountChanged

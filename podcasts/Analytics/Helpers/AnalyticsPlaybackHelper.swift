@@ -47,23 +47,39 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(.playbackSeek, properties: ["seek_to_percent": seekPercent, "seek_from_percent": seekFrom])
     }
 
-    func playbackSpeedChanged(to speed: Double) {
-        track(.playbackEffectSpeedChanged, properties: ["speed": speed])
+    func playbackSpeedChanged(to speed: Double, currentSettings: String? = nil) {
+        track(.playbackEffectSpeedChanged, currentSettings: currentSettings, properties: ["speed": speed])
     }
 
-    func trimSilenceToggled(enabled: Bool) {
-        track(.playbackEffectTrimSilenceToggled, properties: ["enabled": enabled])
+    func trimSilenceToggled(enabled: Bool, currentSettings: String? = nil) {
+        track(.playbackEffectTrimSilenceToggled, currentSettings: currentSettings, properties: ["enabled": enabled])
     }
 
-    func trimSilenceAmountChanged(amount: TrimSilenceAmount) {
-        track(.playbackEffectTrimSilenceAmountChanged, properties: ["amount": amount.analyticsDescription])
+    func trimSilenceAmountChanged(amount: TrimSilenceAmount, currentSettings: String? = nil) {
+        track(.playbackEffectTrimSilenceAmountChanged, currentSettings: currentSettings, properties: ["amount": amount.analyticsDescription])
     }
 
-    func volumeBoostToggled(enabled: Bool) {
-        track(.playbackEffectVolumeBoostToggled, properties: ["enabled": enabled])
+    func volumeBoostToggled(enabled: Bool, currentSettings: String? = nil) {
+        track(.playbackEffectVolumeBoostToggled, currentSettings: currentSettings, properties: ["enabled": enabled])
     }
 
     func chapterSkipped() {
         track(.playbackChapterSkipped)
+    }
+
+    func viewDidAppear(currentSettings: String) {
+        track(.playbackEffectSettingsViewAppeared, properties: ["settings": currentSettings])
+    }
+
+    func effectSettingsChanged(currentSettings: String) {
+        track(.playbackEffectSettingsChanged, properties: ["settings": currentSettings])
+    }
+
+    private func track(_ event: AnalyticsEvent, currentSettings: String?, properties: [String: Any]? = nil) {
+        var properties = properties
+        if let currentSettings {
+            properties?["settings"] = currentSettings
+        }
+        track(event, properties: properties)
     }
 }
