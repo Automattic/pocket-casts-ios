@@ -148,7 +148,8 @@ class Settings: NSObject {
     }
 
     class func setAutoDownloadLimits(_ limit: AutoDownloadLimit) {
-            UserDefaults.standard.set(limit.rawValue, forKey: Settings.autoDownloadLimitKey)
+        UserDefaults.standard.set(limit.rawValue, forKey: Settings.autoDownloadLimitKey)
+        trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
     }
 
     class func shouldDeleteWhenPlayed() -> Bool {
