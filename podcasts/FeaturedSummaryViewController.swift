@@ -211,8 +211,8 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             // Add featured podcasts
             self.podcasts = Array(podcastsToShow.prefix(self.maxFeaturedItems))
 
-            // Add sponsored podcasts
-            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd {
+            // Add sponsored podcasts - note that these must be ordered to end up at the proper positions
+            for sponsoredPodcastToAdd in sponsoredPodcastsToAdd.sorted(by: { $0.key < $1.key }) {
                 self.podcasts.insert(sponsoredPodcastToAdd.value, safelyAt: sponsoredPodcastToAdd.key)
             }
             self.sponsoredPodcasts = sponsoredPodcastsToAdd.map { $0.value }

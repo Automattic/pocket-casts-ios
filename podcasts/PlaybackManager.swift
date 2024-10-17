@@ -844,6 +844,22 @@ class PlaybackManager: ServerPlaybackDelegate {
         handlePlaybackEffectsChanged(effects: newEffects)
     }
 
+    func overrideEffectsToggled(applyLocalSettings: Bool) {
+        guard let episode = currentEpisode() as? Episode,
+              let podcast = episode.parentPodcast() else {
+            return
+        }
+        podcast.isEffectsOverridden = applyLocalSettings
+
+        DataManager.sharedManager.save(podcast: podcast)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+        effectsChangedExternally()
+    }
+
+    func isCurrentEffectGlobal() -> Bool {
+        return effects().isGlobal
+    }
+
     private func handlePlaybackEffectsChanged(effects: PlaybackEffects) {
         guard let episode = currentEpisode() else { return }
 

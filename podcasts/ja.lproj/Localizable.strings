@@ -461,6 +461,8 @@
     <string>クラウドにアップロード</string>
     <key>database_migration</key>
     <string>アプリの動作速度を上げるために、少量のビットとバイトを移動しています...</string>
+    <key>day</key>
+    <string>日</string>
     <key>day_listened</key>
     <string>聴取日数</string>
     <key>day_saved</key>
@@ -2541,6 +2543,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>ストーリー</string>
     <key>share_list_subscribing</key>
     <string>フォローしています...</string>
+    <key>share_more_actions</key>
+    <string>詳細</string>
     <key>share_podcast</key>
     <string>ポッドキャストを共有</string>
     <key>share_podcast_title</key>
@@ -2815,6 +2819,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>申し訳ありません、このトランスクリプトの読み込み中に問題が発生しました</string>
     <key>transcript_error_failed_to_parse</key>
     <string>申し訳ありません、このトランスクリプトの解析中に問題が発生しました</string>
+    <key>transcript_error_not_available</key>
+    <string>申し訳ありません、このエピソードではトランスクリプトを利用できません</string>
     <key>transcript_error_not_supported</key>
     <string>申し訳ありません、このトランスクリプトのフォーマットはサポートされていません: %1$@</string>
     <key>trial_finished</key>
@@ -2953,6 +2959,8 @@ Pocket Casts は間違いなく、ポッドキャストを聴くための最高�
     <string>エピソードの詳細画面から次に再生するエピソードを待機リストに追加できます。スマートフォンで追加することもできます。</string>
     <key>watch_up_next_no_items_title</key>
     <string>次のエピソードには何もありません</string>
+    <key>week</key>
+    <string>週</string>
     <key>welcome_discover_button</key>
     <string>次のポッドキャストを検索</string>
     <key>welcome_discover_description</key>

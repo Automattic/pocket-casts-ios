@@ -1899,7 +1899,7 @@ internal enum L10n {
   internal static var plusMarketingSubtitle: String { return L10n.tr("Localizable", "plus_marketing_subtitle") }
   /// Themes & Icons
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
-  /// Unlock exclusive features with Pocket Casts Plus
+  /// Everything you love about Pocket Casts, plus more
   internal static var plusMarketingTitle: String { return L10n.tr("Localizable", "plus_marketing_title") }
   /// Upload your files to cloud storage and have it available everywhere
   internal static var plusMarketingUpdatedCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_cloud_storage_description") }
