@@ -85,6 +85,14 @@ public class DiscoverServerHandler {
         }
     }
 
+    public func discoverPodcastCollection(source: String) async -> PodcastCollection? {
+        return await withCheckedContinuation { continuation in
+            discoverRequest(path: source, type: PodcastCollection.self) { podcastCollection, _ in
+                continuation.resume(returning: podcastCollection)
+            }
+        }
+    }
+
     public func discoverItem<T>(_ source: String?, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
         guard let source = source else {
             return Fail(error: DiscoverServerError.badRequest).eraseToAnyPublisher()
