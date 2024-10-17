@@ -60,6 +60,7 @@
 		10DFE9372C5A8D1300957D0A /* ABTestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */; };
 		10DFE9382C5A8D1300957D0A /* ABTestProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */; };
 		1C312783007F5948E428F709 /* libPods-podcasts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAB944F6BCB7BE4226509DF /* libPods-podcasts.a */; };
+		1ED4573A2CB827A700762D4C /* GravatarUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1ED457392CB827A700762D4C /* GravatarUI */; };
 		2F63CE9528809E5B00A34B51 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63CE9428809E5A00A34B51 /* ThemeTests.swift */; };
 		2F90990E2A4F88B10044FC55 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90990D2A4F88B10044FC55 /* ShareViewController.swift */; };
 		2F9099112A4F88B10044FC55 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F90990F2A4F88B10044FC55 /* MainInterface.storyboard */; };
@@ -3784,6 +3785,7 @@
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
 				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
 				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
+				1ED4573A2CB827A700762D4C /* GravatarUI in Frameworks */,
 				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
 				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */,
@@ -8134,6 +8136,7 @@
 				8B1762762B6808F700F44450 /* JLRoutes */,
 				8B1762792B684E7100F44450 /* Kingfisher */,
 				FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */,
+				1ED457392CB827A700762D4C /* GravatarUI */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -8300,6 +8303,7 @@
 				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
 				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
+				1ED457382CB827A700762D4C /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -12416,6 +12420,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1ED457382CB827A700762D4C /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Automattic/Gravatar-SDK-iOS.git";
+			requirement = {
+				kind = exactVersion;
+				version = "3.0.0-rc.2";
+			};
+		};
 		3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/buildkite/test-collector-swift";
@@ -12515,6 +12527,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1ED457392CB827A700762D4C /* GravatarUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1ED457382CB827A700762D4C /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */;
+			productName = GravatarUI;
+		};
 		3FB8642F28896539003A86BE /* BuildkiteTestCollector */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */;
