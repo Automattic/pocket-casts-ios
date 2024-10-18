@@ -8,6 +8,7 @@
 - Attempt to fix the crash when a device run oout of space [#2275](https://github.com/Automattic/pocket-casts-ios/pull/2275)
 - Fix Share Extension in iOS 18 [#2263](https://github.com/Automattic/pocket-casts-ios/issues/2263)
 - Adding Referrals feature [#2083](https://github.com/Automattic/pocket-casts-ios/issues/2083)
+- Optimize database on startup [#2301](https://github.com/Automattic/pocket-casts-ios/issues/2301)
 
 7.74
 -----
