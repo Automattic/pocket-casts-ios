@@ -235,16 +235,19 @@ class EffectsViewController: SimpleNotificationsViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
+        if FeatureFlag.customPlaybackSettings.enabled {
+            PlaybackManager.shared.applyCurrentEffect()
+            return
+        }
+
         guard didChangePlaybackSpeed else {
             return
         }
 
-        if !FeatureFlag.customPlaybackSettings.enabled {
-            analyticsPlaybackHelper.currentSource = analyticsSource
+        analyticsPlaybackHelper.currentSource = analyticsSource
 
-            let speed = PlaybackManager.shared.effects().playbackSpeed
-            analyticsPlaybackHelper.playbackSpeedChanged(to: speed)
-        }
+        let speed = PlaybackManager.shared.effects().playbackSpeed
+        analyticsPlaybackHelper.playbackSpeedChanged(to: speed)
     }
 
     @IBAction func minusTapped(_ sender: Any) {

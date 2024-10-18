@@ -780,6 +780,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         return currentEffects!
     }
 
+    func applyCurrentEffect() {
+        guard let currentEffects else { return }
+        changeEffects(currentEffects)
+    }
+    
     func changeEffects(_ effects: PlaybackEffects) {
         guard let episode = currentEpisode() else { return }
 
