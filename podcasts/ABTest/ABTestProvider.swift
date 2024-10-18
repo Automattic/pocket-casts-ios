@@ -27,6 +27,19 @@ struct ABTestProvider: ABTestProviding {
         }
     }
 
+    /// Registers the experiments and refreshes `ExPlat`
+    /// - Parameter completion: A completion block used by the `ExPlat.refresh` function
+    func start(completion: (() -> Void)? = nil) {
+        let experiments = ABTest.allCases.map { $0.rawValue }
+        if experiments.isEmpty {
+            completion?()
+            return
+        }
+
+        ExPlat.shared.register(experiments: experiments)
+        ExPlat.shared.refresh(completion: completion)
+    }
+
     /// Reload the `ExPlat` instance
     /// - Parameters:
     ///   - platform: A given platform name

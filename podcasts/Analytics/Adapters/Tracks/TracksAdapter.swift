@@ -130,9 +130,7 @@ private extension TracksAdapter {
     }
 
     func reloadABTest() {
-        Task { @MainActor [weak self] in
-            await self?.abTestProvider.start()
-        }
+        abTestProvider.start(completion: nil)
     }
 }
 
