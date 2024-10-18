@@ -851,9 +851,13 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         podcast.isEffectsOverridden = applyLocalSettings
 
-        DataManager.sharedManager.save(podcast: podcast)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-        effectsChangedExternally()
+        let newEffects = loadEffects()
+
+        if FeatureFlag.customPlaybackSettings.enabled && !podcast.usedCustomEffectsBefore {
+            podcast.usedCustomEffectsBefore = true
+        }
+
+        changeEffects(newEffects)
     }
 
     func isCurrentEffectGlobal() -> Bool {
