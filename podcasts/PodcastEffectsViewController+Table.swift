@@ -209,6 +209,9 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     @objc private func overrideEffectsToggled(_ sender: UISwitch) {
         podcast.isEffectsOverridden = sender.isOn
         podcast.syncStatus = SyncStatus.notSynced.rawValue
+        if FeatureFlag.customPlaybackSettings.enabled && !podcast.usedCustomEffectsBefore {
+            podcast.usedCustomEffectsBefore = true
+        }
         saveUpdates()
 
         Analytics.track(.podcastSettingsCustomPlaybackEffectsToggled, properties: ["enabled": sender.isOn])
