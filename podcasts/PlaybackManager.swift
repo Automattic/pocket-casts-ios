@@ -807,6 +807,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
+
+            if !podcast.usedCustomEffectsBefore, effects.effectsEnabled() {
+                podcast.usedCustomEffectsBefore = true
+            }
+
             DataManager.sharedManager.save(podcast: podcast)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
         }
@@ -852,11 +857,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         podcast.isEffectsOverridden = applyLocalSettings
 
         let newEffects = loadEffects()
-
-        if FeatureFlag.customPlaybackSettings.enabled && !podcast.usedCustomEffectsBefore {
-            podcast.usedCustomEffectsBefore = true
-        }
-
         changeEffects(newEffects)
     }
 
