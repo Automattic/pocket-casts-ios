@@ -808,7 +808,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
 
-            if !podcast.usedCustomEffectsBefore, effects.effectsEnabled() {
+            if FeatureFlag.customPlaybackSettings.enabled, !podcast.usedCustomEffectsBefore, effects.effectsEnabled() {
                 podcast.usedCustomEffectsBefore = true
             }
 
