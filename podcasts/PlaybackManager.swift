@@ -856,6 +856,9 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         podcast.isEffectsOverridden = applyLocalSettings
 
+        DataManager.sharedManager.save(podcast: podcast)
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+
         let newEffects = loadEffects()
         currentEffects = newEffects
         handlePlaybackEffectsChanged(effects: newEffects)
