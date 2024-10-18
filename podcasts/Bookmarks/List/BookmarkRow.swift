@@ -95,6 +95,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         }
         .opacity(viewModel.isMultiSelecting ? 0.3 : 1)
         .disabled(viewModel.isMultiSelecting)
+        .accessibilityLabel(L10n.discoverPlayEpisode)
     }
 
     // MARK: - Play Button View
