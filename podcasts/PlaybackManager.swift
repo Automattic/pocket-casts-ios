@@ -808,7 +808,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
 
-            if FeatureFlag.customPlaybackSettings.enabled, !podcast.usedCustomEffectsBefore, effects.effectsEnabled() {
+            if FeatureFlag.customPlaybackSettings.enabled, !podcast.usedCustomEffectsBefore {
                 podcast.usedCustomEffectsBefore = true
             }
 
@@ -857,7 +857,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         podcast.isEffectsOverridden = applyLocalSettings
 
         let newEffects = loadEffects()
-        changeEffects(newEffects)
+        currentEffects = newEffects
+        handlePlaybackEffectsChanged(effects: newEffects)
     }
 
     func isCurrentEffectGlobal() -> Bool {
