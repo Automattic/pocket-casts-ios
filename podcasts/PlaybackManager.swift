@@ -780,6 +780,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         return currentEffects!
     }
 
+    func applyCurrentEffect() {
+        guard let currentEffects else { return }
+        changeEffects(currentEffects)
+    }
+
     func changeEffects(_ effects: PlaybackEffects) {
         guard let episode = currentEpisode() else { return }
 
@@ -807,6 +812,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             podcast.trimSilenceAmount = Int32(effects.trimSilence.rawValue)
             podcast.playbackSpeed = effects.playbackSpeed
             podcast.boostVolume = effects.volumeBoost
+
+            if FeatureFlag.customPlaybackSettings.enabled, !podcast.usedCustomEffectsBefore {
+                podcast.usedCustomEffectsBefore = true
+            }
+
             DataManager.sharedManager.save(podcast: podcast)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
         }
@@ -853,7 +863,10 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         DataManager.sharedManager.save(podcast: podcast)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-        effectsChangedExternally()
+
+        let newEffects = loadEffects()
+        currentEffects = newEffects
+        handlePlaybackEffectsChanged(effects: newEffects)
     }
 
     func isCurrentEffectGlobal() -> Bool {

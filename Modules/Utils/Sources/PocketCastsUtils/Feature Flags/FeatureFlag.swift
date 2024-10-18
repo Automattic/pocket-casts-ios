@@ -119,6 +119,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// to apply the Global or local settings
     case customPlaybackSettings
 
+    /// Run a vacuum process on the database in order to optimize data fetch
+    case runVacuumOnVersionUpdate
+
     /// Enable the End of Year 2024 recap
     case endOfYear2024
 
@@ -189,7 +192,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignoreRouteDisconnectedInterruption:
             true
         case .referrals:
-            false
+            true
         case .syncStats:
             true
         case .discoverCollectionView:
@@ -201,7 +204,9 @@ public enum FeatureFlag: String, CaseIterable {
         case .useMimetypePackage:
             true
         case .customPlaybackSettings:
-            false
+            true
+        case .runVacuumOnVersionUpdate:
+            true
         case .endOfYear2024:
             false
         }
