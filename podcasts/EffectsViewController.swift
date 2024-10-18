@@ -389,6 +389,10 @@ class EffectsViewController: SimpleNotificationsViewController {
     private func speedTapped() {
         didChangePlaybackSpeed = true
         PlaybackManager.shared.toggleDefinedPlaybackSpeed()
+
+        if FeatureFlag.customPlaybackSettings.enabled {
+            trackPlaybackSpeedChanged()
+        }
     }
 
     private func updateSpeedBtn() {
