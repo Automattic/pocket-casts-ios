@@ -4,6 +4,14 @@ import PocketCastsUtils
 struct EndOfYearCard: View {
     @EnvironmentObject var theme: Theme
 
+    let viewModel: ViewModel
+
+    struct ViewModel {
+        let title: String
+        let description: String
+        let imageName: String
+    }
+
     private var imageScale: Double {
         A11y.isDisplayZoomed ? 0.75 : 1.0
     }
@@ -12,12 +20,12 @@ struct EndOfYearCard: View {
         ZStack {
             HStack {
                 VStack(alignment: .leading, spacing: Constants.textSpace) {
-                    Text(L10n.eoyTitle)
+                    Text(viewModel.title)
                         .minimumScaleFactor(0.7)
                         .font(style: .title2, weight: .semibold, maxSizeCategory: .extraExtraLarge)
                         .foregroundColor(.white)
 
-                    Text(L10n.eoyCardDescription)
+                    Text(viewModel.description)
                         .font(style: .footnote, weight: .semibold, maxSizeCategory: .accessibilityMedium)
                         .foregroundColor(.gray)
                 }
@@ -32,7 +40,7 @@ struct EndOfYearCard: View {
                     HStack {
                         Spacer()
 
-                        Image("23_small")
+                        Image(viewModel.imageName)
                             .resizable()
                             .scaledToFit()
                             .frame(width: Constants.eoyImageSize.width * imageScale,
@@ -63,7 +71,7 @@ struct EndOfYearCard: View {
 
 struct EndOfYearCard_Previews: PreviewProvider {
     static var previews: some View {
-        EndOfYearCard()
+        EndOfYearCard(viewModel: .init(title: "Playback 2024", description: "See your last 2024 playback", imageName: "23_small"))
             .environmentObject(Theme(previewTheme: .light))
     }
 }

@@ -5,7 +5,16 @@ class EndOfYearPromptCell: ThemeableCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        let childView = UIHostingController(rootView: EndOfYearCard()
+        let viewModel: EndOfYearCard.ViewModel
+
+        switch EndOfYear.currentYear {
+        case .y2022:
+            fatalError("Shouldn't reach this point")
+        case .y2023:
+            viewModel = .init(title: L10n.eoyTitle, description: L10n.eoyCardDescription, imageName: "23_small")
+        }
+
+        let childView = UIHostingController(rootView: EndOfYearCard(viewModel: viewModel)
             .environmentObject(Theme.sharedTheme))
         childView.view.backgroundColor = .clear
         contentView.addSubview(childView.view)
