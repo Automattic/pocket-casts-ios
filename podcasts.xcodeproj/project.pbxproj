@@ -1720,6 +1720,10 @@
 		FF05C98F2C0A0BF800E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF05C9902C0A255600E41EB3 /* FileManager+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */; };
 		FF05C9922C0E044C00E41EB3 /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */; };
+		FF06AFA32CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06AFA22CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift */; };
+		FF06AFA42CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06AFA22CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift */; };
+		FF06AFA72CB692D30099EC9B /* MediaFileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */; };
+		FF06AFA82CB692D30099EC9B /* MediaFileHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */; };
 		FF0A1D522C580CF5003931E6 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
 		FF1D0CB82C9CE11300F600C6 /* ReferralsMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D0CB72C9CE11300F600C6 /* ReferralsMessageView.swift */; };
 		FF1D0CBA2C9DC62200F600C6 /* ReferralsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D0CB92C9DC62200F600C6 /* ReferralsCoordinator.swift */; };
@@ -3636,6 +3640,8 @@
 		FF03F7C32C0E331E00369572 /* SourceInterfaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceInterfaceModel.swift; sourceTree = "<group>"; };
 		FF05C98E2C0A0BF800E41EB3 /* FileManager+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Helper.swift"; sourceTree = "<group>"; };
 		FF05C9912C0E044C00E41EB3 /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
+		FF06AFA22CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporterResourceLoaderDelegate.swift; sourceTree = "<group>"; };
+		FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFileHandle.swift; sourceTree = "<group>"; };
 		FF1D0CB72C9CE11300F600C6 /* ReferralsMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsMessageView.swift; sourceTree = "<group>"; };
 		FF1D0CB92C9DC62200F600C6 /* ReferralsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsCoordinator.swift; sourceTree = "<group>"; };
 		FF1DF0192C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardAnimatedGradientView.swift; sourceTree = "<group>"; };
@@ -5408,6 +5414,8 @@
 				BDA2065A1BB3AF1B00D38389 /* DownloadProgressManager.swift */,
 				BDA2065C1BB3AF5D00D38389 /* DownloadProgress.swift */,
 				FF2142D32C07369200672D8D /* MediaExporter.swift */,
+				FF06AFA22CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift */,
+				FF06AFA62CB692D30099EC9B /* MediaFileHandle.swift */,
 			);
 			name = Episode;
 			sourceTree = "<group>";
@@ -9355,6 +9363,7 @@
 				8BA198842AE0205900B66568 /* CompletionRateStory.swift in Sources */,
 				C713D4F82A04C90500A78468 /* ProfileHeaderViewModel.swift in Sources */,
 				BDCE1D611FBC1C4100100A86 /* UrlHelper.swift in Sources */,
+				FF06AFA72CB692D30099EC9B /* MediaFileHandle.swift in Sources */,
 				BDB5F0C7204504E900437669 /* MultipleActionView.swift in Sources */,
 				40164A6723D696E00043907B /* PromotionViewController.swift in Sources */,
 				BD93FDA920159B6B00F6EF55 /* PlaylistsViewController+Table.swift in Sources */,
@@ -9424,6 +9433,7 @@
 				409C793722387C0500386495 /* AllArchivedCell.swift in Sources */,
 				405471272163345400341BF6 /* PodcastSelectionHeaderView.swift in Sources */,
 				BD9086A7204E120C00C0C78D /* DescriptiveActionView.swift in Sources */,
+				FF06AFA32CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift in Sources */,
 				F5FF612B2BD6EB3B00190711 /* ModalView.swift in Sources */,
 				C7612FFF28E397A00044C6C2 /* AnalyticsEpisodeHelper.swift in Sources */,
 				BDF4D3162175C56F0086463E /* ThemeLoadingIndicator.swift in Sources */,
@@ -10185,6 +10195,7 @@
 				BDE48A332410D48900ECA6CA /* ChapterManager.swift in Sources */,
 				BDE48A172410CFD100ECA6CA /* PlaybackManager.swift in Sources */,
 				BDE48A392410D5BD00ECA6CA /* PodcastManager+Cleanup.swift in Sources */,
+				FF06AFA42CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift in Sources */,
 				E3F37447291F0DD1005916ED /* Chapters.swift in Sources */,
 				46703E0E27BEEF0900DD7998 /* Bundle+Helpers.swift in Sources */,
 				4670303627D7A70700844CED /* PodcastEpisodeListView.swift in Sources */,
@@ -10245,6 +10256,7 @@
 				4054146F2435B82B00431FD5 /* PlaylistManager.swift in Sources */,
 				46B5DFD027EA1703006FC2ED /* WatchSourceViewModel.swift in Sources */,
 				46C7BB8A27DA60F300CD6AE3 /* DownloadListViewModel.swift in Sources */,
+				FF06AFA82CB692D30099EC9B /* MediaFileHandle.swift in Sources */,
 				10756F892C59449C0089D34F /* Folder+Sortable.swift in Sources */,
 				BD74F15427F293E400222785 /* HomeGridItem.swift in Sources */,
 				BD26AFD527BDFD18008CC973 /* Folder+Formatting.swift in Sources */,

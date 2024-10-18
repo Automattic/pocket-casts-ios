@@ -119,6 +119,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// to apply the Global or local settings
     case customPlaybackSettings
 
+    /// Enable the End of Year 2024 recap
+    case endOfYear2024
+
     /// Push two auto downloads on subscribe of a podcast
     case autoDownloadOnSubscribe
 
@@ -201,6 +204,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .useMimetypePackage:
             true
         case .customPlaybackSettings:
+            false
+        case .endOfYear2024:
             false
         case .autoDownloadOnSubscribe:
             true

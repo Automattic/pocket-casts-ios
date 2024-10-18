@@ -182,6 +182,10 @@ class EffectsViewController: SimpleNotificationsViewController {
 
         updateColors()
         updateControls()
+
+        if FeatureFlag.customPlaybackSettings.enabled {
+            playbackSettingsSegmentedControl.selectedSegmentIndex = PlaybackManager.shared.isCurrentEffectGlobal() ? 0 : 1
+        }
         if let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() {
             clearForPodcastImage.setPodcast(uuid: podcast.uuid, size: .list)
         }
@@ -270,7 +274,10 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     @objc private func playbackSettingsDestinationChanged() {
-        // TO IMPLEMENT
+        let applyLocalSettings = playbackSettingsSegmentedControl.selectedSegmentIndex == 1
+        PlaybackManager.shared.effectsChangedExternally()
+        PlaybackManager.shared.overrideEffectsToggled(applyLocalSettings: applyLocalSettings)
+        updateControls()
     }
 
     @IBAction func volumeBoostChanged(_ sender: UISwitch) {
@@ -304,6 +311,10 @@ class EffectsViewController: SimpleNotificationsViewController {
     }
 
     private func updateClearView() {
+        // We don't need a clear view if the FF is enbaled
+        if FeatureFlag.customPlaybackSettings.enabled {
+            return
+        }
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode, let podcast = episode.parentPodcast() else {
             clearForPodcastView.isHidden = true
             customEffectsToVolumeBoostConstraint.isActive = false

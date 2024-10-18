@@ -461,6 +461,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Carica nel cloud</string>
     <key>database_migration</key>
     <string>Stiamo spostando alcuni bit e byte per velocizzare l'app...</string>
+    <key>day</key>
+    <string>giorno</string>
     <key>day_listened</key>
     <string>Giorno ascoltato</string>
     <key>day_saved</key>
@@ -2959,6 +2961,8 @@ In ogni caso, avrai fatto la scelta giusta. 🙂</string>
     <string>Puoi mettere in fila gli episodi per riprodurli in sequenza dalla schermata dei dettagli dell'episodio oppure aggiungendoli sul tuo telefono.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Nessun elemento in Successivo</string>
+    <key>week</key>
+    <string>settimana</string>
     <key>welcome_discover_button</key>
     <string>Trova il mio prossimo podcast</string>
     <key>welcome_discover_description</key>
