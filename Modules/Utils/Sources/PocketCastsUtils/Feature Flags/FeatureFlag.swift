@@ -206,7 +206,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .useMimetypePackage:
             true
         case .customPlaybackSettings:
-            false
+            true
         case .runVacuumOnVersionUpdate:
             true
         }
