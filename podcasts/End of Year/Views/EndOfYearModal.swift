@@ -32,7 +32,7 @@ struct EndOfYearModal: View {
         .frame(maxWidth: Constants.maxWidth)
         .applyDefaultThemeOptions()
         .onAppear {
-            Settings.endOfYearModalHasBeenShown = true
+            Settings.setHasShownModalForEndOfYear(true, year: 2023)
             Analytics.track(.endOfYearModalShown)
         }
     }
