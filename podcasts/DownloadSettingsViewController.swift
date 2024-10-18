@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import UIKit
+import PocketCastsUtils
 
 class DownloadSettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate, PodcastSelectionDelegate {
     private static let switchCellId = "SwitchCell"
@@ -15,7 +16,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
     private enum TableRow { case upNext, podcastAutoDownload, podcastSelection, downloadLimits, filterSelection, onlyOnWifi }
     private let podcastDownloadOffData: [[TableRow]] = [[.upNext], [.podcastAutoDownload], [.filterSelection], [.onlyOnWifi]]
-    private let podcastDownloadOnData: [[TableRow]] = [[.upNext], [.podcastAutoDownload, .podcastSelection, .downloadLimits], [.filterSelection], [.onlyOnWifi]]
+    private let podcastDownloadOnData: [[TableRow]] = [[.upNext], [.podcastAutoDownload, .podcastSelection], [.filterSelection], [.onlyOnWifi]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -239,7 +240,12 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
     private func tableRows() -> [[TableRow]] {
         let autoDownloadPodcastsEnabled = Settings.autoDownloadEnabled()
 
-        return autoDownloadPodcastsEnabled ? podcastDownloadOnData : podcastDownloadOffData
+        var data = autoDownloadPodcastsEnabled ? podcastDownloadOnData : podcastDownloadOffData
+
+        if FeatureFlag.autoDownloadOnSubscribe.enabled {
+            data[1].append(.downloadLimits)
+        }
+        return data
     }
 }
 

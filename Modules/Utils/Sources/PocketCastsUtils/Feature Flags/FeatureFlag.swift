@@ -119,6 +119,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// to apply the Global or local settings
     case customPlaybackSettings
 
+    /// Push two auto downloads on subscribe of a podcast
+    case autoDownloadOnSubscribe
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -199,6 +202,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .customPlaybackSettings:
             false
+        case .autoDownloadOnSubscribe:
+            true
         }
     }
 
