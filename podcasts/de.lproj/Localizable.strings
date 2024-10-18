@@ -461,6 +461,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>In die Cloud hochladen</string>
     <key>database_migration</key>
     <string>Wir verschieben gerade ein paar Bits und Bytes, um die App schneller zu machen …</string>
+    <key>day</key>
+    <string>Tag</string>
     <key>day_listened</key>
     <string>Tag angehört</string>
     <key>day_saved</key>
@@ -2821,6 +2823,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Beim Laden dieses Transkripts ist ein Fehler aufgetreten</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Beim Parsen dieses Transkripts ist ein Fehler aufgetreten</string>
+    <key>transcript_error_not_available</key>
+    <string>Entschuldigung! Für diese Folge ist kein Transkript verfügbar.</string>
     <key>transcript_error_not_supported</key>
     <string>Dieses Transkriptformat wird nicht unterstützt: %1$@</string>
     <key>trial_finished</key>
@@ -2959,6 +2963,8 @@ Beides klingt gut. 🙂</string>
     <string>Über den Bildschirm „Details zur Folge“ kannst du Folgen, die als Nächstes gespielt werden sollen, in die Warteschlange stellen, oder du kannst sie auf deinem Mobiltelefon hinzufügen.</string>
     <key>watch_up_next_no_items_title</key>
     <string>„Als Nächstes“ leer</string>
+    <key>week</key>
+    <string>Woche</string>
     <key>welcome_discover_button</key>
     <string>Meinen nächsten Podcast suchen</string>
     <key>welcome_discover_description</key>

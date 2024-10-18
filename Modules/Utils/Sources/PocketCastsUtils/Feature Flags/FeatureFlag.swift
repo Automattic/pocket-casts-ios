@@ -191,7 +191,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignoreRouteDisconnectedInterruption:
             true
         case .referrals:
-            false
+            true
         case .syncStats:
             true
         case .discoverCollectionView:

@@ -461,6 +461,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>上傳到雲端</string>
     <key>database_migration</key>
     <string>我們移動了一些資料，讓應用程式運作起來更迅速...</string>
+    <key>day</key>
+    <string>天</string>
     <key>day_listened</key>
     <string>已收聽的天數</string>
     <key>day_saved</key>
@@ -2821,6 +2823,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>不好意思，載入此逐字稿時發生錯誤</string>
     <key>transcript_error_failed_to_parse</key>
     <string>不好意思，解析此逐字稿時發生錯誤</string>
+    <key>transcript_error_not_available</key>
+    <string>不好意思，此單集不提供逐字稿</string>
     <key>transcript_error_not_supported</key>
     <string>不好意思，不支援此逐字稿格式：%1$@</string>
     <key>trial_finished</key>
@@ -2959,6 +2963,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>您可以從「本集詳細資訊」畫面或從手機上，將單集加入接下來要播放的佇列。</string>
     <key>watch_up_next_no_items_title</key>
     <string>「接著播放」中沒有內容</string>
+    <key>week</key>
+    <string>週</string>
     <key>welcome_discover_button</key>
     <string>尋找我的下一個 Podcast</string>
     <key>welcome_discover_description</key>

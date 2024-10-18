@@ -461,6 +461,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Uploaden naar cloud</string>
     <key>database_migration</key>
     <string>We verplaatsen een paar bits en bytes zodat de app sneller is...</string>
+    <key>day</key>
+    <string>dag</string>
     <key>day_listened</key>
     <string>Dagen geluisterd</string>
     <key>day_saved</key>
@@ -2817,6 +2819,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Er is helaas iets misgegaan bij het laden van deze transcriptie</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Er is helaas iets misgegaan met de parsing van deze transcriptie</string>
+    <key>transcript_error_not_available</key>
+    <string>Er is helaas geen transcriptie beschikbaar voor deze aflevering</string>
     <key>transcript_error_not_supported</key>
     <string>Deze transcriptie-indeling wordt helaas niet ondersteund: %1$@</string>
     <key>trial_finished</key>
@@ -2955,6 +2959,8 @@ Je kunt geen verkeerde keuze maken. 🙂</string>
     <string>Je kunt in het scherm Informatie over aflevering of vanaf je telefoon afleveringen in de wachtrij zetten om als volgende te worden afgespeeld.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Niets in Hierna</string>
+    <key>week</key>
+    <string>week</string>
     <key>welcome_discover_button</key>
     <string>Vind mijn volgende podcast</string>
     <key>welcome_discover_description</key>
