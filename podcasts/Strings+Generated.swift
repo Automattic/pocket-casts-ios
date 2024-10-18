@@ -278,6 +278,22 @@ internal enum L10n {
   internal static var autoAddToUpNextTopOnlyShort: String { return L10n.tr("Localizable", "auto_add_to_up_next_top_only_short") }
   /// Auto Download First
   internal static var autoDownloadFirst: String { return L10n.tr("Localizable", "auto_download_first") }
+  /// Limit auto downloads
+  internal static var autoDownloadLimitAutoDownloads: String { return L10n.tr("Localizable", "auto_download_limit_auto_downloads") }
+  /// Limit downloads
+  internal static var autoDownloadLimitDownloads: String { return L10n.tr("Localizable", "auto_download_limit_downloads") }
+  /// %1$@ episodes
+  internal static func autoDownloadLimitNumberOfEpisodes(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "auto_download_limit_number_of_episodes", String(describing: p1))
+  }
+  /// %1$@ Latest Episodes per Show
+  internal static func autoDownloadLimitNumberOfEpisodesShow(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "auto_download_limit_number_of_episodes_show", String(describing: p1))
+  }
+  /// latest episode
+  internal static var autoDownloadLimitOneEpisode: String { return L10n.tr("Localizable", "auto_download_limit_one_episode") }
+  /// Latest Episode per Show
+  internal static var autoDownloadLimitOneEpisodeShow: String { return L10n.tr("Localizable", "auto_download_limit_one_episode_show") }
   /// Enable to auto download episodes in this filter
   internal static var autoDownloadOffSubtitle: String { return L10n.tr("Localizable", "auto_download_off_subtitle") }
   /// The first %1$@ episodes in this filter will be automatically downloaded
@@ -2576,7 +2592,7 @@ internal enum L10n {
   internal static var settingsAutoDownloadsPodcastsSelectedSingular: String { return L10n.tr("Localizable", "settings_auto_downloads_podcasts_selected_singular") }
   /// Download the top episodes in a filter.
   internal static var settingsAutoDownloadsSubtitleFilters: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_filters") }
-  /// Download new episodes when they are released.
+  /// Automatically download new episodes as they’re released, and manage your storage by setting a limit on how many episodes are saved.
   internal static var settingsAutoDownloadsSubtitleNewEpisodes: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_new_episodes") }
   /// Download episodes added to Up Next.
   internal static var settingsAutoDownloadsSubtitleUpNext: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_up_next") }
