@@ -206,7 +206,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .customPlaybackSettings:
             true
         case .runVacuumOnVersionUpdate:
-            true            
+            true
         case .endOfYear2024:
             false
         }
