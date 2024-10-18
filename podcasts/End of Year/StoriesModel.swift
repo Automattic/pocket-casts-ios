@@ -221,7 +221,7 @@ class StoriesModel: ObservableObject {
         guard let assets = sharingAssets() else { return }
 
         pause()
-        EndOfYear().share(assets: assets, storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
+        EndOfYear.share(assets: assets, storyIdentifier: currentStoryIdentifier, onDismiss: { [weak self] in
             self?.start()
         })
     }

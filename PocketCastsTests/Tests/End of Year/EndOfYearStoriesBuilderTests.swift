@@ -52,7 +52,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         ]
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0.first, EndOfYearStory.topCategories)
+        XCTAssertEqual(stories.0.first, EndOfYear2023Story.topCategories)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfPodcasts, 1)
         XCTAssertEqual(stories.1.listenedCategories.first?.totalPlayedTime, 500)
         XCTAssertEqual(stories.1.listenedCategories.first?.numberOfEpisodes, 5)
@@ -83,7 +83,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         endOfYearManager.listenedNumbersToReturn = ListenedNumbers(numberOfPodcasts: 3, numberOfEpisodes: 10)
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0.first, EndOfYearStory.numberOfPodcastsAndEpisodesListened)
+        XCTAssertEqual(stories.0.first, EndOfYear2023Story.numberOfPodcastsAndEpisodesListened)
         XCTAssertEqual(stories.1.listenedNumbers.numberOfPodcasts, 3)
         XCTAssertEqual(stories.1.listenedNumbers.numberOfEpisodes, 10)
     }
@@ -112,7 +112,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         ]
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0.first, EndOfYearStory.topOnePodcast)
+        XCTAssertEqual(stories.0.first, EndOfYear2023Story.topOnePodcast)
         XCTAssertEqual(stories.1.topPodcasts.count, 1)
         XCTAssertNotNil(stories.1.topPodcasts.first?.podcast)
         XCTAssertEqual(stories.1.topPodcasts.first?.numberOfPlayedEpisodes, 3)
@@ -146,7 +146,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         ]
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0[1], EndOfYearStory.topFivePodcasts)
+        XCTAssertEqual(stories.0[1], EndOfYear2023Story.topFivePodcasts)
         XCTAssertEqual(stories.1.topPodcasts.count, 2)
     }
 
@@ -159,7 +159,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         endOfYearManager.longestEpisodeToReturn = episode
         let stories = await builder.build()
 
-        XCTAssertEqual(stories.0.first, EndOfYearStory.longestEpisode)
+        XCTAssertEqual(stories.0.first, EndOfYear2023Story.longestEpisode)
         XCTAssertNotNil(stories.1.longestEpisode)
         XCTAssertNotNil(stories.1.longestEpisodePodcast)
     }

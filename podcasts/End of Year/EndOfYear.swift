@@ -10,21 +10,60 @@ enum EndOfYearPresentationSource: String {
 }
 
 struct EndOfYear {
+    enum Year {
+        case y2022
+        case y2023
+
+        var model: StoryModel? {
+            switch self {
+            case .y2022:
+                nil
+            case .y2023:
+                EndOfYear2023StoriesModel()
+            }
+        }
+
+        var year: Int? {
+            model?.year
+        }
+    }
+
     static var isEligible: Bool { eligibilityChecker?.isEligible ?? false }
 
+    static var shouldShowBadge: Bool {
+        guard let year = currentYear.year else { return false }
+        return Settings.showBadgeForEndOfYear(year)
+    }
+
     // Eligibility checker to manage the `isEligible` state
-    private static let eligibilityChecker: EligibilityChecker? = .init()
+    private static var eligibilityChecker: EligibilityChecker? = {
+        if let year = currentYear.year {
+            .init(year: year)
+        } else {
+            nil
+        }
+    }()
 
     /// Internal state machine to determine how we should react to login changes
     /// and when to show the modal vs go directly to the stories
     private static var state: EndOfYearState = .showModalIfNeeded
 
+    static var currentYear: Year {
+        if FeatureFlag.endOfYear.enabled {
+            return .y2023
+        } else {
+            return .y2022
+        }
+    }
+
+    private(set) var model: StoryModel?
+
     static var requireAccount: Bool = Settings.endOfYearRequireAccount {
         didSet {
             // If registration is not needed anymore and this user is logged out
             // Show the prompt again.
-            if oldValue && !requireAccount && !SyncManager.isUserLoggedIn() {
-                Settings.endOfYearModalHasBeenShown = false
+            if let year = currentYear.year, oldValue && !requireAccount && !SyncManager.isUserLoggedIn() {
+                Settings.setHasShownModalForEndOfYear(false, year: year)
                 NotificationCenter.postOnMainThread(notification: .eoyRegistrationNotRequired, object: nil)
             }
         }
@@ -40,10 +79,12 @@ struct EndOfYear {
 
     init() {
         Self.requireAccount = Settings.endOfYearRequireAccount
+
+        model = Self.currentYear.model
     }
 
     func showPrompt(in viewController: UIViewController) {
-        guard Self.isEligible, !Settings.endOfYearModalHasBeenShown else {
+        guard Self.isEligible, let model, !Settings.hasShownModalForEndOfYear(model.year) else {
             return
         }
 
@@ -71,9 +112,7 @@ struct EndOfYear {
     }
 
     func showStories(in viewController: UIViewController, from source: EndOfYearPresentationSource) {
-        guard FeatureFlag.endOfYear.enabled else {
-            return
-        }
+        guard let model else { return }
 
         if Self.requireAccount && !SyncManager.isUserLoggedIn() {
             Self.state = .waitingForLogin
@@ -84,9 +123,9 @@ struct EndOfYear {
         }
 
         // Don't show the prompt if the user is has already viewed the stories.
-        Settings.endOfYearModalHasBeenShown = true
+        Settings.setHasShownModalForEndOfYear(true, year: model.year)
 
-        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource()).padding(storiesPadding))
+        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource(model: model)).padding(storiesPadding))
         storiesViewController.view.backgroundColor = .black
         storiesViewController.modalPresentationStyle = presentationMode
 
@@ -99,7 +138,7 @@ struct EndOfYear {
         Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue])
     }
 
-    func share(assets: [Any], storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
+    static func share(assets: [Any], storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
         let presenter = FeatureFlag.newPlayerTransition.enabled ? SceneHelper.rootViewController() : SceneHelper.rootViewController()?.presentedViewController
 
         let fakeViewController = FakeViewController()
@@ -135,8 +174,8 @@ struct EndOfYear {
     func resetStateIfNeeded() {
         // When a user logs in (or creates an account) we mark the EOY modal as not
         // shown to show it again.
-        if Self.state == .showModalIfNeeded {
-            Settings.endOfYearModalHasBeenShown = false
+        if Self.state == .showModalIfNeeded, let model {
+            Settings.setHasShownModalForEndOfYear(false, year: model.year)
             return
         }
 
@@ -198,8 +237,10 @@ extension EndOfYear {
         private let notificationCenter: NotificationCenter
         private var notifications: [NSObjectProtocol] = []
 
-        init?(notificationCenter: NotificationCenter = .default) {
-            guard FeatureFlag.endOfYear.enabled else { return nil }
+        private let year: Int
+
+        init(year: Int, notificationCenter: NotificationCenter = .default) {
+            self.year = year
 
             self.notificationCenter = notificationCenter
 
@@ -233,7 +274,7 @@ extension EndOfYear {
         }
 
         private func update() {
-            isEligible = DataManager.sharedManager.isEligibleForEndOfYearStories()
+            isEligible = DataManager.sharedManager.isEligibleForEndOfYearStories(in: year)
 
             // Let others know this changed
             if isEligible {

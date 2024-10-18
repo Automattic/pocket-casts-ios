@@ -73,7 +73,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
         do {
             let response = try Api_YearHistoryResponse(serializedData: serverData)
 
-            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodes(year: yearToSync)
+            let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodes(year: Int(yearToSync))
 
             if response.count > localNumberOfEpisodes, let token {
                 print("SyncYearListeningHistory: \(Int(response.count) - localNumberOfEpisodes) episodes missing, adding them...")
@@ -108,7 +108,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
         // Get the list of missing episodes in the database
         let uuids = updates.map { $0.episode }
-        let episodesThatExist = DataManager.sharedManager.episodesThatExist(year: yearToSync, uuids: uuids)
+        let episodesThatExist = DataManager.sharedManager.episodesThatExist(year: Int(yearToSync), uuids: uuids)
         let missingEpisodes = updates.filter { !episodesThatExist.contains($0.episode) }
 
         SyncYearListeningProgress.shared.episodesToSync += Double(missingEpisodes.count)
