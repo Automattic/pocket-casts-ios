@@ -270,10 +270,6 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         .lightContent
     }
 
-    override var prefersHomeIndicatorAutoHidden: Bool {
-        true
-    }
-
     // MARK: - App Backgrounding
 
     @objc func handleAppWillBecomeActive() {
