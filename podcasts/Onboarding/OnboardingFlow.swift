@@ -8,9 +8,12 @@ struct OnboardingFlow {
     private(set) var currentFlow: Flow = .none
     private var source: String? = nil
 
-    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil, customTitle: String? = nil) -> UIViewController {
+    private(set) var accountCreated: ((Bool)->())?
+
+    mutating func begin(flow: Flow, in controller: UIViewController? = nil, source: String? = nil, context: Context? = nil, customTitle: String? = nil, accountCreated: ((Bool)->())? = nil) -> UIViewController {
         self.currentFlow = flow
         self.source = source
+        self.accountCreated = accountCreated
 
         let navigationController = controller as? UINavigationController
 
