@@ -10,7 +10,7 @@ enum EndOfYearPresentationSource: String {
 }
 
 struct EndOfYear {
-    enum Year {
+    enum Year: CaseIterable {
         case y2022
         case y2023
         case y2024
