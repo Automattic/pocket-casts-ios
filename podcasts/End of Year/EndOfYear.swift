@@ -13,6 +13,7 @@ struct EndOfYear {
     enum Year {
         case y2022
         case y2023
+        case y2024
 
         var model: StoryModel? {
             switch self {
@@ -20,6 +21,8 @@ struct EndOfYear {
                 nil
             case .y2023:
                 EndOfYear2023StoriesModel()
+            case .y2024:
+                EndOfYear2024StoriesModel()
             }
         }
 
@@ -51,6 +54,8 @@ struct EndOfYear {
     static var currentYear: Year {
         if FeatureFlag.endOfYear.enabled {
             return .y2023
+        } else if FeatureFlag.endOfYear2024.enabled {
+            return .y2024
         } else {
             return .y2022
         }
@@ -95,6 +100,8 @@ struct EndOfYear {
             fatalError("Shouldn't reach this")
         case .y2023:
             viewModel = .init(buttonTitle: L10n.eoyViewYear, description: L10n.eoyDescription, backgroundImageName: "modal_cover")
+        case .y2024:
+            viewModel = .init(buttonTitle: L10n.playback2024ViewYear, description: L10n.playback2024Description, backgroundImageName: "playback-featured")
         }
 
         BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: model.year, model: viewModel), in: viewController)

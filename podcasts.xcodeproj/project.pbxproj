@@ -1668,6 +1668,7 @@
 		F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */; };
 		F54E721F2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */; };
 		F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */; };
+		F55275BA2CB74EB60012B705 /* EndOfYear2024Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
@@ -1706,6 +1707,7 @@
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
 		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
 		F5EA21F42CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA21F32CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift */; };
+		F5EA21F82CC1DC370043C780 /* EndOfYear2024StoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA21F72CC1DC370043C780 /* EndOfYear2024StoriesModel.swift */; };
 		F5F479A62C3EF8AB002B4475 /* PlayheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F479A52C3EF8AB002B4475 /* PlayheadView.swift */; };
 		F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */; };
 		F5F6DA702BBE1109009B1934 /* CategoryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */; };
@@ -3596,6 +3598,7 @@
 		F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCellType.swift; sourceTree = "<group>"; };
 		F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Categories.swift"; sourceTree = "<group>"; };
 		F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2023Story.swift; sourceTree = "<group>"; };
+		F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2024Story.swift; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F555980A2C50242800C02EEB /* VideoExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExporter.swift; sourceTree = "<group>"; };
 		F555980E2C503F1700C02EEB /* AnimatedShareImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedShareImageView.swift; sourceTree = "<group>"; };
@@ -3631,6 +3634,7 @@
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
 		F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelperTests.swift; sourceTree = "<group>"; };
 		F5EA21F32CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2023StoriesModel.swift; sourceTree = "<group>"; };
+		F5EA21F72CC1DC370043C780 /* EndOfYear2024StoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2024StoriesModel.swift; sourceTree = "<group>"; };
 		F5F479A52C3EF8AB002B4475 /* PlayheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadView.swift; sourceTree = "<group>"; };
 		F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FMDatabaseQueue+Test.swift"; sourceTree = "<group>"; };
 		F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonStyle.swift; sourceTree = "<group>"; };
@@ -4835,6 +4839,7 @@
 				8BCB22B328F48282001A0315 /* EndOfYear.swift */,
 				8B23193E2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift */,
 				F5EA21F52CC1DC100043C780 /* End of Year 2023 */,
+				F5EA21F62CC1DC300043C780 /* End of Year 2024 */,
 				8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */,
 				8B6B68E428F744520032BFFF /* StoriesDataSource.swift */,
 				8B5AB48D2901A8BD0018C637 /* StoriesController.swift */,
@@ -7813,6 +7818,15 @@
 			path = "End of Year 2023";
 			sourceTree = "<group>";
 		};
+		F5EA21F62CC1DC300043C780 /* End of Year 2024 */ = {
+			isa = PBXGroup;
+			children = (
+				F5EA21F72CC1DC370043C780 /* EndOfYear2024StoriesModel.swift */,
+				F55275B92CB74EB30012B705 /* EndOfYear2024Story.swift */,
+			);
+			path = "End of Year 2024";
+			sourceTree = "<group>";
+		};
 		F5F6DA6E2BBE10E2009B1934 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -9812,6 +9826,7 @@
 				BD585C1D204785EF00AC842C /* AppDelegate.swift in Sources */,
 				BD93246F2398BAE3004F19A1 /* TourStep.swift in Sources */,
 				BDDAE72C27F2E76B003741A1 /* FileTypeUtil.swift in Sources */,
+				F5EA21F82CC1DC370043C780 /* EndOfYear2024StoriesModel.swift in Sources */,
 				BDD6F0342140E1A3005FD8A3 /* ChapterManager.swift in Sources */,
 				BD9A7FEB201EF5E000E3287B /* PodcastEpisodesRefreshOperation.swift in Sources */,
 				46305CF2272B0962003AC87B /* FileLog+FileUpload.swift in Sources */,
@@ -10094,6 +10109,7 @@
 				BDF0D4B523EBF1190034129E /* MNAVChapterReader.m in Sources */,
 				10A4F7692C540EBE0084D783 /* KidsProfileSheetViewModel.swift in Sources */,
 				BDA0E2A122DDB31A0029EBEB /* ThemeStyle.swift in Sources */,
+				F55275BA2CB74EB60012B705 /* EndOfYear2024Story.swift in Sources */,
 				BDF7BDCE1CA2247F0045AB6D /* StatsCell.swift in Sources */,
 				40F1492C218BCC4F008F54EA /* FilterShortcutsViewController.swift in Sources */,
 				BDD525382047782600AAD211 /* SJUIUtils.swift in Sources */,

@@ -12,6 +12,8 @@ class EndOfYearPromptCell: ThemeableCell {
             fatalError("Shouldn't reach this point")
         case .y2023:
             viewModel = .init(title: L10n.eoyTitle, description: L10n.eoyCardDescription, imageName: "23_small")
+        case .y2024:
+            viewModel = .init(title: L10n.playback2024FeatureTitle, description: L10n.playback2024FeatureDescription, imageName: "playback-24")
         }
 
         let childView = UIHostingController(rootView: EndOfYearCard(viewModel: viewModel)
