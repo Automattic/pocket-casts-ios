@@ -52,10 +52,10 @@ struct EndOfYear {
     private static var state: EndOfYearState = .showModalIfNeeded
 
     static var currentYear: Year {
-        if FeatureFlag.endOfYear.enabled {
-            return .y2023
-        } else if FeatureFlag.endOfYear2024.enabled {
+        if FeatureFlag.endOfYear2024.enabled {
             return .y2024
+        } else if FeatureFlag.endOfYear.enabled {
+            return .y2023
         } else {
             return .y2022
         }
