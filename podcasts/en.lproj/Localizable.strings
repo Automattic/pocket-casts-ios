@@ -2300,7 +2300,7 @@
 "settings_auto_downloads_subtitle_filters" = "Download the top episodes in a filter.";
 
 /* Subtitle explaining the toggle to auto download New Episodes. */
-"settings_auto_downloads_subtitle_new_episodes" = "Download new episodes when they are released.";
+"settings_auto_downloads_subtitle_new_episodes" = "Automatically download new episodes as they’re released, and manage your storage by setting a limit on how many episodes are saved.";
 
 /* Subtitle explaining the toggle to auto download items in the Up Next Queue. */
 "settings_auto_downloads_subtitle_up_next" = "Download episodes added to Up Next.";
@@ -4474,3 +4474,23 @@
 
 /* week */
 "week" = "week";
+
+/* Auto Downloads Setting - Limits downloads row title*/
+"auto_download_limit_downloads" = "Limit downloads";
+
+/* Auto Downloads Setting - Limits downloads picker title*/
+"auto_download_limit_auto_downloads" = "Limit auto downloads";
+
+/* Auto Downloads Setting - Limits downloads to a number of episodes. `%1$@' is a placeholder for the number of episodes*/
+"auto_download_limit_number_of_episodes" = "%1$@ episodes";
+
+/* Auto Downloads Setting - Limits downloads to one episodes. */
+"auto_download_limit_one_episode" = "latest episode";
+
+/* Auto Downloads Setting - Limits downloads to the latest episode*/
+"auto_download_limit_one_episode_show" = "Latest Episode per Show";
+
+/* Auto Downloads Setting - Limits downloads to a number of show episodes. `%1$@' is a placeholder for the number of episodes*/
+"auto_download_limit_number_of_episodes_show" = "%1$@ Latest Episodes per Show";
+
+
