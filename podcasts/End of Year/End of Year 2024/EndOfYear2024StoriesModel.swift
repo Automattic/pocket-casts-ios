@@ -29,16 +29,16 @@ class EndOfYear2024StoriesModel: StoryModel {
     }
 
     func isReady() -> Bool {
-        if !stories.isEmpty {
-            stories.append(.intro)
-            stories.append(.epilogue)
-
-            stories.sortByCaseIterableIndex()
-
-            return true
+        if stories.isEmpty {
+            return false
         }
 
-        return false
+        stories.append(.intro)
+        stories.append(.epilogue)
+
+        stories.sortByCaseIterableIndex()
+
+        return true
     }
 
     var numberOfStories: Int {
