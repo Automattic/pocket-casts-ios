@@ -131,10 +131,12 @@ class ServerSyncManager: ServerSyncDelegate {
         "Pocket Casts/iOS/" + Settings.appVersion()
     }
 
-    func autoDownloadLatestEpisode(episode: Episode) {
+    func autoDownloadLatestEpisodes(uuids: [String]) {
         if Settings.autoDownloadEnabled() {
             if Settings.autoDownloadMobileDataAllowed() || NetworkUtils.shared.isConnectedToWifi() {
-                DownloadManager.shared.addToQueue(episodeUuid: episode.uuid)
+                for uuid in uuids {
+                    DownloadManager.shared.addToQueue(episodeUuid: uuid)
+                }
             }
         }
     }

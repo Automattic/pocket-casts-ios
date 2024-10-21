@@ -216,7 +216,7 @@ extension ServerPodcastManager {
         if totalCount > 0, autoDownloadCount >= totalCount {
             podcast.autoDownloadSetting = AutoDownloadSetting.latest.rawValue
             if let latestEpisode = latestEpisode {
-                ServerConfig.shared.syncDelegate?.autoDownloadLatestEpisode(episode: latestEpisode)
+                ServerConfig.shared.syncDelegate?.autoDownloadLatestEpisodes(uuids: [latestEpisode.uuid])
             }
         } else {
             podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
