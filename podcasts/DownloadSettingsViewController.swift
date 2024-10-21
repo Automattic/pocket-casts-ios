@@ -242,7 +242,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
         var data = autoDownloadPodcastsEnabled ? podcastDownloadOnData : podcastDownloadOffData
 
-        if FeatureFlag.autoDownloadOnSubscribe.enabled {
+        if autoDownloadPodcastsEnabled, FeatureFlag.autoDownloadOnSubscribe.enabled {
             data[1].append(.downloadLimits)
         }
         return data
