@@ -13,7 +13,7 @@ class EndOfYear2024StoriesModel: StoryModel {
     func story(for storyNumber: Int) -> any StoryView {
         switch stories[storyNumber] {
         case .intro:
-            return IntroStory()
+            return IntroStory2024()
         case .epilogue:
             return EpilogueStory()
         }
