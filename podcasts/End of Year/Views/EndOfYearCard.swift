@@ -10,6 +10,7 @@ struct EndOfYearCard: View {
         let title: String
         let description: String
         let imageName: String
+        let imagePadding: CGFloat
     }
 
     private var imageScale: Double {
@@ -41,11 +42,7 @@ struct EndOfYearCard: View {
                         Spacer()
 
                         Image(viewModel.imageName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: Constants.eoyImageSize.width * imageScale,
-                                   height: Constants.eoyImageSize.height * imageScale)
-                            .padding(.trailing, Constants.eoyImageTrailingPadding)
+                            .padding(.trailing, viewModel.imagePadding)
                             .offset(x: 40)
                     }
                 }
@@ -59,9 +56,6 @@ struct EndOfYearCard: View {
     private struct Constants {
         static let textSpace: CGFloat = 8
 
-        static let eoyImageSize: CGSize = .init(width: 180, height: 180)
-        static let eoyImageTrailingPadding: CGFloat = 20
-
         static let lightThemeBackgroundColor: Color = UIColor(hex: "#1A1A1A").color
         static let darkThemeBackgroundColor: Color = UIColor(hex: "#222222").color
 
@@ -71,7 +65,7 @@ struct EndOfYearCard: View {
 
 struct EndOfYearCard_Previews: PreviewProvider {
     static var previews: some View {
-        EndOfYearCard(viewModel: .init(title: "Playback 2024", description: "See your last 2024 playback", imageName: "23_small"))
+        EndOfYearCard(viewModel: .init(title: "Playback 2024", description: "See your last 2024 playback", imageName: "23_small", imagePadding: 20))
             .environmentObject(Theme(previewTheme: .light))
     }
 }
