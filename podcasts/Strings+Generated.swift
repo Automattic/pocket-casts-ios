@@ -2256,6 +2256,8 @@ internal enum L10n {
   internal static func queueClearEpisodeQueuePlural(_ p1: Any) -> String {
     return L10n.tr("Localizable", "queue_clear_episode_queue_plural", String(describing: p1))
   }
+  /// Clear 1 Episode
+  internal static var queueClearEpisodeQueueSingular: String { return L10n.tr("Localizable", "queue_clear_episode_queue_singular") }
   /// CLEAR QUEUE
   internal static var queueClearQueue: String { return L10n.tr("Localizable", "queue_clear_queue") }
   /// Queue For Later
