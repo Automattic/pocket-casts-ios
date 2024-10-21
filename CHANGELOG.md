@@ -9,6 +9,7 @@
 - Fix Share Extension in iOS 18 [#2263](https://github.com/Automattic/pocket-casts-ios/issues/2263)
 - Adding Referrals feature [#2083](https://github.com/Automattic/pocket-casts-ios/issues/2083)
 - Optimize database on startup [#2301](https://github.com/Automattic/pocket-casts-ios/issues/2301)
+- Show dynamic island on full screen player, and ajust layout [#2304](https://github.com/Automattic/pocket-casts-ios/pull/2304)
 
 7.74
 -----
