@@ -125,6 +125,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the End of Year 2024 recap
     case endOfYear2024
 
+    /// Enable the Up Next shuffle button
+    case upNextShuffle
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -208,6 +211,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .runVacuumOnVersionUpdate:
             true
         case .endOfYear2024:
+            false
+        case .upNextShuffle:
             false
         }
     }
