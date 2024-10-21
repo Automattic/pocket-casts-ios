@@ -190,7 +190,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .kidsProfile:
             false
         case .upgradeExperiment:
-            false
+            true
         case .ignoreRouteDisconnectedInterruption:
             true
         case .referrals:
