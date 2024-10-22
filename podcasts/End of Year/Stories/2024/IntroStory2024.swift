@@ -50,38 +50,6 @@ struct IntroStory2024: StoryView {
     }
 }
 
-private struct TwentyThreeParallaxModifier: ViewModifier {
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @StateObject var manager: MotionManager = .init(relativeToWhenStarting: true)
-    var rollMultiplier: Double = 4
-    var pitchMultiplier: Double = 40
-
-    private let rollAndPitchBoundary = -1.4..<1.5
-
-    func body(content: Content) -> some View {
-        let roll = manager.roll.betweenOrClamped(to: rollAndPitchBoundary) * 7
-        let pitch = manager.pitch.betweenOrClamped(to: rollAndPitchBoundary)
-        return content
-            .offset(x: roll * rollMultiplier, y: pitch * pitchMultiplier)
-            .onAppear() {
-                if !reduceMotion {
-                    manager.start()
-                }
-            }
-            .onDisappear() {
-                if !reduceMotion {
-                    manager.stop()
-                }
-            }
-    }
-}
-
-struct IntroStory2024_Previews: PreviewProvider {
-    static var previews: some View {
-        IntroStory2024()
-    }
-}
-
 struct InfiniteScrollingView<Content: View>: View {
     @State private var offset = CGFloat.zero
     @State private var contentHeight: CGFloat = 0
@@ -114,5 +82,11 @@ struct InfiniteScrollingView<Content: View>: View {
         Timer.scheduledTimer(withTimeInterval: 0.002, repeats: true) { _ in
             offset -= speed
         }
+    }
+}
+
+struct IntroStory2024_Previews: PreviewProvider {
+    static var previews: some View {
+        IntroStory2024()
     }
 }
