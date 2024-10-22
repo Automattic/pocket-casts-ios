@@ -51,6 +51,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     var changedViaSwipeToRemove = false
 
     let remainingLabel = ThemeableLabel()
+    let shuffleButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     let clearQueueButton = UIButton(frame: CGRect(x: 0, y: 0, width: 93, height: 16))
     var selectedPlayListEpisodes = [PlaylistEpisode]() {
         didSet {
@@ -139,11 +140,18 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         remainingLabel.style = .primaryText02
         remainingLabel.themeOverride = themeOverride
 
-        clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
-        clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
-        clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
-        clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
-        clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
+        if FeatureFlag.upNextShuffle.enabled {
+            NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+            themeDidChange()
+            shuffleButton.isSelected = Settings.upNextShuffleEnabled()
+            shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
+        } else {
+            clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
+            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
+            clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
+            clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+            clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
+        }
 
         contentInseter.setupInsetAdjustmentsForMiniPlayer(scrollView: upNextTable)
 
@@ -198,6 +206,20 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
         selectedPlayListEpisodes.removeAll()
         isMultiSelectEnabled = false
+    }
+
+    @objc private func shuffleButtonTapped() {
+        Settings.upNextShuffleToggle()
+        shuffleButton.isSelected = Settings.upNextShuffleEnabled()
+        
+        FileLog.shared.addMessage(" ")
+    }
+
+    @objc private func themeDidChange() {
+        let unselected = UIImage(named: "shuffle")?.withTintColor(AppTheme.colorForStyle(.primaryIcon02, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
+        let selected = UIImage(named: "shuffle-enabled")?.withTintColor(AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
+        shuffleButton.setImage(unselected, for: .normal)
+        shuffleButton.setImage(selected, for: .selected)
     }
 
     private func actionLabelText(_ queueCount: Int) -> String {
@@ -287,7 +309,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
             if showingInTab {
-                navigationItem.leftBarButtonItem = nil
+                if FeatureFlag.upNextShuffle.enabled {
+                    navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.clear, style: .plain, target: self, action: #selector(clearQueueTapped))
+                    navigationItem.leftBarButtonItem?.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
+                } else {
+                    navigationItem.leftBarButtonItem = nil
+                }
             } else {
                 navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
             }
