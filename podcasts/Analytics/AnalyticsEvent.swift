@@ -223,6 +223,8 @@ enum AnalyticsEvent: String {
     case playbackSkipForward
     case playbackSeek
 
+    case playbackEffectSettingsViewAppeared
+    case playbackEffectSettingsChanged
     case playbackEffectSpeedChanged
     case playbackEffectTrimSilenceToggled
     case playbackEffectTrimSilenceAmountChanged
@@ -522,6 +524,7 @@ enum AnalyticsEvent: String {
     case settingsAutoDownloadShown
     case settingsAutoDownloadUpNextToggled
     case settingsAutoDownloadNewEpisodesToggled
+    case settingsAutoDownloadLimitDownloadsChanged
     case settingsAutoDownloadPodcastsChanged
     case settingsAutoDownloadFiltersChanged
     case settingsAutoDownloadOnlyOnWifiToggled

@@ -1643,7 +1643,7 @@ UM UPDATES ZU ERHALTEN</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Themes und Icons</string>
     <key>plus_marketing_title</key>
-    <string>Mt Pocket Casts Plus hast du Zugriff auf exklusive Funktionen</string>
+    <string>Alles, was du an Pocket Casts liebst, und noch viel mehr</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Lade deine Dateien in den Cloud-Speicher, damit du von überall aus darauf zugreifen kannst</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -2824,7 +2824,7 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <key>transcript_error_failed_to_parse</key>
     <string>Beim Parsen dieses Transkripts ist ein Fehler aufgetreten</string>
     <key>transcript_error_not_available</key>
-    <string>Entschuldigung! Für diese Folge ist kein Transkript verfügbar.</string>
+    <string>Entschuldigung! Für diese Folge ist kein Transkript verfügbar</string>
     <key>transcript_error_not_supported</key>
     <string>Dieses Transkriptformat wird nicht unterstützt: %1$@</string>
     <key>trial_finished</key>
