@@ -182,7 +182,6 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             navigationController?.pushViewController(supporterVC, animated: true)
         case .changeAvatar:
             guard let email = headerViewModel.profile.email else { return }
-
             if FeatureFlag.gravatarNativeQuickEditor.enabled {
                 GravatarUI.QuickEditorPresenter(
                     email: .init(email),

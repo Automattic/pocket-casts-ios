@@ -12412,8 +12412,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Gravatar-SDK-iOS.git";
 			requirement = {
-				kind = exactVersion;
-				version = "3.0.0-rc.2";
+				kind = revision;
+				revision = 5b30563fc9ce60270ef944d8a010424674a769df;
 			};
 		};
 		3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */ = {
