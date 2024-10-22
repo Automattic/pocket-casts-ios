@@ -615,7 +615,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         podcast.subscribed = 1
         podcast.syncStatus = SyncStatus.notSynced.rawValue
-        podcast.autoDownloadSetting = (FeatureFlag.autoDownloadOnSubscribe.enabled && Settings.autoDownloadEnabled() ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue        
+        podcast.autoDownloadSetting = (FeatureFlag.autoDownloadOnSubscribe.enabled && Settings.autoDownloadEnabled() ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
         DataManager.sharedManager.save(podcast: podcast)
         ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: true, autoDownloadLimit: Settings.autoDownloadLimits().rawValue)
         loadLocalEpisodes(podcast: podcast, animated: true)
