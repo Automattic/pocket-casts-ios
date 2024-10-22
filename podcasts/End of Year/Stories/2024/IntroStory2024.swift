@@ -6,18 +6,23 @@ struct IntroStory2024: StoryView {
     let backgroundColor = Color(hex: "EE661C")
     let backgroundTextColor = Color(hex: "EEB1F4")
 
+    enum Constants {
+        static let newStickerSize = CGSize(width: 172, height: 163)
+        static let sticker2024Size = CGSize(width: 249, height: 188)
+    }
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 ZStack {
                     Image("playback-sticker-new")
                         .resizable()
-                        .frame(width: 172, height: 163)
-                        .position(x: (172/2) + 26, y: 54 + (163/2))
+                        .frame(width: Constants.newStickerSize.width, height: Constants.newStickerSize.height)
+                        .position(x: 26, y: 54, for: Constants.newStickerSize, in: geometry.frame(in: .local), corner: .topLeading)
                     Image("playback-sticker-2024")
                         .resizable()
-                        .frame(width: 249, height: 188)
-                        .position(x: geometry.size.width - (23 + 249/2), y: geometry.size.height - (188/2) - 50)
+                        .frame(width: Constants.sticker2024Size.width, height: Constants.sticker2024Size.height)
+                        .position(x: -23, y: -50, for: Constants.sticker2024Size, in: geometry.frame(in: .local), corner: .bottomTrailing)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
@@ -37,16 +42,6 @@ struct IntroStory2024: StoryView {
 
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
-    }
-
-    private struct Constants {
-        // Percentage based on total view height
-        static let imageVerticalPadding = 0.10
-
-        static let spaceBetweenImageAndText = 24.0
-
-        static let fontSize = 22.0
-        static let textHorizontalPadding = 35.0
     }
 }
 
@@ -105,7 +100,6 @@ struct InfiniteScrollView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView(.vertical, showsIndicators: false) {
-                // Use a VStack to hold the labels
                 VStack(spacing: -16) {
                     // Duplicate the labels to facilitate infinite scrolling
                     ForEach(labels, id: \.self) { label in
