@@ -102,6 +102,10 @@ public class Podcast: NSObject, Identifiable {
         DataManager.sharedManager.findLatestEpisode(podcast: self)
     }
 
+    public func latestEpisodes(limit: Int = 1) -> [Episode] {
+        DataManager.sharedManager.findLatestEpisodes(podcast: self, limit: limit)
+    }
+
     public func isSubscribed() -> Bool {
         subscribed != 0
     }
