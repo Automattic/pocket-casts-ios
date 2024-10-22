@@ -125,6 +125,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the End of Year 2024 recap
     case endOfYear2024
 
+    /// Enable the Up Next shuffle button
+    case upNextShuffle
+
     /// Push two auto downloads on subscribe of a podcast
     case autoDownloadOnSubscribe
 
@@ -211,6 +214,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .runVacuumOnVersionUpdate:
             true
         case .endOfYear2024:
+            false
+        case .upNextShuffle:
             false
         case .autoDownloadOnSubscribe:
             true

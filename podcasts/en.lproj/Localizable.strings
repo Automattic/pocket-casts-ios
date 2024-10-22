@@ -2023,6 +2023,9 @@
 /* Confirmation message to clear the give number of episodes from the queue. '%1$@' is a placeholder for the number of episodes, this will be more than one. */
 "queue_clear_episode_queue_plural" = "Clear %1$@ Episodes";
 
+/* Confirmation message to clear one episode from the queue. */
+"queue_clear_episode_queue_singular" = "Clear 1 Episode";
+
 /* Prompt to allow the user to clear their queue. */
 "queue_clear_queue" = "CLEAR QUEUE";
 
