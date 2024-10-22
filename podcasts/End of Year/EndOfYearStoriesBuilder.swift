@@ -23,13 +23,15 @@ class EndOfYearStoriesBuilder {
     func build() async {
         await withCheckedContinuation { continuation in
 
+            let modelType = type(of: model)
+
             // Check if the user has the full listening history for this year
-            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedEpisodesForPlayback(year: model.year) || (Settings.hasSyncedEpisodesForPlayback(year: model.year) && Settings.hasSyncedEpisodesForPlaybackAsPlusUser(year: model.year) != hasActiveSubscription()) {
+            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedEpisodesForPlayback(year: modelType.year) || (Settings.hasSyncedEpisodesForPlayback(year: modelType.year) && Settings.hasSyncedEpisodesForPlaybackAsPlusUser(year: modelType.year) != hasActiveSubscription()) {
                 let syncedWithSuccess = sync?()
 
                 if syncedWithSuccess == true {
-                    Settings.setHasSyncedEpisodesForPlayback(true, year: model.year)
-                    Settings.setHasSyncedEpisodesForPlaybackAsPlusUser(hasActiveSubscription(), year: model.year)
+                    Settings.setHasSyncedEpisodesForPlayback(true, year: modelType.year)
+                    Settings.setHasSyncedEpisodesForPlaybackAsPlusUser(hasActiveSubscription(), year: modelType.year)
                 } else {
                     continuation.resume()
                     return
@@ -44,7 +46,8 @@ class EndOfYearStoriesBuilder {
 }
 
 protocol StoryModel {
-    var year: Int { get }
+    init()
+    static var year: Int { get }
     var numberOfStories: Int { get }
     func populate(with dataManager: DataManager)
     func story(for storyNumber: Int) -> any StoryView

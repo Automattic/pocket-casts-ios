@@ -14,17 +14,17 @@ struct EndOfYear {
         case y2022
         case y2023
 
-        var model: StoryModel? {
+        var modelType: StoryModel.Type? {
             switch self {
             case .y2022:
                 nil
             case .y2023:
-                EndOfYear2023StoriesModel()
+                EndOfYear2023StoriesModel.self
             }
         }
 
         var year: Int? {
-            model?.year
+            modelType?.year
         }
     }
 
@@ -56,7 +56,7 @@ struct EndOfYear {
         }
     }
 
-    private(set) var model: StoryModel?
+    private(set) var storyModelType: StoryModel.Type?
 
     static var requireAccount: Bool = Settings.endOfYearRequireAccount {
         didSet {
@@ -80,11 +80,11 @@ struct EndOfYear {
     init() {
         Self.requireAccount = Settings.endOfYearRequireAccount
 
-        model = Self.currentYear.model
+        storyModelType = Self.currentYear.modelType
     }
 
     func showPrompt(in viewController: UIViewController) {
-        guard Self.isEligible, let model, !Settings.hasShownModalForEndOfYear(model.year) else {
+        guard Self.isEligible, let storyModelType, !Settings.hasShownModalForEndOfYear(storyModelType.year) else {
             return
         }
 
@@ -112,7 +112,7 @@ struct EndOfYear {
     }
 
     func showStories(in viewController: UIViewController, from source: EndOfYearPresentationSource) {
-        guard let model else { return }
+        guard let storyModelType else { return }
 
         if Self.requireAccount && !SyncManager.isUserLoggedIn() {
             Self.state = .waitingForLogin
@@ -123,7 +123,9 @@ struct EndOfYear {
         }
 
         // Don't show the prompt if the user is has already viewed the stories.
-        Settings.setHasShownModalForEndOfYear(true, year: model.year)
+        Settings.setHasShownModalForEndOfYear(true, year: storyModelType.year)
+
+        let model = storyModelType.init()
 
         let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource(model: model)).padding(storiesPadding))
         storiesViewController.view.backgroundColor = .black
@@ -174,8 +176,8 @@ struct EndOfYear {
     func resetStateIfNeeded() {
         // When a user logs in (or creates an account) we mark the EOY modal as not
         // shown to show it again.
-        if Self.state == .showModalIfNeeded, let model {
-            Settings.setHasShownModalForEndOfYear(false, year: model.year)
+        if Self.state == .showModalIfNeeded, let storyModelType {
+            Settings.setHasShownModalForEndOfYear(false, year: storyModelType.year)
             return
         }
 
