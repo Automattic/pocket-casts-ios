@@ -211,8 +211,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc private func shuffleButtonTapped() {
         Settings.upNextShuffleToggle()
         shuffleButton.isSelected = Settings.upNextShuffleEnabled()
-        
-        FileLog.shared.addMessage(" ")
     }
 
     @objc private func themeDidChange() {
