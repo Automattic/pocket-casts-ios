@@ -378,7 +378,11 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             present(navController, animated: true, completion: nil)
         case .endOfYearPrompt:
             Analytics.track(.endOfYearProfileCardTapped)
-            EndOfYear().showStories(in: self, from: .profile)
+            if let endOfYear = (tabBarController as? MainTabBarController)?.endOfYear {
+                endOfYear.showStories(in: self, from: .profile)
+            } else {
+                assertionFailure("End of Year should exist. Something is wrong with the tabBarController")
+            }
         case .bookmarks:
             let bookmarksController = BookmarksProfileListController()
             navigationController?.pushViewController(bookmarksController, animated: true)

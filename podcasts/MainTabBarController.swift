@@ -12,7 +12,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     let playPauseCommand = UIKeyCommand(title: L10n.keycommandPlayPause, action: #selector(handlePlayPauseKey), input: " ", modifierFlags: [])
 
-    private lazy var endOfYear = EndOfYear()
+    lazy var endOfYear = EndOfYear()
 
     private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: pcTabs.firstIndex(of: .profile) ?? -1)
 
@@ -566,7 +566,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
-        Settings.showBadgeForEndOfYear = false
+        if let year = endOfYear.storyModelType?.year {
+            Settings.setShowBadgeForEndOfYear(false, year: year)
+        }
     }
 
     func observersForEndOfYearStats() {
@@ -633,7 +635,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
+        if EndOfYear.isEligible, let year = endOfYear.storyModelType?.year, Settings.showBadgeForEndOfYear(year) {
             profileTabBarItem.badgeValue = "●"
         }
     }

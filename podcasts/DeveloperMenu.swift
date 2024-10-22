@@ -286,8 +286,7 @@ struct DeveloperMenu: View {
 
             Section {
                 Button("Reset modal/profile badge") {
-                    Settings.endOfYearModalHasBeenShown = false
-                    Settings.showBadgeForEndOfYear = true
+                    Settings.setHasShownModalForEndOfYear(false, year: 2023)
                 }
             } header: {
                 Text("End of Year")

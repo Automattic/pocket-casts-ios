@@ -1667,6 +1667,7 @@
 		F54E72192CA722A000CD5C86 /* Array+DiscoverItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */; };
 		F54E721D2CA7359800CD5C86 /* DiscoverCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */; };
 		F54E721F2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */; };
+		F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
@@ -1704,6 +1705,7 @@
 		F5E3DAA72BDD5567002BD4E4 /* PCBundleDoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E3DAA62BDD5567002BD4E4 /* PCBundleDoc.swift */; };
 		F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E431D52B50888500A71DB3 /* PlusLabel.swift */; };
 		F5E949DA2B61762E002DAFC3 /* TokenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */; };
+		F5EA21F42CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA21F32CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift */; };
 		F5F479A62C3EF8AB002B4475 /* PlayheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F479A52C3EF8AB002B4475 /* PlayheadView.swift */; };
 		F5F69D802C07C867000B3C87 /* FMDatabaseQueue+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */; };
 		F5F6DA702BBE1109009B1934 /* CategoryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */; };
@@ -3593,6 +3595,7 @@
 		F54E72182CA722A000CD5C86 /* Array+DiscoverItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+DiscoverItem.swift"; sourceTree = "<group>"; };
 		F54E721C2CA7359800CD5C86 /* DiscoverCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCellType.swift; sourceTree = "<group>"; };
 		F54E721E2CA749AA00CD5C86 /* DiscoverCollectionViewController+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Categories.swift"; sourceTree = "<group>"; };
+		F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2023Story.swift; sourceTree = "<group>"; };
 		F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppSettings+ImportUserDefaults.swift"; sourceTree = "<group>"; };
 		F555980A2C50242800C02EEB /* VideoExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExporter.swift; sourceTree = "<group>"; };
 		F555980E2C503F1700C02EEB /* AnimatedShareImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedShareImageView.swift; sourceTree = "<group>"; };
@@ -3627,6 +3630,7 @@
 		F5E3DAA62BDD5567002BD4E4 /* PCBundleDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCBundleDoc.swift; sourceTree = "<group>"; };
 		F5E431D52B50888500A71DB3 /* PlusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLabel.swift; sourceTree = "<group>"; };
 		F5E949D92B61762E002DAFC3 /* TokenHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelperTests.swift; sourceTree = "<group>"; };
+		F5EA21F32CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfYear2023StoriesModel.swift; sourceTree = "<group>"; };
 		F5F479A52C3EF8AB002B4475 /* PlayheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadView.swift; sourceTree = "<group>"; };
 		F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FMDatabaseQueue+Test.swift"; sourceTree = "<group>"; };
 		F5F6DA6F2BBE1109009B1934 /* CategoryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonStyle.swift; sourceTree = "<group>"; };
@@ -4830,6 +4834,7 @@
 				8B723754291185B300FA8219 /* Analytics+story.swift */,
 				8BCB22B328F48282001A0315 /* EndOfYear.swift */,
 				8B23193E2902C84A0001C3DE /* EndOfYearStoriesBuilder.swift */,
+				F5EA21F52CC1DC100043C780 /* End of Year 2023 */,
 				8B5AB48B29018EFA0018C637 /* StoriesConfiguration.swift */,
 				8B6B68E428F744520032BFFF /* StoriesDataSource.swift */,
 				8B5AB48D2901A8BD0018C637 /* StoriesController.swift */,
@@ -7799,6 +7804,15 @@
 			path = Effects;
 			sourceTree = "<group>";
 		};
+		F5EA21F52CC1DC100043C780 /* End of Year 2023 */ = {
+			isa = PBXGroup;
+			children = (
+				F55275B72CB74E230012B705 /* EndOfYear2023Story.swift */,
+				F5EA21F32CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift */,
+			);
+			path = "End of Year 2023";
+			sourceTree = "<group>";
+		};
 		F5F6DA6E2BBE10E2009B1934 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -9356,6 +9370,7 @@
 				C7DA8D272923DA4500C1B08B /* PlusPricingInfoModel.swift in Sources */,
 				C7BDECB52A15327000BECF02 /* PatronUnlockButton.swift in Sources */,
 				BDA206601BB3D4D600D38389 /* DownloadsViewController.swift in Sources */,
+				F5EA21F42CC1DBFE0043C780 /* EndOfYear2023StoriesModel.swift in Sources */,
 				407502B6240DCBF200437528 /* NetworkUtils+Helpers.swift in Sources */,
 				8BB4AA632BD17EC10091480A /* FadeOutManager.swift in Sources */,
 				C741D9D428ADBA23006CFBE7 /* AppLifecyleAnalytics.swift in Sources */,
@@ -10099,6 +10114,7 @@
 				408971AF2512F57100783253 /* BundleImageView.swift in Sources */,
 				BD65E51C1CD9BDE000B90A67 /* OnlineSupportController.swift in Sources */,
 				BDCF60EA22EFECA60051EDB3 /* ThemeableCell.swift in Sources */,
+				F55275B82CB74E230012B705 /* EndOfYear2023Story.swift in Sources */,
 				C7C4F8832A71E1B7002139B2 /* BookmarkEpisodeListController.swift in Sources */,
 				408C088E23155B34008C9667 /* WhatsNewHelper.swift in Sources */,
 				463538A726E16CD100BA9D35 /* Strings+L10n.swift in Sources */,
