@@ -144,7 +144,7 @@ class Settings: NSObject {
 
     private static let autoDownloadLimitKey = "AutoDownloadLimit"
     class func autoDownloadLimits() -> AutoDownloadLimit {
-        AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .one
+        AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .two
     }
 
     class func setAutoDownloadLimits(_ limit: AutoDownloadLimit) {
