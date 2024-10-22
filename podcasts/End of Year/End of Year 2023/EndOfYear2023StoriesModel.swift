@@ -72,25 +72,25 @@ class EndOfYear2023StoriesModel: StoryModel {
     func story(for storyNumber: Int) -> any StoryView {
         switch stories[storyNumber] {
         case .intro:
-            return IntroStory()
+            return IntroStory2023()
         case .listeningTime:
-            return ListeningTimeStory(listeningTime: data.listeningTime, podcasts: data.top10Podcasts)
+            return ListeningTimeStory2023(listeningTime: data.listeningTime, podcasts: data.top10Podcasts)
         case .topCategories:
-            return TopListenedCategoriesStory(listenedCategories: data.listenedCategories)
+            return TopListenedCategoriesStory2023(listenedCategories: data.listenedCategories)
         case .numberOfPodcastsAndEpisodesListened:
-            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.top10Podcasts)
+            return ListenedNumbersStory2023(listenedNumbers: data.listenedNumbers, podcasts: data.top10Podcasts)
         case .topOnePodcast:
-            return TopOnePodcastStory(podcasts: data.topPodcasts)
+            return TopOnePodcastStory2023(podcasts: data.topPodcasts)
         case .topFivePodcasts:
-            return TopFivePodcastsStory(topPodcasts: data.topPodcasts)
+            return TopFivePodcastsStory2023(topPodcasts: data.topPodcasts)
         case .longestEpisode:
-            return LongestEpisodeStory(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
+            return LongestEpisodeStory2023(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
         case .yearOverYearListeningTime:
-            return YearOverYearStory(data: data.yearOverYearListeningTime)
+            return YearOverYearStory2023(data: data.yearOverYearListeningTime)
         case .completionRate:
-            return CompletionRateStory(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
+            return CompletionRateStory2023(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
         case .epilogue:
-            return EpilogueStory()
+            return EpilogueStory2023()
         }
     }
 
