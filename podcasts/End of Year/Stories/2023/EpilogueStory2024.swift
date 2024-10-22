@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import CoreHaptics
 
-struct EpilogueStory: ShareableStory {
+struct EpilogueStory2023: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @ObservedObject private var visibility = Visiblity()
     @State private var engine: CHHapticEngine?
@@ -230,8 +230,8 @@ struct StoriesButtonStyle: ButtonStyle {
     }
 }
 
-struct EpilogueStory_Previews: PreviewProvider {
+struct EpilogueStory2023_Previews: PreviewProvider {
     static var previews: some View {
-        EpilogueStory()
+        EpilogueStory2023()
     }
 }

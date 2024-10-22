@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 
-struct TopListenedCategoriesStory: ShareableStory {
+struct TopListenedCategoriesStory2023: ShareableStory {
     let identifier: String = "top_categories"
 
     let listenedCategories: [ListenedCategory]
@@ -118,9 +118,9 @@ struct CategoryStoryTextGradient: ViewModifier {
 
 
 #if DEBUG
-struct TopListenedCategories_Previews: PreviewProvider {
+struct TopListenedCategories2023_Previews: PreviewProvider {
     static var previews: some View {
-        TopListenedCategoriesStory(listenedCategories: [
+        TopListenedCategoriesStory2023(listenedCategories: [
             ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Test category big title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300, numberOfEpisodes: 1),
             ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Small title", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300, numberOfEpisodes: 2),
             ListenedCategory(numberOfPodcasts: 5, categoryTitle: "Tech", mostListenedPodcast: Podcast.previewPodcast(), totalPlayedTime: 300, numberOfEpisodes: 3),

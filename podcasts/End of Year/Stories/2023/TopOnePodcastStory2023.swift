@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct TopOnePodcastStory: ShareableStory {
+struct TopOnePodcastStory2023: ShareableStory {
     @Environment(\.animated) var animated: Bool
 
     let identifier: String = "top_one_podcast"
@@ -111,8 +111,8 @@ struct TopOnePodcastStory: ShareableStory {
     }
 }
 
-struct TopOnePodcastStory_Previews: PreviewProvider {
+struct TopOnePodcastStory2023_Previews: PreviewProvider {
     static var previews: some View {
-        TopOnePodcastStory(podcasts: [TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600)])
+        TopOnePodcastStory2023(podcasts: [TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600)])
     }
 }

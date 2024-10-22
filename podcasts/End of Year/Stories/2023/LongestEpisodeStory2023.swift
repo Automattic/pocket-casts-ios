@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct LongestEpisodeStory: ShareableStory {
+struct LongestEpisodeStory2023: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @Environment(\.animated) var animated: Bool
 
@@ -114,11 +114,11 @@ struct LongestEpisodeStory: ShareableStory {
     }
 }
 
-struct LongestEpisodeStory_Previews: PreviewProvider {
+struct LongestEpisodeStory2023_Previews: PreviewProvider {
     static var previews: some View {
         let episode = Episode()
         episode.title = "Episode title"
         episode.duration = 3600
-        return LongestEpisodeStory(episode: episode, podcast: Podcast.previewPodcast())
+        return LongestEpisodeStory2023(episode: episode, podcast: Podcast.previewPodcast())
     }
 }

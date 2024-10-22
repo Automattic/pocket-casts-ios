@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct IntroStory: ShareableStory {
+struct IntroStory2023: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
 
     let identifier: String = "intro"
@@ -127,8 +127,8 @@ extension EndOfYear {
     static var defaultDuration = 7.seconds
 }
 
-struct IntroStory_Previews: PreviewProvider {
+struct IntroStory2023_Previews: PreviewProvider {
     static var previews: some View {
-        IntroStory()
+        IntroStory2023()
     }
 }

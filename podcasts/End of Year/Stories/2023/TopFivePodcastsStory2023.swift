@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct TopFivePodcastsStory: ShareableStory {
+struct TopFivePodcastsStory2023: ShareableStory {
     @Environment(\.animated) var animated: Bool
 
     @Environment(\.renderForSharing) var renderForSharing: Bool
@@ -22,7 +22,7 @@ struct TopFivePodcastsStory: ShareableStory {
             }
 
             if !renderForSharing && !showTopFive {
-                TopOnePodcastStory(podcasts: topPodcasts, coverAnimation: coverAnimation)
+                TopOnePodcastStory2023(podcasts: topPodcasts, coverAnimation: coverAnimation)
             }
         }
         .onAppear {
@@ -137,9 +137,9 @@ struct TopFivePodcastsStory: ShareableStory {
     }
 }
 
-struct DummyStory_Previews: PreviewProvider {
+struct TopFivePodcastsStory2023_Previews: PreviewProvider {
     static var previews: some View {
-        TopFivePodcastsStory(topPodcasts: [TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600)])
+        TopFivePodcastsStory2023(topPodcasts: [TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600), TopPodcast(podcast: Podcast.previewPodcast(), numberOfPlayedEpisodes: 10, totalPlayedTime: 3600)])
     }
 }
 
