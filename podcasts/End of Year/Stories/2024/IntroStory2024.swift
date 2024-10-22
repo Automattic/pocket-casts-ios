@@ -27,7 +27,12 @@ struct IntroStory2024: StoryView {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     ZStack {
-                        InfiniteScrollView()
+                        InfiniteScrollingView(spacing: -16) {
+                            Text("Playback".uppercased())
+                                .font(.custom("Humane-Medium", fixedSize: 227))
+                                .frame(width: geometry.size.width)
+                                .multilineTextAlignment(.center)
+                        }
                             .foregroundStyle(backgroundTextColor)
 
                     }
@@ -77,36 +82,20 @@ struct IntroStory2024_Previews: PreviewProvider {
     }
 }
 
-struct InfiniteScrollView: View {
+struct InfiniteScrollingView<Content: View>: View {
     @State private var offset = CGFloat.zero
-
     @State private var contentHeight: CGFloat = 0
 
-    let labels = [
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-        "Playback",
-    ]
+    let spacing: CGFloat
+    let content: () -> Content
 
     var body: some View {
         GeometryReader { geometry in
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: -16) {
-                    // Duplicate the labels to facilitate infinite scrolling
-                    ForEach(labels, id: \.self) { label in
-                        Text(label.uppercased())
-                            .font(.custom("Humane-Medium", fixedSize: 227))
+                LazyVStack(spacing: spacing) {
+                    ForEach(0..<Int.max, id: \.self) { _ in
+                        content()
                             .frame(width: geometry.size.width)
-                            .multilineTextAlignment(.center)
                     }
                 }
                 .offset(y: offset)
@@ -115,19 +104,15 @@ struct InfiniteScrollView: View {
                     startScrolling()
                 }
             }
-            .frame(height: contentHeight)  // Delegate height to scroll view
+            .frame(height: contentHeight)
         }
     }
 
     private func startScrolling() {
-        let totalHeight = CGFloat(labels.count) * 60
         let speed: CGFloat = 0.2
 
         Timer.scheduledTimer(withTimeInterval: 0.002, repeats: true) { _ in
-            if offset <= -totalHeight {
-                offset = contentHeight  // Reset offset back to height of scroll view
-            }
-            offset -= speed // Scroll down at constant speed
+            offset -= speed
         }
     }
 }
