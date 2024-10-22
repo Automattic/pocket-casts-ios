@@ -7,13 +7,15 @@ class EndOfYear2024StoriesModel: StoryModel {
     var data = EndOfYear2024StoriesData()
 
     func populate(with dataManager: DataManager) {
-        // Will be implemented in a future PR
+        stories.append(.topSpot)
     }
 
     func story(for storyNumber: Int) -> any StoryView {
         switch stories[storyNumber] {
         case .intro:
             return IntroStory2024()
+        case .topSpot:
+            return TopSpotStory2024()
         case .epilogue:
             return EpilogueStory()
         }
