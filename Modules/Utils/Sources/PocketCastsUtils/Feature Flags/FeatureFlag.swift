@@ -128,6 +128,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Up Next shuffle button
     case upNextShuffle
 
+    /// Push two auto downloads on subscribe of a podcast
+    case autoDownloadOnSubscribe
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -214,6 +217,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .upNextShuffle:
             false
+        case .autoDownloadOnSubscribe:
+            true
         }
     }
 
