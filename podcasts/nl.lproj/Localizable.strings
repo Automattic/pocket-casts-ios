@@ -361,6 +361,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Moet ten minste 6 tekens bevatten</string>
     <key>chapters</key>
     <string>Hoofdstukken</string>
+    <key>check_internet_connection</key>
+    <string>Controleer je internetverbinding</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ podcasts gekozen</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>GESPONSORD</string>
     <key>discover_trending</key>
     <string>Trending</string>
+    <key>discover_unable_to_load</key>
+    <string>Kan Ontdekken niet laden</string>
     <key>done</key>
     <string>Klaar</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@ UPDATES</string>
     <string>Als laatste afspelen</string>
     <key>play_next</key>
     <string>Als eerstvolgende afspelen</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Alle podcasts</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Deze podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Mad Max</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1985,6 +1993,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Deze aanbieding geldt alleen voor nieuwe leden. Lidmaatschap wordt automatisch verlengd met een betaald jaarlidmaatschap van %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Claim je gastenpas van %1$@ voor Plus</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Log in of meld je aan om je gastenpas te claimen.</string>
     <key>referrals_not_available_to_send</key>
     <string>Gastenpas is momenteel niet beschikbaar</string>
     <key>referrals_offer_not_available_detail</key>
