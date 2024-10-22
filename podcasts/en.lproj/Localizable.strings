@@ -3542,6 +3542,18 @@
 /* Label of the End of Year call to action button */
 "eoy_view_year" = "View My 2023";
 
+/* Title for the Playback 2024 feature */
+"playback_2024_feature_title" = "Playback 2024 is here!";
+
+/* Description for the Playback 2024 feature */
+"playback_2024_feature_description" = "See your listening stats, top podcasts, and more.";
+
+/* A description of the Playback 2024 feature */
+"playback_2024_description" = "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";
+
+/* Label of the Playback 2024 call to action buton */
+"playback_2024_view_year" = "View My Playback 2024";
+
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
 

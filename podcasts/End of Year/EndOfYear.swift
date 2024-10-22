@@ -10,9 +10,10 @@ enum EndOfYearPresentationSource: String {
 }
 
 struct EndOfYear {
-    enum Year {
+    enum Year: CaseIterable {
         case y2022
         case y2023
+        case y2024
 
         var modelType: StoryModel.Type? {
             switch self {
@@ -20,6 +21,8 @@ struct EndOfYear {
                 nil
             case .y2023:
                 EndOfYear2023StoriesModel.self
+            case .y2024:
+                EndOfYear2024StoriesModel.self
             }
         }
 
@@ -49,7 +52,9 @@ struct EndOfYear {
     private static var state: EndOfYearState = .showModalIfNeeded
 
     static var currentYear: Year {
-        if FeatureFlag.endOfYear.enabled {
+        if FeatureFlag.endOfYear2024.enabled {
+            return .y2024
+        } else if FeatureFlag.endOfYear.enabled {
             return .y2023
         } else {
             return .y2022
@@ -88,7 +93,18 @@ struct EndOfYear {
             return
         }
 
-        BottomSheetSwiftUIWrapper.present(EndOfYearModal(), in: viewController)
+        let viewModel: EndOfYearModal.ViewModel
+
+        switch Self.currentYear {
+        case .y2022:
+            fatalError("Shouldn't reach this")
+        case .y2023:
+            viewModel = .init(buttonTitle: L10n.eoyViewYear, description: L10n.eoyDescription, backgroundImageName: "modal_cover")
+        case .y2024:
+            viewModel = .init(buttonTitle: L10n.playback2024ViewYear, description: L10n.playback2024Description, backgroundImageName: "playback-featured")
+        }
+
+        BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: storyModelType.year, model: viewModel), in: viewController)
     }
 
     func showPromptBasedOnState(in viewController: UIViewController) {
