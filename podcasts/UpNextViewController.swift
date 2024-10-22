@@ -182,11 +182,11 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func clearQueueTapped() {
         let queueCount = PlaybackManager.shared.queue.upNextCount()
 
-        if queueCount <= Constants.Limits.upNextClearWithoutWarning {
+        if queueCount <= Constants.Limits.upNextClearWithoutWarning && !FeatureFlag.upNextShuffle.enabled {
             performClearAll()
         } else {
             let clearOptions = OptionsPicker(title: nil, themeOverride: themeOverride)
-            let actionLabel = L10n.queueClearEpisodeQueuePlural(queueCount.localized())
+            let actionLabel = actionLabelText(queueCount)
             let clearAllAction = OptionAction(label: actionLabel, icon: nil, action: { [weak self] in
                 self?.performClearAll()
             })
@@ -198,6 +198,13 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
         selectedPlayListEpisodes.removeAll()
         isMultiSelectEnabled = false
+    }
+
+    private func actionLabelText(_ queueCount: Int) -> String {
+        if FeatureFlag.upNextShuffle.enabled, queueCount == 1 {
+            return L10n.queueClearEpisodeQueueSingular
+        }
+        return L10n.queueClearEpisodeQueuePlural(queueCount.localized())
     }
 
     private func performClearAll() {

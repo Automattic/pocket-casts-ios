@@ -2,34 +2,36 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 class EndOfYear2023StoriesModel: StoryModel {
-    let year = 2023
+    static let year = 2023
     var stories = [EndOfYear2023Story]()
     var data = EndOfYear2023StoriesData()
 
+    required init() {}
+
     func populate(with dataManager: DataManager) {
         // First, search for top 10 podcasts to use throughout different stories
-        let topPodcasts = dataManager.topPodcasts(in: year, limit: 10)
+        let topPodcasts = dataManager.topPodcasts(in: Self.year, limit: 10)
         if !topPodcasts.isEmpty {
             data.topPodcasts = Array(topPodcasts.prefix(5))
             data.top10Podcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
         }
 
         // Listening time
-        if let listeningTime = dataManager.listeningTime(in: year),
+        if let listeningTime = dataManager.listeningTime(in: Self.year),
            listeningTime > 0, !data.top10Podcasts.isEmpty {
             stories.append(.listeningTime)
             data.listeningTime = listeningTime
         }
 
         // Listened categories
-        let listenedCategories = dataManager.listenedCategories(in: year)
+        let listenedCategories = dataManager.listenedCategories(in: Self.year)
         if !listenedCategories.isEmpty {
             data.listenedCategories = listenedCategories
             stories.append(.topCategories)
         }
 
         // Listened podcasts and episodes
-        let listenedNumbers = dataManager.listenedNumbers(in: year)
+        let listenedNumbers = dataManager.listenedNumbers(in: Self.year)
         if listenedNumbers.numberOfEpisodes > 0
             && listenedNumbers.numberOfPodcasts > 0
             && !data.top10Podcasts.isEmpty {
@@ -48,7 +50,7 @@ class EndOfYear2023StoriesModel: StoryModel {
         }
 
         // Longest episode
-        if let longestEpisode = dataManager.longestEpisode(in: year),
+        if let longestEpisode = dataManager.longestEpisode(in: Self.year),
            let podcast = longestEpisode.parentPodcast() {
             data.longestEpisode = longestEpisode
             data.longestEpisodePodcast = podcast
@@ -56,14 +58,14 @@ class EndOfYear2023StoriesModel: StoryModel {
         }
 
         // Year over year listening time
-        let yearOverYearListeningTime = dataManager.yearOverYearListeningTime(in: year)
+        let yearOverYearListeningTime = dataManager.yearOverYearListeningTime(in: Self.year)
         if yearOverYearListeningTime.totalPlayedTimeThisYear != 0 ||
             yearOverYearListeningTime.totalPlayedTimeLastYear != 0 {
             data.yearOverYearListeningTime = yearOverYearListeningTime
             stories.append(.yearOverYearListeningTime)
         }
 
-        data.episodesStartedAndCompleted = dataManager.episodesStartedAndCompleted(in: year)
+        data.episodesStartedAndCompleted = dataManager.episodesStartedAndCompleted(in: Self.year)
         stories.append(.completionRate)
     }
 

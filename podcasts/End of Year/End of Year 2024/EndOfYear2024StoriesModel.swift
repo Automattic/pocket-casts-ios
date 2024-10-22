@@ -2,9 +2,11 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 class EndOfYear2024StoriesModel: StoryModel {
-    let year = 2024
+    static let year = 2024
     var stories = [EndOfYear2024Story]()
     var data = EndOfYear2024StoriesData()
+
+    required init() { }
 
     func populate(with dataManager: DataManager) {
         stories.append(.topSpot)

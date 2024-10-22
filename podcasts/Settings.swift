@@ -142,6 +142,16 @@ class Settings: NSObject {
         trackValueToggled(.settingsAutoDownloadNewEpisodesToggled, enabled: allow)
     }
 
+    private static let autoDownloadLimitKey = "AutoDownloadLimit"
+    class func autoDownloadLimits() -> AutoDownloadLimit {
+        AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .one
+    }
+
+    class func setAutoDownloadLimits(_ limit: AutoDownloadLimit) {
+        UserDefaults.standard.set(limit.rawValue, forKey: Settings.autoDownloadLimitKey)
+        trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
+    }
+
     class func shouldDeleteWhenPlayed() -> Bool {
         let finishedAction = UserDefaults.standard.integer(forKey: Constants.UserDefaults.episodeFinishedAction)
 
@@ -1309,6 +1319,16 @@ class Settings: NSObject {
 
         get {
             UserDefaults.standard.bool(forKey: "upgraded_indexes_v4")
+        }
+    }
+
+    class var lastAppVersionThatRunVacuum: String? {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "last_app_version_that_run_vacuum")
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: "last_app_version_that_run_vacuum")
         }
     }
 
