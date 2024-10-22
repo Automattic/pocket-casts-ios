@@ -10,6 +10,7 @@
 - Adding Referrals feature [#2083](https://github.com/Automattic/pocket-casts-ios/issues/2083)
 - New Custom playback settings [#2253](https://github.com/Automattic/pocket-casts-ios/issues/2253)
 - Optimize database on startup [#2301](https://github.com/Automattic/pocket-casts-ios/issues/2301)
+- Show dynamic island on full screen player, and ajust layout [#2304](https://github.com/Automattic/pocket-casts-ios/pull/2304)
 
 7.74
 -----
