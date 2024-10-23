@@ -23,6 +23,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		10097D282CC7DADA00E682A3 /* UpNext.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10097D272CC7DADA00E682A3 /* UpNext.xcassets */; };
 		102141132C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102141122C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift */; };
 		102141152C7E12CB0065D34A /* PlusPaywallReviewsStars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102141142C7E12CB0065D34A /* PlusPaywallReviewsStars.swift */; };
 		102141172C7E25AC0065D34A /* PlusPaywallReviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102141162C7E25AC0065D34A /* PlusPaywallReviewCard.swift */; };
@@ -1973,6 +1974,7 @@
 /* Begin PBXFileReference section */
 		0A1708DEC0501FB8417E31BE /* Pods_NotificationExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C2912CCAD9A1CEDF0484604 /* Pods-PocketCasts-podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketCasts-podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketCasts-podcasts/Pods-PocketCasts-podcasts.debug.xcconfig"; sourceTree = "<group>"; };
+		10097D272CC7DADA00E682A3 /* UpNext.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = UpNext.xcassets; sourceTree = "<group>"; };
 		102141122C7E09860065D34A /* PlusPaywallReviewsPlusFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallReviewsPlusFeatures.swift; sourceTree = "<group>"; };
 		102141142C7E12CB0065D34A /* PlusPaywallReviewsStars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallReviewsStars.swift; sourceTree = "<group>"; };
 		102141162C7E25AC0065D34A /* PlusPaywallReviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallReviewCard.swift; sourceTree = "<group>"; };
@@ -6401,6 +6403,7 @@
 				BDE73A7D1B607AF5005BFE30 /* PlayerImages.xcassets */,
 				BD6D4180200C5BD600CA8993 /* Podcasts.xcassets */,
 				BD23442C1CB66D5E00B66AAE /* Settings.xcassets */,
+				10097D272CC7DADA00E682A3 /* UpNext.xcassets */,
 				C7FF7714291D45B50082A464 /* SingleSignOn.xcassets */,
 				4041FEB12193E5EC0089D4A1 /* SiriShortcuts.xcassets */,
 				BDA25D291EDEA2DC00979FE8 /* Sonos.xcassets */,
@@ -8911,6 +8914,7 @@
 				BD12927D22F7CCC9004608A6 /* AppIcon-Electric-Blue29x29@2x~ipad.png in Resources */,
 				8B5F9A6828EFBB9800DE1C12 /* AppIcon-Halloween@3x.png in Resources */,
 				BD95ED6F1BAFA571004335B0 /* CountryCell.xib in Resources */,
+				10097D282CC7DADA00E682A3 /* UpNext.xcassets in Resources */,
 				BDFB26E81CD08B3C00787B7E /* ImportExportViewController.xib in Resources */,
 				BD93FDA720159A9A00F6EF55 /* PlaylistsViewController.xib in Resources */,
 				BD780AE920049BFF00B5A442 /* PodcastViewController.xib in Resources */,

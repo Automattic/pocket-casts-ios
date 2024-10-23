@@ -310,6 +310,21 @@ class Settings: NSObject {
         UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
     }
 
+    static let upNextShuffleKey = "SJUpNextShuffleKey"
+    class func upNextShuffleToggle() {
+        guard FeatureFlag.upNextShuffle.enabled else { return }
+
+        let isOn = upNextShuffleEnabled()
+        UserDefaults.standard.set(!isOn, forKey: Settings.upNextShuffleKey)
+
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextShuffleToggle)
+    }
+
+    class func upNextShuffleEnabled() -> Bool {
+        guard FeatureFlag.upNextShuffle.enabled else { return false }
+        return UserDefaults.standard.bool(forKey: Settings.upNextShuffleKey)
+    }
+
     // MARK: - Discover Region
 
     private static let chartRegion = "SJChartRegion"

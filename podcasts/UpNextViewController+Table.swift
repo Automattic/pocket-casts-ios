@@ -32,16 +32,27 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             remainingLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
         ])
 
-        headerView.addSubview(clearQueueButton)
-        clearQueueButton.translatesAutoresizingMaskIntoConstraints = false
-        clearQueueButton.setContentCompressionResistancePriority(.required, for: .horizontal)
-        NSLayoutConstraint.activate([
-            clearQueueButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
-            clearQueueButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            clearQueueButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
-        ])
-
-        clearQueueButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
+        if FeatureFlag.upNextShuffle.enabled {
+            headerView.addSubview(shuffleButton)
+            shuffleButton.translatesAutoresizingMaskIntoConstraints = false
+            shuffleButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+            NSLayoutConstraint.activate([
+                shuffleButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+                shuffleButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+                shuffleButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
+            ])
+            shuffleButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
+        } else {
+            headerView.addSubview(clearQueueButton)
+            clearQueueButton.translatesAutoresizingMaskIntoConstraints = false
+            clearQueueButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+            NSLayoutConstraint.activate([
+                clearQueueButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+                clearQueueButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+                clearQueueButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
+            ])
+            clearQueueButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
+        }
         return headerView
     }
 
