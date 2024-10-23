@@ -133,6 +133,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidBegin), name: .tableViewReorderWillBegin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reorderingDidEnd), name: .tableViewReorderDidEnd, object: nil)
 
+        if FeatureFlag.upNextShuffle.enabled, showingInTab {
+            NotificationCenter.default.addObserver(self, selector: #selector(updateShuffleButtonState), name: Constants.Notifications.upNextShuffleToggle, object: nil)
+        }
+
         remainingLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         remainingLabel.adjustsFontSizeToFitWidth = true
         remainingLabel.minimumScaleFactor = 0.8
@@ -210,7 +214,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @objc private func shuffleButtonTapped() {
         Settings.upNextShuffleToggle()
-        shuffleButton.isSelected = Settings.upNextShuffleEnabled()
+        if !showingInTab {
+            updateShuffleButtonState()
+        }
     }
 
     @objc private func themeDidChange() {
@@ -218,6 +224,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         let selected = UIImage(named: "shuffle-enabled")?.withTintColor(AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
         shuffleButton.setImage(unselected, for: .normal)
         shuffleButton.setImage(selected, for: .selected)
+    }
+
+    @objc private func updateShuffleButtonState() {
+        shuffleButton.isSelected = Settings.upNextShuffleEnabled()
     }
 
     private func actionLabelText(_ queueCount: Int) -> String {
