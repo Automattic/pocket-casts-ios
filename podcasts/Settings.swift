@@ -132,7 +132,10 @@ class Settings: NSObject {
 
     private static let autoDownloadEnabledKey = "AutoDownloadEnabled"
     class func autoDownloadEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
+        guard UserDefaults.standard.object(forKey: Settings.autoDownloadEnabledKey) != nil else {
+            return FeatureFlag.autoDownloadOnSubscribe.enabled
+        }
+        return UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
     }
 
     class func setAutoDownloadEnabled(_ allow: Bool, userInitiated: Bool = false) {
@@ -144,7 +147,7 @@ class Settings: NSObject {
 
     private static let autoDownloadLimitKey = "AutoDownloadLimit"
     class func autoDownloadLimits() -> AutoDownloadLimit {
-        AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .one
+        AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .two
     }
 
     class func setAutoDownloadLimits(_ limit: AutoDownloadLimit) {

@@ -98,7 +98,7 @@ extension WatchSyncManager: ServerSyncDelegate {
         "Pocket Casts/iOS/" + Settings.appVersion()
     }
 
-    func autoDownloadLatestEpisode(episode: Episode) {}
+    func autoDownloadLatestEpisodes(uuids: [String]) {}
 
     func minTimeBetweenProgressSaves() -> Double {
         2.minutes

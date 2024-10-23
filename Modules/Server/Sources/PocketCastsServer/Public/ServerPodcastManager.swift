@@ -38,9 +38,9 @@ public class ServerPodcastManager: NSObject {
     ///   - subscribe: if we should subscribe to the podcast after adding
     ///   - tries: the number of tries already done
     ///   - completion: the code to execute on completion
-    public func addFromUuidWithRetries(podcastUuid: String, subscribe: Bool, tries: Int = 0, completion: ((Bool) -> Void)?) {
+    public func addFromUuidWithRetries(podcastUuid: String, subscribe: Bool, autoDownloads: Int = 0, tries: Int = 0, completion: ((Bool) -> Void)?) {
         var pollbackCounter = tries
-        addFromUuid(podcastUuid: podcastUuid, subscribe: subscribe) { [weak self] success in
+        addFromUuid(podcastUuid: podcastUuid, subscribe: subscribe, autoDownloads: autoDownloads) { [weak self] success in
             guard let self else {
                 return
             }
@@ -53,41 +53,41 @@ public class ServerPodcastManager: NSObject {
             pollbackCounter += 1
             if pollbackCounter < 8 {
                 Thread.sleep(forTimeInterval: pollbackCounter.pollWaitingTime)
-                addFromUuidWithRetries(podcastUuid: podcastUuid, subscribe: subscribe, tries: pollbackCounter, completion: completion)
+                addFromUuidWithRetries(podcastUuid: podcastUuid, subscribe: subscribe, autoDownloads: autoDownloads, tries: pollbackCounter, completion: completion)
                 return
             }
             completion?(false)
         }
     }
 
-    public func addFromUuid(podcastUuid: String, subscribe: Bool, completion: ((Bool) -> Void)?) {
+    public func addFromUuid(podcastUuid: String, subscribe: Bool, autoDownloads: Int = 0, completion: ((Bool) -> Void)?) {
         CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { [weak self] podcastInfo, lastModified in
             if let podcastInfo = podcastInfo {
-                self?.addFromJson(podcastUuid: podcastUuid, lastModified: lastModified, podcastInfo: podcastInfo, subscribe: subscribe, completion: completion)
+                self?.addFromJson(podcastUuid: podcastUuid, lastModified: lastModified, podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, completion: completion)
             } else {
                 completion?(false)
             }
         }
     }
 
-    public func addFromiTunesId(_ itunesId: Int, subscribe: Bool, completion: ((Bool, String?) -> Void)?) {
+    public func addFromiTunesId(_ itunesId: Int, subscribe: Bool, autoDownloads: Int = 0, completion: ((Bool, String?) -> Void)?) {
         MainServerHandler.shared.findPodcastByiTunesId(itunesId) { [weak self] podcastUuid in
             guard let uuid = podcastUuid else {
                 completion?(false, nil)
                 return
             }
 
-            self?.addFromUuid(podcastUuid: uuid, subscribe: subscribe, completion: { added in
+            self?.addFromUuid(podcastUuid: uuid, subscribe: subscribe, autoDownloads: autoDownloads, completion: { added in
                 completion?(added, uuid)
             })
         }
     }
 
-    public func addFromJson(podcastUuid: String, lastModified: String?, podcastInfo: [String: Any], subscribe: Bool, completion: ((Bool) -> Void)?) {
+    public func addFromJson(podcastUuid: String, lastModified: String?, podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int, completion: ((Bool) -> Void)?) {
         subscribeQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
 
-            let added = strongSelf.addPodcast(podcastInfo: podcastInfo, subscribe: subscribe, lastModified: lastModified)
+            let added = strongSelf.addPodcast(podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified)
             if subscribe, added { ServerConfig.shared.syncDelegate?.subscribedToPodcast() } // addFromUuid and addFromiTunesId end up here, so just need this one analytic
             completion?(added)
         }
@@ -103,7 +103,7 @@ public class ServerPodcastManager: NSObject {
         }
 
         // otherwise we don't have the podcast, try and get it
-        addFromUuid(podcastUuid: upNextItem.podcastUuid, subscribe: false) { [weak self] added in
+        addFromUuid(podcastUuid: upNextItem.podcastUuid, subscribe: false, autoDownloads: 0) { [weak self] added in
             if !added {
                 completion?(false)
                 return
@@ -175,7 +175,7 @@ public class ServerPodcastManager: NSObject {
         DataManager.sharedManager.save(episode: episode)
     }
 
-    private func addPodcast(podcastInfo: [String: Any], subscribe: Bool, lastModified: String?) -> Bool {
+    private func addPodcast(podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int = 0, lastModified: String?) -> Bool {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let podcastUuid = podcastJson["uuid"] as? String else { return false }
 
         // check if we already have this podcast, and if we do treat it differently
@@ -186,10 +186,10 @@ public class ServerPodcastManager: NSObject {
                 // we have this podcast, just in a non-subscribed state, so subscribe to it
                 existingPodcast.subscribed = 1
                 existingPodcast.syncStatus = SyncStatus.notSynced.rawValue
+                existingPodcast.autoDownloadSetting = (autoDownloads > 0 ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
             }
-
             DataManager.sharedManager.save(podcast: existingPodcast)
-            updateLatestEpisodeInfo(podcast: existingPodcast, setDefaults: true)
+            updateLatestEpisodeInfo(podcast: existingPodcast, setDefaults: true, autoDownloadLimit: autoDownloads)
 
             ServerConfig.shared.syncDelegate?.podcastAdded(podcastUuid: existingPodcast.uuid)
 
@@ -205,7 +205,7 @@ public class ServerPodcastManager: NSObject {
         }
         podcast.addedDate = Date()
         podcast.sortOrder = highestSortOrderForHomeGrid() + 1
-        podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
+        podcast.autoDownloadSetting = (autoDownloads > 0 ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
         podcast.lastUpdatedAt = lastModified
         if let title = podcastJson["title"] as? String {
             podcast.title = title
@@ -290,7 +290,7 @@ public class ServerPodcastManager: NSObject {
         }
         DataManager.sharedManager.bulkSave(episodes: episodes)
 
-        updateLatestEpisodeInfo(podcast: podcast, setDefaults: subscribe)
+        updateLatestEpisodeInfo(podcast: podcast, setDefaults: subscribe, autoDownloadLimit: autoDownloads)
 
         if subscribe { ServerConfig.shared.syncDelegate?.podcastAdded(podcastUuid: podcast.uuid) }
 

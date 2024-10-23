@@ -87,7 +87,7 @@ class CategorySponsoredCell: ThemeableCell {
         guard let discoverPromotion = discoverPromotion else { return }
 
         if let uuid = discoverPromotion.podcast_uuid {
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribe(to: uuid, completion: nil)
         }
     }
 
