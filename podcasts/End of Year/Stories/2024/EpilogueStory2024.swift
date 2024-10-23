@@ -65,7 +65,8 @@ struct MarqueeTextView: View {
                 ForEach(0..<words.count, id: \.self) { idx in
                     Text(words[idx])
                         .font(.custom("Humane-Medium", size: 227))
-                    Image(systemName: "heart.fill")
+                        .padding(.horizontal, -10)
+                    Image("playback-24-heart")
                 }
             }
 
@@ -73,6 +74,7 @@ struct MarqueeTextView: View {
                 LazyHStack(spacing: 0) {
                     ForEach(0..<50000) { _ in
                         baseText
+                            .padding(.horizontal, 6)
                     }
                 }
                 .background(
