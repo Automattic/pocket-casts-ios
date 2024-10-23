@@ -1,6 +1,7 @@
 7.76
 -----
 - Implements a new stream and download mechanism to address playback skipping issues [#2247](https://github.com/Automattic/pocket-casts-ios/pull/2247)
+- Implement limits for auto-downloads of new episodes. [#2318](https://github.com/Automattic/pocket-casts-ios/pull/2318)
 
 7.75
 -----
