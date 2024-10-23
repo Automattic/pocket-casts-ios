@@ -19,7 +19,7 @@ class EndOfYear2024StoriesModel: StoryModel {
         case .topSpot:
             return TopSpotStory2024()
         case .epilogue:
-            return EpilogueStory2023()
+            return EpilogueStory2024()
         }
     }
 

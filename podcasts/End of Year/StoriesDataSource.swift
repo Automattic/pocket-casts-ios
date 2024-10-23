@@ -116,6 +116,8 @@ protocol StorySharing {
 
     /// If the share button should be hidden for this story
     func hideShareButton() -> Bool
+
+    
 }
 
 extension StorySharing {

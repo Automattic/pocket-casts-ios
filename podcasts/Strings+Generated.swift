@@ -818,6 +818,10 @@ internal enum L10n {
   internal static var editClip: String { return L10n.tr("Localizable", "edit_clip") }
   /// Enable it now
   internal static var enableItNow: String { return L10n.tr("Localizable", "enable_it_now") }
+  /// Don’t forget to share with friends and give a shout out to your favourite podcasts and creators
+  internal static var eoy2024EpilogueDescription: String { return L10n.tr("Localizable", "eoy_2024_epilogue_description") }
+  /// Thank you for listening with us this year. See you in 2025!
+  internal static var eoy2024EpilogueTitle: String { return L10n.tr("Localizable", "eoy_2024_epilogue_title") }
   /// See your listening stats, top podcasts, and more.
   internal static var eoyCardDescription: String { return L10n.tr("Localizable", "eoy_card_description") }
   /// Save your podcasts in the cloud, get your end of year review and sync your progress with other devices.
