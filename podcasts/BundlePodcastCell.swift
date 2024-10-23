@@ -91,9 +91,9 @@ class BundlePodcastCell: ThemeableCell {
         guard let discoverPodcast = discoverPodcast else { return }
 
         if discoverPodcast.iTunesOnly() {
-            ServerPodcastManager.shared.addFromiTunesId(Int(discoverPodcast.iTunesId!)!, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribeFromItunesId(Int(discoverPodcast.iTunesId!)!, completion: nil)
         } else if let uuid = discoverPodcast.uuid {
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribe(to: uuid, completion: nil)
         }
     }
 

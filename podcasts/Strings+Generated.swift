@@ -1739,6 +1739,14 @@ internal enum L10n {
   internal static var playLast: String { return L10n.tr("Localizable", "play_last") }
   /// Play Next
   internal static var playNext: String { return L10n.tr("Localizable", "play_next") }
+  /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
+  internal static var playback2024Description: String { return L10n.tr("Localizable", "playback_2024_description") }
+  /// See your listening stats, top podcasts, and more.
+  internal static var playback2024FeatureDescription: String { return L10n.tr("Localizable", "playback_2024_feature_description") }
+  /// Playback 2024 is here!
+  internal static var playback2024FeatureTitle: String { return L10n.tr("Localizable", "playback_2024_feature_title") }
+  /// View My Playback 2024
+  internal static var playback2024ViewYear: String { return L10n.tr("Localizable", "playback_2024_view_year") }
   /// All podcasts
   internal static var playbackEffectAllPodcasts: String { return L10n.tr("Localizable", "playback_effect_all_podcasts") }
   /// This podcast

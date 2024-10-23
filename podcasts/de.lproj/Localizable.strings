@@ -361,6 +361,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Muss mindestens 6 Zeichen lang sein</string>
     <key>chapters</key>
     <string>Kapitel</string>
+    <key>check_internet_connection</key>
+    <string>Bitte prüfe deine Internetverbindung</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ Podcasts ausgewählt</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>GESPONSERT</string>
     <key>discover_trending</key>
     <string>Aktuell beliebt</string>
+    <key>discover_unable_to_load</key>
+    <string>„Entdecken“ konnte nicht geladen werden</string>
     <key>done</key>
     <string>Fertig</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Als letzten Titel abspielen</string>
     <key>play_next</key>
     <string>Als nächsten Titel abspielen</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Alle Podcasts</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Dieser Podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Stark</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1985,6 +1993,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Dieses Angebot gilt nur für neue Mitglieder. Die Mitgliedschaft wird automatisch zu einer kostenpflichtigen jährlichen Mitgliedschaft in Höhe von %1$@ verlängert.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Sichere dir deinen Gastpass (Dauer: %1$@)</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Melde dich an oder registriere dich, um deinen Gastpass zu erhalten.</string>
     <key>referrals_guest_pass_offer</key>
     <string>Gastpass (Dauer: %1$@)</string>
     <key>referrals_not_available_to_send</key>

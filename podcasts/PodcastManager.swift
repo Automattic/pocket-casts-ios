@@ -145,11 +145,11 @@ class PodcastManager: NSObject {
 
     private func checkForEpisodesToDownload(podcast: Podcast) {
         if !podcast.autoDownloadOn() { return }
+        let episodesLimit = FeatureFlag.autoDownloadOnSubscribe.enabled ? Settings.autoDownloadLimits().rawValue : 4
+        let latestEpisodes = dataManager.findEpisodesWhere(customWhere: "podcast_id == ? ORDER BY publishedDate DESC, addedDate DESC LIMIT ?", arguments: [podcast.id, episodesLimit])
+        guard let latestEpisode = latestEpisodes.first else { return } // no episodes to download
 
-        let topFourEpisodes = dataManager.findEpisodesWhere(customWhere: "podcast_id == ? ORDER BY publishedDate DESC, addedDate DESC LIMIT 4", arguments: [podcast.id])
-        guard let latestEpisode = topFourEpisodes.first else { return } // no episodes to download
-
-        for episode in topFourEpisodes {
+        for episode in latestEpisodes {
             if episode.played() || episode.archived { return } // as soon as we hit a played or archived episode don't look any further
 
             // as soon as we hit an episode that's too old to download don't look any further

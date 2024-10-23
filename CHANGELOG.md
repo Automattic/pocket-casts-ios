@@ -1,6 +1,7 @@
 7.76
 -----
 - Implements a new stream and download mechanism to address playback skipping issues [#2247](https://github.com/Automattic/pocket-casts-ios/pull/2247)
+- Implement limits for auto-downloads of new episodes. [#2318](https://github.com/Automattic/pocket-casts-ios/pull/2318)
 
 7.75
 -----
@@ -10,6 +11,7 @@
 - Adding Referrals feature [#2083](https://github.com/Automattic/pocket-casts-ios/issues/2083)
 - New Custom playback settings [#2253](https://github.com/Automattic/pocket-casts-ios/issues/2253)
 - Optimize database on startup [#2301](https://github.com/Automattic/pocket-casts-ios/issues/2301)
+- Show dynamic island on full screen player, and ajust layout [#2304](https://github.com/Automattic/pocket-casts-ios/pull/2304)
 
 7.74
 -----

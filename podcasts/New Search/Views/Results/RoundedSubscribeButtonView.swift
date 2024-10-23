@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 struct RoundedSubscribeButtonView: View {
     @ObservedObject var model: SubscribeButtonModel
@@ -80,7 +81,7 @@ class SubscribeButtonModel: ObservableObject {
     }
 
     func subscribe() {
-        ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: true, completion: nil)
+        ServerPodcastManager.shared.subscribe(to: podcastUuid, completion: nil)
         Analytics.track(.podcastSubscribed, properties: ["source": source, "uuid": podcastUuid])
     }
 

@@ -361,6 +361,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Precisa ter ao menos seis caracteres</string>
     <key>chapters</key>
     <string>Capítulos</string>
+    <key>check_internet_connection</key>
+    <string>Verifique sua conexão com a Internet</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ podcasts escolhidos</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>PATROCINADO</string>
     <key>discover_trending</key>
     <string>Tendência</string>
+    <key>discover_unable_to_load</key>
+    <string>Não foi possível carregar a página Explorar</string>
     <key>done</key>
     <string>Concluído</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@ ATUALIZAÇÕES</string>
     <string>Reproduzir por último</string>
     <key>play_next</key>
     <string>Reproduzir em seguida</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Todos os podcasts</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Este podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Extremo</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1985,6 +1993,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Esta oferta é apenas para novos membros. A associação será renovada automaticamente para um plano anual por %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Resgate seu passe de convidado %1$@</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Faça login ou se inscreva para resgatar seu passe de convidado.</string>
     <key>referrals_guest_pass_offer</key>
     <string>Passe de convidado %1$@</string>
     <key>referrals_not_available_to_send</key>

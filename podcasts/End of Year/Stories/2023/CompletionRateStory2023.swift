@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct CompletionRateStory: ShareableStory {
+struct CompletionRateStory2023: ShareableStory {
     let identifier: String = "completion_rate"
 
     let plusOnly = true
@@ -112,18 +112,18 @@ private extension Double {
     }
 }
 
-struct CompletionRateStory_Previews: PreviewProvider {
+struct CompletionRateStory2023_Previews: PreviewProvider {
     static var previews: some View {
-        CompletionRateStory(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 10))
+        CompletionRateStory2023(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 10))
             .previewDisplayName("10%")
 
-        CompletionRateStory(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 30))
+        CompletionRateStory2023(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 30))
             .previewDisplayName("30%")
 
-        CompletionRateStory(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 70))
+        CompletionRateStory2023(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 70))
             .previewDisplayName("70%")
 
-        CompletionRateStory(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 100))
+        CompletionRateStory2023(subscriptionTier: .plus, startedAndCompleted: .init(started: 100, completed: 100))
             .previewDisplayName("100%")
     }
 }

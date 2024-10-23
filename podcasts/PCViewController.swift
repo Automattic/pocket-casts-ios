@@ -179,10 +179,6 @@ class PCViewController: SimpleNotificationsViewController {
         AppTheme.defaultStatusBarStyle()
     }
 
-    override var prefersHomeIndicatorAutoHidden: Bool {
-        appDelegate()?.miniPlayer()?.playerOpenState == .open
-    }
-
     @objc private func appWasBackgrounded() {
         handleAppDidEnterBackground()
     }

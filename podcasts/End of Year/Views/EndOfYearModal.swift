@@ -3,6 +3,16 @@ import SwiftUI
 struct EndOfYearModal: View {
     @EnvironmentObject var theme: Theme
 
+    let year: Int
+
+    struct ViewModel {
+        let buttonTitle: String
+        let description: String
+        let backgroundImageName: String
+    }
+
+    let model: ViewModel
+
     var body: some View {
         VStack(spacing: 0) {
             ModalTopPill(fillColor: theme.activeTheme.isDark ? .white : .gray)
@@ -10,12 +20,12 @@ struct EndOfYearModal: View {
 
             VStack(alignment: .center, spacing: Constants.verticalSpacing) {
 
-                Image("modal_cover")
+                Image(model.backgroundImageName)
                     .resizable()
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 16))
 
-                Text(L10n.eoyDescription)
+                Text(model.description)
                     .font(style: .callout, weight: .medium, maxSizeCategory: .accessibilityMedium)
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
@@ -32,13 +42,13 @@ struct EndOfYearModal: View {
         .frame(maxWidth: Constants.maxWidth)
         .applyDefaultThemeOptions()
         .onAppear {
-            Settings.endOfYearModalHasBeenShown = true
+            Settings.setHasShownModalForEndOfYear(true, year: year)
             Analytics.track(.endOfYearModalShown)
         }
     }
 
     var showStoriesButton: some View {
-        Button(L10n.eoyViewYear) {
+        Button(model.buttonTitle) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
         }
         .buttonStyle(RoundedDarkButton(theme: theme))
@@ -64,7 +74,7 @@ struct EndOfYearModal: View {
 
 struct EndOfYearModal_Previews: PreviewProvider {
     static var previews: some View {
-        EndOfYearModal()
+        EndOfYearModal(year: 2023, model: .init(buttonTitle: "View My Playback 2024", description: "See your playback for 2024", backgroundImageName: "modal_cover"))
             .environmentObject(Theme(previewTheme: .light))
     }
 }

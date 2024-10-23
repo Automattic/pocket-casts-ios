@@ -205,7 +205,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             imageView.heightAnchor.constraint(equalToConstant: avatarSize),
         ])
 
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
+        if EndOfYear.isEligible, EndOfYear.shouldShowBadge {
             let badgeSize = CGFloat(10)
             let badge = makeBadge(size: badgeSize)
             imageView.addSubview(badge)
