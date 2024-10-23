@@ -1777,6 +1777,7 @@
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
 		FFF17EC42B97930700E116C8 /* BookmarksProfileListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */; };
 		FFF17EC62B979B5500E116C8 /* BookmarksProfileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF17EC52B979B5500E116C8 /* BookmarksProfileListView.swift */; };
+		FFF23E8A2CC91E370046D3AD /* ServerPodcastManager+Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF23E892CC91E2A0046D3AD /* ServerPodcastManager+Subscription.swift */; };
 		FFFCD23F2C7768F900A345ED /* Referrals.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFFCD23E2C7768F900A345ED /* Referrals.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -3688,6 +3689,7 @@
 		FFF024CD2B62AC9400457373 /* IAPHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelperTests.swift; sourceTree = "<group>"; };
 		FFF17EC32B97930700E116C8 /* BookmarksProfileListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListController.swift; sourceTree = "<group>"; };
 		FFF17EC52B979B5500E116C8 /* BookmarksProfileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProfileListView.swift; sourceTree = "<group>"; };
+		FFF23E892CC91E2A0046D3AD /* ServerPodcastManager+Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServerPodcastManager+Subscription.swift"; sourceTree = "<group>"; };
 		FFFCD23E2C7768F900A345ED /* Referrals.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Referrals.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -5729,6 +5731,7 @@
 				BDCE1D601FBC1C4100100A86 /* UrlHelper.swift */,
 				BDD6297E200EE26200168DF7 /* PlaybackActionHelper.swift */,
 				BD24E6F220E3474600A712E3 /* ArchiveHelper.swift */,
+				FFF23E892CC91E2A0046D3AD /* ServerPodcastManager+Subscription.swift */,
 				4041FE562181751F0089D4A1 /* SiriShortcutsManager.swift */,
 				BDB206A92191734D00C1E456 /* NowPlayingHelper.swift */,
 				BDE48A352410D4BB00ECA6CA /* WatchNowPlayingHelper.swift */,
@@ -10114,6 +10117,7 @@
 				BDB1DC632316964E00119B81 /* HowToUploadViewController.swift in Sources */,
 				4084F68624DCE2F6006E5D97 /* StarredViewController+Multiselect.swift in Sources */,
 				400E3D1123F0E6D900ADAA63 /* PromotionFinishedViewController.swift in Sources */,
+				FFF23E8A2CC91E370046D3AD /* ServerPodcastManager+Subscription.swift in Sources */,
 				BD6F1645219AB82700F34D14 /* UISearchBar+TextColor.swift in Sources */,
 				BDA028621C74466500476B28 /* GoogleCastPlayer.swift in Sources */,
 				BDB5F0CD20450FDC00437669 /* Enumerations.swift in Sources */,

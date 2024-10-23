@@ -98,7 +98,7 @@ class NetworkViewController: PCViewController, UITableViewDataSource, UITableVie
         let cell = notification.object as! PodcastGroupCell
         let indexPath = networksTable.indexPath(for: cell)
         if let indexPath = indexPath, indexPath.row < podcasts?.count ?? 0, let podcastUuid = podcasts?[indexPath.row].uuid {
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribe(to: podcastUuid, completion: nil)
         }
     }
 
