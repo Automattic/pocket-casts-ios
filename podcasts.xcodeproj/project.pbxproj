@@ -12413,7 +12413,7 @@
 			repositoryURL = "https://github.com/Automattic/Gravatar-SDK-iOS.git";
 			requirement = {
 				kind = revision;
-				revision = bb4f4275c6699b4202841400233fa63c32611423;
+				revision = 6c24b1f7c099574cd69e09acc4d7882b16de1c2b;
 			};
 		};
 		3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */ = {
