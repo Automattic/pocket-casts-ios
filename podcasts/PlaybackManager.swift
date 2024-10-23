@@ -610,11 +610,22 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func playNextEpisode(autoPlay: Bool) {
-        if queue.upNextCount() == 0 { return }
+        let queueCount = queue.upNextCount()
+        if queueCount == 0 { return }
 
-        guard let nextEpisode = queue.episodeAt(index: 0) else { return }
+        var index = 0
+        if FeatureFlag.upNextShuffle.enabled, queueCount > 1, Settings.upNextShuffleEnabled() {
+            index = Int.random(in: 0..<queueCount)
+            FileLog.shared.addMessage("Play Next Episode with Shuffle enabled: playing episode \(index) out of \(queueCount)")
+        }
+
+        guard let nextEpisode = queue.episodeAt(index: index) else { return }
 
         FileLog.shared.addMessage("Play Next Episode \(nextEpisode.displayableTitle())")
+
+        if FeatureFlag.upNextShuffle.enabled, queueCount > 1, index > 0 {
+            queue.move(episode: nextEpisode, to: 0)
+        }
 
         queue.removeTopEpisode(fireNotification: false)
         chapterManager.clearChapterInfo()
