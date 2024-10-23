@@ -17,11 +17,11 @@ class ReferralsCoordinator {
     }
 
     var areReferralsAvailableToSend: Bool {
-        return FeatureFlag.referrals.enabled && SubscriptionHelper.hasActiveSubscription()
+        return FeatureFlag.referrals.enabled && FeatureFlag.referralsSend.enabled && SubscriptionHelper.hasActiveSubscription()
     }
 
     var isReferralAvailableToClaim: Bool {
-        return FeatureFlag.referrals.enabled &&
+        return FeatureFlag.referrals.enabled && FeatureFlag.referralsClaim.enabled &&
         !SubscriptionHelper.hasActiveSubscription() &&
         Settings.referralURL != nil
     }
@@ -49,6 +49,10 @@ class ReferralsCoordinator {
     }
 
     func startClaimFlow(from viewController: UIViewController, referralURL: URL? = nil, onComplete: (() -> ())? = nil) {
+        guard FeatureFlag.referrals.enabled && FeatureFlag.referralsClaim.enabled else {
+            onComplete?()
+            return
+        }
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             var url: URL?
