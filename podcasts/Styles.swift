@@ -138,6 +138,13 @@ struct ThemedDivider: View {
 struct BasicButtonStyle: ButtonStyle {
     let textColor: Color
     let backgroundColor: Color
+    let borderColor: Color?
+
+    init(textColor: Color, backgroundColor: Color, borderColor: Color? = nil) {
+        self.textColor = textColor
+        self.backgroundColor = backgroundColor
+        self.borderColor = borderColor
+    }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -149,6 +156,16 @@ struct BasicButtonStyle: ButtonStyle {
             .cornerRadius(ViewConstants.buttonCornerRadius)
             .applyButtonEffect(isPressed: configuration.isPressed)
             .contentShape(Rectangle())
+            .modify {
+                if let borderColor {
+                    $0.overlay {
+                        RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
+                            .stroke(borderColor)
+                    }
+                } else {
+                    $0
+                }
+            }
     }
 }
 
