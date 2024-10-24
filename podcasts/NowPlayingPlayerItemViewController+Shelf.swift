@@ -16,11 +16,12 @@ protocol NowPlayingActionsDelegate: AnyObject {
     func archiveTapped()
     func bookmarkTapped()
     func transcriptTapped()
-
+    func downloadTapped()
     func sharedRoutePicker(largeSize: Bool) -> PCRoutePickerView
 }
 
 extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
+
     @objc func reloadShelfActions() {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
@@ -152,6 +153,16 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             button.accessibilityLabel = L10n.transcript
 
             addToShelf(on: button)
+
+        case .download:
+            let button = UIButton(frame: CGRect.zero)
+            button.isPointerInteractionEnabled = true
+            button.imageView?.tintColor = ThemeColor.playerContrast02()
+            button.setImage(UIImage(named: action.largeIconName(episode: playingEpisode)), for: .normal)
+            button.addTarget(self, action: #selector(downloadTapped(_:)), for: .touchUpInside)
+            button.accessibilityLabel = L10n.download
+
+            addToShelf(on: button)
         }
 
         return true
@@ -232,6 +243,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     func transcriptTapped() {
         displayTranscript = true
+    }
+
+    func downloadTapped() {
+        return
     }
 
     // MARK: - Player Actions
@@ -317,6 +332,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         shelfButtonTapped(.transcript)
 
         displayTranscript = true
+    }
+
+    @objc private func downloadTapped(_ sender: UIButton) {
+        shelfButtonTapped(.download)
+        downloadTapped()
     }
 
     // MARK: - Sleep Timer
