@@ -217,7 +217,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if !showingInTab {
             updateShuffleButtonState()
         }
-        track(.upNextShuffleEnabled, properties: ["enabled": Settings.upNextShuffleEnabled()])
+        track(.upNextShuffleEnabled, properties: ["value": Settings.upNextShuffleEnabled()])
     }
 
     @objc private func themeDidChange() {
