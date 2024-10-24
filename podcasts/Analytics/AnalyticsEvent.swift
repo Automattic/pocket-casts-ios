@@ -336,6 +336,7 @@ enum AnalyticsEvent: String {
     case upNextMultiSelectExited
     case upNextQueueReordered
     case upNextDismissed
+    case upNextShuffleToggled
 
     // MARK: - Privacy
 
