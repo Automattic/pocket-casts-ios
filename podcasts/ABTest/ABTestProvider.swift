@@ -29,7 +29,7 @@ struct ABTestProvider: ABTestProviding {
 
     /// Registers the experiments and refreshes `ExPlat`
     /// - Parameter completion: A completion block used by the `ExPlat.refresh` function
-    func start(completion: (() -> Void)? = nil) {
+    func start(completion: (() -> Void)?) {
         let experiments = ABTest.allCases.map { $0.rawValue }
         if experiments.isEmpty {
             completion?()
