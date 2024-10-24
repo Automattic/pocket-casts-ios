@@ -361,6 +361,8 @@
     <string>必须至少为 6 个字符</string>
     <key>chapters</key>
     <string>章节</string>
+    <key>check_internet_connection</key>
+    <string>请检查您的互联网连接</string>
     <key>chosen_podcasts_plural_format</key>
     <string>已选择 %1$@ 个播客</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@
     <string>赞助</string>
     <key>discover_trending</key>
     <string>趋势</string>
+    <key>discover_unable_to_load</key>
+    <string>无法加载“发现”</string>
     <key>done</key>
     <string>完成</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@
     <string>播放最后一个</string>
     <key>play_next</key>
     <string>播放下一个</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>所有播客</string>
+    <key>playback_effect_this_podcast</key>
+    <string>此播客</string>
     <key>playback_effect_trim_silence_max</key>
     <string>高度</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1643,7 +1651,7 @@
     <key>plus_marketing_themes_icons_title</key>
     <string>主题和图标</string>
     <key>plus_marketing_title</key>
-    <string>通过 Pocket Casts Plus 解锁独家功能</string>
+    <string>您喜欢的 Pocket Casts 的一切，还有更多内容</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>将文件上传到云存储空间，在任何地方都能访问这些文件</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1985,6 +1993,8 @@
     <string>此优惠仅限新会员使用。 会员资格将以 %1$@ 的价格自动续订为年度付费会员资格。</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>领取您的 %1$@ 访客通行证</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>请登录或注册，以领取您的访客通行证。</string>
     <key>referrals_guest_pass_offer</key>
     <string>%1$@ 访客通行证</string>
     <key>referrals_not_available_to_send</key>

@@ -361,6 +361,8 @@
     <string>6文字以上にしてください</string>
     <key>chapters</key>
     <string>チャプター</string>
+    <key>check_internet_connection</key>
+    <string>インターネット接続を確認してください</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@件のポッドキャストを選択済み</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@
     <string>スポンサー付き</string>
     <key>discover_trending</key>
     <string>現在の人気</string>
+    <key>discover_unable_to_load</key>
+    <string>「ディスカバー」を読み込めません</string>
     <key>done</key>
     <string>終了</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>最後に再生</string>
     <key>play_next</key>
     <string>次に再生</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>すべてのポッドキャスト</string>
+    <key>playback_effect_this_podcast</key>
+    <string>このポッドキャスト</string>
     <key>playback_effect_trim_silence_max</key>
     <string>最大限</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1643,7 +1651,7 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <key>plus_marketing_themes_icons_title</key>
     <string>テーマとアイコン</string>
     <key>plus_marketing_title</key>
-    <string>Pocket Casts Plus で限定機能を利用しましょう</string>
+    <string>お気に入りの Pocket Casts の機能に加え、さらなる機能を利用できます</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>ファイルをクラウドストレージにアップロードしてどこからでも利用できるようにします</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1985,6 +1993,8 @@ Pocket Casts で共有すればここに表示されるようになります</st
     <string>このオファーは新規メンバーのみが対象です。 メンバーシップは%1$@の有料年間メンバーシップに自動的に更新されます。</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>%1$@のゲストパスを取得しましょう</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>ゲストパスを取得するには、ログインまたはサインアップしてください。</string>
     <key>referrals_guest_pass_offer</key>
     <string>%1$@のゲストパス</string>
     <key>referrals_not_available_to_send</key>

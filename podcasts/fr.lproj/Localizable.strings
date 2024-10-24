@@ -361,6 +361,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Doit comporter au moins 6 caractères</string>
     <key>chapters</key>
     <string>Chapitres</string>
+    <key>check_internet_connection</key>
+    <string>Veuillez vérifier votre connexion internet</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ podcasts sélectionnés</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>SPONSORISÉ</string>
     <key>discover_trending</key>
     <string>Tendances</string>
+    <key>discover_unable_to_load</key>
+    <string>Impossible de charger Découvrir</string>
     <key>done</key>
     <string>Terminé</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@ MISES À JOUR</string>
     <string>Lire dernier</string>
     <key>play_next</key>
     <string>Lire suivant</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Tous les podcasts</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Ce podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Maximum</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1643,7 +1651,7 @@ MISES À JOUR</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Thèmes et icônes</string>
     <key>plus_marketing_title</key>
-    <string>Accédez à des fonctionnalités exclusives avec Pocket Casts Plus</string>
+    <string>Tout ce que vous aimez à propos de Pocket Casts, et bien plus encore</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Chargez vos fichiers dans le stockage Cloud afin de pouvoir y accéder n’importe où</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1985,6 +1993,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Cette offre est réservée aux nouveaux membres. L’adhésion sera automatiquement renouvelée sous forme d’adhésion annuelle payante au prix de %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Demander votre passe invité %1$@</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Veuillez vous connecter ou vous inscrire pour réclamer votre passe invité.</string>
     <key>referrals_guest_pass_offer</key>
     <string>Passe invité %1$@</string>
     <key>referrals_not_available_to_send</key>

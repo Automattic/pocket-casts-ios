@@ -110,6 +110,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         showInitialOnboardingIfNeeded()
 
         updateDatabaseIndexes()
+        optimizeDatabaseIfNeeded()
     }
 
     /// Update database indexes and delete unused columns
@@ -129,6 +130,25 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             DataManager.sharedManager.cleanUp()
             self.dismissLoader()
             Settings.upgradedIndexes = true
+        }
+    }
+
+    private func optimizeDatabaseIfNeeded() {
+        guard
+            let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            appVersion != Settings.lastAppVersionThatRunVacuum,
+            FeatureFlag.runVacuumOnVersionUpdate.enabled
+        else {
+            return
+        }
+        Settings.lastAppVersionThatRunVacuum = appVersion
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self else { return }
+            if DataManager.sharedManager.podcastCount() > 100 {
+                presentLoader()
+            }
+            DataManager.sharedManager.vacuumDatabase()
+            dismissLoader()
         }
     }
 

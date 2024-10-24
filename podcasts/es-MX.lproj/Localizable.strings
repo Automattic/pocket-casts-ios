@@ -361,6 +361,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Debe tener 6 caracteres como mínimo</string>
     <key>chapters</key>
     <string>Capítulos</string>
+    <key>check_internet_connection</key>
+    <string>Comprueba tu conexión a Internet</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ podcasts elegidos</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>PATROCINADO</string>
     <key>discover_trending</key>
     <string>Tendencias</string>
+    <key>discover_unable_to_load</key>
+    <string>No se puede cargar Descubrir</string>
     <key>done</key>
     <string>Hecho</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@ ACTUALIZACIONES</string>
     <string>Reproducir último</string>
     <key>play_next</key>
     <string>Reproducir siguiente</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Todos los podcasts</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Este podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Máximo</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1643,7 +1651,7 @@ ACTUALIZACIONES</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Temas e iconos</string>
     <key>plus_marketing_title</key>
-    <string>Desbloquea funciones exclusivas con Pocket Casts Plus</string>
+    <string>Todo lo que te encanta de Pocket Casts y mucho más</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Carga tus archivos en el almacenamiento en la nube para poder acceder a ellos desde cualquier lugar</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1985,6 +1993,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Esta oferta es solo para nuevos miembros. La suscripción se renovará automáticamente a una suscripción anual de pago en %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Solicita tu pase de invitado de %1$@</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Accede o regístrate para solicitar tu pase de invitado.</string>
     <key>referrals_guest_pass_offer</key>
     <string>Pase de invitado de %1$@</string>
     <key>referrals_not_available_to_send</key>

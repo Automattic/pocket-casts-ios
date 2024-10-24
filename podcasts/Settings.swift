@@ -1312,6 +1312,16 @@ class Settings: NSObject {
         }
     }
 
+    class var lastAppVersionThatRunVacuum: String? {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "last_app_version_that_run_vacuum")
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: "last_app_version_that_run_vacuum")
+        }
+    }
+
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)

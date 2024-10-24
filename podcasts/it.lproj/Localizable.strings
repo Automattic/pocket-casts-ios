@@ -361,6 +361,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Deve contenere almeno 6 caratteri</string>
     <key>chapters</key>
     <string>Capitoli</string>
+    <key>check_internet_connection</key>
+    <string>Controlla la connessione a Internet</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ podcast scelti</string>
     <key>chosen_podcasts_singular</key>
@@ -677,6 +679,8 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>SPONSORIZZATO</string>
     <key>discover_trending</key>
     <string>In voga</string>
+    <key>discover_unable_to_load</key>
+    <string>Impossibile caricare Discover</string>
     <key>done</key>
     <string>Fatto</string>
     <key>download</key>
@@ -1486,6 +1490,10 @@ AGGIORNAMENTI</string>
     <string>Riproduci ultimo</string>
     <key>play_next</key>
     <string>Riproduci successivo</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Tutti i podcast</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Questo podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Massimo</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1643,7 +1651,7 @@ AGGIORNAMENTI</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Temi e icone</string>
     <key>plus_marketing_title</key>
-    <string>Sblocca funzioni esclusive con Pocket Casts Plus</string>
+    <string>Tutto ciò che ti piace di Pocket Casts e molto altro</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Carica i tuoi file sull'archiviazione su cloud e rendili disponibili per qualsiasi postazione</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1985,6 +1993,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Questa offerta è esclusivamente per nuovi membri. L'iscrizione si rinnoverà automaticamente in un'iscrizione annuale a pagamento di %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Riscatta il tuo pass per ospiti %1$@</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Effettua l'accesso o l'iscrizione per riscattare il tuo pass per ospiti.</string>
     <key>referrals_guest_pass_offer</key>
     <string>Pass per ospiti %1$@</string>
     <key>referrals_not_available_to_send</key>
@@ -2823,6 +2833,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Siamo spiacenti, ma qualcosa è andato storto durante il caricamento di questa trascrizione</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Siamo spiacenti, ma qualcosa è andato storto durante l'analisi di questa trascrizione</string>
+    <key>transcript_error_not_available</key>
+    <string>Siamo spiacenti, ma non è disponibile una trascrizione per questo episodio</string>
     <key>transcript_error_not_supported</key>
     <string>Siamo spiacenti, ma questo formato della trascrizione non è supportato: %1$@</string>
     <key>trial_finished</key>

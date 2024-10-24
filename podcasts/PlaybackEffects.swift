@@ -54,7 +54,8 @@ class PlaybackEffects {
 
         effects.isGlobal = false
 
-        if FeatureFlag.customPlaybackSettings.enabled && !podcast.usedCustomEffectsBefore {
+        if FeatureFlag.customPlaybackSettings.enabled &&
+            !podcast.usedCustomEffectsBefore {
             let globalEffect = globalEffects()
             effects.trimSilence = globalEffect.trimSilence
             effects.volumeBoost = globalEffect.volumeBoost
