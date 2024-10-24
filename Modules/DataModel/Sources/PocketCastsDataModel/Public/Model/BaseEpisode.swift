@@ -67,3 +67,9 @@ import Foundation
     /// Whether this is a regular episode, or an user episode (File)
     var isUserEpisode: Bool { get }
 }
+
+extension BaseEpisode {
+    public var isInDownloadProcess: Bool {
+        return downloading() || queued() || waitingForWifi()
+    }
+}

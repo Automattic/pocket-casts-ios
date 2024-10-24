@@ -1801,6 +1801,12 @@ internal enum L10n {
   internal static func playerEffectsTrimSilenceProgress(_ p1: Any) -> String {
     return L10n.tr("Localizable", "player_effects_trim_silence_progress", String(describing: p1))
   }
+  /// Episode download cancelled
+  internal static var playerEpisodeDownloadCancelled: String { return L10n.tr("Localizable", "player_episode_download_cancelled") }
+  /// Episode queued for download
+  internal static var playerEpisodeQueuedForDownload: String { return L10n.tr("Localizable", "player_episode_queued_for_download") }
+  /// Episode was removed
+  internal static var playerEpisodeWasRemoved: String { return L10n.tr("Localizable", "player_episode_was_removed") }
   /// The episode might be corrupted, but you can try to play it again.
   internal static var playerErrorCorruptedFile: String { return L10n.tr("Localizable", "player_error_corrupted_file") }
   /// Check your Internet connection and try again.

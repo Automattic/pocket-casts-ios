@@ -245,7 +245,7 @@ extension PlayerAction: AnalyticsDescribable {
     /// Specify default actions and their order
     static var defaultActions: [PlayerAction] {
         [
-            .effects, .sleepTimer, .routePicker, .transcript,
+            .effects, .sleepTimer, .routePicker, .transcript, .download,
             .starEpisode, .shareEpisode, .goToPodcast, .chromecast,
             .markPlayed, .addBookmark, .archive
         ]
@@ -275,6 +275,8 @@ extension PlayerAction: AnalyticsDescribable {
             self = .addBookmark
         case 11:
             self = .transcript
+        case 12:
+            self = .download
         default:
             return nil
         }
@@ -304,6 +306,8 @@ extension PlayerAction: AnalyticsDescribable {
             return 10
         case .transcript:
             return 11
+        case .download:
+            return 12
         }
     }
 
@@ -345,6 +349,11 @@ extension PlayerAction: AnalyticsDescribable {
             return L10n.addBookmark
         case .transcript:
             return L10n.transcript
+        case .download:
+            guard let episode else {
+                return L10n.download
+            }
+            return episode.downloaded(pathFinder: DownloadManager.shared) ? L10n.removeDownload : (episode.isInDownloadProcess ? L10n.statusDownloading : L10n.download)
         }
     }
 
@@ -383,6 +392,11 @@ extension PlayerAction: AnalyticsDescribable {
             return "bookmarks-shelf-overflow-icon"
         case .transcript:
             return "transcript"
+        case .download:
+            guard let episode else {
+                return "episode-download"
+            }
+            return episode.downloaded(pathFinder: DownloadManager.shared) ? "episode-downloaded" : "episode-download"
         }
     }
 
@@ -410,6 +424,11 @@ extension PlayerAction: AnalyticsDescribable {
             return "bookmarks-shelf-icon"
         case .transcript:
             return "transcript"
+        case .download:
+            guard let episode else {
+                return "episode-download"
+            }
+            return episode.downloaded(pathFinder: DownloadManager.shared) ? "episode-downloaded" : "episode-download"
         }
     }
 
@@ -459,6 +478,8 @@ extension PlayerAction: AnalyticsDescribable {
             return "bookmark"
         case .transcript:
             return "transcript"
+        case .download:
+            return "download"
         }
     }
 }
