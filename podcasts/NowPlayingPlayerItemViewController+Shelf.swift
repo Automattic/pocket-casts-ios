@@ -28,7 +28,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let actions = Settings.playerActions()
 
         // don't reload the actions unless we need to
-        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode) { return }
+        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects().effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus) { return }
 
         // load the first 4 actions into the player, followed by an overflow icon
         playerControlsStackView.removeAllSubviews()
@@ -246,7 +246,38 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     func downloadTapped() {
-        return
+        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
+
+        if episode.downloaded(pathFinder: DownloadManager.shared) {
+            let confirmation = OptionsPicker(title: L10n.podcastDetailsRemoveDownload)
+            let yesAction = OptionAction(label: L10n.remove, icon: nil) {
+                self.deleteDownloadedFile()
+                Toast.show(L10n.playerEpisodeWasRemoved)
+            }
+            yesAction.destructive = true
+            confirmation.addAction(action: yesAction)
+
+            confirmation.show(statusBarStyle: preferredStatusBarStyle)
+        } else if episode.isInDownloadProcess {
+            PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
+            Toast.show(L10n.playerEpisodeDownloadCancelled)
+        } else {
+            PlaybackActionHelper.download(episodeUuid: episode.uuid)
+            Toast.show(L10n.playerEpisodeQueuedForDownload)
+        }
+    }
+
+    private func deleteDownloadedFile() {
+        guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
+
+        EpisodeManager.analyticsHelper.currentSource = analyticsSource
+
+        PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: false)
+        EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
+
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
     }
 
     // MARK: - Player Actions

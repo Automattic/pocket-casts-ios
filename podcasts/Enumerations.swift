@@ -350,7 +350,10 @@ extension PlayerAction: AnalyticsDescribable {
         case .transcript:
             return L10n.transcript
         case .download:
-            return L10n.download
+            guard let episode else {
+                return L10n.download
+            }
+            return episode.downloaded(pathFinder: DownloadManager.shared) ? L10n.removeDownload : (episode.isInDownloadProcess ? L10n.statusDownloading : L10n.download)
         }
     }
 
@@ -390,7 +393,10 @@ extension PlayerAction: AnalyticsDescribable {
         case .transcript:
             return "transcript"
         case .download:
-            return "download"
+            guard let episode else {
+                return "episode-download"
+            }
+            return episode.downloaded(pathFinder: DownloadManager.shared) ? "episode-downloaded" : "episode-download"
         }
     }
 
@@ -419,7 +425,10 @@ extension PlayerAction: AnalyticsDescribable {
         case .transcript:
             return "transcript"
         case .download:
-            return "download"
+            guard let episode else {
+                return "episode-download"
+            }
+            return episode.downloaded(pathFinder: DownloadManager.shared) ? "episode-downloaded" : "episode-download"
         }
     }
 
