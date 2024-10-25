@@ -24,7 +24,7 @@ class IAPHelper: NSObject {
     private var isRequestingProducts = false
 
     /// Whether purchasing is allowed in the current environment or not
-    private (set) var canMakePurchases = BuildEnvironment.current != .testFlight
+    private (set) var canMakePurchases = true
 
     private var settings: IAPHelperSettings
     private var networking: IAPHelperNetworking
@@ -108,6 +108,7 @@ class IAPHelper: NSObject {
         let payment = SKMutablePayment(product: product)
         if let discount {
             payment.paymentDiscount = SKPaymentDiscount(identifier: discount.identifier, keyIdentifier: discount.key, nonce: discount.uuid, signature: discount.signature, timestamp: NSNumber(integerLiteral: discount.timestamp))
+            payment.applicationUsername = ServerSettings.userId
         }
         SKPaymentQueue.default().add(payment)
 

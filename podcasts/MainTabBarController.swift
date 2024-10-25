@@ -12,7 +12,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     let playPauseCommand = UIKeyCommand(title: L10n.keycommandPlayPause, action: #selector(handlePlayPauseKey), input: " ", modifierFlags: [])
 
-    private lazy var endOfYear = EndOfYear()
+    lazy var endOfYear = EndOfYear()
 
     private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: pcTabs.firstIndex(of: .profile) ?? -1)
 
@@ -110,6 +110,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         showInitialOnboardingIfNeeded()
 
         updateDatabaseIndexes()
+        optimizeDatabaseIfNeeded()
     }
 
     /// Update database indexes and delete unused columns
@@ -129,6 +130,25 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             DataManager.sharedManager.cleanUp()
             self.dismissLoader()
             Settings.upgradedIndexes = true
+        }
+    }
+
+    private func optimizeDatabaseIfNeeded() {
+        guard
+            let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            appVersion != Settings.lastAppVersionThatRunVacuum,
+            FeatureFlag.runVacuumOnVersionUpdate.enabled
+        else {
+            return
+        }
+        Settings.lastAppVersionThatRunVacuum = appVersion
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self else { return }
+            if DataManager.sharedManager.podcastCount() > 100 {
+                presentLoader()
+            }
+            DataManager.sharedManager.vacuumDatabase()
+            dismissLoader()
         }
     }
 
@@ -546,7 +566,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc private func profileSeen() {
         profileTabBarItem.badgeValue = nil
-        Settings.showBadgeForEndOfYear = false
+        if let year = endOfYear.storyModelType?.year {
+            Settings.setShowBadgeForEndOfYear(false, year: year)
+        }
     }
 
     func observersForEndOfYearStats() {
@@ -613,7 +635,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
-        if EndOfYear.isEligible, Settings.showBadgeForEndOfYear {
+        if EndOfYear.isEligible, let year = endOfYear.storyModelType?.year, Settings.showBadgeForEndOfYear(year) {
             profileTabBarItem.badgeValue = "●"
         }
     }

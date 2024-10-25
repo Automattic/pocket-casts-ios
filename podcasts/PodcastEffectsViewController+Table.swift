@@ -180,7 +180,11 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
 
         playbackSpeedDebouncer.call {
             AnalyticsPlaybackHelper.shared.currentSource = self.analyticsSource
-            AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: roundedSpeed)
+            if FeatureFlag.customPlaybackSettings.enabled {
+                AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: roundedSpeed, currentSettings: "local")
+            } else {
+                AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: roundedSpeed)
+            }
         }
     }
 
@@ -192,7 +196,11 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         }
         podcast.trimSilenceAmount = sender.isOn ? Int32(PlaybackEffects.defaultRemoveSilenceAmount) : 0
         saveUpdates()
-        AnalyticsPlaybackHelper.shared.trimSilenceToggled(enabled: sender.isOn)
+        if FeatureFlag.customPlaybackSettings.enabled {
+            AnalyticsPlaybackHelper.shared.trimSilenceToggled(enabled: sender.isOn, currentSettings: "local")
+        } else {
+            AnalyticsPlaybackHelper.shared.trimSilenceToggled(enabled: sender.isOn)
+        }
     }
 
     @objc private func boostVolumeToggled(_ sender: UISwitch) {
@@ -202,13 +210,19 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
         }
         podcast.boostVolume = sender.isOn
         saveUpdates()
-
-        AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: sender.isOn)
+        if FeatureFlag.customPlaybackSettings.enabled {
+            AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: sender.isOn, currentSettings: "local")
+        } else {
+            AnalyticsPlaybackHelper.shared.volumeBoostToggled(enabled: sender.isOn)
+        }
     }
 
     @objc private func overrideEffectsToggled(_ sender: UISwitch) {
         podcast.isEffectsOverridden = sender.isOn
         podcast.syncStatus = SyncStatus.notSynced.rawValue
+        if FeatureFlag.customPlaybackSettings.enabled && !podcast.usedCustomEffectsBefore {
+            podcast.usedCustomEffectsBefore = true
+        }
         saveUpdates()
 
         Analytics.track(.podcastSettingsCustomPlaybackEffectsToggled, properties: ["enabled": sender.isOn])

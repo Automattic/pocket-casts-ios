@@ -122,6 +122,18 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enables Gravatar native quick editor for Avatar  updates, replacing the web-view Gravatar editor.
     case gravatarNativeQuickEditor
 
+    /// Run a vacuum process on the database in order to optimize data fetch
+    case runVacuumOnVersionUpdate
+
+    /// Enable the End of Year 2024 recap
+    case endOfYear2024
+
+    /// Enable the Up Next shuffle button
+    case upNextShuffle
+
+    /// Push two auto downloads on subscribe of a podcast
+    case autoDownloadOnSubscribe
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -185,11 +197,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .kidsProfile:
             false
         case .upgradeExperiment:
-            false
+            true
         case .ignoreRouteDisconnectedInterruption:
             true
         case .referrals:
-            false
+            true
         case .syncStats:
             true
         case .discoverCollectionView:
@@ -201,8 +213,16 @@ public enum FeatureFlag: String, CaseIterable {
         case .useMimetypePackage:
             true
         case .customPlaybackSettings:
+            true
+        case .runVacuumOnVersionUpdate:
+            true
+        case .endOfYear2024:
             false
         case .gravatarNativeQuickEditor:
+            true
+        case .upNextShuffle:
+            false
+        case .autoDownloadOnSubscribe:
             true
         }
     }

@@ -7,7 +7,9 @@ class ReferralsClaimBannerTableCell: ThemeableCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         let viewModel = ReferralClaimPassModel()
-
+        viewModel.onCloseTap = {
+            ReferralsCoordinator.shared.cleanReferalURL()
+        }
         let bannerView = ReferralsClaimBannerView(viewModel: viewModel).themedUIView
         bannerView.backgroundColor = .clear
         contentView.addSubview(bannerView)

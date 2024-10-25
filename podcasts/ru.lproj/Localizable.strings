@@ -461,6 +461,8 @@
     <string>Загрузить в облако</string>
     <key>database_migration</key>
     <string>Мы двигаем туда-сюда биты и байты, чтобы приложение работало быстрее…</string>
+    <key>day</key>
+    <string>день</string>
     <key>day_listened</key>
     <string>день прослушан</string>
     <key>day_saved</key>
@@ -1641,7 +1643,7 @@
     <key>plus_marketing_themes_icons_title</key>
     <string>Темы и значки</string>
     <key>plus_marketing_title</key>
-    <string>Получите эксклюзивные возможности в Pocket Casts Plus</string>
+    <string>Всё, что вам нравится в Pocket Casts, и ещё больше</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Загрузите файлы в облачное хранилище и пользуйтесь ими, где бы вы ни находились.</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -2821,6 +2823,8 @@
     <string>К сожалению, во время загрузки этой расшифровки что-то пошло не так</string>
     <key>transcript_error_failed_to_parse</key>
     <string>К сожалению, во время анализа этой расшифровки что-то пошло не так</string>
+    <key>transcript_error_not_available</key>
+    <string>К сожалению, в этом выпуске нет расшифровки</string>
     <key>transcript_error_not_supported</key>
     <string>К сожалению, этот формат расшифровки не поддерживается: %1$@</string>
     <key>trial_finished</key>
@@ -2959,6 +2963,8 @@
     <string>Эпизоды можно добавлять в очередь для последующего воспроизведения на экране сведений об эпизодах либо посредством их добавления на телефоне.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Очередь пуста</string>
+    <key>week</key>
+    <string>неделя</string>
     <key>welcome_discover_button</key>
     <string>Найти следующий подкаст</string>
     <key>welcome_discover_description</key>

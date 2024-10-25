@@ -31,6 +31,14 @@ public enum AutoDownloadSetting: Int32 {
     case off = 0, latest = 1, all = 2
 }
 
+public enum AutoDownloadLimit: Int, CaseIterable {
+    case one = 1
+    case two = 2
+    case three = 3
+    case five = 5
+    case ten = 10
+}
+
 public enum PlayingStatus: Int32 {
     case notPlayed = 1, inProgress = 2, completed = 3, old = 4
 }

@@ -122,9 +122,9 @@ extension DiscoverCollectionViewController: DiscoverDelegate {
 
     func subscribe(podcast: DiscoverPodcast) {
         if podcast.iTunesOnly() {
-            ServerPodcastManager.shared.addFromiTunesId(Int(podcast.iTunesId!)!, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribeFromItunesId(Int(podcast.iTunesId!)!, completion: nil)
         } else if let uuid = podcast.uuid {
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
+            ServerPodcastManager.shared.subscribe(to: uuid, completion: nil)
         }
 
         HapticsHelper.triggerSubscribedHaptic()

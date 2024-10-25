@@ -20,35 +20,35 @@ class EndOfYearManagerMock: EndOfYearDataManager {
 
     var episodesStartedAndCompleted: EpisodesStartedAndCompleted?
 
-    override func listeningTime(dbQueue: FMDatabaseQueue) -> Double? {
+    override func listeningTime(in year: Int, dbQueue: FMDatabaseQueue) -> Double? {
         listeningTimeToReturn
     }
 
-    override func listenedCategories(dbQueue: FMDatabaseQueue) -> [ListenedCategory] {
+    override func listenedCategories(in year: Int, dbQueue: FMDatabaseQueue) -> [ListenedCategory] {
         listenedCategoriesToReturn
     }
 
-    override func listenedNumbers(dbQueue: FMDatabaseQueue) -> ListenedNumbers {
+    override func listenedNumbers(in year: Int, dbQueue: FMDatabaseQueue) -> ListenedNumbers {
         listenedNumbersToReturn ?? ListenedNumbers(numberOfPodcasts: 0, numberOfEpisodes: 0)
     }
 
-    override func topPodcasts(dbQueue: FMDatabaseQueue, limit: Int = 5) -> [TopPodcast] {
+    override func topPodcasts(in year: Int, dbQueue: FMDatabaseQueue, limit: Int = 5) -> [TopPodcast] {
         topPodcastsToReturn
     }
 
-    override func longestEpisode(dbQueue: FMDatabaseQueue) -> Episode? {
+    override func longestEpisode(in year: Int, dbQueue: FMDatabaseQueue) -> Episode? {
         return longestEpisodeToReturn
     }
 
-    override func isFullListeningHistory(dbQueue: FMDatabaseQueue) -> Bool {
+    override func isFullListeningHistory(in year: Int, dbQueue: FMDatabaseQueue) -> Bool {
         return isFullListeningHistoryToReturn
     }
 
-    override func yearOverYearListeningTime(dbQueue: FMDatabaseQueue) -> YearOverYearListeningTime {
+    override func yearOverYearListeningTime(in year: Int, dbQueue: FMDatabaseQueue) -> YearOverYearListeningTime {
         return yearOverYearToReturn ?? YearOverYearListeningTime(totalPlayedTimeThisYear: 0, totalPlayedTimeLastYear: 0)
     }
 
-    override func episodesStartedAndCompleted(dbQueue: FMDatabaseQueue) -> EpisodesStartedAndCompleted {
+    override func episodesStartedAndCompleted(in year: Int, dbQueue: FMDatabaseQueue) -> EpisodesStartedAndCompleted {
         episodesStartedAndCompleted ?? EpisodesStartedAndCompleted(started: 0, completed: 0)
     }
 }

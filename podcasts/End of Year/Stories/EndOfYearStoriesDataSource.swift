@@ -3,37 +3,18 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 class EndOfYearStoriesDataSource: StoriesDataSource {
-    var numberOfStories: Int {
-        stories.count
+    var model: StoryModel
+
+    init(model: StoryModel) {
+        self.model = model
     }
 
-    var stories: [EndOfYearStory] = []
-
-    var data: EndOfYearStoriesData!
+    var numberOfStories: Int {
+        model.numberOfStories
+    }
 
     func story(for storyNumber: Int) -> any StoryView {
-        switch stories[storyNumber] {
-        case .intro:
-            return IntroStory()
-        case .listeningTime:
-            return ListeningTimeStory(listeningTime: data.listeningTime, podcasts: data.top10Podcasts)
-        case .topCategories:
-            return TopListenedCategoriesStory(listenedCategories: data.listenedCategories)
-        case .numberOfPodcastsAndEpisodesListened:
-            return ListenedNumbersStory(listenedNumbers: data.listenedNumbers, podcasts: data.top10Podcasts)
-        case .topOnePodcast:
-            return TopOnePodcastStory(podcasts: data.topPodcasts)
-        case .topFivePodcasts:
-            return TopFivePodcastsStory(topPodcasts: data.topPodcasts)
-        case .longestEpisode:
-            return LongestEpisodeStory(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
-        case .yearOverYearListeningTime:
-            return YearOverYearStory(data: data.yearOverYearListeningTime)
-        case .completionRate:
-            return CompletionRateStory(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
-        case .epilogue:
-            return EpilogueStory()
-        }
+        model.story(for: storyNumber)
     }
 
     func shareableStory(for storyNumber: Int) -> (any ShareableStory)? {
@@ -42,31 +23,17 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
 
     /// The only interactive view we have is the last one, with the replay button
     func isInteractiveView(for storyNumber: Int) -> Bool {
-        switch stories[storyNumber] {
-        case .epilogue:
-            return true
-        default:
-            return false
-        }
+        model.isInteractiveView(for: storyNumber)
     }
 
     func isReady() async -> Bool {
-        (stories, data) = await EndOfYearStoriesBuilder().build()
+        await EndOfYearStoriesBuilder(model: model).build()
 
-        if !stories.isEmpty {
-            stories.append(.intro)
-            stories.append(.epilogue)
-
-            stories.sort()
-
-            return true
-        }
-
-        return false
+        return model.isReady()
     }
 
     func refresh() async -> Bool {
-        Settings.hasSyncedEpisodesForPlayback2023 = false
+        Settings.setHasSyncedEpisodesForPlayback(false, year: type(of: model).year)
 
         await SyncYearListeningProgress.shared.reset()
 
@@ -74,9 +41,15 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
     }
 }
 
-extension [EndOfYearStory] {
-    mutating func sort() {
-        let allCases = EndOfYearStory.allCases
-        self = sorted { allCases.firstIndex(of: $0) ?? 0 < allCases.firstIndex(of: $1) ?? 0 }
+extension Array where Element: CaseIterable & Equatable {
+    mutating func sortByCaseIterableIndex() {
+        let allCases = Element.allCases
+        self = sorted {
+            guard let firstIndex0 = allCases.firstIndex(of: $0),
+                  let firstIndex1 = allCases.firstIndex(of: $1) else {
+                return false
+            }
+            return firstIndex0 < firstIndex1
+        }
     }
 }

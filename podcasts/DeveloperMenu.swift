@@ -9,6 +9,7 @@ import PulseUI
 struct DeveloperMenu: View {
     @State var showingImporter = false
     @State var showingExporter = false
+    @State var showing = false
 
     var body: some View {
         List {
@@ -285,10 +286,7 @@ struct DeveloperMenu: View {
             }
 
             Section {
-                Button("Reset modal/profile badge") {
-                    Settings.endOfYearModalHasBeenShown = false
-                    Settings.showBadgeForEndOfYear = true
-                }
+                EndOfYearDeveloperMenuButton()
             } header: {
                 Text("End of Year")
             }

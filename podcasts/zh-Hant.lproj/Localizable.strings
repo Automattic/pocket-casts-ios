@@ -361,6 +361,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>必須至少有 6 個字元</string>
     <key>chapters</key>
     <string>段落</string>
+    <key>check_internet_connection</key>
+    <string>請檢查你的網際網路連線</string>
     <key>chosen_podcasts_plural_format</key>
     <string>已選擇 %1$@ 個 Podcast 節目</string>
     <key>chosen_podcasts_singular</key>
@@ -461,6 +463,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>上傳到雲端</string>
     <key>database_migration</key>
     <string>我們移動了一些資料，讓應用程式運作起來更迅速...</string>
+    <key>day</key>
+    <string>天</string>
     <key>day_listened</key>
     <string>已收聽的天數</string>
     <key>day_saved</key>
@@ -675,6 +679,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>贊助內容</string>
     <key>discover_trending</key>
     <string>趨勢</string>
+    <key>discover_unable_to_load</key>
+    <string>無法載入「探索」</string>
     <key>done</key>
     <string>完成</string>
     <key>download</key>
@@ -1484,6 +1490,10 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>播放上一集</string>
     <key>play_next</key>
     <string>播放下一集</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>所有 Podcast</string>
+    <key>playback_effect_this_podcast</key>
+    <string>此 Podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>最大限度</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1641,7 +1651,7 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>主題和圖示</string>
     <key>plus_marketing_title</key>
-    <string>解鎖 Pocket Casts Plus 的獨家功能</string>
+    <string>包含所有你喜愛的 Pocket Casts 功能，以及更多好康</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>將你的檔案上傳至雲端儲存空間，隨時隨地使用</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1983,6 +1993,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>此優惠僅供新會員使用。 會員資格會以 %1$@的價格自動續訂為付費年度會員。</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>領取你的 %1$@訪客體驗券</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>請登入或註冊，即可領取你的訪客體驗券。</string>
     <key>referrals_guest_pass_offer</key>
     <string>%1$@訪客體驗券</string>
     <key>referrals_not_available_to_send</key>
@@ -2821,6 +2833,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>不好意思，載入此逐字稿時發生錯誤</string>
     <key>transcript_error_failed_to_parse</key>
     <string>不好意思，解析此逐字稿時發生錯誤</string>
+    <key>transcript_error_not_available</key>
+    <string>不好意思，此單集不提供逐字稿</string>
     <key>transcript_error_not_supported</key>
     <string>不好意思，不支援此逐字稿格式：%1$@</string>
     <key>trial_finished</key>
@@ -2959,6 +2973,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>您可以從「本集詳細資訊」畫面或從手機上，將單集加入接下來要播放的佇列。</string>
     <key>watch_up_next_no_items_title</key>
     <string>「接著播放」中沒有內容</string>
+    <key>week</key>
+    <string>週</string>
     <key>welcome_discover_button</key>
     <string>尋找我的下一個 Podcast</string>
     <key>welcome_discover_description</key>

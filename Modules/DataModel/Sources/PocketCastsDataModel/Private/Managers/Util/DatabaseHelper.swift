@@ -775,6 +775,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 53 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN usedCustomEffectsBefore INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 53
+            } catch {
+                failedAt(53)
+                return
+            }
+        }
+
         db.commit()
     }
 }

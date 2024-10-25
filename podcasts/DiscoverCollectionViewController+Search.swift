@@ -72,7 +72,7 @@ extension DiscoverCollectionViewController: PCSearchBarDelegate {
         NSLayoutConstraint.activate([
             searchView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            searchView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             searchView.topAnchor.constraint(equalTo: searchController.view.bottomAnchor)
         ])
 

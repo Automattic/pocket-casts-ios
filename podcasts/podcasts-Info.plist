@@ -1042,6 +1042,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>DMSans.ttf</string>
+		<string>Humane-Medium.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

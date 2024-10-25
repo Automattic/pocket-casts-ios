@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct ListeningTimeStory: ShareableStory {
+struct ListeningTimeStory2023: ShareableStory {
     let identifier: String = "listening_time"
 
     let listeningTime: Double
@@ -157,8 +157,8 @@ private extension Double {
     }
 }
 
-struct ListeningTimeStory_Previews: PreviewProvider {
+struct ListeningTimeStory2023_Previews: PreviewProvider {
     static var previews: some View {
-        ListeningTimeStory(listeningTime: 109000, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
+        ListeningTimeStory2023(listeningTime: 109000, podcasts: [Podcast.previewPodcast(), Podcast.previewPodcast(), Podcast.previewPodcast()])
     }
 }

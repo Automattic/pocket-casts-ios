@@ -361,6 +361,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Debe tener 6 caracteres o más</string>
     <key>chapters</key>
     <string>Capítulos</string>
+    <key>check_internet_connection</key>
+    <string>Comprueba tu conexión a Internet</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ podcasts elegidos</string>
     <key>chosen_podcasts_singular</key>
@@ -461,6 +463,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Subir a la nube</string>
     <key>database_migration</key>
     <string>Estamos haciendo algunos cambios para que la aplicación vaya más rápido...</string>
+    <key>day</key>
+    <string>día</string>
     <key>day_listened</key>
     <string>Día escuchado</string>
     <key>day_saved</key>
@@ -675,6 +679,8 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>PATROCINADO</string>
     <key>discover_trending</key>
     <string>Tendencias</string>
+    <key>discover_unable_to_load</key>
+    <string>No se puede cargar Descubrir</string>
     <key>done</key>
     <string>Listo</string>
     <key>download</key>
@@ -1484,6 +1490,10 @@ ACTUALIZACIONES</string>
     <string>Reproducir al final</string>
     <key>play_next</key>
     <string>Reproducir siguiente</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Todos los podcasts</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Este podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Máximo</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1641,7 +1651,7 @@ ACTUALIZACIONES</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Temas e iconos</string>
     <key>plus_marketing_title</key>
-    <string>Desbloquea funciones exclusivas con Pocket Casts Plus</string>
+    <string>Todo lo que te encanta de Pocket Casts y mucho más</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Carga tus archivos en el almacenamiento en la nube para poder acceder a ellos desde cualquier lugar</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1983,6 +1993,8 @@ Si quieres nuevas ideas, ve a la pestaña Descubrir.</string>
     <string>Esta oferta es solo para nuevos miembros. La suscripción se renovará automáticamente a una suscripción anual de pago en %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Solicita tu pase de invitado de %1$@</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Accede o regístrate para solicitar tu pase de invitado.</string>
     <key>referrals_guest_pass_offer</key>
     <string>Pase de invitado de %1$@</string>
     <key>referrals_not_available_to_send</key>
@@ -2821,6 +2833,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Lo sentimos, pero algo ha ido mal al cargar esta transcripción</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Lo sentimos, pero algo ha ido mal al analizar esta transcripción</string>
+    <key>transcript_error_not_available</key>
+    <string>Lo sentimos, pero este episodio no tiene ninguna transcripción disponible</string>
     <key>transcript_error_not_supported</key>
     <string>Lo sentimos, pero este formato de transcripción no es compatible: %1$@</string>
     <key>trial_finished</key>
@@ -2959,6 +2973,8 @@ Las dos cosas están genial. 🙂</string>
     <string>Para que los episodios se reproduzcan a continuación, puedes ponerlos en cola desde la pantalla de detalles del episodio o añadirlos con tu teléfono.</string>
     <key>watch_up_next_no_items_title</key>
     <string>No hay nada en A continuación</string>
+    <key>week</key>
+    <string>semana</string>
     <key>welcome_discover_button</key>
     <string>Buscar mi siguiente pódcast</string>
     <key>welcome_discover_description</key>

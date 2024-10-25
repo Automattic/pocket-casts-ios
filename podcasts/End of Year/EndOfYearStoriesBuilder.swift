@@ -2,138 +2,55 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 
-/// The available stories for EoY
-/// Order is important, as the stories will be displayed
-/// in the order listed here.
-enum EndOfYearStory: CaseIterable {
-    case intro
-    case numberOfPodcastsAndEpisodesListened
-    case topOnePodcast
-    case topFivePodcasts
-    case topCategories
-    case listeningTime
-    case longestEpisode
-    case yearOverYearListeningTime
-    case completionRate
-    case epilogue
-}
-
 /// Build the list of stories for End of Year alongside the data
 class EndOfYearStoriesBuilder {
     private let dataManager: DataManager
 
-    private var stories: [EndOfYearStory] = []
-
-    private let data = EndOfYearStoriesData()
+    private var model: StoryModel
 
     private var hasActiveSubscription: () -> Bool
 
     private let sync: (() -> Bool)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, sync: (() -> Bool)? = YearListeningHistory.sync, hasActiveSubscription: @escaping () -> Bool = SubscriptionHelper.hasActiveSubscription) {
+    init(dataManager: DataManager = DataManager.sharedManager, model: StoryModel, sync: (() -> Bool)? = YearListeningHistory.sync, hasActiveSubscription: @escaping () -> Bool = SubscriptionHelper.hasActiveSubscription) {
         self.dataManager = dataManager
+        self.model = model
         self.sync = sync
         self.hasActiveSubscription = hasActiveSubscription
     }
 
     /// Call this method to build the list of stories and the data provider
-    func build() async -> ([EndOfYearStory], EndOfYearStoriesData) {
+    func build() async {
         await withCheckedContinuation { continuation in
 
+            let modelType = type(of: model)
+
             // Check if the user has the full listening history for this year
-            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedEpisodesForPlayback2023 || (Settings.hasSyncedEpisodesForPlayback2023 && Settings.hasSyncedEpisodesForPlayback2023AsPlusUser != hasActiveSubscription()) {
+            if SyncManager.isUserLoggedIn(), !Settings.hasSyncedEpisodesForPlayback(year: modelType.year) || (Settings.hasSyncedEpisodesForPlayback(year: modelType.year) && Settings.hasSyncedEpisodesForPlaybackAsPlusUser(year: modelType.year) != hasActiveSubscription()) {
                 let syncedWithSuccess = sync?()
 
                 if syncedWithSuccess == true {
-                    Settings.hasSyncedEpisodesForPlayback2023 = true
-                    Settings.hasSyncedEpisodesForPlayback2023AsPlusUser = hasActiveSubscription()
+                    Settings.setHasSyncedEpisodesForPlayback(true, year: modelType.year)
+                    Settings.setHasSyncedEpisodesForPlaybackAsPlusUser(hasActiveSubscription(), year: modelType.year)
                 } else {
-                    continuation.resume(returning: ([], data))
+                    continuation.resume()
                     return
                 }
             }
 
-            // First, search for top 10 podcasts to use throughout different stories
-            let topPodcasts = dataManager.topPodcasts(limit: 10)
-            if !topPodcasts.isEmpty {
-                data.topPodcasts = Array(topPodcasts.prefix(5))
-                data.top10Podcasts = Array(topPodcasts.suffix(8)).map { $0.podcast }.reversed()
-            }
+            model.populate(with: dataManager)
 
-            // Listening time
-            if let listeningTime = dataManager.listeningTime(),
-               listeningTime > 0, !data.top10Podcasts.isEmpty {
-                stories.append(.listeningTime)
-                data.listeningTime = listeningTime
-            }
-
-            // Listened categories
-            let listenedCategories = dataManager.listenedCategories()
-            if !listenedCategories.isEmpty {
-                data.listenedCategories = listenedCategories
-                stories.append(.topCategories)
-            }
-
-            // Listened podcasts and episodes
-            let listenedNumbers = dataManager.listenedNumbers()
-            if listenedNumbers.numberOfEpisodes > 0
-                && listenedNumbers.numberOfPodcasts > 0
-                && !data.top10Podcasts.isEmpty {
-                data.listenedNumbers = listenedNumbers
-                stories.append(.numberOfPodcastsAndEpisodesListened)
-            }
-
-            // Top podcasts
-            if !data.topPodcasts.isEmpty {
-                stories.append(.topOnePodcast)
-            }
-
-            // Top 5 podcasts
-            if topPodcasts.count > 1 {
-                stories.append(.topFivePodcasts)
-            }
-
-            // Longest episode
-            if let longestEpisode = dataManager.longestEpisode(),
-               let podcast = longestEpisode.parentPodcast() {
-                data.longestEpisode = longestEpisode
-                data.longestEpisodePodcast = podcast
-                stories.append(.longestEpisode)
-            }
-
-            // Year over year listening time
-            let yearOverYearListeningTime = dataManager.yearOverYearListeningTime()
-            if yearOverYearListeningTime.totalPlayedTimeThisYear != 0 ||
-                yearOverYearListeningTime.totalPlayedTimeLastYear != 0 {
-                data.yearOverYearListeningTime = yearOverYearListeningTime
-                stories.append(.yearOverYearListeningTime)
-            }
-
-            data.episodesStartedAndCompleted = dataManager.episodesStartedAndCompleted()
-            stories.append(.completionRate)
-
-            continuation.resume(returning: (stories, data))
+            continuation.resume()
         }
     }
 }
 
-/// An entity that holds data to present EoY stories
-class EndOfYearStoriesData {
-    var listeningTime: Double = 0
-
-    var listenedCategories: [ListenedCategory] = []
-
-    var listenedNumbers: ListenedNumbers!
-
-    var topPodcasts: [TopPodcast] = []
-
-    var longestEpisode: Episode!
-
-    var longestEpisodePodcast: Podcast!
-
-    var top10Podcasts: [Podcast] = []
-
-    var yearOverYearListeningTime: YearOverYearListeningTime!
-
-    var episodesStartedAndCompleted: EpisodesStartedAndCompleted!
+protocol StoryModel {
+    init()
+    static var year: Int { get }
+    var numberOfStories: Int { get }
+    func populate(with dataManager: DataManager)
+    func story(for storyNumber: Int) -> any StoryView
+    func isInteractiveView(for storyNumber: Int) -> Bool
+    func isReady() -> Bool
 }

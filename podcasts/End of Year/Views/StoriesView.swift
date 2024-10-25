@@ -310,6 +310,6 @@ struct StoryViewContainer<Content: View>: View {
 
 struct StoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        StoriesView(dataSource: EndOfYearStoriesDataSource())
+        StoriesView(dataSource: EndOfYearStoriesDataSource(model: EndOfYear2023StoriesModel()))
     }
 }

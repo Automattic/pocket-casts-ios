@@ -361,6 +361,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Moet ten minste 6 tekens bevatten</string>
     <key>chapters</key>
     <string>Hoofdstukken</string>
+    <key>check_internet_connection</key>
+    <string>Controleer je internetverbinding</string>
     <key>chosen_podcasts_plural_format</key>
     <string>%1$@ podcasts gekozen</string>
     <key>chosen_podcasts_singular</key>
@@ -461,6 +463,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Uploaden naar cloud</string>
     <key>database_migration</key>
     <string>We verplaatsen een paar bits en bytes zodat de app sneller is...</string>
+    <key>day</key>
+    <string>dag</string>
     <key>day_listened</key>
     <string>Dagen geluisterd</string>
     <key>day_saved</key>
@@ -675,6 +679,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>GESPONSORD</string>
     <key>discover_trending</key>
     <string>Trending</string>
+    <key>discover_unable_to_load</key>
+    <string>Kan Ontdekken niet laden</string>
     <key>done</key>
     <string>Klaar</string>
     <key>download</key>
@@ -1484,6 +1490,10 @@ UPDATES</string>
     <string>Als laatste afspelen</string>
     <key>play_next</key>
     <string>Als eerstvolgende afspelen</string>
+    <key>playback_effect_all_podcasts</key>
+    <string>Alle podcasts</string>
+    <key>playback_effect_this_podcast</key>
+    <string>Deze podcast</string>
     <key>playback_effect_trim_silence_max</key>
     <string>Mad Max</string>
     <key>playback_effect_trim_silence_medium</key>
@@ -1641,7 +1651,7 @@ UPDATES</string>
     <key>plus_marketing_themes_icons_title</key>
     <string>Thema's en pictogrammen</string>
     <key>plus_marketing_title</key>
-    <string>Ontgrendel exclusieve functies met Pocket Casts Plus</string>
+    <string>Alles wat je geweldig vindt aan Pocket Casts en meer</string>
     <key>plus_marketing_updated_cloud_storage_description</key>
     <string>Wanneer je je bestanden naar een cloudopslag uploadt, zijn ze overal beschikbaar</string>
     <key>plus_marketing_updated_desktop_apps_description</key>
@@ -1983,6 +1993,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Deze aanbieding geldt alleen voor nieuwe leden. Lidmaatschap wordt automatisch verlengd met een betaald jaarlidmaatschap van %1$@.</string>
     <key>referrals_claim_guest_pass_title</key>
     <string>Claim je gastenpas van %1$@ voor Plus</string>
+    <key>referrals_claim_need_to_be_loggedin</key>
+    <string>Log in of meld je aan om je gastenpas te claimen.</string>
     <key>referrals_not_available_to_send</key>
     <string>Gastenpas is momenteel niet beschikbaar</string>
     <key>referrals_offer_not_available_detail</key>
@@ -2817,6 +2829,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Er is helaas iets misgegaan bij het laden van deze transcriptie</string>
     <key>transcript_error_failed_to_parse</key>
     <string>Er is helaas iets misgegaan met de parsing van deze transcriptie</string>
+    <key>transcript_error_not_available</key>
+    <string>Er is helaas geen transcriptie beschikbaar voor deze aflevering</string>
     <key>transcript_error_not_supported</key>
     <string>Deze transcriptie-indeling wordt helaas niet ondersteund: %1$@</string>
     <key>trial_finished</key>
@@ -2955,6 +2969,8 @@ Je kunt geen verkeerde keuze maken. 🙂</string>
     <string>Je kunt in het scherm Informatie over aflevering of vanaf je telefoon afleveringen in de wachtrij zetten om als volgende te worden afgespeeld.</string>
     <key>watch_up_next_no_items_title</key>
     <string>Niets in Hierna</string>
+    <key>week</key>
+    <string>week</string>
     <key>welcome_discover_button</key>
     <string>Vind mijn volgende podcast</string>
     <key>welcome_discover_description</key>

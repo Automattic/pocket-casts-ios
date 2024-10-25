@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 
-struct YearOverYearStory: ShareableStory {
+struct YearOverYearStory2023: ShareableStory {
     @Environment(\.animated) var animated: Bool
 
     let identifier: String = "year_over_year"
@@ -227,18 +227,18 @@ private extension Double {
     }
 }
 
-struct YearOverYearStory_Previews: PreviewProvider {
+struct YearOverYearStory2023_Previews: PreviewProvider {
     static var previews: some View {
-        YearOverYearStory(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 400))
+        YearOverYearStory2023(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 400))
             .previewDisplayName("Went down")
 
-        YearOverYearStory(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 130))
+        YearOverYearStory2023(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 200, totalPlayedTimeLastYear: 130))
             .previewDisplayName("Went up")
 
-        YearOverYearStory(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 130))
+        YearOverYearStory2023(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 130))
             .previewDisplayName("Stayed same")
 
-        YearOverYearStory(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 0))
+        YearOverYearStory2023(data: YearOverYearListeningTime(totalPlayedTimeThisYear: 140, totalPlayedTimeLastYear: 0))
             .previewDisplayName("No listening time for past year")
     }
 }

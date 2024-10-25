@@ -3,13 +3,17 @@ import PocketCastsServer
 import PocketCastsUtils
 import StoreKit
 
+extension NSNotification.Name {
+    static let referralURLChanged = NSNotification.Name("referralURLChanged")
+}
+
 class ReferralsCoordinator {
 
     var referralsOfferInfo: ReferralsOfferInfo? {
-        guard let productInfo = IAPHelper.shared.getProduct(for: .yearlyReferral) else {
+        guard IAPHelper.shared.getProduct(for: .yearlyReferral) != nil else {
             return nil
         }
-        return ReferralsOfferInfoIAP()
+        return ReferralsOfferInfoIAP(productID: .yearlyReferral)
     }
 
     var areReferralsAvailableToSend: Bool {
@@ -17,7 +21,7 @@ class ReferralsCoordinator {
     }
 
     var isReferralAvailableToClaim: Bool {
-        return //FeatureFlag.referrals.enabled &&
+        return FeatureFlag.referrals.enabled &&
         !SubscriptionHelper.hasActiveSubscription() &&
         Settings.referralURL != nil
     }
@@ -25,6 +29,16 @@ class ReferralsCoordinator {
     static var shared: ReferralsCoordinator = {
         ReferralsCoordinator()
     }()
+
+    func cleanReferalURL() {
+        Settings.referralURL = nil
+        NotificationCenter.default.post(name: .referralURLChanged, object: nil)
+    }
+
+    func setReferralURL(_ url: URL) {
+        Settings.referralURL = url.absoluteString
+        NotificationCenter.default.post(name: .referralURLChanged, object: nil)
+    }
 
     func startClaimFlow(from viewController: UIViewController) {
         var referralURL: URL?
@@ -39,8 +53,8 @@ class ReferralsCoordinator {
             guard let self else { return }
             var url: URL?
             if let referralURL {
-                Settings.referralURL = referralURL.absoluteString
                 url = referralURL
+                setReferralURL(referralURL)
             } else {
                 if let urlString = Settings.referralURL {
                     url = URL(string: urlString)
@@ -50,14 +64,20 @@ class ReferralsCoordinator {
             let viewModel = ReferralClaimPassModel(referralURL: url,
                                                    coordinator: self,
                                                    canClaimPass: true,
-                                                   onComplete: {
-                viewController.dismiss(animated: true)
-                onComplete?()
-            },
+                                                   onComplete: nil,
                                                    onCloseTap: {
                 viewController.dismiss(animated: true)
                 onComplete?()
             })
+            viewModel.onComplete = {
+                viewController.dismiss(animated: true) {
+                    if viewModel.accountCreated {
+                        let welcomeVC = WelcomeViewModel.make(in: nil, displayType: .newAccount)
+                        viewController.present(welcomeVC, animated: true)
+                    }
+                }
+                onComplete?()
+            }
             let referralClaimPassVC = ReferralClaimPassVC(viewModel: viewModel)
             viewController.present(referralClaimPassVC, animated: true)
         }
@@ -95,8 +115,6 @@ class ReferralsCoordinator {
               let timestamp = details.timestampMs,
               let key = details.keyIdentifier,
               let signature = details.signature
-              //let dataDecoded = Data(base64Encoded: signatureEncoded),
-              //let signature = String(data: dataDecoded, encoding: .utf8)
         else {
             return nil
         }

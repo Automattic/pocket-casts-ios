@@ -278,6 +278,22 @@ internal enum L10n {
   internal static var autoAddToUpNextTopOnlyShort: String { return L10n.tr("Localizable", "auto_add_to_up_next_top_only_short") }
   /// Auto Download First
   internal static var autoDownloadFirst: String { return L10n.tr("Localizable", "auto_download_first") }
+  /// Limit auto downloads
+  internal static var autoDownloadLimitAutoDownloads: String { return L10n.tr("Localizable", "auto_download_limit_auto_downloads") }
+  /// Limit downloads
+  internal static var autoDownloadLimitDownloads: String { return L10n.tr("Localizable", "auto_download_limit_downloads") }
+  /// %1$@ episodes
+  internal static func autoDownloadLimitNumberOfEpisodes(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "auto_download_limit_number_of_episodes", String(describing: p1))
+  }
+  /// %1$@ Latest Episodes per Show
+  internal static func autoDownloadLimitNumberOfEpisodesShow(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "auto_download_limit_number_of_episodes_show", String(describing: p1))
+  }
+  /// latest episode
+  internal static var autoDownloadLimitOneEpisode: String { return L10n.tr("Localizable", "auto_download_limit_one_episode") }
+  /// Latest Episode per Show
+  internal static var autoDownloadLimitOneEpisodeShow: String { return L10n.tr("Localizable", "auto_download_limit_one_episode_show") }
   /// Enable to auto download episodes in this filter
   internal static var autoDownloadOffSubtitle: String { return L10n.tr("Localizable", "auto_download_off_subtitle") }
   /// The first %1$@ episodes in this filter will be automatically downloaded
@@ -1723,6 +1739,14 @@ internal enum L10n {
   internal static var playLast: String { return L10n.tr("Localizable", "play_last") }
   /// Play Next
   internal static var playNext: String { return L10n.tr("Localizable", "play_next") }
+  /// See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!
+  internal static var playback2024Description: String { return L10n.tr("Localizable", "playback_2024_description") }
+  /// See your listening stats, top podcasts, and more.
+  internal static var playback2024FeatureDescription: String { return L10n.tr("Localizable", "playback_2024_feature_description") }
+  /// Playback 2024 is here!
+  internal static var playback2024FeatureTitle: String { return L10n.tr("Localizable", "playback_2024_feature_title") }
+  /// View My Playback 2024
+  internal static var playback2024ViewYear: String { return L10n.tr("Localizable", "playback_2024_view_year") }
   /// All podcasts
   internal static var playbackEffectAllPodcasts: String { return L10n.tr("Localizable", "playback_effect_all_podcasts") }
   /// This podcast
@@ -1899,7 +1923,7 @@ internal enum L10n {
   internal static var plusMarketingSubtitle: String { return L10n.tr("Localizable", "plus_marketing_subtitle") }
   /// Themes & Icons
   internal static var plusMarketingThemesIconsTitle: String { return L10n.tr("Localizable", "plus_marketing_themes_icons_title") }
-  /// Unlock exclusive features with Pocket Casts Plus
+  /// Everything you love about Pocket Casts, plus more
   internal static var plusMarketingTitle: String { return L10n.tr("Localizable", "plus_marketing_title") }
   /// Upload your files to cloud storage and have it available everywhere
   internal static var plusMarketingUpdatedCloudStorageDescription: String { return L10n.tr("Localizable", "plus_marketing_updated_cloud_storage_description") }
@@ -2256,6 +2280,8 @@ internal enum L10n {
   internal static func queueClearEpisodeQueuePlural(_ p1: Any) -> String {
     return L10n.tr("Localizable", "queue_clear_episode_queue_plural", String(describing: p1))
   }
+  /// Clear 1 Episode
+  internal static var queueClearEpisodeQueueSingular: String { return L10n.tr("Localizable", "queue_clear_episode_queue_singular") }
   /// CLEAR QUEUE
   internal static var queueClearQueue: String { return L10n.tr("Localizable", "queue_clear_queue") }
   /// Queue For Later
@@ -2576,7 +2602,7 @@ internal enum L10n {
   internal static var settingsAutoDownloadsPodcastsSelectedSingular: String { return L10n.tr("Localizable", "settings_auto_downloads_podcasts_selected_singular") }
   /// Download the top episodes in a filter.
   internal static var settingsAutoDownloadsSubtitleFilters: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_filters") }
-  /// Download new episodes when they are released.
+  /// Automatically download new episodes as they’re released, and manage your storage by setting a limit on how many episodes are saved.
   internal static var settingsAutoDownloadsSubtitleNewEpisodes: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_new_episodes") }
   /// Download episodes added to Up Next.
   internal static var settingsAutoDownloadsSubtitleUpNext: String { return L10n.tr("Localizable", "settings_auto_downloads_subtitle_up_next") }

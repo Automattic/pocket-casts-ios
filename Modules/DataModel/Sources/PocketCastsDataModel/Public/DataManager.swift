@@ -468,6 +468,10 @@ public class DataManager {
         episodeManager.findLatestEpisode(podcast: podcast, dbQueue: dbQueue)
     }
 
+    public func findLatestEpisodes(podcast: Podcast, limit: Int) -> [Episode] {
+        episodeManager.findLatestEpisodes(podcast: podcast, limit: limit, dbQueue: dbQueue)
+    }
+
     public func unsyncedEpisodes(limit: Int) -> [Episode] {
         episodeManager.unsyncedEpisodes(limit: limit, dbQueue: dbQueue)
     }
@@ -1087,47 +1091,47 @@ public extension DataManager {
 // MARK: - End of Year stats
 
 public extension DataManager {
-    func isEligibleForEndOfYearStories() -> Bool {
-        endOfYearManager.isEligible(dbQueue: dbQueue)
+    func isEligibleForEndOfYearStories(in year: Int) -> Bool {
+        endOfYearManager.isEligible(in: year, dbQueue: dbQueue)
     }
 
-    func isFullListeningHistory() -> Bool {
-        endOfYearManager.isFullListeningHistory(dbQueue: dbQueue)
+    func isFullListeningHistory(in year: Int) -> Bool {
+        endOfYearManager.isFullListeningHistory(in: year, dbQueue: dbQueue)
     }
 
-    func numberOfEpisodes(year: Int32) -> Int {
+    func numberOfEpisodes(year: Int) -> Int {
         endOfYearManager.numberOfEpisodes(year: year, dbQueue: dbQueue)
     }
 
-    func listeningTime() -> Double? {
-        endOfYearManager.listeningTime(dbQueue: dbQueue)
+    func listeningTime(in year: Int) -> Double? {
+        endOfYearManager.listeningTime(in: year, dbQueue: dbQueue)
     }
 
-    func listenedCategories() -> [ListenedCategory] {
-        endOfYearManager.listenedCategories(dbQueue: dbQueue)
+    func listenedCategories(in year: Int) -> [ListenedCategory] {
+        endOfYearManager.listenedCategories(in: year, dbQueue: dbQueue)
     }
 
-    func listenedNumbers() -> ListenedNumbers {
-        endOfYearManager.listenedNumbers(dbQueue: dbQueue)
+    func listenedNumbers(in year: Int) -> ListenedNumbers {
+        endOfYearManager.listenedNumbers(in: year, dbQueue: dbQueue)
     }
 
-    func topPodcasts(limit: Int = 5) -> [TopPodcast] {
-        endOfYearManager.topPodcasts(dbQueue: dbQueue, limit: limit)
+    func topPodcasts(in year: Int, limit: Int = 5) -> [TopPodcast] {
+        endOfYearManager.topPodcasts(in: year, dbQueue: dbQueue, limit: limit)
     }
 
-    func longestEpisode() -> Episode? {
-        endOfYearManager.longestEpisode(dbQueue: dbQueue)
+    func longestEpisode(in year: Int) -> Episode? {
+        endOfYearManager.longestEpisode(in: year, dbQueue: dbQueue)
     }
 
-    func episodesThatExist(year: Int32, uuids: [String]) -> [String] {
+    func episodesThatExist(year: Int, uuids: [String]) -> [String] {
         endOfYearManager.episodesThatExist(year: year, dbQueue: dbQueue, uuids: uuids)
     }
 
-    func yearOverYearListeningTime() -> YearOverYearListeningTime {
-        endOfYearManager.yearOverYearListeningTime(dbQueue: dbQueue)
+    func yearOverYearListeningTime(in year: Int) -> YearOverYearListeningTime {
+        endOfYearManager.yearOverYearListeningTime(in: year, dbQueue: dbQueue)
     }
 
-    func episodesStartedAndCompleted() -> EpisodesStartedAndCompleted {
-        endOfYearManager.episodesStartedAndCompleted(dbQueue: dbQueue)
+    func episodesStartedAndCompleted(in year: Int) -> EpisodesStartedAndCompleted {
+        endOfYearManager.episodesStartedAndCompleted(in: year, dbQueue: dbQueue)
     }
 }

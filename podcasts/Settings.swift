@@ -132,7 +132,10 @@ class Settings: NSObject {
 
     private static let autoDownloadEnabledKey = "AutoDownloadEnabled"
     class func autoDownloadEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
+        guard UserDefaults.standard.object(forKey: Settings.autoDownloadEnabledKey) != nil else {
+            return FeatureFlag.autoDownloadOnSubscribe.enabled
+        }
+        return UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
     }
 
     class func setAutoDownloadEnabled(_ allow: Bool, userInitiated: Bool = false) {
@@ -140,6 +143,16 @@ class Settings: NSObject {
 
         guard userInitiated else { return }
         trackValueToggled(.settingsAutoDownloadNewEpisodesToggled, enabled: allow)
+    }
+
+    private static let autoDownloadLimitKey = "AutoDownloadLimit"
+    class func autoDownloadLimits() -> AutoDownloadLimit {
+        AutoDownloadLimit(rawValue: UserDefaults.standard.integer(forKey: Settings.autoDownloadLimitKey)) ?? .two
+    }
+
+    class func setAutoDownloadLimits(_ limit: AutoDownloadLimit) {
+        UserDefaults.standard.set(limit.rawValue, forKey: Settings.autoDownloadLimitKey)
+        trackValueChanged(.settingsAutoDownloadLimitDownloadsChanged, value: limit.rawValue)
     }
 
     class func shouldDeleteWhenPlayed() -> Bool {
@@ -295,6 +308,21 @@ class Settings: NSObject {
             SettingsStore.appSettings.playUpNextOnTap = isOn
         }
         UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
+    }
+
+    static let upNextShuffleKey = "SJUpNextShuffleKey"
+    class func upNextShuffleToggle() {
+        guard FeatureFlag.upNextShuffle.enabled else { return }
+
+        let isOn = upNextShuffleEnabled()
+        UserDefaults.standard.set(!isOn, forKey: Settings.upNextShuffleKey)
+
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextShuffleToggle)
+    }
+
+    class func upNextShuffleEnabled() -> Bool {
+        guard FeatureFlag.upNextShuffle.enabled else { return false }
+        return UserDefaults.standard.bool(forKey: Settings.upNextShuffleKey)
     }
 
     // MARK: - Discover Region
@@ -946,45 +974,45 @@ class Settings: NSObject {
 
     // MARK: - End of Year 2022
 
-    class var showBadgeForEndOfYear: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear)
-        }
-
-        get {
-            (UserDefaults.standard.value(forKey: Constants.UserDefaults.showBadgeFor2023EndOfYear) as? Bool) ?? true
-        }
+    class func showBadgeForEndOfYear(_ year: Int) -> Bool {
+        let key = String(format: Constants.UserDefaults.showBadgeForEndOfYear, year)
+        return UserDefaults.standard.bool(forKey: key)
     }
 
-    class var endOfYearModalHasBeenShown: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.modal2023HasBeenShown)
-        }
-
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.modal2023HasBeenShown)
-        }
+    class func setShowBadgeForEndOfYear(_ newValue: Bool, year: Int) {
+        let key = String(format: Constants.UserDefaults.showBadgeForEndOfYear, year)
+        UserDefaults.standard.set(newValue, forKey: key)
     }
 
-    class var hasSyncedEpisodesForPlayback2023: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
-        }
+    class func hasShownModalForEndOfYear(_ year: Int) -> Bool {
+        let key = String(format: Constants.UserDefaults.modalHasBeenShown, year)
+        return UserDefaults.standard.bool(forKey: key)
+    }
 
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023)
-        }
+    class func setHasShownModalForEndOfYear(_ newValue: Bool, year: Int) {
+        let key = String(format: Constants.UserDefaults.modalHasBeenShown, year)
+        UserDefaults.standard.set(newValue, forKey: key)
+    }
+
+    class func hasSyncedEpisodesForPlayback(year: Int) -> Bool {
+        let key = String(format: Constants.UserDefaults.hasSyncedEpisodesForPlayback, year)
+        return UserDefaults.standard.bool(forKey: key)
+    }
+
+    class func setHasSyncedEpisodesForPlayback(_ newValue: Bool, year: Int) {
+        let key = String(format: Constants.UserDefaults.hasSyncedEpisodesForPlayback, year)
+        UserDefaults.standard.set(newValue, forKey: key)
+    }
+
+    class func hasSyncedEpisodesForPlaybackAsPlusUser(year: Int) -> Bool {
+        let key = String(format: Constants.UserDefaults.hasSyncedEpisodesForPlaybackAsPlusUser, year)
+        return UserDefaults.standard.bool(forKey: key)
     }
 
     /// Whether the user was plus or not by the time the sync happened
-    class var hasSyncedEpisodesForPlayback2023AsPlusUser: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
-        }
-
-        get {
-            UserDefaults.standard.bool(forKey: Constants.UserDefaults.hasSyncedEpisodesForPlayback2023AsPlusUser)
-        }
+    class func setHasSyncedEpisodesForPlaybackAsPlusUser(_ newValue: Bool, year: Int) {
+        let key = String(format: Constants.UserDefaults.hasSyncedEpisodesForPlaybackAsPlusUser, year)
+        UserDefaults.standard.set(newValue, forKey: key)
     }
 
     class var top5PodcastsListLink: String? {
@@ -1309,6 +1337,16 @@ class Settings: NSObject {
 
         get {
             UserDefaults.standard.bool(forKey: "upgraded_indexes_v4")
+        }
+    }
+
+    class var lastAppVersionThatRunVacuum: String? {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "last_app_version_that_run_vacuum")
+        }
+
+        get {
+            UserDefaults.standard.string(forKey: "last_app_version_that_run_vacuum")
         }
     }
 

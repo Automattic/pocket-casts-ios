@@ -2023,6 +2023,9 @@
 /* Confirmation message to clear the give number of episodes from the queue. '%1$@' is a placeholder for the number of episodes, this will be more than one. */
 "queue_clear_episode_queue_plural" = "Clear %1$@ Episodes";
 
+/* Confirmation message to clear one episode from the queue. */
+"queue_clear_episode_queue_singular" = "Clear 1 Episode";
+
 /* Prompt to allow the user to clear their queue. */
 "queue_clear_queue" = "CLEAR QUEUE";
 
@@ -2300,7 +2303,7 @@
 "settings_auto_downloads_subtitle_filters" = "Download the top episodes in a filter.";
 
 /* Subtitle explaining the toggle to auto download New Episodes. */
-"settings_auto_downloads_subtitle_new_episodes" = "Download new episodes when they are released.";
+"settings_auto_downloads_subtitle_new_episodes" = "Automatically download new episodes as they’re released, and manage your storage by setting a limit on how many episodes are saved.";
 
 /* Subtitle explaining the toggle to auto download items in the Up Next Queue. */
 "settings_auto_downloads_subtitle_up_next" = "Download episodes added to Up Next.";
@@ -3539,6 +3542,18 @@
 /* Label of the End of Year call to action button */
 "eoy_view_year" = "View My 2023";
 
+/* Title for the Playback 2024 feature */
+"playback_2024_feature_title" = "Playback 2024 is here!";
+
+/* Description for the Playback 2024 feature */
+"playback_2024_feature_description" = "See your listening stats, top podcasts, and more.";
+
+/* A description of the Playback 2024 feature */
+"playback_2024_description" = "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";
+
+/* Label of the Playback 2024 call to action buton */
+"playback_2024_view_year" = "View My Playback 2024";
+
 /* Label of the End of Year dismiss button */
 "eoy_not_now" = "Not Now";
 
@@ -3795,7 +3810,7 @@
 "login_subtitle" = "Create an account to sync your listening experience across all your devices.";
 
 /* Title of the plus marketing view */
-"plus_marketing_title" = "Unlock exclusive features with Pocket Casts Plus";
+"plus_marketing_title" = "Everything you love about Pocket Casts, plus more";
 
 /* Subtitle of the plus marketing view */
 "plus_marketing_subtitle" = "Get access to exclusive features and customisation options";
@@ -4474,3 +4489,23 @@
 
 /* week */
 "week" = "week";
+
+/* Auto Downloads Setting - Limits downloads row title*/
+"auto_download_limit_downloads" = "Limit downloads";
+
+/* Auto Downloads Setting - Limits downloads picker title*/
+"auto_download_limit_auto_downloads" = "Limit auto downloads";
+
+/* Auto Downloads Setting - Limits downloads to a number of episodes. `%1$@' is a placeholder for the number of episodes*/
+"auto_download_limit_number_of_episodes" = "%1$@ episodes";
+
+/* Auto Downloads Setting - Limits downloads to one episodes. */
+"auto_download_limit_one_episode" = "latest episode";
+
+/* Auto Downloads Setting - Limits downloads to the latest episode*/
+"auto_download_limit_one_episode_show" = "Latest Episode per Show";
+
+/* Auto Downloads Setting - Limits downloads to a number of show episodes. `%1$@' is a placeholder for the number of episodes*/
+"auto_download_limit_number_of_episodes_show" = "%1$@ Latest Episodes per Show";
+
+

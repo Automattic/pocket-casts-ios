@@ -11,6 +11,8 @@ class ReferralClaimPassModel: ObservableObject {
     var onComplete: (() -> ())?
     var onCloseTap: (() -> ())?
 
+    private(set) var accountCreated: Bool = false
+
     enum State {
         case loading
         case start
@@ -18,6 +20,7 @@ class ReferralClaimPassModel: ObservableObject {
         case claimVerify
         case iapPurchase
         case signup
+        case done
     }
 
     @Published var state: State
@@ -132,7 +135,7 @@ class ReferralClaimPassModel: ObservableObject {
 
         state = .claimVerify
         guard let result = await ApiServerHandler.shared.validateCode(code) else {
-            Settings.referralURL = nil
+            coordinator.cleanReferalURL()
             state = .notAvailable
             return
         }
@@ -141,7 +144,9 @@ class ReferralClaimPassModel: ObservableObject {
     }
 
     private func signup() {
-        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode)
+        let onboardVC = OnboardingFlow.shared.begin(flow: .referralCode) { [weak self] accountCreated in
+            self?.accountCreated = accountCreated
+        }
 
         presentationController?.present(onboardVC, animated: true)
     }
@@ -166,8 +171,9 @@ class ReferralClaimPassModel: ObservableObject {
         if success {
             Analytics.track(.referralPurchaseSuccess)
             await redeemCode()
-            Settings.referralURL = nil
+            coordinator.cleanReferalURL()
             onComplete?()
+            state = .done
         } else {
             state = .start
         }
@@ -207,7 +213,7 @@ struct ReferralClaimPassView: View {
                 }
             }
 
-        case .start, .claimVerify, .iapPurchase, .signup:
+        case .start, .claimVerify, .iapPurchase, .signup, .done:
             VStack {
                 HStack {
                     Spacer()
@@ -241,7 +247,7 @@ struct ReferralClaimPassView: View {
                     switch viewModel.state {
                     case .start:
                         Text(L10n.referralsClaimGuestPassAction)
-                    case .claimVerify, .iapPurchase, .notAvailable, .signup, .loading:
+                    case .claimVerify, .iapPurchase, .notAvailable, .signup, .loading, .done:
                         loadingIndicator
                     }
                 })

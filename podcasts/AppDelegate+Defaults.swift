@@ -29,7 +29,7 @@ extension AppDelegate {
         performUpdateIfRequired(updateKey: "v6Run") {
             let query = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE autoDownloadSetting == 1 AND subscribed == 1"
             let podcastsWithAutoDownloadOn = dataManager.count(query: query, values: nil)
-            let autoDownloadEnabled = podcastsWithAutoDownloadOn > 0
+            let autoDownloadEnabled = podcastsWithAutoDownloadOn > 0 || FeatureFlag.autoDownloadOnSubscribe.enabled
             Settings.setAutoDownloadEnabled(autoDownloadEnabled)
         }
 

@@ -162,6 +162,10 @@ class EpisodeDataManager {
         loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC LIMIT 1", values: [podcast.id], dbQueue: dbQueue)
     }
 
+    func findLatestEpisodes(podcast: Podcast, limit: Int, dbQueue: FMDatabaseQueue) -> [Episode] {
+        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? ORDER BY publishedDate DESC, addedDate DESC LIMIT ?", values: [podcast.id, limit], dbQueue: dbQueue)
+    }
+
     func allUpNextEpisodes(dbQueue: FMDatabaseQueue) -> [Episode] {
         let upNextTableName = DataManager.playlistEpisodeTableName
         let episodeTableName = DataManager.episodeTableName
